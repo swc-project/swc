@@ -289,7 +289,6 @@ where
 
                         _ => {}
                     }
-                    drop(scope);
                     drop(scope_ref_mut);
 
                     match item {
@@ -347,7 +346,6 @@ where
                                     .expect("Export should exists"),
                             );
 
-                            drop(scope);
                             drop(scope_ref_mut);
                         }
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
@@ -373,8 +371,6 @@ where
                                     .entry((ident.sym.clone(), ident.span.ctxt()))
                                     .or_default()
                                     .push((ident.sym.clone(), ident.span.ctxt()));
-
-                                drop(scope);
                             }
 
                             let append_to: &mut Vec<_> = if is_class {

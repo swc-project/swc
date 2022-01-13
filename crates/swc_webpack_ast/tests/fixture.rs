@@ -108,7 +108,7 @@ fn assert_no_invalid(input: PathBuf) {
             if res.is_err() {
                 return Ok(());
             }
-            for _ in p.take_errors() {
+            if !p.take_errors().is_empty() {
                 return Ok(());
             }
 

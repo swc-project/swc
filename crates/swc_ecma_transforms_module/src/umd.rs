@@ -168,7 +168,6 @@ where
                         }
                         _ => {}
                     }
-                    drop(scope);
                     drop(scope_ref_mut);
 
                     match decl {
@@ -335,7 +334,6 @@ where
                             let imported = export.src.clone().map(|src| {
                                 scope.import_to_export(&src, !export.specifiers.is_empty())
                             });
-                            drop(scope);
                             drop(scope_ref_mut);
 
                             stmts.reserve(export.specifiers.len());
@@ -396,7 +394,6 @@ where
                                             .or_insert(false);
                                     }
                                 }
-                                drop(scope);
                                 drop(scope_ref_mut);
 
                                 let value = match imported {
