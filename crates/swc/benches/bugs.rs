@@ -12,9 +12,9 @@ use test::Bencher;
 fn mk() -> swc::Compiler {
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
 
-    let c = swc::Compiler::new(cm.clone());
+    
 
-    c
+    swc::Compiler::new(cm)
 }
 
 fn bench_file(b: &mut Bencher, path: &Path) {
@@ -29,7 +29,7 @@ fn bench_file(b: &mut Bencher, path: &Path) {
 
         let result = {
             c.process_js_file(
-                fm.clone(),
+                fm,
                 &handler,
                 &Options {
                     is_module: IsModule::Bool(true),
