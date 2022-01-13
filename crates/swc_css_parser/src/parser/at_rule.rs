@@ -641,11 +641,11 @@ where
 
         expect!(self, "}");
 
-        return Ok(MediaRule {
+        Ok(MediaRule {
             span: span!(self, span.lo),
             query,
             rules,
-        });
+        })
     }
 }
 
@@ -759,7 +759,7 @@ where
             }));
         }
 
-        return Ok(base);
+        Ok(base)
     }
 }
 

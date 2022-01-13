@@ -60,14 +60,11 @@ impl VisitMut for KeywordRenamer {
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
-        match n {
-            Expr::Ident(n) => {
-                if let Some(renamed) = self.renamed(n) {
-                    *n = renamed;
-                }
-                return;
+        if let Expr::Ident(n) = n {
+            if let Some(renamed) = self.renamed(n) {
+                *n = renamed;
             }
-            _ => {}
+            return;
         }
 
         n.visit_mut_children_with(self);
