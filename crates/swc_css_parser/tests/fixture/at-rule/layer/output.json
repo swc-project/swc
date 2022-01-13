@@ -186,7 +186,7 @@
                   "end": 130,
                   "ctxt": 0
                 },
-                "items": [
+                "value": [
                   {
                     "type": "Declaration",
                     "span": {
@@ -246,7 +246,7 @@
                   "end": 165,
                   "ctxt": 0
                 },
-                "items": [
+                "value": [
                   {
                     "type": "Declaration",
                     "span": {
@@ -374,7 +374,7 @@
                   "end": 254,
                   "ctxt": 0
                 },
-                "items": [
+                "value": [
                   {
                     "type": "Declaration",
                     "span": {
@@ -434,7 +434,7 @@
                   "end": 289,
                   "ctxt": 0
                 },
-                "items": [
+                "value": [
                   {
                     "type": "Declaration",
                     "span": {
@@ -545,7 +545,7 @@
           "end": 340,
           "ctxt": 0
         },
-        "items": [
+        "value": [
           {
             "type": "Declaration",
             "span": {
@@ -728,7 +728,7 @@
               "end": 446,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {
@@ -857,7 +857,7 @@
               "end": 501,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {
@@ -1022,7 +1022,7 @@
                   "end": 555,
                   "ctxt": 0
                 },
-                "items": [
+                "value": [
                   {
                     "type": "Declaration",
                     "span": {
@@ -1157,7 +1157,7 @@
               "end": 611,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {
@@ -1313,7 +1313,7 @@
                   "end": 690,
                   "ctxt": 0
                 },
-                "items": [
+                "value": [
                   {
                     "type": "Declaration",
                     "span": {
@@ -1458,7 +1458,7 @@
                   "end": 743,
                   "ctxt": 0
                 },
-                "items": [
+                "value": [
                   {
                     "type": "Declaration",
                     "span": {
@@ -1598,7 +1598,7 @@
               "end": 901,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {

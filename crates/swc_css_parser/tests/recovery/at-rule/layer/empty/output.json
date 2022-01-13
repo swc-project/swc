@@ -2,19 +2,29 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 10,
+    "end": 9,
     "ctxt": 0
   },
   "rules": [
     {
-      "type": "LayerRule",
+      "type": "UnknownAtRule",
       "span": {
         "start": 0,
-        "end": 9,
+        "end": 8,
         "ctxt": 0
       },
-      "prelude": null,
-      "rules": []
+      "name": {
+        "type": "Identifier",
+        "span": {
+          "start": 0,
+          "end": 7,
+          "ctxt": 0
+        },
+        "value": "layer",
+        "raw": "layer"
+      },
+      "prelude": [],
+      "block": null
     }
   ]
 }

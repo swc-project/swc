@@ -187,7 +187,7 @@ where
                 if at_rule_layer.is_ok() {
                     return at_rule_layer
                         .map(|mut r: LayerRule| {
-                            r.span.lo = start;
+                            r.span.lo = at_rule_span.lo;
                             r
                         })
                         .map(AtRule::Layer);
