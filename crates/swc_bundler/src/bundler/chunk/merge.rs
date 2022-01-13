@@ -233,14 +233,11 @@ where
             let mut declared_ids = AHashSet::<_>::default();
 
             for (_, stmt) in entry.iter() {
-                match stmt {
-                    ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
-                        if decl.span.ctxt == injected_ctxt {
-                            let ids: Vec<Id> = find_ids(decl);
-                            declared_ids.extend(ids);
-                        }
+                if let ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) = stmt {
+                    if decl.span.ctxt == injected_ctxt {
+                        let ids: Vec<Id> = find_ids(decl);
+                        declared_ids.extend(ids);
                     }
-                    _ => {}
                 }
             }
 
