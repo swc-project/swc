@@ -289,13 +289,10 @@ impl Visit for UsageVisitor {
         e.visit_children_with(self);
 
         if match &e.callee {
-            Callee::Expr(callee) => match &**callee {
-                Expr::Member(MemberExpr {
+            Callee::Expr(callee) => matches!(&**callee, Expr::Member(MemberExpr {
                     prop: MemberProp::Computed(ComputedPropName { expr, .. }),
                     ..
-                }) if is_symbol_iterator(expr) => true,
-                _ => false,
-            },
+                }) if is_symbol_iterator(expr)),
             _ => false,
         } {
             self.add(&["web.dom.iterable"])
@@ -336,13 +333,13 @@ fn is_symbol_iterator(e: &Expr) -> bool {
                     ..
                 }),
             ..
-        }) => match &**obj {
+        }) => matches!(
+            &**obj,
             Expr::Ident(Ident {
                 sym: js_word!("Symbol"),
                 ..
-            }) => true,
-            _ => false,
-        },
+            })
+        ),
         _ => false,
     }
 }
