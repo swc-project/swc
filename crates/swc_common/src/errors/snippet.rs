@@ -123,15 +123,13 @@ impl Annotation {
     }
 
     pub fn is_multiline(&self) -> bool {
-        if let AnnotationType::Multiline(_)
-        | AnnotationType::MultilineStart(_)
-        | AnnotationType::MultilineLine(_)
-        | AnnotationType::MultilineEnd(_) = self.annotation_type
-        {
-            true
-        } else {
-            false
-        }
+        matches!(
+            self.annotation_type,
+            AnnotationType::Multiline(_)
+                | AnnotationType::MultilineStart(_)
+                | AnnotationType::MultilineLine(_)
+                | AnnotationType::MultilineEnd(_)
+        )
     }
 
     pub fn len(&self) -> usize {
@@ -163,10 +161,10 @@ impl Annotation {
 
     pub fn takes_space(&self) -> bool {
         // Multiline annotations always have to keep vertical space.
-        match self.annotation_type {
-            AnnotationType::MultilineStart(_) | AnnotationType::MultilineEnd(_) => true,
-            _ => false,
-        }
+        matches!(
+            self.annotation_type,
+            AnnotationType::MultilineStart(_) | AnnotationType::MultilineEnd(_)
+        )
     }
 }
 
@@ -176,6 +174,7 @@ pub struct StyledString {
     pub style: Style,
 }
 
+#[allow(clippy::enum_variant_names)]
 #[derive(Copy, Clone, Debug, PartialEq, Hash)]
 #[cfg_attr(
     feature = "diagnostic-serde",

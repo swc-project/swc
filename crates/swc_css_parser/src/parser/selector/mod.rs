@@ -384,7 +384,7 @@ where
                         raw: str.1,
                     }))
                 }
-                _ => Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcherValue))?,
+                _ => return Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcherValue)),
             };
 
             self.input.skip_ws()?;
@@ -398,7 +398,7 @@ where
 
                         bump!(self);
                     }
-                    _ => Err(Error::new(span, ErrorKind::InvalidAttrSelectorModifier))?,
+                    _ => return Err(Error::new(span, ErrorKind::InvalidAttrSelectorModifier)),
                 }
             }
 
