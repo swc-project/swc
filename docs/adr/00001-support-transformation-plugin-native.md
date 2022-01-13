@@ -42,7 +42,8 @@ This decision is taken because
 
 ### [option 1] JS-based plugins, including babel plugins
 
-[example | description | pointer to more information | …] <!-- optional -->
+SWC allow implementing plugins using javascript, and call it from worker threads as required.
+This includes babel plugins, to make migration from babel more convenient.
 
 -   Good, because users can use rich echosystem of babel.
 -   Good, because users are used to javascript.
