@@ -42,7 +42,7 @@ This decision is taken because
 
 ## Pros and Cons of the Options <!-- optional -->
 
-### [option 1]
+### [option 1] JS-based plugins, including babel plugins
 
 [example | description | pointer to more information | …] <!-- optional -->
 
@@ -51,7 +51,7 @@ This decision is taken because
 -   Bad, because [argument c]
 -   … <!-- numbers of pros and cons can vary -->
 
-### [option 2]
+### [option 2] Plugins based on `abi_stable` and native dynamic libraries
 
 [example | description | pointer to more information | …] <!-- optional -->
 
@@ -60,7 +60,7 @@ This decision is taken because
 -   Bad, because [argument c]
 -   … <!-- numbers of pros and cons can vary -->
 
-### [option 3]
+### [option 3] Wasm plugins based on `wasmtime`
 
 [example | description | pointer to more information | …] <!-- optional -->
 
@@ -69,7 +69,7 @@ This decision is taken because
 -   Bad, because [argument c]
 -   … <!-- numbers of pros and cons can vary -->
 
-### [option 4]
+### [option 4] Wasm plugins based on `wasmer`
 
 [example | description | pointer to more information | …] <!-- optional -->
 
