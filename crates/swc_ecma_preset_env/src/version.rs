@@ -1,6 +1,6 @@
 use crate::Versions;
 use serde::{de, de::Visitor, Deserialize, Deserializer};
-use std::{cmp, cmp::Ordering, fmt, hash, str::FromStr};
+use std::{cmp, cmp::Ordering, fmt, str::FromStr};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Version {
