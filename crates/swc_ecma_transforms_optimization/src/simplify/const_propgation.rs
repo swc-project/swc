@@ -99,7 +99,7 @@ impl VisitMut for ConstPropagation<'_> {
                         key: PropName::Ident(i.take()),
                         value: expr.clone(),
                     });
-                    return;
+                    
                 }
             }
             _ => {}

@@ -72,7 +72,7 @@ impl Lazy {
         match *self {
             Lazy::Bool(false) => false,
             Lazy::Bool(true) => !src.starts_with('.'),
-            Lazy::List(ref srcs) => srcs.contains(&src),
+            Lazy::List(ref srcs) => srcs.contains(src),
         }
     }
 }
@@ -195,10 +195,7 @@ impl Scope {
                 }))
                 .chain({
                     // We should skip if the file explicitly exports
-                    if let Some(exported_names) = exported_names {
-                        // `if (Object.prototype.hasOwnProperty.call(_exportNames, key))
-                        //      return;`
-                        Some(Stmt::If(IfStmt {
+                    exported_names.map(|exported_names| Stmt::If(IfStmt {
                             span: DUMMY_SP,
                             test: Box::new(
                                 CallExpr {
@@ -219,9 +216,6 @@ impl Scope {
                             })),
                             alt: None,
                         }))
-                    } else {
-                        None
-                    }
                 })
                 .chain({
                     Some(Stmt::If(IfStmt {
@@ -801,7 +795,7 @@ where
 {
     let src = match resolver {
         Some((resolver, base)) => resolver
-            .resolve_import(&base, &src)
+            .resolve_import(base, &src)
             .with_context(|| format!("failed to resolve import `{}`", src))
             .unwrap(),
         None => src,
