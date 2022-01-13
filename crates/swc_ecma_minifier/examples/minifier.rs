@@ -53,7 +53,7 @@ fn main() {
         let output = output.fold_with(&mut hygiene());
         let output = output.fold_with(&mut fixer(None));
 
-        let code = print(cm.clone(), &[output], true);
+        let code = print(cm, &[output], true);
 
         fs::write("output.js", code.as_bytes()).expect("failed to write output");
 
@@ -70,7 +70,7 @@ fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: boo
             cfg: swc_ecma_codegen::Config { minify },
             cm: cm.clone(),
             comments: None,
-            wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+            wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),
         };
 
         for n in nodes {

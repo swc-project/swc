@@ -119,10 +119,8 @@ impl NodeModulesResolver {
         }
 
         // Try exact file after checking .js, for performance
-        if !try_exact {
-            if path.is_file() {
-                return Ok(Some(path.to_path_buf()));
-            }
+        if !try_exact && path.is_file() {
+            return Ok(Some(path.to_path_buf()));
         }
 
         if let Some(name) = path.file_name() {
@@ -197,7 +195,7 @@ impl NodeModulesResolver {
 
         let main_fields = match self.target_env {
             TargetEnv::Node => {
-                vec![pkg.module.as_ref().clone(), pkg.main.as_ref().clone()]
+                vec![pkg.module.as_ref(), pkg.main.as_ref()]
             }
             TargetEnv::Browser => {
                 if let Some(browser) = &pkg.browser {
@@ -205,8 +203,8 @@ impl NodeModulesResolver {
                         Browser::Str(path) => {
                             vec![
                                 Some(path),
-                                pkg.module.as_ref().clone(),
-                                pkg.main.as_ref().clone(),
+                                pkg.module.as_ref(),
+                                pkg.main.as_ref(),
                             ]
                         }
                         Browser::Obj(map) => {
@@ -260,11 +258,11 @@ impl NodeModulesResolver {
                                     }
                                 }
                             }
-                            vec![pkg.module.as_ref().clone(), pkg.main.as_ref().clone()]
+                            vec![pkg.module.as_ref(), pkg.main.as_ref()]
                         }
                     }
                 } else {
-                    vec![pkg.module.as_ref().clone(), pkg.main.as_ref().clone()]
+                    vec![pkg.module.as_ref(), pkg.main.as_ref()]
                 }
             }
         };
@@ -320,7 +318,7 @@ impl Resolve for NodeModulesResolver {
 
         let base_dir = if base.is_file() {
             let cwd = &Path::new(".");
-            base.parent().unwrap_or(&cwd)
+            base.parent().unwrap_or(cwd)
         } else {
             base
         };
@@ -344,7 +342,7 @@ impl Resolve for NodeModulesResolver {
         // Handle builtin modules for nodejs
         if let TargetEnv::Node = self.target_env {
             if is_core_module(target) {
-                return Ok(FileName::Custom(format!("node:{}", target.to_string())));
+                return Ok(FileName::Custom(format!("node:{}", target)));
             }
         }
 
@@ -396,7 +394,7 @@ impl Resolve for NodeModulesResolver {
                         if let Some(item) = BROWSER_CACHE.get(&pkg_base) {
                             let value = item.value();
                             if value.ignores.contains(path) {
-                                return Ok(FileName::Custom(path.display().to_string().into()));
+                                return Ok(FileName::Custom(path.display().to_string()));
                             }
                             if let Some(rewrite) = value.rewrites.get(path) {
                                 return self.wrap(Some(rewrite.to_path_buf()));

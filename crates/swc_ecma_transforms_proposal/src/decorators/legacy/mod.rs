@@ -70,9 +70,9 @@ impl Visit for Legacy {
                     None => return Some(item),
                 };
                 if a == b {
-                    return Some(a);
+                    Some(a)
                 } else {
-                    return Some(EnumKind::Mixed);
+                    Some(EnumKind::Mixed)
                 }
             });
         if let Some(kind) = enum_kind {
@@ -301,7 +301,7 @@ impl Legacy {
         let prototype = MemberExpr {
             span: DUMMY_SP,
             obj: Box::new(Expr::Ident(cls_ident.clone())),
-            prop: MemberProp::Ident(quote_ident!("prototype").into()),
+            prop: MemberProp::Ident(quote_ident!("prototype")),
         };
 
         c.class.body = c.class.body.move_flat_map(|m| match m {
@@ -451,7 +451,7 @@ impl Legacy {
                         }
                         .as_arg(),
                         // _class2.prototype
-                        prototype.clone(),
+                        prototype,
                     ],
                     type_args: None,
                 })));
@@ -625,7 +625,7 @@ impl Legacy {
                                 right: Box::new(Expr::Cond(CondExpr {
                                     span: DUMMY_SP,
                                     test: Box::new(Expr::Ident(init.clone())),
-                                    cons: Box::new(init.clone().make_member(quote_ident!("value"))),
+                                    cons: Box::new(init.make_member(quote_ident!("value"))),
                                     alt: undefined(DUMMY_SP),
                                 })),
                             })),
@@ -774,7 +774,7 @@ impl Legacy {
                         }
                     }
 
-                    return false;
+                    false
                 })
                 .map_or(0, |p| p + 1);
 
@@ -810,7 +810,9 @@ impl Legacy {
             buf
         };
 
-        let expr = self.apply(
+        
+
+        self.apply(
             &cls_ident,
             if extra_exprs.is_empty() {
                 var_init
@@ -825,9 +827,7 @@ impl Legacy {
                 }))
             },
             c.class.decorators,
-        );
-
-        expr
+        )
     }
 
     /// Apply class decorators.
