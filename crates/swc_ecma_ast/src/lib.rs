@@ -118,10 +118,10 @@ pub enum EsVersion {
 }
 
 impl EsVersion {
-    /// Get the latest version. This is `es2021` for now, but it will be changed
+    /// Get the latest version. This is `es2022` for now, but it will be changed
     /// if a new version of specification is released.
     pub const fn latest() -> Self {
-        EsVersion::Es2021
+        EsVersion::Es2022
     }
 }
 
