@@ -168,7 +168,7 @@ pub fn expand(
                     } else {
                         fn make_pat(lit: Lit) -> (Pat, Pat) {
                             let s = match lit.clone() {
-                                Lit::Str(s) => s.value().clone(),
+                                Lit::Str(s) => s.value(),
                                 _ => {
                                     unreachable!()
                                 }
@@ -178,7 +178,7 @@ pub fn expand(
                                     attrs: Default::default(),
                                     expr: Box::new(Expr::Lit(ExprLit {
                                         attrs: Default::default(),
-                                        lit: lit.clone(),
+                                        lit,
                                     })),
                                 }),
                                 Pat::Lit(PatLit {
