@@ -87,41 +87,36 @@ impl Fold for Entry {
         items.move_flat_map(|item| {
             let item: ModuleItem = item.fold_with(self);
 
-            match &item {
-                ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) => match &**expr {
-                    Expr::Call(CallExpr {
-                        callee: Callee::Expr(callee),
-                        ref args,
+            if let ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) = &item {
+                if let Expr::Call(CallExpr {
+                    callee: Callee::Expr(callee),
+                    ref args,
+                    ..
+                }) = &**expr
+                {
+                    if let Expr::Ident(Ident {
+                        sym: js_word!("require"),
                         ..
-                    }) => match &**callee {
-                        Expr::Ident(Ident {
-                            sym: js_word!("require"),
-                            ..
-                        }) => {
-                            if args.len() == 1
-                                && match &args[0] {
-                                    ExprOrSpread { spread: None, expr } => match &**expr {
-                                        Expr::Lit(Lit::Str(s)) => {
-                                            s.value == *"core-js"
-                                                || s.value == *"@swc/polyfill"
-                                                || s.value == *"@babel/polyfill"
-                                        }
-                                        _ => false,
-                                    },
-                                    _ => false,
+                    }) = &**callee
+                    {
+                        if args.len() == 1
+                            && if let ExprOrSpread { spread: None, expr } = &args[0] {
+                                if let Expr::Lit(Lit::Str(s)) = &**expr {
+                                    s.value == *"core-js"
+                                        || s.value == *"@swc/polyfill"
+                                        || s.value == *"@babel/polyfill"
+                                } else {
+                                    false
                                 }
-                                && self.add_all("@swc/polyfill")
-                            {
-                                return None;
+                            } else {
+                                false
                             }
+                            && self.add_all("@swc/polyfill")
+                        {
+                            return None;
                         }
-
-                        _ => {}
-                    },
-                    _ => {}
-                },
-
-                _ => {}
+                    }
+                }
             }
 
             Some(item)
