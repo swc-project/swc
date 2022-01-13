@@ -27,8 +27,6 @@ SWC wants to support load, run plugins in the native binary for the custom trans
 
 -   **[option 4]** Wasm plugins based on `wasmer`
 
-SWC embeds web assembly runtime (https://wasmer.io/), loads plugin built as web assembly.
-
 ## Decision Outcome
 
 Chosen option: **[option 4] Wasm plugins based on `wasmer`**
@@ -70,6 +68,8 @@ This decision is taken because
 -   … <!-- numbers of pros and cons can vary -->
 
 ### [option 4] Wasm plugins based on `wasmer`
+
+SWC embeds web assembly runtime (https://wasmer.io/), loads plugin built as web assembly.
 
 [example | description | pointer to more information | …] <!-- optional -->
 
