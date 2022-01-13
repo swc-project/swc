@@ -73,7 +73,7 @@ SWC embeds `wasmtime`, loads plugin built as web assembly.
 
 -   Good, because [argument a]
 -   Good, because [argument b]
--   Good, because plugin authors can
+-   Good, because plugin authors can publish a plugin without CI, even with a single machine.
 -   Bad, because `@swc/wasm` has no way to support plugins.
 -   Bad, because first load is slow.
 -   Bad, because `wasmtime` does not support all platforms.
@@ -88,6 +88,7 @@ SWC embeds web assembly runtime (https://wasmer.io/), loads plugin built as web 
 
 -   Good, because [argument a]
 -   Good, because [argument b]
+-   Good, because plugin authors can publish a plugin without CI, even with a single machine.
 -   Good, because in future `@swc/wasm` can support plugins as `wasmer` officially supports using it within a wasm file.
 -   Bad, because first load is slow.
 -   Bad, because [argument c]
