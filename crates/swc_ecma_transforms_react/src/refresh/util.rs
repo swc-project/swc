@@ -180,7 +180,7 @@ pub fn make_assign_stmt(handle: Ident, expr: Box<Expr>) -> Expr {
     Expr::Assign(AssignExpr {
         span: expr.span(),
         op: op!("="),
-        left: PatOrExpr::Pat(Box::new(Pat::Ident(BindingIdent::from(handle.clone())))),
+        left: PatOrExpr::Pat(Box::new(Pat::Ident(BindingIdent::from(handle)))),
         right: expr,
     })
 }
@@ -208,11 +208,7 @@ pub fn is_import_or_require(expr: &Expr) -> bool {
             ..
         }) => {
             if let Expr::Ident(ident) = expr.as_ref() {
-                if ident.sym.contains("require") {
-                    true
-                } else {
-                    false
-                }
+                ident.sym.contains("require")
             } else {
                 false
             }
