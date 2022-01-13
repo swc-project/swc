@@ -176,13 +176,10 @@ impl VisitMut for Inliner {
 
     fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
         n.retain(|d| {
-            match &d.name {
-                Pat::Ident(name) => {
-                    if self.data.ids.contains_key(&name.id.clone().into()) {
-                        return false;
-                    }
+            if let Pat::Ident(name) = &d.name {
+                if self.data.ids.contains_key(&name.id.clone().into()) {
+                    return false;
                 }
-                _ => {}
             }
 
             true
