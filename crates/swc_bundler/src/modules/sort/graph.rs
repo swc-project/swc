@@ -93,11 +93,11 @@ impl StmtDepGraph {
         self.inner.edge_weight(a, b).cloned()
     }
 
-    pub fn neighbors_directed<'a>(
-        &'a self,
+    pub fn neighbors_directed(
+        &self,
         start: usize,
         dir: EdgeDirection,
-    ) -> impl 'a + Iterator<Item = usize> {
+    ) -> impl '_ + Iterator<Item = usize> {
         self.inner.neighbors_directed(start, dir)
     }
 

@@ -5,7 +5,34 @@
 
 
 
+- **(es/ast)** Update `EsVersion::latest()` (#3261) ([6997851](https://github.com/swc-project/swc/commit/69978518c9f6be3797f401dcaf9a429de88e8ce1))
+
+
 - **(swc)** Remove `wrong-target` (#3251) ([0843f74](https://github.com/swc-project/swc/commit/0843f742c5db3e0a8dc2fc2767b96fe0fad76bd1))
+
+### Documentation
+
+
+
+- **(adr)** Configure adr and add `00001-plugin` (#3249) ([8652b2d](https://github.com/swc-project/swc/commit/8652b2df99c37527fcd973bd8f0cd3c54bfa9485))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Configure `clippy` (#3250) ([978de59](https://github.com/swc-project/swc/commit/978de5943e60a09b5596b20b9c96596d392393c9))
+
+### Refactor
+
+
+
+- **(*)** Fix some clippy warnings (#3257) ([15b604b](https://github.com/swc-project/swc/commit/15b604b6d6f55353a0df13293333367851962f6c))
+
+### Build
+
+
+
+- **(node)** Fix glibc issue on linux gnu arm (#3255) ([2144271](https://github.com/swc-project/swc/commit/214427157ddf155da14b2bede3b315d3f6ce1e77))
 
 ## [1.2.129] - 2022-01-13
 

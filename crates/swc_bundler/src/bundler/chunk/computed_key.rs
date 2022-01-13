@@ -60,40 +60,36 @@ where
                     ..
                 })) if span.ctxt == injected_ctxt => {
                     for s in specifiers {
-                        match s {
-                            ExportSpecifier::Named(ExportNamedSpecifier {
-                                orig,
-                                exported: Some(exported),
-                                ..
-                            }) => {
-                                let exported = match exported {
-                                    ModuleExportName::Ident(ident) => ident,
-                                    ModuleExportName::Str(..) => {
-                                        unimplemented!("module string names unimplemented")
-                                    }
-                                };
-                                if let Some(..) = ctx.transitive_remap.get(&exported.span.ctxt) {
-                                    let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
-                                        span: DUMMY_SP,
-                                        orig: orig.clone(),
-                                        exported: Some(ModuleExportName::Ident(exported.clone())),
-                                        is_type_only: false,
-                                    });
-                                    additional_items.push((
-                                        module_id,
-                                        ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                                            NamedExport {
-                                                span: DUMMY_SP.with_ctxt(injected_ctxt),
-                                                specifiers: vec![specifier],
-                                                src: None,
-                                                type_only: false,
-                                                asserts: None,
-                                            },
-                                        )),
-                                    ));
+                        if let ExportSpecifier::Named(ExportNamedSpecifier {
+                            orig,
+                            exported: Some(exported),
+                            ..
+                        }) = s
+                        {
+                            let exported = match exported {
+                                ModuleExportName::Ident(ident) => ident,
+                                ModuleExportName::Str(..) => {
+                                    unimplemented!("module string names unimplemented")
                                 }
+                            };
+                            if let Some(..) = ctx.transitive_remap.get(&exported.span.ctxt) {
+                                let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
+                                    span: DUMMY_SP,
+                                    orig: orig.clone(),
+                                    exported: Some(ModuleExportName::Ident(exported.clone())),
+                                    is_type_only: false,
+                                });
+                                additional_items.push((
+                                    module_id,
+                                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                                        span: DUMMY_SP.with_ctxt(injected_ctxt),
+                                        specifiers: vec![specifier],
+                                        src: None,
+                                        type_only: false,
+                                        asserts: None,
+                                    })),
+                                ));
                             }
-                            _ => {}
                         }
                     }
                 }
@@ -117,13 +113,12 @@ where
             }))),
         });
 
-        module.iter().for_each(|(_, v)| match v {
-            ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
+        module.iter().for_each(|(_, v)| {
+            if let ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) = v {
                 // We handle this later.
                 let mut map = ctx.export_stars_in_wrapped.lock();
                 map.entry(id).or_default().push(export.span.ctxt);
             }
-            _ => {}
         });
 
         let module_fn = Expr::Fn(FnExpr {

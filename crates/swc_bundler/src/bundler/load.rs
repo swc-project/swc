@@ -428,15 +428,15 @@ impl Visit for Es6ModuleDetector {
         e.visit_children_with(self);
 
         match &e.callee {
-            Callee::Expr(e) => match &**e {
-                Expr::Ident(Ident {
+            Callee::Expr(e) => {
+                if let Expr::Ident(Ident {
                     sym: js_word!("require"),
                     ..
-                }) => {
+                }) = &**e
+                {
                     self.found_other = true;
                 }
-                _ => {}
-            },
+            }
             Callee::Super(_) | Callee::Import(_) => {}
         }
     }
