@@ -804,10 +804,6 @@ where
                     Mergable::Var(_) => break,
                     Mergable::Expr(e2) => {
                         if !self.is_skippable_for_seq(Some(a), &*e2) {
-                            if cfg!(feature = "debug") && false {
-                                tracing::trace!("Cannot skip: {}", dump(&**e2, false));
-                            }
-
                             break;
                         }
 

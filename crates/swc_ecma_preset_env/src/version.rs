@@ -2,7 +2,7 @@ use crate::Versions;
 use serde::{de, de::Visitor, Deserialize, Deserializer};
 use std::{cmp, cmp::Ordering, fmt, hash, str::FromStr};
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Version {
     pub major: u16,
     pub minor: u16,
@@ -68,14 +68,6 @@ impl cmp::Ord for Version {
         }
 
         Ordering::Equal
-    }
-}
-
-impl hash::Hash for Version {
-    fn hash<H: hash::Hasher>(&self, into: &mut H) {
-        self.major.hash(into);
-        self.minor.hash(into);
-        self.patch.hash(into);
     }
 }
 
