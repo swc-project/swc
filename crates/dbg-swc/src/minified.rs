@@ -157,14 +157,10 @@ impl VisitMut for Normalizer {
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         s.visit_mut_children_with(self);
 
-        match s {
-            Stmt::Decl(Decl::Var(v)) => {
-                if v.decls.is_empty() {
-                    s.take();
-                }
+        if let Stmt::Decl(Decl::Var(v)) = s {
+            if v.decls.is_empty() {
+                s.take();
             }
-
-            _ => {}
         }
     }
 
@@ -182,14 +178,10 @@ impl VisitMut for BeforeDiffNormalizer {
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         s.visit_mut_children_with(self);
 
-        match s {
-            Stmt::Block(bs) => {
-                if bs.stmts.len() == 1 {
-                    *s = bs.stmts[0].take();
-                }
+        if let Stmt::Block(bs) = s {
+            if bs.stmts.len() == 1 {
+                *s = bs.stmts[0].take();
             }
-
-            _ => {}
         }
     }
 
