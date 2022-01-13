@@ -116,7 +116,6 @@ where
 
     fn read_token(&mut self) -> LexResult<Token> {
         self.read_comments()?;
-        // TODO: refactor me
         self.start_pos = self.input.cur_pos();
         self.consume();
 
@@ -550,8 +549,9 @@ where
                     if is_whitespace(c)
                         && (self.next_next() == Some('"') || self.next_next() == Some('\'')) =>
                 {
-                    // TODO: avoid reset
-                    self.input.reset_to(start_whitespace);
+                    // Override last position because we consumed whitespaces, but they
+                    // should not be part of token
+                    self.last_pos = Some(start_whitespace);
 
                     return Ok(Token::Function {
                         value: name.0,
