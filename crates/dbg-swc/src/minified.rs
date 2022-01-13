@@ -91,7 +91,7 @@ impl DiffMinifiedCommand {
 
         let swc_output = print_js(cm.clone(), &swc_module, None).context("failed to print js")?;
         let terser_output =
-            print_js(cm.clone(), &terser_module, None).context("failed to print js")?;
+            print_js(cm, &terser_module, None).context("failed to print js")?;
 
         if swc_output == terser_output {
             return Ok(());
@@ -149,7 +149,7 @@ impl VisitMut for Normalizer {
         e.visit_mut_children_with(self);
 
         if let Some(args) = &e.args {
-            if args.len() == 0 {
+            if args.is_empty() {
                 e.args = None;
             }
         }
@@ -162,7 +162,7 @@ impl VisitMut for Normalizer {
             Stmt::Decl(Decl::Var(v)) => {
                 if v.decls.is_empty() {
                     s.take();
-                    return;
+                    
                 }
             }
 
@@ -188,7 +188,7 @@ impl VisitMut for BeforeDiffNormalizer {
             Stmt::Block(bs) => {
                 if bs.stmts.len() == 1 {
                     *s = bs.stmts[0].take();
-                    return;
+                    
                 }
             }
 

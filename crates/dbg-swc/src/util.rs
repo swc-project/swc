@@ -40,7 +40,7 @@ pub(crate) fn parse(fm: &SourceFile) -> Result<Module> {
 
     parser.parse_module().map_err(|err| {
         HANDLER.with(|handler| {
-            err.into_diagnostic(&handler).emit();
+            err.into_diagnostic(handler).emit();
         });
 
         anyhow!("failed to parse module")
@@ -63,7 +63,7 @@ pub(crate) fn print_js(
             wr,
         };
 
-        emitter.emit_module(&m)?;
+        emitter.emit_module(m)?;
     }
 
     Ok(String::from_utf8(buf)?)
