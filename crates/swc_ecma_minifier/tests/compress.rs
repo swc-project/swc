@@ -63,7 +63,9 @@ fn is_ignored(path: &Path) -> bool {
         return true;
     }
 
-    if env::var("SKIP_GOLDEN").unwrap_or_default() == "1" && GOLDEN.iter().any(|ignored| s.contains(&**ignored)) {
+    if env::var("SKIP_GOLDEN").unwrap_or_default() == "1"
+        && GOLDEN.iter().any(|ignored| s.contains(&**ignored))
+    {
         return true;
     }
 
@@ -464,12 +466,7 @@ fn fixture(input: PathBuf) {
             }
         }
 
-        let output_str = print(
-            cm,
-            &[drop_span(output_module)],
-            false,
-            false,
-        );
+        let output_str = print(cm, &[drop_span(output_module)], false, false);
 
         if env::var("UPDATE").map(|s| s == "1").unwrap_or(false) {
             let _ = catch_unwind(|| {
@@ -502,7 +499,7 @@ fn print<N: swc_ecma_codegen::Node>(
 
         let mut emitter = Emitter {
             cfg: swc_ecma_codegen::Config { minify },
-            cm: cm,
+            cm,
             comments: None,
             wr,
         };
