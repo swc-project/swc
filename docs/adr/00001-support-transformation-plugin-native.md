@@ -47,6 +47,7 @@ This includes babel plugins, to make migration from babel more convenient.
 
 -   Good, because users can use rich ecosystem of babel.
 -   Good, because users are used to javascript.
+-   Good, because all platforms are supported.
 -   Bad, because passing data to and from javascript is very costly.
 -   Bad, because js plugins require and block the main javascript thread.
 -   Bad, because the main javascript is singled threaded and be bottleneck.
