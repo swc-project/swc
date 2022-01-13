@@ -21,8 +21,8 @@ fn module(cm: Lrc<SourceMap>) -> Module {
         None,
     );
     let mut parser = Parser::new_from(lexer);
-    let module = parser.parse_module().map_err(|_| ()).unwrap();
-    module
+    
+    parser.parse_module().map_err(|_| ()).unwrap()
 }
 
 fn run<V>(b: &mut Bencher, tr: impl Fn() -> V)
@@ -149,7 +149,7 @@ fn es2019_optional_catch_binding(b: &mut Bencher) {
 
 #[bench]
 fn es2017(b: &mut Bencher) {
-    run(b, || swc_ecma_transforms_compat::es2017());
+    run(b, swc_ecma_transforms_compat::es2017);
 }
 
 #[bench]
@@ -161,12 +161,12 @@ fn es2017_async_to_generator(b: &mut Bencher) {
 
 #[bench]
 fn es2016(b: &mut Bencher) {
-    run(b, || swc_ecma_transforms_compat::es2016());
+    run(b, swc_ecma_transforms_compat::es2016);
 }
 
 #[bench]
 fn es2016_exponentation(b: &mut Bencher) {
-    run(b, || swc_ecma_transforms_compat::es2016::exponentation());
+    run(b, swc_ecma_transforms_compat::es2016::exponentation);
 }
 
 #[bench]
@@ -182,7 +182,7 @@ fn es2015(b: &mut Bencher) {
 
 #[bench]
 fn es2015_arrow(b: &mut Bencher) {
-    run(b, || swc_ecma_transforms_compat::es2015::arrow());
+    run(b, swc_ecma_transforms_compat::es2015::arrow);
 }
 
 #[bench]
@@ -194,7 +194,7 @@ fn es2015_block_scoped_fn(b: &mut Bencher) {
 
 #[bench]
 fn es2015_block_scoping(b: &mut Bencher) {
-    run(b, || swc_ecma_transforms_compat::es2015::block_scoping());
+    run(b, swc_ecma_transforms_compat::es2015::block_scoping);
 }
 
 #[bench]
@@ -220,7 +220,7 @@ fn es2015_destructuring(b: &mut Bencher) {
 
 #[bench]
 fn es2015_duplicate_keys(b: &mut Bencher) {
-    run(b, || swc_ecma_transforms_compat::es2015::duplicate_keys());
+    run(b, swc_ecma_transforms_compat::es2015::duplicate_keys);
 }
 
 #[bench]
@@ -232,7 +232,7 @@ fn es2015_parameters(b: &mut Bencher) {
 
 #[bench]
 fn es2015_fn_name(b: &mut Bencher) {
-    run(b, || swc_ecma_transforms_compat::es2015::function_name());
+    run(b, swc_ecma_transforms_compat::es2015::function_name);
 }
 
 #[bench]
@@ -244,12 +244,12 @@ fn es2015_for_of(b: &mut Bencher) {
 
 #[bench]
 fn es2015_instanceof(b: &mut Bencher) {
-    run(b, || swc_ecma_transforms_compat::es2015::instance_of());
+    run(b, swc_ecma_transforms_compat::es2015::instance_of);
 }
 
 #[bench]
 fn es2015_shorthand_property(b: &mut Bencher) {
-    run(b, || swc_ecma_transforms_compat::es2015::shorthand());
+    run(b, swc_ecma_transforms_compat::es2015::shorthand);
 }
 
 #[bench]
@@ -265,12 +265,12 @@ fn es2015_spread(b: &mut Bencher) {
 
 #[bench]
 fn es2015_sticky_regex(b: &mut Bencher) {
-    run(b, || swc_ecma_transforms_compat::es2015::sticky_regex());
+    run(b, swc_ecma_transforms_compat::es2015::sticky_regex);
 }
 
 #[bench]
 fn es2015_typeof_symbol(b: &mut Bencher) {
-    run(b, || swc_ecma_transforms_compat::es2015::typeof_symbol());
+    run(b, swc_ecma_transforms_compat::es2015::typeof_symbol);
 }
 
 #[bench]

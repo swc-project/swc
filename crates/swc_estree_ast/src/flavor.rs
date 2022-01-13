@@ -20,7 +20,7 @@ impl Flavor {
     where
         F: FnOnce() -> Ret,
     {
-        FLAVOR.set(&self, || op())
+        FLAVOR.set(&self, op)
     }
 
     pub fn current() -> Self {

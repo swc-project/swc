@@ -148,7 +148,7 @@ impl From<String> for NormalizedOutput {
                 };
                 buf.push_str(&s)
             } else {
-                buf.push_str(&line);
+                buf.push_str(line);
             }
             buf.push('\n')
         }
