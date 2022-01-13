@@ -330,13 +330,13 @@ fn iter<'a>(
 
 /// Using prototype should be treated as an initialization.
 #[derive(Default)]
-struct FieldInitFinter {
+struct FieldInitFinder {
     in_object_assign: bool,
     in_rhs: bool,
     accessed: AHashSet<Id>,
 }
 
-impl FieldInitFinter {
+impl FieldInitFinder {
     fn check_lhs_of_assign(&mut self, lhs: &PatOrExpr) {
         match lhs {
             PatOrExpr::Expr(e) => {
@@ -363,7 +363,7 @@ impl FieldInitFinter {
     }
 }
 
-impl Visit for FieldInitFinter {
+impl Visit for FieldInitFinder {
     noop_visit_type!();
 
     fn visit_assign_expr(&mut self, e: &AssignExpr) {
@@ -679,7 +679,7 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
 
         {
             // Find extra initializations.
-            let mut v = FieldInitFinter::default();
+            let mut v = FieldInitFinder::default();
             item.visit_with(&mut v);
 
             for id in v.accessed {
