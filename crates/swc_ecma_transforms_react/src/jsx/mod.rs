@@ -303,7 +303,7 @@ impl JsxDirectives {
                         Some("@jsxFrag") => match val {
                             Some(src) => {
                                 res.pragma_frag = Some(parse_expr_for_jsx(
-                                    &cm,
+                                    cm,
                                     "module-jsx-pragma-frag",
                                     src.to_string(),
                                     top_level_mark,
@@ -314,7 +314,7 @@ impl JsxDirectives {
                         Some("@jsx") => match val {
                             Some(src) => {
                                 res.pragma = Some(parse_expr_for_jsx(
-                                    &cm,
+                                    cm,
                                     "module-jsx-pragma",
                                     src.to_string(),
                                     top_level_mark,
@@ -558,7 +558,7 @@ where
                                     };
 
                                     // TODO: Check if `i` is a valid identifier.
-                                    let key = if i.sym.contains("-") {
+                                    let key = if i.sym.contains('-') {
                                         PropName::Str(Str {
                                             span: i.span,
                                             value: i.sym,
@@ -1266,7 +1266,7 @@ fn jsx_text_to_str(t: JsWord) -> JsWord {
     let replaced = t.replace('\t', " ");
     let lines: Vec<&str> = replaced.lines().collect();
     for (is_last, (i, line)) in lines.into_iter().enumerate().identify_last() {
-        if line.len() == 0 {
+        if line.is_empty() {
             continue;
         }
         let line = Cow::from(line);
@@ -1283,8 +1283,8 @@ fn jsx_text_to_str(t: JsWord) -> JsWord {
         if line.len() == 0 {
             continue;
         }
-        if i != 0 && buf.len() != 0 {
-            buf.push_str(" ")
+        if i != 0 && !buf.is_empty() {
+            buf.push(' ')
         }
         buf.push_str(&line);
     }
@@ -1346,7 +1346,7 @@ fn transform_jsx_attr_str(v: &str) -> String {
             '\0' => buf.push_str("\\x00"),
 
             '\'' if single_quote => buf.push_str("\\'"),
-            '"' if !single_quote => buf.push_str("\""),
+            '"' if !single_quote => buf.push('\"'),
 
             '\x01'..='\x0f' | '\x10'..='\x1f' => {
                 buf.push(c);
