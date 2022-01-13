@@ -975,7 +975,7 @@ impl PatOrExpr {
         match self {
             PatOrExpr::Pat(pat) => match *pat {
                 Pat::Expr(expr) => PatOrExpr::Expr(expr),
-                _ => return PatOrExpr::Pat(pat),
+                _ => PatOrExpr::Pat(pat),
             },
             _ => self,
         }

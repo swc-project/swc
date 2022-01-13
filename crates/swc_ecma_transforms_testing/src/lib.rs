@@ -106,10 +106,10 @@ impl<'a> Tester<'a> {
             .new_source_file(FileName::Real(file_name.into()), src.into());
 
         let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
-        let res = op(&mut p).map_err(|e| e.into_diagnostic(&self.handler).emit());
+        let res = op(&mut p).map_err(|e| e.into_diagnostic(self.handler).emit());
 
         for e in p.take_errors() {
-            e.into_diagnostic(&self.handler).emit()
+            e.into_diagnostic(self.handler).emit()
         }
 
         res
@@ -149,10 +149,10 @@ impl<'a> Tester<'a> {
             let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
             let res = p
                 .parse_module()
-                .map_err(|e| e.into_diagnostic(&self.handler).emit());
+                .map_err(|e| e.into_diagnostic(self.handler).emit());
 
             for e in p.take_errors() {
-                e.into_diagnostic(&self.handler).emit()
+                e.into_diagnostic(self.handler).emit()
             }
 
             res?
@@ -184,7 +184,7 @@ impl<'a> Tester<'a> {
             };
 
             // println!("Emitting: {:?}", module);
-            emitter.emit_module(&module).unwrap();
+            emitter.emit_module(module).unwrap();
         }
 
         let r = wr.0.read().unwrap();
@@ -392,7 +392,7 @@ where
             input, src_without_helpers
         );
 
-        let expected = stdout_of(&input).unwrap();
+        let expected = stdout_of(input).unwrap();
 
         println!("\t>>>>> Expected stdout <<<<<\n{}", expected);
 
@@ -745,13 +745,11 @@ fn test_fixture_inner<P>(
     });
 
     if allow_error {
-        NormalizedOutput::from(stderr)
+        stderr
             .compare_to_file(output.with_extension("stderr"))
             .unwrap();
-    } else {
-        if !stderr.is_empty() {
-            panic!("stderr: {}", stderr);
-        }
+    } else if !stderr.is_empty() {
+        panic!("stderr: {}", stderr);
     }
 
     match actual_src {
@@ -763,7 +761,7 @@ fn test_fixture_inner<P>(
                 return;
             }
 
-            NormalizedOutput::from(actual_src.clone())
+            NormalizedOutput::from(actual_src)
                 .compare_to_file(output)
                 .unwrap();
         }

@@ -114,7 +114,7 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool, mini
             modules = modules
                 .into_iter()
                 .map(|mut b| {
-                    GLOBALS.set(&globals, || {
+                    GLOBALS.set(globals, || {
                         b.module = swc_ecma_minifier::optimize(
                             b.module,
                             cm.clone(),
@@ -146,7 +146,7 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool, mini
         }
 
         {
-            let cm = cm.clone();
+            let cm = cm;
             print_bundles(cm, modules, minify);
         }
 
@@ -222,7 +222,7 @@ pub struct Loader {
 impl Load for Loader {
     fn load(&self, f: &FileName) -> Result<ModuleData, Error> {
         let fm = match f {
-            FileName::Real(path) => self.cm.load_file(&path)?,
+            FileName::Real(path) => self.cm.load_file(path)?,
             _ => unreachable!(),
         };
 
@@ -344,7 +344,7 @@ impl Resolve for NodeResolver {
         };
 
         // Absolute path
-        if target.starts_with("/") {
+        if target.starts_with('/') {
             let base_dir = &Path::new("/");
 
             let path = base_dir.join(target);
@@ -355,7 +355,7 @@ impl Resolve for NodeResolver {
         }
 
         let cwd = &Path::new(".");
-        let mut base_dir = base.parent().unwrap_or(&cwd);
+        let mut base_dir = base.parent().unwrap_or(cwd);
 
         if target.starts_with("./") || target.starts_with("../") {
             let win_target;

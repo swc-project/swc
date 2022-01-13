@@ -23,7 +23,7 @@ fn run(input: &Path, minify: bool) {
     };
 
     run_test2(false, |cm, _| {
-        let fm = cm.load_file(&input).unwrap();
+        let fm = cm.load_file(input).unwrap();
 
         let lexer = Lexer::new(
             Syntax::Typescript(Default::default()),
@@ -48,7 +48,7 @@ fn run(input: &Path, minify: bool) {
 
             let mut emitter = Emitter {
                 cfg: swc_ecma_codegen::Config { minify },
-                cm: cm.clone(),
+                cm,
                 comments: None,
                 wr,
             };

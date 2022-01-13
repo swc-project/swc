@@ -33,7 +33,7 @@ impl Swcify for swc_estree_ast::ClassMethod {
     type Output = swc_ecma_ast::ClassMember;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        match self.kind.clone().unwrap_or(ClassMethodKind::Method) {
+        match self.kind.unwrap_or(ClassMethodKind::Method) {
             ClassMethodKind::Get | ClassMethodKind::Set | ClassMethodKind::Method => {
                 swc_ecma_ast::ClassMethod {
                     span: ctx.span(&self.base),

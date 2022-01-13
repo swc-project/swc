@@ -46,7 +46,7 @@ where
         jsx_src(development, cm.clone()),
         jsx_self(development),
         refresh(development, refresh_options, cm.clone(), comments.clone()),
-        jsx(cm.clone(), comments.clone(), options, top_level_mark),
+        jsx(cm, comments.clone(), options, top_level_mark),
         display_name(),
         pure_annotations(comments),
     )

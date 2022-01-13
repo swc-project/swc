@@ -104,7 +104,7 @@ fn derive_fmt(i: &DeriveInput, trait_path: TokenStream) -> ItemImpl {
 
 fn get_str_value(attrs: &[Attribute]) -> String {
     // TODO: Accept multiline string
-    let docs: Vec<_> = attrs.iter().map(doc_str).filter_map(|o| o).collect();
+    let docs: Vec<_> = attrs.iter().map(doc_str).flatten().collect();
     for raw_line in docs {
         let line = raw_line.trim();
         if line.starts_with('`') && line.ends_with('`') {
@@ -119,14 +119,14 @@ fn get_str_value(attrs: &[Attribute]) -> String {
 }
 
 fn make_from_str(i: &DeriveInput) -> ItemImpl {
-    let arms = Binder::new_from(&i)
+    let arms = Binder::new_from(i)
         .variants()
         .into_iter()
         .map(|v| {
             // Qualified path of variant.
             let qual_name = v.qual_path();
 
-            let str_value = get_str_value(&v.attrs());
+            let str_value = get_str_value(v.attrs());
 
             let pat: Pat = Quote::new(def_site::<Span>())
                 .quote_with(smart_quote!(Vars { str_value }, { str_value }))
@@ -196,14 +196,14 @@ fn make_from_str(i: &DeriveInput) -> ItemImpl {
 }
 
 fn make_as_str(i: &DeriveInput) -> ItemImpl {
-    let arms = Binder::new_from(&i)
+    let arms = Binder::new_from(i)
         .variants()
         .into_iter()
         .map(|v| {
             // Qualified path of variant.
             let qual_name = v.qual_path();
 
-            let str_value = get_str_value(&v.attrs());
+            let str_value = get_str_value(v.attrs());
 
             let body = Box::new(
                 Quote::new(def_site::<Span>())

@@ -101,7 +101,7 @@ impl PartialInliner {
                 eval: Default::default(),
             };
 
-            op(cm.clone(), module, &mut inliner);
+            op(cm, module, &mut inliner);
 
             Ok(())
         })
@@ -151,7 +151,7 @@ impl PartialInliner {
                         cfg: Default::default(),
                         cm: cm.clone(),
                         comments: None,
-                        wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+                        wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),
                     };
 
                     emitter.emit_module(&module).unwrap();

@@ -74,7 +74,7 @@ where
                 .get_module(id)
                 .unwrap_or_else(|| unreachable!("Module {} is not registered", id));
             let mut module = self.apply_hooks(id, is_entry)?;
-            module = self.prepare_for_merging(&ctx, &info, module)?;
+            module = self.prepare_for_merging(ctx, &info, module)?;
 
             if !is_entry {
                 module = self.wrap_cjs_module(ctx, &info, module)?;

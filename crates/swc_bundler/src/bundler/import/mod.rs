@@ -208,7 +208,6 @@ where
             .map(|import| import.src.value.clone())
         {
             self.info.forced_ns.insert(src);
-            return;
         }
     }
 
@@ -263,7 +262,6 @@ where
                         }
 
                         self.info.lazy_imports.push(decl);
-                        return;
                     }
 
                     // TODO: Uncomment this after implementing an option to make swc_bundler
@@ -429,7 +427,7 @@ where
                 }
             }
 
-            self.info.insert(&import);
+            self.info.insert(import);
             return;
         }
 
@@ -671,11 +669,7 @@ where
                     _ => true,
                 });
 
-                if var.decls.is_empty() {
-                    false
-                } else {
-                    true
-                }
+                !var.decls.is_empty()
             }
 
             _ => true,

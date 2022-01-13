@@ -43,7 +43,7 @@ impl Task for PrintTask {
                     .unwrap_or(SourceMapsConfig::Bool(false)),
                 &Default::default(),
                 None,
-                options.config.clone().minify,
+                options.config.minify,
                 None,
             )
             .convert_err()
@@ -65,7 +65,7 @@ pub fn print(
 
     Ok(AsyncTask::with_optional_signal(
         PrintTask {
-            c: c.clone(),
+            c,
             program_json,
             options,
         },
@@ -77,7 +77,7 @@ pub fn print(
 pub fn print_sync(program: String, options: Buffer) -> napi::Result<TransformOutput> {
     let c = get_compiler();
 
-    let program: Program = deserialize_json(&program.as_str())?;
+    let program: Program = deserialize_json(program.as_str())?;
 
     let options: Options = get_deserialized(&options)?;
 

@@ -199,7 +199,7 @@ impl VisitMut for Inlining<'_> {
         if self.phase == Phase::Analysis {
             match node.callee {
                 Callee::Expr(ref callee) => {
-                    self.scope.mark_this_sensitive(&callee);
+                    self.scope.mark_this_sensitive(callee);
                 }
 
                 _ => {}
@@ -266,13 +266,14 @@ impl VisitMut for Inlining<'_> {
                 Expr::Assign(e @ AssignExpr { op: op!("="), .. }) => {
                     if let Some(i) = e.left.as_ident() {
                         if let Some(var) = self.scope.find_binding_from_current(&i.to_id()) {
-                            if var.is_undefined.get() && !var.is_inline_prevented() {
-                                if !self.scope.is_inline_prevented(&e.right) {
-                                    *var.value.borrow_mut() = Some(*e.right.clone());
-                                    var.is_undefined.set(false);
-                                    *node = *e.right.take();
-                                    return;
-                                }
+                            if var.is_undefined.get()
+                                && !var.is_inline_prevented()
+                                && !self.scope.is_inline_prevented(&e.right)
+                            {
+                                *var.value.borrow_mut() = Some(*e.right.clone());
+                                var.is_undefined.set(false);
+                                *node = *e.right.take();
+                                return;
                             }
                         }
                     }
@@ -346,8 +347,7 @@ impl VisitMut for Inlining<'_> {
                         };
 
                         if let Some(expr) = expr {
-                            *node = expr.clone();
-                            return;
+                            *node = expr;
                         }
                     }
                 }
@@ -460,7 +460,10 @@ impl VisitMut for Inlining<'_> {
             node.params.visit_mut_with(child);
             match &mut node.body {
                 None => None,
-                Some(v) => Some(v.visit_mut_children_with(child)),
+                Some(v) => {
+                    v.visit_mut_children_with(child);
+                    Some(())
+                }
             };
         })
     }
@@ -524,7 +527,7 @@ impl VisitMut for Inlining<'_> {
                 PatFoldingMode::Param => {
                     self.declare(
                         i.to_id(),
-                        Some(Cow::Owned(Expr::Ident(i.id.clone().into()))),
+                        Some(Cow::Owned(Expr::Ident(i.id.clone()))),
                         false,
                         VarType::Param,
                     );
@@ -532,7 +535,7 @@ impl VisitMut for Inlining<'_> {
                 PatFoldingMode::CatchParam => {
                     self.declare(
                         i.to_id(),
-                        Some(Cow::Owned(Expr::Ident(i.id.clone().into()))),
+                        Some(Cow::Owned(Expr::Ident(i.id.clone()))),
                         false,
                         VarType::Var(VarDeclKind::Var),
                     );
@@ -649,15 +652,15 @@ impl VisitMut for Inlining<'_> {
 
                         // Bindings
                         Some(e) | Some(e) if e.is_lit() || e.is_ident() => {
-                            self.declare(name.to_id(), Some(Cow::Borrowed(&e)), false, kind);
+                            self.declare(name.to_id(), Some(Cow::Borrowed(e)), false, kind);
 
-                            if self.scope.is_inline_prevented(&e) {
+                            if self.scope.is_inline_prevented(e) {
                                 self.scope.prevent_inline(&name.to_id());
                             }
                         }
                         Some(ref e) => {
                             if self.var_decl_kind != VarDeclKind::Const {
-                                self.declare(name.to_id(), Some(Cow::Borrowed(&e)), false, kind);
+                                self.declare(name.to_id(), Some(Cow::Borrowed(e)), false, kind);
 
                                 if contains_this_expr(&node.init) {
                                     self.scope.prevent_inline(&name.to_id());
@@ -679,10 +682,8 @@ impl VisitMut for Inlining<'_> {
 
                             if self
                                 .scope
-                                .is_inline_prevented(&Expr::Ident(name.id.clone().into()))
-                                || !self
-                                    .scope
-                                    .has_same_this(&id, node.init.as_ref().map(|v| &**v))
+                                .is_inline_prevented(&Expr::Ident(name.id.clone()))
+                                || !self.scope.has_same_this(&id, node.init.as_deref())
                             {
                                 tracing::trace!("Inline is prevented for {:?}", id);
                                 return;
@@ -705,7 +706,7 @@ impl VisitMut for Inlining<'_> {
 
                             match init {
                                 Some(ref e) => {
-                                    if self.scope.is_inline_prevented(&e) {
+                                    if self.scope.is_inline_prevented(e) {
                                         tracing::trace!(
                                             "Inlining is not possible as inline of the \
                                              initialization was prevented"

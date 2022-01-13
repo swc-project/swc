@@ -96,7 +96,7 @@ fn do_test(entry: &Path, minify: bool) {
 
     let module = file_name.contains("module");
 
-    let ref_dir = ref_dir.clone();
+    let ref_dir = ref_dir;
 
     let msg = format!(
         "\n\n========== Running codegen test {}\nSource:\n{}\n",
@@ -105,7 +105,7 @@ fn do_test(entry: &Path, minify: bool) {
     let mut wr = Buf(Arc::new(RwLock::new(vec![])));
 
     ::testing::run_test(false, |cm, handler| {
-        let src = cm.load_file(&entry).expect("failed to load file");
+        let src = cm.load_file(entry).expect("failed to load file");
         eprintln!(
             "{}\nPos: {:?} ~ {:?} (L{})",
             msg,
@@ -137,7 +137,7 @@ fn do_test(entry: &Path, minify: bool) {
 
             let mut emitter = Emitter {
                 cfg: swc_ecma_codegen::Config { minify },
-                cm: cm.clone(),
+                cm,
                 wr,
                 comments: if minify { None } else { Some(&comments) },
             };

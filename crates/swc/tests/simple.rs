@@ -27,7 +27,7 @@ fn compile(src: &str, options: Options) -> String {
                     if handler.has_errors() {
                         Err(())
                     } else {
-                        Ok(v.code.into())
+                        Ok(v.code)
                     }
                 }
                 Err(..) => Err(()),

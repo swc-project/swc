@@ -73,14 +73,14 @@ where
             tracing::trace!("load_transformed: ({})", file_name);
 
             // In case of common module
-            if let Some(cached) = self.scope.get_module_by_path(&file_name) {
+            if let Some(cached) = self.scope.get_module_by_path(file_name) {
                 tracing::debug!("Cached: {}", file_name);
                 return Ok(Some(cached));
             }
 
-            let (_, data) = self.load(&file_name).context("Bundler.load() failed")?;
+            let (_, data) = self.load(file_name).context("Bundler.load() failed")?;
             let (v, mut files) = self
-                .analyze(&file_name, data)
+                .analyze(file_name, data)
                 .context("failed to analyze module")?;
             files.dedup_by_key(|v| v.1.clone());
 
@@ -117,7 +117,7 @@ where
 
             let data = self
                 .loader
-                .load(&file_name)
+                .load(file_name)
                 .with_context(|| format!("Bundler.loader.load({}) failed", file_name))?;
             self.scope.mark_as_loaded(module_id);
             Ok((module_id, data))

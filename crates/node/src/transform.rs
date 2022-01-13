@@ -51,14 +51,14 @@ impl Task for TransformTask {
                 self.c.run(|| match &self.input {
                     Input::Program(ref s) => {
                         let program: Program =
-                            deserialize_json(&s).expect("failed to deserialize Program");
+                            deserialize_json(s).expect("failed to deserialize Program");
                         // TODO: Source map
-                        self.c.process_js(&handler, program, &options)
+                        self.c.process_js(handler, program, &options)
                     }
 
                     Input::File(ref path) => {
                         let fm = self.c.cm.load_file(path).context("failed to load file")?;
-                        self.c.process_js_file(fm, &handler, &options)
+                        self.c.process_js_file(fm, handler, &options)
                     }
 
                     Input::Source { src } => {
@@ -71,7 +71,7 @@ impl Task for TransformTask {
                             src.to_string(),
                         );
 
-                        self.c.process_js_file(fm, &handler, &options)
+                        self.c.process_js_file(fm, handler, &options)
                     }
                 })
             },
@@ -101,11 +101,7 @@ pub fn transform(
         Input::Source { src }
     };
 
-    let task = TransformTask {
-        c: c.clone(),
-        input,
-        options,
-    };
+    let task = TransformTask { c, input, options };
     Ok(AsyncTask::with_optional_signal(task, signal))
 }
 
@@ -124,7 +120,7 @@ pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<
             if is_module {
                 let program: Program =
                     deserialize_json(s.as_str()).context("failed to deserialize Program")?;
-                c.process_js(&handler, program, &options)
+                c.process_js(handler, program, &options)
             } else {
                 let fm = c.cm.new_source_file(
                     if options.filename.is_empty() {
@@ -134,7 +130,7 @@ pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<
                     },
                     s,
                 );
-                c.process_js_file(fm, &handler, &options)
+                c.process_js_file(fm, handler, &options)
             }
         })
     })
@@ -153,7 +149,7 @@ pub fn transform_file(
     let options = String::from_utf8_lossy(options.as_ref()).to_string();
     let path = clean(&src);
     let task = TransformTask {
-        c: c.clone(),
+        c,
         input: Input::File(path.into()),
         options,
     };
@@ -179,10 +175,10 @@ pub fn transform_file_sync(
             if is_module {
                 let program: Program =
                     deserialize_json(s.as_str()).context("failed to deserialize Program")?;
-                c.process_js(&handler, program, &options)
+                c.process_js(handler, program, &options)
             } else {
                 let fm = c.cm.load_file(Path::new(&s)).expect("failed to load file");
-                c.process_js_file(fm, &handler, &options)
+                c.process_js_file(fm, handler, &options)
             }
         })
     })

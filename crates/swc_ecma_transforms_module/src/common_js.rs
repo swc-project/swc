@@ -120,7 +120,7 @@ impl Visit for LazyIdentifierVisitor {
     fn visit_ident(&mut self, ident: &Ident) {
         let v = self.scope.borrow().idents.get(&ident.to_id()).cloned();
         if let Some((src, _)) = v {
-            self.top_level_idents.insert(src.clone());
+            self.top_level_idents.insert(src);
         }
     }
 }
@@ -167,7 +167,7 @@ where
                     ..
                 })) => {
                     for ExportNamedSpecifier { orig, exported, .. } in
-                        specifiers.into_iter().filter_map(|e| match e {
+                        specifiers.iter().filter_map(|e| match e {
                             ExportSpecifier::Named(e) => Some(e),
                             _ => None,
                         })
@@ -284,12 +284,11 @@ where
                             ref specifiers,
                             ..
                         })) => {
-                            scope.import_to_export(&src, !specifiers.is_empty());
+                            scope.import_to_export(src, !specifiers.is_empty());
                         }
 
                         _ => {}
                     }
-                    drop(scope);
                     drop(scope_ref_mut);
 
                     match item {
@@ -298,7 +297,7 @@ where
                             let scope = &mut *scope_ref_mut;
 
                             if exported_names.is_none()
-                                && (export_alls.len() >= 1 || !exports.is_empty())
+                                && (!export_alls.is_empty() || !exports.is_empty())
                             {
                                 let exported_names_ident = private_ident!("_exportNames");
                                 stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
@@ -347,7 +346,6 @@ where
                                     .expect("Export should exists"),
                             );
 
-                            drop(scope);
                             drop(scope_ref_mut);
                         }
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
@@ -373,8 +371,6 @@ where
                                     .entry((ident.sym.clone(), ident.span.ctxt()))
                                     .or_default()
                                     .push((ident.sym.clone(), ident.span.ctxt()));
-
-                                drop(scope);
                             }
 
                             let append_to: &mut Vec<_> = if is_class {
@@ -599,7 +595,6 @@ where
                                         .or_default()
                                         .push(
                                             exported
-                                                .clone()
                                                 .map(|i| (i.sym.clone(), i.span.ctxt()))
                                                 .unwrap_or_else(|| {
                                                     (orig.sym.clone(), orig.span.ctxt())
@@ -694,7 +689,7 @@ where
 
                                                 // export { foo as bar }
                                                 //  -> 'bar'
-                                                let i = (exported.unwrap_or_else(|| orig)).clone();
+                                                let i = exported.unwrap_or(orig).clone();
                                                 Lit::Str(quote_str!(i.span, i.sym)).as_arg()
                                             },
                                             make_descriptor(value).as_arg(),

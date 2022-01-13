@@ -114,7 +114,7 @@ impl Comments for SwcComments {
         F: FnOnce(&[Comment]) -> Ret,
     {
         let ret = if let Some(cmts) = &self.trailing.get(&pos) {
-            f(&cmts)
+            f(cmts)
         } else {
             f(&[])
         };
