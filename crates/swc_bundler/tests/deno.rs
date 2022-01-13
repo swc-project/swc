@@ -983,13 +983,13 @@ fn run(url: &str, exports: &[&str]) {
 
     ::testing::run_test2(false, |cm, _| {
         let fm = cm.load_file(&path).unwrap();
-        let loader = Loader { cm: cm.clone() };
+        let loader = Loader { cm: cm };
         let module = loader.load(&fm.name).unwrap().module;
 
         let mut actual_exports = collect_exports(&module).into_iter().collect::<Vec<_>>();
         actual_exports.sort();
         let mut expected_exports = exports
-            .into_iter()
+            .iter()
             .map(|s| s.to_string())
             .collect::<Vec<_>>();
         expected_exports.sort();
@@ -1021,7 +1021,9 @@ fn run(url: &str, exports: &[&str]) {
 }
 
 fn bundle(url: &str, minify: bool) -> String {
-    let result = testing::run_test2(false, |cm, _handler| {
+    
+
+    testing::run_test2(false, |cm, _handler| {
         GLOBALS.with(|globals| {
             let mut bundler = Bundler::new(
                 globals,
@@ -1092,9 +1094,7 @@ fn bundle(url: &str, minify: bool) -> String {
             Ok(String::from_utf8_lossy(&buf).to_string())
         })
     })
-    .unwrap();
-
-    result
+    .unwrap()
 }
 
 struct Hook;

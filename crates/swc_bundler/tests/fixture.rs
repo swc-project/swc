@@ -117,16 +117,11 @@ fn pass(entry: PathBuf) {
         .unwrap()
         .filter(|e| match e {
             Ok(e) => {
-                if e.path()
+                e.path()
                     .file_name()
                     .unwrap()
                     .to_string_lossy()
                     .starts_with("entry")
-                {
-                    true
-                } else {
-                    false
-                }
             }
             _ => false,
         })
