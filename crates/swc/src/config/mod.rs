@@ -1237,7 +1237,7 @@ impl GlobalPassOption {
             match &self.envs {
                 GlobalInliningPassEnvs::List(env_list) => {
                     static CACHE: Lazy<DashMap<Vec<String>, ValuesMap, ahash::RandomState>> =
-                        Lazy::new(Default::default());
+                        Lazy::new(Default::default);
 
                     let cache_key = env_list.iter().cloned().collect::<Vec<_>>();
                     if let Some(v) = CACHE.get(&cache_key).as_deref().cloned() {
