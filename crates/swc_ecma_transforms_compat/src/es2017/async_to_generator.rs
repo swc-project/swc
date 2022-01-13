@@ -571,47 +571,13 @@ impl Actual {
 
         match expr {
             Expr::Arrow(arrow_expr @ ArrowExpr { is_async: true, .. }) => {
-                // Apply arrow
-                let this: Option<ExprOrSpread> = if contains_this_expr(&arrow_expr.body) {
-                    if binding_ident.is_none() {
-                        Some(ThisExpr { span: DUMMY_SP }.as_arg())
-                    } else {
-                        let this = private_ident!("_this");
-                        self.hoist_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: vec![VarDeclarator {
-                                span: DUMMY_SP,
-                                name: this.clone().into(),
-                                init: Some(Box::new(ThisExpr { span: DUMMY_SP }.into())),
-                                definite: false,
-                            }],
-                            declare: false,
-                        })));
-                        Some(this.as_arg())
-                    }
-                } else {
-                    None
-                };
-
                 let mut wrapper = FunctionWrapper::from(arrow_expr.take());
                 wrapper.binding_ident = binding_ident;
 
-                let fn_expr = wrapper.function.fn_expr().unwrap();
+                let fn_expr = wrapper.function.expect_fn_expr();
 
-                wrapper.function = if let Some(this) = this {
-                    Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: make_fn_ref(fn_expr, Some(this.clone()), false)
-                            .make_member(quote_ident!("bind"))
-                            .as_callee(),
-                        args: vec![this.clone()],
-                        type_args: Default::default(),
-                    })
-                } else {
-                    make_fn_ref(fn_expr, None, false)
-                };
-
+                // We should not bind `this` in FunctionWrapper
+                wrapper.function = make_fn_ref(fn_expr, None, true);
                 *expr = wrapper.into();
             }
 
