@@ -45,7 +45,7 @@ This decision is taken because
 SWC allow implementing plugins using javascript, and call it from worker threads as required.
 This includes babel plugins, to make migration from babel more convenient.
 
--   Good, because users can use rich echosystem of babel.
+-   Good, because users can use rich ecosystem of babel.
 -   Good, because users are used to javascript.
 -   Bad, because passing data to and from javascript is very costly.
 -   Bad, because js plugins require and block the main javascript thread.
@@ -56,8 +56,6 @@ This includes babel plugins, to make migration from babel more convenient.
 ### [option 2] Plugins based on `abi_stable` and native dynamic libraries
 
 Plugins are written in rust, and built as native libraries for each platforms. SWC pass data to plugin using special form of AST, which has stable memory representation regardless of the version of `rustc`.
-
-[example | description | pointer to more information | …] <!-- optional -->
 
 -   Good, because [argument a]
 -   Good, because [argument b]
