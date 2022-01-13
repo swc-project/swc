@@ -21,6 +21,7 @@
         "canonicalization",
         "canonicalize",
         "chpos",
+        "clippy",
         "cmpeq",
         "cmplt",
         "cmts",
