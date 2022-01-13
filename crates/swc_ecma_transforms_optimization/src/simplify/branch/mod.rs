@@ -90,7 +90,6 @@ impl VisitMut for Remover {
             } =>
             {
                 *e = Expr::Ident(r.take().ident().unwrap());
-                
             }
 
             Expr::Assign(AssignExpr {
@@ -104,7 +103,6 @@ impl VisitMut for Remover {
             } =>
             {
                 *e = *right.take();
-                
             }
 
             Expr::Assign(AssignExpr {
@@ -118,7 +116,6 @@ impl VisitMut for Remover {
             } =>
             {
                 *e = *right.take();
-                
             }
 
             Expr::Cond(cond)
@@ -143,7 +140,6 @@ impl VisitMut for Remover {
                         }) =>
             {
                 *e = *cond.cons.take();
-                
             }
 
             _ => {}
@@ -244,7 +240,6 @@ impl VisitMut for Remover {
                     key: key.take(),
                     value: None,
                 });
-                
             }
 
             _ => {}
@@ -267,7 +262,6 @@ impl VisitMut for Remover {
                     } =>
             {
                 *p = *assign.left.take();
-                
             }
 
             Pat::Assign(assign)
@@ -277,7 +271,6 @@ impl VisitMut for Remover {
                 } && assign.right.is_number() =>
             {
                 *p = *assign.left.take();
-                
             }
 
             _ => {}
@@ -932,8 +925,7 @@ impl VisitMut for Remover {
                         } else {
                             let body = s.body.extract_var_ids_as_var();
                             let body = body.map(Decl::Var).map(Stmt::Decl);
-                            let body =
-                                body.unwrap_or(Stmt::Empty(EmptyStmt { span: s.span }));
+                            let body = body.unwrap_or(Stmt::Empty(EmptyStmt { span: s.span }));
 
                             if purity.is_pure() {
                                 body
@@ -991,12 +983,8 @@ impl VisitMut for Remover {
 
                         //
                         match &v.name {
-                            Pat::Object(o) if o.props.is_empty() => {
-                                None
-                            }
-                            Pat::Array(a) if a.elems.is_empty() => {
-                                None
-                            }
+                            Pat::Object(o) if o.props.is_empty() => None,
+                            Pat::Array(a) if a.elems.is_empty() => None,
 
                             _ => Some(v),
                         }
@@ -1039,7 +1027,6 @@ impl VisitMut for Remover {
             }
         }) {
             s.cases.clear();
-            
         }
     }
 }

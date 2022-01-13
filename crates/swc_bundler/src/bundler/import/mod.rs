@@ -208,7 +208,6 @@ where
             .map(|import| import.src.value.clone())
         {
             self.info.forced_ns.insert(src);
-            
         }
     }
 
@@ -263,7 +262,6 @@ where
                         }
 
                         self.info.lazy_imports.push(decl);
-                        
                     }
 
                     // TODO: Uncomment this after implementing an option to make swc_bundler

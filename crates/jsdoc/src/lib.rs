@@ -52,10 +52,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
         "access" => {
             let (input, access) = parse_one_of(i, &["private", "protected", "package", "public"])?;
             i = input;
-            Tag::Access(AccessTag {
-                span,
-                access,
-            })
+            Tag::Access(AccessTag { span, access })
         }
 
         "alias" => {
@@ -183,10 +180,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
         "external" | "host" => {
             let (input, name) = parse_line(i)?;
             i = input;
-            Tag::External(ExternalTag {
-                span,
-                name,
-            })
+            Tag::External(ExternalTag { span, name })
         }
 
         "file" | "fileoverview" | "overview" => {

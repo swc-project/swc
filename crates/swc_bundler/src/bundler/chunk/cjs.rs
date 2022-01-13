@@ -138,7 +138,6 @@ fn wrap_module(
     });
 
     // var load = __swcpack_require__.bind(void 0, moduleDecl)
-    
 
     Stmt::Decl(Decl::Var(VarDecl {
         span: DUMMY_SP,
@@ -338,7 +337,6 @@ where
                         definite: false,
                     }],
                 })));
-                
             }
             _ => {}
         }
@@ -366,7 +364,6 @@ impl VisitMut for DefaultHandler {
                         ))),
                         prop: MemberProp::Ident(quote_ident!("exports")),
                     });
-                    
                 }
             }
             _ => {}

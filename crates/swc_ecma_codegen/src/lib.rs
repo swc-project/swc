@@ -1914,7 +1914,9 @@ where
                     // -> this comment isn't considered to be trailing comment of parameter "a" due
                     // to newline ,
                     if format.contains(ListFormat::DelimitersMask)
-                        && previous_sibling.hi != parent_node.hi() && self.comments.is_some() {
+                        && previous_sibling.hi != parent_node.hi()
+                        && self.comments.is_some()
+                    {
                         self.emit_leading_comments(previous_sibling.span().hi(), true)?;
                     }
 
@@ -1984,7 +1986,10 @@ where
                 }
             };
 
-            if has_trailing_comma && format.contains(ListFormat::CommaDelimited) && (!self.cfg.minify || !format.contains(ListFormat::CanSkipTrailingComma)) {
+            if has_trailing_comma
+                && format.contains(ListFormat::CommaDelimited)
+                && (!self.cfg.minify || !format.contains(ListFormat::CanSkipTrailingComma))
+            {
                 punct!(self, ",");
                 formatting_space!(self);
             }
@@ -2008,7 +2013,9 @@ where
                 if let Some(previous_sibling) = previous_sibling {
                     if format.contains(ListFormat::DelimitersMask)
                         && previous_sibling.span().hi() != parent_node.hi()
-                        && emit_trailing_comments && self.comments.is_some() {
+                        && emit_trailing_comments
+                        && self.comments.is_some()
+                    {
                         self.emit_leading_comments(previous_sibling.span().hi(), true)?;
                     }
                 }

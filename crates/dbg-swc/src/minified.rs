@@ -90,8 +90,7 @@ impl DiffMinifiedCommand {
         terser_module.visit_mut_with(&mut Normalizer::default());
 
         let swc_output = print_js(cm.clone(), &swc_module, None).context("failed to print js")?;
-        let terser_output =
-            print_js(cm, &terser_module, None).context("failed to print js")?;
+        let terser_output = print_js(cm, &terser_module, None).context("failed to print js")?;
 
         if swc_output == terser_output {
             return Ok(());
@@ -162,7 +161,6 @@ impl VisitMut for Normalizer {
             Stmt::Decl(Decl::Var(v)) => {
                 if v.decls.is_empty() {
                     s.take();
-                    
                 }
             }
 
@@ -188,7 +186,6 @@ impl VisitMut for BeforeDiffNormalizer {
             Stmt::Block(bs) => {
                 if bs.stmts.len() == 1 {
                     *s = bs.stmts[0].take();
-                    
                 }
             }
 

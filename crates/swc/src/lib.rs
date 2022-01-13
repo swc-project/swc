@@ -224,8 +224,7 @@ where
 {
     let wr = Box::new(LockedWriter::default());
 
-    let e_wr =
-        EmitterWriter::new(wr.clone(), Some(cm), false, true).skip_filename(skip_filename);
+    let e_wr = EmitterWriter::new(wr.clone(), Some(cm), false, true).skip_filename(skip_filename);
     let handler = Handler::with_emitter(true, false, Box::new(e_wr));
 
     let ret = HANDLER.set(&handler, || op(&handler));
@@ -822,9 +821,7 @@ impl Compiler {
         F: FnOnce() -> Ret,
     {
         self.run(|| {
-            helpers::HELPERS.set(&Helpers::new(external_helpers), || {
-                HANDLER.set(handler, op)
-            })
+            helpers::HELPERS.set(&Helpers::new(external_helpers), || HANDLER.set(handler, op))
         })
     }
 

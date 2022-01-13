@@ -30,7 +30,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
 
         let ctx = swc_estree_compat::babelify::Context {
             fm: fm.clone(),
-            cm: cm,
+            cm,
             comments: SwcComments::default(),
         };
         let mut actual = flavor.with(|| {
@@ -77,9 +77,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
             diff_json_value(&mut actual, &mut expected, &mut |key, value| {
                 match &mut *value {
                     Value::Object(v) => {
-                        if let Some("FunctionExpression") =
-                            v.get("type").and_then(|v| v.as_str())
-                        {
+                        if let Some("FunctionExpression") = v.get("type").and_then(|v| v.as_str()) {
                             v["range"] = Value::Null;
                             v["start"] = Value::Null;
                             v["end"] = Value::Null;

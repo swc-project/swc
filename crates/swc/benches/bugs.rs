@@ -12,8 +12,6 @@ use test::Bencher;
 fn mk() -> swc::Compiler {
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
 
-    
-
     swc::Compiler::new(cm)
 }
 

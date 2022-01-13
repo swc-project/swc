@@ -22,8 +22,6 @@ static SOURCE: &str = include_str!("assets/Observable.ts");
 fn mk() -> swc::Compiler {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
-    
-
     swc::Compiler::new(cm)
 }
 

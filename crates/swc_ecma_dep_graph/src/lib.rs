@@ -348,8 +348,6 @@ mod tests {
         file_name: &str,
         source: &str,
     ) -> Result<(ast::Module, SingleThreadedComments), testing::StdErr> {
-        
-
         ::testing::run_test(false, |cm, handler| {
             let fm =
                 cm.new_source_file(FileName::Custom(file_name.to_string()), source.to_string());

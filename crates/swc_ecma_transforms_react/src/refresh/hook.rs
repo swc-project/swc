@@ -133,7 +133,10 @@ impl<'a> HookRegister<'a> {
                 HookCall::Member(Expr::Ident(ident), _) => Some(ident),
                 _ => None,
             };
-            if ident.and_then(|id| self.scope_binding.get(&id.sym)).is_none() {
+            if ident
+                .and_then(|id| self.scope_binding.get(&id.sym))
+                .is_none()
+            {
                 // We don't have anything to put in the array because Hook is out of scope.
                 // Since it could potentially have been edited, remount the component.
                 should_reset = true;

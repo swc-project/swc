@@ -116,13 +116,12 @@ fn pass(entry: PathBuf) {
     let entries = read_dir(&entry)
         .unwrap()
         .filter(|e| match e {
-            Ok(e) => {
-                e.path()
-                    .file_name()
-                    .unwrap()
-                    .to_string_lossy()
-                    .starts_with("entry")
-            }
+            Ok(e) => e
+                .path()
+                .file_name()
+                .unwrap()
+                .to_string_lossy()
+                .starts_with("entry"),
             _ => false,
         })
         .map(|e| -> Result<_, io::Error> {

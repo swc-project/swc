@@ -319,8 +319,6 @@ fn with_parser<F, Ret>(file_name: &Path, f: F) -> Result<Ret, StdErr>
 where
     F: FnOnce(&mut Parser<Lexer<StringInput<'_>>>) -> PResult<Ret>,
 {
-    
-
     ::testing::run_test(false, |cm, handler| {
         let fm = cm
             .load_file(file_name)

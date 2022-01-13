@@ -41,7 +41,6 @@ impl UsageVisitor {
         // "web.dom.iterable"]);        }
         //        v
 
-        
         //if target.is_any_target() || target.node.is_none() {
         //    v.add(&["web.timers", "web.immediate", "web.dom.iterable"]);
         //}

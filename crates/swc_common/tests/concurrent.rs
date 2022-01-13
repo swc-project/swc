@@ -11,15 +11,12 @@ fn no_overlap() {
     let files: Vec<Lrc<SourceFile>> = (0..100000)
         .into_par_iter()
         .map(|_| {
-            
-
-            cm
-                .load_file(
-                    &PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
-                        .join("tests")
-                        .join("concurrent.js"),
-                )
-                .unwrap()
+            cm.load_file(
+                &PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
+                    .join("tests")
+                    .join("concurrent.js"),
+            )
+            .unwrap()
         })
         .collect::<Vec<_>>();
 

@@ -115,8 +115,6 @@ impl VisitMut for InlineGlobals {
                     value.visit_mut_with(self);
                     *expr = value;
                 }
-
-                
             }
 
             Expr::Unary(UnaryExpr {
@@ -144,8 +142,6 @@ impl VisitMut for InlineGlobals {
                                 kind: Default::default(),
                             }));
                         }
-
-                        
                     }
                     _ => {}
                 }
@@ -225,8 +221,6 @@ impl VisitMut for InlineGlobals {
                         value,
                     });
                 }
-
-                
             }
             _ => {}
         }

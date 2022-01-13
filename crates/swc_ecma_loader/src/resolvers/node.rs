@@ -201,11 +201,7 @@ impl NodeModulesResolver {
                 if let Some(browser) = &pkg.browser {
                     match browser {
                         Browser::Str(path) => {
-                            vec![
-                                Some(path),
-                                pkg.module.as_ref(),
-                                pkg.main.as_ref(),
-                            ]
+                            vec![Some(path), pkg.module.as_ref(), pkg.main.as_ref()]
                         }
                         Browser::Obj(map) => {
                             let bucket = BROWSER_CACHE.entry(pkg_dir.to_path_buf()).or_default();

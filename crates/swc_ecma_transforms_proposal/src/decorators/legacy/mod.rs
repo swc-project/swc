@@ -810,8 +810,6 @@ impl Legacy {
             buf
         };
 
-        
-
         self.apply(
             &cls_ident,
             if extra_exprs.is_empty() {

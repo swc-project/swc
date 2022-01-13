@@ -143,7 +143,6 @@ impl VisitMut for Inliner {
                         key: PropName::Ident(orig),
                         value: Box::new(Expr::Ident(i.clone())),
                     });
-                    
                 }
             }
             _ => {

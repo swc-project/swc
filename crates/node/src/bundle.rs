@@ -216,7 +216,9 @@ pub(crate) fn bundle(
     let alias = static_items
         .config
         .alias
-        .get(&target_env).cloned().unwrap_or_default();
+        .get(&target_env)
+        .cloned()
+        .unwrap_or_default();
 
     let resolver: Box<dyn Resolve> = if let Some((base_url, paths)) = paths {
         Box::new(paths_resolver(target_env, alias, base_url, paths))

@@ -1446,7 +1446,6 @@ impl VisitMut for SimplifyExpr {
                     }
                 {
                     *p = *a.left.take();
-                    
                 }
             }
             _ => {}

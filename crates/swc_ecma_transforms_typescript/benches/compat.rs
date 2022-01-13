@@ -21,7 +21,7 @@ fn module(cm: Lrc<SourceMap>) -> Module {
         None,
     );
     let mut parser = Parser::new_from(lexer);
-    
+
     parser.parse_module().map_err(|_| ()).unwrap()
 }
 

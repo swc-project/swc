@@ -195,7 +195,8 @@ impl Scope {
                 }))
                 .chain({
                     // We should skip if the file explicitly exports
-                    exported_names.map(|exported_names| Stmt::If(IfStmt {
+                    exported_names.map(|exported_names| {
+                        Stmt::If(IfStmt {
                             span: DUMMY_SP,
                             test: Box::new(
                                 CallExpr {
@@ -215,7 +216,8 @@ impl Scope {
                                 arg: None,
                             })),
                             alt: None,
-                        }))
+                        })
+                    })
                 })
                 .chain({
                     Some(Stmt::If(IfStmt {

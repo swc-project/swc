@@ -47,9 +47,9 @@ fn calc_cache_path(cache_dir: &Path, url: &Url) -> PathBuf {
 /// Load url. This method does caching.
 fn load_url(url: Url) -> Result<String, Error> {
     let cache_dir = current_dir()
-            .expect("the test requires an environment variable named `CARGO_MANIFEST_DIR`")
-    .join("tests")
-    .join(".cache");
+        .expect("the test requires an environment variable named `CARGO_MANIFEST_DIR`")
+        .join("tests")
+        .join(".cache");
 
     let cache_path = calc_cache_path(&cache_dir, &url).with_extension("ts");
 

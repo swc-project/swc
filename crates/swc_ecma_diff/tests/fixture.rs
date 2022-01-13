@@ -23,7 +23,6 @@ fn parse(cm: Lrc<SourceMap>, path: &Path) -> Module {
     );
 
     let mut parser = Parser::new_from(lexer);
-    
 
     parser.parse_module().unwrap()
 }
@@ -68,7 +67,7 @@ fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N]) -> String {
 
         let mut emitter = Emitter {
             cfg: swc_ecma_codegen::Config { minify: false },
-            cm: cm,
+            cm,
             comments: None,
             wr,
         };

@@ -39,7 +39,7 @@ fn print(cm: Lrc<SourceMap>, m: &Module, minify: bool) -> String {
 
         let mut emitter = Emitter {
             cfg: swc_ecma_codegen::Config { minify },
-            cm: cm,
+            cm,
             comments: None,
             wr,
         };

@@ -47,7 +47,8 @@ impl SwcLoader {
             .transform
             .as_ref()
             .and_then(|t| t.optimizer.as_ref())
-            .and_then(|o| o.globals.as_ref()).map(|g| g.envs.clone())
+            .and_then(|o| o.globals.as_ref())
+            .map(|g| g.envs.clone())
             .unwrap_or_default();
 
         let envs_map: AHashMap<_, _> = match envs {
@@ -161,7 +162,6 @@ impl SwcLoader {
                 IsModule::Bool(true),
                 true,
             )?;
-            
 
             helpers::HELPERS.set(&helpers, || {
                 HANDLER.set(handler, || {
@@ -171,7 +171,6 @@ impl SwcLoader {
                         Default::default(),
                     ));
                     let program = program.fold_with(&mut expr_simplifier(Default::default()));
-                    
 
                     program.fold_with(&mut dead_branch_remover())
                 })
@@ -188,14 +187,14 @@ impl SwcLoader {
                             jsc: JscConfig {
                                 transform: {
                                     c.jsc.transform.as_ref().map(|c| TransformConfig {
-                                            react: c.react.clone(),
-                                            const_modules: c.const_modules.clone(),
-                                            optimizer: None,
-                                            legacy_decorator: c.legacy_decorator,
-                                            decorator_metadata: c.decorator_metadata,
-                                            hidden: Default::default(),
-                                            ..Default::default()
-                                        })
+                                        react: c.react.clone(),
+                                        const_modules: c.const_modules.clone(),
+                                        optimizer: None,
+                                        legacy_decorator: c.legacy_decorator,
+                                        decorator_metadata: c.decorator_metadata,
+                                        hidden: Default::default(),
+                                        ..Default::default()
+                                    })
                                 },
                                 external_helpers: true,
                                 ..c.jsc.clone()
@@ -218,10 +217,7 @@ impl SwcLoader {
                     root_mode: Default::default(),
                     swcrc: true,
                     swcrc_roots: Default::default(),
-                    env_name: {
-                        
-                        env::var("NODE_ENV").unwrap_or_else(|_| "development".into())
-                    },
+                    env_name: { env::var("NODE_ENV").unwrap_or_else(|_| "development".into()) },
                     source_maps: None,
                     source_file_name: None,
                     source_root: None,
@@ -251,8 +247,6 @@ impl SwcLoader {
                         ));
                         let program = program.fold_with(&mut expr_simplifier(Default::default()));
                         let program = program.fold_with(&mut dead_branch_remover());
-
-                        
 
                         program.fold_with(&mut pass)
                     })

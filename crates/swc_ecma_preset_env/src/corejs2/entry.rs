@@ -109,7 +109,9 @@ impl Fold for Entry {
                                         _ => false,
                                     },
                                     _ => false,
-                                } && self.add_all("@swc/polyfill") {
+                                }
+                                && self.add_all("@swc/polyfill")
+                            {
                                 return None;
                             }
                         }

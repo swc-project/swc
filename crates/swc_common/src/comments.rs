@@ -453,8 +453,6 @@ impl Comments for SingleThreadedComments {
         let b = self.leading.borrow();
         let cmts = b.get(&pos);
 
-        
-
         if let Some(cmts) = &cmts {
             f(cmts)
         } else {
@@ -469,8 +467,6 @@ impl Comments for SingleThreadedComments {
     {
         let b = self.trailing.borrow();
         let cmts = b.get(&pos);
-
-        
 
         if let Some(cmts) = &cmts {
             f(cmts)

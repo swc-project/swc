@@ -188,7 +188,6 @@ where
     F: FnOnce(&mut Parser<Lexer<StringInput<'_>>>, &SingleThreadedComments) -> PResult<Ret>,
 {
     let fname = file_name.display().to_string();
-    
 
     ::testing::run_test(treat_error_as_bug, |cm, handler| {
         if shift {

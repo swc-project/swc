@@ -983,15 +983,12 @@ fn run(url: &str, exports: &[&str]) {
 
     ::testing::run_test2(false, |cm, _| {
         let fm = cm.load_file(&path).unwrap();
-        let loader = Loader { cm: cm };
+        let loader = Loader { cm };
         let module = loader.load(&fm.name).unwrap().module;
 
         let mut actual_exports = collect_exports(&module).into_iter().collect::<Vec<_>>();
         actual_exports.sort();
-        let mut expected_exports = exports
-            .iter()
-            .map(|s| s.to_string())
-            .collect::<Vec<_>>();
+        let mut expected_exports = exports.iter().map(|s| s.to_string()).collect::<Vec<_>>();
         expected_exports.sort();
 
         assert_eq!(expected_exports, actual_exports);
@@ -1021,8 +1018,6 @@ fn run(url: &str, exports: &[&str]) {
 }
 
 fn bundle(url: &str, minify: bool) -> String {
-    
-
     testing::run_test2(false, |cm, _handler| {
         GLOBALS.with(|globals| {
             let mut bundler = Bundler::new(

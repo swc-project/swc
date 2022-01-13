@@ -31,8 +31,6 @@ impl Builder {
             Box::new(writer)
         };
 
-        
-
         {
             let mut e = Emitter {
                 cfg: self.cfg,

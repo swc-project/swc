@@ -48,7 +48,7 @@ fn run(input: &Path, minify: bool) {
 
             let mut emitter = Emitter {
                 cfg: swc_ecma_codegen::Config { minify },
-                cm: cm,
+                cm,
                 comments: None,
                 wr,
             };

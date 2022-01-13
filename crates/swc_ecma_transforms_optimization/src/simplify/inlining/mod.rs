@@ -266,7 +266,10 @@ impl VisitMut for Inlining<'_> {
                 Expr::Assign(e @ AssignExpr { op: op!("="), .. }) => {
                     if let Some(i) = e.left.as_ident() {
                         if let Some(var) = self.scope.find_binding_from_current(&i.to_id()) {
-                            if var.is_undefined.get() && !var.is_inline_prevented() && !self.scope.is_inline_prevented(&e.right) {
+                            if var.is_undefined.get()
+                                && !var.is_inline_prevented()
+                                && !self.scope.is_inline_prevented(&e.right)
+                            {
                                 *var.value.borrow_mut() = Some(*e.right.clone());
                                 var.is_undefined.set(false);
                                 *node = *e.right.take();
@@ -345,7 +348,6 @@ impl VisitMut for Inlining<'_> {
 
                         if let Some(expr) = expr {
                             *node = expr;
-                            
                         }
                     }
                 }
@@ -461,7 +463,7 @@ impl VisitMut for Inlining<'_> {
                 Some(v) => {
                     v.visit_mut_children_with(child);
                     Some(())
-                },
+                }
             };
         })
     }
@@ -681,9 +683,7 @@ impl VisitMut for Inlining<'_> {
                             if self
                                 .scope
                                 .is_inline_prevented(&Expr::Ident(name.id.clone()))
-                                || !self
-                                    .scope
-                                    .has_same_this(&id, node.init.as_deref())
+                                || !self.scope.has_same_this(&id, node.init.as_deref())
                             {
                                 tracing::trace!("Inline is prevented for {:?}", id);
                                 return;

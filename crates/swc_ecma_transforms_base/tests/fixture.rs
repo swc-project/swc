@@ -17,10 +17,7 @@ pub fn print(cm: Lrc<SourceMap>, module: &Module) -> String {
             cfg: Default::default(),
             cm: cm.clone(),
             wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
-                cm,
-                "\n",
-                &mut buf,
-                None,
+                cm, "\n", &mut buf, None,
             )),
             comments: None,
         };

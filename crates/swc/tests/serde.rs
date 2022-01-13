@@ -8,8 +8,6 @@ fn with_parser<F, Ret>(file_name: &str, f: F) -> Result<Ret, NormalizedOutput>
 where
     F: FnOnce(&mut Parser<Lexer<StringInput>>) -> PResult<Ret>,
 {
-    
-
     ::testing::run_test(false, |cm, handler| {
         let fm = cm
             .load_file(Path::new(file_name))

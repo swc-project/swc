@@ -285,7 +285,6 @@ impl VisitMut for TreeShaker {
                     debug!("Dropping an assignment to `{}` because it's not used", id);
 
                     n.left.take();
-                    
                 }
             }
         }
@@ -301,7 +300,6 @@ impl VisitMut for TreeShaker {
                     self.changed = true;
 
                     n.take();
-                    
                 }
             }
             Decl::Class(c) => {
@@ -310,7 +308,6 @@ impl VisitMut for TreeShaker {
                     self.changed = true;
 
                     n.take();
-                    
                 }
             }
             _ => {}
@@ -387,7 +384,6 @@ impl VisitMut for TreeShaker {
                     PatOrExpr::Pat(l) => l.is_invalid(),
                 } {
                     *n = *a.right.take();
-                    
                 }
             }
             _ => {}
@@ -449,7 +445,6 @@ impl VisitMut for TreeShaker {
                     debug!("Dropping an import because it's not used");
                     self.changed = true;
                     *n = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
-                    
                 }
             }
             _ => {
@@ -541,7 +536,10 @@ impl VisitMut for TreeShaker {
                     }
                 }
 
-                if if_stmt.alt.is_empty() && if_stmt.cons.is_empty() && !if_stmt.test.may_have_side_effects() {
+                if if_stmt.alt.is_empty()
+                    && if_stmt.cons.is_empty()
+                    && !if_stmt.test.may_have_side_effects()
+                {
                     debug!("Dropping an if statement");
                     self.changed = true;
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
@@ -560,14 +558,12 @@ impl VisitMut for TreeShaker {
                     debug!("Dropping an expression without side effect");
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     self.changed = true;
-                    
                 }
             }
 
             Stmt::Decl(Decl::Var(v)) => {
                 if v.decls.is_empty() {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    
                 }
             }
 

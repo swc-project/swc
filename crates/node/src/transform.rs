@@ -101,11 +101,7 @@ pub fn transform(
         Input::Source { src }
     };
 
-    let task = TransformTask {
-        c,
-        input,
-        options,
-    };
+    let task = TransformTask { c, input, options };
     Ok(AsyncTask::with_optional_signal(task, signal))
 }
 
