@@ -22,7 +22,7 @@ impl Serialized {
             len.try_into()
                 .expect("Cannot determine size of the serialized bytes"),
         );
-        vec.extend_from_slice(&bytes);
+        vec.extend_from_slice(bytes);
         Serialized { field: vec }
     }
 
@@ -39,7 +39,7 @@ impl Serialized {
         W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
     {
         rkyv::to_bytes::<_, 512>(t)
-            .map(|v| Serialized::from(v))
+            .map(Serialized::from)
             .map_err(|err| match err {
                 rkyv::ser::serializers::CompositeSerializerError::SerializerError(e) => e.into(),
                 rkyv::ser::serializers::CompositeSerializerError::ScratchSpaceError(e) => {
