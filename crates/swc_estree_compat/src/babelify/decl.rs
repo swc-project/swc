@@ -65,7 +65,7 @@ impl Babelify for ClassDecl {
         // TODO: Verify that this implementation of class body span is correct.
         // It may need to be modified to take into account implements, super classes,
         // etc.
-        let body_span = extract_class_body_span(&self.class, &ctx);
+        let body_span = extract_class_body_span(&self.class, ctx);
         let class = self.class.babelify(ctx);
         ClassDeclaration {
             base: class.base,

@@ -30,7 +30,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
 
         let ctx = swc_estree_compat::babelify::Context {
             fm: fm.clone(),
-            cm: cm.clone(),
+            cm: cm,
             comments: SwcComments::default(),
         };
         let mut actual = flavor.with(|| {
@@ -78,7 +78,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
                 match &mut *value {
                     Value::Object(v) => {
                         if let Some("FunctionExpression") =
-                            v.get("type").and_then(|v| v.as_str()).as_deref()
+                            v.get("type").and_then(|v| v.as_str())
                         {
                             v["range"] = Value::Null;
                             v["start"] = Value::Null;
@@ -105,7 +105,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
                                     *s = s[1..s.len() - 1].to_string();
                                 } else if s.starts_with('"') && s.ends_with('"') {
                                     *s = s[1..s.len() - 1].to_string();
-                                } else if s.starts_with("/") {
+                                } else if s.starts_with('/') {
                                     // We don't need raw value of regex at the moment.
                                     *value = Value::Null;
                                 }
@@ -143,7 +143,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
             assert_eq!(DebugUsingDisplay(&actual), DebugUsingDisplay(&expected));
         }
 
-        NormalizedOutput::from(actual_str.clone())
+        NormalizedOutput::from(actual_str)
             .compare_to_file(&output_json_path)
             .unwrap();
 

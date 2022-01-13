@@ -70,7 +70,7 @@ impl Load for Loader {
         let fm = match f {
             FileName::Real(path) => {
                 tsx = path.to_string_lossy().ends_with(".tsx");
-                self.cm.load_file(&path)?
+                self.cm.load_file(path)?
             }
             _ => unreachable!(),
         };

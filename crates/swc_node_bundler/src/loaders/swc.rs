@@ -47,8 +47,7 @@ impl SwcLoader {
             .transform
             .as_ref()
             .and_then(|t| t.optimizer.as_ref())
-            .and_then(|o| o.globals.as_ref())
-            .and_then(|g| Some(g.envs.clone()))
+            .and_then(|o| o.globals.as_ref()).map(|g| g.envs.clone())
             .unwrap_or_default();
 
         let envs_map: AHashMap<_, _> = match envs {
@@ -129,7 +128,7 @@ impl SwcLoader {
             .compiler
             .cm
             .load_file(match name {
-                FileName::Real(v) => &v,
+                FileName::Real(v) => v,
                 _ => bail!("swc-loader only accepts path. Got `{}`", name),
             })
             .with_context(|| format!("failed to load file `{}`", name))?;
@@ -141,7 +140,7 @@ impl SwcLoader {
                         let module = load_json_as_module(&fm)
                             .with_context(|| format!("failed to load json file at {}", fm.name))?;
                         return Ok(ModuleData {
-                            fm: fm.clone(),
+                            fm,
                             module,
                             helpers: Default::default(),
                         });
@@ -156,27 +155,27 @@ impl SwcLoader {
         let program = if fm.name.to_string().contains("node_modules") {
             let program = self.compiler.parse_js(
                 fm.clone(),
-                &handler,
+                handler,
                 EsVersion::Es2020,
                 Default::default(),
                 IsModule::Bool(true),
                 true,
             )?;
-            let program = helpers::HELPERS.set(&helpers, || {
-                HANDLER.set(&handler, || {
+            
+
+            helpers::HELPERS.set(&helpers, || {
+                HANDLER.set(handler, || {
                     let program = program.fold_with(&mut inline_globals(
                         self.env_map(),
                         Default::default(),
                         Default::default(),
                     ));
                     let program = program.fold_with(&mut expr_simplifier(Default::default()));
-                    let program = program.fold_with(&mut dead_branch_remover());
+                    
 
-                    program
+                    program.fold_with(&mut dead_branch_remover())
                 })
-            });
-
-            program
+            })
         } else {
             let config = self.compiler.parse_js_as_input(
                 fm.clone(),
@@ -188,8 +187,7 @@ impl SwcLoader {
                         swc::config::Config {
                             jsc: JscConfig {
                                 transform: {
-                                    if let Some(c) = &c.jsc.transform {
-                                        Some(TransformConfig {
+                                    c.jsc.transform.as_ref().map(|c| TransformConfig {
                                             react: c.react.clone(),
                                             const_modules: c.const_modules.clone(),
                                             optimizer: None,
@@ -198,9 +196,6 @@ impl SwcLoader {
                                             hidden: Default::default(),
                                             ..Default::default()
                                         })
-                                    } else {
-                                        None
-                                    }
                                 },
                                 external_helpers: true,
                                 ..c.jsc.clone()
@@ -224,8 +219,8 @@ impl SwcLoader {
                     swcrc: true,
                     swcrc_roots: Default::default(),
                     env_name: {
-                        let s = env::var("NODE_ENV").unwrap_or_else(|_| "development".into());
-                        s
+                        
+                        env::var("NODE_ENV").unwrap_or_else(|_| "development".into())
                     },
                     source_maps: None,
                     source_file_name: None,
@@ -257,9 +252,9 @@ impl SwcLoader {
                         let program = program.fold_with(&mut expr_simplifier(Default::default()));
                         let program = program.fold_with(&mut dead_branch_remover());
 
-                        let program = program.fold_with(&mut pass);
+                        
 
-                        program
+                        program.fold_with(&mut pass)
                     })
                 })
             } else {
@@ -294,7 +289,7 @@ impl SwcLoader {
 impl Load for SwcLoader {
     fn load(&self, name: &FileName) -> Result<ModuleData, Error> {
         try_with_handler(self.compiler.cm.clone(), false, |handler| {
-            self.load_with_handler(&handler, name)
+            self.load_with_handler(handler, name)
         })
     }
 }

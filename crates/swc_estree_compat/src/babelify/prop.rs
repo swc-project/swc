@@ -118,7 +118,7 @@ impl Babelify for MethodProp {
         ObjectMethod {
             base: func.base,
             kind: ObjectMethodKind::Method,
-            key: self.key.babelify(ctx).into(),
+            key: self.key.babelify(ctx),
             params: func.params,
             body: func.body,
             computed: Default::default(),
