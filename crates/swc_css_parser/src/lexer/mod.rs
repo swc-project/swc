@@ -143,15 +143,13 @@ where
                     }
                 }
 
-                return Ok(Token::WhiteSpace {
+                Ok(Token::WhiteSpace {
                     value: value.into(),
-                });
+                })
             }
             // U+0022 QUOTATION MARK (")
             // Consume a string token and return it.
-            Some('"') => {
-                return self.read_str(None);
-            }
+            Some('"') => self.read_str(None),
             // U+0023 NUMBER SIGN (#)
             Some('#') => {
                 let first = self.next();
@@ -204,23 +202,17 @@ where
                     return Ok(hash_token);
                 }
 
-                return Ok(Token::Delim { value: '#' });
+                Ok(Token::Delim { value: '#' })
             }
             // U+0027 APOSTROPHE (')
             // Consume a string token and return it.
-            Some('\'') => {
-                return self.read_str(None);
-            }
+            Some('\'') => self.read_str(None),
             // U+0028 LEFT PARENTHESIS (()
             // Return a <(-token>.
-            Some('(') => {
-                return Ok(tok!("("));
-            }
+            Some('(') => Ok(tok!("(")),
             // U+0029 RIGHT PARENTHESIS ())
             // Return a <)-token>.
-            Some(')') => {
-                return Ok(tok!(")"));
-            }
+            Some(')') => Ok(tok!(")")),
             // U+002B PLUS SIGN (+)
             Some('+') => {
                 // If the input stream starts with a number, reconsume the current input code
@@ -233,13 +225,11 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                return Ok(Token::Delim { value: '+' });
+                Ok(Token::Delim { value: '+' })
             }
             // U+002C COMMA (,)
             // Return a <comma-token>.
-            Some(',') => {
-                return Ok(tok!(","));
-            }
+            Some(',') => Ok(tok!(",")),
             // U+002D HYPHEN-MINUS (-)
             Some('-') => {
                 // If the input stream starts with a number, reconsume the current input code
@@ -267,7 +257,7 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                return Ok(Token::Delim { value: '-' });
+                Ok(Token::Delim { value: '-' })
             }
             // U+002E FULL STOP (.)
             Some('.') => {
@@ -281,18 +271,14 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                return Ok(Token::Delim { value: '.' });
+                Ok(Token::Delim { value: '.' })
             }
             // U+003A COLON (:)
             // Return a <colon-token>.
-            Some(':') => {
-                return Ok(tok!(":"));
-            }
+            Some(':') => Ok(tok!(":")),
             // U+003B SEMICOLON (;)
             // Return a <semicolon-token>.
-            Some(';') => {
-                return Ok(tok!(";"));
-            }
+            Some(';') => Ok(tok!(";")),
             // U+003C LESS-THAN SIGN (<)
             Some('<') => {
                 // If the next 3 input code points are U+0021 EXCLAMATION MARK U+002D
@@ -311,7 +297,7 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                return Ok(Token::Delim { value: '<' });
+                Ok(Token::Delim { value: '<' })
             }
             // U+0040 COMMERCIAL AT (@)
             Some('@') => {
@@ -333,13 +319,11 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                return Ok(Token::Delim { value: '@' });
+                Ok(Token::Delim { value: '@' })
             }
             // U+005B LEFT SQUARE BRACKET ([)
             // Return a <[-token>.
-            Some('[') => {
-                return Ok(tok!("["));
-            }
+            Some('[') => Ok(tok!("[")),
             // U+005C REVERSE SOLIDUS (\)
             Some('\\') => {
                 // If the input stream starts with a valid escape, reconsume the current input
@@ -352,48 +336,40 @@ where
 
                 // Otherwise, this is a parse error. Return a <delim-token> with its value set
                 // to the current input code point.
-                return Ok(Token::Delim { value: '\\' });
+                Ok(Token::Delim { value: '\\' })
             }
             // U+005D RIGHT SQUARE BRACKET (])
             // Return a <]-token>.
-            Some(']') => {
-                return Ok(tok!("]"));
-            }
+            Some(']') => Ok(tok!("]")),
             // U+007B LEFT CURLY BRACKET ({)
             // Return a <{-token>.
-            Some('{') => {
-                return Ok(tok!("{"));
-            }
+            Some('{') => Ok(tok!("{")),
             // U+007D RIGHT CURLY BRACKET (})
             // Return a <}-token>.
-            Some('}') => {
-                return Ok(tok!("}"));
-            }
+            Some('}') => Ok(tok!("}")),
             // digit
             // Reconsume the current input code point, consume a numeric token, and return it.
             Some('0'..='9') => {
                 self.reconsume();
 
-                return self.read_numeric();
+                self.read_numeric()
             }
             // name-start code point
             // Reconsume the current input code point, consume an ident-like token, and return it.
             Some(c) if is_name_start(c) => {
                 self.reconsume();
 
-                return self.read_ident_like();
+                self.read_ident_like()
             }
             // EOF
             // Return an <EOF-token>.
             None => {
                 // TODO: Return an <EOF-token>.
-                return Err(ErrorKind::Eof);
+                Err(ErrorKind::Eof)
             }
             // anything else
             // Return a <delim-token> with its value set to the current input code point.
-            Some(c) => {
-                return Ok(Token::Delim { value: c });
-            }
+            Some(c) => Ok(Token::Delim { value: c }),
         }
     }
 

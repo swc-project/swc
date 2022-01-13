@@ -448,10 +448,9 @@ where
                         }
                     }
 
-                    export.specifiers.retain(|s| match s {
-                        ExportSpecifier::Namespace(_) => false,
-                        _ => true,
-                    });
+                    export
+                        .specifiers
+                        .retain(|s| !matches!(s, ExportSpecifier::Namespace(_)));
 
                     export.src = None;
                 }
