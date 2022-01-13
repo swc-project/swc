@@ -70,6 +70,7 @@ Plugins are written in rust, and built as native libraries for each platforms. S
 -   Good, because [argument a]
 -   Good, because [argument b]
 -   Bad, because `@swc/wasm` has no way to support plugins.
+-   Bad, because `wasmtime` does not support all platforms.
 -   Bad, because [argument c]
 -   … <!-- numbers of pros and cons can vary -->
 
@@ -83,6 +84,7 @@ SWC embeds web assembly runtime (https://wasmer.io/), loads plugin built as web 
 -   Good, because [argument b]
 -   Good, because in future `@swc/wasm` can support plugins as `wasmer` officially supports using it within a wasm file.
 -   Bad, because [argument c]
+-   Bad, because `wasmer` does not support all platforms.
 -   … <!-- numbers of pros and cons can vary -->
 
 ## Links
