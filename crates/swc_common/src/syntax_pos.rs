@@ -726,11 +726,7 @@ impl SourceFile {
         }
 
         let begin = {
-            let line = if let Some(line) = self.lines.get(line_number) {
-                line
-            } else {
-                return None;
-            };
+            let line = self.lines.get(line_number)?;
             let begin: BytePos = *line - self.start_pos;
             begin.to_usize()
         };
@@ -788,7 +784,7 @@ impl SourceFile {
 
 /// Remove utf-8 BOM if any.
 fn remove_bom(src: &mut String) {
-    if src.starts_with("\u{feff}") {
+    if src.starts_with('\u{feff}') {
         src.drain(..3);
     }
 }

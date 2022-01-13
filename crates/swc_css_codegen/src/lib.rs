@@ -502,7 +502,7 @@ where
         punct!(self, "[");
 
         if let Some(values) = &n.children {
-            self.emit_list(&values, ListFormat::SpaceDelimited)?;
+            self.emit_list(values, ListFormat::SpaceDelimited)?;
         }
 
         punct!(self, "]");
@@ -513,7 +513,7 @@ where
         punct!(self, "(");
 
         if let Some(values) = &n.children {
-            self.emit_list(&values, ListFormat::CommaDelimited)?;
+            self.emit_list(values, ListFormat::CommaDelimited)?;
         }
 
         punct!(self, ")");
@@ -543,7 +543,7 @@ where
             match token {
                 Token::AtKeyword { raw, .. } => {
                     punct!(self, span, "@");
-                    self.wr.write_raw(Some(n.span), &raw)?;
+                    self.wr.write_raw(Some(n.span), raw)?;
                 }
                 Token::Delim { value } => {
                     self.wr.write_raw_char(Some(n.span), *value)?;
@@ -572,32 +572,32 @@ where
                     raw_unit,
                     ..
                 } => {
-                    self.wr.write_raw(Some(span), &raw_value)?;
-                    self.wr.write_raw(Some(span), &raw_unit)?;
+                    self.wr.write_raw(Some(span), raw_value)?;
+                    self.wr.write_raw(Some(span), raw_unit)?;
                 }
                 Token::Ident { raw, .. } => {
-                    self.wr.write_raw(Some(n.span), &raw)?;
+                    self.wr.write_raw(Some(n.span), raw)?;
                 }
                 Token::Function { raw, .. } => {
-                    self.wr.write_raw(Some(n.span), &raw)?;
+                    self.wr.write_raw(Some(n.span), raw)?;
                     punct!(self, "(");
                 }
                 Token::BadStr { raw, .. } => {
-                    self.wr.write_raw(Some(span), &raw)?;
+                    self.wr.write_raw(Some(span), raw)?;
                 }
                 Token::Str { raw, .. } => {
-                    self.wr.write_raw(Some(span), &raw)?;
+                    self.wr.write_raw(Some(span), raw)?;
                 }
                 Token::Url { raw, .. } => {
                     self.wr.write_raw(Some(span), "url")?;
                     punct!(self, "(");
-                    self.wr.write_raw(None, &raw)?;
+                    self.wr.write_raw(None, raw)?;
                     punct!(self, ")");
                 }
                 Token::BadUrl { raw, .. } => {
                     self.wr.write_raw(Some(span), "url")?;
                     punct!(self, "(");
-                    self.wr.write_raw(None, &raw)?;
+                    self.wr.write_raw(None, raw)?;
                     punct!(self, ")");
                 }
                 Token::Comma => {
@@ -617,10 +617,10 @@ where
                 }
                 Token::Hash { raw, .. } => {
                     punct!(self, "#");
-                    self.wr.write_raw(Some(span), &raw)?;
+                    self.wr.write_raw(Some(span), raw)?;
                 }
                 Token::WhiteSpace { value, .. } => {
-                    self.wr.write_raw(None, &value)?;
+                    self.wr.write_raw(None, value)?;
                 }
                 Token::CDC => {
                     punct!(self, span, "-->");
