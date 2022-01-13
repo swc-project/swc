@@ -423,7 +423,7 @@ where
             let value = v.as_str();
             return ImportDecl {
                 src: Str {
-                    value: if value.starts_with(".") {
+                    value: if value.starts_with('.') {
                         value.into()
                     } else {
                         format!("./{}", value).into()

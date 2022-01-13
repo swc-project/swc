@@ -172,7 +172,7 @@ where
                     }
                 });
 
-                return;
+                
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(_decl)) => {
@@ -185,7 +185,7 @@ where
                         alias: None,
                     });
 
-                return;
+                
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(_expr)) => {
@@ -198,7 +198,7 @@ where
                         alias: None,
                     });
 
-                return;
+                
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(named)) => {
@@ -284,7 +284,7 @@ where
                     self.mark_as_wrapping_required(&named.src.as_ref().unwrap().value);
                 }
 
-                return;
+                
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportAll(all)) => {
