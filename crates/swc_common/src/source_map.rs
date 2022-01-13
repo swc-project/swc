@@ -1256,10 +1256,10 @@ pub trait SourceMapGenConfig {
 
     /// You can override this to control `sourceContents`.
     fn inline_sources_content(&self, f: &FileName) -> bool {
-        match f {
-            FileName::Real(..) | FileName::Custom(..) | FileName::Url(..) => false,
-            _ => true,
-        }
+        !matches!(
+            f,
+            FileName::Real(..) | FileName::Custom(..) | FileName::Url(..)
+        )
     }
 }
 
