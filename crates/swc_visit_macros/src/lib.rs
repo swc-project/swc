@@ -106,7 +106,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         let sig = create_method_sig(mode, ty);
         let name = sig.ident.clone();
         let s = name.to_string();
-        if methods.iter().any(|m| m.sig.ident == &*s) {
+        if methods.iter().any(|m| m.sig.ident == *s) {
             continue;
         }
 
