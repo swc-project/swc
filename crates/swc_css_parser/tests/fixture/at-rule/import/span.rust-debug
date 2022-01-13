@@ -6,9 +6,9 @@ error: Stylesheet
 3  | | @import url(./style.css);
 4  | | @import './style.css';
 ...  |
-10 | | @import "common.css" screen;
-11 | | @import url('landscape.css') screen and (orientation:landscape);
-   | |_________________________________________________________________^
+18 | | @import url("override.css") layer();
+19 | | /*@import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);*/
+   | |_
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/import/input.css:1:1
@@ -495,4 +495,370 @@ error: Ident
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |                                                      ^^^^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/import/input.css:12:1
+   |
+12 | @import url("theme.css") layer;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:12:1
+   |
+12 | @import url("theme.css") layer;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:12:1
+   |
+12 | @import url("theme.css") layer;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportSource
+  --> $DIR/tests/fixture/at-rule/import/input.css:12:9
+   |
+12 | @import url("theme.css") layer;
+   |         ^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/at-rule/import/input.css:12:9
+   |
+12 | @import url("theme.css") layer;
+   |         ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:12:9
+   |
+12 | @import url("theme.css") layer;
+   |         ^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/import/input.css:12:13
+   |
+12 | @import url("theme.css") layer;
+   |             ^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/import/input.css:12:13
+   |
+12 | @import url("theme.css") layer;
+   |             ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:12:26
+   |
+12 | @import url("theme.css") layer;
+   |                          ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/import/input.css:13:1
+   |
+13 | @import url("theme.css") layer   ;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:13:1
+   |
+13 | @import url("theme.css") layer   ;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:13:1
+   |
+13 | @import url("theme.css") layer   ;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportSource
+  --> $DIR/tests/fixture/at-rule/import/input.css:13:9
+   |
+13 | @import url("theme.css") layer   ;
+   |         ^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/at-rule/import/input.css:13:9
+   |
+13 | @import url("theme.css") layer   ;
+   |         ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:13:9
+   |
+13 | @import url("theme.css") layer   ;
+   |         ^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/import/input.css:13:13
+   |
+13 | @import url("theme.css") layer   ;
+   |             ^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/import/input.css:13:13
+   |
+13 | @import url("theme.css") layer   ;
+   |             ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:13:26
+   |
+13 | @import url("theme.css") layer   ;
+   |                          ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/import/input.css:14:1
+   |
+14 | @import url("theme.css") LAYER;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:14:1
+   |
+14 | @import url("theme.css") LAYER;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:14:1
+   |
+14 | @import url("theme.css") LAYER;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportSource
+  --> $DIR/tests/fixture/at-rule/import/input.css:14:9
+   |
+14 | @import url("theme.css") LAYER;
+   |         ^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/at-rule/import/input.css:14:9
+   |
+14 | @import url("theme.css") LAYER;
+   |         ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:14:9
+   |
+14 | @import url("theme.css") LAYER;
+   |         ^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/import/input.css:14:13
+   |
+14 | @import url("theme.css") LAYER;
+   |             ^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/import/input.css:14:13
+   |
+14 | @import url("theme.css") LAYER;
+   |             ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:14:26
+   |
+14 | @import url("theme.css") LAYER;
+   |                          ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/import/input.css:15:1
+   |
+15 | @import url("theme.css") layer(default);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:15:1
+   |
+15 | @import url("theme.css") layer(default);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:15:1
+   |
+15 | @import url("theme.css") layer(default);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportSource
+  --> $DIR/tests/fixture/at-rule/import/input.css:15:9
+   |
+15 | @import url("theme.css") layer(default);
+   |         ^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/at-rule/import/input.css:15:9
+   |
+15 | @import url("theme.css") layer(default);
+   |         ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:15:9
+   |
+15 | @import url("theme.css") layer(default);
+   |         ^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/import/input.css:15:13
+   |
+15 | @import url("theme.css") layer(default);
+   |             ^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/import/input.css:15:13
+   |
+15 | @import url("theme.css") layer(default);
+   |             ^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/at-rule/import/input.css:15:26
+   |
+15 | @import url("theme.css") layer(default);
+   |                          ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:15:26
+   |
+15 | @import url("theme.css") layer(default);
+   |                          ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/import/input.css:15:32
+   |
+15 | @import url("theme.css") layer(default);
+   |                                ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:15:32
+   |
+15 | @import url("theme.css") layer(default);
+   |                                ^^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/import/input.css:16:1
+   |
+16 | @import url("theme.css") LAYER(default);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:16:1
+   |
+16 | @import url("theme.css") LAYER(default);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:16:1
+   |
+16 | @import url("theme.css") LAYER(default);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportSource
+  --> $DIR/tests/fixture/at-rule/import/input.css:16:9
+   |
+16 | @import url("theme.css") LAYER(default);
+   |         ^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/at-rule/import/input.css:16:9
+   |
+16 | @import url("theme.css") LAYER(default);
+   |         ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:16:9
+   |
+16 | @import url("theme.css") LAYER(default);
+   |         ^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/import/input.css:16:13
+   |
+16 | @import url("theme.css") LAYER(default);
+   |             ^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/import/input.css:16:13
+   |
+16 | @import url("theme.css") LAYER(default);
+   |             ^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/at-rule/import/input.css:16:26
+   |
+16 | @import url("theme.css") LAYER(default);
+   |                          ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:16:26
+   |
+16 | @import url("theme.css") LAYER(default);
+   |                          ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/import/input.css:16:32
+   |
+16 | @import url("theme.css") LAYER(default);
+   |                                ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:16:32
+   |
+16 | @import url("theme.css") LAYER(default);
+   |                                ^^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/import/input.css:18:1
+   |
+18 | @import url("override.css") layer();
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:18:1
+   |
+18 | @import url("override.css") layer();
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:18:1
+   |
+18 | @import url("override.css") layer();
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportSource
+  --> $DIR/tests/fixture/at-rule/import/input.css:18:9
+   |
+18 | @import url("override.css") layer();
+   |         ^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/at-rule/import/input.css:18:9
+   |
+18 | @import url("override.css") layer();
+   |         ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:18:9
+   |
+18 | @import url("override.css") layer();
+   |         ^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/import/input.css:18:13
+   |
+18 | @import url("override.css") layer();
+   |             ^^^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/import/input.css:18:13
+   |
+18 | @import url("override.css") layer();
+   |             ^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/at-rule/import/input.css:18:29
+   |
+18 | @import url("override.css") layer();
+   |                             ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:18:29
+   |
+18 | @import url("override.css") layer();
+   |                             ^^^^^
 

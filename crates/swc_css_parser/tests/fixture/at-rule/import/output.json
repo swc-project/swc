@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 323,
+    "end": 597,
     "ctxt": 0
   },
   "rules": [
@@ -43,6 +43,7 @@
           }
         ]
       },
+      "layerName": null,
       "condition": null
     },
     {
@@ -82,6 +83,7 @@
           }
         ]
       },
+      "layerName": null,
       "condition": null
     },
     {
@@ -101,6 +103,7 @@
         "url": "./style.css",
         "raw": "./style.css"
       },
+      "layerName": null,
       "condition": null
     },
     {
@@ -120,6 +123,7 @@
         "value": "./style.css",
         "raw": "'./style.css'"
       },
+      "layerName": null,
       "condition": null
     },
     {
@@ -139,6 +143,7 @@
         "value": "./style.css",
         "raw": "\"./style.css\""
       },
+      "layerName": null,
       "condition": null
     },
     {
@@ -178,6 +183,7 @@
           }
         ]
       },
+      "layerName": null,
       "condition": null
     },
     {
@@ -197,6 +203,7 @@
         "url": "./style.css",
         "raw": "./style.css"
       },
+      "layerName": null,
       "condition": null
     },
     {
@@ -236,6 +243,7 @@
           }
         ]
       },
+      "layerName": null,
       "condition": null
     },
     {
@@ -255,6 +263,7 @@
         "value": "test.css",
         "raw": "\"test.css\""
       },
+      "layerName": null,
       "condition": null
     },
     {
@@ -274,6 +283,7 @@
         "value": "common.css",
         "raw": "\"common.css\""
       },
+      "layerName": null,
       "condition": {
         "type": "Identifier",
         "span": {
@@ -322,6 +332,7 @@
           }
         ]
       },
+      "layerName": null,
       "condition": {
         "type": "AndMediaQuery",
         "span": {
@@ -371,6 +382,349 @@
           "important": null
         }
       }
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 323,
+        "end": 354,
+        "ctxt": 0
+      },
+      "src": {
+        "type": "Function",
+        "span": {
+          "start": 331,
+          "end": 347,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 331,
+            "end": 334,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "value": [
+          {
+            "type": "String",
+            "span": {
+              "start": 335,
+              "end": 346,
+              "ctxt": 0
+            },
+            "value": "theme.css",
+            "raw": "\"theme.css\""
+          }
+        ]
+      },
+      "layerName": {
+        "type": "Identifier",
+        "span": {
+          "start": 348,
+          "end": 353,
+          "ctxt": 0
+        },
+        "value": "layer",
+        "raw": "layer"
+      },
+      "condition": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 355,
+        "end": 389,
+        "ctxt": 0
+      },
+      "src": {
+        "type": "Function",
+        "span": {
+          "start": 363,
+          "end": 379,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 363,
+            "end": 366,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "value": [
+          {
+            "type": "String",
+            "span": {
+              "start": 367,
+              "end": 378,
+              "ctxt": 0
+            },
+            "value": "theme.css",
+            "raw": "\"theme.css\""
+          }
+        ]
+      },
+      "layerName": {
+        "type": "Identifier",
+        "span": {
+          "start": 380,
+          "end": 385,
+          "ctxt": 0
+        },
+        "value": "layer",
+        "raw": "layer"
+      },
+      "condition": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 390,
+        "end": 421,
+        "ctxt": 0
+      },
+      "src": {
+        "type": "Function",
+        "span": {
+          "start": 398,
+          "end": 414,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 398,
+            "end": 401,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "value": [
+          {
+            "type": "String",
+            "span": {
+              "start": 402,
+              "end": 413,
+              "ctxt": 0
+            },
+            "value": "theme.css",
+            "raw": "\"theme.css\""
+          }
+        ]
+      },
+      "layerName": {
+        "type": "Identifier",
+        "span": {
+          "start": 415,
+          "end": 420,
+          "ctxt": 0
+        },
+        "value": "LAYER",
+        "raw": "LAYER"
+      },
+      "condition": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 422,
+        "end": 462,
+        "ctxt": 0
+      },
+      "src": {
+        "type": "Function",
+        "span": {
+          "start": 430,
+          "end": 446,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 430,
+            "end": 433,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "value": [
+          {
+            "type": "String",
+            "span": {
+              "start": 434,
+              "end": 445,
+              "ctxt": 0
+            },
+            "value": "theme.css",
+            "raw": "\"theme.css\""
+          }
+        ]
+      },
+      "layerName": {
+        "type": "Function",
+        "span": {
+          "start": 447,
+          "end": 461,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 447,
+            "end": 452,
+            "ctxt": 0
+          },
+          "value": "layer",
+          "raw": "layer"
+        },
+        "value": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 453,
+              "end": 460,
+              "ctxt": 0
+            },
+            "value": "default",
+            "raw": "default"
+          }
+        ]
+      },
+      "condition": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 463,
+        "end": 503,
+        "ctxt": 0
+      },
+      "src": {
+        "type": "Function",
+        "span": {
+          "start": 471,
+          "end": 487,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 471,
+            "end": 474,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "value": [
+          {
+            "type": "String",
+            "span": {
+              "start": 475,
+              "end": 486,
+              "ctxt": 0
+            },
+            "value": "theme.css",
+            "raw": "\"theme.css\""
+          }
+        ]
+      },
+      "layerName": {
+        "type": "Function",
+        "span": {
+          "start": 488,
+          "end": 502,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 488,
+            "end": 493,
+            "ctxt": 0
+          },
+          "value": "LAYER",
+          "raw": "LAYER"
+        },
+        "value": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 494,
+              "end": 501,
+              "ctxt": 0
+            },
+            "value": "default",
+            "raw": "default"
+          }
+        ]
+      },
+      "condition": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 560,
+        "end": 596,
+        "ctxt": 0
+      },
+      "src": {
+        "type": "Function",
+        "span": {
+          "start": 568,
+          "end": 587,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 568,
+            "end": 571,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "value": [
+          {
+            "type": "String",
+            "span": {
+              "start": 572,
+              "end": 586,
+              "ctxt": 0
+            },
+            "value": "override.css",
+            "raw": "\"override.css\""
+          }
+        ]
+      },
+      "layerName": {
+        "type": "Function",
+        "span": {
+          "start": 588,
+          "end": 595,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 588,
+            "end": 593,
+            "ctxt": 0
+          },
+          "value": "layer",
+          "raw": "layer"
+        },
+        "value": []
+      },
+      "condition": null
     }
   ]
 }

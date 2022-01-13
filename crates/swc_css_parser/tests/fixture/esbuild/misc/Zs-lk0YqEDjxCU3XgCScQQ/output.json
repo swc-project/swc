@@ -23,6 +23,7 @@
         "value": "foo.css",
         "raw": "\"foo.css\""
       },
+      "layerName": null,
       "condition": null
     }
   ]

@@ -23,6 +23,7 @@
         "value": "something.css",
         "raw": "\"something.css\""
       },
+      "layerName": null,
       "condition": null
     },
     {
@@ -62,6 +63,7 @@
           }
         ]
       },
+      "layerName": null,
       "condition": null
     }
   ]

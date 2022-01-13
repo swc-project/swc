@@ -43,6 +43,7 @@
           }
         ]
       },
+      "layerName": null,
       "condition": {
         "type": "Identifier",
         "span": {

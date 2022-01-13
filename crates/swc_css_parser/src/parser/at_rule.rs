@@ -292,6 +292,24 @@ where
 
         self.input.skip_ws()?;
 
+        let layer_name = match cur!(self) {
+            Token::Ident { value, .. } if *value.to_ascii_lowercase() == *"layer" => {
+                let name = ImportLayerName::Ident(self.parse()?);
+        
+                self.input.skip_ws()?;
+        
+                Some(name)
+            }
+            Token::Function { value, .. } if *value.to_ascii_lowercase() == *"layer" => {
+                let name = ImportLayerName::Function(self.parse()?);
+        
+                self.input.skip_ws()?;
+        
+                Some(name)
+            },
+            _ => None,
+        };
+
         let condition = if !is_one_of!(self, ";", EOF) {
             Some(self.parse()?)
         } else {
@@ -303,6 +321,7 @@ where
         Ok(ImportRule {
             span: span!(self, span.lo),
             src: src.unwrap(),
+            layer_name,
             condition,
         })
     }

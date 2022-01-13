@@ -340,10 +340,16 @@ define!({
         Url(UrlValue),
         Str(Str),
     }
+    
+    pub enum ImportLayerName {
+        Ident(Ident),
+        Function(Function),
+    }
 
     pub struct ImportRule {
         pub span: Span,
         pub src: ImportSource,
+        pub layer_name: Option<ImportLayerName>,
         pub condition: Option<MediaQuery>,
     }
 
