@@ -3,4 +3,4 @@ const foo = async (x, y, ...z) => {
 };
 
 console.log(foo.length)
-console.log(typeof foo(1, 2, 3) === 'function')
+console.log(foo(1, 2, 3))
