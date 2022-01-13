@@ -46,12 +46,10 @@ fn calc_cache_path(cache_dir: &Path, url: &Url) -> PathBuf {
 
 /// Load url. This method does caching.
 fn load_url(url: Url) -> Result<String, Error> {
-    let cache_dir = PathBuf::from(
-        current_dir()
-            .expect("the test requires an environment variable named `CARGO_MANIFEST_DIR`"),
-    )
-    .join("tests")
-    .join(".cache");
+    let cache_dir = current_dir()
+        .expect("the test requires an environment variable named `CARGO_MANIFEST_DIR`")
+        .join("tests")
+        .join(".cache");
 
     let cache_path = calc_cache_path(&cache_dir, &url).with_extension("ts");
 
@@ -94,7 +92,7 @@ impl Load for Loader {
         let fm = match f {
             FileName::Real(path) => {
                 tsx = path.to_string_lossy().ends_with(".tsx");
-                self.cm.load_file(&path)?
+                self.cm.load_file(path)?
             }
             FileName::Custom(url) => {
                 tsx = url.ends_with(".tsx");
@@ -106,7 +104,7 @@ impl Load for Loader {
                 let src = load_url(url.clone())?;
 
                 self.cm
-                    .new_source_file(FileName::Custom(url.to_string()), src.to_string())
+                    .new_source_file(FileName::Custom(url.to_string()), src)
             }
             _ => unreachable!(),
         };
@@ -273,7 +271,7 @@ impl Resolve for NodeResolver {
         let base = match base {
             FileName::Real(v) => v,
             FileName::Custom(base_url) => {
-                let base_url = Url::parse(&base_url).context("failed to parse url")?;
+                let base_url = Url::parse(base_url).context("failed to parse url")?;
 
                 let options = Url::options();
                 let base_url = options.base_url(Some(&base_url));
@@ -287,7 +285,7 @@ impl Resolve for NodeResolver {
         };
 
         // Absolute path
-        if target.starts_with("/") {
+        if target.starts_with('/') {
             let base_dir = &Path::new("/");
 
             let path = base_dir.join(target);
@@ -298,7 +296,7 @@ impl Resolve for NodeResolver {
         }
 
         let cwd = &Path::new(".");
-        let mut base_dir = base.parent().unwrap_or(&cwd);
+        let mut base_dir = base.parent().unwrap_or(cwd);
 
         if target.starts_with("./") || target.starts_with("../") {
             let win_target;

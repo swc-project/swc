@@ -133,7 +133,10 @@ impl<'a> HookRegister<'a> {
                 HookCall::Member(Expr::Ident(ident), _) => Some(ident),
                 _ => None,
             };
-            if let None = ident.and_then(|id| self.scope_binding.get(&id.sym)) {
+            if ident
+                .and_then(|id| self.scope_binding.get(&id.sym))
+                .is_none()
+            {
                 // We don't have anything to put in the array because Hook is out of scope.
                 // Since it could potentially have been edited, remount the component.
                 should_reset = true;
@@ -142,7 +145,7 @@ impl<'a> HookRegister<'a> {
             }
         }
 
-        if should_reset || custom_hook_in_scope.len() > 0 {
+        if should_reset || !custom_hook_in_scope.is_empty() {
             args.push(
                 Expr::Lit(Lit::Bool(Bool {
                     span: DUMMY_SP,
@@ -152,7 +155,7 @@ impl<'a> HookRegister<'a> {
             );
         }
 
-        if custom_hook_in_scope.len() > 0 {
+        if !custom_hook_in_scope.is_empty() {
             let elems = custom_hook_in_scope
                 .into_iter()
                 .map(|hook| {
@@ -241,7 +244,7 @@ impl<'a> VisitMut for HookRegister<'a> {
             b.stmts.append(&mut self.extra_stmt);
         }
 
-        if self.ident.len() > 0 {
+        if !self.ident.is_empty() {
             b.stmts.insert(0, self.gen_hook_handle())
         }
 
@@ -352,7 +355,7 @@ fn collect_hooks(stmts: &mut Vec<Stmt>, cm: &SourceMap) -> Option<HookSig> {
 
     stmts.visit_with(&mut hook);
 
-    if hook.state.len() > 0 {
+    if !hook.state.is_empty() {
         let sig = HookSig::new(hook.state);
         stmts.insert(0, make_call_stmt(sig.handle.clone()));
 
@@ -373,7 +376,7 @@ fn collect_hooks_arrow(body: &mut BlockStmtOrExpr, cm: &SourceMap) -> Option<Hoo
 
             expr.visit_with(&mut hook);
 
-            if hook.state.len() > 0 {
+            if !hook.state.is_empty() {
                 let sig = HookSig::new(hook.state);
                 *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                     span: expr.span(),
@@ -436,7 +439,7 @@ impl<'a> HookCollector<'a> {
             String::new()
         };
         // Some built-in Hooks reset on edits to arguments.
-        if &name.sym == "useState" && expr.args.len() > 0 {
+        if &name.sym == "useState" && !expr.args.is_empty() {
             // useState first argument is initial state.
             key += &format!(
                 "({})",

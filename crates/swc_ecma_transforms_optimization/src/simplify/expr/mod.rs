@@ -134,7 +134,7 @@ impl SimplifyExpr {
                         *undefined(span)
                     } else {
                         Expr::Lit(Lit::Str(Str {
-                            value: nth_char(&value, idx as _).into(),
+                            value: nth_char(value, idx as _).into(),
                             span,
                             has_escape: false,
                             kind: Default::default(),
@@ -554,7 +554,7 @@ impl SimplifyExpr {
                             op: op!("void"),
                             ref arg,
                             ..
-                        }) => is_non_obj(&arg),
+                        }) => is_non_obj(arg),
                         _ => false,
                     }
                 }
@@ -611,7 +611,7 @@ impl SimplifyExpr {
 
                     // only the lower 5 bits are used when shifting, so don't do anything
                     // if the shift amount is outside [0,32)
-                    if !(rv >= 0.0 && rv < 32.0) {
+                    if !(0.0..32.0).contains(&rv) {
                         return Unknown;
                     }
 
@@ -1189,31 +1189,29 @@ impl VisitMut for SimplifyExpr {
                         let mut expr = seq.exprs.take().into_iter().next().unwrap();
                         expr.visit_mut_with(self);
                         *e = expr;
-                    } else {
-                        if let Some(
-                            Expr::Member(..)
-                            | Expr::Ident(Ident {
-                                sym: js_word!("eval"),
-                                ..
-                            }),
-                        ) = seq.exprs.last().map(|v| &**v)
-                        {
-                            match seq.exprs.get(0).map(|v| &**v) {
-                                Some(Expr::Lit(..) | Expr::Ident(..)) => {}
-                                _ => {
-                                    tracing::debug!("Injecting `0` to preserve `this = undefined`");
-                                    seq.exprs.insert(
-                                        0,
-                                        Box::new(Expr::Lit(Lit::Num(Number {
-                                            span: DUMMY_SP,
-                                            value: 0.0,
-                                        }))),
-                                    );
-                                }
+                    } else if let Some(
+                        Expr::Member(..)
+                        | Expr::Ident(Ident {
+                            sym: js_word!("eval"),
+                            ..
+                        }),
+                    ) = seq.exprs.last().map(|v| &**v)
+                    {
+                        match seq.exprs.get(0).map(|v| &**v) {
+                            Some(Expr::Lit(..) | Expr::Ident(..)) => {}
+                            _ => {
+                                tracing::debug!("Injecting `0` to preserve `this = undefined`");
+                                seq.exprs.insert(
+                                    0,
+                                    Box::new(Expr::Lit(Lit::Num(Number {
+                                        span: DUMMY_SP,
+                                        value: 0.0,
+                                    }))),
+                                );
                             }
-
-                            seq.visit_mut_with(self);
                         }
+
+                        seq.visit_mut_with(self);
                     }
                 }
                 _ => {
@@ -1378,7 +1376,7 @@ impl VisitMut for SimplifyExpr {
                         unreachable!()
                     }
 
-                    return NewExpr { ..e }.into();
+                    NewExpr { ..e }.into()
                 }
 
                 // be conservative.
@@ -1448,7 +1446,6 @@ impl VisitMut for SimplifyExpr {
                     }
                 {
                     *p = *a.left.take();
-                    return;
                 }
             }
             _ => {}
@@ -1507,7 +1504,7 @@ impl VisitMut for SimplifyExpr {
                     });
 
                     if is_simple {
-                        exprs.extend(elems.into_iter().filter_map(|e| e).map(|e| e.expr));
+                        exprs.extend(elems.into_iter().flatten().map(|e| e.expr));
                     } else {
                         exprs.push(Box::new(ArrayLit { span, elems }.into()));
                     }
@@ -1595,7 +1592,7 @@ fn nth_char(s: &str, mut idx: usize) -> Cow<str> {
         if c == '\\' && iter.peek().copied() == Some('\0') {
             if idx == 0 {
                 let mut buf = String::new();
-                buf.push_str("\\");
+                buf.push('\\');
                 buf.extend(iter.take(6));
                 return Cow::Owned(buf);
             } else {

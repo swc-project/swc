@@ -34,7 +34,7 @@ pub fn resolve(name: &str) -> Result<Arc<PathBuf>, Error> {
     let mut errors = vec![];
 
     while let Some(base_dir) = dir {
-        let res = check_node_modules(&base_dir, name);
+        let res = check_node_modules(base_dir, name);
         match res {
             Ok(Some(path)) => {
                 return Ok(path);
@@ -75,7 +75,7 @@ pub fn resolve_plugin_cache_root(root: Option<String>) -> Result<PluginCache, Er
     };
 
     FileSystemCache::new(root_path)
-        .map(|cache| PluginCache::File(cache))
+        .map(PluginCache::File)
         .context("Failed to create cache location for the plugins")
 }
 
@@ -92,8 +92,8 @@ fn read_main_field(dir: &Path, json_path: &Path) -> Result<PathBuf, Error> {
 }
 
 fn pkg_name_without_scope(pkg_name: &str) -> &str {
-    if pkg_name.contains("/") {
-        pkg_name.split("/").nth(1).unwrap()
+    if pkg_name.contains('/') {
+        pkg_name.split('/').nth(1).unwrap()
     } else {
         pkg_name
     }
@@ -130,7 +130,7 @@ fn resolve_using_package_json(dir: &Path, pkg_name: &str) -> Result<PathBuf, Err
                 continue;
             }
 
-            let dep_pkg_dir_name = pkg_name_without_scope(&dep_pkg_name);
+            let dep_pkg_dir_name = pkg_name_without_scope(dep_pkg_name);
 
             let dep_pkg = node_modules.join(dep_pkg_dir_name);
 
@@ -156,7 +156,7 @@ fn check_node_modules(base_dir: &Path, name: &str) -> Result<Option<Arc<PathBuf>
 
         let mut errors = vec![];
 
-        if !name.contains("@") {
+        if !name.contains('@') {
             let swc_plugin_dir = node_modules_dir
                 .join("@swc")
                 .join(format!("plugin-{}", name));
@@ -176,7 +176,7 @@ fn check_node_modules(base_dir: &Path, name: &str) -> Result<Option<Arc<PathBuf>
         {
             let exact = node_modules_dir.join(name);
             if exact.is_dir() {
-                let res = resolve_using_package_json(&exact, pkg_name_without_scope(&name));
+                let res = resolve_using_package_json(&exact, pkg_name_without_scope(name));
 
                 match res {
                     Ok(v) => return Ok(Some(v)),
@@ -195,7 +195,7 @@ fn check_node_modules(base_dir: &Path, name: &str) -> Result<Option<Arc<PathBuf>
     }
 
     static CACHE: Lazy<Mutex<AHashMap<(PathBuf, String), Option<Arc<PathBuf>>>>> =
-        Lazy::new(|| Default::default());
+        Lazy::new(Default::default);
 
     let key = (base_dir.to_path_buf(), name.to_string());
     if let Some(cached) = CACHE.lock().get(&key).cloned() {

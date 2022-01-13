@@ -43,7 +43,7 @@ macro_rules! tr {
 
 #[bench]
 fn resolver(b: &mut Bencher) {
-    tr!(b, || swc_ecma_transforms_base::resolver::resolver());
+    tr!(b, swc_ecma_transforms_base::resolver::resolver);
 }
 
 #[bench]
@@ -53,7 +53,7 @@ fn fixer(b: &mut Bencher) {
 
 #[bench]
 fn hygiene(b: &mut Bencher) {
-    tr!(b, || swc_ecma_transforms_base::hygiene::hygiene());
+    tr!(b, swc_ecma_transforms_base::hygiene::hygiene);
 }
 
 #[bench]

@@ -1,5 +1,3 @@
-#![cfg(not(feature = "wrong-target"))]
-
 use serde::de::DeserializeOwned;
 use std::{
     fs::create_dir_all,

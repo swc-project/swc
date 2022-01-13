@@ -331,7 +331,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                 sym: value, span, ..
             }) => Expr::Lit(Lit::Str(Str {
                 span,
-                value: value.clone(),
+                value,
                 has_escape: false,
                 kind: Default::default(),
             })),
@@ -407,7 +407,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                 sym: value, span, ..
             }) => Box::new(Expr::Lit(Lit::Str(Str {
                 span,
-                value: value.clone(),
+                value,
                 has_escape: false,
                 kind: Default::default(),
             }))),

@@ -219,14 +219,14 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                                 .map(normalize)
                                 .map(|p| p.fold_with(&mut fixer(None)))
                                 .map_err(|e| {
-                                    e.into_diagnostic(&handler).emit();
+                                    e.into_diagnostic(handler).emit();
                                 })?;
                             let script2 = e_parser
                                 .parse_script()
                                 .map(normalize)
                                 .map(|p| p.fold_with(&mut fixer(None)))
                                 .map_err(|e| {
-                                    e.into_diagnostic(&handler).emit();
+                                    e.into_diagnostic(handler).emit();
                                 })?;
 
                             if script == script2 {

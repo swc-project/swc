@@ -71,7 +71,7 @@ where
             .map(|id| -> Result<_, Error> {
                 self.run(|| {
                     // TODO: is_entry should be false if it's dep of other entry.
-                    let is_entry = plan.entries.contains_key(&id);
+                    let is_entry = plan.entries.contains_key(id);
                     let module = self.get_for_merging(&ctx, *id, is_entry)?;
 
                     Ok((*id, module))
@@ -87,7 +87,7 @@ where
         let entries = all
             .iter()
             .filter_map(|(id, module)| {
-                if plan.entries.contains_key(&id) {
+                if plan.entries.contains_key(id) {
                     return Some((*id, module.clone()));
                 }
                 None

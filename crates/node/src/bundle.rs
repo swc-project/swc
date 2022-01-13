@@ -155,7 +155,7 @@ impl Task for BundleTask {
 
         Err(napi::Error::new(
             Status::GenericFailure,
-            format!("panic detected"),
+            "panic detected".to_string(),
         ))
     }
 
@@ -217,8 +217,8 @@ pub(crate) fn bundle(
         .config
         .alias
         .get(&target_env)
-        .map(|a| a.clone())
-        .unwrap_or_else(|| Default::default());
+        .cloned()
+        .unwrap_or_default();
 
     let resolver: Box<dyn Resolve> = if let Some((base_url, paths)) = paths {
         Box::new(paths_resolver(target_env, alias, base_url, paths))
@@ -228,7 +228,7 @@ pub(crate) fn bundle(
 
     Ok(AsyncTask::with_optional_signal(
         BundleTask {
-            swc: c.clone(),
+            swc: c,
             config: ConfigItem {
                 loader,
                 resolver,

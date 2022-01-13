@@ -383,7 +383,7 @@ impl Babelify for MemberExpr {
         MemberExpression {
             base: ctx.base(self.span),
             object: Box::alloc().init(self.obj.babelify(ctx).into()),
-            property: Box::alloc().init(self.prop.babelify(ctx).into()),
+            property: Box::alloc().init(self.prop.babelify(ctx)),
             computed,
             optional: Default::default(),
         }
@@ -410,8 +410,8 @@ impl Babelify for SuperPropExpr {
 
         MemberExpression {
             base: ctx.base(self.span),
-            object: Box::alloc().init(Expression::Super(self.obj.babelify(ctx).into())),
-            property: Box::alloc().init(self.prop.babelify(ctx).into()),
+            object: Box::alloc().init(Expression::Super(self.obj.babelify(ctx))),
+            property: Box::alloc().init(self.prop.babelify(ctx)),
             computed,
             optional: Default::default(),
         }

@@ -82,7 +82,7 @@ where
         let is_react_call = match &call.callee {
             Callee::Expr(expr) => match &**expr {
                 Expr::Ident(ident) => {
-                    if let Some((src, specifier)) = self.imports.get(&id(&ident)) {
+                    if let Some((src, specifier)) = self.imports.get(&id(ident)) {
                         is_pure(src, specifier)
                     } else {
                         false
@@ -90,7 +90,7 @@ where
                 }
                 Expr::Member(member) => match &*member.obj {
                     Expr::Ident(ident) => {
-                        if let Some((src, specifier)) = self.imports.get(&id(&ident)) {
+                        if let Some((src, specifier)) = self.imports.get(&id(ident)) {
                             if &**specifier == "default" || &**specifier == "*" {
                                 match &member.prop {
                                     MemberProp::Ident(ident) => is_pure(src, &ident.sym),

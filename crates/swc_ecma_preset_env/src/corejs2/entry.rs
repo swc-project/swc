@@ -30,13 +30,13 @@ impl Entry {
             imports: Default::default(),
         };
         if is_any_target || is_web_target {
-            v.imports.insert("web.timers".into());
-            v.imports.insert("web.immediate".into());
-            v.imports.insert("web.dom.iterable".into());
+            v.imports.insert("web.timers");
+            v.imports.insert("web.immediate");
+            v.imports.insert("web.dom.iterable");
         }
 
         if regenerator {
-            v.imports.insert("regenerator-runtime/runtime.js".into());
+            v.imports.insert("regenerator-runtime/runtime.js");
         }
 
         v
@@ -50,7 +50,7 @@ impl Entry {
         }
 
         for (feature, version) in BUILTINS.iter() {
-            self.add_inner(&feature, *version);
+            self.add_inner(feature, *version);
         }
 
         true
@@ -110,10 +110,9 @@ impl Fold for Entry {
                                     },
                                     _ => false,
                                 }
+                                && self.add_all("@swc/polyfill")
                             {
-                                if self.add_all("@swc/polyfill") {
-                                    return None;
-                                }
+                                return None;
                             }
                         }
 

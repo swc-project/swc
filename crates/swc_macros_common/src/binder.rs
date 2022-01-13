@@ -71,7 +71,7 @@ impl<'a> Binder<'a> {
                     .collect()
             }
             Data::Struct(DataStruct { ref fields, .. }) => {
-                vec![VariantBinder::new(None, &self.ident, fields, self.attrs)]
+                vec![VariantBinder::new(None, self.ident, fields, self.attrs)]
             }
             Data::Union(_) => unimplemented!("Binder for union type"),
         }

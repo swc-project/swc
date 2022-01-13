@@ -171,8 +171,6 @@ where
                         alias: None,
                     }
                 });
-
-                return;
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(_decl)) => {
@@ -184,8 +182,6 @@ where
                         local: Id::new(js_word!("default"), SyntaxContext::empty()),
                         alias: None,
                     });
-
-                return;
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(_expr)) => {
@@ -197,8 +193,6 @@ where
                         local: Id::new(js_word!("default"), SyntaxContext::empty()),
                         alias: None,
                     });
-
-                return;
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(named)) => {
@@ -283,8 +277,6 @@ where
                 if need_wrapping {
                     self.mark_as_wrapping_required(&named.src.as_ref().unwrap().value);
                 }
-
-                return;
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportAll(all)) => {

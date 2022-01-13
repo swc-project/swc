@@ -104,14 +104,14 @@ impl UsageVisitor {
                 self.add_builtin(prop);
             }
 
-            if let Some(map) = STATIC_PROPERTIES.get_data(&obj) {
-                if let Some(features) = map.get_data(&prop) {
+            if let Some(map) = STATIC_PROPERTIES.get_data(obj) {
+                if let Some(features) = map.get_data(prop) {
                     self.add(features);
                 }
             }
         }
 
-        if let Some(features) = INSTANCE_PROPERTIES.get_data(&prop) {
+        if let Some(features) = INSTANCE_PROPERTIES.get_data(prop) {
             self.add(features);
         }
     }
@@ -245,7 +245,7 @@ impl Visit for UsageVisitor {
         if let Some(ref init) = d.init {
             match d.name {
                 // const { keys, values } = Object
-                Pat::Object(ref o) => self.visit_object_pat_props(&init, &o.props),
+                Pat::Object(ref o) => self.visit_object_pat_props(init, &o.props),
                 _ => {}
             }
         } else {

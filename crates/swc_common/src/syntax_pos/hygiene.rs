@@ -212,7 +212,7 @@ impl SyntaxContext {
     /// that mark.
     pub fn apply_mark(self, mark: Mark) -> SyntaxContext {
         assert_ne!(mark, Mark::root());
-        return self.apply_mark_internal(mark);
+        self.apply_mark_internal(mark)
     }
 
     fn apply_mark_internal(self, mark: Mark) -> SyntaxContext {

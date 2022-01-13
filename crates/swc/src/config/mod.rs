@@ -100,7 +100,7 @@ impl<'de> Deserialize<'de> for IsModule {
             where
                 E: serde::de::Error,
             {
-                return Ok(IsModule::Bool(b));
+                Ok(IsModule::Bool(b))
             }
 
             fn visit_str<E>(self, s: &str) -> Result<Self::Value, E>
@@ -259,7 +259,7 @@ impl Options {
     where
         P: 'a + swc_ecma_visit::Fold,
     {
-        let mut config = config.unwrap_or_else(Default::default);
+        let mut config = config.unwrap_or_default();
         config.merge(&self.config);
 
         let mut source_maps = self.source_maps.clone();
@@ -357,13 +357,11 @@ impl Options {
         let enable_simplifier = optimizer.as_ref().map(|v| v.simplify).unwrap_or_default();
 
         let optimization = {
-            let pass = if let Some(opts) = optimizer.and_then(|o| o.globals) {
+            if let Some(opts) = optimizer.and_then(|o| o.globals) {
                 Either::Left(opts.build(cm, handler))
             } else {
                 Either::Right(noop())
-            };
-
-            pass
+            }
         };
 
         let top_level_mark = self
@@ -378,7 +376,7 @@ impl Options {
             json_parse_pass
         );
 
-        let pass = PassBuilder::new(&cm, &handler, loose, assumptions, top_level_mark, pass)
+        let pass = PassBuilder::new(cm, handler, loose, assumptions, top_level_mark, pass)
             .target(target)
             .skip_helper_injection(self.skip_helper_injection)
             .minify(js_minify)
@@ -424,7 +422,7 @@ impl Options {
                         pragma_frag: Some(transform.react.pragma_frag.clone()),
                         ..Default::default()
                     },
-                    comments.clone(),
+                    comments,
                     top_level_mark
                 ),
                 syntax.typescript()
@@ -434,12 +432,7 @@ impl Options {
             custom_before_pass(&program),
             // handle jsx
             Optional::new(
-                react::react(
-                    cm.clone(),
-                    comments.clone(),
-                    transform.react,
-                    top_level_mark
-                ),
+                react::react(cm.clone(), comments, transform.react, top_level_mark),
                 syntax.jsx()
             ),
             pass,
@@ -866,7 +859,7 @@ impl FileMatcher {
                 }
 
                 if !CACHE.contains_key(&*s) {
-                    let re = Regex::new(&s).with_context(|| format!("invalid regex: {}", s))?;
+                    let re = Regex::new(s).with_context(|| format!("invalid regex: {}", s))?;
                     CACHE.insert(s.clone(), re);
                 }
 
@@ -1244,7 +1237,7 @@ impl GlobalPassOption {
             match &self.envs {
                 GlobalInliningPassEnvs::List(env_list) => {
                     static CACHE: Lazy<DashMap<Vec<String>, ValuesMap, ahash::RandomState>> =
-                        Lazy::new(|| Default::default());
+                        Lazy::new(Default::default);
 
                     let cache_key = env_list.iter().cloned().collect::<Vec<_>>();
                     if let Some(v) = CACHE.get(&cache_key).as_deref().cloned() {
@@ -1266,7 +1259,7 @@ impl GlobalPassOption {
                 GlobalInliningPassEnvs::Map(map) => {
                     static CACHE: Lazy<
                         DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ahash::RandomState>,
-                    > = Lazy::new(|| Default::default());
+                    > = Lazy::new(Default::default);
 
                     let cache_key = self
                         .vars
@@ -1279,7 +1272,7 @@ impl GlobalPassOption {
                         let map = mk_map(
                             cm,
                             handler,
-                            map.into_iter().map(|(k, v)| (k.clone(), v.clone())),
+                            map.iter().map(|(k, v)| (k.clone(), v.clone())),
                             false,
                         );
                         CACHE.insert(cache_key, map.clone());
@@ -1291,7 +1284,7 @@ impl GlobalPassOption {
 
         let global_exprs = {
             static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, GlobalExprMap, ahash::RandomState>> =
-                Lazy::new(|| Default::default());
+                Lazy::new(Default::default);
 
             let cache_key = self
                 .vars
@@ -1322,7 +1315,7 @@ impl GlobalPassOption {
 
         let global_map = {
             static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ahash::RandomState>> =
-                Lazy::new(|| Default::default());
+                Lazy::new(Default::default);
 
             let cache_key = self
                 .vars
@@ -1599,7 +1592,7 @@ impl Merge for HiddenTransformConfig {
 
 fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver {
     static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver, ahash::RandomState>> =
-        Lazy::new(|| Default::default());
+        Lazy::new(Default::default);
 
     if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {
         return (*cached).clone();
@@ -1608,7 +1601,7 @@ fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver 
     let r = {
         let r = TsConfigResolver::new(
             NodeModulesResolver::default(),
-            base_url.clone().into(),
+            base_url.clone(),
             paths.clone(),
         );
         let r = CachingResolver::new(40, r);

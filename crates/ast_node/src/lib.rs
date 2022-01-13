@@ -2,7 +2,6 @@
 
 extern crate proc_macro;
 
-use darling;
 use pmutil::{smart_quote, Quote, ToTokensExt};
 use swc_macros_common::prelude::*;
 use syn::{self, visit_mut::VisitMut, *};
@@ -130,15 +129,13 @@ pub fn ast_serde(
                 }))
             });
 
-            let quote = item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
+            item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
                 #[derive(::serde::Serialize, ::serde::Deserialize)]
                 serde_tag
                 #[serde(rename_all = "camelCase")]
                 serde_rename
                 input
-            }));
-
-            quote
+            }))
         }
     };
 
@@ -231,10 +228,9 @@ pub fn ast_node(
                 }))
             });
 
-            let ast_node_impl = match args {
-                Some(ref args) => Some(ast_node_macro::expand_struct(args.clone(), input.clone())),
-                None => None,
-            };
+            let ast_node_impl = args
+                .as_ref()
+                .map(|args| ast_node_macro::expand_struct(args.clone(), input.clone()));
 
             let mut quote =
                 item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
@@ -276,7 +272,7 @@ fn print_item<T: Into<TokenStream>>(
     let item = Quote::new(def_site::<Span>()).quote_with(smart_quote!(
         Vars {
             item: item.into(),
-            NAME: Ident::new(&const_name, Span::call_site())
+            NAME: Ident::new(const_name, Span::call_site())
         },
         {
             const NAME: () = { item };

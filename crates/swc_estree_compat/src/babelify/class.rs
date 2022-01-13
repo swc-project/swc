@@ -16,7 +16,7 @@ impl Babelify for Class {
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         let body = ClassBody {
-            base: ctx.base(extract_class_body_span(&self, &ctx)),
+            base: ctx.base(extract_class_body_span(&self, ctx)),
             body: self.body.babelify(ctx),
         };
 
@@ -71,7 +71,7 @@ impl Babelify for ClassProp {
 
         ClassProperty {
             base: ctx.base(self.span),
-            key: self.key.babelify(ctx).into(),
+            key: self.key.babelify(ctx),
             value: self
                 .value
                 .map(|val| Box::alloc().init(val.babelify(ctx).into())),
@@ -116,7 +116,7 @@ impl Babelify for ClassMethod {
     fn babelify(self, ctx: &Context) -> Self::Output {
         BabelClassMethod {
             base: ctx.base(self.span),
-            key: self.key.babelify(ctx).into(),
+            key: self.key.babelify(ctx),
             kind: Some(self.kind.babelify(ctx)),
             is_static: Some(self.is_static),
             access: self.accessibility.map(|access| access.babelify(ctx)),
@@ -173,7 +173,7 @@ impl Babelify for Constructor {
         BabelClassMethod {
             base: ctx.base(self.span),
             kind: Some(ClassMethodKind::Constructor),
-            key: self.key.babelify(ctx).into(),
+            key: self.key.babelify(ctx),
             params: self.params.babelify(ctx),
             body: self.body.unwrap().babelify(ctx),
             access: self.accessibility.map(|access| access.babelify(ctx)),

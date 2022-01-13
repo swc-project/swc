@@ -26,7 +26,7 @@ impl Parse for Config {
                     if list
                         .path
                         .get_ident()
-                        .map(|i| i.to_string() == "exclude")
+                        .map(|i| *i == "exclude")
                         .unwrap_or(false)
                     {
                         //
@@ -113,7 +113,7 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
     let mut test_fns = vec![];
 
     'add: for path in paths {
-        let path = path.with_context(|| format!("glob failed for file"))?;
+        let path = path.with_context(|| "glob failed for file".to_string())?;
         let abs_path = path
             .canonicalize()
             .with_context(|| format!("failed to canonicalize {}", path.display()))?;
@@ -132,15 +132,13 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
                 continue 'add;
             }
 
-            if cfg!(target_os = "windows") {
-                if pattern.is_match(&path_str.replace("\\", "/")) {
-                    continue 'add;
-                }
+            if cfg!(target_os = "windows") && pattern.is_match(&path_str.replace("\\", "/")) {
+                continue 'add;
             }
         }
 
         let ignored = path.components().any(|c| match c {
-            Component::Normal(s) => s.to_string_lossy().starts_with("."),
+            Component::Normal(s) => s.to_string_lossy().starts_with('.'),
             _ => false,
         });
         let test_name = format!(

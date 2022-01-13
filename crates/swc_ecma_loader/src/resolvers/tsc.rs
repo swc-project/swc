@@ -94,13 +94,12 @@ where
     R: Resolve,
 {
     fn resolve(&self, base: &FileName, src: &str) -> Result<FileName, Error> {
-        if src.starts_with(".") {
-            if src == ".." || src.starts_with("./") || src.starts_with("../") {
-                return self
-                    .inner
-                    .resolve(base, src)
-                    .context("not processed by tsc resolver because it's relative import");
-            }
+        if src.starts_with('.') && (src == ".." || src.starts_with("./") || src.starts_with("../"))
+        {
+            return self
+                .inner
+                .resolve(base, src)
+                .context("not processed by tsc resolver because it's relative import");
         }
 
         match base {
@@ -196,8 +195,7 @@ where
 }
 
 fn compile_regex(src: String) -> Regex {
-    static CACHE: Lazy<DashMap<String, Regex, ahash::RandomState>> =
-        Lazy::new(|| Default::default());
+    static CACHE: Lazy<DashMap<String, Regex, ahash::RandomState>> = Lazy::new(Default::default);
 
     if !CACHE.contains_key(&*src) {
         // Create capture group

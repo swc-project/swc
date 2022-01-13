@@ -141,10 +141,8 @@ impl Ident {
             let mut chars = s.chars();
 
             if let Some(first) = chars.next() {
-                if Self::is_valid_start(first) {
-                    if chars.all(Self::is_valid_continue) {
-                        return Ok(());
-                    }
+                if Self::is_valid_start(first) && chars.all(Self::is_valid_continue) {
+                    return Ok(());
                 }
             }
         }

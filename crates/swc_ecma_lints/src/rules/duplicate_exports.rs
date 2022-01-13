@@ -66,7 +66,7 @@ impl Visit for DuplicateExports {
             ModuleExportName::Ident(ident) => ident,
             ModuleExportName::Str(..) => return,
         };
-        self.add(&exported.as_ref().unwrap_or(&orig));
+        self.add(exported.as_ref().unwrap_or(&orig));
     }
 
     fn visit_export_namespace_specifier(&mut self, s: &ExportNamespaceSpecifier) {

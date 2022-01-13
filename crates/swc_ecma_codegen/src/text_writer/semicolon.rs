@@ -69,7 +69,7 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
             }
         }
 
-        Ok(self.inner.write_punct(span, s)?)
+        self.inner.write_punct(span, s)
     }
 
     fn target(&self) -> swc_ecma_ast::EsVersion {
