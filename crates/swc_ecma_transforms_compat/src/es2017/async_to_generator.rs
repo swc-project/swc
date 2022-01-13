@@ -624,7 +624,7 @@ impl Actual {
                 let mut wrapper = FunctionWrapper::from(fn_expr.take());
                 wrapper.binding_ident = binding_ident;
 
-                let fn_expr = wrapper.function.fn_expr().unwrap();
+                let fn_expr = wrapper.function.expect_fn_expr();
 
                 wrapper.function = make_fn_ref(fn_expr, None, true);
 
