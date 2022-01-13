@@ -33,11 +33,10 @@ function _asyncToGenerator(fn) {
 class C {
     method() {
         function other() {}
-        var _this = this;
         var fn = function() {
-            var _ref = _asyncToGenerator((function*() {
+            var _ref = _asyncToGenerator(function*() {
                 return yield other.apply(this, arguments);
-            }).bind(_this)).bind(_this);
+            });
             return function fn() {
                 return _ref.apply(this, arguments);
             };

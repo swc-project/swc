@@ -59,7 +59,6 @@ var C = // @target: ES6
             key: "method",
             value: function method() {
                 var other = function other() {};
-                var _this = this;
                 var fn = function() {
                     var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                         var _args = arguments;
@@ -75,7 +74,7 @@ var C = // @target: ES6
                                     return _ctx.stop();
                             }
                         }, _callee, this);
-                    }).bind(_this)).bind(_this);
+                    }));
                     return function fn() {
                         return _ref.apply(this, arguments);
                     };

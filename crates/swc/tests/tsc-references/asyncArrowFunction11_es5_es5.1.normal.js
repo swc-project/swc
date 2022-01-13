@@ -73,5 +73,5 @@ var A = function A() {
                     return _ctx.stop();
             }
         }, _callee, this);
-    }).bind(this)).bind(this);
+    }));
 };

@@ -50,5 +50,5 @@ var A = function() {
                     return _ctx.stop();
             }
         }, _callee, this);
-    }).bind(this)).bind(this);
+    }));
 };
