@@ -71,29 +71,25 @@ Plugins are written in rust, and built as native libraries for each platforms. S
 
 SWC embeds `wasmtime`, loads plugin built as web assembly.
 
--   Good, because [argument a]
--   Good, because [argument b]
+-   Good, because it's fast except the first run.
+-   Good, because configuring CI is simple.
 -   Good, because plugin authors can publish a plugin without CI, even with a single machine.
 -   Bad, because `@swc/wasm` has no way to support plugins.
--   Bad, because first load is slow.
+-   Bad, because first run is slow.
+-   Bad, because we have to manage the cache of compiled wasm files.
 -   Bad, because `wasmtime` does not support all platforms.
--   Bad, because [argument c]
--   … <!-- numbers of pros and cons can vary -->
 
 ### [option 4] Wasm plugins based on `wasmer`
 
 SWC embeds web assembly runtime (https://wasmer.io/), loads plugin built as web assembly.
 
-[example | description | pointer to more information | …] <!-- optional -->
-
--   Good, because [argument a]
--   Good, because [argument b]
+-   Good, because it's fast except the first run.
+-   Good, because configuring CI is simple.
 -   Good, because plugin authors can publish a plugin without CI, even with a single machine.
--   Good, because in future `@swc/wasm` can support plugins as `wasmer` officially supports using it within a wasm file.
--   Bad, because first load is slow.
--   Bad, because [argument c]
+-   Good, because `@swc/wasm` can support plugins in future as `wasmer` officially supports using it within a wasm file.
+-   Bad, because first run is slow.
+-   Bad, because we have to manage the cache of compiled wasm files.
 -   Bad, because `wasmer` does not support all platforms.
--   … <!-- numbers of pros and cons can vary -->
 
 ## Links
 
