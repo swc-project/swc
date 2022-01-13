@@ -263,9 +263,8 @@ impl NodeResolver {
 
 impl Resolve for NodeResolver {
     fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
-        match Url::parse(target) {
-            Ok(v) => return Ok(FileName::Custom(v.to_string())),
-            Err(_) => {}
+        if let Ok(v) = Url::parse(target) {
+            return Ok(FileName::Custom(v.to_string()));
         }
 
         let base = match base {

@@ -342,12 +342,11 @@ impl FieldInitFinter {
             PatOrExpr::Expr(e) => {
                 self.check_lhs_expr_of_assign(e);
             }
-            PatOrExpr::Pat(pat) => match &**pat {
-                Pat::Expr(e) => {
+            PatOrExpr::Pat(pat) => {
+                if let Pat::Expr(e) = &**pat {
                     self.check_lhs_expr_of_assign(e);
                 }
-                _ => {}
-            },
+            }
         }
     }
     fn check_lhs_expr_of_assign(&mut self, lhs: &Expr) {
@@ -387,29 +386,30 @@ impl Visit for FieldInitFinter {
     fn visit_call_expr(&mut self, e: &CallExpr) {
         match &e.callee {
             Callee::Super(_) | Callee::Import(_) => {}
-            Callee::Expr(callee) => match &**callee {
-                Expr::Member(callee) => match &*callee.obj {
-                    Expr::Ident(Ident {
+            Callee::Expr(callee) => {
+                if let Expr::Member(callee) = &**callee {
+                    if let Expr::Ident(Ident {
                         sym: js_word!("Object"),
                         ..
-                    }) => match &callee.prop {
-                        MemberProp::Ident(Ident { sym: prop_sym, .. })
-                            if *prop_sym == *"assign" =>
-                        {
-                            let old = self.in_object_assign;
-                            self.in_object_assign = true;
+                    }) = &*callee.obj
+                    {
+                        match &callee.prop {
+                            MemberProp::Ident(Ident { sym: prop_sym, .. })
+                                if *prop_sym == *"assign" =>
+                            {
+                                let old = self.in_object_assign;
+                                self.in_object_assign = true;
 
-                            e.args.visit_with(self);
-                            self.in_object_assign = old;
+                                e.args.visit_with(self);
+                                self.in_object_assign = old;
 
-                            return;
+                                return;
+                            }
+                            _ => {}
                         }
-                        _ => {}
-                    },
-                    _ => {}
-                },
-                _ => {}
-            },
+                    }
+                }
+            }
         }
 
         e.visit_children_with(self);
@@ -423,14 +423,13 @@ impl Visit for FieldInitFinter {
         }
 
         if !self.in_rhs || self.in_object_assign {
-            match &*e.obj {
-                Expr::Ident(obj) => match &e.prop {
+            if let Expr::Ident(obj) = &*e.obj {
+                match &e.prop {
                     MemberProp::Ident(Ident { sym: prop_sym, .. }) if *prop_sym == *"prototype" => {
                         self.accessed.insert(obj.into());
                     }
                     _ => {}
-                },
-                _ => {}
+                }
             }
         }
     }

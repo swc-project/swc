@@ -183,36 +183,33 @@ where
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
         node.visit_mut_children_with(self);
 
-        match &node.callee {
-            Callee::Expr(e) => {
-                match &**e {
-                    Expr::Ident(i) => {
-                        // TODO: Check for global mark
-                        if i.sym == *"require" && node.args.len() == 1 {
-                            match &*node.args[0].expr {
-                                Expr::Lit(Lit::Str(module_name)) => {
-                                    if self.bundler.is_external(&module_name.value) {
-                                        return;
-                                    }
-                                    let load = CallExpr {
-                                        span: node.span,
-                                        callee: Ident::new("load".into(), i.span).as_callee(),
-                                        args: vec![],
-                                        type_args: None,
-                                    };
-                                    self.replaced = true;
-                                    *node = load;
-
-                                    tracing::trace!("Found, and replacing require");
+        if let Callee::Expr(e) = &node.callee {
+            match &**e {
+                Expr::Ident(i) => {
+                    // TODO: Check for global mark
+                    if i.sym == *"require" && node.args.len() == 1 {
+                        match &*node.args[0].expr {
+                            Expr::Lit(Lit::Str(module_name)) => {
+                                if self.bundler.is_external(&module_name.value) {
+                                    return;
                                 }
-                                _ => {}
+                                let load = CallExpr {
+                                    span: node.span,
+                                    callee: Ident::new("load".into(), i.span).as_callee(),
+                                    args: vec![],
+                                    type_args: None,
+                                };
+                                self.replaced = true;
+                                *node = load;
+
+                                tracing::trace!("Found, and replacing require");
                             }
+                            _ => {}
                         }
                     }
-                    _ => {}
                 }
+                _ => {}
             }
-            _ => {}
         }
     }
 
