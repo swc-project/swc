@@ -342,9 +342,5 @@ impl VisitMut for MinifierPass {
 }
 
 fn should_enable(target: EsVersion, feature: EsVersion) -> bool {
-    if cfg!(feature = "wrong-target") {
-        target <= feature
-    } else {
-        target < feature
-    }
+    target < feature
 }

@@ -5,6 +5,14 @@
 
 
 
+- **(swc)** Remove `wrong-target` (#3251) ([0843f74](https://github.com/swc-project/swc/commit/0843f742c5db3e0a8dc2fc2767b96fe0fad76bd1))
+
+## [1.2.129] - 2022-01-13
+
+### Bug Fixes
+
+
+
 - **(es/compat)** Transform `&&=` operator (#3225) ([2e5150d](https://github.com/swc-project/swc/commit/2e5150d2b714ba86bd228506eb0f008d9f5859e1))
 
 

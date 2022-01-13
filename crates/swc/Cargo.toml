@@ -9,7 +9,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.113.1"
+version = "0.114.0"
 
 [lib]
 name = "swc"
@@ -18,13 +18,6 @@ name = "swc"
 default = ["es3"]
 # You can disable this feature to reduce binary size.
 es3 = []
-# See https://github.com/swc-project/swc/issues/1108
-#
-# If this option is enabled, es2015 transforms are enabled if target is es2015.
-# If this option is disabled, es2015 transforms are disabled if target is es2015.
-#
-# This feature will be removed on v2 of node bindings.
-wrong-target = []
 
 concurrent = [
   "swc_ecma_utils/concurrent",
