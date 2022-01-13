@@ -69,7 +69,7 @@ impl Swcify for Statement {
                 return ModuleItem::ModuleDecl(ModuleDecl::from(v.swcify(ctx)))
             }
             Statement::ExportDefaultDecl(v) => {
-                return ModuleItem::ModuleDecl(ModuleDecl::from(v.swcify(ctx)))
+                return ModuleItem::ModuleDecl(v.swcify(ctx))
             }
             Statement::ExportNamedDecl(v) => {
                 return ModuleItem::ModuleDecl(ModuleDecl::from(v.swcify(ctx)))

@@ -17,7 +17,7 @@ pub fn print(cm: Lrc<SourceMap>, module: &Module) -> String {
             cfg: Default::default(),
             cm: cm.clone(),
             wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
-                cm.clone(),
+                cm,
                 "\n",
                 &mut buf,
                 None,
@@ -26,7 +26,7 @@ pub fn print(cm: Lrc<SourceMap>, module: &Module) -> String {
         };
 
         // println!("Emitting: {:?}", module);
-        emitter.emit_module(&module).unwrap();
+        emitter.emit_module(module).unwrap();
     }
 
     let s = String::from_utf8_lossy(&buf);
@@ -58,7 +58,7 @@ where
 
         let module = module.fold_with(&mut folder);
 
-        let actual = print(cm.clone(), &module);
+        let actual = print(cm, &module);
         let actual = NormalizedOutput::from(actual);
 
         actual.compare_to_file(&output).unwrap();

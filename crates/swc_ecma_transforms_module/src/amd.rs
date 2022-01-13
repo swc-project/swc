@@ -438,7 +438,7 @@ where
 
                                                 // export { foo as bar }
                                                 //  -> 'bar'
-                                                let i = exported.unwrap_or_else(|| orig);
+                                                let i = exported.unwrap_or(orig);
                                                 Lit::Str(quote_str!(i.span, i.sym)).as_arg()
                                             },
                                             make_descriptor(value).as_arg(),
@@ -552,7 +552,7 @@ where
             {
                 let src = match &self.resolver {
                     Some((resolver, base)) => resolver
-                        .resolve_import(&base, &src)
+                        .resolve_import(base, &src)
                         .with_context(|| format!("failed to resolve `{}`", src))
                         .unwrap(),
                     None => src.clone(),

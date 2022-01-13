@@ -78,7 +78,7 @@ fn load_plugin(plugin_path: &Path, cache: &mut Option<PluginCache>) -> Result<In
                 let loaded_module = load_cold_wasm_bytes().map_err(|_| err);
                 match &loaded_module {
                     Ok(module) => {
-                        if let Err(err) = store_into_cache(cache, hash, &module) {
+                        if let Err(err) = store_into_cache(cache, hash, module) {
                             loaded_module
                                 .map_err(|_| err)
                                 .context("Failed to store compiled plugin into cache")
@@ -105,7 +105,7 @@ fn load_plugin(plugin_path: &Path, cache: &mut Option<PluginCache>) -> Result<In
 
             Instance::new(&module, &import_object).context("Failed to create plugin instance")
         }
-        Err(err) => Err(err.into()),
+        Err(err) => Err(err),
     };
 }
 
