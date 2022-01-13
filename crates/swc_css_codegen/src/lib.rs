@@ -93,11 +93,19 @@ where
     }
 
     #[emitter]
-    fn emit_import_source(&mut self, n: &ImportSource) -> Result {
+    fn emit_import_href(&mut self, n: &ImportHref) -> Result {
         match n {
-            ImportSource::Function(n) => emit!(self, n),
-            ImportSource::Url(n) => emit!(self, n),
-            ImportSource::Str(n) => emit!(self, n),
+            ImportHref::Function(n) => emit!(self, n),
+            ImportHref::Url(n) => emit!(self, n),
+            ImportHref::Str(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_import_layer_name(&mut self, n: &ImportLayerName) -> Result {
+        match n {
+            ImportLayerName::Ident(n) => emit!(self, n),
+            ImportLayerName::Function(n) => emit!(self, n),
         }
     }
 
@@ -105,13 +113,17 @@ where
     fn emit_import_rule(&mut self, n: &ImportRule) -> Result {
         punct!(self, "@");
         keyword!(self, "import");
-
         space!(self);
-        emit!(self, n.src);
+        emit!(self, n.href);
 
-        if let Some(query) = &n.condition {
+        if let Some(layer_name) = &n.layer_name {
             space!(self);
-            emit!(self, query);
+            emit!(self, layer_name);
+        }
+
+        if let Some(media) = &n.media {
+            space!(self);
+            emit!(self, media);
         }
 
         semi!(self);

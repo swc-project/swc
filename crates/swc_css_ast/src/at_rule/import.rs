@@ -1,4 +1,4 @@
-use crate::{Function, MediaQuery, Str, UrlValue, Ident};
+use crate::{Function, Ident, MediaQuery, Str, UrlValue};
 use swc_common::{ast_node, Span};
 
 #[ast_node]
