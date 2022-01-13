@@ -239,13 +239,8 @@ impl Visit for UsageVisitor {
             if let Pat::Object(ref o) = d.name {
                 self.visit_object_pat_props(init, &o.props)
             }
-        } else {
-            if let Pat::Object(ref o) = d.name {
-                self.visit_object_pat_props(
-                    &Expr::Ident(Ident::new(js_word!(""), DUMMY_SP)),
-                    &o.props,
-                )
-            }
+        } else if let Pat::Object(ref o) = d.name {
+            self.visit_object_pat_props(&Expr::Ident(Ident::new(js_word!(""), DUMMY_SP)), &o.props)
         }
     }
 
