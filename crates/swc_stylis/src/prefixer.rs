@@ -72,7 +72,7 @@ impl Prefixer {
             },
 
             Value::Comma(c) => {
-                if c.values.len() >= 1 {
+                if !c.values.is_empty() {
                     let second = c.values.get(1).cloned();
                     self.handle_cursor_image_set(&mut c.values[0], second, important);
                 }
@@ -223,7 +223,7 @@ impl VisitMut for Prefixer {
             }
 
             "background" => {
-                if n.value.len() >= 1 {
+                if !n.value.is_empty() {
                     match &n.value[0] {
                         Value::Function(f) => match &*f.name.value {
                             "image-set" => {
@@ -240,7 +240,7 @@ impl VisitMut for Prefixer {
                                     span: n.span,
                                     property: n.property.clone(),
                                     value: vec![val],
-                                    important: n.important.clone(),
+                                    important: n.important,
                                 });
                             }
 
@@ -253,7 +253,7 @@ impl VisitMut for Prefixer {
             }
 
             "background-image" => {
-                if n.value.len() >= 1 {
+                if !n.value.is_empty() {
                     match &n.value[0] {
                         Value::Function(f) => match &*f.name.value {
                             "image-set" => {
@@ -270,7 +270,7 @@ impl VisitMut for Prefixer {
                                     span: n.span,
                                     property: n.property.clone(),
                                     value: vec![val],
-                                    important: n.important.clone(),
+                                    important: n.important,
                                 });
                             }
 
@@ -283,7 +283,7 @@ impl VisitMut for Prefixer {
             }
 
             "cursor" => {
-                if n.value.len() >= 1 {
+                if !n.value.is_empty() {
                     match &n.value[0] {
                         Value::Ident(Ident { value, .. }) => match &**value {
                             "grab" => {
@@ -533,7 +533,7 @@ impl VisitMut for Prefixer {
                         raw: "-webkit-transition".into(),
                     },
                     value,
-                    important: n.important.clone(),
+                    important: n.important,
                 });
             }
 
