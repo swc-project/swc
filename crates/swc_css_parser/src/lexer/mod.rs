@@ -852,26 +852,26 @@ where
                 // is for a surrogate, or is greater than the maximum allowed code point, return
                 // U+FFFD REPLACEMENT CHARACTER (�).
                 // TODO: fix me
-                let hex = char::from_u32(hex).ok_or_else(|| ErrorKind::InvalidEscape)?;
+                let hex = char::from_u32(hex).ok_or(ErrorKind::InvalidEscape)?;
 
                 // Otherwise, return the code point with that value.
-                return Ok((hex, raw));
+                Ok((hex, raw))
             }
             // EOF
             // This is a parse error. Return U+FFFD REPLACEMENT CHARACTER (�).
             None => {
                 let value = '\u{FFFD}';
 
-                raw.push(value.clone());
+                raw.push(value);
 
-                return Ok((value, raw));
+                Ok((value, raw))
             }
             // anything else
             // Return the current input code point.
             Some(c) => {
                 raw.push(c);
 
-                return Ok((c, raw));
+                Ok((c, raw))
             }
         }
     }
