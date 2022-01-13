@@ -29,7 +29,8 @@ add_bitflags!(
         SpaceDelimited: 1 << 2,
         SemiDelimited: 1 << 3,
         CommaDelimited: 1 << 4,
-        DelimitersMask: SpaceDelimited | SemiDelimited | CommaDelimited,
+        DotDelimited: 1 << 5,
+        DelimitersMask: SpaceDelimited | SemiDelimited | CommaDelimited | DotDelimited,
     },
     Values {
         /// Write a trailing comma (",") if present.

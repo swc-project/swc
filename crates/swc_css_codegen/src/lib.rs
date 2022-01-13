@@ -160,18 +160,40 @@ where
         punct!(self, "}");
     }
 
-    fn emit_keyframes_rule(&mut self, n: &KeyframesRule) -> Result {
+    #[emitter]
+    fn emit_layer_name(&mut self, n: &LayerName) -> Result {
+        self.emit_list(&n.name, ListFormat::DotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_layer_name_list(&mut self, n: &LayerNameList) -> Result {
+        self.emit_list(&n.name_list, ListFormat::CommaDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_layer_prelude(&mut self, n: &LayerPrelude) -> Result {
+        match n {
+            LayerPrelude::Name(n) => emit!(self, n),
+            LayerPrelude::NameList(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_layer_rule(&mut self, n: &LayerRule) -> Result {
         punct!(self, "@");
         keyword!(self, "layer");
+        space!(self);
 
-        if n.name.is_some() {
-            emit!(self, n.name);
+        if n.prelude.is_some() {
+            emit!(self, n.prelude);
         }
 
-        if n.rules.is_some() {
+        if let Some(rules) = &n.rules {
             punct!(self, "{");
-            self.emit_list(&n.rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
+            self.emit_list(&rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
             punct!(self, "}");
+        } else {
+            punct!(self, ";");
         }
     }
 
@@ -978,6 +1000,9 @@ where
             }
             ListFormat::SemiDelimited => {
                 punct!(self, ";")
+            }
+            ListFormat::DotDelimited => {
+                punct!(self, ".");
             }
             _ => unreachable!(),
         }
