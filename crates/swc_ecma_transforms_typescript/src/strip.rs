@@ -2796,7 +2796,6 @@ impl VisitMut for EnumValuesVisitor<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        println!("{:#?}", expr);
         match expr {
             Expr::Ident(ident) if self.previous.contains_key(&ident.sym) => {
                 *expr = self.ident.clone().make_member(ident.clone());
