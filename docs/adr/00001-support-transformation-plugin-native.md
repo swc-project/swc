@@ -60,6 +60,7 @@ Plugins are written in rust, and built as native libraries for each platforms. S
 
 -   Good, because it's fast, even on the first run.
 -   Bad, because configuring CI for publishing plugins is very hard.
+-   Bad, because plugin developer cannot publish a plugin from a single machine.
 -   Bad, because loading of plugins is complex. Path for dynamic libraries are platform-dependant.
 -   Bad, because we have to handle quirks of each platforms.
 -   Bad, because `@swc/wasm` has no way to support plugins.
