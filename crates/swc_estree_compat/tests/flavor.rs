@@ -99,9 +99,9 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
                         // Remove `'` and `"` from raw strings.
                         match value {
                             Value::String(s) => {
-                                if s.starts_with('\'') && s.ends_with('\'') {
-                                    *s = s[1..s.len() - 1].to_string();
-                                } else if s.starts_with('"') && s.ends_with('"') {
+                                if (s.starts_with('\'') && s.ends_with('\''))
+                                    || (s.starts_with('"') && s.ends_with('"'))
+                                {
                                     *s = s[1..s.len() - 1].to_string();
                                 } else if s.starts_with('/') {
                                     // We don't need raw value of regex at the moment.
