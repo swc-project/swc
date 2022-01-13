@@ -23,9 +23,9 @@ fn parse(cm: Lrc<SourceMap>, path: &Path) -> Module {
     );
 
     let mut parser = Parser::new_from(lexer);
-    let program = parser.parse_module().unwrap();
+    
 
-    program
+    parser.parse_module().unwrap()
 }
 
 #[testing::fixture("tests/diff/**/l.js")]
@@ -41,7 +41,7 @@ fn diff(l: PathBuf) {
         let res = l.diff(&mut r, &mut ctx);
 
         let l = print(cm.clone(), &[l]);
-        let r = print(cm.clone(), &[r]);
+        let r = print(cm, &[r]);
 
         Ok((format!("{}", res), l, r))
     })
@@ -68,7 +68,7 @@ fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N]) -> String {
 
         let mut emitter = Emitter {
             cfg: swc_ecma_codegen::Config { minify: false },
-            cm: cm.clone(),
+            cm: cm,
             comments: None,
             wr,
         };
