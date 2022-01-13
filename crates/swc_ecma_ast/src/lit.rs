@@ -278,6 +278,7 @@ pub struct Number {
 impl Eq for Number {}
 
 #[allow(clippy::derive_hash_xor_eq)]
+#[allow(clippy::transmute_float_to_int)]
 impl Hash for Number {
     fn hash<H: Hasher>(&self, state: &mut H) {
         fn integer_decode(val: f64) -> (u64, i16, i8) {
