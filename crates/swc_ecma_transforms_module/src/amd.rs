@@ -331,7 +331,6 @@ where
                             let imported = export.src.clone().map(|src| {
                                 scope.import_to_export(&src, !export.specifiers.is_empty())
                             });
-                            drop(scope);
                             drop(scope_ref_mut);
 
                             stmts.reserve(export.specifiers.len());
@@ -393,7 +392,6 @@ where
                                             .or_insert(false);
                                     }
                                 }
-                                drop(scope);
                                 drop(scope_ref_mut);
                                 let value = match imported {
                                     Some(ref imported) => Box::new(
@@ -403,10 +401,7 @@ where
                                 };
 
                                 // True if we are exporting our own stuff.
-                                let is_value_ident = match *value {
-                                    Expr::Ident(..) => true,
-                                    _ => false,
-                                };
+                                let is_value_ident = matches!(*value, Expr::Ident(..));
 
                                 if is_value_ident {
                                     let exported_symbol = exported
