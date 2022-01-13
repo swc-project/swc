@@ -184,31 +184,25 @@ where
         node.visit_mut_children_with(self);
 
         if let Callee::Expr(e) = &node.callee {
-            match &**e {
-                Expr::Ident(i) => {
-                    // TODO: Check for global mark
-                    if i.sym == *"require" && node.args.len() == 1 {
-                        match &*node.args[0].expr {
-                            Expr::Lit(Lit::Str(module_name)) => {
-                                if self.bundler.is_external(&module_name.value) {
-                                    return;
-                                }
-                                let load = CallExpr {
-                                    span: node.span,
-                                    callee: Ident::new("load".into(), i.span).as_callee(),
-                                    args: vec![],
-                                    type_args: None,
-                                };
-                                self.replaced = true;
-                                *node = load;
-
-                                tracing::trace!("Found, and replacing require");
-                            }
-                            _ => {}
+            if let Expr::Ident(i) = &**e {
+                // TODO: Check for global mark
+                if i.sym == *"require" && node.args.len() == 1 {
+                    if let Expr::Lit(Lit::Str(module_name)) = &*node.args[0].expr {
+                        if self.bundler.is_external(&module_name.value) {
+                            return;
                         }
+                        let load = CallExpr {
+                            span: node.span,
+                            callee: Ident::new("load".into(), i.span).as_callee(),
+                            args: vec![],
+                            type_args: None,
+                        };
+                        self.replaced = true;
+                        *node = load;
+
+                        tracing::trace!("Found, and replacing require");
                     }
                 }
-                _ => {}
             }
         }
     }
@@ -220,122 +214,119 @@ where
             return;
         }
 
-        match node {
-            ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
-                let dep_module_id = self
-                    .base
-                    .imports
-                    .specifiers
-                    .iter()
-                    .find(|(src, _)| src.src.value == i.src.value)
-                    .map(|v| v.0.module_id);
-                let dep_module_id = match dep_module_id {
-                    Some(v) => v,
-                    _ => {
-                        return;
+        if let ModuleItem::ModuleDecl(ModuleDecl::Import(i)) = node {
+            let dep_module_id = self
+                .base
+                .imports
+                .specifiers
+                .iter()
+                .find(|(src, _)| src.src.value == i.src.value)
+                .map(|v| v.0.module_id);
+            let dep_module_id = match dep_module_id {
+                Some(v) => v,
+                _ => {
+                    return;
+                }
+            };
+            // Replace imports iff dependency is common js module.
+            let dep_module = self.bundler.scope.get_module(dep_module_id).unwrap();
+            if !self.bundler.scope.is_cjs(dep_module_id) && dep_module.is_es6 {
+                return;
+            }
+
+            let load_var = self.bundler.make_cjs_load_var(&dep_module, i.span);
+            // Replace import progress from 'progress';
+            // Side effect import
+            if i.specifiers.is_empty() {
+                self.replaced = true;
+                *node = ModuleItem::Stmt(
+                    CallExpr {
+                        span: DUMMY_SP,
+                        callee: load_var.as_callee(),
+                        args: vec![],
+                        type_args: None,
                     }
-                };
-                // Replace imports iff dependency is common js module.
-                let dep_module = self.bundler.scope.get_module(dep_module_id).unwrap();
-                if !self.bundler.scope.is_cjs(dep_module_id) && dep_module.is_es6 {
-                    return;
-                }
+                    .into_stmt(),
+                );
+                return;
+            }
 
-                let load_var = self.bundler.make_cjs_load_var(&dep_module, i.span);
-                // Replace import progress from 'progress';
-                // Side effect import
-                if i.specifiers.is_empty() {
-                    self.replaced = true;
-                    *node = ModuleItem::Stmt(
-                        CallExpr {
-                            span: DUMMY_SP,
-                            callee: load_var.as_callee(),
-                            args: vec![],
-                            type_args: None,
-                        }
-                        .into_stmt(),
-                    );
-                    return;
-                }
-
-                let mut props = vec![];
-                // TODO
-                for spec in i.specifiers.clone() {
-                    match spec {
-                        ImportSpecifier::Named(s) => match s.imported {
-                            Some(ModuleExportName::Ident(imported)) => {
-                                props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
-                                    key: imported.into(),
-                                    value: Box::new(s.local.into()),
-                                }));
-                            }
-                            Some(ModuleExportName::Str(..)) => {
-                                unimplemented!("module string names unimplemented")
-                            }
-                            _ => {
-                                props.push(ObjectPatProp::Assign(AssignPatProp {
-                                    span: s.span,
-                                    key: s.local,
-                                    value: None,
-                                }));
-                            }
-                        },
-                        ImportSpecifier::Default(s) => {
+            let mut props = vec![];
+            // TODO
+            for spec in i.specifiers.clone() {
+                match spec {
+                    ImportSpecifier::Named(s) => match s.imported {
+                        Some(ModuleExportName::Ident(imported)) => {
                             props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
-                                key: PropName::Ident(Ident::new("default".into(), DUMMY_SP)),
+                                key: imported.into(),
                                 value: Box::new(s.local.into()),
                             }));
                         }
-                        ImportSpecifier::Namespace(ns) => {
-                            self.replaced = true;
-                            *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                span: i.span,
-                                kind: VarDeclKind::Var,
-                                declare: false,
-                                decls: vec![VarDeclarator {
-                                    span: ns.span,
-                                    name: ns.local.into(),
-                                    init: Some(Box::new(
-                                        CallExpr {
-                                            span: DUMMY_SP,
-                                            callee: load_var.as_callee(),
-                                            args: vec![],
-                                            type_args: None,
-                                        }
-                                        .into(),
-                                    )),
-                                    definite: false,
-                                }],
-                            })));
-                            return;
+                        Some(ModuleExportName::Str(..)) => {
+                            unimplemented!("module string names unimplemented")
                         }
+                        _ => {
+                            props.push(ObjectPatProp::Assign(AssignPatProp {
+                                span: s.span,
+                                key: s.local,
+                                value: None,
+                            }));
+                        }
+                    },
+                    ImportSpecifier::Default(s) => {
+                        props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
+                            key: PropName::Ident(Ident::new("default".into(), DUMMY_SP)),
+                            value: Box::new(s.local.into()),
+                        }));
+                    }
+                    ImportSpecifier::Namespace(ns) => {
+                        self.replaced = true;
+                        *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: i.span,
+                            kind: VarDeclKind::Var,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: ns.span,
+                                name: ns.local.into(),
+                                init: Some(Box::new(
+                                    CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: load_var.as_callee(),
+                                        args: vec![],
+                                        type_args: None,
+                                    }
+                                    .into(),
+                                )),
+                                definite: false,
+                            }],
+                        })));
+                        return;
                     }
                 }
-
-                self.replaced = true;
-                *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: i.span,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: vec![VarDeclarator {
-                        span: i.span,
-                        name: Pat::Object(ObjectPat {
-                            span: DUMMY_SP,
-                            props,
-                            optional: false,
-                            type_ann: None,
-                        }),
-                        init: Some(Box::new(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: load_var.as_callee(),
-                            type_args: None,
-                            args: vec![],
-                        }))),
-                        definite: false,
-                    }],
-                })));
             }
-            _ => {}
+
+            self.replaced = true;
+            *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                span: i.span,
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: vec![VarDeclarator {
+                    span: i.span,
+                    name: Pat::Object(ObjectPat {
+                        span: DUMMY_SP,
+                        props,
+                        optional: false,
+                        type_ann: None,
+                    }),
+                    init: Some(Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: load_var.as_callee(),
+                        type_args: None,
+                        args: vec![],
+                    }))),
+                    definite: false,
+                }],
+            })));
         }
     }
 }
@@ -350,20 +341,17 @@ impl VisitMut for DefaultHandler {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
-        match e {
-            Expr::Ident(i) => {
-                if i.sym == js_word!("default") {
-                    *e = Expr::Member(MemberExpr {
-                        span: i.span,
-                        obj: Box::new(Expr::Ident(Ident::new(
-                            "module".into(),
-                            DUMMY_SP.with_ctxt(self.local_ctxt),
-                        ))),
-                        prop: MemberProp::Ident(quote_ident!("exports")),
-                    });
-                }
+        if let Expr::Ident(i) = e {
+            if i.sym == js_word!("default") {
+                *e = Expr::Member(MemberExpr {
+                    span: i.span,
+                    obj: Box::new(Expr::Ident(Ident::new(
+                        "module".into(),
+                        DUMMY_SP.with_ctxt(self.local_ctxt),
+                    ))),
+                    prop: MemberProp::Ident(quote_ident!("exports")),
+                });
             }
-            _ => {}
         }
     }
 
