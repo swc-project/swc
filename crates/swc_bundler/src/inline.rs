@@ -27,10 +27,7 @@ pub(crate) fn inline(injected_ctxt: SyntaxContext, module: &mut Modules) {
 
     let mut v = Inliner { data: data.into() };
     module.par_visit_mut_with(&mut v);
-    module.retain_mut(|_, s| match s {
-        ModuleItem::Stmt(Stmt::Empty(..)) => false,
-        _ => true,
-    });
+    module.retain_mut(|_, s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
 }
 
 #[derive(Debug)]
@@ -78,11 +75,8 @@ impl Visit for Analyzer<'_> {
 
     fn visit_var_declarator(&mut self, n: &VarDeclarator) {
         n.visit_children_with(self);
-        match (&n.name, n.init.as_deref()) {
-            (Pat::Ident(from), Some(Expr::Ident(to))) => {
-                self.store(from.id.clone().into(), to.into());
-            }
-            _ => {}
+        if let (Pat::Ident(from), Some(Expr::Ident(to))) = (&n.name, n.init.as_deref()) {
+            self.store(from.id.clone().into(), to.into());
         }
     }
 }
@@ -124,10 +118,7 @@ impl VisitMut for Inliner {
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         n.visit_mut_children_with(self);
 
-        n.retain(|v| match v {
-            ModuleItem::Stmt(Stmt::Empty(..)) => false,
-            _ => true,
-        });
+        n.retain(|v| !matches!(v, ModuleItem::Stmt(Stmt::Empty(..))));
     }
 
     fn visit_mut_prop(&mut self, n: &mut Prop) {

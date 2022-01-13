@@ -283,6 +283,7 @@ fn analyze_source_file_generic(
 }
 
 #[cfg(test)]
+#[allow(clippy::identity_op)]
 mod tests {
     use super::*;
 
