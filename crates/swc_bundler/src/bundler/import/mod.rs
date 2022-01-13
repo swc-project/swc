@@ -225,25 +225,22 @@ where
                 match &mut e.callee {
                     Callee::Expr(callee)
                         if self.bundler.config.require
-                            && match &**callee {
+                            && matches!(
+                                &**callee,
                                 Expr::Ident(Ident {
                                     sym: js_word!("require"),
                                     ..
-                                }) => true,
-                                _ => false,
-                            } =>
+                                })
+                            ) =>
                     {
                         if self.bundler.is_external(&src.value) {
                             return;
                         }
-                        match &mut **callee {
-                            Expr::Ident(i) => {
-                                self.mark_as_cjs(&src.value);
-                                if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
-                                    i.span = i.span.with_ctxt(export_ctxt);
-                                }
+                        if let Expr::Ident(i) = &mut **callee {
+                            self.mark_as_cjs(&src.value);
+                            if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
+                                i.span = i.span.with_ctxt(export_ctxt);
                             }
-                            _ => {}
                         }
 
                         let span = callee.span();

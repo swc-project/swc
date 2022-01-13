@@ -520,7 +520,7 @@ where
                         a = Some(if has_minus_sign { -1 } else {1 });
                         a_raw = Some((if has_plus_sign { "+" } else if has_minus_sign { "-" } else { "" }).into());
 
-                        n_value = if has_minus_sign { ident_value.clone()[1..].to_string() } else { ident_value.clone().to_string() };
+                        n_value = if has_minus_sign { ident_value[1..].to_string() } else { ident_value.to_string() };
                     }
                     Token::Dimension { .. } => {
                         let dimension = match bump!(self) {
