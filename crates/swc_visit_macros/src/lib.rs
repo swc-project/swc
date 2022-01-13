@@ -94,8 +94,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
     // Remove `Box`
     types.retain(|ty| as_box(ty).is_none());
-    types.sort_by_cached_key(|ty| method_name_as_str(mode, &ty));
-    types.dedup_by_key(|ty| method_name_as_str(mode, &ty));
+    types.sort_by_cached_key(|ty| method_name_as_str(mode, ty));
+    types.dedup_by_key(|ty| method_name_as_str(mode, ty));
 
     let types = types;
 
@@ -113,7 +113,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         methods.push(TraitItemMethod {
             attrs: vec![],
             sig,
-            default: Some(create_method_body(mode, &ty)),
+            default: Some(create_method_body(mode, ty)),
             semi_token: None,
         });
     }
@@ -269,15 +269,13 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     stmts: Default::default(),
                 },
             }),
-        )
-        .clone();
+        );
 
         let arg_ty = v
             .sig
             .inputs
             .iter()
-            .skip(1)
-            .next()
+            .nth(1)
             .map(|v| match *v {
                 FnArg::Typed(ref pat) => &pat.ty,
                 _ => unreachable!(),
@@ -724,7 +722,7 @@ fn adjust_expr<F>(mode: Mode, ty: &Type, mut expr: Expr, visit: F) -> Expr
 where
     F: FnOnce(Expr) -> Expr,
 {
-    if is_option(&ty) {
+    if is_option(ty) {
         expr = if is_opt_vec(ty) {
             match mode {
                 Mode::Fold => expr,
@@ -1099,25 +1097,25 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
         Type::Infer(_) => unreachable!("infer type"),
         Type::Macro(_) => unimplemented!("type: macro"),
         Type::Never(_) => unreachable!("never type"),
-        Type::Paren(ty) => return create_method_sig(mode, &ty.elem),
+        Type::Paren(ty) => create_method_sig(mode, &ty.elem),
         Type::Path(p) => {
             let last = p.path.segments.last().unwrap();
             let ident = method_name(mode, ty);
 
             if !last.arguments.is_empty() {
-                if let Some(arg) = as_box(&ty) {
-                    let ident = method_name(mode, &arg);
+                if let Some(arg) = as_box(ty) {
+                    let ident = method_name(mode, arg);
                     match mode {
                         Mode::Fold => {
-                            return mk_exact(mode, ident, &arg);
+                            return mk_exact(mode, ident, arg);
                         }
 
                         Mode::VisitMut => {
-                            return mk_ref(mode, ident, &arg, true);
+                            return mk_ref(mode, ident, arg, true);
                         }
 
                         Mode::Visit | Mode::VisitAll => {
-                            return mk_ref(mode, ident, &arg, false);
+                            return mk_ref(mode, ident, arg, false);
                         }
                     }
                 }
@@ -1220,19 +1218,13 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
             }
 
             match mode {
-                Mode::Fold => return mk_exact(mode, ident, ty),
-                Mode::VisitMut => {
-                    return mk_ref(mode, ident, ty, true);
-                }
-                Mode::Visit | Mode::VisitAll => {
-                    return mk_ref(mode, ident, ty, false);
-                }
+                Mode::Fold => mk_exact(mode, ident, ty),
+                Mode::VisitMut => mk_ref(mode, ident, ty, true),
+                Mode::Visit | Mode::VisitAll => mk_ref(mode, ident, ty, false),
             }
         }
         Type::Ptr(_) => unimplemented!("type: pointer"),
-        Type::Reference(ty) => {
-            return create_method_sig(mode, &ty.elem);
-        }
+        Type::Reference(ty) => create_method_sig(mode, &ty.elem),
         Type::Slice(_) => unimplemented!("type: slice"),
         Type::TraitObject(_) => unimplemented!("type: trait object"),
         Type::Tuple(_) => unimplemented!("type: trait tuple"),
@@ -1267,7 +1259,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
         Type::Infer(_) => unreachable!("infer type"),
         Type::Macro(_) => unimplemented!("type: macro"),
         Type::Never(_) => unreachable!("never type"),
-        Type::Paren(ty) => return create_method_body(mode, &ty.elem),
+        Type::Paren(ty) => create_method_body(mode, &ty.elem),
         Type::Path(p) => {
             let last = p.path.segments.last().unwrap();
 
@@ -1458,9 +1450,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
             }
         }
         Type::Ptr(_) => unimplemented!("type: pointer"),
-        Type::Reference(ty) => {
-            return create_method_body(mode, &ty.elem);
-        }
+        Type::Reference(ty) => create_method_body(mode, &ty.elem),
         Type::Slice(_) => unimplemented!("type: slice"),
         Type::TraitObject(_) => unimplemented!("type: trait object"),
         Type::Tuple(_) => unimplemented!("type: trait tuple"),
@@ -1483,7 +1473,6 @@ fn add_required(types: &mut Vec<Type>, ty: &Type) {
     if let Some(ty) = extract_generic("Arc", ty) {
         add_required(types, ty);
         types.push(ty.clone());
-        return;
     }
 }
 
@@ -1492,10 +1481,8 @@ fn is_option(ty: &Type) -> bool {
         Type::Path(p) => {
             let last = p.path.segments.last().unwrap();
 
-            if !last.arguments.is_empty() {
-                if last.ident == "Option" {
-                    return true;
-                }
+            if !last.arguments.is_empty() && last.ident == "Option" {
+                return true;
             }
         }
         _ => {}
@@ -1513,19 +1500,17 @@ fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
         Type::Path(p) => {
             let last = p.path.segments.last().unwrap();
 
-            if !last.arguments.is_empty() {
-                if last.ident == name {
-                    match &last.arguments {
-                        PathArguments::AngleBracketed(tps) => {
-                            let arg = tps.args.first().unwrap();
+            if !last.arguments.is_empty() && last.ident == name {
+                match &last.arguments {
+                    PathArguments::AngleBracketed(tps) => {
+                        let arg = tps.args.first().unwrap();
 
-                            match arg {
-                                GenericArgument::Type(arg) => return Some(arg),
-                                _ => unimplemented!("generic parameter other than type"),
-                            }
+                        match arg {
+                            GenericArgument::Type(arg) => return Some(arg),
+                            _ => unimplemented!("generic parameter other than type"),
                         }
-                        _ => unimplemented!("Box() -> T or Box without a type parameter"),
                     }
+                    _ => unimplemented!("Box() -> T or Box without a type parameter"),
                 }
             }
         }
@@ -1567,9 +1552,9 @@ fn method_name_as_str(mode: Mode, ty: &Type) -> String {
             if suffix(ty).to_plural() == suffix(ty) {
                 return format!("{}_vec", suffix(ty).to_plural());
             }
-            return format!("{}", suffix(ty).to_plural());
+            return suffix(ty).to_plural();
         }
-        type_to_name(&ty).to_snake_case()
+        type_to_name(ty).to_snake_case()
     }
 
     format!("{}_{}", mode.prefix(), suffix(ty))
