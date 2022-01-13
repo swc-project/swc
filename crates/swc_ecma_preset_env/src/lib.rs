@@ -399,17 +399,18 @@ impl Fold for Polyfills {
             );
         }
 
-        m.body.retain(|item| match item {
-            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                src:
-                    Str {
+        m.body.retain(|item| {
+            !matches!(
+                item,
+                ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    src: Str {
                         span: DUMMY_SP,
                         value: js_word!(""),
                         ..
                     },
-                ..
-            })) => false,
-            _ => true,
+                    ..
+                }))
+            )
         });
 
         m

@@ -282,7 +282,7 @@ impl NodeResolver {
     /// Resolve a path as a directory, using the "main" key from a
     /// package.json file if it exists, or resolving to the
     /// index.EXT file if it exists.
-    fn resolve_as_directory(&self, path: &PathBuf) -> Result<PathBuf, Error> {
+    fn resolve_as_directory(&self, path: &Path) -> Result<PathBuf, Error> {
         // 1. If X/package.json is a file, use it.
         let pkg_path = path.join("package.json");
         if pkg_path.is_file() {
@@ -297,12 +297,12 @@ impl NodeResolver {
     }
 
     /// Resolve using the package.json "main" key.
-    fn resolve_package_main(&self, _: &PathBuf) -> Result<PathBuf, Error> {
+    fn resolve_package_main(&self, _: &Path) -> Result<PathBuf, Error> {
         bail!("package.json is not supported")
     }
 
     /// Resolve a directory to its index.EXT.
-    fn resolve_index(&self, path: &PathBuf) -> Result<PathBuf, Error> {
+    fn resolve_index(&self, path: &Path) -> Result<PathBuf, Error> {
         // 1. If X/index.js is a file, load X/index.js as JavaScript text.
         // 2. If X/index.json is a file, parse X/index.json to a JavaScript object.
         // 3. If X/index.node is a file, load X/index.node as binary addon.

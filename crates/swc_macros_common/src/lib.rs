@@ -71,15 +71,11 @@ pub fn doc_str(attr: &Attribute) -> Option<String> {
         }
     }
 
-    match *attr {
-        Attribute { .. } => {
-            if !is_attr_name(attr, "doc") {
-                return None;
-            }
-
-            Some(parse_tts(attr))
-        }
+    if !is_attr_name(attr, "doc") {
+        return None;
     }
+
+    Some(parse_tts(attr))
 }
 
 /// fail! is a panic! with location reporting.

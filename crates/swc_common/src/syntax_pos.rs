@@ -183,7 +183,7 @@ impl FileName {
 ///   and would be rendered with `^^^`.
 /// - they can have a *label*. In this case, the label is written next to the
 ///   mark in the snippet when we render.
-#[derive(Clone, Debug, Hash, PartialEq, Eq)]
+#[derive(Clone, Debug, Default, Hash, PartialEq, Eq)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
@@ -441,10 +441,7 @@ impl Default for Span {
 impl MultiSpan {
     #[inline]
     pub fn new() -> MultiSpan {
-        MultiSpan {
-            primary_spans: vec![],
-            span_labels: vec![],
-        }
+        Self::default()
     }
 
     pub fn from_span(primary_span: Span) -> MultiSpan {

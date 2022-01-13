@@ -102,18 +102,15 @@ where
                 .context("not processed by tsc resolver because it's relative import");
         }
 
-        match base {
-            FileName::Real(v) => {
-                if v.components().any(|c| match c {
-                    Component::Normal(v) => v == "node_modules",
-                    _ => false,
-                }) {
-                    return self.inner.resolve(base, src).context(
-                        "not processed by tsc resolver because base module is in node_modules",
-                    );
-                }
+        if let FileName::Real(v) = base {
+            if v.components().any(|c| match c {
+                Component::Normal(v) => v == "node_modules",
+                _ => false,
+            }) {
+                return self.inner.resolve(base, src).context(
+                    "not processed by tsc resolver because base module is in node_modules",
+                );
             }
-            _ => {}
         }
 
         // https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping

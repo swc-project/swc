@@ -21,57 +21,50 @@ pub struct Config {
 impl Parse for Config {
     fn parse(input: ParseStream) -> syn::Result<Self> {
         fn update(c: &mut Config, meta: Meta) {
-            match &meta {
-                Meta::List(list) => {
-                    if list
-                        .path
-                        .get_ident()
-                        .map(|i| *i == "exclude")
-                        .unwrap_or(false)
-                    {
-                        //
-                        macro_rules! fail {
-                            () => {{
-                                fail!("invalid input to the attribute")
-                            }};
-                            ($inner:expr) => {{
-                                panic!(
-                                    "{}\nnote: exclude() expects one or more comma-separated \
-             regular expressions, like exclude(\".*\\\\.d\\\\.ts\") or \
+            if let Meta::List(list) = &meta {
+                if list
+                    .path
+                    .get_ident()
+                    .map(|i| *i == "exclude")
+                    .unwrap_or(false)
+                {
+                    //
+                    macro_rules! fail {
+                        () => {{
+                            fail!("invalid input to the attribute")
+                        }};
+                        ($inner:expr) => {{
+                            panic!(
+                                "{}\nnote: exclude() expects one or more comma-separated regular \
+             expressions, like exclude(\".*\\\\.d\\\\.ts\") or \
              exclude(\".*\\\\.d\\\\.ts\", \".*\\\\.tsx\")",
-                                    $inner
-                                )
-                            }};
-                        }
+                                $inner
+                            )
+                        }};
+                    }
 
-                        if list.nested.is_empty() {
-                            fail!("empty exclude()")
-                        }
+                    if list.nested.is_empty() {
+                        fail!("empty exclude()")
+                    }
 
-                        for token in list.nested.iter() {
-                            match token {
-                                NestedMeta::Meta(_) => fail!(),
-                                NestedMeta::Lit(lit) => {
-                                    let lit = match lit {
-                                        Lit::Str(v) => v.value(),
-                                        _ => fail!(),
-                                    };
-                                    c.exclude_patterns.push(Regex::new(&lit).unwrap_or_else(
-                                        |err| {
-                                            fail!(format!(
-                                                "failed to parse regex: {}\n{}",
-                                                lit, err
-                                            ))
-                                        },
-                                    ));
-                                }
+                    for token in list.nested.iter() {
+                        match token {
+                            NestedMeta::Meta(_) => fail!(),
+                            NestedMeta::Lit(lit) => {
+                                let lit = match lit {
+                                    Lit::Str(v) => v.value(),
+                                    _ => fail!(),
+                                };
+                                c.exclude_patterns
+                                    .push(Regex::new(&lit).unwrap_or_else(|err| {
+                                        fail!(format!("failed to parse regex: {}\n{}", lit, err))
+                                    }));
                             }
                         }
-
-                        return;
                     }
+
+                    return;
                 }
-                _ => {}
             }
 
             let expected = r#"#[fixture("fixture/**/*.ts", exclude("*\.d\.ts"))]"#;
@@ -177,13 +170,10 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
 
         if !ignored {
             f.attrs.retain(|attr| {
-                match attr.path.get_ident() {
-                    Some(name) => {
-                        if name == "ignore" {
-                            return false;
-                        }
+                if let Some(name) = attr.path.get_ident() {
+                    if name == "ignore" {
+                        return false;
                     }
-                    None => {}
                 }
 
                 true

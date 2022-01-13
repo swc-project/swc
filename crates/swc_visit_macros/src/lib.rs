@@ -106,7 +106,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         let sig = create_method_sig(mode, ty);
         let name = sig.ident.clone();
         let s = name.to_string();
-        if methods.iter().any(|m| m.sig.ident == &*s) {
+        if methods.iter().any(|m| m.sig.ident == *s) {
             continue;
         }
 
@@ -1290,27 +1290,24 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 GenericArgument::Type(arg) => {
                                     let ident = method_name(mode, arg);
 
-                                    match mode {
-                                        Mode::Fold => {
-                                            if let Some(..) = as_box(arg) {
-                                                return q!(
-                                                    Vars { ident },
-                                                    ({
-                                                        match n {
-                                                            Some(n) => Some(
-                                                                swc_visit::util::map::Map::map(
-                                                                    n,
-                                                                    |n| _visitor.ident(n),
-                                                                ),
-                                                            ),
-                                                            None => None,
+                                    if mode == Mode::Fold {
+                                        if let Some(..) = as_box(arg) {
+                                            return q!(
+                                                Vars { ident },
+                                                ({
+                                                    match n {
+                                                        Some(n) => {
+                                                            Some(swc_visit::util::map::Map::map(
+                                                                n,
+                                                                |n| _visitor.ident(n),
+                                                            ))
                                                         }
-                                                    })
-                                                )
-                                                .parse();
-                                            }
+                                                        None => None,
+                                                    }
+                                                })
+                                            )
+                                            .parse();
                                         }
-                                        _ => {}
                                     }
 
                                     return match mode {
@@ -1477,15 +1474,12 @@ fn add_required(types: &mut Vec<Type>, ty: &Type) {
 }
 
 fn is_option(ty: &Type) -> bool {
-    match ty {
-        Type::Path(p) => {
-            let last = p.path.segments.last().unwrap();
+    if let Type::Path(p) = ty {
+        let last = p.path.segments.last().unwrap();
 
-            if !last.arguments.is_empty() && last.ident == "Option" {
-                return true;
-            }
+        if !last.arguments.is_empty() && last.ident == "Option" {
+            return true;
         }
-        _ => {}
     }
 
     false
@@ -1496,25 +1490,22 @@ fn as_box(ty: &Type) -> Option<&Type> {
 }
 
 fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
-    match ty {
-        Type::Path(p) => {
-            let last = p.path.segments.last().unwrap();
+    if let Type::Path(p) = ty {
+        let last = p.path.segments.last().unwrap();
 
-            if !last.arguments.is_empty() && last.ident == name {
-                match &last.arguments {
-                    PathArguments::AngleBracketed(tps) => {
-                        let arg = tps.args.first().unwrap();
+        if !last.arguments.is_empty() && last.ident == name {
+            match &last.arguments {
+                PathArguments::AngleBracketed(tps) => {
+                    let arg = tps.args.first().unwrap();
 
-                        match arg {
-                            GenericArgument::Type(arg) => return Some(arg),
-                            _ => unimplemented!("generic parameter other than type"),
-                        }
+                    match arg {
+                        GenericArgument::Type(arg) => return Some(arg),
+                        _ => unimplemented!("generic parameter other than type"),
                     }
-                    _ => unimplemented!("Box() -> T or Box without a type parameter"),
                 }
+                _ => unimplemented!("Box() -> T or Box without a type parameter"),
             }
         }
-        _ => {}
     }
 
     None
