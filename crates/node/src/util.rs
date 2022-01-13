@@ -65,7 +65,7 @@ pub(crate) fn deserialize_json<T>(json: &str) -> Result<T, serde_json::Error>
 where
     T: DeserializeOwned,
 {
-    let mut deserializer = serde_json::Deserializer::from_str(&json);
+    let mut deserializer = serde_json::Deserializer::from_str(json);
     deserializer.disable_recursion_limit();
 
     T::deserialize(&mut deserializer)

@@ -22,7 +22,7 @@ mod util;
 static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
-    Arc::new(Compiler::new(cm.clone()))
+    Arc::new(Compiler::new(cm))
 });
 
 #[napi::module_init]
