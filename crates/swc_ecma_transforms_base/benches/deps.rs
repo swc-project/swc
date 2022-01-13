@@ -56,12 +56,12 @@ fn fold_empty(b: &mut Bencher) {
         let module = parser
             .parse_module()
             .map_err(|e| {
-                e.into_diagnostic(&handler).emit();
+                e.into_diagnostic(handler).emit();
             })
             .unwrap();
 
         for e in parser.take_errors() {
-            e.into_diagnostic(&handler).emit();
+            e.into_diagnostic(handler).emit();
         }
 
         let mut folder = noop();
@@ -88,11 +88,11 @@ fn fold_noop_impl_all(b: &mut Bencher) {
         let mut parser = Parser::new_from(lexer);
         let module = parser
             .parse_module()
-            .map_err(|e| e.into_diagnostic(&handler).emit())
+            .map_err(|e| e.into_diagnostic(handler).emit())
             .unwrap();
 
         for e in parser.take_errors() {
-            e.into_diagnostic(&handler).emit();
+            e.into_diagnostic(handler).emit();
         }
 
         let mut folder = noop();
@@ -119,12 +119,12 @@ fn fold_noop_impl_vec(b: &mut Bencher) {
         let module = parser
             .parse_module()
             .map_err(|e| {
-                e.into_diagnostic(&handler).emit();
+                e.into_diagnostic(handler).emit();
             })
             .unwrap();
 
         for e in parser.take_errors() {
-            e.into_diagnostic(&handler).emit();
+            e.into_diagnostic(handler).emit();
         }
 
         let mut folder = noop();

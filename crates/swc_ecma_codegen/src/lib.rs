@@ -361,7 +361,7 @@ where
                 ExportSpecifier::Namespace(spec) => {
                     result.has_namespace_spec = true;
                     // There can only be one namespace export specifier.
-                    if let None = result.namespace_spec {
+                    if result.namespace_spec.is_none() {
                         result.namespace_spec = Some(spec)
                     }
                     result
@@ -470,7 +470,7 @@ where
     }
 
     fn emit_js_word(&mut self, span: Span, value: &JsWord) -> Result {
-        self.wr.write_str_lit(span, &value)?;
+        self.wr.write_str_lit(span, value)?;
 
         Ok(())
     }
@@ -526,23 +526,19 @@ where
                 self.wr.write_str_lit(num.span, "-")?;
             }
             self.wr.write_str_lit(num.span, "Infinity")?;
+        } else if num.value.is_sign_negative() && num.value == 0.0 {
+            self.wr.write_str_lit(num.span, "-0")?;
         } else {
-            if num.value.is_sign_negative() && num.value == 0.0 {
-                self.wr.write_str_lit(num.span, "-0")?;
-            } else {
-                let mut s = num.value.to_string();
-                if self.cfg.minify {
-                    if !s.contains('.') && !s.contains('e') && s.ends_with("0000") {
-                        let cnt = s.as_bytes().iter().rev().filter(|&&v| v == b'0').count() - 1;
+            let mut s = num.value.to_string();
+            if self.cfg.minify && !s.contains('.') && !s.contains('e') && s.ends_with("0000") {
+                let cnt = s.as_bytes().iter().rev().filter(|&&v| v == b'0').count() - 1;
 
-                        s.truncate(s.len() - cnt);
-                        s.push('e');
-                        s.push_str(&cnt.to_string());
-                    }
-                }
-
-                self.wr.write_str_lit(num.span, &s)?;
+                s.truncate(s.len() - cnt);
+                s.push('e');
+                s.push_str(&cnt.to_string());
             }
+
+            self.wr.write_str_lit(num.span, &s)?;
         }
     }
 
@@ -1627,7 +1623,7 @@ where
         }
 
         let emit_new_line = !self.cfg.minify
-            && !(node.props.len() == 0 && is_empty_comments(&node.span(), &self.comments));
+            && !(node.props.is_empty() && is_empty_comments(&node.span(), &self.comments));
 
         if emit_new_line {
             self.wr.write_line()?;
@@ -1919,10 +1915,9 @@ where
                     // to newline ,
                     if format.contains(ListFormat::DelimitersMask)
                         && previous_sibling.hi != parent_node.hi()
+                        && self.comments.is_some()
                     {
-                        if self.comments.is_some() {
-                            self.emit_leading_comments(previous_sibling.span().hi(), true)?;
-                        }
+                        self.emit_leading_comments(previous_sibling.span().hi(), true)?;
                     }
 
                     self.write_delim(format)?;
@@ -1991,11 +1986,12 @@ where
                 }
             };
 
-            if has_trailing_comma && format.contains(ListFormat::CommaDelimited) {
-                if !self.cfg.minify || !format.contains(ListFormat::CanSkipTrailingComma) {
-                    punct!(self, ",");
-                    formatting_space!(self);
-                }
+            if has_trailing_comma
+                && format.contains(ListFormat::CommaDelimited)
+                && (!self.cfg.minify || !format.contains(ListFormat::CanSkipTrailingComma))
+            {
+                punct!(self, ",");
+                formatting_space!(self);
             }
 
             {
@@ -2018,10 +2014,9 @@ where
                     if format.contains(ListFormat::DelimitersMask)
                         && previous_sibling.span().hi() != parent_node.hi()
                         && emit_trailing_comments
+                        && self.comments.is_some()
                     {
-                        if self.comments.is_some() {
-                            self.emit_leading_comments(previous_sibling.span().hi(), true)?;
-                        }
+                        self.emit_leading_comments(previous_sibling.span().hi(), true)?;
                     }
                 }
             }
@@ -2316,7 +2311,7 @@ where
         }
 
         let emit_new_line = !self.cfg.minify
-            && !(node.stmts.len() == 0 && is_empty_comments(&node.span(), &self.comments));
+            && !(node.stmts.is_empty() && is_empty_comments(&node.span(), &self.comments));
 
         let mut list_format = ListFormat::MultiLineBlockStatements;
 
@@ -2396,7 +2391,7 @@ where
                     }
                 }
                 Callee::Expr(callee) => {
-                    if self.has_leading_comment(&callee) {
+                    if self.has_leading_comment(callee) {
                         return true;
                     }
                 }
@@ -2445,12 +2440,10 @@ where
                     .unwrap_or(false);
             if need_paren {
                 punct!("(");
+            } else if arg.starts_with_alpha_num() {
+                space!();
             } else {
-                if arg.starts_with_alpha_num() {
-                    space!();
-                } else {
-                    formatting_space!();
-                }
+                formatting_space!();
             }
 
             emit!(arg);
@@ -2998,14 +2991,14 @@ fn unescape_tpl_lit(s: &str, is_synthesized: bool) -> String {
         if c != '\\' {
             match c {
                 '\r' => {
-                    if chars.peek().map(|&v| v) == Some('\n') {
+                    if chars.peek().copied() == Some('\n') {
                         continue;
                     }
 
-                    result.push_str("\r");
+                    result.push('\r');
                 }
                 '\n' => {
-                    result.push_str("\n");
+                    result.push('\n');
                 }
 
                 '`' if is_synthesized => {
@@ -3074,7 +3067,7 @@ fn escape_without_source(v: &str, target: EsVersion, single_quote: bool) -> Stri
 
             '\\' => {
                 if iter.peek() == Some(&'\0') {
-                    buf.push_str("\\");
+                    buf.push('\\');
                     iter.next();
                 } else {
                     buf.push_str("\\\\")
@@ -3149,10 +3142,8 @@ fn escape_with_source<'s>(
         || (single_quote == Some(false) && orig.starts_with('"'))
     {
         orig = &orig[1..orig.len() - 1];
-    } else {
-        if single_quote.is_some() {
-            return escape_without_source(s, target, single_quote.unwrap_or(false));
-        }
+    } else if single_quote.is_some() {
+        return escape_without_source(s, target, single_quote.unwrap_or(false));
     }
 
     let mut buf = String::with_capacity(s.len());
@@ -3312,12 +3303,12 @@ fn is_space_require_before_rhs(rhs: &Expr) -> bool {
 
         Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..) => true,
 
-        Expr::Bin(BinExpr { left, .. }) => is_space_require_before_rhs(&left),
+        Expr::Bin(BinExpr { left, .. }) => is_space_require_before_rhs(left),
 
         _ => false,
     }
 }
 
 fn is_empty_comments(span: &Span, comments: &Option<&dyn Comments>) -> bool {
-    return span.is_dummy() || comments.map_or(true, |c| !c.has_leading(span.hi() - BytePos(1)));
+    span.is_dummy() || comments.map_or(true, |c| !c.has_leading(span.hi() - BytePos(1)))
 }

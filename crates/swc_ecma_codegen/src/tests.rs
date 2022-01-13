@@ -31,7 +31,7 @@ impl Builder {
             Box::new(writer)
         };
 
-        let ret = {
+        {
             let mut e = Emitter {
                 cfg: self.cfg,
                 cm: self.cm.clone(),
@@ -40,9 +40,7 @@ impl Builder {
             };
 
             op(&mut e)
-        };
-
-        ret
+        }
     }
 
     pub fn text<F>(self, src: &str, op: F) -> String
@@ -133,7 +131,7 @@ pub(crate) fn assert_pretty(from: &str, to: &str) {
 
     println!("Expected: {:?}", to);
     println!("Actaul:   {:?}", out);
-    assert_eq!(DebugUsingDisplay(&out.trim()), DebugUsingDisplay(to),);
+    assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
 }
 
 #[track_caller]
@@ -618,7 +616,7 @@ fn issue_1619_3() {
 
 fn check_latest(src: &str, expected: &str) {
     let actual = parse_then_emit(
-        &src,
+        src,
         Config { minify: false },
         Default::default(),
         EsVersion::latest(),

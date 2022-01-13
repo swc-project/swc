@@ -214,7 +214,7 @@ where
     ) -> Result<Self::Resolver, S::Error> {
         value
             .as_ref()
-            .map(|value| rkyv::string::ArchivedString::serialize_from_str(&value, serializer))
+            .map(|value| rkyv::string::ArchivedString::serialize_from_str(value, serializer))
             .transpose()
     }
 }

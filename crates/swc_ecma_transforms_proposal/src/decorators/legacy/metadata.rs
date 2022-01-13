@@ -367,7 +367,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                     left: Box::new(Expr::Unary(UnaryExpr {
                         span: DUMMY_SP,
                         op: op!("typeof"),
-                        arg: expr.clone(),
+                        arg: expr,
                     })),
                     op: op!("==="),
                     right: Box::new(Expr::Lit(Lit::Str(Str {
@@ -427,7 +427,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 _ => {}
             }
 
-            let item = serialize_type_node(class_name, &ty);
+            let item = serialize_type_node(class_name, ty);
 
             // One of the individual is global object, return immediately
             match item {
@@ -486,7 +486,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             | TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsNeverKeyword,
                 ..
-            }) => return *undefined(span),
+            }) => *undefined(span),
 
             TsType::TsParenthesizedType(ty) => serialize_type_node(class_name, &*ty.type_ann),
 

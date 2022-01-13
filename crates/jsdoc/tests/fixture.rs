@@ -49,7 +49,7 @@ fn fixture(path: PathBuf) {
                     continue;
                 }
 
-                if !cmt.text.starts_with("*") {
+                if !cmt.text.starts_with('*') {
                     continue;
                 }
 

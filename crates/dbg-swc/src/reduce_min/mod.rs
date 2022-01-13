@@ -49,7 +49,7 @@ impl ReduceMinCommand {
         };
 
         let mut runner = Runner {
-            cm: cm.clone(),
+            cm,
             comments: Default::default(),
             working_dir: self.working_dir,
             build_command: self.build_command,

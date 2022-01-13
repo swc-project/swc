@@ -138,7 +138,7 @@ impl VisitMut for Folder {
     fn visit_mut_call_expr(&mut self, expr: &mut CallExpr) {
         expr.visit_mut_children_with(self);
 
-        if is_create_class_call(&expr) {
+        if is_create_class_call(expr) {
             let name = match self.name.take() {
                 Some(name) => name,
                 None => return,

@@ -348,7 +348,7 @@ mod tests {
         file_name: &str,
         source: &str,
     ) -> Result<(ast::Module, SingleThreadedComments), testing::StdErr> {
-        let output = ::testing::run_test(false, |cm, handler| {
+        ::testing::run_test(false, |cm, handler| {
             let fm =
                 cm.new_source_file(FileName::Custom(file_name.to_string()), source.to_string());
 
@@ -370,10 +370,10 @@ mod tests {
 
             let res = p
                 .parse_module()
-                .map_err(|e| e.into_diagnostic(&handler).emit());
+                .map_err(|e| e.into_diagnostic(handler).emit());
 
             for err in p.take_errors() {
-                err.into_diagnostic(&handler).emit();
+                err.into_diagnostic(handler).emit();
             }
 
             if handler.has_errors() {
@@ -381,9 +381,7 @@ mod tests {
             }
 
             Ok((res.unwrap(), comments))
-        });
-
-        output
+        })
     }
 
     #[test]
@@ -415,7 +413,7 @@ try {
     // pass
 }
       "#;
-        let (module, comments) = helper("test.ts", &source).unwrap();
+        let (module, comments) = helper("test.ts", source).unwrap();
         let dependencies = analyze_dependencies(&module, &comments);
         assert_eq!(dependencies.len(), 8);
         assert_eq!(
@@ -535,7 +533,7 @@ const d8 = await import("./d8.json", { assert: { type: bar } });
 const d9 = await import("./d9.json", { assert: { type: "json", ...bar } });
 const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad" } });
       "#;
-        let (module, comments) = helper("test.ts", &source).unwrap();
+        let (module, comments) = helper("test.ts", source).unwrap();
         let expected_assertions1 = ImportAssertions::Known({
             let mut map = HashMap::new();
             map.insert(
@@ -599,7 +597,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(186), BytePos(239), Default::default()),
                     specifier: JsWord::from("./foo.json"),
                     specifier_span: Span::new(BytePos(202), BytePos(214), Default::default()),
-                    import_assertions: expected_assertions2.clone(),
+                    import_assertions: expected_assertions2,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -617,7 +615,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(333), BytePos(386), Default::default()),
                     specifier: JsWord::from("./buzz.json"),
                     specifier_span: Span::new(BytePos(340), BytePos(353), Default::default()),
-                    import_assertions: dynamic_expected_assertions2.clone(),
+                    import_assertions: dynamic_expected_assertions2,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,

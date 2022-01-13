@@ -41,16 +41,15 @@ impl UsageVisitor {
         // "web.dom.iterable"]);        }
         //        v
 
-        let v = Self {
-            is_any_target: target.is_any_target(),
-            target,
-            required: Default::default(),
-        };
         //if target.is_any_target() || target.node.is_none() {
         //    v.add(&["web.timers", "web.immediate", "web.dom.iterable"]);
         //}
 
-        v
+        Self {
+            is_any_target: target.is_any_target(),
+            target,
+            required: Default::default(),
+        }
     }
 
     /// Add imports
@@ -77,14 +76,14 @@ impl UsageVisitor {
 
     fn add_property_deps_inner(&mut self, obj: Option<&JsWord>, prop: &JsWord) {
         if let Some(obj) = obj {
-            if let Some(map) = STATIC_PROPERTIES.get_data(&obj) {
-                if let Some(features) = map.get_data(&prop) {
+            if let Some(map) = STATIC_PROPERTIES.get_data(obj) {
+                if let Some(features) = map.get_data(prop) {
                     self.add(features);
                 }
             }
         }
 
-        if let Some(features) = INSTANCE_PROPERTIES.get_data(&prop) {
+        if let Some(features) = INSTANCE_PROPERTIES.get_data(prop) {
             self.add(features);
         }
     }
@@ -141,7 +140,7 @@ impl Visit for UsageVisitor {
         if let Some(ref init) = d.init {
             match d.name {
                 // const { keys, values } = Object
-                Pat::Object(ref o) => self.visit_object_pat_props(&init, &o.props),
+                Pat::Object(ref o) => self.visit_object_pat_props(init, &o.props),
                 _ => {}
             }
         } else {
@@ -309,7 +308,7 @@ impl Visit for UsageVisitor {
                 Expr::Member(MemberExpr {
                     prop: MemberProp::Computed(ComputedPropName { expr, .. }),
                     ..
-                }) if is_symbol_iterator(&expr) => true,
+                }) if is_symbol_iterator(expr) => true,
                 _ => false,
             },
             _ => false,

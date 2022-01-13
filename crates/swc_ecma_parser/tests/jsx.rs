@@ -1,5 +1,4 @@
 use pretty_assertions::assert_eq;
-use serde_json;
 use std::{
     fs::read_to_string,
     path::{Path, PathBuf},
@@ -39,7 +38,7 @@ where
     let res = f(&mut p).map_err(|e| e.into_diagnostic(handler).emit());
 
     for e in p.take_errors() {
-        e.into_diagnostic(&handler).emit();
+        e.into_diagnostic(handler).emit();
     }
 
     res
@@ -56,7 +55,7 @@ fn references(entry: PathBuf) {
         );
 
         // Parse source
-        let module = parse_module(cm.clone(), handler, &entry)?.fold_with(&mut Normalizer);
+        let module = parse_module(cm, handler, &entry)?.fold_with(&mut Normalizer);
         let json =
             serde_json::to_string_pretty(&module).expect("failed to serialize module as json");
         if StdErr::from(json.clone())

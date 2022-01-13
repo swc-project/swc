@@ -16,11 +16,11 @@ fn run(b: &mut Bencher, src: &str, config: Config) {
         let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
         let module = parser
             .parse_module()
-            .map_err(|e| e.into_diagnostic(&handler).emit())
+            .map_err(|e| e.into_diagnostic(handler).emit())
             .unwrap();
 
         for e in parser.take_errors() {
-            e.into_diagnostic(&handler).emit()
+            e.into_diagnostic(handler).emit()
         }
 
         let mut folder = preset_env(

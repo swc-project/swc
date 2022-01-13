@@ -8,7 +8,7 @@ use crate::{
     mode::Mode,
     option::CompressOptions,
     util::{now, unit::CompileUnit, Optional},
-    MAX_PAR_DEPTH,
+    DISABLE_BUGGY_PASSES, MAX_PAR_DEPTH,
 };
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
@@ -437,7 +437,7 @@ where
     noop_visit_mut_type!();
 
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
-        if false && n.function.span.has_mark(self.marks.standalone) {
+        if !DISABLE_BUGGY_PASSES && n.function.span.has_mark(self.marks.standalone) {
             self.optimize_unit_repeatedly(n);
             return;
         }
@@ -446,7 +446,8 @@ where
     }
 
     fn visit_mut_module(&mut self, n: &mut Module) {
-        let is_bundle_mode = false && n.span.has_mark(self.marks.bundle_of_standalone);
+        let is_bundle_mode =
+            !DISABLE_BUGGY_PASSES && n.span.has_mark(self.marks.bundle_of_standalone);
 
         // Disable
         if is_bundle_mode {

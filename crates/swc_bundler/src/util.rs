@@ -128,11 +128,7 @@ where
 {
     #[cfg(feature = "concurrent")]
     pub fn get(&self, k: &K) -> Option<V> {
-        if let Some(v) = self.inner.get(k) {
-            Some(v.value().clone())
-        } else {
-            None
-        }
+        self.inner.get(k).map(|v| v.value().clone())
     }
 
     #[cfg(not(feature = "concurrent"))]

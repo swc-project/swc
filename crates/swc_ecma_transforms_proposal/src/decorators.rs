@@ -131,10 +131,7 @@ impl Fold for Decorators {
                     return Expr::Class(ClassExpr { ident, class });
                 }
 
-                let decorate_call =
-                    self.fold_class_inner(ident.unwrap_or_else(|| quote_ident!("_class")), class);
-
-                decorate_call
+                self.fold_class_inner(ident.unwrap_or_else(|| quote_ident!("_class")), class)
             }
             _ => expr,
         }
@@ -267,10 +264,10 @@ impl Fold for Decorators {
 impl Decorators {
     fn fold_class_inner(&mut self, ident: Ident, mut class: Class) -> Expr {
         let initialize = private_ident!("_initialize");
-        let super_class_ident = match class.super_class {
-            Some(ref expr) => Some(alias_ident_for(expr, "_super")),
-            None => None,
-        };
+        let super_class_ident = class
+            .super_class
+            .as_ref()
+            .map(|expr| alias_ident_for(expr, "_super"));
         let super_class_expr = class.super_class;
         class.super_class = super_class_ident.clone().map(|i| Box::new(Expr::Ident(i)));
 

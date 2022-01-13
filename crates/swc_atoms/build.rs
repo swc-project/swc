@@ -1,5 +1,3 @@
-use string_cache_codegen;
-
 use std::{env, path::Path};
 
 fn main() {

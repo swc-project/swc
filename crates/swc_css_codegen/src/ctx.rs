@@ -31,12 +31,12 @@ impl<'w, I: CssWriter> Deref for WithCtx<'w, I> {
     type Target = CodeGenerator<I>;
 
     fn deref(&self) -> &CodeGenerator<I> {
-        &self.inner
+        self.inner
     }
 }
 impl<'w, I: CssWriter> DerefMut for WithCtx<'w, I> {
     fn deref_mut(&mut self) -> &mut CodeGenerator<I> {
-        &mut self.inner
+        self.inner
     }
 }
 

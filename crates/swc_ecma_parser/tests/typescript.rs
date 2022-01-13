@@ -43,7 +43,7 @@ fn shifted(file: PathBuf) {
         let json =
             serde_json::to_string_pretty(&program).expect("failed to serialize module as json");
 
-        if StdErr::from(json.clone())
+        if StdErr::from(json)
             .compare_to_file(&format!("{}.json", file.display()))
             .is_err()
         {
@@ -188,7 +188,8 @@ where
     F: FnOnce(&mut Parser<Lexer<StringInput<'_>>>, &SingleThreadedComments) -> PResult<Ret>,
 {
     let fname = file_name.display().to_string();
-    let output = ::testing::run_test(treat_error_as_bug, |cm, handler| {
+
+    ::testing::run_test(treat_error_as_bug, |cm, handler| {
         if shift {
             cm.new_source_file(FileName::Anon, "".into());
         }
@@ -214,10 +215,10 @@ where
 
         let mut p = Parser::new_from(lexer);
 
-        let res = f(&mut p, &comments).map_err(|e| e.into_diagnostic(&handler).emit());
+        let res = f(&mut p, &comments).map_err(|e| e.into_diagnostic(handler).emit());
 
         for err in p.take_errors() {
-            err.into_diagnostic(&handler).emit();
+            err.into_diagnostic(handler).emit();
         }
 
         if handler.has_errors() {
@@ -225,9 +226,7 @@ where
         }
 
         res
-    });
-
-    output
+    })
 }
 
 #[testing::fixture("tests/typescript-errors/**/*.ts")]

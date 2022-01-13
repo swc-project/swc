@@ -108,7 +108,7 @@ fn assert_no_invalid(input: PathBuf) {
             if res.is_err() {
                 return Ok(());
             }
-            for _ in p.take_errors() {
+            if !p.take_errors().is_empty() {
                 return Ok(());
             }
 
@@ -150,16 +150,16 @@ fn test_babelify(input: PathBuf) {
             );
             let res = p
                 .parse_module()
-                .map_err(|e| e.into_diagnostic(&handler).emit());
+                .map_err(|e| e.into_diagnostic(handler).emit());
 
             for e in p.take_errors() {
-                e.into_diagnostic(&handler).emit()
+                e.into_diagnostic(handler).emit()
             }
 
             res?
         };
 
-        let s = swc_webpack_ast::webpack_ast(cm.clone(), fm.clone(), module.into()).unwrap();
+        let s = swc_webpack_ast::webpack_ast(cm, fm, module).unwrap();
         println!("{} bytes", s.len());
 
         fs::write(&output_path, s.as_bytes()).unwrap();

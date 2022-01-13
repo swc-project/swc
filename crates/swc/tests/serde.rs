@@ -8,7 +8,7 @@ fn with_parser<F, Ret>(file_name: &str, f: F) -> Result<Ret, NormalizedOutput>
 where
     F: FnOnce(&mut Parser<Lexer<StringInput>>) -> PResult<Ret>,
 {
-    let output = ::testing::run_test(false, |cm, handler| {
+    ::testing::run_test(false, |cm, handler| {
         let fm = cm
             .load_file(Path::new(file_name))
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name, e));
@@ -24,10 +24,10 @@ where
             None,
         );
         let mut p = Parser::new_from(lexer);
-        let res = f(&mut p).map_err(|e| e.into_diagnostic(&handler).emit());
+        let res = f(&mut p).map_err(|e| e.into_diagnostic(handler).emit());
 
         for e in p.take_errors() {
-            e.into_diagnostic(&handler).emit()
+            e.into_diagnostic(handler).emit()
         }
 
         if handler.has_errors() {
@@ -35,9 +35,7 @@ where
         }
 
         res
-    });
-
-    output
+    })
 }
 
 #[test]

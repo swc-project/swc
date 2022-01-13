@@ -18,7 +18,7 @@ pub(crate) fn calc_hash(cm: Lrc<SourceMap>, m: &Module) -> Result<String, Error>
         };
 
         emitter
-            .emit_module(&m)
+            .emit_module(m)
             .context("failed to emit module to calculate hash")?;
     }
     //

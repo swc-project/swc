@@ -370,26 +370,15 @@ impl<'a, I: Input> Lexer<'a, I> {
                     }
 
                     if radix == 16 {
-                        match c.unwrap() {
-                            '.' | 'X' | '_' | 'x' => true,
-                            _ => false,
-                        }
+                        matches!(c.unwrap(), '.' | 'X' | '_' | 'x')
                     } else {
-                        match c.unwrap() {
-                            '.' | 'B' | 'E' | 'O' | '_' | 'b' | 'e' | 'o' => true,
-                            _ => false,
-                        }
+                        matches!(c.unwrap(), '.' | 'B' | 'E' | 'O' | '_' | 'b' | 'e' | 'o')
                     }
                 };
 
                 let next = self.input.peek();
 
-                if !is_allowed(next) {
-                    self.emit_error(
-                        start,
-                        SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
-                    );
-                } else if is_forbidden(prev) || is_forbidden(next) {
+                if !is_allowed(next) || is_forbidden(prev) || is_forbidden(next) {
                     self.emit_error(
                         start,
                         SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,

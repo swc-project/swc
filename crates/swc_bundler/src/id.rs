@@ -34,7 +34,7 @@ impl ModuleIdGenerator {
     pub fn gen(&self, file_name: &FileName) -> (ModuleId, Mark, Mark) {
         let mut w = self.cache.lock();
         if let Some(v) = w.get(file_name) {
-            return v.clone();
+            return *v;
         }
 
         let id = ModuleId(self.v.fetch_add(1, SeqCst));
