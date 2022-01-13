@@ -44,10 +44,12 @@ This decision is taken because
 
 [example | description | pointer to more information | …] <!-- optional -->
 
--   Good, because [argument a]
--   Good, because [argument b]
--   Bad, because [argument c]
--   … <!-- numbers of pros and cons can vary -->
+-   Good, because users can use rich echosystem of babel.
+-   Good, because users are used to javascript.
+-   Bad, because js plugins require and block the main javascript thread.
+-   Bad, because the main javascript is singled threaded and be bottleneck.
+-   Bad, because `napi` (renamed to `node-api`) does not provide a way to get the return value of a function called from other thread than js thread. To workaround this, we should implement a complex request-response system based using lots of mutex.
+-   Bad, because node js worker thread is not an event loop. This means worker we cannot `yield` from a worker thread when we need to call js plugin. As a result, the when main js thread is busy because of js plugins, worker threads are also blocked without doing any task.
 
 ### [option 2] Plugins based on `abi_stable` and native dynamic libraries
 
