@@ -44,7 +44,7 @@
         ]
       },
       "layerName": null,
-      "condition": null
+      "media": null
     },
     {
       "type": "ImportRule",
@@ -84,7 +84,7 @@
         ]
       },
       "layerName": null,
-      "condition": null
+      "media": null
     },
     {
       "type": "ImportRule",
@@ -104,7 +104,7 @@
         "raw": "./style.css"
       },
       "layerName": null,
-      "condition": null
+      "media": null
     },
     {
       "type": "ImportRule",
@@ -124,7 +124,7 @@
         "raw": "'./style.css'"
       },
       "layerName": null,
-      "condition": null
+      "media": null
     },
     {
       "type": "ImportRule",
@@ -144,7 +144,7 @@
         "raw": "\"./style.css\""
       },
       "layerName": null,
-      "condition": null
+      "media": null
     },
     {
       "type": "ImportRule",
@@ -184,7 +184,7 @@
         ]
       },
       "layerName": null,
-      "condition": null
+      "media": null
     },
     {
       "type": "ImportRule",
@@ -204,7 +204,7 @@
         "raw": "./style.css"
       },
       "layerName": null,
-      "condition": null
+      "media": null
     },
     {
       "type": "ImportRule",
@@ -244,7 +244,7 @@
         ]
       },
       "layerName": null,
-      "condition": null
+      "media": null
     },
     {
       "type": "ImportRule",
@@ -264,7 +264,7 @@
         "raw": "\"test.css\""
       },
       "layerName": null,
-      "condition": null
+      "media": null
     },
     {
       "type": "ImportRule",
@@ -284,7 +284,7 @@
         "raw": "\"common.css\""
       },
       "layerName": null,
-      "condition": {
+      "media": {
         "type": "Identifier",
         "span": {
           "start": 250,
@@ -333,7 +333,7 @@
         ]
       },
       "layerName": null,
-      "condition": {
+      "media": {
         "type": "AndMediaQuery",
         "span": {
           "start": 287,
@@ -430,7 +430,7 @@
         "value": "layer",
         "raw": "layer"
       },
-      "condition": null
+      "media": null
     },
     {
       "type": "ImportRule",
@@ -479,7 +479,7 @@
         "value": "layer",
         "raw": "layer"
       },
-      "condition": null
+      "media": null
     },
     {
       "type": "ImportRule",
@@ -528,7 +528,7 @@
         "value": "LAYER",
         "raw": "LAYER"
       },
-      "condition": null
+      "media": null
     },
     {
       "type": "ImportRule",
@@ -597,7 +597,7 @@
           }
         ]
       },
-      "condition": null
+      "media": null
     },
     {
       "type": "ImportRule",
@@ -666,7 +666,7 @@
           }
         ]
       },
-      "condition": null
+      "media": null
     },
     {
       "type": "ImportRule",
@@ -724,7 +724,7 @@
         },
         "value": []
       },
-      "condition": null
+      "media": null
     }
   ]
 }

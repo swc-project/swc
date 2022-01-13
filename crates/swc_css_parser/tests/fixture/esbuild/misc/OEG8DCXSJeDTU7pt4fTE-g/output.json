@@ -44,7 +44,7 @@
         ]
       },
       "layerName": null,
-      "condition": {
+      "media": {
         "type": "AndMediaQuery",
         "span": {
           "start": 23,

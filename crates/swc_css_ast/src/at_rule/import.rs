@@ -27,5 +27,5 @@ pub struct ImportRule {
     pub span: Span,
     pub src: ImportSource,
     pub layer_name: Option<ImportLayerName>,
-    pub condition: Option<MediaQuery>,
+    pub media: Option<MediaQuery>,
 }

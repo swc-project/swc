@@ -310,7 +310,7 @@ where
             _ => None,
         };
 
-        let condition = if !is_one_of!(self, ";", EOF) {
+        let media = if !is!(self, ";") {
             Some(self.parse()?)
         } else {
             None
@@ -324,6 +324,8 @@ where
             layer_name,
             condition,
         })
+            media,
+        });
     }
 }
 
