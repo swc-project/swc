@@ -93,18 +93,17 @@ impl<'a> From<&'a Token> for TokenType {
             Token::Word(Word::Keyword(k)) => TokenType::Keyword(k),
             _ => TokenType::Other {
                 before_expr: t.before_expr(),
-                can_have_trailing_comment: match *t {
+                can_have_trailing_comment: matches!(
+                    *t,
                     Token::Num(..)
-                    | Token::Str { .. }
-                    | Token::Word(Word::Ident(..))
-                    | Token::DollarLBrace
-                    | Token::Regex(..)
-                    | Token::BigInt(..)
-                    | Token::JSXText { .. }
-                    | Token::RBrace => true,
-
-                    _ => false,
-                },
+                        | Token::Str { .. }
+                        | Token::Word(Word::Ident(..))
+                        | Token::DollarLBrace
+                        | Token::Regex(..)
+                        | Token::BigInt(..)
+                        | Token::JSXText { .. }
+                        | Token::RBrace
+                ),
             },
         }
     }

@@ -69,18 +69,12 @@ impl DependencyCollector {
             .unwrap()
             .insert(name.clone(), Arc::new(ModuleData { fm: fm.clone() }));
 
-        match &*name {
-            FileName::Real(name) => match name.extension() {
-                Some(ext) => {
-                    if ext == "json" {
-                        return Ok(());
-                    }
+        if let FileName::Real(name) = &*name {
+            if let Some(ext) = name.extension() {
+                if ext == "json" {
+                    return Ok(());
                 }
-
-                _ => {}
-            },
-
-            _ => {}
+            }
         }
 
         let module = parse(&fm)?;

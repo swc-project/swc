@@ -932,7 +932,7 @@ impl EmitterWriter {
         }
     }
 
-    #[allow(clippy::cognitive_complexity)]
+    #[allow(clippy::cognitive_complexity, clippy::comparison_chain)]
     fn emit_message_default(
         &mut self,
         msp: &MultiSpan,

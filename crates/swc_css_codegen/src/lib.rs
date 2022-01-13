@@ -742,11 +742,8 @@ where
     fn emit_complex_selector(&mut self, n: &ComplexSelector) -> Result {
         let mut need_space = false;
         for (idx, node) in n.children.iter().enumerate() {
-            match node {
-                ComplexSelectorChildren::Combinator(..) => {
-                    need_space = false;
-                }
-                _ => {}
+            if let ComplexSelectorChildren::Combinator(..) = node {
+                need_space = false;
             }
 
             if idx != 0 && need_space {
@@ -755,11 +752,8 @@ where
                 self.wr.write_space()?;
             }
 
-            match node {
-                ComplexSelectorChildren::CompoundSelector(..) => {
-                    need_space = true;
-                }
-                _ => {}
+            if let ComplexSelectorChildren::CompoundSelector(..) = node {
+                need_space = true;
             }
 
             emit!(self, node)
@@ -946,11 +940,8 @@ where
             if idx != 0 {
                 self.write_delim(format)?;
 
-                match format & ListFormat::LinesMask {
-                    ListFormat::MultiLine => {
-                        self.wr.write_newline()?;
-                    }
-                    _ => {}
+                if format & ListFormat::LinesMask == ListFormat::MultiLine {
+                    self.wr.write_newline()?;
                 }
             }
             emit!(self, node)

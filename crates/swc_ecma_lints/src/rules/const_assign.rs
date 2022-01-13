@@ -56,12 +56,8 @@ impl Visit for ConstAssign {
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
-        match p {
-            Pat::Ident(p) => {
-                self.check(&p.id);
-            }
-
-            _ => {}
+        if let Pat::Ident(p) = p {
+            self.check(&p.id);
         }
     }
 

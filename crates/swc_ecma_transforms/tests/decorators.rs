@@ -5697,7 +5697,6 @@ test!(
     |_| decorators(decorators::Config {
         legacy: true,
         emit_metadata: true,
-        ..Default::default()
     }),
     issue_1421_1,
     "
@@ -5730,7 +5729,6 @@ test!(
     |_| decorators(decorators::Config {
         legacy: true,
         emit_metadata: true,
-        ..Default::default()
     }),
     issue_1456_1,
     "
@@ -5824,7 +5822,6 @@ test!(
     |_| decorators(decorators::Config {
         legacy: true,
         emit_metadata: true,
-        ..Default::default()
     }),
     issue_1278_1,
     "
@@ -5992,7 +5989,6 @@ test_exec!(
     |_| simple_strip(Config {
         legacy: true,
         emit_metadata: true,
-        ..Default::default()
     }),
     issue_1362_1,
     "
@@ -6056,7 +6052,6 @@ fn fixture(input: PathBuf) {
                 decorators(Config {
                     legacy: true,
                     emit_metadata: true,
-                    ..Default::default()
                 })
             )
         },

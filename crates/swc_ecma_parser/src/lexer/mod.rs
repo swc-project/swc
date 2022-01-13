@@ -62,7 +62,7 @@ impl IntoIterator for Char {
                 let c = unsafe { char::from_u32_unchecked(self.0) };
                 let escaped = c.escape_unicode().to_string();
 
-                debug_assert!(escaped.starts_with("\\"));
+                debug_assert!(escaped.starts_with('\\'));
 
                 let mut buf = smallvec![];
                 buf.push('\\');
@@ -149,9 +149,8 @@ impl<'a, I: Input> Lexer<'a, I> {
         let b = self.buf.clone();
         let mut buf = b.borrow_mut();
         buf.clear();
-        let res = op(self, &mut buf);
 
-        res
+        op(self, &mut buf)
     }
 
     /// babel: `getTokenFromCode`
@@ -180,7 +179,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                         return Ok(Some(tok!('.')));
                     }
                 };
-                if '0' <= next && next <= '9' {
+                if ('0'..='9').contains(&next) {
                     return self
                         .read_number(true)
                         .map(|v| match v {
@@ -447,7 +446,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         self.input.bump(); // '#'
-        return Ok(Some(Token::Hash));
+        Ok(Some(Token::Hash))
     }
 
     fn read_token_interpreter(&mut self) -> LexResult<bool> {
@@ -788,7 +787,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }
                 first = false;
             }
-            let value = convert(&buf);
+            let value = convert(buf);
 
             Ok((value, has_escape))
         })
@@ -886,10 +885,10 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
 
             l.emit_error(start, SyntaxError::UnterminatedStrLit);
-            return Ok(Token::Str {
+            Ok(Token::Str {
                 value: (&**out).into(),
                 has_escape,
-            });
+            })
         })
     }
 

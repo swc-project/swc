@@ -39,7 +39,7 @@ struct BrowserCache {
 
 /// Helper to find the nearest `package.json` file to get
 /// the base directory for a package.
-fn find_package_root(path: &PathBuf) -> Option<PathBuf> {
+fn find_package_root(path: &Path) -> Option<PathBuf> {
     let mut parent = path.parent();
     while let Some(p) = parent {
         let pkg = p.join(PACKAGE);
@@ -164,7 +164,7 @@ impl NodeModulesResolver {
 
     /// Resolve a path as a directory, using the "main" key from a package.json
     /// file if it exists, or resolving to the index.EXT file if it exists.
-    fn resolve_as_directory(&self, path: &PathBuf) -> Result<Option<PathBuf>, Error> {
+    fn resolve_as_directory(&self, path: &Path) -> Result<Option<PathBuf>, Error> {
         let pkg_path = path.join(PACKAGE);
         if pkg_path.is_file() {
             if let Some(main) = self.resolve_package_entry(path, &pkg_path)? {
@@ -185,8 +185,8 @@ impl NodeModulesResolver {
     /// Resolve using the package.json "main" or "browser" keys.
     fn resolve_package_entry(
         &self,
-        pkg_dir: &PathBuf,
-        pkg_path: &PathBuf,
+        pkg_dir: &Path,
+        pkg_path: &Path,
     ) -> Result<Option<PathBuf>, Error> {
         let file = File::open(pkg_path)?;
         let reader = BufReader::new(file);
