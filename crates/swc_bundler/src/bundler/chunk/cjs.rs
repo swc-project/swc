@@ -138,13 +138,15 @@ fn wrap_module(
     });
 
     // var load = __swcpack_require__.bind(void 0, moduleDecl)
-    let load_var_init = Stmt::Decl(Decl::Var(VarDecl {
+    
+
+    Stmt::Decl(Decl::Var(VarDecl {
         span: DUMMY_SP,
         kind: VarDeclKind::Var,
         declare: false,
         decls: vec![VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(load_var.clone().into()),
+            name: Pat::Ident(load_var.into()),
             init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: Ident::new(
@@ -158,9 +160,7 @@ fn wrap_module(
             }))),
             definite: false,
         }],
-    }));
-
-    load_var_init
+    }))
 }
 
 struct RequireReplacer<'a, 'b, L, R>
@@ -202,7 +202,7 @@ where
                                         type_args: None,
                                     };
                                     self.replaced = true;
-                                    *node = load.clone();
+                                    *node = load;
 
                                     tracing::trace!("Found, and replacing require");
                                 }
@@ -253,7 +253,7 @@ where
                     *node = ModuleItem::Stmt(
                         CallExpr {
                             span: DUMMY_SP,
-                            callee: load_var.clone().as_callee(),
+                            callee: load_var.as_callee(),
                             args: vec![],
                             type_args: None,
                         }
@@ -302,7 +302,7 @@ where
                                     init: Some(Box::new(
                                         CallExpr {
                                             span: DUMMY_SP,
-                                            callee: load_var.clone().as_callee(),
+                                            callee: load_var.as_callee(),
                                             args: vec![],
                                             type_args: None,
                                         }
@@ -331,14 +331,14 @@ where
                         }),
                         init: Some(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            callee: load_var.clone().as_callee(),
+                            callee: load_var.as_callee(),
                             type_args: None,
                             args: vec![],
                         }))),
                         definite: false,
                     }],
                 })));
-                return;
+                
             }
             _ => {}
         }
@@ -366,7 +366,7 @@ impl VisitMut for DefaultHandler {
                         ))),
                         prop: MemberProp::Ident(quote_ident!("exports")),
                     });
-                    return;
+                    
                 }
             }
             _ => {}

@@ -54,7 +54,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
             i = input;
             Tag::Access(AccessTag {
                 span,
-                access: access.into(),
+                access,
             })
         }
 
@@ -176,7 +176,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
             i = input;
             Tag::Exports(ExportsTag {
                 span,
-                module_name: text.into(),
+                module_name: text,
             })
         }
 
@@ -185,7 +185,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
             i = input;
             Tag::External(ExternalTag {
                 span,
-                name: name.into(),
+                name,
             })
         }
 
@@ -481,7 +481,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
         i,
         TagItem {
             span,
-            tag_name: tag_name.into(),
+            tag_name,
             tag,
         },
     ))
