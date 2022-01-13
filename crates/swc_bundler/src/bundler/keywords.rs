@@ -62,7 +62,7 @@ impl VisitMut for KeywordRenamer {
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
             Expr::Ident(n) => {
-                if let Some(renamed) = self.renamed(&n) {
+                if let Some(renamed) = self.renamed(n) {
                     *n = renamed;
                 }
                 return;
@@ -151,7 +151,7 @@ impl VisitMut for KeywordRenamer {
     fn visit_mut_prop(&mut self, n: &mut Prop) {
         match n {
             Prop::Shorthand(i) => {
-                if let Some(renamed) = self.renamed(&i) {
+                if let Some(renamed) = self.renamed(i) {
                     *n = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(i.clone()),
                         value: Box::new(Expr::Ident(renamed)),
