@@ -30,6 +30,7 @@ impl Serialized {
         Serialized { field: vec }
     }
 
+    #[allow(clippy::should_implement_trait)]
     pub fn as_ref(&self) -> &rkyv::AlignedVec {
         &self.field
     }
