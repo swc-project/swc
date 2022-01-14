@@ -323,10 +323,8 @@ where
             span: span!(self, span.lo),
             href,
             layer_name,
-            condition,
-        })
             media,
-        });
+        })
     }
 }
 

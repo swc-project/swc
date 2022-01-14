@@ -34,6 +34,6 @@ add_bitflags!(
     },
     Values {
         /// Write a trailing comma (",") if present.
-        AllowTrailingComma: 1 << 5,
+        AllowTrailingComma: 1 << 6,
     },
 );
