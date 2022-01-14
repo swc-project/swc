@@ -1707,28 +1707,27 @@ function s(x) {
 }
 function _s() {
   _s = _asyncToGenerator(function* (x, ...args) {
-      var _this1 = this;
+      var _this = this, _arguments = arguments;
       let t = function () {
           var _ref1 = _asyncToGenerator(
-              (function* (y, a) {
-                  var _this = this;
+              function* (y, a) {
                   let r = function () {
                       var _ref = _asyncToGenerator(
-                          (function* (z, b, ...innerArgs) {
+                          function* (z, b, ...innerArgs) {
                               yield z;
-                              console.log(this, innerArgs, arguments);
-                              return this.x;
-                          }).bind(_this)
-                      ).bind(_this);
+                              console.log(_this, innerArgs, _arguments);
+                              return _this.x;
+                          }
+                      );
                       return function r(z, b) {
                           return _ref.apply(this, arguments);
                       };
                   }();
                   yield r();
-                  console.log(this, args, arguments);
-                  return this.g(r);
-              }).bind(_this1)
-          ).bind(_this1);
+                  console.log(_this, args, _arguments);
+                  return _this.g(r);
+              }
+          );
           return function t(y, a) {
               return _ref1.apply(this, arguments);
           };
