@@ -2335,6 +2335,10 @@ where
         };
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
+        // These methods may modify prepend_stmts or append_stmts.
+        self.optimize_loops_if_cond_is_false(s);
+        self.optimize_loops_with_break(s);
+
         if !self.prepend_stmts.is_empty() || !self.append_stmts.is_empty() {
             let span = s.span();
             *s = Stmt::Block(BlockStmt {
@@ -2404,9 +2408,6 @@ where
             }
             _ => {}
         }
-
-        self.optimize_loops_if_cond_is_false(s);
-        self.optimize_loops_with_break(s);
 
         match s {
             // We use var decl with no declarator to indicate we dropped an decl.
