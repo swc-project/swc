@@ -568,27 +568,13 @@ impl Actual {
 
         match expr {
             Expr::Arrow(arrow_expr @ ArrowExpr { is_async: true, .. }) => {
-                let this_expr = if contains_this_expr(&arrow_expr.body) {
-                    let this_var = private_ident!(arrow_expr.span, "_this");
+                let mut state = FnEnvState::default();
 
-                    self.hoist_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: vec![VarDeclarator {
-                            span: DUMMY_SP,
-                            name: Pat::Ident(this_var.clone().into()),
-                            init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
-                            definite: false,
-                        }],
-                        declare: Default::default(),
-                    })));
+                arrow_expr
+                    .body
+                    .visit_mut_with(&mut FnEnvHoister::new(&mut state));
 
-                    Some(this_var.as_arg())
-                } else {
-                    None
-                };
-
-                let bind_this = this_expr.is_some();
+                self.hoist_stmts.extend(state.to_stmt());
 
                 let mut wrapper = FunctionWrapper::from(arrow_expr.take());
                 wrapper.binding_ident = binding_ident;
@@ -596,7 +582,7 @@ impl Actual {
                 let fn_expr = wrapper.function.expect_fn_expr();
 
                 // We should not bind `this` in FunctionWrapper
-                wrapper.function = make_fn_ref(fn_expr, this_expr, !bind_this);
+                wrapper.function = make_fn_ref(fn_expr, None, true);
                 *expr = wrapper.into();
             }
 
