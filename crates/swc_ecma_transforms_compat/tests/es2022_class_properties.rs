@@ -2958,25 +2958,25 @@ export default class MyClass3 {
     r#"
     class MyClass {
       constructor(){
-          _defineProperty(this, "myAsyncMethod", _asyncToGenerator(function*() {
+          _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
               console.log(this);
-          }));
+          }).bind(this)).bind(this));
       }
     }
 
     (class MyClass2 {
         constructor(){
-            _defineProperty(this, "myAsyncMethod", _asyncToGenerator(function*() {
+            _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
                 console.log(this);
-            }));
+            }).bind(this)).bind(this));
         }
     })
 
     class MyClass3 {
         constructor(){
-            _defineProperty(this, "myAsyncMethod", _asyncToGenerator(function*() {
+            _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
                 console.log(this);
-            }));
+            }).bind(this)).bind(this));
         }
     }
     export { MyClass3 as default };
@@ -3494,9 +3494,9 @@ class MyClass {
     constructor(){
         _myAsyncMethod.set(this, {
             writable: true,
-            value: _asyncToGenerator(function*() {
+            value: _asyncToGenerator((function*() {
                 console.log(this);
-            })
+            }).bind(this)).bind(this)
         });
     }
 }
@@ -3506,9 +3506,9 @@ var _myAsyncMethod = new WeakMap();
         constructor(){
             _myAsyncMethod2.set(this, {
                 writable: true,
-                value: _asyncToGenerator(function*() {
+                value: _asyncToGenerator((function*() {
                     console.log(this);
-                })
+                }).bind(this)).bind(this)
             });
         }
     }
@@ -3519,9 +3519,9 @@ class MyClass3 {
     constructor(){
         _myAsyncMethod1.set(this, {
             writable: true,
-            value: _asyncToGenerator(function*() {
+            value: _asyncToGenerator((function*() {
                 console.log(this);
-            })
+            }).bind(this)).bind(this)
         });
     }
 }

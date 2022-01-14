@@ -1370,10 +1370,10 @@ let TestClass = {
     name: 'John Doe',
     testMethodFailure () {
         return new Promise(function() {
-            var _ref = _asyncToGenerator(function*(resolve) {
+            var _ref = _asyncToGenerator((function*(resolve) {
                 console.log(this);
                 setTimeout(resolve, 1000);
-            });
+            }).bind(this)).bind(this);
             return function(resolve) {
                 return _ref.apply(this, arguments);
             };
@@ -1707,17 +1707,19 @@ function s(x) {
 }
 function _s() {
   _s = _asyncToGenerator(function* (x, ...args) {
+      var _this1 = this;
       let t = function () {
           var _ref1 = _asyncToGenerator(
-              function* (y, a) {
+              (function* (y, a) {
+                  var _this = this;
                   let r = function () {
                       var _ref = _asyncToGenerator(
-                          function* (z, b, ...innerArgs) {
+                          (function* (z, b, ...innerArgs) {
                               yield z;
                               console.log(this, innerArgs, arguments);
                               return this.x;
-                          }
-                      );
+                          }).bind(_this)
+                      ).bind(_this);
                       return function r(z, b) {
                           return _ref.apply(this, arguments);
                       };
@@ -1725,8 +1727,8 @@ function _s() {
                   yield r();
                   console.log(this, args, arguments);
                   return this.g(r);
-              }
-          );
+              }).bind(_this1)
+          ).bind(_this1);
           return function t(y, a) {
               return _ref1.apply(this, arguments);
           };
@@ -3193,10 +3195,11 @@ const foo = async (x, y, ...z) => {
 };
 "#,
     r#"
+var _this = this;
 const foo = /*#__PURE__*/ function () {
-    var _ref = _asyncToGenerator(function* (x, y, ...z) {
+    var _ref = _asyncToGenerator((function* (x, y, ...z) {
         return this;
-    });
+    }).bind(_this)).bind(_this);
 
     return function foo(x, y) {
         return _ref.apply(this, arguments);
