@@ -3427,7 +3427,13 @@ fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
     compare_stdout(
         Default::default(),
-        |_| chain!(resolver(), async_to_generator()),
+        |_| {
+            chain!(
+                resolver(),
+                class_properties(Default::default()),
+                async_to_generator()
+            )
+        },
         &input,
     );
 }
@@ -3442,6 +3448,7 @@ fn exec_regenerator(input: PathBuf) {
 
             chain!(
                 resolver(),
+                class_properties(Default::default()),
                 async_to_generator(),
                 es2015::for_of(Default::default()),
                 regenerator(Default::default(), top_level_mark)
