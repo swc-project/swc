@@ -43,6 +43,8 @@ where
         }
 
         self.changed = true;
+        // Remove the labeled statement.
+        self.label = None;
         tracing::debug!("loops: Removing a for loop with instant break");
         self.prepend_stmts
             .extend(f.init.take().map(|init| match init {

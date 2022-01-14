@@ -216,6 +216,8 @@ struct Optimizer<'a, M> {
     done_ctxt: SyntaxContext,
 
     /// Closest label.
+    ///
+    /// Setting this to `None` means the label should be removed.
     label: Option<Id>,
 
     mode: &'a M,
@@ -2093,6 +2095,11 @@ where
         let old_label = self.label.take();
         self.label = Some(n.label.to_id());
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        if self.label.is_none() {
+            n.label.take();
+        }
+
         self.label = old_label;
     }
 
@@ -2339,6 +2346,17 @@ where
             ..self.ctx
         };
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        if let Stmt::Labeled(LabeledStmt {
+            label: Ident {
+                sym: js_word!(""), ..
+            },
+            body,
+            ..
+        }) = s
+        {
+            *s = *body.take();
+        }
 
         // visit_mut_children_with above may produce easily optimizable block
         // statements.
