@@ -1,0 +1,5 @@
+@layer framework, override   ,    foo   {
+    .a {
+        color: red;
+    }
+}

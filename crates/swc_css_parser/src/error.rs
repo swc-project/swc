@@ -47,6 +47,7 @@ impl Error {
             ErrorKind::InvalidSupportQuery => "Invalid support query".into(),
             ErrorKind::InvalidKeyframeSelector => "Invalid keyframe selector".into(),
             ErrorKind::InvalidMediaQuery => "Invalid media query".into(),
+            ErrorKind::InvalidLayerBlockAtRule => "Invalid @layer block at-rule".into(),
             ErrorKind::UnknownAtRuleNotTerminated => "Unknown @rule is not terminated".into(),
             ErrorKind::InvalidDeclarationValue => "Expected a property value".into(),
             ErrorKind::InvalidAnPlusBMicrosyntax => "Invalid An+B microsyntax".into(),
@@ -80,6 +81,7 @@ pub enum ErrorKind {
     ExpectedNumber,
     InvalidSupportQuery,
     InvalidKeyframeSelector,
+    InvalidLayerBlockAtRule,
     InvalidMediaQuery,
     InvalidAnPlusBMicrosyntax,
 
