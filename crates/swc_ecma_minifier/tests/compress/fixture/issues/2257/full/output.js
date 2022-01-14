@@ -11122,9 +11122,9 @@
                 var a6, b4;
                 return a7 = m({
                     children: void 0
-                }, b), (b = (a6 = b.children, b4 = "", aa.Children.forEach(a6, function(a) {
+                }, b), a6 = b.children, b4 = "", aa.Children.forEach(a6, function(a) {
                     null != a && (b4 += a);
-                }), b4)) && (a7.children = b), a7;
+                }), (b = b4) && (a7.children = b), a7;
             }
             function fb(a, b, c, d) {
                 if (a = a.options, b) {

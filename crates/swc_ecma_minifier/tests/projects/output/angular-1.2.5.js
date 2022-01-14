@@ -2,7 +2,7 @@
     "use strict";
     function minErr(module) {
         return function() {
-            var message, i, obj, code = arguments[0], template = arguments[1], templateArgs = arguments;
+            var obj, message, i, code = arguments[0], template = arguments[1], templateArgs = arguments;
             for(i = 2, message = (message = "[" + (module ? module + ":" : "") + code + "] " + template.replace(/\{\d+\}/g, function(match) {
                 var arg, index = +match.slice(1, -1);
                 return index + 2 < templateArgs.length ? "function" == typeof (arg = templateArgs[index + 2]) ? arg.toString().replace(/ ?\{[\s\S]*$/, "") : void 0 === arg ? "undefined" : "string" != typeof arg ? toJson(arg) : arg : match;
@@ -832,7 +832,7 @@
             function($window, $location, $rootScope) {
                 var document = $window.document;
                 function scroll() {
-                    var elm, result, hash = $location.hash();
+                    var result, elm, hash = $location.hash();
                     hash ? (elm = document.getElementById(hash)) ? elm.scrollIntoView() : (elm = (result = null, forEach(document.getElementsByName(hash), function(element) {
                         result || "a" !== lowercase(element.nodeName) || (result = element);
                     }), result)) ? elm.scrollIntoView() : "top" === hash && $window.scrollTo(0, 0) : $window.scrollTo(0, 0);

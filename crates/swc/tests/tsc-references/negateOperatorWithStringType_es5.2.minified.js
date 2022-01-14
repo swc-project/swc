@@ -28,4 +28,4 @@ var STRING, M, A = function() {
     M1.n = n;
 }(M || (M = {}));
 var objA = new A();
-objA.a, M.n, foo(), A.foo(), STRING.charAt(0), foo(), objA.a, M.n;
+objA.a, M.n, foo(), A.foo(), STRING + STRING, STRING.charAt(0), foo(), objA.a, M.n;

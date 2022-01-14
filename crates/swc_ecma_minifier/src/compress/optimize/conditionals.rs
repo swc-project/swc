@@ -465,7 +465,7 @@ where
                     });
 
                     tracing::debug!(
-                        "Compreessing if into cond as there's no side effect and the number of \
+                        "Compressing if into cond as there's no side effect and the number of \
                          arguments is 1"
                     );
                     return Some(Expr::Call(CallExpr {
@@ -477,7 +477,7 @@ where
                 }
 
                 if !side_effect_free && is_for_if_stmt {
-                    tracing::debug!("Compreessing if into cond while preserving side effects");
+                    tracing::debug!("Compressing if into cond while preserving side effects");
                     return Some(Expr::Cond(CondExpr {
                         span: DUMMY_SP.with_ctxt(self.done_ctxt),
                         test: test.take(),
@@ -527,7 +527,7 @@ where
                         }
 
                         tracing::debug!(
-                            "Compreessing if statement into a condiotnal expression of `new` as \
+                            "Compressing if statement into a conditional expression of `new` as \
                              there's no side effect and the number of arguments is 1"
                         );
                         return Some(Expr::New(NewExpr {

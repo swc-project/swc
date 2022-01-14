@@ -43,6 +43,8 @@ where
         }
 
         self.changed = true;
+        // Remove the labeled statement.
+        self.label = None;
         tracing::debug!("loops: Removing a for loop with instant break");
         self.prepend_stmts
             .extend(f.init.take().map(|init| match init {
@@ -121,7 +123,7 @@ where
                         if purity.is_pure() {
                             self.changed = true;
                             tracing::debug!(
-                                "loops: Remving `test` part of a for stmt as it's always true"
+                                "loops: Removing `test` part of a for stmt as it's always true"
                             );
                             f.test = None;
                         }

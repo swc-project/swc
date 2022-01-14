@@ -42,6 +42,10 @@ pub struct Marks {
 
     /// Check for `/*#__PURE__*/`
     pub(crate) pure: Mark,
+
+    /// This is applied to [swc_ecma_ast::BlockStmt] which is injected to
+    /// preserve the side effects.
+    pub(crate) fake_block: Mark,
 }
 
 impl Marks {
@@ -58,6 +62,7 @@ impl Marks {
             const_ann: m(),
             noinline: m(),
             pure: m(),
+            fake_block: m(),
         }
     }
 }
