@@ -69,6 +69,7 @@ where
             AtRule::Import(n) => emit!(self, n),
             AtRule::FontFace(n) => emit!(self, n),
             AtRule::Keyframes(n) => emit!(self, n),
+            AtRule::Layer(n) => emit!(self, n),
             AtRule::Media(n) => emit!(self, n),
             AtRule::Supports(n) => emit!(self, n),
             AtRule::Page(n) => emit!(self, n),
@@ -92,11 +93,19 @@ where
     }
 
     #[emitter]
-    fn emit_import_source(&mut self, n: &ImportSource) -> Result {
+    fn emit_import_href(&mut self, n: &ImportHref) -> Result {
         match n {
-            ImportSource::Function(n) => emit!(self, n),
-            ImportSource::Url(n) => emit!(self, n),
-            ImportSource::Str(n) => emit!(self, n),
+            ImportHref::Function(n) => emit!(self, n),
+            ImportHref::Url(n) => emit!(self, n),
+            ImportHref::Str(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_import_layer_name(&mut self, n: &ImportLayerName) -> Result {
+        match n {
+            ImportLayerName::Ident(n) => emit!(self, n),
+            ImportLayerName::Function(n) => emit!(self, n),
         }
     }
 
@@ -104,13 +113,17 @@ where
     fn emit_import_rule(&mut self, n: &ImportRule) -> Result {
         punct!(self, "@");
         keyword!(self, "import");
-
         space!(self);
-        emit!(self, n.src);
+        emit!(self, n.href);
 
-        if let Some(query) = &n.condition {
+        if let Some(layer_name) = &n.layer_name {
             space!(self);
-            emit!(self, query);
+            emit!(self, layer_name);
+        }
+
+        if let Some(media) = &n.media {
+            space!(self);
+            emit!(self, media);
         }
 
         semi!(self);
@@ -157,6 +170,43 @@ where
         punct!(self, "{");
         self.emit_list(&n.blocks, ListFormat::NotDelimited)?;
         punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_layer_name(&mut self, n: &LayerName) -> Result {
+        self.emit_list(&n.name, ListFormat::DotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_layer_name_list(&mut self, n: &LayerNameList) -> Result {
+        self.emit_list(&n.name_list, ListFormat::CommaDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_layer_prelude(&mut self, n: &LayerPrelude) -> Result {
+        match n {
+            LayerPrelude::Name(n) => emit!(self, n),
+            LayerPrelude::NameList(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_layer_rule(&mut self, n: &LayerRule) -> Result {
+        punct!(self, "@");
+        keyword!(self, "layer");
+        space!(self);
+
+        if n.prelude.is_some() {
+            emit!(self, n.prelude);
+        }
+
+        if let Some(rules) = &n.rules {
+            punct!(self, "{");
+            self.emit_list(&rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
+            punct!(self, "}");
+        } else {
+            punct!(self, ";");
+        }
     }
 
     #[emitter]
@@ -962,6 +1012,9 @@ where
             }
             ListFormat::SemiDelimited => {
                 punct!(self, ";")
+            }
+            ListFormat::DotDelimited => {
+                punct!(self, ".");
             }
             _ => unreachable!(),
         }

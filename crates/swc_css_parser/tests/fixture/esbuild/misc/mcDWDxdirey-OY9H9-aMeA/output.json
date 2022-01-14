@@ -13,7 +13,7 @@
         "end": 18,
         "ctxt": 0
       },
-      "src": {
+      "href": {
         "type": "String",
         "span": {
           "start": 8,
@@ -23,7 +23,8 @@
         "value": "foo.css",
         "raw": "\"foo.css\""
       },
-      "condition": null
+      "layerName": null,
+      "media": null
     }
   ]
 }
