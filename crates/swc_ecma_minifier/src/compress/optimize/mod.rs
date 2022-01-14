@@ -2339,6 +2339,10 @@ where
         self.optimize_loops_if_cond_is_false(s);
         self.optimize_loops_with_break(s);
 
+        self.try_removing_block(s, false);
+
+        self.extract_vars_in_subscopes(s);
+
         if !self.prepend_stmts.is_empty() || !self.append_stmts.is_empty() {
             let span = s.span();
             *s = Stmt::Block(BlockStmt {
@@ -2417,10 +2421,6 @@ where
             }
             _ => {}
         }
-
-        self.try_removing_block(s, false);
-
-        self.extract_vars_in_subscopes(s);
 
         self.compress_if_without_alt(s);
 
