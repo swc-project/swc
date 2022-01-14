@@ -3197,9 +3197,9 @@ const foo = async (x, y, ...z) => {
     r#"
 var _this = this;
 const foo = /*#__PURE__*/ function () {
-    var _ref = _asyncToGenerator((function* (x, y, ...z) {
-        return this;
-    }).bind(_this)).bind(_this);
+    var _ref = _asyncToGenerator(function* (x, y, ...z) {
+        return _this;
+    });
 
     return function foo(x, y) {
         return _ref.apply(this, arguments);
