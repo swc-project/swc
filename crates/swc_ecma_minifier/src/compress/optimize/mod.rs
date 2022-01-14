@@ -12,7 +12,7 @@ use crate::{
     util::{contains_leaping_yield, make_number, ModuleItemExt},
 };
 use retain_mut::RetainMut;
-use std::{fmt::Write, mem::take};
+use std::{fmt::Write, iter::once, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Mark, Spanned,
@@ -249,8 +249,8 @@ where
             }
         }
         let mut use_asm = false;
-        let prepend_stmts = self.prepend_stmts.take();
-        let append_stmts = self.append_stmts.take();
+        // let prepend_stmts = self.prepend_stmts.take();
+        // let append_stmts = self.append_stmts.take();
 
         {
             let mut child_ctx = Ctx { ..self.ctx };
@@ -281,8 +281,8 @@ where
 
             let mut new = Vec::with_capacity(stmts.len() * 11 / 10);
             for (i, mut stmt) in stmts.take().into_iter().enumerate() {
-                debug_assert_eq!(self.prepend_stmts, vec![]);
-                debug_assert_eq!(self.append_stmts, vec![]);
+                // debug_assert_eq!(self.prepend_stmts, vec![]);
+                // debug_assert_eq!(self.append_stmts, vec![]);
 
                 if i < directive_count {
                     // Don't set in_strict for directive itself.
@@ -291,9 +291,9 @@ where
                     stmt.visit_mut_with(&mut *self.with_ctx(child_ctx));
                 }
 
-                new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
+                // new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
                 new.push(stmt);
-                new.extend(self.append_stmts.drain(..).map(T::from_stmt));
+                // new.extend(self.append_stmts.drain(..).map(T::from_stmt));
             }
             *stmts = new;
         }
@@ -313,16 +313,16 @@ where
 
         self.break_assignments_in_seqs(stmts);
 
-        stmts.extend(self.append_stmts.drain(..).map(T::from_stmt));
+        // stmts.extend(self.append_stmts.drain(..).map(T::from_stmt));
 
         stmts.retain(|stmt| match stmt.as_stmt() {
             Some(Stmt::Empty(..)) => false,
             _ => true,
         });
 
-        debug_assert_eq!(self.prepend_stmts, vec![]);
-        self.prepend_stmts = prepend_stmts;
-        self.append_stmts = append_stmts;
+        // debug_assert_eq!(self.prepend_stmts, vec![]);
+        // self.prepend_stmts = prepend_stmts;
+        // self.append_stmts = append_stmts;
     }
 
     /// `a = a + 1` => `a += 1`.
@@ -2297,6 +2297,9 @@ where
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        let old_prepend = self.prepend_stmts.take();
+        let old_append = self.append_stmts.take();
+
         let _tracing = if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s, false);
 
@@ -2320,6 +2323,23 @@ where
             ..self.ctx
         };
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        if !self.prepend_stmts.is_empty() || !self.append_stmts.is_empty() {
+            let span = s.span();
+            *s = Stmt::Block(BlockStmt {
+                span,
+                stmts: self
+                    .prepend_stmts
+                    .take()
+                    .into_iter()
+                    .chain(once(s.take()))
+                    .chain(self.append_stmts.take().into_iter())
+                    .collect(),
+            });
+        }
+
+        self.prepend_stmts = old_prepend;
+        self.append_stmts = old_append;
 
         if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s, false);
