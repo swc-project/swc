@@ -31,6 +31,9 @@
 
 - **(css)** Support `@layer` at-rule (#3258) ([c195335](https://github.com/swc-project/swc/commit/c1953350121a0703f6b71474e348bc9408de085c))
 
+
+- **(es/compat)** Use `var` for `_len` and `args` in rest parameters (#3267) ([d3cc488](https://github.com/swc-project/swc/commit/d3cc488ac1f41bc752903a3e15a123a909a2b765))
+
 ### Miscellaneous Tasks
 
 
