@@ -3495,11 +3495,12 @@ export default class MyClass3 {
     r#"
 class MyClass {
     constructor(){
+        var _this = this;
         _myAsyncMethod.set(this, {
             writable: true,
-            value: _asyncToGenerator((function*() {
-                console.log(this);
-            }).bind(this)).bind(this)
+            value: _asyncToGenerator(function*() {
+                console.log(_this);
+            })
         });
     }
 }
@@ -3507,11 +3508,12 @@ var _myAsyncMethod = new WeakMap();
 (function() {
     class MyClass2 {
         constructor(){
+            var _this = this;
             _myAsyncMethod2.set(this, {
                 writable: true,
-                value: _asyncToGenerator((function*() {
-                    console.log(this);
-                }).bind(this)).bind(this)
+                value: _asyncToGenerator(function*() {
+                    console.log(_this);
+                })
             });
         }
     }
@@ -3520,11 +3522,12 @@ var _myAsyncMethod = new WeakMap();
 })();
 class MyClass3 {
     constructor(){
+        var _this = this;
         _myAsyncMethod1.set(this, {
             writable: true,
-            value: _asyncToGenerator((function*() {
-                console.log(this);
-            }).bind(this)).bind(this)
+            value: _asyncToGenerator(function*() {
+                console.log(_this);
+            })
         });
     }
 }
