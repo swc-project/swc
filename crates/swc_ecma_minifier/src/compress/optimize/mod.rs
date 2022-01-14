@@ -291,8 +291,19 @@ where
                     stmt.visit_mut_with(&mut *self.with_ctx(child_ctx));
                 }
 
+                match stmt.try_into_stmt() {
+                    Ok(Stmt::Block(s)) if s.span.has_mark(self.marks.fake_block) => {
+                        new.extend(s.stmts.into_iter().map(T::from_stmt));
+                    }
+                    Ok(s) => {
+                        new.push(T::from_stmt(s));
+                    }
+                    Err(stmt) => {
+                        new.push(stmt);
+                    }
+                }
+
                 // new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
-                new.push(stmt);
                 // new.extend(self.append_stmts.drain(..).map(T::from_stmt));
             }
             *stmts = new;
@@ -2327,7 +2338,7 @@ where
         if !self.prepend_stmts.is_empty() || !self.append_stmts.is_empty() {
             let span = s.span();
             *s = Stmt::Block(BlockStmt {
-                span,
+                span: span.apply_mark(self.marks.fake_block),
                 stmts: self
                     .prepend_stmts
                     .take()
