@@ -1628,7 +1628,7 @@ function foo(...a) {
 const a = 'bar';
 
 function foo() {
-  for (let _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++) {
+  for (var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++) {
     a[_key] = arguments[_key];
   }
 
@@ -1692,7 +1692,7 @@ test!(
     ",
     "
     const arrow = function() {
-        for(let _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
             args[_key] = arguments[_key];
         }
         console.log(args);
@@ -1711,7 +1711,7 @@ test!(
     ",
     "
     const arrow = ()=>function() {
-        for(let _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
             args[_key] = arguments[_key];
         }
         console.log(args);
@@ -1732,7 +1732,7 @@ test!(
     const arrow = ()=>{
         var _this = this;
         return function() {
-            for(let _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; \
+            for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; \
      _key++){
                 args[_key] = arguments[_key];
             }
@@ -1755,7 +1755,7 @@ test!(
     const arrow = ()=>{
       var _this = this;
       return this, function() {
-          for(let _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+          for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
               args[_key] = arguments[_key];
           }
           console.log(_this, args);
@@ -1776,14 +1776,14 @@ test!(
     "
     var _this = this;
     const arrow = function() {
-        for(let _len1 = arguments.length, args = new Array(_len1), _key1 = 0; _key1 < _len1; \
+        for(var _len1 = arguments.length, args = new Array(_len1), _key1 = 0; _key1 < _len1; \
      _key1++){
             args[_key1] = arguments[_key1];
         }
         return _this, ()=>{
             var _this1 = _this;
             return function() {
-                for(let _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; \
+                for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; \
      _key++){
                     args[_key] = arguments[_key];
                 }

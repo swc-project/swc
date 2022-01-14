@@ -221,7 +221,7 @@ async function s(x, ...args) {
 }
 function _s() {
     _s = _asyncToGenerator(function*(x) {
-        for(let _len1 = arguments.length, args = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++){
+        for(var _len1 = arguments.length, args = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++){
             args[_key1 - 1] = arguments[_key1];
         }
         var _this = this, _arguments = arguments;
@@ -230,7 +230,7 @@ function _s() {
                 var _this1 = _this, _arguments1 = _arguments;
                 let r = function() {
                     var _r = _asyncToGenerator(function*(z, b) {
-                        for(let _len = arguments.length, innerArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+                        for(var _len = arguments.length, innerArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
                             innerArgs[_key - 2] = arguments[_key];
                         }
                         yield z;
