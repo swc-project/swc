@@ -492,11 +492,11 @@ impl SingleThreadedComments {
     }
 
     /// Borrows all the comments as (leading, trailing).
-    pub fn borrow_all<'a>(
-        &'a self,
+    pub fn borrow_all(
+        &self,
     ) -> (
-        Ref<'a, SingleThreadedCommentsMapInner>,
-        Ref<'a, SingleThreadedCommentsMapInner>,
+        Ref<SingleThreadedCommentsMapInner>,
+        Ref<SingleThreadedCommentsMapInner>,
     ) {
         (self.leading.borrow(), self.trailing.borrow())
     }

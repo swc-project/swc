@@ -14,13 +14,10 @@ struct Minifier {}
 impl VisitMut for Minifier {
     fn visit_mut_tokens(&mut self, tokens: &mut Tokens) {
         for tok in tokens.tokens.iter_mut() {
-            match &mut tok.token {
-                Token::WhiteSpace { value, .. } => {
-                    if value.len() >= 2 {
-                        *value = " ".into()
-                    }
+            if let Token::WhiteSpace { value, .. } = &mut tok.token {
+                if value.len() >= 2 {
+                    *value = " ".into()
                 }
-                _ => {}
             }
         }
     }

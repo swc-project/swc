@@ -116,7 +116,6 @@ where
 
     fn read_token(&mut self) -> LexResult<Token> {
         self.read_comments()?;
-        // TODO: refactor me
         self.start_pos = self.input.cur_pos();
         self.consume();
 
@@ -143,15 +142,13 @@ where
                     }
                 }
 
-                return Ok(Token::WhiteSpace {
+                Ok(Token::WhiteSpace {
                     value: value.into(),
-                });
+                })
             }
             // U+0022 QUOTATION MARK (")
             // Consume a string token and return it.
-            Some('"') => {
-                return self.read_str(None);
-            }
+            Some('"') => self.read_str(None),
             // U+0023 NUMBER SIGN (#)
             Some('#') => {
                 let first = self.next();
@@ -204,23 +201,17 @@ where
                     return Ok(hash_token);
                 }
 
-                return Ok(Token::Delim { value: '#' });
+                Ok(Token::Delim { value: '#' })
             }
             // U+0027 APOSTROPHE (')
             // Consume a string token and return it.
-            Some('\'') => {
-                return self.read_str(None);
-            }
+            Some('\'') => self.read_str(None),
             // U+0028 LEFT PARENTHESIS (()
             // Return a <(-token>.
-            Some('(') => {
-                return Ok(tok!("("));
-            }
+            Some('(') => Ok(tok!("(")),
             // U+0029 RIGHT PARENTHESIS ())
             // Return a <)-token>.
-            Some(')') => {
-                return Ok(tok!(")"));
-            }
+            Some(')') => Ok(tok!(")")),
             // U+002B PLUS SIGN (+)
             Some('+') => {
                 // If the input stream starts with a number, reconsume the current input code
@@ -233,13 +224,11 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                return Ok(Token::Delim { value: '+' });
+                Ok(Token::Delim { value: '+' })
             }
             // U+002C COMMA (,)
             // Return a <comma-token>.
-            Some(',') => {
-                return Ok(tok!(","));
-            }
+            Some(',') => Ok(tok!(",")),
             // U+002D HYPHEN-MINUS (-)
             Some('-') => {
                 // If the input stream starts with a number, reconsume the current input code
@@ -267,7 +256,7 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                return Ok(Token::Delim { value: '-' });
+                Ok(Token::Delim { value: '-' })
             }
             // U+002E FULL STOP (.)
             Some('.') => {
@@ -281,18 +270,14 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                return Ok(Token::Delim { value: '.' });
+                Ok(Token::Delim { value: '.' })
             }
             // U+003A COLON (:)
             // Return a <colon-token>.
-            Some(':') => {
-                return Ok(tok!(":"));
-            }
+            Some(':') => Ok(tok!(":")),
             // U+003B SEMICOLON (;)
             // Return a <semicolon-token>.
-            Some(';') => {
-                return Ok(tok!(";"));
-            }
+            Some(';') => Ok(tok!(";")),
             // U+003C LESS-THAN SIGN (<)
             Some('<') => {
                 // If the next 3 input code points are U+0021 EXCLAMATION MARK U+002D
@@ -311,7 +296,7 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                return Ok(Token::Delim { value: '<' });
+                Ok(Token::Delim { value: '<' })
             }
             // U+0040 COMMERCIAL AT (@)
             Some('@') => {
@@ -333,13 +318,11 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                return Ok(Token::Delim { value: '@' });
+                Ok(Token::Delim { value: '@' })
             }
             // U+005B LEFT SQUARE BRACKET ([)
             // Return a <[-token>.
-            Some('[') => {
-                return Ok(tok!("["));
-            }
+            Some('[') => Ok(tok!("[")),
             // U+005C REVERSE SOLIDUS (\)
             Some('\\') => {
                 // If the input stream starts with a valid escape, reconsume the current input
@@ -352,48 +335,40 @@ where
 
                 // Otherwise, this is a parse error. Return a <delim-token> with its value set
                 // to the current input code point.
-                return Ok(Token::Delim { value: '\\' });
+                Ok(Token::Delim { value: '\\' })
             }
             // U+005D RIGHT SQUARE BRACKET (])
             // Return a <]-token>.
-            Some(']') => {
-                return Ok(tok!("]"));
-            }
+            Some(']') => Ok(tok!("]")),
             // U+007B LEFT CURLY BRACKET ({)
             // Return a <{-token>.
-            Some('{') => {
-                return Ok(tok!("{"));
-            }
+            Some('{') => Ok(tok!("{")),
             // U+007D RIGHT CURLY BRACKET (})
             // Return a <}-token>.
-            Some('}') => {
-                return Ok(tok!("}"));
-            }
+            Some('}') => Ok(tok!("}")),
             // digit
             // Reconsume the current input code point, consume a numeric token, and return it.
             Some('0'..='9') => {
                 self.reconsume();
 
-                return self.read_numeric();
+                self.read_numeric()
             }
             // name-start code point
             // Reconsume the current input code point, consume an ident-like token, and return it.
             Some(c) if is_name_start(c) => {
                 self.reconsume();
 
-                return self.read_ident_like();
+                self.read_ident_like()
             }
             // EOF
             // Return an <EOF-token>.
             None => {
                 // TODO: Return an <EOF-token>.
-                return Err(ErrorKind::Eof);
+                Err(ErrorKind::Eof)
             }
             // anything else
             // Return a <delim-token> with its value set to the current input code point.
-            Some(c) => {
-                return Ok(Token::Delim { value: c });
-            }
+            Some(c) => Ok(Token::Delim { value: c }),
         }
     }
 
@@ -550,8 +525,9 @@ where
                     if is_whitespace(c)
                         && (self.next_next() == Some('"') || self.next_next() == Some('\'')) =>
                 {
-                    // TODO: avoid reset
-                    self.input.reset_to(start_whitespace);
+                    // Override last position because we consumed whitespaces, but they
+                    // should not be part of token
+                    self.last_pos = Some(start_whitespace);
 
                     return Ok(Token::Function {
                         value: name.0,
@@ -735,7 +711,7 @@ where
 
                     raw.push(c);
                     // TODO: fix me
-                    raw.push_str(&self.input.slice(start_pos, end_pos));
+                    raw.push_str(self.input.slice(start_pos, end_pos));
 
                     // if the next input code point is U+0029 RIGHT PARENTHESIS ()) or EOF, consume
                     // it and return the <url-token> (if EOF was encountered, this is a parse
@@ -876,26 +852,26 @@ where
                 // is for a surrogate, or is greater than the maximum allowed code point, return
                 // U+FFFD REPLACEMENT CHARACTER (�).
                 // TODO: fix me
-                let hex = char::from_u32(hex).ok_or_else(|| ErrorKind::InvalidEscape)?;
+                let hex = char::from_u32(hex).ok_or(ErrorKind::InvalidEscape)?;
 
                 // Otherwise, return the code point with that value.
-                return Ok((hex, raw));
+                Ok((hex, raw))
             }
             // EOF
             // This is a parse error. Return U+FFFD REPLACEMENT CHARACTER (�).
             None => {
                 let value = '\u{FFFD}';
 
-                raw.push(value.clone());
+                raw.push(value);
 
-                return Ok((value, raw));
+                Ok((value, raw))
             }
             // anything else
             // Return the current input code point.
             Some(c) => {
                 raw.push(c);
 
-                return Ok((c, raw));
+                Ok((c, raw))
             }
         }
     }
@@ -947,39 +923,33 @@ where
                 match second {
                     // If the second code point is a name-start code point
                     // return true.
-                    Some(c) if is_name_start(c) => return Ok(true),
+                    Some(c) if is_name_start(c) => Ok(true),
                     // or a U+002D HYPHEN-MINUS,
                     // return true.
-                    Some('-') => return Ok(true),
+                    Some('-') => Ok(true),
                     // or the second and third code points are a valid escape
                     // return true.
                     Some(_) => {
                         let third = maybe_third.or_else(|| self.next_next());
 
-                        return self.is_valid_escape(second, third);
+                        self.is_valid_escape(second, third)
                     }
                     // Otherwise, return false.
-                    _ => {
-                        return Ok(false);
-                    }
+                    _ => Ok(false),
                 }
             }
             // name-start code point
             // Return true.
-            Some(c) if is_name_start(c) => {
-                return Ok(true);
-            }
+            Some(c) if is_name_start(c) => Ok(true),
             // U+005C REVERSE SOLIDUS (\)
             // If the first and second code points are a valid escape, return true. Otherwise,
             // return false.
             Some('\\') => {
                 let second = maybe_second.or_else(|| self.next());
 
-                return Ok(self.is_valid_escape(first, second)?);
+                Ok(self.is_valid_escape(first, second)?)
             }
-            _ => {
-                return Ok(false);
-            }
+            _ => Ok(false),
         }
     }
 

@@ -695,9 +695,8 @@ where
     fn visit_pat(&mut self, n: &Pat) {
         n.visit_children_with(self);
 
-        match n {
-            Pat::Ident(i) => self.visit_pat_id(&i.id),
-            _ => {}
+        if let Pat::Ident(i) = n {
+            self.visit_pat_id(&i.id)
         }
     }
 
@@ -708,11 +707,8 @@ where
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
 
-        match n {
-            Prop::Shorthand(i) => {
-                self.report_usage(i, false);
-            }
-            _ => {}
+        if let Prop::Shorthand(i) = n {
+            self.report_usage(i, false);
         }
     }
 

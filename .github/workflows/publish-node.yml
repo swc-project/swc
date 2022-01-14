@@ -44,9 +44,6 @@ jobs:
               yarn build --target i686-pc-windows-msvc
               yarn test
             target: i686-pc-windows-msvc
-            setup: |
-              choco install nodejs-lts --x86 -y --force
-              echo "C:\Program Files (x86)\nodejs" >> $GITHUB_PATH
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             docker: |
@@ -77,7 +74,7 @@ jobs:
               cp ./target/aarch64-apple-darwin/release/swc .
               yarn build --target=aarch64-apple-darwin
               strip -x *.node
-          - host: ubuntu-latest
+          - host: ubuntu-18.04
             target: aarch64-unknown-linux-gnu
             setup: |
               sudo apt-get update
@@ -87,7 +84,7 @@ jobs:
               cp ./target/aarch64-unknown-linux-gnu/release/swc .
               yarn build --target=aarch64-unknown-linux-gnu
               aarch64-linux-gnu-strip swc.linux-arm64-gnu.node
-          - host: ubuntu-latest
+          - host: ubuntu-18.04
             target: armv7-unknown-linux-gnueabihf
             setup: |
               sudo apt-get update
@@ -139,11 +136,22 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v2
-      - name: Setup node
+      - name: Setup node x64
         uses: actions/setup-node@v2
+        if: matrix.settings.target != 'i686-pc-windows-msvc'
         with:
-          node-version: 14
+          node-version: 16
           check-latest: true
+          cache: yarn
+          architecture: x64
+      - name: Setup node x86
+        uses: actions/setup-node@v2
+        if: matrix.settings.target == 'i686-pc-windows-msvc'
+        with:
+          node-version: 16
+          check-latest: true
+          cache: yarn
+          architecture: x86
       - name: Install
         uses: actions-rs/toolchain@v1
         with:

@@ -249,10 +249,10 @@ where
 
         eat!(self, ";");
 
-        return Ok(CharsetRule {
+        Ok(CharsetRule {
             span: span!(self, span.lo),
             charset,
-        });
+        })
     }
 }
 
@@ -285,11 +285,11 @@ where
 
         eat!(self, ";");
 
-        return Ok(ImportRule {
+        Ok(ImportRule {
             span: span!(self, span.lo),
             src: src.unwrap(),
             condition,
-        });
+        })
     }
 }
 
@@ -329,11 +329,11 @@ where
             expect!(self, "}");
         }
 
-        return Ok(KeyframesRule {
+        Ok(KeyframesRule {
             span: span!(self, span.lo),
             name,
             blocks,
-        });
+        })
     }
 }
 
@@ -345,10 +345,10 @@ where
         let span = self.input.cur_span()?;
         let block = self.parse()?;
 
-        return Ok(ViewportRule {
+        Ok(ViewportRule {
             span: span!(self, span.lo),
             block,
-        });
+        })
     }
 }
 
@@ -393,11 +393,11 @@ where
 
         eat!(self, ";");
 
-        return Ok(NamespaceRule {
+        Ok(NamespaceRule {
             span: span!(self, span.lo),
             prefix,
             uri,
-        });
+        })
     }
 }
 
@@ -409,10 +409,10 @@ where
         let span = self.input.cur_span()?;
         let block = self.parse()?;
 
-        return Ok(FontFaceRule {
+        Ok(FontFaceRule {
             span: span!(self, span.lo),
             block,
-        });
+        })
     }
 }
 
@@ -432,11 +432,11 @@ where
 
         expect!(self, "}");
 
-        return Ok(SupportsRule {
+        Ok(SupportsRule {
             span: span!(self, span.lo),
             query,
             rules,
-        });
+        })
     }
 }
 
@@ -641,11 +641,11 @@ where
 
         expect!(self, "}");
 
-        return Ok(MediaRule {
+        Ok(MediaRule {
             span: span!(self, span.lo),
             query,
             rules,
-        });
+        })
     }
 }
 
@@ -759,7 +759,7 @@ where
             }));
         }
 
-        return Ok(base);
+        Ok(base)
     }
 }
 
