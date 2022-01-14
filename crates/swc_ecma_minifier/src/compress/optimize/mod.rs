@@ -1397,6 +1397,11 @@ where
 
                 // Remove nested blocks
                 if bs.stmts.len() == 1 {
+                    if bs.span.has_mark(self.marks.fake_block) {
+                        *s = bs.stmts.take().into_iter().next().unwrap();
+                        return;
+                    }
+
                     if let Stmt::Block(block) = &mut bs.stmts[0] {
                         if block.stmts.iter().all(|stmt| match stmt {
                             Stmt::Decl(..) => false,
