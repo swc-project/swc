@@ -91,22 +91,19 @@ impl VisitMut for Actual {
         n.visit_mut_children_with(self);
 
         if let Some(callee) = extract_callee_of_bind_this(n) {
-            match callee {
-                Expr::Call(callee_of_callee) => {
-                    if let Some(..) = extract_callee_of_bind_this(callee_of_callee) {
-                        // We found bind(this).bind(this)
-                        *n = replace(
-                            callee_of_callee,
-                            CallExpr {
-                                span: DUMMY_SP,
-                                callee: Callee::Super(Super { span: DUMMY_SP }),
-                                args: Default::default(),
-                                type_args: Default::default(),
-                            },
-                        );
-                    }
+            if let Expr::Call(callee_of_callee) = callee {
+                if let Some(..) = extract_callee_of_bind_this(callee_of_callee) {
+                    // We found bind(this).bind(this)
+                    *n = replace(
+                        callee_of_callee,
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: Callee::Super(Super { span: DUMMY_SP }),
+                            args: Default::default(),
+                            type_args: Default::default(),
+                        },
+                    );
                 }
-                _ => {}
             }
         }
     }
@@ -157,7 +154,7 @@ impl VisitMut for Actual {
                 span: DUMMY_SP,
                 stmts: hoisted_super
                     .into_iter()
-                    .chain(folder.scope_ident.to_stmt().into_iter())
+                    .chain(folder.scope_ident.to_stmt())
                     .chain(iter::once(Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(Box::new(Expr::Call(CallExpr {
@@ -571,47 +568,21 @@ impl Actual {
 
         match expr {
             Expr::Arrow(arrow_expr @ ArrowExpr { is_async: true, .. }) => {
-                // Apply arrow
-                let this: Option<ExprOrSpread> = if contains_this_expr(&arrow_expr.body) {
-                    if binding_ident.is_none() {
-                        Some(ThisExpr { span: DUMMY_SP }.as_arg())
-                    } else {
-                        let this = private_ident!("_this");
-                        self.hoist_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: vec![VarDeclarator {
-                                span: DUMMY_SP,
-                                name: this.clone().into(),
-                                init: Some(Box::new(ThisExpr { span: DUMMY_SP }.into())),
-                                definite: false,
-                            }],
-                            declare: false,
-                        })));
-                        Some(this.as_arg())
-                    }
-                } else {
-                    None
-                };
+                let mut state = FnEnvState::default();
+
+                arrow_expr
+                    .body
+                    .visit_mut_with(&mut FnEnvHoister::new(&mut state));
+
+                self.hoist_stmts.extend(state.to_stmt());
 
                 let mut wrapper = FunctionWrapper::from(arrow_expr.take());
                 wrapper.binding_ident = binding_ident;
 
-                let fn_expr = wrapper.function.fn_expr().unwrap();
+                let fn_expr = wrapper.function.expect_fn_expr();
 
-                wrapper.function = if let Some(this) = this {
-                    Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: make_fn_ref(fn_expr, Some(this.clone()), false)
-                            .make_member(quote_ident!("bind"))
-                            .as_callee(),
-                        args: vec![this.clone()],
-                        type_args: Default::default(),
-                    })
-                } else {
-                    make_fn_ref(fn_expr, None, false)
-                };
-
+                // We should not bind `this` in FunctionWrapper
+                wrapper.function = make_fn_ref(fn_expr, None, true);
                 *expr = wrapper.into();
             }
 
@@ -624,7 +595,7 @@ impl Actual {
                 let mut wrapper = FunctionWrapper::from(fn_expr.take());
                 wrapper.binding_ident = binding_ident;
 
-                let fn_expr = wrapper.function.fn_expr().unwrap();
+                let fn_expr = wrapper.function.expect_fn_expr();
 
                 wrapper.function = make_fn_ref(fn_expr, None, true);
 
