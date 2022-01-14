@@ -2335,6 +2335,10 @@ where
         };
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
+        // visit_mut_children_with above may produce easily optimizable block
+        // statements.
+        self.try_removing_block(s, false);
+
         // These methods may modify prepend_stmts or append_stmts.
         self.optimize_loops_if_cond_is_false(s);
         self.optimize_loops_with_break(s);
