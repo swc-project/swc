@@ -2958,25 +2958,28 @@ export default class MyClass3 {
     r#"
     class MyClass {
       constructor(){
-          _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
-              console.log(this);
-          }).bind(this)).bind(this));
+          var _this = this;
+          _defineProperty(this, "myAsyncMethod", _asyncToGenerator(function*() {
+              console.log(_this);
+          }));
       }
     }
 
     (class MyClass2 {
         constructor(){
-            _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
-                console.log(this);
-            }).bind(this)).bind(this));
+            var _this = this;
+            _defineProperty(this, "myAsyncMethod", _asyncToGenerator(function*() {
+                console.log(_this);
+            }));
         }
     })
 
     class MyClass3 {
         constructor(){
-            _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
-                console.log(this);
-            }).bind(this)).bind(this));
+            var _this = this;
+            _defineProperty(this, "myAsyncMethod", _asyncToGenerator(function*() {
+                console.log(_this);
+            }));
         }
     }
     export { MyClass3 as default };
