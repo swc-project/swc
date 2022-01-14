@@ -91,22 +91,19 @@ impl VisitMut for Actual {
         n.visit_mut_children_with(self);
 
         if let Some(callee) = extract_callee_of_bind_this(n) {
-            match callee {
-                Expr::Call(callee_of_callee) => {
-                    if let Some(..) = extract_callee_of_bind_this(callee_of_callee) {
-                        // We found bind(this).bind(this)
-                        *n = replace(
-                            callee_of_callee,
-                            CallExpr {
-                                span: DUMMY_SP,
-                                callee: Callee::Super(Super { span: DUMMY_SP }),
-                                args: Default::default(),
-                                type_args: Default::default(),
-                            },
-                        );
-                    }
+            if let Expr::Call(callee_of_callee) = callee {
+                if let Some(..) = extract_callee_of_bind_this(callee_of_callee) {
+                    // We found bind(this).bind(this)
+                    *n = replace(
+                        callee_of_callee,
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: Callee::Super(Super { span: DUMMY_SP }),
+                            args: Default::default(),
+                            type_args: Default::default(),
+                        },
+                    );
                 }
-                _ => {}
             }
         }
     }
@@ -571,13 +568,35 @@ impl Actual {
 
         match expr {
             Expr::Arrow(arrow_expr @ ArrowExpr { is_async: true, .. }) => {
+                let this_expr = if contains_this_expr(&arrow_expr.body) {
+                    let this_var = private_ident!(arrow_expr.span, "_this");
+
+                    self.hoist_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(this_var.clone().into()),
+                            init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
+                            definite: false,
+                        }],
+                        declare: Default::default(),
+                    })));
+
+                    Some(this_var.as_arg())
+                } else {
+                    None
+                };
+
+                let bind_this = this_expr.is_some();
+
                 let mut wrapper = FunctionWrapper::from(arrow_expr.take());
                 wrapper.binding_ident = binding_ident;
 
                 let fn_expr = wrapper.function.expect_fn_expr();
 
                 // We should not bind `this` in FunctionWrapper
-                wrapper.function = make_fn_ref(fn_expr, None, true);
+                wrapper.function = make_fn_ref(fn_expr, this_expr, !bind_this);
                 *expr = wrapper.into();
             }
 
