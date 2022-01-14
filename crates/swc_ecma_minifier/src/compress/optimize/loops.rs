@@ -121,7 +121,7 @@ where
                         if purity.is_pure() {
                             self.changed = true;
                             tracing::debug!(
-                                "loops: Remving `test` part of a for stmt as it's always true"
+                                "loops: Removing `test` part of a for stmt as it's always true"
                             );
                             f.test = None;
                         }
