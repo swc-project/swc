@@ -25,6 +25,12 @@
 
 - **(adr)** Configure adr and add `00001-plugin` (#3249) ([8652b2d](https://github.com/swc-project/swc/commit/8652b2df99c37527fcd973bd8f0cd3c54bfa9485))
 
+### Features
+
+
+
+- **(css)** Support `@layer` at-rule (#3258) ([c195335](https://github.com/swc-project/swc/commit/c1953350121a0703f6b71474e348bc9408de085c))
+
 ### Miscellaneous Tasks
 
 
