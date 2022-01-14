@@ -5982,11 +5982,13 @@
                     })(t245, e137);
                 }
                 return (function(t, e) {
-                    var t246, e138;
                     if (null === (t = getModularInstance(t))) return {
                         nullValue: "NULL_VALUE"
                     };
-                    if ("number" == typeof t) return t246 = e.N, bt(e138 = t) ? De(e138) : Se(t246, e138);
+                    if ("number" == typeof t) {
+                        var t246, e138;
+                        return t246 = e.N, bt(e138 = t) ? De(e138) : Se(t246, e138);
+                    }
                     if ("boolean" == typeof t) return {
                         booleanValue: t
                     };
