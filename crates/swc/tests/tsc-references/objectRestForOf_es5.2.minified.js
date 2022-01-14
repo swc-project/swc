@@ -23,10 +23,12 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 }
 var _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
 try {
-    for(var array, _step, _iterator = array[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)var _ref = _step.value;
-    _ref.x, _objectWithoutProperties(_ref, [
-        "x"
-    ]);
+    for(var array, _step, _iterator = array[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0){
+        var _ref = _step.value;
+        _ref.x, _objectWithoutProperties(_ref, [
+            "x"
+        ]);
+    }
 } catch (err) {
     _didIteratorError = !0, _iteratorError = err;
 } finally{
@@ -38,10 +40,12 @@ try {
 }
 var _iteratorNormalCompletion1 = !0, _didIteratorError1 = !1, _iteratorError1 = void 0;
 try {
-    for(var _step1, _iterator1 = array[Symbol.iterator](); !(_iteratorNormalCompletion1 = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = !0)var _ref1 = _step1.value;
-    _ref1.x, _objectWithoutProperties(_ref1, [
-        "x"
-    ]);
+    for(var _step1, _iterator1 = array[Symbol.iterator](); !(_iteratorNormalCompletion1 = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = !0){
+        var _ref1 = _step1.value;
+        _ref1.x, _objectWithoutProperties(_ref1, [
+            "x"
+        ]);
+    }
 } catch (err) {
     _didIteratorError1 = !0, _iteratorError1 = err;
 } finally{

@@ -1,1 +1,1 @@
-B(C(), function() {}, function() {});
+A / 2, B(C(), function() {}, function() {});

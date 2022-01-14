@@ -5,4 +5,5 @@ class C {
 }, M.F2 = function(x) {
     return x.toString();
 }, new Date(12), new Object(), new C(), new C(), new class {
-}(), new C(), new M1.A();
+}(), new C(), new M1.A(), (x)=>"this is a string"
+;

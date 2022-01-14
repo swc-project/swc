@@ -1,5 +1,5 @@
 var B, Geometry;
-(function(B1) {
+!function(B1) {
     var Line = function(start, end) {
         "use strict";
         (function(instance, Constructor) {
@@ -7,7 +7,7 @@ var B, Geometry;
         })(this, Line), this.start = start, this.end = end;
     };
     B1.Line = Line;
-})(B || (B = {})), (function(Geometry1) {
+}(B || (B = {})), (function(Geometry1) {
     Geometry1.Points = A;
     var Origin = Geometry1.Origin = {
         x: 0,
