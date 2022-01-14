@@ -5,12 +5,14 @@ use swc_ecma_visit::{noop_fold_type, Fold};
 mod const_assign;
 mod duplicate_bindings;
 mod duplicate_exports;
+mod no_console;
 
 pub fn all() -> Vec<Box<dyn Rule>> {
     vec![
         const_assign::const_assign(),
         duplicate_bindings::duplicate_bindings(),
         duplicate_exports::duplicate_exports(),
+        no_console::no_console(),
     ]
 }
 
