@@ -1,4 +1,4 @@
-var webpackJsonpCallback = function (parentChunkLoadingFunction, data) {
+export var webpackJsonpCallback = function (parentChunkLoadingFunction, data) {
 
     /******/
     var runtime = data[2];
