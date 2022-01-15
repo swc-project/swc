@@ -10,7 +10,7 @@ do
 done
 
 # Build wasm binary
-cargo build $@ --target=wasm32-unknown-unknown
+cargo build $@ --target=wasm32-wasi
 
 # Build polyfill cli, run polyfill over generated wasm binary
 pushd multivalue-polyfill

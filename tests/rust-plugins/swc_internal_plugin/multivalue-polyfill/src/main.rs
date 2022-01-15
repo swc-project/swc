@@ -28,7 +28,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let target_path = PathBuf::from(env::var("CARGO_MANIFEST_DIR")?)
         .join("..")
         .join("target")
-        .join("wasm32-unknown-unknown")
+        .join("wasm32-wasi")
         .join(target[1].clone());
 
     let input_path = fs::read_dir(target_path)?
