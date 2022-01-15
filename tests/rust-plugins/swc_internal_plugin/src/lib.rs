@@ -1,4 +1,4 @@
-use swc_plugin::{ast::*, plugin_module, Serialized, DUMMY_SP};
+use swc_plugin::{ast::*, plugin_module, DUMMY_SP};
 
 struct ConsoleOutputReplacer;
 
