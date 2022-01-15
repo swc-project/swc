@@ -488,6 +488,19 @@ impl<'a> VisitMut for Resolver<'a> {
         }
     }
 
+    fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
+        s.discriminant.visit_mut_with(self);
+
+        let child_mark = Mark::fresh(Mark::root());
+
+        let mut child_folder = Resolver::new(
+            Scope::new(ScopeKind::Block, child_mark, Some(&self.current)),
+            self.handle_types,
+        );
+
+        s.cases.visit_mut_with(&mut child_folder);
+    }
+
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
         let child_mark = Mark::fresh(Mark::root());
 
@@ -1338,6 +1351,15 @@ impl VisitMut for Hoister<'_, '_> {
         let old_in_block = self.in_block;
         self.in_block = true;
         n.visit_mut_children_with(self);
+        self.in_block = old_in_block;
+    }
+
+    fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
+        s.discriminant.visit_mut_with(self);
+
+        let old_in_block = self.in_block;
+        self.in_block = true;
+        s.cases.visit_mut_with(self);
         self.in_block = old_in_block;
     }
 

@@ -14,6 +14,9 @@
 - **(es/minifier)** Preserve side effects in correct position (#3263) ([efd8671](https://github.com/swc-project/swc/commit/efd86715c9827197278914df5dbc9f4fab1a35d9))
 
 
+- **(es/resolver)** Treat a switch statement as a block scope (#3275) ([f4b3cb7](https://github.com/swc-project/swc/commit/f4b3cb714aac1f936523f4d95467b67e554e583d))
+
+
 - **(es/transforms)** Fix `this` in async arrow class properties (#3252) ([7c19e26](https://github.com/swc-project/swc/commit/7c19e26d0f41002a35c1695c259172916e578eab))
 
 
@@ -51,6 +54,12 @@
 
 
 - **(*)** Fix some clippy warnings (#3257) ([15b604b](https://github.com/swc-project/swc/commit/15b604b6d6f55353a0df13293333367851962f6c))
+
+
+- **(*)** Cleanup (#3274) ([357a350](https://github.com/swc-project/swc/commit/357a35039082c79ba698ce64a69e9022d790632d))
+
+
+- **(es/transforms)** Cleanup (#3273) ([2690742](https://github.com/swc-project/swc/commit/2690742db0bf59246d0d9b96dfc5f6248fcbb3a0))
 
 ### Build
 
