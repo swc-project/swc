@@ -124,18 +124,14 @@ impl VisitMut for Inlining<'_> {
                 match &mut e.left {
                     PatOrExpr::Expr(left) => {
                         //
-                        match &**left {
-                            Expr::Member(ref left) => {
-                                tracing::trace!("Assign to member expression!");
-                                let mut v = IdentListVisitor {
-                                    scope: &mut self.scope,
-                                };
+                        if let Expr::Member(ref left) = &**left {
+                            tracing::trace!("Assign to member expression!");
+                            let mut v = IdentListVisitor {
+                                scope: &mut self.scope,
+                            };
 
-                                left.visit_with(&mut v);
-                                e.right.visit_with(&mut v);
-                            }
-
-                            _ => {}
+                            left.visit_with(&mut v);
+                            e.right.visit_with(&mut v);
                         }
                     }
                     PatOrExpr::Pat(p) => {
@@ -166,26 +162,23 @@ impl VisitMut for Inlining<'_> {
         }
 
         //
-        match e.left.as_ident() {
-            Some(i) => {
-                let id = i.to_id();
-                self.scope.add_write(&id, false);
+        if let Some(i) = e.left.as_ident() {
+            let id = i.to_id();
+            self.scope.add_write(&id, false);
 
-                if let Some(var) = self.scope.find_binding(&id) {
-                    if !var.is_inline_prevented() {
-                        match *e.right {
-                            Expr::Lit(..) | Expr::Ident(..) => {
-                                *var.value.borrow_mut() = Some(*e.right.clone());
-                            }
+            if let Some(var) = self.scope.find_binding(&id) {
+                if !var.is_inline_prevented() {
+                    match *e.right {
+                        Expr::Lit(..) | Expr::Ident(..) => {
+                            *var.value.borrow_mut() = Some(*e.right.clone());
+                        }
 
-                            _ => {
-                                *var.value.borrow_mut() = None;
-                            }
+                        _ => {
+                            *var.value.borrow_mut() = None;
                         }
                     }
                 }
             }
-            _ => {}
         }
     }
 
