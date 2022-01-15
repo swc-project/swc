@@ -1,3 +1,4 @@
+#![deny(clippy::all)]
 #![allow(clippy::needless_update)]
 
 pub use self::emit::*;
