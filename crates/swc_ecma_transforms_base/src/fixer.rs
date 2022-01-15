@@ -8,7 +8,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 /// The pass will insert parenthesis as needed. In other words, it's
 /// okay to store `a * (b + c)` as `Bin { a * Bin { b + c } }`.
 
-pub fn fixer<'a>(comments: Option<&'a dyn Comments>) -> impl 'a + Fold + VisitMut {
+pub fn fixer(comments: Option<&dyn Comments>) -> impl '_ + Fold + VisitMut {
     as_folder(Fixer {
         comments,
         ctx: Default::default(),
@@ -83,18 +83,19 @@ impl VisitMut for Fixer<'_> {
                 self.wrap(&mut **e);
             }
 
-            BlockStmtOrExpr::Expr(ref mut e) if e.is_assign() => match &**e {
-                Expr::Assign(assign) => match &assign.left {
-                    PatOrExpr::Pat(l) => match &**l {
-                        Pat::Ident(..) | Pat::Expr(..) => {}
-                        _ => {
-                            self.wrap(&mut **e);
-                        }
-                    },
-                    PatOrExpr::Expr(..) => {}
-                },
-                _ => {}
-            },
+            BlockStmtOrExpr::Expr(ref mut e) if e.is_assign() => {
+                if let Expr::Assign(assign) = &**e {
+                    match &assign.left {
+                        PatOrExpr::Pat(l) => match &**l {
+                            Pat::Ident(..) | Pat::Expr(..) => {}
+                            _ => {
+                                self.wrap(&mut **e);
+                            }
+                        },
+                        PatOrExpr::Expr(..) => {}
+                    }
+                }
+            }
 
             _ => {}
         };
@@ -120,11 +121,8 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_assign_pat(&mut self, node: &mut AssignPat) {
         node.visit_mut_children_with(self);
 
-        match &*node.right {
-            Expr::Seq(..) => {
-                self.wrap(&mut *node.right);
-            }
-            _ => {}
+        if let Expr::Seq(..) = &*node.right {
+            self.wrap(&mut *node.right);
         }
     }
 
@@ -170,13 +168,13 @@ impl VisitMut for Fixer<'_> {
                 _ => {}
             },
 
-            op!(">") | op!(">=") | op!("<") | op!("<=") => match (&*expr.left, &*expr.right) {
-                (Expr::Update(..) | Expr::Lit(..), Expr::Update(..) | Expr::Lit(..)) => {
+            op!(">") | op!(">=") | op!("<") | op!("<=") => {
+                if let (Expr::Update(..) | Expr::Lit(..), Expr::Update(..) | Expr::Lit(..)) =
+                    (&*expr.left, &*expr.right)
+                {
                     return;
                 }
-
-                _ => {}
-            },
+            }
 
             op!("**") => match &*expr.left {
                 Expr::Unary(..) => {

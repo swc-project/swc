@@ -597,26 +597,20 @@ impl Visit for UsageAnalyzer<'_> {
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
-        match p {
-            Pat::Ident(i) => {
-                if self.is_pat_decl {
-                    self.add_decl(i.id.to_id());
-                } else {
-                    self.add_usage(i.id.to_id());
-                }
+        if let Pat::Ident(i) = p {
+            if self.is_pat_decl {
+                self.add_decl(i.id.to_id());
+            } else {
+                self.add_usage(i.id.to_id());
             }
-            _ => {}
         }
     }
 
     fn visit_prop(&mut self, p: &Prop) {
         p.visit_children_with(self);
 
-        match p {
-            Prop::Shorthand(i) => {
-                self.add_usage(i.to_id());
-            }
-            _ => {}
+        if let Prop::Shorthand(i) = p {
+            self.add_usage(i.to_id());
         }
     }
 
@@ -720,22 +714,19 @@ impl Visit for Hoister<'_, '_> {
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
-        match p {
-            Pat::Ident(i) => {
-                if !self.is_pat_decl {
+        if let Pat::Ident(i) = p {
+            if !self.is_pat_decl {
+                return;
+            }
+            if self.in_block_stmt {
+                //
+                if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.var_decl_kind {
                     return;
                 }
-                if self.in_block_stmt {
-                    //
-                    if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.var_decl_kind {
-                        return;
-                    }
-                } else {
-                }
-
-                self.inner.add_decl(i.id.to_id());
+            } else {
             }
-            _ => {}
+
+            self.inner.add_decl(i.id.to_id());
         }
     }
 
