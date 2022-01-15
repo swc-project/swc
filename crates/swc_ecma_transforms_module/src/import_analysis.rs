@@ -82,10 +82,7 @@ impl Visit for ImportAnalyzer {
             // import 'foo';
             //   -> require('foo');
         } else if import.specifiers.len() == 1
-            && match import.specifiers[0] {
-                ImportSpecifier::Namespace(..) => true,
-                _ => false,
-            }
+            && matches!(import.specifiers[0], ImportSpecifier::Namespace(..))
         {
             if &*import.src.value != "@swc/helpers" {
                 scope.import_types.insert(import.src.value.clone(), true);
@@ -149,10 +146,11 @@ impl Visit for ImportAnalyzer {
     }
 
     fn visit_named_export(&mut self, export: &NamedExport) {
-        if export.specifiers.iter().any(|v| match v {
-            ExportSpecifier::Namespace(..) => true,
-            _ => false,
-        }) {
+        if export
+            .specifiers
+            .iter()
+            .any(|v| matches!(v, ExportSpecifier::Namespace(..)))
+        {
             let mut scope = self.scope.borrow_mut();
 
             if let Some(ref src) = export.src {
