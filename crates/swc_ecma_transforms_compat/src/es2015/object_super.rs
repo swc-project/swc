@@ -353,25 +353,7 @@ impl SuperReplacer {
         BinExpr {
             span: DUMMY_SP,
             left,
-            op: match op {
-                op!("=") => unreachable!(),
-
-                op!("+=") => op!(bin, "+"),
-                op!("-=") => op!(bin, "-"),
-                op!("*=") => op!("*"),
-                op!("/=") => op!("/"),
-                op!("%=") => op!("%"),
-                op!("<<=") => op!("<<"),
-                op!(">>=") => op!(">>"),
-                op!(">>>=") => op!(">>>"),
-                op!("|=") => op!("|"),
-                op!("&=") => op!("&"),
-                op!("^=") => op!("^"),
-                op!("**=") => op!("**"),
-                op!("&&=") => op!("&&"),
-                op!("||=") => op!("||"),
-                op!("??=") => op!("??"),
-            },
+            op: op.to_update().unwrap(),
             right: rhs,
         }
     }

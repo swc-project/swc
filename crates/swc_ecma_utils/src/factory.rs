@@ -61,6 +61,18 @@ pub trait ExprFactory: Into<Expr> {
     }
 
     #[inline]
+    fn call_fn(self, args: Vec<ExprOrSpread>, span: Span) -> Expr {
+        Expr::Call(CallExpr {
+            span,
+            args,
+            callee: Callee::Expr(Box::new(
+                self.make_member(Ident::new(js_word!("call"), span)),
+            )),
+            type_args: None,
+        })
+    }
+
+    #[inline]
     fn wrap_with_paren(self) -> Expr {
         let expr = Box::new(self.into());
         let span = expr.span();
