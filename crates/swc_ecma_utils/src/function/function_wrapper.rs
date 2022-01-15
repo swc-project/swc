@@ -327,6 +327,7 @@ impl From<ArrowExpr> for FunctionWrapper<Expr> {
     }
 }
 
+#[allow(clippy::from_over_into)]
 impl Into<Expr> for FunctionWrapper<Expr> {
     /// If a function has a function name, it may be called recursively.
     /// We use the named expression to hoist the function name internally
