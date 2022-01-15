@@ -1433,18 +1433,18 @@ pub(super) trait IsSimpleParameterList {
 }
 impl IsSimpleParameterList for Vec<Param> {
     fn is_simple_parameter_list(&self) -> bool {
-        !self.iter().any(|param| !matches!(param.pat, Pat::Ident(_)))
+        self.iter().all(|param| matches!(param.pat, Pat::Ident(_)))
     }
 }
 impl IsSimpleParameterList for Vec<Pat> {
     fn is_simple_parameter_list(&self) -> bool {
-        !self.iter().any(|pat| !matches!(pat, Pat::Ident(_)))
+        self.iter().all(|pat| matches!(pat, Pat::Ident(_)))
     }
 }
 impl IsSimpleParameterList for Vec<ParamOrTsParamProp> {
     fn is_simple_parameter_list(&self) -> bool {
-        !self.iter().any(|param| {
-            !matches!(
+        self.iter().all(|param| {
+            matches!(
                 param,
                 ParamOrTsParamProp::TsParamProp(..)
                     | ParamOrTsParamProp::Param(Param {
