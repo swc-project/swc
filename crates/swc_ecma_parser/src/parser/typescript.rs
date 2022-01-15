@@ -1,5 +1,5 @@
 use super::*;
-use crate::lexer::TokenContexts;
+use crate::{lexer::TokenContexts, parser::class_and_fn::IsSimpleParameterList};
 use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
@@ -2474,7 +2474,7 @@ impl<I: Tokens> Parser<I> {
                 let type_params = p.parse_ts_type_params()?;
                 // Don't use overloaded parseFunctionParams which would look for "<" again.
                 expect!(p, '(');
-                let params = p
+                let params: Vec<Pat> = p
                     .parse_formal_params()?
                     .into_iter()
                     .map(|p| p.pat)
@@ -2502,7 +2502,7 @@ impl<I: Tokens> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             let is_generator = false;
             let is_async = true;
-            let body = p.parse_fn_body(true, false)?;
+            let body = p.parse_fn_body(true, false, params.is_simple_parameter_list())?;
             Ok(Some(ArrowExpr {
                 span: span!(p, start),
                 body,
