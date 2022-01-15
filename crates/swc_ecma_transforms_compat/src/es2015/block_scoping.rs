@@ -19,10 +19,10 @@ use swc_ecma_visit::{
 /// ```js
 /// let functions = [];
 /// for (let i = 0; i < 10; i++) {
-/// 	functions.push(function() {
+///    functions.push(function() {
 ///        let i = 1;
-/// 		console.log(i);
-/// 	});
+///        console.log(i);
+///    });
 /// }
 /// ```
 pub fn block_scoping() -> impl Fold {
@@ -67,10 +67,7 @@ impl BlockScoping {
     {
         let len = self.scope.len();
 
-        let remove = match kind {
-            ScopeKind::ForLetLoop { .. } => false,
-            _ => true,
-        };
+        let remove = !matches!(kind, ScopeKind::ForLetLoop { .. });
         self.scope.push(kind);
 
         self.in_loop_body_scope = true;
@@ -84,19 +81,16 @@ impl BlockScoping {
 
     fn mark_as_used(&mut self, i: Id) {
         for (idx, scope) in self.scope.iter_mut().rev().enumerate() {
-            match scope {
-                ScopeKind::ForLetLoop { all, used, .. } => {
-                    //
-                    if all.contains(&i) {
-                        if idx == 0 {
-                            return;
-                        }
-
-                        used.push(i);
+            if let ScopeKind::ForLetLoop { all, used, .. } = scope {
+                //
+                if all.contains(&i) {
+                    if idx == 0 {
                         return;
                     }
+
+                    used.push(i);
+                    return;
                 }
-                _ => {}
             }
         }
     }
@@ -104,10 +98,7 @@ impl BlockScoping {
     fn in_loop_body(&self) -> bool {
         self.scope
             .last()
-            .map(|scope| match scope {
-                ScopeKind::ForLetLoop { .. } | ScopeKind::Loop => true,
-                _ => false,
-            })
+            .map(|scope| matches!(scope, ScopeKind::ForLetLoop { .. } | ScopeKind::Loop))
             .unwrap_or(false)
     }
 
@@ -191,18 +182,14 @@ impl BlockScoping {
                 // Modifies identifiers, and add reassignments to break / continue / return
                 body_stmt.visit_mut_with(&mut v);
 
-                if !no_modification {
-                    if body_stmt
+                if !no_modification
+                    && body_stmt
                         .stmts
                         .last()
-                        .map(|s| match s {
-                            Stmt::Return(..) => false,
-                            _ => true,
-                        })
+                        .map(|s| !matches!(s, Stmt::Return(..)))
                         .unwrap_or(true)
-                    {
-                        body_stmt.stmts.push(v.make_reassignment(None).into_stmt());
-                    }
+                {
+                    body_stmt.stmts.push(v.make_reassignment(None).into_stmt());
                 }
             }
 
