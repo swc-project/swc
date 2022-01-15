@@ -53,20 +53,17 @@ impl Visit for ImportAnalyzer {
     fn visit_call_expr(&mut self, n: &CallExpr) {
         n.visit_children_with(self);
         let mut scope = self.scope.borrow_mut();
-        match &n.callee {
-            Callee::Import(..) => {
-                if let Some(ExprOrSpread { spread: None, expr }) = n.args.first() {
-                    match &**expr {
-                        Expr::Lit(Lit::Str(src)) => {
-                            *scope.import_types.entry(src.value.clone()).or_default() = true;
-                        }
-                        _ => {
-                            scope.unknown_imports.0 = true;
-                        }
+        if let Callee::Import(..) = &n.callee {
+            if let Some(ExprOrSpread { spread: None, expr }) = n.args.first() {
+                match &**expr {
+                    Expr::Lit(Lit::Str(src)) => {
+                        *scope.import_types.entry(src.value.clone()).or_default() = true;
+                    }
+                    _ => {
+                        scope.unknown_imports.0 = true;
                     }
                 }
             }
-            _ => {}
         }
     }
 

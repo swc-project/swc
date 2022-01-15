@@ -404,10 +404,7 @@ where
                                 };
 
                                 // True if we are exporting our own stuff.
-                                let is_value_ident = match *value {
-                                    Expr::Ident(..) => true,
-                                    _ => false,
-                                };
+                                let is_value_ident = matches!(*value, Expr::Ident(..));
 
                                 if is_value_ident {
                                     let exported_symbol = exported
@@ -571,36 +568,31 @@ where
                 // handle interop
                 let ty = scope.import_types.get(&src);
 
-                match ty {
-                    Some(&wildcard) => {
-                        let imported = ident.clone();
+                if let Some(&wildcard) = ty {
+                    let imported = ident.clone();
 
-                        if !self.config.config.no_interop {
-                            let right = Box::new(Expr::Call(CallExpr {
+                    if !self.config.config.no_interop {
+                        let right = Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: if wildcard {
+                                helper!(interop_require_wildcard, "interopRequireWildcard")
+                            } else {
+                                helper!(interop_require_default, "interopRequireDefault")
+                            },
+                            args: vec![imported.as_arg()],
+                            type_args: Default::default(),
+                        }));
+
+                        import_stmts.push(
+                            AssignExpr {
                                 span: DUMMY_SP,
-                                callee: if wildcard {
-                                    helper!(interop_require_wildcard, "interopRequireWildcard")
-                                } else {
-                                    helper!(interop_require_default, "interopRequireDefault")
-                                },
-                                args: vec![imported.as_arg()],
-                                type_args: Default::default(),
-                            }));
-
-                            import_stmts.push(
-                                AssignExpr {
-                                    span: DUMMY_SP,
-                                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                        ident.clone().into(),
-                                    ))),
-                                    op: op!("="),
-                                    right,
-                                }
-                                .into_stmt(),
-                            );
-                        }
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(ident.clone().into()))),
+                                op: op!("="),
+                                right,
+                            }
+                            .into_stmt(),
+                        );
                     }
-                    _ => {}
                 };
             }
         }
