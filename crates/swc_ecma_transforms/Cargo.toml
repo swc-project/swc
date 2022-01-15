@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_ecma_transforms"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.111.2"
+version = "0.111.3"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -32,7 +32,7 @@ swc_ecma_transforms_compat = {version = "0.67.2", path = "../swc_ecma_transforms
 swc_ecma_transforms_module = {version = "0.73.0", path = "../swc_ecma_transforms_module", optional = true}
 swc_ecma_transforms_optimization = {version = "0.81.0", path = "../swc_ecma_transforms_optimization", optional = true}
 swc_ecma_transforms_proposal = {version = "0.73.0", path = "../swc_ecma_transforms_proposal", optional = true}
-swc_ecma_transforms_react = {version = "0.75.0", path = "../swc_ecma_transforms_react", optional = true}
+swc_ecma_transforms_react = {version = "0.75.1", path = "../swc_ecma_transforms_react", optional = true}
 swc_ecma_transforms_typescript = {version = "0.77.1", path = "../swc_ecma_transforms_typescript", optional = true}
 swc_ecma_utils = {version = "0.63.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.51.0", path = "../swc_ecma_visit"}
