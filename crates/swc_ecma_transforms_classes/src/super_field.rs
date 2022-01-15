@@ -251,28 +251,25 @@ impl<'a> SuperFieldAccessFolder<'a> {
                 }
 
                 if let PatOrExpr::Pat(pat) = left {
-                    match &mut **pat {
-                        Pat::Expr(expr) => match &mut **expr {
-                            Expr::SuperProp(SuperPropExpr {
-                                obj:
-                                    Super {
-                                        span: super_token, ..
-                                    },
-                                prop,
-                                ..
-                            }) => {
-                                *n = self.super_to_set_call(
-                                    *super_token,
-                                    false,
-                                    prop.take(),
-                                    *op,
-                                    right.take(),
-                                );
-                                return;
-                            }
-                            _ => {}
-                        },
-                        _ => {}
+                    if let Pat::Expr(expr) = &mut **pat {
+                        if let Expr::SuperProp(SuperPropExpr {
+                            obj:
+                                Super {
+                                    span: super_token, ..
+                                },
+                            prop,
+                            ..
+                        }) = &mut **expr
+                        {
+                            *n = self.super_to_set_call(
+                                *super_token,
+                                false,
+                                prop.take(),
+                                *op,
+                                right.take(),
+                            );
+                            return;
+                        }
                     }
                 };
                 left.visit_mut_children_with(self);
@@ -296,14 +293,13 @@ impl<'a> SuperFieldAccessFolder<'a> {
     /// _get(_getPrototypeOf(Clazz.prototype), 'foo', this)
     /// ```
     fn visit_mut_super_member_get(&mut self, n: &mut Expr) {
-        match n {
-            Expr::SuperProp(SuperPropExpr {
-                obj: Super { span: super_token },
-                prop,
-                ..
-            }) => *n = self.super_to_get_call(*super_token, (*prop).take()),
-
-            _ => {}
+        if let Expr::SuperProp(SuperPropExpr {
+            obj: Super { span: super_token },
+            prop,
+            ..
+        }) = n
+        {
+            *n = self.super_to_get_call(*super_token, (*prop).take())
         }
     }
 
