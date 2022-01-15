@@ -29,7 +29,7 @@ impl FnEnvState {
         if let Some(this_id) = this {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(this_id.clone().into()),
+                name: Pat::Ident(this_id.into()),
                 init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                 definite: false,
             });
@@ -122,7 +122,7 @@ impl FnEnvState {
                     declare: false,
                     decls,
                 }))),
-                this.clone(),
+                this,
             )
         }
     }
@@ -240,34 +240,32 @@ impl<'a> VisitMut for InitThis<'a> {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
 
-        match expr {
-            Expr::Call(CallExpr {
-                callee: Callee::Super(Super { span: super_span }),
-                span,
-                ..
-            }) => {
-                *expr = Expr::Paren(ParenExpr {
+        if let Expr::Call(CallExpr {
+            callee: Callee::Super(Super { span: super_span }),
+            span,
+            ..
+        }) = expr
+        {
+            *expr = Expr::Paren(ParenExpr {
+                span: *span,
+                expr: Box::new(Expr::Seq(SeqExpr {
                     span: *span,
-                    expr: Box::new(Expr::Seq(SeqExpr {
-                        span: *span,
-                        exprs: vec![
-                            Box::new(Expr::Call(CallExpr {
-                                span: *span,
-                                callee: Callee::Super(Super { span: *super_span }),
-                                args: Vec::new(),
-                                type_args: None,
-                            })),
-                            Box::new(Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(self.this_id.clone().into())),
-                                op: AssignOp::Assign,
-                                right: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                            })),
-                        ],
-                    })),
-                })
-            }
-            _ => (),
+                    exprs: vec![
+                        Box::new(Expr::Call(CallExpr {
+                            span: *span,
+                            callee: Callee::Super(Super { span: *super_span }),
+                            args: Vec::new(),
+                            type_args: None,
+                        })),
+                        Box::new(Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            left: PatOrExpr::Pat(Box::new(self.this_id.clone().into())),
+                            op: AssignOp::Assign,
+                            right: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                        })),
+                    ],
+                })),
+            })
         }
     }
 }

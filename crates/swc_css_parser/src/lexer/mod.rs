@@ -462,7 +462,7 @@ where
                     ..
                 } => {
                     *unit = name.0;
-                    *raw_unit = name.1.into();
+                    *raw_unit = name.1;
                 }
                 _ => {
                     unreachable!();
@@ -1228,18 +1228,12 @@ fn is_hex_digit(c: char) -> bool {
 
 #[inline(always)]
 fn is_uppercase_letter(c: char) -> bool {
-    match c {
-        'A'..='Z' => true,
-        _ => false,
-    }
+    matches!(c, 'A'..='Z')
 }
 
 #[inline(always)]
 fn is_lowercase_letter(c: char) -> bool {
-    match c {
-        'a'..='z' => true,
-        _ => false,
-    }
+    matches!(c, 'a'..='z')
 }
 
 #[inline(always)]
@@ -1254,44 +1248,25 @@ fn is_non_ascii(c: char) -> bool {
 
 #[inline(always)]
 fn is_name_start(c: char) -> bool {
-    match c {
-        // TODO: `\x00` is not valid
-        c if is_letter(c) || is_non_ascii(c) || c == '_' || c == '\x00' => true,
-        _ => false,
-    }
+    matches!(c, c if is_letter(c) || is_non_ascii(c) || c == '_' || c == '\x00')
 }
 
 #[inline(always)]
 fn is_name(c: char) -> bool {
-    is_name_start(c)
-        || match c {
-            c if c.is_digit(10) || c == '-' => true,
-            _ => false,
-        }
+    is_name_start(c) || matches!(c, c if c.is_digit(10) || c == '-')
 }
 
 #[inline(always)]
 fn is_non_printable(c: char) -> bool {
-    match c {
-        '\x00'..='\x08' | '\x0B' | '\x0E'..='\x1F' | '\x7F' => true,
-        _ => false,
-    }
+    matches!(c, '\x00'..='\x08' | '\x0B' | '\x0E'..='\x1F' | '\x7F')
 }
 
 #[inline(always)]
 fn is_newline(c: char) -> bool {
-    match c {
-        '\n' | '\r' | '\x0C' => true,
-
-        _ => false,
-    }
+    matches!(c, '\n' | '\r' | '\x0C')
 }
 
 #[inline(always)]
 fn is_whitespace(c: char) -> bool {
-    match c {
-        c if c == ' ' || c == '\t' || is_newline(c) => true,
-
-        _ => false,
-    }
+    matches!(c, c if c == ' ' || c == '\t' || is_newline(c))
 }

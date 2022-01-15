@@ -55,9 +55,8 @@ fn load_url(url: Url) -> Result<String, Error> {
 
     create_dir_all(cache_path.parent().unwrap()).context("failed to create cache dir")?;
 
-    match read_to_string(&cache_path) {
-        Ok(v) => return Ok(v),
-        _ => {}
+    if let Ok(v) = read_to_string(&cache_path) {
+        return Ok(v);
     }
 
     if let Ok("1") = std::env::var("CI").as_deref() {

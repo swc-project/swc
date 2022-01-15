@@ -260,10 +260,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         let is_mangler_enabled = self
             .minify
             .as_ref()
-            .map(|v| match v.mangle {
-                BoolOrObject::Bool(true) | BoolOrObject::Obj(_) => true,
-                _ => false,
-            })
+            .map(|v| matches!(v.mangle, BoolOrObject::Bool(true) | BoolOrObject::Obj(_)))
             .unwrap_or(false);
 
         let module_scope = Rc::new(RefCell::new(Scope::default()));

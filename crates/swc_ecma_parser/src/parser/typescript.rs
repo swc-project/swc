@@ -787,10 +787,7 @@ impl<I: Tokens> Parser<I> {
         let (global, id) = if is!(self, "global") {
             let id = self.parse_ident_name()?;
             (true, TsModuleName::Ident(id))
-        } else if match *cur!(self, true)? {
-            Token::Str { .. } => true,
-            _ => false,
-        } {
+        } else if matches!(*cur!(self, true)?, Token::Str { .. }) {
             let id = self.parse_lit().map(|lit| match lit {
                 Lit::Str(s) => TsModuleName::Str(s),
                 _ => unreachable!(),
@@ -1976,10 +1973,7 @@ impl<I: Tokens> Parser<I> {
             tok!('-') => {
                 let start = cur_pos!(self);
                 bump!(self);
-                if match *cur!(self, true)? {
-                    Token::Num(..) => false,
-                    _ => true,
-                } {
+                if !matches!(*cur!(self, true)?, Token::Num(..)) {
                     unexpected!(self, "a numeric literal")
                 }
                 let lit = self.parse_lit()?;
@@ -2423,10 +2417,7 @@ impl<I: Tokens> Parser<I> {
                     bump!(self);
                 }
 
-                if match *cur!(self, true)? {
-                    Token::Str { .. } => true,
-                    _ => false,
-                } {
+                if matches!(*cur!(self, true)?, Token::Str { .. }) {
                     return self
                         .parse_ts_ambient_external_module_decl(start)
                         .map(From::from)

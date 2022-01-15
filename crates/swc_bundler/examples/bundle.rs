@@ -1,3 +1,5 @@
+#![allow(clippy::needless_update)]
+
 /// Use memory allocator
 extern crate swc_node_base;
 

@@ -822,14 +822,11 @@ impl Config {
     ///
     /// - typescript: `tsx` will be modified if file extension is `ts`.
     pub fn adjust(&mut self, file: &Path) {
-        match &mut self.jsc.syntax {
-            Some(Syntax::Typescript(TsConfig { tsx, .. })) => {
-                let is_ts = file.extension().map(|v| v == "ts").unwrap_or(false);
-                if is_ts {
-                    *tsx = false;
-                }
+        if let Some(Syntax::Typescript(TsConfig { tsx, .. })) = &mut self.jsc.syntax {
+            let is_ts = file.extension().map(|v| v == "ts").unwrap_or(false);
+            if is_ts {
+                *tsx = false;
             }
-            _ => {}
         }
     }
 }
@@ -1342,9 +1339,8 @@ impl GlobalPassOption {
 }
 
 fn default_env_name() -> String {
-    match env::var("SWC_ENV") {
-        Ok(v) => return v,
-        Err(_) => {}
+    if let Ok(v) = env::var("SWC_ENV") {
+        return v;
     }
 
     match env::var("NODE_ENV") {
@@ -1363,13 +1359,11 @@ where
     T: Merge,
 {
     fn merge(&mut self, from: &Option<T>) {
-        match *from {
-            Some(ref from) => match *self {
+        if let Some(ref from) = *from {
+            match *self {
                 Some(ref mut v) => v.merge(from),
                 None => *self = Some(from.clone()),
-            },
-            // no-op
-            None => {}
+            }
         }
     }
 }
@@ -1484,7 +1478,7 @@ where
             *self = (*from).clone();
         } else {
             for (k, v) in from {
-                self.entry(k.clone()).or_insert(v.clone());
+                self.entry(k.clone()).or_insert_with(|| v.clone());
             }
         }
     }
@@ -1500,9 +1494,8 @@ impl Merge for EsVersion {
 
 impl Merge for Option<ModuleConfig> {
     fn merge(&mut self, from: &Self) {
-        match *from {
-            Some(ref c2) => *self = Some(c2.clone()),
-            None => {}
+        if let Some(ref c2) = *from {
+            *self = Some(c2.clone())
         }
     }
 }
