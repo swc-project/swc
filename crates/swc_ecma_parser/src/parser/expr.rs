@@ -1019,14 +1019,7 @@ impl<'a, I: Tokens> Parser<I> {
                 ));
             }
 
-            if {
-                match obj {
-                    Callee::Expr(..) => true,
-                    // super() or import() cannot be generic
-                    _ => false,
-                }
-            } && is!(self, '<')
-            {
+            if { matches!(obj, Callee::Expr(..)) } && is!(self, '<') {
                 let is_dynamic_import = obj.is_import();
 
                 let mut obj_opt = Some(obj);
@@ -1492,10 +1485,7 @@ impl<'a, I: Tokens> Parser<I> {
                             }
                         }
                         true
-                    } else if match arg {
-                        ExprOrSpread { spread: None, .. } => true,
-                        _ => false,
-                    } {
+                    } else if matches!(arg, ExprOrSpread { spread: None, .. }) {
                         expect!(self, '?');
                         let test = arg.expr;
                         let ctx = Context {
@@ -1636,10 +1626,9 @@ impl<'a, I: Tokens> Parser<I> {
                 debug_assert_eq!(items.len(), 1);
                 match items[0] {
                     PatOrExprOrSpread::ExprOrSpread(ExprOrSpread { ref expr, .. })
-                    | PatOrExprOrSpread::Pat(Pat::Expr(ref expr)) => match **expr {
-                        Expr::Ident(..) => true,
-                        _ => false,
-                    },
+                    | PatOrExprOrSpread::Pat(Pat::Expr(ref expr)) => {
+                        matches!(**expr, Expr::Ident(..))
+                    }
                     PatOrExprOrSpread::Pat(Pat::Ident(..)) => true,
                     _ => false,
                 }
@@ -1728,13 +1717,13 @@ impl<'a, I: Tokens> Parser<I> {
         // TODO(kdy1): !this.state.containsEsc &&
 
         Ok(self.state.potential_arrow_start == Some(expr.span().lo())
-            && match *expr {
+            && matches!(
+                *expr,
                 Expr::Ident(Ident {
                     sym: js_word!("async"),
                     ..
-                }) => true,
-                _ => false,
-            })
+                })
+            ))
     }
 
     /// 12.2.5 Array Initializer
