@@ -2179,10 +2179,10 @@ where
     }
 
     fn visit_mut_module(&mut self, module: &mut Module) {
-        let was_module = module.body.iter().any(|item| match item {
-            ModuleItem::ModuleDecl(..) => true,
-            _ => false,
-        });
+        let was_module = module
+            .body
+            .iter()
+            .any(|item| matches!(item, ModuleItem::ModuleDecl(..)));
 
         self.parse_jsx_directives(module.span);
 
@@ -2207,10 +2207,10 @@ where
             );
         }
 
-        let is_module = module.body.iter().any(|item| match item {
-            ModuleItem::ModuleDecl(..) => true,
-            _ => false,
-        });
+        let is_module = module
+            .body
+            .iter()
+            .any(|item| matches!(item, ModuleItem::ModuleDecl(..)));
 
         // Create `export {}` to preserve module context, just like tsc.
         //
@@ -2515,16 +2515,17 @@ where
     fn visit_mut_params(&mut self, params: &mut Vec<Param>) {
         params.visit_mut_children_with(self);
 
-        params.retain(|param| match param.pat {
-            Pat::Ident(BindingIdent {
-                id:
-                    Ident {
+        params.retain(|param| {
+            !matches!(
+                param.pat,
+                Pat::Ident(BindingIdent {
+                    id: Ident {
                         sym: js_word!("this"),
                         ..
                     },
-                ..
-            }) => false,
-            _ => true,
+                    ..
+                })
+            )
         });
     }
 
@@ -2590,8 +2591,8 @@ where
     fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
         stmt.visit_mut_children_with(self);
 
-        match stmt {
-            Stmt::Decl(ref decl) => match decl {
+        if let Stmt::Decl(ref decl) = stmt {
+            match decl {
                 Decl::TsInterface(..)
                 | Decl::TsTypeAlias(..)
                 | Decl::Var(VarDecl { declare: true, .. })
@@ -2602,9 +2603,7 @@ where
                 }
 
                 _ => {}
-            },
-
-            _ => {}
+            }
         }
     }
 
