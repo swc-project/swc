@@ -256,8 +256,8 @@ impl Babelify for PropOrSpread {
         match self {
             PropOrSpread::Spread(s) => ObjectExprProp::Spread(s.babelify(ctx)),
             PropOrSpread::Prop(prop) => {
-                let memb = prop.babelify(ctx);
-                match memb {
+                let member = prop.babelify(ctx);
+                match member {
                     ObjectMember::Method(m) => ObjectExprProp::Method(m),
                     ObjectMember::Prop(p) => ObjectExprProp::Prop(p),
                 }
