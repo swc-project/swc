@@ -1,3 +1,5 @@
+#![allow(clippy::needless_update)]
+
 pub use self::emit::*;
 use self::{ctx::Ctx, list::ListFormat};
 pub use std::fmt::Result;
@@ -202,7 +204,7 @@ where
 
         if let Some(rules) = &n.rules {
             punct!(self, "{");
-            self.emit_list(&rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
+            self.emit_list(rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
             punct!(self, "}");
         } else {
             punct!(self, ";");
