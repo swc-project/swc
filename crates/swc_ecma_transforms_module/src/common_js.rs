@@ -192,11 +192,8 @@ where
         // specifiers.
         for item in &items {
             self.in_top_level = true;
-            match item {
-                ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                    self.scope.borrow_mut().insert_import(import.clone())
-                }
-                _ => {}
+            if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = item {
+                self.scope.borrow_mut().insert_import(import.clone())
             }
         }
 
@@ -333,11 +330,10 @@ where
                                 exported_names = Some(exported_names_ident);
                             }
 
-                            export_alls.entry(export.src.value.clone()).or_insert(
-                                scope
-                                    .import_to_export(&export.src, true)
-                                    .expect("Export should exists"),
-                            );
+                            let data = scope
+                                .import_to_export(&export.src, true)
+                                .expect("Export should exists");
+                            export_alls.entry(export.src.value.clone()).or_insert(data);
 
                             drop(scope_ref_mut);
                         }
@@ -644,10 +640,7 @@ where
                                 };
 
                                 // True if we are exporting our own stuff.
-                                let is_value_ident = match *value {
-                                    Expr::Ident(..) => true,
-                                    _ => false,
-                                };
+                                let is_value_ident = matches!(*value, Expr::Ident(..));
 
                                 self.in_top_level = old;
 
