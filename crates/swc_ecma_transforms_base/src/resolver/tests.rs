@@ -92,7 +92,7 @@ fn test_mark_for() {
 fn issue_1279_1() {
     run_test_with_config(
         Default::default(),
-        || resolver(),
+        resolver,
         "class Foo {
             static f = 1;
             static g = Foo.f;
@@ -113,7 +113,7 @@ fn issue_1279_1() {
 fn issue_1279_2() {
     run_test_with_config(
         Default::default(),
-        || resolver(),
+        resolver,
         "class Foo {
             static f = 1;
             static g = Foo.f;
@@ -146,7 +146,7 @@ fn issue_1279_2() {
 fn issue_2516() {
     run_test_with_config(
         Default::default(),
-        || resolver(),
+        resolver,
         "class A {
             static A = class {}
           }",

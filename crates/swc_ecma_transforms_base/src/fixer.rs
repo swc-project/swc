@@ -262,14 +262,10 @@ impl VisitMut for Fixer<'_> {
             _ => {}
         }
 
-        match expr.op {
-            op!("??") => match &mut *expr.left {
-                Expr::Bin(..) => {
-                    self.wrap(&mut expr.left);
-                }
-                _ => {}
-            },
-            _ => {}
+        if let op!("??") = expr.op {
+            if let Expr::Bin(..) = &mut *expr.left {
+                self.wrap(&mut expr.left);
+            }
         }
     }
 
@@ -314,10 +310,7 @@ impl VisitMut for Fixer<'_> {
         };
         self.ctx = old;
 
-        node.body.retain(|m| match m {
-            ClassMember::Empty(..) => false,
-            _ => true,
-        });
+        node.body.retain(|m| !matches!(m, ClassMember::Empty(..)));
     }
 
     fn visit_mut_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {
@@ -344,11 +337,8 @@ impl VisitMut for Fixer<'_> {
         e.visit_mut_children_with(self);
 
         if e.spread.is_none() {
-            match *e.expr {
-                Expr::Yield(..) => {
-                    self.wrap(&mut e.expr);
-                }
-                _ => {}
+            if let Expr::Yield(..) = *e.expr {
+                self.wrap(&mut e.expr);
             }
         }
     }
@@ -365,9 +355,8 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_for_of_stmt(&mut self, s: &mut ForOfStmt) {
         s.visit_mut_children_with(self);
 
-        match &*s.right {
-            Expr::Seq(..) | Expr::Await(..) => self.wrap(&mut s.right),
-            _ => {}
+        if let Expr::Seq(..) | Expr::Await(..) = &*s.right {
+            self.wrap(&mut s.right)
         }
     }
 
@@ -417,11 +406,7 @@ impl VisitMut for Fixer<'_> {
 
         match n {
             MemberExpr { obj, .. }
-                if obj.is_object()
-                    && match self.ctx {
-                        Context::ForcedExpr { .. } => true,
-                        _ => false,
-                    } => {}
+                if obj.is_object() && matches!(self.ctx, Context::ForcedExpr { .. }) => {}
 
             MemberExpr { obj, .. }
                 if obj.is_fn_expr()
@@ -436,18 +421,10 @@ impl VisitMut for Fixer<'_> {
                     || obj.is_class()
                     || obj.is_yield_expr()
                     || obj.is_await_expr()
-                    || (obj.is_call()
-                        && match self.ctx {
-                            Context::Callee { is_new: true } => true,
-                            _ => false,
-                        })
-                    || match **obj {
-                        Expr::New(NewExpr { args: None, .. }) => true,
-                        _ => false,
-                    } =>
+                    || (obj.is_call() && matches!(self.ctx, Context::Callee { is_new: true }))
+                    || matches!(**obj, Expr::New(NewExpr { args: None, .. })) =>
             {
                 self.wrap(&mut **obj);
-                return;
             }
 
             _ => {}
@@ -561,10 +538,10 @@ impl VisitMut for Fixer<'_> {
                 right,
                 ..
             }) if n.op == op!(unary, "-")
-                && match (&**left, &**right) {
-                    (Expr::Lit(Lit::Num(..)), Expr::Lit(Lit::Num(..))) => true,
-                    _ => false,
-                } => {}
+                && matches!(
+                    (&**left, &**right),
+                    (Expr::Lit(Lit::Num(..)), Expr::Lit(Lit::Num(..)))
+                ) => {}
 
             Expr::Assign(..)
             | Expr::Bin(..)
@@ -616,7 +593,7 @@ impl Fixer<'_> {
                 // don't has child seq
                 let expr = if len == exprs_len {
                     let mut exprs = exprs
-                        .into_iter()
+                        .iter_mut()
                         .enumerate()
                         .filter_map(|(i, e)| {
                             let is_last = i + 1 == exprs_len;
