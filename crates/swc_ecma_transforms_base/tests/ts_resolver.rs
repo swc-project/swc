@@ -58,13 +58,10 @@ impl Visit for AssertNoEmptyCtxt {
     fn visit_expr(&mut self, n: &Expr) {
         n.visit_children_with(self);
 
-        match n {
-            Expr::Ident(i) => {
-                if i.span.ctxt == SyntaxContext::empty() {
-                    unreachable!("ts_resolver has a bug")
-                }
+        if let Expr::Ident(i) = n {
+            if i.span.ctxt == SyntaxContext::empty() {
+                unreachable!("ts_resolver has a bug")
             }
-            _ => {}
         }
     }
 
@@ -75,22 +72,19 @@ impl Visit for AssertNoEmptyCtxt {
         }
     }
 
-    fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {
-        if let SuperProp::Computed(c) = &n.prop {
-            c.visit_with(self);
-        }
-    }
-
     fn visit_pat(&mut self, n: &Pat) {
         n.visit_children_with(self);
 
-        match n {
-            Pat::Ident(i) => {
-                if i.id.span.ctxt == SyntaxContext::empty() {
-                    unreachable!("ts_resolver has a bug")
-                }
+        if let Pat::Ident(i) = n {
+            if i.id.span.ctxt == SyntaxContext::empty() {
+                unreachable!("ts_resolver has a bug")
             }
-            _ => {}
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &n.prop {
+            c.visit_with(self);
         }
     }
 

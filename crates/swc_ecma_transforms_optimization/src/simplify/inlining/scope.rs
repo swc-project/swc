@@ -66,10 +66,7 @@ impl Inlining<'_> {
 
         self.scope.unresolved_usages.extend(unresolved_usages);
 
-        if match kind {
-            ScopeKind::Fn { .. } => false,
-            _ => true,
-        } {
+        if !matches!(kind, ScopeKind::Fn { .. }) {
             let v = bindings;
 
             for (id, v) in v.into_iter().filter_map(|(id, v)| {
@@ -529,14 +526,10 @@ impl<'a> Scope<'a> {
     }
 
     pub fn mark_this_sensitive(&self, callee: &Expr) {
-        match callee {
-            Expr::Ident(ref i) => {
-                if let Some(v) = self.find_binding(&i.to_id()) {
-                    v.this_sensitive.set(true);
-                }
+        if let Expr::Ident(ref i) = callee {
+            if let Some(v) = self.find_binding(&i.to_id()) {
+                v.this_sensitive.set(true);
             }
-
-            _ => {}
         }
     }
 
@@ -579,9 +572,8 @@ impl<'a> Scope<'a> {
             return;
         }
 
-        match self.parent {
-            Some(p) => p.prevent_inline_of_params(),
-            None => {}
+        if let Some(p) = self.parent {
+            p.prevent_inline_of_params()
         }
     }
 
@@ -593,14 +585,10 @@ impl<'a> Scope<'a> {
         }
 
         for (_, v) in self.bindings.iter() {
-            match v.value.borrow().as_ref() {
-                Some(&Expr::Ident(ref i)) => {
-                    if i.sym == id.0 && i.span.ctxt() == id.1 {
-                        v.inline_prevented.set(true);
-                    }
+            if let Some(&Expr::Ident(ref i)) = v.value.borrow().as_ref() {
+                if i.sym == id.0 && i.span.ctxt() == id.1 {
+                    v.inline_prevented.set(true);
                 }
-
-                _ => {}
             }
         }
 
@@ -643,9 +631,8 @@ impl<'a> Scope<'a> {
     pub fn has_same_this(&self, id: &Id, init: Option<&Expr>) -> bool {
         if let Some(v) = self.find_binding(id) {
             if v.this_sensitive.get() {
-                match init {
-                    Some(&Expr::Member(..)) => return false,
-                    _ => {}
+                if let Some(&Expr::Member(..)) = init {
+                    return false;
                 }
             }
         }
@@ -683,9 +670,8 @@ impl VarInfo {
         }
 
         if self.this_sensitive.get() {
-            match *self.value.borrow() {
-                Some(Expr::Member(..)) => return true,
-                _ => {}
+            if let Some(Expr::Member(..)) = *self.value.borrow() {
+                return true;
             }
         }
 

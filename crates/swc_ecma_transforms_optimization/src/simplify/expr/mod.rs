@@ -173,12 +173,7 @@ impl SimplifyExpr {
                 }))
             }
 
-            Expr::Array(ArrayLit { span, mut elems })
-                if match op {
-                    KnownOp::Index(..) => true,
-                    _ => false,
-                } =>
-            {
+            Expr::Array(ArrayLit { span, mut elems }) if matches!(op, KnownOp::Index(..)) => {
                 // do nothing if spread exists
                 let has_spread = elems.iter().any(|elem| {
                     elem.as_ref()
@@ -218,10 +213,8 @@ impl SimplifyExpr {
                 };
 
                 let mut exprs = vec![];
-                for elem in before {
-                    if let Some(elem) = elem {
-                        extract_side_effects_to(&mut exprs, elem.expr);
-                    }
+                for elem in before.into_iter().flatten() {
+                    extract_side_effects_to(&mut exprs, elem.expr);
                 }
 
                 let after_does_not_have_side_effect = after.iter().all(|elem| match elem {
@@ -259,10 +252,8 @@ impl SimplifyExpr {
                     Box::new(Expr::Ident(var_name))
                 };
 
-                for elem in after {
-                    if let Some(elem) = elem {
-                        extract_side_effects_to(&mut exprs, elem.expr);
-                    }
+                for elem in after.into_iter().flatten() {
+                    extract_side_effects_to(&mut exprs, elem.expr);
                 }
 
                 if exprs.is_empty() {
@@ -278,10 +269,9 @@ impl SimplifyExpr {
             Expr::Object(ObjectLit { mut props, span }) => match op {
                 KnownOp::IndexStr(key) if is_literal(&props) && key != *"yield" => {
                     // do nothing if spread exists
-                    let has_spread = props.iter().any(|prop| match prop {
-                        PropOrSpread::Spread(..) => true,
-                        _ => false,
-                    });
+                    let has_spread = props
+                        .iter()
+                        .any(|prop| matches!(prop, PropOrSpread::Spread(..)));
 
                     if has_spread {
                         return Expr::Member(MemberExpr {
@@ -560,13 +550,13 @@ impl SimplifyExpr {
                 }
 
                 fn is_obj(e: &Expr) -> bool {
-                    match *e {
+                    matches!(
+                        *e,
                         Expr::Array { .. }
-                        | Expr::Object { .. }
-                        | Expr::Fn { .. }
-                        | Expr::New { .. } => true,
-                        _ => false,
-                    }
+                            | Expr::Object { .. }
+                            | Expr::Fn { .. }
+                            | Expr::New { .. }
+                    )
                 }
 
                 // Non-object types are never instances.
@@ -764,15 +754,13 @@ impl SimplifyExpr {
                     Expr::Lit(Lit::Num(..)) => return Expr::Unary(UnaryExpr { op, arg, span }),
 
                     // Don't remove ! from negated iifes.
-                    Expr::Call(call) => match &call.callee {
-                        Callee::Expr(callee) => match &**callee {
-                            Expr::Fn(..) => {
+                    Expr::Call(call) => {
+                        if let Callee::Expr(callee) = &call.callee {
+                            if let Expr::Fn(..) = &**callee {
                                 return Expr::Unary(UnaryExpr { op, arg, span });
                             }
-                            _ => {}
-                        },
-                        _ => {}
-                    },
+                        }
+                    }
                     _ => {}
                 }
 
@@ -1225,11 +1213,11 @@ impl VisitMut for SimplifyExpr {
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        match expr {
-            Expr::Unary(UnaryExpr {
-                op: op!("delete"), ..
-            }) => return,
-            _ => {}
+        if let Expr::Unary(UnaryExpr {
+            op: op!("delete"), ..
+        }) = expr
+        {
+            return;
         }
         // fold children before doing something more.
         expr.visit_mut_children_with(self);
@@ -1328,10 +1316,9 @@ impl VisitMut for SimplifyExpr {
                 }
 
                 Expr::Object(ObjectLit { span, props, .. }) => {
-                    let should_work = props.iter().any(|p| match &*p {
-                        PropOrSpread::Spread(..) => true,
-                        _ => false,
-                    });
+                    let should_work = props
+                        .iter()
+                        .any(|p| matches!(&*p, PropOrSpread::Spread(..)));
                     if !should_work {
                         return ObjectLit { span, props }.into();
                     }
@@ -1416,15 +1403,14 @@ impl VisitMut for SimplifyExpr {
     fn visit_mut_opt_chain_expr(&mut self, _: &mut OptChainExpr) {}
 
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
-        match n {
-            Some(VarDeclOrExpr::Expr(e)) => match &mut **e {
+        if let Some(VarDeclOrExpr::Expr(e)) = n {
+            match &mut **e {
                 Expr::Seq(SeqExpr { exprs, .. }) if exprs.is_empty() => {
                     *n = None;
                     return;
                 }
                 _ => {}
-            },
-            _ => {}
+            }
         }
 
         n.visit_mut_children_with(self);
@@ -1433,22 +1419,19 @@ impl VisitMut for SimplifyExpr {
     fn visit_mut_pat(&mut self, p: &mut Pat) {
         p.visit_mut_children_with(self);
 
-        match p {
-            Pat::Assign(a) => {
-                if a.right.is_undefined()
-                    || match *a.right {
-                        Expr::Unary(UnaryExpr {
-                            op: op!("void"),
-                            ref arg,
-                            ..
-                        }) => !arg.may_have_side_effects(),
-                        _ => false,
-                    }
-                {
-                    *p = *a.left.take();
+        if let Pat::Assign(a) = p {
+            if a.right.is_undefined()
+                || match *a.right {
+                    Expr::Unary(UnaryExpr {
+                        op: op!("void"),
+                        ref arg,
+                        ..
+                    }) => !arg.may_have_side_effects(),
+                    _ => false,
                 }
+            {
+                *p = *a.left.take();
             }
-            _ => {}
         }
     }
 
@@ -1498,10 +1481,9 @@ impl VisitMut for SimplifyExpr {
 
                 // Flatten array
                 Expr::Array(ArrayLit { span, elems }) => {
-                    let is_simple = elems.iter().all(|elem| match elem {
-                        None | Some(ExprOrSpread { spread: None, .. }) => true,
-                        _ => false,
-                    });
+                    let is_simple = elems
+                        .iter()
+                        .all(|elem| matches!(elem, None | Some(ExprOrSpread { spread: None, .. })));
 
                     if is_simple {
                         exprs.extend(elems.into_iter().flatten().map(|e| e.expr));

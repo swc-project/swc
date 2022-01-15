@@ -57,13 +57,10 @@ where
         fn to_specifier(target_path: &str, is_file: Option<bool>) -> JsWord {
             let mut p = PathBuf::from(target_path);
             if is_file.unwrap_or_else(|| p.is_file()) {
-                match p.extension() {
-                    Some(v) => {
-                        if v == "ts" || v == "tsx" || v == "js" {
-                            p.set_extension("");
-                        }
+                if let Some(v) = p.extension() {
+                    if v == "ts" || v == "tsx" || v == "js" {
+                        p.set_extension("");
                     }
-                    None => {}
                 }
             }
             p.display().to_string().into()

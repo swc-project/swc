@@ -138,11 +138,8 @@ impl<'a> VisitMut for Operator<'a> {
         let exported = s.orig.clone();
 
         if let ModuleExportName::Ident(orig) = &mut s.orig {
-            match self.rename_ident(orig) {
-                Ok(..) => {
-                    s.exported = Some(exported);
-                }
-                Err(..) => {}
+            if let Ok(..) = self.rename_ident(orig) {
+                s.exported = Some(exported);
             }
         }
     }
@@ -162,11 +159,8 @@ impl<'a> VisitMut for Operator<'a> {
         let imported = s.local.clone();
         let local = self.rename_ident(&mut s.local);
 
-        match local {
-            Ok(..) => {
-                s.imported = Some(ModuleExportName::Ident(imported));
-            }
-            Err(..) => {}
+        if let Ok(..) = local {
+            s.imported = Some(ModuleExportName::Ident(imported));
         }
     }
 
@@ -350,29 +344,23 @@ impl<'a> VisitMut for Operator<'a> {
     fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
         n.visit_mut_children_with(self);
 
-        match n {
-            ObjectPatProp::Assign(p) => {
-                let mut renamed = p.key.clone();
-                match self.rename_ident(&mut renamed) {
-                    Ok(..) => {
-                        *n = KeyValuePatProp {
-                            key: PropName::Ident(p.key.take()),
-                            value: match p.value.take() {
-                                Some(default_expr) => Box::new(Pat::Assign(AssignPat {
-                                    span: p.span,
-                                    left: Box::new(Pat::Ident(renamed.into())),
-                                    right: default_expr,
-                                    type_ann: None,
-                                })),
-                                None => Box::new(Pat::Ident(renamed.into())),
-                            },
-                        }
-                        .into();
-                    }
-                    Err(_) => {}
+        if let ObjectPatProp::Assign(p) = n {
+            let mut renamed = p.key.clone();
+            if let Ok(..) = self.rename_ident(&mut renamed) {
+                *n = KeyValuePatProp {
+                    key: PropName::Ident(p.key.take()),
+                    value: match p.value.take() {
+                        Some(default_expr) => Box::new(Pat::Assign(AssignPat {
+                            span: p.span,
+                            left: Box::new(Pat::Ident(renamed.into())),
+                            right: default_expr,
+                            type_ann: None,
+                        })),
+                        None => Box::new(Pat::Ident(renamed.into())),
+                    },
                 }
+                .into();
             }
-            _ => {}
         }
     }
 
@@ -380,18 +368,15 @@ impl<'a> VisitMut for Operator<'a> {
         match prop {
             Prop::Shorthand(i) => {
                 let mut renamed = i.clone();
-                match self.rename_ident(&mut renamed) {
-                    Ok(..) => {
-                        *prop = Prop::KeyValue(KeyValueProp {
-                            key: PropName::Ident(Ident {
-                                // clear mark
-                                span: i.span.with_ctxt(SyntaxContext::empty()),
-                                ..i.clone()
-                            }),
-                            value: Box::new(Expr::Ident(renamed)),
-                        })
-                    }
-                    Err(..) => {}
+                if let Ok(..) = self.rename_ident(&mut renamed) {
+                    *prop = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(Ident {
+                            // clear mark
+                            span: i.span.with_ctxt(SyntaxContext::empty()),
+                            ..i.clone()
+                        }),
+                        value: Box::new(Expr::Ident(renamed)),
+                    })
                 }
             }
             _ => prop.visit_mut_children_with(self),
@@ -399,9 +384,8 @@ impl<'a> VisitMut for Operator<'a> {
     }
 
     fn visit_mut_prop_name(&mut self, n: &mut PropName) {
-        match n {
-            PropName::Computed(c) => c.visit_mut_with(self),
-            _ => {}
+        if let PropName::Computed(c) = n {
+            c.visit_mut_with(self)
         }
     }
 }
@@ -419,17 +403,14 @@ impl VisitMut for VarFolder<'_, '_> {
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         let orig = i.clone();
-        match self.orig.rename_ident(i) {
-            Ok(..) => {
-                self.renamed
-                    .push(ExportSpecifier::Named(ExportNamedSpecifier {
-                        span: i.span,
-                        exported: Some(ModuleExportName::Ident(orig)),
-                        orig: ModuleExportName::Ident(i.clone()),
-                        is_type_only: false,
-                    }));
-            }
-            Err(..) => {}
+        if let Ok(..) = self.orig.rename_ident(i) {
+            self.renamed
+                .push(ExportSpecifier::Named(ExportNamedSpecifier {
+                    span: i.span,
+                    exported: Some(ModuleExportName::Ident(orig)),
+                    orig: ModuleExportName::Ident(i.clone()),
+                    is_type_only: false,
+                }));
         }
     }
 }

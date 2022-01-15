@@ -1,9 +1,8 @@
-use std::mem;
-
 use indexmap::IndexSet;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use sha1::{Digest, Sha1};
+use std::mem;
 use swc_atoms::JsWord;
 use swc_common::{util::take::Take, SourceMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -92,11 +91,9 @@ impl<'a> HookRegister<'a> {
                 HookCall::Ident(ident) if !is_builtin_hook(ident) => {
                     custom_hook.push(hook.callee);
                 }
-                HookCall::Member(obj, prop) if !is_builtin_hook(prop) => {
-                    if let Expr::Ident(ident) = obj {
-                        if ident.sym.as_ref() != "React" {
-                            custom_hook.push(hook.callee);
-                        }
+                HookCall::Member(Expr::Ident(obj_ident), prop) if !is_builtin_hook(prop) => {
+                    if obj_ident.sym.as_ref() != "React" {
+                        custom_hook.push(hook.callee);
                     }
                 }
                 _ => (),
@@ -453,7 +450,7 @@ impl<'a> HookCollector<'a> {
                 "({})",
                 self.cm
                     .span_to_snippet(expr.args[1].span())
-                    .unwrap_or("".to_string())
+                    .unwrap_or_else(|_| "".to_string())
             );
         }
 
