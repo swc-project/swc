@@ -498,7 +498,7 @@ impl<'a> VisitMut for Resolver<'a> {
             self.handle_types,
         );
 
-        s.visit_mut_children_with(&mut child_folder);
+        s.cases.visit_mut_with(&mut child_folder);
     }
 
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
@@ -1359,7 +1359,7 @@ impl VisitMut for Hoister<'_, '_> {
 
         let old_in_block = self.in_block;
         self.in_block = true;
-        s.cases.visit_mut_children_with(self);
+        s.cases.visit_mut_with(self);
         self.in_block = old_in_block;
     }
 
