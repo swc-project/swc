@@ -26,11 +26,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         cmd.stderr(Stdio::inherit()).output()?;
     }
 
-    for entry in fs::read_dir(
-        &dir.join("target")
-            .join("wasm32-unknown-unknown")
-            .join("debug"),
-    )? {
+    for entry in fs::read_dir(&dir.join("target").join("wasm32-wasi").join("debug"))? {
         let entry = entry?;
 
         let s = entry.file_name().to_string_lossy().into_owned();
