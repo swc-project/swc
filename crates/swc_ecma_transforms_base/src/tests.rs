@@ -55,10 +55,10 @@ impl<'a> Tester<'a> {
             .new_source_file(FileName::Real(file_name.into()), src.into());
 
         let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
-        let res = op(&mut p).map_err(|e| e.into_diagnostic(&self.handler).emit());
+        let res = op(&mut p).map_err(|e| e.into_diagnostic(self.handler).emit());
 
         for e in p.take_errors() {
-            e.into_diagnostic(&self.handler).emit()
+            e.into_diagnostic(self.handler).emit()
         }
 
         res
@@ -98,10 +98,10 @@ impl<'a> Tester<'a> {
             let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
             let res = p
                 .parse_module()
-                .map_err(|e| e.into_diagnostic(&self.handler).emit());
+                .map_err(|e| e.into_diagnostic(self.handler).emit());
 
             for e in p.take_errors() {
-                e.into_diagnostic(&self.handler).emit()
+                e.into_diagnostic(self.handler).emit()
             }
 
             res?
@@ -133,7 +133,7 @@ impl<'a> Tester<'a> {
             };
 
             // println!("Emitting: {:?}", module);
-            emitter.emit_module(&module).unwrap();
+            emitter.emit_module(module).unwrap();
         }
 
         let s = String::from_utf8_lossy(&buf);

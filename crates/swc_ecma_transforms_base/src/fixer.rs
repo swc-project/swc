@@ -394,9 +394,8 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_key_value_prop(&mut self, prop: &mut KeyValueProp) {
         prop.visit_mut_children_with(self);
 
-        match *prop.value {
-            Expr::Seq(..) => self.wrap(&mut prop.value),
-            _ => {}
+        if let Expr::Seq(..) = *prop.value {
+            self.wrap(&mut prop.value)
         }
     }
 
@@ -612,7 +611,7 @@ impl Fixer<'_> {
                     Expr::Seq(SeqExpr { span: *span, exprs })
                 } else {
                     let mut buf = Vec::with_capacity(len);
-                    for (i, expr) in exprs.into_iter().enumerate() {
+                    for (i, expr) in exprs.iter_mut().enumerate() {
                         let is_last = i + 1 == exprs_len;
 
                         match **expr {
@@ -687,19 +686,16 @@ impl Fixer<'_> {
                     _ => {}
                 };
 
-                match *expr.cons {
-                    Expr::Seq(..) => self.wrap(&mut expr.cons),
-                    _ => {}
+                if let Expr::Seq(..) = *expr.cons {
+                    self.wrap(&mut expr.cons)
                 };
 
-                match *expr.alt {
-                    Expr::Seq(..) => self.wrap(&mut expr.alt),
-                    _ => {}
+                if let Expr::Seq(..) = *expr.alt {
+                    self.wrap(&mut expr.alt)
                 };
 
-                match self.ctx {
-                    Context::Callee { is_new: true } => self.wrap(e),
-                    _ => {}
+                if let Context::Callee { is_new: true } = self.ctx {
+                    self.wrap(e)
                 }
             }
 
@@ -755,8 +751,8 @@ impl Fixer<'_> {
 
     /// Removes paren
     fn unwrap_expr(&mut self, e: &mut Expr) {
-        match &*e {
-            Expr::Paren(paren) => match &*paren.expr {
+        if let Expr::Paren(paren) = &*e {
+            match &*paren.expr {
                 Expr::Call(..) | Expr::Fn(..) => {}
                 _ => {
                     let inner_span = paren.span;
@@ -766,8 +762,7 @@ impl Fixer<'_> {
                         }
                     }
                 }
-            },
-            _ => {}
+            }
         }
 
         match e {
@@ -817,11 +812,11 @@ impl Fixer<'_> {
                 );
 
                 let len = exprs.len();
-                exprs.into_iter().enumerate().for_each(|(i, mut expr)| {
+                exprs.iter_mut().enumerate().for_each(|(i, mut expr)| {
                     let is_last = len == i + 1;
 
                     if !is_last {
-                        self.handle_expr_stmt(&mut expr);
+                        self.handle_expr_stmt(expr);
                     }
                 });
             }
