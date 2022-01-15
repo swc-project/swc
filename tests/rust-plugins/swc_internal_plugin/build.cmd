@@ -9,7 +9,7 @@ FOR %%A in (%*) DO (
 )
 
 REM Build wasm binary
-cargo build %* --target=wasm32-unknown-unknown
+cargo build %* --target=wasm32-wasi
 
 REM Build polyfill cli, run polyfill over generated wasm binary
 PUSHD multivalue-polyfill
