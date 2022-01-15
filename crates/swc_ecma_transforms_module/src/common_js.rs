@@ -101,19 +101,15 @@ impl Visit for LazyIdentifierVisitor {
     fn visit_class_prop(&mut self, _: &ClassProp) {}
 
     fn visit_prop_name(&mut self, prop_name: &PropName) {
-        match prop_name {
-            PropName::Computed(n) => n.visit_with(self),
-            _ => {}
+        if let PropName::Computed(n) = prop_name {
+            n.visit_with(self)
         }
     }
 
     fn visit_decl(&mut self, decl: &Decl) {
-        match decl {
-            Decl::Class(ref c) => {
-                c.class.super_class.visit_with(self);
-                c.class.body.visit_with(self);
-            }
-            _ => {}
+        if let Decl::Class(ref c) = decl {
+            c.class.super_class.visit_with(self);
+            c.class.body.visit_with(self);
         }
     }
 
@@ -161,37 +157,34 @@ where
 
         // Make a preliminary pass through to collect exported names ahead of time
         for item in &items {
-            match item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                    ref specifiers,
-                    ..
-                })) => {
-                    for ExportNamedSpecifier { orig, exported, .. } in
-                        specifiers.iter().filter_map(|e| match e {
-                            ExportSpecifier::Named(e) => Some(e),
-                            _ => None,
-                        })
-                    {
-                        let exported = match &exported {
-                            Some(ModuleExportName::Ident(ident)) => Some(ident),
-                            Some(ModuleExportName::Str(..)) => {
-                                unimplemented!("module string names unimplemented")
-                            }
-                            _ => None,
-                        };
-                        let orig = match &orig {
-                            ModuleExportName::Ident(ident) => ident,
-                            _ => unimplemented!("module string names unimplemented"),
-                        };
-                        if let Some(exported) = &exported {
-                            exports.push(exported.sym.clone());
-                        } else {
-                            exports.push(orig.sym.clone());
+            if let ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                ref specifiers,
+                ..
+            })) = item
+            {
+                for ExportNamedSpecifier { orig, exported, .. } in
+                    specifiers.iter().filter_map(|e| match e {
+                        ExportSpecifier::Named(e) => Some(e),
+                        _ => None,
+                    })
+                {
+                    let exported = match &exported {
+                        Some(ModuleExportName::Ident(ident)) => Some(ident),
+                        Some(ModuleExportName::Str(..)) => {
+                            unimplemented!("module string names unimplemented")
                         }
+                        _ => None,
+                    };
+                    let orig = match &orig {
+                        ModuleExportName::Ident(ident) => ident,
+                        _ => unimplemented!("module string names unimplemented"),
+                    };
+                    if let Some(exported) = &exported {
+                        exports.push(exported.sym.clone());
+                    } else {
+                        exports.push(orig.sym.clone());
                     }
                 }
-
-                _ => {}
             }
         }
 
