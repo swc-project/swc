@@ -86,13 +86,13 @@ where
             keyword!(span, node.kind.as_str());
         }
 
-        let starts_with_ident = !matches!(
-            node.decls.first(),
+        let starts_with_ident = match node.decls.first() {
             Some(VarDeclarator {
                 name: Pat::Array(..) | Pat::Rest(..) | Pat::Object(..),
                 ..
-            })
-        );
+            }) => false,
+            _ => true,
+        };
         if starts_with_ident {
             space!();
         } else {
