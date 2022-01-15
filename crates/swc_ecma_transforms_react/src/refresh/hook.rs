@@ -37,6 +37,7 @@ struct Hook {
 }
 
 // we only consider two kinds of callee as hook call
+#[allow(clippy::large_enum_variant)]
 enum HookCall {
     Ident(Ident),
     Member(Expr, Ident), // for obj and prop
