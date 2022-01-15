@@ -1,3 +1,5 @@
+#![allow(clippy::borrowed_box)]
+
 use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};

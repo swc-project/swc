@@ -66,10 +66,7 @@ impl Inlining<'_> {
 
         self.scope.unresolved_usages.extend(unresolved_usages);
 
-        if match kind {
-            ScopeKind::Fn { .. } => false,
-            _ => true,
-        } {
+        if !matches!(kind, ScopeKind::Fn { .. }) {
             let v = bindings;
 
             for (id, v) in v.into_iter().filter_map(|(id, v)| {
@@ -683,9 +680,8 @@ impl VarInfo {
         }
 
         if self.this_sensitive.get() {
-            match *self.value.borrow() {
-                Some(Expr::Member(..)) => return true,
-                _ => {}
+            if let Some(Expr::Member(..)) = *self.value.borrow() {
+                return true;
             }
         }
 
