@@ -391,7 +391,7 @@ where
                                 type_ann: None,
                                 is_static: false,
                                 decorators: param_prop.decorators.clone(),
-                                accessibility: param_prop.accessibility.clone(),
+                                accessibility: param_prop.accessibility,
                                 is_abstract: false,
                                 is_optional: false,
                                 is_override: param_prop.is_override,
@@ -411,13 +411,10 @@ where
             }
         } else {
             for m in class.body.iter_mut() {
-                match m {
-                    ClassMember::ClassProp(m) => {
-                        if let Some(orig_ident) = &orig_ident {
-                            replace_ident(&mut m.value, orig_ident.to_id(), &ident)
-                        }
+                if let ClassMember::ClassProp(m) = m {
+                    if let Some(orig_ident) = &orig_ident {
+                        replace_ident(&mut m.value, orig_ident.to_id(), &ident)
                     }
-                    _ => {}
                 }
             }
 
@@ -542,19 +539,16 @@ where
                     }
                     ClassMember::Method(mut method) => {
                         if !key_computations.is_empty() {
-                            match &mut method.key {
-                                PropName::Computed(name) => {
-                                    // If a computed method name is encountered, dump the other key
-                                    // assignments before it in a sequence expression. Note how this
-                                    // always preserves the order of key computations. This
-                                    // behavior is taken from TSC output.
-                                    key_computations.push(name.expr.take());
-                                    name.expr = Box::new(Expr::Seq(SeqExpr {
-                                        span: name.span,
-                                        exprs: take(&mut key_computations),
-                                    }));
-                                }
-                                _ => {}
+                            if let PropName::Computed(name) = &mut method.key {
+                                // If a computed method name is encountered, dump the other key
+                                // assignments before it in a sequence expression. Note how this
+                                // always preserves the order of key computations. This
+                                // behavior is taken from TSC output.
+                                key_computations.push(name.expr.take());
+                                name.expr = Box::new(Expr::Seq(SeqExpr {
+                                    span: name.span,
+                                    exprs: take(&mut key_computations),
+                                }));
                             }
                         }
                         new_body.push(ClassMember::Method(method));
@@ -566,12 +560,9 @@ where
             }
             if !assign_exprs.is_empty() {
                 for member in &mut new_body {
-                    match member {
-                        ClassMember::Constructor(constructor) => {
-                            inject_after_super(constructor, take(&mut assign_exprs));
-                            break;
-                        }
-                        _ => {}
+                    if let ClassMember::Constructor(constructor) = member {
+                        inject_after_super(constructor, take(&mut assign_exprs));
+                        break;
                     }
                 }
                 if !assign_exprs.is_empty() {
@@ -728,8 +719,7 @@ where
                     left: assign_lhs,
                     right: class_expr,
                 }));
-                let mut exprs = vec![];
-                exprs.push(assign_expr);
+                let mut exprs = vec![assign_expr];
                 exprs.extend(extra_exprs);
                 exprs.push(Box::new(Expr::Ident(ident)));
                 *n = Expr::Seq(SeqExpr {
@@ -819,7 +809,7 @@ where
                                 op!(">>") => ((l.round() as i64) >> (r.round() as i64)) as _,
                                 // TODO: Verify this
                                 op!(">>>") => ((l.round() as u64) >> (r.round() as u64)) as _,
-                                _ => Err(())?,
+                                _ => return Err(()),
                             },
                         })
                     }
@@ -845,7 +835,7 @@ where
                             kind: Default::default(),
                         })
                     }
-                    _ => Err(())?,
+                    _ => return Err(()),
                 })
             }
 
