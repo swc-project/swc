@@ -136,70 +136,129 @@ fn load_plugin(plugin_path: &Path, cache: &mut Option<PluginCache>) -> Result<In
     };
 }
 
-/// Copy host's serialized bytes into guest (plugin)'s allocated memory.
-/// Once transformation completes, host should free allocated memory.
-fn write_bytes_into_guest(
-    instance: &Instance,
-    memory: &Memory,
-    serialized_bytes: &Serialized,
-) -> Result<(i32, i32), Error> {
-    let alloc_memory_in_guest = instance
-        .exports
-        .get_native_function::<u32, i32>("__alloc")?;
-
-    let serialized = serialized_bytes.as_ref();
-    let serialized_len = serialized.len();
-
-    let allocated_ptr = alloc_memory_in_guest.call(serialized_len.try_into()?)?;
-
-    let view = memory.view::<u8>();
-
-    // loop over the Wasm memory view's bytes, assign bytes value of alignedvec from
-    // serialized
-    let ptr_start: usize = allocated_ptr.try_into()?;
-    for (cell, byte) in view[ptr_start..ptr_start + serialized_len + 1]
-        .iter()
-        .zip(serialized.iter())
-    {
-        cell.set(*byte)
-    }
-
-    Ok((allocated_ptr, serialized_len.try_into()?))
+/// Wraps wasm plugin's exports and its allocated resource to allow easier
+/// teardown
+struct PluginTransformTracker {
+    // Main transform interface plugin exports
+    exported_plugin_transform: wasmer::NativeFunc<(i32, i32, i32, i32), (i32, i32)>,
+    // `__free` function automatically exported via swc_plugin sdk to allow deallocation in guest
+    // memory space
+    exported_plugin_free: wasmer::NativeFunc<(i32, i32), i32>,
+    // `__alloc` function automatically exported via swc_plugin sdk to allow allocation in guest
+    // memory space
+    exported_plugin_alloc: wasmer::NativeFunc<u32, i32>,
+    instance: Instance,
+    // Reference to the pointers succesfully allocated which'll be freed by Drop.
+    allocated_ptr_vec: Vec<(i32, i32)>,
 }
 
-/// Copy guest's memory into host, construct serialized struct from raw bytes.
-/// Once copy completes, fn frees allocated memory in guest as well.
-fn read_bytes_from_guest(
-    instance: &Instance,
-    memory: &Memory,
-    returned_ptr: i32,
-    len: i32,
-) -> Result<Serialized, Error> {
-    let ptr: WasmPtr<u8, Array> = WasmPtr::new(returned_ptr as _);
+impl PluginTransformTracker {
+    fn new(path: &Path, cache: &mut Option<PluginCache>) -> Result<PluginTransformTracker, Error> {
+        let instance = load_plugin(path, cache)?;
 
-    // Deref & read through plugin's wasm memory space via returned ptr
-    let derefed_ptr = ptr
-        .deref(memory, 0, len.try_into()?)
-        .ok_or(anyhow!("Failed to deref raw bytes from plugin's memory"))?;
+        let tracker = PluginTransformTracker {
+            exported_plugin_transform: instance
+                .exports
+                .get_native_function::<(i32, i32, i32, i32), (i32, i32)>("__plugin_process_impl")?,
+            exported_plugin_free: instance
+                .exports
+                .get_native_function::<(i32, i32), i32>("__free")?,
+            exported_plugin_alloc: instance
+                .exports
+                .get_native_function::<u32, i32>("__alloc")?,
+            instance,
+            allocated_ptr_vec: Vec::with_capacity(3),
+        };
 
-    let transformed_raw_bytes = derefed_ptr
-        .iter()
-        .enumerate()
-        .take(len.try_into()?)
-        .map(|(_size, cell)| cell.get())
-        .collect::<Vec<u8>>();
+        Ok(tracker)
+    }
 
-    let free_memory_in_guest = instance
-        .exports
-        .get_native_function::<(i32, i32), i32>("__free")?;
+    /// Copy host's serialized bytes into guest (plugin)'s allocated memory.
+    /// Once transformation completes, host should free allocated memory.
+    fn write_bytes_into_guest(
+        &mut self,
+        serialized_bytes: &Serialized,
+    ) -> Result<(i32, i32), Error> {
+        let memory = self.instance.exports.get_memory("memory")?;
 
-    free_memory_in_guest.call(returned_ptr, len)?;
+        let serialized = serialized_bytes.as_ref();
+        let serialized_len = serialized.len();
 
-    Ok(Serialized::new_for_plugin(&transformed_raw_bytes[..], len))
+        let allocated_ptr = self
+            .exported_plugin_alloc
+            .call(serialized_len.try_into()?)?;
+
+        // Note: it's important to get a view from memory _after_ alloc completes
+        let view = memory.view::<u8>();
+
+        // loop over the Wasm memory view's bytes, assign bytes value of alignedvec from
+        // serialized
+        let ptr_start: usize = allocated_ptr.try_into()?;
+        for (cell, byte) in view[ptr_start..ptr_start + serialized_len + 1]
+            .iter()
+            .zip(serialized.iter())
+        {
+            cell.set(*byte)
+        }
+
+        let ptr = (allocated_ptr, serialized_len.try_into()?);
+
+        self.allocated_ptr_vec.push(ptr);
+        Ok(ptr)
+    }
+
+    /// Copy guest's memory into host, construct serialized struct from raw
+    /// bytes.
+    fn read_bytes_from_guest(&mut self, returned_ptr: i32, len: i32) -> Result<Serialized, Error> {
+        let memory = self.instance.exports.get_memory("memory")?;
+        let ptr: WasmPtr<u8, Array> = WasmPtr::new(returned_ptr as _);
+
+        // Deref & read through plugin's wasm memory space via returned ptr
+        let derefed_ptr = ptr
+            .deref(memory, 0, len.try_into()?)
+            .ok_or(anyhow!("Failed to deref raw bytes from plugin's memory"))?;
+
+        let transformed_raw_bytes = derefed_ptr
+            .iter()
+            .enumerate()
+            .take(len.try_into()?)
+            .map(|(_size, cell)| cell.get())
+            .collect::<Vec<u8>>();
+
+        Ok(Serialized::new_for_plugin(&transformed_raw_bytes[..], len))
+    }
+
+    fn transform(
+        &mut self,
+        program: &Serialized,
+        config: &Serialized,
+    ) -> Result<Serialized, Error> {
+        let guest_program_ptr = self.write_bytes_into_guest(program)?;
+        let config_str_ptr = self.write_bytes_into_guest(config)?;
+
+        let returned_ptr = self.exported_plugin_transform.call(
+            guest_program_ptr.0,
+            guest_program_ptr.1,
+            config_str_ptr.0,
+            config_str_ptr.1,
+        )?;
+
+        self.allocated_ptr_vec.push(returned_ptr);
+        self.read_bytes_from_guest(returned_ptr.0, returned_ptr.1)
+    }
+}
+
+impl Drop for PluginTransformTracker {
+    fn drop(&mut self) {
+        for ptr in self.allocated_ptr_vec.iter() {
+            self.exported_plugin_free
+                .call(ptr.0, ptr.1)
+                .expect("Failed to free memory allocated in the plugin");
+        }
+    }
 }
 
 // TODO
-// - free allocation when error occurs
 // - error propagation from plugin
 pub fn apply_js_plugin(
     plugin_name: &str,
@@ -209,26 +268,9 @@ pub fn apply_js_plugin(
     program: Serialized,
 ) -> Result<Serialized, Error> {
     (|| -> Result<_, Error> {
-        let instance = load_plugin(path, cache)?;
-        let memory = instance.exports.get_memory("memory")?;
+        let mut transform_tracker = PluginTransformTracker::new(path, cache)?;
 
-        let (guest_program_ptr, guest_program_ptr_len) =
-            write_bytes_into_guest(&instance, memory, &program)?;
-        let (config_str_ptr, config_str_ptr_len) =
-            write_bytes_into_guest(&instance, memory, &config_json)?;
-
-        let plugin_process_wasm_exported_fn = instance
-            .exports
-            .get_native_function::<(i32, i32, i32, i32), (i32, i32)>("__plugin_process_impl")?;
-
-        let (returned_ptr, returned_len) = plugin_process_wasm_exported_fn.call(
-            guest_program_ptr,
-            guest_program_ptr_len,
-            config_str_ptr,
-            config_str_ptr_len,
-        )?;
-
-        read_bytes_from_guest(&instance, memory, returned_ptr, returned_len)
+        transform_tracker.transform(&program, &config_json)
     })()
     .with_context(|| {
         format!(

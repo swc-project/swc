@@ -34,6 +34,12 @@
 
 - **(es/compat)** Use `var` for `_len` and `args` in rest parameters (#3267) ([d3cc488](https://github.com/swc-project/swc/commit/d3cc488ac1f41bc752903a3e15a123a909a2b765))
 
+
+- **(plugin/runner)** Free allocated memory on errors (#3270) ([66d1a92](https://github.com/swc-project/swc/commit/66d1a92635c4e04041af1c106dbda8b4d692ba8a))
+
+
+- **(plugin/runnner)** Support `wasm32-wasi` targets (#3271) ([a4c4974](https://github.com/swc-project/swc/commit/a4c497464da5691fee1aff1246d3d36d1b3579af))
+
 ### Miscellaneous Tasks
 
 
