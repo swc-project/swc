@@ -1979,6 +1979,11 @@ impl<C> VisitMut for Strip<C>
 where
     C: Comments,
 {
+    fn visit_mut_array_pat(&mut self, n: &mut ArrayPat) {
+        n.visit_mut_children_with(self);
+        n.optional = false;
+    }
+
     fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
         match n {
             BlockStmtOrExpr::Expr(expr) if expr.is_class() => {
@@ -1988,8 +1993,7 @@ where
                 let orig_ident = ident.clone();
                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
                 let (decl, extra_exprs) = self.fold_class_as_decl(ident.clone(), orig_ident, class);
-                let mut stmts = vec![];
-                stmts.push(Stmt::Decl(decl));
+                let mut stmts = vec![Stmt::Decl(decl)];
                 stmts.extend(
                     extra_exprs
                         .into_iter()
@@ -2009,9 +2013,39 @@ where
         };
     }
 
-    fn visit_mut_array_pat(&mut self, n: &mut ArrayPat) {
-        n.visit_mut_children_with(self);
-        n.optional = false;
+    fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
+        members.retain(|member| match *member {
+            ClassMember::TsIndexSignature(..) => false,
+            ClassMember::Constructor(Constructor { body: None, .. }) => false,
+            ClassMember::Method(ClassMethod {
+                is_abstract: true, ..
+            })
+            | ClassMember::Method(ClassMethod {
+                function: Function { body: None, .. },
+                ..
+            }) => false,
+            ClassMember::PrivateMethod(PrivateMethod {
+                is_abstract: true, ..
+            })
+            | ClassMember::PrivateMethod(PrivateMethod {
+                function: Function { body: None, .. },
+                ..
+            }) => false,
+            ClassMember::ClassProp(ClassProp {
+                value: None,
+                ref decorators,
+                ..
+            }) if decorators.is_empty() && !self.config.use_define_for_class_fields => false,
+
+            _ => true,
+        });
+
+        members.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_class_prop(&mut self, prop: &mut ClassProp) {
+        prop.visit_mut_children_with(self);
+        prop.readonly = false;
     }
 
     fn visit_mut_constructor(&mut self, n: &mut Constructor) {
@@ -2118,21 +2152,21 @@ where
                 // If the import is shadowed by a concrete local declaration, TSC
                 // assumes the import is a type and removes it.
                 let decl = self.scope.decls.get(&local.to_id());
-                match decl {
-                    Some(&DeclInfo {
-                        has_concrete: true, ..
-                    }) => return false,
-                    _ => {}
+                if let Some(&DeclInfo {
+                    has_concrete: true, ..
+                }) = decl
+                {
+                    return false;
                 }
                 // If no shadowed declaration, check if the import is referenced.
                 let entry = self.scope.referenced_idents.get(&local.to_id());
-                match entry {
+                !matches!(
+                    entry,
                     Some(&DeclInfo {
                         has_concrete: false,
                         ..
-                    }) => false,
-                    _ => true,
-                }
+                    })
+                )
             }
         });
 
@@ -2142,150 +2176,6 @@ where
                 ImportsNotUsedAsValues::Preserve => true,
             };
         }
-    }
-
-    fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
-        pat.visit_mut_children_with(self);
-        pat.optional = false;
-    }
-
-    fn visit_mut_private_prop(&mut self, prop: &mut PrivateProp) {
-        prop.visit_mut_children_with(self);
-        prop.readonly = false;
-    }
-
-    fn visit_mut_class_prop(&mut self, prop: &mut ClassProp) {
-        prop.visit_mut_children_with(self);
-        prop.readonly = false;
-    }
-
-    fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
-        stmt.visit_mut_children_with(self);
-
-        match stmt {
-            Stmt::Decl(ref decl) => match decl {
-                Decl::TsInterface(..)
-                | Decl::TsTypeAlias(..)
-                | Decl::Var(VarDecl { declare: true, .. })
-                | Decl::Class(ClassDecl { declare: true, .. })
-                | Decl::Fn(FnDecl { declare: true, .. }) => {
-                    let span = decl.span();
-                    *stmt = Stmt::Empty(EmptyStmt { span })
-                }
-
-                _ => {}
-            },
-
-            _ => {}
-        }
-    }
-
-    fn visit_mut_stmts(&mut self, orig: &mut Vec<Stmt>) {
-        self.visit_mut_stmt_like(orig);
-        // Second pass
-        let mut stmts = Vec::with_capacity(orig.len());
-        for mut item in take(orig) {
-            self.is_side_effect_import = false;
-            match item {
-                Stmt::Empty(..) => continue,
-
-                Stmt::Decl(Decl::TsModule(module)) => {
-                    let (decl, init) = match self.handle_ts_module(module, None) {
-                        Some(v) => v,
-                        None => continue,
-                    };
-                    stmts.extend(decl.map(Stmt::Decl));
-                    stmts.push(init)
-                }
-
-                Stmt::Decl(Decl::TsEnum(e)) => {
-                    let (decl, init) = self.handle_enum(e, None);
-                    stmts.extend(decl.map(Stmt::Decl));
-                    stmts.push(init);
-                }
-
-                // Strip out ts-only extensions
-                Stmt::Decl(Decl::Fn(FnDecl {
-                    function: Function { body: None, .. },
-                    ..
-                }))
-                | Stmt::Decl(Decl::TsTypeAlias(..)) => continue,
-
-                _ => {
-                    item.visit_mut_with(self);
-                    stmts.push(item);
-                }
-            };
-        }
-
-        *orig = stmts
-    }
-
-    fn visit_mut_ts_interface_decl(&mut self, n: &mut TsInterfaceDecl) {
-        n.type_params = None;
-    }
-
-    fn visit_mut_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl) {
-        node.type_params = None;
-    }
-
-    type_to_none!(visit_mut_opt_ts_type, Box<TsType>);
-    type_to_none!(visit_mut_opt_ts_type_ann, TsTypeAnn);
-    type_to_none!(visit_mut_opt_ts_type_param_decl, TsTypeParamDecl);
-    type_to_none!(
-        visit_mut_opt_ts_type_param_instantiation,
-        TsTypeParamInstantiation
-    );
-
-    fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
-        members.retain(|member| match *member {
-            ClassMember::TsIndexSignature(..) => false,
-            ClassMember::Constructor(Constructor { body: None, .. }) => false,
-            ClassMember::Method(ClassMethod {
-                is_abstract: true, ..
-            })
-            | ClassMember::Method(ClassMethod {
-                function: Function { body: None, .. },
-                ..
-            }) => false,
-            ClassMember::PrivateMethod(PrivateMethod {
-                is_abstract: true, ..
-            })
-            | ClassMember::PrivateMethod(PrivateMethod {
-                function: Function { body: None, .. },
-                ..
-            }) => false,
-            ClassMember::ClassProp(ClassProp {
-                value: None,
-                ref decorators,
-                ..
-            }) if decorators.is_empty() && !self.config.use_define_for_class_fields => false,
-
-            _ => true,
-        });
-
-        members.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_opt_accessibility(&mut self, n: &mut Option<Accessibility>) {
-        *n = None;
-    }
-
-    /// Remove `this` from parameter list
-    fn visit_mut_params(&mut self, params: &mut Vec<Param>) {
-        params.visit_mut_children_with(self);
-
-        params.retain(|param| match param.pat {
-            Pat::Ident(BindingIdent {
-                id:
-                    Ident {
-                        sym: js_word!("this"),
-                        ..
-                    },
-                ..
-            }) => false,
-            _ => true,
-        });
     }
 
     fn visit_mut_module(&mut self, module: &mut Module) {
@@ -2344,31 +2234,6 @@ where
                         asserts: None,
                     },
                 )))
-        }
-    }
-
-    fn visit_mut_script(&mut self, n: &mut Script) {
-        self.parse_jsx_directives(n.span);
-
-        for item in &n.body {
-            let span = item.span();
-            if self.parse_jsx_directives(span) {
-                break;
-            }
-        }
-
-        n.visit_mut_children_with(self);
-
-        if !self.uninitialized_vars.is_empty() {
-            prepend(
-                &mut n.body,
-                Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: take(&mut self.uninitialized_vars),
-                    declare: false,
-                })),
-            );
         }
     }
 
@@ -2637,10 +2502,39 @@ where
         *items = self.handle_module_items(take(items), None);
     }
 
-    fn visit_mut_var_declarator(&mut self, d: &mut VarDeclarator) {
-        d.visit_mut_children_with(self);
-        d.definite = false;
+    fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
+        pat.visit_mut_children_with(self);
+        pat.optional = false;
     }
+
+    fn visit_mut_opt_accessibility(&mut self, n: &mut Option<Accessibility>) {
+        *n = None;
+    }
+
+    /// Remove `this` from parameter list
+    fn visit_mut_params(&mut self, params: &mut Vec<Param>) {
+        params.visit_mut_children_with(self);
+
+        params.retain(|param| match param.pat {
+            Pat::Ident(BindingIdent {
+                id:
+                    Ident {
+                        sym: js_word!("this"),
+                        ..
+                    },
+                ..
+            }) => false,
+            _ => true,
+        });
+    }
+
+    type_to_none!(visit_mut_opt_ts_type, Box<TsType>);
+    type_to_none!(visit_mut_opt_ts_type_ann, TsTypeAnn);
+    type_to_none!(visit_mut_opt_ts_type_param_decl, TsTypeParamDecl);
+    type_to_none!(
+        visit_mut_opt_ts_type_param_instantiation,
+        TsTypeParamInstantiation
+    );
 
     fn visit_mut_pat_or_expr(&mut self, node: &mut PatOrExpr) {
         // Coerce bindingident to assign expr where parenthesis exists due to TsAsExpr
@@ -2648,26 +2542,124 @@ where
         // We want to do this _before_ visiting children, otherwise handle_expr
         // wipes out TsAsExpr and there's no way to distinguish between
         // plain (x) = y vs. (x as any) = y;
-        match node {
-            PatOrExpr::Pat(pat) => match &**pat {
-                Pat::Expr(expr) => match &**expr {
-                    Expr::Paren(ParenExpr { expr, .. }) => match &**expr {
-                        Expr::TsAs(TsAsExpr { expr, .. }) => match &**expr {
-                            Expr::Ident(ident) => {
-                                *node = PatOrExpr::Pat(Box::new(Pat::Ident(ident.clone().into())));
-                            }
-                            _ => (),
-                        },
-                        _ => (),
-                    },
-                    _ => (),
-                },
-                _ => (),
-            },
-            _ => (),
+        if let PatOrExpr::Pat(pat) = node {
+            if let Pat::Expr(expr) = &**pat {
+                if let Expr::Paren(ParenExpr { expr, .. }) = &**expr {
+                    if let Expr::TsAs(TsAsExpr { expr, .. }) = &**expr {
+                        if let Expr::Ident(ident) = &**expr {
+                            *node = PatOrExpr::Pat(Box::new(Pat::Ident(ident.clone().into())));
+                        }
+                    }
+                }
+            }
         }
 
         node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_private_prop(&mut self, prop: &mut PrivateProp) {
+        prop.visit_mut_children_with(self);
+        prop.readonly = false;
+    }
+
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        self.parse_jsx_directives(n.span);
+
+        for item in &n.body {
+            let span = item.span();
+            if self.parse_jsx_directives(span) {
+                break;
+            }
+        }
+
+        n.visit_mut_children_with(self);
+
+        if !self.uninitialized_vars.is_empty() {
+            prepend(
+                &mut n.body,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: take(&mut self.uninitialized_vars),
+                    declare: false,
+                })),
+            );
+        }
+    }
+
+    fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
+        stmt.visit_mut_children_with(self);
+
+        match stmt {
+            Stmt::Decl(ref decl) => match decl {
+                Decl::TsInterface(..)
+                | Decl::TsTypeAlias(..)
+                | Decl::Var(VarDecl { declare: true, .. })
+                | Decl::Class(ClassDecl { declare: true, .. })
+                | Decl::Fn(FnDecl { declare: true, .. }) => {
+                    let span = decl.span();
+                    *stmt = Stmt::Empty(EmptyStmt { span })
+                }
+
+                _ => {}
+            },
+
+            _ => {}
+        }
+    }
+
+    fn visit_mut_stmts(&mut self, orig: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_like(orig);
+        // Second pass
+        let mut stmts = Vec::with_capacity(orig.len());
+        for mut item in take(orig) {
+            self.is_side_effect_import = false;
+            match item {
+                Stmt::Empty(..) => continue,
+
+                Stmt::Decl(Decl::TsModule(module)) => {
+                    let (decl, init) = match self.handle_ts_module(module, None) {
+                        Some(v) => v,
+                        None => continue,
+                    };
+                    stmts.extend(decl.map(Stmt::Decl));
+                    stmts.push(init)
+                }
+
+                Stmt::Decl(Decl::TsEnum(e)) => {
+                    let (decl, init) = self.handle_enum(e, None);
+                    stmts.extend(decl.map(Stmt::Decl));
+                    stmts.push(init);
+                }
+
+                // Strip out ts-only extensions
+                Stmt::Decl(Decl::Fn(FnDecl {
+                    function: Function { body: None, .. },
+                    ..
+                }))
+                | Stmt::Decl(Decl::TsTypeAlias(..)) => continue,
+
+                _ => {
+                    item.visit_mut_with(self);
+                    stmts.push(item);
+                }
+            };
+        }
+
+        *orig = stmts
+    }
+
+    fn visit_mut_ts_interface_decl(&mut self, n: &mut TsInterfaceDecl) {
+        n.type_params = None;
+    }
+
+    fn visit_mut_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl) {
+        node.type_params = None;
+    }
+
+    fn visit_mut_var_declarator(&mut self, d: &mut VarDeclarator) {
+        d.visit_mut_children_with(self);
+        d.definite = false;
     }
 }
 
