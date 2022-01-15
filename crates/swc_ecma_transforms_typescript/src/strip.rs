@@ -941,11 +941,8 @@ where
                 let id_span = m.id.span();
                 let val = compute(&e, id_span, &mut values, Some(default), m.init.as_deref())
                     .map(|val| {
-                        match val {
-                            TsLit::Number(n) => {
-                                default = n.value as i64 + 1;
-                            }
-                            _ => {}
+                        if let TsLit::Number(n) = val {
+                            default = n.value as i64 + 1;
                         }
                         values.insert(
                             match &m.id {
@@ -1583,19 +1580,14 @@ where
                         let init = match decl.init {
                             Some(v) => v,
                             None => {
-                                match &decl.name {
-                                    Pat::Ident(name) => {
-                                        delayed_vars.push(name.id.clone());
-                                        stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(
-                                            VarDecl {
-                                                span: DUMMY_SP,
-                                                kind: v.kind,
-                                                declare: false,
-                                                decls: vec![decl],
-                                            },
-                                        ))));
-                                    }
-                                    _ => {}
+                                if let Pat::Ident(name) = &decl.name {
+                                    delayed_vars.push(name.id.clone());
+                                    stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                        span: DUMMY_SP,
+                                        kind: v.kind,
+                                        declare: false,
+                                        decls: vec![decl],
+                                    }))));
                                 }
 
                                 continue;
@@ -1898,12 +1890,6 @@ where
         }
     }
 
-    fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {
-        if let SuperProp::Computed(c) = &n.prop {
-            c.visit_with(self);
-        }
-    }
-
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
         let old = self.non_top_level;
         self.non_top_level = false;
@@ -1921,9 +1907,8 @@ where
     }
 
     fn visit_prop_name(&mut self, n: &PropName) {
-        match n {
-            PropName::Computed(e) => e.visit_with(self),
-            _ => {}
+        if let PropName::Computed(e) = n {
+            e.visit_with(self)
         }
     }
 
@@ -1932,6 +1917,12 @@ where
         self.non_top_level = true;
         n.iter().for_each(|n| n.visit_with(self));
         self.non_top_level = old;
+    }
+
+    fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &n.prop {
+            c.visit_with(self);
+        }
     }
 
     fn visit_ts_entity_name(&mut self, name: &TsEntityName) {
