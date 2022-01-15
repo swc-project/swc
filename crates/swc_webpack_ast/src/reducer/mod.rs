@@ -865,8 +865,8 @@ impl VisitMut for ReduceAst {
                 self.ignore_expr_as_null(&mut expr.right, false);
 
                 match &mut expr.left {
-                    PatOrExpr::Pat(pat) => match &mut **pat {
-                        Pat::Expr(left) => {
+                    PatOrExpr::Pat(pat) => {
+                        if let Pat::Expr(left) = &mut **pat {
                             let left = left_most(&left);
 
                             if let Some(left) = left {
@@ -875,8 +875,7 @@ impl VisitMut for ReduceAst {
                                 }
                             }
                         }
-                        _ => {}
-                    },
+                    }
                     PatOrExpr::Expr(left) => {
                         let left = left_most(&left);
 
@@ -961,10 +960,10 @@ impl VisitMut for ReduceAst {
             Expr::Object(obj) => {
                 if obj.props.iter().all(|prop| match prop {
                     PropOrSpread::Spread(..) => true,
-                    PropOrSpread::Prop(prop) => match &**prop {
-                        Prop::Shorthand(..) | Prop::KeyValue(..) | Prop::Assign(..) => true,
-                        _ => false,
-                    },
+                    PropOrSpread::Prop(prop) => matches!(
+                        &**prop,
+                        Prop::Shorthand(..) | Prop::KeyValue(..) | Prop::Assign(..)
+                    ),
                 }) {
                     let mut exprs = Vec::with_capacity(obj.props.len());
 

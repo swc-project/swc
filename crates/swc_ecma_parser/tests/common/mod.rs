@@ -15,10 +15,7 @@ impl Fold for Normalizer {
             return node;
         }
 
-        node.retain(|v| match v {
-            ClassMember::Empty(..) => false,
-            _ => true,
-        });
+        node.retain(|v| !matches!(v, ClassMember::Empty(..)));
 
         node
     }
@@ -34,10 +31,7 @@ impl Fold for Normalizer {
             }),
             // Flatten comma expressions.
             Expr::Seq(SeqExpr { mut exprs, span }) => {
-                let need_work = exprs.iter().any(|n| match **n {
-                    Expr::Seq(..) => true,
-                    _ => false,
-                });
+                let need_work = exprs.iter().any(|n| matches!(**n, Expr::Seq(..)));
 
                 if need_work {
                     exprs = exprs.into_iter().fold(vec![], |mut v, e| {
