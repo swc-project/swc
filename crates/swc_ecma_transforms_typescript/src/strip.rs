@@ -2598,8 +2598,7 @@ where
                 | Decl::Var(VarDecl { declare: true, .. })
                 | Decl::Class(ClassDecl { declare: true, .. })
                 | Decl::Fn(FnDecl { declare: true, .. }) => {
-                    let span = decl.span();
-                    *stmt = Stmt::Empty(EmptyStmt { span })
+                    *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
                 }
 
                 _ => {}
