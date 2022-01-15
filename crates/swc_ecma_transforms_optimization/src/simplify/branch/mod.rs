@@ -803,12 +803,12 @@ impl VisitMut for Remover {
                     if is_matching_literal
                         && s.cases.iter().all(|case| match &case.test {
                             Some(e)
-                                if match &**e {
+                                if matches!(
+                                    &**e,
                                     Expr::Lit(Lit::Str(..))
-                                    | Expr::Lit(Lit::Null(..))
-                                    | Expr::Lit(Lit::Num(..)) => true,
-                                    _ => false,
-                                } =>
+                                        | Expr::Lit(Lit::Null(..))
+                                        | Expr::Lit(Lit::Num(..))
+                                ) =>
                             {
                                 true
                             }
