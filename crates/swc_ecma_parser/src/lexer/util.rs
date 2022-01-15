@@ -384,10 +384,7 @@ pub trait CharExt: Copy {
             Some(c) => c,
             None => return false,
         };
-        match c {
-            '\r' | '\n' | '\u{2028}' | '\u{2029}' => true,
-            _ => false,
-        }
+        matches!(c, '\r' | '\n' | '\u{2028}' | '\u{2029}')
     }
 
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
@@ -397,10 +394,7 @@ pub trait CharExt: Copy {
             Some(c) => c,
             None => return false,
         };
-        match c {
-            '\r' | '\n' => true,
-            _ => false,
-        }
+        matches!(c, '\r' | '\n')
     }
 
     /// See https://tc39.github.io/ecma262/#sec-white-space

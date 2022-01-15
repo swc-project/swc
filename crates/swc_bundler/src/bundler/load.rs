@@ -448,19 +448,15 @@ impl Visit for Es6ModuleDetector {
             c.visit_with(self);
         }
 
-        match &*e.obj {
-            Expr::Ident(i) => {
-                // TODO: Check syntax context (Check if marker is the global mark)
-                if i.sym == *"module" {
-                    self.found_other = true;
-                }
-
-                if i.sym == *"exports" {
-                    self.found_other = true;
-                }
+        if let Expr::Ident(i) = &*e.obj {
+            // TODO: Check syntax context (Check if marker is the global mark)
+            if i.sym == *"module" {
+                self.found_other = true;
             }
 
-            _ => {}
+            if i.sym == *"exports" {
+                self.found_other = true;
+            }
         }
     }
 

@@ -1,3 +1,5 @@
+#![deny(clippy::all)]
+
 use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_css_ast::*;

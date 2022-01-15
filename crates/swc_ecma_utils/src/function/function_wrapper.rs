@@ -327,6 +327,7 @@ impl From<ArrowExpr> for FunctionWrapper<Expr> {
     }
 }
 
+#[allow(clippy::from_over_into)]
 impl Into<Expr> for FunctionWrapper<Expr> {
     /// If a function has a function name, it may be called recursively.
     /// We use the named expression to hoist the function name internally
@@ -343,7 +344,7 @@ impl Into<Expr> for FunctionWrapper<Expr> {
     fn into(mut self) -> Expr {
         if let Some(name_ident) = self.function_ident.as_ref().cloned() {
             self.build_named_expression_wrapper(name_ident)
-        } else if self.binding_ident.is_some() || self.params.len() > 0 {
+        } else if self.binding_ident.is_some() || !self.params.is_empty() {
             self.build_anonymous_expression_wrapper()
         } else {
             self.function

@@ -1397,30 +1397,29 @@ impl<I: Tokens> FnBodyParser<Option<BlockStmt>> for Parser<I> {
 }
 
 fn is_constructor(key: &Either<PrivateName, PropName>) -> bool {
-    match *key {
+    matches!(
+        *key,
         Either::Right(PropName::Ident(Ident {
             sym: js_word!("constructor"),
             ..
-        }))
-        | Either::Right(PropName::Str(Str {
+        })) | Either::Right(PropName::Str(Str {
             value: js_word!("constructor"),
             ..
-        })) => true,
-        _ => false,
-    }
+        }))
+    )
 }
 
 pub(crate) fn is_not_this(p: &Param) -> bool {
-    match p.pat {
+    !matches!(
+        p.pat,
         Pat::Ident(BindingIdent {
             id: Ident {
                 sym: js_word!("this"),
                 ..
             },
             ..
-        }) => false,
-        _ => true,
-    }
+        })
+    )
 }
 
 struct MakeMethodArgs {

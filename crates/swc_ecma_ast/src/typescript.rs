@@ -111,7 +111,6 @@ pub enum TsEntityName {
 // TypeScript type members (for type literal / interface / class)
 // ================
 
-#[allow(clippy::enum_variant_names)]
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -239,7 +238,6 @@ pub struct TsIndexSignature {
 // TypeScript types
 // ================
 
-#[allow(clippy::enum_variant_names)]
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -349,7 +347,6 @@ pub struct TsKeywordType {
     pub kind: TsKeywordTypeKind,
 }
 
-#[allow(clippy::enum_variant_names)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(

@@ -4,6 +4,7 @@ use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 /// Extension methods for [Expr].
+#[allow(clippy::wrong_self_convention)]
 pub trait ExprFactory: Into<Expr> {
     /// ```rust
     /// use swc_common::DUMMY_SP;
