@@ -666,10 +666,9 @@ impl<'a, I: Tokens> Parser<I> {
             .with_ctx(ctx)
             .include_in_expr(true)
             .parse_args_or_pats()?;
-        let has_pattern = paren_items.iter().any(|item| match item {
-            PatOrExprOrSpread::Pat(..) => true,
-            _ => false,
-        });
+        let has_pattern = paren_items
+            .iter()
+            .any(|item| matches!(item, PatOrExprOrSpread::Pat(..)));
 
         let is_direct_child_of_cond = self.ctx().is_direct_child_of_cond;
 

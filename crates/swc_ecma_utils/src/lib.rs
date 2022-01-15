@@ -497,24 +497,15 @@ pub trait ExprExt {
     }
 
     fn is_number(&self) -> bool {
-        match *self.as_expr() {
-            Expr::Lit(Lit::Num(..)) => true,
-            _ => false,
-        }
+        matches!(*self.as_expr(), Expr::Lit(Lit::Num(..)))
     }
 
     fn is_str(&self) -> bool {
-        match *self.as_expr() {
-            Expr::Lit(Lit::Str(..)) => true,
-            _ => false,
-        }
+        matches!(*self.as_expr(), Expr::Lit(Lit::Str(..)))
     }
 
     fn is_array_lit(&self) -> bool {
-        match *self.as_expr() {
-            Expr::Array(..) => true,
-            _ => false,
-        }
+        matches!(*self.as_expr(), Expr::Array(..))
     }
 
     /// Checks if `self` is `NaN`.
@@ -527,20 +518,18 @@ pub trait ExprExt {
     }
 
     fn is_void(&self) -> bool {
-        match *self.as_expr() {
+        matches!(
+            *self.as_expr(),
             Expr::Unary(UnaryExpr {
-                op: op!("void"), ..
-            }) => true,
-            _ => false,
-        }
+                op: op!("void"),
+                ..
+            })
+        )
     }
 
     /// Is `self` an IdentifierReference to `id`?
     fn is_ident_ref_to(&self, id: JsWord) -> bool {
-        match *self.as_expr() {
-            Expr::Ident(Ident { ref sym, .. }) if *sym == id => true,
-            _ => false,
-        }
+        matches!(*self.as_expr(), Expr::Ident(Ident { ref sym, .. }) if *sym == id)
     }
 
     /// Get bool value of `self` if it does not have any side effects.
@@ -583,10 +572,7 @@ pub trait ExprExt {
             }) => {
                 let v = arg.as_number();
                 match v {
-                    Known(n) => Known(match n.classify() {
-                        FpCategory::Nan | FpCategory::Zero => false,
-                        _ => true,
-                    }),
+                    Known(n) => Known(!matches!(n.classify(), FpCategory::Nan | FpCategory::Zero)),
                     Unknown => return (MayBeImpure, Unknown),
                 }
             }
@@ -755,14 +741,13 @@ pub trait ExprExt {
                 return (
                     Pure,
                     Known(match *lit {
-                        Lit::Num(Number { value: n, .. }) => match n.classify() {
-                            FpCategory::Nan | FpCategory::Zero => false,
-                            _ => true,
-                        },
-                        Lit::BigInt(ref v) => v.value.to_string().contains(|c: char| match c {
-                            '1'..='9' => true,
-                            _ => false,
-                        }),
+                        Lit::Num(Number { value: n, .. }) => {
+                            !matches!(n.classify(), FpCategory::Nan | FpCategory::Zero)
+                        }
+                        Lit::BigInt(ref v) => v
+                            .value
+                            .to_string()
+                            .contains(|c: char| matches!(c, '1'..='9')),
                         Lit::Bool(b) => b.value,
                         Lit::Str(Str { ref value, .. }) => !value.is_empty(),
                         Lit::Null(..) => false,
@@ -802,13 +787,13 @@ pub trait ExprExt {
                 op: op!(unary, "-"),
                 arg,
                 ..
-            }) if match &**arg {
+            }) if matches!(
+                &**arg,
                 Expr::Ident(Ident {
                     sym: js_word!("Infinity"),
                     ..
-                }) => true,
-                _ => false,
-            } =>
+                })
+            ) =>
             {
                 -INFINITY
             }
@@ -1722,13 +1707,13 @@ pub fn is_rest_arguments(e: &ExprOrSpread) -> bool {
         return false;
     }
 
-    match *e.expr {
+    matches!(
+        *e.expr,
         Expr::Ident(Ident {
             sym: js_word!("arguments"),
             ..
-        }) => true,
-        _ => false,
-    }
+        })
+    )
 }
 
 #[inline]
@@ -1748,10 +1733,7 @@ pub fn prepend<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
         .iter()
         .position(|item| match item.as_stmt() {
             Some(&Stmt::Expr(ExprStmt { ref expr, .. }))
-                if match &**expr {
-                    Expr::Lit(Lit::Str(..)) => true,
-                    _ => false,
-                } =>
+                if matches!(&**expr, Expr::Lit(Lit::Str(..))) =>
             {
                 false
             }
