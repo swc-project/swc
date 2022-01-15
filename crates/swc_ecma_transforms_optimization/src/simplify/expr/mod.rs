@@ -1213,11 +1213,11 @@ impl VisitMut for SimplifyExpr {
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        match expr {
-            Expr::Unary(UnaryExpr {
-                op: op!("delete"), ..
-            }) => return,
-            _ => {}
+        if let Expr::Unary(UnaryExpr {
+            op: op!("delete"), ..
+        }) = expr
+        {
+            return;
         }
         // fold children before doing something more.
         expr.visit_mut_children_with(self);
@@ -1316,10 +1316,9 @@ impl VisitMut for SimplifyExpr {
                 }
 
                 Expr::Object(ObjectLit { span, props, .. }) => {
-                    let should_work = props.iter().any(|p| match &*p {
-                        PropOrSpread::Spread(..) => true,
-                        _ => false,
-                    });
+                    let should_work = props
+                        .iter()
+                        .any(|p| matches!(&*p, PropOrSpread::Spread(..)));
                     if !should_work {
                         return ObjectLit { span, props }.into();
                     }
@@ -1404,15 +1403,14 @@ impl VisitMut for SimplifyExpr {
     fn visit_mut_opt_chain_expr(&mut self, _: &mut OptChainExpr) {}
 
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
-        match n {
-            Some(VarDeclOrExpr::Expr(e)) => match &mut **e {
+        if let Some(VarDeclOrExpr::Expr(e)) = n {
+            match &mut **e {
                 Expr::Seq(SeqExpr { exprs, .. }) if exprs.is_empty() => {
                     *n = None;
                     return;
                 }
                 _ => {}
-            },
-            _ => {}
+            }
         }
 
         n.visit_mut_children_with(self);
@@ -1421,22 +1419,19 @@ impl VisitMut for SimplifyExpr {
     fn visit_mut_pat(&mut self, p: &mut Pat) {
         p.visit_mut_children_with(self);
 
-        match p {
-            Pat::Assign(a) => {
-                if a.right.is_undefined()
-                    || match *a.right {
-                        Expr::Unary(UnaryExpr {
-                            op: op!("void"),
-                            ref arg,
-                            ..
-                        }) => !arg.may_have_side_effects(),
-                        _ => false,
-                    }
-                {
-                    *p = *a.left.take();
+        if let Pat::Assign(a) = p {
+            if a.right.is_undefined()
+                || match *a.right {
+                    Expr::Unary(UnaryExpr {
+                        op: op!("void"),
+                        ref arg,
+                        ..
+                    }) => !arg.may_have_side_effects(),
+                    _ => false,
                 }
+            {
+                *p = *a.left.take();
             }
-            _ => {}
         }
     }
 
@@ -1486,10 +1481,9 @@ impl VisitMut for SimplifyExpr {
 
                 // Flatten array
                 Expr::Array(ArrayLit { span, elems }) => {
-                    let is_simple = elems.iter().all(|elem| match elem {
-                        None | Some(ExprOrSpread { spread: None, .. }) => true,
-                        _ => false,
-                    });
+                    let is_simple = elems
+                        .iter()
+                        .all(|elem| matches!(elem, None | Some(ExprOrSpread { spread: None, .. })));
 
                     if is_simple {
                         exprs.extend(elems.into_iter().flatten().map(|e| e.expr));
