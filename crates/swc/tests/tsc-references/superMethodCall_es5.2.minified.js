@@ -103,7 +103,7 @@ var Base = function() {
         {
             key: "asyncMethod",
             value: function() {
-                var _this = this;
+                var _this = this, _this1 = this;
                 return (function(fn) {
                     return function() {
                         var self = this, args = arguments;
@@ -123,13 +123,13 @@ var Base = function() {
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
-                                return _ctx.abrupt("return", null === (ref = _get(_getPrototypeOf(Derived1.prototype), "method", _this)) || void 0 === ref ? void 0 : ref.call(this));
+                                return _ctx.abrupt("return", null === (ref = _get(_getPrototypeOf(Derived1.prototype), "method", _this)) || void 0 === ref ? void 0 : ref.call(_this1));
                             case 2:
                             case "end":
                                 return _ctx.stop();
                         }
-                    }, _callee, this);
-                }).bind(this))();
+                    }, _callee);
+                }))();
             }
         }
     ]), Derived1;
