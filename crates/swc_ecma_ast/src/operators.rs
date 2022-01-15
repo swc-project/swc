@@ -106,7 +106,6 @@ impl BinaryOp {
     }
 }
 
-#[allow(clippy::enum_variant_names)]
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(

@@ -13,7 +13,7 @@
         "end": 58,
         "ctxt": 0
       },
-      "src": {
+      "href": {
         "type": "Function",
         "span": {
           "start": 8,
@@ -43,7 +43,8 @@
           }
         ]
       },
-      "condition": {
+      "layerName": null,
+      "media": {
         "type": "AndMediaQuery",
         "span": {
           "start": 23,

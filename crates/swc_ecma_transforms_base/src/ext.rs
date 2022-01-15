@@ -12,11 +12,8 @@ pub trait PatOrExprExt: AsOptExpr {
     fn as_mut(&mut self) -> &mut PatOrExpr;
 
     fn as_ident(&self) -> Option<&Ident> {
-        if let Some(expr) = self.as_expr() {
-            match expr {
-                Expr::Ident(i) => return Some(i),
-                _ => {}
-            }
+        if let Some(Expr::Ident(i)) = self.as_expr() {
+            return Some(i);
         }
 
         match self.as_ref() {
@@ -66,7 +63,7 @@ impl PatOrExprExt for PatOrExpr {
         match self {
             PatOrExpr::Pat(pat) => match *pat {
                 Pat::Expr(expr) => PatOrExpr::Expr(expr),
-                _ => return PatOrExpr::Pat(pat),
+                _ => PatOrExpr::Pat(pat),
             },
             _ => self,
         }

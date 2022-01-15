@@ -166,10 +166,7 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
 
                 let var = alias_ident_for(&obj, "_ref");
 
-                let this = if match *obj {
-                    Expr::This(..) => true,
-                    _ => false,
-                } {
+                let this = if matches!(*obj, Expr::This(..)) {
                     ThisExpr { span: DUMMY_SP }.as_arg()
                 } else if is_static {
                     obj.as_arg()

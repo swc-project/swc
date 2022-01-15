@@ -88,27 +88,23 @@ impl Fold for Legacy {
     fn fold_decl(&mut self, decl: Decl) -> Decl {
         let decl: Decl = decl.fold_children_with(self);
 
-        match decl {
-            Decl::Class(c) => {
-                let expr = self.handle(ClassExpr {
-                    class: c.class,
-                    ident: Some(c.ident.clone()),
-                });
+        if let Decl::Class(c) = decl {
+            let expr = self.handle(ClassExpr {
+                class: c.class,
+                ident: Some(c.ident.clone()),
+            });
 
-                return Decl::Var(VarDecl {
+            return Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Let,
+                declare: false,
+                decls: vec![VarDeclarator {
                     span: DUMMY_SP,
-                    kind: VarDeclKind::Let,
-                    declare: false,
-                    decls: vec![VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(c.ident.into()),
-                        init: Some(expr),
-                        definite: false,
-                    }],
-                });
-            }
-
-            _ => {}
+                    name: Pat::Ident(c.ident.into()),
+                    init: Some(expr),
+                    definite: false,
+                }],
+            });
         }
 
         decl
@@ -117,14 +113,10 @@ impl Fold for Legacy {
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e: Expr = e.fold_children_with(self);
 
-        match e {
-            Expr::Class(e) => {
-                let expr = self.handle(e);
+        if let Expr::Class(e) = e {
+            let expr = self.handle(e);
 
-                return *expr;
-            }
-
-            _ => {}
+            return *expr;
         }
 
         e
@@ -168,40 +160,41 @@ impl Fold for Legacy {
     fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
         let item: ModuleItem = item.fold_children_with(self);
 
-        match item {
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                decl: DefaultDecl::Class(c),
-                ..
-            })) => {
-                let export_ident = c.ident.clone().unwrap_or_else(|| private_ident!("_class"));
+        if let ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+            decl: DefaultDecl::Class(c),
+            ..
+        })) = item
+        {
+            let export_ident = c.ident.clone().unwrap_or_else(|| private_ident!("_class"));
 
-                let expr = self.handle(c);
+            let expr = self.handle(c);
 
-                self.exports
-                    .push(ExportSpecifier::Named(ExportNamedSpecifier {
-                        span: DUMMY_SP,
-                        orig: ModuleExportName::Ident(export_ident.clone()),
-                        exported: Some(ModuleExportName::Ident(quote_ident!("default"))),
-                        is_type_only: false,
-                    }));
-
-                return ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+            self.exports
+                .push(ExportSpecifier::Named(ExportNamedSpecifier {
                     span: DUMMY_SP,
-                    kind: VarDeclKind::Let,
-                    declare: false,
-                    decls: vec![VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(export_ident.into()),
-                        init: Some(expr),
-                        definite: false,
-                    }],
-                })));
-            }
+                    orig: ModuleExportName::Ident(export_ident.clone()),
+                    exported: Some(ModuleExportName::Ident(quote_ident!("default"))),
+                    is_type_only: false,
+                }));
 
-            _ => {}
+            return ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Let,
+                declare: false,
+                decls: vec![VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(export_ident.into()),
+                    init: Some(expr),
+                    definite: false,
+                }],
+            })));
         }
 
         item
+    }
+
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
     }
 
     fn fold_script(&mut self, s: Script) -> Script {
@@ -220,10 +213,6 @@ impl Fold for Legacy {
         }
 
         s
-    }
-
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
     }
 
     fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
@@ -726,10 +715,11 @@ impl Legacy {
             {
                 // Create constructors as required
 
-                let has = c.class.body.iter().any(|m| match m {
-                    ClassMember::Constructor(..) => true,
-                    _ => false,
-                });
+                let has = c
+                    .class
+                    .body
+                    .iter()
+                    .any(|m| matches!(m, ClassMember::Constructor(..)));
 
                 if !has {
                     c.class

@@ -304,11 +304,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
                 match &*arg {
                     Expr::Member(..) => {}
-                    Expr::OptChain(e)
-                        if match &*e.expr {
-                            Expr::Member(..) => true,
-                            _ => false,
-                        } => {}
+                    Expr::OptChain(e) if matches!(&*e.expr, Expr::Member(..)) => {}
                     _ => self.emit_err(unwrap_paren(&arg).span(), SyntaxError::TS2703),
                 }
             }

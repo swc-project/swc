@@ -1,3 +1,5 @@
+#![deny(clippy::all)]
+
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;

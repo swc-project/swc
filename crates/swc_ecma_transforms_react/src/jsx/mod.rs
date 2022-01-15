@@ -1,3 +1,5 @@
+#![allow(clippy::redundant_allocation)]
+
 use self::static_check::should_use_create_element;
 use crate::refresh::options::{deserialize_refresh, RefreshOptions};
 use dashmap::DashMap;
@@ -656,7 +658,9 @@ where
                 self.top_level_node = top_level_node;
 
                 let args = once(name.as_arg()).chain(once(props_obj.as_arg()));
-                let args = if self.development {
+                let args = if use_create_element {
+                    args.collect()
+                } else if self.development {
                     // set undefined literal to key if key is None
                     let key = match key {
                         Some(key) => key,
@@ -817,10 +821,9 @@ where
             return self.fold_attrs_for_next_classic(attrs);
         }
 
-        let is_complex = attrs.iter().any(|a| match *a {
-            JSXAttrOrSpread::SpreadElement(..) => true,
-            _ => false,
-        });
+        let is_complex = attrs
+            .iter()
+            .any(|a| matches!(*a, JSXAttrOrSpread::SpreadElement(..)));
 
         if is_complex {
             let mut args = vec![];
@@ -1264,8 +1267,8 @@ fn jsx_text_to_str(t: JsWord) -> JsWord {
     static SPACE_END: Lazy<Regex> = Lazy::new(|| Regex::new("[ ]+$").unwrap());
     let mut buf = String::new();
     let replaced = t.replace('\t', " ");
-    let lines: Vec<&str> = replaced.lines().collect();
-    for (is_last, (i, line)) in lines.into_iter().enumerate().identify_last() {
+
+    for (is_last, (i, line)) in replaced.lines().enumerate().identify_last() {
         if line.is_empty() {
             continue;
         }

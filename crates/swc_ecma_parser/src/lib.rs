@@ -164,23 +164,21 @@ impl Syntax {
     }
 
     pub fn static_blocks(self) -> bool {
-        match self {
+        matches!(
+            self,
             Syntax::Es(EsConfig {
                 static_blocks: true,
                 ..
-            })
-            | Syntax::Typescript(..) => true,
-            _ => false,
-        }
+            }) | Syntax::Typescript(..)
+        )
     }
 
     /// Should we parse jsx?
     pub fn jsx(self) -> bool {
-        match self {
-            Syntax::Es(EsConfig { jsx: true, .. })
-            | Syntax::Typescript(TsConfig { tsx: true, .. }) => true,
-            _ => false,
-        }
+        matches!(
+            self,
+            Syntax::Es(EsConfig { jsx: true, .. }) | Syntax::Typescript(TsConfig { tsx: true, .. })
+        )
     }
 
     pub const fn optional_chaining(self) -> bool {
@@ -192,33 +190,30 @@ impl Syntax {
     }
 
     pub fn fn_bind(self) -> bool {
-        match self {
-            Syntax::Es(EsConfig { fn_bind: true, .. }) => true,
-            _ => false,
-        }
+        matches!(self, Syntax::Es(EsConfig { fn_bind: true, .. }))
     }
 
     pub fn decorators(self) -> bool {
-        match self {
+        matches!(
+            self,
             Syntax::Es(EsConfig {
-                decorators: true, ..
+                decorators: true,
+                ..
+            }) | Syntax::Typescript(TsConfig {
+                decorators: true,
+                ..
             })
-            | Syntax::Typescript(TsConfig {
-                decorators: true, ..
-            }) => true,
-            _ => false,
-        }
+        )
     }
 
     pub fn decorators_before_export(self) -> bool {
-        match self {
+        matches!(
+            self,
             Syntax::Es(EsConfig {
                 decorators_before_export: true,
                 ..
-            })
-            | Syntax::Typescript(..) => true,
-            _ => false,
-        }
+            }) | Syntax::Typescript(..)
+        )
     }
 
     /// Should we pare typescript?
@@ -230,20 +225,17 @@ impl Syntax {
     /// Should we pare typescript?
     #[cfg(feature = "typescript")]
     pub const fn typescript(self) -> bool {
-        match self {
-            Syntax::Typescript(..) => true,
-            _ => false,
-        }
+        matches!(self, Syntax::Typescript(..))
     }
 
     pub fn export_default_from(self) -> bool {
-        match self {
+        matches!(
+            self,
             Syntax::Es(EsConfig {
                 export_default_from: true,
                 ..
-            }) => true,
-            _ => false,
-        }
+            })
+        )
     }
 
     pub fn dts(self) -> bool {

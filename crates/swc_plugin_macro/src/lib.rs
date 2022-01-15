@@ -25,6 +25,8 @@ fn handle_func(func: ItemFn) -> TokenStream {
     let ret = quote! {
         #func
 
+        use swc_plugin::Serialized;
+
         // TODO:
         // error handling & bubbling
         #[no_mangle]

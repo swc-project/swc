@@ -90,64 +90,50 @@ impl Visit for Analyzer {
     fn visit_call_expr(&mut self, e: &CallExpr) {
         e.visit_children_with(self);
 
-        match &e.callee {
-            Callee::Expr(callee) => match &**callee {
-                Expr::Ident(callee) => {
-                    if &*callee.sym == "define" {
-                        // find `require`
+        if let Callee::Expr(callee) = &e.callee {
+            if let Expr::Ident(callee) = &**callee {
+                if &*callee.sym == "define" {
+                    // find `require`
 
-                        let require_arg_idx = e
-                            .args
-                            .first()
-                            .and_then(|v| match &*v.expr {
-                                Expr::Array(arr) => Some(&arr.elems),
-                                _ => None,
-                            })
-                            .iter()
-                            .flat_map(|v| v.iter())
-                            .flatten()
-                            .position(|arg| match &*arg.expr {
-                                Expr::Lit(Lit::Str(s)) => &*s.value == "require",
-                                _ => false,
-                            });
-
-                        let fn_arg = e.args.iter().find_map(|arg| match &*arg.expr {
-                            Expr::Fn(f) => Some(f),
+                    let require_arg_idx = e
+                        .args
+                        .first()
+                        .and_then(|v| match &*v.expr {
+                            Expr::Array(arr) => Some(&arr.elems),
                             _ => None,
+                        })
+                        .iter()
+                        .flat_map(|v| v.iter())
+                        .flatten()
+                        .position(|arg| match &*arg.expr {
+                            Expr::Lit(Lit::Str(s)) => &*s.value == "require",
+                            _ => false,
                         });
 
-                        if let Some(require_arg_idx) = require_arg_idx {
-                            if let Some(fn_arg) = fn_arg {
-                                if let Some(require_arg) =
-                                    fn_arg.function.params.iter().nth(require_arg_idx)
-                                {
-                                    match &require_arg.pat {
-                                        Pat::Ident(r) => {
-                                            self.amd_requires.insert(r.to_id());
-                                        }
+                    let fn_arg = e.args.iter().find_map(|arg| match &*arg.expr {
+                        Expr::Fn(f) => Some(f),
+                        _ => None,
+                    });
 
-                                        _ => {}
-                                    }
+                    if let Some(require_arg_idx) = require_arg_idx {
+                        if let Some(fn_arg) = fn_arg {
+                            if let Some(require_arg) = fn_arg.function.params.get(require_arg_idx) {
+                                if let Pat::Ident(r) = &require_arg.pat {
+                                    self.amd_requires.insert(r.to_id());
                                 }
                             }
                         }
                     }
                 }
-                _ => {}
-            },
-            _ => {}
+            }
         }
     }
 
     fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
-        match e {
-            Expr::Ident(i) => {
-                self.used_refs.entry(i.to_id()).or_default().used_as_var = true;
-            }
-
-            _ => {}
+        if let Expr::Ident(i) = e {
+            self.used_refs.entry(i.to_id()).or_default().used_as_var = true;
         }
     }
 
@@ -159,33 +145,25 @@ impl Visit for Analyzer {
         }
     }
 
-    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
-        if let SuperProp::Computed(c) = &e.prop {
-            c.visit_with(self);
-        }
-    }
-
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
-        match p {
-            Pat::Ident(s) => {
-                self.used_refs.entry(s.to_id()).or_default().used_as_var = true;
-            }
-
-            _ => {}
+        if let Pat::Ident(s) = p {
+            self.used_refs.entry(s.to_id()).or_default().used_as_var = true;
         }
     }
 
     fn visit_prop(&mut self, p: &Prop) {
         p.visit_children_with(self);
 
-        match p {
-            Prop::Shorthand(s) => {
-                self.used_refs.entry(s.to_id()).or_default().used_as_var = true;
-            }
+        if let Prop::Shorthand(s) = p {
+            self.used_refs.entry(s.to_id()).or_default().used_as_var = true;
+        }
+    }
 
-            _ => {}
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            c.visit_with(self);
         }
     }
 
@@ -219,24 +197,20 @@ impl ScopeData {
         let mut imported_ids = AHashSet::default();
 
         for item in items {
-            match item {
-                ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
-                    for s in &i.specifiers {
-                        match s {
-                            ImportSpecifier::Named(s) => {
-                                imported_ids.insert(s.local.to_id());
-                            }
-                            ImportSpecifier::Default(s) => {
-                                imported_ids.insert(s.local.to_id());
-                            }
-                            ImportSpecifier::Namespace(s) => {
-                                imported_ids.insert(s.local.to_id());
-                            }
+            if let ModuleItem::ModuleDecl(ModuleDecl::Import(i)) = item {
+                for s in &i.specifiers {
+                    match s {
+                        ImportSpecifier::Named(s) => {
+                            imported_ids.insert(s.local.to_id());
+                        }
+                        ImportSpecifier::Default(s) => {
+                            imported_ids.insert(s.local.to_id());
+                        }
+                        ImportSpecifier::Namespace(s) => {
+                            imported_ids.insert(s.local.to_id());
                         }
                     }
                 }
-
-                _ => {}
             }
         }
 
@@ -419,8 +393,8 @@ impl ReduceAst {
 
         // Remove empty statements
         new.retain(|stmt| match StmtOrModuleItem::as_stmt(stmt) {
-            Ok(Stmt::Empty(..)) => return false,
-            Ok(Stmt::Expr(es)) => return !self.can_remove(&es.expr, true),
+            Ok(Stmt::Empty(..)) => false,
+            Ok(Stmt::Expr(es)) => !self.can_remove(&es.expr, true),
             _ => true,
         });
 
@@ -437,17 +411,14 @@ impl ReduceAst {
     }
 
     fn ignore_expr(&mut self, e: &mut Expr, ignore_return_value: bool) {
-        if ignore_return_value {
-            if e.is_member() && is_related_to_process(&e) {
-                e.take();
-                return;
-            }
+        if ignore_return_value && e.is_member() && is_related_to_process(e) {
+            e.take();
+            return;
         }
 
         match e {
             Expr::Lit(..) => {
                 e.take();
-                return;
             }
             Expr::This(..)
             | Expr::SuperProp(SuperPropExpr {
@@ -457,7 +428,6 @@ impl ReduceAst {
             | Expr::Yield(YieldExpr { arg: None, .. }) => {
                 self.changed = true;
                 e.take();
-                return;
             }
 
             Expr::Ident(i) => {
@@ -465,7 +435,6 @@ impl ReduceAst {
                     self.changed = true;
                     e.take();
                 }
-                return;
             }
 
             Expr::Member(MemberExpr { obj, prop, .. }) => {
@@ -475,7 +444,7 @@ impl ReduceAst {
                 }
 
                 match (
-                    self.can_remove(&obj, false),
+                    self.can_remove(obj, false),
                     if let MemberProp::Computed(c) = prop {
                         self.can_remove(&c.expr, false)
                     } else {
@@ -484,14 +453,12 @@ impl ReduceAst {
                 ) {
                     (true, true) => {
                         e.take();
-                        return;
                     }
                     (true, false) => {
                         if let MemberProp::Computed(c) = prop {
                             *e = *c.expr.take()
                         } else {
                             e.take();
-                            return;
                         }
                     }
                     (false, true) => {
@@ -505,7 +472,6 @@ impl ReduceAst {
                 if a.elems.is_empty() {
                     self.changed = true;
                     e.take();
-                    return;
                 }
             }
 
@@ -513,7 +479,6 @@ impl ReduceAst {
                 if obj.props.is_empty() {
                     self.changed = true;
                     e.take();
-                    return;
                 }
             }
 
@@ -529,7 +494,6 @@ impl ReduceAst {
                 }
                 if seq.exprs.len() == 1 {
                     *e = *seq.exprs.pop().unwrap();
-                    return;
                 }
             }
 
@@ -901,8 +865,8 @@ impl VisitMut for ReduceAst {
                 self.ignore_expr_as_null(&mut expr.right, false);
 
                 match &mut expr.left {
-                    PatOrExpr::Pat(pat) => match &mut **pat {
-                        Pat::Expr(left) => {
+                    PatOrExpr::Pat(pat) => {
+                        if let Pat::Expr(left) = &mut **pat {
                             let left = left_most(&left);
 
                             if let Some(left) = left {
@@ -911,8 +875,7 @@ impl VisitMut for ReduceAst {
                                 }
                             }
                         }
-                        _ => {}
-                    },
+                    }
                     PatOrExpr::Expr(left) => {
                         let left = left_most(&left);
 
@@ -997,10 +960,10 @@ impl VisitMut for ReduceAst {
             Expr::Object(obj) => {
                 if obj.props.iter().all(|prop| match prop {
                     PropOrSpread::Spread(..) => true,
-                    PropOrSpread::Prop(prop) => match &**prop {
-                        Prop::Shorthand(..) | Prop::KeyValue(..) | Prop::Assign(..) => true,
-                        _ => false,
-                    },
+                    PropOrSpread::Prop(prop) => matches!(
+                        &**prop,
+                        Prop::Shorthand(..) | Prop::KeyValue(..) | Prop::Assign(..)
+                    ),
                 }) {
                     let mut exprs = Vec::with_capacity(obj.props.len());
 

@@ -182,11 +182,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         if self.input.syntax().typescript()
             && !is_one_of!(self, '(', '[', ':', ',', '?', '=', '*', IdentName, Str, Num)
             && !(self.input.syntax().typescript() && is!(self, '<'))
-            && !(is!(self, '}')
-                && match key {
-                    PropName::Ident(..) => true,
-                    _ => false,
-                })
+            && !(is!(self, '}') && matches!(key, PropName::Ident(..)))
         {
             trace_cur!(self, parse_object_prop_error);
 

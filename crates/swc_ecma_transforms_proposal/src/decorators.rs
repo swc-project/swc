@@ -280,9 +280,11 @@ impl Decorators {
             }));
 
             // Inject initialize
-            let pos = class.body.iter().position(|member| match *member {
-                ClassMember::Constructor(Constructor { body: Some(..), .. }) => true,
-                _ => false,
+            let pos = class.body.iter().position(|member| {
+                matches!(
+                    *member,
+                    ClassMember::Constructor(Constructor { body: Some(..), .. })
+                )
             });
 
             match pos {

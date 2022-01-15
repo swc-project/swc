@@ -323,12 +323,17 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(CommaMediaQuery, visit_comma_media_query);
     mtd!(DocumentRule, visit_document_rule);
     mtd!(FontFaceRule, visit_font_face_rule);
-    mtd!(ImportSource, visit_import_source);
+    mtd!(ImportHref, visit_import_href);
+    mtd!(ImportLayerName, visit_import_layer_name);
     mtd!(ImportRule, visit_import_rule);
     mtd!(KeyframeBlock, visit_keyframe_block);
     mtd!(KeyframeBlockRule, visit_keyframe_block_rule);
     mtd!(KeyframeSelector, visit_keyframe_selector);
     mtd!(KeyframesRule, visit_keyframes_rule);
+    mtd!(LayerName, visit_layer_name);
+    mtd!(LayerNameList, visit_layer_name_list);
+    mtd!(LayerPrelude, visit_layer_prelude);
+    mtd!(LayerRule, visit_layer_rule);
     mtd!(MediaQuery, visit_media_query);
     mtd!(MediaRule, visit_media_rule);
     mtd!(NamespaceUri, visit_namespace_uri);

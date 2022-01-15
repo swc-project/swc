@@ -430,12 +430,12 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             let item = serialize_type_node(class_name, ty);
 
             // One of the individual is global object, return immediately
-            match item {
-                Expr::Ident(Ident {
-                    sym: js_word!("Object"),
-                    ..
-                }) => return item,
-                _ => {}
+            if let Expr::Ident(Ident {
+                sym: js_word!("Object"),
+                ..
+            }) = item
+            {
+                return item;
             }
 
             // If there exists union that is not void 0 expression, check if the

@@ -1,3 +1,6 @@
+#![deny(clippy::all)]
+#![allow(clippy::result_unit_err)]
+
 use ansi_term::Color;
 use anyhow::{bail, Context, Error};
 use serde::de::DeserializeOwned;
@@ -199,43 +202,40 @@ impl VisitMut for RegeneratorHandler {
     noop_visit_mut_type!();
 
     fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
-        match item {
-            ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                if &*import.src.value != "regenerator-runtime" {
-                    return;
-                }
-
-                let s = import.specifiers.iter().find_map(|v| match v {
-                    ImportSpecifier::Default(rt) => Some(rt.local.clone()),
-                    _ => None,
-                });
-
-                let s = match s {
-                    Some(v) => v,
-                    _ => return,
-                };
-
-                let init = Box::new(Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: quote_ident!("require").as_callee(),
-                    args: vec![quote_str!("regenerator-runtime").as_arg()],
-                    type_args: Default::default(),
-                }));
-
-                let decl = VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(s.into()),
-                    init: Some(init),
-                    definite: Default::default(),
-                };
-                *item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: import.span,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: vec![decl],
-                })))
+        if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = item {
+            if &*import.src.value != "regenerator-runtime" {
+                return;
             }
-            _ => {}
+
+            let s = import.specifiers.iter().find_map(|v| match v {
+                ImportSpecifier::Default(rt) => Some(rt.local.clone()),
+                _ => None,
+            });
+
+            let s = match s {
+                Some(v) => v,
+                _ => return,
+            };
+
+            let init = Box::new(Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: quote_ident!("require").as_callee(),
+                args: vec![quote_str!("regenerator-runtime").as_arg()],
+                type_args: Default::default(),
+            }));
+
+            let decl = VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(s.into()),
+                init: Some(init),
+                definite: Default::default(),
+            };
+            *item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                span: import.span,
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: vec![decl],
+            })))
         }
     }
 }
@@ -597,14 +597,10 @@ impl VisitMut for Normalizer {
     fn visit_mut_pat_or_expr(&mut self, node: &mut PatOrExpr) {
         node.visit_mut_children_with(self);
 
-        match node {
-            PatOrExpr::Pat(pat) => match &mut **pat {
-                Pat::Expr(e) => {
-                    *node = PatOrExpr::Expr(e.take());
-                }
-                _ => {}
-            },
-            _ => {}
+        if let PatOrExpr::Pat(pat) = node {
+            if let Pat::Expr(e) = &mut **pat {
+                *node = PatOrExpr::Expr(e.take());
+            }
         }
     }
 
@@ -623,6 +619,8 @@ impl Fold for HygieneVisualizer {
     }
 }
 
+/// Just like babel, walk up the directory tree and find a file named
+/// `options.json`.
 pub fn parse_options<T>(dir: &Path) -> T
 where
     T: DeserializeOwned,
@@ -631,14 +629,11 @@ where
 
     fn check(dir: &Path) -> Option<String> {
         let file = dir.join("options.json");
-        match read_to_string(&file) {
-            Ok(v) => {
-                eprintln!("Using options.json at {}", file.display());
-                eprintln!("----- {} -----\n{}", Color::Green.paint("Options"), v);
+        if let Ok(v) = read_to_string(&file) {
+            eprintln!("Using options.json at {}", file.display());
+            eprintln!("----- {} -----\n{}", Color::Green.paint("Options"), v);
 
-                return Some(v);
-            }
-            Err(_) => {}
+            return Some(v);
         }
 
         dir.parent().and_then(check)
@@ -752,19 +747,16 @@ fn test_fixture_inner<P>(
         panic!("stderr: {}", stderr);
     }
 
-    match actual_src {
-        Some(actual_src) => {
-            println!("{}", actual_src);
+    if let Some(actual_src) = actual_src {
+        println!("{}", actual_src);
 
-            if actual_src == expected_src {
-                // Ignore `UPDATE`
-                return;
-            }
-
-            NormalizedOutput::from(actual_src)
-                .compare_to_file(output)
-                .unwrap();
+        if actual_src == expected_src {
+            // Ignore `UPDATE`
+            return;
         }
-        _ => {}
+
+        NormalizedOutput::from(actual_src)
+            .compare_to_file(output)
+            .unwrap();
     }
 }
