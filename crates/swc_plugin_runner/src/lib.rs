@@ -8,8 +8,9 @@ use once_cell::sync::Lazy;
 use parking_lot::Mutex;
 use resolve::PluginCache;
 use swc_common::{collections::AHashMap, plugin::Serialized};
-use wasmer::{imports, Array, Instance, Memory, MemoryType, Module, Store, WasmPtr};
+use wasmer::{Array, Exports, Instance, Memory, MemoryType, Module, Store, WasmPtr};
 use wasmer_cache::{Cache, Hash};
+use wasmer_wasi::WasiState;
 
 pub mod resolve;
 
@@ -96,11 +97,25 @@ fn load_plugin(plugin_path: &Path, cache: &mut Option<PluginCache>) -> Result<In
     return match module {
         Ok(module) => {
             let memory = Memory::new(&wasmer_store, MemoryType::new(1, None, false))?;
-            let import_object = imports! {
-                "env" => {
-                    "memory" => memory
-                }
-            };
+
+            // Create the `WasiEnv`. We expect plugin targets wasm32-wasi to enable system
+            // related fn calls, such as `println!`.
+            let mut wasi_env = WasiState::new(
+                plugin_path
+                    .file_name()
+                    .and_then(|f| f.to_str())
+                    .expect("Plugin path missing file name"),
+            )
+            .finalize()?;
+
+            // Generate an `ImportObject` from wasi_env
+            let mut import_object = wasi_env.import_object(&module)?;
+
+            // Inject `memory` into generated import_object, this is required to allocate
+            // guest (plugin)'s memory space from the host (SWC).
+            let mut env = Exports::new();
+            env.insert("memory", memory);
+            import_object.register("env", env);
 
             Instance::new(&module, &import_object).context("Failed to create plugin instance")
         }

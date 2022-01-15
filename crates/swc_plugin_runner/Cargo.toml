@@ -21,6 +21,7 @@ swc_ecma_ast = {version = "0.65.0", path = "../swc_ecma_ast", features = ["rkyv-
 swc_ecma_parser = {version = "0.87.0", path = "../swc_ecma_parser"}
 wasmer = "2.1.1"
 wasmer-cache = "2.1.1"
+wasmer-wasi = "2.1.1"
 
 [dev-dependencies]
 testing = {version = "0.18.0", path = "../testing"}
