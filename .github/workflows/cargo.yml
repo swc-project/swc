@@ -194,7 +194,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          target: wasm32-unknown-unknown
+          target: wasm32-wasi
 
       - uses: denoland/setup-deno@v1
         if: matrix.crate == 'swc_bundler'
