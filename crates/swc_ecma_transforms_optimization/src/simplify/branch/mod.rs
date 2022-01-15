@@ -850,10 +850,9 @@ impl VisitMut for Remover {
 
                 Stmt::For(s)
                     if match &s.test {
-                        Some(test) => match &**test {
-                            Expr::Lit(Lit::Bool(Bool { value: false, .. })) => true,
-                            _ => false,
-                        },
+                        Some(test) => {
+                            matches!(&**test, Expr::Lit(Lit::Bool(Bool { value: false, .. })))
+                        }
                         _ => false,
                     } =>
                 {
@@ -976,10 +975,10 @@ impl VisitMut for Remover {
     fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
         s.visit_mut_children_with(self);
 
-        if s.cases.iter().any(|case| match case.test.as_deref() {
-            Some(Expr::Update(..)) => true,
-            _ => false,
-        }) {
+        if s.cases
+            .iter()
+            .any(|case| matches!(case.test.as_deref(), Some(Expr::Update(..))))
+        {
             return;
         }
 
@@ -988,10 +987,7 @@ impl VisitMut for Remover {
                 return true;
             }
 
-            match case.cons[0] {
-                Stmt::Break(BreakStmt { label: None, .. }) => true,
-                _ => false,
-            }
+            matches!(case.cons[0], Stmt::Break(BreakStmt { label: None, .. }))
         }) {
             s.cases.clear();
         }
@@ -1083,10 +1079,7 @@ impl Remover {
                                 new_stmts.extend(
                                     stmts
                                         .into_iter()
-                                        .filter(|s| match s {
-                                            Stmt::Empty(..) => false,
-                                            _ => true,
-                                        })
+                                        .filter(|s| !matches!(s, Stmt::Empty(..)))
                                         .map(T::from_stmt),
                                 );
                                 continue;
@@ -1274,10 +1267,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             op!("!")
                 if match &*arg {
                     Expr::Call(call) => match &call.callee {
-                        Callee::Expr(callee) => match &**callee {
-                            Expr::Fn(..) => true,
-                            _ => false,
-                        },
+                        Callee::Expr(callee) => matches!(&**callee, Expr::Fn(..)),
                         _ => false,
                     },
                     _ => false,
@@ -1488,12 +1478,14 @@ fn is_ok_to_inline_block(s: &[Stmt]) -> bool {
     }
 
     // variable declared as `var` is hoisted
-    let last_var = s.iter().rposition(|s| match s {
-        Stmt::Decl(Decl::Var(VarDecl {
-            kind: VarDeclKind::Var,
-            ..
-        })) => true,
-        _ => false,
+    let last_var = s.iter().rposition(|s| {
+        matches!(
+            s,
+            Stmt::Decl(Decl::Var(VarDecl {
+                kind: VarDeclKind::Var,
+                ..
+            }))
+        )
     });
 
     let last_var = if let Some(pos) = last_var {
@@ -1502,9 +1494,11 @@ fn is_ok_to_inline_block(s: &[Stmt]) -> bool {
         return true;
     };
 
-    let last_stopper = s.iter().rposition(|s| match s {
-        Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => true,
-        _ => false,
+    let last_stopper = s.iter().rposition(|s| {
+        matches!(
+            s,
+            Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..)
+        )
     });
 
     if let Some(last_stopper) = last_stopper {
