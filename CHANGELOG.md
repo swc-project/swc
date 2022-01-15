@@ -14,6 +14,9 @@
 - **(es/minifier)** Preserve side effects in correct position (#3263) ([efd8671](https://github.com/swc-project/swc/commit/efd86715c9827197278914df5dbc9f4fab1a35d9))
 
 
+- **(es/parser)** Throw an error when function body has use strict and paramaters is not simple (#3278) ([6406b49](https://github.com/swc-project/swc/commit/6406b49df259eb10424ecbcc7fbbc9e4acdd37db))
+
+
 - **(es/react)** Fix `createElement` (#3277) ([88a258a](https://github.com/swc-project/swc/commit/88a258a5fb91a58feb571096c4a73d6779b3128d))
 
 
