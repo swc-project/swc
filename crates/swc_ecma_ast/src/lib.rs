@@ -4,6 +4,8 @@
 #![deny(trivial_casts)]
 #![deny(trivial_numeric_casts)]
 #![deny(unreachable_pub)]
+#![allow(clippy::enum_variant_names)]
+
 // #![deny(variant_size_differences)]
 
 pub use self::{
