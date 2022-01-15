@@ -843,7 +843,7 @@ where
                 match expr {
                     Expr::Lit(Lit::Str(s)) => return Ok(TsLit::Str(s.clone())),
                     Expr::Lit(Lit::Num(s)) => return Ok(TsLit::Number(*s)),
-                    Expr::Bin(ref bin) => return compute_bin(e, span, values, &bin),
+                    Expr::Bin(ref bin) => return compute_bin(e, span, values, bin),
                     Expr::Paren(ref paren) => {
                         return compute(e, span, values, default, Some(&paren.expr))
                     }
@@ -858,13 +858,7 @@ where
                                 TsEnumMemberId::Str(Str { value: ref sym, .. })
                                 | TsEnumMemberId::Ident(Ident { ref sym, .. }) => {
                                     if *sym == id.sym {
-                                        return compute(
-                                            e,
-                                            span,
-                                            values,
-                                            None,
-                                            m.init.as_ref().map(|v| &**v),
-                                        );
+                                        return compute(e, span, values, None, m.init.as_deref());
                                     }
                                 }
                             }
@@ -889,7 +883,7 @@ where
                                             }
                                         }
                                         op!("~") => (!(v as i32)) as f64,
-                                        _ => Err(())?,
+                                        _ => return Err(()),
                                     },
                                 }))
                             }
@@ -945,59 +939,53 @@ where
             .into_iter()
             .map(|m| -> Result<_, ()> {
                 let id_span = m.id.span();
-                let val = compute(
-                    &e,
-                    id_span,
-                    &mut values,
-                    Some(default),
-                    m.init.as_ref().map(|v| &**v),
-                )
-                .map(|val| {
-                    match val {
-                        TsLit::Number(n) => {
-                            default = n.value as i64 + 1;
+                let val = compute(&e, id_span, &mut values, Some(default), m.init.as_deref())
+                    .map(|val| {
+                        match val {
+                            TsLit::Number(n) => {
+                                default = n.value as i64 + 1;
+                            }
+                            _ => {}
                         }
-                        _ => {}
-                    }
-                    values.insert(
-                        match &m.id {
-                            TsEnumMemberId::Ident(i) => i.sym.clone(),
-                            TsEnumMemberId::Str(s) => s.value.clone(),
-                        },
-                        Some(val.clone()),
-                    );
-
-                    match val {
-                        TsLit::Number(v) => Expr::Lit(Lit::Num(v)),
-                        TsLit::Str(v) => Expr::Lit(Lit::Str(v)),
-                        TsLit::Bool(v) => Expr::Lit(Lit::Bool(v)),
-                        TsLit::Tpl(v) => {
-                            Expr::Lit(Lit::Str(v.quasis.into_iter().next().unwrap().raw))
-                        }
-                        TsLit::BigInt(v) => Expr::Lit(Lit::BigInt(v)),
-                    }
-                })
-                .or_else(|err| match &m.init {
-                    None => Err(err),
-                    Some(v) => {
-                        let mut v = *v.clone();
-                        let mut visitor = EnumValuesVisitor {
-                            previous: &values,
-                            ident: &id,
-                        };
-                        visitor.visit_mut_expr(&mut v);
-
                         values.insert(
                             match &m.id {
                                 TsEnumMemberId::Ident(i) => i.sym.clone(),
                                 TsEnumMemberId::Str(s) => s.value.clone(),
                             },
-                            None,
+                            Some(val.clone()),
                         );
 
-                        Ok(v)
-                    }
-                })?;
+                        match val {
+                            TsLit::Number(v) => Expr::Lit(Lit::Num(v)),
+                            TsLit::Str(v) => Expr::Lit(Lit::Str(v)),
+                            TsLit::Bool(v) => Expr::Lit(Lit::Bool(v)),
+                            TsLit::Tpl(v) => {
+                                Expr::Lit(Lit::Str(v.quasis.into_iter().next().unwrap().raw))
+                            }
+                            TsLit::BigInt(v) => Expr::Lit(Lit::BigInt(v)),
+                        }
+                    })
+                    .or_else(|err| match &m.init {
+                        None => Err(err),
+                        Some(v) => {
+                            let mut v = *v.clone();
+                            let mut visitor = EnumValuesVisitor {
+                                previous: &values,
+                                ident: &id,
+                            };
+                            visitor.visit_mut_expr(&mut v);
+
+                            values.insert(
+                                match &m.id {
+                                    TsEnumMemberId::Ident(i) => i.sym.clone(),
+                                    TsEnumMemberId::Str(s) => s.value.clone(),
+                                },
+                                None,
+                            );
+
+                            Ok(v)
+                        }
+                    })?;
 
                 Ok((m, val))
             })
@@ -1081,13 +1069,11 @@ where
                                     }))),
                                     op: op!("="),
                                     right: if rhs_should_be_name {
-                                        Box::new(Expr::Lit(Lit::Str(value.clone())))
+                                        Box::new(Expr::Lit(Lit::Str(value)))
+                                    } else if m.init.is_some() {
+                                        Box::new(val)
                                     } else {
-                                        if m.init.is_some() {
-                                            Box::new(val)
-                                        } else {
-                                            Box::new(Expr::Lit(Lit::Str(value.clone())))
-                                        }
+                                        Box::new(Expr::Lit(Lit::Str(value)))
                                     },
                                 }
                                 .into_stmt()
@@ -1166,7 +1152,7 @@ where
         let var = VarDeclarator {
             span: DUMMY_SP,
             name: Pat::Ident(BindingIdent {
-                id: var_id.clone(),
+                id: var_id,
                 type_ann: None,
             }),
             init: None,
@@ -1651,7 +1637,7 @@ where
                                 stmts.push(stmt.into());
                             }
                             _ => {
-                                let pat = Box::new(create_prop_pat(&parent_module_name, decl.name));
+                                let pat = Box::new(create_prop_pat(parent_module_name, decl.name));
                                 // Destructure the variable.
                                 exprs.push(Box::new(Expr::Assign(AssignExpr {
                                     span: DUMMY_SP,
@@ -2390,8 +2376,7 @@ where
                     kind: VarDeclKind::Var,
                     decls: take(&mut self.uninitialized_vars),
                     declare: false,
-                }))
-                .into(),
+                })),
             );
         }
     }
@@ -2752,7 +2737,7 @@ fn create_prop_pat(obj: &Ident, pat: Pat) -> Pat {
                         value: Box::new(Pat::Expr(Box::new(Expr::Member(MemberExpr {
                             span: DUMMY_SP,
                             obj: Box::new(Expr::Ident(obj.clone())),
-                            prop: MemberProp::Ident(assign.key.into()),
+                            prop: MemberProp::Ident(assign.key),
                         })))),
                     }),
                     ObjectPatProp::Rest(_) => {
