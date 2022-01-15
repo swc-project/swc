@@ -61,7 +61,6 @@ impl VisitMut for TsRemover {
                 ..
             })) => {
                 s.take();
-                return;
             }
             _ => {}
         }
