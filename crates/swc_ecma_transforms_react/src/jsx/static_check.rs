@@ -21,11 +21,8 @@ pub(super) fn should_use_create_element(attrs: &[JSXAttrOrSpread]) -> bool {
             return true;
         }
 
-        match attr {
-            JSXAttrOrSpread::SpreadElement(_) => {
-                seen_prop_spread = true;
-            }
-            _ => {}
+        if let JSXAttrOrSpread::SpreadElement(_) = attr {
+            seen_prop_spread = true;
         }
     }
 
