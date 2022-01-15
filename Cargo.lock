@@ -3522,7 +3522,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.30.0"
+version = "0.30.1"
 dependencies = [
  "anyhow",
  "libloading",
