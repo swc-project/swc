@@ -477,19 +477,16 @@ impl VisitMut for Remover {
                 }
 
                 Stmt::Switch(mut s) => {
-                    if s.cases.iter().any(|case| match case.test.as_deref() {
-                        Some(Expr::Update(..)) => true,
-                        _ => false,
-                    }) {
+                    if s.cases
+                        .iter()
+                        .any(|case| matches!(case.test.as_deref(), Some(Expr::Update(..))))
+                    {
                         return Stmt::Switch(s);
                     }
-                    match &*s.discriminant {
-                        Expr::Update(..) => {
-                            if s.cases.len() != 1 {
-                                return Stmt::Switch(s);
-                            }
+                    if let Expr::Update(..) = &*s.discriminant {
+                        if s.cases.len() != 1 {
+                            return Stmt::Switch(s);
                         }
-                        _ => {}
                     }
 
                     let remove_break = |stmts: Vec<Stmt>| {
@@ -500,24 +497,21 @@ impl VisitMut for Remover {
                         let mut done = false;
                         stmts.move_flat_map(|s| {
                             if done {
-                                match s {
-                                    Stmt::Decl(Decl::Var(
-                                        var @ VarDecl {
-                                            kind: VarDeclKind::Var,
-                                            ..
-                                        },
-                                    )) => {
-                                        return Some(Stmt::Decl(Decl::Var(VarDecl {
-                                            span: DUMMY_SP,
-                                            kind: VarDeclKind::Var,
-                                            decls: var.decls.move_map(|decl| VarDeclarator {
-                                                init: None,
-                                                ..decl
-                                            }),
-                                            declare: false,
-                                        })))
-                                    }
-                                    _ => {}
+                                if let Stmt::Decl(Decl::Var(
+                                    var @ VarDecl {
+                                        kind: VarDeclKind::Var,
+                                        ..
+                                    },
+                                )) = s
+                                {
+                                    return Some(Stmt::Decl(Decl::Var(VarDecl {
+                                        span: DUMMY_SP,
+                                        kind: VarDeclKind::Var,
+                                        decls: var
+                                            .decls
+                                            .move_map(|decl| VarDeclarator { init: None, ..decl }),
+                                        declare: false,
+                                    })));
                                 }
 
                                 return None;
@@ -628,14 +622,11 @@ impl VisitMut for Remover {
                         })
                     };
 
-                    let are_all_tests_known =
-                        s.cases
-                            .iter()
-                            .map(|case| case.test.as_deref())
-                            .all(|s| match s {
-                                Some(Expr::Lit(..)) | None => true,
-                                _ => false,
-                            });
+                    let are_all_tests_known = s
+                        .cases
+                        .iter()
+                        .map(|case| case.test.as_deref())
+                        .all(|s| matches!(s, Some(Expr::Lit(..)) | None));
 
                     let mut var_ids = vec![];
                     if let Some(i) = selected {
@@ -688,51 +679,48 @@ impl VisitMut for Remover {
                     } else if are_all_tests_known {
                         let mut vars = vec![];
 
-                        match *s.discriminant {
-                            Expr::Lit(..) => {
-                                let idx = s.cases.iter().position(|v| v.test.is_none());
+                        if let Expr::Lit(..) = *s.discriminant {
+                            let idx = s.cases.iter().position(|v| v.test.is_none());
 
-                                if let Some(i) = idx {
-                                    for case in &s.cases[..i] {
-                                        for cons in &case.cons {
-                                            vars.extend(cons.extract_var_ids().into_iter().map(
-                                                |name| VarDeclarator {
-                                                    span: DUMMY_SP,
-                                                    name: Pat::Ident(name.into()),
-                                                    init: None,
-                                                    definite: Default::default(),
-                                                },
-                                            ));
-                                        }
-                                    }
-
-                                    if !has_conditional_stopper(&s.cases[i].cons) {
-                                        let stmts = s.cases.remove(i).cons;
-                                        let mut stmts = remove_break(stmts);
-
-                                        if !vars.is_empty() {
-                                            prepend(
-                                                &mut stmts,
-                                                Stmt::Decl(Decl::Var(VarDecl {
-                                                    span: DUMMY_SP,
-                                                    kind: VarDeclKind::Var,
-                                                    declare: Default::default(),
-                                                    decls: take(&mut vars),
-                                                })),
-                                            )
-                                        }
-
-                                        let mut block = Stmt::Block(BlockStmt {
-                                            span: s.span,
-                                            stmts,
-                                        });
-
-                                        block.visit_mut_with(self);
-                                        return block;
+                            if let Some(i) = idx {
+                                for case in &s.cases[..i] {
+                                    for cons in &case.cons {
+                                        vars.extend(cons.extract_var_ids().into_iter().map(
+                                            |name| VarDeclarator {
+                                                span: DUMMY_SP,
+                                                name: Pat::Ident(name.into()),
+                                                init: None,
+                                                definite: Default::default(),
+                                            },
+                                        ));
                                     }
                                 }
+
+                                if !has_conditional_stopper(&s.cases[i].cons) {
+                                    let stmts = s.cases.remove(i).cons;
+                                    let mut stmts = remove_break(stmts);
+
+                                    if !vars.is_empty() {
+                                        prepend(
+                                            &mut stmts,
+                                            Stmt::Decl(Decl::Var(VarDecl {
+                                                span: DUMMY_SP,
+                                                kind: VarDeclKind::Var,
+                                                declare: Default::default(),
+                                                decls: take(&mut vars),
+                                            })),
+                                        )
+                                    }
+
+                                    let mut block = Stmt::Block(BlockStmt {
+                                        span: s.span,
+                                        stmts,
+                                    });
+
+                                    block.visit_mut_with(self);
+                                    return block;
+                                }
                             }
-                            _ => {}
                         }
                     }
 
@@ -767,12 +755,12 @@ impl VisitMut for Remover {
 
                             let res = match case.test {
                                 Some(e)
-                                    if match &*e {
+                                    if matches!(
+                                        &*e,
                                         Expr::Lit(Lit::Num(..))
-                                        | Expr::Lit(Lit::Str(..))
-                                        | Expr::Lit(Lit::Null(..)) => true,
-                                        _ => false,
-                                    } =>
+                                            | Expr::Lit(Lit::Str(..))
+                                            | Expr::Lit(Lit::Null(..))
+                                    ) =>
                                 {
                                     case.cons
                                         .into_iter()
@@ -787,10 +775,8 @@ impl VisitMut for Remover {
                         });
                     }
 
-                    let is_default_last = match s.cases.last() {
-                        Some(SwitchCase { test: None, .. }) => true,
-                        _ => false,
-                    };
+                    let is_default_last =
+                        matches!(s.cases.last(), Some(SwitchCase { test: None, .. }));
 
                     {
                         // True if all cases except default is empty.
