@@ -169,14 +169,13 @@ fn iter<'a>(
                 _ => false,
             };
             let can_ignore_weak_deps = can_ignore_deps
-                || match &stmts[idx] {
+                || matches!(
+                    &stmts[idx],
                     ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                         decl: Decl::Class(..),
                         ..
-                    }))
-                    | ModuleItem::Stmt(Stmt::Decl(Decl::Class(..))) => true,
-                    _ => false,
-                };
+                    })) | ModuleItem::Stmt(Stmt::Decl(Decl::Class(..)))
+                );
 
             // We
             {
@@ -350,15 +349,14 @@ impl FieldInitFinder {
         }
     }
     fn check_lhs_expr_of_assign(&mut self, lhs: &Expr) {
-        match lhs {
-            Expr::Member(m) => match &*m.obj {
+        if let Expr::Member(m) = lhs {
+            match &*m.obj {
                 Expr::Ident(i) => {
                     self.accessed.insert(i.into());
                 }
                 Expr::Member(..) => self.check_lhs_expr_of_assign(&*m.obj),
                 _ => {}
-            },
-            _ => {}
+            }
         }
     }
 }
@@ -802,10 +800,8 @@ mod tests {
             let graph = calc_deps(&module.body);
 
             for i in 0..module.body.len() {
-                match &module.body[i] {
-                    ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..))) => continue,
-
-                    _ => {}
+                if let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..))) = &module.body[i] {
+                    continue;
                 }
 
                 let deps = graph
@@ -813,10 +809,8 @@ mod tests {
                     .collect::<Vec<_>>();
 
                 for dep in deps {
-                    match &module.body[dep] {
-                        ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..))) => continue,
-
-                        _ => {}
+                    if let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..))) = &module.body[dep] {
+                        continue;
                     }
                     print_hygiene(
                         "first item",

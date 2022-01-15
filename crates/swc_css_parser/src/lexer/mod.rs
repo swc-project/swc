@@ -462,7 +462,7 @@ where
                     ..
                 } => {
                     *unit = name.0;
-                    *raw_unit = name.1.into();
+                    *raw_unit = name.1;
                 }
                 _ => {
                     unreachable!();
