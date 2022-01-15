@@ -97,24 +97,22 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
 
         // We pretend method folding mode for while folding injected `_defineProperty`
         // calls.
-        match n {
-            Expr::Call(CallExpr {
-                callee: Callee::Expr(expr),
+        if let Expr::Call(CallExpr {
+            callee: Callee::Expr(expr),
+            ..
+        }) = n
+        {
+            if let Expr::Ident(Ident {
+                sym: js_word!("_defineProperty"),
                 ..
-            }) => match &**expr {
-                Expr::Ident(Ident {
-                    sym: js_word!("_defineProperty"),
-                    ..
-                }) => {
-                    let old = self.in_injected_define_property_call;
-                    self.in_injected_define_property_call = true;
-                    n.visit_mut_children_with(self);
-                    self.in_injected_define_property_call = old;
-                    return;
-                }
-                _ => {}
-            },
-            _ => {}
+            }) = &**expr
+            {
+                let old = self.in_injected_define_property_call;
+                self.in_injected_define_property_call = true;
+                n.visit_mut_children_with(self);
+                self.in_injected_define_property_call = old;
+                return;
+            }
         }
 
         self.visit_mut_super_member_call(n);

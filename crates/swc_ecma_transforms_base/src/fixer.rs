@@ -812,7 +812,7 @@ impl Fixer<'_> {
                 );
 
                 let len = exprs.len();
-                exprs.iter_mut().enumerate().for_each(|(i, mut expr)| {
+                exprs.iter_mut().enumerate().for_each(|(i, expr)| {
                     let is_last = len == i + 1;
 
                     if !is_last {
@@ -866,6 +866,7 @@ fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<
 
 // at least 3 element in seq, which means we can safely
 // remove that padding, if not at last position
+#[allow(clippy::vec_box)]
 fn ignore_padding_value(exprs: Vec<Box<Expr>>) -> Vec<Box<Expr>> {
     let len = exprs.len();
 
@@ -886,7 +887,7 @@ fn ignore_padding_value(exprs: Vec<Box<Expr>>) -> Vec<Box<Expr>> {
 fn will_eat_else_token(s: &Stmt) -> bool {
     match s {
         Stmt::If(s) => match &s.alt {
-            Some(alt) => will_eat_else_token(&alt),
+            Some(alt) => will_eat_else_token(alt),
             None => true,
         },
         // Ends with `}`.
