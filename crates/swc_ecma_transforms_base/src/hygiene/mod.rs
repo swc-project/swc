@@ -125,8 +125,8 @@ pub struct Config {
     pub keep_class_names: bool,
 }
 
-pub fn rename<'a>(map: &'a AHashMap<Id, JsWord>) -> impl 'a + Fold + VisitMut {
-    as_folder(Operator(&map, Default::default()))
+pub fn rename(map: &AHashMap<Id, JsWord>) -> impl '_ + Fold + VisitMut {
+    as_folder(Operator(map, Default::default()))
 }
 
 /// See [hygiene_with_config] for doc. Creates a `hygiene` pass with default

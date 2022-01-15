@@ -121,18 +121,15 @@ impl VisitMut for TsHygiene {
         }
     }
 
-    fn visit_mut_super_prop_expr(&mut self, n: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut n.prop {
-            c.visit_mut_with(self);
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        if let PropName::Computed(n) = n {
+            n.visit_mut_with(self);
         }
     }
 
-    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
-        match n {
-            PropName::Computed(n) => {
-                n.visit_mut_with(self);
-            }
-            _ => {}
+    fn visit_mut_super_prop_expr(&mut self, n: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut n.prop {
+            c.visit_mut_with(self);
         }
     }
 

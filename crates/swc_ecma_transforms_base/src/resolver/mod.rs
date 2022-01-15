@@ -483,8 +483,8 @@ impl<'a> VisitMut for Resolver<'a> {
     /// Handle body of the arrow functions
     fn visit_mut_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {
         match node {
-            BlockStmtOrExpr::BlockStmt(block) => block.visit_mut_children_with(self).into(),
-            BlockStmtOrExpr::Expr(e) => e.visit_mut_with(self).into(),
+            BlockStmtOrExpr::BlockStmt(block) => block.visit_mut_children_with(self),
+            BlockStmtOrExpr::Expr(e) => e.visit_mut_with(self),
         }
     }
 
@@ -753,7 +753,7 @@ impl<'a> VisitMut for Resolver<'a> {
                     return;
                 }
 
-                if let Some(mark) = self.mark_for_ref(&sym) {
+                if let Some(mark) = self.mark_for_ref(sym) {
                     let span = span.apply_mark(mark);
 
                     if cfg!(debug_assertions) && LOG {
@@ -823,17 +823,6 @@ impl<'a> VisitMut for Resolver<'a> {
         }
     }
 
-    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
-        }
-    }
-
-    // TODO: How should I handle this?
-    typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
-
-    track_ident_mut!();
-
     fn visit_mut_method_prop(&mut self, m: &mut MethodProp) {
         m.key.visit_mut_with(self);
 
@@ -849,6 +838,11 @@ impl<'a> VisitMut for Resolver<'a> {
             m.function.visit_mut_with(&mut child)
         };
     }
+
+    // TODO: How should I handle this?
+    typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
+
+    track_ident_mut!();
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         if !self.in_ts_module && self.current.kind != ScopeKind::Fn {
@@ -963,6 +957,12 @@ impl<'a> VisitMut for Resolver<'a> {
 
         // Phase 2.
         stmts.visit_mut_children_with(self)
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
+        }
     }
 
     fn visit_mut_ts_as_expr(&mut self, n: &mut TsAsExpr) {
