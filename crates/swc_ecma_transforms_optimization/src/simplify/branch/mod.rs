@@ -121,23 +121,17 @@ impl VisitMut for Remover {
             Expr::Cond(cond)
                 if !cond.test.may_have_side_effects()
                     && (cond.cons.is_undefined()
-                        || match *cond.cons {
-                            Expr::Unary(UnaryExpr {
+                        || matches!(*cond.cons, Expr::Unary(UnaryExpr {
                                 op: op!("void"),
                                 ref arg,
                                 ..
-                            }) if !arg.may_have_side_effects() => true,
-                            _ => false,
-                        })
+                            }) if !arg.may_have_side_effects()))
                     && (cond.alt.is_undefined()
-                        || match *cond.alt {
-                            Expr::Unary(UnaryExpr {
+                        || matches!(*cond.alt, Expr::Unary(UnaryExpr {
                                 op: op!("void"),
                                 ref arg,
                                 ..
-                            }) if !arg.may_have_side_effects() => true,
-                            _ => false,
-                        }) =>
+                            }) if !arg.may_have_side_effects())) =>
             {
                 *e = *cond.cons.take();
             }
@@ -181,18 +175,12 @@ impl VisitMut for Remover {
         p.visit_mut_children_with(self);
 
         // Don't remove if there exists a rest pattern
-        if p.props.iter().any(|p| match p {
-            ObjectPatProp::Rest(..) => true,
-            _ => false,
-        }) {
+        if p.props.iter().any(|p| matches!(p, ObjectPatProp::Rest(..))) {
             return;
         }
 
         fn is_computed(k: &PropName) -> bool {
-            match k {
-                PropName::Computed(..) => true,
-                _ => false,
-            }
+            matches!(k, PropName::Computed(..))
         }
 
         p.props.retain(|p| match p {
@@ -329,29 +317,25 @@ impl VisitMut for Remover {
                     cons,
                     alt,
                 }) => {
-                    match *cons {
-                        Stmt::If(IfStmt { alt: Some(..), .. }) => {
-                            return IfStmt {
-                                test,
-                                cons: Box::new(Stmt::Block(BlockStmt {
-                                    span: DUMMY_SP,
-                                    stmts: vec![*cons],
-                                })),
-                                alt,
-                                span,
-                            }
-                            .into()
+                    if let Stmt::If(IfStmt { alt: Some(..), .. }) = *cons {
+                        return IfStmt {
+                            test,
+                            cons: Box::new(Stmt::Block(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![*cons],
+                            })),
+                            alt,
+                            span,
                         }
-                        _ => {}
+                        .into();
                     }
 
                     let mut stmts = vec![];
                     if let (p, Known(v)) = test.as_bool() {
                         // Preserve effect of the test
                         if !p.is_pure() {
-                            match ignore_result(*test).map(Box::new) {
-                                Some(expr) => stmts.push(Stmt::Expr(ExprStmt { span, expr })),
-                                None => {}
+                            if let Some(expr) = ignore_result(*test).map(Box::new) {
+                                stmts.push(Stmt::Expr(ExprStmt { span, expr }))
                             }
                         }
 
@@ -387,20 +371,17 @@ impl VisitMut for Remover {
                         _ => alt,
                     };
                     if alt.is_none() {
-                        match *cons {
-                            Stmt::Empty(..) => {
-                                self.changed = true;
+                        if let Stmt::Empty(..) = *cons {
+                            self.changed = true;
 
-                                return if let Some(expr) = ignore_result(*test) {
-                                    Stmt::Expr(ExprStmt {
-                                        span,
-                                        expr: Box::new(expr),
-                                    })
-                                } else {
-                                    Stmt::Empty(EmptyStmt { span })
-                                };
-                            }
-                            _ => {}
+                            return if let Some(expr) = ignore_result(*test) {
+                                Stmt::Expr(ExprStmt {
+                                    span,
+                                    expr: Box::new(expr),
+                                })
+                            } else {
+                                Stmt::Empty(EmptyStmt { span })
+                            };
                         }
                     }
 
