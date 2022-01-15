@@ -198,7 +198,7 @@ impl From<ExprOutput> for ObjectKey {
                 _ => ObjectKey::Expr(e),
             },
             ExprOutput::Private(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to ObjectKey - babel has no equivilent",
+                "illegal conversion: Cannot convert {:?} to ObjectKey - babel has no equivalent",
                 &o
             ),
         }
