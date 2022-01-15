@@ -27,27 +27,25 @@ impl VisitMut for DisplayName {
             return;
         }
 
-        match expr.left.as_expr() {
-            Some(
-                Expr::Member(MemberExpr {
-                    prop: MemberProp::Ident(prop),
-                    ..
-                })
-                | Expr::SuperProp(SuperPropExpr {
-                    prop: SuperProp::Ident(prop),
-                    ..
-                }),
-            ) => {
-                return expr.right.visit_mut_with(&mut Folder {
-                    name: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                        span: prop.span,
-                        value: prop.sym.clone(),
-                        has_escape: false,
-                        kind: Default::default(),
-                    })))),
-                })
-            }
-            _ => (),
+        if let Some(
+            Expr::Member(MemberExpr {
+                prop: MemberProp::Ident(prop),
+                ..
+            })
+            | Expr::SuperProp(SuperPropExpr {
+                prop: SuperProp::Ident(prop),
+                ..
+            }),
+        ) = expr.left.as_expr()
+        {
+            return expr.right.visit_mut_with(&mut Folder {
+                name: Some(Box::new(Expr::Lit(Lit::Str(Str {
+                    span: prop.span,
+                    value: prop.sym.clone(),
+                    has_escape: false,
+                    kind: Default::default(),
+                })))),
+            });
         };
 
         if let Some(ident) = expr.left.as_ident() {
@@ -65,62 +63,53 @@ impl VisitMut for DisplayName {
     fn visit_mut_module_decl(&mut self, decl: &mut ModuleDecl) {
         decl.visit_mut_children_with(self);
 
-        match decl {
-            ModuleDecl::ExportDefaultExpr(e) => {
-                e.visit_mut_with(&mut Folder {
-                    name: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                        span: DUMMY_SP,
-                        value: "input".into(),
-                        has_escape: false,
-                        kind: Default::default(),
-                    })))),
-                });
-            }
-            _ => {}
+        if let ModuleDecl::ExportDefaultExpr(e) = decl {
+            e.visit_mut_with(&mut Folder {
+                name: Some(Box::new(Expr::Lit(Lit::Str(Str {
+                    span: DUMMY_SP,
+                    value: "input".into(),
+                    has_escape: false,
+                    kind: Default::default(),
+                })))),
+            });
         }
     }
 
     fn visit_mut_prop(&mut self, prop: &mut Prop) {
         prop.visit_mut_children_with(self);
 
-        match prop {
-            Prop::KeyValue(KeyValueProp { key, value }) => {
-                value.visit_mut_with(&mut Folder {
-                    name: Some(match key {
-                        PropName::Ident(ref i) => Box::new(Expr::Lit(Lit::Str(Str {
-                            span: i.span,
-                            value: i.sym.clone(),
-                            has_escape: false,
-                            kind: StrKind::Normal {
-                                contains_quote: false,
-                            },
-                        }))),
-                        PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
-                        PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(*n))),
-                        PropName::BigInt(ref b) => Box::new(Expr::Lit(Lit::BigInt(b.clone()))),
-                        PropName::Computed(ref c) => c.expr.clone(),
-                    }),
-                });
-            }
-            _ => {}
-        }
-    }
-
-    fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
-        match decl.name {
-            Pat::Ident(ref ident) => {
-                decl.init.visit_mut_with(&mut Folder {
-                    name: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                        span: ident.id.span,
-                        value: ident.id.sym.clone(),
+        if let Prop::KeyValue(KeyValueProp { key, value }) = prop {
+            value.visit_mut_with(&mut Folder {
+                name: Some(match key {
+                    PropName::Ident(ref i) => Box::new(Expr::Lit(Lit::Str(Str {
+                        span: i.span,
+                        value: i.sym.clone(),
                         has_escape: false,
                         kind: StrKind::Normal {
                             contains_quote: false,
                         },
-                    })))),
-                });
-            }
-            _ => {}
+                    }))),
+                    PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
+                    PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(*n))),
+                    PropName::BigInt(ref b) => Box::new(Expr::Lit(Lit::BigInt(b.clone()))),
+                    PropName::Computed(ref c) => c.expr.clone(),
+                }),
+            });
+        }
+    }
+
+    fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
+        if let Pat::Ident(ref ident) = decl.name {
+            decl.init.visit_mut_with(&mut Folder {
+                name: Some(Box::new(Expr::Lit(Lit::Str(Str {
+                    span: ident.id.span,
+                    value: ident.id.sym.clone(),
+                    has_escape: false,
+                    kind: StrKind::Normal {
+                        contains_quote: false,
+                    },
+                })))),
+            });
         }
     }
 }
@@ -165,13 +154,15 @@ fn is_create_class_call(call: &CallExpr) -> bool {
                     ..
                 }),
             ..
-        }) => match &**obj {
-            Expr::Ident(Ident {
+        }) => {
+            if let Expr::Ident(Ident {
                 sym: js_word!("React"),
                 ..
-            }) => return true,
-            _ => {}
-        },
+            }) = &**obj
+            {
+                return true;
+            }
+        }
 
         Expr::Ident(Ident {
             sym: js_word!("createReactClass"),
