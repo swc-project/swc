@@ -1,3 +1,4 @@
+#![deny(clippy::all)]
 #![allow(clippy::result_unit_err)]
 
 use ansi_term::Color;

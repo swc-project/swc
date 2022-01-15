@@ -64,18 +64,12 @@ impl<T> Value<T> {
 impl<T> Value<T> {
     /// Returns true if the value is not known.
     pub fn is_unknown(&self) -> bool {
-        match *self {
-            Unknown => true,
-            _ => false,
-        }
+        matches!(*self, Unknown)
     }
 
     /// Returns true if the value is known.
     pub fn is_known(&self) -> bool {
-        match *self {
-            Known(..) => true,
-            _ => false,
-        }
+        matches!(*self, Known(..))
     }
 }
 

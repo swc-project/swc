@@ -1,3 +1,5 @@
+#![deny(clippy::all)]
+
 //! AST definitions for CSS.
 pub use self::{at_rule::*, base::*, selector::*, style_rule::*, token::*, value::*};
 use is_macro::Is;

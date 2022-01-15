@@ -1,3 +1,5 @@
+#![deny(clippy::all)]
+
 extern crate proc_macro;
 
 use pmutil::{smart_quote, Quote, ToTokensExt};
