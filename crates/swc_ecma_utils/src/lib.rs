@@ -1,3 +1,6 @@
+#![deny(clippy::all)]
+#![allow(clippy::vec_box)]
+
 #[doc(hidden)]
 pub extern crate swc_ecma_ast;
 
@@ -154,14 +157,12 @@ impl Visit for ArgumentsFinder {
     fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
-        match *e {
-            Expr::Ident(Ident {
-                sym: js_word!("arguments"),
-                ..
-            }) => {
-                self.found = true;
-            }
-            _ => {}
+        if let Expr::Ident(Ident {
+            sym: js_word!("arguments"),
+            ..
+        }) = *e
+        {
+            self.found = true;
         }
     }
 
@@ -176,24 +177,22 @@ impl Visit for ArgumentsFinder {
         }
     }
 
+    fn visit_prop(&mut self, n: &Prop) {
+        n.visit_children_with(self);
+
+        if let Prop::Shorthand(Ident {
+            sym: js_word!("arguments"),
+            ..
+        }) = n
+        {
+            self.found = true;
+        }
+    }
+
     /// Don't recurse into super expression prop if not computed
     fn visit_super_prop_expr(&mut self, m: &SuperPropExpr) {
         if let SuperProp::Computed(expr) = &m.prop {
             expr.visit_with(self)
-        }
-    }
-
-    fn visit_prop(&mut self, n: &Prop) {
-        n.visit_children_with(self);
-
-        match n {
-            Prop::Shorthand(Ident {
-                sym: js_word!("arguments"),
-                ..
-            }) => {
-                self.found = true;
-            }
-            _ => {}
         }
     }
 }
@@ -258,7 +257,7 @@ impl StmtLike for Stmt {
     }
     #[inline]
     fn as_stmt(&self) -> Option<&Stmt> {
-        Some(&self)
+        Some(self)
     }
     #[inline]
     fn from_stmt(stmt: Stmt) -> Self {
@@ -433,9 +432,8 @@ impl Visit for Hoister {
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
-        match *p {
-            Pat::Ident(ref i) => self.vars.push(i.id.clone()),
-            _ => {}
+        if let Pat::Ident(ref i) = *p {
+            self.vars.push(i.id.clone())
         }
     }
 
@@ -775,7 +773,7 @@ pub trait ExprExt {
                 Lit::Bool(Bool { value: true, .. }) => 1.0,
                 Lit::Bool(Bool { value: false, .. }) | Lit::Null(..) => 0.0,
                 Lit::Num(Number { value: n, .. }) => *n,
-                Lit::Str(Str { value, .. }) => return (Pure, num_from_str(&value)),
+                Lit::Str(Str { value, .. }) => return (Pure, num_from_str(value)),
                 _ => return (Pure, Unknown),
             },
             Expr::Ident(Ident { sym, .. }) => match *sym {
@@ -910,8 +908,9 @@ pub trait ExprExt {
                 // null, undefined is "" in array literal.
                 for elem in elems {
                     let e = match *elem {
-                        Some(ref elem) => match *elem {
-                            ExprOrSpread { ref expr, .. } => match **expr {
+                        Some(ref elem) => {
+                            let ExprOrSpread { ref expr, .. } = *elem;
+                            match **expr {
                                 Expr::Lit(Lit::Null(..))
                                 | Expr::Ident(Ident {
                                     sym: js_word!("undefined"),
@@ -921,8 +920,8 @@ pub trait ExprExt {
                                     Known(v) => v,
                                     Unknown => return Value::Unknown,
                                 },
-                            },
-                        },
+                            }
+                        }
                         None => Cow::Borrowed(""),
                     };
                     buf.push_str(&e);
@@ -1286,13 +1285,13 @@ fn num_from_str(s: &str) -> Value<f64> {
 
 impl ExprExt for Box<Expr> {
     fn as_expr(&self) -> &Expr {
-        &self
+        self
     }
 }
 
 impl ExprExt for Expr {
     fn as_expr(&self) -> &Expr {
-        &self
+        self
     }
 }
 
@@ -1622,9 +1621,8 @@ pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
 
 /// Returns `(ident, aliased)`
 pub fn alias_if_required(expr: &Expr, default: &str) -> (Ident, bool) {
-    match *expr {
-        Expr::Ident(ref i) => return (Ident::new(i.sym.clone(), i.span), false),
-        _ => {}
+    if let Expr::Ident(ref i) = *expr {
+        return (Ident::new(i.sym.clone(), i.span), false);
     }
 
     (alias_ident_for(expr, default), true)
@@ -1752,16 +1750,15 @@ pub fn prepend_stmts<T: StmtLike>(
     let idx = to
         .iter()
         .position(|item| {
-            match item.as_stmt() {
-                Some(&Stmt::Expr(ExprStmt { ref expr, .. })) => match &**expr {
+            if let Some(&Stmt::Expr(ExprStmt { ref expr, .. })) = item.as_stmt() {
+                match &**expr {
                     Expr::Lit(Lit::Str(..)) => return false,
                     Expr::Call(expr) => match expr.callee {
                         Callee::Super(_) | Callee::Import(_) => return false,
                         Callee::Expr(_) => {}
                     },
                     _ => {}
-                },
-                _ => {}
+                }
             }
 
             true
@@ -1773,7 +1770,7 @@ pub fn prepend_stmts<T: StmtLike>(
 
     buf.extend(to.drain(..idx));
     buf.extend(stmts);
-    buf.extend(to.drain(..));
+    buf.append(to);
     debug_assert!(to.is_empty());
 
     *to = buf
@@ -1859,7 +1856,7 @@ pub fn is_valid_ident(s: &JsWord) -> bool {
         return false;
     }
 
-    Ident::verify_symbol(&s).is_ok()
+    Ident::verify_symbol(s).is_ok()
 }
 
 pub fn drop_span<T>(mut t: T) -> T
@@ -1973,13 +1970,10 @@ pub fn extract_side_effects_to(to: &mut Vec<Box<Expr>>, expr: Box<Expr>) {
         Expr::Call(_) => to.push(Box::new(expr)),
         Expr::New(e) => {
             // Known constructors
-            match *e.callee {
-                Expr::Ident(Ident { ref sym, .. }) => {
-                    if *sym == js_word!("Date") && e.args.is_empty() {
-                        return;
-                    }
+            if let Expr::Ident(Ident { ref sym, .. }) = *e.callee {
+                if *sym == js_word!("Date") && e.args.is_empty() {
+                    return;
                 }
-                _ => {}
             }
 
             to.push(Box::new(Expr::New(e)))
@@ -2067,7 +2061,7 @@ pub fn extract_side_effects_to(to: &mut Vec<Box<Expr>>, expr: Box<Expr>) {
         }
 
         Expr::Array(ArrayLit { elems, .. }) => {
-            elems.into_iter().filter_map(|e| e).fold(to, |v, e| {
+            elems.into_iter().flatten().fold(to, |v, e| {
                 extract_side_effects_to(v, e.expr);
 
                 v
@@ -2135,7 +2129,6 @@ impl VisitMut for IdentReplacer<'_> {
     fn visit_mut_ident(&mut self, node: &mut Ident) {
         if node.sym == self.from.0 && node.span.ctxt == self.from.1 {
             *node = self.to.clone();
-            return;
         }
     }
 
@@ -2275,9 +2268,8 @@ where
         node.visit_children_with(self);
 
         if self.is_pat_decl {
-            match node {
-                Pat::Ident(i) => self.add(&i.id),
-                _ => {}
+            if let Pat::Ident(i) = node {
+                self.add(&i.id)
             }
         }
     }
