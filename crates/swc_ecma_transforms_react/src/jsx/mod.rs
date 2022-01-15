@@ -658,7 +658,9 @@ where
                 self.top_level_node = top_level_node;
 
                 let args = once(name.as_arg()).chain(once(props_obj.as_arg()));
-                let args = if self.development {
+                let args = if use_create_element {
+                    args.collect()
+                } else if self.development {
                     // set undefined literal to key if key is None
                     let key = match key {
                         Some(key) => key,
