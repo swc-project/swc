@@ -173,12 +173,7 @@ impl SimplifyExpr {
                 }))
             }
 
-            Expr::Array(ArrayLit { span, mut elems })
-                if match op {
-                    KnownOp::Index(..) => true,
-                    _ => false,
-                } =>
-            {
+            Expr::Array(ArrayLit { span, mut elems }) if matches!(op, KnownOp::Index(..)) => {
                 // do nothing if spread exists
                 let has_spread = elems.iter().any(|elem| {
                     elem.as_ref()
@@ -218,10 +213,8 @@ impl SimplifyExpr {
                 };
 
                 let mut exprs = vec![];
-                for elem in before {
-                    if let Some(elem) = elem {
-                        extract_side_effects_to(&mut exprs, elem.expr);
-                    }
+                for elem in before.into_iter().flatten() {
+                    extract_side_effects_to(&mut exprs, elem.expr);
                 }
 
                 let after_does_not_have_side_effect = after.iter().all(|elem| match elem {
@@ -259,10 +252,8 @@ impl SimplifyExpr {
                     Box::new(Expr::Ident(var_name))
                 };
 
-                for elem in after {
-                    if let Some(elem) = elem {
-                        extract_side_effects_to(&mut exprs, elem.expr);
-                    }
+                for elem in after.into_iter().flatten() {
+                    extract_side_effects_to(&mut exprs, elem.expr);
                 }
 
                 if exprs.is_empty() {
@@ -278,10 +269,9 @@ impl SimplifyExpr {
             Expr::Object(ObjectLit { mut props, span }) => match op {
                 KnownOp::IndexStr(key) if is_literal(&props) && key != *"yield" => {
                     // do nothing if spread exists
-                    let has_spread = props.iter().any(|prop| match prop {
-                        PropOrSpread::Spread(..) => true,
-                        _ => false,
-                    });
+                    let has_spread = props
+                        .iter()
+                        .any(|prop| matches!(prop, PropOrSpread::Spread(..)));
 
                     if has_spread {
                         return Expr::Member(MemberExpr {
@@ -560,13 +550,13 @@ impl SimplifyExpr {
                 }
 
                 fn is_obj(e: &Expr) -> bool {
-                    match *e {
+                    matches!(
+                        *e,
                         Expr::Array { .. }
-                        | Expr::Object { .. }
-                        | Expr::Fn { .. }
-                        | Expr::New { .. } => true,
-                        _ => false,
-                    }
+                            | Expr::Object { .. }
+                            | Expr::Fn { .. }
+                            | Expr::New { .. }
+                    )
                 }
 
                 // Non-object types are never instances.
@@ -764,15 +754,13 @@ impl SimplifyExpr {
                     Expr::Lit(Lit::Num(..)) => return Expr::Unary(UnaryExpr { op, arg, span }),
 
                     // Don't remove ! from negated iifes.
-                    Expr::Call(call) => match &call.callee {
-                        Callee::Expr(callee) => match &**callee {
-                            Expr::Fn(..) => {
+                    Expr::Call(call) => {
+                        if let Callee::Expr(callee) = &call.callee {
+                            if let Expr::Fn(..) = &**callee {
                                 return Expr::Unary(UnaryExpr { op, arg, span });
                             }
-                            _ => {}
-                        },
-                        _ => {}
-                    },
+                        }
+                    }
                     _ => {}
                 }
 
