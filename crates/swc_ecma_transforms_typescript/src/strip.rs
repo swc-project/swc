@@ -161,11 +161,11 @@ where
 
 /// Get an [Id] which will used by expression.
 ///
-/// For `React#1.createElemnnt`, this returns `React#1`.
+/// For `React#1.createElement`, this returns `React#1`.
 fn id_for_jsx(e: &Expr) -> Id {
     match e {
         Expr::Ident(i) => i.to_id(),
-        Expr::Member(MemberExpr { obj, .. }) => id_for_jsx(&obj),
+        Expr::Member(MemberExpr { obj, .. }) => id_for_jsx(obj),
         _ => {
             panic!("failed to determine top-level Id for jsx expression")
         }
@@ -363,50 +363,46 @@ where
         class.super_type_params = None;
         class.implements = Default::default();
 
-        class.body.retain(|c| match c {
-            ClassMember::Constructor(Constructor { body: None, .. }) => false,
-            ClassMember::ClassProp(ClassProp { declare: true, .. }) => false,
-            _ => true,
+        class.body.retain(|c| {
+            !matches!(
+                c,
+                ClassMember::Constructor(Constructor { body: None, .. })
+                    | ClassMember::ClassProp(ClassProp { declare: true, .. })
+            )
         });
 
         let mut extra_exprs = vec![];
         if self.config.use_define_for_class_fields {
             let mut param_class_fields = vec![];
             for member in &class.body {
-                match member {
-                    ClassMember::Constructor(constructor) => {
-                        for param in &constructor.params {
-                            match param {
-                                ParamOrTsParamProp::TsParamProp(param_prop) => {
-                                    let ident = match &param_prop.param {
-                                        TsParamPropParam::Ident(ident) => ident.id.clone(),
-                                        TsParamPropParam::Assign(pat) => {
-                                            pat.clone().left.ident().unwrap().id
-                                        }
-                                    };
-                                    let param_class_field = ClassMember::ClassProp(ClassProp {
-                                        span: class.span,
-                                        key: PropName::Ident(ident),
-                                        value: None,
-                                        type_ann: None,
-                                        is_static: false,
-                                        decorators: param_prop.decorators.clone(),
-                                        accessibility: param_prop.accessibility.clone(),
-                                        is_abstract: false,
-                                        is_optional: false,
-                                        is_override: param_prop.is_override,
-                                        readonly: param_prop.readonly,
-                                        declare: false,
-                                        definite: false,
-                                    });
-                                    param_class_fields.push(param_class_field);
+                if let ClassMember::Constructor(constructor) = member {
+                    for param in &constructor.params {
+                        if let ParamOrTsParamProp::TsParamProp(param_prop) = param {
+                            let ident = match &param_prop.param {
+                                TsParamPropParam::Ident(ident) => ident.id.clone(),
+                                TsParamPropParam::Assign(pat) => {
+                                    pat.clone().left.ident().unwrap().id
                                 }
-                                _ => {}
-                            }
+                            };
+                            let param_class_field = ClassMember::ClassProp(ClassProp {
+                                span: class.span,
+                                key: PropName::Ident(ident),
+                                value: None,
+                                type_ann: None,
+                                is_static: false,
+                                decorators: param_prop.decorators.clone(),
+                                accessibility: param_prop.accessibility.clone(),
+                                is_abstract: false,
+                                is_optional: false,
+                                is_override: param_prop.is_override,
+                                readonly: param_prop.readonly,
+                                declare: false,
+                                definite: false,
+                            });
+                            param_class_fields.push(param_class_field);
                         }
-                        break;
                     }
-                    _ => {}
+                    break;
                 }
             }
             if !param_class_fields.is_empty() {
@@ -921,13 +917,11 @@ where
 
                     _ => {}
                 }
-            } else {
-                if let Some(value) = default {
-                    return Ok(TsLit::Number(Number {
-                        span,
-                        value: value as _,
-                    }));
-                }
+            } else if let Some(value) = default {
+                return Ok(TsLit::Number(Number {
+                    span,
+                    value: value as _,
+                }));
             }
 
             Err(())
@@ -1020,10 +1014,9 @@ where
             .collect::<Result<Vec<_>, _>>()
             .unwrap_or_else(|_| panic!("invalid value for enum is detected"));
 
-        let is_all_str = members.iter().all(|(_, v)| match v {
-            Expr::Lit(Lit::Str(..)) => true,
-            _ => false,
-        });
+        let is_all_str = members
+            .iter()
+            .all(|(_, v)| matches!(v, Expr::Lit(Lit::Str(..))));
         let no_init_required = is_all_str;
         let rhs_should_be_name = members.iter().all(|(m, v): &(TsEnumMember, Expr)| match v {
             Expr::Lit(Lit::Str(s)) => match &m.id {
