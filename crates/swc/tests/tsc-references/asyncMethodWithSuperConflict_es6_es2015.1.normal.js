@@ -35,10 +35,10 @@ class A {
 class B extends A {
     // async method with only call/get on 'super' does not require a binding
     simple() {
-        var _this = this, // call additional property.
-        _superprop_get_y = ()=>super.y
-        , // call with property access
+        var _this = this, // call with property access
         _superprop_get_x = ()=>super.x
+        , // call additional property.
+        _superprop_get_y = ()=>super.y
         , // call with element access
         _superprop_get = (_prop)=>super[_prop]
         ;

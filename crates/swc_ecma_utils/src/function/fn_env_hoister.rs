@@ -1,5 +1,6 @@
+use indexmap::IndexMap;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashMap, util::take::Take, Span, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -8,7 +9,7 @@ use crate::ExprFactory;
 #[derive(Default)]
 struct SuperField {
     computed: Option<Ident>,
-    ident: AHashMap<JsWord, Ident>,
+    ident: IndexMap<JsWord, Ident>,
 }
 
 /// Don't use it aginst function, it will stop if come across any function

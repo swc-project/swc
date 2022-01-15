@@ -3340,6 +3340,7 @@ dependencies = [
 name = "swc_ecma_utils"
 version = "0.63.0"
 dependencies = [
+ "indexmap",
  "once_cell",
  "rayon",
  "swc_atoms",

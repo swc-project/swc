@@ -310,12 +310,12 @@ var B = /*#__PURE__*/ function(A) {
             value: // async method with only call/get on 'super' does not require a binding
             function simple() {
                 var _this = this;
-                var _this1 = this, // call additional property.
-                _superprop_get_y = function() {
-                    return _get(_getPrototypeOf(B.prototype), "y", _this);
-                }, // call with property access
+                var _this1 = this, // call with property access
                 _superprop_get_x = function() {
                     return _get(_getPrototypeOf(B.prototype), "x", _this);
+                }, // call additional property.
+                _superprop_get_y = function() {
+                    return _get(_getPrototypeOf(B.prototype), "y", _this);
                 }, // call with element access
                 _superprop_get = function(_prop) {
                     return _get(_getPrototypeOf(B.prototype), _prop, _this);
