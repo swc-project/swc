@@ -313,10 +313,7 @@ impl Scope {
             //   -> require('foo');
             self.imports.entry(import.src.value.clone()).or_insert(None);
         } else if import.specifiers.len() == 1
-            && match import.specifiers[0] {
-                ImportSpecifier::Namespace(..) => true,
-                _ => false,
-            }
+            && matches!(import.specifiers[0], ImportSpecifier::Namespace(..))
         {
             // import * as foo from 'src';
             let specifier = match import.specifiers.pop().unwrap() {
@@ -871,12 +868,10 @@ pub(super) fn has_use_strict(stmts: &[ModuleItem]) -> bool {
         return false;
     }
 
-    match &*stmts.first().unwrap() {
-        ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) => match &**expr {
-            Expr::Lit(Lit::Str(Str { ref value, .. })) => return &*value == "use strict",
-            _ => {}
-        },
-        _ => {}
+    if let ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) = &*stmts.first().unwrap() {
+        if let Expr::Lit(Lit::Str(Str { ref value, .. })) = &**expr {
+            return &*value == "use strict";
+        }
     }
 
     false
