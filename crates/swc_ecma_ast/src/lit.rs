@@ -2,6 +2,7 @@ use crate::jsx::JSXText;
 use num_bigint::BigInt as BigIntValue;
 use serde::{Deserialize, Serialize};
 use std::{
+    borrow::Cow,
     fmt::{self, Display, Formatter},
     hash::{Hash, Hasher},
     mem,
