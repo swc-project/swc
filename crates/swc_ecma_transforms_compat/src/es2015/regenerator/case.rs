@@ -1234,7 +1234,7 @@ impl CaseHandler<'_> {
 
                 self.update_ctx_prev_loc(Some(&mut try_entry.first_loc));
                 // TODO: Track unmarked entries in a separate field,
-                self.with_entry(Entry::TryEntry(try_entry.clone()), |folder| {
+                self.with_entry(Entry::Try(try_entry.clone()), |folder| {
                     //
                     folder.explode_stmts(block.stmts);
 
