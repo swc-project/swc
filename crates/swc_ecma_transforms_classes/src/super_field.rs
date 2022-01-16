@@ -350,7 +350,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
             // Memoize
             self.vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(ref_ident.clone().into()),
+                name: ref_ident.clone().into(),
                 init: None,
                 definite: false,
             });
@@ -358,7 +358,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
             if is_update {
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(update_ident.clone().into()),
+                    name: update_ident.clone().into(),
                     init: None,
                     definite: false,
                 });
@@ -387,7 +387,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
             op!("=") => prop_arg.as_arg(),
             _ => AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
+                left: PatOrExpr::Pat(ref_ident.clone().into()),
                 op: op!("="),
                 right: prop_arg,
             }
@@ -408,7 +408,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     Box::new(
                         AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(update_ident.clone().into()))),
+                            left: PatOrExpr::Pat(update_ident.clone().into()),
                             op: op!("="),
                             right: Box::new(Expr::Unary(UnaryExpr {
                                 span: DUMMY_SP,

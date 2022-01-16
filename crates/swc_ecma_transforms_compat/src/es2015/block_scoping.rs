@@ -128,7 +128,7 @@ impl BlockScoping {
                 let ident = private_ident!("_this");
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(ident.clone().into()),
+                    name: ident.clone().into(),
                     init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                     definite: false,
                 });
@@ -141,7 +141,7 @@ impl BlockScoping {
                 let ident = private_ident!("_arguments");
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(ident.clone().into()),
+                    name: ident.clone().into(),
                     init: Some(Box::new(Expr::Ident(quote_ident!("arguments")))),
                     definite: false,
                 });
@@ -197,7 +197,7 @@ impl BlockScoping {
 
             self.vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(var_name.clone().into()),
+                name: var_name.clone().into(),
                 init: Some(Box::new(
                     FnExpr {
                         ident: None,
@@ -211,10 +211,8 @@ impl BlockScoping {
                                     Param {
                                         span: DUMMY_SP,
                                         decorators: Default::default(),
-                                        pat: Pat::Ident(
-                                            Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(ctxt))
-                                                .into(),
-                                        ),
+                                        pat: Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(ctxt))
+                                            .into(),
                                     }
                                 })
                                 .collect(),

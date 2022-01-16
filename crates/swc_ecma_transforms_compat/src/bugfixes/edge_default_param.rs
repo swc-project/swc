@@ -44,7 +44,7 @@ impl VisitMut for EdgeDefaultParam {
                     key: PropName::Ident(key.clone()),
                     value: Box::new(Pat::Assign(AssignPat {
                         span: *span,
-                        left: Box::new(Pat::Ident(BindingIdent::from(key.clone()))),
+                        left: key.clone().into(),
                         right: value.clone(),
                         type_ann: None,
                     })),
