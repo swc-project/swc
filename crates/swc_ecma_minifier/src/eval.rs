@@ -188,9 +188,7 @@ impl Evaluator {
                     prop: prop.clone(),
                 });
 
-                e.visit_mut_with(&mut expr_simplifier(ExprSimplifierConfig {
-                    preserve_string_call: true,
-                }));
+                e.visit_mut_with(&mut expr_simplifier(ExprSimplifierConfig {}));
                 return Some(Box::new(e));
             }
             _ => {}

@@ -68,10 +68,7 @@ where
     chain!(
         console_remover,
         as_folder(compressor),
-        expr_simplifier(ExprSimplifierConfig {
-            preserve_string_call: true,
-            ..Default::default()
-        })
+        expr_simplifier(ExprSimplifierConfig {})
     )
 }
 
@@ -293,9 +290,7 @@ where
 
             let start_time = now();
 
-            let mut visitor = expr_simplifier(ExprSimplifierConfig {
-                preserve_string_call: true,
-            });
+            let mut visitor = expr_simplifier(ExprSimplifierConfig {});
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
             if visitor.changed() {
