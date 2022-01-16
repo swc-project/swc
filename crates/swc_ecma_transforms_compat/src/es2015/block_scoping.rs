@@ -270,7 +270,7 @@ impl BlockScoping {
                             span: DUMMY_SP,
                             test: Box::new(Expr::Bin(BinExpr {
                                 span: DUMMY_SP,
-                                op: BinaryOp::EqEqEq,
+                                op: op!("==="),
                                 left: {
                                     // _typeof(_ret)
                                     let callee = helper!(type_of, "typeof");
@@ -836,7 +836,7 @@ impl VisitMut for FlowHelper<'_> {
                             value: s.arg.take().unwrap_or_else(|| {
                                 Box::new(Expr::Unary(UnaryExpr {
                                     span: DUMMY_SP,
-                                    op: UnaryOp::Void,
+                                    op: op!("void"),
                                     arg: undefined(DUMMY_SP),
                                 }))
                             }),

@@ -135,7 +135,7 @@ impl Params {
                                 span,
                                 test: Box::new(Expr::Bin(BinExpr {
                                     left: Box::new(check_arg_len(i)),
-                                    op: BinaryOp::LogicalAnd,
+                                    op: op!("&&"),
                                     right: Box::new(Expr::Bin(BinExpr {
                                         left: Box::new(make_arg_nth(i)),
                                         op: BinaryOp::NotEqEq,

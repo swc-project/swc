@@ -101,7 +101,7 @@ impl Fold for TemplateLiteralCaching {
                 self.create_binding(t.clone(), None);
                 let inline_cache = Expr::Bin(BinExpr {
                     span: DUMMY_SP,
-                    op: BinaryOp::LogicalOr,
+                    op: op!("||"),
                     left: Box::new(Expr::Ident(t.clone())),
                     right: Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
