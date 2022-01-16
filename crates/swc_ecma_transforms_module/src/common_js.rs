@@ -295,7 +295,7 @@ where
                                     kind: VarDeclKind::Var,
                                     decls: vec![VarDeclarator {
                                         span: DUMMY_SP,
-                                        name: Pat::Ident(exported_names_ident.clone().into()),
+                                        name: exported_names_ident.clone().into(),
                                         init: Some(Box::new(Expr::Object(ObjectLit {
                                             span: DUMMY_SP,
                                             props: exports
@@ -520,7 +520,7 @@ where
                                 kind: VarDeclKind::Var,
                                 decls: vec![VarDeclarator {
                                     span: DUMMY_SP,
-                                    name: Pat::Ident(ident.clone().into()),
+                                    name: ident.clone().into(),
                                     init: Some(expr.expr.fold_with(self)),
                                     definite: false,
                                 }],
@@ -757,7 +757,7 @@ where
                                             kind: VarDeclKind::Const,
                                             decls: vec![VarDeclarator {
                                                 span: DUMMY_SP,
-                                                name: Pat::Ident(quote_ident!("data").into()),
+                                                name: quote_ident!("data").into(),
                                                 init: Some(rhs),
                                                 definite: false,
                                             }],
@@ -766,9 +766,7 @@ where
                                         // foo = function() { return data; };
                                         AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                                ident.into(),
-                                            ))),
+                                            left: PatOrExpr::Pat(ident.into()),
                                             op: op!("="),
                                             right: Box::new(
                                                 FnExpr {
@@ -807,7 +805,7 @@ where
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(ident.into()),
+                                name: ident.into(),
                                 init: Some(rhs),
                                 definite: false,
                             }],

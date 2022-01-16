@@ -260,10 +260,7 @@ where
 
         Some(VarDeclarator {
             span,
-            name: Pat::Ident(BindingIdent {
-                id: Ident::new(name.0, DUMMY_SP.with_ctxt(name.1)),
-                type_ann: None,
-            }),
+            name: Ident::new(name.0, DUMMY_SP.with_ctxt(name.1)).into(),
             init: None,
             definite: false,
         })
@@ -432,7 +429,7 @@ where
                                     let ident = private_ident!("_key");
                                     self.uninitialized_vars.push(VarDeclarator {
                                         span: DUMMY_SP,
-                                        name: Pat::Ident(ident.clone().into()),
+                                        name: ident.clone().into(),
                                         init: None,
                                         definite: false,
                                     });
@@ -490,7 +487,7 @@ where
                                     let ident = private_ident!("_key");
                                     self.uninitialized_vars.push(VarDeclarator {
                                         span: DUMMY_SP,
-                                        name: Pat::Ident(ident.clone().into()),
+                                        name: ident.clone().into(),
                                         init: None,
                                         definite: false,
                                     });
@@ -705,14 +702,11 @@ where
             } else {
                 self.uninitialized_vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(ident.clone().into()),
+                    name: ident.clone().into(),
                     init: None,
                     definite: false,
                 });
-                let assign_lhs = PatOrExpr::Pat(Box::new(Pat::Ident(BindingIdent {
-                    id: ident.clone(),
-                    type_ann: None,
-                })));
+                let assign_lhs = PatOrExpr::Pat(ident.clone().into());
                 let assign_expr = Box::new(Expr::Assign(AssignExpr {
                     span: n.span(),
                     op: op!("="),
@@ -1014,7 +1008,7 @@ where
                     params: vec![Param {
                         span: id.span,
                         decorators: vec![],
-                        pat: Pat::Ident(id.clone().into()),
+                        pat: id.clone().into(),
                     }],
                     body: Some(BlockStmt {
                         span: DUMMY_SP,
@@ -1148,10 +1142,7 @@ where
         let var_id = Ident::new(decl.id.sym.clone(), DUMMY_SP.with_ctxt(decl.id.span.ctxt));
         let var = VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(BindingIdent {
-                id: var_id,
-                type_ann: None,
-            }),
+            name: var_id.into(),
             init: None,
             definite: false,
         };
@@ -1194,7 +1185,7 @@ where
                 params: vec![Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(private_name.clone().into()),
+                    pat: private_name.clone().into(),
                 }],
                 decorators: Default::default(),
                 span: DUMMY_SP,
@@ -1372,7 +1363,7 @@ where
                 })) => {
                     let default = VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(id.into()),
+                        name: id.into(),
                         init: Some(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: quote_ident!("require").as_callee(),
@@ -1466,7 +1457,7 @@ where
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(import.id.clone().into()),
+                                name: import.id.clone().into(),
                                 init: Some(Box::new(module_ref_to_expr(import.module_ref))),
                                 definite: false,
                             }],
@@ -1715,7 +1706,7 @@ where
             }));
             AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(Pat::Ident(id.clone().into()).into()),
+                left: PatOrExpr::Pat(id.clone().into()),
                 op: op!("="),
                 right: Box::new(Expr::Bin(BinExpr {
                     span: DUMMY_SP,
@@ -1740,7 +1731,7 @@ where
                 op: op!("||"),
                 right: Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Pat(Pat::Ident(id.clone().into()).into()),
+                    left: PatOrExpr::Pat(id.clone().into()),
                     op: op!("="),
                     right: Box::new(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
@@ -2078,7 +2069,7 @@ where
                                     decorators: Default::default(),
                                     pat: Pat::Assign(AssignPat {
                                         span,
-                                        left: Box::new(Pat::Ident(i)),
+                                        left: i.into(),
                                         right,
                                         type_ann: None,
                                     }),
@@ -2334,7 +2325,7 @@ where
                 })) => {
                     let default = VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(id.into()),
+                        name: id.into(),
                         init: Some(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: quote_ident!("require").as_callee(),
@@ -2423,7 +2414,7 @@ where
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(import.id.into()),
+                                name: import.id.into(),
                                 init: Some(Box::new(module_ref_to_expr(import.module_ref))),
                                 definite: false,
                             }],
@@ -2548,7 +2539,7 @@ where
                 if let Expr::Paren(ParenExpr { expr, .. }) = &**expr {
                     if let Expr::TsAs(TsAsExpr { expr, .. }) = &**expr {
                         if let Expr::Ident(ident) = &**expr {
-                            *node = PatOrExpr::Pat(Box::new(Pat::Ident(ident.clone().into())));
+                            *node = PatOrExpr::Pat(ident.clone().into());
                         }
                     }
                 }

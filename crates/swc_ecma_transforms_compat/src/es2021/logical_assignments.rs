@@ -43,7 +43,7 @@ impl VisitMut for Operators {
                         let alias = alias_ident_for(&m.obj, "_ref");
                         self.vars.push(VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(alias.clone().into()),
+                            name: alias.clone().into(),
                             init: None,
                             definite: false,
                         });
@@ -53,7 +53,7 @@ impl VisitMut for Operators {
                         let obj = Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             op: op!("="),
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(alias.clone().into()))),
+                            left: PatOrExpr::Pat(alias.clone().into()),
                             right: m.obj.take(),
                         }));
 

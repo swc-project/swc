@@ -220,7 +220,7 @@ impl ConstructorFolder<'_> {
 
             self.vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(this_super.clone().into()),
+                name: this_super.clone().into(),
                 init: None,
                 definite: Default::default(),
             });
@@ -413,9 +413,9 @@ impl VisitMut for ConstructorFolder<'_> {
 
                 *expr = Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                    left: PatOrExpr::Pat(
                         quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
-                    ))),
+                    ),
                     op: op!("="),
                     right,
                 });
@@ -482,9 +482,9 @@ impl VisitMut for ConstructorFolder<'_> {
                     Some(SuperFoldingMode::Assign) => {
                         *stmt = AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                            left: PatOrExpr::Pat(
                                 quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
-                            ))),
+                            ),
                             op: op!("="),
                             right: expr,
                         }
@@ -497,9 +497,7 @@ impl VisitMut for ConstructorFolder<'_> {
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(
-                                    quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
-                                ),
+                                name: quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
                                 init: Some(expr),
                                 definite: false,
                             }],

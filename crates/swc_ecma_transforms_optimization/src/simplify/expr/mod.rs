@@ -231,20 +231,14 @@ impl SimplifyExpr {
                     let var_name = alias_ident_for(&v, "_v");
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(BindingIdent {
-                            id: var_name.clone(),
-                            type_ann: None,
-                        }),
+                        name: var_name.clone().into(),
                         init: None,
                         definite: false,
                     });
 
                     exprs.push(Box::new(Expr::Assign(AssignExpr {
                         span: v.span(),
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(BindingIdent {
-                            id: var_name.clone(),
-                            type_ann: None,
-                        }))),
+                        left: PatOrExpr::Pat(var_name.clone().into()),
                         op: op!("="),
                         right: v,
                     })));

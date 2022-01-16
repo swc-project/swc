@@ -179,7 +179,7 @@ impl VisitMut for TemplateLiteral {
                                 for arg in args {
                                     obj = Box::new(Expr::Bin(BinExpr {
                                         span: span.with_hi(expr_span.hi() + BytePos(1)),
-                                        op: BinaryOp::Add,
+                                        op: op!(bin, "+"),
                                         left: obj,
                                         right: arg,
                                     }))
@@ -219,7 +219,7 @@ impl VisitMut for TemplateLiteral {
                                     }
                                     obj = Box::new(Expr::Bin(BinExpr {
                                         span: span.with_hi(expr_span.hi() + BytePos(1)),
-                                        op: BinaryOp::Add,
+                                        op: op!(bin, "+"),
                                         left: obj,
                                         right: arg,
                                     }))

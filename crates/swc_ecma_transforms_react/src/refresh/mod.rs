@@ -452,7 +452,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                     .iter()
                     .map(|(handle, _)| VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(BindingIdent::from(handle.clone())),
+                        name: handle.clone().into(),
                         init: None,
                         definite: false,
                     })

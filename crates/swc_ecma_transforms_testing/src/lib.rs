@@ -226,7 +226,7 @@ impl VisitMut for RegeneratorHandler {
 
             let decl = VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(s.into()),
+                name: s.into(),
                 init: Some(init),
                 definite: Default::default(),
             };

@@ -651,7 +651,7 @@ impl VisitMut for Remover {
                                 .flat_map(|stmt| stmt.extract_var_ids())
                                 .map(|i| VarDeclarator {
                                     span: DUMMY_SP,
-                                    name: Pat::Ident(i.into()),
+                                    name: i.into(),
                                     init: None,
                                     definite: false,
                                 })
@@ -688,7 +688,7 @@ impl VisitMut for Remover {
                                         vars.extend(cons.extract_var_ids().into_iter().map(
                                             |name| VarDeclarator {
                                                 span: DUMMY_SP,
-                                                name: Pat::Ident(name.into()),
+                                                name: name.into(),
                                                 init: None,
                                                 definite: Default::default(),
                                             },
@@ -828,7 +828,7 @@ impl VisitMut for Remover {
                                 .chain(var_ids)
                                 .map(|i| VarDeclarator {
                                     span: i.span,
-                                    name: Pat::Ident(i.into()),
+                                    name: i.into(),
                                     init: None,
                                     definite: false,
                                 })
@@ -1037,7 +1037,7 @@ impl Remover {
                                         let ids = extract_var_ids(&t).into_iter().map(|i| {
                                             VarDeclarator {
                                                 span: i.span,
-                                                name: Pat::Ident(i.into()),
+                                                name: i.into(),
                                                 init: None,
                                                 definite: false,
                                             }
