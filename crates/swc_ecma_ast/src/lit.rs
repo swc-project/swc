@@ -58,6 +58,7 @@ bridge_lit_from!(Str, Cow<'_, str>);
 bridge_lit_from!(Str, String);
 bridge_lit_from!(Bool, bool);
 bridge_lit_from!(Number, f64);
+bridge_lit_from!(Number, usize);
 bridge_lit_from!(BigInt, BigIntValue);
 
 #[ast_node("BigIntLiteral")]
@@ -335,6 +336,63 @@ impl Display for Number {
             }
         } else {
             Display::fmt(&self.value, f)
+        }
+    }
+}
+
+impl From<JsWord> for Str {
+    #[inline]
+    fn from(value: JsWord) -> Self {
+        Str {
+            span: DUMMY_SP,
+            value,
+            has_escape: Default::default(),
+            kind: Default::default(),
+        }
+    }
+}
+
+bridge_from!(Str, JsWord, &'_ str);
+bridge_from!(Str, JsWord, String);
+bridge_from!(Str, JsWord, Box<str>);
+bridge_from!(Str, JsWord, Cow<'_, str>);
+
+impl From<bool> for Bool {
+    #[inline]
+    fn from(value: bool) -> Self {
+        Bool {
+            span: DUMMY_SP,
+            value,
+        }
+    }
+}
+
+impl From<f64> for Number {
+    #[inline]
+    fn from(value: f64) -> Self {
+        Number {
+            span: DUMMY_SP,
+            value,
+        }
+    }
+}
+
+impl From<usize> for Number {
+    #[inline]
+    fn from(value: usize) -> Self {
+        Number {
+            span: DUMMY_SP,
+            value: value as _,
+        }
+    }
+}
+
+impl From<BigIntValue> for BigInt {
+    #[inline]
+    fn from(value: BigIntValue) -> Self {
+        BigInt {
+            span: DUMMY_SP,
+            value,
         }
     }
 }

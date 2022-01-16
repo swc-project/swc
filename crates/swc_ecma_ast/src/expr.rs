@@ -4,7 +4,7 @@ use crate::{
     function::Function,
     ident::{Ident, PrivateName},
     jsx::{JSXElement, JSXEmptyExpr, JSXFragment, JSXMemberExpr, JSXNamespacedName},
-    lit::{Bool, Lit, Number, Str},
+    lit::{Lit, Str},
     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
     pat::Pat,
     prop::Prop,
@@ -13,7 +13,7 @@ use crate::{
         TsAsExpr, TsConstAssertion, TsNonNullExpr, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
         TsTypeParamInstantiation,
     },
-    BigInt, ComputedPropName, Invalid,
+    ComputedPropName, Invalid,
 };
 use is_macro::Is;
 use serde::{self, Deserialize, Serialize};
