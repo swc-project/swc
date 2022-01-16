@@ -160,16 +160,18 @@ impl VisitMut for ArgReplacer<'_> {
 
         n.visit_mut_children_with(self);
 
-        match n {
-            Expr::Member(MemberExpr {
-                obj,
-                prop: MemberProp::Computed(c),
+        if let Expr::Member(MemberExpr {
+            obj,
+            prop: MemberProp::Computed(c),
+            ..
+        }) = n
+        {
+            if let Expr::Ident(Ident {
+                sym: js_word!("arguments"),
                 ..
-            }) => match &**obj {
-                Expr::Ident(Ident {
-                    sym: js_word!("arguments"),
-                    ..
-                }) => match &*c.expr {
+            }) = &**obj
+            {
+                match &*c.expr {
                     Expr::Lit(Lit::Str(Str { value, .. })) => {
                         let idx = value.parse::<usize>();
                         let idx = match idx {
@@ -180,13 +182,10 @@ impl VisitMut for ArgReplacer<'_> {
                         self.inject_params_if_required(idx);
 
                         if let Some(param) = self.params.get(idx) {
-                            match &param.pat {
-                                Pat::Ident(i) => {
-                                    self.changed = true;
-                                    *n = Expr::Ident(i.id.clone());
-                                    return;
-                                }
-                                _ => {}
+                            if let Pat::Ident(i) = &param.pat {
+                                self.changed = true;
+                                *n = Expr::Ident(i.id.clone());
+                                return;
                             }
                         }
                     }
@@ -217,11 +216,8 @@ impl VisitMut for ArgReplacer<'_> {
                         }
                     }
                     _ => {}
-                },
-                _ => {}
-            },
-
-            _ => {}
+                }
+            }
         }
     }
 
