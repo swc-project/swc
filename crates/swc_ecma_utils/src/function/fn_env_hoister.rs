@@ -168,6 +168,23 @@ impl FnEnvHoister {
             .get_or_insert_with(|| private_ident!(span, "_superprop_get"))
             .clone()
     }
+
+    fn super_set(&mut self, id: &mut Ident, span: Span) -> Ident {
+        if let Some(callee) = self.super_set.ident.get(&id.sym) {
+            callee.clone()
+        } else {
+            let ident = private_ident!(span, format!("_superprop_set_{}", id.sym));
+            self.super_set.ident.insert(id.take().sym, ident.clone());
+            ident
+        }
+    }
+
+    fn super_set_computed(&mut self, span: Span) -> Ident {
+        self.super_set
+            .computed
+            .get_or_insert_with(|| private_ident!(span, "_superprop_set"))
+            .clone()
+    }
 }
 
 impl Take for FnEnvHoister {
@@ -222,11 +239,7 @@ impl VisitMut for FnEnvHoister {
                     let left_span = super_prop.span;
                     match &mut super_prop.prop {
                         SuperProp::Computed(c) => {
-                            let callee = self
-                                .super_set
-                                .computed
-                                .get_or_insert_with(|| private_ident!(left_span, "_superprop_set"))
-                                .clone();
+                            let callee = self.super_set_computed(left_span);
 
                             let op = op.to_update();
 
@@ -269,20 +282,16 @@ impl VisitMut for FnEnvHoister {
                             });
                         }
                         SuperProp::Ident(id) => {
-                            let callee = if let Some(callee) = self.super_set.ident.get(&id.sym) {
-                                callee.clone()
-                            } else {
-                                let ident =
-                                    private_ident!(id.span, format!("_superprop_set_{}", id.sym));
-                                self.super_set.ident.insert(id.sym.clone(), ident.clone());
-                                ident
-                            };
+                            let callee = self.super_set(&mut id.clone(), left_span);
                             *e = Expr::Call(CallExpr {
                                 span: *span,
                                 args: vec![(if let Some(op) = op.to_update() {
                                     Box::new(Expr::Bin(BinExpr {
                                         span: DUMMY_SP,
-                                        left: Box::new(self.super_get(id, id.span).into()),
+                                        left: Box::new(
+                                            self.super_get(id, id.span)
+                                                .as_call(id.span, Vec::new()),
+                                        ),
                                         op,
                                         right: right.take(),
                                     }))
@@ -319,7 +328,7 @@ impl VisitMut for FnEnvHoister {
 
                             new_args.insert(0, self.get_this().as_arg());
 
-                            *e = call.call_fn(new_args, *span);
+                            *e = call.call_fn(*span, new_args);
                         }
                         SuperProp::Ident(id) => {
                             let callee = self.super_get(id, super_prop.span);
@@ -333,11 +342,95 @@ impl VisitMut for FnEnvHoister {
 
                             new_args.insert(0, self.get_this().as_arg());
 
-                            *e = call.call_fn(new_args, *span);
+                            *e = call.call_fn(*span, new_args);
                         }
                     }
                 };
                 e.visit_mut_children_with(self)
+            }
+            // super.foo ++
+            Expr::Update(UpdateExpr {
+                span,
+                op,
+                prefix,
+                arg,
+            }) => {
+                if let Expr::SuperProp(SuperPropExpr {
+                    span: arg_span,
+                    prop,
+                    ..
+                }) = &mut **arg
+                {
+                    let tmp = private_ident!("tmp");
+                    self.extra_ident.push(tmp.clone());
+
+                    let op = match op {
+                        op!("++") => op!(bin, "+"),
+                        op!("--") => op!(bin, "-"),
+                    };
+
+                    let update_expr = Expr::Bin(BinExpr {
+                        span: DUMMY_SP,
+                        left: Box::new(Expr::Ident(tmp.clone())),
+                        right: Box::new(Expr::Lit(Lit::Num(Number {
+                            span: DUMMY_SP,
+                            value: 1_f64,
+                        }))),
+                        op,
+                    })
+                    .as_arg();
+
+                    let mut exprs = match prop {
+                        SuperProp::Ident(id) => vec![
+                            Box::new(Expr::Assign(AssignExpr {
+                                left: PatOrExpr::Pat(Box::new(tmp.clone().into())),
+                                op: op!("="),
+                                right: Box::new(
+                                    self.super_get(&mut id.clone(), *arg_span)
+                                        .as_call(*arg_span, Vec::new()),
+                                ),
+                                span: *arg_span,
+                            })),
+                            Box::new(
+                                self.super_set(&mut id.clone(), *arg_span)
+                                    .as_call(*arg_span, vec![update_expr]),
+                            ),
+                        ],
+                        SuperProp::Computed(c) => {
+                            let prop = private_ident!("prop");
+                            self.extra_ident.push(prop.clone());
+                            vec![
+                                Box::new(Expr::Assign(AssignExpr {
+                                    span: *arg_span,
+                                    left: PatOrExpr::Pat(Box::new(tmp.clone().into())),
+                                    op: op!("="),
+                                    right: Box::new(self.super_get_computed(*arg_span).as_call(
+                                        *arg_span,
+                                        vec![Expr::Assign(AssignExpr {
+                                            span: c.span,
+                                            left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                                prop.clone().into(),
+                                            ))),
+                                            right: c.expr.take(),
+                                            op: op!("="),
+                                        })
+                                        .as_arg()],
+                                    )),
+                                })),
+                                Box::new(
+                                    self.super_set_computed(*arg_span)
+                                        .as_call(*arg_span, vec![prop.as_arg(), update_expr]),
+                                ),
+                            ]
+                        }
+                    };
+                    if !*prefix {
+                        exprs.push(Box::new(Expr::Ident(tmp)))
+                    }
+                    *e = Expr::Seq(SeqExpr { span: *span, exprs })
+                } else {
+                    e.visit_mut_children_with(self)
+                }
             }
             Expr::SuperProp(SuperPropExpr { prop, span, .. }) => match prop {
                 SuperProp::Computed(c) => {

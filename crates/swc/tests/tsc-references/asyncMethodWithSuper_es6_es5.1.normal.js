@@ -349,7 +349,8 @@ var B = /*#__PURE__*/ function(A) {
                 }, // call with element access
                 _superprop_get = function(_prop) {
                     return _get(_getPrototypeOf(B.prototype), _prop, _this);
-                }, _superprop_set_x = function(_value) {
+                }, // property access (assign)
+                _superprop_set_x = function(_value) {
                     return _set(_getPrototypeOf(B.prototype), "x", _value, _this, true);
                 }, // element access (assign)
                 _superprop_set = function(_prop, _value) {
@@ -365,7 +366,6 @@ var B = /*#__PURE__*/ function(A) {
                                 _superprop_get("x").call(_this2);
                                 a = _superprop_get_x();
                                 b = _superprop_get("x");
-                                // property access (assign)
                                 _superprop_set_x(f);
                                 _superprop_set("x", f);
                                 ;
@@ -463,7 +463,8 @@ var B = /*#__PURE__*/ function(A) {
                 var _this = this;
                 var _superprop_get_x = function() {
                     return _get(_getPrototypeOf(B.prototype), "x", _this);
-                }, _superprop_set_x = function(_value) {
+                }, // property access (assign)
+                _superprop_set_x = function(_value) {
                     return _set(_getPrototypeOf(B.prototype), "x", _value, _this, true);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
@@ -472,7 +473,6 @@ var B = /*#__PURE__*/ function(A) {
                         while(1)switch(_ctx3.prev = _ctx3.next){
                             case 0:
                                 f = function() {};
-                                // property access (assign)
                                 _superprop_set_x(f);
                                 ;
                                 // destructuring assign with property access
@@ -633,7 +633,8 @@ var B = /*#__PURE__*/ function(A) {
                 var _this = this;
                 var _superprop_get_x = function() {
                     return _get(_getPrototypeOf(B.prototype), "x", _this);
-                }, _superprop_set_x = function(_value) {
+                }, // property access (assign)
+                _superprop_set_x = function(_value) {
                     return _set(_getPrototypeOf(B.prototype), "x", _value, _this, true);
                 };
                 return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee7() {
@@ -642,7 +643,6 @@ var B = /*#__PURE__*/ function(A) {
                         while(1)switch(_ctx7.prev = _ctx7.next){
                             case 0:
                                 f = function() {};
-                                // property access (assign)
                                 _superprop_set_x(f);
                                 ;
                                 // destructuring assign with property access
