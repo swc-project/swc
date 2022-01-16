@@ -102,7 +102,7 @@ impl Params {
                         let binding = private_ident!(span, "param");
 
                         params.push(Param {
-                            pat: Pat::Ident(binding.clone().into()),
+                            pat: binding.clone().into(),
                             ..param
                         });
                         let decl = VarDeclarator {
@@ -153,7 +153,7 @@ impl Params {
                         if let Pat::Ident(ident) = left.as_ref() {
                             params.push(Param {
                                 span,
-                                pat: Pat::Ident(ident.clone()),
+                                pat: ident.clone(),
                                 decorators: Vec::new(),
                             });
                             loose_stmt.push(Stmt::If(IfStmt {
@@ -180,7 +180,7 @@ impl Params {
                             params.push(Param {
                                 span: DUMMY_SP,
                                 decorators: Default::default(),
-                                pat: Pat::Ident(binding.clone().into()),
+                                pat: binding.clone().into(),
                             });
                             loose_stmt.push(Stmt::Decl(Decl::Var(VarDecl {
                                 span,
@@ -284,14 +284,14 @@ impl Params {
                                 // _len = arguments.length - i
                                 VarDeclarator {
                                     span,
-                                    name: Pat::Ident(len_ident.clone().into()),
+                                    name: len_ident.clone().into(),
                                     init: Some(member_expr!(span, arguments.length)),
                                     definite: false,
                                 },
                                 // a1 = new Array(_len - $i)
                                 VarDeclarator {
                                     span,
-                                    name: Pat::Ident(arg.clone().into()),
+                                    name: arg.clone().into(),
                                     init: Some(Box::new(Expr::New(NewExpr {
                                         span,
                                         callee: Box::new(quote_ident!("Array").into()),
@@ -306,7 +306,7 @@ impl Params {
                                 // _key = 0
                                 VarDeclarator {
                                     span,
-                                    name: Pat::Ident(idx_ident.clone().into()),
+                                    name: idx_ident.clone().into(),
                                     init: Some(Box::new(Expr::Lit(Lit::Num(Number {
                                         span,
                                         value: i as f64,

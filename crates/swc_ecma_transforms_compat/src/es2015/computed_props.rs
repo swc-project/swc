@@ -108,7 +108,7 @@ impl VisitMut for ComputedProps {
                     } else {
                         Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(obj_ident.clone().into()))),
+                            left: PatOrExpr::Pat(obj_ident.clone().into()),
                             op: op!("="),
                             right: Box::new(Expr::Object(ObjectLit {
                                 span: DUMMY_SP,
@@ -288,14 +288,14 @@ impl VisitMut for ComputedProps {
 
                 self.vars.push(VarDeclarator {
                     span: *span,
-                    name: Pat::Ident(obj_ident.clone().into()),
+                    name: obj_ident.clone().into(),
                     init: None,
                     definite: false,
                 });
                 if self.used_define_enum_props {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(mutator_map.clone().into()),
+                        name: mutator_map.clone().into(),
                         init: Some(Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: vec![],

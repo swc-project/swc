@@ -267,7 +267,7 @@ where
             let params = vec![Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(super_param.clone().into()),
+                pat: super_param.clone().into(),
             }];
 
             let super_class = class.super_class.clone().unwrap();
@@ -439,7 +439,7 @@ where
                 declare: Default::default(),
                 decls: vec![VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(var.clone().into()),
+                    name: var.clone().into(),
                     init: Some(Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(create_super, "createSuper"),
@@ -535,7 +535,7 @@ where
                 if insert_this {
                     vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(this.clone().into()),
+                        name: this.clone().into(),
                         init: None,
                         definite: false,
                     });
@@ -681,7 +681,7 @@ where
                     kind: VarDeclKind::Var,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into()),
+                        name: quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into(),
                         init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                         definite: false,
                     }],
@@ -828,9 +828,7 @@ where
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(
-                                quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into(),
-                            ),
+                            name: quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into(),
                             init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                             definite: false,
                         }],

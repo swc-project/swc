@@ -34,7 +34,7 @@ impl VisitMut for ObjectSuper {
                         .into_iter()
                         .map(|v| VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(v.into()),
+                            name: v.into(),
                             init: None,
                             definite: false,
                         })
@@ -58,7 +58,7 @@ impl VisitMut for ObjectSuper {
                         .into_iter()
                         .map(|v| VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(v.into()),
+                            name: v.into(),
                             init: None,
                             definite: false,
                         })
@@ -93,7 +93,7 @@ impl VisitMut for ObjectSuper {
                                                 .drain(..)
                                                 .map(|v| VarDeclarator {
                                                     span: DUMMY_SP,
-                                                    name: Pat::Ident(v.into()),
+                                                    name: v.into(),
                                                     init: None,
                                                     definite: false,
                                                 })
@@ -420,7 +420,7 @@ impl SuperReplacer {
                         self.vars.push(ref_ident.clone());
                         *prop = Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
+                            left: PatOrExpr::Pat(ref_ident.clone().into()),
                             op: op!("="),
                             right: prop.take(),
                         });
@@ -459,9 +459,9 @@ impl SuperReplacer {
                                             Box::new(
                                                 AssignExpr {
                                                     span: DUMMY_SP,
-                                                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                                    left: PatOrExpr::Pat(
                                                         update_ident.clone().into(),
-                                                    ))),
+                                                    ),
                                                     op: op!("="),
                                                     right: Box::new(Expr::Unary(UnaryExpr {
                                                         span: DUMMY_SP,

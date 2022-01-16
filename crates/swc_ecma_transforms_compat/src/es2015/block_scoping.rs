@@ -254,7 +254,7 @@ impl BlockScoping {
                         declare: false,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(ret.clone().into()),
+                            name: ret.clone().into(),
                             init: Some(Box::new(call.take().into())),
                             definite: false,
                         }],
@@ -892,9 +892,7 @@ impl MutationHandler<'_> {
         for (id, ctxt) in &*self.map {
             exprs.push(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                    Ident::new(id.0.clone(), DUMMY_SP.with_ctxt(id.1)).into(),
-                ))),
+                left: PatOrExpr::Pat(Ident::new(id.0.clone(), DUMMY_SP.with_ctxt(id.1)).into()),
                 op: op!("="),
                 right: Box::new(Expr::Ident(Ident::new(
                     id.0.clone(),

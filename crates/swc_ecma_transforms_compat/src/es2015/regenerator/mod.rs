@@ -50,7 +50,7 @@ fn require_rt(global_mark: Mark, rt: Ident, src: Option<JsWord>) -> Stmt {
         declare: false,
         decls: vec![VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(rt.into()),
+            name: rt.into(),
             init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: quote_ident!(DUMMY_SP.apply_mark(global_mark), "require").as_callee(),
