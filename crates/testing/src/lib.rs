@@ -119,6 +119,7 @@ pub struct Tester {
 }
 
 impl Tester {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
         Tester {
             cm: Lrc::new(SourceMap::new(FilePathMapping::empty())),

@@ -299,8 +299,7 @@ impl VisitMut for Regenerator {
                     self.top_level_mark,
                     rt_ident,
                     self.config.import_path.clone(),
-                )
-                .into(),
+                ),
             );
         }
     }
