@@ -289,13 +289,7 @@ impl BlockScoping {
                                     .into()
                                 },
                                 //"object"
-                                right: Expr::Lit(Lit::Str(Str {
-                                    span: DUMMY_SP,
-                                    value: js_word!("object"),
-                                    has_escape: false,
-                                    kind: Default::default(),
-                                }))
-                                .into(),
+                                right: js_word!("object").into(),
                             })),
                             cons: Box::new(Stmt::Return(ReturnStmt {
                                 span: DUMMY_SP,

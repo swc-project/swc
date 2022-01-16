@@ -59,7 +59,7 @@ impl VisitMut for PropFolder {
                     *prop = Prop::KeyValue(KeyValueProp {
                         key: PropName::Computed(ComputedPropName {
                             span: ident.span,
-                            expr: Box::new(Expr::Lit(Lit::Str(quote_str!(ident.sym.clone())))),
+                            expr: quote_str!(ident.sym.clone()).into(),
                         }),
                         value: Box::new(Expr::Ident(ident.clone())),
                     })
@@ -116,7 +116,7 @@ impl<'a> VisitMut for PropNameFolder<'a> {
                 if !self.props.insert(s.value.clone()) {
                     *name = PropName::Computed(ComputedPropName {
                         span: s.span,
-                        expr: Box::new(Expr::Lit(Lit::Str(s.clone()))),
+                        expr: s.clone().into(),
                     })
                 }
             }

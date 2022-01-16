@@ -90,17 +90,7 @@ impl Fold for TemplateLiteralCaching {
                     tpl: Tpl {
                         span: DUMMY_SP,
                         quasis: n.tpl.quasis,
-                        exprs: n
-                            .tpl
-                            .exprs
-                            .iter()
-                            .map(|_| {
-                                Box::new(Expr::Lit(Lit::Num(Number {
-                                    span: DUMMY_SP,
-                                    value: 0.0,
-                                })))
-                            })
-                            .collect(),
+                        exprs: n.tpl.exprs.iter().map(|_| 0.0.into()).collect(),
                     },
                     type_params: None,
                 };

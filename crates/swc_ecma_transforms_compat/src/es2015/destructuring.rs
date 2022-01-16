@@ -295,7 +295,7 @@ impl AssignFolder {
                             span: DUMMY_SP,
                             left: Box::new(Expr::Ident(ident.clone())),
                             op: op!("!=="),
-                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                            right: Null { span: DUMMY_SP }.into(),
                         })),
                         cons: Box::new(Expr::Ident(ident.clone())),
                         alt: Box::new(Expr::Call(CallExpr {
@@ -309,13 +309,7 @@ impl AssignFolder {
                                         "TypeError".into(),
                                         DUMMY_SP,
                                     ))),
-                                    args: Some(vec![Lit::Str(Str {
-                                        span: DUMMY_SP,
-                                        value: "Cannot destructure undefined".into(),
-                                        has_escape: false,
-                                        kind: Default::default(),
-                                    })
-                                    .as_arg()]),
+                                    args: Some(vec!["Cannot destructure undefined".as_arg()]),
                                     type_args: Default::default(),
                                 }
                                 .as_arg(),
@@ -734,11 +728,7 @@ impl VisitMut for AssignFolder {
                                                     ),
                                                     args: vec![
                                                         right.take().as_arg(),
-                                                        Lit::Num(Number {
-                                                            span: DUMMY_SP,
-                                                            value: elems.len() as _,
-                                                        })
-                                                        .as_arg(),
+                                                        elems.len().as_arg(),
                                                     ],
                                                     type_args: Default::default(),
                                                 }
@@ -1146,14 +1136,7 @@ fn make_ref_ident_for_array(
                             CallExpr {
                                 span: DUMMY_SP,
                                 callee: helper!(sliced_to_array, "slicedToArray"),
-                                args: vec![
-                                    v.as_arg(),
-                                    Lit::Num(Number {
-                                        span: DUMMY_SP,
-                                        value: value as _,
-                                    })
-                                    .as_arg(),
-                                ],
+                                args: vec![v.as_arg(), value.as_arg()],
                                 type_args: Default::default(),
                             }
                             .into(),
@@ -1199,10 +1182,7 @@ fn make_cond_expr(tmp: Ident, def_value: Box<Expr>) -> Expr {
             right: Box::new(Expr::Unary(UnaryExpr {
                 span: DUMMY_SP,
                 op: op!("void"),
-                arg: Box::new(Expr::Lit(Lit::Num(Number {
-                    span: DUMMY_SP,
-                    value: 0.0,
-                }))),
+                arg: 0.0.into(),
             })),
         })),
         cons: def_value,

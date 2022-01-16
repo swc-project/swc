@@ -112,10 +112,7 @@ impl ForOf {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: Pat::Ident(i.clone().into()),
-                init: Some(Box::new(Expr::Lit(Lit::Num(Number {
-                    span: DUMMY_SP,
-                    value: 0f64,
-                })))),
+                init: Some(0.into()),
                 definite: false,
             });
 
@@ -240,20 +237,14 @@ impl ForOf {
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: Pat::Ident(normal_completion_ident.clone().into()),
-            init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
-                span: DUMMY_SP,
-                value: true,
-            })))),
+            init: Some(true.into()),
             definite: false,
         });
         let error_flag_ident = Ident::new("_didIteratorError".into(), var_span);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: Pat::Ident(error_flag_ident.clone().into()),
-            init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
-                span: DUMMY_SP,
-                value: false,
-            })))),
+            init: Some(false.into()),
             definite: false,
         });
         let error_ident = Ident::new("_iteratorError".into(), var_span);
@@ -332,10 +323,7 @@ impl ForOf {
                 span: DUMMY_SP,
                 left: PatOrExpr::Pat(Box::new(Pat::Ident(normal_completion_ident.clone().into()))),
                 op: op!("="),
-                right: Box::new(Expr::Lit(Lit::Bool(Bool {
-                    span: DUMMY_SP,
-                    value: true,
-                }))),
+                right: true.into(),
             }))),
             body: Box::new(Stmt::Block(body)),
         }
@@ -371,10 +359,7 @@ impl ForOf {
                                 error_flag_ident.clone().into(),
                             ))),
                             op: op!("="),
-                            right: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                span: DUMMY_SP,
-                                value: true,
-                            }))),
+                            right: true.into(),
                         }
                         .into_stmt(),
                         // _iteratorError = err;
@@ -442,7 +427,7 @@ fn make_finally_block(
                             span: DUMMY_SP,
                             left: iterator_return.clone(),
                             op: op!("!="),
-                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                            right: Null { span: DUMMY_SP }.into(),
                         })),
                     })),
                     cons: Box::new(Stmt::Block(BlockStmt {

@@ -270,17 +270,7 @@ impl SuperReplacer {
                         op!("++") => op!("+="),
                         op!("--") => op!("-="),
                     };
-                    *n = self.super_to_set_call(
-                        *super_token,
-                        true,
-                        prop,
-                        op,
-                        Box::new(Expr::Lit(Lit::Num(Number {
-                            span: DUMMY_SP,
-                            value: 1.0,
-                        }))),
-                        *prefix,
-                    );
+                    *n = self.super_to_set_call(*super_token, true, prop, op, 1.0.into(), *prefix);
                 }
                 _ => {}
             },
@@ -400,11 +390,7 @@ impl SuperReplacer {
                 rhs,
                 ThisExpr { span: super_token }.as_arg(),
                 // strict
-                Lit::Bool(Bool {
-                    span: DUMMY_SP,
-                    value: true,
-                })
-                .as_arg(),
+                true.as_arg(),
             ],
             type_args: Default::default(),
         })

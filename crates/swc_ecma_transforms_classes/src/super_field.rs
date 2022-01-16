@@ -213,16 +213,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                         op!("--") => op!("-="),
                     };
 
-                    *n = self.super_to_set_call(
-                        *super_token,
-                        true,
-                        prop.take(),
-                        op,
-                        Box::new(Expr::Lit(Lit::Num(Number {
-                            span: DUMMY_SP,
-                            value: 1.0,
-                        }))),
-                    );
+                    *n = self.super_to_set_call(*super_token, true, prop.take(), op, 1.0.into());
                 }
             }
 
@@ -480,11 +471,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                 rhs_arg,
                 this_arg,
                 // strict
-                Lit::Bool(Bool {
-                    span: DUMMY_SP,
-                    value: true,
-                })
-                .as_arg(),
+                true.as_arg(),
             ],
             type_args: Default::default(),
         });
