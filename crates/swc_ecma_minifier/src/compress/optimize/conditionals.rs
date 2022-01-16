@@ -741,16 +741,10 @@ fn extract_expr_stmt(s: &mut Stmt) -> Option<&mut Expr> {
 
 fn is_simple_lhs(l: &PatOrExpr) -> bool {
     match l {
-        PatOrExpr::Expr(l) => match &**l {
-            Expr::Ident(..) => return true,
-            _ => false,
-        },
+        PatOrExpr::Expr(l) => matches!(&**l, Expr::Ident(..)),
         PatOrExpr::Pat(l) => match &**l {
-            Pat::Ident(_) => return true,
-            Pat::Expr(e) => match &**e {
-                Expr::Ident(..) => return true,
-                _ => false,
-            },
+            Pat::Ident(_) => true,
+            Pat::Expr(e) => matches!(&**e, Expr::Ident(..)),
             _ => false,
         },
     }
