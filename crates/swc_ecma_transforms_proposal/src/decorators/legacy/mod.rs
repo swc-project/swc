@@ -100,7 +100,7 @@ impl Fold for Legacy {
                 declare: false,
                 decls: vec![VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(c.ident.into()),
+                    name: c.ident.into(),
                     init: Some(expr),
                     definite: false,
                 }],
@@ -183,7 +183,7 @@ impl Fold for Legacy {
                 declare: false,
                 decls: vec![VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(export_ident.into()),
+                    name: export_ident.into(),
                     init: Some(expr),
                     definite: false,
                 }],
@@ -272,7 +272,7 @@ impl Legacy {
 
         self.uninitialized_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(cls_ident.clone().into()),
+            name: cls_ident.clone().into(),
             init: None,
             definite: false,
         });
