@@ -32,19 +32,16 @@ where
         }
 
         // We should not convert used-defined `undefined` to `void 0`.
-        match e {
-            Expr::Ident(i) => {
-                if self
-                    .data
-                    .as_ref()
-                    .and_then(|data| data.vars.get(&i.to_id()))
-                    .map(|var| var.declared)
-                    .unwrap_or(false)
-                {
-                    return;
-                }
+        if let Expr::Ident(i) = e {
+            if self
+                .data
+                .as_ref()
+                .and_then(|data| data.vars.get(&i.to_id()))
+                .map(|var| var.declared)
+                .unwrap_or(false)
+            {
+                return;
             }
-            _ => {}
         }
 
         match e {
@@ -56,7 +53,6 @@ where
                 tracing::debug!("evaluate: `undefined` -> `void 0`");
                 self.changed = true;
                 *e = *undefined(*span);
-                return;
             }
 
             Expr::Ident(Ident {
@@ -78,7 +74,6 @@ where
                         value: 0.0,
                     }))),
                 });
-                return;
             }
 
             _ => {}
