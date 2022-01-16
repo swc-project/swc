@@ -65,7 +65,7 @@ macro_rules! impl_for_for_stmt {
                     let left = VarDeclOrPat::VarDecl(VarDecl {
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(ref_ident.clone().into()),
+                            name: ref_ident.clone().into(),
                             init: None,
                             definite: false,
                         }],
@@ -271,7 +271,7 @@ impl AssignFolder {
                 if aliased {
                     decls.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(ident.clone().into()),
+                        name: ident.clone().into(),
                         init: decl.init,
                         definite: false,
                     });
@@ -288,14 +288,14 @@ impl AssignFolder {
                 //
                 decls.push(VarDeclarator {
                     span,
-                    name: Pat::Ident(ident.clone().into()),
+                    name: ident.clone().into(),
                     init: Some(Box::new(Expr::Cond(CondExpr {
                         span: DUMMY_SP,
                         test: Box::new(Expr::Bin(BinExpr {
                             span: DUMMY_SP,
                             left: Box::new(Expr::Ident(ident.clone())),
                             op: op!("!=="),
-                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                            right: Null { span: DUMMY_SP }.into(),
                         })),
                         cons: Box::new(Expr::Ident(ident.clone())),
                         alt: Box::new(Expr::Call(CallExpr {
@@ -309,13 +309,7 @@ impl AssignFolder {
                                         "TypeError".into(),
                                         DUMMY_SP,
                                     ))),
-                                    args: Some(vec![Lit::Str(Str {
-                                        span: DUMMY_SP,
-                                        value: "Cannot destructure undefined".into(),
-                                        has_escape: false,
-                                        kind: Default::default(),
-                                    })
-                                    .as_arg()]),
+                                    args: Some(vec!["Cannot destructure undefined".as_arg()]),
                                     type_args: Default::default(),
                                 }
                                 .as_arg(),
@@ -338,7 +332,7 @@ impl AssignFolder {
                         ObjectPatProp::Assign(p @ AssignPatProp { value: None, .. }) => {
                             decls.push(VarDeclarator {
                                 span: decl.span,
-                                name: Pat::Ident(p.key.clone().into()),
+                                name: p.key.clone().into(),
                                 init: Some(Box::new(decl.init.unwrap().make_member(p.key.clone()))),
                                 definite: false,
                             });
@@ -407,7 +401,7 @@ impl AssignFolder {
 
                                     let var_decl = VarDeclarator {
                                         span: prop_span,
-                                        name: Pat::Ident(key.clone().into()),
+                                        name: key.clone().into(),
                                         init: Some(Box::new(make_cond_expr(ref_ident, value))),
                                         definite: false,
                                     };
@@ -418,7 +412,7 @@ impl AssignFolder {
                                 None => {
                                     let var_decl = VarDeclarator {
                                         span: prop_span,
-                                        name: Pat::Ident(key.clone().into()),
+                                        name: key.clone().into(),
                                         init: Some(Box::new(make_ref_prop_expr(
                                             &ref_ident,
                                             Box::new(key.clone().into()),
@@ -465,7 +459,7 @@ impl AssignFolder {
                     let tmp_ident = private_ident!(span, "tmp");
                     decls.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(tmp_ident.clone().into()),
+                        name: tmp_ident.clone().into(),
                         init,
                         definite: false,
                     });
@@ -527,7 +521,7 @@ impl Destructuring {
                     params.push(Param {
                         span: DUMMY_SP,
                         decorators: Default::default(),
-                        pat: Pat::Ident(ref_ident.clone().into()),
+                        pat: ref_ident.clone().into(),
                     });
                     decls.push(VarDeclarator {
                         span,
@@ -695,7 +689,7 @@ impl VisitMut for AssignFolder {
                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             op: op!("="),
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
+                            left: PatOrExpr::Pat(ref_ident.clone().into()),
                             right: if self.c.loose {
                                 right.take()
                             } else {
@@ -734,11 +728,7 @@ impl VisitMut for AssignFolder {
                                                     ),
                                                     args: vec![
                                                         right.take().as_arg(),
-                                                        Lit::Num(Number {
-                                                            span: DUMMY_SP,
-                                                            value: elems.len() as _,
-                                                        })
-                                                        .as_arg(),
+                                                        elems.len().as_arg(),
                                                     ],
                                                     type_args: Default::default(),
                                                 }
@@ -766,9 +756,7 @@ impl VisitMut for AssignFolder {
                                         make_ref_ident(self.c, &mut self.vars, None);
                                     exprs.push(Box::new(Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
-                                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                            assign_ref_ident.clone().into(),
-                                        ))),
+                                        left: PatOrExpr::Pat(assign_ref_ident.clone().into()),
                                         op: op!("="),
                                         right: Box::new(
                                             ref_ident.clone().computed_member(i as f64),
@@ -836,9 +824,7 @@ impl VisitMut for AssignFolder {
                                     *expr = Expr::Assign(AssignExpr {
                                         span: *span,
                                         op: op!("="),
-                                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                            p.key.clone().into(),
-                                        ))),
+                                        left: PatOrExpr::Pat(p.key.clone().into()),
                                         right: Box::new(right.take().make_member(p.key.clone())),
                                     });
                                     return;
@@ -853,7 +839,7 @@ impl VisitMut for AssignFolder {
 
                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                             span: *span,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
+                            left: PatOrExpr::Pat(ref_ident.clone().into()),
                             op: op!("="),
                             right: right.take(),
                         })));
@@ -891,9 +877,7 @@ impl VisitMut for AssignFolder {
 
                                             exprs.push(Box::new(Expr::Assign(AssignExpr {
                                                 span,
-                                                left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                                    prop_ident.clone().into(),
-                                                ))),
+                                                left: PatOrExpr::Pat(prop_ident.clone().into()),
                                                 op: op!("="),
                                                 right: Box::new(make_ref_prop_expr(
                                                     &ref_ident,
@@ -904,9 +888,7 @@ impl VisitMut for AssignFolder {
 
                                             exprs.push(Box::new(Expr::Assign(AssignExpr {
                                                 span,
-                                                left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                                    key.clone().into(),
-                                                ))),
+                                                left: PatOrExpr::Pat(key.clone().into()),
                                                 op: op!("="),
                                                 right: Box::new(make_cond_expr(
                                                     prop_ident,
@@ -917,9 +899,7 @@ impl VisitMut for AssignFolder {
                                         None => {
                                             exprs.push(Box::new(Expr::Assign(AssignExpr {
                                                 span,
-                                                left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                                    key.clone().into(),
-                                                ))),
+                                                left: PatOrExpr::Pat(key.clone().into()),
                                                 op: op!("="),
                                                 right: Box::new(make_ref_prop_expr(
                                                     &ref_ident,
@@ -957,7 +937,7 @@ impl VisitMut for AssignFolder {
                         exprs.push(Box::new(
                             AssignExpr {
                                 span: *span,
-                                left: Box::new(Pat::Ident(ref_ident.clone().into())).into(),
+                                left: PatOrExpr::Pat(ref_ident.clone().into()),
                                 op: op!("="),
                                 right: right.take(),
                             }
@@ -1121,7 +1101,7 @@ fn make_ref_ident_for_array(
     if aliased {
         decls.push(VarDeclarator {
             span,
-            name: Pat::Ident(ref_ident.clone().into()),
+            name: ref_ident.clone().into(),
             init: init.map(|v| {
                 if c.loose
                     || match *v {
@@ -1146,14 +1126,7 @@ fn make_ref_ident_for_array(
                             CallExpr {
                                 span: DUMMY_SP,
                                 callee: helper!(sliced_to_array, "slicedToArray"),
-                                args: vec![
-                                    v.as_arg(),
-                                    Lit::Num(Number {
-                                        span: DUMMY_SP,
-                                        value: value as _,
-                                    })
-                                    .as_arg(),
-                                ],
+                                args: vec![v.as_arg(), value.as_arg()],
                                 type_args: Default::default(),
                             }
                             .into(),
@@ -1199,10 +1172,7 @@ fn make_cond_expr(tmp: Ident, def_value: Box<Expr>) -> Expr {
             right: Box::new(Expr::Unary(UnaryExpr {
                 span: DUMMY_SP,
                 op: op!("void"),
-                arg: Box::new(Expr::Lit(Lit::Num(Number {
-                    span: DUMMY_SP,
-                    value: 0.0,
-                }))),
+                arg: 0.0.into(),
             })),
         })),
         cons: def_value,

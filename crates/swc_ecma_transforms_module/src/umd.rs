@@ -308,7 +308,7 @@ where
                                 kind: VarDeclKind::Var,
                                 decls: vec![VarDeclarator {
                                     span: DUMMY_SP,
-                                    name: Pat::Ident(ident.clone().into()),
+                                    name: ident.clone().into(),
                                     init: Some(expr.expr.fold_with(self)),
                                     definite: false,
                                 }],
@@ -479,7 +479,7 @@ where
             factory_params.push(Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(exports_ident.clone().into()),
+                pat: exports_ident.clone().into(),
             });
             factory_args.push(quote_ident!("exports").as_arg());
             global_factory_args.push(member_expr!(DUMMY_SP, mod.exports).as_arg());
@@ -494,7 +494,7 @@ where
                     kind: VarDeclKind::Var,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(exported_names.clone().into()),
+                        name: exported_names.clone().into(),
                         init: Some(Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: exports
@@ -558,7 +558,7 @@ where
             factory_params.push(Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(ident.clone().into()),
+                pat: ident.clone().into(),
             });
             factory_args
                 .push(make_require_call(&self.resolver, self.root_mark, src.clone()).as_arg());
@@ -586,7 +586,7 @@ where
                         import_stmts.push(
                             AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(ident.clone().into()))),
+                                left: PatOrExpr::Pat(ident.clone().into()),
                                 op: op!("="),
                                 right,
                             }
@@ -613,12 +613,12 @@ where
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(quote_ident!("global").into()),
+                    pat: quote_ident!("global").into(),
                 },
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(quote_ident!("factory").into()),
+                    pat: quote_ident!("factory").into(),
                 },
             ],
             body: Some(BlockStmt {
@@ -687,7 +687,7 @@ where
                                         kind: VarDeclKind::Var,
                                         decls: vec![VarDeclarator {
                                             span: DUMMY_SP,
-                                            name: Pat::Ident(quote_ident!("mod").into()),
+                                            name: quote_ident!("mod").into(),
                                             init: Some(Box::new(Expr::Object(ObjectLit {
                                                 span: DUMMY_SP,
                                                 props: vec![PropOrSpread::Prop(Box::new(

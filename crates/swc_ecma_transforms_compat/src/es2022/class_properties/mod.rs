@@ -396,7 +396,7 @@ impl ClassProperties {
                             // Handle computed property
                             vars.push(VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(ident.clone().into()),
+                                name: ident.clone().into(),
                                 init: Some(expr),
                                 definite: false,
                             });
@@ -456,7 +456,7 @@ impl ClassProperties {
                                 // Handle computed property
                                 vars.push(VarDeclarator {
                                     span: DUMMY_SP,
-                                    name: Pat::Ident(ident.clone().into()),
+                                    name: ident.clone().into(),
                                     init: Some(key.expr),
                                     definite: false,
                                 });
@@ -595,7 +595,7 @@ impl ClassProperties {
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
                             definite: false,
-                            name: Pat::Ident(ident.clone().into()),
+                            name: ident.clone().into(),
                             init: Some(extra_init),
                         }],
                     })));
@@ -633,7 +633,7 @@ impl ClassProperties {
                         vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             definite: false,
-                            name: Pat::Ident(weak_coll_var.clone().into()),
+                            name: weak_coll_var.clone().into(),
                             init: Some(Box::new(Expr::from(NewExpr {
                                 span: DUMMY_SP,
                                 callee: if should_use_map {
@@ -667,7 +667,7 @@ impl ClassProperties {
 
                             vars.push(VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(var_name.clone().into()),
+                                name: var_name.clone().into(),
                                 init: Some(Box::new(Expr::Object(obj))),
                                 definite: Default::default(),
                             });

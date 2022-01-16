@@ -371,12 +371,12 @@ impl MethodFolder {
 
         self.vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(ident.clone().into()),
+            name: ident.clone().into(),
             init: Some(Box::new(Expr::Arrow(ArrowExpr {
                 span: DUMMY_SP,
                 is_async: false,
                 is_generator: false,
-                params: vec![Pat::Ident(args_ident.clone().into())],
+                params: vec![args_ident.clone().into()],
                 body: BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     left: PatOrExpr::Expr(Box::new(
@@ -487,7 +487,7 @@ impl VisitMut for MethodFolder {
 
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(ident.clone().into()),
+                    name: ident.clone().into(),
                     init: Some(Box::new(Expr::Arrow(ArrowExpr {
                         span: DUMMY_SP,
                         is_async: false,
@@ -495,7 +495,7 @@ impl VisitMut for MethodFolder {
                         params: vec![Pat::Rest(RestPat {
                             span: DUMMY_SP,
                             dot3_token: DUMMY_SP,
-                            arg: Box::new(Pat::Ident(args_ident.clone().into())),
+                            arg: args_ident.clone().into(),
                             type_ann: Default::default(),
                         })],
                         body: BlockStmtOrExpr::Expr(Box::new(Expr::Call(CallExpr {
@@ -530,7 +530,7 @@ impl VisitMut for MethodFolder {
                 let (_, ident) = self.ident_for_super(&prop);
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(ident.clone().into()),
+                    name: ident.clone().into(),
                     init: Some(Box::new(Expr::Arrow(ArrowExpr {
                         span: DUMMY_SP,
                         is_async: false,
@@ -792,7 +792,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             // let value = _step.value;
             let value_var = VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(value.clone().into()),
+                name: value.clone().into(),
                 init: Some(Box::new(step.clone().make_member(quote_ident!("value")))),
                 definite: false,
             };
@@ -844,7 +844,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         // _iterator = _asyncIterator(lol())
         init_var_decls.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(iterator.clone().into()),
+            name: iterator.clone().into(),
             init: {
                 let callee = helper!(async_iterator, "asyncIterator");
 
@@ -859,7 +859,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         });
         init_var_decls.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(step.clone().into()),
+            name: step.clone().into(),
             init: None,
             definite: false,
         });
@@ -897,7 +897,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 let assign_to_step = Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: PatOrExpr::Pat(Box::new(Pat::Ident(step.clone().into()))),
+                    left: PatOrExpr::Pat(step.clone().into()),
                     right: Box::new(Expr::Yield(YieldExpr {
                         span: DUMMY_SP,
                         arg: Some(yield_arg),
@@ -911,9 +911,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     arg: Box::new(assign_to_step.make_member(quote_ident!("done"))),
                 }));
 
-                let left = PatOrExpr::Pat(Box::new(Pat::Ident(
-                    iterator_abrupt_completion.clone().into(),
-                )));
+                let left = PatOrExpr::Pat(iterator_abrupt_completion.clone().into());
 
                 Some(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
@@ -926,9 +924,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             update: Some(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                    iterator_abrupt_completion.clone().into(),
-                ))),
+                left: PatOrExpr::Pat(iterator_abrupt_completion.clone().into()),
                 right: Box::new(Expr::Lit(Lit::Bool(Bool {
                     span: DUMMY_SP,
                     value: false,
@@ -950,7 +946,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             expr: Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(did_iteration_error.clone().into()))),
+                left: PatOrExpr::Pat(did_iteration_error.clone().into()),
                 right: Box::new(Expr::Lit(Lit::Bool(Bool {
                     span: DUMMY_SP,
                     value: true,
@@ -963,14 +959,14 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             expr: Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(iterator_error.clone().into()))),
+                left: PatOrExpr::Pat(iterator_error.clone().into()),
                 right: Box::new(Expr::Ident(err_param.clone())),
             })),
         });
 
         CatchClause {
             span: DUMMY_SP,
-            param: Some(Pat::Ident(err_param.clone().into())),
+            param: Some(err_param.clone().into()),
             body: BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![mark_as_errorred, store_error],
@@ -1072,7 +1068,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             // var _iteratorAbruptCompletion = false;
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(iterator_abrupt_completion.into()),
+                name: iterator_abrupt_completion.into(),
                 init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
                     span: DUMMY_SP,
                     value: false,
@@ -1083,7 +1079,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             // var _didIteratorError = false;
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(did_iteration_error.into()),
+                name: did_iteration_error.into(),
                 init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
                     span: DUMMY_SP,
                     value: false,
@@ -1094,7 +1090,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             // var _iteratorError;
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(iterator_error.clone().into()),
+                name: iterator_error.clone().into(),
                 init: None,
                 definite: false,
             });

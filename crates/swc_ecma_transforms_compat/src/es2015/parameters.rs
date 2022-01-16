@@ -102,7 +102,7 @@ impl Params {
                         let binding = private_ident!(span, "param");
 
                         params.push(Param {
-                            pat: Pat::Ident(binding.clone().into()),
+                            pat: binding.clone().into(),
                             ..param
                         });
                         let decl = VarDeclarator {
@@ -135,10 +135,10 @@ impl Params {
                                 span,
                                 test: Box::new(Expr::Bin(BinExpr {
                                     left: Box::new(check_arg_len(i)),
-                                    op: BinaryOp::LogicalAnd,
+                                    op: op!("&&"),
                                     right: Box::new(Expr::Bin(BinExpr {
                                         left: Box::new(make_arg_nth(i)),
-                                        op: BinaryOp::NotEqEq,
+                                        op: op!("!=="),
                                         right: undefined(DUMMY_SP),
                                         span: DUMMY_SP,
                                     })),
@@ -153,7 +153,7 @@ impl Params {
                         if let Pat::Ident(ident) = left.as_ref() {
                             params.push(Param {
                                 span,
-                                pat: Pat::Ident(ident.clone()),
+                                pat: ident.clone().into(),
                                 decorators: Vec::new(),
                             });
                             loose_stmt.push(Stmt::If(IfStmt {
@@ -169,7 +169,7 @@ impl Params {
                                     expr: Box::new(Expr::Assign(AssignExpr {
                                         span,
                                         left: PatOrExpr::Pat(left),
-                                        op: AssignOp::Assign,
+                                        op: op!("="),
                                         right,
                                     })),
                                 })),
@@ -180,7 +180,7 @@ impl Params {
                             params.push(Param {
                                 span: DUMMY_SP,
                                 decorators: Default::default(),
-                                pat: Pat::Ident(binding.clone().into()),
+                                pat: binding.clone().into(),
                             });
                             loose_stmt.push(Stmt::Decl(Decl::Var(VarDecl {
                                 span,
@@ -193,7 +193,7 @@ impl Params {
                                         test: Box::new(Expr::Bin(BinExpr {
                                             span: DUMMY_SP,
                                             left: Box::new(Expr::Ident(binding.clone())),
-                                            op: BinaryOp::EqEqEq,
+                                            op: op!("==="),
                                             right: undefined(DUMMY_SP),
                                         })),
                                         cons: right,
@@ -270,7 +270,7 @@ impl Params {
                                     .into(),
                                 ),
                                 cons: Box::new(bin),
-                                alt: Box::new(Expr::Lit(Lit::Num(Number { span, value: 0.0 }))),
+                                alt: 0.into(),
                             })
                         }
                     };
@@ -284,14 +284,14 @@ impl Params {
                                 // _len = arguments.length - i
                                 VarDeclarator {
                                     span,
-                                    name: Pat::Ident(len_ident.clone().into()),
+                                    name: len_ident.clone().into(),
                                     init: Some(member_expr!(span, arguments.length)),
                                     definite: false,
                                 },
                                 // a1 = new Array(_len - $i)
                                 VarDeclarator {
                                     span,
-                                    name: Pat::Ident(arg.clone().into()),
+                                    name: arg.clone().into(),
                                     init: Some(Box::new(Expr::New(NewExpr {
                                         span,
                                         callee: Box::new(quote_ident!("Array").into()),
@@ -306,7 +306,7 @@ impl Params {
                                 // _key = 0
                                 VarDeclarator {
                                     span,
-                                    name: Pat::Ident(idx_ident.clone().into()),
+                                    name: idx_ident.clone().into(),
                                     init: Some(Box::new(Expr::Lit(Lit::Num(Number {
                                         span,
                                         value: i as f64,
@@ -656,12 +656,7 @@ impl VisitMut for Params {
 }
 
 fn make_arg_nth(n: usize) -> Expr {
-    Expr::Ident(Ident::new(js_word!("arguments"), DUMMY_SP)).computed_member(Expr::Lit(Lit::Num(
-        Number {
-            span: DUMMY_SP,
-            value: n as f64,
-        },
-    )))
+    Expr::Ident(Ident::new(js_word!("arguments"), DUMMY_SP)).computed_member(n)
 }
 
 fn check_arg_len(n: usize) -> Expr {
@@ -670,11 +665,8 @@ fn check_arg_len(n: usize) -> Expr {
             Expr::Ident(Ident::new(js_word!("arguments"), DUMMY_SP))
                 .make_member(Ident::new(js_word!("length"), DUMMY_SP)),
         ),
-        op: BinaryOp::Gt,
-        right: Box::new(Expr::Lit(Lit::Num(Number {
-            span: DUMMY_SP,
-            value: n as f64,
-        }))),
+        op: op!(">"),
+        right: n.into(),
         span: DUMMY_SP,
     })
 }
