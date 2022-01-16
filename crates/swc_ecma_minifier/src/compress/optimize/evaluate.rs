@@ -115,7 +115,7 @@ where
                 sym: js_word!("RegExp"),
                 ..
             }) if self.options.unsafe_regexp => {
-                if args.len() >= 1 {
+                if !args.is_empty() {
                     self.optimize_expr_in_str_ctx(&mut args[0].expr);
                 }
                 if args.len() >= 2 {
@@ -129,8 +129,8 @@ where
 
                 match args.len() {
                     0 => return,
-                    1 => match &*args[0].expr {
-                        Expr::Lit(Lit::Str(exp)) => {
+                    1 => {
+                        if let Expr::Lit(Lit::Str(exp)) = &*args[0].expr {
                             self.changed = true;
                             tracing::debug!(
                                 "evaluate: Converting RegExpr call into a regexp literal `/{}/`",
@@ -143,10 +143,11 @@ where
                                 flags: js_word!(""),
                             }));
                         }
-                        _ => {}
-                    },
-                    _ => match (&*args[0].expr, &*args[1].expr) {
-                        (Expr::Lit(Lit::Str(exp)), Expr::Lit(Lit::Str(flags))) => {
+                    }
+                    _ => {
+                        if let (Expr::Lit(Lit::Str(exp)), Expr::Lit(Lit::Str(flags))) =
+                            (&*args[0].expr, &*args[1].expr)
+                        {
                             self.changed = true;
                             tracing::debug!(
                                 "evaluate: Converting RegExpr call into a regexp literal `/{}/{}`",
@@ -160,8 +161,7 @@ where
                                 flags: flags.value.clone(),
                             }));
                         }
-                        _ => {}
-                    },
+                    }
                 }
             }
 
@@ -173,8 +173,8 @@ where
                 Expr::Ident(Ident {
                     sym: js_word!("String"),
                     ..
-                }) => match &*prop.sym {
-                    "fromCharCode" => {
+                }) => {
+                    if &*prop.sym == "fromCharCode" {
                         if args.len() != 1 {
                             return;
                         }
@@ -182,34 +182,29 @@ where
                         if let Known(char_code) = args[0].expr.as_number() {
                             let v = char_code.floor() as u32;
 
-                            match char::from_u32(v) {
-                                Some(v) => {
-                                    self.changed = true;
-                                    tracing::debug!(
-                                        "evanluate: Evaluated `String.charCodeAt({})` as `{}`",
-                                        char_code,
-                                        v
-                                    );
-                                    *e = Expr::Lit(Lit::Str(Str {
-                                        span: e.span(),
-                                        value: v.to_string().into(),
-                                        has_escape: false,
-                                        kind: Default::default(),
-                                    }));
-                                    return;
-                                }
-                                None => {}
+                            if let Some(v) = char::from_u32(v) {
+                                self.changed = true;
+                                tracing::debug!(
+                                    "evanluate: Evaluated `String.charCodeAt({})` as `{}`",
+                                    char_code,
+                                    v
+                                );
+                                *e = Expr::Lit(Lit::Str(Str {
+                                    span: e.span(),
+                                    value: v.to_string().into(),
+                                    has_escape: false,
+                                    kind: Default::default(),
+                                }));
                             }
                         }
                     }
-                    _ => {}
-                },
+                }
 
                 Expr::Ident(Ident {
                     sym: js_word!("Object"),
                     ..
-                }) => match &*prop.sym {
-                    "keys" => {
+                }) => {
+                    if &*prop.sym == "keys" {
                         if args.len() != 1 {
                             return;
                         }
@@ -263,23 +258,15 @@ where
 
                         *e = Expr::Array(ArrayLit { span, elems: keys })
                     }
+                }
 
-                    _ => {}
-                },
-
-                Expr::Ident(Ident { sym, .. }) => match &**sym {
-                    "console" => match &*prop.sym {
-                        "log" => {
-                            for arg in args {
-                                self.optimize_expr_in_str_ctx_unsafely(&mut arg.expr);
-                            }
+                Expr::Ident(Ident { sym, .. }) => {
+                    if &**sym == "console" && &*prop.sym == "log" {
+                        for arg in args {
+                            self.optimize_expr_in_str_ctx_unsafely(&mut arg.expr);
                         }
-
-                        _ => {}
-                    },
-
-                    _ => {}
-                },
+                    }
+                }
 
                 _ => {}
             },
