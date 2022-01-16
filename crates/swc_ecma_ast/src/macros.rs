@@ -185,11 +185,20 @@ macro_rules! test_de {
 }
 
 macro_rules! bridge_from {
-    ($dst:path, $bridge:path, $src:path) => {
+    ($dst:ty, $bridge:ty, $src:ty) => {
         impl From<$src> for $dst {
+            #[cfg_attr(not(debug_assertions), inline(always))]
             fn from(src: $src) -> $dst {
-                $dst::from($bridge::from(src))
+                let src: $bridge = src.into();
+                src.into()
             }
         }
+    };
+}
+
+macro_rules! bridge_expr_from {
+    ($bridge:ty, $src:ty) => {
+        bridge_from!(crate::Expr, $bridge, $src);
+        bridge_from!(Box<crate::Expr>, crate::Expr, $src);
     };
 }

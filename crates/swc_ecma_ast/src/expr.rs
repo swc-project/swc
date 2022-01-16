@@ -1004,48 +1004,6 @@ impl Take for PatOrExpr {
     }
 }
 
-impl From<bool> for Expr {
-    fn from(value: bool) -> Self {
-        Expr::Lit(Lit::Bool(Bool {
-            span: DUMMY_SP,
-            value,
-        }))
-    }
-}
-
-impl From<f64> for Expr {
-    fn from(value: f64) -> Self {
-        Expr::Lit(Lit::Num(Number {
-            span: DUMMY_SP,
-            value,
-        }))
-    }
-}
-
-impl From<Bool> for Expr {
-    fn from(v: Bool) -> Self {
-        Expr::Lit(Lit::Bool(v))
-    }
-}
-
-impl From<Number> for Expr {
-    fn from(v: Number) -> Self {
-        Expr::Lit(Lit::Num(v))
-    }
-}
-
-impl From<Str> for Expr {
-    fn from(v: Str) -> Self {
-        Expr::Lit(Lit::Str(v))
-    }
-}
-
-impl From<BigInt> for Expr {
-    fn from(v: BigInt) -> Self {
-        Expr::Lit(Lit::BigInt(v))
-    }
-}
-
 #[ast_node("OptionalChainingExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]

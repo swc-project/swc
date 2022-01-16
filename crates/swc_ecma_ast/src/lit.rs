@@ -35,6 +35,24 @@ pub enum Lit {
     JSXText(JSXText),
 }
 
+macro_rules! bridge_lit_from {
+    ($src:ty) => {
+        bridge_expr_from!(crate::Lit, $src);
+    };
+}
+
+bridge_expr_from!(Lit, Str);
+bridge_expr_from!(Lit, Bool);
+bridge_expr_from!(Lit, Number);
+bridge_expr_from!(Lit, BigInt);
+bridge_expr_from!(Lit, Regex);
+bridge_expr_from!(Lit, Null);
+
+bridge_lit_from!(&'_ str);
+bridge_lit_from!(bool);
+bridge_lit_from!(f64);
+bridge_lit_from!(BigIntValue);
+
 #[ast_node("BigIntLiteral")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct BigInt {
