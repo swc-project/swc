@@ -136,7 +136,6 @@ impl<'a> SuperFieldAccessFolder<'a> {
         if let Expr::Call(CallExpr {
             callee: Callee::Expr(callee_expr),
             args,
-            type_args,
             ..
         }) = n
         {
