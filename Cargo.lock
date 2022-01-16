@@ -622,7 +622,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.7.0"
+version = "0.8.0"
 dependencies = [
  "anyhow",
  "pretty_assertions 1.0.0",
@@ -2652,7 +2652,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.114.3"
+version = "0.115.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2706,7 +2706,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.101.0"
+version = "0.102.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3011,7 +3011,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.68.1"
+version = "0.69.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3068,7 +3068,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.84.0"
+version = "0.85.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3096,7 +3096,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.111.3"
+version = "0.112.0"
 dependencies = [
  "pretty_assertions 0.7.2",
  "sourcemap",
@@ -3218,7 +3218,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.81.1"
+version = "0.82.0"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3364,7 +3364,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.108.4"
+version = "0.109.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3400,7 +3400,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.32.0"
+version = "0.33.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3589,7 +3589,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.30.0"
+version = "0.31.0"
 dependencies = [
  "anyhow",
  "rayon",
