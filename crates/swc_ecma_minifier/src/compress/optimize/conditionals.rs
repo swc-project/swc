@@ -539,7 +539,7 @@ where
             // a ? b ? c() : d() : d() => a && b ? c() : d()
             (Expr::Cond(cons), alt) if (*cons.alt).eq_ignore_span(&*alt) => {
                 tracing::debug!("conditionals: a ? b ? c() : d() : d() => a && b ? c() : d()");
-                return Some(Expr::Cond(CondExpr {
+                Some(Expr::Cond(CondExpr {
                     span: DUMMY_SP.with_ctxt(self.done_ctxt),
                     test: Box::new(Expr::Bin(BinExpr {
                         span: DUMMY_SP,
@@ -549,7 +549,7 @@ where
                     })),
                     cons: cons.cons.take(),
                     alt: cons.alt.take(),
-                }));
+                }))
             }
 
             // z ? "fuji" : (condition(), "fuji");
@@ -569,10 +569,10 @@ where
                         exprs: alt.exprs.take(),
                     })),
                 }));
-                return Some(Expr::Seq(SeqExpr {
+                Some(Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs: vec![first, Box::new(cons.take())],
-                }));
+                }))
             }
 
             // z ? (condition(), "fuji") : "fuji"
@@ -592,10 +592,10 @@ where
                         exprs: cons.exprs.take(),
                     })),
                 }));
-                return Some(Expr::Seq(SeqExpr {
+                Some(Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs: vec![first, Box::new(alt.take())],
-                }));
+                }))
             }
 
             _ => None,
@@ -618,14 +618,11 @@ where
                     }) => match &**cons {
                         Stmt::Block(b) => {
                             b.stmts.len() == 2
-                                && match b.stmts.first() {
-                                    Some(Stmt::If(..) | Stmt::Expr(..)) => false,
-                                    _ => true,
-                                }
-                                && match b.stmts.last() {
-                                    Some(Stmt::Return(ReturnStmt { arg: None, .. })) => true,
-                                    _ => false,
-                                }
+                                && !matches!(b.stmts.first(), Some(Stmt::If(..) | Stmt::Expr(..)))
+                                && matches!(
+                                    b.stmts.last(),
+                                    Some(Stmt::Return(ReturnStmt { arg: None, .. }))
+                                )
                         }
                         _ => false,
                     },
