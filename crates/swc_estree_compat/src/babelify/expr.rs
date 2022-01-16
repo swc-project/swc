@@ -140,27 +140,27 @@ impl Babelify for Expr {
 
             // TODO(dwoznicki): how does babel handle these?
             Expr::JSXMember(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent",
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),
             Expr::JSXNamespacedName(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent",
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),
             Expr::JSXEmpty(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent",
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),
             Expr::TsConstAssertion(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent",
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),
             Expr::OptChain(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent",
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),
             Expr::Invalid(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivilent",
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),
         }
@@ -172,7 +172,7 @@ impl From<ExprOutput> for Expression {
         match o {
             ExprOutput::Expr(expr) => *expr,
             ExprOutput::Private(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to Expression - babel has no equivilent",
+                "illegal conversion: Cannot convert {:?} to Expression - babel has no equivalent",
                 &o
             ),
         }
@@ -198,7 +198,7 @@ impl From<ExprOutput> for ObjectKey {
                 _ => ObjectKey::Expr(e),
             },
             ExprOutput::Private(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to ObjectKey - babel has no equivilent",
+                "illegal conversion: Cannot convert {:?} to ObjectKey - babel has no equivalent",
                 &o
             ),
         }
@@ -256,8 +256,8 @@ impl Babelify for PropOrSpread {
         match self {
             PropOrSpread::Spread(s) => ObjectExprProp::Spread(s.babelify(ctx)),
             PropOrSpread::Prop(prop) => {
-                let memb = prop.babelify(ctx);
-                match memb {
+                let member = prop.babelify(ctx);
+                match member {
                     ObjectMember::Method(m) => ObjectExprProp::Method(m),
                     ObjectMember::Prop(p) => ObjectExprProp::Prop(p),
                 }

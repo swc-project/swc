@@ -75,61 +75,49 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
             expected["range"] = Value::Null;
 
             diff_json_value(&mut actual, &mut expected, &mut |key, value| {
-                match &mut *value {
-                    Value::Object(v) => {
-                        if let Some("FunctionExpression") = v.get("type").and_then(|v| v.as_str()) {
-                            v["range"] = Value::Null;
-                            v["start"] = Value::Null;
-                            v["end"] = Value::Null;
-                        }
+                if let Value::Object(v) = &mut *value {
+                    if let Some("FunctionExpression") = v.get("type").and_then(|v| v.as_str()) {
+                        v["range"] = Value::Null;
+                        v["start"] = Value::Null;
+                        v["end"] = Value::Null;
                     }
-                    __ => {}
                 }
 
                 match key {
                     "expression" => {
                         // Normalize false to null
-                        match value {
-                            Value::Bool(false) => *value = Value::Null,
-                            _ => {}
+                        if let Value::Bool(false) = value {
+                            *value = Value::Null
                         }
                     }
 
                     "raw" => {
                         // Remove `'` and `"` from raw strings.
-                        match value {
-                            Value::String(s) => {
-                                if (s.starts_with('\'') && s.ends_with('\''))
-                                    || (s.starts_with('"') && s.ends_with('"'))
-                                {
-                                    *s = s[1..s.len() - 1].to_string();
-                                } else if s.starts_with('/') {
-                                    // We don't need raw value of regex at the moment.
-                                    *value = Value::Null;
-                                }
+                        if let Value::String(s) = value {
+                            if (s.starts_with('\'') && s.ends_with('\''))
+                                || (s.starts_with('"') && s.ends_with('"'))
+                            {
+                                *s = s[1..s.len() - 1].to_string();
+                            } else if s.starts_with('/') {
+                                // We don't need raw value of regex at the moment.
+                                *value = Value::Null;
                             }
-
-                            _ => {}
                         }
                     }
 
                     "value" => {
                         // Normalize numbers
-                        match value {
-                            Value::Number(n) => {
-                                *n = Number::from_f64(n.as_f64().unwrap()).unwrap();
-                            }
-                            _ => {}
+                        if let Value::Number(n) = value {
+                            *n = Number::from_f64(n.as_f64().unwrap()).unwrap();
                         }
                     }
 
                     // We don't try to match fully.
-                    "column" | "line" => match value {
-                        Value::Number(..) => {
+                    "column" | "line" => {
+                        if let Value::Number(..) = value {
                             *value = Value::Null;
                         }
-                        _ => {}
-                    },
+                    }
 
                     _ => {}
                 }

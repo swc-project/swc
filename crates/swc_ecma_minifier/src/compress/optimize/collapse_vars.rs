@@ -17,61 +17,58 @@ where
             return;
         }
 
-        match &*e {
-            Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) => {
-                //
-                let left = match &assign.left {
-                    PatOrExpr::Expr(_) => return,
-                    PatOrExpr::Pat(left) => match &**left {
-                        Pat::Ident(i) => i,
-                        _ => return,
-                    },
-                };
+        if let Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) = &*e {
+            //
+            let left = match &assign.left {
+                PatOrExpr::Expr(_) => return,
+                PatOrExpr::Pat(left) => match &**left {
+                    Pat::Ident(i) => i,
+                    _ => return,
+                },
+            };
 
-                if let Some(usage) = self
-                    .data
-                    .as_ref()
-                    .and_then(|data| data.vars.get(&left.to_id()))
+            if let Some(usage) = self
+                .data
+                .as_ref()
+                .and_then(|data| data.vars.get(&left.to_id()))
+            {
+                if !usage.declared
+                    || !usage.is_fn_local
+                    || usage.assign_count != 1
+                    || usage.var_kind == Some(VarDeclKind::Const)
+                    || usage.mutated
                 {
-                    if !usage.declared
-                        || !usage.is_fn_local
-                        || usage.assign_count != 1
-                        || usage.var_kind == Some(VarDeclKind::Const)
-                        || usage.mutated
-                    {
-                        return;
-                    }
+                    return;
+                }
 
-                    if usage.used_in_loop || usage.used_in_cond {
-                        match &*assign.right {
-                            Expr::Lit(..) | Expr::Ident(..) => {}
-                            _ => return,
-                        }
-                    }
-
-                    if usage.usage_count >= 2 {
-                        match &*assign.right {
-                            Expr::Lit(..) => {}
-                            _ => return,
-                        }
+                if usage.used_in_loop || usage.used_in_cond {
+                    match &*assign.right {
+                        Expr::Lit(..) | Expr::Ident(..) => {}
+                        _ => return,
                     }
                 }
 
-                let value = match &*assign.right {
-                    Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => return,
-                    Expr::Lit(..) => assign.right.clone(),
-                    _ => return,
-                };
-
-                tracing::debug!(
-                    "collpase_vars: Decided to inline {}{:?}",
-                    left.id.sym,
-                    left.id.span.ctxt
-                );
-
-                self.lits.insert(left.to_id(), value);
+                if usage.usage_count >= 2 {
+                    match &*assign.right {
+                        Expr::Lit(..) => {}
+                        _ => return,
+                    }
+                }
             }
-            _ => {}
+
+            let value = match &*assign.right {
+                Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => return,
+                Expr::Lit(..) => assign.right.clone(),
+                _ => return,
+            };
+
+            tracing::debug!(
+                "collpase_vars: Decided to inline {}{:?}",
+                left.id.sym,
+                left.id.span.ctxt
+            );
+
+            self.lits.insert(left.to_id(), value);
         }
     }
 }

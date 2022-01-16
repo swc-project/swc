@@ -333,23 +333,19 @@ impl CaseHandler<'_> {
             | Expr::TsNonNull(..)
             | Expr::TsAs(..)
             | Expr::PrivateName(..)
-            | Expr::Invalid(..) => return e,
+            | Expr::Invalid(..) => e,
 
-            Expr::OptChain(e) => {
-                return Expr::OptChain(OptChainExpr {
-                    expr: e.expr.map(|e| self.explode_expr(e, false)),
-                    ..e
-                })
-            }
+            Expr::OptChain(e) => Expr::OptChain(OptChainExpr {
+                expr: e.expr.map(|e| self.explode_expr(e, false)),
+                ..e
+            }),
 
             Expr::Await(..) => unimplemented!("regenerator: await in generator"),
 
-            Expr::Paren(ParenExpr { span, expr }) => {
-                return Expr::Paren(ParenExpr {
-                    span,
-                    expr: expr.map(|e| self.explode_expr(e, ignore_result)),
-                })
-            }
+            Expr::Paren(ParenExpr { span, expr }) => Expr::Paren(ParenExpr {
+                span,
+                expr: expr.map(|e| self.explode_expr(e, ignore_result)),
+            }),
 
             Expr::Member(me) => {
                 let obj = Box::new(self.explode_expr(*me.obj, false));
@@ -384,7 +380,7 @@ impl CaseHandler<'_> {
                 args,
                 type_args,
             }) => {
-                let has_leaping_args = args.iter().any(|t| contains_leap(t));
+                let has_leaping_args = args.iter().any(contains_leap);
                 let mut new_args = vec![];
 
                 let new_callee = match callee {
@@ -446,7 +442,7 @@ impl CaseHandler<'_> {
                             false,
                         );
 
-                        let callee = match callee {
+                        match callee {
                             Expr::Member(..) => {
                                 // If the callee was not previously a MemberExpression, then the
                                 // CallExpression was "unqualified," meaning its `this` object
@@ -471,9 +467,7 @@ impl CaseHandler<'_> {
                                 })))
                             }
                             _ => Callee::Expr(Box::new(callee)),
-                        };
-
-                        callee
+                        }
                     }
                     Callee::Import(..) => callee,
                     Callee::Super(..) => {
@@ -504,26 +498,17 @@ impl CaseHandler<'_> {
                 let callee = e
                     .callee
                     .map(|e| self.explode_expr_via_temp_var(None, has_leaping_children, e, false));
-                let args = if let Some(args) = e.args {
-                    Some(
-                        args.into_iter()
-                            .map(|arg| ExprOrSpread {
-                                expr: arg.expr.map(|e| {
-                                    self.explode_expr_via_temp_var(
-                                        None,
-                                        has_leaping_children,
-                                        e,
-                                        false,
-                                    )
-                                }),
-                                ..arg
-                            })
-                            .collect(),
-                    )
-                } else {
-                    None
-                };
-                return NewExpr { callee, args, ..e }.into();
+                let args = e.args.map(|args| {
+                    args.into_iter()
+                        .map(|arg| ExprOrSpread {
+                            expr: arg.expr.map(|e| {
+                                self.explode_expr_via_temp_var(None, has_leaping_children, e, false)
+                            }),
+                            ..arg
+                        })
+                        .collect()
+                });
+                NewExpr { callee, args, ..e }.into()
             }
 
             Expr::Object(obj) => {
@@ -642,7 +627,7 @@ impl CaseHandler<'_> {
 
                 self.mark(after);
 
-                result.unwrap_or_else(|| {
+                result.unwrap_or({
                     Expr::Bin(BinExpr {
                         span,
                         left,
@@ -947,12 +932,10 @@ impl CaseHandler<'_> {
                             } else {
                                 vec![ty_arg]
                             }
+                        } else if let Some(arg) = arg {
+                            vec![ty_arg, arg]
                         } else {
-                            if let Some(arg) = arg {
-                                vec![ty_arg, arg]
-                            } else {
-                                vec![ty_arg]
-                            }
+                            vec![ty_arg]
                         }
                     },
                     type_args: Default::default(),
@@ -1251,7 +1234,7 @@ impl CaseHandler<'_> {
 
                 self.update_ctx_prev_loc(Some(&mut try_entry.first_loc));
                 // TODO: Track unmarked entries in a separate field,
-                self.with_entry(Entry::TryEntry(try_entry.clone()), |folder| {
+                self.with_entry(Entry::Try(try_entry.clone()), |folder| {
                     //
                     folder.explode_stmts(block.stmts);
 
@@ -1366,7 +1349,7 @@ impl CaseHandler<'_> {
                     Entry::Loop {
                         break_loc: after,
                         continue_loc: before,
-                        label: label.clone(),
+                        label,
                     },
                     |folder| {
                         folder.explode_stmt(*body, None);
@@ -1480,7 +1463,7 @@ impl CaseHandler<'_> {
                         AssignExpr {
                             span: DUMMY_SP,
                             op: op!("="),
-                            left: PatOrExpr::Expr(Box::new(key_info_tmp_var.clone().into())),
+                            left: PatOrExpr::Expr(Box::new(key_info_tmp_var.clone())),
                             right: Box::new(
                                 CallExpr {
                                     span: DUMMY_SP,
@@ -1497,8 +1480,7 @@ impl CaseHandler<'_> {
                 );
 
                 {
-                    let right =
-                        Box::new(key_info_tmp_var.clone().make_member(quote_ident!("value")));
+                    let right = Box::new(key_info_tmp_var.make_member(quote_ident!("value")));
                     match s.left {
                         VarDeclOrPat::VarDecl(var) => unreachable!(
                             "VarDeclaration in for-in statement must be hoisted: {:?}",
@@ -1628,7 +1610,6 @@ impl VisitMut for InvalidToLit<'_> {
                         span: DUMMY_SP,
                         value: (*stmt_index) as _,
                     }));
-                    return;
                 }
             }
         }

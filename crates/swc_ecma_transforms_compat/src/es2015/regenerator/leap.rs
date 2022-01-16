@@ -55,7 +55,7 @@ impl LeapManager {
                 //                Entry::Fn { .. } => None,
                 Entry::Loop { break_loc, .. } => Some(break_loc),
                 Entry::Switch { break_loc, .. } => Some(break_loc),
-                Entry::TryEntry { .. } => None,
+                Entry::Try { .. } => None,
                 Entry::Catch(..) => None,
                 Entry::Finally(..) => None,
             },
@@ -106,7 +106,8 @@ pub(super) enum Entry {
         break_loc: Loc,
     },
 
-    TryEntry(TryEntry),
+    #[is(name = "try_entry")]
+    Try(TryEntry),
     Catch(CatchEntry),
     Finally(FinallyEntry),
 }

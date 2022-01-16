@@ -1,3 +1,5 @@
+#![deny(clippy::all)]
+
 pub use self::{
     display_name::display_name,
     jsx::{jsx, parse_expr_for_jsx, JsxDirectives, Options, Runtime},
