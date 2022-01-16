@@ -86,7 +86,7 @@ macro_rules! impl_for_for_stmt {
                     VarDeclOrPat::VarDecl(VarDecl {
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(ref_ident.clone().into()),
+                            name: ref_ident.clone().into(),
                             init: None,
                             definite: false,
                         }],
@@ -132,7 +132,7 @@ macro_rules! impl_for_for_stmt {
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(var_ident.clone().into()),
+                            name: var_ident.clone().into(),
                             init: None,
                             definite: false,
                         }],
