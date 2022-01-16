@@ -333,23 +333,19 @@ impl CaseHandler<'_> {
             | Expr::TsNonNull(..)
             | Expr::TsAs(..)
             | Expr::PrivateName(..)
-            | Expr::Invalid(..) => return e,
+            | Expr::Invalid(..) => e,
 
-            Expr::OptChain(e) => {
-                return Expr::OptChain(OptChainExpr {
-                    expr: e.expr.map(|e| self.explode_expr(e, false)),
-                    ..e
-                })
-            }
+            Expr::OptChain(e) => Expr::OptChain(OptChainExpr {
+                expr: e.expr.map(|e| self.explode_expr(e, false)),
+                ..e
+            }),
 
             Expr::Await(..) => unimplemented!("regenerator: await in generator"),
 
-            Expr::Paren(ParenExpr { span, expr }) => {
-                return Expr::Paren(ParenExpr {
-                    span,
-                    expr: expr.map(|e| self.explode_expr(e, ignore_result)),
-                })
-            }
+            Expr::Paren(ParenExpr { span, expr }) => Expr::Paren(ParenExpr {
+                span,
+                expr: expr.map(|e| self.explode_expr(e, ignore_result)),
+            }),
 
             Expr::Member(me) => {
                 let obj = Box::new(self.explode_expr(*me.obj, false));
