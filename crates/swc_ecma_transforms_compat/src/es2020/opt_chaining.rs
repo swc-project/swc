@@ -422,14 +422,14 @@ impl OptChaining {
                         self.vars_without_init.push(VarDeclarator {
                             span: obj_span,
                             definite: false,
-                            name: Pat::Ident(i.clone().into()),
+                            name: i.clone().into(),
                             init: None,
                         });
 
                         (
                             Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone().into()))),
+                                left: PatOrExpr::Pat(i.clone().into()),
                                 op: op!("="),
                                 right: obj.take(),
                             })),
@@ -524,7 +524,7 @@ impl OptChaining {
                             self.vars_without_init.push(VarDeclarator {
                                 span: obj_span,
                                 definite: false,
-                                name: Pat::Ident(this_obj.clone().into()),
+                                name: this_obj.clone().into(),
                                 init: None,
                             });
 
@@ -534,9 +534,7 @@ impl OptChaining {
                                     obj: Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
                                         op: op!("="),
-                                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                            this_obj.clone().into(),
-                                        ))),
+                                        left: PatOrExpr::Pat(this_obj.clone().into()),
                                         right: obj.obj.take(),
                                     })
                                     .into(),
@@ -545,9 +543,7 @@ impl OptChaining {
                                 _ => Box::new(Expr::Assign(AssignExpr {
                                     span: DUMMY_SP,
                                     op: op!("="),
-                                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                        this_obj.clone().into(),
-                                    ))),
+                                    left: PatOrExpr::Pat(this_obj.clone().into()),
                                     right: obj.take(),
                                 })),
                             }
@@ -560,14 +556,14 @@ impl OptChaining {
                         self.vars_without_init.push(VarDeclarator {
                             span: obj_span,
                             definite: false,
-                            name: Pat::Ident(tmp.clone().into()),
+                            name: tmp.clone().into(),
                             init: None,
                         });
 
                         (
                             Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(tmp.clone().into()))),
+                                left: PatOrExpr::Pat(tmp.clone().into()),
                                 op: op!("="),
                                 right: obj_expr,
                             })),

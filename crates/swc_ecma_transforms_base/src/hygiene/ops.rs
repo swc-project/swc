@@ -108,7 +108,7 @@ impl<'a> VisitMut for Operator<'a> {
                 if let Some(expr) = expr {
                     let var = VarDeclarator {
                         span,
-                        name: Pat::Ident(cls.ident.clone().into()),
+                        name: cls.ident.clone().into(),
                         init: Some(Box::new(Expr::Class(expr))),
                         definite: false,
                     };
@@ -352,11 +352,11 @@ impl<'a> VisitMut for Operator<'a> {
                     value: match p.value.take() {
                         Some(default_expr) => Box::new(Pat::Assign(AssignPat {
                             span: p.span,
-                            left: Box::new(Pat::Ident(renamed.into())),
+                            left: renamed.into(),
                             right: default_expr,
                             type_ann: None,
                         })),
-                        None => Box::new(Pat::Ident(renamed.into())),
+                        None => renamed.into(),
                     },
                 }
                 .into();

@@ -225,14 +225,14 @@ impl VisitMut for ObjectRest {
                 // println!("Var: var_ident = None");
                 self.mutable_vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(var_ident.clone().into()),
+                    name: var_ident.clone().into(),
                     init: None,
                     definite: false,
                 });
                 // println!("Expr: var_ident = right");
                 self.exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Pat(Box::new(Pat::Ident(var_ident.clone().into()))),
+                    left: PatOrExpr::Pat(var_ident.clone().into()),
                     op: op!("="),
                     right: right.take(),
                 })));
@@ -399,7 +399,7 @@ impl VisitMut for ObjectRest {
                         // println!("Var: var_ident = init",);
                         self.push_var_if_not_empty(VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(var_ident.clone().into()),
+                            name: var_ident.clone().into(),
                             init: Some(init),
                             definite: false,
                         });
@@ -590,7 +590,7 @@ impl ObjectRest {
                                         },
                                     );
                                     index += 1;
-                                    Some(Pat::Ident(var_ident.clone().into()))
+                                    Some(var_ident.clone().into())
                                 }
                                 _ => elem,
                             })
@@ -620,7 +620,7 @@ impl ObjectRest {
                             decorators: Default::default(),
                             pat: Pat::Assign(AssignPat {
                                 span,
-                                left: Box::new(Pat::Ident(var_ident.into())),
+                                left: var_ident.into(),
                                 right,
                                 ..n
                             }),
@@ -640,7 +640,7 @@ impl ObjectRest {
                         Param {
                             span: DUMMY_SP,
                             decorators: Default::default(),
-                            pat: Pat::Ident(var_ident.into()),
+                            pat: var_ident.into(),
                         }
                     }
                 }
@@ -807,7 +807,7 @@ impl ObjectRest {
                                 *index += 1;
                                 self.vars.push(VarDeclarator {
                                     span: DUMMY_SP,
-                                    name: Pat::Ident(ident.clone().into()),
+                                    name: ident.clone().into(),
                                     init: Some(c.expr),
                                     definite: false,
                                 });
