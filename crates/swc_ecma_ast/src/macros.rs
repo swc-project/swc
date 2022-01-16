@@ -183,3 +183,13 @@ macro_rules! test_de {
         }
     };
 }
+
+macro_rules! bridge_from {
+    ($dst:path, $Bridge:path, $src:path) => {
+        impl From<$src> for $dst {
+            fn from(src: $src) -> $dst {
+                $dst::from($bridge::from(src))
+            }
+        }
+    };
+}
