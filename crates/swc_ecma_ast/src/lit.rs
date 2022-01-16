@@ -52,7 +52,6 @@ bridge_expr_from!(Lit, Null);
 bridge_expr_from!(Lit, JSXText);
 
 bridge_lit_from!(Str, &'_ str);
-bridge_lit_from!(Str, Box<str>);
 bridge_lit_from!(Str, JsWord);
 bridge_lit_from!(Str, Cow<'_, str>);
 bridge_lit_from!(Str, String);
