@@ -36,8 +36,9 @@ pub enum Lit {
 }
 
 macro_rules! bridge_lit_from {
-    ($src:ty) => {
+    ($bridge: ty, $src:ty) => {
         bridge_expr_from!(crate::Lit, $src);
+        bridge_from!(Lit, $bridge, $src);
     };
 }
 
@@ -48,10 +49,10 @@ bridge_expr_from!(Lit, BigInt);
 bridge_expr_from!(Lit, Regex);
 bridge_expr_from!(Lit, Null);
 
-bridge_lit_from!(&'_ str);
-bridge_lit_from!(bool);
-bridge_lit_from!(f64);
-bridge_lit_from!(BigIntValue);
+bridge_lit_from!(Str, &'_ str);
+bridge_lit_from!(Bool, bool);
+bridge_lit_from!(Number, f64);
+bridge_lit_from!(BigInt, BigIntValue);
 
 #[ast_node("BigIntLiteral")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
