@@ -215,6 +215,7 @@ macro_rules! bridge_expr_from {
 macro_rules! bridge_pat_from {
     ($bridge:ty, $src:ty) => {
         bridge_from!(crate::Pat, $bridge, $src);
+        bridge_from!(crate::Param, crate::Pat, $src);
         bridge_from!(Box<crate::Pat>, crate::Pat, $src);
     };
 }
