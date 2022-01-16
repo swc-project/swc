@@ -53,7 +53,7 @@ where
                 self.negate(&mut stmt.test, false);
                 swap(alt, &mut *stmt.cons);
             }
-            _ => return,
+            _ => {}
         }
     }
     /// This method may change return value.
@@ -86,7 +86,6 @@ where
                 left: cond.test.take(),
                 right: cond.cons.take(),
             });
-            return;
         }
     }
 
@@ -205,21 +204,16 @@ where
             _ => return,
         };
 
-        match &*stmt.cons {
-            Stmt::Empty(..) => {
-                if self.options.conditionals || self.options.unused {
-                    if stmt.alt.is_none() {
-                        *s = Stmt::Expr(ExprStmt {
-                            span: stmt.span,
-                            expr: stmt.test.take(),
-                        });
-                        self.changed = true;
-                        tracing::debug!("conditionals: `if (foo);` => `foo` ");
-                        return;
-                    }
-                }
+        if let Stmt::Empty(..) = &*stmt.cons {
+            if (self.options.conditionals || self.options.unused) && stmt.alt.is_none() {
+                *s = Stmt::Expr(ExprStmt {
+                    span: stmt.span,
+                    expr: stmt.test.take(),
+                });
+                self.changed = true;
+                tracing::debug!("conditionals: `if (foo);` => `foo` ");
+                return;
             }
-            _ => {}
         }
 
         // If alt does not exist, an if statement is better than a conditional
@@ -238,45 +232,42 @@ where
         // if (!foo); else bar();
         // =>
         // foo && bar()
-        match &*stmt.cons {
-            Stmt::Empty(..) => {
-                match &mut *stmt.test {
-                    Expr::Unary(UnaryExpr {
-                        op: op!("!"), arg, ..
-                    }) => {
-                        tracing::debug!("Optimizing `if (!foo); else bar();` as `foo && bar();`");
+        if let Stmt::Empty(..) = &*stmt.cons {
+            match &mut *stmt.test {
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"), arg, ..
+                }) => {
+                    tracing::debug!("Optimizing `if (!foo); else bar();` as `foo && bar();`");
 
-                        let mut expr = Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            left: arg.take(),
-                            op: op!("&&"),
-                            right: Box::new(alt.take()),
-                        }));
-                        self.compress_logical_exprs_as_bang_bang(&mut expr, true);
-                        *s = Stmt::Expr(ExprStmt {
-                            span: stmt.span,
-                            expr,
-                        });
-                    }
-                    _ => {
-                        tracing::debug!("Optimizing `if (foo); else bar();` as `foo || bar();`");
-
-                        let mut expr = Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            left: stmt.test.take(),
-                            op: op!("||"),
-                            right: Box::new(alt.take()),
-                        }));
-                        self.compress_logical_exprs_as_bang_bang(&mut expr, false);
-                        *s = Stmt::Expr(ExprStmt {
-                            span: stmt.span,
-                            expr,
-                        });
-                    }
+                    let mut expr = Box::new(Expr::Bin(BinExpr {
+                        span: DUMMY_SP,
+                        left: arg.take(),
+                        op: op!("&&"),
+                        right: Box::new(alt.take()),
+                    }));
+                    self.compress_logical_exprs_as_bang_bang(&mut expr, true);
+                    *s = Stmt::Expr(ExprStmt {
+                        span: stmt.span,
+                        expr,
+                    });
                 }
-                return;
+                _ => {
+                    tracing::debug!("Optimizing `if (foo); else bar();` as `foo || bar();`");
+
+                    let mut expr = Box::new(Expr::Bin(BinExpr {
+                        span: DUMMY_SP,
+                        left: stmt.test.take(),
+                        op: op!("||"),
+                        right: Box::new(alt.take()),
+                    }));
+                    self.compress_logical_exprs_as_bang_bang(&mut expr, false);
+                    *s = Stmt::Expr(ExprStmt {
+                        span: stmt.span,
+                        expr,
+                    });
+                }
             }
-            _ => {}
+            return;
         }
 
         let cons = match extract_expr_stmt(&mut *stmt.cons) {
@@ -285,16 +276,13 @@ where
         };
 
         let new_expr = self.compress_similar_cons_alt(&mut stmt.test, cons, alt, true);
-        match new_expr {
-            Some(v) => {
-                self.changed = true;
-                *s = Stmt::Expr(ExprStmt {
-                    span: stmt.span,
-                    expr: Box::new(v),
-                });
-                return;
-            }
-            None => {}
+        if let Some(v) = new_expr {
+            self.changed = true;
+            *s = Stmt::Expr(ExprStmt {
+                span: stmt.span,
+                expr: Box::new(v),
+            });
+            return;
         }
 
         if self.options.conditionals || self.options.bools {
@@ -326,13 +314,10 @@ where
         let compressed =
             self.compress_similar_cons_alt(&mut cond.test, &mut cond.cons, &mut cond.alt, false);
 
-        match compressed {
-            Some(v) => {
-                *e = v;
-                self.changed = true;
-                return;
-            }
-            None => {}
+        if let Some(v) = compressed {
+            *e = v;
+            self.changed = true;
+            return;
         }
 
         // x ? x : y => x || y
@@ -345,7 +330,6 @@ where
                 left: cond.test.take(),
                 right: cond.alt.take(),
             });
-            return;
         }
     }
 
@@ -356,12 +340,7 @@ where
         alt: &mut Expr,
         is_for_if_stmt: bool,
     ) -> Option<Expr> {
-        if cons.eq_ignore_span(alt)
-            && match &*cons {
-                Expr::Yield(..) | Expr::Fn(..) => false,
-                _ => true,
-            }
-        {
+        if cons.eq_ignore_span(alt) && !matches!(&*cons, Expr::Yield(..) | Expr::Fn(..)) {
             tracing::debug!("conditionals: cons is same as alt");
             return Some(Expr::Seq(SeqExpr {
                 span: DUMMY_SP,
@@ -452,17 +431,13 @@ where
                     // do_something(some_condition ? x : y);
                     //
 
-                    let mut args = vec![];
-
-                    args.push(ExprOrSpread {
-                        spread: None,
-                        expr: Box::new(Expr::Cond(CondExpr {
-                            span: DUMMY_SP,
-                            test: test.take(),
-                            cons: cons.args[0].expr.take(),
-                            alt: alt.args[0].expr.take(),
-                        })),
-                    });
+                    let args = vec![CondExpr {
+                        span: DUMMY_SP,
+                        test: test.take(),
+                        cons: cons.args[0].expr.take(),
+                        alt: alt.args[0].expr.take(),
+                    }
+                    .as_arg()];
 
                     tracing::debug!(
                         "Compressing if into cond as there's no side effect and the number of \
@@ -492,51 +467,50 @@ where
             (Expr::New(cons), Expr::New(alt)) => {
                 // TODO: Handle new expression with no args.
 
-                if cons.callee.eq_ignore_span(&alt.callee) {
-                    if cons.args.as_ref().map(|v| v.len() <= 1).unwrap_or(true)
-                        && alt.args.as_ref().map(|v| v.len() <= 1).unwrap_or(true)
-                        && cons.args.as_ref().map(|v| v.len()).unwrap_or(0)
-                            == alt.args.as_ref().map(|v| v.len()).unwrap_or(0)
-                        && (cons.args.is_some()
-                            && cons
-                                .args
-                                .as_ref()
-                                .unwrap()
-                                .iter()
-                                .all(|arg| arg.spread.is_none()))
-                        && (alt.args.is_some()
-                            && alt
-                                .args
-                                .as_ref()
-                                .unwrap()
-                                .iter()
-                                .all(|arg| arg.spread.is_none()))
-                    {
-                        let mut args = vec![];
+                if cons.callee.eq_ignore_span(&alt.callee)
+                    && cons.args.as_ref().map(|v| v.len() <= 1).unwrap_or(true)
+                    && alt.args.as_ref().map(|v| v.len() <= 1).unwrap_or(true)
+                    && cons.args.as_ref().map(|v| v.len()).unwrap_or(0)
+                        == alt.args.as_ref().map(|v| v.len()).unwrap_or(0)
+                    && (cons.args.is_some()
+                        && cons
+                            .args
+                            .as_ref()
+                            .unwrap()
+                            .iter()
+                            .all(|arg| arg.spread.is_none()))
+                    && (alt.args.is_some()
+                        && alt
+                            .args
+                            .as_ref()
+                            .unwrap()
+                            .iter()
+                            .all(|arg| arg.spread.is_none()))
+                {
+                    let mut args = vec![];
 
-                        if cons.args.as_ref().map(|v| v.len()).unwrap_or(0) == 1 {
-                            args.push(ExprOrSpread {
-                                spread: None,
-                                expr: Box::new(Expr::Cond(CondExpr {
-                                    span: DUMMY_SP,
-                                    test: test.take(),
-                                    cons: cons.args.as_mut().unwrap()[0].expr.take(),
-                                    alt: alt.args.as_mut().unwrap()[0].expr.take(),
-                                })),
-                            });
-                        }
-
-                        tracing::debug!(
-                            "Compressing if statement into a conditional expression of `new` as \
-                             there's no side effect and the number of arguments is 1"
-                        );
-                        return Some(Expr::New(NewExpr {
-                            span: DUMMY_SP.with_ctxt(self.done_ctxt),
-                            callee: cons.callee.take(),
-                            args: Some(args),
-                            type_args: Default::default(),
-                        }));
+                    if cons.args.as_ref().map(|v| v.len()).unwrap_or(0) == 1 {
+                        args.push(ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(Expr::Cond(CondExpr {
+                                span: DUMMY_SP,
+                                test: test.take(),
+                                cons: cons.args.as_mut().unwrap()[0].expr.take(),
+                                alt: alt.args.as_mut().unwrap()[0].expr.take(),
+                            })),
+                        });
                     }
+
+                    tracing::debug!(
+                        "Compressing if statement into a conditional expression of `new` as \
+                         there's no side effect and the number of arguments is 1"
+                    );
+                    return Some(Expr::New(NewExpr {
+                        span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                        callee: cons.callee.take(),
+                        args: Some(args),
+                        type_args: Default::default(),
+                    }));
                 }
 
                 None
