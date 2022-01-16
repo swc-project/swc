@@ -29,6 +29,9 @@
 - **(es/transforms)** Remove unsafe `new String("...")` optimization (#3284) ([162c1fe](https://github.com/swc-project/swc/commit/162c1fe047631c35f8b8105c1a40ad6728e6edff))
 
 
+- **(es/transforms)** Handle template literals within `jsonify` pass (#3282) ([b76d1da](https://github.com/swc-project/swc/commit/b76d1da699ab0475d349a0c9d5b06ffdd7a6b48f))
+
+
 - **(swc)** Remove `wrong-target` (#3251) ([0843f74](https://github.com/swc-project/swc/commit/0843f742c5db3e0a8dc2fc2767b96fe0fad76bd1))
 
 ### Documentation
