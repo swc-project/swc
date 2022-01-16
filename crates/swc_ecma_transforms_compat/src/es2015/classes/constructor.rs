@@ -637,24 +637,22 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
         fn visit_mut_expr(&mut self, expr: &mut Expr) {
             // We pretend method folding mode for while folding injected `_defineProperty`
             // calls.
-            match expr {
-                Expr::Call(CallExpr {
-                    callee: Callee::Expr(callee),
+            if let Expr::Call(CallExpr {
+                callee: Callee::Expr(callee),
+                ..
+            }) = expr
+            {
+                if let Expr::Ident(Ident {
+                    sym: js_word!("_defineProperty"),
                     ..
-                }) => match &**callee {
-                    Expr::Ident(Ident {
-                        sym: js_word!("_defineProperty"),
-                        ..
-                    }) => {
-                        let old = self.in_injected_define_property_call;
-                        self.in_injected_define_property_call = true;
-                        expr.visit_mut_children_with(self);
-                        self.in_injected_define_property_call = old;
-                        return;
-                    }
-                    _ => {}
-                },
-                _ => {}
+                }) = &**callee
+                {
+                    let old = self.in_injected_define_property_call;
+                    self.in_injected_define_property_call = true;
+                    expr.visit_mut_children_with(self);
+                    self.in_injected_define_property_call = old;
+                    return;
+                }
             }
 
             match expr {

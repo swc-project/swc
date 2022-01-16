@@ -94,7 +94,7 @@ where
         let mut first = true;
         let old = self.in_strict;
 
-        for stmt in stmts.into_iter() {
+        for stmt in stmts.iter_mut() {
             match T::try_into_stmt(stmt.take()) {
                 Err(node) => match node.try_into_module_decl() {
                     Ok(mut decl) => {
