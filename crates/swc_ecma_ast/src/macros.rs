@@ -184,6 +184,15 @@ macro_rules! test_de {
     };
 }
 
+/// Implement `From<$src>` for $dst, by using implementation of `From<$src>` for
+/// $bridge.
+///
+/// - `$dst` must implement `From<$bridge>`.
+/// - `$bridge` must implement `From<$src>`.
+///
+///
+/// e.g. For `&str` -> `Box<Expr>`, we convert it by `&str` -> `JsWord` -> `Str`
+/// -> `Lit` -> `Expr` -> `Box<Expr>`.
 macro_rules! bridge_from {
     ($dst:ty, $bridge:ty, $src:ty) => {
         impl From<$src> for $dst {
