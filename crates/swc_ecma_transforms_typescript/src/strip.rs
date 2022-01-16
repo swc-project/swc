@@ -1185,7 +1185,7 @@ where
                 params: vec![Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(private_name.clone().into()),
+                    pat: private_name.clone().into(),
                 }],
                 decorators: Default::default(),
                 span: DUMMY_SP,
@@ -1363,7 +1363,7 @@ where
                 })) => {
                     let default = VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(id.into()),
+                        name: id.into(),
                         init: Some(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: quote_ident!("require").as_callee(),
@@ -1457,7 +1457,7 @@ where
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(import.id.clone().into()),
+                                name: import.id.clone().into(),
                                 init: Some(Box::new(module_ref_to_expr(import.module_ref))),
                                 definite: false,
                             }],
@@ -1706,7 +1706,7 @@ where
             }));
             AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(Pat::Ident(id.clone().into()).into()),
+                left: PatOrExpr::Pat(id.clone().into()),
                 op: op!("="),
                 right: Box::new(Expr::Bin(BinExpr {
                     span: DUMMY_SP,
@@ -1731,7 +1731,7 @@ where
                 op: op!("||"),
                 right: Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Pat(Pat::Ident(id.clone().into()).into()),
+                    left: PatOrExpr::Pat(id.clone().into()),
                     op: op!("="),
                     right: Box::new(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
@@ -2069,7 +2069,7 @@ where
                                     decorators: Default::default(),
                                     pat: Pat::Assign(AssignPat {
                                         span,
-                                        left: Box::new(Pat::Ident(i)),
+                                        left: i.into(),
                                         right,
                                         type_ann: None,
                                     }),
@@ -2325,7 +2325,7 @@ where
                 })) => {
                     let default = VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(id.into()),
+                        name: id.into(),
                         init: Some(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: quote_ident!("require").as_callee(),
@@ -2414,7 +2414,7 @@ where
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(import.id.into()),
+                                name: import.id.into(),
                                 init: Some(Box::new(module_ref_to_expr(import.module_ref))),
                                 definite: false,
                             }],
@@ -2539,7 +2539,7 @@ where
                 if let Expr::Paren(ParenExpr { expr, .. }) = &**expr {
                     if let Expr::TsAs(TsAsExpr { expr, .. }) = &**expr {
                         if let Expr::Ident(ident) = &**expr {
-                            *node = PatOrExpr::Pat(Box::new(Pat::Ident(ident.clone().into())));
+                            *node = PatOrExpr::Pat(ident.clone().into());
                         }
                     }
                 }
