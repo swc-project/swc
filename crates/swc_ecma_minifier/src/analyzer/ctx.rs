@@ -71,7 +71,7 @@ where
     type Target = UsageAnalyzer<S>;
 
     fn deref(&self) -> &Self::Target {
-        &self.analyzer
+        self.analyzer
     }
 }
 
@@ -80,7 +80,7 @@ where
     S: Storage,
 {
     fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.analyzer
+        self.analyzer
     }
 }
 
