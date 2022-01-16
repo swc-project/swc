@@ -49,6 +49,7 @@ bridge_expr_from!(Lit, Number);
 bridge_expr_from!(Lit, BigInt);
 bridge_expr_from!(Lit, Regex);
 bridge_expr_from!(Lit, Null);
+bridge_expr_from!(Lit, JSXText);
 
 bridge_lit_from!(Str, &'_ str);
 bridge_lit_from!(Str, Box<str>);
