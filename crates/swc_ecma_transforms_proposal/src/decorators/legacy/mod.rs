@@ -316,7 +316,7 @@ impl Legacy {
                     if aliased {
                         self.uninitialized_vars.push(VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(i.clone().into()),
+                            name: i.clone().into(),
                             init: None,
                             definite: false,
                         });
@@ -344,7 +344,7 @@ impl Legacy {
                         dec_inits.push(Box::new(Expr::Assign(AssignExpr {
                             span: dec.span,
                             op: op!("="),
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone().into()))),
+                            left: PatOrExpr::Pat(i.clone().into()),
                             right,
                         })));
                     }
@@ -364,12 +364,12 @@ impl Legacy {
                             dec_init_exprs.push(Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(name.clone().into()))),
+                                left: PatOrExpr::Pat(name.clone().into()),
                                 right: init,
                             })));
                             self.uninitialized_vars.push(VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(name.clone().into()),
+                                name: name.clone().into(),
                                 init: None,
                                 definite: Default::default(),
                             })
@@ -467,7 +467,7 @@ impl Legacy {
                 if !p.is_static {
                     self.uninitialized_vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(descriptor.clone().into()),
+                        name: descriptor.clone().into(),
                         init: None,
                         definite: false,
                     });
@@ -486,12 +486,12 @@ impl Legacy {
                         dec_init_exprs.push(Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             op: op!("="),
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone().into()))),
+                            left: PatOrExpr::Pat(i.clone().into()),
                             right: dec.expr,
                         })));
                         self.uninitialized_vars.push(VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(i.clone().into()),
+                            name: i.clone().into(),
                             init: None,
                             definite: false,
                         });
@@ -516,7 +516,7 @@ impl Legacy {
                 if p.is_static {
                     self.uninitialized_vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(init.clone().into()),
+                        name: init.clone().into(),
                         init: None,
                         definite: false,
                     });
@@ -595,7 +595,7 @@ impl Legacy {
                         exprs: vec![
                             Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(init.clone().into()))),
+                                left: PatOrExpr::Pat(init.clone().into()),
                                 op: op!("="),
                                 // Object.getOwnPropertyDescriptor(_class, "enumconfwrite")
                                 right: Box::new(Expr::Call(CallExpr {
@@ -609,7 +609,7 @@ impl Legacy {
                             // _init = _init ? _init.value : void 0
                             Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(init.clone().into()))),
+                                left: PatOrExpr::Pat(init.clone().into()),
                                 op: op!("="),
                                 right: Box::new(Expr::Cond(CondExpr {
                                     span: DUMMY_SP,
@@ -667,7 +667,7 @@ impl Legacy {
                     extra_exprs.push(Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(descriptor.clone().into()))),
+                        left: PatOrExpr::Pat(descriptor.clone().into()),
                         right: call_expr,
                     })));
                 } else {
@@ -777,7 +777,7 @@ impl Legacy {
         let cls_assign = Box::new(Expr::Assign(AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
-            left: PatOrExpr::Pat(Box::new(Pat::Ident(cls_ident.clone().into()))),
+            left: PatOrExpr::Pat(cls_ident.clone().into()),
             right: Box::new(Expr::Class(ClassExpr {
                 ident: c.ident.clone(),
                 class: Class {
@@ -830,7 +830,7 @@ impl Legacy {
             if aliased {
                 self.initialized_vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(i.clone().into()),
+                    name: i.clone().into(),
                     init: Some(dec.expr),
                     definite: false,
                 });
@@ -846,7 +846,7 @@ impl Legacy {
             // _class = dec(_class = function() {}) || _class
             let class_expr = Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(class_ident.clone().into()))),
+                left: PatOrExpr::Pat(class_ident.clone().into()),
                 op: op!("="),
                 right: Box::new(Expr::Bin(BinExpr {
                     span: DUMMY_SP,

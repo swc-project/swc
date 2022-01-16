@@ -62,7 +62,7 @@ impl<'a> HookRegister<'a> {
                 .into_iter()
                 .map(|id| VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(BindingIdent::from(id)),
+                    name: id.into(),
                     init: Some(Box::new(make_call_expr(quote_ident!(self
                         .options
                         .refresh_sig

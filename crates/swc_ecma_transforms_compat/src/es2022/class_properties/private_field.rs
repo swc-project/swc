@@ -179,7 +179,7 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
                     });
                     AssignExpr {
                         span: obj.span(),
-                        left: var.clone().into(),
+                        left: PatOrExpr::Pat(var.clone().into()),
                         op: op!("="),
                         right: obj,
                     }
