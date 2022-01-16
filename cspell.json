@@ -142,7 +142,8 @@
         "Unexporter",
         "unimpl",
         "untrusted",
-        "variadic"
+        "variadic",
+        "vercel"
     ],
     "flagWords": [
         "actally"

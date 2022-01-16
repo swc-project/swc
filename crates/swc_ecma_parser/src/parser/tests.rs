@@ -301,3 +301,58 @@ fn issue_2853_2() {
         Ok(program)
     });
 }
+
+#[test]
+fn illegal_language_mode_directive1() {
+    test_parser(
+        r#"function f(a = 0) { "use strict"; }"#,
+        Default::default(),
+        |p| {
+            let program = p.parse_program()?;
+
+            let errors = p.take_errors();
+            assert_eq!(
+                errors,
+                vec![Error {
+                    error: Box::new((
+                        Span {
+                            lo: BytePos(20),
+                            hi: BytePos(33),
+                            ctxt: swc_common::SyntaxContext::empty()
+                        },
+                        crate::parser::SyntaxError::IllegalLanguageModeDirective
+                    ))
+                }]
+            );
+
+            Ok(program)
+        },
+    );
+}
+#[test]
+fn illegal_language_mode_directive2() {
+    test_parser(
+        r#"let f = (a = 0) => { "use strict"; }"#,
+        Default::default(),
+        |p| {
+            let program = p.parse_program()?;
+
+            let errors = p.take_errors();
+            assert_eq!(
+                errors,
+                vec![Error {
+                    error: Box::new((
+                        Span {
+                            lo: BytePos(21),
+                            hi: BytePos(34),
+                            ctxt: swc_common::SyntaxContext::empty()
+                        },
+                        crate::parser::SyntaxError::IllegalLanguageModeDirective
+                    ))
+                }]
+            );
+
+            Ok(program)
+        },
+    );
+}

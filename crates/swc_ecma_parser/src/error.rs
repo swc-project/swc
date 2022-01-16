@@ -88,6 +88,7 @@ pub enum SyntaxError {
     InvalidIdentInStrict,
     /// 'eval' and 'arguments' are invalid identifier in strict mode.
     EvalAndArgumentsInStrict,
+    IllegalLanguageModeDirective,
     UnaryInExp {
         left: String,
         left_span: Span,
@@ -300,6 +301,9 @@ impl SyntaxError {
             SyntaxError::EvalAndArgumentsInStrict => "'eval' and 'arguments' cannot be used as a \
                                                       binding identifier in strict mode"
                 .into(),
+            SyntaxError::IllegalLanguageModeDirective => {
+                "Illegal 'use strict' directive in function with non-simple parameter list.".into()
+            }
             SyntaxError::UnaryInExp { .. } => "** cannot be applied to unary expression".into(),
             SyntaxError::Hash => "Unexpected token '#'".into(),
             SyntaxError::LineBreakInThrow => "LineBreak cannot follow 'throw'".into(),
