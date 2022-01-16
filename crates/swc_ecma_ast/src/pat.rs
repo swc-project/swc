@@ -42,6 +42,8 @@ impl Take for Pat {
 }
 
 bridge_pat_from!(BindingIdent, Ident);
+bridge_from!(crate::Param, crate::Pat, BindingIdent);
+bridge_from!(Box<crate::Pat>, crate::Pat, BindingIdent);
 
 #[ast_node("ArrayPattern")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
