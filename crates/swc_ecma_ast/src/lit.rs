@@ -50,6 +50,10 @@ bridge_expr_from!(Lit, Regex);
 bridge_expr_from!(Lit, Null);
 
 bridge_lit_from!(Str, &'_ str);
+bridge_lit_from!(Str, Box<str>);
+bridge_lit_from!(Str, JsWord);
+bridge_lit_from!(Str, Cow<'_, str>);
+bridge_lit_from!(Str, String);
 bridge_lit_from!(Bool, bool);
 bridge_lit_from!(Number, f64);
 bridge_lit_from!(BigInt, BigIntValue);
