@@ -159,12 +159,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                 if args.len() == 1 && is_rest_arguments(&args[0]) {
                     *n = Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: MemberExpr {
-                            span: DUMMY_SP,
-                            obj: Box::new(callee),
-                            prop: MemberProp::Ident(quote_ident!("apply")),
-                        }
-                        .as_callee(),
+                        callee: callee.make_member(quote_ident!("apply")).as_callee(),
                         args: iter::once(this)
                             .chain(iter::once({
                                 let mut arg = args.pop().unwrap();
@@ -172,21 +167,16 @@ impl<'a> SuperFieldAccessFolder<'a> {
                                 arg
                             }))
                             .collect(),
-                        type_args: type_args.clone(),
+                        type_args: Default::default(),
                     });
                     return;
                 }
 
                 *n = Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: MemberExpr {
-                        span: DUMMY_SP,
-                        obj: Box::new(callee),
-                        prop: MemberProp::Ident(quote_ident!("call")),
-                    }
-                    .as_callee(),
+                    callee: callee.make_member(quote_ident!("call")).as_callee(),
                     args: iter::once(this).chain(args).collect(),
-                    type_args: type_args.clone(),
+                    type_args: Default::default(),
                 });
             }
         }

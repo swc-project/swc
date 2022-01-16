@@ -270,7 +270,7 @@ impl Params {
                                     .into(),
                                 ),
                                 cons: Box::new(bin),
-                                alt: Box::new(Expr::Lit(Lit::Num(Number { span, value: 0.0 }))),
+                                alt: 0.into(),
                             })
                         }
                     };
@@ -656,12 +656,7 @@ impl VisitMut for Params {
 }
 
 fn make_arg_nth(n: usize) -> Expr {
-    Expr::Ident(Ident::new(js_word!("arguments"), DUMMY_SP)).computed_member(Expr::Lit(Lit::Num(
-        Number {
-            span: DUMMY_SP,
-            value: n as f64,
-        },
-    )))
+    Expr::Ident(Ident::new(js_word!("arguments"), DUMMY_SP)).computed_member(n)
 }
 
 fn check_arg_len(n: usize) -> Expr {
@@ -671,10 +666,7 @@ fn check_arg_len(n: usize) -> Expr {
                 .make_member(Ident::new(js_word!("length"), DUMMY_SP)),
         ),
         op: BinaryOp::Gt,
-        right: Box::new(Expr::Lit(Lit::Num(Number {
-            span: DUMMY_SP,
-            value: n as f64,
-        }))),
+        right: n.into(),
         span: DUMMY_SP,
     })
 }
