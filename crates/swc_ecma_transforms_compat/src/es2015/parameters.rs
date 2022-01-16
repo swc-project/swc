@@ -138,7 +138,7 @@ impl Params {
                                     op: op!("&&"),
                                     right: Box::new(Expr::Bin(BinExpr {
                                         left: Box::new(make_arg_nth(i)),
-                                        op: BinaryOp::NotEqEq,
+                                        op: op!("!=="),
                                         right: undefined(DUMMY_SP),
                                         span: DUMMY_SP,
                                     })),
@@ -193,7 +193,7 @@ impl Params {
                                         test: Box::new(Expr::Bin(BinExpr {
                                             span: DUMMY_SP,
                                             left: Box::new(Expr::Ident(binding.clone())),
-                                            op: BinaryOp::EqEqEq,
+                                            op: op!("==="),
                                             right: undefined(DUMMY_SP),
                                         })),
                                         cons: right,
@@ -665,7 +665,7 @@ fn check_arg_len(n: usize) -> Expr {
             Expr::Ident(Ident::new(js_word!("arguments"), DUMMY_SP))
                 .make_member(Ident::new(js_word!("length"), DUMMY_SP)),
         ),
-        op: BinaryOp::Gt,
+        op: op!(">"),
         right: n.into(),
         span: DUMMY_SP,
     })
