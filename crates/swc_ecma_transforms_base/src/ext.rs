@@ -72,12 +72,12 @@ impl PatOrExprExt for PatOrExpr {
     fn normalize_ident(self) -> Self {
         match self {
             PatOrExpr::Expr(expr) => match *expr {
-                Expr::Ident(i) => PatOrExpr::Pat(Box::new(Pat::Ident(i.into()))),
+                Expr::Ident(i) => PatOrExpr::Pat(i.into()),
                 _ => PatOrExpr::Expr(expr),
             },
             PatOrExpr::Pat(pat) => match *pat {
                 Pat::Expr(expr) => match *expr {
-                    Expr::Ident(i) => PatOrExpr::Pat(Box::new(Pat::Ident(i.into()))),
+                    Expr::Ident(i) => PatOrExpr::Pat(i.into()),
                     _ => PatOrExpr::Expr(expr),
                 },
                 _ => PatOrExpr::Pat(pat),

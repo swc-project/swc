@@ -153,7 +153,7 @@ impl Params {
                         if let Pat::Ident(ident) = left.as_ref() {
                             params.push(Param {
                                 span,
-                                pat: ident.clone(),
+                                pat: ident.clone().into(),
                                 decorators: Vec::new(),
                             });
                             loose_stmt.push(Stmt::If(IfStmt {
