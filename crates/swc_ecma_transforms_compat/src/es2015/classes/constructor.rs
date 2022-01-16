@@ -443,80 +443,76 @@ impl VisitMut for ConstructorFolder<'_> {
     fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
         stmt.visit_mut_children_with(self);
 
-        match stmt {
-            Stmt::Expr(ExprStmt { span: _, expr }) => match &mut **expr {
-                Expr::Call(CallExpr {
-                    callee: Callee::Super(..),
-                    args,
-                    ..
-                }) => {
-                    let expr = match self.super_var.clone() {
-                        Some(super_var) => Box::new(Expr::Call(CallExpr {
+        if let Stmt::Expr(ExprStmt { span: _, expr }) = stmt {
+            if let Expr::Call(CallExpr {
+                callee: Callee::Super(..),
+                args,
+                ..
+            }) = &mut **expr
+            {
+                let expr = match self.super_var.clone() {
+                    Some(super_var) => Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: if self.is_constructor_default {
+                            super_var.make_member(quote_ident!("apply")).as_callee()
+                        } else {
+                            super_var.make_member(quote_ident!("call")).as_callee()
+                        },
+                        args: if self.is_constructor_default {
+                            vec![
+                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                quote_ident!("arguments").as_arg(),
+                            ]
+                        } else {
+                            let mut call_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
+                            call_args.extend(args.take());
+
+                            call_args
+                        },
+                        type_args: Default::default(),
+                    })),
+                    None => Box::new(make_possible_return_value(ReturningMode::Prototype {
+                        is_constructor_default: self.is_constructor_default,
+                        class_name: self.class_name.clone(),
+                        args: Some(args.take()),
+                    })),
+                };
+
+                match self.mode {
+                    Some(SuperFoldingMode::Assign) => {
+                        *stmt = AssignExpr {
                             span: DUMMY_SP,
-                            callee: if self.is_constructor_default {
-                                super_var.make_member(quote_ident!("apply")).as_callee()
-                            } else {
-                                super_var.make_member(quote_ident!("call")).as_callee()
-                            },
-                            args: if self.is_constructor_default {
-                                vec![
-                                    ThisExpr { span: DUMMY_SP }.as_arg(),
-                                    quote_ident!("arguments").as_arg(),
-                                ]
-                            } else {
-                                let mut call_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
-                                call_args.extend(args.take());
-
-                                call_args
-                            },
-                            type_args: Default::default(),
-                        })),
-                        None => Box::new(make_possible_return_value(ReturningMode::Prototype {
-                            is_constructor_default: self.is_constructor_default,
-                            class_name: self.class_name.clone(),
-                            args: Some(args.take()),
-                        })),
-                    };
-
-                    match self.mode {
-                        Some(SuperFoldingMode::Assign) => {
-                            *stmt = AssignExpr {
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
+                            ))),
+                            op: op!("="),
+                            right: expr,
+                        }
+                        .into_stmt()
+                    }
+                    Some(SuperFoldingMode::Var) => {
+                        *stmt = Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            declare: false,
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                name: Pat::Ident(
                                     quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
-                                ))),
-                                op: op!("="),
-                                right: expr,
-                            }
-                            .into_stmt()
-                        }
-                        Some(SuperFoldingMode::Var) => {
-                            *stmt = Stmt::Decl(Decl::Var(VarDecl {
-                                span: DUMMY_SP,
-                                declare: false,
-                                kind: VarDeclKind::Var,
-                                decls: vec![VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: Pat::Ident(
-                                        quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this")
-                                            .into(),
-                                    ),
-                                    init: Some(expr),
-                                    definite: false,
-                                }],
-                            }))
-                        }
-                        None => {
-                            *stmt = Stmt::Return(ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(expr.into()),
-                            })
-                        }
+                                ),
+                                init: Some(expr),
+                                definite: false,
+                            }],
+                        }))
+                    }
+                    None => {
+                        *stmt = Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(expr),
+                        })
                     }
                 }
-                _ => {}
-            },
-            _ => {}
+            }
         }
     }
 }
@@ -571,12 +567,13 @@ pub(super) fn make_possible_return_value(mode: ReturningMode) -> Expr {
                         Some(mut args) => {
                             //
                             if args.len() == 1
-                                && match args[0] {
+                                && matches!(
+                                    args[0],
                                     ExprOrSpread {
-                                        spread: Some(..), ..
-                                    } => true,
-                                    _ => false,
-                                }
+                                        spread: Some(..),
+                                        ..
+                                    }
+                                )
                             {
                                 args[0].spread = None;
                                 (
