@@ -306,16 +306,14 @@ where
         }
 
         match &n.callee {
-            Callee::Super(_) | Callee::Import(_) => {}
-            Callee::Expr(callee) => match &**callee {
-                Expr::Ident(callee) => {
+            Callee::Expr(callee) => {
+                if let Expr::Ident(callee) = &**callee {
                     self.data
                         .var_or_default(callee.to_id())
                         .mark_used_as_callee();
                 }
-
-                _ => {}
-            },
+            }
+            _ => {}
         }
 
         {
@@ -329,14 +327,13 @@ where
             n.args.visit_with(&mut *self.with_ctx(ctx));
         }
 
-        match &n.callee {
-            Callee::Expr(callee) => match &**callee {
+        if let Callee::Expr(callee) = &n.callee {
+            match &**callee {
                 Expr::Ident(Ident { sym, .. }) if *sym == *"eval" => {
                     self.scope.mark_eval_called();
                 }
                 _ => {}
-            },
-            _ => {}
+            }
         }
     }
 
@@ -628,17 +625,6 @@ where
         }
     }
 
-    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
-        if let SuperProp::Computed(c) = &e.prop {
-            let ctx = Ctx {
-                is_exact_arg: false,
-                is_exact_reassignment: false,
-                ..self.ctx
-            };
-            c.visit_with(&mut *self.with_ctx(ctx));
-        }
-    }
-
     fn visit_module(&mut self, n: &Module) {
         let ctx = Ctx {
             skip_standalone: true,
@@ -747,6 +733,17 @@ where
             stmt.visit_with(&mut *self.with_ctx(ctx));
 
             had_cond |= can_end_conditionally(stmt);
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            let ctx = Ctx {
+                is_exact_arg: false,
+                is_exact_reassignment: false,
+                ..self.ctx
+            };
+            c.visit_with(&mut *self.with_ctx(ctx));
         }
     }
 
