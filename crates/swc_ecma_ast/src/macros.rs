@@ -184,8 +184,8 @@ macro_rules! test_de {
     };
 }
 
-/// Implement `From<$src>` for $dst, by using implementation of `From<$src>` for
-/// $bridge.
+/// Implement `From<$src>` for `$dst`, by using implementation of `From<$src>`
+/// for `$bridge`.
 ///
 /// - `$dst` must implement `From<$bridge>`.
 /// - `$bridge` must implement `From<$src>`.
