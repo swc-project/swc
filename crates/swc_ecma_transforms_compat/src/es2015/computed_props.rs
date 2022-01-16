@@ -267,7 +267,7 @@ impl VisitMut for ComputedProps {
                         };
                         Box::new(Expr::Assign(AssignExpr {
                             span,
-                            op: AssignOp::Assign,
+                            op: op!("="),
                             left: PatOrExpr::Expr(Box::new(left)),
                             right: value.into(),
                         }))
