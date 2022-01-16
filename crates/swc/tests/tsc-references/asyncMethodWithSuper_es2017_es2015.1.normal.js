@@ -59,7 +59,8 @@ class B extends A {
         _superprop_get_x = ()=>super.x
         , // call with element access
         _superprop_get = (_prop)=>super[_prop]
-        , _superprop_set_x = (_value)=>super.x = _value
+        , // property access (assign)
+        _superprop_set_x = (_value)=>super.x = _value
         , // element access (assign)
         _superprop_set = (_prop, _value)=>super[_prop] = _value
         ;
@@ -71,7 +72,6 @@ class B extends A {
             const a = _superprop_get_x();
             // element access (read)
             const b = _superprop_get("x");
-            // property access (assign)
             _superprop_set_x(f);
             _superprop_set("x", f);
             // destructuring assign with property access
