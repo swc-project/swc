@@ -42,7 +42,7 @@ impl FnEnvHoister {
         if let Some(this_id) = this {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(this_id.into()),
+                name: this_id.into(),
                 init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                 definite: false,
             });
@@ -50,7 +50,7 @@ impl FnEnvHoister {
         if let Some(id) = args {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(id.into()),
+                name: id.into(),
                 init: Some(Box::new(Expr::Ident(Ident::new(
                     js_word!("arguments"),
                     DUMMY_SP,
@@ -61,7 +61,7 @@ impl FnEnvHoister {
         if let Some(id) = new_target {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(id.into()),
+                name: id.into(),
                 init: Some(Box::new(Expr::MetaProp(MetaPropExpr {
                     span: DUMMY_SP,
                     kind: MetaPropKind::NewTarget,
@@ -101,7 +101,7 @@ impl FnEnvHoister {
         if let Some(this_id) = &this {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(this_id.clone().into()),
+                name: this_id.clone().into(),
                 init: None,
                 definite: false,
             });
@@ -109,7 +109,7 @@ impl FnEnvHoister {
         if let Some(id) = args {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(id.into()),
+                name: id.into(),
                 init: Some(Box::new(Expr::Ident(Ident::new(
                     js_word!("arguments"),
                     DUMMY_SP,
@@ -120,7 +120,7 @@ impl FnEnvHoister {
         if let Some(id) = new_target {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(id.into()),
+                name: id.into(),
                 init: Some(Box::new(Expr::MetaProp(MetaPropExpr {
                     span: DUMMY_SP,
                     kind: MetaPropKind::NewTarget,
@@ -249,9 +249,7 @@ impl VisitMut for FnEnvHoister {
                                 vec![
                                     Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
-                                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                            tmp.clone().into(),
-                                        ))),
+                                        left: PatOrExpr::Pat(tmp.clone().into()),
                                         op: op!("="),
                                         right: c.expr.take(),
                                     })
@@ -260,9 +258,7 @@ impl VisitMut for FnEnvHoister {
                                         span: DUMMY_SP,
                                         left: Box::new(Expr::Call(CallExpr {
                                             span: DUMMY_SP,
-                                            callee: Callee::Expr(Box::new(
-                                                self.super_get_computed(DUMMY_SP).into(),
-                                            )),
+                                            callee: self.super_get_computed(DUMMY_SP).as_callee(),
                                             args: vec![tmp.as_arg()],
                                             type_args: None,
                                         })),
@@ -277,7 +273,7 @@ impl VisitMut for FnEnvHoister {
                             *e = Expr::Call(CallExpr {
                                 span: *span,
                                 args,
-                                callee: Expr::Ident(callee).as_callee(),
+                                callee: callee.as_callee(),
                                 type_args: None,
                             });
                         }
@@ -321,7 +317,7 @@ impl VisitMut for FnEnvHoister {
                             let call = Expr::Call(CallExpr {
                                 span: *span,
                                 args: vec![c.expr.take().as_arg()],
-                                callee: Expr::Ident(callee).as_callee(),
+                                callee: callee.as_callee(),
                                 type_args: None,
                             });
                             let mut new_args = args.take();
@@ -372,10 +368,7 @@ impl VisitMut for FnEnvHoister {
                     let update_expr = Expr::Bin(BinExpr {
                         span: DUMMY_SP,
                         left: Box::new(Expr::Ident(tmp.clone())),
-                        right: Box::new(Expr::Lit(Lit::Num(Number {
-                            span: DUMMY_SP,
-                            value: 1_f64,
-                        }))),
+                        right: 1_f64.into(),
                         op,
                     })
                     .as_arg();
@@ -383,7 +376,7 @@ impl VisitMut for FnEnvHoister {
                     let mut exprs = match prop {
                         SuperProp::Ident(id) => vec![
                             Box::new(Expr::Assign(AssignExpr {
-                                left: PatOrExpr::Pat(Box::new(tmp.clone().into())),
+                                left: PatOrExpr::Pat(tmp.clone().into()),
                                 op: op!("="),
                                 right: Box::new(
                                     self.super_get(&mut id.clone(), *arg_span)
@@ -402,19 +395,17 @@ impl VisitMut for FnEnvHoister {
                             vec![
                                 Box::new(Expr::Assign(AssignExpr {
                                     span: *arg_span,
-                                    left: PatOrExpr::Pat(Box::new(tmp.clone().into())),
+                                    left: PatOrExpr::Pat(tmp.clone().into()),
                                     op: op!("="),
                                     right: Box::new(self.super_get_computed(*arg_span).as_call(
                                         *arg_span,
                                         vec![Expr::Assign(AssignExpr {
-                                            span: c.span,
-                                            left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                                prop.clone().into(),
-                                            ))),
-                                            right: c.expr.take(),
-                                            op: op!("="),
-                                        })
-                                        .as_arg()],
+                                                span: c.span,
+                                                left: PatOrExpr::Pat(prop.clone().into()),
+                                                right: c.expr.take(),
+                                                op: op!("="),
+                                            })
+                                            .as_arg()],
                                     )),
                                 })),
                                 Box::new(
@@ -438,7 +429,7 @@ impl VisitMut for FnEnvHoister {
                     *e = Expr::Call(CallExpr {
                         span: *span,
                         args: vec![c.expr.take().as_arg()],
-                        callee: Expr::Ident(self.super_get_computed(*span)).as_callee(),
+                        callee: self.super_get_computed(*span).as_callee(),
                         type_args: None,
                     })
                 }
@@ -446,7 +437,7 @@ impl VisitMut for FnEnvHoister {
                     *e = Expr::Call(CallExpr {
                         span: *span,
                         args: Vec::new(),
-                        callee: Expr::Ident(self.super_get(id, *span)).as_callee(),
+                        callee: self.super_get(id, *span).as_callee(),
                         type_args: None,
                     })
                 }
@@ -599,7 +590,7 @@ impl<'a> VisitMut for InitThis<'a> {
                         })),
                         Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(self.this_id.clone().into())),
+                            left: PatOrExpr::Pat(self.this_id.clone().into()),
                             op: AssignOp::Assign,
                             right: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
                         })),
@@ -613,7 +604,7 @@ impl<'a> VisitMut for InitThis<'a> {
 fn extend_super(decls: &mut Vec<VarDeclarator>, get: SuperField, set: SuperField) {
     decls.extend(get.ident.into_iter().map(|(key, ident)| VarDeclarator {
         span: DUMMY_SP,
-        name: Pat::Ident(ident.into()),
+        name: ident.into(),
         init: Some(Box::new(Expr::Arrow(ArrowExpr {
             span: DUMMY_SP,
             params: Vec::new(),
@@ -633,7 +624,7 @@ fn extend_super(decls: &mut Vec<VarDeclarator>, get: SuperField, set: SuperField
         let param = private_ident!("_prop");
         decls.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(id.into()),
+            name: id.into(),
             init: Some(Box::new(Expr::Arrow(ArrowExpr {
                 span: DUMMY_SP,
                 params: vec![param.clone().into()],
@@ -657,7 +648,7 @@ fn extend_super(decls: &mut Vec<VarDeclarator>, get: SuperField, set: SuperField
         let value = private_ident!("_value");
         VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(ident.into()),
+            name: ident.into(),
             init: Some(Box::new(Expr::Arrow(ArrowExpr {
                 span: DUMMY_SP,
                 params: vec![value.clone().into()],
@@ -684,7 +675,7 @@ fn extend_super(decls: &mut Vec<VarDeclarator>, get: SuperField, set: SuperField
         let value = private_ident!("_value");
         decls.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(id.into()),
+            name: id.into(),
             init: Some(Box::new(Expr::Arrow(ArrowExpr {
                 span: DUMMY_SP,
                 params: vec![prop.clone().into(), value.clone().into()],
