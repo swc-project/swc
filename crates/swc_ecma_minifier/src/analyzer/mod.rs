@@ -194,7 +194,7 @@ where
 
         if self.ctx.in_pat_of_var_decl || self.ctx.in_pat_of_param || self.ctx.in_catch_param {
             let v = self.declare_decl(
-                &i,
+                i,
                 self.ctx.in_pat_of_var_decl_with_init,
                 self.ctx.var_decl_kind_of_pat,
                 false,
@@ -209,7 +209,7 @@ where
                 v.mark_mutated();
             }
         } else {
-            self.report_usage(&i, true);
+            self.report_usage(i, true);
         }
     }
 
