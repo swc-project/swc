@@ -14,4 +14,4 @@ tempFun`${(x)=>x
 } ${(x)=>x
 } ${10}`, tempFun`${(x)=>x
 } ${(x)=>x
-} ${undefined}`;
+} ${void 0}`;
