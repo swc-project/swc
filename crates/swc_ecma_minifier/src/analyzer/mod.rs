@@ -448,7 +448,12 @@ where
         e.visit_children_with(self);
 
         if let Expr::Ident(i) = e {
-            self.report_usage(i, self.ctx.in_update_arg || self.ctx.in_assign_lhs);
+            if self.ctx.in_update_arg {
+                self.report_usage(i, true);
+                self.report_usage(i, false);
+            } else {
+                self.report_usage(i, self.ctx.in_update_arg || self.ctx.in_assign_lhs);
+            }
         }
     }
 

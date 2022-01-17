@@ -606,7 +606,7 @@
             });
             if ("string" == typeof value && value) {
                 for(classes = (value || "").match(core_rnotwhite) || []; i < len; i++)if (cur = 1 === (elem = this[i]).nodeType && (elem.className ? (" " + elem.className + " ").replace(rclass, " ") : " ")) {
-                    for(; clazz = classes[j1++];)0 > cur.indexOf(" " + clazz + " ") && (cur += clazz + " ");
+                    for(j1 = 0; clazz = classes[j1++];)0 > cur.indexOf(" " + clazz + " ") && (cur += clazz + " ");
                     elem.className = jQuery.trim(cur);
                 }
             }
@@ -619,7 +619,7 @@
             });
             if (proceed) {
                 for(classes = (value || "").match(core_rnotwhite) || []; i < len; i++)if (cur = 1 === (elem = this[i]).nodeType && (elem.className ? (" " + elem.className + " ").replace(rclass, " ") : "")) {
-                    for(; clazz = classes[j2++];)for(; cur.indexOf(" " + clazz + " ") >= 0;)cur = cur.replace(" " + clazz + " ", " ");
+                    for(j2 = 0; clazz = classes[j2++];)for(; cur.indexOf(" " + clazz + " ") >= 0;)cur = cur.replace(" " + clazz + " ", " ");
                     elem.className = value ? jQuery.trim(cur) : "";
                 }
             }
@@ -887,7 +887,7 @@
             event = jQuery.event.fix(event);
             var i, ret, handleObj, matched, j, handlerQueue = [], args = core_slice.call(arguments), handlers = (jQuery._data(this, "events") || {})[event.type] || [], special = jQuery.event.special[event.type] || {};
             if (args[0] = event, event.delegateTarget = this, !special.preDispatch || !1 !== special.preDispatch.call(this, event)) {
-                for(handlerQueue = jQuery.event.handlers.call(this, event, handlers); (matched = handlerQueue[i++]) && !event.isPropagationStopped();)for(event.currentTarget = matched.elem; (handleObj = matched.handlers[j++]) && !event.isImmediatePropagationStopped();)(!event.namespace_re || event.namespace_re.test(handleObj.namespace)) && (event.handleObj = handleObj, event.data = handleObj.data, undefined1 !== (ret = ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args)) && !1 === (event.result = ret) && (event.preventDefault(), event.stopPropagation()));
+                for(handlerQueue = jQuery.event.handlers.call(this, event, handlers), i = 0; (matched = handlerQueue[i++]) && !event.isPropagationStopped();)for(event.currentTarget = matched.elem, j = 0; (handleObj = matched.handlers[j++]) && !event.isImmediatePropagationStopped();)(!event.namespace_re || event.namespace_re.test(handleObj.namespace)) && (event.handleObj = handleObj, event.data = handleObj.data, undefined1 !== (ret = ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args)) && !1 === (event.result = ret) && (event.preventDefault(), event.stopPropagation()));
                 return special.postDispatch && special.postDispatch.call(this, event), event.result;
             }
         },
@@ -1669,7 +1669,7 @@
                     var elem, j, matcher, setMatched = [], matchedCount = 0, i = "0", unmatched = seed && [], outermost = null != expandContext, contextBackup = outermostContext, elems = seed || byElement && Expr.find.TAG("*", expandContext && context.parentNode || context), dirrunsUnique = dirruns += null == contextBackup ? 1 : Math.random() || 0.1;
                     for(outermost && (outermostContext = context !== document && context, cachedruns = matcherCachedRuns); null != (elem = elems[i]); i++){
                         if (byElement && elem) {
-                            for(; matcher = elementMatchers[j++];)if (matcher(elem, context, xml)) {
+                            for(j = 0; matcher = elementMatchers[j++];)if (matcher(elem, context, xml)) {
                                 results.push(elem);
                                 break;
                             }
@@ -1678,7 +1678,7 @@
                         bySet && ((elem = !matcher && elem) && matchedCount--, seed && unmatched.push(elem));
                     }
                     if (matchedCount += i, bySet && i !== matchedCount) {
-                        for(; matcher = setMatchers[j++];)matcher(unmatched, setMatched, context, xml);
+                        for(j = 0; matcher = setMatchers[j++];)matcher(unmatched, setMatched, context, xml);
                         if (seed) {
                             if (matchedCount > 0) for(; i--;)unmatched[i] || setMatched[i] || (setMatched[i] = pop.call(results));
                             setMatched = condense(setMatched);
