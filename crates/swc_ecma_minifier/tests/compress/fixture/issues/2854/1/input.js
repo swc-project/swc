@@ -1,8 +1,8 @@
-function App() {
+export function App() {
     return <Form />
 }
 
-function Form({ onChange = function () { } }) {
+export function Form({ onChange = function () { } }) {
     return (
         <input
             onChange={function () {
@@ -11,5 +11,3 @@ function Form({ onChange = function () { } }) {
         />
     );
 }
-
-export default App;
