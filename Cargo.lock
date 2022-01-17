@@ -2652,7 +2652,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.116.4"
+version = "0.116.5"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2888,7 +2888,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.65.2"
+version = "0.65.3"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -3365,7 +3365,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.110.4"
+version = "0.110.5"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
