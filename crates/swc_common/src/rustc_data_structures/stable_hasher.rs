@@ -1,4 +1,4 @@
-use super::sip128::SipHasher128;
+use siphasher::sip128::{Hash128, Hasher128, SipHasher24};
 use std::{
     hash::{BuildHasher, Hash, Hasher},
     marker::PhantomData,
@@ -13,7 +13,7 @@ use std::{
 /// hashing and the architecture dependent `isize` and `usize` types are
 /// extended to 64 bits if needed.
 pub struct StableHasher<W> {
-    state: SipHasher128,
+    state: SipHasher24,
     bytes_hashed: u64,
     width: PhantomData<W>,
 }
@@ -31,7 +31,7 @@ pub trait StableHasherResult: Sized {
 impl<W: StableHasherResult> StableHasher<W> {
     pub fn new() -> Self {
         StableHasher {
-            state: SipHasher128::new_with_keys(0, 0),
+            state: SipHasher24::new_with_keys(0, 0),
             bytes_hashed: 0,
             width: PhantomData,
         }
@@ -44,20 +44,20 @@ impl<W: StableHasherResult> StableHasher<W> {
 
 impl StableHasherResult for u128 {
     fn finish(hasher: StableHasher<Self>) -> Self {
-        let (_0, _1) = hasher.finalize();
+        let (_0, _1) = hasher.finalize().as_u64();
         (_0 as u128) | ((_1 as u128) << 64)
     }
 }
 
 impl StableHasherResult for u64 {
     fn finish(hasher: StableHasher<Self>) -> Self {
-        hasher.finalize().0
+        hasher.finalize().h1
     }
 }
 
 impl<W> StableHasher<W> {
     #[inline]
-    pub fn finalize(self) -> (u64, u64) {
+    pub fn finalize(self) -> Hash128 {
         self.state.finish128()
     }
 }
