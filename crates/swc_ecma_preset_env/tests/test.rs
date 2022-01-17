@@ -12,12 +12,14 @@ use std::{
     path::{Path, PathBuf},
 };
 use swc_common::{
-    collections::AHashMap, comments::SingleThreadedComments, input::StringInput, FromVariant, Mark,
+    chain, collections::AHashMap, comments::SingleThreadedComments, input::StringInput,
+    FromVariant, Mark,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{EsConfig, Parser, Syntax};
 use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
+use swc_ecma_transforms::fixer;
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{as_folder, FoldWith, VisitMut};
 use testing::{NormalizedOutput, Tester};
@@ -119,34 +121,37 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
 
     Tester::new()
         .print_errors(|cm, handler| {
-            let mut pass = preset_env(
-                Mark::fresh(Mark::root()),
-                Some(SingleThreadedComments::default()),
-                Config {
-                    debug: c.debug,
-                    mode: match c.use_built_ins {
-                        UseBuiltIns::Bool(false) => None,
-                        UseBuiltIns::Str(ref s) if s == "usage" => Some(Mode::Usage),
-                        UseBuiltIns::Str(ref s) if s == "entry" => Some(Mode::Entry),
-                        v => unreachable!("invalid: {:?}", v),
+            let mut pass = chain!(
+                preset_env(
+                    Mark::fresh(Mark::root()),
+                    Some(SingleThreadedComments::default()),
+                    Config {
+                        debug: c.debug,
+                        mode: match c.use_built_ins {
+                            UseBuiltIns::Bool(false) => None,
+                            UseBuiltIns::Str(ref s) if s == "usage" => Some(Mode::Usage),
+                            UseBuiltIns::Str(ref s) if s == "entry" => Some(Mode::Entry),
+                            v => unreachable!("invalid: {:?}", v),
+                        },
+                        skip: vec![],
+                        // TODO
+                        loose: true,
+                        // TODO
+                        dynamic_import: true,
+                        bugfixes: false,
+                        include: c.include,
+                        exclude: c.exclude,
+                        core_js: match c.corejs {
+                            CoreJs::Ver(v) => Some(v),
+                            ref s => unimplemented!("Unknown core js version: {:?}", s),
+                        },
+                        force_all_transforms: c.force_all_transforms,
+                        shipped_proposals: c.shipped_proposals,
+                        targets: c.targets,
+                        path: std::env::current_dir().unwrap(),
                     },
-                    skip: vec![],
-                    // TODO
-                    loose: true,
-                    // TODO
-                    dynamic_import: true,
-                    bugfixes: false,
-                    include: c.include,
-                    exclude: c.exclude,
-                    core_js: match c.corejs {
-                        CoreJs::Ver(v) => Some(v),
-                        ref s => unimplemented!("Unknown core js version: {:?}", s),
-                    },
-                    force_all_transforms: c.force_all_transforms,
-                    shipped_proposals: c.shipped_proposals,
-                    targets: c.targets,
-                    path: std::env::current_dir().unwrap(),
-                },
+                ),
+                fixer(None)
             );
 
             let print = |m: &Module| {
@@ -174,6 +179,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                 .expect("failed to load file");
             let mut p = Parser::new(
                 Syntax::Es(EsConfig {
+                    static_blocks: true,
                     ..Default::default()
                 }),
                 StringInput::from(&*fm),
