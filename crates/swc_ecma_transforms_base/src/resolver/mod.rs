@@ -488,19 +488,6 @@ impl<'a> VisitMut for Resolver<'a> {
         }
     }
 
-    fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
-        s.discriminant.visit_mut_with(self);
-
-        let child_mark = Mark::fresh(Mark::root());
-
-        let mut child_folder = Resolver::new(
-            Scope::new(ScopeKind::Block, child_mark, Some(&self.current)),
-            self.handle_types,
-        );
-
-        s.cases.visit_mut_with(&mut child_folder);
-    }
-
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
         let child_mark = Mark::fresh(Mark::root());
 
@@ -827,6 +814,11 @@ impl<'a> VisitMut for Resolver<'a> {
         self.ident_type = old;
     }
 
+    /// Ignore.
+    ///
+    /// See https://github.com/swc-project/swc/issues/2854
+    fn visit_mut_jsx_attr_name(&mut self, _: &mut JSXAttrName) {}
+
     /// Leftmost one of a member expression should be resolved.
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.obj.visit_mut_with(self);
@@ -852,11 +844,6 @@ impl<'a> VisitMut for Resolver<'a> {
         };
     }
 
-    // TODO: How should I handle this?
-    typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
-
-    track_ident_mut!();
-
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         if !self.in_ts_module && self.current.kind != ScopeKind::Fn {
             return stmts.visit_mut_children_with(self);
@@ -876,6 +863,11 @@ impl<'a> VisitMut for Resolver<'a> {
         // Phase 2.
         stmts.visit_mut_children_with(self)
     }
+
+    // TODO: How should I handle this?
+    typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
+
+    track_ident_mut!();
 
     fn visit_mut_named_export(&mut self, e: &mut NamedExport) {
         if e.src.is_some() {
@@ -976,6 +968,19 @@ impl<'a> VisitMut for Resolver<'a> {
         if let SuperProp::Computed(c) = &mut e.prop {
             c.visit_mut_with(self);
         }
+    }
+
+    fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
+        s.discriminant.visit_mut_with(self);
+
+        let child_mark = Mark::fresh(Mark::root());
+
+        let mut child_folder = Resolver::new(
+            Scope::new(ScopeKind::Block, child_mark, Some(&self.current)),
+            self.handle_types,
+        );
+
+        s.cases.visit_mut_with(&mut child_folder);
     }
 
     fn visit_mut_ts_as_expr(&mut self, n: &mut TsAsExpr) {
