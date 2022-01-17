@@ -65,41 +65,59 @@ Steps to get started:
 
 ## Getting your development environment set up
 
-After cloning the project there are a few steps required to get the project running.
+After cloning the project there are a few steps required to get the project running. 
+For running all tests, take the following steps:
 
-1.  Fetch submodules to pull ECMAScript test suites.
+1. Fetch submodules to pull ECMAScript test suites.
 
     ```bash
     git submodule update --init --recursive
     ```
 
-2.  Install js dependencies.
+2. Install js dependencies.
 
     ```bash
     yarn
     ( cd crates/swc_ecma_transforms; yarn )
     ```
 
-3.  Setup some environment variables which is required for tests.
+3. Setup some environment variables which is required for tests.
 
     ```bash
-    export RUST_BACKTRACE=full
+    export RUST_BACKTRACE=0
     export PATH="$PATH:$PWD/crates/swc_ecma_transforms/node_modules/.bin"
     export RUST_MIN_STACK=16777216
     ```
 
-4.  Install deno, if you are going to work on the bundler.
+4. Install deno
 
     See [official install guide of deno](https://deno.land/manual/getting_started/installation) to install it.
 
-5.  Ensure you're using Node.JS >= 16
+5. Add wasm32-wasi target
+
+   `rustup target add wasm32-wasi` 
+
+6. Ensure you're using Node.JS >= 16
 
     Since tests make use of `atob` which was only introduced in node 16.
 
-6.  Run tests
+7. Run tests
 
     ```bash
-    cargo test --all --all-features
+    cargo test --all --no-default-features --features swc_v1
+    ```
+    Or
+    ```bash
+   cargo test --all --no-default-features --features swc_v2 
+   ```
+
+## Running tests per package
+
+While working on specific packages, individual tests can be run by specifying a package to the
+cargo test runner, e.g.
+
+    ```bash
+    cargo test -p swc_ecma_transforms --all-features
     ```
 
 ## Pull requests
