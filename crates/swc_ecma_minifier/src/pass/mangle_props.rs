@@ -56,14 +56,7 @@ impl ManglePropertiesState {
     }
 
     fn can_mangle(&self, name: &JsWord) -> bool {
-        if self.unmangleable.contains(name) {
-            false
-        } else if self.is_reserved(name) {
-            false
-        } else {
-            // TODO only_cache, check if it's a name that doesn't need quotes
-            true
-        }
+        !(self.unmangleable.contains(name) || self.is_reserved(name))
     }
 
     fn matches_regex_option(&self, name: &JsWord) -> bool {
@@ -75,9 +68,7 @@ impl ManglePropertiesState {
     }
 
     fn should_mangle(&self, name: &JsWord) -> bool {
-        if !self.matches_regex_option(name) {
-            false
-        } else if self.is_reserved(name) {
+        if !self.matches_regex_option(name) || self.is_reserved(name) {
             false
         } else {
             self.cache.contains_key(name) || self.names_to_mangle.contains(name)
@@ -93,13 +84,11 @@ impl ManglePropertiesState {
             if let Some(cached) = self.cache.get(name) {
                 Some(cached.clone())
             } else {
-                loop {
-                    let sym = incr_base54(&mut self.n).1;
+                let sym = incr_base54(&mut self.n).1;
 
-                    let mangled_name: JsWord = sym.into();
-                    self.cache.insert(name.clone(), mangled_name.clone());
-                    return Some(mangled_name);
-                }
+                let mangled_name: JsWord = sym.into();
+                self.cache.insert(name.clone(), mangled_name.clone());
+                return Some(mangled_name);
             }
         } else {
             None

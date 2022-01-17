@@ -34,7 +34,7 @@ pub fn const_modules(
 
 fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
     static CACHE: Lazy<DashMap<String, Arc<Expr>, ahash::RandomState>> =
-        Lazy::new(|| DashMap::default());
+        Lazy::new(DashMap::default);
 
     let fm = cm.new_source_file(FileName::Custom(format!("<const-module-{}.js>", name)), src);
     if let Some(expr) = CACHE.get(&**fm.src) {

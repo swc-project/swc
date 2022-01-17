@@ -71,7 +71,7 @@ fn toposort_real_modules<'a>(
 
     #[cfg(not(target_arch = "wasm32"))]
     let start = Instant::now();
-    let sorted_ids = toposort_real_module_ids(queue, graph, &cycles).collect::<Vec<_>>();
+    let sorted_ids = toposort_real_module_ids(queue, graph, cycles).collect::<Vec<_>>();
     #[cfg(not(target_arch = "wasm32"))]
     let end = Instant::now();
     #[cfg(not(target_arch = "wasm32"))]
@@ -85,10 +85,9 @@ fn toposort_real_modules<'a>(
 
         for id in ids.iter().copied().rev() {
             if let Some((_, module)) = modules.iter_mut().find(|(module_id, _)| *module_id == id) {
-                module.body.retain(|item| match item {
-                    ModuleItem::Stmt(Stmt::Empty(..)) => false,
-                    _ => true,
-                });
+                module
+                    .body
+                    .retain(|item| !matches!(item, ModuleItem::Stmt(Stmt::Empty(..))));
                 if module.body.is_empty() {
                     continue;
                 }
@@ -102,13 +101,11 @@ fn toposort_real_modules<'a>(
         }
 
         // Skip sorting statements if there is no import.
-        if ids.len() == 1 {
-            if graph.neighbors_directed(ids[0], Outgoing).count() == 0 {
-                chunks.push(Chunk {
-                    stmts: stmts.into_iter().next().unwrap(),
-                });
-                continue;
-            }
+        if ids.len() == 1 && graph.neighbors_directed(ids[0], Outgoing).count() == 0 {
+            chunks.push(Chunk {
+                stmts: stmts.into_iter().next().unwrap(),
+            });
+            continue;
         }
 
         let stmts = sort_stmts(injected_ctxt, stmts, cm);
@@ -172,7 +169,7 @@ fn toposort_real_module_ids<'a>(
 
             let deps = graph
                 .neighbors_directed(id, Outgoing)
-                .filter(|dep| !done.contains(&dep))
+                .filter(|dep| !done.contains(dep))
                 .collect::<Vec<_>>();
 
             if deps.is_empty() {
@@ -208,7 +205,7 @@ fn toposort_real_module_ids<'a>(
                 .flat_map(|&id| {
                     graph
                         .neighbors_directed(id, Outgoing)
-                        .filter(|dep| !done.contains(&dep) && !all_modules_in_circle.contains(dep))
+                        .filter(|dep| !done.contains(dep) && !all_modules_in_circle.contains(dep))
                 })
                 .collect::<Vec<_>>();
 

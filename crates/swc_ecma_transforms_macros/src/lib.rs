@@ -1,3 +1,4 @@
+#![deny(clippy::all)]
 #![recursion_limit = "2048"]
 
 use pmutil::ToTokensExt;

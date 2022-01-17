@@ -36,7 +36,7 @@ macro_rules! define {
                         .parse_module()
                         .map(|script| drop_span(script.body))
                         .map_err(|_| {
-                            ()
+
                         })
                         .unwrap();
                     stmts

@@ -166,23 +166,20 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
 
                 let var = alias_ident_for(&obj, "_ref");
 
-                let this = if match *obj {
-                    Expr::This(..) => true,
-                    _ => false,
-                } {
+                let this = if matches!(*obj, Expr::This(..)) {
                     ThisExpr { span: DUMMY_SP }.as_arg()
                 } else if is_static {
                     obj.as_arg()
                 } else {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(var.clone().into()),
+                        name: var.clone().into(),
                         init: None,
                         definite: false,
                     });
                     AssignExpr {
                         span: obj.span(),
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(var.clone().into()))),
+                        left: PatOrExpr::Pat(var.clone().into()),
                         op: op!("="),
                         right: obj,
                     }
@@ -198,7 +195,7 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
                 if !*prefix {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(old_var.clone().into()),
+                        name: old_var.clone().into(),
                         init: None,
                         definite: false,
                     });
@@ -216,7 +213,7 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
                     } else {
                         Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(old_var.clone().into()))),
+                            left: PatOrExpr::Pat(old_var.clone().into()),
                             op: op!("="),
                             right: left,
                         }))
@@ -318,13 +315,13 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
                 } else {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(var.clone().into()),
+                        name: var.clone().into(),
                         init: None,
                         definite: false,
                     });
                     AssignExpr {
                         span: obj.span(),
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(var.clone().into()))),
+                        left: PatOrExpr::Pat(var.clone().into()),
                         op: op!("="),
                         right: obj,
                     }
@@ -638,7 +635,7 @@ impl<'a> FieldAccessFolder<'a> {
                             aliased = true;
                             self.vars.push(VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(var.clone().into()),
+                                name: var.clone().into(),
                                 init: None,
                                 definite: false,
                             });
@@ -652,7 +649,7 @@ impl<'a> FieldAccessFolder<'a> {
                         if aliased {
                             AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(var.clone().into()))),
+                                left: PatOrExpr::Pat(var.clone().into()),
                                 op: op!("="),
                                 right: obj.take(),
                             }

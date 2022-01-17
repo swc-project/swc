@@ -22,8 +22,8 @@ impl Prefixer {
         important: Option<Span>,
     ) {
         match v {
-            Value::Function(f) => match &*f.name.value {
-                "image-set" => {
+            Value::Function(f) => {
+                if &*f.name.value == "image-set" {
                     let val = Value::Function(Function {
                         span: DUMMY_SP,
                         name: Ident {
@@ -67,12 +67,10 @@ impl Prefixer {
                         important,
                     });
                 }
-
-                _ => {}
-            },
+            }
 
             Value::Comma(c) => {
-                if c.values.len() >= 1 {
+                if !c.values.is_empty() {
                     let second = c.values.get(1).cloned();
                     self.handle_cursor_image_set(&mut c.values[0], second, important);
                 }
@@ -223,75 +221,61 @@ impl VisitMut for Prefixer {
             }
 
             "background" => {
-                if n.value.len() >= 1 {
-                    match &n.value[0] {
-                        Value::Function(f) => match &*f.name.value {
-                            "image-set" => {
-                                let val = Value::Function(Function {
+                if !n.value.is_empty() {
+                    if let Value::Function(f) = &n.value[0] {
+                        if &*f.name.value == "image-set" {
+                            let val = Value::Function(Function {
+                                span: DUMMY_SP,
+                                name: Ident {
                                     span: DUMMY_SP,
-                                    name: Ident {
-                                        span: DUMMY_SP,
-                                        value: "-webkit-image-set".into(),
-                                        raw: "-webkit-image-set".into(),
-                                    },
-                                    value: f.value.clone(),
-                                });
-                                self.added.push(Declaration {
-                                    span: n.span,
-                                    property: n.property.clone(),
-                                    value: vec![val],
-                                    important: n.important.clone(),
-                                });
-                            }
-
-                            _ => {}
-                        },
-
-                        _ => {}
+                                    value: "-webkit-image-set".into(),
+                                    raw: "-webkit-image-set".into(),
+                                },
+                                value: f.value.clone(),
+                            });
+                            self.added.push(Declaration {
+                                span: n.span,
+                                property: n.property.clone(),
+                                value: vec![val],
+                                important: n.important,
+                            });
+                        }
                     }
                 }
             }
 
             "background-image" => {
-                if n.value.len() >= 1 {
-                    match &n.value[0] {
-                        Value::Function(f) => match &*f.name.value {
-                            "image-set" => {
-                                let val = Value::Function(Function {
+                if !n.value.is_empty() {
+                    if let Value::Function(f) = &n.value[0] {
+                        if let "image-set" = &*f.name.value {
+                            let val = Value::Function(Function {
+                                span: DUMMY_SP,
+                                name: Ident {
                                     span: DUMMY_SP,
-                                    name: Ident {
-                                        span: DUMMY_SP,
-                                        value: "-webkit-image-set".into(),
-                                        raw: "-webkit-image-set".into(),
-                                    },
-                                    value: f.value.clone(),
-                                });
-                                self.added.push(Declaration {
-                                    span: n.span,
-                                    property: n.property.clone(),
-                                    value: vec![val],
-                                    important: n.important.clone(),
-                                });
-                            }
-
-                            _ => {}
-                        },
-
-                        _ => {}
+                                    value: "-webkit-image-set".into(),
+                                    raw: "-webkit-image-set".into(),
+                                },
+                                value: f.value.clone(),
+                            });
+                            self.added.push(Declaration {
+                                span: n.span,
+                                property: n.property.clone(),
+                                value: vec![val],
+                                important: n.important,
+                            });
+                        }
                     }
                 }
             }
 
             "cursor" => {
-                if n.value.len() >= 1 {
+                if !n.value.is_empty() {
                     match &n.value[0] {
-                        Value::Ident(Ident { value, .. }) => match &**value {
-                            "grab" => {
+                        Value::Ident(Ident { value, .. }) => {
+                            if &**value == "grab" {
                                 same_name!("-webkit-grab");
                             }
-
-                            _ => {}
-                        },
+                        }
 
                         _ => {
                             let second = n.value.get(1).cloned();
@@ -303,8 +287,8 @@ impl VisitMut for Prefixer {
 
             "display" => {
                 if n.value.len() == 1 {
-                    match &n.value[0] {
-                        Value::Ident(Ident { value, .. }) => match &**value {
+                    if let Value::Ident(Ident { value, .. }) = &n.value[0] {
+                        match &**value {
                             "flex" => {
                                 same_name!("-webkit-box");
                                 same_name!("-webkit-flex");
@@ -318,9 +302,7 @@ impl VisitMut for Prefixer {
                             }
 
                             _ => {}
-                        },
-
-                        _ => {}
+                        }
                     }
                 }
             }
@@ -364,8 +346,8 @@ impl VisitMut for Prefixer {
 
             "justify-content" => {
                 if n.value.len() == 1 {
-                    match &n.value[0] {
-                        Value::Ident(Ident { value, .. }) => match &**value {
+                    if let Value::Ident(Ident { value, .. }) = &n.value[0] {
+                        match &**value {
                             "flex-end" => {
                                 simple!("-webkit-box-pack", "end");
                                 simple!("-ms-flex-pack", "end");
@@ -386,9 +368,7 @@ impl VisitMut for Prefixer {
                             }
 
                             _ => {}
-                        },
-
-                        _ => {}
+                        }
                     }
                 }
 
@@ -463,15 +443,10 @@ impl VisitMut for Prefixer {
 
             "position" => {
                 if n.value.len() == 1 {
-                    match &n.value[0] {
-                        Value::Ident(Ident { value, .. }) => match &**value {
-                            "sticky" => {
-                                same_name!("-webkit-sticky");
-                            }
-
-                            _ => {}
-                        },
-                        _ => {}
+                    if let Value::Ident(Ident { value, .. }) = &n.value[0] {
+                        if &**value == "sticky" {
+                            same_name!("-webkit-sticky");
+                        }
                     }
                 }
             }
@@ -490,34 +465,22 @@ impl VisitMut for Prefixer {
 
             "text-decoration" => {
                 if n.value.len() == 1 {
-                    match &n.value[0] {
-                        Value::Ident(Ident { value, .. }) => match &**value {
-                            "none" => {
-                                same_content!("-webkit-text-decoration");
-                            }
-
-                            _ => {}
-                        },
-
-                        _ => {}
+                    if let Value::Ident(Ident { value, .. }) = &n.value[0] {
+                        if &**value == "none" {
+                            same_content!("-webkit-text-decoration");
+                        }
                     }
                 }
             }
 
             "text-size-adjust" => {
                 if n.value.len() == 1 {
-                    match &n.value[0] {
-                        Value::Ident(Ident { value, .. }) => match &**value {
-                            "none" => {
-                                same_content!("-webkit-text-size-adjust");
-                                same_content!("-moz-text-size-adjust");
-                                same_content!("-ms-text-size-adjust");
-                            }
-
-                            _ => {}
-                        },
-
-                        _ => {}
+                    if let Value::Ident(Ident { value, .. }) = &n.value[0] {
+                        if &**value == "none" {
+                            same_content!("-webkit-text-size-adjust");
+                            same_content!("-moz-text-size-adjust");
+                            same_content!("-ms-text-size-adjust");
+                        }
                     }
                 }
             }
@@ -533,14 +496,14 @@ impl VisitMut for Prefixer {
                         raw: "-webkit-transition".into(),
                     },
                     value,
-                    important: n.important.clone(),
+                    important: n.important,
                 });
             }
 
             "writing-mode" => {
                 if n.value.len() == 1 {
-                    match &n.value[0] {
-                        Value::Ident(Ident { value, .. }) => match &**value {
+                    if let Value::Ident(Ident { value, .. }) = &n.value[0] {
+                        match &**value {
                             "none" => {
                                 same_content!("-webkit-writing-mode");
                                 same_content!("-ms-writing-mode");
@@ -562,9 +525,7 @@ impl VisitMut for Prefixer {
                             }
 
                             _ => {}
-                        },
-
-                        _ => {}
+                        }
                     }
                 }
             }
@@ -572,8 +533,8 @@ impl VisitMut for Prefixer {
             "min-width" | "width" | "max-width" | "min-height" | "height" | "max-height"
             | "min-block-size" | "min-inline-size" => {
                 if n.value.len() == 1 {
-                    match &n.value[0] {
-                        Value::Ident(Ident { value, .. }) => match &**value {
+                    if let Value::Ident(Ident { value, .. }) = &n.value[0] {
+                        match &**value {
                             "fit-content" => {
                                 same_name!("-webkit-fit-content");
                                 same_name!("-moz-fit-content");
@@ -601,8 +562,7 @@ impl VisitMut for Prefixer {
                             }
 
                             _ => {}
-                        },
-                        _ => {}
+                        }
                     }
                 }
             }

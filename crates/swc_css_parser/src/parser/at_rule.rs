@@ -179,6 +179,21 @@ where
                 }
             }
 
+            "layer" => {
+                self.input.skip_ws()?;
+
+                let at_rule_layer = self.parse();
+
+                if at_rule_layer.is_ok() {
+                    return at_rule_layer
+                        .map(|mut r: LayerRule| {
+                            r.span.lo = at_rule_span.lo;
+                            r
+                        })
+                        .map(AtRule::Layer);
+                }
+            }
+
             _ => {}
         }
 
@@ -249,10 +264,10 @@ where
 
         eat!(self, ";");
 
-        return Ok(CharsetRule {
+        Ok(CharsetRule {
             span: span!(self, span.lo),
             charset,
-        });
+        })
     }
 }
 
@@ -262,22 +277,41 @@ where
 {
     fn parse(&mut self) -> PResult<ImportRule> {
         let span = self.input.cur_span()?;
-
-        let src = match cur!(self) {
-            Token::Str { .. } => Ok(ImportSource::Str(self.parse()?)),
+        let href = match cur!(self) {
+            Token::Str { .. } => ImportHref::Str(self.parse()?),
             Token::Function { value, .. } if *value.to_ascii_lowercase() == js_word!("url") => {
-                Ok(ImportSource::Function(self.parse()?))
+                ImportHref::Function(self.parse()?)
             }
-            Token::Url { .. } => Ok(ImportSource::Url(self.parse()?)),
-            _ => Err(Error::new(
-                span,
-                ErrorKind::Expected("url('https://example.com') or 'https://example.com'"),
-            )),
+            Token::Url { .. } => ImportHref::Url(self.parse()?),
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("url('https://example.com') or 'https://example.com'"),
+                ))
+            }
         };
 
         self.input.skip_ws()?;
 
-        let condition = if !is_one_of!(self, ";", EOF) {
+        let layer_name = match cur!(self) {
+            Token::Ident { value, .. } if *value.to_ascii_lowercase() == *"layer" => {
+                let name = ImportLayerName::Ident(self.parse()?);
+
+                self.input.skip_ws()?;
+
+                Some(name)
+            }
+            Token::Function { value, .. } if *value.to_ascii_lowercase() == *"layer" => {
+                let name = ImportLayerName::Function(self.parse()?);
+
+                self.input.skip_ws()?;
+
+                Some(name)
+            }
+            _ => None,
+        };
+
+        let media = if !is!(self, ";") {
             Some(self.parse()?)
         } else {
             None
@@ -285,11 +319,12 @@ where
 
         eat!(self, ";");
 
-        return Ok(ImportRule {
+        Ok(ImportRule {
             span: span!(self, span.lo),
-            src: src.unwrap(),
-            condition,
-        });
+            href,
+            layer_name,
+            media,
+        })
     }
 }
 
@@ -329,11 +364,11 @@ where
             expect!(self, "}");
         }
 
-        return Ok(KeyframesRule {
+        Ok(KeyframesRule {
             span: span!(self, span.lo),
             name,
             blocks,
-        });
+        })
     }
 }
 
@@ -345,10 +380,10 @@ where
         let span = self.input.cur_span()?;
         let block = self.parse()?;
 
-        return Ok(ViewportRule {
+        Ok(ViewportRule {
             span: span!(self, span.lo),
             block,
-        });
+        })
     }
 }
 
@@ -393,11 +428,11 @@ where
 
         eat!(self, ";");
 
-        return Ok(NamespaceRule {
+        Ok(NamespaceRule {
             span: span!(self, span.lo),
             prefix,
             uri,
-        });
+        })
     }
 }
 
@@ -409,10 +444,10 @@ where
         let span = self.input.cur_span()?;
         let block = self.parse()?;
 
-        return Ok(FontFaceRule {
+        Ok(FontFaceRule {
             span: span!(self, span.lo),
             block,
-        });
+        })
     }
 }
 
@@ -432,11 +467,11 @@ where
 
         expect!(self, "}");
 
-        return Ok(SupportsRule {
+        Ok(SupportsRule {
             span: span!(self, span.lo),
             query,
             rules,
-        });
+        })
     }
 }
 
@@ -641,11 +676,11 @@ where
 
         expect!(self, "}");
 
-        return Ok(MediaRule {
+        Ok(MediaRule {
             span: span!(self, span.lo),
             query,
             rules,
-        });
+        })
     }
 }
 
@@ -759,7 +794,7 @@ where
             }));
         }
 
-        return Ok(base);
+        Ok(base)
     }
 }
 
@@ -900,5 +935,107 @@ where
             prelude,
             block,
         })
+    }
+}
+
+impl<I> Parse<LayerName> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<LayerName> {
+        let start = self.input.cur_span()?.lo;
+        let mut name = vec![];
+
+        while is!(self, Ident) {
+            let span = self.input.cur_span()?;
+            let token = bump!(self);
+            let ident = match token {
+                Token::Ident { value, raw } => Ident { span, value, raw },
+                _ => {
+                    unreachable!();
+                }
+            };
+
+            name.push(ident);
+
+            if is!(self, ".") {
+                eat!(self, ".");
+            }
+        }
+
+        Ok(LayerName {
+            name,
+            span: span!(self, start),
+        })
+    }
+}
+
+impl<I> Parse<LayerRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<LayerRule> {
+        let span = self.input.cur_span()?;
+        let prelude = if is!(self, Ident) {
+            let mut name_list = vec![];
+
+            while is!(self, Ident) {
+                name_list.push(self.parse()?);
+
+                self.input.skip_ws()?;
+
+                if is!(self, ",") {
+                    eat!(self, ",");
+
+                    self.input.skip_ws()?;
+                }
+            }
+
+            match name_list.len() == 1 {
+                // Block
+                true => Some(LayerPrelude::Name(name_list.remove(0))),
+                // Statement
+                false => {
+                    let first = name_list[0].span;
+                    let last = name_list[name_list.len() - 1].span;
+
+                    Some(LayerPrelude::NameList(LayerNameList {
+                        name_list,
+                        span: Span::new(first.lo, last.hi, Default::default()),
+                    }))
+                }
+            }
+        } else {
+            None
+        };
+
+        self.input.skip_ws()?;
+
+        let rules = match prelude {
+            // Block
+            None | Some(LayerPrelude::Name(LayerName { .. })) => {
+                expect!(self, "{");
+
+                let rules = Some(self.parse_rule_list(RuleContext {
+                    is_top_level: false,
+                })?);
+
+                expect!(self, "}");
+
+                rules
+            }
+            // Statement
+            Some(LayerPrelude::NameList(LayerNameList { .. })) => {
+                expect!(self, ";");
+
+                None
+            }
+        };
+
+        return Ok(LayerRule {
+            span: span!(self, span.lo),
+            prelude,
+            rules,
+        });
     }
 }

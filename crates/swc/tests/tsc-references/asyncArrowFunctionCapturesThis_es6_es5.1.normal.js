@@ -65,15 +65,15 @@ var C = // @target: ES6
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
                                     _ctx.next = 2;
-                                    return this;
+                                    return _this;
                                 case 2:
                                     return _ctx.abrupt("return", _ctx.sent);
                                 case 3:
                                 case "end":
                                     return _ctx.stop();
                             }
-                        }, _callee, this);
-                    }).bind(_this)).bind(_this);
+                        }, _callee);
+                    }));
                     return function fn() {
                         return _ref.apply(this, arguments);
                     };

@@ -1,3 +1,5 @@
+#![allow(clippy::vec_box)]
+
 use crate::reducer::ast_reducer;
 use anyhow::{anyhow, Context, Error};
 use serde::Serialize;

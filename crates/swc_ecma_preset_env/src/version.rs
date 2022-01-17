@@ -1,8 +1,8 @@
 use crate::Versions;
 use serde::{de, de::Visitor, Deserialize, Deserializer};
-use std::{cmp, cmp::Ordering, fmt, hash, str::FromStr};
+use std::{cmp, cmp::Ordering, fmt, str::FromStr};
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Version {
     pub major: u16,
     pub minor: u16,
@@ -13,7 +13,7 @@ impl FromStr for Version {
     type Err = ();
 
     fn from_str(v: &str) -> Result<Self, Self::Err> {
-        if !v.contains(".") {
+        if !v.contains('.') {
             return Ok(Version {
                 major: v
                     .parse()
@@ -23,8 +23,8 @@ impl FromStr for Version {
             });
         }
 
-        if v.split(".").count() == 2 {
-            let mut s = v.split(".");
+        if v.split('.').count() == 2 {
+            let mut s = v.split('.');
             return Ok(Version {
                 major: s.next().unwrap().parse().unwrap(),
                 minor: s.next().unwrap().parse().unwrap(),
@@ -68,14 +68,6 @@ impl cmp::Ord for Version {
         }
 
         Ordering::Equal
-    }
-}
-
-impl hash::Hash for Version {
-    fn hash<H: hash::Hasher>(&self, into: &mut H) {
-        self.major.hash(into);
-        self.minor.hash(into);
-        self.patch.hash(into);
     }
 }
 

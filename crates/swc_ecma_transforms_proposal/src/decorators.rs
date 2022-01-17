@@ -112,7 +112,7 @@ impl Fold for Decorators {
                     declare: false,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(ident.into()),
+                        name: ident.into(),
                         definite: false,
                         init: Some(decorate_call),
                     }],
@@ -131,10 +131,7 @@ impl Fold for Decorators {
                     return Expr::Class(ClassExpr { ident, class });
                 }
 
-                let decorate_call =
-                    self.fold_class_inner(ident.unwrap_or_else(|| quote_ident!("_class")), class);
-
-                decorate_call
+                self.fold_class_inner(ident.unwrap_or_else(|| quote_ident!("_class")), class)
             }
             _ => expr,
         }
@@ -189,7 +186,7 @@ impl Fold for Decorators {
                         declare: false,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(ident.clone().into()),
+                            name: ident.clone().into(),
                             init: Some(decorate_call),
                             definite: false,
                         }],
@@ -267,10 +264,10 @@ impl Fold for Decorators {
 impl Decorators {
     fn fold_class_inner(&mut self, ident: Ident, mut class: Class) -> Expr {
         let initialize = private_ident!("_initialize");
-        let super_class_ident = match class.super_class {
-            Some(ref expr) => Some(alias_ident_for(expr, "_super")),
-            None => None,
-        };
+        let super_class_ident = class
+            .super_class
+            .as_ref()
+            .map(|expr| alias_ident_for(expr, "_super"));
         let super_class_expr = class.super_class;
         class.super_class = super_class_ident.clone().map(|i| Box::new(Expr::Ident(i)));
 
@@ -283,9 +280,11 @@ impl Decorators {
             }));
 
             // Inject initialize
-            let pos = class.body.iter().position(|member| match *member {
-                ClassMember::Constructor(Constructor { body: Some(..), .. }) => true,
-                _ => false,
+            let pos = class.body.iter().position(|member| {
+                matches!(
+                    *member,
+                    ClassMember::Constructor(Constructor { body: Some(..), .. })
+                )
             });
 
             match pos {
@@ -554,7 +553,7 @@ impl Decorators {
                         span: DUMMY_SP,
 
                         params: iter::once(Pat::Ident(initialize.into()))
-                            .chain(super_class_ident.map(BindingIdent::from).map(Pat::Ident))
+                            .chain(super_class_ident.map(Pat::from))
                             .map(|pat| Param {
                                 span: DUMMY_SP,
                                 decorators: vec![],

@@ -75,12 +75,12 @@ impl ParamMetadata {
                         Param {
                             span: DUMMY_SP,
                             decorators: Default::default(),
-                            pat: Pat::Ident(quote_ident!("target").into()),
+                            pat: quote_ident!("target").into(),
                         },
                         Param {
                             span: DUMMY_SP,
                             decorators: Default::default(),
-                            pat: Pat::Ident(quote_ident!("key").into()),
+                            pat: quote_ident!("key").into(),
                         },
                     ],
                     body: Some(BlockStmt {
@@ -367,7 +367,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                     left: Box::new(Expr::Unary(UnaryExpr {
                         span: DUMMY_SP,
                         op: op!("typeof"),
-                        arg: expr.clone(),
+                        arg: expr,
                     })),
                     op: op!("==="),
                     right: Box::new(Expr::Lit(Lit::Str(Str {
@@ -427,15 +427,15 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 _ => {}
             }
 
-            let item = serialize_type_node(class_name, &ty);
+            let item = serialize_type_node(class_name, ty);
 
             // One of the individual is global object, return immediately
-            match item {
-                Expr::Ident(Ident {
-                    sym: js_word!("Object"),
-                    ..
-                }) => return item,
-                _ => {}
+            if let Expr::Ident(Ident {
+                sym: js_word!("Object"),
+                ..
+            }) = item
+            {
+                return item;
             }
 
             // If there exists union that is not void 0 expression, check if the
@@ -486,7 +486,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             | TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsNeverKeyword,
                 ..
-            }) => return *undefined(span),
+            }) => *undefined(span),
 
             TsType::TsParenthesizedType(ty) => serialize_type_node(class_name, &*ty.type_ann),
 

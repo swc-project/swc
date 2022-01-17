@@ -1,5 +1,3 @@
-#![cfg(not(feature = "wrong-target"))]
-
 use rayon::prelude::*;
 use std::{
     fs::create_dir_all,
@@ -751,7 +749,7 @@ fn should_visit() {
 
             if config.minify {
                 let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
-                    vc.retain(|c: &Comment| c.text.starts_with("!"));
+                    vc.retain(|c: &Comment| c.text.starts_with('!'));
                     !vc.is_empty()
                 };
                 c.comments().leading.retain(preserve_excl);
@@ -858,7 +856,7 @@ fn tests(input_dir: PathBuf) {
 #[test]
 fn issue_1984() {
     testing::run_test2(false, |cm, handler| {
-        let c = Compiler::new(cm.clone());
+        let c = Compiler::new(cm);
         let fm = c.cm.new_source_file(
             FileName::Anon,
             "

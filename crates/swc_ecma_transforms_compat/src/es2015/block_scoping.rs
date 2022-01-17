@@ -19,10 +19,10 @@ use swc_ecma_visit::{
 /// ```js
 /// let functions = [];
 /// for (let i = 0; i < 10; i++) {
-/// 	functions.push(function() {
+///    functions.push(function() {
 ///        let i = 1;
-/// 		console.log(i);
-/// 	});
+///        console.log(i);
+///    });
 /// }
 /// ```
 pub fn block_scoping() -> impl Fold {
@@ -67,10 +67,7 @@ impl BlockScoping {
     {
         let len = self.scope.len();
 
-        let remove = match kind {
-            ScopeKind::ForLetLoop { .. } => false,
-            _ => true,
-        };
+        let remove = !matches!(kind, ScopeKind::ForLetLoop { .. });
         self.scope.push(kind);
 
         self.in_loop_body_scope = true;
@@ -84,19 +81,16 @@ impl BlockScoping {
 
     fn mark_as_used(&mut self, i: Id) {
         for (idx, scope) in self.scope.iter_mut().rev().enumerate() {
-            match scope {
-                ScopeKind::ForLetLoop { all, used, .. } => {
-                    //
-                    if all.contains(&i) {
-                        if idx == 0 {
-                            return;
-                        }
-
-                        used.push(i);
+            if let ScopeKind::ForLetLoop { all, used, .. } = scope {
+                //
+                if all.contains(&i) {
+                    if idx == 0 {
                         return;
                     }
+
+                    used.push(i);
+                    return;
                 }
-                _ => {}
             }
         }
     }
@@ -104,10 +98,7 @@ impl BlockScoping {
     fn in_loop_body(&self) -> bool {
         self.scope
             .last()
-            .map(|scope| match scope {
-                ScopeKind::ForLetLoop { .. } | ScopeKind::Loop => true,
-                _ => false,
-            })
+            .map(|scope| matches!(scope, ScopeKind::ForLetLoop { .. } | ScopeKind::Loop))
             .unwrap_or(false)
     }
 
@@ -137,7 +128,7 @@ impl BlockScoping {
                 let ident = private_ident!("_this");
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(ident.clone().into()),
+                    name: ident.clone().into(),
                     init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                     definite: false,
                 });
@@ -150,7 +141,7 @@ impl BlockScoping {
                 let ident = private_ident!("_arguments");
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(ident.clone().into()),
+                    name: ident.clone().into(),
                     init: Some(Box::new(Expr::Ident(quote_ident!("arguments")))),
                     definite: false,
                 });
@@ -191,18 +182,14 @@ impl BlockScoping {
                 // Modifies identifiers, and add reassignments to break / continue / return
                 body_stmt.visit_mut_with(&mut v);
 
-                if !no_modification {
-                    if body_stmt
+                if !no_modification
+                    && body_stmt
                         .stmts
                         .last()
-                        .map(|s| match s {
-                            Stmt::Return(..) => false,
-                            _ => true,
-                        })
+                        .map(|s| !matches!(s, Stmt::Return(..)))
                         .unwrap_or(true)
-                    {
-                        body_stmt.stmts.push(v.make_reassignment(None).into_stmt());
-                    }
+                {
+                    body_stmt.stmts.push(v.make_reassignment(None).into_stmt());
                 }
             }
 
@@ -210,7 +197,7 @@ impl BlockScoping {
 
             self.vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(var_name.clone().into()),
+                name: var_name.clone().into(),
                 init: Some(Box::new(
                     FnExpr {
                         ident: None,
@@ -224,10 +211,8 @@ impl BlockScoping {
                                     Param {
                                         span: DUMMY_SP,
                                         decorators: Default::default(),
-                                        pat: Pat::Ident(
-                                            Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(ctxt))
-                                                .into(),
-                                        ),
+                                        pat: Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(ctxt))
+                                            .into(),
                                     }
                                 })
                                 .collect(),
@@ -269,7 +254,7 @@ impl BlockScoping {
                         declare: false,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(ret.clone().into()),
+                            name: ret.clone().into(),
                             init: Some(Box::new(call.take().into())),
                             definite: false,
                         }],
@@ -285,7 +270,7 @@ impl BlockScoping {
                             span: DUMMY_SP,
                             test: Box::new(Expr::Bin(BinExpr {
                                 span: DUMMY_SP,
-                                op: BinaryOp::EqEqEq,
+                                op: op!("==="),
                                 left: {
                                     // _typeof(_ret)
                                     let callee = helper!(type_of, "typeof");
@@ -302,13 +287,7 @@ impl BlockScoping {
                                     .into()
                                 },
                                 //"object"
-                                right: Expr::Lit(Lit::Str(Str {
-                                    span: DUMMY_SP,
-                                    value: js_word!("object"),
-                                    has_escape: false,
-                                    kind: Default::default(),
-                                }))
-                                .into(),
+                                right: js_word!("object").into(),
                             })),
                             cons: Box::new(Stmt::Return(ReturnStmt {
                                 span: DUMMY_SP,
@@ -857,7 +836,7 @@ impl VisitMut for FlowHelper<'_> {
                             value: s.arg.take().unwrap_or_else(|| {
                                 Box::new(Expr::Unary(UnaryExpr {
                                     span: DUMMY_SP,
-                                    op: UnaryOp::Void,
+                                    op: op!("void"),
                                     arg: undefined(DUMMY_SP),
                                 }))
                             }),
@@ -913,9 +892,7 @@ impl MutationHandler<'_> {
         for (id, ctxt) in &*self.map {
             exprs.push(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                    Ident::new(id.0.clone(), DUMMY_SP.with_ctxt(id.1)).into(),
-                ))),
+                left: PatOrExpr::Pat(Ident::new(id.0.clone(), DUMMY_SP.with_ctxt(id.1)).into()),
                 op: op!("="),
                 right: Box::new(Expr::Ident(Ident::new(
                     id.0.clone(),

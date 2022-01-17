@@ -101,7 +101,7 @@ impl CollectIdent for ModuleDecl {
                 }
             }
             ModuleDecl::ExportDecl(ExportDecl { decl, .. }) => decl.collect_ident(collection),
-            // no need to handle thest two as they aren't bindings
+            // no need to handle these two as they aren't bindings
             ModuleDecl::ExportNamed(_) => (),
             ModuleDecl::ExportAll(_) => (),
             ModuleDecl::ExportDefaultDecl(ExportDefaultDecl { decl, .. }) => match decl {
@@ -136,19 +136,19 @@ impl CollectIdent for ModuleDecl {
 }
 
 pub fn is_builtin_hook(name: &Ident) -> bool {
-    match name.sym.as_ref() {
+    matches!(
+        name.sym.as_ref(),
         "useState"
-        | "useReducer"
-        | "useEffect"
-        | "useLayoutEffect"
-        | "useMemo"
-        | "useCallback"
-        | "useRef"
-        | "useContext"
-        | "useImperativeHandle"
-        | "useDebugValue" => true,
-        _ => false,
-    }
+            | "useReducer"
+            | "useEffect"
+            | "useLayoutEffect"
+            | "useMemo"
+            | "useCallback"
+            | "useRef"
+            | "useContext"
+            | "useImperativeHandle"
+            | "useDebugValue"
+    )
 }
 
 pub fn is_body_arrow_fn(body: &BlockStmtOrExpr) -> bool {
@@ -164,13 +164,10 @@ fn assert_hygiene(e: &Expr) {
         return;
     }
 
-    match e {
-        Expr::Ident(i) => {
-            if i.span.ctxt == SyntaxContext::empty() {
-                panic!("`{}` should be resolved", i)
-            }
+    if let Expr::Ident(i) = e {
+        if i.span.ctxt == SyntaxContext::empty() {
+            panic!("`{}` should be resolved", i)
         }
-        _ => {}
     }
 }
 
@@ -180,7 +177,7 @@ pub fn make_assign_stmt(handle: Ident, expr: Box<Expr>) -> Expr {
     Expr::Assign(AssignExpr {
         span: expr.span(),
         op: op!("="),
-        left: PatOrExpr::Pat(Box::new(Pat::Ident(BindingIdent::from(handle.clone())))),
+        left: PatOrExpr::Pat(handle.into()),
         right: expr,
     })
 }
@@ -208,11 +205,7 @@ pub fn is_import_or_require(expr: &Expr) -> bool {
             ..
         }) => {
             if let Expr::Ident(ident) = expr.as_ref() {
-                if ident.sym.contains("require") {
-                    true
-                } else {
-                    false
-                }
+                ident.sym.contains("require")
             } else {
                 false
             }

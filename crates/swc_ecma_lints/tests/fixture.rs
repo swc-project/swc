@@ -41,7 +41,7 @@ fn pass(input: PathBuf) {
 
         let rules = all();
 
-        HANDLER.set(&handler, || {
+        HANDLER.set(handler, || {
             for mut rule in rules {
                 rule.lint_module(&m);
             }

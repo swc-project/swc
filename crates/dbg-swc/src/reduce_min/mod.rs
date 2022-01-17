@@ -49,7 +49,7 @@ impl ReduceMinCommand {
         };
 
         let mut runner = Runner {
-            cm: cm.clone(),
+            cm,
             comments: Default::default(),
             working_dir: self.working_dir,
             build_command: self.build_command,
@@ -175,14 +175,11 @@ impl Runner {
     fn run(mut self, files: Vec<PathBuf>) -> Result<()> {
         // Patch one file at a time.
         for file in files {
-            match file.extension() {
-                Some(ext) => {
-                    if ext == "json" {
-                        info!("Skipping json file");
-                        continue;
-                    }
+            if let Some(ext) = file.extension() {
+                if ext == "json" {
+                    info!("Skipping json file");
+                    continue;
                 }
-                None => {}
             }
 
             let _span = span!(Level::ERROR, "patch", file = &*file.display().to_string()).entered();

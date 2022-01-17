@@ -1,3 +1,5 @@
+#![deny(clippy::all)]
+
 use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_css_ast::*;
@@ -320,6 +322,7 @@ define!({
         Import(ImportRule),
         FontFace(FontFaceRule),
         Keyframes(KeyframesRule),
+        Layer(LayerRule),
         Media(MediaRule),
         Supports(SupportsRule),
         Page(PageRule),
@@ -334,16 +337,22 @@ define!({
         pub charset: Str,
     }
 
-    pub enum ImportSource {
+    pub enum ImportHref {
         Function(Function),
         Url(UrlValue),
         Str(Str),
     }
 
+    pub enum ImportLayerName {
+        Ident(Ident),
+        Function(Function),
+    }
+
     pub struct ImportRule {
         pub span: Span,
-        pub src: ImportSource,
-        pub condition: Option<MediaQuery>,
+        pub href: ImportHref,
+        pub layer_name: Option<ImportLayerName>,
+        pub media: Option<MediaQuery>,
     }
 
     pub struct FontFaceRule {
@@ -405,6 +414,27 @@ define!({
     pub enum KeyframeBlockRule {
         Block(Box<Block>),
         AtRule(Box<AtRule>),
+    }
+
+    pub struct LayerName {
+        pub span: Span,
+        pub name: Vec<Ident>,
+    }
+
+    pub struct LayerNameList {
+        pub span: Span,
+        pub name_list: Vec<LayerName>,
+    }
+
+    pub enum LayerPrelude {
+        Name(LayerName),
+        NameList(LayerNameList),
+    }
+
+    pub struct LayerRule {
+        pub span: Span,
+        pub prelude: Option<LayerPrelude>,
+        pub rules: Option<Vec<Rule>>,
     }
 
     pub struct MediaRule {

@@ -4,7 +4,7 @@ use crate::{
     function::Function,
     ident::{Ident, PrivateName},
     jsx::{JSXElement, JSXEmptyExpr, JSXFragment, JSXMemberExpr, JSXNamespacedName},
-    lit::{Bool, Lit, Number, Str},
+    lit::{Lit, Str},
     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
     pat::Pat,
     prop::Prop,
@@ -13,7 +13,7 @@ use crate::{
         TsAsExpr, TsConstAssertion, TsNonNullExpr, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
         TsTypeParamInstantiation,
     },
-    BigInt, ComputedPropName, Invalid,
+    ComputedPropName, Invalid,
 };
 use is_macro::Is;
 use serde::{self, Deserialize, Serialize};
@@ -975,7 +975,7 @@ impl PatOrExpr {
         match self {
             PatOrExpr::Pat(pat) => match *pat {
                 Pat::Expr(expr) => PatOrExpr::Expr(expr),
-                _ => return PatOrExpr::Pat(pat),
+                _ => PatOrExpr::Pat(pat),
             },
             _ => self,
         }
@@ -1001,48 +1001,6 @@ impl PatOrExpr {
 impl Take for PatOrExpr {
     fn dummy() -> Self {
         PatOrExpr::Pat(Take::dummy())
-    }
-}
-
-impl From<bool> for Expr {
-    fn from(value: bool) -> Self {
-        Expr::Lit(Lit::Bool(Bool {
-            span: DUMMY_SP,
-            value,
-        }))
-    }
-}
-
-impl From<f64> for Expr {
-    fn from(value: f64) -> Self {
-        Expr::Lit(Lit::Num(Number {
-            span: DUMMY_SP,
-            value,
-        }))
-    }
-}
-
-impl From<Bool> for Expr {
-    fn from(v: Bool) -> Self {
-        Expr::Lit(Lit::Bool(v))
-    }
-}
-
-impl From<Number> for Expr {
-    fn from(v: Number) -> Self {
-        Expr::Lit(Lit::Num(v))
-    }
-}
-
-impl From<Str> for Expr {
-    fn from(v: Str) -> Self {
-        Expr::Lit(Lit::Str(v))
-    }
-}
-
-impl From<BigInt> for Expr {
-    fn from(v: BigInt) -> Self {
-        Expr::Lit(Lit::BigInt(v))
     }
 }
 

@@ -168,7 +168,6 @@ where
                         }
                         _ => {}
                     }
-                    drop(scope);
                     drop(scope_ref_mut);
 
                     match decl {
@@ -309,7 +308,7 @@ where
                                 kind: VarDeclKind::Var,
                                 decls: vec![VarDeclarator {
                                     span: DUMMY_SP,
-                                    name: Pat::Ident(ident.clone().into()),
+                                    name: ident.clone().into(),
                                     init: Some(expr.expr.fold_with(self)),
                                     definite: false,
                                 }],
@@ -335,7 +334,6 @@ where
                             let imported = export.src.clone().map(|src| {
                                 scope.import_to_export(&src, !export.specifiers.is_empty())
                             });
-                            drop(scope);
                             drop(scope_ref_mut);
 
                             stmts.reserve(export.specifiers.len());
@@ -396,7 +394,6 @@ where
                                             .or_insert(false);
                                     }
                                 }
-                                drop(scope);
                                 drop(scope_ref_mut);
 
                                 let value = match imported {
@@ -407,10 +404,7 @@ where
                                 };
 
                                 // True if we are exporting our own stuff.
-                                let is_value_ident = match *value {
-                                    Expr::Ident(..) => true,
-                                    _ => false,
-                                };
+                                let is_value_ident = matches!(*value, Expr::Ident(..));
 
                                 if is_value_ident {
                                     let exported_symbol = exported
@@ -442,7 +436,7 @@ where
 
                                                 // export { foo as bar }
                                                 //  -> 'bar'
-                                                let i = exported.unwrap_or_else(|| orig);
+                                                let i = exported.unwrap_or(orig);
                                                 Lit::Str(quote_str!(i.span, i.sym)).as_arg()
                                             },
                                             make_descriptor(value).as_arg(),
@@ -485,7 +479,7 @@ where
             factory_params.push(Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(exports_ident.clone().into()),
+                pat: exports_ident.clone().into(),
             });
             factory_args.push(quote_ident!("exports").as_arg());
             global_factory_args.push(member_expr!(DUMMY_SP, mod.exports).as_arg());
@@ -500,7 +494,7 @@ where
                     kind: VarDeclKind::Var,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(exported_names.clone().into()),
+                        name: exported_names.clone().into(),
                         init: Some(Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: exports
@@ -564,7 +558,7 @@ where
             factory_params.push(Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(ident.clone().into()),
+                pat: ident.clone().into(),
             });
             factory_args
                 .push(make_require_call(&self.resolver, self.root_mark, src.clone()).as_arg());
@@ -574,36 +568,31 @@ where
                 // handle interop
                 let ty = scope.import_types.get(&src);
 
-                match ty {
-                    Some(&wildcard) => {
-                        let imported = ident.clone();
+                if let Some(&wildcard) = ty {
+                    let imported = ident.clone();
 
-                        if !self.config.config.no_interop {
-                            let right = Box::new(Expr::Call(CallExpr {
+                    if !self.config.config.no_interop {
+                        let right = Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: if wildcard {
+                                helper!(interop_require_wildcard, "interopRequireWildcard")
+                            } else {
+                                helper!(interop_require_default, "interopRequireDefault")
+                            },
+                            args: vec![imported.as_arg()],
+                            type_args: Default::default(),
+                        }));
+
+                        import_stmts.push(
+                            AssignExpr {
                                 span: DUMMY_SP,
-                                callee: if wildcard {
-                                    helper!(interop_require_wildcard, "interopRequireWildcard")
-                                } else {
-                                    helper!(interop_require_default, "interopRequireDefault")
-                                },
-                                args: vec![imported.as_arg()],
-                                type_args: Default::default(),
-                            }));
-
-                            import_stmts.push(
-                                AssignExpr {
-                                    span: DUMMY_SP,
-                                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                        ident.clone().into(),
-                                    ))),
-                                    op: op!("="),
-                                    right,
-                                }
-                                .into_stmt(),
-                            );
-                        }
+                                left: PatOrExpr::Pat(ident.clone().into()),
+                                op: op!("="),
+                                right,
+                            }
+                            .into_stmt(),
+                        );
                     }
-                    _ => {}
                 };
             }
         }
@@ -624,12 +613,12 @@ where
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(quote_ident!("global").into()),
+                    pat: quote_ident!("global").into(),
                 },
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(quote_ident!("factory").into()),
+                    pat: quote_ident!("factory").into(),
                 },
             ],
             body: Some(BlockStmt {
@@ -698,7 +687,7 @@ where
                                         kind: VarDeclKind::Var,
                                         decls: vec![VarDeclarator {
                                             span: DUMMY_SP,
-                                            name: Pat::Ident(quote_ident!("mod").into()),
+                                            name: quote_ident!("mod").into(),
                                             init: Some(Box::new(Expr::Object(ObjectLit {
                                                 span: DUMMY_SP,
                                                 props: vec![PropOrSpread::Prop(Box::new(

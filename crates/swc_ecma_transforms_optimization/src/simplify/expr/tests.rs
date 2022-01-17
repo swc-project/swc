@@ -749,20 +749,6 @@ fn test_issue821() {
 }
 
 #[test]
-fn test_fold_constructor() {
-    fold("x = this[new String('a')]", "x = this['a']");
-    fold("x = ob[new String(12)]", "x = ob['12']");
-    fold("x = ob[new String(false)]", "x = ob['false']");
-    fold("x = ob[new String(null)]", "x = ob['null']");
-    fold("x = 'a' + new String('b')", "x = 'ab'");
-    fold("x = 'a' + new String(23)", "x = 'a23'");
-    fold("x = 2 + new String(1)", "x = '21'");
-    fold_same("x = ob[new String(a)]");
-    fold_same("x = 'a'");
-    fold_same("x = 'a'[3]");
-}
-
-#[test]
 fn test_fold_arithmetic() {
     fold("x = 10 + 20", "x = 30");
     fold("x = 2 / 4", "x = 0.5");

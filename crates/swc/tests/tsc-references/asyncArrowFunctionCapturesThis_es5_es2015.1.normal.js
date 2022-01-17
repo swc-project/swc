@@ -34,9 +34,9 @@ class C {
     method() {
         var _this = this;
         var fn = function() {
-            var _ref = _asyncToGenerator((function*() {
-                return yield this;
-            }).bind(_this)).bind(_this);
+            var _ref = _asyncToGenerator(function*() {
+                return yield _this;
+            });
             return function fn() {
                 return _ref.apply(this, arguments);
             };

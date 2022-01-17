@@ -87,14 +87,10 @@ impl VisitMut for InlineGlobals {
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        match expr {
-            Expr::Ident(Ident { ref sym, span, .. }) => {
-                if self.bindings.contains(&(sym.clone(), span.ctxt)) {
-                    return;
-                }
+        if let Expr::Ident(Ident { ref sym, span, .. }) = expr {
+            if self.bindings.contains(&(sym.clone(), span.ctxt)) {
+                return;
             }
-
-            _ => {}
         }
 
         for (key, value) in self.global_exprs.iter() {
@@ -115,8 +111,6 @@ impl VisitMut for InlineGlobals {
                     value.visit_mut_with(self);
                     *expr = value;
                 }
-
-                return;
             }
 
             Expr::Unary(UnaryExpr {
@@ -125,34 +119,30 @@ impl VisitMut for InlineGlobals {
                 arg,
                 ..
             }) => {
-                match &**arg {
-                    Expr::Ident(Ident {
-                        ref sym,
-                        span: arg_span,
-                        ..
-                    }) => {
-                        if self.bindings.contains(&(sym.clone(), arg_span.ctxt)) {
-                            return;
-                        }
-
-                        // It's ok because we don't recurse into member expressions.
-                        if let Some(value) = self.typeofs.get(sym).cloned() {
-                            *expr = Expr::Lit(Lit::Str(Str {
-                                span: *span,
-                                value,
-                                has_escape: false,
-                                kind: Default::default(),
-                            }));
-                        }
-
+                if let Expr::Ident(Ident {
+                    ref sym,
+                    span: arg_span,
+                    ..
+                }) = &**arg
+                {
+                    if self.bindings.contains(&(sym.clone(), arg_span.ctxt)) {
                         return;
                     }
-                    _ => {}
+
+                    // It's ok because we don't recurse into member expressions.
+                    if let Some(value) = self.typeofs.get(sym).cloned() {
+                        *expr = Expr::Lit(Lit::Str(Str {
+                            span: *span,
+                            value,
+                            has_escape: false,
+                            kind: Default::default(),
+                        }));
+                    }
                 }
             }
 
-            Expr::Member(MemberExpr { obj, prop, .. }) => match &**obj {
-                Expr::Member(MemberExpr {
+            Expr::Member(MemberExpr { obj, prop, .. }) => {
+                if let Expr::Member(MemberExpr {
                     obj: first_obj,
                     prop:
                         MemberProp::Ident(Ident {
@@ -160,30 +150,32 @@ impl VisitMut for InlineGlobals {
                             ..
                         }),
                     ..
-                }) => match &**first_obj {
-                    Expr::Ident(Ident {
+                }) = &**obj
+                {
+                    if let Expr::Ident(Ident {
                         sym: js_word!("process"),
                         ..
-                    }) => match prop {
-                        MemberProp::Computed(ComputedPropName { expr: c, .. }) => {
-                            if let Expr::Lit(Lit::Str(Str { value: sym, .. })) = &**c {
+                    }) = &**first_obj
+                    {
+                        match prop {
+                            MemberProp::Computed(ComputedPropName { expr: c, .. }) => {
+                                if let Expr::Lit(Lit::Str(Str { value: sym, .. })) = &**c {
+                                    if let Some(env) = self.envs.get(sym) {
+                                        *expr = env.clone();
+                                    }
+                                }
+                            }
+
+                            MemberProp::Ident(Ident { sym, .. }) => {
                                 if let Some(env) = self.envs.get(sym) {
                                     *expr = env.clone();
                                 }
                             }
+                            _ => {}
                         }
-
-                        MemberProp::Ident(Ident { sym, .. }) => {
-                            if let Some(env) = self.envs.get(sym) {
-                                *expr = env.clone();
-                            }
-                        }
-                        _ => {}
-                    },
-                    _ => {}
-                },
-                _ => {}
-            },
+                    }
+                }
+            }
             _ => {}
         }
     }
@@ -192,12 +184,6 @@ impl VisitMut for InlineGlobals {
         expr.obj.visit_mut_with(self);
 
         if let MemberProp::Computed(c) = &mut expr.prop {
-            c.visit_mut_with(self);
-        }
-    }
-
-    fn visit_mut_super_prop_expr(&mut self, expr: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut expr.prop {
             c.visit_mut_with(self);
         }
     }
@@ -211,24 +197,19 @@ impl VisitMut for InlineGlobals {
     fn visit_mut_prop(&mut self, p: &mut Prop) {
         p.visit_mut_children_with(self);
 
-        match p {
-            Prop::Shorthand(i) => {
-                if self.bindings.contains(&i.to_id()) {
-                    return;
-                }
-
-                // It's ok because we don't recurse into member expressions.
-                if let Some(mut value) = self.globals.get(&i.sym).cloned().map(Box::new) {
-                    value.visit_mut_with(self);
-                    *p = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(i.clone()),
-                        value,
-                    });
-                }
-
+        if let Prop::Shorthand(i) = p {
+            if self.bindings.contains(&i.to_id()) {
                 return;
             }
-            _ => {}
+
+            // It's ok because we don't recurse into member expressions.
+            if let Some(mut value) = self.globals.get(&i.sym).cloned().map(Box::new) {
+                value.visit_mut_with(self);
+                *p = Prop::KeyValue(KeyValueProp {
+                    key: PropName::Ident(i.clone()),
+                    value,
+                });
+            }
         }
     }
 
@@ -236,6 +217,12 @@ impl VisitMut for InlineGlobals {
         self.bindings = Lrc::new(collect_decls(&*script));
 
         script.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, expr: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut expr.prop {
+            c.visit_mut_with(self);
+        }
     }
 }
 

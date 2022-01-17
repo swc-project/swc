@@ -52,7 +52,7 @@ impl Serialize for Literal {
                     ),
                     Literal::Numeric(l) => (
                         &l.base,
-                        AcornLiteralValue::Numeric(l.value.clone()),
+                        AcornLiteralValue::Numeric(l.value),
                         Cow::Owned(l.value.to_string()),
                     ),
                     Literal::Null(l) => (
@@ -62,7 +62,7 @@ impl Serialize for Literal {
                     ),
                     Literal::Boolean(l) => (
                         &l.base,
-                        AcornLiteralValue::Boolean(l.value.clone()),
+                        AcornLiteralValue::Boolean(l.value),
                         if l.value {
                             Cow::Borrowed("true")
                         } else {

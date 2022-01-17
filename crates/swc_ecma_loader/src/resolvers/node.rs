@@ -39,7 +39,7 @@ struct BrowserCache {
 
 /// Helper to find the nearest `package.json` file to get
 /// the base directory for a package.
-fn find_package_root(path: &PathBuf) -> Option<PathBuf> {
+fn find_package_root(path: &Path) -> Option<PathBuf> {
     let mut parent = path.parent();
     while let Some(p) = parent {
         let pkg = p.join(PACKAGE);
@@ -119,10 +119,8 @@ impl NodeModulesResolver {
         }
 
         // Try exact file after checking .js, for performance
-        if !try_exact {
-            if path.is_file() {
-                return Ok(Some(path.to_path_buf()));
-            }
+        if !try_exact && path.is_file() {
+            return Ok(Some(path.to_path_buf()));
         }
 
         if let Some(name) = path.file_name() {
@@ -166,7 +164,7 @@ impl NodeModulesResolver {
 
     /// Resolve a path as a directory, using the "main" key from a package.json
     /// file if it exists, or resolving to the index.EXT file if it exists.
-    fn resolve_as_directory(&self, path: &PathBuf) -> Result<Option<PathBuf>, Error> {
+    fn resolve_as_directory(&self, path: &Path) -> Result<Option<PathBuf>, Error> {
         let pkg_path = path.join(PACKAGE);
         if pkg_path.is_file() {
             if let Some(main) = self.resolve_package_entry(path, &pkg_path)? {
@@ -187,8 +185,8 @@ impl NodeModulesResolver {
     /// Resolve using the package.json "main" or "browser" keys.
     fn resolve_package_entry(
         &self,
-        pkg_dir: &PathBuf,
-        pkg_path: &PathBuf,
+        pkg_dir: &Path,
+        pkg_path: &Path,
     ) -> Result<Option<PathBuf>, Error> {
         let file = File::open(pkg_path)?;
         let reader = BufReader::new(file);
@@ -197,17 +195,13 @@ impl NodeModulesResolver {
 
         let main_fields = match self.target_env {
             TargetEnv::Node => {
-                vec![pkg.module.as_ref().clone(), pkg.main.as_ref().clone()]
+                vec![pkg.module.as_ref(), pkg.main.as_ref()]
             }
             TargetEnv::Browser => {
                 if let Some(browser) = &pkg.browser {
                     match browser {
                         Browser::Str(path) => {
-                            vec![
-                                Some(path),
-                                pkg.module.as_ref().clone(),
-                                pkg.main.as_ref().clone(),
-                            ]
+                            vec![Some(path), pkg.module.as_ref(), pkg.main.as_ref()]
                         }
                         Browser::Obj(map) => {
                             let bucket = BROWSER_CACHE.entry(pkg_dir.to_path_buf()).or_default();
@@ -260,11 +254,11 @@ impl NodeModulesResolver {
                                     }
                                 }
                             }
-                            vec![pkg.module.as_ref().clone(), pkg.main.as_ref().clone()]
+                            vec![pkg.module.as_ref(), pkg.main.as_ref()]
                         }
                     }
                 } else {
-                    vec![pkg.module.as_ref().clone(), pkg.main.as_ref().clone()]
+                    vec![pkg.module.as_ref(), pkg.main.as_ref()]
                 }
             }
         };
@@ -320,7 +314,7 @@ impl Resolve for NodeModulesResolver {
 
         let base_dir = if base.is_file() {
             let cwd = &Path::new(".");
-            base.parent().unwrap_or(&cwd)
+            base.parent().unwrap_or(cwd)
         } else {
             base
         };
@@ -344,7 +338,7 @@ impl Resolve for NodeModulesResolver {
         // Handle builtin modules for nodejs
         if let TargetEnv::Node = self.target_env {
             if is_core_module(target) {
-                return Ok(FileName::Custom(format!("node:{}", target.to_string())));
+                return Ok(FileName::Custom(format!("node:{}", target)));
             }
         }
 
@@ -396,7 +390,7 @@ impl Resolve for NodeModulesResolver {
                         if let Some(item) = BROWSER_CACHE.get(&pkg_base) {
                             let value = item.value();
                             if value.ignores.contains(path) {
-                                return Ok(FileName::Custom(path.display().to_string().into()));
+                                return Ok(FileName::Custom(path.display().to_string()));
                             }
                             if let Some(rewrite) = value.rewrites.get(path) {
                                 return self.wrap(Some(rewrite.to_path_buf()));

@@ -189,17 +189,17 @@ impl EndsWithAlphaNum for VarDecl {
 
 impl EndsWithAlphaNum for Expr {
     fn ends_with_alpha_num(&self) -> bool {
-        match self {
+        !matches!(
+            self,
             Expr::Array(..)
-            | Expr::Object(..)
-            | Expr::Lit(Lit::Str(..))
-            | Expr::Paren(..)
-            | Expr::Member(MemberExpr {
-                prop: MemberProp::Computed(..),
-                ..
-            }) => false,
-            _ => true,
-        }
+                | Expr::Object(..)
+                | Expr::Lit(Lit::Str(..))
+                | Expr::Paren(..)
+                | Expr::Member(MemberExpr {
+                    prop: MemberProp::Computed(..),
+                    ..
+                })
+        )
     }
 }
 
@@ -252,10 +252,9 @@ impl StartsWithAlphaNum for Expr {
             Expr::Call(CallExpr { callee: left, .. }) => left.starts_with_alpha_num(),
             Expr::Member(MemberExpr { obj: ref left, .. }) => left.starts_with_alpha_num(),
 
-            Expr::Unary(UnaryExpr { op, .. }) => match op {
-                op!("void") | op!("delete") | op!("typeof") => true,
-                _ => false,
-            },
+            Expr::Unary(UnaryExpr { op, .. }) => {
+                matches!(op, op!("void") | op!("delete") | op!("typeof"))
+            }
 
             Expr::Arrow(ref expr) => {
                 if expr.is_async {

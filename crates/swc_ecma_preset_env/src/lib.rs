@@ -1,3 +1,4 @@
+#![deny(clippy::all)]
 #![allow(dead_code)]
 #![recursion_limit = "256"]
 
@@ -319,7 +320,7 @@ impl Fold for Polyfills {
                 };
 
                 if regenerator::is_required(&m) {
-                    r.insert("regenerator-runtime/runtime.js".into());
+                    r.insert("regenerator-runtime/runtime.js");
                 }
 
                 r
@@ -347,14 +348,14 @@ impl Fold for Polyfills {
                 if s != "regenerator-runtime/runtime.js" {
                     format!("core-js/modules/{}.js", s).into()
                 } else {
-                    format!("regenerator-runtime/runtime.js").into()
+                    "regenerator-runtime/runtime.js".to_string().into()
                 }
             })
             .chain(self.includes.iter().map(|s| {
                 if s != "regenerator-runtime/runtime.js" {
                     format!("core-js/modules/{}.js", s).into()
                 } else {
-                    format!("regenerator-runtime/runtime.js").into()
+                    "regenerator-runtime/runtime.js".to_string().into()
                 }
             }))
             .collect::<Vec<_>>();
@@ -399,17 +400,18 @@ impl Fold for Polyfills {
             );
         }
 
-        m.body.retain(|item| match item {
-            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                src:
-                    Str {
+        m.body.retain(|item| {
+            !matches!(
+                item,
+                ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    src: Str {
                         span: DUMMY_SP,
                         value: js_word!(""),
                         ..
                     },
-                ..
-            })) => false,
-            _ => true,
+                    ..
+                }))
+            )
         });
 
         m
@@ -438,12 +440,12 @@ impl BrowserData<Option<Version>> {
     pub(crate) fn parse_versions(distribs: Vec<browserslist::Distrib>) -> Result<Self, Error> {
         fn remap(key: &str) -> &str {
             match key {
-                "and_chr" => "chrome".into(),
-                "and_ff" => "firefox".into(),
-                "ie_mob" => "ie".into(),
-                "ios_saf" => "ios".into(),
-                "op_mob" => "opera".into(),
-                _ => key.into(),
+                "and_chr" => "chrome",
+                "and_ff" => "firefox",
+                "ie_mob" => "ie",
+                "ios_saf" => "ios",
+                "op_mob" => "opera",
+                _ => key,
             }
         }
 
@@ -623,18 +625,18 @@ impl Query {
             Lazy::new(Default::default);
 
         if let Some(v) = CACHE.get(self) {
-            return Ok(v.clone());
+            return Ok(*v);
         }
 
         let result = match *self {
             Query::Single(ref s) => {
-                if s == "" {
+                if s.is_empty() {
                     query(&["defaults"])
                 } else {
                     query(&[s])
                 }
             }
-            Query::Multiple(ref s) => query(&s),
+            Query::Multiple(ref s) => query(s),
         }
         .context("failed to execute query")?;
 

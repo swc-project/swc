@@ -620,7 +620,7 @@ impl SourceMap {
     /// occurred while retrieving the code snippet.
     pub fn span_extend_to_prev_char(&self, sp: Span, c: char) -> Span {
         if let Ok(prev_source) = self.span_to_prev_source(sp) {
-            let prev_source = prev_source.rsplit(c).nth(0).unwrap_or("").trim_start();
+            let prev_source = prev_source.rsplit(c).next().unwrap_or("").trim_start();
             if !prev_source.is_empty() && !prev_source.contains('\n') {
                 return sp.with_lo(BytePos(sp.lo().0 - prev_source.len() as u32));
             }
@@ -641,7 +641,7 @@ impl SourceMap {
         for ws in &[" ", "\t", "\n"] {
             let pat = pat.to_owned() + ws;
             if let Ok(prev_source) = self.span_to_prev_source(sp) {
-                let prev_source = prev_source.rsplit(&pat).nth(0).unwrap_or("").trim_start();
+                let prev_source = prev_source.rsplit(&pat).next().unwrap_or("").trim_start();
                 if !prev_source.is_empty() && (!prev_source.contains('\n') || accept_newlines) {
                     return sp.with_lo(BytePos(sp.lo().0 - prev_source.len() as u32));
                 }
@@ -665,7 +665,7 @@ impl SourceMap {
 
         match self.span_to_source(sp, |src, start_index, end_index| {
             let snippet = &src[start_index..end_index];
-            let snippet = snippet.split(c).nth(0).unwrap_or("").trim_end();
+            let snippet = snippet.split(c).next().unwrap_or("").trim_end();
             if !snippet.is_empty() && !snippet.contains('\n') {
                 sp.with_hi(BytePos(sp.lo().0 + snippet.len() as u32))
             } else {
@@ -709,7 +709,7 @@ impl SourceMap {
                 whitespace_found = true;
             }
 
-            !(whitespace_found && !c.is_whitespace())
+            !whitespace_found || c.is_whitespace()
         })
     }
 
@@ -967,7 +967,7 @@ impl SourceMap {
     pub fn lookup_source_file(&self, pos: BytePos) -> Lrc<SourceFile> {
         let files = self.files.borrow();
         let files = &files.source_files;
-        let fm = Self::lookup_source_file_in(&files, pos);
+        let fm = Self::lookup_source_file_in(files, pos);
         match fm {
             Some(fm) => fm,
             None => {
@@ -1163,9 +1163,9 @@ impl SourceMap {
                 pos,
                 linebpos,
             );
-            let chpos = pos.to_u32() - self.calc_extra_bytes(&f, &mut ch_start, pos);
+            let chpos = pos.to_u32() - self.calc_extra_bytes(f, &mut ch_start, pos);
             let linechpos =
-                linebpos.to_u32() - self.calc_extra_bytes(&f, &mut line_ch_start, linebpos);
+                linebpos.to_u32() - self.calc_extra_bytes(f, &mut line_ch_start, linebpos);
 
             let mut col = max(chpos, linechpos) - min(chpos, linechpos);
 
@@ -1256,10 +1256,10 @@ pub trait SourceMapGenConfig {
 
     /// You can override this to control `sourceContents`.
     fn inline_sources_content(&self, f: &FileName) -> bool {
-        match f {
-            FileName::Real(..) | FileName::Custom(..) | FileName::Url(..) => false,
-            _ => true,
-        }
+        !matches!(
+            f,
+            FileName::Real(..) | FileName::Custom(..) | FileName::Url(..)
+        )
     }
 }
 

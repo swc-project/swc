@@ -6734,7 +6734,7 @@
                     return {
                         addResult: function(data, imageSize, codeResult) {
                             var codeResult1, codeResult2, list, codeResult3, filter, result = {};
-                            codeResult1 = codeResult, !!capacity && codeResult1 && (codeResult2 = codeResult1, !((list = config.blacklist) && list.some(function(item) {
+                            codeResult1 = codeResult, capacity && codeResult1 && (codeResult2 = codeResult1, !((list = config.blacklist) && list.some(function(item) {
                                 return Object.keys(item).every(function(key) {
                                     return item[key] === codeResult2[key];
                                 });

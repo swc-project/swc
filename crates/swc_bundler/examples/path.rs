@@ -48,7 +48,7 @@ fn main() {
         cfg: swc_ecma_codegen::Config { minify: false },
         cm: cm.clone(),
         comments: None,
-        wr: Box::new(JsWriter::new(cm.clone(), "\n", wr.lock(), None)),
+        wr: Box::new(JsWriter::new(cm, "\n", wr.lock(), None)),
     };
 
     emitter.emit_module(&bundle.module).unwrap();
@@ -90,7 +90,7 @@ struct PathResolver;
 impl Resolve for PathResolver {
     fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<FileName, Error> {
         assert!(
-            module_specifier.starts_with("."),
+            module_specifier.starts_with('.'),
             "We are not using node_modules within this example"
         );
 

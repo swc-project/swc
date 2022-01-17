@@ -320,6 +320,18 @@ impl VisitMut for Marker {
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         i.span = i.span.apply_mark(self.0);
     }
+
+    fn visit_mut_member_prop(&mut self, p: &mut MemberProp) {
+        if let MemberProp::Computed(p) = p {
+            p.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_super_prop(&mut self, p: &mut SuperProp) {
+        if let SuperProp::Computed(p) = p {
+            p.visit_mut_with(self);
+        }
+    }
 }
 
 #[cfg(test)]

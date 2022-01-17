@@ -169,14 +169,13 @@ fn iter<'a>(
                 _ => false,
             };
             let can_ignore_weak_deps = can_ignore_deps
-                || match &stmts[idx] {
+                || matches!(
+                    &stmts[idx],
                     ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                         decl: Decl::Class(..),
                         ..
-                    }))
-                    | ModuleItem::Stmt(Stmt::Decl(Decl::Class(..))) => true,
-                    _ => false,
-                };
+                    })) | ModuleItem::Stmt(Stmt::Decl(Decl::Class(..)))
+                );
 
             // We
             {
@@ -184,17 +183,18 @@ fn iter<'a>(
                     .neighbors_directed(idx, Dependencies)
                     .filter(|dep| {
                         let declared_in_same_module = match &current_range {
-                            Some(v) => v.contains(&dep),
+                            Some(v) => v.contains(dep),
                             None => false,
                         };
                         if declared_in_same_module {
                             return false;
                         }
 
-                        if !free.contains(&idx) && graph.has_a_path(*dep, idx) {
-                            if !moves.insert((idx, *dep)) {
-                                return false;
-                            }
+                        if !free.contains(&idx)
+                            && graph.has_a_path(*dep, idx)
+                            && !moves.insert((idx, *dep))
+                        {
+                            return false;
                         }
 
                         // Exclude emitted items
@@ -215,11 +215,9 @@ fn iter<'a>(
                             || (can_ignore_weak_deps
                                 && graph.edge_weight(idx, dep) == Some(Required::Maybe));
 
-                        if can_ignore_dep {
-                            if graph.has_a_path(dep, idx) {
-                                // Just emit idx.
-                                continue;
-                            }
+                        if can_ignore_dep && graph.has_a_path(dep, idx) {
+                            // Just emit idx.
+                            continue;
                         }
 
                         deps_to_push.push(dep);
@@ -331,41 +329,39 @@ fn iter<'a>(
 
 /// Using prototype should be treated as an initialization.
 #[derive(Default)]
-struct FieldInitFinter {
+struct FieldInitFinder {
     in_object_assign: bool,
     in_rhs: bool,
     accessed: AHashSet<Id>,
 }
 
-impl FieldInitFinter {
+impl FieldInitFinder {
     fn check_lhs_of_assign(&mut self, lhs: &PatOrExpr) {
         match lhs {
             PatOrExpr::Expr(e) => {
-                self.check_lhs_expr_of_assign(&e);
+                self.check_lhs_expr_of_assign(e);
             }
-            PatOrExpr::Pat(pat) => match &**pat {
-                Pat::Expr(e) => {
-                    self.check_lhs_expr_of_assign(&e);
+            PatOrExpr::Pat(pat) => {
+                if let Pat::Expr(e) = &**pat {
+                    self.check_lhs_expr_of_assign(e);
                 }
-                _ => {}
-            },
+            }
         }
     }
     fn check_lhs_expr_of_assign(&mut self, lhs: &Expr) {
-        match lhs {
-            Expr::Member(m) => match &*m.obj {
+        if let Expr::Member(m) = lhs {
+            match &*m.obj {
                 Expr::Ident(i) => {
                     self.accessed.insert(i.into());
                 }
                 Expr::Member(..) => self.check_lhs_expr_of_assign(&*m.obj),
                 _ => {}
-            },
-            _ => {}
+            }
         }
     }
 }
 
-impl Visit for FieldInitFinter {
+impl Visit for FieldInitFinder {
     noop_visit_type!();
 
     fn visit_assign_expr(&mut self, e: &AssignExpr) {
@@ -388,29 +384,30 @@ impl Visit for FieldInitFinter {
     fn visit_call_expr(&mut self, e: &CallExpr) {
         match &e.callee {
             Callee::Super(_) | Callee::Import(_) => {}
-            Callee::Expr(callee) => match &**callee {
-                Expr::Member(callee) => match &*callee.obj {
-                    Expr::Ident(Ident {
+            Callee::Expr(callee) => {
+                if let Expr::Member(callee) = &**callee {
+                    if let Expr::Ident(Ident {
                         sym: js_word!("Object"),
                         ..
-                    }) => match &callee.prop {
-                        MemberProp::Ident(Ident { sym: prop_sym, .. })
-                            if *prop_sym == *"assign" =>
-                        {
-                            let old = self.in_object_assign;
-                            self.in_object_assign = true;
+                    }) = &*callee.obj
+                    {
+                        match &callee.prop {
+                            MemberProp::Ident(Ident { sym: prop_sym, .. })
+                                if *prop_sym == *"assign" =>
+                            {
+                                let old = self.in_object_assign;
+                                self.in_object_assign = true;
 
-                            e.args.visit_with(self);
-                            self.in_object_assign = old;
+                                e.args.visit_with(self);
+                                self.in_object_assign = old;
 
-                            return;
+                                return;
+                            }
+                            _ => {}
                         }
-                        _ => {}
-                    },
-                    _ => {}
-                },
-                _ => {}
-            },
+                    }
+                }
+            }
         }
 
         e.visit_children_with(self);
@@ -424,14 +421,13 @@ impl Visit for FieldInitFinter {
         }
 
         if !self.in_rhs || self.in_object_assign {
-            match &*e.obj {
-                Expr::Ident(obj) => match &e.prop {
+            if let Expr::Ident(obj) = &*e.obj {
+                match &e.prop {
                     MemberProp::Ident(Ident { sym: prop_sym, .. }) if *prop_sym == *"prototype" => {
                         self.accessed.insert(obj.into());
                     }
                     _ => {}
-                },
-                _ => {}
+                }
             }
         }
     }
@@ -681,7 +677,7 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
 
         {
             // Find extra initializations.
-            let mut v = FieldInitFinter::default();
+            let mut v = FieldInitFinder::default();
             item.visit_with(&mut v);
 
             for id in v.accessed {
@@ -776,9 +772,9 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
                         //     idx, idx_decl, declarator_index, &id
                         // );
                         if cfg!(debug_assertions) {
-                            let deps: Vec<_> =
-                                graph.neighbors_directed(idx, Dependencies).collect();
-                            assert!(deps.contains(&declarator_index));
+                            assert!(graph
+                                .neighbors_directed(idx, Dependencies)
+                                .any(|x| x == declarator_index));
                         }
                     }
                 }
@@ -804,10 +800,8 @@ mod tests {
             let graph = calc_deps(&module.body);
 
             for i in 0..module.body.len() {
-                match &module.body[i] {
-                    ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..))) => continue,
-
-                    _ => {}
+                if let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..))) = &module.body[i] {
+                    continue;
                 }
 
                 let deps = graph
@@ -815,10 +809,8 @@ mod tests {
                     .collect::<Vec<_>>();
 
                 for dep in deps {
-                    match &module.body[dep] {
-                        ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..))) => continue,
-
-                        _ => {}
+                    if let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..))) = &module.body[dep] {
+                        continue;
                     }
                     print_hygiene(
                         "first item",

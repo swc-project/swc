@@ -12,7 +12,7 @@ use crate::{
     util::{contains_leaping_yield, make_number, ModuleItemExt},
 };
 use retain_mut::RetainMut;
-use std::{fmt::Write, mem::take};
+use std::{fmt::Write, iter::once, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Mark, Spanned,
@@ -216,6 +216,8 @@ struct Optimizer<'a, M> {
     done_ctxt: SyntaxContext,
 
     /// Closest label.
+    ///
+    /// Setting this to `None` means the label should be removed.
     label: Option<Id>,
 
     mode: &'a M,
@@ -249,8 +251,8 @@ where
             }
         }
         let mut use_asm = false;
-        let prepend_stmts = self.prepend_stmts.take();
-        let append_stmts = self.append_stmts.take();
+        // let prepend_stmts = self.prepend_stmts.take();
+        // let append_stmts = self.append_stmts.take();
 
         {
             let mut child_ctx = Ctx { ..self.ctx };
@@ -281,8 +283,8 @@ where
 
             let mut new = Vec::with_capacity(stmts.len() * 11 / 10);
             for (i, mut stmt) in stmts.take().into_iter().enumerate() {
-                debug_assert_eq!(self.prepend_stmts, vec![]);
-                debug_assert_eq!(self.append_stmts, vec![]);
+                // debug_assert_eq!(self.prepend_stmts, vec![]);
+                // debug_assert_eq!(self.append_stmts, vec![]);
 
                 if i < directive_count {
                     // Don't set in_strict for directive itself.
@@ -291,9 +293,20 @@ where
                     stmt.visit_mut_with(&mut *self.with_ctx(child_ctx));
                 }
 
-                new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
-                new.push(stmt);
-                new.extend(self.append_stmts.drain(..).map(T::from_stmt));
+                match stmt.try_into_stmt() {
+                    Ok(Stmt::Block(s)) if s.span.has_mark(self.marks.fake_block) => {
+                        new.extend(s.stmts.into_iter().map(T::from_stmt));
+                    }
+                    Ok(s) => {
+                        new.push(T::from_stmt(s));
+                    }
+                    Err(stmt) => {
+                        new.push(stmt);
+                    }
+                }
+
+                // new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
+                // new.extend(self.append_stmts.drain(..).map(T::from_stmt));
             }
             *stmts = new;
         }
@@ -313,16 +326,16 @@ where
 
         self.break_assignments_in_seqs(stmts);
 
-        stmts.extend(self.append_stmts.drain(..).map(T::from_stmt));
+        // stmts.extend(self.append_stmts.drain(..).map(T::from_stmt));
 
         stmts.retain(|stmt| match stmt.as_stmt() {
             Some(Stmt::Empty(..)) => false,
             _ => true,
         });
 
-        debug_assert_eq!(self.prepend_stmts, vec![]);
-        self.prepend_stmts = prepend_stmts;
-        self.append_stmts = append_stmts;
+        // debug_assert_eq!(self.prepend_stmts, vec![]);
+        // self.prepend_stmts = prepend_stmts;
+        // self.append_stmts = append_stmts;
     }
 
     /// `a = a + 1` => `a += 1`.
@@ -1386,6 +1399,11 @@ where
 
                 // Remove nested blocks
                 if bs.stmts.len() == 1 {
+                    if bs.span.has_mark(self.marks.fake_block) {
+                        *s = bs.stmts.take().into_iter().next().unwrap();
+                        return;
+                    }
+
                     if let Stmt::Block(block) = &mut bs.stmts[0] {
                         if block.stmts.iter().all(|stmt| match stmt {
                             Stmt::Decl(..) => false,
@@ -2077,6 +2095,11 @@ where
         let old_label = self.label.take();
         self.label = Some(n.label.to_id());
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        if self.label.is_none() {
+            n.label.take();
+        }
+
         self.label = old_label;
     }
 
@@ -2297,6 +2320,9 @@ where
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        let old_prepend = self.prepend_stmts.take();
+        let old_append = self.append_stmts.take();
+
         let _tracing = if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s, false);
 
@@ -2320,6 +2346,46 @@ where
             ..self.ctx
         };
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        if let Stmt::Labeled(LabeledStmt {
+            label: Ident {
+                sym: js_word!(""), ..
+            },
+            body,
+            ..
+        }) = s
+        {
+            *s = *body.take();
+        }
+
+        // visit_mut_children_with above may produce easily optimizable block
+        // statements.
+        self.try_removing_block(s, false);
+
+        // These methods may modify prepend_stmts or append_stmts.
+        self.optimize_loops_if_cond_is_false(s);
+        self.optimize_loops_with_break(s);
+
+        self.try_removing_block(s, false);
+
+        self.extract_vars_in_subscopes(s);
+
+        if !self.prepend_stmts.is_empty() || !self.append_stmts.is_empty() {
+            let span = s.span();
+            *s = Stmt::Block(BlockStmt {
+                span: span.apply_mark(self.marks.fake_block),
+                stmts: self
+                    .prepend_stmts
+                    .take()
+                    .into_iter()
+                    .chain(once(s.take()))
+                    .chain(self.append_stmts.take().into_iter())
+                    .collect(),
+            });
+        }
+
+        self.prepend_stmts = old_prepend;
+        self.append_stmts = old_append;
 
         if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s, false);
@@ -2374,9 +2440,6 @@ where
             _ => {}
         }
 
-        self.optimize_loops_if_cond_is_false(s);
-        self.optimize_loops_with_break(s);
-
         match s {
             // We use var decl with no declarator to indicate we dropped an decl.
             Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => {
@@ -2385,10 +2448,6 @@ where
             }
             _ => {}
         }
-
-        self.try_removing_block(s, false);
-
-        self.extract_vars_in_subscopes(s);
 
         self.compress_if_without_alt(s);
 

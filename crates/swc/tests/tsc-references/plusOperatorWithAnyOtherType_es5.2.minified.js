@@ -1,4 +1,4 @@
-var M, ANY2 = [
+var ANY, ANY1, M, ANY2 = [
     "",
     ""
 ], obj1 = {
@@ -29,4 +29,4 @@ var M, ANY2 = [
     M1.n = n;
 }(M || (M = {}));
 var objA = new A();
-ANY2[0], obj1.x, obj1.y, objA.a, M.n, A.foo(), ANY2[0], objA.a, M.n;
+ANY2[0], obj1.x, obj1.y, objA.a, M.n, A.foo(), ANY + ANY1, ANY2[0], objA.a, M.n;

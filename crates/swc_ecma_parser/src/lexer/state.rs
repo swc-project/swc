@@ -93,18 +93,17 @@ impl<'a> From<&'a Token> for TokenType {
             Token::Word(Word::Keyword(k)) => TokenType::Keyword(k),
             _ => TokenType::Other {
                 before_expr: t.before_expr(),
-                can_have_trailing_comment: match *t {
+                can_have_trailing_comment: matches!(
+                    *t,
                     Token::Num(..)
-                    | Token::Str { .. }
-                    | Token::Word(Word::Ident(..))
-                    | Token::DollarLBrace
-                    | Token::Regex(..)
-                    | Token::BigInt(..)
-                    | Token::JSXText { .. }
-                    | Token::RBrace => true,
-
-                    _ => false,
-                },
+                        | Token::Str { .. }
+                        | Token::Word(Word::Ident(..))
+                        | Token::DollarLBrace
+                        | Token::Regex(..)
+                        | Token::BigInt(..)
+                        | Token::JSXText { .. }
+                        | Token::RBrace
+                ),
             },
         }
     }
@@ -369,10 +368,7 @@ impl State {
     }
 
     pub fn last_was_tpl_element(&self) -> bool {
-        match self.token_type {
-            Some(TokenType::Template) => true,
-            _ => false,
-        }
+        matches!(self.token_type, Some(TokenType::Template))
     }
 
     fn update(&mut self, start: BytePos, next: &Token) {
@@ -409,10 +405,7 @@ impl State {
         had_line_break: bool,
         is_expr_allowed: bool,
     ) -> bool {
-        let is_next_keyword = match *next {
-            Word(Word::Keyword(..)) => true,
-            _ => false,
-        };
+        let is_next_keyword = matches!(*next, Word(Word::Keyword(..)));
 
         if is_next_keyword && prev == Some(TokenType::Dot) {
             false

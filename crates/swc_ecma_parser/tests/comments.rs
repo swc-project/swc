@@ -86,7 +86,7 @@ impl Visit for CommentPrinter<'_> {
         self.comments.with_leading(n.lo, |comments| {
             for c in comments {
                 DiagnosticBuilder::new(
-                    &self.handler,
+                    self.handler,
                     swc_common::errors::Level::Note,
                     "Leading (lo)",
                 )
@@ -98,7 +98,7 @@ impl Visit for CommentPrinter<'_> {
         self.comments.with_trailing(n.lo, |comments| {
             for c in comments {
                 DiagnosticBuilder::new(
-                    &self.handler,
+                    self.handler,
                     swc_common::errors::Level::Note,
                     "Trailing (lo)",
                 )
@@ -110,7 +110,7 @@ impl Visit for CommentPrinter<'_> {
         self.comments.with_leading(n.hi - BytePos(1), |comments| {
             for c in comments {
                 DiagnosticBuilder::new(
-                    &self.handler,
+                    self.handler,
                     swc_common::errors::Level::Note,
                     "Leading (hi)",
                 )
@@ -125,7 +125,7 @@ impl Visit for CommentPrinter<'_> {
         self.comments.with_trailing(n.hi, |comments| {
             for c in comments {
                 DiagnosticBuilder::new(
-                    &self.handler,
+                    self.handler,
                     swc_common::errors::Level::Note,
                     "Trailing (hi)",
                 )

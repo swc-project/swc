@@ -38,35 +38,32 @@ where
     fn visit_mut_module(&mut self, module: &mut Module) {
         // Pass 1: collect imports
         for item in &module.body {
-            match item {
-                ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                    let src_str = &*import.src.value;
-                    if src_str != "react" && src_str != "react-dom" {
-                        continue;
-                    }
+            if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = item {
+                let src_str = &*import.src.value;
+                if src_str != "react" && src_str != "react-dom" {
+                    continue;
+                }
 
-                    for specifier in &import.specifiers {
-                        let src = import.src.value.clone();
-                        match specifier {
-                            ImportSpecifier::Named(named) => {
-                                let imported = match &named.imported {
-                                    Some(ModuleExportName::Ident(imported)) => imported.sym.clone(),
-                                    Some(ModuleExportName::Str(..)) => named.local.sym.clone(),
-                                    None => named.local.sym.clone(),
-                                };
-                                self.imports.insert(id(&named.local), (src, imported));
-                            }
-                            ImportSpecifier::Default(default) => {
-                                self.imports
-                                    .insert(id(&default.local), (src, js_word!("default")));
-                            }
-                            ImportSpecifier::Namespace(ns) => {
-                                self.imports.insert(id(&ns.local), (src, "*".into()));
-                            }
+                for specifier in &import.specifiers {
+                    let src = import.src.value.clone();
+                    match specifier {
+                        ImportSpecifier::Named(named) => {
+                            let imported = match &named.imported {
+                                Some(ModuleExportName::Ident(imported)) => imported.sym.clone(),
+                                Some(ModuleExportName::Str(..)) => named.local.sym.clone(),
+                                None => named.local.sym.clone(),
+                            };
+                            self.imports.insert(id(&named.local), (src, imported));
+                        }
+                        ImportSpecifier::Default(default) => {
+                            self.imports
+                                .insert(id(&default.local), (src, js_word!("default")));
+                        }
+                        ImportSpecifier::Namespace(ns) => {
+                            self.imports.insert(id(&ns.local), (src, "*".into()));
                         }
                     }
                 }
-                _ => {}
             }
         }
 
@@ -82,7 +79,7 @@ where
         let is_react_call = match &call.callee {
             Callee::Expr(expr) => match &**expr {
                 Expr::Ident(ident) => {
-                    if let Some((src, specifier)) = self.imports.get(&id(&ident)) {
+                    if let Some((src, specifier)) = self.imports.get(&id(ident)) {
                         is_pure(src, specifier)
                     } else {
                         false
@@ -90,7 +87,7 @@ where
                 }
                 Expr::Member(member) => match &*member.obj {
                     Expr::Ident(ident) => {
-                        if let Some((src, specifier)) = self.imports.get(&id(&ident)) {
+                        if let Some((src, specifier)) = self.imports.get(&id(ident)) {
                             if &**specifier == "default" || &**specifier == "*" {
                                 match &member.prop {
                                     MemberProp::Ident(ident) => is_pure(src, &ident.sym),
@@ -122,15 +119,19 @@ where
 
 fn is_pure(src: &JsWord, specifier: &JsWord) -> bool {
     match &**src {
-        "react" => match &**specifier {
-            "cloneElement" | "createContext" | "createElement" | "createFactory" | "createRef"
-            | "forwardRef" | "isValidElement" | "memo" | "lazy" => true,
-            _ => false,
-        },
-        "react-dom" => match &**specifier {
-            "createPortal" => true,
-            _ => false,
-        },
+        "react" => matches!(
+            &**specifier,
+            "cloneElement"
+                | "createContext"
+                | "createElement"
+                | "createFactory"
+                | "createRef"
+                | "forwardRef"
+                | "isValidElement"
+                | "memo"
+                | "lazy"
+        ),
+        "react-dom" => matches!(&**specifier, "createPortal"),
         _ => false,
     }
 }

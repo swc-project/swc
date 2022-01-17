@@ -1,5 +1,7 @@
 use super::{pat::PatType, util::ExprExt, *};
-use crate::{lexer::TokenContext, token::AssignOpToken};
+use crate::{
+    lexer::TokenContext, parser::class_and_fn::IsSimpleParameterList, token::AssignOpToken,
+};
 use either::Either;
 use swc_atoms::js_word;
 use swc_common::{ast_node, util::take::Take, Spanned};
@@ -394,7 +396,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let arg = Pat::from(ident);
                 let params = vec![arg];
                 expect!(self, "=>");
-                let body = self.parse_fn_body(true, false)?;
+                let body = self.parse_fn_body(true, false, params.is_simple_parameter_list())?;
 
                 return Ok(Box::new(Expr::Arrow(ArrowExpr {
                     span: span!(self, start),
@@ -407,7 +409,7 @@ impl<'a, I: Tokens> Parser<I> {
                 })));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
                 let params = vec![id.into()];
-                let body = self.parse_fn_body(false, false)?;
+                let body = self.parse_fn_body(false, false, params.is_simple_parameter_list())?;
 
                 return Ok(Box::new(Expr::Arrow(ArrowExpr {
                     span: span!(self, start),
@@ -666,10 +668,9 @@ impl<'a, I: Tokens> Parser<I> {
             .with_ctx(ctx)
             .include_in_expr(true)
             .parse_args_or_pats()?;
-        let has_pattern = paren_items.iter().any(|item| match item {
-            PatOrExprOrSpread::Pat(..) => true,
-            _ => false,
-        });
+        let has_pattern = paren_items
+            .iter()
+            .any(|item| matches!(item, PatOrExprOrSpread::Pat(..)));
 
         let is_direct_child_of_cond = self.ctx().is_direct_child_of_cond;
 
@@ -682,12 +683,16 @@ impl<'a, I: Tokens> Parser<I> {
 
                 expect!(p, "=>");
 
-                let params = p
+                let params: Vec<Pat> = p
                     .parse_paren_items_as_params(items_ref.clone())?
                     .into_iter()
                     .collect();
 
-                let body: BlockStmtOrExpr = p.parse_fn_body(async_span.is_some(), false)?;
+                let body: BlockStmtOrExpr = p.parse_fn_body(
+                    async_span.is_some(),
+                    false,
+                    params.is_simple_parameter_list(),
+                )?;
 
                 if is_direct_child_of_cond {
                     if !is_one_of!(p, ':', ';') {
@@ -734,12 +739,16 @@ impl<'a, I: Tokens> Parser<I> {
             }
             expect!(self, "=>");
 
-            let params = self
+            let params: Vec<Pat> = self
                 .parse_paren_items_as_params(paren_items)?
                 .into_iter()
                 .collect();
 
-            let body: BlockStmtOrExpr = self.parse_fn_body(async_span.is_some(), false)?;
+            let body: BlockStmtOrExpr = self.parse_fn_body(
+                async_span.is_some(),
+                false,
+                params.is_simple_parameter_list(),
+            )?;
             let arrow_expr = ArrowExpr {
                 span: span!(self, expr_start),
                 is_async: async_span.is_some(),
@@ -1020,14 +1029,7 @@ impl<'a, I: Tokens> Parser<I> {
                 ));
             }
 
-            if {
-                match obj {
-                    Callee::Expr(..) => true,
-                    // super() or import() cannot be generic
-                    _ => false,
-                }
-            } && is!(self, '<')
-            {
+            if { matches!(obj, Callee::Expr(..)) } && is!(self, '<') {
                 let is_dynamic_import = obj.is_import();
 
                 let mut obj_opt = Some(obj);
@@ -1493,10 +1495,7 @@ impl<'a, I: Tokens> Parser<I> {
                             }
                         }
                         true
-                    } else if match arg {
-                        ExprOrSpread { spread: None, .. } => true,
-                        _ => false,
-                    } {
+                    } else if matches!(arg, ExprOrSpread { spread: None, .. }) {
                         expect!(self, '?');
                         let test = arg.expr;
                         let ctx = Context {
@@ -1637,20 +1636,20 @@ impl<'a, I: Tokens> Parser<I> {
                 debug_assert_eq!(items.len(), 1);
                 match items[0] {
                     PatOrExprOrSpread::ExprOrSpread(ExprOrSpread { ref expr, .. })
-                    | PatOrExprOrSpread::Pat(Pat::Expr(ref expr)) => match **expr {
-                        Expr::Ident(..) => true,
-                        _ => false,
-                    },
+                    | PatOrExprOrSpread::Pat(Pat::Expr(ref expr)) => {
+                        matches!(**expr, Expr::Ident(..))
+                    }
                     PatOrExprOrSpread::Pat(Pat::Ident(..)) => true,
                     _ => false,
                 }
             } {
-                let params = self
+                let params: Vec<Pat> = self
                     .parse_paren_items_as_params(items.clone())?
                     .into_iter()
                     .collect();
 
-                let body: BlockStmtOrExpr = self.parse_fn_body(false, false)?;
+                let body: BlockStmtOrExpr =
+                    self.parse_fn_body(false, false, params.is_simple_parameter_list())?;
                 let span = span!(self, start);
 
                 items.push(PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
@@ -1729,13 +1728,13 @@ impl<'a, I: Tokens> Parser<I> {
         // TODO(kdy1): !this.state.containsEsc &&
 
         Ok(self.state.potential_arrow_start == Some(expr.span().lo())
-            && match *expr {
+            && matches!(
+                *expr,
                 Expr::Ident(Ident {
                     sym: js_word!("async"),
                     ..
-                }) => true,
-                _ => false,
-            })
+                })
+            ))
     }
 
     /// 12.2.5 Array Initializer

@@ -58,7 +58,7 @@ impl Task for MinifyTask {
         try_with(self.c.cm.clone(), false, |handler| {
             let fm = input.to_file(self.c.cm.clone());
 
-            self.c.minify(fm, &handler, &options)
+            self.c.minify(fm, handler, &options)
         })
         .convert_err()
     }
@@ -89,5 +89,5 @@ pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> 
 
     let fm = code.to_file(c.cm.clone());
 
-    try_with(c.cm.clone(), false, |handler| c.minify(fm, &handler, &opts)).convert_err()
+    try_with(c.cm.clone(), false, |handler| c.minify(fm, handler, &opts)).convert_err()
 }

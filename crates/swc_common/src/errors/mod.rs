@@ -842,10 +842,7 @@ impl Level {
     }
 
     pub fn is_failure_note(self) -> bool {
-        match self {
-            FailureNote => true,
-            _ => false,
-        }
+        matches!(self, FailureNote)
     }
 }
 

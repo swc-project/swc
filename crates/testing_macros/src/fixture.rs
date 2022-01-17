@@ -21,57 +21,50 @@ pub struct Config {
 impl Parse for Config {
     fn parse(input: ParseStream) -> syn::Result<Self> {
         fn update(c: &mut Config, meta: Meta) {
-            match &meta {
-                Meta::List(list) => {
-                    if list
-                        .path
-                        .get_ident()
-                        .map(|i| i.to_string() == "exclude")
-                        .unwrap_or(false)
-                    {
-                        //
-                        macro_rules! fail {
-                            () => {{
-                                fail!("invalid input to the attribute")
-                            }};
-                            ($inner:expr) => {{
-                                panic!(
-                                    "{}\nnote: exclude() expects one or more comma-separated \
-             regular expressions, like exclude(\".*\\\\.d\\\\.ts\") or \
+            if let Meta::List(list) = &meta {
+                if list
+                    .path
+                    .get_ident()
+                    .map(|i| *i == "exclude")
+                    .unwrap_or(false)
+                {
+                    //
+                    macro_rules! fail {
+                        () => {{
+                            fail!("invalid input to the attribute")
+                        }};
+                        ($inner:expr) => {{
+                            panic!(
+                                "{}\nnote: exclude() expects one or more comma-separated regular \
+             expressions, like exclude(\".*\\\\.d\\\\.ts\") or \
              exclude(\".*\\\\.d\\\\.ts\", \".*\\\\.tsx\")",
-                                    $inner
-                                )
-                            }};
-                        }
+                                $inner
+                            )
+                        }};
+                    }
 
-                        if list.nested.is_empty() {
-                            fail!("empty exclude()")
-                        }
+                    if list.nested.is_empty() {
+                        fail!("empty exclude()")
+                    }
 
-                        for token in list.nested.iter() {
-                            match token {
-                                NestedMeta::Meta(_) => fail!(),
-                                NestedMeta::Lit(lit) => {
-                                    let lit = match lit {
-                                        Lit::Str(v) => v.value(),
-                                        _ => fail!(),
-                                    };
-                                    c.exclude_patterns.push(Regex::new(&lit).unwrap_or_else(
-                                        |err| {
-                                            fail!(format!(
-                                                "failed to parse regex: {}\n{}",
-                                                lit, err
-                                            ))
-                                        },
-                                    ));
-                                }
+                    for token in list.nested.iter() {
+                        match token {
+                            NestedMeta::Meta(_) => fail!(),
+                            NestedMeta::Lit(lit) => {
+                                let lit = match lit {
+                                    Lit::Str(v) => v.value(),
+                                    _ => fail!(),
+                                };
+                                c.exclude_patterns
+                                    .push(Regex::new(&lit).unwrap_or_else(|err| {
+                                        fail!(format!("failed to parse regex: {}\n{}", lit, err))
+                                    }));
                             }
                         }
-
-                        return;
                     }
+
+                    return;
                 }
-                _ => {}
             }
 
             let expected = r#"#[fixture("fixture/**/*.ts", exclude("*\.d\.ts"))]"#;
@@ -113,7 +106,7 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
     let mut test_fns = vec![];
 
     'add: for path in paths {
-        let path = path.with_context(|| format!("glob failed for file"))?;
+        let path = path.with_context(|| "glob failed for file".to_string())?;
         let abs_path = path
             .canonicalize()
             .with_context(|| format!("failed to canonicalize {}", path.display()))?;
@@ -132,15 +125,13 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
                 continue 'add;
             }
 
-            if cfg!(target_os = "windows") {
-                if pattern.is_match(&path_str.replace("\\", "/")) {
-                    continue 'add;
-                }
+            if cfg!(target_os = "windows") && pattern.is_match(&path_str.replace("\\", "/")) {
+                continue 'add;
             }
         }
 
         let ignored = path.components().any(|c| match c {
-            Component::Normal(s) => s.to_string_lossy().starts_with("."),
+            Component::Normal(s) => s.to_string_lossy().starts_with('.'),
             _ => false,
         });
         let test_name = format!(
@@ -179,13 +170,10 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
 
         if !ignored {
             f.attrs.retain(|attr| {
-                match attr.path.get_ident() {
-                    Some(name) => {
-                        if name == "ignore" {
-                            return false;
-                        }
+                if let Some(name) = attr.path.get_ident() {
+                    if name == "ignore" {
+                        return false;
                     }
-                    None => {}
                 }
 
                 true

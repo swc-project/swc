@@ -1,5 +1,5 @@
 use super::*;
-use crate::lexer::TokenContexts;
+use crate::{lexer::TokenContexts, parser::class_and_fn::IsSimpleParameterList};
 use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
@@ -787,10 +787,7 @@ impl<I: Tokens> Parser<I> {
         let (global, id) = if is!(self, "global") {
             let id = self.parse_ident_name()?;
             (true, TsModuleName::Ident(id))
-        } else if match *cur!(self, true)? {
-            Token::Str { .. } => true,
-            _ => false,
-        } {
+        } else if matches!(*cur!(self, true)?, Token::Str { .. }) {
             let id = self.parse_lit().map(|lit| match lit {
                 Lit::Str(s) => TsModuleName::Str(s),
                 _ => unreachable!(),
@@ -1976,10 +1973,7 @@ impl<I: Tokens> Parser<I> {
             tok!('-') => {
                 let start = cur_pos!(self);
                 bump!(self);
-                if match *cur!(self, true)? {
-                    Token::Num(..) => false,
-                    _ => true,
-                } {
+                if !matches!(*cur!(self, true)?, Token::Num(..)) {
                     unexpected!(self, "a numeric literal")
                 }
                 let lit = self.parse_lit()?;
@@ -2423,10 +2417,7 @@ impl<I: Tokens> Parser<I> {
                     bump!(self);
                 }
 
-                if match *cur!(self, true)? {
-                    Token::Str { .. } => true,
-                    _ => false,
-                } {
+                if matches!(*cur!(self, true)?, Token::Str { .. }) {
                     return self
                         .parse_ts_ambient_external_module_decl(start)
                         .map(From::from)
@@ -2483,7 +2474,7 @@ impl<I: Tokens> Parser<I> {
                 let type_params = p.parse_ts_type_params()?;
                 // Don't use overloaded parseFunctionParams which would look for "<" again.
                 expect!(p, '(');
-                let params = p
+                let params: Vec<Pat> = p
                     .parse_formal_params()?
                     .into_iter()
                     .map(|p| p.pat)
@@ -2511,7 +2502,7 @@ impl<I: Tokens> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             let is_generator = false;
             let is_async = true;
-            let body = p.parse_fn_body(true, false)?;
+            let body = p.parse_fn_body(true, false, params.is_simple_parameter_list())?;
             Ok(Some(ArrowExpr {
                 span: span!(p, start),
                 body,

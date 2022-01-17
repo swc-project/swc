@@ -37,7 +37,7 @@ impl Scope {
     }
 
     pub fn get_module(&self, id: ModuleId) -> Option<TransformedModule> {
-        Some(self.transformed_modules.get(&id)?.clone())
+        self.transformed_modules.get(&id)
     }
 
     pub fn is_cjs(&self, id: ModuleId) -> bool {

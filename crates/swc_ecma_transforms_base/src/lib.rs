@@ -1,3 +1,5 @@
+#![deny(clippy::all)]
+
 #[doc(hidden)]
 pub mod ext;
 pub mod fixer;

@@ -111,18 +111,15 @@ impl ForOf {
             let mut decls = Vec::with_capacity(2);
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(i.clone().into()),
-                init: Some(Box::new(Expr::Lit(Lit::Num(Number {
-                    span: DUMMY_SP,
-                    value: 0f64,
-                })))),
+                name: i.clone().into(),
+                init: Some(0.into()),
                 definite: false,
             });
 
             if aliased {
                 decls.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(arr.clone().into()),
+                    name: arr.clone().into(),
                     init: Some(right),
                     definite: false,
                 });
@@ -239,27 +236,21 @@ impl ForOf {
         let normal_completion_ident = Ident::new("_iteratorNormalCompletion".into(), var_span);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(normal_completion_ident.clone().into()),
-            init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
-                span: DUMMY_SP,
-                value: true,
-            })))),
+            name: normal_completion_ident.clone().into(),
+            init: Some(true.into()),
             definite: false,
         });
         let error_flag_ident = Ident::new("_didIteratorError".into(), var_span);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(error_flag_ident.clone().into()),
-            init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
-                span: DUMMY_SP,
-                value: false,
-            })))),
+            name: error_flag_ident.clone().into(),
+            init: Some(false.into()),
             definite: false,
         });
         let error_ident = Ident::new("_iteratorError".into(), var_span);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(error_ident.clone().into()),
+            name: error_ident.clone().into(),
             init: Some(Box::new(Expr::Ident(Ident::new(
                 js_word!("undefined"),
                 DUMMY_SP,
@@ -276,7 +267,7 @@ impl ForOf {
                 decls: vec![
                     VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(iterator.clone().into()),
+                        name: iterator.clone().into(),
                         init: Some(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: right
@@ -289,7 +280,7 @@ impl ForOf {
                     },
                     VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(step.clone().into()),
+                        name: step.clone().into(),
                         init: None,
                         definite: false,
                     },
@@ -302,7 +293,7 @@ impl ForOf {
                 arg: {
                     let step_expr = Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(step.into()))),
+                        left: PatOrExpr::Pat(step.into()),
                         op: op!("="),
                         // `_iterator.next()`
                         right: Box::new(Expr::Call(CallExpr {
@@ -316,9 +307,7 @@ impl ForOf {
 
                     let iteration_normal_completion = Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                            normal_completion_ident.clone().into(),
-                        ))),
+                        left: PatOrExpr::Pat(normal_completion_ident.clone().into()),
                         op: op!("="),
                         right: Box::new(step_expr.make_member(quote_ident!("done"))),
                     }));
@@ -330,12 +319,9 @@ impl ForOf {
             // `_iteratorNormalCompletion = true`
             update: Some(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(normal_completion_ident.clone().into()))),
+                left: PatOrExpr::Pat(normal_completion_ident.clone().into()),
                 op: op!("="),
-                right: Box::new(Expr::Lit(Lit::Bool(Bool {
-                    span: DUMMY_SP,
-                    value: true,
-                }))),
+                right: true.into(),
             }))),
             body: Box::new(Stmt::Block(body)),
         }
@@ -358,7 +344,7 @@ impl ForOf {
             },
             handler: Some(CatchClause {
                 span: DUMMY_SP,
-                param: Some(Pat::Ident(quote_ident!("err").into())),
+                param: Some(quote_ident!("err").into()),
                 // _didIteratorError = true;
                 // _iteratorError = err;
                 body: BlockStmt {
@@ -367,20 +353,15 @@ impl ForOf {
                         // _didIteratorError = true;
                         AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                error_flag_ident.clone().into(),
-                            ))),
+                            left: PatOrExpr::Pat(error_flag_ident.clone().into()),
                             op: op!("="),
-                            right: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                span: DUMMY_SP,
-                                value: true,
-                            }))),
+                            right: true.into(),
                         }
                         .into_stmt(),
                         // _iteratorError = err;
                         AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(error_ident.clone().into()))),
+                            left: PatOrExpr::Pat(error_ident.clone().into()),
                             op: op!("="),
                             right: Box::new(Expr::Ident(quote_ident!("err"))),
                         }
@@ -442,7 +423,7 @@ fn make_finally_block(
                             span: DUMMY_SP,
                             left: iterator_return.clone(),
                             op: op!("!="),
-                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                            right: Null { span: DUMMY_SP }.into(),
                         })),
                     })),
                     cons: Box::new(Stmt::Block(BlockStmt {

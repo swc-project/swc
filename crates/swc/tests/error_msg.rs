@@ -57,7 +57,7 @@ fn fixture(input: PathBuf) {
 
         match c.process_js_file(
             fm,
-            &handler,
+            handler,
             &Options {
                 swcrc: true,
                 is_module: IsModule::Bool(true),

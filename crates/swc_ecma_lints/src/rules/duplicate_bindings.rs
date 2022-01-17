@@ -105,14 +105,10 @@ impl Visit for DuplicateBindings {
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
-        match p {
-            Pat::Ident(p) => {
-                if self.is_pat_decl {
-                    self.add(&p.id, true);
-                }
+        if let Pat::Ident(p) = p {
+            if self.is_pat_decl {
+                self.add(&p.id, true);
             }
-
-            _ => {}
         }
     }
 

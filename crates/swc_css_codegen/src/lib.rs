@@ -1,3 +1,6 @@
+#![deny(clippy::all)]
+#![allow(clippy::needless_update)]
+
 pub use self::emit::*;
 use self::{ctx::Ctx, list::ListFormat};
 pub use std::fmt::Result;
@@ -69,6 +72,7 @@ where
             AtRule::Import(n) => emit!(self, n),
             AtRule::FontFace(n) => emit!(self, n),
             AtRule::Keyframes(n) => emit!(self, n),
+            AtRule::Layer(n) => emit!(self, n),
             AtRule::Media(n) => emit!(self, n),
             AtRule::Supports(n) => emit!(self, n),
             AtRule::Page(n) => emit!(self, n),
@@ -92,11 +96,19 @@ where
     }
 
     #[emitter]
-    fn emit_import_source(&mut self, n: &ImportSource) -> Result {
+    fn emit_import_href(&mut self, n: &ImportHref) -> Result {
         match n {
-            ImportSource::Function(n) => emit!(self, n),
-            ImportSource::Url(n) => emit!(self, n),
-            ImportSource::Str(n) => emit!(self, n),
+            ImportHref::Function(n) => emit!(self, n),
+            ImportHref::Url(n) => emit!(self, n),
+            ImportHref::Str(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_import_layer_name(&mut self, n: &ImportLayerName) -> Result {
+        match n {
+            ImportLayerName::Ident(n) => emit!(self, n),
+            ImportLayerName::Function(n) => emit!(self, n),
         }
     }
 
@@ -104,13 +116,17 @@ where
     fn emit_import_rule(&mut self, n: &ImportRule) -> Result {
         punct!(self, "@");
         keyword!(self, "import");
-
         space!(self);
-        emit!(self, n.src);
+        emit!(self, n.href);
 
-        if let Some(query) = &n.condition {
+        if let Some(layer_name) = &n.layer_name {
             space!(self);
-            emit!(self, query);
+            emit!(self, layer_name);
+        }
+
+        if let Some(media) = &n.media {
+            space!(self);
+            emit!(self, media);
         }
 
         semi!(self);
@@ -157,6 +173,43 @@ where
         punct!(self, "{");
         self.emit_list(&n.blocks, ListFormat::NotDelimited)?;
         punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_layer_name(&mut self, n: &LayerName) -> Result {
+        self.emit_list(&n.name, ListFormat::DotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_layer_name_list(&mut self, n: &LayerNameList) -> Result {
+        self.emit_list(&n.name_list, ListFormat::CommaDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_layer_prelude(&mut self, n: &LayerPrelude) -> Result {
+        match n {
+            LayerPrelude::Name(n) => emit!(self, n),
+            LayerPrelude::NameList(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_layer_rule(&mut self, n: &LayerRule) -> Result {
+        punct!(self, "@");
+        keyword!(self, "layer");
+        space!(self);
+
+        if n.prelude.is_some() {
+            emit!(self, n.prelude);
+        }
+
+        if let Some(rules) = &n.rules {
+            punct!(self, "{");
+            self.emit_list(rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
+            punct!(self, "}");
+        } else {
+            punct!(self, ";");
+        }
     }
 
     #[emitter]
@@ -502,7 +555,7 @@ where
         punct!(self, "[");
 
         if let Some(values) = &n.children {
-            self.emit_list(&values, ListFormat::SpaceDelimited)?;
+            self.emit_list(values, ListFormat::SpaceDelimited)?;
         }
 
         punct!(self, "]");
@@ -513,7 +566,7 @@ where
         punct!(self, "(");
 
         if let Some(values) = &n.children {
-            self.emit_list(&values, ListFormat::CommaDelimited)?;
+            self.emit_list(values, ListFormat::CommaDelimited)?;
         }
 
         punct!(self, ")");
@@ -543,7 +596,7 @@ where
             match token {
                 Token::AtKeyword { raw, .. } => {
                     punct!(self, span, "@");
-                    self.wr.write_raw(Some(n.span), &raw)?;
+                    self.wr.write_raw(Some(n.span), raw)?;
                 }
                 Token::Delim { value } => {
                     self.wr.write_raw_char(Some(n.span), *value)?;
@@ -572,32 +625,32 @@ where
                     raw_unit,
                     ..
                 } => {
-                    self.wr.write_raw(Some(span), &raw_value)?;
-                    self.wr.write_raw(Some(span), &raw_unit)?;
+                    self.wr.write_raw(Some(span), raw_value)?;
+                    self.wr.write_raw(Some(span), raw_unit)?;
                 }
                 Token::Ident { raw, .. } => {
-                    self.wr.write_raw(Some(n.span), &raw)?;
+                    self.wr.write_raw(Some(n.span), raw)?;
                 }
                 Token::Function { raw, .. } => {
-                    self.wr.write_raw(Some(n.span), &raw)?;
+                    self.wr.write_raw(Some(n.span), raw)?;
                     punct!(self, "(");
                 }
                 Token::BadStr { raw, .. } => {
-                    self.wr.write_raw(Some(span), &raw)?;
+                    self.wr.write_raw(Some(span), raw)?;
                 }
                 Token::Str { raw, .. } => {
-                    self.wr.write_raw(Some(span), &raw)?;
+                    self.wr.write_raw(Some(span), raw)?;
                 }
                 Token::Url { raw, .. } => {
                     self.wr.write_raw(Some(span), "url")?;
                     punct!(self, "(");
-                    self.wr.write_raw(None, &raw)?;
+                    self.wr.write_raw(None, raw)?;
                     punct!(self, ")");
                 }
                 Token::BadUrl { raw, .. } => {
                     self.wr.write_raw(Some(span), "url")?;
                     punct!(self, "(");
-                    self.wr.write_raw(None, &raw)?;
+                    self.wr.write_raw(None, raw)?;
                     punct!(self, ")");
                 }
                 Token::Comma => {
@@ -617,10 +670,10 @@ where
                 }
                 Token::Hash { raw, .. } => {
                     punct!(self, "#");
-                    self.wr.write_raw(Some(span), &raw)?;
+                    self.wr.write_raw(Some(span), raw)?;
                 }
                 Token::WhiteSpace { value, .. } => {
-                    self.wr.write_raw(None, &value)?;
+                    self.wr.write_raw(None, value)?;
                 }
                 Token::CDC => {
                     punct!(self, span, "-->");
@@ -742,11 +795,8 @@ where
     fn emit_complex_selector(&mut self, n: &ComplexSelector) -> Result {
         let mut need_space = false;
         for (idx, node) in n.children.iter().enumerate() {
-            match node {
-                ComplexSelectorChildren::Combinator(..) => {
-                    need_space = false;
-                }
-                _ => {}
+            if let ComplexSelectorChildren::Combinator(..) = node {
+                need_space = false;
             }
 
             if idx != 0 && need_space {
@@ -755,11 +805,8 @@ where
                 self.wr.write_space()?;
             }
 
-            match node {
-                ComplexSelectorChildren::CompoundSelector(..) => {
-                    need_space = true;
-                }
-                _ => {}
+            if let ComplexSelectorChildren::CompoundSelector(..) = node {
+                need_space = true;
             }
 
             emit!(self, node)
@@ -946,11 +993,8 @@ where
             if idx != 0 {
                 self.write_delim(format)?;
 
-                match format & ListFormat::LinesMask {
-                    ListFormat::MultiLine => {
-                        self.wr.write_newline()?;
-                    }
-                    _ => {}
+                if format & ListFormat::LinesMask == ListFormat::MultiLine {
+                    self.wr.write_newline()?;
                 }
             }
             emit!(self, node)
@@ -971,6 +1015,9 @@ where
             }
             ListFormat::SemiDelimited => {
                 punct!(self, ";")
+            }
+            ListFormat::DotDelimited => {
+                punct!(self, ".");
             }
             _ => unreachable!(),
         }

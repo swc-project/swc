@@ -122,7 +122,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         self,
         c: GlobalPassOption,
     ) -> PassBuilder<'a, 'b, impl swc_ecma_visit::Fold> {
-        let pass = c.build(&self.cm, &self.handler);
+        let pass = c.build(self.cm, self.handler);
         self.then(pass)
     }
 
@@ -176,7 +176,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         let compat_pass = if let Some(env) = self.env {
             Either::Left(swc_ecma_preset_env::preset_env(
                 self.top_level_mark,
-                comments.clone(),
+                comments,
                 env,
             ))
         } else {
@@ -225,7 +225,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 Optional::new(
                     compat::es2015(
                         self.top_level_mark,
-                        comments.clone(),
+                        comments,
                         compat::es2015::Config {
                             computed_props: compat::es2015::computed_props::Config {
                                 loose: self.loose
@@ -260,10 +260,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         let is_mangler_enabled = self
             .minify
             .as_ref()
-            .map(|v| match v.mangle {
-                BoolOrObject::Bool(true) | BoolOrObject::Obj(_) => true,
-                _ => false,
-            })
+            .map(|v| matches!(v.mangle, BoolOrObject::Bool(true) | BoolOrObject::Obj(_)))
             .unwrap_or(false);
 
         let module_scope = Rc::new(RefCell::new(Scope::default()));
@@ -342,9 +339,5 @@ impl VisitMut for MinifierPass {
 }
 
 fn should_enable(target: EsVersion, feature: EsVersion) -> bool {
-    if cfg!(feature = "wrong-target") {
-        target <= feature
-    } else {
-        target < feature
-    }
+    target < feature
 }

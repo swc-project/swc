@@ -99,7 +99,7 @@ impl VisitMut for Spread {
                             span: DUMMY_SP,
                             definite: false,
                             // Initialized by paren expression.
-                            name: Pat::Ident(ident.clone().into()),
+                            name: ident.clone().into(),
                             // Initialized by paren expression.
                             init: None,
                         });
@@ -107,7 +107,7 @@ impl VisitMut for Spread {
                         let this = Box::new(Expr::Ident(ident.clone()));
                         let callee = Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ident.into()))),
+                            left: PatOrExpr::Pat(ident.into()),
                             op: op!("="),
                             right: obj.clone(),
                         });
@@ -353,21 +353,12 @@ impl Spread {
                 .make_member(Ident::new(js_word!("concat"), DUMMY_SP))
                 .as_callee();
 
-            if buf[0].spread.is_none() {
-                return Expr::Call(CallExpr {
-                    span,
-                    callee,
-                    args: buf,
-                    type_args: Default::default(),
-                });
-            } else {
-                return Expr::Call(CallExpr {
-                    span,
-                    callee,
-                    args: buf,
-                    type_args: Default::default(),
-                });
-            }
+            return Expr::Call(CallExpr {
+                span,
+                callee,
+                args: buf,
+                type_args: Default::default(),
+            });
         }
 
         Expr::Call(CallExpr {

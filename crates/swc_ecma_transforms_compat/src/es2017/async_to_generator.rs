@@ -91,22 +91,19 @@ impl VisitMut for Actual {
         n.visit_mut_children_with(self);
 
         if let Some(callee) = extract_callee_of_bind_this(n) {
-            match callee {
-                Expr::Call(callee_of_callee) => {
-                    if let Some(..) = extract_callee_of_bind_this(callee_of_callee) {
-                        // We found bind(this).bind(this)
-                        *n = replace(
-                            callee_of_callee,
-                            CallExpr {
-                                span: DUMMY_SP,
-                                callee: Callee::Super(Super { span: DUMMY_SP }),
-                                args: Default::default(),
-                                type_args: Default::default(),
-                            },
-                        );
-                    }
+            if let Expr::Call(callee_of_callee) = callee {
+                if let Some(..) = extract_callee_of_bind_this(callee_of_callee) {
+                    // We found bind(this).bind(this)
+                    *n = replace(
+                        callee_of_callee,
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: Callee::Super(Super { span: DUMMY_SP }),
+                            args: Default::default(),
+                            type_args: Default::default(),
+                        },
+                    );
                 }
-                _ => {}
             }
         }
     }
@@ -157,7 +154,7 @@ impl VisitMut for Actual {
                 span: DUMMY_SP,
                 stmts: hoisted_super
                     .into_iter()
-                    .chain(folder.scope_ident.to_stmt().into_iter())
+                    .chain(folder.scope_ident.to_stmt())
                     .chain(iter::once(Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(Box::new(Expr::Call(CallExpr {
@@ -374,12 +371,12 @@ impl MethodFolder {
 
         self.vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(ident.clone().into()),
+            name: ident.clone().into(),
             init: Some(Box::new(Expr::Arrow(ArrowExpr {
                 span: DUMMY_SP,
                 is_async: false,
                 is_generator: false,
-                params: vec![Pat::Ident(args_ident.clone().into())],
+                params: vec![args_ident.clone().into()],
                 body: BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     left: PatOrExpr::Expr(Box::new(
@@ -490,7 +487,7 @@ impl VisitMut for MethodFolder {
 
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(ident.clone().into()),
+                    name: ident.clone().into(),
                     init: Some(Box::new(Expr::Arrow(ArrowExpr {
                         span: DUMMY_SP,
                         is_async: false,
@@ -498,7 +495,7 @@ impl VisitMut for MethodFolder {
                         params: vec![Pat::Rest(RestPat {
                             span: DUMMY_SP,
                             dot3_token: DUMMY_SP,
-                            arg: Box::new(Pat::Ident(args_ident.clone().into())),
+                            arg: args_ident.clone().into(),
                             type_ann: Default::default(),
                         })],
                         body: BlockStmtOrExpr::Expr(Box::new(Expr::Call(CallExpr {
@@ -533,7 +530,7 @@ impl VisitMut for MethodFolder {
                 let (_, ident) = self.ident_for_super(&prop);
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(ident.clone().into()),
+                    name: ident.clone().into(),
                     init: Some(Box::new(Expr::Arrow(ArrowExpr {
                         span: DUMMY_SP,
                         is_async: false,
@@ -571,47 +568,21 @@ impl Actual {
 
         match expr {
             Expr::Arrow(arrow_expr @ ArrowExpr { is_async: true, .. }) => {
-                // Apply arrow
-                let this: Option<ExprOrSpread> = if contains_this_expr(&arrow_expr.body) {
-                    if binding_ident.is_none() {
-                        Some(ThisExpr { span: DUMMY_SP }.as_arg())
-                    } else {
-                        let this = private_ident!("_this");
-                        self.hoist_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: vec![VarDeclarator {
-                                span: DUMMY_SP,
-                                name: this.clone().into(),
-                                init: Some(Box::new(ThisExpr { span: DUMMY_SP }.into())),
-                                definite: false,
-                            }],
-                            declare: false,
-                        })));
-                        Some(this.as_arg())
-                    }
-                } else {
-                    None
-                };
+                let mut state = FnEnvState::default();
+
+                arrow_expr
+                    .body
+                    .visit_mut_with(&mut FnEnvHoister::new(&mut state));
+
+                self.hoist_stmts.extend(state.to_stmt());
 
                 let mut wrapper = FunctionWrapper::from(arrow_expr.take());
                 wrapper.binding_ident = binding_ident;
 
-                let fn_expr = wrapper.function.fn_expr().unwrap();
+                let fn_expr = wrapper.function.expect_fn_expr();
 
-                wrapper.function = if let Some(this) = this {
-                    Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: make_fn_ref(fn_expr, Some(this.clone()), false)
-                            .make_member(quote_ident!("bind"))
-                            .as_callee(),
-                        args: vec![this.clone()],
-                        type_args: Default::default(),
-                    })
-                } else {
-                    make_fn_ref(fn_expr, None, false)
-                };
-
+                // We should not bind `this` in FunctionWrapper
+                wrapper.function = make_fn_ref(fn_expr, None, true);
                 *expr = wrapper.into();
             }
 
@@ -624,7 +595,7 @@ impl Actual {
                 let mut wrapper = FunctionWrapper::from(fn_expr.take());
                 wrapper.binding_ident = binding_ident;
 
-                let fn_expr = wrapper.function.fn_expr().unwrap();
+                let fn_expr = wrapper.function.expect_fn_expr();
 
                 wrapper.function = make_fn_ref(fn_expr, None, true);
 
@@ -821,7 +792,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             // let value = _step.value;
             let value_var = VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(value.clone().into()),
+                name: value.clone().into(),
                 init: Some(Box::new(step.clone().make_member(quote_ident!("value")))),
                 definite: false,
             };
@@ -873,7 +844,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         // _iterator = _asyncIterator(lol())
         init_var_decls.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(iterator.clone().into()),
+            name: iterator.clone().into(),
             init: {
                 let callee = helper!(async_iterator, "asyncIterator");
 
@@ -888,7 +859,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         });
         init_var_decls.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(step.clone().into()),
+            name: step.clone().into(),
             init: None,
             definite: false,
         });
@@ -926,7 +897,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 let assign_to_step = Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: PatOrExpr::Pat(Box::new(Pat::Ident(step.clone().into()))),
+                    left: PatOrExpr::Pat(step.clone().into()),
                     right: Box::new(Expr::Yield(YieldExpr {
                         span: DUMMY_SP,
                         arg: Some(yield_arg),
@@ -940,9 +911,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     arg: Box::new(assign_to_step.make_member(quote_ident!("done"))),
                 }));
 
-                let left = PatOrExpr::Pat(Box::new(Pat::Ident(
-                    iterator_abrupt_completion.clone().into(),
-                )));
+                let left = PatOrExpr::Pat(iterator_abrupt_completion.clone().into());
 
                 Some(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
@@ -955,9 +924,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             update: Some(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                    iterator_abrupt_completion.clone().into(),
-                ))),
+                left: PatOrExpr::Pat(iterator_abrupt_completion.clone().into()),
                 right: Box::new(Expr::Lit(Lit::Bool(Bool {
                     span: DUMMY_SP,
                     value: false,
@@ -979,7 +946,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             expr: Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(did_iteration_error.clone().into()))),
+                left: PatOrExpr::Pat(did_iteration_error.clone().into()),
                 right: Box::new(Expr::Lit(Lit::Bool(Bool {
                     span: DUMMY_SP,
                     value: true,
@@ -992,14 +959,14 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             expr: Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(iterator_error.clone().into()))),
+                left: PatOrExpr::Pat(iterator_error.clone().into()),
                 right: Box::new(Expr::Ident(err_param.clone())),
             })),
         });
 
         CatchClause {
             span: DUMMY_SP,
-            param: Some(Pat::Ident(err_param.clone().into())),
+            param: Some(err_param.clone().into()),
             body: BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![mark_as_errorred, store_error],
@@ -1101,7 +1068,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             // var _iteratorAbruptCompletion = false;
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(iterator_abrupt_completion.into()),
+                name: iterator_abrupt_completion.into(),
                 init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
                     span: DUMMY_SP,
                     value: false,
@@ -1112,7 +1079,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             // var _didIteratorError = false;
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(did_iteration_error.into()),
+                name: did_iteration_error.into(),
                 init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
                     span: DUMMY_SP,
                     value: false,
@@ -1123,7 +1090,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             // var _iteratorError;
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(iterator_error.clone().into()),
+                name: iterator_error.clone().into(),
                 init: None,
                 definite: false,
             });

@@ -23,7 +23,7 @@ error: ImportRule
 1 | @import "something.css";
   | ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: ImportSource
+error: ImportHref
  --> $DIR/tests/fixture/rome/import/input.css:1:9
   |
 1 | @import "something.css";
@@ -53,7 +53,7 @@ error: ImportRule
 2 | @import url("something.css");
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: ImportSource
+error: ImportHref
  --> $DIR/tests/fixture/rome/import/input.css:2:9
   |
 2 | @import url("something.css");

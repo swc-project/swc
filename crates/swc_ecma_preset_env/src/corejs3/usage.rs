@@ -62,22 +62,22 @@ impl UsageVisitor {
             ..
         } = self;
 
-        self.required.extend(features.iter().filter_map(|f| {
+        self.required.extend(features.iter().filter(|f| {
             if !*shipped_proposals && f.starts_with("esnext.") {
-                return None;
+                return false;
             }
 
-            let feature = CORE_JS_COMPAT_DATA.get(&**f);
+            let feature = CORE_JS_COMPAT_DATA.get(&***f);
 
             if !*is_any_target {
                 if let Some(feature) = feature {
                     if !should_enable(*target, *feature, true) {
-                        return None;
+                        return false;
                     }
                 }
             }
 
-            Some(f)
+            true
         }));
     }
 
@@ -104,14 +104,14 @@ impl UsageVisitor {
                 self.add_builtin(prop);
             }
 
-            if let Some(map) = STATIC_PROPERTIES.get_data(&obj) {
-                if let Some(features) = map.get_data(&prop) {
+            if let Some(map) = STATIC_PROPERTIES.get_data(obj) {
+                if let Some(features) = map.get_data(prop) {
                     self.add(features);
                 }
             }
         }
 
-        if let Some(features) = INSTANCE_PROPERTIES.get_data(&prop) {
+        if let Some(features) = INSTANCE_PROPERTIES.get_data(prop) {
             self.add(features);
         }
     }
@@ -151,28 +151,22 @@ impl Visit for UsageVisitor {
     fn visit_assign_expr(&mut self, e: &AssignExpr) {
         e.visit_children_with(self);
 
-        match &e.left {
-            // ({ keys, values } = Object)
-            PatOrExpr::Pat(pat) => match &**pat {
-                Pat::Object(ref o) => self.visit_object_pat_props(&e.right, &o.props),
-                _ => {}
-            },
-            _ => {}
+        if let PatOrExpr::Pat(pat) = &e.left {
+            if let Pat::Object(ref o) = &**pat {
+                self.visit_object_pat_props(&e.right, &o.props)
+            }
         }
     }
 
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         e.visit_children_with(self);
 
-        match e.op {
-            op!("in") => {
-                // 'entries' in Object
-                // 'entries' in [1, 2, 3]
-                if let Expr::Lit(Lit::Str(str)) = &*e.left {
-                    self.add_property_deps(&e.right, &str.value);
-                }
+        if e.op == op!("in") {
+            // 'entries' in Object
+            // 'entries' in [1, 2, 3]
+            if let Expr::Lit(Lit::Str(str)) = &*e.left {
+                self.add_property_deps(&e.right, &str.value);
             }
-            _ => {}
         }
     }
 
@@ -188,9 +182,8 @@ impl Visit for UsageVisitor {
     fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
-        match e {
-            Expr::Ident(i) => self.add_builtin(&i.sym),
-            _ => {}
+        if let Expr::Ident(i) = e {
+            self.add_builtin(&i.sym)
         }
     }
 
@@ -243,20 +236,11 @@ impl Visit for UsageVisitor {
         d.visit_children_with(self);
 
         if let Some(ref init) = d.init {
-            match d.name {
-                // const { keys, values } = Object
-                Pat::Object(ref o) => self.visit_object_pat_props(&init, &o.props),
-                _ => {}
+            if let Pat::Object(ref o) = d.name {
+                self.visit_object_pat_props(init, &o.props)
             }
-        } else {
-            match d.name {
-                // const { keys, values } = Object
-                Pat::Object(ref o) => self.visit_object_pat_props(
-                    &Expr::Ident(Ident::new(js_word!(""), DUMMY_SP)),
-                    &o.props,
-                ),
-                _ => {}
-            }
+        } else if let Pat::Object(ref o) = d.name {
+            self.visit_object_pat_props(&Expr::Ident(Ident::new(js_word!(""), DUMMY_SP)), &o.props)
         }
     }
 

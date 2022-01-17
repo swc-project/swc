@@ -42,7 +42,7 @@ impl VisitMut for NewTarget {
             v.visit_mut_with(self);
             self.var.get_or_insert_with(|| VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(private_ident!("_newtarget").into()),
+                name: private_ident!("_newtarget").into(),
                 init: Some(Box::new(v)),
                 definite: Default::default(),
             });

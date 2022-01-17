@@ -381,12 +381,7 @@ impl<'a, I: Tokens> Parser<I> {
         trace_cur!(self, parse_jsx_element);
 
         debug_assert!(self.input.syntax().jsx());
-        debug_assert!({
-            match *cur!(self, true)? {
-                Token::JSXTagStart | tok!('<') => true,
-                _ => false,
-            }
-        });
+        debug_assert!({ matches!(*cur!(self, true)?, Token::JSXTagStart | tok!('<')) });
 
         let start_pos = cur_pos!(self);
 
@@ -421,19 +416,13 @@ trait IsFragment {
 
 impl IsFragment for Either<JSXOpeningFragment, JSXOpeningElement> {
     fn is_fragment(&self) -> bool {
-        match *self {
-            Either::Left(..) => true,
-            _ => false,
-        }
+        matches!(*self, Either::Left(..))
     }
 }
 
 impl IsFragment for Either<JSXClosingFragment, JSXClosingElement> {
     fn is_fragment(&self) -> bool {
-        match *self {
-            Either::Left(..) => true,
-            _ => false,
-        }
+        matches!(*self, Either::Left(..))
     }
 }
 impl<T: IsFragment> IsFragment for Option<T> {

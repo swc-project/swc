@@ -57,7 +57,7 @@ impl DependencyCollector {
         info!("Loading {}", name);
 
         let fm = match &*name {
-            FileName::Real(path) => self.cm.load_file(&path)?,
+            FileName::Real(path) => self.cm.load_file(path)?,
             FileName::Custom(..) => return Ok(()),
             _ => {
                 todo!("load({:?})", name)
@@ -69,18 +69,12 @@ impl DependencyCollector {
             .unwrap()
             .insert(name.clone(), Arc::new(ModuleData { fm: fm.clone() }));
 
-        match &*name {
-            FileName::Real(name) => match name.extension() {
-                Some(ext) => {
-                    if ext == "json" {
-                        return Ok(());
-                    }
+        if let FileName::Real(name) = &*name {
+            if let Some(ext) = name.extension() {
+                if ext == "json" {
+                    return Ok(());
                 }
-
-                _ => {}
-            },
-
-            _ => {}
+            }
         }
 
         let module = parse(&fm)?;

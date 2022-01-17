@@ -22,7 +22,7 @@ error: ImportRule
 1 | @import url(foo.css) ;
   | ^^^^^^^^^^^^^^^^^^^^^^
 
-error: ImportSource
+error: ImportHref
  --> $DIR/tests/fixture/esbuild/misc/FU0reCXb694XEXwdM2wqsQ/input.css:1:9
   |
 1 | @import url(foo.css) ;

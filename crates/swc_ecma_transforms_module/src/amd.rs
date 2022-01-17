@@ -305,7 +305,7 @@ where
                                 kind: VarDeclKind::Var,
                                 decls: vec![VarDeclarator {
                                     span: DUMMY_SP,
-                                    name: Pat::Ident(ident.clone().into()),
+                                    name: ident.clone().into(),
                                     init: Some(expr.fold_with(self)),
                                     definite: false,
                                 }],
@@ -331,7 +331,6 @@ where
                             let imported = export.src.clone().map(|src| {
                                 scope.import_to_export(&src, !export.specifiers.is_empty())
                             });
-                            drop(scope);
                             drop(scope_ref_mut);
 
                             stmts.reserve(export.specifiers.len());
@@ -393,7 +392,6 @@ where
                                             .or_insert(false);
                                     }
                                 }
-                                drop(scope);
                                 drop(scope_ref_mut);
                                 let value = match imported {
                                     Some(ref imported) => Box::new(
@@ -403,10 +401,7 @@ where
                                 };
 
                                 // True if we are exporting our own stuff.
-                                let is_value_ident = match *value {
-                                    Expr::Ident(..) => true,
-                                    _ => false,
-                                };
+                                let is_value_ident = matches!(*value, Expr::Ident(..));
 
                                 if is_value_ident {
                                     let exported_symbol = exported
@@ -438,7 +433,7 @@ where
 
                                                 // export { foo as bar }
                                                 //  -> 'bar'
-                                                let i = exported.unwrap_or_else(|| orig);
+                                                let i = exported.unwrap_or(orig);
                                                 Lit::Str(quote_str!(i.span, i.sym)).as_arg()
                                             },
                                             make_descriptor(value).as_arg(),
@@ -479,7 +474,7 @@ where
             factory_params.push(Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(exports_ident.clone().into()),
+                pat: exports_ident.clone().into(),
             });
         }
 
@@ -492,7 +487,7 @@ where
                     kind: VarDeclKind::Var,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(exported_names.clone().into()),
+                        name: exported_names.clone().into(),
                         init: Some(Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: exports
@@ -552,7 +547,7 @@ where
             {
                 let src = match &self.resolver {
                     Some((resolver, base)) => resolver
-                        .resolve_import(&base, &src)
+                        .resolve_import(base, &src)
                         .with_context(|| format!("failed to resolve `{}`", src))
                         .unwrap(),
                     None => src.clone(),
@@ -565,7 +560,7 @@ where
             factory_params.push(Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(ident.clone().into()),
+                pat: ident.clone().into(),
             });
 
             {
@@ -588,7 +583,7 @@ where
                         import_stmts.push(
                             AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(ident.clone().into()))),
+                                left: PatOrExpr::Pat(ident.clone().into()),
                                 op: op!("="),
                                 right,
                             }
@@ -723,13 +718,13 @@ pub(super) fn handle_dynamic_import(span: Span, args: Vec<ExprOrSpread>) -> Expr
                     Param {
                         span: DUMMY_SP,
                         decorators: Default::default(),
-                        pat: Pat::Ident(quote_ident!("resolve").into()),
+                        pat: quote_ident!("resolve").into(),
                     },
                     // reject
                     Param {
                         span: DUMMY_SP,
                         decorators: Default::default(),
-                        pat: Pat::Ident(quote_ident!("reject").into()),
+                        pat: quote_ident!("reject").into(),
                     },
                 ],
 
@@ -770,7 +765,7 @@ pub(super) fn handle_dynamic_import(span: Span, args: Vec<ExprOrSpread>) -> Expr
                                             params: vec![Param {
                                                 span: DUMMY_SP,
                                                 decorators: Default::default(),
-                                                pat: Pat::Ident(quote_ident!("dep").into()),
+                                                pat: quote_ident!("dep").into(),
                                             }],
                                             body: Some(BlockStmt {
                                                 span: DUMMY_SP,
@@ -800,7 +795,7 @@ pub(super) fn handle_dynamic_import(span: Span, args: Vec<ExprOrSpread>) -> Expr
                                             params: vec![Param {
                                                 span: DUMMY_SP,
                                                 decorators: Default::default(),
-                                                pat: Pat::Ident(quote_ident!("err").into()),
+                                                pat: quote_ident!("err").into(),
                                             }],
                                             body: Some(BlockStmt {
                                                 span: DUMMY_SP,

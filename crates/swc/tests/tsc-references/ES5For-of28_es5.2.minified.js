@@ -40,8 +40,10 @@ try {
     for(var _step, _iterator = [
         2,
         3
-    ][Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)var _value = _slicedToArray(_step.value, 2);
-    _value[0], _value[1];
+    ][Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0){
+        var _value = _slicedToArray(_step.value, 2);
+        _value[0], _value[1];
+    }
 } catch (err) {
     _didIteratorError = !0, _iteratorError = err;
 } finally{

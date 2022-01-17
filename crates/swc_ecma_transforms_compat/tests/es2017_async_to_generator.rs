@@ -221,7 +221,7 @@ async function s(x, ...args) {
 }
 function _s() {
     _s = _asyncToGenerator(function*(x) {
-        for(let _len1 = arguments.length, args = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++){
+        for(var _len1 = arguments.length, args = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++){
             args[_key1 - 1] = arguments[_key1];
         }
         var _this = this, _arguments = arguments;
@@ -230,7 +230,7 @@ function _s() {
                 var _this1 = _this, _arguments1 = _arguments;
                 let r = function() {
                     var _r = _asyncToGenerator(function*(z, b) {
-                        for(let _len = arguments.length, innerArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+                        for(var _len = arguments.length, innerArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
                             innerArgs[_key - 2] = arguments[_key];
                         }
                         yield z;
@@ -1369,11 +1369,12 @@ let TestClass = {
 let TestClass = {
     name: 'John Doe',
     testMethodFailure () {
+        var _this = this;
         return new Promise(function() {
-            var _ref = _asyncToGenerator((function*(resolve) {
-                console.log(this);
+            var _ref = _asyncToGenerator(function*(resolve) {
+                console.log(_this);
                 setTimeout(resolve, 1000);
-            }).bind(this)).bind(this);
+            });
             return function(resolve) {
                 return _ref.apply(this, arguments);
             };
@@ -1707,28 +1708,27 @@ function s(x) {
 }
 function _s() {
   _s = _asyncToGenerator(function* (x, ...args) {
-      var _this1 = this;
+      var _this = this, _arguments = arguments;
       let t = function () {
           var _ref1 = _asyncToGenerator(
-              (function* (y, a) {
-                  var _this = this;
+              function* (y, a) {
                   let r = function () {
                       var _ref = _asyncToGenerator(
-                          (function* (z, b, ...innerArgs) {
+                          function* (z, b, ...innerArgs) {
                               yield z;
-                              console.log(this, innerArgs, arguments);
-                              return this.x;
-                          }).bind(_this)
-                      ).bind(_this);
+                              console.log(_this, innerArgs, _arguments);
+                              return _this.x;
+                          }
+                      );
                       return function r(z, b) {
                           return _ref.apply(this, arguments);
                       };
                   }();
                   yield r();
-                  console.log(this, args, arguments);
-                  return this.g(r);
-              }).bind(_this1)
-          ).bind(_this1);
+                  console.log(_this, args, _arguments);
+                  return _this.g(r);
+              }
+          );
           return function t(y, a) {
               return _ref1.apply(this, arguments);
           };
@@ -3197,9 +3197,9 @@ const foo = async (x, y, ...z) => {
     r#"
 var _this = this;
 const foo = /*#__PURE__*/ function () {
-    var _ref = _asyncToGenerator((function* (x, y, ...z) {
-        return this;
-    }).bind(_this)).bind(_this);
+    var _ref = _asyncToGenerator(function* (x, y, ...z) {
+        return _this;
+    });
 
     return function foo(x, y) {
         return _ref.apply(this, arguments);
@@ -3430,7 +3430,13 @@ fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
     compare_stdout(
         Default::default(),
-        |_| chain!(resolver(), async_to_generator()),
+        |_| {
+            chain!(
+                resolver(),
+                class_properties(Default::default()),
+                async_to_generator()
+            )
+        },
         &input,
     );
 }
@@ -3445,6 +3451,7 @@ fn exec_regenerator(input: PathBuf) {
 
             chain!(
                 resolver(),
+                class_properties(Default::default()),
                 async_to_generator(),
                 es2015::for_of(Default::default()),
                 regenerator(Default::default(), top_level_mark)

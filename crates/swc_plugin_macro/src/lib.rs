@@ -20,10 +20,12 @@ pub fn plugin_module(
 
 fn handle_func(func: ItemFn) -> TokenStream {
     let ident = func.sig.ident.clone();
-    let process_impl_ident = Ident::new(&format!("__plugin_process_impl"), Span::call_site());
+    let process_impl_ident = Ident::new(&"__plugin_process_impl".to_string(), Span::call_site());
 
     let ret = quote! {
         #func
+
+        use swc_plugin::Serialized;
 
         // TODO:
         // error handling & bubbling

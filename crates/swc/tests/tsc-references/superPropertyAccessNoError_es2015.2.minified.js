@@ -11,7 +11,8 @@ class SomeBaseClass {
 }
 new class extends SomeBaseClass {
     fn() {
-        super.func();
+        super.func(), ()=>super.func()
+        ;
     }
     get a() {
         return super.func(), null;

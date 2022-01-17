@@ -17,16 +17,13 @@ pub fn print(cm: Lrc<SourceMap>, module: &Module) -> String {
             cfg: Default::default(),
             cm: cm.clone(),
             wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
-                cm.clone(),
-                "\n",
-                &mut buf,
-                None,
+                cm, "\n", &mut buf, None,
             )),
             comments: None,
         };
 
         // println!("Emitting: {:?}", module);
-        emitter.emit_module(&module).unwrap();
+        emitter.emit_module(module).unwrap();
     }
 
     let s = String::from_utf8_lossy(&buf);
@@ -58,7 +55,7 @@ where
 
         let module = module.fold_with(&mut folder);
 
-        let actual = print(cm.clone(), &module);
+        let actual = print(cm, &module);
         let actual = NormalizedOutput::from(actual);
 
         actual.compare_to_file(&output).unwrap();
@@ -124,18 +121,15 @@ impl VisitMut for TsHygiene {
         }
     }
 
-    fn visit_mut_super_prop_expr(&mut self, n: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut n.prop {
-            c.visit_mut_with(self);
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        if let PropName::Computed(n) = n {
+            n.visit_mut_with(self);
         }
     }
 
-    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
-        match n {
-            PropName::Computed(n) => {
-                n.visit_mut_with(self);
-            }
-            _ => {}
+    fn visit_mut_super_prop_expr(&mut self, n: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut n.prop {
+            c.visit_mut_with(self);
         }
     }
 

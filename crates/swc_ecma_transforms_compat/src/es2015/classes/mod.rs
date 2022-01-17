@@ -94,7 +94,7 @@ where
         let mut first = true;
         let old = self.in_strict;
 
-        for stmt in stmts.into_iter() {
+        for stmt in stmts.iter_mut() {
             match T::try_into_stmt(stmt.take()) {
                 Err(node) => match node.try_into_module_decl() {
                     Ok(mut decl) => {
@@ -200,11 +200,8 @@ where
     }
 
     fn visit_mut_decl(&mut self, n: &mut Decl) {
-        match n {
-            Decl::Class(decl) => {
-                *n = Decl::Var(self.fold_class_as_var_decl(decl.ident.take(), decl.class.take()))
-            }
-            _ => {}
+        if let Decl::Class(decl) = n {
+            *n = Decl::Var(self.fold_class_as_var_decl(decl.ident.take(), decl.class.take()))
         };
 
         n.visit_mut_children_with(self);
@@ -270,7 +267,7 @@ where
             let params = vec![Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(super_param.clone().into()),
+                pat: super_param.clone().into(),
             }];
 
             let super_class = class.super_class.clone().unwrap();
@@ -302,10 +299,7 @@ where
         let cnt_of_non_directive = stmts
             .iter()
             .filter(|stmt| match stmt {
-                Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
-                    Expr::Lit(Lit::Str(..)) => false,
-                    _ => true,
-                },
+                Stmt::Expr(ExprStmt { expr, .. }) => !matches!(&**expr, Expr::Lit(Lit::Str(..))),
                 _ => true,
             })
             .count();
@@ -452,7 +446,7 @@ where
                 declare: Default::default(),
                 decls: vec![VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(var.clone().into()),
+                    name: var.clone().into(),
                     init: Some(Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(create_super, "createSuper"),
@@ -548,7 +542,7 @@ where
                 if insert_this {
                     vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(this.clone().into()),
+                        name: this.clone().into(),
                         init: None,
                         definite: false,
                     });
@@ -565,10 +559,7 @@ where
                     );
                 }
 
-                let is_last_return = match body.last() {
-                    Some(Stmt::Return(..)) => true,
-                    _ => false,
-                };
+                let is_last_return = matches!(body.last(), Some(Stmt::Return(..)));
                 if !is_last_return {
                     if is_always_initialized {
                         body.push(Stmt::Return(ReturnStmt {
@@ -644,10 +635,9 @@ where
             && stmts
                 .iter()
                 .filter(|stmt| match stmt {
-                    Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
-                        Expr::Lit(Lit::Str(..)) => false,
-                        _ => true,
-                    },
+                    Stmt::Expr(ExprStmt { expr, .. }) => {
+                        !matches!(&**expr, Expr::Lit(Lit::Str(..)))
+                    }
                     _ => true,
                 })
                 .count()
@@ -702,7 +692,7 @@ where
                     kind: VarDeclKind::Var,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into()),
+                        name: quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into(),
                         init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                         definite: false,
                     }],
@@ -822,10 +812,7 @@ where
         for mut m in methods {
             let key = HashKey::from(&m.key);
             let key_prop = Box::new(mk_key_prop(&m.key));
-            let computed = match m.key {
-                PropName::Computed(..) => true,
-                _ => false,
-            };
+            let computed = matches!(m.key, PropName::Computed(..));
             let prop_name = prop_name_to_expr(m.key);
 
             let append_to: &mut IndexMap<_, _> = if m.is_static {
@@ -856,9 +843,7 @@ where
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(
-                                quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into(),
-                            ),
+                            name: quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into(),
                             init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                             definite: false,
                         }],
@@ -962,14 +947,13 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     }
 
     let pos = match body.iter().position(|s| match s {
-        Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
+        Stmt::Expr(ExprStmt { expr, .. }) => matches!(
+            &**expr,
             Expr::Call(CallExpr {
                 callee: Callee::Super(..),
                 ..
-            }) => true,
-
-            _ => false,
-        },
+            })
+        ),
         _ => false,
     }) {
         Some(pos) => pos,
@@ -984,17 +968,14 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
 }
 
 fn escape_keywords(mut e: Box<Expr>) -> Box<Expr> {
-    match &mut *e {
-        Expr::Fn(f) => {
-            if let Some(i) = &mut f.ident {
-                let sym = Ident::verify_symbol(&i.sym);
+    if let Expr::Fn(f) = &mut *e {
+        if let Some(i) = &mut f.ident {
+            let sym = Ident::verify_symbol(&i.sym);
 
-                if let Err(new) = sym {
-                    i.sym = new.into();
-                }
+            if let Err(new) = sym {
+                i.sym = new.into();
             }
         }
-        _ => {}
     }
 
     e

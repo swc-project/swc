@@ -72,7 +72,7 @@ impl Lazy {
         match *self {
             Lazy::Bool(false) => false,
             Lazy::Bool(true) => !src.starts_with('.'),
-            Lazy::List(ref srcs) => srcs.contains(&src),
+            Lazy::List(ref srcs) => srcs.contains(src),
         }
     }
 }
@@ -169,7 +169,7 @@ impl Scope {
             params: vec![Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(key_ident.clone().into()),
+                pat: key_ident.clone().into(),
             }],
             body: Some(BlockStmt {
                 span: DUMMY_SP,
@@ -195,10 +195,8 @@ impl Scope {
                 }))
                 .chain({
                     // We should skip if the file explicitly exports
-                    if let Some(exported_names) = exported_names {
-                        // `if (Object.prototype.hasOwnProperty.call(_exportNames, key))
-                        //      return;`
-                        Some(Stmt::If(IfStmt {
+                    exported_names.map(|exported_names| {
+                        Stmt::If(IfStmt {
                             span: DUMMY_SP,
                             test: Box::new(
                                 CallExpr {
@@ -218,10 +216,8 @@ impl Scope {
                                 arg: None,
                             })),
                             alt: None,
-                        }))
-                    } else {
-                        None
-                    }
+                        })
+                    })
                 })
                 .chain({
                     Some(Stmt::If(IfStmt {
@@ -317,10 +313,7 @@ impl Scope {
             //   -> require('foo');
             self.imports.entry(import.src.value.clone()).or_insert(None);
         } else if import.specifiers.len() == 1
-            && match import.specifiers[0] {
-                ImportSpecifier::Namespace(..) => true,
-                _ => false,
-            }
+            && matches!(import.specifiers[0], ImportSpecifier::Namespace(..))
         {
             // import * as foo from 'src';
             let specifier = match import.specifiers.pop().unwrap() {
@@ -602,7 +595,7 @@ impl Scope {
                             entry,
                             Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(arg.clone().into()))),
+                                left: PatOrExpr::Pat(arg.clone().into()),
                                 op: op!("="),
                                 right: Box::new(Expr::Bin(BinExpr {
                                     span: DUMMY_SP,
@@ -729,7 +722,7 @@ impl Scope {
 
                 match expr.left {
                     PatOrExpr::Pat(pat) if pat.is_ident() => {
-                        let i = pat.ident().unwrap();
+                        let i = pat.expect_ident();
                         let mut scope = folder.scope_mut();
                         let entry = scope
                             .exported_bindings
@@ -738,7 +731,7 @@ impl Scope {
                         match entry {
                             Entry::Occupied(entry) => {
                                 let expr = Expr::Assign(AssignExpr {
-                                    left: PatOrExpr::Pat(Box::new(Pat::Ident(i))),
+                                    left: PatOrExpr::Pat(i.into()),
                                     ..expr
                                 });
                                 let e = chain_assign!(entry, Box::new(expr));
@@ -746,7 +739,7 @@ impl Scope {
                                 *e
                             }
                             _ => Expr::Assign(AssignExpr {
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(i))),
+                                left: PatOrExpr::Pat(i.into()),
                                 ..expr
                             }),
                         }
@@ -801,7 +794,7 @@ where
 {
     let src = match resolver {
         Some((resolver, base)) => resolver
-            .resolve_import(&base, &src)
+            .resolve_import(base, &src)
             .with_context(|| format!("failed to resolve import `{}`", src))
             .unwrap(),
         None => src,
@@ -875,12 +868,10 @@ pub(super) fn has_use_strict(stmts: &[ModuleItem]) -> bool {
         return false;
     }
 
-    match &*stmts.first().unwrap() {
-        ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) => match &**expr {
-            Expr::Lit(Lit::Str(Str { ref value, .. })) => return &*value == "use strict",
-            _ => {}
-        },
-        _ => {}
+    if let ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) = &*stmts.first().unwrap() {
+        if let Expr::Lit(Lit::Str(Str { ref value, .. })) = &**expr {
+            return &*value == "use strict";
+        }
     }
 
     false

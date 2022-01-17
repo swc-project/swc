@@ -1,5 +1,5 @@
 use super::{ident::MaybeOptionalIdentParser, *};
-use crate::{error::SyntaxError, lexer::TokenContext, Tokens};
+use crate::{error::SyntaxError, lexer::TokenContext, parser::stmt::IsDirective, Tokens};
 use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
@@ -667,7 +667,8 @@ impl<'a, I: Tokens> Parser<I> {
                     self.emit_err(type_ann.type_ann.span(), SyntaxError::TS1093);
                 }
 
-                let body: Option<_> = self.parse_fn_body(false, false)?;
+                let body: Option<_> =
+                    self.parse_fn_body(false, false, params.is_simple_parameter_list())?;
 
                 if self.syntax().typescript() && body.is_none() {
                     // Declare constructors cannot have assignment pattern in parameters
@@ -1110,7 +1111,8 @@ impl<'a, I: Tokens> Parser<I> {
                 None
             };
 
-            let body: Option<_> = p.parse_fn_body(is_async, is_generator)?;
+            let body: Option<_> =
+                p.parse_fn_body(is_async, is_generator, params.is_simple_parameter_list())?;
 
             if p.syntax().typescript() && body.is_none() {
                 // Declare functions cannot have assignment pattern in parameters
@@ -1149,7 +1151,12 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
-    pub(super) fn parse_fn_body<T>(&mut self, is_async: bool, is_generator: bool) -> PResult<T>
+    pub(super) fn parse_fn_body<T>(
+        &mut self,
+        is_async: bool,
+        is_generator: bool,
+        is_simple_parameter_list: bool,
+    ) -> PResult<T>
     where
         Self: FnBodyParser<T>,
     {
@@ -1173,7 +1180,9 @@ impl<'a, I: Tokens> Parser<I> {
             labels: vec![],
             ..Default::default()
         };
-        self.with_ctx(ctx).with_state(state).parse_fn_body_inner()
+        self.with_ctx(ctx)
+            .with_state(state)
+            .parse_fn_body_inner(is_simple_parameter_list)
     }
 }
 
@@ -1373,13 +1382,25 @@ impl OutputType for Decl {
 }
 
 pub(super) trait FnBodyParser<Body> {
-    fn parse_fn_body_inner(&mut self) -> PResult<Body>;
+    fn parse_fn_body_inner(&mut self, is_simple_parameter_list: bool) -> PResult<Body>;
 }
-
+fn has_use_strict(block: &BlockStmt) -> Option<Span> {
+    match block.stmts.iter().find(|stmt| stmt.is_use_strict()) {
+        Some(Stmt::Expr(ExprStmt { span, expr: _ })) => Some(*span),
+        _ => None,
+    }
+}
 impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
-    fn parse_fn_body_inner(&mut self) -> PResult<BlockStmtOrExpr> {
+    fn parse_fn_body_inner(&mut self, is_simple_parameter_list: bool) -> PResult<BlockStmtOrExpr> {
         if is!(self, '{') {
-            self.parse_block(false).map(BlockStmtOrExpr::BlockStmt)
+            self.parse_block(false).map(|block_stmt| {
+                if !self.input.syntax().typescript() && !is_simple_parameter_list {
+                    if let Some(span) = has_use_strict(&block_stmt) {
+                        self.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
+                    }
+                }
+                BlockStmtOrExpr::BlockStmt(block_stmt)
+            })
         } else {
             self.parse_assignment_expr().map(BlockStmtOrExpr::Expr)
         }
@@ -1387,40 +1408,78 @@ impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
 }
 
 impl<I: Tokens> FnBodyParser<Option<BlockStmt>> for Parser<I> {
-    fn parse_fn_body_inner(&mut self) -> PResult<Option<BlockStmt>> {
+    fn parse_fn_body_inner(
+        &mut self,
+        is_simple_parameter_list: bool,
+    ) -> PResult<Option<BlockStmt>> {
         // allow omitting body and allow placing `{` on next line
         if self.input.syntax().typescript() && !is!(self, '{') && eat!(self, ';') {
             return Ok(None);
         }
-        self.include_in_expr(true).parse_block(true).map(Some)
+        let block = self.include_in_expr(true).parse_block(true);
+        block.map(|block_stmt| {
+            if !self.input.syntax().typescript() && !is_simple_parameter_list {
+                if let Some(span) = has_use_strict(&block_stmt) {
+                    self.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
+                }
+            }
+            Some(block_stmt)
+        })
+    }
+}
+
+pub(super) trait IsSimpleParameterList {
+    fn is_simple_parameter_list(&self) -> bool;
+}
+impl IsSimpleParameterList for Vec<Param> {
+    fn is_simple_parameter_list(&self) -> bool {
+        self.iter().all(|param| matches!(param.pat, Pat::Ident(_)))
+    }
+}
+impl IsSimpleParameterList for Vec<Pat> {
+    fn is_simple_parameter_list(&self) -> bool {
+        self.iter().all(|pat| matches!(pat, Pat::Ident(_)))
+    }
+}
+impl IsSimpleParameterList for Vec<ParamOrTsParamProp> {
+    fn is_simple_parameter_list(&self) -> bool {
+        self.iter().all(|param| {
+            matches!(
+                param,
+                ParamOrTsParamProp::TsParamProp(..)
+                    | ParamOrTsParamProp::Param(Param {
+                        pat: Pat::Ident(_),
+                        ..
+                    })
+            )
+        })
     }
 }
 
 fn is_constructor(key: &Either<PrivateName, PropName>) -> bool {
-    match *key {
+    matches!(
+        *key,
         Either::Right(PropName::Ident(Ident {
             sym: js_word!("constructor"),
             ..
-        }))
-        | Either::Right(PropName::Str(Str {
+        })) | Either::Right(PropName::Str(Str {
             value: js_word!("constructor"),
             ..
-        })) => true,
-        _ => false,
-    }
+        }))
+    )
 }
 
 pub(crate) fn is_not_this(p: &Param) -> bool {
-    match p.pat {
+    !matches!(
+        p.pat,
         Pat::Ident(BindingIdent {
             id: Ident {
                 sym: js_word!("this"),
                 ..
             },
             ..
-        }) => false,
-        _ => true,
-    }
+        })
+    )
 }
 
 struct MakeMethodArgs {

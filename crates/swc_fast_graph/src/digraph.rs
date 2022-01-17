@@ -619,10 +619,7 @@ where
 {
     type Item = (N, N, &'a E);
     fn next(&mut self) -> Option<Self::Item> {
-        match self.inner.next() {
-            None => None,
-            Some((&(a, b), v)) => Some((a, b, v)),
-        }
+        self.inner.next().map(|(&(a, b), v)| (a, b, v))
     }
 
     fn size_hint(&self) -> (usize, Option<usize>) {
@@ -835,7 +832,7 @@ impl<N, E, Ty> NodeCount for FastGraphMap<N, E, Ty>
 where
     N: Copy + PartialEq,
 {
-    fn node_count(self: &Self) -> usize {
+    fn node_count(&self) -> usize {
         self.nodes.len()
     }
 }

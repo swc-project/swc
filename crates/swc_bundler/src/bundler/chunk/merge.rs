@@ -74,7 +74,7 @@ where
                 .get_module(id)
                 .unwrap_or_else(|| unreachable!("Module {} is not registered", id));
             let mut module = self.apply_hooks(id, is_entry)?;
-            module = self.prepare_for_merging(&ctx, &info, module)?;
+            module = self.prepare_for_merging(ctx, &info, module)?;
 
             if !is_entry {
                 module = self.wrap_cjs_module(ctx, &info, module)?;
@@ -233,14 +233,11 @@ where
             let mut declared_ids = AHashSet::<_>::default();
 
             for (_, stmt) in entry.iter() {
-                match stmt {
-                    ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
-                        if decl.span.ctxt == injected_ctxt {
-                            let ids: Vec<Id> = find_ids(decl);
-                            declared_ids.extend(ids);
-                        }
+                if let ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) = stmt {
+                    if decl.span.ctxt == injected_ctxt {
+                        let ids: Vec<Id> = find_ids(decl);
+                        declared_ids.extend(ids);
                     }
-                    _ => {}
                 }
             }
 
@@ -320,25 +317,20 @@ where
             // Handle `export *` for wrapped modules.
             for (module_id, ctxts) in map.drain() {
                 for (_, stmt) in entry.iter() {
-                    match stmt {
-                        ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
-                            let ids: Vec<Id> = find_ids(decl);
+                    if let ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) = stmt {
+                        let ids: Vec<Id> = find_ids(decl);
 
-                            for id in ids {
-                                if *id.sym() == js_word!("default") {
-                                    continue;
-                                }
+                        for id in ids {
+                            if *id.sym() == js_word!("default") {
+                                continue;
+                            }
 
-                                if ctxts.contains(&id.ctxt()) {
-                                    additional_props.entry(module_id).or_default().push(
-                                        PropOrSpread::Prop(Box::new(Prop::Shorthand(
-                                            id.into_ident(),
-                                        ))),
-                                    );
-                                }
+                            if ctxts.contains(&id.ctxt()) {
+                                additional_props.entry(module_id).or_default().push(
+                                    PropOrSpread::Prop(Box::new(Prop::Shorthand(id.into_ident()))),
+                                );
                             }
                         }
-                        _ => {}
                     }
                 }
             }
@@ -448,10 +440,9 @@ where
                         }
                     }
 
-                    export.specifiers.retain(|s| match s {
-                        ExportSpecifier::Namespace(_) => false,
-                        _ => true,
-                    });
+                    export
+                        .specifiers
+                        .retain(|s| !matches!(s, ExportSpecifier::Namespace(_)));
 
                     export.src = None;
                 }
@@ -493,38 +484,34 @@ where
         tracing::trace!("Item count = {}", item_count);
 
         module.retain_mut(|_, item| {
-            match item {
-                // TODO: Handle export default
-                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                    specifiers, ..
-                })) => {
-                    specifiers.retain(|s| match s {
-                        ExportSpecifier::Named(ExportNamedSpecifier {
-                            exported: Some(exported),
-                            ..
-                        }) => {
-                            let exported = match exported {
-                                ModuleExportName::Ident(ident) => ident,
-                                ModuleExportName::Str(..) => {
-                                    unimplemented!("module string names unimplemented")
-                                }
-                            };
-                            // Default is not exported via `export *`
-                            if exported.sym == js_word!("default") {
-                                exported.span.ctxt == info.export_ctxt()
-                            } else {
-                                ctx.is_exported_ctxt(exported.span.ctxt, info.export_ctxt())
+            if let ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                specifiers, ..
+            })) = item
+            {
+                specifiers.retain(|s| match s {
+                    ExportSpecifier::Named(ExportNamedSpecifier {
+                        exported: Some(exported),
+                        ..
+                    }) => {
+                        let exported = match exported {
+                            ModuleExportName::Ident(ident) => ident,
+                            ModuleExportName::Str(..) => {
+                                unimplemented!("module string names unimplemented")
                             }
+                        };
+                        // Default is not exported via `export *`
+                        if exported.sym == js_word!("default") {
+                            exported.span.ctxt == info.export_ctxt()
+                        } else {
+                            ctx.is_exported_ctxt(exported.span.ctxt, info.export_ctxt())
                         }
-                        _ => true,
-                    });
-
-                    if specifiers.is_empty() {
-                        return false;
                     }
-                }
+                    _ => true,
+                });
 
-                _ => {}
+                if specifiers.is_empty() {
+                    return false;
+                }
             }
 
             true
@@ -1199,93 +1186,84 @@ where
             let mut new = Vec::with_capacity(stmts.len() + 32);
 
             for stmt in stmts {
-                match &stmt {
-                    ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                        if self.config.external_modules.contains(&import.src.value) {
-                            new.push(stmt);
-                            continue;
-                        }
+                if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = &stmt {
+                    if self.config.external_modules.contains(&import.src.value) {
+                        new.push(stmt);
+                        continue;
+                    }
 
-                        for specifier in &import.specifiers {
-                            match specifier {
-                                ImportSpecifier::Named(named) => match &named.imported {
-                                    Some(imported) => {
-                                        let imporeted_ident = match imported {
-                                            ModuleExportName::Ident(ident) => ident,
-                                            ModuleExportName::Str(..) => {
-                                                unimplemented!("module string names unimplemented")
-                                            }
-                                        };
-                                        vars.push((
-                                            module_id,
-                                            imporeted_ident
-                                                .clone()
-                                                .assign_to(named.local.clone())
-                                                .into_module_item(
-                                                    injected_ctxt,
-                                                    "from_replace_import_specifiers",
-                                                ),
-                                        ));
-                                        continue;
-                                    }
-                                    None => {}
-                                },
-                                ImportSpecifier::Default(default) => {
-                                    if let Some((src, _)) = info
-                                        .imports
-                                        .specifiers
-                                        .iter()
-                                        .find(|s| s.0.src.value == import.src.value)
-                                    {
-                                        let imported = Ident::new(
-                                            js_word!("default"),
-                                            DUMMY_SP.with_ctxt(src.export_ctxt),
-                                        );
-                                        vars.push((
-                                            module_id,
-                                            imported
-                                                .assign_to(default.local.clone())
-                                                .into_module_item(
-                                                    injected_ctxt,
-                                                    "from_replace_import_specifiers",
-                                                ),
-                                        ));
-                                        continue;
-                                    }
+                    for specifier in &import.specifiers {
+                        match specifier {
+                            ImportSpecifier::Named(named) => match &named.imported {
+                                Some(imported) => {
+                                    let imporeted_ident = match imported {
+                                        ModuleExportName::Ident(ident) => ident,
+                                        ModuleExportName::Str(..) => {
+                                            unimplemented!("module string names unimplemented")
+                                        }
+                                    };
+                                    vars.push((
+                                        module_id,
+                                        imporeted_ident
+                                            .clone()
+                                            .assign_to(named.local.clone())
+                                            .into_module_item(
+                                                injected_ctxt,
+                                                "from_replace_import_specifiers",
+                                            ),
+                                    ));
+                                    continue;
                                 }
-                                ImportSpecifier::Namespace(s) => {
-                                    if let Some((src, _)) = info
-                                        .imports
-                                        .specifiers
-                                        .iter()
-                                        .find(|s| s.0.src.value == import.src.value)
-                                    {
-                                        let esm_id =
-                                            self.scope.wrapped_esm_id(src.module_id).expect(
-                                                "If a namespace import specifier is preserved, it \
-                                                 means failure of deblobbing and as a result \
-                                                 module should be marked as wrapped esm",
-                                            );
-                                        vars.push((
-                                            module_id,
-                                            esm_id
-                                                .clone()
-                                                .assign_to(s.local.clone())
-                                                .into_module_item(
-                                                    injected_ctxt,
-                                                    "from_replace_import_specifiers: namespaced",
-                                                ),
-                                        ));
-                                        continue;
-                                    }
+                                None => {}
+                            },
+                            ImportSpecifier::Default(default) => {
+                                if let Some((src, _)) = info
+                                    .imports
+                                    .specifiers
+                                    .iter()
+                                    .find(|s| s.0.src.value == import.src.value)
+                                {
+                                    let imported = Ident::new(
+                                        js_word!("default"),
+                                        DUMMY_SP.with_ctxt(src.export_ctxt),
+                                    );
+                                    vars.push((
+                                        module_id,
+                                        imported.assign_to(default.local.clone()).into_module_item(
+                                            injected_ctxt,
+                                            "from_replace_import_specifiers",
+                                        ),
+                                    ));
+                                    continue;
+                                }
+                            }
+                            ImportSpecifier::Namespace(s) => {
+                                if let Some((src, _)) = info
+                                    .imports
+                                    .specifiers
+                                    .iter()
+                                    .find(|s| s.0.src.value == import.src.value)
+                                {
+                                    let esm_id = self.scope.wrapped_esm_id(src.module_id).expect(
+                                        "If a namespace import specifier is preserved, it means \
+                                         failure of deblobbing and as a result module should be \
+                                         marked as wrapped esm",
+                                    );
+                                    vars.push((
+                                        module_id,
+                                        esm_id.clone().assign_to(s.local.clone()).into_module_item(
+                                            injected_ctxt,
+                                            "from_replace_import_specifiers: namespaced",
+                                        ),
+                                    ));
+                                    continue;
                                 }
                             }
                         }
-
-                        // We should remove imports
-                        continue;
                     }
-                    _ => {}
+
+                    // We should remove imports
+                    continue;
                 }
 
                 new.push(stmt);
@@ -1388,6 +1366,19 @@ struct ImportMetaHandler<'a, 'b> {
 }
 
 impl VisitMut for ImportMetaHandler<'_, '_> {
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        if let Expr::MetaProp(MetaPropExpr {
+            kind: MetaPropKind::ImportMeta,
+            ..
+        }) = e
+        {
+            *e = Expr::Ident(self.inline_ident.clone());
+            self.occurred = true;
+        }
+    }
+
     fn visit_mut_module(&mut self, n: &mut Module) {
         n.visit_mut_children_with(self);
 
@@ -1424,21 +1415,6 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                 }
                 Err(err) => self.err = Some(err),
             }
-        }
-    }
-
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        e.visit_mut_children_with(self);
-
-        match e {
-            Expr::MetaProp(MetaPropExpr {
-                kind: MetaPropKind::ImportMeta,
-                ..
-            }) => {
-                *e = Expr::Ident(self.inline_ident.clone());
-                self.occurred = true;
-            }
-            _ => {}
         }
     }
 }

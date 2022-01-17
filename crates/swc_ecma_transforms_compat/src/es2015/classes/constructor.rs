@@ -20,18 +20,15 @@ impl SuperCallFinder {
     /// - `None`: if no `super()` is found or super() is last call
     /// - `Some(Var)`: `var _this = ...`
     /// - `Some(Assign)`: `_this = ...`
-    pub fn find(node: &Vec<Stmt>) -> Option<SuperFoldingMode> {
-        match node.last() {
-            Some(Stmt::Expr(ExprStmt { ref expr, .. })) => match &**expr {
-                Expr::Call(CallExpr {
-                    callee: Callee::Super(..),
-                    ..
-                }) => {
-                    return None;
-                }
-                _ => {}
-            },
-            _ => {}
+    pub fn find(node: &[Stmt]) -> Option<SuperFoldingMode> {
+        if let Some(Stmt::Expr(ExprStmt { ref expr, .. })) = node.last() {
+            if let Expr::Call(CallExpr {
+                callee: Callee::Super(..),
+                ..
+            }) = &**expr
+            {
+                return None;
+            }
         }
 
         let mut v = SuperCallFinder {
@@ -111,15 +108,13 @@ impl Visit for SuperCallFinder {
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.visit_children_with(self);
 
-        match &*e.obj {
-            Expr::Call(CallExpr {
-                callee: Callee::Super(..),
-                ..
-            }) => {
-                // super().foo
-                self.mode = Some(SuperFoldingMode::Assign)
-            }
-            _ => {}
+        if let Expr::Call(CallExpr {
+            callee: Callee::Super(..),
+            ..
+        }) = &*e.obj
+        {
+            // super().foo
+            self.mode = Some(SuperFoldingMode::Assign)
         }
     }
 }
@@ -218,86 +213,82 @@ impl ConstructorFolder<'_> {
     }
 
     fn handle_super_access(&mut self, e: &mut Expr, set_to: Option<Box<Expr>>) {
-        match e {
-            Expr::SuperProp(SuperPropExpr { span, prop, .. }) => {
-                let this_var = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
-                let this_super = private_ident!("_thisSuper");
-                self.cur_this_super = Some(this_super.clone());
+        if let Expr::SuperProp(SuperPropExpr { span, prop, .. }) = e {
+            let this_var = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
+            let this_super = private_ident!("_thisSuper");
+            self.cur_this_super = Some(this_super.clone());
 
-                self.vars.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(this_super.clone().into()),
-                    init: None,
-                    definite: Default::default(),
-                });
+            self.vars.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: this_super.clone().into(),
+                init: None,
+                definite: Default::default(),
+            });
 
-                // _thisSuper = _assertThisInitialized(_this)
-                let init_this_super = Box::new(Expr::Assign(AssignExpr {
+            // _thisSuper = _assertThisInitialized(_this)
+            let init_this_super = Box::new(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: PatOrExpr::Pat(Box::new(this_super.clone().into())),
+                right: Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    op: op!("="),
-                    left: PatOrExpr::Pat(Box::new(this_super.clone().into())),
-                    right: Box::new(Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: helper!(assert_this_initialized, "assertThisInitialized"),
-                        args: vec![this_var.as_arg()],
-                        type_args: Default::default(),
-                    })),
-                }));
-                // _getPrototypeOf(Foo.prototype)
-                let get_proto = Box::new(Expr::Call(CallExpr {
-                    span: *span,
-                    callee: helper!(get_prototype_of, "getPrototypeOf"),
-                    args: vec![self
-                        .class_name
-                        .clone()
-                        .make_member(quote_ident!("prototype"))
-                        .as_arg()],
+                    callee: helper!(assert_this_initialized, "assertThisInitialized"),
+                    args: vec![this_var.as_arg()],
                     type_args: Default::default(),
-                }));
+                })),
+            }));
+            // _getPrototypeOf(Foo.prototype)
+            let get_proto = Box::new(Expr::Call(CallExpr {
+                span: *span,
+                callee: helper!(get_prototype_of, "getPrototypeOf"),
+                args: vec![self
+                    .class_name
+                    .clone()
+                    .make_member(quote_ident!("prototype"))
+                    .as_arg()],
+                type_args: Default::default(),
+            }));
 
-                *e = Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: if set_to.is_some() {
-                        helper!(set, "set")
-                    } else {
-                        helper!(get, "get")
-                    },
-                    args: {
-                        let mut args = vec![
-                            Expr::Seq(SeqExpr {
-                                span: DUMMY_SP,
-                                exprs: vec![init_this_super, get_proto],
-                            })
+            *e = Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: if set_to.is_some() {
+                    helper!(set, "set")
+                } else {
+                    helper!(get, "get")
+                },
+                args: {
+                    let mut args = vec![
+                        Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: vec![init_this_super, get_proto],
+                        })
+                        .as_arg(),
+                        match prop {
+                            SuperProp::Computed(ComputedPropName { expr, .. }) => {
+                                expr.take().as_arg()
+                            }
+                            SuperProp::Ident(ident) => Str {
+                                span: ident.span,
+                                value: ident.take().sym,
+                                has_escape: false,
+                                kind: Default::default(),
+                            }
                             .as_arg(),
-                            match prop {
-                                SuperProp::Computed(ComputedPropName { expr, .. }) => {
-                                    expr.take().as_arg()
-                                }
-                                SuperProp::Ident(ident) => Str {
-                                    span: ident.span,
-                                    value: ident.take().sym,
-                                    has_escape: false,
-                                    kind: Default::default(),
-                                }
-                                .as_arg(),
-                            },
-                        ];
+                        },
+                    ];
 
-                        let is_set = set_to.is_some();
-                        args.extend(set_to.map(|v| v.as_arg()));
+                    let is_set = set_to.is_some();
+                    args.extend(set_to.map(|v| v.as_arg()));
 
-                        args.push(this_super.clone().as_arg());
+                    args.push(this_super.as_arg());
 
-                        if is_set {
-                            args.push(true.as_arg());
-                        }
-                        args
-                    },
-                    type_args: Default::default(),
-                })
-            }
-
-            _ => {}
+                    if is_set {
+                        args.push(true.as_arg());
+                    }
+                    args
+                },
+                type_args: Default::default(),
+            })
         };
     }
 }
@@ -361,24 +352,22 @@ impl VisitMut for ConstructorFolder<'_> {
 
         // We pretend method folding mode for while folding injected `_defineProperty`
         // calls.
-        match expr {
-            Expr::Call(CallExpr {
-                callee: Callee::Expr(callee),
+        if let Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            ..
+        }) = expr
+        {
+            if let Expr::Ident(Ident {
+                sym: js_word!("_defineProperty"),
                 ..
-            }) => match &**callee {
-                Expr::Ident(Ident {
-                    sym: js_word!("_defineProperty"),
-                    ..
-                }) => {
-                    let old = self.in_injected_define_property_call;
-                    self.in_injected_define_property_call = true;
-                    expr.visit_mut_children_with(self);
-                    self.in_injected_define_property_call = old;
-                    return;
-                }
-                _ => {}
-            },
-            _ => {}
+            }) = &**callee
+            {
+                let old = self.in_injected_define_property_call;
+                self.in_injected_define_property_call = true;
+                expr.visit_mut_children_with(self);
+                self.in_injected_define_property_call = old;
+                return;
+            }
         }
 
         if !self.handle_super_assignment(expr) {
@@ -424,9 +413,9 @@ impl VisitMut for ConstructorFolder<'_> {
 
                 *expr = Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                    left: PatOrExpr::Pat(
                         quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
-                    ))),
+                    ),
                     op: op!("="),
                     right,
                 });
@@ -454,80 +443,74 @@ impl VisitMut for ConstructorFolder<'_> {
     fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
         stmt.visit_mut_children_with(self);
 
-        match stmt {
-            Stmt::Expr(ExprStmt { span: _, expr }) => match &mut **expr {
-                Expr::Call(CallExpr {
-                    callee: Callee::Super(..),
-                    args,
-                    ..
-                }) => {
-                    let expr = match self.super_var.clone() {
-                        Some(super_var) => Box::new(Expr::Call(CallExpr {
+        if let Stmt::Expr(ExprStmt { span: _, expr }) = stmt {
+            if let Expr::Call(CallExpr {
+                callee: Callee::Super(..),
+                args,
+                ..
+            }) = &mut **expr
+            {
+                let expr = match self.super_var.clone() {
+                    Some(super_var) => Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: if self.is_constructor_default {
+                            super_var.make_member(quote_ident!("apply")).as_callee()
+                        } else {
+                            super_var.make_member(quote_ident!("call")).as_callee()
+                        },
+                        args: if self.is_constructor_default {
+                            vec![
+                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                quote_ident!("arguments").as_arg(),
+                            ]
+                        } else {
+                            let mut call_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
+                            call_args.extend(args.take());
+
+                            call_args
+                        },
+                        type_args: Default::default(),
+                    })),
+                    None => Box::new(make_possible_return_value(ReturningMode::Prototype {
+                        is_constructor_default: self.is_constructor_default,
+                        class_name: self.class_name.clone(),
+                        args: Some(args.take()),
+                    })),
+                };
+
+                match self.mode {
+                    Some(SuperFoldingMode::Assign) => {
+                        *stmt = AssignExpr {
                             span: DUMMY_SP,
-                            callee: if self.is_constructor_default {
-                                super_var.make_member(quote_ident!("apply")).as_callee()
-                            } else {
-                                super_var.make_member(quote_ident!("call")).as_callee()
-                            },
-                            args: if self.is_constructor_default {
-                                vec![
-                                    ThisExpr { span: DUMMY_SP }.as_arg(),
-                                    quote_ident!("arguments").as_arg(),
-                                ]
-                            } else {
-                                let mut call_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
-                                call_args.extend(args.take());
-
-                                call_args
-                            },
-                            type_args: Default::default(),
-                        })),
-                        None => Box::new(make_possible_return_value(ReturningMode::Prototype {
-                            is_constructor_default: self.is_constructor_default,
-                            class_name: self.class_name.clone(),
-                            args: Some(args.take()),
-                        })),
-                    };
-
-                    match self.mode {
-                        Some(SuperFoldingMode::Assign) => {
-                            *stmt = AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                    quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
-                                ))),
-                                op: op!("="),
-                                right: expr,
-                            }
-                            .into_stmt()
+                            left: PatOrExpr::Pat(
+                                quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
+                            ),
+                            op: op!("="),
+                            right: expr,
                         }
-                        Some(SuperFoldingMode::Var) => {
-                            *stmt = Stmt::Decl(Decl::Var(VarDecl {
+                        .into_stmt()
+                    }
+                    Some(SuperFoldingMode::Var) => {
+                        *stmt = Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            declare: false,
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                declare: false,
-                                kind: VarDeclKind::Var,
-                                decls: vec![VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: Pat::Ident(
-                                        quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this")
-                                            .into(),
-                                    ),
-                                    init: Some(expr),
-                                    definite: false,
-                                }],
-                            }))
-                        }
-                        None => {
-                            *stmt = Stmt::Return(ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(expr.into()),
-                            })
-                        }
+                                name: quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
+                                init: Some(expr),
+                                definite: false,
+                            }],
+                        }))
+                    }
+                    None => {
+                        *stmt = Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(expr),
+                        })
                     }
                 }
-                _ => {}
-            },
-            _ => {}
+            }
         }
     }
 }
@@ -582,12 +565,13 @@ pub(super) fn make_possible_return_value(mode: ReturningMode) -> Expr {
                         Some(mut args) => {
                             //
                             if args.len() == 1
-                                && match args[0] {
+                                && matches!(
+                                    args[0],
                                     ExprOrSpread {
-                                        spread: Some(..), ..
-                                    } => true,
-                                    _ => false,
-                                }
+                                        spread: Some(..),
+                                        ..
+                                    }
+                                )
                             {
                                 args[0].spread = None;
                                 (
@@ -651,24 +635,22 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
         fn visit_mut_expr(&mut self, expr: &mut Expr) {
             // We pretend method folding mode for while folding injected `_defineProperty`
             // calls.
-            match expr {
-                Expr::Call(CallExpr {
-                    callee: Callee::Expr(callee),
+            if let Expr::Call(CallExpr {
+                callee: Callee::Expr(callee),
+                ..
+            }) = expr
+            {
+                if let Expr::Ident(Ident {
+                    sym: js_word!("_defineProperty"),
                     ..
-                }) => match &**callee {
-                    Expr::Ident(Ident {
-                        sym: js_word!("_defineProperty"),
-                        ..
-                    }) => {
-                        let old = self.in_injected_define_property_call;
-                        self.in_injected_define_property_call = true;
-                        expr.visit_mut_children_with(self);
-                        self.in_injected_define_property_call = old;
-                        return;
-                    }
-                    _ => {}
-                },
-                _ => {}
+                }) = &**callee
+                {
+                    let old = self.in_injected_define_property_call;
+                    self.in_injected_define_property_call = true;
+                    expr.visit_mut_children_with(self);
+                    self.in_injected_define_property_call = old;
+                    return;
+                }
             }
 
             match expr {

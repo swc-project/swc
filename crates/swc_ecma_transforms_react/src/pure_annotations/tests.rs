@@ -22,10 +22,10 @@ fn parse(
         let mut p = Parser::new(syntax, StringInput::from(&*source_file), Some(&comments));
         let res = p
             .parse_module()
-            .map_err(|e| e.into_diagnostic(&tester.handler).emit());
+            .map_err(|e| e.into_diagnostic(tester.handler).emit());
 
         for e in p.take_errors() {
-            e.into_diagnostic(&tester.handler).emit()
+            e.into_diagnostic(tester.handler).emit()
         }
 
         res?
@@ -51,13 +51,13 @@ fn emit(
         let mut emitter = Emitter {
             cfg: Default::default(),
             comments: Some(&comments),
-            cm: source_map.clone(),
+            cm: source_map,
             wr: writer,
         };
-        emitter.emit_module(&program).unwrap();
+        emitter.emit_module(program).unwrap();
     }
 
-    return String::from_utf8(buf).unwrap();
+    String::from_utf8(buf).unwrap()
 }
 
 fn run_test(input: &str, expected: &str) {

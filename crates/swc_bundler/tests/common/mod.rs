@@ -46,20 +46,17 @@ fn calc_cache_path(cache_dir: &Path, url: &Url) -> PathBuf {
 
 /// Load url. This method does caching.
 fn load_url(url: Url) -> Result<String, Error> {
-    let cache_dir = PathBuf::from(
-        current_dir()
-            .expect("the test requires an environment variable named `CARGO_MANIFEST_DIR`"),
-    )
-    .join("tests")
-    .join(".cache");
+    let cache_dir = current_dir()
+        .expect("the test requires an environment variable named `CARGO_MANIFEST_DIR`")
+        .join("tests")
+        .join(".cache");
 
     let cache_path = calc_cache_path(&cache_dir, &url).with_extension("ts");
 
     create_dir_all(cache_path.parent().unwrap()).context("failed to create cache dir")?;
 
-    match read_to_string(&cache_path) {
-        Ok(v) => return Ok(v),
-        _ => {}
+    if let Ok(v) = read_to_string(&cache_path) {
+        return Ok(v);
     }
 
     if let Ok("1") = std::env::var("CI").as_deref() {
@@ -94,7 +91,7 @@ impl Load for Loader {
         let fm = match f {
             FileName::Real(path) => {
                 tsx = path.to_string_lossy().ends_with(".tsx");
-                self.cm.load_file(&path)?
+                self.cm.load_file(path)?
             }
             FileName::Custom(url) => {
                 tsx = url.ends_with(".tsx");
@@ -106,7 +103,7 @@ impl Load for Loader {
                 let src = load_url(url.clone())?;
 
                 self.cm
-                    .new_source_file(FileName::Custom(url.to_string()), src.to_string())
+                    .new_source_file(FileName::Custom(url.to_string()), src)
             }
             _ => unreachable!(),
         };
@@ -209,7 +206,7 @@ impl NodeResolver {
     /// Resolve a path as a directory, using the "main" key from a
     /// package.json file if it exists, or resolving to the
     /// index.EXT file if it exists.
-    fn resolve_as_directory(&self, path: &PathBuf) -> Result<PathBuf, Error> {
+    fn resolve_as_directory(&self, path: &Path) -> Result<PathBuf, Error> {
         // 1. If X/package.json is a file, use it.
         let pkg_path = path.join("package.json");
         if pkg_path.is_file() {
@@ -224,12 +221,12 @@ impl NodeResolver {
     }
 
     /// Resolve using the package.json "main" key.
-    fn resolve_package_main(&self, _: &PathBuf) -> Result<PathBuf, Error> {
+    fn resolve_package_main(&self, _: &Path) -> Result<PathBuf, Error> {
         bail!("package.json is not supported")
     }
 
     /// Resolve a directory to its index.EXT.
-    fn resolve_index(&self, path: &PathBuf) -> Result<PathBuf, Error> {
+    fn resolve_index(&self, path: &Path) -> Result<PathBuf, Error> {
         // 1. If X/index.js is a file, load X/index.js as JavaScript text.
         // 2. If X/index.json is a file, parse X/index.json to a JavaScript object.
         // 3. If X/index.node is a file, load X/index.node as binary addon.
@@ -265,15 +262,14 @@ impl NodeResolver {
 
 impl Resolve for NodeResolver {
     fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
-        match Url::parse(target) {
-            Ok(v) => return Ok(FileName::Custom(v.to_string())),
-            Err(_) => {}
+        if let Ok(v) = Url::parse(target) {
+            return Ok(FileName::Custom(v.to_string()));
         }
 
         let base = match base {
             FileName::Real(v) => v,
             FileName::Custom(base_url) => {
-                let base_url = Url::parse(&base_url).context("failed to parse url")?;
+                let base_url = Url::parse(base_url).context("failed to parse url")?;
 
                 let options = Url::options();
                 let base_url = options.base_url(Some(&base_url));
@@ -287,7 +283,7 @@ impl Resolve for NodeResolver {
         };
 
         // Absolute path
-        if target.starts_with("/") {
+        if target.starts_with('/') {
             let base_dir = &Path::new("/");
 
             let path = base_dir.join(target);
@@ -298,7 +294,7 @@ impl Resolve for NodeResolver {
         }
 
         let cwd = &Path::new(".");
-        let mut base_dir = base.parent().unwrap_or(&cwd);
+        let mut base_dir = base.parent().unwrap_or(cwd);
 
         if target.starts_with("./") || target.starts_with("../") {
             let win_target;
