@@ -416,14 +416,19 @@ where
         if let Some(ref super_class_ident) = super_class_ident {
             // inject helper methods
 
+            let mut class_name_sym = class_name.clone();
+            class_name_sym.span = DUMMY_SP;
+            class_name_sym.span.ctxt = class_name.span.ctxt;
+
+            let mut super_class_name_sym = super_class_ident.clone();
+            super_class_name_sym.span = DUMMY_SP;
+            super_class_name_sym.span.ctxt = super_class_ident.span.ctxt;
+
             stmts.push(
                 CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(inherits, "inherits"),
-                    args: vec![
-                        class_name.clone().as_arg(),
-                        super_class_ident.clone().as_arg(),
-                    ],
+                    args: vec![class_name_sym.as_arg(), super_class_name_sym.as_arg()],
                     type_args: Default::default(),
                 }
                 .into_stmt(),
@@ -432,6 +437,9 @@ where
 
         let super_var = super_class_ident.as_ref().map(|_| {
             let var = private_ident!("_super");
+            let mut class_name_sym = class_name.clone();
+            class_name_sym.span = DUMMY_SP;
+            class_name_sym.span.ctxt = class_name.span.ctxt;
 
             stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                 span: DUMMY_SP,
@@ -443,7 +451,7 @@ where
                     init: Some(Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(create_super, "createSuper"),
-                        args: vec![class_name.clone().as_arg()],
+                        args: vec![class_name_sym.as_arg()],
                         type_args: Default::default(),
                     }))),
                     definite: Default::default(),
@@ -639,10 +647,14 @@ where
             return stmts;
         }
 
+        let mut class_name_sym = class_name.clone();
+        class_name_sym.span = DUMMY_SP;
+        class_name_sym.span.ctxt = class_name.span.ctxt;
+
         // `return Foo`
         stmts.push(Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
-            arg: Some(Box::new(Expr::Ident(class_name))),
+            arg: Some(Box::new(Expr::Ident(class_name_sym))),
         }));
 
         stmts
@@ -780,10 +792,14 @@ where
             methods: ExprOrSpread,
             static_methods: Option<ExprOrSpread>,
         ) -> Stmt {
+            let mut class_name_sym = class_name.clone();
+            class_name_sym.span = DUMMY_SP;
+            class_name_sym.span.ctxt = class_name.span.ctxt;
+
             CallExpr {
                 span: DUMMY_SP,
                 callee: helper!(create_class, "createClass"),
-                args: iter::once(class_name.as_arg())
+                args: iter::once(class_name_sym.as_arg())
                     .chain(iter::once(methods))
                     .chain(static_methods)
                     .collect(),
@@ -892,12 +908,16 @@ where
 }
 
 fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
+    let mut class_name_sym = name.clone();
+    class_name_sym.span = DUMMY_SP;
+    class_name_sym.span.ctxt = name.span.ctxt;
+
     let class_call_check = CallExpr {
         span: DUMMY_SP,
         callee: helper!(class_call_check, "classCallCheck"),
         args: vec![
             Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
-            Expr::Ident(name).as_arg(),
+            class_name_sym.as_arg(),
         ],
         type_args: Default::default(),
     }
