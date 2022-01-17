@@ -1,11 +1,11 @@
-use std::{iter, mem::replace};
-use swc_common::{util::take::Take, Mark, Span, Spanned, DUMMY_SP};
+use std::iter;
+use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     contains_this_expr,
-    function::{FnEnvHoister, FnEnvState, FnWrapperResult, FunctionWrapper},
+    function::{FnEnvHoister, FnWrapperResult, FunctionWrapper},
     private_ident, quote_ident, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
@@ -86,28 +86,6 @@ impl AsyncToGenerator {
 impl VisitMut for Actual {
     noop_visit_mut_type!();
 
-    /// Removes nested binds like `(function(){}).bind(this).bind(this)`
-    fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
-        n.visit_mut_children_with(self);
-
-        if let Some(callee) = extract_callee_of_bind_this(n) {
-            if let Expr::Call(callee_of_callee) = callee {
-                if let Some(..) = extract_callee_of_bind_this(callee_of_callee) {
-                    // We found bind(this).bind(this)
-                    *n = replace(
-                        callee_of_callee,
-                        CallExpr {
-                            span: DUMMY_SP,
-                            callee: Callee::Super(Super { span: DUMMY_SP }),
-                            args: Default::default(),
-                            type_args: Default::default(),
-                        },
-                    );
-                }
-            }
-        }
-    }
-
     fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
         if m.function.body.is_none() {
             return;
@@ -117,33 +95,15 @@ impl VisitMut for Actual {
         }
         let params = m.function.params.clone();
 
-        let mut folder = MethodFolder {
-            vars: vec![],
-            scope_ident: FnEnvState::default(),
-        };
+        let mut visitor = FnEnvHoister::default();
         m.function.params.clear();
 
-        m.function.visit_mut_children_with(&mut folder);
+        m.function.body.visit_mut_with(&mut visitor);
 
-        let expr = make_fn_ref(
-            FnExpr {
-                ident: None,
-                function: m.function.take(),
-            },
-            None,
-            false,
-        );
-
-        let hoisted_super = if folder.vars.is_empty() {
-            None
-        } else {
-            Some(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                decls: folder.vars,
-                declare: false,
-            })))
-        };
+        let expr = make_fn_ref(FnExpr {
+            ident: None,
+            function: m.function.take(),
+        });
 
         m.function = Function {
             span: m.span,
@@ -152,9 +112,9 @@ impl VisitMut for Actual {
             params,
             body: Some(BlockStmt {
                 span: DUMMY_SP,
-                stmts: hoisted_super
+                stmts: visitor
+                    .to_stmt()
                     .into_iter()
-                    .chain(folder.scope_ident.to_stmt())
                     .chain(iter::once(Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(Box::new(Expr::Call(CallExpr {
@@ -186,7 +146,7 @@ impl VisitMut for Actual {
 
         let fn_expr = wrapper.function.fn_expr().unwrap();
 
-        wrapper.function = make_fn_ref(fn_expr, None, true);
+        wrapper.function = make_fn_ref(fn_expr);
 
         let FnWrapperResult { name_fn, ref_fn } = wrapper.into();
         *f = name_fn;
@@ -203,7 +163,7 @@ impl VisitMut for Actual {
 
                         let fn_expr = wrapper.function.fn_expr().unwrap();
 
-                        wrapper.function = make_fn_ref(fn_expr, None, true);
+                        wrapper.function = make_fn_ref(fn_expr);
 
                         let FnWrapperResult { name_fn, ref_fn } = wrapper.into();
 
@@ -243,17 +203,13 @@ impl VisitMut for Actual {
         };
         prop.function.span = prop_method_body_span;
 
-        let fn_ref = make_fn_ref(
-            FnExpr {
-                ident: None,
-                function: Function {
-                    params: vec![],
-                    ..prop.function.take()
-                },
+        let fn_ref = make_fn_ref(FnExpr {
+            ident: None,
+            function: Function {
+                params: vec![],
+                ..prop.function.take()
             },
-            None,
-            true,
-        );
+        });
 
         let fn_ref = if is_this_used {
             fn_ref.apply(
@@ -319,260 +275,15 @@ impl VisitMut for Actual {
     }
 }
 
-/// Hoists super access
-///
-/// ## In
-///
-/// ```js
-/// class Foo {
-///     async foo () {
-///         super.getter
-///         super.setter = 1
-///         super.method()
-///     }
-/// }
-/// ```
-///
-/// ## OUt
-///
-/// ```js
-/// class Foo {
-///     var _super_getter = () => super.getter;
-///     var _super_setter = (v) => super.setter = v;
-///     var _super_method = (...args) => super.method(args);
-///     foo () {
-///         super.getter
-///         super.setter = 1
-///         super.method()
-///     }
-/// }
-/// ```
-struct MethodFolder {
-    vars: Vec<VarDeclarator>,
-    scope_ident: FnEnvState,
-}
-
-impl MethodFolder {
-    fn handle_assign_to_super_prop(
-        &mut self,
-        span: Span,
-        left: SuperPropExpr,
-        op: AssignOp,
-        right: Box<Expr>,
-    ) -> Expr {
-        let SuperPropExpr {
-            span: m_span,
-            obj,
-            prop,
-        } = left;
-
-        let (mark, ident) = self.ident_for_super(&prop);
-        let args_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_args");
-
-        self.vars.push(VarDeclarator {
-            span: DUMMY_SP,
-            name: ident.clone().into(),
-            init: Some(Box::new(Expr::Arrow(ArrowExpr {
-                span: DUMMY_SP,
-                is_async: false,
-                is_generator: false,
-                params: vec![args_ident.clone().into()],
-                body: BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    left: PatOrExpr::Expr(Box::new(
-                        SuperPropExpr {
-                            span: m_span,
-                            obj,
-                            prop,
-                        }
-                        .into(),
-                    )),
-                    op,
-                    right: Box::new(args_ident.into()),
-                }))),
-                type_params: Default::default(),
-                return_type: Default::default(),
-            }))),
-            definite: false,
-        });
-
-        Expr::Call(CallExpr {
-            span,
-            callee: ident.as_callee(),
-            args: vec![right.as_arg()],
-            type_args: Default::default(),
-        })
-    }
-    fn ident_for_super(&mut self, prop: &SuperProp) -> (Mark, Ident) {
-        let mark = Mark::fresh(Mark::root());
-        let prop_span = prop.span();
-        let mut ident = match *prop {
-            SuperProp::Ident(ref ident) => quote_ident!(prop_span, format!("_super_{}", ident.sym)),
-            _ => quote_ident!(prop_span, "_super_method"),
-        };
-        ident.span = ident.span.apply_mark(mark);
-        (mark, ident)
-    }
-}
-
-impl VisitMut for MethodFolder {
-    noop_visit_mut_type!();
-
-    fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        match expr {
-            // TODO: handle arrow with this in constructor once we remove all this bind
-            Expr::Arrow(ArrowExpr { body, .. }) => {
-                body.visit_mut_with(&mut FnEnvHoister::new(&mut self.scope_ident));
-            }
-            Expr::Fn(FnExpr {
-                function: Function {
-                    body: Some(body), ..
-                },
-                ..
-            }) => {
-                body.visit_mut_with(&mut FnEnvHoister::new(&mut self.scope_ident));
-            }
-            _ => {}
-        };
-
-        // TODO(kdy): Cache (Reuse declaration for same property)
-
-        match expr {
-            // super.setter = 1
-            Expr::Assign(AssignExpr {
-                span,
-                left: PatOrExpr::Expr(left),
-                op,
-                right,
-            }) if left.is_super_prop() => {
-                *expr = self.handle_assign_to_super_prop(
-                    *span,
-                    left.take().expect_super_prop(),
-                    *op,
-                    right.take(),
-                );
-            }
-
-            // super.setter = 1
-            Expr::Assign(AssignExpr {
-                span,
-                left: PatOrExpr::Pat(left),
-                op,
-                right,
-            }) if match &**left {
-                Pat::Expr(left) => left.is_super_prop(),
-                _ => false,
-            } =>
-            {
-                *expr = self.handle_assign_to_super_prop(
-                    *span,
-                    left.take().expect_expr().expect_super_prop(),
-                    *op,
-                    right.take(),
-                );
-                return;
-            }
-
-            // super.method()
-            Expr::Call(CallExpr {
-                span,
-                callee: Callee::Expr(callee),
-                args,
-                type_args,
-            }) if callee.is_super_prop() => {
-                let SuperPropExpr { obj, prop, .. } = callee.take().expect_super_prop();
-
-                let (mark, ident) = self.ident_for_super(&prop);
-                let args_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_args");
-
-                self.vars.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: ident.clone().into(),
-                    init: Some(Box::new(Expr::Arrow(ArrowExpr {
-                        span: DUMMY_SP,
-                        is_async: false,
-                        is_generator: false,
-                        params: vec![Pat::Rest(RestPat {
-                            span: DUMMY_SP,
-                            dot3_token: DUMMY_SP,
-                            arg: args_ident.clone().into(),
-                            type_ann: Default::default(),
-                        })],
-                        body: BlockStmtOrExpr::Expr(Box::new(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: SuperPropExpr {
-                                span: DUMMY_SP,
-                                obj,
-                                prop,
-                            }
-                            .as_callee(),
-                            args: vec![ExprOrSpread {
-                                spread: Some(DUMMY_SP),
-                                expr: Box::new(args_ident.into()),
-                            }],
-                            type_args: Default::default(),
-                        }))),
-                        type_params: Default::default(),
-                        return_type: Default::default(),
-                    }))),
-                    definite: false,
-                });
-
-                *expr = Expr::Call(CallExpr {
-                    span: *span,
-                    callee: ident.as_callee(),
-                    args: args.take(),
-                    type_args: type_args.take(),
-                });
-            }
-            // super.getter
-            Expr::SuperProp(SuperPropExpr { span, obj, prop }) => {
-                let (_, ident) = self.ident_for_super(&prop);
-                self.vars.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: ident.clone().into(),
-                    init: Some(Box::new(Expr::Arrow(ArrowExpr {
-                        span: DUMMY_SP,
-                        is_async: false,
-                        is_generator: false,
-                        params: vec![],
-                        body: BlockStmtOrExpr::Expr(Box::new(
-                            SuperPropExpr {
-                                span: DUMMY_SP,
-                                obj: obj.take(),
-                                prop: prop.take(),
-                            }
-                            .into(),
-                        )),
-                        type_params: Default::default(),
-                        return_type: Default::default(),
-                    }))),
-                    definite: false,
-                });
-
-                *expr = Expr::Call(CallExpr {
-                    span: *span,
-                    callee: ident.as_callee(),
-                    args: vec![],
-                    type_args: Default::default(),
-                })
-            }
-            _ => expr.visit_mut_children_with(self),
-        }
-    }
-}
-
 impl Actual {
     fn visit_mut_expr_with_binding(&mut self, expr: &mut Expr, binding_ident: Option<Ident>) {
         expr.visit_mut_children_with(self);
 
         match expr {
             Expr::Arrow(arrow_expr @ ArrowExpr { is_async: true, .. }) => {
-                let mut state = FnEnvState::default();
+                let mut state = FnEnvHoister::default();
 
-                arrow_expr
-                    .body
-                    .visit_mut_with(&mut FnEnvHoister::new(&mut state));
+                arrow_expr.body.visit_mut_with(&mut state);
 
                 self.hoist_stmts.extend(state.to_stmt());
 
@@ -581,8 +292,7 @@ impl Actual {
 
                 let fn_expr = wrapper.function.expect_fn_expr();
 
-                // We should not bind `this` in FunctionWrapper
-                wrapper.function = make_fn_ref(fn_expr, None, true);
+                wrapper.function = make_fn_ref(fn_expr);
                 *expr = wrapper.into();
             }
 
@@ -597,7 +307,7 @@ impl Actual {
 
                 let fn_expr = wrapper.function.expect_fn_expr();
 
-                wrapper.function = make_fn_ref(fn_expr, None, true);
+                wrapper.function = make_fn_ref(fn_expr);
 
                 *expr = wrapper.into();
             }
@@ -610,11 +320,7 @@ impl Actual {
 /// Creates
 ///
 /// `_asyncToGenerator(function*() {})` from `async function() {}`;
-fn make_fn_ref(
-    mut expr: FnExpr,
-    this_expr: Option<ExprOrSpread>,
-    should_not_bind_this: bool,
-) -> Expr {
+fn make_fn_ref(mut expr: FnExpr) -> Expr {
     expr.function.body.visit_mut_with(&mut AsyncFnBodyHandler {
         is_async_generator: expr.function.is_generator,
     });
@@ -632,17 +338,7 @@ fn make_fn_ref(
 
     let span = expr.span();
 
-    let should_bind_this = !should_not_bind_this && contains_this_expr(&expr.function.body);
-    let expr = if should_bind_this {
-        Expr::Call(CallExpr {
-            span: DUMMY_SP,
-            callee: expr.make_member(quote_ident!("bind")).as_callee(),
-            args: vec![this_expr.unwrap_or(ThisExpr { span: DUMMY_SP }.as_arg())],
-            type_args: Default::default(),
-        })
-    } else {
-        Expr::Fn(expr)
-    };
+    let expr = Expr::Fn(expr);
 
     Expr::Call(CallExpr {
         span,
@@ -736,28 +432,6 @@ impl Visit for ShouldWork {
 impl Check for ShouldWork {
     fn should_handle(&self) -> bool {
         self.found
-    }
-}
-
-fn extract_callee_of_bind_this(n: &mut CallExpr) -> Option<&mut Expr> {
-    if n.args.len() != 1 {
-        return None;
-    }
-
-    match &*n.args[0].expr {
-        Expr::This(..) => {}
-        _ => return None,
-    }
-
-    match &mut n.callee {
-        Callee::Super(_) | Callee::Import(_) => None,
-        Callee::Expr(callee) => match &mut **callee {
-            Expr::Member(MemberExpr {
-                prop: MemberProp::Ident(Ident { sym, .. }),
-                ..
-            }) if *sym == *"bind" => Some(&mut **callee),
-            _ => None,
-        },
     }
 }
 

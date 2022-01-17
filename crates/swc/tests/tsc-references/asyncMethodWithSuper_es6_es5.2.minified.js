@@ -1,9 +1,4 @@
 import regeneratorRuntime from "regenerator-runtime";
-function _arrayLikeToArray(arr, len) {
-    (null == len || len > arr.length) && (len = arr.length);
-    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
-    return arr2;
-}
 function AsyncGenerator(gen) {
     var front, back;
     function resume(key, arg) {
@@ -140,23 +135,6 @@ function _superPropBase(object, property) {
     for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = _getPrototypeOf(object)););
     return object;
 }
-function _toConsumableArray(arr) {
-    return (function(arr) {
-        if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-    })(arr) || (function(iter) {
-        if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
-    })(arr) || _unsupportedIterableToArray(arr) || (function() {
-        throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-    })();
-}
-function _unsupportedIterableToArray(o, minLen) {
-    if (o) {
-        if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
-        var n = Object.prototype.toString.call(o).slice(8, -1);
-        if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(n);
-        if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-    }
-}
 function _wrapAsyncGenerator(fn) {
     return function() {
         return new AsyncGenerator(fn.apply(this, arguments));
@@ -228,28 +206,17 @@ var A = function() {
         {
             key: "simple",
             value: function() {
-                var _instance, _instance1, _instance2, _this = this, _super_x = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_y = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance1 = _get(_getPrototypeOf(B.prototype), "y", _this)).call.apply(_instance1, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_method = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance2 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance2, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
+                var _this = this, _this1 = this, _superprop_get_x = function() {
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
+                }, _superprop_get = function(_prop) {
+                    return _get(_getPrototypeOf(B.prototype), _prop, _this);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                     var a, b;
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
-                                _super_x(), _super_y(), _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this), b = _get(_getPrototypeOf(B.prototype), "x", _this);
+                                _superprop_get_x().call(_this1), _get(_getPrototypeOf(B.prototype), "y", _this).call(_this1), _superprop_get("x").call(_this1), a = _superprop_get_x(), b = _superprop_get("x");
                             case 5:
                             case "end":
                                 return _ctx.stop();
@@ -261,46 +228,26 @@ var A = function() {
         {
             key: "advanced",
             value: function() {
-                var _instance, _instance3, _instance4, _instance5, _this = this, _super_x = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_method = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance3 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance3, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_x1 = function() {
+                var _this = this, _this2 = this, _superprop_get_x = function() {
                     return _get(_getPrototypeOf(B.prototype), "x", _this);
-                }, _super_method1 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this);
-                }, _super_x2 = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance4 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance4, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_method2 = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance5 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance5, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
+                }, _superprop_get = function(_prop) {
+                    return _get(_getPrototypeOf(B.prototype), _prop, _this);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee1() {
                     var f, a, b, ref, ref1;
                     return regeneratorRuntime.wrap(function(_ctx1) {
                         for(;;)switch(_ctx1.prev = _ctx1.next){
                             case 0:
-                                var _args, _args1;
-                                f = function() {}, _super_x(), _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this), b = _get(_getPrototypeOf(B.prototype), "x", _this), _args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this, !0), _args1 = f, _set(_getPrototypeOf(B.prototype), "x", _args1, _this, !0), ref = {
+                                var _value, _value1;
+                                f = function() {}, _superprop_get_x().call(_this2), _superprop_get("x").call(_this2), a = _superprop_get_x(), b = _superprop_get("x"), _value = f, _set(_getPrototypeOf(B.prototype), "x", _value, _this, !0), _value1 = f, _set(_getPrototypeOf(B.prototype), "x", _value1, _this, !0), ref = {
                                     f: f
-                                }, _super_x1() = ref.f, ref1 = {
+                                }, _superprop_get_x() = ref.f, ref1 = {
                                     f: f
-                                }, _super_method1() = ref1.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                                }, _superprop_get("x") = ref1.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
-                                                return _ctx.abrupt("return", _super_x2());
+                                                return _ctx.abrupt("return", _superprop_get_x().call(_this2));
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();
@@ -310,7 +257,7 @@ var A = function() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
-                                                return _ctx.abrupt("return", _super_method2());
+                                                return _ctx.abrupt("return", _superprop_get("x").call(_this2));
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();
@@ -328,27 +275,19 @@ var A = function() {
         {
             key: "property_access_only_read_only",
             value: function() {
-                var _instance, _instance6, _this = this, _super_x = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_x3 = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance6 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance6, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
+                var _this = this, _this3 = this, _superprop_get_x = function() {
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
                     var a;
                     return regeneratorRuntime.wrap(function(_ctx2) {
                         for(;;)switch(_ctx2.prev = _ctx2.next){
                             case 0:
-                                _super_x(), a = _get(_getPrototypeOf(B.prototype), "x", _this), _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                                _superprop_get_x().call(_this3), a = _superprop_get_x(), _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
-                                                return _ctx.abrupt("return", _super_x3());
+                                                return _ctx.abrupt("return", _superprop_get_x().call(_this3));
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();
@@ -366,23 +305,23 @@ var A = function() {
         {
             key: "property_access_only_write_only",
             value: function() {
-                var _this = this, _super_x = function() {
+                var _this = this, _superprop_get_x = function() {
                     return _get(_getPrototypeOf(B.prototype), "x", _this);
+                }, _superprop_set_x = function(_value) {
+                    return _set(_getPrototypeOf(B.prototype), "x", _value, _this, !0);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
                     var f, ref;
                     return regeneratorRuntime.wrap(function(_ctx3) {
                         for(;;)switch(_ctx3.prev = _ctx3.next){
                             case 0:
-                                var _args2;
-                                _args2 = f = function() {}, _set(_getPrototypeOf(B.prototype), "x", _args2, _this, !0), ref = {
+                                _superprop_set_x(f = function() {}), ref = {
                                     f: f
-                                }, _super_x() = ref.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                                }, _superprop_get_x() = ref.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
-                                                var _args;
-                                                return _ctx.abrupt("return", (_args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this, !0)));
+                                                return _ctx.abrupt("return", _superprop_set_x(f));
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();
@@ -400,27 +339,19 @@ var A = function() {
         {
             key: "element_access_only_read_only",
             value: function() {
-                var _instance, _instance7, _this = this, _super_method = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_method3 = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance7 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance7, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
+                var _this = this, _this4 = this, _superprop_get = function(_prop) {
+                    return _get(_getPrototypeOf(B.prototype), _prop, _this);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
                     var a;
                     return regeneratorRuntime.wrap(function(_ctx4) {
                         for(;;)switch(_ctx4.prev = _ctx4.next){
                             case 0:
-                                _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this), _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                                _superprop_get("x").call(_this4), a = _superprop_get("x"), _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
-                                                return _ctx.abrupt("return", _super_method3());
+                                                return _ctx.abrupt("return", _superprop_get("x").call(_this4));
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();
@@ -438,23 +369,23 @@ var A = function() {
         {
             key: "element_access_only_write_only",
             value: function() {
-                var _this = this, _super_method = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this);
+                var _this = this, _superprop_get = function(_prop) {
+                    return _get(_getPrototypeOf(B.prototype), _prop, _this);
+                }, _superprop_set = function(_prop, _value) {
+                    return _set(_getPrototypeOf(B.prototype), _prop, _value, _this, !0);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
                     var f, ref;
                     return regeneratorRuntime.wrap(function(_ctx5) {
                         for(;;)switch(_ctx5.prev = _ctx5.next){
                             case 0:
-                                var _args3;
-                                _args3 = f = function() {}, _set(_getPrototypeOf(B.prototype), "x", _args3, _this, !0), ref = {
+                                _superprop_set("x", f = function() {}), ref = {
                                     f: f
-                                }, _super_method() = ref.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                                }, _superprop_get("x") = ref.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
-                                                var _args;
-                                                return _ctx.abrupt("return", (_args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this, !0)));
+                                                return _ctx.abrupt("return", _superprop_set("x", f));
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();
@@ -472,27 +403,19 @@ var A = function() {
         {
             key: "property_access_only_read_only_in_generator",
             value: function() {
-                var _instance, _instance8, _this = this, _super_x = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_x4 = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance8 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance8, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
+                var _this = this, _this5 = this, _superprop_get_x = function() {
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 };
                 return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee6() {
                     var a;
                     return regeneratorRuntime.wrap(function(_ctx6) {
                         for(;;)switch(_ctx6.prev = _ctx6.next){
                             case 0:
-                                _super_x(), a = _get(_getPrototypeOf(B.prototype), "x", _this), _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                                _superprop_get_x().call(_this5), a = _superprop_get_x(), _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
-                                                return _ctx.abrupt("return", _super_x4());
+                                                return _ctx.abrupt("return", _superprop_get_x().call(_this5));
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();
@@ -510,23 +433,23 @@ var A = function() {
         {
             key: "property_access_only_write_only_in_generator",
             value: function() {
-                var _this = this, _super_x = function() {
+                var _this = this, _superprop_get_x = function() {
                     return _get(_getPrototypeOf(B.prototype), "x", _this);
+                }, _superprop_set_x = function(_value) {
+                    return _set(_getPrototypeOf(B.prototype), "x", _value, _this, !0);
                 };
                 return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee7() {
                     var f, ref;
                     return regeneratorRuntime.wrap(function(_ctx7) {
                         for(;;)switch(_ctx7.prev = _ctx7.next){
                             case 0:
-                                var _args4;
-                                _args4 = f = function() {}, _set(_getPrototypeOf(B.prototype), "x", _args4, _this, !0), ref = {
+                                _superprop_set_x(f = function() {}), ref = {
                                     f: f
-                                }, _super_x() = ref.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                                }, _superprop_get_x() = ref.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
-                                                var _args;
-                                                return _ctx.abrupt("return", (_args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this, !0)));
+                                                return _ctx.abrupt("return", _superprop_set_x(f));
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();
@@ -544,27 +467,19 @@ var A = function() {
         {
             key: "element_access_only_read_only_in_generator",
             value: function() {
-                var _instance, _instance9, _this = this, _super_method = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_method4 = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance9 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance9, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
+                var _this = this, _this6 = this, _superprop_get = function(_prop) {
+                    return _get(_getPrototypeOf(B.prototype), _prop, _this);
                 };
                 return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee8() {
                     var a;
                     return regeneratorRuntime.wrap(function(_ctx8) {
                         for(;;)switch(_ctx8.prev = _ctx8.next){
                             case 0:
-                                _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this), _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                                _superprop_get("x").call(_this6), a = _superprop_get("x"), _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
-                                                return _ctx.abrupt("return", _super_method4());
+                                                return _ctx.abrupt("return", _superprop_get("x").call(_this6));
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();
@@ -582,23 +497,23 @@ var A = function() {
         {
             key: "element_access_only_write_only_in_generator",
             value: function() {
-                var _this = this, _super_method = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this);
+                var _this = this, _superprop_get = function(_prop) {
+                    return _get(_getPrototypeOf(B.prototype), _prop, _this);
+                }, _superprop_set = function(_prop, _value) {
+                    return _set(_getPrototypeOf(B.prototype), _prop, _value, _this, !0);
                 };
                 return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee9() {
                     var f, ref;
                     return regeneratorRuntime.wrap(function(_ctx9) {
                         for(;;)switch(_ctx9.prev = _ctx9.next){
                             case 0:
-                                var _args5;
-                                _args5 = f = function() {}, _set(_getPrototypeOf(B.prototype), "x", _args5, _this, !0), ref = {
+                                _superprop_set("x", f = function() {}), ref = {
                                     f: f
-                                }, _super_method() = ref.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                                }, _superprop_get("x") = ref.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
-                                                var _args;
-                                                return _ctx.abrupt("return", (_args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this, !0)));
+                                                return _ctx.abrupt("return", _superprop_set("x", f));
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();

@@ -5,6 +5,17 @@
 
 
 
+- **(es/minifier)** Fix analysis of unary expressions (#3286) ([b55ae4b](https://github.com/swc-project/swc/commit/b55ae4b312b5677efeb9f3e9697dc2bcff81e322))
+
+
+- **(es/minifier)** Inline into interpolations in tagged template literals (#3287) ([fa5c063](https://github.com/swc-project/swc/commit/fa5c063144246ce634305399787e08498765eb8f))
+
+## [1.2.130] - 2022-01-17
+
+### Bug Fixes
+
+
+
 - **(css/lexer)** Resolve a `TODO` (#3260) ([ade8ab8](https://github.com/swc-project/swc/commit/ade8ab8c35b9d1c61d740f42672fb4d27977346d))
 
 
@@ -78,6 +89,9 @@
 
 
 - **(es/transforms)** Cleanup (#3273) ([2690742](https://github.com/swc-project/swc/commit/2690742db0bf59246d0d9b96dfc5f6248fcbb3a0))
+
+
+- **(es/utils)** Merge the super field visitor with `FnEnvHoister` (#3279) ([90a62bb](https://github.com/swc-project/swc/commit/90a62bb21528035eef02fe7fa99de6f6e014d0ca))
 
 ### Build
 
