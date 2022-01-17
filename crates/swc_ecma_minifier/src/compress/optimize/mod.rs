@@ -2122,17 +2122,6 @@ where
         }
     }
 
-    fn visit_mut_super_prop_expr(&mut self, n: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut n.prop {
-            let ctx = Ctx {
-                is_exact_lhs_of_assign: false,
-                is_lhs_of_assign: false,
-                ..self.ctx
-            };
-            c.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
-    }
-
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         let ctx = Ctx {
             top_level: true,
@@ -2514,6 +2503,17 @@ where
         s.kind = Default::default()
     }
 
+    fn visit_mut_super_prop_expr(&mut self, n: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut n.prop {
+            let ctx = Ctx {
+                is_exact_lhs_of_assign: false,
+                is_lhs_of_assign: false,
+                ..self.ctx
+            };
+            c.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+    }
+
     fn visit_mut_switch_cases(&mut self, n: &mut Vec<SwitchCase>) {
         n.visit_mut_children_with(self);
 
@@ -2531,6 +2531,8 @@ where
     /// We don't optimize [Tpl] contained in [TaggedTpl].
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
         n.tag.visit_mut_with(self);
+
+        n.tpl.exprs.visit_mut_with(self);
     }
 
     fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
