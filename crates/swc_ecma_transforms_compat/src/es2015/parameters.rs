@@ -8,7 +8,7 @@ use swc_ecma_ast::*;
 // use swc_ecma_transforms_base::perf::Parallel;
 // use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
-    function::{init_this, FnEnvHoister, FnEnvState},
+    function::{init_this, FnEnvHoister},
     member_expr, prepend, prepend_stmts, private_ident, quote_ident, undefined, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -21,11 +21,11 @@ pub fn parameters(c: Config) -> impl 'static + Fold {
     })
 }
 
-#[derive(Clone, Default)]
+#[derive(Default)]
 struct Params {
     /// Used to store `this, in case if `arguments` is used and we should
     /// transform an arrow expression to a function expression.
-    state: FnEnvState,
+    hoister: FnEnvHoister,
     in_subclass: bool,
     c: Config,
 }
@@ -398,11 +398,11 @@ impl VisitMut for Params {
     noop_visit_mut_type!();
 
     fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
-        let old_rep = self.state.take();
+        let old_rep = self.hoister.take();
 
         body.visit_mut_children_with(self);
 
-        let decls = mem::replace(&mut self.state, old_rep).to_stmt();
+        let decls = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
         if let Some(decls) = decls {
             if let BlockStmtOrExpr::Expr(v) = body {
@@ -453,12 +453,13 @@ impl VisitMut for Params {
         f.params.visit_mut_with(self);
 
         if let Some(BlockStmt { span: _, stmts }) = &mut f.body {
-            let old_rep = self.state.take();
+            let old_rep = self.hoister.take();
 
             stmts.visit_mut_children_with(self);
 
             if self.in_subclass {
-                let (decl, this_id) = mem::replace(&mut self.state, old_rep).to_stmt_in_subclass();
+                let (decl, this_id) =
+                    mem::replace(&mut self.hoister, old_rep).to_stmt_in_subclass();
 
                 if let Some(stmt) = decl {
                     if let Some(this_id) = this_id {
@@ -467,7 +468,7 @@ impl VisitMut for Params {
                     prepend(stmts, stmt);
                 }
             } else {
-                let decl = mem::replace(&mut self.state, old_rep).to_stmt();
+                let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
                 if let Some(stmt) = decl {
                     prepend(stmts, stmt);
@@ -486,10 +487,7 @@ impl VisitMut for Params {
             Expr::Arrow(f) => {
                 f.visit_mut_children_with(self);
 
-                let was_expr = match f.body {
-                    BlockStmtOrExpr::Expr(..) => true,
-                    _ => false,
-                };
+                let was_expr = f.body.is_expr();
 
                 let need_arrow_to_function = f.params.iter().any(|p| match p {
                     Pat::Rest(..) => true,
@@ -499,7 +497,7 @@ impl VisitMut for Params {
 
                 // this needs to happen before rest parameter transform
                 if need_arrow_to_function {
-                    f.visit_mut_children_with(&mut FnEnvHoister::new(&mut self.state));
+                    f.visit_mut_children_with(&mut self.hoister);
                 }
 
                 let body_span = f.body.span();
@@ -635,7 +633,7 @@ impl VisitMut for Params {
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         stmts.visit_mut_children_with(self);
 
-        let decl = self.state.take().to_stmt();
+        let decl = self.hoister.take().to_stmt();
 
         if let Some(stmt) = decl {
             prepend(stmts, ModuleItem::Stmt(stmt));
@@ -643,11 +641,11 @@ impl VisitMut for Params {
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        let old_rep = self.state.take();
+        let old_rep = self.hoister.take();
 
         stmts.visit_mut_children_with(self);
 
-        let decl = mem::replace(&mut self.state, old_rep).to_stmt();
+        let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
         if let Some(stmt) = decl {
             prepend(stmts, stmt);

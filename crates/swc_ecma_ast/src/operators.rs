@@ -151,6 +151,30 @@ pub enum AssignOp {
     NullishAssign,
 }
 
+impl AssignOp {
+    pub fn to_update(self) -> Option<BinaryOp> {
+        match self {
+            op!("=") => None,
+
+            op!("+=") => Some(op!(bin, "+")),
+            op!("-=") => Some(op!(bin, "-")),
+            op!("*=") => Some(op!("*")),
+            op!("/=") => Some(op!("/")),
+            op!("%=") => Some(op!("%")),
+            op!("<<=") => Some(op!("<<")),
+            op!(">>=") => Some(op!(">>")),
+            op!(">>>=") => Some(op!(">>>")),
+            op!("|=") => Some(op!("|")),
+            op!("&=") => Some(op!("&")),
+            op!("^=") => Some(op!("^")),
+            op!("**=") => Some(op!("**")),
+            op!("&&=") => Some(op!("&&")),
+            op!("||=") => Some(op!("||")),
+            op!("??=") => Some(op!("??")),
+        }
+    }
+}
+
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(

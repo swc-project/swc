@@ -3,7 +3,7 @@ use std::mem;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    function::{init_this, FnEnvHoister, FnEnvState},
+    function::{init_this, FnEnvHoister},
     prepend,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, InjectVars, VisitMut, VisitMutWith};
@@ -63,7 +63,7 @@ pub fn arrow() -> impl Fold + VisitMut + InjectVars {
 #[derive(Default)]
 struct Arrow {
     in_subclass: bool,
-    state: FnEnvState,
+    hoister: FnEnvHoister,
 }
 
 impl VisitMut for Arrow {
@@ -73,12 +73,13 @@ impl VisitMut for Arrow {
         c.params.visit_mut_children_with(self);
 
         if let Some(BlockStmt { span: _, stmts }) = &mut c.body {
-            let old_rep = self.state.take();
+            let old_rep = self.hoister.take();
 
             stmts.visit_mut_children_with(self);
 
             if self.in_subclass {
-                let (decl, this_id) = mem::replace(&mut self.state, old_rep).to_stmt_in_subclass();
+                let (decl, this_id) =
+                    mem::replace(&mut self.hoister, old_rep).to_stmt_in_subclass();
 
                 if let Some(stmt) = decl {
                     if let Some(this_id) = this_id {
@@ -87,7 +88,7 @@ impl VisitMut for Arrow {
                     prepend(stmts, stmt);
                 }
             } else {
-                let decl = mem::replace(&mut self.state, old_rep).to_stmt();
+                let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
                 if let Some(stmt) = decl {
                     prepend(stmts, stmt);
@@ -115,7 +116,7 @@ impl VisitMut for Arrow {
                 ..
             }) => {
                 params.visit_mut_with(self);
-                params.visit_mut_with(&mut FnEnvHoister::new(&mut self.state));
+                params.visit_mut_with(&mut self.hoister);
 
                 let params: Vec<Param> = params
                     .take()
@@ -129,7 +130,7 @@ impl VisitMut for Arrow {
 
                 body.visit_mut_with(self);
 
-                body.visit_mut_with(&mut FnEnvHoister::new(&mut self.state));
+                body.visit_mut_with(&mut self.hoister);
 
                 let fn_expr = Expr::Fn(FnExpr {
                     ident: None,
@@ -155,7 +156,6 @@ impl VisitMut for Arrow {
                 });
 
                 *expr = fn_expr;
-                return;
             }
             _ => {
                 expr.visit_mut_children_with(self);
@@ -170,7 +170,7 @@ impl VisitMut for Arrow {
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         stmts.visit_mut_children_with(self);
 
-        let decl = self.state.take().to_stmt();
+        let decl = self.hoister.take().to_stmt();
 
         if let Some(stmt) = decl {
             prepend(stmts, ModuleItem::Stmt(stmt));
@@ -178,11 +178,11 @@ impl VisitMut for Arrow {
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        let old_rep = self.state.take();
+        let old_rep = self.hoister.take();
 
         stmts.visit_mut_children_with(self);
 
-        let decl = mem::replace(&mut self.state, old_rep).to_stmt();
+        let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
         if let Some(stmt) = decl {
             prepend(stmts, stmt);
@@ -192,6 +192,6 @@ impl VisitMut for Arrow {
 
 impl InjectVars for Arrow {
     fn take_vars(&mut self) -> Vec<VarDeclarator> {
-        self.state.take().to_decl()
+        self.hoister.take().to_decl()
     }
 }

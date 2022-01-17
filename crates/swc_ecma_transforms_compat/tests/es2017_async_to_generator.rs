@@ -366,17 +366,18 @@ class Class {
     r#"
     class Class {
       method() {
-          return _asyncToGenerator((function*() {
-              var _this2 = this;
-              this;
+          var _this2 = this;
+          return _asyncToGenerator(function*() {
+              var _this1 = _this2;
+              _this2;
               (function() {
-                  return _this2;
+                  return _this1;
               });
               (function() {
-                  var _this1 = _this2;
-                  _this2;
+                  var _this3 = _this1;
+                  _this1;
                   (function() {
-                      return _this1;
+                      return _this3;
                   });
                   function x() {
                       var _this = this;
@@ -399,7 +400,7 @@ class Class {
                       _this;
                 });
               }
-          }).bind(this))();
+          })();
       }
   }
 "#
@@ -420,11 +421,12 @@ test!(
 class Foo extends class{
 }{
      method() {
-        var _super_method = (..._args)=>super.method(..._args), _super_method1 = (..._args)=>super.method(..._args);
+        var _this = this, _superprop_get_method = ()=>super.method;
         return _asyncToGenerator(function*() {
-            _super_method();
+            var _this1 = _this, _superprop_get_method1 = ()=>_superprop_get_method();
+            _superprop_get_method().call(_this);
             var arrow = function arrow() {
-                return _super_method1();
+                return _superprop_get_method1().call(_this1);
             };
         })();
     }
@@ -966,25 +968,25 @@ class Class {
     }
   }
 }
-
 "#,
     r#"
     class Class {
       method() {
-        var _this = this;
-        return _asyncToGenerator((function*() {
-            this;
-            ()=>_this
+        var _this1 = this;
+        return _asyncToGenerator(function*() {
+            _this1;
+            ()=>_this1
             ;
             ()=>{
-                _this;
-                ()=>_this
+                _this1;
+                ()=>_this1
                 ;
                 function x() {
                     this;
                     ()=>{
-                        _this;
+                        this;
                     };
+                    var _this = this;
                     _asyncToGenerator(function*() {
                         _this;
                     });
@@ -993,13 +995,14 @@ class Class {
             function x() {
                 this;
                 ()=>{
-                    _this;
+                    this;
                 };
+                var _this = this;
                 _asyncToGenerator(function*() {
                     _this;
                 });
             }
-        }).bind(this))();
+        })();
       }
     }
     "#
@@ -1560,7 +1563,6 @@ function _six() {
 
 // async_to_generator_object_method_with_super
 test!(
-    // TODO: Implement caching
     ignore,
     syntax(),
     |_| async_to_generator(),
@@ -3399,6 +3401,131 @@ test!(
     "
 _asyncToGenerator(function*(a = 10, ...rest) {})();
 _asyncToGenerator(function*(a = 10, ...rest) {})();
+"
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_2895,
+    "
+export class Quirk {
+  async doStuff() {
+    const args = arguments;
+    console.log(args);
+    return { foo: null, ...args[0] };
+  }
+}
+",
+    "
+export class Quirk {
+  doStuff() {
+    var _arguments = arguments;
+    return _asyncToGenerator(function*() {
+      const args = _arguments;
+      console.log(args);
+      return {
+        foo: null,
+        ...args[0]
+      };
+    })();
+  }
+}
+"
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    super_field_update,
+    "
+class Foo {
+  async doStuff() {
+    super.foo += 123;
+    super['abc'] *= 456;
+  }
+}
+",
+    "
+class Foo {
+  doStuff() {
+    var _superprop_get_foo = ()=>super.foo
+    , _superprop_get = (_prop)=>super[_prop]
+    , _superprop_set_foo = (_value)=>super.foo = _value
+    , _superprop_set = (_prop, _value)=>super[_prop] = _value
+    ;
+    return _asyncToGenerator(function*() {
+        var tmp;
+        _superprop_set_foo(_superprop_get_foo() + 123);
+        _superprop_set(tmp = 'abc', _superprop_get(tmp) * 456);
+    })()
+  }
+}
+"
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    microbundle_835,
+    "
+class A extends B {
+  a() {
+    (async () => {
+      super.b();
+    })();
+  }
+}
+",
+    "
+class A extends B {
+  a() {
+    var _this = this, _superprop_get_b = ()=>super.b;
+    _asyncToGenerator(function*() {
+      _superprop_get_b().call(_this);
+    })();
+  }
+}
+"
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    super_update,
+    "
+class A extends B {
+  async foo() {
+    super.foo ++;
+    -- super.bar;
+    super['foo'] ++;
+    -- super['bar'];
+  }
+}
+",
+    "
+class A extends B {
+  foo() {
+    var _superprop_get_foo = () => super.foo,
+      _superprop_get_bar = () => super.bar,
+      _superprop_get = (_prop) => super[_prop],
+      _superprop_set_foo = (_value) => super.foo = _value,
+      _superprop_set_bar = (_value) => super.bar = _value,
+      _superprop_set = (_prop, _value) => super[_prop] = _value;
+
+    return _asyncToGenerator(function* () {
+      var tmp, tmp1, tmp2, prop, tmp3, prop1;
+
+      tmp = _superprop_get_foo(), _superprop_set_foo(tmp + 1), tmp;
+      tmp1 = _superprop_get_bar(), _superprop_set_bar(tmp1 - 1);
+      tmp2 = _superprop_get(prop = 'foo'),
+        _superprop_set(prop, tmp2 + 1),
+        tmp2;
+      tmp3 = _superprop_get(prop1 = 'bar'),
+        _superprop_set(prop1, tmp3 - 1);
+    })();
+  }
+}
 "
 );
 

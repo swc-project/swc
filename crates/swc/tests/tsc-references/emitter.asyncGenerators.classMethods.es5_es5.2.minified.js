@@ -1,9 +1,4 @@
 import regeneratorRuntime from "regenerator-runtime";
-function _arrayLikeToArray(arr, len) {
-    (null == len || len > arr.length) && (len = arr.length);
-    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
-    return arr2;
-}
 function AsyncGenerator(gen) {
     var front, back;
     function resume(key, arg) {
@@ -310,17 +305,18 @@ var C1 = function() {
         {
             key: "f",
             value: function() {
+                var _this = this;
                 return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
-                                this.g();
+                                _this.g();
                             case 1:
                             case "end":
                                 return _ctx.stop();
                         }
-                    }, _callee, this);
-                }).bind(this))();
+                    }, _callee);
+                }))();
             }
         }
     ]), C8;
@@ -377,30 +373,12 @@ var C1 = function() {
         {
             key: "f",
             value: function() {
-                var _instance, _this = this, _super_g = function() {
-                    for(var arr, _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance = _get(_getPrototypeOf(C9.prototype), "g", _this)).call.apply(_instance, [
-                        _this
-                    ].concat(function(arr) {
-                        if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-                    }(arr = _args) || function(iter) {
-                        if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
-                    }(arr) || function(o, minLen) {
-                        if (o) {
-                            if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
-                            var n = Object.prototype.toString.call(o).slice(8, -1);
-                            if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(n);
-                            if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-                        }
-                    }(arr) || function() {
-                        throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-                    }()));
-                };
+                var _this = this, _this1 = this;
                 return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
-                                _super_g();
+                                _get(_getPrototypeOf(C9.prototype), "g", _this).call(_this1);
                             case 1:
                             case "end":
                                 return _ctx.stop();
