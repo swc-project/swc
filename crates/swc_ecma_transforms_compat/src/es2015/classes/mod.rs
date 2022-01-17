@@ -420,14 +420,15 @@ where
             class_name_sym.span = DUMMY_SP;
             class_name_sym.span.ctxt = class_name.span.ctxt;
 
+            let mut super_class_name_sym = super_class_ident.clone();
+            super_class_name_sym.span = DUMMY_SP;
+            super_class_name_sym.span.ctxt = super_class_ident.span.ctxt;
+
             stmts.push(
                 CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(inherits, "inherits"),
-                    args: vec![
-                        Expr::Ident(class_name_sym).as_arg(),
-                        super_class_ident.clone().as_arg(),
-                    ],
+                    args: vec![class_name_sym.as_arg(), super_class_name_sym.as_arg()],
                     type_args: Default::default(),
                 }
                 .into_stmt(),
@@ -450,7 +451,7 @@ where
                     init: Some(Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(create_super, "createSuper"),
-                        args: vec![Expr::Ident(class_name_sym).as_arg()],
+                        args: vec![class_name_sym.as_arg()],
                         type_args: Default::default(),
                     }))),
                     definite: Default::default(),
