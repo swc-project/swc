@@ -5,6 +5,14 @@
 
 
 
+- **(es/minifier)** Fix analysis of unary expressions (#3286) ([b55ae4b](https://github.com/swc-project/swc/commit/b55ae4b312b5677efeb9f3e9697dc2bcff81e322))
+
+## [1.2.130] - 2022-01-17
+
+### Bug Fixes
+
+
+
 - **(css/lexer)** Resolve a `TODO` (#3260) ([ade8ab8](https://github.com/swc-project/swc/commit/ade8ab8c35b9d1c61d740f42672fb4d27977346d))
 
 
