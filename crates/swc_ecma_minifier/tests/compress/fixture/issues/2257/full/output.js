@@ -9756,7 +9756,7 @@
             function createHashHistory(props) {
                 void 0 === props && (props = {}), canUseDOM || (0, tiny_invariant_esm.default)(!1);
                 var globalHistory = window.history;
-                -1 === window.navigator.userAgent.indexOf("Firefox");
+                window.navigator.userAgent.indexOf("Firefox");
                 var _props = props, _props$getUserConfirm = _props.getUserConfirmation, getUserConfirmation = void 0 === _props$getUserConfirm ? getConfirmation : _props$getUserConfirm, _props$hashType = _props.hashType, basename = props.basename ? stripTrailingSlash(addLeadingSlash(props.basename)) : "", _HashPathCoders$hashT = HashPathCoders[void 0 === _props$hashType ? "slash" : _props$hashType], encodePath = _HashPathCoders$hashT.encodePath, decodePath = _HashPathCoders$hashT.decodePath;
                 function getDOMLocation() {
                     var path = decodePath(getHashPath());
@@ -13869,7 +13869,7 @@
                 }, b.memoizedState = si, b.lanes = 33554432, a) : ((c = vi({
                     mode: "visible",
                     children: a
-                }, b.mode, c, null)).return = b, b.child = c) : (null !== a.memoizedState, f ? (d = wi(a, b, d.children, d.fallback, c), f = b.child, e = a.child.memoizedState, f.memoizedState = null === e ? {
+                }, b.mode, c, null)).return = b, b.child = c) : (a.memoizedState, f ? (d = wi(a, b, d.children, d.fallback, c), f = b.child, e = a.child.memoizedState, f.memoizedState = null === e ? {
                     baseLanes: c
                 } : {
                     baseLanes: e.baseLanes | c
