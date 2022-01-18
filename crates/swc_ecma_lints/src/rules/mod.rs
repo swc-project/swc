@@ -1,4 +1,5 @@
 use crate::rule::Rule;
+use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold};
 
@@ -7,12 +8,12 @@ mod duplicate_bindings;
 mod duplicate_exports;
 mod no_console;
 
-pub fn all() -> Vec<Box<dyn Rule>> {
+pub fn all(top_level_ctxt: SyntaxContext) -> Vec<Box<dyn Rule>> {
     vec![
         const_assign::const_assign(),
         duplicate_bindings::duplicate_bindings(),
         duplicate_exports::duplicate_exports(),
-        no_console::no_console(),
+        no_console::no_console(top_level_ctxt.clone()),
     ]
 }
 

@@ -1,10 +1,10 @@
 use std::path::PathBuf;
 
-use swc_common::input::SourceFileInput;
+use swc_common::{input::SourceFileInput, Mark, SyntaxContext};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_lints::rules::all;
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
-use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::VisitMutWith;
 
@@ -37,9 +37,12 @@ fn pass(input: PathBuf) {
         let mut parser = Parser::new_from(lexer);
 
         let mut m = parser.parse_module().unwrap();
-        m.visit_mut_with(&mut resolver());
+        let top_level_mark = Mark::fresh(Mark::root());
 
-        let rules = all();
+        m.visit_mut_with(&mut resolver_with_mark(top_level_mark.clone()));
+
+        let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
+        let rules = all(top_level_ctxt);
 
         HANDLER.set(&handler, || {
             for mut rule in rules {
