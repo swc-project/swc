@@ -141,12 +141,11 @@ where
         match e {
             Expr::Lit(Lit::Str(s)) => {
                 if s.value.starts_with("@swc/helpers") || s.value.starts_with("@babel/helpers") {
-                    e.take();
-                    return;
+                    *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                 }
             }
 
-            Expr::Lit(Lit::Num(..) | Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..)) => {
+            Expr::Lit(Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..)) => {
                 self.changed = true;
                 *e = Expr::Invalid(Invalid { span: DUMMY_SP });
             }
