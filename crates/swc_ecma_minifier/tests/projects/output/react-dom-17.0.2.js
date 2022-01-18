@@ -6704,14 +6704,14 @@
         didReceiveUpdate = !0;
     }
     function bailoutOnAlreadyFinishedWork(current5, workInProgress7, renderLanes) {
-        return (null !== current5 && (workInProgress7.dependencies = current5.dependencies), stopProfilerTimerIfRunning(), markSkippedUpdateLanes(workInProgress7.lanes), includesSomeLane(renderLanes, workInProgress7.childLanes)) ? ((function(current, workInProgress) {
+        return (null !== current5 && (workInProgress7.dependencies = current5.dependencies), stopProfilerTimerIfRunning(), markSkippedUpdateLanes(workInProgress7.lanes), includesSomeLane(renderLanes, workInProgress7.childLanes)) ? (!function(current, workInProgress) {
             if (!(null === current || workInProgress.child === current.child)) throw Error("Resuming work not yet implemented.");
             if (null !== workInProgress.child) {
                 var currentChild = workInProgress.child, newChild = createWorkInProgress(currentChild, currentChild.pendingProps);
                 for(workInProgress.child = newChild, newChild.return = workInProgress; null !== currentChild.sibling;)currentChild = currentChild.sibling, (newChild = newChild.sibling = createWorkInProgress(currentChild, currentChild.pendingProps)).return = workInProgress;
                 newChild.sibling = null;
             }
-        })(current5, workInProgress7), workInProgress7.child) : null;
+        }(current5, workInProgress7), workInProgress7.child) : null;
     }
     function beginWork(current13, workInProgress16, renderLanes12) {
         var updateLanes1 = workInProgress16.lanes;
@@ -9458,9 +9458,9 @@
             };
         })(children1, container, null, key1);
     }
-    if (("function" != typeof Map || null == Map.prototype || "function" != typeof Map.prototype.forEach || "function" != typeof Set || null == Set.prototype || "function" != typeof Set.prototype.clear || "function" != typeof Set.prototype.forEach) && error1("React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"), (function(impl) {
+    if (("function" != typeof Map || null == Map.prototype || "function" != typeof Map.prototype.forEach || "function" != typeof Set || null == Set.prototype || "function" != typeof Set.prototype.clear || "function" != typeof Set.prototype.forEach) && error1("React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"), !function(impl) {
         restoreImpl = impl;
-    })(function(domElement, tag, props16) {
+    }(function(domElement, tag, props16) {
         var element, props14, node, element2, props15, value;
         switch(tag){
             case "input":
@@ -9486,9 +9486,9 @@
                 element2 = domElement, null != (value = (props15 = props16).value) && updateOptions(element2, !!props15.multiple, value, !1);
                 return;
         }
-    }), (function(_batchedUpdatesImpl, _discreteUpdatesImpl, _flushDiscreteUpdatesImpl, _batchedEventUpdatesImpl) {
+    }), !function(_batchedUpdatesImpl, _discreteUpdatesImpl, _flushDiscreteUpdatesImpl, _batchedEventUpdatesImpl) {
         batchedUpdatesImpl = _batchedUpdatesImpl, discreteUpdatesImpl = _discreteUpdatesImpl, flushDiscreteUpdatesImpl = _flushDiscreteUpdatesImpl, batchedEventUpdatesImpl = _batchedEventUpdatesImpl;
-    })(batchedUpdates$1, function(fn, a, b, c, d) {
+    }(batchedUpdates$1, function(fn, a, b, c, d) {
         var prevExecutionContext = executionContext;
         executionContext |= 4;
         try {
