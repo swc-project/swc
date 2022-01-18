@@ -692,7 +692,7 @@ where
         self.input.skip_ws()?;
 
         let query = self.parse()?;
-        let mut queries: Vec<MediaQuery> = vec![query];
+        let mut queries = vec![query];
 
         loop {
             self.input.skip_ws()?;
@@ -709,25 +709,13 @@ where
         }
 
         let start_pos = match queries.first() {
-            Some(MediaQuery::Ident(Ident { span, .. })) => span.lo,
-            Some(MediaQuery::And(AndMediaQuery { span, .. })) => span.lo,
-            Some(MediaQuery::Or(OrMediaQuery { span, .. })) => span.lo,
-            Some(MediaQuery::Not(NotMediaQuery { span, .. })) => span.lo,
-            Some(MediaQuery::Only(OnlyMediaQuery { span, .. })) => span.lo,
-            Some(MediaQuery::Plain(MediaFeaturePlain { span, .. })) => span.lo,
-            Some(MediaQuery::Boolean(MediaFeatureBoolean { span, .. })) => span.lo,
+            Some(MediaQuery { span, .. }) => span.lo,
             _ => {
                 unreachable!();
             }
         };
         let last_pos = match queries.last() {
-            Some(MediaQuery::Ident(Ident { span, .. })) => span.hi,
-            Some(MediaQuery::And(AndMediaQuery { span, .. })) => span.hi,
-            Some(MediaQuery::Or(OrMediaQuery { span, .. })) => span.hi,
-            Some(MediaQuery::Not(NotMediaQuery { span, .. })) => span.hi,
-            Some(MediaQuery::Only(OnlyMediaQuery { span, .. })) => span.hi,
-            Some(MediaQuery::Plain(MediaFeaturePlain { span, .. })) => span.hi,
-            Some(MediaQuery::Boolean(MediaFeatureBoolean { span, .. })) => span.hi,
+            Some(MediaQuery { span, .. }) => span.hi,
             _ => {
                 unreachable!();
             }
@@ -745,25 +733,64 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<MediaQuery> {
+        let span = self.input.cur_span()?;
+
+        let mut modifier = None;
+        let mut media_type = None;
+
+        // TODO better check
+        if is!(self, Ident) && peeked_is!(self, Ident) {
+            if eat!(self, "not") {
+                modifier = Some(self.parse()?)
+            } else if eat!(self, "only") {
+                modifier = Some(self.parse()?)
+            };
+
+            media_type = match bump!(self) {
+                Token::Ident { value, raw } => Some(Ident { span, value, raw }),
+                _ => {
+                    // TODO should be error
+                    unreachable!()
+                }
+            };
+        }
+
+        // TODO maybe optional
+        let condition = self.parse()?;
+
+        Ok(MediaQuery {
+            span: span!(self, span.lo),
+            modifier,
+            media_type,
+            condition,
+        })
+    }
+}
+
+impl<I> Parse<MediaQueryItem> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<MediaQueryItem> {
         self.input.skip_ws()?;
 
         let span = self.input.cur_span()?;
 
         let base = if eat!(self, "not") {
             let query = self.parse()?;
-            MediaQuery::Not(NotMediaQuery {
+            MediaQueryItem::Not(NotMediaQuery {
                 span: span!(self, span.lo),
                 query,
             })
         } else if eat!(self, "only") {
             let query = self.parse()?;
-            MediaQuery::Only(OnlyMediaQuery {
+            MediaQueryItem::Only(OnlyMediaQuery {
                 span: span!(self, span.lo),
                 query,
             })
         } else if is!(self, Ident) {
             let ident = self.parse()?;
-            MediaQuery::Ident(ident)
+            MediaQueryItem::Ident(ident)
         } else if eat!(self, "(") {
             if is!(self, Ident) {
                 let name = self.parse()?;
@@ -782,7 +809,7 @@ where
 
                     expect!(self, ")");
 
-                    MediaQuery::Plain(MediaFeaturePlain {
+                    MediaQueryItem::Plain(MediaFeaturePlain {
                         span: span!(self, span.lo),
                         name,
                         value,
@@ -790,13 +817,13 @@ where
                 } else {
                     expect!(self, ")");
 
-                    MediaQuery::Boolean(MediaFeatureBoolean {
+                    MediaQueryItem::Boolean(MediaFeatureBoolean {
                         span: span!(self, span.lo),
                         name,
                     })
                 }
             } else {
-                let query: MediaQuery = self.parse()?;
+                let query: MediaQueryItem = self.parse()?;
                 expect!(self, ")");
 
                 query
@@ -808,9 +835,9 @@ where
         self.input.skip_ws()?;
 
         if eat!(self, "and") {
-            let right: Box<MediaQuery> = self.parse()?;
+            let right: Box<MediaQueryItem> = self.parse()?;
 
-            return Ok(MediaQuery::And(AndMediaQuery {
+            return Ok(MediaQueryItem::And(AndMediaQuery {
                 span: Span::new(span.lo, right.span().hi, Default::default()),
                 left: Box::new(base),
                 right,
@@ -818,9 +845,9 @@ where
         }
 
         if eat!(self, "or") {
-            let right: Box<MediaQuery> = self.parse()?;
+            let right: Box<MediaQueryItem> = self.parse()?;
 
-            return Ok(MediaQuery::Or(OrMediaQuery {
+            return Ok(MediaQueryItem::Or(OrMediaQuery {
                 span: Span::new(span.lo, right.span().hi, Default::default()),
                 left: Box::new(base),
                 right,

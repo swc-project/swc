@@ -45,14 +45,24 @@
       },
       "layerName": null,
       "media": {
-        "type": "Identifier",
+        "type": "MediaQuery",
         "span": {
           "start": 23,
           "end": 28,
           "ctxt": 0
         },
-        "value": "print",
-        "raw": "print"
+        "modifier": null,
+        "mediaType": null,
+        "condition": {
+          "type": "Identifier",
+          "span": {
+            "start": 23,
+            "end": 28,
+            "ctxt": 0
+          },
+          "value": "print",
+          "raw": "print"
+        }
       }
     }
   ]

@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 22,
+    "end": 445,
     "ctxt": 0
   },
   "rules": [
@@ -10,33 +10,990 @@
       "type": "MediaRule",
       "span": {
         "start": 0,
-        "end": 22,
+        "end": 17,
         "ctxt": 0
       },
       "media": {
         "type": "MediaQueryList",
         "span": {
-          "start": 7,
-          "end": 19,
+          "start": 8,
+          "end": 15,
           "ctxt": 0
         },
         "queries": [
           {
-            "type": "MediaFeatureBoolean",
+            "type": "MediaQuery",
             "span": {
-              "start": 7,
-              "end": 19,
+              "start": 8,
+              "end": 15,
               "ctxt": 0
             },
-            "name": {
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
               "type": "Identifier",
               "span": {
                 "start": 8,
-                "end": 18,
+                "end": 14,
                 "ctxt": 0
               },
-              "value": "monochrome",
-              "raw": "monochrome"
+              "value": "screen",
+              "raw": "screen"
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 18,
+        "end": 36,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 26,
+          "end": 34,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 26,
+              "end": 34,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "Identifier",
+              "span": {
+                "start": 26,
+                "end": 33,
+                "ctxt": 0
+              },
+              "value": "screen",
+              "raw": "\\screen"
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 37,
+        "end": 53,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 44,
+          "end": 51,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 44,
+              "end": 51,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "Identifier",
+              "span": {
+                "start": 44,
+                "end": 50,
+                "ctxt": 0
+              },
+              "value": "screen",
+              "raw": "screen"
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 54,
+        "end": 82,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 61,
+          "end": 80,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 61,
+              "end": 80,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "AndMediaQuery",
+              "span": {
+                "start": 61,
+                "end": 79,
+                "ctxt": 0
+              },
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 61,
+                  "end": 67,
+                  "ctxt": 0
+                },
+                "value": "screen",
+                "raw": "screen"
+              },
+              "right": {
+                "type": "MediaFeatureBoolean",
+                "span": {
+                  "start": 72,
+                  "end": 79,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 73,
+                    "end": 78,
+                    "ctxt": 0
+                  },
+                  "value": "color",
+                  "raw": "color"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 83,
+        "end": 135,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 90,
+          "end": 133,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 90,
+              "end": 108,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "AndMediaQuery",
+              "span": {
+                "start": 90,
+                "end": 108,
+                "ctxt": 0
+              },
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 90,
+                  "end": 96,
+                  "ctxt": 0
+                },
+                "value": "screen",
+                "raw": "screen"
+              },
+              "right": {
+                "type": "MediaFeatureBoolean",
+                "span": {
+                  "start": 101,
+                  "end": 108,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 102,
+                    "end": 107,
+                    "ctxt": 0
+                  },
+                  "value": "color",
+                  "raw": "color"
+                }
+              }
+            }
+          },
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 110,
+              "end": 133,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "AndMediaQuery",
+              "span": {
+                "start": 110,
+                "end": 132,
+                "ctxt": 0
+              },
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 110,
+                  "end": 120,
+                  "ctxt": 0
+                },
+                "value": "projection",
+                "raw": "projection"
+              },
+              "right": {
+                "type": "MediaFeatureBoolean",
+                "span": {
+                  "start": 125,
+                  "end": 132,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 126,
+                    "end": 131,
+                    "ctxt": 0
+                  },
+                  "value": "color",
+                  "raw": "color"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 136,
+        "end": 149,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 143,
+          "end": 147,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 143,
+              "end": 147,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "Identifier",
+              "span": {
+                "start": 143,
+                "end": 146,
+                "ctxt": 0
+              },
+              "value": "all",
+              "raw": "all"
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 150,
+        "end": 177,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 157,
+          "end": 175,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 157,
+              "end": 175,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaFeaturePlain",
+              "span": {
+                "start": 157,
+                "end": 174,
+                "ctxt": 0
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 158,
+                  "end": 167,
+                  "ctxt": 0
+                },
+                "value": "min-width",
+                "raw": "min-width"
+              },
+              "value": [
+                {
+                  "type": "UnitValue",
+                  "span": {
+                    "start": 169,
+                    "end": 173,
+                    "ctxt": 0
+                  },
+                  "value": {
+                    "type": "Number",
+                    "span": {
+                      "start": 169,
+                      "end": 171,
+                      "ctxt": 0
+                    },
+                    "value": 20.0,
+                    "raw": "20"
+                  },
+                  "unit": {
+                    "span": {
+                      "start": 171,
+                      "end": 173,
+                      "ctxt": 0
+                    },
+                    "value": "em",
+                    "raw": "em"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 178,
+        "end": 223,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 185,
+          "end": 221,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 185,
+              "end": 221,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "AndMediaQuery",
+              "span": {
+                "start": 185,
+                "end": 220,
+                "ctxt": 0
+              },
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 185,
+                  "end": 190,
+                  "ctxt": 0
+                },
+                "value": "print",
+                "raw": "print"
+              },
+              "right": {
+                "type": "MediaFeaturePlain",
+                "span": {
+                  "start": 195,
+                  "end": 220,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 196,
+                    "end": 210,
+                    "ctxt": 0
+                  },
+                  "value": "min-resolution",
+                  "raw": "min-resolution"
+                },
+                "value": [
+                  {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 212,
+                      "end": 219,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 212,
+                        "end": 215,
+                        "ctxt": 0
+                      },
+                      "value": 118.0,
+                      "raw": "118"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 215,
+                        "end": 219,
+                        "ctxt": 0
+                      },
+                      "value": "dpcm",
+                      "raw": "dpcm"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 224,
+        "end": 261,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 231,
+          "end": 259,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 231,
+              "end": 259,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaFeaturePlain",
+              "span": {
+                "start": 231,
+                "end": 258,
+                "ctxt": 0
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 232,
+                  "end": 251,
+                  "ctxt": 0
+                },
+                "value": "device-aspect-ratio",
+                "raw": "device-aspect-ratio"
+              },
+              "value": [
+                {
+                  "type": "BinValue",
+                  "span": {
+                    "start": 253,
+                    "end": 257,
+                    "ctxt": 0
+                  },
+                  "op": "/",
+                  "left": {
+                    "type": "Number",
+                    "span": {
+                      "start": 253,
+                      "end": 255,
+                      "ctxt": 0
+                    },
+                    "value": 16.0,
+                    "raw": "16"
+                  },
+                  "right": {
+                    "type": "Number",
+                    "span": {
+                      "start": 256,
+                      "end": 257,
+                      "ctxt": 0
+                    },
+                    "value": 9.0,
+                    "raw": "9"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 262,
+        "end": 300,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 269,
+          "end": 298,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 269,
+              "end": 298,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "AndMediaQuery",
+              "span": {
+                "start": 269,
+                "end": 297,
+                "ctxt": 0
+              },
+              "left": {
+                "type": "MediaFeatureBoolean",
+                "span": {
+                  "start": 269,
+                  "end": 275,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 270,
+                    "end": 274,
+                    "ctxt": 0
+                  },
+                  "value": "grid",
+                  "raw": "grid"
+                }
+              },
+              "right": {
+                "type": "MediaFeaturePlain",
+                "span": {
+                  "start": 280,
+                  "end": 297,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 281,
+                    "end": 290,
+                    "ctxt": 0
+                  },
+                  "value": "max-width",
+                  "raw": "max-width"
+                },
+                "value": [
+                  {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 292,
+                      "end": 296,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 292,
+                        "end": 294,
+                        "ctxt": 0
+                      },
+                      "value": 15.0,
+                      "raw": "15"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 294,
+                        "end": 296,
+                        "ctxt": 0
+                      },
+                      "value": "em",
+                      "raw": "em"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 301,
+        "end": 323,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 308,
+          "end": 321,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 308,
+              "end": 321,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaFeatureBoolean",
+              "span": {
+                "start": 308,
+                "end": 320,
+                "ctxt": 0
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 309,
+                  "end": 319,
+                  "ctxt": 0
+                },
+                "value": "monochrome",
+                "raw": "monochrome"
+              }
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 324,
+        "end": 358,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 331,
+          "end": 356,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 331,
+              "end": 356,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "NotMediaQuery",
+              "span": {
+                "start": 331,
+                "end": 356,
+                "ctxt": 0
+              },
+              "query": {
+                "type": "AndMediaQuery",
+                "span": {
+                  "start": 335,
+                  "end": 355,
+                  "ctxt": 0
+                },
+                "left": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 335,
+                    "end": 338,
+                    "ctxt": 0
+                  },
+                  "value": "all",
+                  "raw": "all"
+                },
+                "right": {
+                  "type": "MediaFeatureBoolean",
+                  "span": {
+                    "start": 343,
+                    "end": 355,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 344,
+                      "end": 354,
+                      "ctxt": 0
+                    },
+                    "value": "monochrome",
+                    "raw": "monochrome"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 359,
+        "end": 410,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 366,
+          "end": 408,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 366,
+              "end": 388,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "NotMediaQuery",
+              "span": {
+                "start": 366,
+                "end": 388,
+                "ctxt": 0
+              },
+              "query": {
+                "type": "AndMediaQuery",
+                "span": {
+                  "start": 370,
+                  "end": 388,
+                  "ctxt": 0
+                },
+                "left": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 370,
+                    "end": 376,
+                    "ctxt": 0
+                  },
+                  "value": "screen",
+                  "raw": "screen"
+                },
+                "right": {
+                  "type": "MediaFeatureBoolean",
+                  "span": {
+                    "start": 381,
+                    "end": 388,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 382,
+                      "end": 387,
+                      "ctxt": 0
+                    },
+                    "value": "color",
+                    "raw": "color"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 390,
+              "end": 408,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "AndMediaQuery",
+              "span": {
+                "start": 390,
+                "end": 407,
+                "ctxt": 0
+              },
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 390,
+                  "end": 395,
+                  "ctxt": 0
+                },
+                "value": "print",
+                "raw": "print"
+              },
+              "right": {
+                "type": "MediaFeatureBoolean",
+                "span": {
+                  "start": 400,
+                  "end": 407,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 401,
+                    "end": 406,
+                    "ctxt": 0
+                  },
+                  "value": "color",
+                  "raw": "color"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 411,
+        "end": 444,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 418,
+          "end": 442,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 418,
+              "end": 442,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "OnlyMediaQuery",
+              "span": {
+                "start": 418,
+                "end": 442,
+                "ctxt": 0
+              },
+              "query": {
+                "type": "AndMediaQuery",
+                "span": {
+                  "start": 423,
+                  "end": 441,
+                  "ctxt": 0
+                },
+                "left": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 423,
+                    "end": 429,
+                    "ctxt": 0
+                  },
+                  "value": "screen",
+                  "raw": "screen"
+                },
+                "right": {
+                  "type": "MediaFeatureBoolean",
+                  "span": {
+                    "start": 434,
+                    "end": 441,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 435,
+                      "end": 440,
+                      "ctxt": 0
+                    },
+                    "value": "color",
+                    "raw": "color"
+                  }
+                }
+              }
             }
           }
         ]

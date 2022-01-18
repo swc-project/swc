@@ -17,19 +17,29 @@
         "type": "MediaQueryList",
         "span": {
           "start": 7,
-          "end": 13,
+          "end": 14,
           "ctxt": 0
         },
         "queries": [
           {
-            "type": "Identifier",
+            "type": "MediaQuery",
             "span": {
               "start": 7,
-              "end": 13,
+              "end": 14,
               "ctxt": 0
             },
-            "value": "screen",
-            "raw": "screen"
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "Identifier",
+              "span": {
+                "start": 7,
+                "end": 13,
+                "ctxt": 0
+              },
+              "value": "screen",
+              "raw": "screen"
+            }
           }
         ]
       },

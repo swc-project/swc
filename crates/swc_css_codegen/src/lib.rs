@@ -250,6 +250,21 @@ where
     }
 
     #[emitter]
+    fn emit_media_query(&mut self, n: &MediaQuery) -> Result {
+        if n.modifier.is_some() {
+            emit!(self, n.modifier);
+            space!(self);
+        }
+
+        if n.media_type.is_some() {
+            emit!(self, n.media_type);
+            space!(self);
+        }
+
+        emit!(self, n.condition);
+    }
+
+    #[emitter]
     fn emit_supports_rule(&mut self, n: &SupportsRule) -> Result {
         punct!(self, "@");
         keyword!(self, "supports");
@@ -381,15 +396,15 @@ where
     }
 
     #[emitter]
-    fn emit_media_query(&mut self, n: &MediaQuery) -> Result {
+    fn emit_media_query_item(&mut self, n: &MediaQueryItem) -> Result {
         match n {
-            MediaQuery::Ident(n) => emit!(self, n),
-            MediaQuery::And(n) => emit!(self, n),
-            MediaQuery::Or(n) => emit!(self, n),
-            MediaQuery::Not(n) => emit!(self, n),
-            MediaQuery::Only(n) => emit!(self, n),
-            MediaQuery::Plain(n) => emit!(self, n),
-            MediaQuery::Boolean(n) => emit!(self, n),
+            MediaQueryItem::Ident(n) => emit!(self, n),
+            MediaQueryItem::And(n) => emit!(self, n),
+            MediaQueryItem::Or(n) => emit!(self, n),
+            MediaQueryItem::Not(n) => emit!(self, n),
+            MediaQueryItem::Only(n) => emit!(self, n),
+            MediaQueryItem::Plain(n) => emit!(self, n),
+            MediaQueryItem::Boolean(n) => emit!(self, n),
         }
     }
 

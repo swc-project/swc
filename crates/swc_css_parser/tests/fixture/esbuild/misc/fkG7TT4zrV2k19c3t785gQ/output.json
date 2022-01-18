@@ -22,14 +22,24 @@
         },
         "queries": [
           {
-            "type": "Identifier",
+            "type": "MediaQuery",
             "span": {
               "start": 7,
               "end": 26,
               "ctxt": 0
             },
-            "value": "\u0000screen,screen\t",
-            "raw": "\\0screen\\,screen\\9 "
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "Identifier",
+              "span": {
+                "start": 7,
+                "end": 26,
+                "ctxt": 0
+              },
+              "value": "\u0000screen,screen\t",
+              "raw": "\\0screen\\,screen\\9 "
+            }
           }
         ]
       },

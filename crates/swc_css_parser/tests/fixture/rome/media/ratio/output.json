@@ -17,58 +17,68 @@
         "type": "MediaQueryList",
         "span": {
           "start": 7,
-          "end": 27,
+          "end": 28,
           "ctxt": 0
         },
         "queries": [
           {
-            "type": "MediaFeaturePlain",
+            "type": "MediaQuery",
             "span": {
               "start": 7,
-              "end": 27,
+              "end": 28,
               "ctxt": 0
             },
-            "name": {
-              "type": "Identifier",
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaFeaturePlain",
               "span": {
-                "start": 8,
-                "end": 20,
+                "start": 7,
+                "end": 27,
                 "ctxt": 0
               },
-              "value": "aspect-ratio",
-              "raw": "aspect-ratio"
-            },
-            "value": [
-              {
-                "type": "BinValue",
+              "name": {
+                "type": "Identifier",
                 "span": {
-                  "start": 22,
-                  "end": 26,
+                  "start": 8,
+                  "end": 20,
                   "ctxt": 0
                 },
-                "op": "/",
-                "left": {
-                  "type": "Number",
+                "value": "aspect-ratio",
+                "raw": "aspect-ratio"
+              },
+              "value": [
+                {
+                  "type": "BinValue",
                   "span": {
                     "start": 22,
-                    "end": 24,
-                    "ctxt": 0
-                  },
-                  "value": 12.0,
-                  "raw": "12"
-                },
-                "right": {
-                  "type": "Number",
-                  "span": {
-                    "start": 25,
                     "end": 26,
                     "ctxt": 0
                   },
-                  "value": 9.0,
-                  "raw": "9"
+                  "op": "/",
+                  "left": {
+                    "type": "Number",
+                    "span": {
+                      "start": 22,
+                      "end": 24,
+                      "ctxt": 0
+                    },
+                    "value": 12.0,
+                    "raw": "12"
+                  },
+                  "right": {
+                    "type": "Number",
+                    "span": {
+                      "start": 25,
+                      "end": 26,
+                      "ctxt": 0
+                    },
+                    "value": 9.0,
+                    "raw": "9"
+                  }
                 }
-              }
-            ]
+              ]
+            }
           }
         ]
       },

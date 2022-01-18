@@ -14,8 +14,16 @@ pub struct MediaQueryList {
     pub queries: Vec<MediaQuery>,
 }
 
+#[ast_node("MediaQuery")]
+pub struct MediaQuery {
+    pub span: Span,
+    pub modifier: Option<Ident>,
+    pub media_type: Option<Ident>,
+    pub condition: MediaQueryItem
+}
+
 #[ast_node]
-pub enum MediaQuery {
+pub enum MediaQueryItem {
     #[tag("Ident")]
     Ident(Ident),
 
@@ -41,27 +49,27 @@ pub enum MediaQuery {
 #[ast_node("AndMediaQuery")]
 pub struct AndMediaQuery {
     pub span: Span,
-    pub left: Box<MediaQuery>,
-    pub right: Box<MediaQuery>,
+    pub left: Box<MediaQueryItem>,
+    pub right: Box<MediaQueryItem>,
 }
 
 #[ast_node("OrMediaQuery")]
 pub struct OrMediaQuery {
     pub span: Span,
-    pub left: Box<MediaQuery>,
-    pub right: Box<MediaQuery>,
+    pub left: Box<MediaQueryItem>,
+    pub right: Box<MediaQueryItem>,
 }
 
 #[ast_node("NotMediaQuery")]
 pub struct NotMediaQuery {
     pub span: Span,
-    pub query: Box<MediaQuery>,
+    pub query: Box<MediaQueryItem>,
 }
 
 #[ast_node("OnlyMediaQuery")]
 pub struct OnlyMediaQuery {
     pub span: Span,
-    pub query: Box<MediaQuery>,
+    pub query: Box<MediaQueryItem>,
 }
 
 #[ast_node("MediaFeaturePlain")]

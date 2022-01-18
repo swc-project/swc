@@ -347,14 +347,24 @@
         },
         "queries": [
           {
-            "type": "Identifier",
+            "type": "MediaQuery",
             "span": {
               "start": 293,
               "end": 299,
               "ctxt": 0
             },
-            "value": "screen",
-            "raw": "screen"
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "Identifier",
+              "span": {
+                "start": 293,
+                "end": 299,
+                "ctxt": 0
+              },
+              "value": "screen",
+              "raw": "screen"
+            }
           }
         ]
       },
@@ -371,19 +381,29 @@
         "type": "MediaQueryList",
         "span": {
           "start": 336,
-          "end": 342,
+          "end": 357,
           "ctxt": 0
         },
         "queries": [
           {
-            "type": "Identifier",
+            "type": "MediaQuery",
             "span": {
               "start": 336,
-              "end": 342,
+              "end": 357,
               "ctxt": 0
             },
-            "value": "screen",
-            "raw": "screen"
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "Identifier",
+              "span": {
+                "start": 336,
+                "end": 342,
+                "ctxt": 0
+              },
+              "value": "screen",
+              "raw": "screen"
+            }
           }
         ]
       },

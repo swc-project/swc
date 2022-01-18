@@ -328,9 +328,15 @@ error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:12
    |
 12 |     @media screen and (min-width: 900px) {
-   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:12
+   |
+12 |     @media screen and (min-width: 900px) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryItem
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:12
    |
 12 |     @media screen and (min-width: 900px) {
@@ -342,7 +348,7 @@ error: AndMediaQuery
 12 |     @media screen and (min-width: 900px) {
    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: MediaQuery
+error: MediaQueryItem
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:12
    |
 12 |     @media screen and (min-width: 900px) {
@@ -354,7 +360,7 @@ error: Ident
 12 |     @media screen and (min-width: 900px) {
    |            ^^^^^^
 
-error: MediaQuery
+error: MediaQueryItem
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:23
    |
 12 |     @media screen and (min-width: 900px) {

@@ -505,19 +505,29 @@
         "type": "MediaQueryList",
         "span": {
           "start": 295,
-          "end": 301,
+          "end": 302,
           "ctxt": 0
         },
         "queries": [
           {
-            "type": "Identifier",
+            "type": "MediaQuery",
             "span": {
               "start": 295,
-              "end": 301,
+              "end": 302,
               "ctxt": 0
             },
-            "value": "screen",
-            "raw": "screen"
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "Identifier",
+              "span": {
+                "start": 295,
+                "end": 301,
+                "ctxt": 0
+              },
+              "value": "screen",
+              "raw": "screen"
+            }
           }
         ]
       },
@@ -769,19 +779,29 @@
         "type": "MediaQueryList",
         "span": {
           "start": 424,
-          "end": 430,
+          "end": 431,
           "ctxt": 0
         },
         "queries": [
           {
-            "type": "Identifier",
+            "type": "MediaQuery",
             "span": {
               "start": 424,
-              "end": 430,
+              "end": 431,
               "ctxt": 0
             },
-            "value": "screen",
-            "raw": "screen"
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "Identifier",
+              "span": {
+                "start": 424,
+                "end": 430,
+                "ctxt": 0
+              },
+              "value": "screen",
+              "raw": "screen"
+            }
           }
         ]
       },
