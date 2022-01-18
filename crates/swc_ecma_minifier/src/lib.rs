@@ -60,10 +60,6 @@ pub fn optimize(
 ) -> Module {
     let _timer = timer!("minify");
 
-    if cfg!(debug_assertions) && cfg!(feature = "debug") {
-        info!("Input:\n{}", dump(&m, true));
-    }
-
     let marks = Marks::new();
 
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
