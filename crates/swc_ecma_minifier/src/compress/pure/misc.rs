@@ -1,6 +1,6 @@
 use super::Pure;
 use crate::{compress::util::is_pure_undefined, mode::Mode};
-use swc_common::util::take::Take;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 
 impl<M> Pure<'_, M>
@@ -143,6 +143,24 @@ where
                 if s.value.starts_with("@swc/helpers") || s.value.starts_with("@babel/helpers") {
                     e.take();
                     return;
+                }
+            }
+
+            Expr::Lit(Lit::Num(..) | Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..)) => {
+                self.changed = true;
+                *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+            }
+
+            Expr::Bin(bin) => {
+                self.ignore_return_value(&mut bin.left);
+                self.ignore_return_value(&mut bin.right);
+
+                if bin.left.is_invalid() && bin.right.is_invalid() {
+                    *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                } else if bin.right.is_invalid() {
+                    *e = *bin.left.take();
+                } else if bin.left.is_invalid() {
+                    *e = *bin.right.take();
                 }
             }
 
