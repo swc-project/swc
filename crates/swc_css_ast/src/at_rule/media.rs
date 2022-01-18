@@ -33,9 +33,6 @@ pub enum MediaQuery {
 
     #[tag("Declaration")]
     Declaration(Declaration),
-
-    #[tag("CommaMediaQuery")]
-    Comma(CommaMediaQuery),
 }
 
 #[ast_node("AndMediaQuery")]
@@ -62,10 +59,4 @@ pub struct NotMediaQuery {
 pub struct OnlyMediaQuery {
     pub span: Span,
     pub query: Box<MediaQuery>,
-}
-
-#[ast_node("CommaMediaQuery")]
-pub struct CommaMediaQuery {
-    pub span: Span,
-    pub queries: Vec<MediaQuery>,
 }

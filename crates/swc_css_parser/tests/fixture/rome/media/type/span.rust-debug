@@ -164,19 +164,7 @@ error: MediaQueryList
  --> $DIR/tests/fixture/rome/media/type/input.css:4:8
   |
 4 | @media print, screen {}
-  |        ^^^^^^^^^^^^^^
-
-error: MediaQuery
- --> $DIR/tests/fixture/rome/media/type/input.css:4:8
-  |
-4 | @media print, screen {}
-  |        ^^^^^^^^^^^^^^
-
-error: CommaMediaQuery
- --> $DIR/tests/fixture/rome/media/type/input.css:4:8
-  |
-4 | @media print, screen {}
-  |        ^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/rome/media/type/input.css:4:8
@@ -224,19 +212,7 @@ error: MediaQueryList
  --> $DIR/tests/fixture/rome/media/type/input.css:5:8
   |
 5 | @media screen, all, print {}
-  |        ^^^^^^^^^^^^^^^^^^^
-
-error: MediaQuery
- --> $DIR/tests/fixture/rome/media/type/input.css:5:8
-  |
-5 | @media screen, all, print {}
-  |        ^^^^^^^^^^^^^^^^^^^
-
-error: CommaMediaQuery
- --> $DIR/tests/fixture/rome/media/type/input.css:5:8
-  |
-5 | @media screen, all, print {}
-  |        ^^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/rome/media/type/input.css:5:8
@@ -302,25 +278,13 @@ error: MediaQuery
  --> $DIR/tests/fixture/rome/media/type/input.css:6:8
   |
 6 | @media only screen, not all, only print {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^
 
 error: OnlyMediaQuery
  --> $DIR/tests/fixture/rome/media/type/input.css:6:8
   |
 6 | @media only screen, not all, only print {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQuery
- --> $DIR/tests/fixture/rome/media/type/input.css:6:13
-  |
-6 | @media only screen, not all, only print {}
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: CommaMediaQuery
- --> $DIR/tests/fixture/rome/media/type/input.css:6:13
-  |
-6 | @media only screen, not all, only print {}
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/rome/media/type/input.css:6:13

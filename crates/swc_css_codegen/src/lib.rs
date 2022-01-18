@@ -235,13 +235,18 @@ where
         keyword!(self, "media");
         space!(self);
 
-        emit!(self, n.query);
+        emit!(self, n.media);
 
         space!(self);
 
         punct!(self, "{");
         self.emit_list(&n.rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
         punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_media_query_list(&mut self, n: &MediaQueryList) -> Result {
+        self.emit_list(&n.queries, ListFormat::CommaDelimited)?;
     }
 
     #[emitter]
@@ -388,7 +393,6 @@ where
                 emit!(self, n);
                 punct!(self, ")");
             }
-            MediaQuery::Comma(n) => emit!(self, n),
         }
     }
 
@@ -736,11 +740,6 @@ where
         keyword!(self, "only");
         space!(self);
         emit!(self, n.query);
-    }
-
-    #[emitter]
-    fn emit_comma_media_query(&mut self, n: &CommaMediaQuery) -> Result {
-        self.emit_list(&n.queries, ListFormat::CommaDelimited)?;
     }
 
     #[emitter]

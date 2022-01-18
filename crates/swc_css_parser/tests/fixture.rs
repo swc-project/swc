@@ -322,7 +322,6 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(AndMediaQuery, visit_and_media_query);
     mtd!(AndSupportQuery, visit_and_support_query);
     mtd!(CharsetRule, visit_charset_rule);
-    mtd!(CommaMediaQuery, visit_comma_media_query);
     mtd!(DocumentRule, visit_document_rule);
     mtd!(FontFaceRule, visit_font_face_rule);
     mtd!(ImportHref, visit_import_href);

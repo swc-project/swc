@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 151,
+    "end": 150,
     "ctxt": 0
   },
   "rules": [
@@ -151,7 +151,7 @@
         "type": "MediaQueryList",
         "span": {
           "start": 90,
-          "end": 133,
+          "end": 131,
           "ctxt": 0
         },
         "queries": [
@@ -159,7 +159,7 @@
             "type": "AndMediaQuery",
             "span": {
               "start": 90,
-              "end": 133,
+              "end": 107,
               "ctxt": 0
             },
             "left": {
@@ -173,52 +173,42 @@
               "raw": "screen"
             },
             "right": {
-              "type": "CommaMediaQuery",
+              "type": "Identifier",
               "span": {
-                "start": 101,
-                "end": 133,
+                "start": 102,
+                "end": 107,
                 "ctxt": 0
               },
-              "queries": [
-                {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 102,
-                    "end": 107,
-                    "ctxt": 0
-                  },
-                  "value": "color",
-                  "raw": "color"
-                },
-                {
-                  "type": "AndMediaQuery",
-                  "span": {
-                    "start": 110,
-                    "end": 131,
-                    "ctxt": 0
-                  },
-                  "left": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 110,
-                      "end": 120,
-                      "ctxt": 0
-                    },
-                    "value": "projection",
-                    "raw": "projection"
-                  },
-                  "right": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 126,
-                      "end": 131,
-                      "ctxt": 0
-                    },
-                    "value": "color",
-                    "raw": "color"
-                  }
-                }
-              ]
+              "value": "color",
+              "raw": "color"
+            }
+          },
+          {
+            "type": "AndMediaQuery",
+            "span": {
+              "start": 110,
+              "end": 131,
+              "ctxt": 0
+            },
+            "left": {
+              "type": "Identifier",
+              "span": {
+                "start": 110,
+                "end": 120,
+                "ctxt": 0
+              },
+              "value": "projection",
+              "raw": "projection"
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 126,
+                "end": 131,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
             }
           }
         ]

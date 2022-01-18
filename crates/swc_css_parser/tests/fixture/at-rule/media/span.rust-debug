@@ -7,8 +7,7 @@ error: Stylesheet
 4 | | @media screen and (color) {}
 5 | | @media screen and (color), projection and (color) {}
 6 | | @media all {}
-7 | |
-  | |_^
+  | |______________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:1:1
@@ -200,19 +199,19 @@ error: MediaQueryList
  --> $DIR/tests/fixture/at-rule/media/input.css:5:8
   |
 5 | @media screen and (color), projection and (color) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/at-rule/media/input.css:5:8
   |
 5 | @media screen and (color), projection and (color) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^^^^^
 
 error: AndMediaQuery
  --> $DIR/tests/fixture/at-rule/media/input.css:5:8
   |
 5 | @media screen and (color), projection and (color) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/at-rule/media/input.css:5:8
@@ -225,18 +224,6 @@ error: Ident
   |
 5 | @media screen and (color), projection and (color) {}
   |        ^^^^^^
-
-error: MediaQuery
- --> $DIR/tests/fixture/at-rule/media/input.css:5:19
-  |
-5 | @media screen and (color), projection and (color) {}
-  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: CommaMediaQuery
- --> $DIR/tests/fixture/at-rule/media/input.css:5:19
-  |
-5 | @media screen and (color), projection and (color) {}
-  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/at-rule/media/input.css:5:20

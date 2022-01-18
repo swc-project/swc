@@ -49,14 +49,6 @@ where
             inner: self,
         }
     }
-
-    #[inline]
-    pub(super) fn parse_with<F, Ret>(&mut self, op: F) -> PResult<Ret>
-    where
-        F: for<'aa> FnOnce(&'aa mut Parser<I>) -> PResult<Ret>,
-    {
-        op(self)
-    }
 }
 
 pub(super) struct WithCtx<'w, I: 'w + ParserInput> {

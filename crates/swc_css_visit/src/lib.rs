@@ -455,7 +455,6 @@ define!({
         Not(NotMediaQuery),
         Only(OnlyMediaQuery),
         Declaration(Declaration),
-        Comma(CommaMediaQuery),
     }
 
     pub struct AndMediaQuery {
@@ -478,11 +477,6 @@ define!({
     pub struct OnlyMediaQuery {
         pub span: Span,
         pub query: Box<MediaQuery>,
-    }
-
-    pub struct CommaMediaQuery {
-        pub span: Span,
-        pub queries: Vec<MediaQuery>,
     }
 
     pub struct PageRule {
