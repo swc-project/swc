@@ -137,7 +137,7 @@ where
             }
         }
 
-        if self.options.side_effects {
+        if self.options.unused || self.options.side_effects {
             match e {
                 Expr::Lit(Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..)) | Expr::Ident(..) => {
                     self.changed = true;
