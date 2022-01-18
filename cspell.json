@@ -31,6 +31,7 @@
         "compiliation",
         "cond",
         "Cond",
+        "conds",
         "constness",
         "consts",
         "corejs",
@@ -142,6 +143,7 @@
         "Unexported",
         "Unexporter",
         "unimpl",
+        "unsafes",
         "untrusted",
         "variadic",
         "vercel"
