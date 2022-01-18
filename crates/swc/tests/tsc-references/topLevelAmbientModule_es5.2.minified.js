@@ -1,2 +1,2 @@
-require("foo").x + 10;
+require("foo").x;
 export { };
