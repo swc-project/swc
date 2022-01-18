@@ -24,7 +24,7 @@ var C = function() {
         }
     ]), C;
 }(), t = C.bar();
-t.foo + 1, t.bar(), new t(1);
+t.foo, t.bar(), new t(1);
 var C2 = function() {
     "use strict";
     function C2(x) {
@@ -39,4 +39,4 @@ var C2 = function() {
         }
     ]), C2;
 }(), t2 = C2.bar();
-t2.foo + 1, t2.bar(), new t2("");
+t2.foo, t2.bar(), new t2("");
