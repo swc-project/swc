@@ -145,12 +145,26 @@ where
                 }
             }
 
-            Expr::Lit(Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..)) => {
+            Expr::Lit(Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..)) | Expr::Ident(..) => {
                 self.changed = true;
                 *e = Expr::Invalid(Invalid { span: DUMMY_SP });
             }
 
-            Expr::Bin(bin) => {
+            Expr::Bin(
+                bin @ BinExpr {
+                    op:
+                        op!(bin, "+")
+                        | op!(bin, "-")
+                        | op!("*")
+                        | op!("/")
+                        | op!("%")
+                        | op!("**")
+                        | op!("^")
+                        | op!("&")
+                        | op!("|"),
+                    ..
+                },
+            ) => {
                 self.ignore_return_value(&mut bin.left);
                 self.ignore_return_value(&mut bin.right);
 
