@@ -5,6 +5,9 @@
 
 
 
+- **(common)** Use `siphasher` directly and upgrade transitive dependencies to avoid UB (#3299) ([641265b](https://github.com/swc-project/swc/commit/641265b147da9478f5d205ddc0c7c16ed94b8676))
+
+
 - **(es/compat)** Apply `static_blocks` before `class_properties`  (#3292) ([89235b8](https://github.com/swc-project/swc/commit/89235b8294dedb4dd50c85e2a3b3ce41bddac85e))
 
 
