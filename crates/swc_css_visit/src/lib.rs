@@ -454,7 +454,7 @@ define!({
         Or(OrMediaQuery),
         Not(NotMediaQuery),
         Only(OnlyMediaQuery),
-        Declaration(Declaration),
+        Plain(MediaFeaturePlain),
     }
 
     pub struct AndMediaQuery {
@@ -477,6 +477,12 @@ define!({
     pub struct OnlyMediaQuery {
         pub span: Span,
         pub query: Box<MediaQuery>,
+    }
+
+    pub struct MediaFeaturePlain {
+        pub span: Span,
+        pub name: Ident,
+        pub value: Vec<Value>,
     }
 
     pub struct PageRule {

@@ -498,13 +498,13 @@
         },
         "queries": [
           {
-            "type": "Declaration",
+            "type": "MediaFeaturePlain",
             "span": {
               "start": 82,
               "end": 109,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 82,
@@ -525,8 +525,7 @@
                 "value": "dark",
                 "raw": "dark"
               }
-            ],
-            "important": null
+            ]
           }
         ]
       },

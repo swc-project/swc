@@ -351,13 +351,13 @@
           "raw": "screen"
         },
         "right": {
-          "type": "Declaration",
+          "type": "MediaFeaturePlain",
           "span": {
             "start": 299,
             "end": 321,
             "ctxt": 0
           },
-          "property": {
+          "name": {
             "type": "Identifier",
             "span": {
               "start": 299,
@@ -378,8 +378,7 @@
               "value": "landscape",
               "raw": "landscape"
             }
-          ],
-          "important": null
+          ]
         }
       }
     },

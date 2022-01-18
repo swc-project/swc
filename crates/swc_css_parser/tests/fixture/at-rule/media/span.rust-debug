@@ -5,9 +5,10 @@ error: Stylesheet
 2 | | @\media \screen {}
 3 | | @media screen {}
 4 | | @media screen and (color) {}
-5 | | @media screen and (color), projection and (color) {}
-6 | | @media all {}
-  | |______________^
+... |
+8 | | @media print and (min-resolution: 118dpcm) {}
+9 | | @media (device-aspect-ratio: 16/9) { }
+  | |_______________________________________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:1:1
@@ -308,4 +309,238 @@ error: Ident
   |
 6 | @media all {}
   |        ^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/media/input.css:7:1
+  |
+7 | @media (min-width: 20em) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:7:1
+  |
+7 | @media (min-width: 20em) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:7:1
+  |
+7 | @media (min-width: 20em) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/at-rule/media/input.css:7:9
+  |
+7 | @media (min-width: 20em) {}
+  |         ^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:7:9
+  |
+7 | @media (min-width: 20em) {}
+  |         ^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+ --> $DIR/tests/fixture/at-rule/media/input.css:7:9
+  |
+7 | @media (min-width: 20em) {}
+  |         ^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/media/input.css:7:9
+  |
+7 | @media (min-width: 20em) {}
+  |         ^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/media/input.css:7:20
+  |
+7 | @media (min-width: 20em) {}
+  |                    ^^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/at-rule/media/input.css:7:20
+  |
+7 | @media (min-width: 20em) {}
+  |                    ^^^^
+
+error: Num
+ --> $DIR/tests/fixture/at-rule/media/input.css:7:20
+  |
+7 | @media (min-width: 20em) {}
+  |                    ^^
+
+error: Unit
+ --> $DIR/tests/fixture/at-rule/media/input.css:7:22
+  |
+7 | @media (min-width: 20em) {}
+  |                      ^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:1
+  |
+8 | @media print and (min-resolution: 118dpcm) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:1
+  |
+8 | @media print and (min-resolution: 118dpcm) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:1
+  |
+8 | @media print and (min-resolution: 118dpcm) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:8
+  |
+8 | @media print and (min-resolution: 118dpcm) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:8
+  |
+8 | @media print and (min-resolution: 118dpcm) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AndMediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:8
+  |
+8 | @media print and (min-resolution: 118dpcm) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:8
+  |
+8 | @media print and (min-resolution: 118dpcm) {}
+  |        ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:8
+  |
+8 | @media print and (min-resolution: 118dpcm) {}
+  |        ^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:19
+  |
+8 | @media print and (min-resolution: 118dpcm) {}
+  |                   ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:19
+  |
+8 | @media print and (min-resolution: 118dpcm) {}
+  |                   ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:19
+  |
+8 | @media print and (min-resolution: 118dpcm) {}
+  |                   ^^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:35
+  |
+8 | @media print and (min-resolution: 118dpcm) {}
+  |                                   ^^^^^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:35
+  |
+8 | @media print and (min-resolution: 118dpcm) {}
+  |                                   ^^^^^^^
+
+error: Num
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:35
+  |
+8 | @media print and (min-resolution: 118dpcm) {}
+  |                                   ^^^
+
+error: Unit
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:38
+  |
+8 | @media print and (min-resolution: 118dpcm) {}
+  |                                      ^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/media/input.css:9:1
+  |
+9 | @media (device-aspect-ratio: 16/9) { }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:9:1
+  |
+9 | @media (device-aspect-ratio: 16/9) { }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:9:1
+  |
+9 | @media (device-aspect-ratio: 16/9) { }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/at-rule/media/input.css:9:9
+  |
+9 | @media (device-aspect-ratio: 16/9) { }
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:9:9
+  |
+9 | @media (device-aspect-ratio: 16/9) { }
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+ --> $DIR/tests/fixture/at-rule/media/input.css:9:9
+  |
+9 | @media (device-aspect-ratio: 16/9) { }
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/media/input.css:9:9
+  |
+9 | @media (device-aspect-ratio: 16/9) { }
+  |         ^^^^^^^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/media/input.css:9:30
+  |
+9 | @media (device-aspect-ratio: 16/9) { }
+  |                              ^^^^
+
+error: BinValue
+ --> $DIR/tests/fixture/at-rule/media/input.css:9:30
+  |
+9 | @media (device-aspect-ratio: 16/9) { }
+  |                              ^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/media/input.css:9:30
+  |
+9 | @media (device-aspect-ratio: 16/9) { }
+  |                              ^^
+
+error: Num
+ --> $DIR/tests/fixture/at-rule/media/input.css:9:30
+  |
+9 | @media (device-aspect-ratio: 16/9) { }
+  |                              ^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/media/input.css:9:33
+  |
+9 | @media (device-aspect-ratio: 16/9) { }
+  |                                 ^
+
+error: Num
+ --> $DIR/tests/fixture/at-rule/media/input.css:9:33
+  |
+9 | @media (device-aspect-ratio: 16/9) { }
+  |                                 ^
 

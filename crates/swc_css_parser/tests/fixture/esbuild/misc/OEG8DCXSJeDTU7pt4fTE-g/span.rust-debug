@@ -82,7 +82,7 @@ error: MediaQuery
 1 | @import url("foo.css") screen and (orientation:landscape);
   |                                    ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Declaration
+error: MediaFeaturePlain
  --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:36
   |
 1 | @import url("foo.css") screen and (orientation:landscape);

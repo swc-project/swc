@@ -1,4 +1,4 @@
-use crate::{Declaration, Ident, Rule};
+use crate::{Ident, Rule, Value};
 use swc_common::{ast_node, Span};
 
 #[ast_node("MediaRule")]
@@ -31,8 +31,8 @@ pub enum MediaQuery {
     #[tag("OnlyMediaQuery")]
     Only(OnlyMediaQuery),
 
-    #[tag("Declaration")]
-    Declaration(Declaration),
+    #[tag("MediaFeaturePlain")]
+    Plain(MediaFeaturePlain),
 }
 
 #[ast_node("AndMediaQuery")]
@@ -59,4 +59,11 @@ pub struct NotMediaQuery {
 pub struct OnlyMediaQuery {
     pub span: Span,
     pub query: Box<MediaQuery>,
+}
+
+#[ast_node("MediaFeaturePlain")]
+pub struct MediaFeaturePlain {
+    pub span: Span,
+    pub name: Ident,
+    pub value: Vec<Value>,
 }

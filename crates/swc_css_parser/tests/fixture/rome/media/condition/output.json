@@ -22,13 +22,13 @@
         },
         "queries": [
           {
-            "type": "Declaration",
+            "type": "MediaFeaturePlain",
             "span": {
               "start": 8,
               "end": 25,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 8,
@@ -66,8 +66,7 @@
                   "raw": "px"
                 }
               }
-            ],
-            "important": null
+            ]
           }
         ]
       },
@@ -96,13 +95,13 @@
               "ctxt": 0
             },
             "left": {
-              "type": "Declaration",
+              "type": "MediaFeaturePlain",
               "span": {
                 "start": 37,
                 "end": 54,
                 "ctxt": 0
               },
-              "property": {
+              "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 37,
@@ -140,8 +139,7 @@
                     "raw": "px"
                   }
                 }
-              ],
-              "important": null
+              ]
             },
             "right": {
               "type": "AndMediaQuery",
@@ -151,13 +149,13 @@
                 "ctxt": 0
               },
               "left": {
-                "type": "Declaration",
+                "type": "MediaFeaturePlain",
                 "span": {
                   "start": 60,
                   "end": 77,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 60,
@@ -195,17 +193,16 @@
                       "raw": "px"
                     }
                   }
-                ],
-                "important": null
+                ]
               },
               "right": {
-                "type": "Declaration",
+                "type": "MediaFeaturePlain",
                 "span": {
                   "start": 83,
                   "end": 100,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 83,
@@ -243,8 +240,7 @@
                       "raw": "px"
                     }
                   }
-                ],
-                "important": null
+                ]
               }
             }
           }
@@ -275,13 +271,13 @@
               "ctxt": 0
             },
             "left": {
-              "type": "Declaration",
+              "type": "MediaFeaturePlain",
               "span": {
                 "start": 112,
                 "end": 129,
                 "ctxt": 0
               },
-              "property": {
+              "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 112,
@@ -319,8 +315,7 @@
                     "raw": "px"
                   }
                 }
-              ],
-              "important": null
+              ]
             },
             "right": {
               "type": "AndMediaQuery",
@@ -330,13 +325,13 @@
                 "ctxt": 0
               },
               "left": {
-                "type": "Declaration",
+                "type": "MediaFeaturePlain",
                 "span": {
                   "start": 135,
                   "end": 152,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 135,
@@ -374,8 +369,7 @@
                       "raw": "px"
                     }
                   }
-                ],
-                "important": null
+                ]
               },
               "right": {
                 "type": "AndMediaQuery",
@@ -385,13 +379,13 @@
                   "ctxt": 0
                 },
                 "left": {
-                  "type": "Declaration",
+                  "type": "MediaFeaturePlain",
                   "span": {
                     "start": 158,
                     "end": 175,
                     "ctxt": 0
                   },
-                  "property": {
+                  "name": {
                     "type": "Identifier",
                     "span": {
                       "start": 158,
@@ -429,17 +423,16 @@
                         "raw": "px"
                       }
                     }
-                  ],
-                  "important": null
+                  ]
                 },
                 "right": {
-                  "type": "Declaration",
+                  "type": "MediaFeaturePlain",
                   "span": {
                     "start": 181,
                     "end": 198,
                     "ctxt": 0
                   },
-                  "property": {
+                  "name": {
                     "type": "Identifier",
                     "span": {
                       "start": 181,
@@ -477,8 +470,7 @@
                         "raw": "px"
                       }
                     }
-                  ],
-                  "important": null
+                  ]
                 }
               }
             }
@@ -510,13 +502,13 @@
               "ctxt": 0
             },
             "query": {
-              "type": "Declaration",
+              "type": "MediaFeaturePlain",
               "span": {
                 "start": 214,
                 "end": 231,
                 "ctxt": 0
               },
-              "property": {
+              "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 214,
@@ -554,8 +546,7 @@
                     "raw": "px"
                   }
                 }
-              ],
-              "important": null
+              ]
             }
           }
         ]
@@ -585,13 +576,13 @@
               "ctxt": 0
             },
             "left": {
-              "type": "Declaration",
+              "type": "MediaFeaturePlain",
               "span": {
                 "start": 243,
                 "end": 260,
                 "ctxt": 0
               },
-              "property": {
+              "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 243,
@@ -629,8 +620,7 @@
                     "raw": "px"
                   }
                 }
-              ],
-              "important": null
+              ]
             },
             "right": {
               "type": "OrMediaQuery",
@@ -640,13 +630,13 @@
                 "ctxt": 0
               },
               "left": {
-                "type": "Declaration",
+                "type": "MediaFeaturePlain",
                 "span": {
                   "start": 266,
                   "end": 283,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 266,
@@ -684,17 +674,16 @@
                       "raw": "px"
                     }
                   }
-                ],
-                "important": null
+                ]
               },
               "right": {
-                "type": "Declaration",
+                "type": "MediaFeaturePlain",
                 "span": {
                   "start": 288,
                   "end": 305,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 288,
@@ -732,8 +721,7 @@
                       "raw": "px"
                     }
                   }
-                ],
-                "important": null
+                ]
               }
             }
           }
@@ -764,13 +752,13 @@
               "ctxt": 0
             },
             "left": {
-              "type": "Declaration",
+              "type": "MediaFeaturePlain",
               "span": {
                 "start": 317,
                 "end": 334,
                 "ctxt": 0
               },
-              "property": {
+              "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 317,
@@ -808,8 +796,7 @@
                     "raw": "px"
                   }
                 }
-              ],
-              "important": null
+              ]
             },
             "right": {
               "type": "OrMediaQuery",
@@ -819,13 +806,13 @@
                 "ctxt": 0
               },
               "left": {
-                "type": "Declaration",
+                "type": "MediaFeaturePlain",
                 "span": {
                   "start": 340,
                   "end": 357,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 340,
@@ -863,17 +850,16 @@
                       "raw": "px"
                     }
                   }
-                ],
-                "important": null
+                ]
               },
               "right": {
-                "type": "Declaration",
+                "type": "MediaFeaturePlain",
                 "span": {
                   "start": 362,
                   "end": 379,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 362,
@@ -911,8 +897,7 @@
                       "raw": "px"
                     }
                   }
-                ],
-                "important": null
+                ]
               }
             }
           }

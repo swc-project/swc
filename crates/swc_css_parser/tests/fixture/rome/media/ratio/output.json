@@ -22,13 +22,13 @@
         },
         "queries": [
           {
-            "type": "Declaration",
+            "type": "MediaFeaturePlain",
             "span": {
               "start": 8,
               "end": 27,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 8,
@@ -68,8 +68,7 @@
                   "raw": "9"
                 }
               }
-            ],
-            "important": null
+            ]
           }
         ]
       },

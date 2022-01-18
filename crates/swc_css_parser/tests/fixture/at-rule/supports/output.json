@@ -315,13 +315,13 @@
                   "raw": "screen"
                 },
                 "right": {
-                  "type": "Declaration",
+                  "type": "MediaFeaturePlain",
                   "span": {
                     "start": 160,
                     "end": 177,
                     "ctxt": 0
                   },
-                  "property": {
+                  "name": {
                     "type": "Identifier",
                     "span": {
                       "start": 160,
@@ -359,8 +359,7 @@
                         "raw": "px"
                       }
                     }
-                  ],
-                  "important": null
+                  ]
                 }
               }
             ]

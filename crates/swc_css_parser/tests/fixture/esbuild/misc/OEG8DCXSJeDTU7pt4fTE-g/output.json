@@ -62,13 +62,13 @@
           "raw": "screen"
         },
         "right": {
-          "type": "Declaration",
+          "type": "MediaFeaturePlain",
           "span": {
             "start": 35,
             "end": 57,
             "ctxt": 0
           },
-          "property": {
+          "name": {
             "type": "Identifier",
             "span": {
               "start": 35,
@@ -89,8 +89,7 @@
               "value": "landscape",
               "raw": "landscape"
             }
-          ],
-          "important": null
+          ]
         }
       }
     }

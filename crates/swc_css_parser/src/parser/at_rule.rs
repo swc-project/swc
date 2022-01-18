@@ -714,7 +714,7 @@ where
             Some(MediaQuery::Or(OrMediaQuery { span, .. })) => span.lo,
             Some(MediaQuery::Not(NotMediaQuery { span, .. })) => span.lo,
             Some(MediaQuery::Only(OnlyMediaQuery { span, .. })) => span.lo,
-            Some(MediaQuery::Declaration(Declaration { span, .. })) => span.lo,
+            Some(MediaQuery::Plain(MediaFeaturePlain { span, .. })) => span.lo,
             _ => {
                 unreachable!();
             }
@@ -725,7 +725,7 @@ where
             Some(MediaQuery::Or(OrMediaQuery { span, .. })) => span.hi,
             Some(MediaQuery::Not(NotMediaQuery { span, .. })) => span.hi,
             Some(MediaQuery::Only(OnlyMediaQuery { span, .. })) => span.hi,
-            Some(MediaQuery::Declaration(Declaration { span, .. })) => span.hi,
+            Some(MediaQuery::Plain(MediaFeaturePlain { span, .. })) => span.hi,
             _ => {
                 unreachable!();
             }
@@ -765,7 +765,7 @@ where
         } else if eat!(self, "(") {
             if is!(self, Ident) {
                 let span = self.input.cur_span()?;
-                let id = self.parse()?;
+                let name = self.parse()?;
 
                 self.input.skip_ws()?;
 
@@ -776,19 +776,19 @@ where
                         allow_operation_in_value: true,
                         ..self.ctx
                     };
+                    // TODO improve and move to own enum, only one value allowed
                     let value = self.with_ctx(ctx).parse_property_values()?.0;
 
                     expect!(self, ")");
 
-                    MediaQuery::Declaration(Declaration {
+                    MediaQuery::Plain(MediaFeaturePlain {
                         span: span!(self, span.lo),
-                        property: id,
+                        name,
                         value,
-                        important: Default::default(),
                     })
                 } else {
                     expect!(self, ")");
-                    MediaQuery::Ident(id)
+                    MediaQuery::Ident(name)
                 }
             } else {
                 let query: MediaQuery = self.parse()?;

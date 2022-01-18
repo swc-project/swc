@@ -388,11 +388,7 @@ where
             MediaQuery::Or(n) => emit!(self, n),
             MediaQuery::Not(n) => emit!(self, n),
             MediaQuery::Only(n) => emit!(self, n),
-            MediaQuery::Declaration(n) => {
-                punct!(self, "(");
-                emit!(self, n);
-                punct!(self, ")");
-            }
+            MediaQuery::Plain(n) => emit!(self, n),
         }
     }
 
@@ -740,6 +736,19 @@ where
         keyword!(self, "only");
         space!(self);
         emit!(self, n.query);
+    }
+
+    #[emitter]
+    fn emit_media_feature_plain(&mut self, n: &MediaFeaturePlain) -> Result {
+        punct!(self, "(");
+        emit!(self, n.name);
+        punct!(self, ":");
+        space!(self);
+        self.emit_list(
+            &n.value,
+            ListFormat::SpaceDelimited | ListFormat::SingleLine,
+        )?;
+        punct!(self, ")");
     }
 
     #[emitter]

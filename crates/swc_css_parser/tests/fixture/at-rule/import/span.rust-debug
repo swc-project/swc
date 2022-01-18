@@ -472,7 +472,7 @@ error: MediaQuery
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |                                          ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Declaration
+error: MediaFeaturePlain
   --> $DIR/tests/fixture/at-rule/import/input.css:11:42
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);

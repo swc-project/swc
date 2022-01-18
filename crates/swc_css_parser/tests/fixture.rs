@@ -319,7 +319,6 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(UrlValue, visit_url_value);
     mtd!(Value, visit_value);
 
-    mtd!(AndMediaQuery, visit_and_media_query);
     mtd!(AndSupportQuery, visit_and_support_query);
     mtd!(CharsetRule, visit_charset_rule);
     mtd!(DocumentRule, visit_document_rule);
@@ -338,13 +337,15 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(MediaRule, visit_media_rule);
     mtd!(MediaQueryList, visit_media_query_list);
     mtd!(MediaQuery, visit_media_query);
+    mtd!(MediaFeaturePlain, visit_media_feature_plain);
+    mtd!(AndMediaQuery, visit_and_media_query);
+    mtd!(OnlyMediaQuery, visit_only_media_query);
+    mtd!(OrMediaQuery, visit_or_media_query);
+    mtd!(NotMediaQuery, visit_not_media_query);
     mtd!(NamespaceUri, visit_namespace_uri);
     mtd!(NamespaceRule, visit_namespace_rule);
     mtd!(NestedPageRule, visit_nested_page_rule);
-    mtd!(NotMediaQuery, visit_not_media_query);
     mtd!(NotSupportQuery, visit_not_support_query);
-    mtd!(OnlyMediaQuery, visit_only_media_query);
-    mtd!(OrMediaQuery, visit_or_media_query);
     mtd!(OrSupportQuery, visit_or_support_query);
     mtd!(PageRule, visit_page_rule);
     mtd!(PageRuleBlock, visit_page_rule_block);
