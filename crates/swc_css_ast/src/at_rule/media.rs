@@ -19,7 +19,7 @@ pub struct MediaQuery {
     pub span: Span,
     pub modifier: Option<Ident>,
     pub media_type: Option<Ident>,
-    pub condition: MediaQueryItem
+    pub condition: MediaQueryItem,
 }
 
 #[ast_node]
@@ -39,11 +39,8 @@ pub enum MediaQueryItem {
     #[tag("OnlyMediaQuery")]
     Only(OnlyMediaQuery),
 
-    #[tag("MediaFeaturePlain")]
-    Plain(MediaFeaturePlain),
-
-    #[tag("MediaFeatureBoolean")]
-    Boolean(MediaFeatureBoolean),
+    #[tag("*")]
+    Feature(MediaFeature),
 }
 
 #[ast_node("AndMediaQuery")]
@@ -70,6 +67,15 @@ pub struct NotMediaQuery {
 pub struct OnlyMediaQuery {
     pub span: Span,
     pub query: Box<MediaQueryItem>,
+}
+
+#[ast_node]
+pub enum MediaFeature {
+    #[tag("MediaFeaturePlain")]
+    Plain(MediaFeaturePlain),
+
+    #[tag("MediaFeatureBoolean")]
+    Boolean(MediaFeatureBoolean),
 }
 
 #[ast_node("MediaFeaturePlain")]

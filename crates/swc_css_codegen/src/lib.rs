@@ -403,8 +403,7 @@ where
             MediaQueryItem::Or(n) => emit!(self, n),
             MediaQueryItem::Not(n) => emit!(self, n),
             MediaQueryItem::Only(n) => emit!(self, n),
-            MediaQueryItem::Plain(n) => emit!(self, n),
-            MediaQueryItem::Boolean(n) => emit!(self, n),
+            MediaQueryItem::Feature(n) => emit!(self, n),
         }
     }
 
@@ -755,8 +754,19 @@ where
     }
 
     #[emitter]
-    fn emit_media_feature_plain(&mut self, n: &MediaFeaturePlain) -> Result {
+    fn emit_media_feature(&mut self, n: &MediaFeature) -> Result {
         punct!(self, "(");
+
+        match n {
+            MediaFeature::Plain(n) => emit!(self, n),
+            MediaFeature::Boolean(n) => emit!(self, n),
+        }
+
+        punct!(self, ")");
+    }
+
+    #[emitter]
+    fn emit_media_feature_plain(&mut self, n: &MediaFeaturePlain) -> Result {
         emit!(self, n.name);
         punct!(self, ":");
         space!(self);
@@ -764,14 +774,11 @@ where
             &n.value,
             ListFormat::SpaceDelimited | ListFormat::SingleLine,
         )?;
-        punct!(self, ")");
     }
 
     #[emitter]
     fn emit_media_feature_boolean(&mut self, n: &MediaFeatureBoolean) -> Result {
-        punct!(self, "(");
         emit!(self, n.name);
-        punct!(self, ")");
     }
 
     #[emitter]

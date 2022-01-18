@@ -344,6 +344,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(OnlyMediaQuery, visit_only_media_query);
     mtd!(OrMediaQuery, visit_or_media_query);
     mtd!(NotMediaQuery, visit_not_media_query);
+    mtd!(MediaFeature, visit_media_feature);
     mtd!(NamespaceUri, visit_namespace_uri);
     mtd!(NamespaceRule, visit_namespace_rule);
     mtd!(NestedPageRule, visit_nested_page_rule);

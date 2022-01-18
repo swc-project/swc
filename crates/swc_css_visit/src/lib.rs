@@ -447,12 +447,12 @@ define!({
         pub span: Span,
         pub queries: Vec<MediaQuery>,
     }
-    
+
     pub struct MediaQuery {
         pub span: Span,
         pub modifier: Option<Ident>,
         pub media_type: Option<Ident>,
-        pub condition: MediaQueryItem
+        pub condition: MediaQueryItem,
     }
 
     pub enum MediaQueryItem {
@@ -461,8 +461,7 @@ define!({
         Or(OrMediaQuery),
         Not(NotMediaQuery),
         Only(OnlyMediaQuery),
-        Plain(MediaFeaturePlain),
-        Boolean(MediaFeatureBoolean),
+        Feature(MediaFeature),
     }
 
     pub struct AndMediaQuery {
@@ -485,6 +484,11 @@ define!({
     pub struct OnlyMediaQuery {
         pub span: Span,
         pub query: Box<MediaQueryItem>,
+    }
+
+    pub enum MediaFeature {
+        Plain(MediaFeaturePlain),
+        Boolean(MediaFeatureBoolean),
     }
 
     pub struct MediaFeaturePlain {

@@ -791,38 +791,13 @@ where
         } else if is!(self, Ident) {
             let ident = self.parse()?;
             MediaQueryItem::Ident(ident)
-        } else if eat!(self, "(") {
-            if is!(self, Ident) {
-                let name = self.parse()?;
+        } else if is!(self, "(") {
+            if peeked_is!(self, Ident) {
+                let media_feature: MediaFeature = self.parse()?;
 
-                self.input.skip_ws()?;
-
-                if eat!(self, ":") {
-                    self.input.skip_ws()?;
-
-                    let ctx = Ctx {
-                        allow_operation_in_value: true,
-                        ..self.ctx
-                    };
-                    // TODO improve and move to own enum, only one value allowed
-                    let value = self.with_ctx(ctx).parse_property_values()?.0;
-
-                    expect!(self, ")");
-
-                    MediaQueryItem::Plain(MediaFeaturePlain {
-                        span: span!(self, span.lo),
-                        name,
-                        value,
-                    })
-                } else {
-                    expect!(self, ")");
-
-                    MediaQueryItem::Boolean(MediaFeatureBoolean {
-                        span: span!(self, span.lo),
-                        name,
-                    })
-                }
+                MediaQueryItem::Feature(media_feature)
             } else {
+                expect!(self, "(");
                 let query: MediaQueryItem = self.parse()?;
                 expect!(self, ")");
 
@@ -855,6 +830,48 @@ where
         }
 
         Ok(base)
+    }
+}
+
+impl<I> Parse<MediaFeature> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<MediaFeature> {
+        let span = self.input.cur_span()?;
+
+        expect!(self, "(");
+
+        let name = self.parse()?;
+
+        self.input.skip_ws()?;
+
+        // TODO implement range support
+        if eat!(self, ":") {
+            self.input.skip_ws()?;
+
+            let ctx = Ctx {
+                allow_operation_in_value: true,
+                ..self.ctx
+            };
+            // TODO improve and move to own enum, only one value allowed
+            let value = self.with_ctx(ctx).parse_property_values()?.0;
+
+            expect!(self, ")");
+
+            Ok(MediaFeature::Plain(MediaFeaturePlain {
+                span: span!(self, span.lo),
+                name,
+                value,
+            }))
+        } else {
+            expect!(self, ")");
+
+            Ok(MediaFeature::Boolean(MediaFeatureBoolean {
+                span: span!(self, span.lo),
+                name,
+            }))
+        }
     }
 }
 

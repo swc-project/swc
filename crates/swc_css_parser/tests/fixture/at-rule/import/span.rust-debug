@@ -484,6 +484,12 @@ error: MediaQueryItem
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |                                         ^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:41
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                                         ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: MediaFeaturePlain
   --> $DIR/tests/fixture/at-rule/import/input.css:11:41
    |
