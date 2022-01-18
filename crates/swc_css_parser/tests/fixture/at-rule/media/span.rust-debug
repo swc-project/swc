@@ -196,6 +196,12 @@ error: MediaQueryItem
 4 | @media screen and (color) {}
   |                   ^^^^^^^
 
+error: MediaInParens
+ --> $DIR/tests/fixture/at-rule/media/input.css:4:19
+  |
+4 | @media screen and (color) {}
+  |                   ^^^^^^^
+
 error: MediaFeature
  --> $DIR/tests/fixture/at-rule/media/input.css:4:19
   |
@@ -274,6 +280,12 @@ error: MediaQueryItem
 5 | @media screen and (color), projection and (color) {}
   |                   ^^^^^^^
 
+error: MediaInParens
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:19
+  |
+5 | @media screen and (color), projection and (color) {}
+  |                   ^^^^^^^
+
 error: MediaFeature
  --> $DIR/tests/fixture/at-rule/media/input.css:5:19
   |
@@ -323,6 +335,12 @@ error: Ident
   |                            ^^^^^^^^^^
 
 error: MediaQueryItem
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:43
+  |
+5 | @media screen and (color), projection and (color) {}
+  |                                           ^^^^^^^
+
+error: MediaInParens
  --> $DIR/tests/fixture/at-rule/media/input.css:5:43
   |
 5 | @media screen and (color), projection and (color) {}
@@ -419,6 +437,12 @@ error: MediaQuery
   |        ^^^^^^^^^^^^^^^^^^
 
 error: MediaQueryItem
+ --> $DIR/tests/fixture/at-rule/media/input.css:7:8
+  |
+7 | @media (min-width: 20em) {}
+  |        ^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
  --> $DIR/tests/fixture/at-rule/media/input.css:7:8
   |
 7 | @media (min-width: 20em) {}
@@ -526,6 +550,12 @@ error: MediaQueryItem
 8 | @media print and (min-resolution: 118dpcm) {}
   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaInParens
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:18
+  |
+8 | @media print and (min-resolution: 118dpcm) {}
+  |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: MediaFeature
  --> $DIR/tests/fixture/at-rule/media/input.css:8:18
   |
@@ -599,6 +629,12 @@ error: MediaQuery
   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQueryItem
+ --> $DIR/tests/fixture/at-rule/media/input.css:9:8
+  |
+9 | @media (device-aspect-ratio: 16/9) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
  --> $DIR/tests/fixture/at-rule/media/input.css:9:8
   |
 9 | @media (device-aspect-ratio: 16/9) {}
@@ -706,6 +742,12 @@ error: MediaQueryItem
 10 | @media (grid) and (max-width: 15em) {}
    |        ^^^^^^
 
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:10:8
+   |
+10 | @media (grid) and (max-width: 15em) {}
+   |        ^^^^^^
+
 error: MediaFeature
   --> $DIR/tests/fixture/at-rule/media/input.css:10:8
    |
@@ -725,6 +767,12 @@ error: Ident
    |         ^^^^
 
 error: MediaQueryItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:10:19
+   |
+10 | @media (grid) and (max-width: 15em) {}
+   |                   ^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:10:19
    |
 10 | @media (grid) and (max-width: 15em) {}
@@ -803,6 +851,12 @@ error: MediaQuery
    |        ^^^^^^^^^^^^^
 
 error: MediaQueryItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:11:8
+   |
+11 | @media (monochrome) {}
+   |        ^^^^^^^^^^^^
+
+error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:11:8
    |
 11 | @media (monochrome) {}
@@ -898,6 +952,12 @@ error: MediaQueryItem
 12 | @media not all and (monochrome) {}
    |                    ^^^^^^^^^^^^
 
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:12:20
+   |
+12 | @media not all and (monochrome) {}
+   |                    ^^^^^^^^^^^^
+
 error: MediaFeature
   --> $DIR/tests/fixture/at-rule/media/input.css:12:20
    |
@@ -988,6 +1048,12 @@ error: MediaQueryItem
 13 | @media not screen and (color), print and (color) {}
    |                       ^^^^^^^
 
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:13:23
+   |
+13 | @media not screen and (color), print and (color) {}
+   |                       ^^^^^^^
+
 error: MediaFeature
   --> $DIR/tests/fixture/at-rule/media/input.css:13:23
    |
@@ -1037,6 +1103,12 @@ error: Ident
    |                                ^^^^^
 
 error: MediaQueryItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:13:42
+   |
+13 | @media not screen and (color), print and (color) {}
+   |                                          ^^^^^^^
+
+error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:13:42
    |
 13 | @media not screen and (color), print and (color) {}
@@ -1127,6 +1199,12 @@ error: Ident
    |             ^^^^^^
 
 error: MediaQueryItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:14:24
+   |
+14 | @media only screen and (color) {}
+   |                        ^^^^^^^
+
+error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:14:24
    |
 14 | @media only screen and (color) {}

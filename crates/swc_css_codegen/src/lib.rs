@@ -403,7 +403,7 @@ where
             MediaQueryItem::Or(n) => emit!(self, n),
             MediaQueryItem::Not(n) => emit!(self, n),
             MediaQueryItem::Only(n) => emit!(self, n),
-            MediaQueryItem::Feature(n) => emit!(self, n),
+            MediaQueryItem::MediaInParens(n) => emit!(self, n),
         }
     }
 
@@ -751,6 +751,13 @@ where
         keyword!(self, "only");
         space!(self);
         emit!(self, n.query);
+    }
+
+    #[emitter]
+    fn emit_media_in_parens(&mut self, n: &MediaInParens) -> Result {
+        match n {
+            MediaInParens::Feature(n) => emit!(self, n),
+        }
     }
 
     #[emitter]

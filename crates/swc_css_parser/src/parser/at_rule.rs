@@ -793,9 +793,9 @@ where
             MediaQueryItem::Ident(ident)
         } else if is!(self, "(") {
             if peeked_is!(self, Ident) {
-                let media_feature: MediaFeature = self.parse()?;
+                let media_feature = self.parse()?;
 
-                MediaQueryItem::Feature(media_feature)
+                MediaQueryItem::MediaInParens(media_feature)
             } else {
                 expect!(self, "(");
                 let query: MediaQueryItem = self.parse()?;
@@ -830,6 +830,15 @@ where
         }
 
         Ok(base)
+    }
+}
+
+impl<I> Parse<MediaInParens> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<MediaInParens> {
+        Ok(MediaInParens::Feature(self.parse()?))
     }
 }
 

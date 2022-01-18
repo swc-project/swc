@@ -39,8 +39,8 @@ pub enum MediaQueryItem {
     #[tag("OnlyMediaQuery")]
     Only(OnlyMediaQuery),
 
-    #[tag("*")]
-    Feature(MediaFeature),
+    #[tag("MediaInParens")]
+    MediaInParens(MediaInParens),
 }
 
 #[ast_node("AndMediaQuery")]
@@ -67,6 +67,18 @@ pub struct NotMediaQuery {
 pub struct OnlyMediaQuery {
     pub span: Span,
     pub query: Box<MediaQueryItem>,
+}
+
+#[ast_node]
+pub enum MediaInParens {
+    // TODO fix me
+    // #[tag("MediaQueryItem")]
+    // MediaQueryItem(MediaQueryItem),
+
+    #[tag("MediaFeature")]
+    Feature(MediaFeature),
+
+    // TODO <general-enclosed>
 }
 
 #[ast_node]

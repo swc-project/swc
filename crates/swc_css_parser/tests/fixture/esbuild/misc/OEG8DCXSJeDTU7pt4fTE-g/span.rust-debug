@@ -88,6 +88,12 @@ error: MediaQueryItem
 1 | @import url("foo.css") screen and (orientation:landscape);
   |                                   ^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaInParens
+ --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:35
+  |
+1 | @import url("foo.css") screen and (orientation:landscape);
+  |                                   ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: MediaFeature
  --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:35
   |

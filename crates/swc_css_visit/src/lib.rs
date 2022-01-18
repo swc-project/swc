@@ -461,7 +461,7 @@ define!({
         Or(OrMediaQuery),
         Not(NotMediaQuery),
         Only(OnlyMediaQuery),
-        Feature(MediaFeature),
+        MediaInParens(MediaInParens),
     }
 
     pub struct AndMediaQuery {
@@ -484,6 +484,10 @@ define!({
     pub struct OnlyMediaQuery {
         pub span: Span,
         pub query: Box<MediaQueryItem>,
+    }
+    
+    pub enum MediaInParens {
+        Feature(MediaFeature),
     }
 
     pub enum MediaFeature {
