@@ -13,55 +13,65 @@
         "end": 30,
         "ctxt": 0
       },
-      "query": {
-        "type": "Declaration",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
           "start": 8,
           "end": 27,
           "ctxt": 0
         },
-        "property": {
-          "type": "Identifier",
-          "span": {
-            "start": 8,
-            "end": 20,
-            "ctxt": 0
-          },
-          "value": "aspect-ratio",
-          "raw": "aspect-ratio"
-        },
-        "value": [
+        "queries": [
           {
-            "type": "BinValue",
+            "type": "Declaration",
             "span": {
-              "start": 22,
-              "end": 26,
+              "start": 8,
+              "end": 27,
               "ctxt": 0
             },
-            "op": "/",
-            "left": {
-              "type": "Number",
+            "property": {
+              "type": "Identifier",
               "span": {
-                "start": 22,
-                "end": 24,
+                "start": 8,
+                "end": 20,
                 "ctxt": 0
               },
-              "value": 12.0,
-              "raw": "12"
+              "value": "aspect-ratio",
+              "raw": "aspect-ratio"
             },
-            "right": {
-              "type": "Number",
-              "span": {
-                "start": 25,
-                "end": 26,
-                "ctxt": 0
-              },
-              "value": 9.0,
-              "raw": "9"
-            }
+            "value": [
+              {
+                "type": "BinValue",
+                "span": {
+                  "start": 22,
+                  "end": 26,
+                  "ctxt": 0
+                },
+                "op": "/",
+                "left": {
+                  "type": "Number",
+                  "span": {
+                    "start": 22,
+                    "end": 24,
+                    "ctxt": 0
+                  },
+                  "value": 12.0,
+                  "raw": "12"
+                },
+                "right": {
+                  "type": "Number",
+                  "span": {
+                    "start": 25,
+                    "end": 26,
+                    "ctxt": 0
+                  },
+                  "value": 9.0,
+                  "raw": "9"
+                }
+              }
+            ],
+            "important": null
           }
-        ],
-        "important": null
+        ]
       },
       "rules": []
     }

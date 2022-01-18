@@ -28,6 +28,12 @@ error: MediaRule
 1 | @media screen and (color) {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaQueryList
+ --> $DIR/tests/fixture/rome/media/feature/input.css:1:8
+  |
+1 | @media screen and (color) {}
+  |        ^^^^^^^^^^^^^^^^^
+
 error: MediaQuery
  --> $DIR/tests/fixture/rome/media/feature/input.css:1:8
   |
@@ -81,6 +87,12 @@ error: MediaRule
   |
 2 | @media only screen and (color) {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/rome/media/feature/input.css:2:8
+  |
+2 | @media only screen and (color) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/rome/media/feature/input.css:2:8
@@ -147,6 +159,12 @@ error: MediaRule
   |
 3 | @media only screen and (min-width: 800px) {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/rome/media/feature/input.css:3:8
+  |
+3 | @media only screen and (min-width: 800px) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/rome/media/feature/input.css:3:8
@@ -244,6 +262,12 @@ error: MediaRule
 4 | @media screen and (min-width       :          800px        ) {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaQueryList
+ --> $DIR/tests/fixture/rome/media/feature/input.css:4:8
+  |
+4 | @media screen and (min-width       :          800px        ) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: MediaQuery
  --> $DIR/tests/fixture/rome/media/feature/input.css:4:8
   |
@@ -327,6 +351,12 @@ error: MediaRule
   |
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/rome/media/feature/input.css:5:8
+  |
+5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/rome/media/feature/input.css:5:8
@@ -519,6 +549,12 @@ error: MediaRule
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/rome/media/feature/input.css:6:8
+  |
+6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:8

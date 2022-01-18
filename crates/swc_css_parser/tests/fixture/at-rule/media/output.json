@@ -13,15 +13,25 @@
         "end": 17,
         "ctxt": 0
       },
-      "query": {
-        "type": "Identifier",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
           "start": 8,
           "end": 14,
           "ctxt": 0
         },
-        "value": "screen",
-        "raw": "screen"
+        "queries": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 8,
+              "end": 14,
+              "ctxt": 0
+            },
+            "value": "screen",
+            "raw": "screen"
+          }
+        ]
       },
       "rules": []
     },
@@ -32,15 +42,25 @@
         "end": 36,
         "ctxt": 0
       },
-      "query": {
-        "type": "Identifier",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
           "start": 26,
           "end": 33,
           "ctxt": 0
         },
-        "value": "screen",
-        "raw": "\\screen"
+        "queries": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 26,
+              "end": 33,
+              "ctxt": 0
+            },
+            "value": "screen",
+            "raw": "\\screen"
+          }
+        ]
       },
       "rules": []
     }

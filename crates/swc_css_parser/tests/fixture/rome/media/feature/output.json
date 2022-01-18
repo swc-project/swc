@@ -13,33 +13,43 @@
         "end": 28,
         "ctxt": 0
       },
-      "query": {
-        "type": "AndMediaQuery",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
           "start": 7,
           "end": 24,
           "ctxt": 0
         },
-        "left": {
-          "type": "Identifier",
-          "span": {
-            "start": 7,
-            "end": 13,
-            "ctxt": 0
-          },
-          "value": "screen",
-          "raw": "screen"
-        },
-        "right": {
-          "type": "Identifier",
-          "span": {
-            "start": 19,
-            "end": 24,
-            "ctxt": 0
-          },
-          "value": "color",
-          "raw": "color"
-        }
+        "queries": [
+          {
+            "type": "AndMediaQuery",
+            "span": {
+              "start": 7,
+              "end": 24,
+              "ctxt": 0
+            },
+            "left": {
+              "type": "Identifier",
+              "span": {
+                "start": 7,
+                "end": 13,
+                "ctxt": 0
+              },
+              "value": "screen",
+              "raw": "screen"
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 19,
+                "end": 24,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            }
+          }
+        ]
       },
       "rules": []
     },
@@ -50,41 +60,51 @@
         "end": 62,
         "ctxt": 0
       },
-      "query": {
-        "type": "OnlyMediaQuery",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
           "start": 36,
           "end": 60,
           "ctxt": 0
         },
-        "query": {
-          "type": "AndMediaQuery",
-          "span": {
-            "start": 41,
-            "end": 58,
-            "ctxt": 0
-          },
-          "left": {
-            "type": "Identifier",
+        "queries": [
+          {
+            "type": "OnlyMediaQuery",
             "span": {
-              "start": 41,
-              "end": 47,
+              "start": 36,
+              "end": 60,
               "ctxt": 0
             },
-            "value": "screen",
-            "raw": "screen"
-          },
-          "right": {
-            "type": "Identifier",
-            "span": {
-              "start": 53,
-              "end": 58,
-              "ctxt": 0
-            },
-            "value": "color",
-            "raw": "color"
+            "query": {
+              "type": "AndMediaQuery",
+              "span": {
+                "start": 41,
+                "end": 58,
+                "ctxt": 0
+              },
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 41,
+                  "end": 47,
+                  "ctxt": 0
+                },
+                "value": "screen",
+                "raw": "screen"
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 53,
+                  "end": 58,
+                  "ctxt": 0
+                },
+                "value": "color",
+                "raw": "color"
+              }
+            }
           }
-        }
+        ]
       },
       "rules": []
     },
@@ -95,79 +115,89 @@
         "end": 107,
         "ctxt": 0
       },
-      "query": {
-        "type": "OnlyMediaQuery",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
           "start": 70,
           "end": 105,
           "ctxt": 0
         },
-        "query": {
-          "type": "AndMediaQuery",
-          "span": {
-            "start": 75,
-            "end": 104,
-            "ctxt": 0
-          },
-          "left": {
-            "type": "Identifier",
+        "queries": [
+          {
+            "type": "OnlyMediaQuery",
             "span": {
-              "start": 75,
-              "end": 81,
+              "start": 70,
+              "end": 105,
               "ctxt": 0
             },
-            "value": "screen",
-            "raw": "screen"
-          },
-          "right": {
-            "type": "Declaration",
-            "span": {
-              "start": 87,
-              "end": 104,
-              "ctxt": 0
-            },
-            "property": {
-              "type": "Identifier",
+            "query": {
+              "type": "AndMediaQuery",
               "span": {
-                "start": 87,
-                "end": 96,
+                "start": 75,
+                "end": 104,
                 "ctxt": 0
               },
-              "value": "min-width",
-              "raw": "min-width"
-            },
-            "value": [
-              {
-                "type": "UnitValue",
+              "left": {
+                "type": "Identifier",
                 "span": {
-                  "start": 98,
-                  "end": 103,
+                  "start": 75,
+                  "end": 81,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 98,
-                    "end": 101,
-                    "ctxt": 0
-                  },
-                  "value": 800.0,
-                  "raw": "800"
+                "value": "screen",
+                "raw": "screen"
+              },
+              "right": {
+                "type": "Declaration",
+                "span": {
+                  "start": 87,
+                  "end": 104,
+                  "ctxt": 0
                 },
-                "unit": {
+                "property": {
+                  "type": "Identifier",
                   "span": {
-                    "start": 101,
-                    "end": 103,
+                    "start": 87,
+                    "end": 96,
                     "ctxt": 0
                   },
-                  "value": "px",
-                  "raw": "px"
-                }
+                  "value": "min-width",
+                  "raw": "min-width"
+                },
+                "value": [
+                  {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 98,
+                      "end": 103,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 98,
+                        "end": 101,
+                        "ctxt": 0
+                      },
+                      "value": 800.0,
+                      "raw": "800"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 101,
+                        "end": 103,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                ],
+                "important": null
               }
-            ],
-            "important": null
+            }
           }
-        }
+        ]
       },
       "rules": []
     },
@@ -178,71 +208,81 @@
         "end": 171,
         "ctxt": 0
       },
-      "query": {
-        "type": "AndMediaQuery",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
           "start": 115,
           "end": 168,
           "ctxt": 0
         },
-        "left": {
-          "type": "Identifier",
-          "span": {
-            "start": 115,
-            "end": 121,
-            "ctxt": 0
-          },
-          "value": "screen",
-          "raw": "screen"
-        },
-        "right": {
-          "type": "Declaration",
-          "span": {
-            "start": 127,
-            "end": 168,
-            "ctxt": 0
-          },
-          "property": {
-            "type": "Identifier",
+        "queries": [
+          {
+            "type": "AndMediaQuery",
             "span": {
-              "start": 127,
-              "end": 136,
+              "start": 115,
+              "end": 168,
               "ctxt": 0
             },
-            "value": "min-width",
-            "raw": "min-width"
-          },
-          "value": [
-            {
-              "type": "UnitValue",
+            "left": {
+              "type": "Identifier",
               "span": {
-                "start": 154,
-                "end": 159,
+                "start": 115,
+                "end": 121,
                 "ctxt": 0
               },
-              "value": {
-                "type": "Number",
-                "span": {
-                  "start": 154,
-                  "end": 157,
-                  "ctxt": 0
-                },
-                "value": 800.0,
-                "raw": "800"
+              "value": "screen",
+              "raw": "screen"
+            },
+            "right": {
+              "type": "Declaration",
+              "span": {
+                "start": 127,
+                "end": 168,
+                "ctxt": 0
               },
-              "unit": {
+              "property": {
+                "type": "Identifier",
                 "span": {
-                  "start": 157,
-                  "end": 159,
+                  "start": 127,
+                  "end": 136,
                   "ctxt": 0
                 },
-                "value": "px",
-                "raw": "px"
-              }
+                "value": "min-width",
+                "raw": "min-width"
+              },
+              "value": [
+                {
+                  "type": "UnitValue",
+                  "span": {
+                    "start": 154,
+                    "end": 159,
+                    "ctxt": 0
+                  },
+                  "value": {
+                    "type": "Number",
+                    "span": {
+                      "start": 154,
+                      "end": 157,
+                      "ctxt": 0
+                    },
+                    "value": 800.0,
+                    "raw": "800"
+                  },
+                  "unit": {
+                    "span": {
+                      "start": 157,
+                      "end": 159,
+                      "ctxt": 0
+                    },
+                    "value": "px",
+                    "raw": "px"
+                  }
+                }
+              ],
+              "important": null
             }
-          ],
-          "important": null
-        }
+          }
+        ]
       },
       "rules": []
     },
@@ -253,339 +293,50 @@
         "end": 257,
         "ctxt": 0
       },
-      "query": {
-        "type": "AndMediaQuery",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
           "start": 179,
           "end": 254,
           "ctxt": 0
         },
-        "left": {
-          "type": "Identifier",
-          "span": {
-            "start": 179,
-            "end": 185,
-            "ctxt": 0
-          },
-          "value": "screen",
-          "raw": "screen"
-        },
-        "right": {
-          "type": "AndMediaQuery",
-          "span": {
-            "start": 190,
-            "end": 254,
-            "ctxt": 0
-          },
-          "left": {
-            "type": "Declaration",
-            "span": {
-              "start": 191,
-              "end": 208,
-              "ctxt": 0
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 191,
-                "end": 200,
-                "ctxt": 0
-              },
-              "value": "min-width",
-              "raw": "min-width"
-            },
-            "value": [
-              {
-                "type": "UnitValue",
-                "span": {
-                  "start": 202,
-                  "end": 207,
-                  "ctxt": 0
-                },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 202,
-                    "end": 205,
-                    "ctxt": 0
-                  },
-                  "value": 800.0,
-                  "raw": "800"
-                },
-                "unit": {
-                  "span": {
-                    "start": 205,
-                    "end": 207,
-                    "ctxt": 0
-                  },
-                  "value": "px",
-                  "raw": "px"
-                }
-              }
-            ],
-            "important": null
-          },
-          "right": {
+        "queries": [
+          {
             "type": "AndMediaQuery",
             "span": {
-              "start": 213,
+              "start": 179,
               "end": 254,
               "ctxt": 0
             },
             "left": {
-              "type": "Declaration",
-              "span": {
-                "start": 214,
-                "end": 231,
-                "ctxt": 0
-              },
-              "property": {
-                "type": "Identifier",
-                "span": {
-                  "start": 214,
-                  "end": 223,
-                  "ctxt": 0
-                },
-                "value": "min-width",
-                "raw": "min-width"
-              },
-              "value": [
-                {
-                  "type": "UnitValue",
-                  "span": {
-                    "start": 225,
-                    "end": 230,
-                    "ctxt": 0
-                  },
-                  "value": {
-                    "type": "Number",
-                    "span": {
-                      "start": 225,
-                      "end": 228,
-                      "ctxt": 0
-                    },
-                    "value": 800.0,
-                    "raw": "800"
-                  },
-                  "unit": {
-                    "span": {
-                      "start": 228,
-                      "end": 230,
-                      "ctxt": 0
-                    },
-                    "value": "px",
-                    "raw": "px"
-                  }
-                }
-              ],
-              "important": null
-            },
-            "right": {
-              "type": "Declaration",
-              "span": {
-                "start": 237,
-                "end": 254,
-                "ctxt": 0
-              },
-              "property": {
-                "type": "Identifier",
-                "span": {
-                  "start": 237,
-                  "end": 246,
-                  "ctxt": 0
-                },
-                "value": "min-width",
-                "raw": "min-width"
-              },
-              "value": [
-                {
-                  "type": "UnitValue",
-                  "span": {
-                    "start": 248,
-                    "end": 253,
-                    "ctxt": 0
-                  },
-                  "value": {
-                    "type": "Number",
-                    "span": {
-                      "start": 248,
-                      "end": 251,
-                      "ctxt": 0
-                    },
-                    "value": 800.0,
-                    "raw": "800"
-                  },
-                  "unit": {
-                    "span": {
-                      "start": 251,
-                      "end": 253,
-                      "ctxt": 0
-                    },
-                    "value": "px",
-                    "raw": "px"
-                  }
-                }
-              ],
-              "important": null
-            }
-          }
-        }
-      },
-      "rules": []
-    },
-    {
-      "type": "MediaRule",
-      "span": {
-        "start": 258,
-        "end": 365,
-        "ctxt": 0
-      },
-      "query": {
-        "type": "AndMediaQuery",
-        "span": {
-          "start": 265,
-          "end": 363,
-          "ctxt": 0
-        },
-        "left": {
-          "type": "Identifier",
-          "span": {
-            "start": 265,
-            "end": 271,
-            "ctxt": 0
-          },
-          "value": "screen",
-          "raw": "screen"
-        },
-        "right": {
-          "type": "AndMediaQuery",
-          "span": {
-            "start": 276,
-            "end": 363,
-            "ctxt": 0
-          },
-          "left": {
-            "type": "Declaration",
-            "span": {
-              "start": 277,
-              "end": 294,
-              "ctxt": 0
-            },
-            "property": {
               "type": "Identifier",
               "span": {
-                "start": 277,
-                "end": 286,
+                "start": 179,
+                "end": 185,
                 "ctxt": 0
               },
-              "value": "min-width",
-              "raw": "min-width"
-            },
-            "value": [
-              {
-                "type": "UnitValue",
-                "span": {
-                  "start": 288,
-                  "end": 293,
-                  "ctxt": 0
-                },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 288,
-                    "end": 291,
-                    "ctxt": 0
-                  },
-                  "value": 800.0,
-                  "raw": "800"
-                },
-                "unit": {
-                  "span": {
-                    "start": 291,
-                    "end": 293,
-                    "ctxt": 0
-                  },
-                  "value": "px",
-                  "raw": "px"
-                }
-              }
-            ],
-            "important": null
-          },
-          "right": {
-            "type": "AndMediaQuery",
-            "span": {
-              "start": 299,
-              "end": 363,
-              "ctxt": 0
-            },
-            "left": {
-              "type": "Declaration",
-              "span": {
-                "start": 300,
-                "end": 317,
-                "ctxt": 0
-              },
-              "property": {
-                "type": "Identifier",
-                "span": {
-                  "start": 300,
-                  "end": 309,
-                  "ctxt": 0
-                },
-                "value": "min-width",
-                "raw": "min-width"
-              },
-              "value": [
-                {
-                  "type": "UnitValue",
-                  "span": {
-                    "start": 311,
-                    "end": 316,
-                    "ctxt": 0
-                  },
-                  "value": {
-                    "type": "Number",
-                    "span": {
-                      "start": 311,
-                      "end": 314,
-                      "ctxt": 0
-                    },
-                    "value": 800.0,
-                    "raw": "800"
-                  },
-                  "unit": {
-                    "span": {
-                      "start": 314,
-                      "end": 316,
-                      "ctxt": 0
-                    },
-                    "value": "px",
-                    "raw": "px"
-                  }
-                }
-              ],
-              "important": null
+              "value": "screen",
+              "raw": "screen"
             },
             "right": {
               "type": "AndMediaQuery",
               "span": {
-                "start": 322,
-                "end": 363,
+                "start": 190,
+                "end": 254,
                 "ctxt": 0
               },
               "left": {
                 "type": "Declaration",
                 "span": {
-                  "start": 323,
-                  "end": 340,
+                  "start": 191,
+                  "end": 208,
                   "ctxt": 0
                 },
                 "property": {
                   "type": "Identifier",
                   "span": {
-                    "start": 323,
-                    "end": 332,
+                    "start": 191,
+                    "end": 200,
                     "ctxt": 0
                   },
                   "value": "min-width",
@@ -595,15 +346,15 @@
                   {
                     "type": "UnitValue",
                     "span": {
-                      "start": 334,
-                      "end": 339,
+                      "start": 202,
+                      "end": 207,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 334,
-                        "end": 337,
+                        "start": 202,
+                        "end": 205,
                         "ctxt": 0
                       },
                       "value": 800.0,
@@ -611,8 +362,8 @@
                     },
                     "unit": {
                       "span": {
-                        "start": 337,
-                        "end": 339,
+                        "start": 205,
+                        "end": 207,
                         "ctxt": 0
                       },
                       "value": "px",
@@ -623,17 +374,166 @@
                 "important": null
               },
               "right": {
+                "type": "AndMediaQuery",
+                "span": {
+                  "start": 213,
+                  "end": 254,
+                  "ctxt": 0
+                },
+                "left": {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 214,
+                    "end": 231,
+                    "ctxt": 0
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 214,
+                      "end": 223,
+                      "ctxt": 0
+                    },
+                    "value": "min-width",
+                    "raw": "min-width"
+                  },
+                  "value": [
+                    {
+                      "type": "UnitValue",
+                      "span": {
+                        "start": 225,
+                        "end": 230,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 225,
+                          "end": 228,
+                          "ctxt": 0
+                        },
+                        "value": 800.0,
+                        "raw": "800"
+                      },
+                      "unit": {
+                        "span": {
+                          "start": 228,
+                          "end": 230,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
+                    }
+                  ],
+                  "important": null
+                },
+                "right": {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 237,
+                    "end": 254,
+                    "ctxt": 0
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 237,
+                      "end": 246,
+                      "ctxt": 0
+                    },
+                    "value": "min-width",
+                    "raw": "min-width"
+                  },
+                  "value": [
+                    {
+                      "type": "UnitValue",
+                      "span": {
+                        "start": 248,
+                        "end": 253,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 248,
+                          "end": 251,
+                          "ctxt": 0
+                        },
+                        "value": 800.0,
+                        "raw": "800"
+                      },
+                      "unit": {
+                        "span": {
+                          "start": 251,
+                          "end": 253,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
+                    }
+                  ],
+                  "important": null
+                }
+              }
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 258,
+        "end": 365,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 265,
+          "end": 363,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "AndMediaQuery",
+            "span": {
+              "start": 265,
+              "end": 363,
+              "ctxt": 0
+            },
+            "left": {
+              "type": "Identifier",
+              "span": {
+                "start": 265,
+                "end": 271,
+                "ctxt": 0
+              },
+              "value": "screen",
+              "raw": "screen"
+            },
+            "right": {
+              "type": "AndMediaQuery",
+              "span": {
+                "start": 276,
+                "end": 363,
+                "ctxt": 0
+              },
+              "left": {
                 "type": "Declaration",
                 "span": {
-                  "start": 346,
-                  "end": 363,
+                  "start": 277,
+                  "end": 294,
                   "ctxt": 0
                 },
                 "property": {
                   "type": "Identifier",
                   "span": {
-                    "start": 346,
-                    "end": 355,
+                    "start": 277,
+                    "end": 286,
                     "ctxt": 0
                   },
                   "value": "min-width",
@@ -643,15 +543,15 @@
                   {
                     "type": "UnitValue",
                     "span": {
-                      "start": 357,
-                      "end": 362,
+                      "start": 288,
+                      "end": 293,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 357,
-                        "end": 360,
+                        "start": 288,
+                        "end": 291,
                         "ctxt": 0
                       },
                       "value": 800.0,
@@ -659,8 +559,8 @@
                     },
                     "unit": {
                       "span": {
-                        "start": 360,
-                        "end": 362,
+                        "start": 291,
+                        "end": 293,
                         "ctxt": 0
                       },
                       "value": "px",
@@ -669,10 +569,170 @@
                   }
                 ],
                 "important": null
+              },
+              "right": {
+                "type": "AndMediaQuery",
+                "span": {
+                  "start": 299,
+                  "end": 363,
+                  "ctxt": 0
+                },
+                "left": {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 300,
+                    "end": 317,
+                    "ctxt": 0
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 300,
+                      "end": 309,
+                      "ctxt": 0
+                    },
+                    "value": "min-width",
+                    "raw": "min-width"
+                  },
+                  "value": [
+                    {
+                      "type": "UnitValue",
+                      "span": {
+                        "start": 311,
+                        "end": 316,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 311,
+                          "end": 314,
+                          "ctxt": 0
+                        },
+                        "value": 800.0,
+                        "raw": "800"
+                      },
+                      "unit": {
+                        "span": {
+                          "start": 314,
+                          "end": 316,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
+                    }
+                  ],
+                  "important": null
+                },
+                "right": {
+                  "type": "AndMediaQuery",
+                  "span": {
+                    "start": 322,
+                    "end": 363,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "Declaration",
+                    "span": {
+                      "start": 323,
+                      "end": 340,
+                      "ctxt": 0
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 323,
+                        "end": 332,
+                        "ctxt": 0
+                      },
+                      "value": "min-width",
+                      "raw": "min-width"
+                    },
+                    "value": [
+                      {
+                        "type": "UnitValue",
+                        "span": {
+                          "start": 334,
+                          "end": 339,
+                          "ctxt": 0
+                        },
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 334,
+                            "end": 337,
+                            "ctxt": 0
+                          },
+                          "value": 800.0,
+                          "raw": "800"
+                        },
+                        "unit": {
+                          "span": {
+                            "start": 337,
+                            "end": 339,
+                            "ctxt": 0
+                          },
+                          "value": "px",
+                          "raw": "px"
+                        }
+                      }
+                    ],
+                    "important": null
+                  },
+                  "right": {
+                    "type": "Declaration",
+                    "span": {
+                      "start": 346,
+                      "end": 363,
+                      "ctxt": 0
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 346,
+                        "end": 355,
+                        "ctxt": 0
+                      },
+                      "value": "min-width",
+                      "raw": "min-width"
+                    },
+                    "value": [
+                      {
+                        "type": "UnitValue",
+                        "span": {
+                          "start": 357,
+                          "end": 362,
+                          "ctxt": 0
+                        },
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 357,
+                            "end": 360,
+                            "ctxt": 0
+                          },
+                          "value": 800.0,
+                          "raw": "800"
+                        },
+                        "unit": {
+                          "span": {
+                            "start": 360,
+                            "end": 362,
+                            "ctxt": 0
+                          },
+                          "value": "px",
+                          "raw": "px"
+                        }
+                      }
+                    ],
+                    "important": null
+                  }
+                }
               }
             }
           }
-        }
+        ]
       },
       "rules": []
     }

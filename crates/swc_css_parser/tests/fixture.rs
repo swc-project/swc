@@ -336,8 +336,9 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(LayerNameList, visit_layer_name_list);
     mtd!(LayerPrelude, visit_layer_prelude);
     mtd!(LayerRule, visit_layer_rule);
-    mtd!(MediaQuery, visit_media_query);
     mtd!(MediaRule, visit_media_rule);
+    mtd!(MediaQueryList, visit_media_query_list);
+    mtd!(MediaQuery, visit_media_query);
     mtd!(NamespaceUri, visit_namespace_uri);
     mtd!(NamespaceRule, visit_namespace_rule);
     mtd!(NestedPageRule, visit_nested_page_rule);

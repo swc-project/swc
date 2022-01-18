@@ -501,15 +501,25 @@
         "end": 415,
         "ctxt": 0
       },
-      "query": {
-        "type": "Identifier",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
           "start": 295,
           "end": 301,
           "ctxt": 0
         },
-        "value": "screen",
-        "raw": "screen"
+        "queries": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 295,
+              "end": 301,
+              "ctxt": 0
+            },
+            "value": "screen",
+            "raw": "screen"
+          }
+        ]
       },
       "rules": [
         {
@@ -755,15 +765,25 @@
         "end": 546,
         "ctxt": 0
       },
-      "query": {
-        "type": "Identifier",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
           "start": 424,
           "end": 430,
           "ctxt": 0
         },
-        "value": "screen",
-        "raw": "screen"
+        "queries": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 424,
+              "end": 430,
+              "ctxt": 0
+            },
+            "value": "screen",
+            "raw": "screen"
+          }
+        ]
       },
       "rules": [
         {

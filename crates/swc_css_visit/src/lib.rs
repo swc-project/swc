@@ -439,10 +439,13 @@ define!({
 
     pub struct MediaRule {
         pub span: Span,
-
-        pub query: Box<MediaQuery>,
-
+        pub media: Box<MediaQueryList>,
         pub rules: Vec<Rule>,
+    }
+
+    pub struct MediaQueryList {
+        pub span: Span,
+        pub queries: Vec<MediaQuery>,
     }
 
     pub enum MediaQuery {

@@ -489,36 +489,46 @@
         "end": 167,
         "ctxt": 0
       },
-      "query": {
-        "type": "Declaration",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
           "start": 82,
           "end": 109,
           "ctxt": 0
         },
-        "property": {
-          "type": "Identifier",
-          "span": {
-            "start": 82,
-            "end": 102,
-            "ctxt": 0
-          },
-          "value": "prefers-color-scheme",
-          "raw": "prefers-color-scheme"
-        },
-        "value": [
+        "queries": [
           {
-            "type": "Identifier",
+            "type": "Declaration",
             "span": {
-              "start": 104,
-              "end": 108,
+              "start": 82,
+              "end": 109,
               "ctxt": 0
             },
-            "value": "dark",
-            "raw": "dark"
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 82,
+                "end": 102,
+                "ctxt": 0
+              },
+              "value": "prefers-color-scheme",
+              "raw": "prefers-color-scheme"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 104,
+                  "end": 108,
+                  "ctxt": 0
+                },
+                "value": "dark",
+                "raw": "dark"
+              }
+            ],
+            "important": null
           }
-        ],
-        "important": null
+        ]
       },
       "rules": [
         {

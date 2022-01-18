@@ -23,6 +23,12 @@ error: MediaRule
 1 | @\media screen {}
   | ^^^^^^^^^^^^^^^^^
 
+error: MediaQueryList
+ --> $DIR/tests/fixture/at-rule/media/input.css:1:9
+  |
+1 | @\media screen {}
+  |         ^^^^^^
+
 error: MediaQuery
  --> $DIR/tests/fixture/at-rule/media/input.css:1:9
   |
@@ -52,6 +58,12 @@ error: MediaRule
   |
 2 | @\media \screen {}
   | ^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/at-rule/media/input.css:2:9
+  |
+2 | @\media \screen {}
+  |         ^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/at-rule/media/input.css:2:9

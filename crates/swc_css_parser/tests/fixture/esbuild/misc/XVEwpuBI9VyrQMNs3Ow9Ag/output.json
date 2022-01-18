@@ -13,15 +13,25 @@
         "end": 16,
         "ctxt": 0
       },
-      "query": {
-        "type": "Identifier",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
           "start": 7,
           "end": 13,
           "ctxt": 0
         },
-        "value": "screen",
-        "raw": "screen"
+        "queries": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 7,
+              "end": 13,
+              "ctxt": 0
+            },
+            "value": "screen",
+            "raw": "screen"
+          }
+        ]
       },
       "rules": []
     }

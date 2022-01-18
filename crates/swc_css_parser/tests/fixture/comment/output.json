@@ -338,15 +338,25 @@
         "end": 314,
         "ctxt": 0
       },
-      "query": {
-        "type": "Identifier",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
           "start": 293,
           "end": 299,
           "ctxt": 0
         },
-        "value": "screen",
-        "raw": "screen"
+        "queries": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 293,
+              "end": 299,
+              "ctxt": 0
+            },
+            "value": "screen",
+            "raw": "screen"
+          }
+        ]
       },
       "rules": []
     },
@@ -357,15 +367,25 @@
         "end": 359,
         "ctxt": 0
       },
-      "query": {
-        "type": "Identifier",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
           "start": 336,
           "end": 342,
           "ctxt": 0
         },
-        "value": "screen",
-        "raw": "screen"
+        "queries": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 336,
+              "end": 342,
+              "ctxt": 0
+            },
+            "value": "screen",
+            "raw": "screen"
+          }
+        ]
       },
       "rules": []
     }

@@ -666,7 +666,7 @@ where
 {
     fn parse(&mut self) -> PResult<MediaRule> {
         let span = self.input.cur_span()?;
-        let query = self.parse()?;
+        let media = self.parse()?;
 
         expect!(self, "{");
 
@@ -678,8 +678,64 @@ where
 
         Ok(MediaRule {
             span: span!(self, span.lo),
-            query,
+            media,
             rules,
+        })
+    }
+}
+
+impl<I> Parse<MediaQueryList> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<MediaQueryList> {
+        self.input.skip_ws()?;
+
+        let query = self.parse()?;
+        let mut queries: Vec<MediaQuery> = vec![query];
+
+        loop {
+            self.input.skip_ws()?;
+
+            if !eat!(self, ",") {
+                break;
+            }
+
+            self.input.skip_ws()?;
+
+            let query = self.parse()?;
+
+            queries.push(query);
+        }
+
+        let start_pos = match queries.first() {
+            Some(MediaQuery::Ident(Ident { span, .. })) => span.lo,
+            Some(MediaQuery::And(AndMediaQuery { span, .. })) => span.lo,
+            Some(MediaQuery::Or(OrMediaQuery { span, .. })) => span.lo,
+            Some(MediaQuery::Not(NotMediaQuery { span, .. })) => span.lo,
+            Some(MediaQuery::Only(OnlyMediaQuery { span, .. })) => span.lo,
+            Some(MediaQuery::Declaration(Declaration { span, .. })) => span.lo,
+            Some(MediaQuery::Comma(CommaMediaQuery { span, .. })) => span.lo,
+            _ => {
+                unreachable!();
+            }
+        };
+        let last_pos = match queries.last() {
+            Some(MediaQuery::Ident(Ident { span, .. })) => span.hi,
+            Some(MediaQuery::And(AndMediaQuery { span, .. })) => span.hi,
+            Some(MediaQuery::Or(OrMediaQuery { span, .. })) => span.hi,
+            Some(MediaQuery::Not(NotMediaQuery { span, .. })) => span.hi,
+            Some(MediaQuery::Only(OnlyMediaQuery { span, .. })) => span.hi,
+            Some(MediaQuery::Declaration(Declaration { span, .. })) => span.hi,
+            Some(MediaQuery::Comma(CommaMediaQuery { span, .. })) => span.hi,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        Ok(MediaQueryList {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            queries,
         })
     }
 }

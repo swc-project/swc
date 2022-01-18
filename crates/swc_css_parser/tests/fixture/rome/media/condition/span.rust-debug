@@ -28,6 +28,12 @@ error: MediaRule
 1 | @media (min-width: 800px) {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaQueryList
+ --> $DIR/tests/fixture/rome/media/condition/input.css:1:9
+  |
+1 | @media (min-width: 800px) {}
+  |         ^^^^^^^^^^^^^^^^^
+
 error: MediaQuery
  --> $DIR/tests/fixture/rome/media/condition/input.css:1:9
   |
@@ -87,6 +93,12 @@ error: MediaRule
   |
 2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/rome/media/condition/input.css:2:8
+  |
+2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/rome/media/condition/input.css:2:8
@@ -255,6 +267,12 @@ error: MediaRule
   |
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/rome/media/condition/input.css:3:8
+  |
+3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/rome/media/condition/input.css:3:8
@@ -478,6 +496,12 @@ error: MediaRule
 4 | @media not (min-width: 800px) {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaQueryList
+ --> $DIR/tests/fixture/rome/media/condition/input.css:4:8
+  |
+4 | @media not (min-width: 800px) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: MediaQuery
  --> $DIR/tests/fixture/rome/media/condition/input.css:4:8
   |
@@ -549,6 +573,12 @@ error: MediaRule
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:8
+  |
+5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:8
@@ -735,6 +765,12 @@ error: MediaRule
 12 | |     }
 13 | | }
    | |_^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:8
+  |
+6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/rome/media/condition/input.css:6:8
