@@ -8,35 +8,29 @@ where
     M: Mode,
 {
     pub(super) fn remove_invalid(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Bin(BinExpr { left, right, .. }) => {
-                self.remove_invalid(left);
-                self.remove_invalid(right);
+        if let Expr::Bin(BinExpr { left, right, .. }) = e {
+            self.remove_invalid(left);
+            self.remove_invalid(right);
 
-                if left.is_invalid() {
-                    *e = *right.take();
-                    self.remove_invalid(e);
-                    return;
-                } else if right.is_invalid() {
-                    *e = *left.take();
-                    self.remove_invalid(e);
-                    return;
-                }
+            if left.is_invalid() {
+                *e = *right.take();
+                self.remove_invalid(e);
+                return;
+            } else if right.is_invalid() {
+                *e = *left.take();
+                self.remove_invalid(e);
+                return;
             }
-            _ => {}
         }
     }
 
     pub(super) fn drop_undefined_from_return_arg(&mut self, s: &mut ReturnStmt) {
-        match s.arg.as_deref() {
-            Some(e) => {
-                if is_pure_undefined(e) {
-                    self.changed = true;
-                    tracing::debug!("Dropped `undefined` from `return undefined`");
-                    s.arg.take();
-                }
+        if let Some(e) = s.arg.as_deref() {
+            if is_pure_undefined(e) {
+                self.changed = true;
+                tracing::debug!("Dropped `undefined` from `return undefined`");
+                s.arg.take();
             }
-            None => {}
         }
     }
 
@@ -56,22 +50,20 @@ where
         // TODO(kdy1): (maybe) run optimization again if it's removed.
 
         for s in stmts.iter_mut() {
-            match s {
-                Stmt::Return(ReturnStmt {
-                    arg: arg @ Some(..),
-                    ..
-                }) => {
-                    self.ignore_return_value(arg.as_deref_mut().unwrap());
+            if let Stmt::Return(ReturnStmt {
+                arg: arg @ Some(..),
+                ..
+            }) = s
+            {
+                self.ignore_return_value(arg.as_deref_mut().unwrap());
 
-                    match arg.as_deref() {
-                        Some(Expr::Invalid(..)) => {
-                            *arg = None;
-                        }
-
-                        _ => {}
+                match arg.as_deref() {
+                    Some(Expr::Invalid(..)) => {
+                        *arg = None;
                     }
+
+                    _ => {}
                 }
-                _ => {}
             }
         }
 
@@ -138,42 +130,60 @@ where
     }
 
     pub(super) fn ignore_return_value(&mut self, e: &mut Expr) {
+        if self.options.side_effects {
+            match e {
+                Expr::Lit(Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..)) | Expr::Ident(..) => {
+                    self.changed = true;
+                    *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                    return;
+                }
+
+                Expr::Lit(Lit::Num(n)) => {
+                    // Skip this
+                    if n.value != 0.0 {
+                        self.changed = true;
+                        *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                        return;
+                    }
+                }
+
+                Expr::Bin(
+                    bin @ BinExpr {
+                        op:
+                            op!(bin, "+")
+                            | op!(bin, "-")
+                            | op!("*")
+                            | op!("/")
+                            | op!("%")
+                            | op!("**")
+                            | op!("^")
+                            | op!("&")
+                            | op!("|"),
+                        ..
+                    },
+                ) => {
+                    self.ignore_return_value(&mut bin.left);
+                    self.ignore_return_value(&mut bin.right);
+
+                    if bin.left.is_invalid() && bin.right.is_invalid() {
+                        *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                    } else if bin.right.is_invalid() {
+                        *e = *bin.left.take();
+                    } else if bin.left.is_invalid() {
+                        *e = *bin.right.take();
+                    }
+
+                    return;
+                }
+
+                _ => {}
+            }
+        }
+
         match e {
             Expr::Lit(Lit::Str(s)) => {
                 if s.value.starts_with("@swc/helpers") || s.value.starts_with("@babel/helpers") {
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
-                }
-            }
-
-            Expr::Lit(Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..)) | Expr::Ident(..) => {
-                self.changed = true;
-                *e = Expr::Invalid(Invalid { span: DUMMY_SP });
-            }
-
-            Expr::Bin(
-                bin @ BinExpr {
-                    op:
-                        op!(bin, "+")
-                        | op!(bin, "-")
-                        | op!("*")
-                        | op!("/")
-                        | op!("%")
-                        | op!("**")
-                        | op!("^")
-                        | op!("&")
-                        | op!("|"),
-                    ..
-                },
-            ) => {
-                self.ignore_return_value(&mut bin.left);
-                self.ignore_return_value(&mut bin.right);
-
-                if bin.left.is_invalid() && bin.right.is_invalid() {
-                    *e = Expr::Invalid(Invalid { span: DUMMY_SP });
-                } else if bin.right.is_invalid() {
-                    *e = *bin.left.take();
-                } else if bin.left.is_invalid() {
-                    *e = *bin.right.take();
                 }
             }
 
