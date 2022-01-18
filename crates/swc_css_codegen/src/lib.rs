@@ -389,6 +389,7 @@ where
             MediaQuery::Not(n) => emit!(self, n),
             MediaQuery::Only(n) => emit!(self, n),
             MediaQuery::Plain(n) => emit!(self, n),
+            MediaQuery::Boolean(n) => emit!(self, n),
         }
     }
 
@@ -748,6 +749,13 @@ where
             &n.value,
             ListFormat::SpaceDelimited | ListFormat::SingleLine,
         )?;
+        punct!(self, ")");
+    }
+
+    #[emitter]
+    fn emit_media_feature_boolean(&mut self, n: &MediaFeatureBoolean) -> Result {
+        punct!(self, "(");
+        emit!(self, n.name);
         punct!(self, ")");
     }
 

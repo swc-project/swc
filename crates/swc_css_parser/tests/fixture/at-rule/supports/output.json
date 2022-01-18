@@ -317,7 +317,7 @@
                 "right": {
                   "type": "MediaFeaturePlain",
                   "span": {
-                    "start": 160,
+                    "start": 159,
                     "end": 177,
                     "ctxt": 0
                   },

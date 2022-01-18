@@ -17,7 +17,7 @@
         "type": "MediaQueryList",
         "span": {
           "start": 7,
-          "end": 24,
+          "end": 25,
           "ctxt": 0
         },
         "queries": [
@@ -25,7 +25,7 @@
             "type": "AndMediaQuery",
             "span": {
               "start": 7,
-              "end": 24,
+              "end": 25,
               "ctxt": 0
             },
             "left": {
@@ -39,14 +39,22 @@
               "raw": "screen"
             },
             "right": {
-              "type": "Identifier",
+              "type": "MediaFeatureBoolean",
               "span": {
-                "start": 19,
-                "end": 24,
+                "start": 18,
+                "end": 25,
                 "ctxt": 0
               },
-              "value": "color",
-              "raw": "color"
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 19,
+                  "end": 24,
+                  "ctxt": 0
+                },
+                "value": "color",
+                "raw": "color"
+              }
             }
           }
         ]
@@ -79,7 +87,7 @@
               "type": "AndMediaQuery",
               "span": {
                 "start": 41,
-                "end": 58,
+                "end": 59,
                 "ctxt": 0
               },
               "left": {
@@ -93,14 +101,22 @@
                 "raw": "screen"
               },
               "right": {
-                "type": "Identifier",
+                "type": "MediaFeatureBoolean",
                 "span": {
-                  "start": 53,
-                  "end": 58,
+                  "start": 52,
+                  "end": 59,
                   "ctxt": 0
                 },
-                "value": "color",
-                "raw": "color"
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 53,
+                    "end": 58,
+                    "ctxt": 0
+                  },
+                  "value": "color",
+                  "raw": "color"
+                }
               }
             }
           }
@@ -150,7 +166,7 @@
               "right": {
                 "type": "MediaFeaturePlain",
                 "span": {
-                  "start": 87,
+                  "start": 86,
                   "end": 104,
                   "ctxt": 0
                 },
@@ -235,7 +251,7 @@
             "right": {
               "type": "MediaFeaturePlain",
               "span": {
-                "start": 127,
+                "start": 126,
                 "end": 168,
                 "ctxt": 0
               },
@@ -326,7 +342,7 @@
               "left": {
                 "type": "MediaFeaturePlain",
                 "span": {
-                  "start": 191,
+                  "start": 190,
                   "end": 208,
                   "ctxt": 0
                 },
@@ -380,7 +396,7 @@
                 "left": {
                   "type": "MediaFeaturePlain",
                   "span": {
-                    "start": 214,
+                    "start": 213,
                     "end": 231,
                     "ctxt": 0
                   },
@@ -427,7 +443,7 @@
                 "right": {
                   "type": "MediaFeaturePlain",
                   "span": {
-                    "start": 237,
+                    "start": 236,
                     "end": 254,
                     "ctxt": 0
                   },
@@ -520,7 +536,7 @@
               "left": {
                 "type": "MediaFeaturePlain",
                 "span": {
-                  "start": 277,
+                  "start": 276,
                   "end": 294,
                   "ctxt": 0
                 },
@@ -574,7 +590,7 @@
                 "left": {
                   "type": "MediaFeaturePlain",
                   "span": {
-                    "start": 300,
+                    "start": 299,
                     "end": 317,
                     "ctxt": 0
                   },
@@ -628,7 +644,7 @@
                   "left": {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 323,
+                      "start": 322,
                       "end": 340,
                       "ctxt": 0
                     },
@@ -675,7 +691,7 @@
                   "right": {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 346,
+                      "start": 345,
                       "end": 363,
                       "ctxt": 0
                     },

@@ -715,6 +715,7 @@ where
             Some(MediaQuery::Not(NotMediaQuery { span, .. })) => span.lo,
             Some(MediaQuery::Only(OnlyMediaQuery { span, .. })) => span.lo,
             Some(MediaQuery::Plain(MediaFeaturePlain { span, .. })) => span.lo,
+            Some(MediaQuery::Boolean(MediaFeatureBoolean { span, .. })) => span.lo,
             _ => {
                 unreachable!();
             }
@@ -726,6 +727,7 @@ where
             Some(MediaQuery::Not(NotMediaQuery { span, .. })) => span.hi,
             Some(MediaQuery::Only(OnlyMediaQuery { span, .. })) => span.hi,
             Some(MediaQuery::Plain(MediaFeaturePlain { span, .. })) => span.hi,
+            Some(MediaQuery::Boolean(MediaFeatureBoolean { span, .. })) => span.hi,
             _ => {
                 unreachable!();
             }
@@ -764,7 +766,6 @@ where
             MediaQuery::Ident(ident)
         } else if eat!(self, "(") {
             if is!(self, Ident) {
-                let span = self.input.cur_span()?;
                 let name = self.parse()?;
 
                 self.input.skip_ws()?;
@@ -788,7 +789,11 @@ where
                     })
                 } else {
                     expect!(self, ")");
-                    MediaQuery::Ident(name)
+
+                    MediaQuery::Boolean(MediaFeatureBoolean {
+                        span: span!(self, span.lo),
+                        name,
+                    })
                 }
             } else {
                 let query: MediaQuery = self.parse()?;

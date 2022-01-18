@@ -492,7 +492,7 @@
       "media": {
         "type": "MediaQueryList",
         "span": {
-          "start": 82,
+          "start": 81,
           "end": 109,
           "ctxt": 0
         },
@@ -500,7 +500,7 @@
           {
             "type": "MediaFeaturePlain",
             "span": {
-              "start": 82,
+              "start": 81,
               "end": 109,
               "ctxt": 0
             },

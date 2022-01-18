@@ -467,16 +467,16 @@ error: Ident
    |                              ^^^^^^
 
 error: MediaQuery
-  --> $DIR/tests/fixture/at-rule/import/input.css:11:42
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:41
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);
-   |                                          ^^^^^^^^^^^^^^^^^^^^^^
+   |                                         ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaFeaturePlain
-  --> $DIR/tests/fixture/at-rule/import/input.css:11:42
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:41
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);
-   |                                          ^^^^^^^^^^^^^^^^^^^^^^
+   |                                         ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/import/input.css:11:42

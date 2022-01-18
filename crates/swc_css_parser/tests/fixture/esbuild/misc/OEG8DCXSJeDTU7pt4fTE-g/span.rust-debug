@@ -77,16 +77,16 @@ error: Ident
   |                        ^^^^^^
 
 error: MediaQuery
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:36
+ --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:35
   |
 1 | @import url("foo.css") screen and (orientation:landscape);
-  |                                    ^^^^^^^^^^^^^^^^^^^^^^
+  |                                   ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaFeaturePlain
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:36
+ --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:35
   |
 1 | @import url("foo.css") screen and (orientation:landscape);
-  |                                    ^^^^^^^^^^^^^^^^^^^^^^
+  |                                   ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:36

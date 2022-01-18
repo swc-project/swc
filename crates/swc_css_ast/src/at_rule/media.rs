@@ -33,6 +33,9 @@ pub enum MediaQuery {
 
     #[tag("MediaFeaturePlain")]
     Plain(MediaFeaturePlain),
+
+    #[tag("MediaFeatureBoolean")]
+    Boolean(MediaFeatureBoolean),
 }
 
 #[ast_node("AndMediaQuery")]
@@ -66,4 +69,10 @@ pub struct MediaFeaturePlain {
     pub span: Span,
     pub name: Ident,
     pub value: Vec<Value>,
+}
+
+#[ast_node("MediaFeatureBoolean")]
+pub struct MediaFeatureBoolean {
+    pub span: Span,
+    pub name: Ident,
 }

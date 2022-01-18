@@ -16,7 +16,7 @@
       "media": {
         "type": "MediaQueryList",
         "span": {
-          "start": 8,
+          "start": 7,
           "end": 25,
           "ctxt": 0
         },
@@ -24,7 +24,7 @@
           {
             "type": "MediaFeaturePlain",
             "span": {
-              "start": 8,
+              "start": 7,
               "end": 25,
               "ctxt": 0
             },
@@ -97,7 +97,7 @@
             "left": {
               "type": "MediaFeaturePlain",
               "span": {
-                "start": 37,
+                "start": 36,
                 "end": 54,
                 "ctxt": 0
               },
@@ -151,7 +151,7 @@
               "left": {
                 "type": "MediaFeaturePlain",
                 "span": {
-                  "start": 60,
+                  "start": 59,
                   "end": 77,
                   "ctxt": 0
                 },
@@ -198,7 +198,7 @@
               "right": {
                 "type": "MediaFeaturePlain",
                 "span": {
-                  "start": 83,
+                  "start": 82,
                   "end": 100,
                   "ctxt": 0
                 },
@@ -273,7 +273,7 @@
             "left": {
               "type": "MediaFeaturePlain",
               "span": {
-                "start": 112,
+                "start": 111,
                 "end": 129,
                 "ctxt": 0
               },
@@ -327,7 +327,7 @@
               "left": {
                 "type": "MediaFeaturePlain",
                 "span": {
-                  "start": 135,
+                  "start": 134,
                   "end": 152,
                   "ctxt": 0
                 },
@@ -381,7 +381,7 @@
                 "left": {
                   "type": "MediaFeaturePlain",
                   "span": {
-                    "start": 158,
+                    "start": 157,
                     "end": 175,
                     "ctxt": 0
                   },
@@ -428,7 +428,7 @@
                 "right": {
                   "type": "MediaFeaturePlain",
                   "span": {
-                    "start": 181,
+                    "start": 180,
                     "end": 198,
                     "ctxt": 0
                   },
@@ -504,7 +504,7 @@
             "query": {
               "type": "MediaFeaturePlain",
               "span": {
-                "start": 214,
+                "start": 213,
                 "end": 231,
                 "ctxt": 0
               },
@@ -578,7 +578,7 @@
             "left": {
               "type": "MediaFeaturePlain",
               "span": {
-                "start": 243,
+                "start": 242,
                 "end": 260,
                 "ctxt": 0
               },
@@ -632,7 +632,7 @@
               "left": {
                 "type": "MediaFeaturePlain",
                 "span": {
-                  "start": 266,
+                  "start": 265,
                   "end": 283,
                   "ctxt": 0
                 },
@@ -679,7 +679,7 @@
               "right": {
                 "type": "MediaFeaturePlain",
                 "span": {
-                  "start": 288,
+                  "start": 287,
                   "end": 305,
                   "ctxt": 0
                 },
@@ -754,7 +754,7 @@
             "left": {
               "type": "MediaFeaturePlain",
               "span": {
-                "start": 317,
+                "start": 316,
                 "end": 334,
                 "ctxt": 0
               },
@@ -808,7 +808,7 @@
               "left": {
                 "type": "MediaFeaturePlain",
                 "span": {
-                  "start": 340,
+                  "start": 339,
                   "end": 357,
                   "ctxt": 0
                 },
@@ -855,7 +855,7 @@
               "right": {
                 "type": "MediaFeaturePlain",
                 "span": {
-                  "start": 362,
+                  "start": 361,
                   "end": 379,
                   "ctxt": 0
                 },

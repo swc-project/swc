@@ -16,7 +16,7 @@
       "media": {
         "type": "MediaQueryList",
         "span": {
-          "start": 8,
+          "start": 7,
           "end": 25,
           "ctxt": 0
         },
@@ -24,7 +24,7 @@
           {
             "type": "MediaFeaturePlain",
             "span": {
-              "start": 8,
+              "start": 7,
               "end": 25,
               "ctxt": 0
             },

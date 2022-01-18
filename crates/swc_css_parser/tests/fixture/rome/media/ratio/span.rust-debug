@@ -23,22 +23,22 @@ error: MediaRule
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQueryList
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:9
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
   |
 1 | @media (aspect-ratio: 12/9) {}
-  |         ^^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:9
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
   |
 1 | @media (aspect-ratio: 12/9) {}
-  |         ^^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^^^^^^^^
 
 error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:9
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
   |
 1 | @media (aspect-ratio: 12/9) {}
-  |         ^^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/media/ratio/input.css:1:9
