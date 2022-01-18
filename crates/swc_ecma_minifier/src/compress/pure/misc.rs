@@ -17,11 +17,9 @@ where
             if left.is_invalid() {
                 *e = *right.take();
                 self.remove_invalid(e);
-                return;
             } else if right.is_invalid() {
                 *e = *left.take();
                 self.remove_invalid(e);
-                return;
             }
         }
     }
@@ -59,12 +57,8 @@ where
             {
                 self.ignore_return_value(arg.as_deref_mut().unwrap());
 
-                match arg.as_deref() {
-                    Some(Expr::Invalid(..)) => {
-                        *arg = None;
-                    }
-
-                    _ => {}
+                if let Some(Expr::Invalid(..)) = arg.as_deref() {
+                    *arg = None;
                 }
             }
         }
