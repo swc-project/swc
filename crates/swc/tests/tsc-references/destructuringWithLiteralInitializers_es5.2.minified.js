@@ -1,4 +1,3 @@
-var param;
 function _arrayLikeToArray(arr, len) {
     (null == len || len > arr.length) && (len = arr.length);
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
@@ -36,11 +35,11 @@ function _unsupportedIterableToArray(o, minLen) {
         if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
     }
 }
-function f2(param1) {
-    param1.x, param1.y;
+function f2(param) {
+    param.x, param.y;
 }
-function f3(param2) {
-    param2.x, param2.y;
+function f3(param) {
+    param.x, param.y;
 }
 function f4() {
     var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
@@ -82,10 +81,12 @@ function g5() {
     var ref = _slicedToArray(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [], 2);
     ref[0], ref[1];
 }
-(param = {
+(function(param) {
+    param.x, param.y;
+})({
     x: 1,
     y: 1
-}).x, param.y, f2({
+}), f2({
     x: 1
 }), f2({
     x: 1,
@@ -127,14 +128,14 @@ function g5() {
         x: 1,
         y: 1
     }
-}), (function(param3) {
-    var _param = _slicedToArray(param3, 2);
+}), (function(param) {
+    var _param = _slicedToArray(param, 2);
     _param[0], _param[1];
 })([
     1,
     1
-]), (function(param4) {
-    var _param = _slicedToArray(param4, 2);
+]), (function(param) {
+    var _param = _slicedToArray(param, 2);
     _param[0], _param[1];
 })([
     1,

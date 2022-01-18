@@ -135,7 +135,9 @@ a1([
             !1
         ]
     ]
-]), (Foo = Foo || (Foo = {}))[Foo.a = 0] = "a", c0({
+]), (function(Foo) {
+    Foo[Foo.a = 0] = "a";
+})(Foo || (Foo = {})), c0({
     z: {
         x: 1,
         y: {
@@ -178,7 +180,7 @@ a1([
     !1,
     !0
 ]);
-var Foo, Foo, C2 = function() {
+var Foo, C2 = function() {
     "use strict";
     function C2() {
         _classCallCheck(this, C2);

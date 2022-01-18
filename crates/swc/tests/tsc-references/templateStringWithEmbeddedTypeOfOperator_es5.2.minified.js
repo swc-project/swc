@@ -1,2 +1,3 @@
-var obj;
-"abc".concat((obj = "hi", "undefined" != typeof Symbol && obj.constructor === Symbol) ? "symbol" : typeof obj, "def");
+"abc".concat(function(obj) {
+    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
+}("hi"), "def");

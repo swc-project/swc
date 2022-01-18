@@ -1,4 +1,5 @@
 {
     "defaults": true,
-    "toplevel": false
+    "toplevel": true,
+    "module": true
 }

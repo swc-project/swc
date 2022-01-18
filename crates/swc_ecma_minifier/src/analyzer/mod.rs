@@ -676,6 +676,21 @@ where
         }
     }
 
+    fn visit_pat_or_expr(&mut self, n: &PatOrExpr) {
+        match n {
+            PatOrExpr::Expr(e) => {
+                if let Expr::Ident(i) = &**e {
+                    self.visit_pat_id(&i)
+                } else {
+                    e.visit_with(self);
+                }
+            }
+            PatOrExpr::Pat(p) => {
+                p.visit_with(self);
+            }
+        }
+    }
+
     fn visit_prop(&mut self, n: &Prop) {
         let ctx = Ctx {
             in_update_arg: false,

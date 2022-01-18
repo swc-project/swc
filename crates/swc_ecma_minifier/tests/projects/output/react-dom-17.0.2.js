@@ -9458,9 +9458,9 @@
             };
         })(children1, container, null, key1);
     }
-    if (("function" != typeof Map || null == Map.prototype || "function" != typeof Map.prototype.forEach || "function" != typeof Set || null == Set.prototype || "function" != typeof Set.prototype.clear || "function" != typeof Set.prototype.forEach) && error1("React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"), (function(impl) {
+    if (("function" != typeof Map || null == Map.prototype || "function" != typeof Map.prototype.forEach || "function" != typeof Set || null == Set.prototype || "function" != typeof Set.prototype.clear || "function" != typeof Set.prototype.forEach) && error1("React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"), !function(impl) {
         restoreImpl = impl;
-    })(function(domElement, tag, props16) {
+    }(function(domElement, tag, props16) {
         var element, props14, node, element2, props15, value;
         switch(tag){
             case "input":
@@ -9486,9 +9486,9 @@
                 element2 = domElement, null != (value = (props15 = props16).value) && updateOptions(element2, !!props15.multiple, value, !1);
                 return;
         }
-    }), (function(_batchedUpdatesImpl, _discreteUpdatesImpl, _flushDiscreteUpdatesImpl, _batchedEventUpdatesImpl) {
+    }), !function(_batchedUpdatesImpl, _discreteUpdatesImpl, _flushDiscreteUpdatesImpl, _batchedEventUpdatesImpl) {
         batchedUpdatesImpl = _batchedUpdatesImpl, discreteUpdatesImpl = _discreteUpdatesImpl, flushDiscreteUpdatesImpl = _flushDiscreteUpdatesImpl, batchedEventUpdatesImpl = _batchedEventUpdatesImpl;
-    })(batchedUpdates$1, function(fn, a, b, c, d) {
+    }(batchedUpdates$1, function(fn, a, b, c, d) {
         var prevExecutionContext = executionContext;
         executionContext |= 4;
         try {

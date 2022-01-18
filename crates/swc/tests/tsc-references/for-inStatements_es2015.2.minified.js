@@ -1,4 +1,4 @@
-var aString, anAny, c, d, e, i, M, Color, Color;
+var aString, anAny, c, d, e, i, M, Color;
 for(aString in {});
 for(anAny in {});
 for(var x in {});
@@ -29,5 +29,7 @@ for(var x in i[42]);
 for(var x in (M || (M = {})).X = class {
 }, M);
 for(var x in M.X);
-for(var x in (Color = Color || (Color = {}))[Color.Red = 0] = "Red", Color[Color.Blue = 1] = "Blue", Color);
+for(var x in !function(Color) {
+    Color[Color.Red = 0] = "Red", Color[Color.Blue = 1] = "Blue";
+}(Color || (Color = {})), Color);
 for(var x in Color.Blue);

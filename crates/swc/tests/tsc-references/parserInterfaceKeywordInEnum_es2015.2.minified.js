@@ -1,2 +1,4 @@
-var Bar, Bar;
-(Bar = Bar || (Bar = {}))[Bar.interface = 0] = "interface";
+var Bar;
+!function(Bar) {
+    Bar[Bar.interface = 0] = "interface";
+}(Bar || (Bar = {}));

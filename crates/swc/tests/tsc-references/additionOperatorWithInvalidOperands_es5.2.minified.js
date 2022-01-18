@@ -1,4 +1,4 @@
-var E, M, E, C = function() {
+var E, M, C = function() {
     "use strict";
     var Constructor;
     function C() {
@@ -18,7 +18,9 @@ var E, M, E, C = function() {
         }
     ]), C;
 }();
-(E = E || (E = {}))[E.a = 0] = "a", E[E.b = 1] = "b", E[E.c = 2] = "c", (function(M1) {
+(function(E) {
+    E[E.a = 0] = "a", E[E.b = 1] = "b", E[E.c = 2] = "c";
+})(E || (E = {})), (function(M1) {
     var a;
     M1.a = a;
 })(M || (M = {})), {} + {}, E.a + new C(), E.a + C.foo(), E.a;

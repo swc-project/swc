@@ -45,9 +45,11 @@ export var val = null;
 r = q = r, y = x = y;
 export var argumentsOfGAsFirstArgument = f(getArgsForInjection(g));
 export var argumentsOfG = f.apply(void 0, function(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}(arr = getArgsForInjection(g)) || function(iter) {
-    if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
-}(arr) || _unsupportedIterableToArray(arr) || function() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}()); // captured arguments list re-spread
+    return (function(arr) {
+        if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+    })(arr) || (function(iter) {
+        if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
+    })(arr) || _unsupportedIterableToArray(arr) || (function() {
+        throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    })();
+}(getArgsForInjection(g))); // captured arguments list re-spread

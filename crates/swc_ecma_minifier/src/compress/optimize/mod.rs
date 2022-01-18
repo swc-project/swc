@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
 use self::util::MultiReplacer;
-use super::util::is_fine_for_if_cons;
+use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
     compress::util::is_pure_undefined,
@@ -242,7 +242,7 @@ where
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self>,
-        Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer>,
+        Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer> + VisitWith<AssertValid>,
     {
         match self.data {
             Some(..) => {}
@@ -260,8 +260,8 @@ where
 
             if stmts.len() >= 1 {
                 // TODO: Handle multiple directives.
-                match stmts[0].as_stmt() {
-                    Some(Stmt::Expr(ExprStmt { expr, .. })) => match &**expr {
+                if let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmts[0].as_stmt() {
+                    match &**expr {
                         Expr::Lit(Lit::Str(v)) => {
                             directive_count += 1;
 
@@ -276,8 +276,7 @@ where
                             }
                         }
                         _ => {}
-                    },
-                    _ => {}
+                    }
                 }
             }
 
@@ -313,25 +312,55 @@ where
 
         self.ctx.in_asm |= use_asm;
 
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
+
         self.reorder_stmts(stmts);
+
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
 
         self.merge_sequences_in_stmts(stmts);
 
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
+
         self.merge_similar_ifs(stmts);
+
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
+
         self.join_vars(stmts);
+
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
 
         self.make_sequences(stmts);
 
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
+
         self.drop_else_token(stmts);
+
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
 
         self.break_assignments_in_seqs(stmts);
 
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
+
         // stmts.extend(self.append_stmts.drain(..).map(T::from_stmt));
 
-        stmts.retain(|stmt| match stmt.as_stmt() {
-            Some(Stmt::Empty(..)) => false,
-            _ => true,
-        });
+        drop_invalid_stmts(stmts);
 
         // debug_assert_eq!(self.prepend_stmts, vec![]);
         // self.prepend_stmts = prepend_stmts;
@@ -1581,6 +1610,10 @@ where
         }
 
         self.prepend_stmts = prepend;
+
+        if let BlockStmtOrExpr::BlockStmt(body) = &mut n.body {
+            drop_invalid_stmts(&mut body.stmts);
+        }
     }
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
@@ -1949,7 +1982,7 @@ where
             }
         }
 
-        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+        if cfg!(debug_assertions) {
             n.visit_with(&mut AssertValid);
         }
     }
@@ -2039,12 +2072,12 @@ where
             let optimizer = &mut *self.with_ctx(ctx);
 
             n.params.visit_mut_with(optimizer);
-            match n.body.as_mut() {
-                Some(body) => {
-                    // Bypass block scope handler.
-                    body.visit_mut_children_with(optimizer);
+            if let Some(body) = n.body.as_mut() {
+                // Bypass block scope handler.
+                body.visit_mut_children_with(optimizer);
+                if cfg!(debug_assertions) {
+                    body.visit_with(&mut AssertValid);
                 }
-                None => {}
             }
         }
 
@@ -2063,7 +2096,11 @@ where
 
         self.ctx.in_asm = old_in_asm;
 
-        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+        if let Some(body) = &mut n.body {
+            drop_invalid_stmts(&mut body.stmts);
+        }
+
+        if cfg!(debug_assertions) {
             n.visit_with(&mut AssertValid);
         }
     }
@@ -2140,10 +2177,7 @@ where
             changed: false,
         });
 
-        stmts.retain(|s| match s {
-            ModuleItem::Stmt(Stmt::Empty(..)) => false,
-            _ => true,
-        });
+        drop_invalid_stmts(stmts);
     }
 
     fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
@@ -2184,14 +2218,12 @@ where
             Some(VarDeclOrExpr::Expr(e)) => match &mut **e {
                 Expr::Seq(SeqExpr { exprs, .. }) if exprs.is_empty() => {
                     *n = None;
-                    return;
                 }
                 _ => {}
             },
             Some(VarDeclOrExpr::VarDecl(v)) => {
                 if v.decls.is_empty() {
                     *n = None;
-                    return;
                 }
             }
             _ => {}
@@ -2230,7 +2262,7 @@ where
             _ => {}
         }
 
-        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+        if cfg!(debug_assertions) {
             n.visit_with(&mut AssertValid);
         }
     }
@@ -2335,6 +2367,20 @@ where
             ..self.ctx
         };
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        if self.prepend_stmts.is_empty() && self.append_stmts.is_empty() {
+            match s {
+                // We use var decl with no declarator to indicate we dropped an decl.
+                Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => {
+                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    return;
+                }
+                _ => {}
+            }
+
+            if cfg!(debug_assertions) {
+                s.visit_with(&mut AssertValid);
+            }
+        }
 
         if let Stmt::Labeled(LabeledStmt {
             label: Ident {
@@ -2369,8 +2415,17 @@ where
                     .into_iter()
                     .chain(once(s.take()))
                     .chain(self.append_stmts.take().into_iter())
+                    .filter(|s| match s {
+                        Stmt::Empty(..) => false,
+                        Stmt::Decl(Decl::Var(v)) => !v.decls.is_empty(),
+                        _ => true,
+                    })
                     .collect(),
             });
+
+            if cfg!(debug_assertions) {
+                s.visit_with(&mut AssertValid);
+            }
         }
 
         self.prepend_stmts = old_prepend;
@@ -2438,6 +2493,10 @@ where
             _ => {}
         }
 
+        if cfg!(debug_assertions) {
+            s.visit_with(&mut AssertValid);
+        }
+
         self.compress_if_without_alt(s);
 
         self.compress_if_stmt_as_cond(s);
@@ -2456,7 +2515,7 @@ where
             }
         }
 
-        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+        if cfg!(debug_assertions) {
             s.visit_with(&mut AssertValid);
         }
     }
@@ -2473,10 +2532,7 @@ where
 
         self.with_ctx(ctx).merge_var_decls(stmts);
 
-        stmts.retain(|s| match s {
-            Stmt::Empty(..) => false,
-            _ => true,
-        });
+        drop_invalid_stmts(stmts);
 
         if stmts.len() == 1 {
             match &stmts[0] {
@@ -2492,7 +2548,7 @@ where
             }
         }
 
-        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+        if cfg!(debug_assertions) {
             stmts.visit_with(&mut AssertValid);
         }
     }

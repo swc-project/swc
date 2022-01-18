@@ -382,21 +382,6 @@ where
         }
     }
 
-    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
-
-            if let Some(ident) = self.optimize_property_of_member_expr(None, c) {
-                e.prop = SuperProp::Ident(ident);
-                return;
-            };
-
-            if let Some(ident) = self.handle_known_computed_member_expr(c) {
-                e.prop = SuperProp::Ident(ident)
-            };
-        }
-    }
-
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         self.visit_par(items);
 
@@ -413,6 +398,20 @@ where
         }
 
         e.args.visit_mut_with(self);
+    }
+
+    fn visit_mut_pat_or_expr(&mut self, n: &mut PatOrExpr) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            PatOrExpr::Expr(e) => {
+                //
+                if let Expr::Ident(i) = &mut **e {
+                    *n = PatOrExpr::Pat(i.clone().into());
+                }
+            }
+            PatOrExpr::Pat(_) => {}
+        }
     }
 
     fn visit_mut_prop(&mut self, p: &mut Prop) {
@@ -558,6 +557,21 @@ where
 
         if cfg!(debug_assertions) {
             items.visit_with(&mut AssertValid);
+        }
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
+
+            if let Some(ident) = self.optimize_property_of_member_expr(None, c) {
+                e.prop = SuperProp::Ident(ident);
+                return;
+            };
+
+            if let Some(ident) = self.handle_known_computed_member_expr(c) {
+                e.prop = SuperProp::Ident(ident)
+            };
         }
     }
 

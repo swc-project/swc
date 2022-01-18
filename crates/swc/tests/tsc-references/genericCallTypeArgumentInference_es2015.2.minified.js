@@ -1,4 +1,3 @@
-"";
 var i, c = new class {
     foo(t, u) {
         return t;

@@ -4,7 +4,7 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::fixer;
-use swc_ecma_utils::{ExprExt, Id, UsageFinder, Value};
+use swc_ecma_utils::{ExprExt, Id, StmtLike, UsageFinder, Value};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith, VisitWith};
 use unicode_xid::UnicodeXID;
 
@@ -614,4 +614,15 @@ pub(super) fn is_fine_for_if_cons(s: &Stmt) -> bool {
         Stmt::Decl(..) => false,
         _ => true,
     }
+}
+
+pub(super) fn drop_invalid_stmts<T>(stmts: &mut Vec<T>)
+where
+    T: StmtLike,
+{
+    stmts.retain(|s| match s.as_stmt() {
+        Some(Stmt::Empty(..)) => false,
+        Some(Stmt::Decl(Decl::Var(v))) => !v.decls.is_empty(),
+        _ => true,
+    });
 }
