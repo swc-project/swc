@@ -24,6 +24,7 @@ use crate::{
         precompress::precompress_optimizer,
     },
 };
+use debug::dump;
 use mode::Minification;
 use pass::postcompress::postcompress_optimizer;
 use swc_common::{comments::Comments, sync::Lrc, SourceMap, GLOBALS};
@@ -31,6 +32,7 @@ use swc_ecma_ast::Module;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use swc_timer::timer;
 use timing::Timings;
+use tracing::info;
 
 mod analyzer;
 mod compress;
@@ -57,6 +59,10 @@ pub fn optimize(
     extra: &ExtraOptions,
 ) -> Module {
     let _timer = timer!("minify");
+
+    if cfg!(debug_assertions) && cfg!(feature = "debug") {
+        info!("Input:\n{}", dump(&m, true));
+    }
 
     let marks = Marks::new();
 
