@@ -1,4 +1,4 @@
-use self::ctx::Ctx;
+use self::{ctx::Ctx, misc::DropOpts};
 use crate::{
     debug::{dump, AssertValid},
     marks::Marks,
@@ -285,7 +285,13 @@ where
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
         s.visit_mut_children_with(self);
 
-        self.ignore_return_value(&mut s.expr, true);
+        self.ignore_return_value(
+            &mut s.expr,
+            DropOpts {
+                drop_zero: true,
+                drop_str_lit: false,
+            },
+        );
     }
 
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {
@@ -460,7 +466,13 @@ where
             let is_last = idx == len - 1;
 
             if !is_last {
-                self.ignore_return_value(&mut **e, false);
+                self.ignore_return_value(
+                    &mut **e,
+                    DropOpts {
+                        drop_zero: false,
+                        drop_str_lit: true,
+                    },
+                );
             }
         }
 

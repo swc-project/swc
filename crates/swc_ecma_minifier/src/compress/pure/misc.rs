@@ -53,7 +53,13 @@ where
                 ..
             }) = s
             {
-                self.ignore_return_value(arg.as_deref_mut().unwrap(), true);
+                self.ignore_return_value(
+                    arg.as_deref_mut().unwrap(),
+                    DropOpts {
+                        drop_zero: true,
+                        drop_str_lit: true,
+                    },
+                );
 
                 if let Some(Expr::Invalid(..)) = arg.as_deref() {
                     self.changed = true;
@@ -124,7 +130,7 @@ where
         }
     }
 
-    pub(super) fn ignore_return_value(&mut self, e: &mut Expr, drop_zero: bool) {
+    pub(super) fn ignore_return_value(&mut self, e: &mut Expr, opts: DropOpts) {
         if self.options.unused {
             if let Expr::Lit(Lit::Num(n)) = e {
                 // Skip 0
@@ -139,7 +145,7 @@ where
         if self.options.unused || self.options.side_effects {
             match e {
                 Expr::Lit(Lit::Num(n)) => {
-                    if n.value == 0.0 && drop_zero {
+                    if n.value == 0.0 && opts.drop_zero {
                         self.changed = true;
                         *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                         return;
@@ -175,8 +181,20 @@ where
                         ..
                     },
                 ) => {
-                    self.ignore_return_value(&mut bin.left, true);
-                    self.ignore_return_value(&mut bin.right, true);
+                    self.ignore_return_value(
+                        &mut bin.left,
+                        DropOpts {
+                            drop_zero: true,
+                            drop_str_lit: true,
+                        },
+                    );
+                    self.ignore_return_value(
+                        &mut bin.right,
+                        DropOpts {
+                            drop_zero: true,
+                            drop_str_lit: true,
+                        },
+                    );
 
                     if bin.left.is_invalid() && bin.right.is_invalid() {
                         *e = Expr::Invalid(Invalid { span: DUMMY_SP });
@@ -195,7 +213,13 @@ where
                     arg,
                     ..
                 }) => {
-                    self.ignore_return_value(&mut **arg, true);
+                    self.ignore_return_value(
+                        &mut **arg,
+                        DropOpts {
+                            drop_str_lit: true,
+                            drop_zero: true,
+                        },
+                    );
 
                     if arg.is_invalid() {
                         *e = Expr::Invalid(Invalid { span: DUMMY_SP });
@@ -209,7 +233,10 @@ where
 
         match e {
             Expr::Lit(Lit::Str(s)) => {
-                if s.value.starts_with("@swc/helpers") || s.value.starts_with("@babel/helpers") {
+                if opts.drop_str_lit
+                    || (s.value.starts_with("@swc/helpers")
+                        || s.value.starts_with("@babel/helpers"))
+                {
                     self.changed = true;
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                 }
@@ -220,7 +247,7 @@ where
 
                 if let Some(last) = e.exprs.last_mut() {
                     // Non-last elements are already processed.
-                    self.ignore_return_value(&mut **last, drop_zero);
+                    self.ignore_return_value(&mut **last, opts);
                 }
 
                 let len = e.exprs.len();
@@ -252,4 +279,10 @@ where
             _ => {}
         }
     }
+}
+
+#[derive(Debug, Default, Clone, Copy)]
+pub(super) struct DropOpts {
+    pub drop_zero: bool,
+    pub drop_str_lit: bool,
 }
