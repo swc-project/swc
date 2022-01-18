@@ -1,2 +1,7 @@
 @\media screen {}
 @\media \screen {}
+@media screen {}
+@media screen and (color) {}
+@media screen and (color), projection and (color) {}
+@media all {}
+

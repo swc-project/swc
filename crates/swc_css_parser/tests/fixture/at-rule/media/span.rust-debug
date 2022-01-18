@@ -3,7 +3,12 @@ error: Stylesheet
   |
 1 | / @\media screen {}
 2 | | @\media \screen {}
-  | |___________________^
+3 | | @media screen {}
+4 | | @media screen and (color) {}
+5 | | @media screen and (color), projection and (color) {}
+6 | | @media all {}
+7 | |
+  | |_^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:1:1
@@ -76,4 +81,244 @@ error: Ident
   |
 2 | @\media \screen {}
   |         ^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/media/input.css:3:1
+  |
+3 | @media screen {}
+  | ^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:3:1
+  |
+3 | @media screen {}
+  | ^^^^^^^^^^^^^^^^
+
+error: MediaRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:3:1
+  |
+3 | @media screen {}
+  | ^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/at-rule/media/input.css:3:8
+  |
+3 | @media screen {}
+  |        ^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:3:8
+  |
+3 | @media screen {}
+  |        ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/media/input.css:3:8
+  |
+3 | @media screen {}
+  |        ^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/media/input.css:4:1
+  |
+4 | @media screen and (color) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:4:1
+  |
+4 | @media screen and (color) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:4:1
+  |
+4 | @media screen and (color) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/at-rule/media/input.css:4:8
+  |
+4 | @media screen and (color) {}
+  |        ^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:4:8
+  |
+4 | @media screen and (color) {}
+  |        ^^^^^^^^^^^^^^^^^
+
+error: AndMediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:4:8
+  |
+4 | @media screen and (color) {}
+  |        ^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:4:8
+  |
+4 | @media screen and (color) {}
+  |        ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/media/input.css:4:8
+  |
+4 | @media screen and (color) {}
+  |        ^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:4:20
+  |
+4 | @media screen and (color) {}
+  |                    ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/media/input.css:4:20
+  |
+4 | @media screen and (color) {}
+  |                    ^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:1
+  |
+5 | @media screen and (color), projection and (color) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:1
+  |
+5 | @media screen and (color), projection and (color) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:1
+  |
+5 | @media screen and (color), projection and (color) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:8
+  |
+5 | @media screen and (color), projection and (color) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:8
+  |
+5 | @media screen and (color), projection and (color) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AndMediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:8
+  |
+5 | @media screen and (color), projection and (color) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:8
+  |
+5 | @media screen and (color), projection and (color) {}
+  |        ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:8
+  |
+5 | @media screen and (color), projection and (color) {}
+  |        ^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:19
+  |
+5 | @media screen and (color), projection and (color) {}
+  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CommaMediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:19
+  |
+5 | @media screen and (color), projection and (color) {}
+  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:20
+  |
+5 | @media screen and (color), projection and (color) {}
+  |                    ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:20
+  |
+5 | @media screen and (color), projection and (color) {}
+  |                    ^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:28
+  |
+5 | @media screen and (color), projection and (color) {}
+  |                            ^^^^^^^^^^^^^^^^^^^^^
+
+error: AndMediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:28
+  |
+5 | @media screen and (color), projection and (color) {}
+  |                            ^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:28
+  |
+5 | @media screen and (color), projection and (color) {}
+  |                            ^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:28
+  |
+5 | @media screen and (color), projection and (color) {}
+  |                            ^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:44
+  |
+5 | @media screen and (color), projection and (color) {}
+  |                                            ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:44
+  |
+5 | @media screen and (color), projection and (color) {}
+  |                                            ^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/media/input.css:6:1
+  |
+6 | @media all {}
+  | ^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:6:1
+  |
+6 | @media all {}
+  | ^^^^^^^^^^^^^
+
+error: MediaRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:6:1
+  |
+6 | @media all {}
+  | ^^^^^^^^^^^^^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/at-rule/media/input.css:6:8
+  |
+6 | @media all {}
+  |        ^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:6:8
+  |
+6 | @media all {}
+  |        ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/media/input.css:6:8
+  |
+6 | @media all {}
+  |        ^^^
 
