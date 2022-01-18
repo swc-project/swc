@@ -30,6 +30,10 @@ pub enum PluginError {
     /// raw bytes: when serialze failed, there's nothing we can pass between
     /// runtime.
     Serialize(String),
+    /// When plugin fails to transform for some reason.
+    /// This is incomplete yet as it is unclear what kind of data plugin want to
+    /// forward into host.
+    Transform,
 }
 
 /// Wraps internal representation of serialized data. Consumers should not

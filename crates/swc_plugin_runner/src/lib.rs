@@ -246,6 +246,10 @@ impl PluginTransformTracker {
                     "Failed to convert pointer size to calculate: {}",
                     msg
                 )),
+                PluginError::Deserialize((msg, ..)) | PluginError::Serialize(msg) => {
+                    Err(anyhow!("{}", msg))
+                }
+                PluginError::Transform => Err(anyhow!("Failed to apply transform via plugin")),
                 _ => Err(anyhow!(
                     "Unexpected error occurred while running plugin transform"
                 )),
