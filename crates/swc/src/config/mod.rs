@@ -25,7 +25,7 @@ pub use swc_common::chain;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     errors::Handler,
-    FileName, Mark, SourceMap,
+    FileName, Mark, SourceMap, SyntaxContext,
 };
 use swc_ecma_ast::{EsVersion, Expr, Program};
 use swc_ecma_ext_transforms::jest;
@@ -361,6 +361,8 @@ impl Options {
             .global_mark
             .unwrap_or_else(|| Mark::fresh(Mark::root()));
 
+        let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark.clone());
+
         let pass = chain!(
             const_modules,
             optimization,
@@ -420,7 +422,7 @@ impl Options {
                 ),
                 syntax.typescript()
             ),
-            lint_to_fold(swc_ecma_lints::rules::all()),
+            lint_to_fold(swc_ecma_lints::rules::all(top_level_ctxt)),
             crate::plugin::plugins(experimental),
             custom_before_pass(&program),
             // handle jsx
