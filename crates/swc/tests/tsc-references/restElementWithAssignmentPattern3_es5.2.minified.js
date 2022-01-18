@@ -40,4 +40,4 @@ function _unsupportedIterableToArray(o, minLen) {
         }
         return _arr;
     }
-})(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest()))[0], void 0 === ref[1];
+})(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest()))[0], ref[1];

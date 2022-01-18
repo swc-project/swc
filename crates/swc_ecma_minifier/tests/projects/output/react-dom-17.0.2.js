@@ -6704,14 +6704,14 @@
         didReceiveUpdate = !0;
     }
     function bailoutOnAlreadyFinishedWork(current5, workInProgress7, renderLanes) {
-        return (null !== current5 && (workInProgress7.dependencies = current5.dependencies), stopProfilerTimerIfRunning(), markSkippedUpdateLanes(workInProgress7.lanes), includesSomeLane(renderLanes, workInProgress7.childLanes)) ? ((function(current, workInProgress) {
+        return (null !== current5 && (workInProgress7.dependencies = current5.dependencies), stopProfilerTimerIfRunning(), markSkippedUpdateLanes(workInProgress7.lanes), includesSomeLane(renderLanes, workInProgress7.childLanes)) ? (!function(current, workInProgress) {
             if (!(null === current || workInProgress.child === current.child)) throw Error("Resuming work not yet implemented.");
             if (null !== workInProgress.child) {
                 var currentChild = workInProgress.child, newChild = createWorkInProgress(currentChild, currentChild.pendingProps);
                 for(workInProgress.child = newChild, newChild.return = workInProgress; null !== currentChild.sibling;)currentChild = currentChild.sibling, (newChild = newChild.sibling = createWorkInProgress(currentChild, currentChild.pendingProps)).return = workInProgress;
                 newChild.sibling = null;
             }
-        })(current5, workInProgress7), workInProgress7.child) : null;
+        }(current5, workInProgress7), workInProgress7.child) : null;
     }
     function beginWork(current13, workInProgress16, renderLanes12) {
         var updateLanes1 = workInProgress16.lanes;

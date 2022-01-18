@@ -47,7 +47,7 @@ var _ref = {}, key = order(0), key1 = order(2), tmp2 = _ref[key];
         return ("string" === hint ? String : Number)(input);
     }(arg, "string");
     return "symbol" === _typeof(key2) ? key2 : String(key2);
-})), void 0 === tmp3;
+}));
 var _ref1 = [
     {
         x: 1
@@ -82,5 +82,5 @@ var _ref1 = [
     throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }()), ref = __ref[0], ref = null !== ref ? ref : function(e) {
     throw e;
-}(new TypeError("Cannot destructure undefined")), tmp3 = __ref[1];
-_extends({}, _ref1[0]);
+}(new TypeError("Cannot destructure undefined"));
+__ref[1], _extends({}, _ref1[0]);

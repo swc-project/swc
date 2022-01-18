@@ -1,4 +1,4 @@
-use self::ctx::Ctx;
+use self::{ctx::Ctx, misc::DropOpts};
 use crate::{
     debug::{dump, AssertValid},
     marks::Marks,
@@ -285,7 +285,13 @@ where
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
         s.visit_mut_children_with(self);
 
-        self.ignore_return_value(&mut s.expr);
+        self.ignore_return_value(
+            &mut s.expr,
+            DropOpts {
+                drop_zero: true,
+                drop_str_lit: false,
+            },
+        );
     }
 
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {
@@ -414,7 +420,7 @@ where
 
         self.optimize_arrow_method_prop(p);
 
-        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+        if cfg!(debug_assertions) {
             p.visit_with(&mut AssertValid);
         }
     }
@@ -460,11 +466,21 @@ where
             let is_last = idx == len - 1;
 
             if !is_last {
-                self.ignore_return_value(&mut **e);
+                self.ignore_return_value(
+                    &mut **e,
+                    DropOpts {
+                        drop_zero: false,
+                        drop_str_lit: true,
+                    },
+                );
             }
         }
 
         e.exprs.retain(|e| !e.is_invalid());
+
+        if cfg!(debug_assertions) {
+            e.visit_with(&mut AssertValid);
+        }
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
@@ -500,27 +516,21 @@ where
         }
 
         if self.options.drop_debugger {
-            match s {
-                Stmt::Debugger(..) => {
-                    self.changed = true;
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    tracing::debug!("drop_debugger: Dropped a debugger statement");
-                    return;
-                }
-                _ => {}
+            if let Stmt::Debugger(..) = s {
+                self.changed = true;
+                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                tracing::debug!("drop_debugger: Dropped a debugger statement");
+                return;
             }
         }
 
         self.loop_to_for_stmt(s);
 
-        match s {
-            Stmt::Expr(es) => {
-                if es.expr.is_invalid() {
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    return;
-                }
+        if let Stmt::Expr(es) = s {
+            if es.expr.is_invalid() {
+                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                return;
             }
-            _ => {}
         }
 
         if cfg!(feature = "debug") && self.debug_infinite_loop {
@@ -531,7 +541,7 @@ where
             }
         }
 
-        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+        if cfg!(debug_assertions) {
             s.visit_with(&mut AssertValid);
         }
     }
@@ -546,7 +556,7 @@ where
             _ => true,
         });
 
-        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+        if cfg!(debug_assertions) {
             items.visit_with(&mut AssertValid);
         }
     }

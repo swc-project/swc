@@ -1,2 +1,2 @@
 var maybeBool = !1;
-null == maybeBool || maybeBool || foo(), null == maybeBool, foo(), foo();
+null == maybeBool || maybeBool || foo(), foo(), foo();
