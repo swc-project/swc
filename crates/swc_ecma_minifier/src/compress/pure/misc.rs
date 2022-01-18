@@ -1,3 +1,5 @@
+use std::num::FpCategory;
+
 use super::Pure;
 use crate::{compress::util::is_pure_undefined, mode::Mode};
 use swc_common::{util::take::Take, DUMMY_SP};
@@ -130,21 +132,23 @@ where
     }
 
     pub(super) fn ignore_return_value(&mut self, e: &mut Expr) {
+        if self.options.unused {
+            if let Expr::Lit(Lit::Num(n)) = e {
+                // Skip 0
+                if n.value != 0.0 && n.value.classify() == FpCategory::Normal {
+                    self.changed = true;
+                    *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                    return;
+                }
+            }
+        }
+
         if self.options.side_effects {
             match e {
                 Expr::Lit(Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..)) | Expr::Ident(..) => {
                     self.changed = true;
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                     return;
-                }
-
-                Expr::Lit(Lit::Num(n)) => {
-                    // Skip this
-                    if n.value != 0.0 {
-                        self.changed = true;
-                        *e = Expr::Invalid(Invalid { span: DUMMY_SP });
-                        return;
-                    }
                 }
 
                 Expr::Bin(
