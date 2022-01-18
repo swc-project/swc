@@ -1,5 +1,9 @@
 // Reexports
-pub use swc_common::{chain, plugin::Serialized, DUMMY_SP};
+pub use swc_common::{
+    chain,
+    plugin::{PluginError, Serialized},
+    DUMMY_SP,
+};
 pub mod ast {
     pub use swc_atoms::*;
     pub use swc_ecma_ast::*;

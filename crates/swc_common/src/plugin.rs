@@ -8,6 +8,30 @@ use crate::{syntax_pos::Mark, SyntaxContext};
 use anyhow::Error;
 use std::any::type_name;
 
+#[derive(Debug, Clone, PartialEq)]
+#[non_exhaustive]
+#[cfg_attr(
+    feature = "plugin-base",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+/// Enum for possible errors while running transform via plugin.
+/// Mostly this enum is being used to bubble up error occurred inside of plugin
+/// runtime which we can't transparently pass forward Error itself. Host (SWC)
+/// will try to attach context if possible then raise it as Error.
+pub enum PluginError {
+    /// Occurs when failed to convert size passed from host / guest into usize
+    /// or similar for the conversion. This is an internal error rasied via
+    /// plugin_macro, noramlly plugin author should not raise this manually.
+    SizeInteropFailure(String),
+    /// Occurs when failed to reconstruct a struct from `Serialized`.
+    Deserialize((String, Vec<u8>)),
+    /// Occurs when failed to serialize a struct into `Serialized`.
+    /// Unlike deserialize error, this error cannot forward any context for the
+    /// raw bytes: when serialze failed, there's nothing we can pass between
+    /// runtime.
+    Serialize(String),
+}
+
 /// Wraps internal representation of serialized data. Consumers should not
 /// rely on specific details of byte format struct contains: it is
 /// strictly implementation detail which can change anytime.
