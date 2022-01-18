@@ -4,7 +4,7 @@ function _arrayLikeToArray(arr, len) {
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
     return arr2;
 }
-void 0 === (ref = ((function(arr) {
+(ref = ((function(arr) {
     if (Array.isArray(arr)) return arr;
 })(arr = [
     "",

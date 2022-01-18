@@ -37,8 +37,7 @@ function _unsupportedIterableToArray(o, minLen) {
     }
 }
 function f2(param1) {
-    void 0 === _y, param1.x;
-    var _y = param1.y;
+    param1.x, param1.y;
 }
 function f3(param2) {
     param2.x, param2.y;

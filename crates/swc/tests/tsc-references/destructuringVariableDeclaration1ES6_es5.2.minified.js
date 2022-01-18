@@ -60,7 +60,7 @@ var arr, ref = [
 }(arr) || _unsupportedIterableToArray(arr) || function() {
     throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }()), 2);
-ref1[0], ref1[1], void 0 === tmp4;
+ref1[0], ref1[1];
 var _e = _slicedToArray([
     1,
     2,
@@ -76,8 +76,4 @@ var _e = _slicedToArray([
         f5: 0
     }
 ], 3), f1 = _f[0], f2 = _f[1], ref2 = _f[2];
-ref2.f3, ref2.f5, void 0 === _g1;
-var _g1 = [
-    1,
-    2
-];
+ref2.f3, ref2.f5;
