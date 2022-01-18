@@ -139,7 +139,8 @@ where
 
         if self.options.unused || self.options.side_effects {
             match e {
-                Expr::Lit(Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..)) | Expr::Ident(..) => {
+                Expr::Lit(Lit::Null(..) | Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..))
+                | Expr::Ident(..) => {
                     self.changed = true;
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                     return;
