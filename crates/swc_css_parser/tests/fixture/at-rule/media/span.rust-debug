@@ -916,7 +916,7 @@ error: MediaQueryItem
 12 | @media not all and (monochrome) {}
    |        ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NotMediaQuery
+error: MediaNot
   --> $DIR/tests/fixture/at-rule/media/input.css:12:8
    |
 12 | @media not all and (monochrome) {}
@@ -1012,7 +1012,7 @@ error: MediaQueryItem
 13 | @media not screen and (color), print and (color) {}
    |        ^^^^^^^^^^^^^^^^^^^^^^
 
-error: NotMediaQuery
+error: MediaNot
   --> $DIR/tests/fixture/at-rule/media/input.css:13:8
    |
 13 | @media not screen and (color), print and (color) {}

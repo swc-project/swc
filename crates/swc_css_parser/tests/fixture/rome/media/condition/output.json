@@ -534,13 +534,13 @@
             "modifier": null,
             "mediaType": null,
             "condition": {
-              "type": "NotMediaQuery",
+              "type": "MediaNot",
               "span": {
                 "start": 209,
                 "end": 232,
                 "ctxt": 0
               },
-              "query": {
+              "condition": {
                 "type": "MediaFeaturePlain",
                 "span": {
                   "start": 213,

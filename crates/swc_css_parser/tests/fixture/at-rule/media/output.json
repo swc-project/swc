@@ -760,13 +760,13 @@
             "modifier": null,
             "mediaType": null,
             "condition": {
-              "type": "NotMediaQuery",
+              "type": "MediaNot",
               "span": {
                 "start": 331,
                 "end": 356,
                 "ctxt": 0
               },
-              "query": {
+              "condition": {
                 "type": "AndMediaQuery",
                 "span": {
                   "start": 335,
@@ -833,13 +833,13 @@
             "modifier": null,
             "mediaType": null,
             "condition": {
-              "type": "NotMediaQuery",
+              "type": "MediaNot",
               "span": {
                 "start": 366,
                 "end": 388,
                 "ctxt": 0
               },
-              "query": {
+              "condition": {
                 "type": "AndMediaQuery",
                 "span": {
                   "start": 370,

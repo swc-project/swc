@@ -628,7 +628,7 @@ error: MediaQueryItem
 4 | @media not (min-width: 800px) {}
   |        ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NotMediaQuery
+error: MediaNot
  --> $DIR/tests/fixture/rome/media/condition/input.css:4:8
   |
 4 | @media not (min-width: 800px) {}

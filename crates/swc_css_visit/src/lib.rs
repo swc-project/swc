@@ -459,7 +459,7 @@ define!({
         Ident(Ident),
         And(AndMediaQuery),
         Or(OrMediaQuery),
-        Not(NotMediaQuery),
+        Not(MediaNot),
         Only(OnlyMediaQuery),
         MediaInParens(MediaInParens),
     }
@@ -476,9 +476,9 @@ define!({
         pub right: Box<MediaQueryItem>,
     }
 
-    pub struct NotMediaQuery {
+    pub struct MediaNot {
         pub span: Span,
-        pub query: Box<MediaQueryItem>,
+        pub condition: Box<MediaQueryItem>,
     }
 
     pub struct OnlyMediaQuery {

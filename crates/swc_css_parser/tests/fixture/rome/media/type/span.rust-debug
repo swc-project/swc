@@ -88,7 +88,7 @@ error: MediaQueryItem
 2 | @media not screen {}
   |        ^^^^^^^^^^^
 
-error: NotMediaQuery
+error: MediaNot
  --> $DIR/tests/fixture/rome/media/type/input.css:2:8
   |
 2 | @media not screen {}
@@ -364,7 +364,7 @@ error: MediaQueryItem
 6 | @media only screen, not all, only print {}
   |                     ^^^^^^^
 
-error: NotMediaQuery
+error: MediaNot
  --> $DIR/tests/fixture/rome/media/type/input.css:6:21
   |
 6 | @media only screen, not all, only print {}

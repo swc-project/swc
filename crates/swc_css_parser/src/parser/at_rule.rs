@@ -735,6 +735,7 @@ where
     fn parse(&mut self) -> PResult<MediaQuery> {
         let span = self.input.cur_span()?;
 
+        // TODO https://github.com/chromium/chromium/blob/main/third_party/blink/renderer/core/css/parser/media_query_parser.cc#L462
         let mut modifier = None;
         let mut media_type = None;
 
@@ -777,10 +778,11 @@ where
         let span = self.input.cur_span()?;
 
         let base = if eat!(self, "not") {
-            let query = self.parse()?;
-            MediaQueryItem::Not(NotMediaQuery {
+            let condition = self.parse()?;
+            
+            MediaQueryItem::Not(MediaNot {
                 span: span!(self, span.lo),
-                query,
+                condition,
             })
         } else if eat!(self, "only") {
             let query = self.parse()?;

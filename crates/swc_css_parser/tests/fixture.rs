@@ -338,13 +338,13 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(MediaQueryList, visit_media_query_list);
     mtd!(MediaQuery, visit_media_query);
     mtd!(MediaQueryItem, visit_media_query_item);
+    mtd!(MediaNot, visit_media_not);
     mtd!(MediaInParens, visit_media_in_parens);
     mtd!(MediaFeaturePlain, visit_media_feature_plain);
     mtd!(MediaFeatureBoolean, visit_media_feature_boolean);
     mtd!(AndMediaQuery, visit_and_media_query);
     mtd!(OnlyMediaQuery, visit_only_media_query);
     mtd!(OrMediaQuery, visit_or_media_query);
-    mtd!(NotMediaQuery, visit_not_media_query);
     mtd!(MediaFeature, visit_media_feature);
     mtd!(NamespaceUri, visit_namespace_uri);
     mtd!(NamespaceRule, visit_namespace_rule);

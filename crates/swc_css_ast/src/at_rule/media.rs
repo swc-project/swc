@@ -33,14 +33,20 @@ pub enum MediaQueryItem {
     #[tag("OrMediaQuery")]
     Or(OrMediaQuery),
 
-    #[tag("NotMediaQuery")]
-    Not(NotMediaQuery),
+    #[tag("MediaNot")]
+    Not(MediaNot),
 
     #[tag("OnlyMediaQuery")]
     Only(OnlyMediaQuery),
 
     #[tag("MediaInParens")]
     MediaInParens(MediaInParens),
+}
+
+#[ast_node("MediaNot")]
+pub struct MediaNot {
+    pub span: Span,
+    pub condition: Box<MediaQueryItem>,
 }
 
 #[ast_node("AndMediaQuery")]
@@ -55,12 +61,6 @@ pub struct OrMediaQuery {
     pub span: Span,
     pub left: Box<MediaQueryItem>,
     pub right: Box<MediaQueryItem>,
-}
-
-#[ast_node("NotMediaQuery")]
-pub struct NotMediaQuery {
-    pub span: Span,
-    pub query: Box<MediaQueryItem>,
 }
 
 #[ast_node("OnlyMediaQuery")]
