@@ -12,8 +12,8 @@ class A {
 var objA = new A();
 ANY2[0], objA.a, M.n, A.foo(), ANY2[0], objA.a, M.n;
 z: ;
-x: "object";
-r: "function";
+x: ;
+r: ;
 z: objA.a;
 z: ;
 z: M.n;

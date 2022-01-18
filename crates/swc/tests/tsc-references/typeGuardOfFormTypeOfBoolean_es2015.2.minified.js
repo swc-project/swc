@@ -1,2 +1,0 @@
-var strOrNum, strOrBool, numOrBool, strOrNumOrBool, boolOrC;
-"boolean" == typeof strOrBool, "boolean" == typeof numOrBool, "boolean" == typeof strOrNumOrBool || (strOrNum = strOrNumOrBool), "boolean" == typeof boolOrC, "boolean" == typeof strOrNum, "boolean" != typeof strOrBool, "boolean" != typeof numOrBool, "boolean" != typeof strOrNumOrBool && (strOrNum = strOrNumOrBool), "boolean" != typeof boolOrC, "boolean" != typeof strOrNum;
