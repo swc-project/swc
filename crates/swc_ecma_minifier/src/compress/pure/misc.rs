@@ -47,17 +47,16 @@ where
     ///
     /// Returns true if something is modified.
     fn drop_return_value(&mut self, stmts: &mut Vec<Stmt>) -> bool {
-        // TODO(kdy1): (maybe) run optimization again if it's removed.
-
         for s in stmts.iter_mut() {
             if let Stmt::Return(ReturnStmt {
                 arg: arg @ Some(..),
                 ..
             }) = s
             {
-                self.ignore_return_value(arg.as_deref_mut().unwrap());
+                self.ignore_return_value(arg.as_deref_mut().unwrap(), true);
 
                 if let Some(Expr::Invalid(..)) = arg.as_deref() {
+                    self.changed = true;
                     *arg = None;
                 }
             }
@@ -125,7 +124,7 @@ where
         }
     }
 
-    pub(super) fn ignore_return_value(&mut self, e: &mut Expr) {
+    pub(super) fn ignore_return_value(&mut self, e: &mut Expr, drop_zero: bool) {
         if self.options.unused {
             if let Expr::Lit(Lit::Num(n)) = e {
                 // Skip 0
@@ -139,6 +138,14 @@ where
 
         if self.options.unused || self.options.side_effects {
             match e {
+                Expr::Lit(Lit::Num(n)) => {
+                    if n.value == 0.0 && drop_zero {
+                        self.changed = true;
+                        *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                        return;
+                    }
+                }
+
                 Expr::Lit(Lit::Null(..) | Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..))
                 | Expr::Ident(..) => {
                     self.changed = true;
@@ -160,22 +167,40 @@ where
                             | op!("|")
                             | op!(">>")
                             | op!("<<")
-                            | op!(">>>"),
+                            | op!(">>>")
+                            | op!("===")
+                            | op!("!==")
+                            | op!("==")
+                            | op!("!="),
                         ..
                     },
                 ) => {
-                    self.ignore_return_value(&mut bin.left);
-                    self.ignore_return_value(&mut bin.right);
+                    self.ignore_return_value(&mut bin.left, true);
+                    self.ignore_return_value(&mut bin.right, true);
 
                     if bin.left.is_invalid() && bin.right.is_invalid() {
                         *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                        return;
                     } else if bin.right.is_invalid() {
                         *e = *bin.left.take();
+                        return;
                     } else if bin.left.is_invalid() {
                         *e = *bin.right.take();
+                        return;
                     }
+                }
 
-                    return;
+                Expr::Unary(UnaryExpr {
+                    op: op!("void") | op!("typeof") | op!(unary, "+") | op!(unary, "-"),
+                    arg,
+                    ..
+                }) => {
+                    self.ignore_return_value(&mut **arg, true);
+
+                    if arg.is_invalid() {
+                        *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                        return;
+                    }
                 }
 
                 _ => {}
@@ -185,6 +210,7 @@ where
         match e {
             Expr::Lit(Lit::Str(s)) => {
                 if s.value.starts_with("@swc/helpers") || s.value.starts_with("@babel/helpers") {
+                    self.changed = true;
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                 }
             }
@@ -194,7 +220,13 @@ where
 
                 if let Some(last) = e.exprs.last_mut() {
                     // Non-last elements are already processed.
-                    self.ignore_return_value(&mut **last);
+                    self.ignore_return_value(&mut **last, drop_zero);
+                }
+
+                let len = e.exprs.len();
+                e.exprs.retain(|e| !e.is_invalid());
+                if e.exprs.len() != len {
+                    self.changed = true;
                 }
             }
 
