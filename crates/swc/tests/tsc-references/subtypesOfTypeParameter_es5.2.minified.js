@@ -11,7 +11,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var E, E, _typeof = function(obj) {
+var E, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
 }, C3 = function() {
     "use strict";
@@ -63,7 +63,9 @@ var E, E, _typeof = function(obj) {
     _classCallCheck(this, C2);
 };
 function f() {}
-(E = E || (E = {}))[E.A = 0] = "A", (f || (f = {})).bar = 1;
+!function(E) {
+    E[E.A = 0] = "A";
+}(E || (E = {})), (f || (f = {})).bar = 1;
 var c = function() {
     "use strict";
     _classCallCheck(this, c);

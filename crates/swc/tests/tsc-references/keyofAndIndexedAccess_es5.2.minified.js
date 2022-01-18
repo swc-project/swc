@@ -53,7 +53,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var Flag, E, Flag, E, Shape = function() {
+var E, Flag, Shape = function() {
     "use strict";
     _classCallCheck(this, Shape);
 }, TaggedShape = function(Shape1) {
@@ -77,7 +77,9 @@ function getProperty(obj, key) {
 function setProperty(obj, key, value) {
     obj[key] = value;
 }
-(E = E || (E = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
+!function(E) {
+    E[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
+}(E || (E = {}));
 var Component = function() {
     "use strict";
     function Component() {
@@ -238,7 +240,9 @@ var A = function() {
         }
     ]), AnotherSampleClass;
 }(SampleClass);
-new AnotherSampleClass({}), (Flag = Flag || (Flag = {})).FLAG_1 = "flag_1", Flag.FLAG_2 = "flag_2";
+new AnotherSampleClass({}), (function(Flag) {
+    Flag.FLAG_1 = "flag_1", Flag.FLAG_2 = "flag_2";
+})(Flag || (Flag = {}));
 var Unbounded = function() {
     "use strict";
     function Unbounded() {

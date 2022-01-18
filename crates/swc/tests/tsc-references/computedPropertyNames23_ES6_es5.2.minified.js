@@ -4,12 +4,14 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var obj, key, value, tmp = (obj = {}, value = 1, (key = this.bar()) in obj ? Object.defineProperty(obj, key, {
-    value: value,
-    enumerable: !0,
-    configurable: !0,
-    writable: !0
-}) : obj[key] = value, obj)[0], C = function() {
+var tmp = function(obj, key, value) {
+    return key in obj ? Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: !0,
+        configurable: !0,
+        writable: !0
+    }) : obj[key] = value, obj;
+}({}, this.bar(), 1)[0], C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {

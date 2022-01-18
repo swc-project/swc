@@ -1,8 +1,8 @@
-var A, D, E, F;
+var A1, D, E, F;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
-(A || (A = {})).x = 12, (D || (D = {})).yes = function() {
+(A = A1 || (A1 = {})).x = 12, (D || (D = {})).yes = function() {
     return !0;
 }, (function(E1) {
     (Color = Color = E1.Color || (E1.Color = {}))[Color.Red = 0] = "Red", E1.fn = function() {};

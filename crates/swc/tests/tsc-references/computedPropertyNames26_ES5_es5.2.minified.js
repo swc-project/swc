@@ -20,7 +20,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var obj, key, value, Base = function() {
+var Base = function() {
     "use strict";
     function Base() {
         _classCallCheck(this, Base);
@@ -33,12 +33,14 @@ var obj, key, value, Base = function() {
             }
         }
     ]), Base;
-}(), tmp = (value = 1, (key = super.bar()) in (obj = {}) ? Object.defineProperty(obj, key, {
-    value: value,
-    enumerable: !0,
-    configurable: !0,
-    writable: !0
-}) : obj[key] = value, obj)[0], C = function(Base) {
+}(), tmp = function(obj, key, value) {
+    return key in obj ? Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: !0,
+        configurable: !0,
+        writable: !0
+    }) : obj[key] = value, obj;
+}({}, super.bar(), 1)[0], C = function(Base) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");

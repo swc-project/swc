@@ -1,9 +1,11 @@
-var A, A1, C, X, Z, K, M;
-(A = A1 || (A1 = {})).x = "hello world", A.Point = class {
-    constructor(x, y){
-        this.x = x, this.y = y;
-    }
-}, (C || (C = {})).a = A1, C.a.x, new C.a.Point(0, 0), (function(X1) {
+var A, C, X, Z, K, M;
+!function(A1) {
+    A1.x = "hello world", A1.Point = class {
+        constructor(x, y){
+            this.x = x, this.y = y;
+        }
+    };
+}(A || (A = {})), (C || (C = {})).a = A, C.a.x, new C.a.Point(0, 0), (function(X1) {
     function Y() {
         return 42;
     }

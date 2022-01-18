@@ -52,14 +52,18 @@ function foo() {
 }
 _undefined1[0], _undefined1[1];
 var ref = _slicedToArray(foo(), 2);
-ref[0], ref[1], (_arrayWithHoles(arr = foo()) || _iterableToArray(arr) || _unsupportedIterableToArray(arr, i) || _nonIterableRest()).slice(0);
-var arr, arr, ref1 = _slicedToArray(function(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}(arr = [
+ref[0], ref[1], (function(arr) {
+    return _arrayWithHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+})(foo()).slice(0);
+var ref1 = _slicedToArray(function(arr) {
+    return (function(arr) {
+        if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+    })(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || (function() {
+        throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    })();
+}([
     1,
     2,
     3
-]) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || function() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}(), 2);
+]), 2);
 ref1[0], ref1[1];

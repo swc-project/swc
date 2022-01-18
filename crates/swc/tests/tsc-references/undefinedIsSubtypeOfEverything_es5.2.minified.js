@@ -44,7 +44,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var E, E, Base = function() {
+var Base = function() {
     "use strict";
     _classCallCheck(this, Base);
 }, D0 = function(Base1) {
@@ -168,7 +168,9 @@ var E, E, Base = function() {
     }
     return D10;
 }(Base);
-(E = E || (E = {}))[E.A = 0] = "A";
+!function(E) {
+    E[E.A = 0] = "A";
+}(E || (E = {}));
 var D11 = function(Base16) {
     "use strict";
     _inherits(D11, Base16);
@@ -180,7 +182,7 @@ var D11 = function(Base16) {
 }(Base);
 function f() {}
 (f || (f = {})).bar = 1;
-var D12 = function(Base17) {
+var E, D12 = function(Base17) {
     "use strict";
     _inherits(D12, Base17);
     var _super = _createSuper(D12);

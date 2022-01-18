@@ -1,5 +1,7 @@
-var E, a, E;
-(E = E || (E = {}))[E.x = 0] = "x", extractIndexer({
+var E, a;
+!function(E) {
+    E[E.x = 0] = "x";
+}(E || (E = {})), extractIndexer({
     [a]: ""
 }), extractIndexer({
     [E.x]: ""

@@ -1,13 +1,15 @@
-var A, A1;
-((A1 = A || (A = {})).Utils || (A1.Utils = {})).mirror = function(p) {
-    return {
-        x: p.y,
-        y: p.x
+export var A;
+!function(A1) {
+    (A1.Utils || (A1.Utils = {})).mirror = function(p) {
+        return {
+            x: p.y,
+            y: p.x
+        };
+    }, A1.Origin = {
+        x: 0,
+        y: 0
     };
-}, A1.Origin = {
-    x: 0,
-    y: 0
-}, (function(A2) {
+}(A || (A = {})), (function(A2) {
     var Utils, Plane;
     A2.Origin = {
         x: 0,
