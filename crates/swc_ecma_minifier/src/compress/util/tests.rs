@@ -6,6 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser};
 use swc_ecma_transforms::fixer;
 use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
+use tracing::{info, warn};
 
 struct UnwrapParen;
 impl VisitMut for UnwrapParen {
@@ -39,17 +40,28 @@ fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expe
 
         e.visit_mut_with(&mut UnwrapParen);
 
-        {
+        let input = {
+            let e = e.clone();
+            let e = e.fold_with(&mut fixer(None));
+            dump(&e, true)
+        };
+
+        let real = {
             let mut real = e.clone();
             let _ = negate(&mut real, in_bool_ctx, is_ret_val_ignored);
             let real = real.fold_with(&mut fixer(None));
-            let real = dump(&real, true);
-            println!(
+            dump(&real, true)
+        };
+
+        {
+            warn!(
                 "Actual: {} ;Input = {}, Real = {}",
-                s.len() - real.len(),
-                s.len(),
+                real.len() as isize - input.len() as isize,
+                input.len(),
                 real.len()
             );
+            info!("Real: {}", real);
+            info!("Input: {}", input);
         }
 
         let actual = negate_cost(&e, in_bool_ctx, is_ret_val_ignored).unwrap();
@@ -229,10 +241,10 @@ fn negate_cost_6_2() {
 #[test]
 fn next_31077_1() {
     assert_negate_cost(
-        "(!lastChild || !(lastChild instanceof TextViewDesc1) || \
+        "((!lastChild || !(lastChild instanceof TextViewDesc1) || \
          /\\n$/.test(lastChild.node.text)) && ((result1.safari || result1.chrome) && lastChild && \
          'false' == lastChild.dom.contentEditable && this.addHackNode('IMG'), \
-         this.addHackNode('BR'))",
+         this.addHackNode('BR')))",
         true,
         true,
         1000,
@@ -242,10 +254,10 @@ fn next_31077_1() {
 #[test]
 fn next_31077_2() {
     assert_negate_cost(
-        "!(!lastChild || !(lastChild instanceof TextViewDesc1) || \
+        "!((!lastChild || !(lastChild instanceof TextViewDesc1) || \
          /\\n$/.test(lastChild.node.text)) || ((result1.safari || result1.chrome) && lastChild && \
          'false' == lastChild.dom.contentEditable && this.addHackNode('IMG'), \
-         this.addHackNode('BR'))",
+         this.addHackNode('BR')))",
         true,
         true,
         1000,
