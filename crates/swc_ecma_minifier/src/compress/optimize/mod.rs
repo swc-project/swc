@@ -682,11 +682,9 @@ where
             if left.is_invalid() {
                 *e = *right.take();
                 self.remove_invalid(e);
-                return;
             } else if right.is_invalid() {
                 *e = *left.take();
                 self.remove_invalid(e);
-                return;
             }
         }
     }
@@ -741,10 +739,11 @@ where
 
                 for member in &mut cls.class.body {
                     match member {
-                        ClassMember::Method(ClassMethod { key, .. }) => {
-                            if let PropName::Computed(key) = key {
-                                exprs.extend(self.ignore_return_value(&mut key.expr).map(Box::new));
-                            }
+                        ClassMember::Method(ClassMethod {
+                            key: PropName::Computed(key),
+                            ..
+                        }) => {
+                            exprs.extend(self.ignore_return_value(&mut key.expr).map(Box::new));
                         }
                         ClassMember::ClassProp(ClassProp {
                             key,
@@ -873,32 +872,25 @@ where
                 args,
                 ..
             }) => {
-                match &mut **callee {
-                    Expr::Fn(FnExpr {
-                        ident: None,
-                        function,
-                    }) => {
-                        if args.is_empty() {
-                            for param in &mut function.params {
-                                self.drop_unused_param(&mut param.pat, true);
-                            }
-
-                            function.params.retain(|p| !p.pat.is_invalid());
+                if let Expr::Fn(FnExpr {
+                    ident: None,
+                    function,
+                }) = &mut **callee
+                {
+                    if args.is_empty() {
+                        for param in &mut function.params {
+                            self.drop_unused_param(&mut param.pat, true);
                         }
+
+                        function.params.retain(|p| !p.pat.is_invalid());
                     }
-                    _ => {}
                 }
 
                 if args.is_empty() {
-                    match &mut **callee {
-                        Expr::Fn(f) => {
-                            if f.function.body.is_none()
-                                || f.function.body.as_ref().unwrap().is_empty()
-                            {
-                                return None;
-                            }
+                    if let Expr::Fn(f) = &mut **callee {
+                        if f.function.body.is_empty() {
+                            return None;
                         }
-                        _ => {}
                     }
                 }
 
@@ -923,23 +915,20 @@ where
                 if !prop.is_computed()
                     && (self.options.top_level() || !self.ctx.in_top_level()) =>
             {
-                match &**obj {
-                    Expr::Ident(obj) => {
-                        if let Some(usage) = self
-                            .data
-                            .as_ref()
-                            .and_then(|data| data.vars.get(&obj.to_id()))
-                        {
-                            if !usage.declared_as_fn_param && usage.var_kind.is_none() {
-                                return None;
-                            }
+                if let Expr::Ident(obj) = &**obj {
+                    if let Some(usage) = self
+                        .data
+                        .as_ref()
+                        .and_then(|data| data.vars.get(&obj.to_id()))
+                    {
+                        if !usage.declared_as_fn_param && usage.var_kind.is_none() {
+                            return None;
+                        }
 
-                            if !usage.reassigned && usage.no_side_effect_for_member_access {
-                                return None;
-                            }
+                        if !usage.reassigned && usage.no_side_effect_for_member_access {
+                            return None;
                         }
                     }
-                    _ => {}
                 }
             }
 
@@ -961,14 +950,15 @@ where
                 let mut exprs = vec![];
                 self.changed = true;
                 tracing::debug!("ignore_return_value: Inverting an array literal");
-                for elem in arr.elems.take() {
-                    match elem {
-                        Some(mut elem) => {
-                            exprs.extend(self.ignore_return_value(&mut elem.expr).map(Box::new));
-                        }
-                        None => {}
-                    }
-                }
+                exprs.extend(
+                    arr.elems
+                        .take()
+                        .into_iter()
+                        .flatten()
+                        .map(|v| v.expr)
+                        .filter_map(|mut e| self.ignore_return_value(&mut e))
+                        .map(Box::new),
+                );
 
                 if exprs.is_empty() {
                     return None;
@@ -1043,21 +1033,15 @@ where
                 && !self.ctx.dont_use_negated_iife
                 && match &**arg {
                     Expr::Call(arg) => match &arg.callee {
-                        Callee::Expr(callee) => match &**callee {
-                            Expr::Fn(..) => true,
-                            _ => false,
-                        },
+                        Callee::Expr(callee) => matches!(&**callee, Expr::Fn(..)),
                         _ => false,
                     },
                     _ => false,
                 } =>
             {
-                let processed_arg = self.ignore_return_value(&mut **arg);
+                let processed_arg = self.ignore_return_value(&mut **arg)?;
 
-                if processed_arg.is_none() {
-                    return None;
-                }
-                *arg = Box::new(processed_arg.unwrap());
+                *arg = Box::new(processed_arg);
 
                 tracing::trace!("ignore_return_value: Preserving negated iife");
                 return Some(e.take());
@@ -1158,7 +1142,7 @@ where
                 if exprs.len() <= 1 {
                     return exprs.pop().map(|v| *v);
                 } else {
-                    let is_last_undefined = is_pure_undefined(&exprs.last().unwrap());
+                    let is_last_undefined = is_pure_undefined(exprs.last().unwrap());
 
                     // (foo(), void 0) => void foo()
                     if is_last_undefined {
@@ -1226,14 +1210,11 @@ where
                         if s.value.contains(|c: char| {
                             // whitelist
                             !c.is_ascii_alphanumeric()
-                                && match c {
-                                    '%' | '[' | ']' | '(' | ')' | '{' | '}' | '-' | '+' => false,
-                                    _ => true,
-                                }
+                                && !matches!(c, '%' | '[' | ']' | '(' | ')' | '{' | '}' | '-' | '+')
                         }) {
                             return true;
                         }
-                        if s.value.contains("\\\0") || s.value.contains("/") {
+                        if s.value.contains("\\\0") || s.value.contains('/') {
                             return true;
                         }
 
@@ -1249,7 +1230,7 @@ where
         let pattern = args[0].expr.take();
 
         let pattern = match *pattern {
-            Expr::Lit(Lit::Str(s)) => s.value.clone(),
+            Expr::Lit(Lit::Str(s)) => s.value,
             _ => {
                 unreachable!()
             }
@@ -1264,7 +1245,7 @@ where
 
                     let s = s.value.to_string();
                     let mut bytes = s.into_bytes();
-                    bytes.sort();
+                    bytes.sort_unstable();
 
                     String::from_utf8(bytes).unwrap().into()
                 }
@@ -1322,7 +1303,6 @@ where
         if !lb && rb {
             self.negate(&mut cond.test, false);
             *expr = *cond.test.take();
-            return;
         }
     }
 
@@ -1404,7 +1384,7 @@ where
     fn try_removing_block(&mut self, s: &mut Stmt, unwrap_more: bool) {
         match s {
             Stmt::Block(bs) => {
-                if bs.stmts.len() == 0 {
+                if bs.stmts.is_empty() {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
                 }
@@ -1417,10 +1397,11 @@ where
                     }
 
                     if let Stmt::Block(block) = &mut bs.stmts[0] {
-                        if block.stmts.iter().all(|stmt| match stmt {
-                            Stmt::Decl(..) => false,
-                            _ => true,
-                        }) {
+                        if block
+                            .stmts
+                            .iter()
+                            .all(|stmt| !matches!(stmt, Stmt::Decl(..)))
+                        {
                             tracing::debug!("optimizer: Removing nested block");
                             self.changed = true;
                             bs.stmts = block.stmts.take();
@@ -1432,12 +1413,14 @@ where
                 //
                 // TODO: Support multiple statements.
                 if bs.stmts.len() == 1
-                    && bs.stmts.iter().all(|stmt| match stmt {
-                        Stmt::Decl(Decl::Var(VarDecl {
-                            kind: VarDeclKind::Var,
-                            ..
-                        })) => true,
-                        _ => false,
+                    && bs.stmts.iter().all(|stmt| {
+                        matches!(
+                            stmt,
+                            Stmt::Decl(Decl::Var(VarDecl {
+                                kind: VarDeclKind::Var,
+                                ..
+                            }))
+                        )
                     })
                 {
                     tracing::debug!("optimizer: Unwrapping a block with variable statements");

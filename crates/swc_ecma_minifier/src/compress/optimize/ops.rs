@@ -122,13 +122,15 @@ where
     /// - `!!(a in b)` => `a in b`
     /// - `!!(function() {})()` => `!(function() {})()`
     pub(super) fn optimize_bangbang(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Unary(UnaryExpr {
+        if let Expr::Unary(UnaryExpr {
+            op: op!("!"), arg, ..
+        }) = e
+        {
+            if let Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
-            }) => match &mut **arg {
-                Expr::Unary(UnaryExpr {
-                    op: op!("!"), arg, ..
-                }) => match &**arg {
+            }) = &mut **arg
+            {
+                match &**arg {
                     Expr::Unary(UnaryExpr { op: op!("!"), .. })
                     | Expr::Bin(BinExpr { op: op!("in"), .. })
                     | Expr::Bin(BinExpr {
@@ -148,15 +150,11 @@ where
                             tracing::debug!("Optimizing: `!!expr` => `expr`");
                             *e = *arg.take();
                         }
-
-                        return;
                     }
 
                     _ => {}
-                },
-                _ => {}
-            },
-            _ => {}
+                }
+            }
         }
     }
 
@@ -396,13 +394,14 @@ where
             return;
         }
 
-        match e {
-            Expr::Unary(UnaryExpr {
-                span,
-                op: op!("typeof"),
-                arg,
-                ..
-            }) => match &**arg {
+        if let Expr::Unary(UnaryExpr {
+            span,
+            op: op!("typeof"),
+            arg,
+            ..
+        }) = e
+        {
+            match &**arg {
                 Expr::Ident(arg) => {
                     if let Some(value) = self.typeofs.get(&arg.to_id()).cloned() {
                         tracing::debug!(
@@ -443,8 +442,7 @@ where
                     return;
                 }
                 _ => {}
-            },
-            _ => {}
+            }
         }
     }
 }
