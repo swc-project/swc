@@ -6,9 +6,9 @@ error: Stylesheet
 3  | | @media screen {}
 4  | | @media screen and (color) {}
 ...  |
-18 | | @media print {}
-19 | | @media (min-width: 20em) and (min-width: 20em) {}
-   | |__________________________________________________^
+20 | | @media (--modern) and (min-width: 1024px) {}
+21 | |
+   | |_^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:1:1
@@ -1533,4 +1533,130 @@ error: Unit
    |
 19 | @media (min-width: 20em) and (min-width: 20em) {}
    |                                            ^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:1
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:1
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:1
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:8
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:8
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:8
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:8
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |        ^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:8
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |        ^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:8
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |        ^^^^^^^^^^
+
+error: MediaFeatureBoolean
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:8
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |        ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:9
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |         ^^^^^^^^
+
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:19
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |                   ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaAnd
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:19
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |                   ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:23
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |                       ^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:23
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |                       ^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:23
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |                       ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:24
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |                        ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:35
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |                                   ^^^^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:35
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |                                   ^^^^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:35
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |                                   ^^^^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:39
+   |
+20 | @media (--modern) and (min-width: 1024px) {}
+   |                                       ^^
 

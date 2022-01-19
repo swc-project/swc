@@ -17,3 +17,5 @@
 @media not all {}
 @media print {}
 @media (min-width: 20em) and (min-width: 20em) {}
+@media (--modern) and (min-width: 1024px) {}
+

@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 600,
+    "end": 646,
     "ctxt": 0
   },
   "rules": [
@@ -1449,6 +1449,118 @@
                           },
                           "value": "em",
                           "raw": "em"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 600,
+        "end": 644,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 607,
+          "end": 642,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 607,
+              "end": 642,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 607,
+                "end": 642,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureBoolean",
+                  "span": {
+                    "start": 607,
+                    "end": 617,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 608,
+                      "end": 616,
+                      "ctxt": 0
+                    },
+                    "value": "--modern",
+                    "raw": "--modern"
+                  }
+                },
+                {
+                  "type": "MediaAnd",
+                  "span": {
+                    "start": 618,
+                    "end": 641,
+                    "ctxt": 0
+                  },
+                  "condition": {
+                    "type": "MediaFeaturePlain",
+                    "span": {
+                      "start": 622,
+                      "end": 641,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 623,
+                        "end": 632,
+                        "ctxt": 0
+                      },
+                      "value": "min-width",
+                      "raw": "min-width"
+                    },
+                    "value": [
+                      {
+                        "type": "UnitValue",
+                        "span": {
+                          "start": 634,
+                          "end": 640,
+                          "ctxt": 0
+                        },
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 634,
+                            "end": 638,
+                            "ctxt": 0
+                          },
+                          "value": 1024.0,
+                          "raw": "1024"
+                        },
+                        "unit": {
+                          "span": {
+                            "start": 638,
+                            "end": 640,
+                            "ctxt": 0
+                          },
+                          "value": "px",
+                          "raw": "px"
                         }
                       }
                     ]
