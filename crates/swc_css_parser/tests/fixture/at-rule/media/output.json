@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 3570,
+    "end": 3723,
     "ctxt": 0
   },
   "rules": [
@@ -8769,6 +8769,406 @@
                         "raw": "px"
                       }
                     }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 3571,
+        "end": 3646,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 3578,
+          "end": 3644,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 3578,
+              "end": 3644,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 3578,
+                "end": 3644,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaCondition",
+                  "span": {
+                    "start": 3579,
+                    "end": 3620,
+                    "ctxt": 0
+                  },
+                  "conditions": [
+                    {
+                      "type": "MediaFeaturePlain",
+                      "span": {
+                        "start": 3579,
+                        "end": 3597,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 3580,
+                          "end": 3589,
+                          "ctxt": 0
+                        },
+                        "value": "min-width",
+                        "raw": "min-width"
+                      },
+                      "value": {
+                        "type": "UnitValue",
+                        "span": {
+                          "start": 3591,
+                          "end": 3596,
+                          "ctxt": 0
+                        },
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 3591,
+                            "end": 3594,
+                            "ctxt": 0
+                          },
+                          "value": 800.0,
+                          "raw": "800"
+                        },
+                        "unit": {
+                          "span": {
+                            "start": 3594,
+                            "end": 3596,
+                            "ctxt": 0
+                          },
+                          "value": "px",
+                          "raw": "px"
+                        }
+                      }
+                    },
+                    {
+                      "type": "MediaAnd",
+                      "span": {
+                        "start": 3598,
+                        "end": 3620,
+                        "ctxt": 0
+                      },
+                      "condition": {
+                        "type": "MediaFeaturePlain",
+                        "span": {
+                          "start": 3602,
+                          "end": 3620,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 3603,
+                            "end": 3612,
+                            "ctxt": 0
+                          },
+                          "value": "min-width",
+                          "raw": "min-width"
+                        },
+                        "value": {
+                          "type": "UnitValue",
+                          "span": {
+                            "start": 3614,
+                            "end": 3619,
+                            "ctxt": 0
+                          },
+                          "value": {
+                            "type": "Number",
+                            "span": {
+                              "start": 3614,
+                              "end": 3617,
+                              "ctxt": 0
+                            },
+                            "value": 800.0,
+                            "raw": "800"
+                          },
+                          "unit": {
+                            "span": {
+                              "start": 3617,
+                              "end": 3619,
+                              "ctxt": 0
+                            },
+                            "value": "px",
+                            "raw": "px"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "MediaOr",
+                  "span": {
+                    "start": 3622,
+                    "end": 3643,
+                    "ctxt": 0
+                  },
+                  "condition": {
+                    "type": "MediaFeaturePlain",
+                    "span": {
+                      "start": 3625,
+                      "end": 3643,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3626,
+                        "end": 3635,
+                        "ctxt": 0
+                      },
+                      "value": "min-width",
+                      "raw": "min-width"
+                    },
+                    "value": {
+                      "type": "UnitValue",
+                      "span": {
+                        "start": 3637,
+                        "end": 3642,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 3637,
+                          "end": 3640,
+                          "ctxt": 0
+                        },
+                        "value": 800.0,
+                        "raw": "800"
+                      },
+                      "unit": {
+                        "span": {
+                          "start": 3640,
+                          "end": 3642,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 3647,
+        "end": 3722,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 3654,
+          "end": 3720,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 3654,
+              "end": 3720,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 3654,
+                "end": 3720,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
+                  "span": {
+                    "start": 3654,
+                    "end": 3672,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 3655,
+                      "end": 3664,
+                      "ctxt": 0
+                    },
+                    "value": "min-width",
+                    "raw": "min-width"
+                  },
+                  "value": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 3666,
+                      "end": 3671,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 3666,
+                        "end": 3669,
+                        "ctxt": 0
+                      },
+                      "value": 800.0,
+                      "raw": "800"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 3669,
+                        "end": 3671,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                },
+                {
+                  "type": "MediaAnd",
+                  "span": {
+                    "start": 3673,
+                    "end": 3719,
+                    "ctxt": 0
+                  },
+                  "condition": {
+                    "type": "MediaCondition",
+                    "span": {
+                      "start": 3678,
+                      "end": 3718,
+                      "ctxt": 0
+                    },
+                    "conditions": [
+                      {
+                        "type": "MediaFeaturePlain",
+                        "span": {
+                          "start": 3678,
+                          "end": 3696,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 3679,
+                            "end": 3688,
+                            "ctxt": 0
+                          },
+                          "value": "min-width",
+                          "raw": "min-width"
+                        },
+                        "value": {
+                          "type": "UnitValue",
+                          "span": {
+                            "start": 3690,
+                            "end": 3695,
+                            "ctxt": 0
+                          },
+                          "value": {
+                            "type": "Number",
+                            "span": {
+                              "start": 3690,
+                              "end": 3693,
+                              "ctxt": 0
+                            },
+                            "value": 800.0,
+                            "raw": "800"
+                          },
+                          "unit": {
+                            "span": {
+                              "start": 3693,
+                              "end": 3695,
+                              "ctxt": 0
+                            },
+                            "value": "px",
+                            "raw": "px"
+                          }
+                        }
+                      },
+                      {
+                        "type": "MediaOr",
+                        "span": {
+                          "start": 3697,
+                          "end": 3718,
+                          "ctxt": 0
+                        },
+                        "condition": {
+                          "type": "MediaFeaturePlain",
+                          "span": {
+                            "start": 3700,
+                            "end": 3718,
+                            "ctxt": 0
+                          },
+                          "name": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 3701,
+                              "end": 3710,
+                              "ctxt": 0
+                            },
+                            "value": "min-width",
+                            "raw": "min-width"
+                          },
+                          "value": {
+                            "type": "UnitValue",
+                            "span": {
+                              "start": 3712,
+                              "end": 3717,
+                              "ctxt": 0
+                            },
+                            "value": {
+                              "type": "Number",
+                              "span": {
+                                "start": 3712,
+                                "end": 3715,
+                                "ctxt": 0
+                              },
+                              "value": 800.0,
+                              "raw": "800"
+                            },
+                            "unit": {
+                              "span": {
+                                "start": 3715,
+                                "end": 3717,
+                                "ctxt": 0
+                              },
+                              "value": "px",
+                              "raw": "px"
+                            }
+                          }
+                        }
+                      }
+                    ]
                   }
                 }
               ]

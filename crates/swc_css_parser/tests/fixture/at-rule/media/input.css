@@ -100,3 +100,6 @@
 @media (((color)) or ((hover))) and (width > 1024px) {}
 @media (((((color)) or ((hover))))) and (width > 1024px) {}
 @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
+
+@media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
+@media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
