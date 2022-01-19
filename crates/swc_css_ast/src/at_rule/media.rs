@@ -4,7 +4,7 @@ use swc_common::{ast_node, Span};
 #[ast_node("MediaRule")]
 pub struct MediaRule {
     pub span: Span,
-    pub media: Box<MediaQueryList>,
+    pub media: MediaQueryList,
     pub rules: Vec<Rule>,
 }
 
@@ -33,7 +33,7 @@ pub struct MediaCondition {
 pub enum MediaQueryItem {
     #[tag("MediaNot")]
     Not(MediaNot),
-    
+
     #[tag("MediaAnd")]
     And(MediaAnd),
 
@@ -44,23 +44,22 @@ pub enum MediaQueryItem {
     MediaInParens(MediaInParens),
 }
 
-// TODO drop `Box`
 #[ast_node("MediaNot")]
 pub struct MediaNot {
     pub span: Span,
-    pub condition: Box<MediaInParens>,
+    pub condition: MediaInParens,
 }
 
 #[ast_node("MediaAnd")]
 pub struct MediaAnd {
     pub span: Span,
-    pub condition: Box<MediaInParens>,
+    pub condition: MediaInParens,
 }
 
 #[ast_node("MediaOr")]
 pub struct MediaOr {
     pub span: Span,
-    pub condition: Box<MediaInParens>,
+    pub condition: MediaInParens,
 }
 
 #[ast_node]
@@ -70,7 +69,6 @@ pub enum MediaInParens {
 
     #[tag("MediaFeature")]
     Feature(MediaFeature),
-
     // TODO <general-enclosed>
 }
 

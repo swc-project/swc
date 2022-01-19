@@ -439,7 +439,7 @@ define!({
 
     pub struct MediaRule {
         pub span: Span,
-        pub media: Box<MediaQueryList>,
+        pub media: MediaQueryList,
         pub rules: Vec<Rule>,
     }
 
@@ -469,17 +469,17 @@ define!({
 
     pub struct MediaNot {
         pub span: Span,
-        pub condition: Box<MediaInParens>,
+        pub condition: MediaInParens,
     }
     
     pub struct MediaAnd {
         pub span: Span,
-        pub condition: Box<MediaInParens>,
+        pub condition: MediaInParens,
     }
 
     pub struct MediaOr {
         pub span: Span,
-        pub condition: Box<MediaInParens>,
+        pub condition: MediaInParens,
     }
 
     pub enum MediaInParens {
