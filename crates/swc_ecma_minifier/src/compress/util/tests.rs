@@ -241,9 +241,8 @@ fn negate_cost_6_2() {
 #[test]
 fn next_31077_1() {
     assert_negate_cost(
-        "((!lastChild || !(lastChild instanceof TextViewDesc1) || \
-         /\\n$/.test(lastChild.node.text)) && ((result1.safari || result1.chrome) && lastChild && \
-         'false' == lastChild.dom.contentEditable && this.addHackNode('IMG'), \
+        "((!a || !(a instanceof TextViewDesc1) || /\\n$/.test(a.node.text)) && ((result1.safari \
+         || result1.chrome) && a && 'false' == a.dom.contentEditable && this.addHackNode('IMG'), \
          this.addHackNode('BR')))",
         true,
         true,
@@ -254,9 +253,8 @@ fn next_31077_1() {
 #[test]
 fn next_31077_2() {
     assert_negate_cost(
-        "!((!lastChild || !(lastChild instanceof TextViewDesc1) || \
-         /\\n$/.test(lastChild.node.text)) || ((result1.safari || result1.chrome) && lastChild && \
-         'false' == lastChild.dom.contentEditable && this.addHackNode('IMG'), \
+        "!((!a || !(a instanceof TextViewDesc1) || /\\n$/.test(a.node.text)) || ((result1.safari \
+         || result1.chrome) && a && 'false' == a.dom.contentEditable && this.addHackNode('IMG'), \
          this.addHackNode('BR')))",
         true,
         true,
