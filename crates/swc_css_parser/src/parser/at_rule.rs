@@ -807,8 +807,6 @@ where
 
             self.input.skip_ws()?;
 
-            println!("{:?}", self.input.cur());
-            
             if is!(self, "and") {
                 while is!(self, "and") {
                     conditions.push(MediaConditionItem::And(self.parse()?));
@@ -896,8 +894,23 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<MediaInParens> {
-        // TODO fix me for parenses
-        Ok(MediaInParens::Feature(self.parse()?))
+        let state = self.input.state();
+
+        expect!(self, "(");
+
+        self.input.skip_ws()?;
+
+        if !is!(self, "(") && !is!(self, "not") {
+            self.input.reset(&state);
+
+            return Ok(MediaInParens::Feature(self.parse()?));
+        }
+
+        let condition = MediaInParens::MediaCondition(self.parse()?);
+
+        expect!(self, ")");
+
+        return Ok(condition);
     }
 }
 
@@ -971,9 +984,7 @@ where
                             MediaFeatureRangeComparison::Gt
                         }
                     }
-                    tok!("=") => {
-                        MediaFeatureRangeComparison::Eq
-                    }
+                    tok!("=") => MediaFeatureRangeComparison::Eq,
                     _ => {
                         // TODO another error
                         return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
@@ -1080,7 +1091,10 @@ where
             Token::Ident { .. } => Ok(MediaFeatureValue::Ident(self.parse()?)),
             Token::Dimension { .. } => Ok(MediaFeatureValue::Dimension(self.parse()?)),
             _ => {
-                return Err(Error::new(span, ErrorKind::Expected("number, dimension, identifier or ration value")));
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("number, dimension, identifier or ration value"),
+                ));
             }
         }
     }

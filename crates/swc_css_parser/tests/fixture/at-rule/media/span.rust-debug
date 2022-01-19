@@ -8,7 +8,7 @@ error: Stylesheet
 ...   |
 99  | | @media (((color)) or ((hover))) and (width > 1024px) {}
 100 | | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    | |___________________________________________________________^
+    | |____________________________________________________________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:1:1
@@ -5686,191 +5686,113 @@ error: AtRule
 97 | @media (not (color)) or (hover) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UnknownAtRule
+error: MediaRule
   --> $DIR/tests/fixture/at-rule/media/input.css:97:1
    |
 97 | @media (not (color)) or (hover) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/media/input.css:97:8
+   |
+97 | @media (not (color)) or (hover) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:97:8
+   |
+97 | @media (not (color)) or (hover) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:97:8
+   |
+97 | @media (not (color)) or (hover) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:97:9
+   |
+97 | @media (not (color)) or (hover) {}
+   |         ^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:97:9
+   |
+97 | @media (not (color)) or (hover) {}
+   |         ^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:97:9
+   |
+97 | @media (not (color)) or (hover) {}
+   |         ^^^^^^^^^^^
+
+error: MediaNot
+  --> $DIR/tests/fixture/at-rule/media/input.css:97:9
+   |
+97 | @media (not (color)) or (hover) {}
+   |         ^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:97:13
+   |
+97 | @media (not (color)) or (hover) {}
+   |             ^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:97:13
+   |
+97 | @media (not (color)) or (hover) {}
+   |             ^^^^^^^
+
+error: MediaFeatureBoolean
+  --> $DIR/tests/fixture/at-rule/media/input.css:97:13
+   |
+97 | @media (not (color)) or (hover) {}
+   |             ^^^^^^^
+
 error: Ident
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:1
-   |
-97 | @media (not (color)) or (hover) {}
-   | ^^^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:12
-   |
-97 | @media (not (color)) or (hover) {}
-   |            ^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:13
-   |
-97 | @media (not (color)) or (hover) {}
-   |             ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:13
-   |
-97 | @media (not (color)) or (hover) {}
-   |             ^
-
-error: LParen
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:13
-   |
-97 | @media (not (color)) or (hover) {}
-   |             ^
-
-error: Value
   --> $DIR/tests/fixture/at-rule/media/input.css:97:14
    |
 97 | @media (not (color)) or (hover) {}
    |              ^^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:14
-   |
-97 | @media (not (color)) or (hover) {}
-   |              ^^^^^
-
-error: Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:14
-   |
-97 | @media (not (color)) or (hover) {}
-   |              ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:20
-   |
-97 | @media (not (color)) or (hover) {}
-   |                    ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:20
-   |
-97 | @media (not (color)) or (hover) {}
-   |                    ^
-
-error: RParen
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:20
-   |
-97 | @media (not (color)) or (hover) {}
-   |                    ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:21
-   |
-97 | @media (not (color)) or (hover) {}
-   |                     ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:21
-   |
-97 | @media (not (color)) or (hover) {}
-   |                     ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:21
-   |
-97 | @media (not (color)) or (hover) {}
-   |                     ^
-
-error: Value
+error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:97:22
    |
 97 | @media (not (color)) or (hover) {}
-   |                      ^^
+   |                      ^^^^^^^^^^
 
-error: Tokens
+error: MediaOr
   --> $DIR/tests/fixture/at-rule/media/input.css:97:22
    |
 97 | @media (not (color)) or (hover) {}
-   |                      ^^
+   |                      ^^^^^^^^^^
 
-error: Ident { value: Atom('or' type=static), raw: Atom('or' type=static) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:22
-   |
-97 | @media (not (color)) or (hover) {}
-   |                      ^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:24
-   |
-97 | @media (not (color)) or (hover) {}
-   |                        ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:24
-   |
-97 | @media (not (color)) or (hover) {}
-   |                        ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:24
-   |
-97 | @media (not (color)) or (hover) {}
-   |                        ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:24
-   |
-97 | @media (not (color)) or (hover) {}
-   |                        ^^^^^^^^
-
-error: Value
+error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:97:25
    |
 97 | @media (not (color)) or (hover) {}
-   |                         ^
+   |                         ^^^^^^^
 
-error: Tokens
+error: MediaFeature
   --> $DIR/tests/fixture/at-rule/media/input.css:97:25
    |
 97 | @media (not (color)) or (hover) {}
-   |                         ^
+   |                         ^^^^^^^
 
-error: LParen
+error: MediaFeatureBoolean
   --> $DIR/tests/fixture/at-rule/media/input.css:97:25
    |
 97 | @media (not (color)) or (hover) {}
-   |                         ^
+   |                         ^^^^^^^
 
-error: Value
+error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:97:26
    |
 97 | @media (not (color)) or (hover) {}
    |                          ^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:26
-   |
-97 | @media (not (color)) or (hover) {}
-   |                          ^^^^^
-
-error: Ident { value: Atom('hover' type=inline), raw: Atom('hover' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:26
-   |
-97 | @media (not (color)) or (hover) {}
-   |                          ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:32
-   |
-97 | @media (not (color)) or (hover) {}
-   |                                ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:32
-   |
-97 | @media (not (color)) or (hover) {}
-   |                                ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:97:32
-   |
-97 | @media (not (color)) or (hover) {}
-   |                                ^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:98:1
@@ -5884,359 +5806,143 @@ error: AtRule
 98 | @media ((color) or (hover)) and (width > 1024px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UnknownAtRule
+error: MediaRule
   --> $DIR/tests/fixture/at-rule/media/input.css:98:1
    |
 98 | @media ((color) or (hover)) and (width > 1024px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:1
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   | ^^^^^^^^
-
-error: Value
+error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/media/input.css:98:8
    |
 98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |        ^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:98:8
+   |
+98 | @media ((color) or (hover)) and (width > 1024px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:98:8
+   |
+98 | @media ((color) or (hover)) and (width > 1024px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:98:9
    |
 98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |         ^
+   |         ^^^^^^^^^^^^^^^^^^
 
-error: Tokens
+error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:98:9
    |
 98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |         ^
+   |         ^^^^^^^^^^^^^^^^^^
 
-error: LParen
+error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:98:9
    |
 98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |         ^
+   |         ^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:98:9
+   |
+98 | @media ((color) or (hover)) and (width > 1024px) {}
+   |         ^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:98:9
+   |
+98 | @media ((color) or (hover)) and (width > 1024px) {}
+   |         ^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:98:9
+   |
+98 | @media ((color) or (hover)) and (width > 1024px) {}
+   |         ^^^^^^^
+
+error: MediaFeatureBoolean
+  --> $DIR/tests/fixture/at-rule/media/input.css:98:9
+   |
+98 | @media ((color) or (hover)) and (width > 1024px) {}
+   |         ^^^^^^^
+
+error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:98:10
    |
 98 | @media ((color) or (hover)) and (width > 1024px) {}
    |          ^^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:10
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |          ^^^^^
-
-error: Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:10
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |          ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:16
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:16
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:16
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                ^
-
-error: Value
+error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:98:17
    |
 98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                 ^^
+   |                 ^^^^^^^^^^
 
-error: Tokens
+error: MediaOr
   --> $DIR/tests/fixture/at-rule/media/input.css:98:17
    |
 98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                 ^^
+   |                 ^^^^^^^^^^
 
-error: Ident { value: Atom('or' type=static), raw: Atom('or' type=static) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:17
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                 ^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:19
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                   ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:19
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                   ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:19
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                   ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:19
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                   ^^^^^^^^
-
-error: Value
+error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:98:20
    |
 98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                    ^
+   |                    ^^^^^^^
 
-error: Tokens
+error: MediaFeature
   --> $DIR/tests/fixture/at-rule/media/input.css:98:20
    |
 98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                    ^
+   |                    ^^^^^^^
 
-error: LParen
+error: MediaFeatureBoolean
   --> $DIR/tests/fixture/at-rule/media/input.css:98:20
    |
 98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                    ^
+   |                    ^^^^^^^
 
-error: Value
+error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:98:21
    |
 98 | @media ((color) or (hover)) and (width > 1024px) {}
    |                     ^^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:21
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                     ^^^^^
-
-error: Ident { value: Atom('hover' type=inline), raw: Atom('hover' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:21
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                     ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:27
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                           ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:27
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                           ^
-
-error: RParen
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:27
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                           ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:28
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                            ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:28
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                            ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:28
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                            ^
-
-error: Value
+error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:98:29
    |
 98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                             ^^^
+   |                             ^^^^^^^^^^^^^^^^^^^^
 
-error: Tokens
+error: MediaAnd
   --> $DIR/tests/fixture/at-rule/media/input.css:98:29
    |
 98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                             ^^^
+   |                             ^^^^^^^^^^^^^^^^^^^^
 
-error: Ident { value: Atom('and' type=static), raw: Atom('and' type=static) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:29
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                             ^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:32
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:32
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:32
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:32
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                ^^^^^^^^^^^^^^^^^
-
-error: Value
+error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:98:33
    |
 98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                 ^
+   |                                 ^^^^^^^^^^^^^^^^
 
-error: Tokens
+error: MediaFeature
   --> $DIR/tests/fixture/at-rule/media/input.css:98:33
    |
 98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                 ^
+   |                                 ^^^^^^^^^^^^^^^^
 
-error: LParen
+error: MediaFeatureRange
   --> $DIR/tests/fixture/at-rule/media/input.css:98:33
    |
 98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                 ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:34
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                  ^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:34
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                  ^^^^^
-
-error: Ident { value: Atom('width' type=inline), raw: Atom('width' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:34
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                  ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:39
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                       ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:39
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                       ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:39
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                       ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:40
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                        ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:40
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                        ^
-
-error: Delim { value: '>' }
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:40
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                        ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:41
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                         ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:41
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                         ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:41
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                         ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:42
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                          ^^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:42
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                          ^^^^^^
-
-error: Dimension { value: 1024.0, raw_value: Atom('1024' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:42
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                          ^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:49
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                                 ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:49
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                                 ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:98:49
-   |
-98 | @media ((color) or (hover)) and (width > 1024px) {}
-   |                                                 ^
+   |                                 ^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:99:1
@@ -6250,431 +5956,161 @@ error: AtRule
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UnknownAtRule
+error: MediaRule
   --> $DIR/tests/fixture/at-rule/media/input.css:99:1
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:1
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   | ^^^^^^^^
-
-error: Value
+error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/media/input.css:99:8
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |        ^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:99:8
+   |
+99 | @media (((color)) or ((hover))) and (width > 1024px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:99:8
+   |
+99 | @media (((color)) or ((hover))) and (width > 1024px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:99:9
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |         ^
+   |         ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Tokens
+error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:99:9
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |         ^
+   |         ^^^^^^^^^^^^^^^^^^^^^^
 
-error: LParen
+error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:99:9
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |         ^
+   |         ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:99:10
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |          ^
+   |          ^^^^^^^
 
-error: Tokens
+error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:99:10
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |          ^
+   |          ^^^^^^^
 
-error: LParen
+error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:99:10
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |          ^
+   |          ^^^^^^^
 
-error: Value
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:99:10
+   |
+99 | @media (((color)) or ((hover))) and (width > 1024px) {}
+   |          ^^^^^^^
+
+error: MediaFeatureBoolean
+  --> $DIR/tests/fixture/at-rule/media/input.css:99:10
+   |
+99 | @media (((color)) or ((hover))) and (width > 1024px) {}
+   |          ^^^^^^^
+
+error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:99:11
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
    |           ^^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:11
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |           ^^^^^
-
-error: Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:11
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |           ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:17
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                 ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:17
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                 ^
-
-error: RParen
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:17
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                 ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:18
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                  ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:18
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                  ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:18
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                  ^
-
-error: Value
+error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:99:19
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                   ^^
+   |                   ^^^^^^^^^^^^
 
-error: Tokens
+error: MediaOr
   --> $DIR/tests/fixture/at-rule/media/input.css:99:19
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                   ^^
+   |                   ^^^^^^^^^^^^
 
-error: Ident { value: Atom('or' type=static), raw: Atom('or' type=static) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:19
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                   ^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:21
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                     ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:21
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                     ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:21
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                     ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:21
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                     ^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:22
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                      ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:22
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                      ^
-
-error: LParen
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:22
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                      ^
-
-error: Value
+error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:99:23
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                       ^
+   |                       ^^^^^^^
 
-error: Tokens
+error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:99:23
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                       ^
+   |                       ^^^^^^^
 
-error: LParen
+error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:99:23
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                       ^
+   |                       ^^^^^^^
 
-error: Value
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:99:23
+   |
+99 | @media (((color)) or ((hover))) and (width > 1024px) {}
+   |                       ^^^^^^^
+
+error: MediaFeatureBoolean
+  --> $DIR/tests/fixture/at-rule/media/input.css:99:23
+   |
+99 | @media (((color)) or ((hover))) and (width > 1024px) {}
+   |                       ^^^^^^^
+
+error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:99:24
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
    |                        ^^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:24
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                        ^^^^^
-
-error: Ident { value: Atom('hover' type=inline), raw: Atom('hover' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:24
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                        ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:30
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                              ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:30
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                              ^
-
-error: RParen
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:30
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                              ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:31
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                               ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:31
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                               ^
-
-error: RParen
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:31
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                               ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:32
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:32
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:32
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                ^
-
-error: Value
+error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:99:33
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                 ^^^
+   |                                 ^^^^^^^^^^^^^^^^^^^^
 
-error: Tokens
+error: MediaAnd
   --> $DIR/tests/fixture/at-rule/media/input.css:99:33
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                 ^^^
+   |                                 ^^^^^^^^^^^^^^^^^^^^
 
-error: Ident { value: Atom('and' type=static), raw: Atom('and' type=static) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:33
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                 ^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:36
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                    ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:36
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                    ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:36
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                    ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:36
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                    ^^^^^^^^^^^^^^^^^
-
-error: Value
+error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:99:37
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                     ^
+   |                                     ^^^^^^^^^^^^^^^^
 
-error: Tokens
+error: MediaFeature
   --> $DIR/tests/fixture/at-rule/media/input.css:99:37
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                     ^
+   |                                     ^^^^^^^^^^^^^^^^
 
-error: LParen
+error: MediaFeatureRange
   --> $DIR/tests/fixture/at-rule/media/input.css:99:37
    |
 99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                     ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:38
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                      ^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:38
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                      ^^^^^
-
-error: Ident { value: Atom('width' type=inline), raw: Atom('width' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:38
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                      ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:43
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                           ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:43
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                           ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:43
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                           ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:44
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                            ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:44
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                            ^
-
-error: Delim { value: '>' }
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:44
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                            ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:45
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                             ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:45
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                             ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:45
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                             ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:46
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                              ^^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:46
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                              ^^^^^^
-
-error: Dimension { value: 1024.0, raw_value: Atom('1024' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:46
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                              ^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:53
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                                     ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:53
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                                     ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:99:53
-   |
-99 | @media (((color)) or ((hover))) and (width > 1024px) {}
-   |                                                     ^
+   |                                     ^^^^^^^^^^^^^^^^
 
 error: Rule
    --> $DIR/tests/fixture/at-rule/media/input.css:100:1
@@ -6688,501 +6124,195 @@ error: AtRule
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UnknownAtRule
+error: MediaRule
    --> $DIR/tests/fixture/at-rule/media/input.css:100:1
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:1
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    | ^^^^^^^^
-
-error: Value
+error: MediaQueryList
    --> $DIR/tests/fixture/at-rule/media/input.css:100:8
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |        ^^^^^^^^^^^
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: MediaQuery
+   --> $DIR/tests/fixture/at-rule/media/input.css:100:8
+    |
+100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+   --> $DIR/tests/fixture/at-rule/media/input.css:100:8
+    |
+100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:100:9
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |         ^
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Tokens
+error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:100:9
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |         ^
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: LParen
+error: MediaCondition
    --> $DIR/tests/fixture/at-rule/media/input.css:100:9
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |         ^
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:100:10
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |          ^
+    |          ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Tokens
+error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:100:10
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |          ^
+    |          ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: LParen
+error: MediaCondition
    --> $DIR/tests/fixture/at-rule/media/input.css:100:10
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |          ^
+    |          ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:100:11
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |           ^
+    |           ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Tokens
+error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:100:11
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |           ^
+    |           ^^^^^^^^^^^^^^^^^^^^^^
 
-error: LParen
+error: MediaCondition
    --> $DIR/tests/fixture/at-rule/media/input.css:100:11
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |           ^
+    |           ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:100:12
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |            ^
+    |            ^^^^^^^
 
-error: Tokens
+error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:100:12
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |            ^
+    |            ^^^^^^^
 
-error: LParen
+error: MediaCondition
    --> $DIR/tests/fixture/at-rule/media/input.css:100:12
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |            ^
+    |            ^^^^^^^
 
-error: Value
+error: MediaFeature
+   --> $DIR/tests/fixture/at-rule/media/input.css:100:12
+    |
+100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
+    |            ^^^^^^^
+
+error: MediaFeatureBoolean
+   --> $DIR/tests/fixture/at-rule/media/input.css:100:12
+    |
+100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
+    |            ^^^^^^^
+
+error: Ident
    --> $DIR/tests/fixture/at-rule/media/input.css:100:13
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
     |             ^^^^^
 
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:13
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |             ^^^^^
-
-error: Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:13
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |             ^^^^^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:19
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                   ^
-
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:19
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                   ^
-
-error: RParen
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:19
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                   ^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:20
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                    ^
-
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:20
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                    ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:20
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                    ^
-
-error: Value
+error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:100:21
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                     ^^
+    |                     ^^^^^^^^^^^^
 
-error: Tokens
+error: MediaOr
    --> $DIR/tests/fixture/at-rule/media/input.css:100:21
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                     ^^
+    |                     ^^^^^^^^^^^^
 
-error: Ident { value: Atom('or' type=static), raw: Atom('or' type=static) }
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:21
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                     ^^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:23
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                       ^
-
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:23
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                       ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:23
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                       ^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:23
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                       ^^^^^^^^^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:24
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                        ^
-
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:24
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                        ^
-
-error: LParen
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:24
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                        ^
-
-error: Value
+error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:100:25
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                         ^
+    |                         ^^^^^^^
 
-error: Tokens
+error: MediaCondition
    --> $DIR/tests/fixture/at-rule/media/input.css:100:25
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                         ^
+    |                         ^^^^^^^
 
-error: LParen
+error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:100:25
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                         ^
+    |                         ^^^^^^^
 
-error: Value
+error: MediaFeature
+   --> $DIR/tests/fixture/at-rule/media/input.css:100:25
+    |
+100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
+    |                         ^^^^^^^
+
+error: MediaFeatureBoolean
+   --> $DIR/tests/fixture/at-rule/media/input.css:100:25
+    |
+100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
+    |                         ^^^^^^^
+
+error: Ident
    --> $DIR/tests/fixture/at-rule/media/input.css:100:26
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
     |                          ^^^^^
 
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:26
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                          ^^^^^
-
-error: Ident { value: Atom('hover' type=inline), raw: Atom('hover' type=inline) }
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:26
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                          ^^^^^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:32
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                ^
-
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:32
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                ^
-
-error: RParen
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:32
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                ^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:33
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                 ^
-
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:33
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                 ^
-
-error: RParen
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:33
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                 ^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:34
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                  ^
-
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:34
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                  ^
-
-error: RParen
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:34
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                  ^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:35
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                   ^
-
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:35
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                   ^
-
-error: RParen
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:35
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                   ^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:36
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                    ^
-
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:36
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                    ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:36
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                    ^
-
-error: Value
+error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:100:37
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                     ^^^
+    |                                     ^^^^^^^^^^^^^^^^^^^^
 
-error: Tokens
+error: MediaAnd
    --> $DIR/tests/fixture/at-rule/media/input.css:100:37
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                     ^^^
+    |                                     ^^^^^^^^^^^^^^^^^^^^
 
-error: Ident { value: Atom('and' type=static), raw: Atom('and' type=static) }
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:37
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                     ^^^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:40
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                        ^
-
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:40
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                        ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:40
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                        ^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:40
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                        ^^^^^^^^^^^^^^^^^
-
-error: Value
+error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:100:41
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                         ^
+    |                                         ^^^^^^^^^^^^^^^^
 
-error: Tokens
+error: MediaFeature
    --> $DIR/tests/fixture/at-rule/media/input.css:100:41
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                         ^
+    |                                         ^^^^^^^^^^^^^^^^
 
-error: LParen
+error: MediaFeatureRange
    --> $DIR/tests/fixture/at-rule/media/input.css:100:41
     |
 100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                         ^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:42
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                          ^^^^^
-
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:42
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                          ^^^^^
-
-error: Ident { value: Atom('width' type=inline), raw: Atom('width' type=inline) }
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:42
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                          ^^^^^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:47
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                               ^
-
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:47
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                               ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:47
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                               ^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:48
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                                ^
-
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:48
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                                ^
-
-error: Delim { value: '>' }
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:48
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                                ^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:49
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                                 ^
-
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:49
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                                 ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:49
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                                 ^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:50
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                                  ^^^^^^
-
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:50
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                                  ^^^^^^
-
-error: Dimension { value: 1024.0, raw_value: Atom('1024' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:50
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                                  ^^^^^^
-
-error: Value
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:57
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                                         ^
-
-error: Tokens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:57
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                                         ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:57
-    |
-100 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                                                         ^
+    |                                         ^^^^^^^^^^^^^^^^
 

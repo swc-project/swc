@@ -66,7 +66,7 @@ pub struct MediaOr {
 #[ast_node]
 pub enum MediaInParens {
     #[tag("MediaCondition")]
-    MediaQueryItem(MediaCondition),
+    MediaCondition(MediaCondition),
 
     #[tag("MediaFeature")]
     Feature(MediaFeature),
