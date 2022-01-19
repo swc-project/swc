@@ -23,7 +23,7 @@ where
         expr: &mut Expr,
         is_ret_val_ignored: bool,
     ) -> bool {
-        let cost = negate_cost(expr, is_ret_val_ignored, is_ret_val_ignored).unwrap_or(isize::MAX);
+        let cost = negate_cost(expr, is_ret_val_ignored, is_ret_val_ignored);
         if cost >= 0 {
             return false;
         }

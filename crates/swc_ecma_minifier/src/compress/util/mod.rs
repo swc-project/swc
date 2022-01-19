@@ -221,7 +221,7 @@ pub(crate) fn is_ok_to_negate_rhs(rhs: &Expr) -> bool {
 
 /// A negative value means that it's efficient to negate the expression.
 #[cfg_attr(feature = "debug", tracing::instrument(skip(e)))]
-pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> Option<isize> {
+pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> isize {
     #[cfg_attr(test, tracing::instrument(skip(e)))]
     fn cost(
         e: &Expr,
@@ -357,7 +357,7 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
         );
     }
 
-    Some(cost)
+    cost
 }
 
 pub(crate) fn is_pure_undefined(e: &Expr) -> bool {

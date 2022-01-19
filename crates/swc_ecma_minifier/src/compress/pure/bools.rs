@@ -45,8 +45,7 @@ where
                     right,
                     ..
                 }) => {
-                    if negate_cost(left, false, false).unwrap_or(isize::MAX) >= 0
-                        || negate_cost(right, false, false).unwrap_or(isize::MAX) >= 0
+                    if negate_cost(left, false, false) >= 0 || negate_cost(right, false, false) >= 0
                     {
                         return;
                     }
@@ -68,8 +67,8 @@ where
                         ..
                     }) = &mut **arg_of_arg
                     {
-                        if negate_cost(left, false, false).unwrap_or(isize::MAX) > 0
-                            || negate_cost(right, false, false).unwrap_or(isize::MAX) > 0
+                        if negate_cost(left, false, false) > 0
+                            || negate_cost(right, false, false) > 0
                         {
                             return;
                         }

@@ -126,7 +126,7 @@ where
     }
 
     pub(super) fn negate_cond_expr(&mut self, cond: &mut CondExpr) {
-        if negate_cost(&cond.test, true, false).unwrap_or(isize::MAX) >= 0 {
+        if negate_cost(&cond.test, true, false) >= 0 {
             return;
         }
 
