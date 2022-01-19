@@ -797,25 +797,48 @@ where
     fn parse(&mut self) -> PResult<MediaCondition> {
         self.input.skip_ws()?;
 
-        let span = self.input.cur_span()?;
+        let start_pos = self.input.cur_span()?.lo;
+        let mut last_pos;
         let mut conditions = vec![];
 
         if is!(self, "not") {
-            conditions.push(MediaConditionItem::Not(self.parse()?));
+            let not = self.parse()?;
+
+            last_pos = match not {
+                MediaNot { span, .. } => span.hi,
+            };
+
+            conditions.push(MediaConditionItem::Not(not));
         } else {
-            conditions.push(MediaConditionItem::MediaInParens(self.parse()?));
+            let media_in_parens = self.parse()?;
+
+            last_pos = self.input.cur_span()?.hi;
+            
+            conditions.push(MediaConditionItem::MediaInParens(media_in_parens));
 
             self.input.skip_ws()?;
 
             if is!(self, "and") {
                 while is!(self, "and") {
-                    conditions.push(MediaConditionItem::And(self.parse()?));
+                    let and = self.parse()?;
+
+                    last_pos = match and {
+                        MediaAnd { span, .. } => span.hi,
+                    };
+
+                    conditions.push(MediaConditionItem::And(and));
 
                     self.input.skip_ws()?;
                 }
             } else if is!(self, "or") {
                 while is!(self, "or") {
-                    conditions.push(MediaConditionItem::Or(self.parse()?));
+                    let or = self.parse()?;
+
+                    last_pos = match or {
+                        MediaOr { span, .. } => span.hi,
+                    };
+
+                    conditions.push(MediaConditionItem::Or(or));
 
                     self.input.skip_ws()?;
                 }
@@ -823,7 +846,7 @@ where
         };
 
         Ok(MediaCondition {
-            span: span!(self, span.lo),
+            span: Span::new(start_pos, last_pos, Default::default()),
             conditions,
         })
     }
