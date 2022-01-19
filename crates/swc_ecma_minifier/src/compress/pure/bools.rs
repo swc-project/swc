@@ -219,7 +219,7 @@ where
                 ..
             }) => false,
 
-            e if is_pure_undefined(&e) => true,
+            e if is_pure_undefined(e) => true,
 
             Expr::Ident(..) => true,
 
@@ -231,11 +231,7 @@ where
             }) => {
                 let rn = right.as_number();
                 let v = if let Value::Known(rn) = rn {
-                    if rn != 0.0 {
-                        true
-                    } else {
-                        false
-                    }
+                    rn != 0.0
                 } else {
                     false
                 };
@@ -273,23 +269,20 @@ where
                     op: op!("delete"), ..
                 },
             ) => {
-                match &mut *e.arg {
-                    Expr::Seq(SeqExpr { exprs, .. }) => {
-                        if exprs.is_empty() {
-                            return;
-                        }
-                        tracing::debug!("bools: Optimizing negated sequences");
-
-                        {
-                            let last = exprs.last_mut().unwrap();
-                            self.optimize_expr_in_bool_ctx(last);
-                            // Negate last element.
-                            self.changed |= negate(last, false, false);
-                        }
-
-                        *n = *e.arg.take();
+                if let Expr::Seq(SeqExpr { exprs, .. }) = &mut *e.arg {
+                    if exprs.is_empty() {
+                        return;
                     }
-                    _ => {}
+                    tracing::debug!("bools: Optimizing negated sequences");
+
+                    {
+                        let last = exprs.last_mut().unwrap();
+                        self.optimize_expr_in_bool_ctx(last);
+                        // Negate last element.
+                        self.changed |= negate(last, false, false);
+                    }
+
+                    *n = *e.arg.take();
                 }
             }
             _ => {}
@@ -347,7 +340,6 @@ where
                     tracing::debug!("bools: !!expr => expr (in bool ctx)");
                     self.changed = true;
                     *n = *arg.take();
-                    return;
                 }
                 _ => {}
             },
@@ -432,7 +424,6 @@ where
                     tracing::debug!("bools: `expr || false` => `expr` (in bool context)");
                     self.changed = true;
                     *n = *left.take();
-                    return;
                 }
             }
 
@@ -442,7 +433,6 @@ where
                 if let Value::Known(v) = v {
                     tracing::debug!("Optimizing expr as {} (in bool context)", v);
                     *n = make_bool(span, v);
-                    return;
                 }
             }
         }
@@ -473,13 +463,7 @@ where
                 Expr::Unary(UnaryExpr {
                     op: op!("!"), arg, ..
                 }),
-            ) if match &**arg {
-                Expr::Lit(..) => true,
-                _ => false,
-            } =>
-            {
-                true
-            }
+            ) if matches!(&**arg, Expr::Lit(..)) => true,
 
             (Expr::Member(..) | Expr::Call(..) | Expr::Assign(..), r) if is_pure_undefined(r) => {
                 true
@@ -511,17 +495,17 @@ where
 
     fn try_swap_bin(&mut self, op: BinaryOp, left: &mut Expr, right: &mut Expr) -> bool {
         fn is_supported(op: BinaryOp) -> bool {
-            match op {
+            matches!(
+                op,
                 op!("===")
-                | op!("!==")
-                | op!("==")
-                | op!("!=")
-                | op!("&")
-                | op!("^")
-                | op!("|")
-                | op!("*") => true,
-                _ => false,
-            }
+                    | op!("!==")
+                    | op!("==")
+                    | op!("!=")
+                    | op!("&")
+                    | op!("^")
+                    | op!("|")
+                    | op!("*")
+            )
         }
 
         if !is_supported(op) {
