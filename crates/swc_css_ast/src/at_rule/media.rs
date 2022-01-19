@@ -31,17 +31,14 @@ pub struct MediaCondition {
 
 #[ast_node]
 pub enum MediaQueryItem {
+    #[tag("MediaNot")]
+    Not(MediaNot),
+    
     #[tag("AndMediaQuery")]
     And(AndMediaQuery),
 
     #[tag("OrMediaQuery")]
     Or(OrMediaQuery),
-
-    #[tag("MediaNot")]
-    Not(MediaNot),
-
-    #[tag("OnlyMediaQuery")]
-    Only(OnlyMediaQuery),
 
     #[tag("MediaInParens")]
     MediaInParens(MediaInParens),

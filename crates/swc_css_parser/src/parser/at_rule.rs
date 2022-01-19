@@ -840,13 +840,7 @@ where
 
         let span = self.input.cur_span()?;
 
-        let base = if eat!(self, "only") {
-            let query = self.parse()?;
-            MediaQueryItem::Only(OnlyMediaQuery {
-                span: span!(self, span.lo),
-                query,
-            })
-        } else if is!(self, "(") {
+        let base = if is!(self, "(") {
             if peeked_is!(self, Ident) {
                 let media_feature = self.parse()?;
 

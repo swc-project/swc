@@ -461,10 +461,9 @@ define!({
     }
 
     pub enum MediaQueryItem {
+        Not(MediaNot),
         And(AndMediaQuery),
         Or(OrMediaQuery),
-        Not(MediaNot),
-        Only(OnlyMediaQuery),
         MediaInParens(MediaInParens),
     }
 
@@ -489,7 +488,7 @@ define!({
         pub span: Span,
         pub query: Box<MediaQueryItem>,
     }
-    
+
     pub enum MediaInParens {
         MediaQueryItem(MediaCondition),
         Feature(MediaFeature),
