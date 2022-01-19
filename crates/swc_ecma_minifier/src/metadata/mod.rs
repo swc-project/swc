@@ -13,11 +13,11 @@ use swc_ecma_visit::{
 mod tests;
 
 /// This pass analyzes the comment and convert it to a mark.
-pub(crate) fn info_marker<'a>(
-    comments: Option<&'a dyn Comments>,
+pub(crate) fn info_marker(
+    comments: Option<&dyn Comments>,
     marks: Marks,
     top_level_mark: Mark,
-) -> impl 'a + VisitMut {
+) -> impl '_ + VisitMut {
     InfoMarker {
         comments,
         marks,
@@ -74,7 +74,7 @@ impl InfoMarker<'_> {
             let cs = comments.get_leading(span.lo);
             if let Some(cs) = cs {
                 for c in &cs {
-                    found |= op(&c);
+                    found |= op(c);
                     if found {
                         break;
                     }

@@ -284,7 +284,7 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
                 }
 
                 Expr::Cond(CondExpr { cons, alt, .. })
-                    if is_ok_to_negate_for_cond(cons) && is_ok_to_negate_for_cond(&alt =>
+                    if is_ok_to_negate_for_cond(cons) && is_ok_to_negate_for_cond(alt) =>
                 {
                     cost(cons, in_bool_ctx, bin_op, is_ret_val_ignored)
                         + cost(alt, in_bool_ctx, bin_op, is_ret_val_ignored)
