@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 1324,
+    "end": 2202,
     "ctxt": 0
   },
   "rules": [
@@ -2036,23 +2036,23 @@
     {
       "type": "MediaRule",
       "span": {
-        "start": 851,
-        "end": 877,
+        "start": 846,
+        "end": 886,
         "ctxt": 0
       },
       "media": {
         "type": "MediaQueryList",
         "span": {
-          "start": 858,
-          "end": 875,
+          "start": 855,
+          "end": 884,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 858,
-              "end": 875,
+              "start": 855,
+              "end": 884,
               "ctxt": 0
             },
             "modifier": null,
@@ -2060,115 +2060,41 @@
             "condition": {
               "type": "MediaCondition",
               "span": {
-                "start": 858,
-                "end": 875,
+                "start": 855,
+                "end": 884,
                 "ctxt": 0
               },
               "conditions": [
                 {
                   "type": "MediaFeatureRange",
                   "span": {
-                    "start": 858,
-                    "end": 874,
+                    "start": 855,
+                    "end": 881,
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Identifier",
                     "span": {
                       "start": 859,
-                      "end": 864,
+                      "end": 865,
                       "ctxt": 0
                     },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 859,
-                        "end": 862,
-                        "ctxt": 0
-                      },
-                      "value": 600.0,
-                      "raw": "600"
-                    },
-                    "unit": {
-                      "span": {
-                        "start": 862,
-                        "end": 864,
-                        "ctxt": 0
-                      },
-                      "value": "px",
-                      "raw": "px"
-                    }
+                    "value": "height",
+                    "raw": "height"
                   },
                   "comparison": "<",
                   "right": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 867,
-                      "end": 873,
-                      "ctxt": 0
-                    },
-                    "value": "height",
-                    "raw": "height"
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      },
-      "rules": []
-    },
-    {
-      "type": "MediaRule",
-      "span": {
-        "start": 878,
-        "end": 905,
-        "ctxt": 0
-      },
-      "media": {
-        "type": "MediaQueryList",
-        "span": {
-          "start": 885,
-          "end": 903,
-          "ctxt": 0
-        },
-        "queries": [
-          {
-            "type": "MediaQuery",
-            "span": {
-              "start": 885,
-              "end": 903,
-              "ctxt": 0
-            },
-            "modifier": null,
-            "mediaType": null,
-            "condition": {
-              "type": "MediaCondition",
-              "span": {
-                "start": 885,
-                "end": 903,
-                "ctxt": 0
-              },
-              "conditions": [
-                {
-                  "type": "MediaFeatureRange",
-                  "span": {
-                    "start": 885,
-                    "end": 902,
-                    "ctxt": 0
-                  },
-                  "left": {
                     "type": "UnitValue",
                     "span": {
-                      "start": 886,
-                      "end": 891,
+                      "start": 872,
+                      "end": 877,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 886,
-                        "end": 889,
+                        "start": 872,
+                        "end": 875,
                         "ctxt": 0
                       },
                       "value": 600.0,
@@ -2176,24 +2102,13 @@
                     },
                     "unit": {
                       "span": {
-                        "start": 889,
-                        "end": 891,
+                        "start": 875,
+                        "end": 877,
                         "ctxt": 0
                       },
                       "value": "px",
                       "raw": "px"
                     }
-                  },
-                  "comparison": "<=",
-                  "right": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 895,
-                      "end": 901,
-                      "ctxt": 0
-                    },
-                    "value": "height",
-                    "raw": "height"
                   }
                 }
               ]
@@ -2206,23 +2121,23 @@
     {
       "type": "MediaRule",
       "span": {
-        "start": 906,
-        "end": 932,
+        "start": 887,
+        "end": 928,
         "ctxt": 0
       },
       "media": {
         "type": "MediaQueryList",
         "span": {
-          "start": 913,
-          "end": 930,
+          "start": 896,
+          "end": 926,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 913,
-              "end": 930,
+              "start": 896,
+              "end": 926,
               "ctxt": 0
             },
             "modifier": null,
@@ -2230,19 +2145,30 @@
             "condition": {
               "type": "MediaCondition",
               "span": {
-                "start": 913,
-                "end": 930,
+                "start": 896,
+                "end": 926,
                 "ctxt": 0
               },
               "conditions": [
                 {
                   "type": "MediaFeatureRange",
                   "span": {
-                    "start": 913,
-                    "end": 929,
+                    "start": 896,
+                    "end": 923,
                     "ctxt": 0
                   },
                   "left": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 900,
+                      "end": 906,
+                      "ctxt": 0
+                    },
+                    "value": "height",
+                    "raw": "height"
+                  },
+                  "comparison": "<=",
+                  "right": {
                     "type": "UnitValue",
                     "span": {
                       "start": 914,
@@ -2268,13 +2194,342 @@
                       "value": "px",
                       "raw": "px"
                     }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 929,
+        "end": 969,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 938,
+          "end": 967,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 938,
+              "end": 967,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 938,
+                "end": 967,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRange",
+                  "span": {
+                    "start": 938,
+                    "end": 964,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 942,
+                      "end": 948,
+                      "ctxt": 0
+                    },
+                    "value": "height",
+                    "raw": "height"
                   },
                   "comparison": ">",
                   "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 955,
+                      "end": 960,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 955,
+                        "end": 958,
+                        "ctxt": 0
+                      },
+                      "value": 600.0,
+                      "raw": "600"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 958,
+                        "end": 960,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 970,
+        "end": 1011,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 979,
+          "end": 1009,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 979,
+              "end": 1009,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 979,
+                "end": 1009,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRange",
+                  "span": {
+                    "start": 979,
+                    "end": 1006,
+                    "ctxt": 0
+                  },
+                  "left": {
                     "type": "Identifier",
                     "span": {
-                      "start": 922,
-                      "end": 928,
+                      "start": 983,
+                      "end": 989,
+                      "ctxt": 0
+                    },
+                    "value": "height",
+                    "raw": "height"
+                  },
+                  "comparison": ">=",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 997,
+                      "end": 1002,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 997,
+                        "end": 1000,
+                        "ctxt": 0
+                      },
+                      "value": 600.0,
+                      "raw": "600"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1000,
+                        "end": 1002,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1012,
+        "end": 1052,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1021,
+          "end": 1050,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1021,
+              "end": 1050,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1021,
+                "end": 1050,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRange",
+                  "span": {
+                    "start": 1021,
+                    "end": 1047,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1025,
+                      "end": 1031,
+                      "ctxt": 0
+                    },
+                    "value": "height",
+                    "raw": "height"
+                  },
+                  "comparison": "=",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1038,
+                      "end": 1043,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1038,
+                        "end": 1041,
+                        "ctxt": 0
+                      },
+                      "value": 600.0,
+                      "raw": "600"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1041,
+                        "end": 1043,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1058,
+        "end": 1084,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1065,
+          "end": 1082,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1065,
+              "end": 1082,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1065,
+                "end": 1082,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRange",
+                  "span": {
+                    "start": 1065,
+                    "end": 1081,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1066,
+                      "end": 1071,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1066,
+                        "end": 1069,
+                        "ctxt": 0
+                      },
+                      "value": 600.0,
+                      "raw": "600"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1069,
+                        "end": 1071,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "comparison": "<",
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1074,
+                      "end": 1080,
                       "ctxt": 0
                     },
                     "value": "height",
@@ -2291,23 +2546,23 @@
     {
       "type": "MediaRule",
       "span": {
-        "start": 933,
-        "end": 960,
+        "start": 1085,
+        "end": 1112,
         "ctxt": 0
       },
       "media": {
         "type": "MediaQueryList",
         "span": {
-          "start": 940,
-          "end": 958,
+          "start": 1092,
+          "end": 1110,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 940,
-              "end": 958,
+              "start": 1092,
+              "end": 1110,
               "ctxt": 0
             },
             "modifier": null,
@@ -2315,30 +2570,30 @@
             "condition": {
               "type": "MediaCondition",
               "span": {
-                "start": 940,
-                "end": 958,
+                "start": 1092,
+                "end": 1110,
                 "ctxt": 0
               },
               "conditions": [
                 {
                   "type": "MediaFeatureRange",
                   "span": {
-                    "start": 940,
-                    "end": 957,
+                    "start": 1092,
+                    "end": 1109,
                     "ctxt": 0
                   },
                   "left": {
                     "type": "UnitValue",
                     "span": {
-                      "start": 941,
-                      "end": 946,
+                      "start": 1093,
+                      "end": 1098,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 941,
-                        "end": 944,
+                        "start": 1093,
+                        "end": 1096,
                         "ctxt": 0
                       },
                       "value": 600.0,
@@ -2346,8 +2601,178 @@
                     },
                     "unit": {
                       "span": {
-                        "start": 944,
-                        "end": 946,
+                        "start": 1096,
+                        "end": 1098,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "comparison": "<=",
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1102,
+                      "end": 1108,
+                      "ctxt": 0
+                    },
+                    "value": "height",
+                    "raw": "height"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1113,
+        "end": 1139,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1120,
+          "end": 1137,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1120,
+              "end": 1137,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1120,
+                "end": 1137,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRange",
+                  "span": {
+                    "start": 1120,
+                    "end": 1136,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1121,
+                      "end": 1126,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1121,
+                        "end": 1124,
+                        "ctxt": 0
+                      },
+                      "value": 600.0,
+                      "raw": "600"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1124,
+                        "end": 1126,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "comparison": ">",
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1129,
+                      "end": 1135,
+                      "ctxt": 0
+                    },
+                    "value": "height",
+                    "raw": "height"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1140,
+        "end": 1167,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1147,
+          "end": 1165,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1147,
+              "end": 1165,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1147,
+                "end": 1165,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRange",
+                  "span": {
+                    "start": 1147,
+                    "end": 1164,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1148,
+                      "end": 1153,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1148,
+                        "end": 1151,
+                        "ctxt": 0
+                      },
+                      "value": 600.0,
+                      "raw": "600"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1151,
+                        "end": 1153,
                         "ctxt": 0
                       },
                       "value": "px",
@@ -2358,8 +2783,8 @@
                   "right": {
                     "type": "Identifier",
                     "span": {
-                      "start": 950,
-                      "end": 956,
+                      "start": 1157,
+                      "end": 1163,
                       "ctxt": 0
                     },
                     "value": "height",
@@ -2376,23 +2801,23 @@
     {
       "type": "MediaRule",
       "span": {
-        "start": 961,
-        "end": 987,
+        "start": 1168,
+        "end": 1194,
         "ctxt": 0
       },
       "media": {
         "type": "MediaQueryList",
         "span": {
-          "start": 968,
-          "end": 985,
+          "start": 1175,
+          "end": 1192,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 968,
-              "end": 985,
+              "start": 1175,
+              "end": 1192,
               "ctxt": 0
             },
             "modifier": null,
@@ -2400,30 +2825,30 @@
             "condition": {
               "type": "MediaCondition",
               "span": {
-                "start": 968,
-                "end": 985,
+                "start": 1175,
+                "end": 1192,
                 "ctxt": 0
               },
               "conditions": [
                 {
                   "type": "MediaFeatureRange",
                   "span": {
-                    "start": 968,
-                    "end": 984,
+                    "start": 1175,
+                    "end": 1191,
                     "ctxt": 0
                   },
                   "left": {
                     "type": "UnitValue",
                     "span": {
-                      "start": 969,
-                      "end": 974,
+                      "start": 1176,
+                      "end": 1181,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 969,
-                        "end": 972,
+                        "start": 1176,
+                        "end": 1179,
                         "ctxt": 0
                       },
                       "value": 600.0,
@@ -2431,8 +2856,8 @@
                     },
                     "unit": {
                       "span": {
-                        "start": 972,
-                        "end": 974,
+                        "start": 1179,
+                        "end": 1181,
                         "ctxt": 0
                       },
                       "value": "px",
@@ -2443,8 +2868,8 @@
                   "right": {
                     "type": "Identifier",
                     "span": {
-                      "start": 977,
-                      "end": 983,
+                      "start": 1184,
+                      "end": 1190,
                       "ctxt": 0
                     },
                     "value": "height",
@@ -2461,23 +2886,23 @@
     {
       "type": "MediaRule",
       "span": {
-        "start": 993,
-        "end": 1026,
+        "start": 1195,
+        "end": 1235,
         "ctxt": 0
       },
       "media": {
         "type": "MediaQueryList",
         "span": {
-          "start": 1000,
-          "end": 1024,
+          "start": 1204,
+          "end": 1233,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 1000,
-              "end": 1024,
+              "start": 1204,
+              "end": 1233,
               "ctxt": 0
             },
             "modifier": null,
@@ -2485,83 +2910,55 @@
             "condition": {
               "type": "MediaCondition",
               "span": {
-                "start": 1000,
-                "end": 1024,
+                "start": 1204,
+                "end": 1233,
                 "ctxt": 0
               },
               "conditions": [
                 {
-                  "type": "MediaFeatureRangeInterval",
+                  "type": "MediaFeatureRange",
                   "span": {
-                    "start": 1000,
-                    "end": 1023,
+                    "start": 1204,
+                    "end": 1230,
                     "ctxt": 0
                   },
                   "left": {
                     "type": "UnitValue",
                     "span": {
-                      "start": 1001,
-                      "end": 1006,
+                      "start": 1208,
+                      "end": 1213,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1001,
-                        "end": 1004,
+                        "start": 1208,
+                        "end": 1211,
                         "ctxt": 0
                       },
-                      "value": 400.0,
-                      "raw": "400"
+                      "value": 600.0,
+                      "raw": "600"
                     },
                     "unit": {
                       "span": {
-                        "start": 1004,
-                        "end": 1006,
+                        "start": 1211,
+                        "end": 1213,
                         "ctxt": 0
                       },
                       "value": "px",
                       "raw": "px"
                     }
                   },
-                  "leftComparison": "<",
-                  "name": {
+                  "comparison": "<",
+                  "right": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1009,
-                      "end": 1014,
+                      "start": 1220,
+                      "end": 1226,
                       "ctxt": 0
                     },
-                    "value": "width",
-                    "raw": "width"
-                  },
-                  "rightComparison": "<",
-                  "right": {
-                    "type": "UnitValue",
-                    "span": {
-                      "start": 1017,
-                      "end": 1022,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1017,
-                        "end": 1020,
-                        "ctxt": 0
-                      },
-                      "value": 700.0,
-                      "raw": "700"
-                    },
-                    "unit": {
-                      "span": {
-                        "start": 1020,
-                        "end": 1022,
-                        "ctxt": 0
-                      },
-                      "value": "px",
-                      "raw": "px"
-                    }
+                    "value": "height",
+                    "raw": "height"
                   }
                 }
               ]
@@ -2574,692 +2971,14 @@
     {
       "type": "MediaRule",
       "span": {
-        "start": 1027,
-        "end": 1061,
-        "ctxt": 0
-      },
-      "media": {
-        "type": "MediaQueryList",
-        "span": {
-          "start": 1034,
-          "end": 1059,
-          "ctxt": 0
-        },
-        "queries": [
-          {
-            "type": "MediaQuery",
-            "span": {
-              "start": 1034,
-              "end": 1059,
-              "ctxt": 0
-            },
-            "modifier": null,
-            "mediaType": null,
-            "condition": {
-              "type": "MediaCondition",
-              "span": {
-                "start": 1034,
-                "end": 1059,
-                "ctxt": 0
-              },
-              "conditions": [
-                {
-                  "type": "MediaFeatureRangeInterval",
-                  "span": {
-                    "start": 1034,
-                    "end": 1058,
-                    "ctxt": 0
-                  },
-                  "left": {
-                    "type": "UnitValue",
-                    "span": {
-                      "start": 1035,
-                      "end": 1040,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1035,
-                        "end": 1038,
-                        "ctxt": 0
-                      },
-                      "value": 400.0,
-                      "raw": "400"
-                    },
-                    "unit": {
-                      "span": {
-                        "start": 1038,
-                        "end": 1040,
-                        "ctxt": 0
-                      },
-                      "value": "px",
-                      "raw": "px"
-                    }
-                  },
-                  "leftComparison": "<=",
-                  "name": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 1044,
-                      "end": 1049,
-                      "ctxt": 0
-                    },
-                    "value": "width",
-                    "raw": "width"
-                  },
-                  "rightComparison": "<",
-                  "right": {
-                    "type": "UnitValue",
-                    "span": {
-                      "start": 1052,
-                      "end": 1057,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1052,
-                        "end": 1055,
-                        "ctxt": 0
-                      },
-                      "value": 700.0,
-                      "raw": "700"
-                    },
-                    "unit": {
-                      "span": {
-                        "start": 1055,
-                        "end": 1057,
-                        "ctxt": 0
-                      },
-                      "value": "px",
-                      "raw": "px"
-                    }
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      },
-      "rules": []
-    },
-    {
-      "type": "MediaRule",
-      "span": {
-        "start": 1062,
-        "end": 1096,
-        "ctxt": 0
-      },
-      "media": {
-        "type": "MediaQueryList",
-        "span": {
-          "start": 1069,
-          "end": 1094,
-          "ctxt": 0
-        },
-        "queries": [
-          {
-            "type": "MediaQuery",
-            "span": {
-              "start": 1069,
-              "end": 1094,
-              "ctxt": 0
-            },
-            "modifier": null,
-            "mediaType": null,
-            "condition": {
-              "type": "MediaCondition",
-              "span": {
-                "start": 1069,
-                "end": 1094,
-                "ctxt": 0
-              },
-              "conditions": [
-                {
-                  "type": "MediaFeatureRangeInterval",
-                  "span": {
-                    "start": 1069,
-                    "end": 1093,
-                    "ctxt": 0
-                  },
-                  "left": {
-                    "type": "UnitValue",
-                    "span": {
-                      "start": 1070,
-                      "end": 1075,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1070,
-                        "end": 1073,
-                        "ctxt": 0
-                      },
-                      "value": 400.0,
-                      "raw": "400"
-                    },
-                    "unit": {
-                      "span": {
-                        "start": 1073,
-                        "end": 1075,
-                        "ctxt": 0
-                      },
-                      "value": "px",
-                      "raw": "px"
-                    }
-                  },
-                  "leftComparison": "<",
-                  "name": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 1078,
-                      "end": 1083,
-                      "ctxt": 0
-                    },
-                    "value": "width",
-                    "raw": "width"
-                  },
-                  "rightComparison": "<=",
-                  "right": {
-                    "type": "UnitValue",
-                    "span": {
-                      "start": 1087,
-                      "end": 1092,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1087,
-                        "end": 1090,
-                        "ctxt": 0
-                      },
-                      "value": 700.0,
-                      "raw": "700"
-                    },
-                    "unit": {
-                      "span": {
-                        "start": 1090,
-                        "end": 1092,
-                        "ctxt": 0
-                      },
-                      "value": "px",
-                      "raw": "px"
-                    }
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      },
-      "rules": []
-    },
-    {
-      "type": "MediaRule",
-      "span": {
-        "start": 1097,
-        "end": 1132,
-        "ctxt": 0
-      },
-      "media": {
-        "type": "MediaQueryList",
-        "span": {
-          "start": 1104,
-          "end": 1130,
-          "ctxt": 0
-        },
-        "queries": [
-          {
-            "type": "MediaQuery",
-            "span": {
-              "start": 1104,
-              "end": 1130,
-              "ctxt": 0
-            },
-            "modifier": null,
-            "mediaType": null,
-            "condition": {
-              "type": "MediaCondition",
-              "span": {
-                "start": 1104,
-                "end": 1130,
-                "ctxt": 0
-              },
-              "conditions": [
-                {
-                  "type": "MediaFeatureRangeInterval",
-                  "span": {
-                    "start": 1104,
-                    "end": 1129,
-                    "ctxt": 0
-                  },
-                  "left": {
-                    "type": "UnitValue",
-                    "span": {
-                      "start": 1105,
-                      "end": 1110,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1105,
-                        "end": 1108,
-                        "ctxt": 0
-                      },
-                      "value": 400.0,
-                      "raw": "400"
-                    },
-                    "unit": {
-                      "span": {
-                        "start": 1108,
-                        "end": 1110,
-                        "ctxt": 0
-                      },
-                      "value": "px",
-                      "raw": "px"
-                    }
-                  },
-                  "leftComparison": "<=",
-                  "name": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 1114,
-                      "end": 1119,
-                      "ctxt": 0
-                    },
-                    "value": "width",
-                    "raw": "width"
-                  },
-                  "rightComparison": "<=",
-                  "right": {
-                    "type": "UnitValue",
-                    "span": {
-                      "start": 1123,
-                      "end": 1128,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1123,
-                        "end": 1126,
-                        "ctxt": 0
-                      },
-                      "value": 700.0,
-                      "raw": "700"
-                    },
-                    "unit": {
-                      "span": {
-                        "start": 1126,
-                        "end": 1128,
-                        "ctxt": 0
-                      },
-                      "value": "px",
-                      "raw": "px"
-                    }
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      },
-      "rules": []
-    },
-    {
-      "type": "MediaRule",
-      "span": {
-        "start": 1138,
-        "end": 1171,
-        "ctxt": 0
-      },
-      "media": {
-        "type": "MediaQueryList",
-        "span": {
-          "start": 1145,
-          "end": 1169,
-          "ctxt": 0
-        },
-        "queries": [
-          {
-            "type": "MediaQuery",
-            "span": {
-              "start": 1145,
-              "end": 1169,
-              "ctxt": 0
-            },
-            "modifier": null,
-            "mediaType": null,
-            "condition": {
-              "type": "MediaCondition",
-              "span": {
-                "start": 1145,
-                "end": 1169,
-                "ctxt": 0
-              },
-              "conditions": [
-                {
-                  "type": "MediaFeatureRangeInterval",
-                  "span": {
-                    "start": 1145,
-                    "end": 1168,
-                    "ctxt": 0
-                  },
-                  "left": {
-                    "type": "UnitValue",
-                    "span": {
-                      "start": 1146,
-                      "end": 1151,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1146,
-                        "end": 1149,
-                        "ctxt": 0
-                      },
-                      "value": 400.0,
-                      "raw": "400"
-                    },
-                    "unit": {
-                      "span": {
-                        "start": 1149,
-                        "end": 1151,
-                        "ctxt": 0
-                      },
-                      "value": "px",
-                      "raw": "px"
-                    }
-                  },
-                  "leftComparison": ">",
-                  "name": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 1154,
-                      "end": 1159,
-                      "ctxt": 0
-                    },
-                    "value": "width",
-                    "raw": "width"
-                  },
-                  "rightComparison": ">",
-                  "right": {
-                    "type": "UnitValue",
-                    "span": {
-                      "start": 1162,
-                      "end": 1167,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1162,
-                        "end": 1165,
-                        "ctxt": 0
-                      },
-                      "value": 700.0,
-                      "raw": "700"
-                    },
-                    "unit": {
-                      "span": {
-                        "start": 1165,
-                        "end": 1167,
-                        "ctxt": 0
-                      },
-                      "value": "px",
-                      "raw": "px"
-                    }
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      },
-      "rules": []
-    },
-    {
-      "type": "MediaRule",
-      "span": {
-        "start": 1172,
-        "end": 1206,
-        "ctxt": 0
-      },
-      "media": {
-        "type": "MediaQueryList",
-        "span": {
-          "start": 1179,
-          "end": 1204,
-          "ctxt": 0
-        },
-        "queries": [
-          {
-            "type": "MediaQuery",
-            "span": {
-              "start": 1179,
-              "end": 1204,
-              "ctxt": 0
-            },
-            "modifier": null,
-            "mediaType": null,
-            "condition": {
-              "type": "MediaCondition",
-              "span": {
-                "start": 1179,
-                "end": 1204,
-                "ctxt": 0
-              },
-              "conditions": [
-                {
-                  "type": "MediaFeatureRangeInterval",
-                  "span": {
-                    "start": 1179,
-                    "end": 1203,
-                    "ctxt": 0
-                  },
-                  "left": {
-                    "type": "UnitValue",
-                    "span": {
-                      "start": 1180,
-                      "end": 1185,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1180,
-                        "end": 1183,
-                        "ctxt": 0
-                      },
-                      "value": 400.0,
-                      "raw": "400"
-                    },
-                    "unit": {
-                      "span": {
-                        "start": 1183,
-                        "end": 1185,
-                        "ctxt": 0
-                      },
-                      "value": "px",
-                      "raw": "px"
-                    }
-                  },
-                  "leftComparison": ">=",
-                  "name": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 1189,
-                      "end": 1194,
-                      "ctxt": 0
-                    },
-                    "value": "width",
-                    "raw": "width"
-                  },
-                  "rightComparison": ">",
-                  "right": {
-                    "type": "UnitValue",
-                    "span": {
-                      "start": 1197,
-                      "end": 1202,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1197,
-                        "end": 1200,
-                        "ctxt": 0
-                      },
-                      "value": 700.0,
-                      "raw": "700"
-                    },
-                    "unit": {
-                      "span": {
-                        "start": 1200,
-                        "end": 1202,
-                        "ctxt": 0
-                      },
-                      "value": "px",
-                      "raw": "px"
-                    }
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      },
-      "rules": []
-    },
-    {
-      "type": "MediaRule",
-      "span": {
-        "start": 1207,
-        "end": 1241,
-        "ctxt": 0
-      },
-      "media": {
-        "type": "MediaQueryList",
-        "span": {
-          "start": 1214,
-          "end": 1239,
-          "ctxt": 0
-        },
-        "queries": [
-          {
-            "type": "MediaQuery",
-            "span": {
-              "start": 1214,
-              "end": 1239,
-              "ctxt": 0
-            },
-            "modifier": null,
-            "mediaType": null,
-            "condition": {
-              "type": "MediaCondition",
-              "span": {
-                "start": 1214,
-                "end": 1239,
-                "ctxt": 0
-              },
-              "conditions": [
-                {
-                  "type": "MediaFeatureRangeInterval",
-                  "span": {
-                    "start": 1214,
-                    "end": 1238,
-                    "ctxt": 0
-                  },
-                  "left": {
-                    "type": "UnitValue",
-                    "span": {
-                      "start": 1215,
-                      "end": 1220,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1215,
-                        "end": 1218,
-                        "ctxt": 0
-                      },
-                      "value": 400.0,
-                      "raw": "400"
-                    },
-                    "unit": {
-                      "span": {
-                        "start": 1218,
-                        "end": 1220,
-                        "ctxt": 0
-                      },
-                      "value": "px",
-                      "raw": "px"
-                    }
-                  },
-                  "leftComparison": ">",
-                  "name": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 1223,
-                      "end": 1228,
-                      "ctxt": 0
-                    },
-                    "value": "width",
-                    "raw": "width"
-                  },
-                  "rightComparison": ">=",
-                  "right": {
-                    "type": "UnitValue",
-                    "span": {
-                      "start": 1232,
-                      "end": 1237,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1232,
-                        "end": 1235,
-                        "ctxt": 0
-                      },
-                      "value": 700.0,
-                      "raw": "700"
-                    },
-                    "unit": {
-                      "span": {
-                        "start": 1235,
-                        "end": 1237,
-                        "ctxt": 0
-                      },
-                      "value": "px",
-                      "raw": "px"
-                    }
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      },
-      "rules": []
-    },
-    {
-      "type": "MediaRule",
-      "span": {
-        "start": 1242,
+        "start": 1236,
         "end": 1277,
         "ctxt": 0
       },
       "media": {
         "type": "MediaQueryList",
         "span": {
-          "start": 1249,
+          "start": 1245,
           "end": 1275,
           "ctxt": 0
         },
@@ -3267,7 +2986,7 @@
           {
             "type": "MediaQuery",
             "span": {
-              "start": 1249,
+              "start": 1245,
               "end": 1275,
               "ctxt": 0
             },
@@ -3276,30 +2995,370 @@
             "condition": {
               "type": "MediaCondition",
               "span": {
-                "start": 1249,
+                "start": 1245,
                 "end": 1275,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRange",
+                  "span": {
+                    "start": 1245,
+                    "end": 1272,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1249,
+                      "end": 1254,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1249,
+                        "end": 1252,
+                        "ctxt": 0
+                      },
+                      "value": 600.0,
+                      "raw": "600"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1252,
+                        "end": 1254,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "comparison": "<=",
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1262,
+                      "end": 1268,
+                      "ctxt": 0
+                    },
+                    "value": "height",
+                    "raw": "height"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1278,
+        "end": 1318,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1287,
+          "end": 1316,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1287,
+              "end": 1316,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1287,
+                "end": 1316,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRange",
+                  "span": {
+                    "start": 1287,
+                    "end": 1313,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1291,
+                      "end": 1296,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1291,
+                        "end": 1294,
+                        "ctxt": 0
+                      },
+                      "value": 600.0,
+                      "raw": "600"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1294,
+                        "end": 1296,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "comparison": ">",
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1303,
+                      "end": 1309,
+                      "ctxt": 0
+                    },
+                    "value": "height",
+                    "raw": "height"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1319,
+        "end": 1360,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1328,
+          "end": 1358,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1328,
+              "end": 1358,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1328,
+                "end": 1358,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRange",
+                  "span": {
+                    "start": 1328,
+                    "end": 1355,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1332,
+                      "end": 1337,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1332,
+                        "end": 1335,
+                        "ctxt": 0
+                      },
+                      "value": 600.0,
+                      "raw": "600"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1335,
+                        "end": 1337,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "comparison": ">=",
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1345,
+                      "end": 1351,
+                      "ctxt": 0
+                    },
+                    "value": "height",
+                    "raw": "height"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1361,
+        "end": 1401,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1370,
+          "end": 1399,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1370,
+              "end": 1399,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1370,
+                "end": 1399,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRange",
+                  "span": {
+                    "start": 1370,
+                    "end": 1396,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1374,
+                      "end": 1379,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1374,
+                        "end": 1377,
+                        "ctxt": 0
+                      },
+                      "value": 600.0,
+                      "raw": "600"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1377,
+                        "end": 1379,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "comparison": "=",
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1386,
+                      "end": 1392,
+                      "ctxt": 0
+                    },
+                    "value": "height",
+                    "raw": "height"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1427,
+        "end": 1460,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1434,
+          "end": 1458,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1434,
+              "end": 1458,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1434,
+                "end": 1458,
                 "ctxt": 0
               },
               "conditions": [
                 {
                   "type": "MediaFeatureRangeInterval",
                   "span": {
-                    "start": 1249,
-                    "end": 1274,
+                    "start": 1434,
+                    "end": 1457,
                     "ctxt": 0
                   },
                   "left": {
                     "type": "UnitValue",
                     "span": {
-                      "start": 1250,
-                      "end": 1255,
+                      "start": 1435,
+                      "end": 1440,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1250,
-                        "end": 1253,
+                        "start": 1435,
+                        "end": 1438,
                         "ctxt": 0
                       },
                       "value": 400.0,
@@ -3307,38 +3366,38 @@
                     },
                     "unit": {
                       "span": {
-                        "start": 1253,
-                        "end": 1255,
+                        "start": 1438,
+                        "end": 1440,
                         "ctxt": 0
                       },
                       "value": "px",
                       "raw": "px"
                     }
                   },
-                  "leftComparison": ">=",
+                  "leftComparison": "<",
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1259,
-                      "end": 1264,
+                      "start": 1443,
+                      "end": 1448,
                       "ctxt": 0
                     },
                     "value": "width",
                     "raw": "width"
                   },
-                  "rightComparison": ">=",
+                  "rightComparison": "<",
                   "right": {
                     "type": "UnitValue",
                     "span": {
-                      "start": 1268,
-                      "end": 1273,
+                      "start": 1451,
+                      "end": 1456,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1268,
-                        "end": 1271,
+                        "start": 1451,
+                        "end": 1454,
                         "ctxt": 0
                       },
                       "value": 700.0,
@@ -3346,8 +3405,8 @@
                     },
                     "unit": {
                       "span": {
-                        "start": 1271,
-                        "end": 1273,
+                        "start": 1454,
+                        "end": 1456,
                         "ctxt": 0
                       },
                       "value": "px",
@@ -3365,23 +3424,23 @@
     {
       "type": "MediaRule",
       "span": {
-        "start": 1279,
-        "end": 1323,
+        "start": 1461,
+        "end": 1495,
         "ctxt": 0
       },
       "media": {
         "type": "MediaQueryList",
         "span": {
-          "start": 1286,
-          "end": 1321,
+          "start": 1468,
+          "end": 1493,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 1286,
-              "end": 1321,
+              "start": 1468,
+              "end": 1493,
               "ctxt": 0
             },
             "modifier": null,
@@ -3389,23 +3448,1718 @@
             "condition": {
               "type": "MediaCondition",
               "span": {
-                "start": 1286,
-                "end": 1321,
+                "start": 1468,
+                "end": 1493,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 1468,
+                    "end": 1492,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1469,
+                      "end": 1474,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1469,
+                        "end": 1472,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1472,
+                        "end": 1474,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": "<=",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1478,
+                      "end": 1483,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": "<",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1486,
+                      "end": 1491,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1486,
+                        "end": 1489,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1489,
+                        "end": 1491,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1496,
+        "end": 1530,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1503,
+          "end": 1528,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1503,
+              "end": 1528,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1503,
+                "end": 1528,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 1503,
+                    "end": 1527,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1504,
+                      "end": 1509,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1504,
+                        "end": 1507,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1507,
+                        "end": 1509,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": "<",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1512,
+                      "end": 1517,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": "<=",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1521,
+                      "end": 1526,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1521,
+                        "end": 1524,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1524,
+                        "end": 1526,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1531,
+        "end": 1566,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1538,
+          "end": 1564,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1538,
+              "end": 1564,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1538,
+                "end": 1564,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 1538,
+                    "end": 1563,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1539,
+                      "end": 1544,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1539,
+                        "end": 1542,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1542,
+                        "end": 1544,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": "<=",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1548,
+                      "end": 1553,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": "<=",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1557,
+                      "end": 1562,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1557,
+                        "end": 1560,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1560,
+                        "end": 1562,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1567,
+        "end": 1618,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1576,
+          "end": 1616,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1576,
+              "end": 1616,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1576,
+                "end": 1616,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 1576,
+                    "end": 1613,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1580,
+                      "end": 1585,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1580,
+                        "end": 1583,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1583,
+                        "end": 1585,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": "<",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1592,
+                      "end": 1597,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": "<",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1604,
+                      "end": 1609,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1604,
+                        "end": 1607,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1607,
+                        "end": 1609,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1619,
+        "end": 1671,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1628,
+          "end": 1669,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1628,
+              "end": 1669,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1628,
+                "end": 1669,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 1628,
+                    "end": 1666,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1632,
+                      "end": 1637,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1632,
+                        "end": 1635,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1635,
+                        "end": 1637,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": "<=",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1645,
+                      "end": 1650,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": "<",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1657,
+                      "end": 1662,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1657,
+                        "end": 1660,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1660,
+                        "end": 1662,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1672,
+        "end": 1724,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1681,
+          "end": 1722,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1681,
+              "end": 1722,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1681,
+                "end": 1722,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 1681,
+                    "end": 1719,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1685,
+                      "end": 1690,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1685,
+                        "end": 1688,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1688,
+                        "end": 1690,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": "<",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1697,
+                      "end": 1702,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": "<=",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1710,
+                      "end": 1715,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1710,
+                        "end": 1713,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1713,
+                        "end": 1715,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1725,
+        "end": 1778,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1734,
+          "end": 1776,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1734,
+              "end": 1776,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1734,
+                "end": 1776,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 1734,
+                    "end": 1773,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1738,
+                      "end": 1743,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1738,
+                        "end": 1741,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1741,
+                        "end": 1743,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": "<=",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1751,
+                      "end": 1756,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": "<=",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1764,
+                      "end": 1769,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1764,
+                        "end": 1767,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1767,
+                        "end": 1769,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1784,
+        "end": 1817,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1791,
+          "end": 1815,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1791,
+              "end": 1815,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1791,
+                "end": 1815,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 1791,
+                    "end": 1814,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1792,
+                      "end": 1797,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1792,
+                        "end": 1795,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1795,
+                        "end": 1797,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": ">",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1800,
+                      "end": 1805,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": ">",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1808,
+                      "end": 1813,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1808,
+                        "end": 1811,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1811,
+                        "end": 1813,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1818,
+        "end": 1852,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1825,
+          "end": 1850,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1825,
+              "end": 1850,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1825,
+                "end": 1850,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 1825,
+                    "end": 1849,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1826,
+                      "end": 1831,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1826,
+                        "end": 1829,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1829,
+                        "end": 1831,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": ">=",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1835,
+                      "end": 1840,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": ">",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1843,
+                      "end": 1848,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1843,
+                        "end": 1846,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1846,
+                        "end": 1848,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1853,
+        "end": 1887,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1860,
+          "end": 1885,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1860,
+              "end": 1885,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1860,
+                "end": 1885,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 1860,
+                    "end": 1884,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1861,
+                      "end": 1866,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1861,
+                        "end": 1864,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1864,
+                        "end": 1866,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": ">",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1869,
+                      "end": 1874,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": ">=",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1878,
+                      "end": 1883,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1878,
+                        "end": 1881,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1881,
+                        "end": 1883,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1888,
+        "end": 1923,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1895,
+          "end": 1921,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1895,
+              "end": 1921,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1895,
+                "end": 1921,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 1895,
+                    "end": 1920,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1896,
+                      "end": 1901,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1896,
+                        "end": 1899,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1899,
+                        "end": 1901,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": ">=",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1905,
+                      "end": 1910,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": ">=",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1914,
+                      "end": 1919,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1914,
+                        "end": 1917,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1917,
+                        "end": 1919,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1924,
+        "end": 1975,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1933,
+          "end": 1973,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1933,
+              "end": 1973,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1933,
+                "end": 1973,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 1933,
+                    "end": 1970,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1937,
+                      "end": 1942,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1937,
+                        "end": 1940,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1940,
+                        "end": 1942,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": ">",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1949,
+                      "end": 1954,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": ">",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1961,
+                      "end": 1966,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1961,
+                        "end": 1964,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1964,
+                        "end": 1966,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1976,
+        "end": 2028,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1985,
+          "end": 2026,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1985,
+              "end": 2026,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 1985,
+                "end": 2026,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 1985,
+                    "end": 2023,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1989,
+                      "end": 1994,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1989,
+                        "end": 1992,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1992,
+                        "end": 1994,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": ">=",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2002,
+                      "end": 2007,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": ">",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 2014,
+                      "end": 2019,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 2014,
+                        "end": 2017,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 2017,
+                        "end": 2019,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 2029,
+        "end": 2081,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 2038,
+          "end": 2079,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 2038,
+              "end": 2079,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 2038,
+                "end": 2079,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 2038,
+                    "end": 2076,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 2042,
+                      "end": 2047,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 2042,
+                        "end": 2045,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 2045,
+                        "end": 2047,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": ">",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2054,
+                      "end": 2059,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": ">=",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 2067,
+                      "end": 2072,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 2067,
+                        "end": 2070,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 2070,
+                        "end": 2072,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 2082,
+        "end": 2135,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 2091,
+          "end": 2133,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 2091,
+              "end": 2133,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 2091,
+                "end": 2133,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 2091,
+                    "end": 2130,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 2095,
+                      "end": 2100,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 2095,
+                        "end": 2098,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 2098,
+                        "end": 2100,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": ">=",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2108,
+                      "end": 2113,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": ">=",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 2121,
+                      "end": 2126,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 2121,
+                        "end": 2124,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 2124,
+                        "end": 2126,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 2157,
+        "end": 2201,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 2164,
+          "end": 2199,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 2164,
+              "end": 2199,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 2164,
+                "end": 2199,
                 "ctxt": 0
               },
               "conditions": [
                 {
                   "type": "MediaFeatureBoolean",
                   "span": {
-                    "start": 1286,
-                    "end": 1296,
+                    "start": 2164,
+                    "end": 2174,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1287,
-                      "end": 1295,
+                      "start": 2165,
+                      "end": 2173,
                       "ctxt": 0
                     },
                     "value": "--modern",
@@ -3415,22 +5169,22 @@
                 {
                   "type": "MediaAnd",
                   "span": {
-                    "start": 1297,
-                    "end": 1320,
+                    "start": 2175,
+                    "end": 2198,
                     "ctxt": 0
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 1301,
-                      "end": 1320,
+                      "start": 2179,
+                      "end": 2198,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Identifier",
                       "span": {
-                        "start": 1302,
-                        "end": 1311,
+                        "start": 2180,
+                        "end": 2189,
                         "ctxt": 0
                       },
                       "value": "min-width",
@@ -3439,15 +5193,15 @@
                     "value": {
                       "type": "UnitValue",
                       "span": {
-                        "start": 1313,
-                        "end": 1319,
+                        "start": 2191,
+                        "end": 2197,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 1313,
-                          "end": 1317,
+                          "start": 2191,
+                          "end": 2195,
                           "ctxt": 0
                         },
                         "value": 1024.0,
@@ -3455,8 +5209,8 @@
                       },
                       "unit": {
                         "span": {
-                          "start": 1317,
-                          "end": 1319,
+                          "start": 2195,
+                          "end": 2197,
                           "ctxt": 0
                         },
                         "value": "px",
