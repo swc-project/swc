@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 3382,
+    "end": 3570,
     "ctxt": 0
   },
   "rules": [
@@ -7993,22 +7993,22 @@
       "type": "MediaRule",
       "span": {
         "start": 3214,
-        "end": 3265,
+        "end": 3277,
         "ctxt": 0
       },
       "media": {
         "type": "MediaQueryList",
         "span": {
-          "start": 3221,
-          "end": 3263,
+          "start": 3223,
+          "end": 3275,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 3221,
-              "end": 3263,
+              "start": 3223,
+              "end": 3275,
               "ctxt": 0
             },
             "modifier": null,
@@ -8016,31 +8016,132 @@
             "condition": {
               "type": "MediaCondition",
               "span": {
-                "start": 3221,
-                "end": 3263,
+                "start": 3223,
+                "end": 3275,
                 "ctxt": 0
               },
               "conditions": [
                 {
                   "type": "MediaCondition",
                   "span": {
-                    "start": 3222,
-                    "end": 3240,
+                    "start": 3227,
+                    "end": 3247,
+                    "ctxt": 0
+                  },
+                  "conditions": [
+                    {
+                      "type": "MediaNot",
+                      "span": {
+                        "start": 3227,
+                        "end": 3247,
+                        "ctxt": 0
+                      },
+                      "condition": {
+                        "type": "MediaFeatureBoolean",
+                        "span": {
+                          "start": 3234,
+                          "end": 3247,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 3238,
+                            "end": 3243,
+                            "ctxt": 0
+                          },
+                          "value": "color",
+                          "raw": "color"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "MediaOr",
+                  "span": {
+                    "start": 3254,
+                    "end": 3272,
+                    "ctxt": 0
+                  },
+                  "condition": {
+                    "type": "MediaFeatureBoolean",
+                    "span": {
+                      "start": 3259,
+                      "end": 3272,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3263,
+                        "end": 3268,
+                        "ctxt": 0
+                      },
+                      "value": "hover",
+                      "raw": "hover"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 3278,
+        "end": 3329,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 3285,
+          "end": 3327,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 3285,
+              "end": 3327,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 3285,
+                "end": 3327,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaCondition",
+                  "span": {
+                    "start": 3286,
+                    "end": 3304,
                     "ctxt": 0
                   },
                   "conditions": [
                     {
                       "type": "MediaFeatureBoolean",
                       "span": {
-                        "start": 3222,
-                        "end": 3229,
+                        "start": 3286,
+                        "end": 3293,
                         "ctxt": 0
                       },
                       "name": {
                         "type": "Identifier",
                         "span": {
-                          "start": 3223,
-                          "end": 3228,
+                          "start": 3287,
+                          "end": 3292,
                           "ctxt": 0
                         },
                         "value": "color",
@@ -8050,22 +8151,22 @@
                     {
                       "type": "MediaOr",
                       "span": {
-                        "start": 3230,
-                        "end": 3240,
+                        "start": 3294,
+                        "end": 3304,
                         "ctxt": 0
                       },
                       "condition": {
                         "type": "MediaFeatureBoolean",
                         "span": {
-                          "start": 3233,
-                          "end": 3240,
+                          "start": 3297,
+                          "end": 3304,
                           "ctxt": 0
                         },
                         "name": {
                           "type": "Identifier",
                           "span": {
-                            "start": 3234,
-                            "end": 3239,
+                            "start": 3298,
+                            "end": 3303,
                             "ctxt": 0
                           },
                           "value": "hover",
@@ -8078,22 +8179,22 @@
                 {
                   "type": "MediaAnd",
                   "span": {
-                    "start": 3242,
-                    "end": 3262,
+                    "start": 3306,
+                    "end": 3326,
                     "ctxt": 0
                   },
                   "condition": {
                     "type": "MediaFeatureRange",
                     "span": {
-                      "start": 3246,
-                      "end": 3262,
+                      "start": 3310,
+                      "end": 3326,
                       "ctxt": 0
                     },
                     "left": {
                       "type": "Identifier",
                       "span": {
-                        "start": 3247,
-                        "end": 3252,
+                        "start": 3311,
+                        "end": 3316,
                         "ctxt": 0
                       },
                       "value": "width",
@@ -8103,15 +8204,15 @@
                     "right": {
                       "type": "UnitValue",
                       "span": {
-                        "start": 3255,
-                        "end": 3261,
+                        "start": 3319,
+                        "end": 3325,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 3255,
-                          "end": 3259,
+                          "start": 3319,
+                          "end": 3323,
                           "ctxt": 0
                         },
                         "value": 1024.0,
@@ -8119,8 +8220,8 @@
                       },
                       "unit": {
                         "span": {
-                          "start": 3259,
-                          "end": 3261,
+                          "start": 3323,
+                          "end": 3325,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -8139,23 +8240,23 @@
     {
       "type": "MediaRule",
       "span": {
-        "start": 3266,
-        "end": 3321,
+        "start": 3330,
+        "end": 3385,
         "ctxt": 0
       },
       "media": {
         "type": "MediaQueryList",
         "span": {
-          "start": 3273,
-          "end": 3319,
+          "start": 3337,
+          "end": 3383,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 3273,
-              "end": 3319,
+              "start": 3337,
+              "end": 3383,
               "ctxt": 0
             },
             "modifier": null,
@@ -8163,39 +8264,39 @@
             "condition": {
               "type": "MediaCondition",
               "span": {
-                "start": 3273,
-                "end": 3319,
+                "start": 3337,
+                "end": 3383,
                 "ctxt": 0
               },
               "conditions": [
                 {
                   "type": "MediaCondition",
                   "span": {
-                    "start": 3274,
-                    "end": 3296,
+                    "start": 3338,
+                    "end": 3360,
                     "ctxt": 0
                   },
                   "conditions": [
                     {
                       "type": "MediaCondition",
                       "span": {
-                        "start": 3275,
-                        "end": 3282,
+                        "start": 3339,
+                        "end": 3346,
                         "ctxt": 0
                       },
                       "conditions": [
                         {
                           "type": "MediaFeatureBoolean",
                           "span": {
-                            "start": 3275,
-                            "end": 3282,
+                            "start": 3339,
+                            "end": 3346,
                             "ctxt": 0
                           },
                           "name": {
                             "type": "Identifier",
                             "span": {
-                              "start": 3276,
-                              "end": 3281,
+                              "start": 3340,
+                              "end": 3345,
                               "ctxt": 0
                             },
                             "value": "color",
@@ -8207,30 +8308,30 @@
                     {
                       "type": "MediaOr",
                       "span": {
-                        "start": 3284,
-                        "end": 3296,
+                        "start": 3348,
+                        "end": 3360,
                         "ctxt": 0
                       },
                       "condition": {
                         "type": "MediaCondition",
                         "span": {
-                          "start": 3288,
-                          "end": 3295,
+                          "start": 3352,
+                          "end": 3359,
                           "ctxt": 0
                         },
                         "conditions": [
                           {
                             "type": "MediaFeatureBoolean",
                             "span": {
-                              "start": 3288,
-                              "end": 3295,
+                              "start": 3352,
+                              "end": 3359,
                               "ctxt": 0
                             },
                             "name": {
                               "type": "Identifier",
                               "span": {
-                                "start": 3289,
-                                "end": 3294,
+                                "start": 3353,
+                                "end": 3358,
                                 "ctxt": 0
                               },
                               "value": "hover",
@@ -8245,22 +8346,22 @@
                 {
                   "type": "MediaAnd",
                   "span": {
-                    "start": 3298,
-                    "end": 3318,
+                    "start": 3362,
+                    "end": 3382,
                     "ctxt": 0
                   },
                   "condition": {
                     "type": "MediaFeatureRange",
                     "span": {
-                      "start": 3302,
-                      "end": 3318,
+                      "start": 3366,
+                      "end": 3382,
                       "ctxt": 0
                     },
                     "left": {
                       "type": "Identifier",
                       "span": {
-                        "start": 3303,
-                        "end": 3308,
+                        "start": 3367,
+                        "end": 3372,
                         "ctxt": 0
                       },
                       "value": "width",
@@ -8270,15 +8371,15 @@
                     "right": {
                       "type": "UnitValue",
                       "span": {
-                        "start": 3311,
-                        "end": 3317,
+                        "start": 3375,
+                        "end": 3381,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 3311,
-                          "end": 3315,
+                          "start": 3375,
+                          "end": 3379,
                           "ctxt": 0
                         },
                         "value": 1024.0,
@@ -8286,8 +8387,8 @@
                       },
                       "unit": {
                         "span": {
-                          "start": 3315,
-                          "end": 3317,
+                          "start": 3379,
+                          "end": 3381,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -8306,23 +8407,23 @@
     {
       "type": "MediaRule",
       "span": {
-        "start": 3322,
-        "end": 3381,
+        "start": 3386,
+        "end": 3445,
         "ctxt": 0
       },
       "media": {
         "type": "MediaQueryList",
         "span": {
-          "start": 3329,
-          "end": 3379,
+          "start": 3393,
+          "end": 3443,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 3329,
-              "end": 3379,
+              "start": 3393,
+              "end": 3443,
               "ctxt": 0
             },
             "modifier": null,
@@ -8330,55 +8431,55 @@
             "condition": {
               "type": "MediaCondition",
               "span": {
-                "start": 3329,
-                "end": 3379,
+                "start": 3393,
+                "end": 3443,
                 "ctxt": 0
               },
               "conditions": [
                 {
                   "type": "MediaCondition",
                   "span": {
-                    "start": 3330,
-                    "end": 3356,
+                    "start": 3394,
+                    "end": 3420,
                     "ctxt": 0
                   },
                   "conditions": [
                     {
                       "type": "MediaCondition",
                       "span": {
-                        "start": 3331,
-                        "end": 3355,
+                        "start": 3395,
+                        "end": 3419,
                         "ctxt": 0
                       },
                       "conditions": [
                         {
                           "type": "MediaCondition",
                           "span": {
-                            "start": 3332,
-                            "end": 3354,
+                            "start": 3396,
+                            "end": 3418,
                             "ctxt": 0
                           },
                           "conditions": [
                             {
                               "type": "MediaCondition",
                               "span": {
-                                "start": 3333,
-                                "end": 3340,
+                                "start": 3397,
+                                "end": 3404,
                                 "ctxt": 0
                               },
                               "conditions": [
                                 {
                                   "type": "MediaFeatureBoolean",
                                   "span": {
-                                    "start": 3333,
-                                    "end": 3340,
+                                    "start": 3397,
+                                    "end": 3404,
                                     "ctxt": 0
                                   },
                                   "name": {
                                     "type": "Identifier",
                                     "span": {
-                                      "start": 3334,
-                                      "end": 3339,
+                                      "start": 3398,
+                                      "end": 3403,
                                       "ctxt": 0
                                     },
                                     "value": "color",
@@ -8390,30 +8491,30 @@
                             {
                               "type": "MediaOr",
                               "span": {
-                                "start": 3342,
-                                "end": 3354,
+                                "start": 3406,
+                                "end": 3418,
                                 "ctxt": 0
                               },
                               "condition": {
                                 "type": "MediaCondition",
                                 "span": {
-                                  "start": 3346,
-                                  "end": 3353,
+                                  "start": 3410,
+                                  "end": 3417,
                                   "ctxt": 0
                                 },
                                 "conditions": [
                                   {
                                     "type": "MediaFeatureBoolean",
                                     "span": {
-                                      "start": 3346,
-                                      "end": 3353,
+                                      "start": 3410,
+                                      "end": 3417,
                                       "ctxt": 0
                                     },
                                     "name": {
                                       "type": "Identifier",
                                       "span": {
-                                        "start": 3347,
-                                        "end": 3352,
+                                        "start": 3411,
+                                        "end": 3416,
                                         "ctxt": 0
                                       },
                                       "value": "hover",
@@ -8432,22 +8533,22 @@
                 {
                   "type": "MediaAnd",
                   "span": {
-                    "start": 3358,
-                    "end": 3378,
+                    "start": 3422,
+                    "end": 3442,
                     "ctxt": 0
                   },
                   "condition": {
                     "type": "MediaFeatureRange",
                     "span": {
-                      "start": 3362,
-                      "end": 3378,
+                      "start": 3426,
+                      "end": 3442,
                       "ctxt": 0
                     },
                     "left": {
                       "type": "Identifier",
                       "span": {
-                        "start": 3363,
-                        "end": 3368,
+                        "start": 3427,
+                        "end": 3432,
                         "ctxt": 0
                       },
                       "value": "width",
@@ -8457,15 +8558,15 @@
                     "right": {
                       "type": "UnitValue",
                       "span": {
-                        "start": 3371,
-                        "end": 3377,
+                        "start": 3435,
+                        "end": 3441,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 3371,
-                          "end": 3375,
+                          "start": 3435,
+                          "end": 3439,
                           "ctxt": 0
                         },
                         "value": 1024.0,
@@ -8473,8 +8574,195 @@
                       },
                       "unit": {
                         "span": {
-                          "start": 3375,
-                          "end": 3377,
+                          "start": 3439,
+                          "end": 3441,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 3446,
+        "end": 3569,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 3455,
+          "end": 3567,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 3455,
+              "end": 3567,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 3455,
+                "end": 3567,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaCondition",
+                  "span": {
+                    "start": 3459,
+                    "end": 3528,
+                    "ctxt": 0
+                  },
+                  "conditions": [
+                    {
+                      "type": "MediaCondition",
+                      "span": {
+                        "start": 3463,
+                        "end": 3524,
+                        "ctxt": 0
+                      },
+                      "conditions": [
+                        {
+                          "type": "MediaCondition",
+                          "span": {
+                            "start": 3467,
+                            "end": 3520,
+                            "ctxt": 0
+                          },
+                          "conditions": [
+                            {
+                              "type": "MediaCondition",
+                              "span": {
+                                "start": 3471,
+                                "end": 3487,
+                                "ctxt": 0
+                              },
+                              "conditions": [
+                                {
+                                  "type": "MediaFeatureBoolean",
+                                  "span": {
+                                    "start": 3471,
+                                    "end": 3484,
+                                    "ctxt": 0
+                                  },
+                                  "name": {
+                                    "type": "Identifier",
+                                    "span": {
+                                      "start": 3475,
+                                      "end": 3480,
+                                      "ctxt": 0
+                                    },
+                                    "value": "color",
+                                    "raw": "color"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "type": "MediaOr",
+                              "span": {
+                                "start": 3491,
+                                "end": 3517,
+                                "ctxt": 0
+                              },
+                              "condition": {
+                                "type": "MediaCondition",
+                                "span": {
+                                  "start": 3500,
+                                  "end": 3516,
+                                  "ctxt": 0
+                                },
+                                "conditions": [
+                                  {
+                                    "type": "MediaFeatureBoolean",
+                                    "span": {
+                                      "start": 3500,
+                                      "end": 3513,
+                                      "ctxt": 0
+                                    },
+                                    "name": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 3504,
+                                        "end": 3509,
+                                        "ctxt": 0
+                                      },
+                                      "value": "hover",
+                                      "raw": "hover"
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "MediaAnd",
+                  "span": {
+                    "start": 3532,
+                    "end": 3564,
+                    "ctxt": 0
+                  },
+                  "condition": {
+                    "type": "MediaFeatureRange",
+                    "span": {
+                      "start": 3538,
+                      "end": 3564,
+                      "ctxt": 0
+                    },
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3542,
+                        "end": 3547,
+                        "ctxt": 0
+                      },
+                      "value": "width",
+                      "raw": "width"
+                    },
+                    "comparison": ">",
+                    "right": {
+                      "type": "UnitValue",
+                      "span": {
+                        "start": 3554,
+                        "end": 3560,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 3554,
+                          "end": 3558,
+                          "ctxt": 0
+                        },
+                        "value": 1024.0,
+                        "raw": "1024"
+                      },
+                      "unit": {
+                        "span": {
+                          "start": 3558,
+                          "end": 3560,
                           "ctxt": 0
                         },
                         "value": "px",
