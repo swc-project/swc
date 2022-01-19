@@ -44,3 +44,6 @@
 @media (400px >= width >= 700px) {}
 
 @media (--modern) and (min-width: 1024px) {}
+
+@media    all    {}
+@media    not   all   {}

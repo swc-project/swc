@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 1235,
+    "end": 1281,
     "ctxt": 0
   },
   "rules": [
@@ -3314,6 +3314,93 @@
                 }
               ]
             }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1236,
+        "end": 1255,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1246,
+          "end": 1253,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1246,
+              "end": 1253,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": {
+              "type": "Identifier",
+              "span": {
+                "start": 1246,
+                "end": 1249,
+                "ctxt": 0
+              },
+              "value": "all",
+              "raw": "all"
+            },
+            "condition": null
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 1256,
+        "end": 1280,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 1266,
+          "end": 1278,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1266,
+              "end": 1278,
+              "ctxt": 0
+            },
+            "modifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 1266,
+                "end": 1269,
+                "ctxt": 0
+              },
+              "value": "not",
+              "raw": "not"
+            },
+            "mediaType": {
+              "type": "Identifier",
+              "span": {
+                "start": 1272,
+                "end": 1275,
+                "ctxt": 0
+              },
+              "value": "all",
+              "raw": "all"
+            },
+            "condition": null
           }
         ]
       },

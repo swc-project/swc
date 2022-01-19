@@ -6,9 +6,9 @@ error: Stylesheet
 3  | |
 4  | | @media all {}
 ...  |
-45 | |
-46 | | @media (--modern) and (min-width: 1024px) {}
-   | |_____________________________________________^
+48 | | @media    all    {}
+49 | | @media    not   all   {}
+   | |_________________________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:1:1
@@ -2505,4 +2505,82 @@ error: Ident
    |
 46 | @media (--modern) and (min-width: 1024px) {}
    |                        ^^^^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/media/input.css:48:1
+   |
+48 | @media    all    {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/media/input.css:48:1
+   |
+48 | @media    all    {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+  --> $DIR/tests/fixture/at-rule/media/input.css:48:1
+   |
+48 | @media    all    {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/media/input.css:48:11
+   |
+48 | @media    all    {}
+   |           ^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:48:11
+   |
+48 | @media    all    {}
+   |           ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:48:11
+   |
+48 | @media    all    {}
+   |           ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/media/input.css:49:1
+   |
+49 | @media    not   all   {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/media/input.css:49:1
+   |
+49 | @media    not   all   {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+  --> $DIR/tests/fixture/at-rule/media/input.css:49:1
+   |
+49 | @media    not   all   {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/media/input.css:49:11
+   |
+49 | @media    not   all   {}
+   |           ^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:49:11
+   |
+49 | @media    not   all   {}
+   |           ^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:49:11
+   |
+49 | @media    not   all   {}
+   |           ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:49:17
+   |
+49 | @media    not   all   {}
+   |                 ^^^
 
