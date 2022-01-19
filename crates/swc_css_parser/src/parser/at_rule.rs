@@ -813,7 +813,7 @@ where
             let media_in_parens = self.parse()?;
 
             last_pos = self.input.cur_span()?.hi;
-            
+
             conditions.push(MediaConditionItem::MediaInParens(media_in_parens));
 
             self.input.skip_ws()?;
