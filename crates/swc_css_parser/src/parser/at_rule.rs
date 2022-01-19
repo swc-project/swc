@@ -956,8 +956,6 @@ where
             tok!("<") | tok!(">") | tok!("=") => {
                 let left_comparison = match bump!(self) {
                     tok!("<") => {
-                        eat!(self, "<");
-
                         if eat!(self, "=") {
                             MediaFeatureRangeComparison::Le
                         } else {
@@ -965,8 +963,6 @@ where
                         }
                     }
                     tok!(">") => {
-                        eat!(self, ">");
-
                         if eat!(self, "=") {
                             MediaFeatureRangeComparison::Ge
                         } else {
@@ -974,8 +970,6 @@ where
                         }
                     }
                     tok!("=") => {
-                        eat!(self, "=");
-
                         MediaFeatureRangeComparison::Eq
                     }
                     _ => {
@@ -1001,8 +995,6 @@ where
 
                 let right_comparison = match bump!(self) {
                     tok!("<") => {
-                        eat!(self, "<");
-
                         if eat!(self, "=") {
                             MediaFeatureRangeComparison::Le
                         } else {
@@ -1010,8 +1002,6 @@ where
                         }
                     }
                     tok!(">") => {
-                        eat!(self, ">");
-
                         if eat!(self, "=") {
                             MediaFeatureRangeComparison::Ge
                         } else {
