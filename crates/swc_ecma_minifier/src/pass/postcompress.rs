@@ -50,7 +50,6 @@ impl PostcompressOptimizer<'_> {
                     );
                     *op = new_op;
                     *right = arg.take();
-                    return;
                 }
 
                 _ => {}

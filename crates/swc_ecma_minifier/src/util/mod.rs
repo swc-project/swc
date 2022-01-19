@@ -175,7 +175,7 @@ pub(crate) trait ExprOptExt: Sized {
 impl ExprOptExt for Box<Expr> {
     #[inline]
     fn as_expr(&self) -> &Expr {
-        &self
+        self
     }
 
     #[inline]
@@ -402,11 +402,8 @@ impl Visit for IdentUsageCollector {
     }
 
     fn visit_prop_name(&mut self, n: &PropName) {
-        match n {
-            PropName::Computed(..) => {
-                n.visit_children_with(self);
-            }
-            _ => {}
+        if let PropName::Computed(..) = n {
+            n.visit_children_with(self);
         }
     }
 }

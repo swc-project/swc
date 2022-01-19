@@ -141,10 +141,7 @@ impl VisitMut for PrecompressOptimizer<'_> {
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         self.handle_stmts(n);
 
-        n.retain(|s| match s {
-            ModuleItem::Stmt(Stmt::Empty(..)) => false,
-            _ => true,
-        });
+        n.retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
     }
 
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
@@ -161,10 +158,7 @@ impl VisitMut for PrecompressOptimizer<'_> {
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         self.handle_stmts(n);
 
-        n.retain(|s| match s {
-            Stmt::Empty(..) => false,
-            _ => true,
-        });
+        n.retain(|s| !matches!(s, Stmt::Empty(..)));
     }
 
     fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
