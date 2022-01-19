@@ -93,36 +93,33 @@ where
             _ => return,
         };
 
-        match &mut *cond.test {
-            Expr::Seq(test) => {
-                //
-                if test.exprs.len() >= 2 {
-                    let mut new_seq = vec![];
-                    new_seq.extend(test.exprs.drain(..test.exprs.len() - 1));
+        if let Expr::Seq(test) = &mut *cond.test {
+            //
+            if test.exprs.len() >= 2 {
+                let mut new_seq = vec![];
+                new_seq.extend(test.exprs.drain(..test.exprs.len() - 1));
 
-                    self.changed = true;
-                    tracing::debug!("sequences: Lifting sequences in a assignment with cond expr");
-                    let new_cond = CondExpr {
-                        span: cond.span,
-                        test: test.exprs.pop().unwrap(),
-                        cons: cond.cons.take(),
-                        alt: cond.alt.take(),
-                    };
+                self.changed = true;
+                tracing::debug!("sequences: Lifting sequences in a assignment with cond expr");
+                let new_cond = CondExpr {
+                    span: cond.span,
+                    test: test.exprs.pop().unwrap(),
+                    cons: cond.cons.take(),
+                    alt: cond.alt.take(),
+                };
 
-                    new_seq.push(Box::new(Expr::Assign(AssignExpr {
-                        span: assign.span,
-                        op: assign.op,
-                        left: assign.left.take(),
-                        right: Box::new(Expr::Cond(new_cond)),
-                    })));
+                new_seq.push(Box::new(Expr::Assign(AssignExpr {
+                    span: assign.span,
+                    op: assign.op,
+                    left: assign.left.take(),
+                    right: Box::new(Expr::Cond(new_cond)),
+                })));
 
-                    *e = Expr::Seq(SeqExpr {
-                        span: assign.span,
-                        exprs: new_seq,
-                    });
-                }
+                *e = Expr::Seq(SeqExpr {
+                    span: assign.span,
+                    exprs: new_seq,
+                });
             }
-            _ => {}
         }
     }
 
@@ -147,64 +144,59 @@ where
                 None => continue,
             };
 
-            match (&mut *a, &mut *b) {
-                (
-                    Expr::Assign(a_assign @ AssignExpr { op: op!("="), .. }),
-                    Expr::Call(CallExpr {
-                        callee: Callee::Expr(b_callee),
-                        args,
-                        ..
-                    }),
-                ) => {
-                    let var_name = a_assign.left.as_ident();
-                    let var_name = match var_name {
-                        Some(v) => v,
-                        None => continue,
-                    };
+            if let (
+                Expr::Assign(a_assign @ AssignExpr { op: op!("="), .. }),
+                Expr::Call(CallExpr {
+                    callee: Callee::Expr(b_callee),
+                    args,
+                    ..
+                }),
+            ) = (&mut *a, &mut *b)
+            {
+                let var_name = a_assign.left.as_ident();
+                let var_name = match var_name {
+                    Some(v) => v,
+                    None => continue,
+                };
 
-                    match &mut **b_callee {
-                        Expr::Member(MemberExpr {
-                            obj: b_callee_obj,
-                            prop:
-                                prop @ MemberProp::Ident(Ident {
-                                    sym: js_word!("apply") | js_word!("call"),
-                                    ..
-                                }),
+                if let Expr::Member(MemberExpr {
+                    obj: b_callee_obj,
+                    prop:
+                        prop @ MemberProp::Ident(Ident {
+                            sym: js_word!("apply") | js_word!("call"),
                             ..
-                        }) => {
-                            //
-                            if !b_callee_obj.is_ident_ref_to(var_name.sym.clone()) {
-                                continue;
-                            }
+                        }),
+                    ..
+                }) = &mut **b_callee
+                {
+                    //
+                    if !b_callee_obj.is_ident_ref_to(var_name.sym.clone()) {
+                        continue;
+                    }
 
-                            let span = a_assign.span.with_ctxt(SyntaxContext::empty());
+                    let span = a_assign.span.with_ctxt(SyntaxContext::empty());
 
-                            let obj = Box::new(a.take());
+                    let obj = Box::new(a.take());
 
-                            let new = Expr::Call(CallExpr {
-                                span,
-                                callee: MemberExpr {
-                                    span: DUMMY_SP,
-                                    obj,
-                                    prop: prop.take(),
-                                }
-                                .as_callee(),
-                                args: args.take(),
-                                type_args: Default::default(),
-                            });
-                            b.take();
-                            self.changed = true;
-                            tracing::debug!(
-                                "sequences: Reducing `(a = foo, a.call())` to `((a = foo).call())`"
-                            );
-
-                            *a = new;
+                    let new = Expr::Call(CallExpr {
+                        span,
+                        callee: MemberExpr {
+                            span: DUMMY_SP,
+                            obj,
+                            prop: prop.take(),
                         }
-                        _ => {}
-                    };
-                }
+                        .as_callee(),
+                        args: args.take(),
+                        type_args: Default::default(),
+                    });
+                    b.take();
+                    self.changed = true;
+                    tracing::debug!(
+                        "sequences: Reducing `(a = foo, a.call())` to `((a = foo).call())`"
+                    );
 
-                _ => {}
+                    *a = new;
+                };
             }
         }
     }
