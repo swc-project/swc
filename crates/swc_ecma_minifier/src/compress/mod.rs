@@ -33,7 +33,7 @@ use swc_ecma_transforms::{
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use swc_timer::timer;
-use tracing::{error, span, Level};
+use tracing::error;
 
 mod drop_console;
 mod hoist_decls;
