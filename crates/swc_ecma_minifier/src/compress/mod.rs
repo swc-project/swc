@@ -32,7 +32,8 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
-use tracing::{error, span, Level};
+use swc_timer::timer;
+use tracing::error;
 
 mod drop_console;
 mod hoist_decls;
@@ -233,13 +234,9 @@ where
     where
         N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa, M>>,
     {
-        self.data = Some(analyze(&*n, Some(self.marks)));
+        let _timer = timer!("optimize", pass = self.pass);
 
-        let _tracing = if cfg!(feature = "debug") {
-            Some(span!(Level::ERROR, "compressor", "pass" = self.pass).entered())
-        } else {
-            None
-        };
+        self.data = Some(analyze(&*n, Some(self.marks)));
 
         if self.options.passes != 0 && self.options.passes < self.pass {
             let done = dump(&*n, false);
@@ -260,6 +257,8 @@ where
 
                 for (i, code) in self.dump_for_infinite_loop.iter().enumerate() {
                     msg.push_str(&format!("Code {:>4}:\n\n\n\n\n\n\n\n\n\n{}\n", i, code));
+
+                    // std::fs::write(&format!("pass_{}.js", i), code).unwrap();
                 }
 
                 panic!(

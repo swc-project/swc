@@ -1,8 +1,12 @@
+use crate::{compress::util::negate, debug::dump};
+
 use super::negate_cost;
 use swc_common::{input::SourceFileInput, util::take::Take, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_transforms::fixer;
+use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
+use tracing::{info, warn};
 
 struct UnwrapParen;
 impl VisitMut for UnwrapParen {
@@ -36,7 +40,31 @@ fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expe
 
         e.visit_mut_with(&mut UnwrapParen);
 
-        let actual = negate_cost(&e, in_bool_ctx, is_ret_val_ignored).unwrap();
+        let input = {
+            let e = e.clone();
+            let e = e.fold_with(&mut fixer(None));
+            dump(&e, true)
+        };
+
+        let real = {
+            let mut real = e.clone();
+            let _ = negate(&mut real, in_bool_ctx, is_ret_val_ignored);
+            let real = real.fold_with(&mut fixer(None));
+            dump(&real, true)
+        };
+
+        {
+            warn!(
+                "Actual: {} ;Input = {}, Real = {}",
+                real.len() as isize - input.len() as isize,
+                input.len(),
+                real.len()
+            );
+            info!("Real: {}", real);
+            info!("Input: {}", input);
+        }
+
+        let actual = negate_cost(&e, in_bool_ctx, is_ret_val_ignored);
 
         assert_eq!(
             actual, expected,
@@ -207,5 +235,31 @@ fn negate_cost_6_2() {
         true,
         false,
         -1,
+    );
+}
+
+#[test]
+#[ignore]
+fn next_31077_1() {
+    assert_negate_cost(
+        "((!a || !(a instanceof TextViewDesc1) || /\\n$/.test(a.node.text)) && ((result1.safari \
+         || result1.chrome) && a && 'false' == a.dom.contentEditable && this.addHackNode('IMG'), \
+         this.addHackNode('BR')))",
+        true,
+        true,
+        0,
+    );
+}
+
+#[test]
+#[ignore]
+fn next_31077_2() {
+    assert_negate_cost(
+        "!((!a || !(a instanceof TextViewDesc1) || /\\n$/.test(a.node.text)) || ((result1.safari \
+         || result1.chrome) && a && 'false' == a.dom.contentEditable && this.addHackNode('IMG'), \
+         this.addHackNode('BR')))",
+        true,
+        true,
+        -3,
     );
 }

@@ -20,8 +20,11 @@ mod tests;
 /// This method returns `!e` if `!!e` is given as a argument.
 ///
 /// TODO: Handle special cases like !1 or !0
-#[must_use]
-pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bool {
+pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) {
+    negate_inner(e, in_bool_ctx, is_ret_val_ignored);
+}
+
+fn negate_inner(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bool {
     let start_str = dump(&*e, false);
 
     match e {
@@ -58,8 +61,8 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) 
         }) if is_ok_to_negate_rhs(right) => {
             tracing::debug!("negate: a && b => !a || !b");
 
-            let a = negate(&mut **left, in_bool_ctx, false);
-            let b = negate(&mut **right, in_bool_ctx, is_ret_val_ignored);
+            let a = negate_inner(&mut **left, in_bool_ctx, false);
+            let b = negate_inner(&mut **right, in_bool_ctx, is_ret_val_ignored);
             *op = op!("||");
             return a || b;
         }
@@ -72,8 +75,8 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) 
         }) if is_ok_to_negate_rhs(right) => {
             tracing::debug!("negate: a || b => !a && !b");
 
-            let a = negate(&mut **left, in_bool_ctx, false);
-            let b = negate(&mut **right, in_bool_ctx, is_ret_val_ignored);
+            let a = negate_inner(&mut **left, in_bool_ctx, false);
+            let b = negate_inner(&mut **right, in_bool_ctx, is_ret_val_ignored);
             *op = op!("&&");
             return a || b;
         }
@@ -83,8 +86,8 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) 
         {
             tracing::debug!("negate: cond");
 
-            let a = negate(&mut **cons, in_bool_ctx, false);
-            let b = negate(&mut **alt, in_bool_ctx, is_ret_val_ignored);
+            let a = negate_inner(&mut **cons, in_bool_ctx, false);
+            let b = negate_inner(&mut **alt, in_bool_ctx, is_ret_val_ignored);
             return a || b;
         }
 
@@ -92,7 +95,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) 
             if let Some(last) = exprs.last_mut() {
                 tracing::debug!("negate: seq");
 
-                return negate(&mut **last, in_bool_ctx, is_ret_val_ignored);
+                return negate_inner(&mut **last, in_bool_ctx, is_ret_val_ignored);
             }
         }
 
@@ -123,6 +126,12 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) 
             _ => {
                 if in_bool_ctx {
                     tracing::debug!("negate: !expr => expr (in bool context)");
+                    *e = *arg.take();
+                    return true;
+                }
+
+                if is_ret_val_ignored {
+                    tracing::debug!("negate: !expr => expr (return value ignored)");
                     *e = *arg.take();
                     return true;
                 }
@@ -215,7 +224,7 @@ pub(crate) fn is_ok_to_negate_rhs(rhs: &Expr) -> bool {
 
 /// A negative value means that it's efficient to negate the expression.
 #[cfg_attr(feature = "debug", tracing::instrument(skip(e)))]
-pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> Option<isize> {
+pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> isize {
     #[cfg_attr(test, tracing::instrument(skip(e)))]
     fn cost(
         e: &Expr,
@@ -351,7 +360,7 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
         );
     }
 
-    Some(cost)
+    cost
 }
 
 pub(crate) fn is_pure_undefined(e: &Expr) -> bool {

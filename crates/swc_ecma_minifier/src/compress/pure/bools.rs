@@ -16,12 +16,12 @@ where
     M: Mode,
 {
     pub(super) fn negate_twice(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
-        self.changed |= negate(e, false, is_ret_val_ignored);
-        self.changed |= negate(e, false, is_ret_val_ignored);
+        negate(e, false, is_ret_val_ignored);
+        negate(e, false, is_ret_val_ignored);
     }
 
     pub(super) fn negate(&mut self, e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) {
-        self.changed |= negate(e, in_bool_ctx, is_ret_val_ignored)
+        negate(e, in_bool_ctx, is_ret_val_ignored)
     }
 
     /// `!(a && b)` => `!a || !b`
@@ -45,8 +45,7 @@ where
                     right,
                     ..
                 }) => {
-                    if negate_cost(left, false, false).unwrap_or(isize::MAX) >= 0
-                        || negate_cost(right, false, false).unwrap_or(isize::MAX) >= 0
+                    if negate_cost(left, false, false) >= 0 || negate_cost(right, false, false) >= 0
                     {
                         return;
                     }
@@ -68,8 +67,8 @@ where
                         ..
                     }) = &mut **arg_of_arg
                     {
-                        if negate_cost(left, false, false).unwrap_or(isize::MAX) > 0
-                            || negate_cost(right, false, false).unwrap_or(isize::MAX) > 0
+                        if negate_cost(left, false, false) > 0
+                            || negate_cost(right, false, false) > 0
                         {
                             return;
                         }
@@ -279,7 +278,7 @@ where
                         let last = exprs.last_mut().unwrap();
                         self.optimize_expr_in_bool_ctx(last);
                         // Negate last element.
-                        self.changed |= negate(last, false, false);
+                        negate(last, false, false);
                     }
 
                     *n = *e.arg.take();
