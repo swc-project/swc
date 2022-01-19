@@ -343,9 +343,10 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(MediaAnd, visit_media_and);
     mtd!(MediaOr, visit_media_or);
     mtd!(MediaInParens, visit_media_in_parens);
+    mtd!(MediaFeature, visit_media_feature);
     mtd!(MediaFeaturePlain, visit_media_feature_plain);
     mtd!(MediaFeatureBoolean, visit_media_feature_boolean);
-    mtd!(MediaFeature, visit_media_feature);
+    mtd!(MediaFeatureRange, visit_media_feature_range);
     mtd!(NamespaceUri, visit_namespace_uri);
     mtd!(NamespaceRule, visit_namespace_rule);
     mtd!(NestedPageRule, visit_nested_page_rule);

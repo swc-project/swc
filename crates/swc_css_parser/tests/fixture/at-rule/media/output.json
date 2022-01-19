@@ -1622,7 +1622,7 @@
                     "value": "height",
                     "raw": "height"
                   },
-                  "comparison": 0,
+                  "comparison": "<",
                   "right": [
                     {
                       "type": "UnitValue",
@@ -1709,7 +1709,7 @@
                     "value": "height",
                     "raw": "height"
                   },
-                  "comparison": 1,
+                  "comparison": "<=",
                   "right": [
                     {
                       "type": "UnitValue",
@@ -1796,7 +1796,7 @@
                     "value": "height",
                     "raw": "height"
                   },
-                  "comparison": 3,
+                  "comparison": ">",
                   "right": [
                     {
                       "type": "UnitValue",
@@ -1883,7 +1883,7 @@
                     "value": "height",
                     "raw": "height"
                   },
-                  "comparison": 2,
+                  "comparison": ">=",
                   "right": [
                     {
                       "type": "UnitValue",
@@ -1970,7 +1970,7 @@
                     "value": "height",
                     "raw": "height"
                   },
-                  "comparison": 4,
+                  "comparison": "=",
                   "right": [
                     {
                       "type": "UnitValue",

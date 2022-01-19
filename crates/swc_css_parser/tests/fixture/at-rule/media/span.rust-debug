@@ -1714,6 +1714,12 @@ error: MediaFeature
 21 | @media (height < 600px) {}
    |        ^^^^^^^^^^^^^^^^
 
+error: MediaFeatureRange
+  --> $DIR/tests/fixture/at-rule/media/input.css:21:8
+   |
+21 | @media (height < 600px) {}
+   |        ^^^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:21:9
    |
@@ -1793,6 +1799,12 @@ error: MediaInParens
    |        ^^^^^^^^^^^^^^^^^
 
 error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:22:8
+   |
+22 | @media (height <= 600px) {}
+   |        ^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureRange
   --> $DIR/tests/fixture/at-rule/media/input.css:22:8
    |
 22 | @media (height <= 600px) {}
@@ -1882,6 +1894,12 @@ error: MediaFeature
 23 | @media (height > 600px) {}
    |        ^^^^^^^^^^^^^^^^
 
+error: MediaFeatureRange
+  --> $DIR/tests/fixture/at-rule/media/input.css:23:8
+   |
+23 | @media (height > 600px) {}
+   |        ^^^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:23:9
    |
@@ -1966,6 +1984,12 @@ error: MediaFeature
 24 | @media (height >= 600px) {}
    |        ^^^^^^^^^^^^^^^^^
 
+error: MediaFeatureRange
+  --> $DIR/tests/fixture/at-rule/media/input.css:24:8
+   |
+24 | @media (height >= 600px) {}
+   |        ^^^^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:24:9
    |
@@ -2045,6 +2069,12 @@ error: MediaInParens
    |        ^^^^^^^^^^^^^^^^
 
 error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:25:8
+   |
+25 | @media (height = 600px) {}
+   |        ^^^^^^^^^^^^^^^^
+
+error: MediaFeatureRange
   --> $DIR/tests/fixture/at-rule/media/input.css:25:8
    |
 25 | @media (height = 600px) {}

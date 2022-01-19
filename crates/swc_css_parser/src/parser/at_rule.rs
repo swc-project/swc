@@ -942,28 +942,28 @@ where
                         eat!(self, "<");
 
                         if eat!(self, "=") {
-                            1
+                            MediaFeatureRangeComparison::Le
                         } else {
-                            0
+                            MediaFeatureRangeComparison::Lt
                         }
                     }
                     tok!(">") => {
                         eat!(self, ">");
 
                         if eat!(self, "=") {
-                            2
+                            MediaFeatureRangeComparison::Ge
                         } else {
-                            3
+                            MediaFeatureRangeComparison::Gt
                         }
                     }
                     tok!("=") => {
                         eat!(self, "=");
 
-                        4
+                        MediaFeatureRangeComparison::Eq
                     }
                     _ => {
-                        // TODO error
-                        -1
+                        // TODO another error
+                        return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
                     }
                 };
 

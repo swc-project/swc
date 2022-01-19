@@ -507,7 +507,7 @@ define!({
     pub struct MediaFeatureRange {
         pub span: Span,
         pub left: Ident,
-        pub comparison: i32,
+        pub comparison: MediaFeatureRangeComparison,
         pub right: Vec<Value>,
     }
 

@@ -1,5 +1,6 @@
 use crate::{Ident, Rule, Value};
-use swc_common::{ast_node, Span};
+use string_enum::StringEnum;
+use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node("MediaRule")]
 pub struct MediaRule {
@@ -97,8 +98,7 @@ pub struct MediaFeatureBoolean {
     pub name: Ident,
 }
 
-// TODO
-// #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 pub enum MediaFeatureRangeComparison {
     /// `<`
     Lt,
@@ -110,7 +110,7 @@ pub enum MediaFeatureRangeComparison {
     Gt,
 
     /// `>=`
-    GE,
+    Ge,
 
     /// `=`
     Eq,
@@ -120,6 +120,6 @@ pub enum MediaFeatureRangeComparison {
 pub struct MediaFeatureRange {
     pub span: Span,
     pub left: Ident,
-    pub comparison: i32,
+    pub comparison: MediaFeatureRangeComparison,
     pub right: Vec<Value>,
 }
