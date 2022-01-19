@@ -819,8 +819,6 @@ where
 
                     self.input.skip_ws()?;
                 }
-            } else {
-                // TODO ERROR
             }
         };
 
@@ -907,7 +905,7 @@ where
 {
     fn parse(&mut self) -> PResult<MediaFeature> {
         let span = self.input.cur_span()?;
- 
+
         expect!(self, "(");
 
         self.input.skip_ws()?;
