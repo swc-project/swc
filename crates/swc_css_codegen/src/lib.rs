@@ -313,7 +313,11 @@ where
     #[emitter]
     fn emit_media_in_parens(&mut self, n: &MediaInParens) -> Result {
         match n {
-            MediaInParens::MediaCondition(n) => emit!(self, n),
+            MediaInParens::MediaCondition(n) => {
+                punct!(self, "(");
+                emit!(self, n);
+                punct!(self, ")");
+            }
             MediaInParens::Feature(n) => emit!(self, n),
         }
     }
