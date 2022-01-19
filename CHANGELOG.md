@@ -23,6 +23,9 @@
 - **(es/minifier)** Don't emit invalid code (#3302) ([8e796cd](https://github.com/swc-project/swc/commit/8e796cdc0ac59d7cab7e9e845afc2f98ee89c3ae))
 
 
+- **(es/minifier)** Fix logic for checking `arguments` (#3313) ([1aa494b](https://github.com/swc-project/swc/commit/1aa494b1c0d26151c56500dd2bab283b7a4222c5))
+
+
 - **(es/resolver)** Ignore names of jsx attributes (#3289) ([9a89895](https://github.com/swc-project/swc/commit/9a898951bc14e96af926e8a47a87d9220eaf4826))
 
 ### Documentation
