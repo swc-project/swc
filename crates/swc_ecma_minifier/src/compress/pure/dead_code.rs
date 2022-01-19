@@ -141,10 +141,10 @@ where
         }
 
         if let Some(last) = last {
-            if stmts[last..].iter().all(|stmt| match stmt.as_stmt() {
-                Some(Stmt::Decl(..)) | None => true,
-                _ => false,
-            }) {
+            if stmts[last..]
+                .iter()
+                .all(|stmt| matches!(stmt.as_stmt(), Some(Stmt::Decl(..)) | None))
+            {
                 return;
             }
 
