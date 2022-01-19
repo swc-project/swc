@@ -258,7 +258,7 @@ where
             let mut child_ctx = Ctx { ..self.ctx };
             let mut directive_count = 0;
 
-            if stmts.len() >= 1 {
+            if !stmts.is_empty() {
                 // TODO: Handle multiple directives.
                 if let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmts[0].as_stmt() {
                     if let Expr::Lit(Lit::Str(v)) = &**expr {
@@ -509,11 +509,14 @@ where
             _ => return,
         };
 
-        if arr.elems.iter().any(|elem| match elem {
-            Some(ExprOrSpread {
-                spread: Some(..), ..
-            }) => true,
-            _ => false,
+        if arr.elems.iter().any(|elem| {
+            matches!(
+                elem,
+                Some(ExprOrSpread {
+                    spread: Some(..),
+                    ..
+                })
+            )
         }) {
             return;
         }
@@ -524,10 +527,7 @@ where
             .filter_map(|v| v.as_ref())
             .any(|v| match &*v.expr {
                 e if is_pure_undefined(e) => false,
-                Expr::Lit(lit) => match lit {
-                    Lit::Str(..) | Lit::Num(..) | Lit::Null(..) => false,
-                    _ => true,
-                },
+                Expr::Lit(lit) => !matches!(lit, Lit::Str(..) | Lit::Num(..) | Lit::Null(..)),
                 _ => true,
             });
 
@@ -544,10 +544,7 @@ where
                 .filter_map(|v| v.as_ref())
                 .any(|v| match &*v.expr {
                     e if is_pure_undefined(e) => false,
-                    Expr::Lit(lit) => match lit {
-                        Lit::Str(..) | Lit::Num(..) | Lit::Null(..) => false,
-                        _ => true,
-                    },
+                    Expr::Lit(lit) => !matches!(lit, Lit::Str(..) | Lit::Num(..) | Lit::Null(..)),
                     // This can change behavior if the value is `undefined` or `null`.
                     Expr::Ident(..) => false,
                     _ => true,
@@ -580,15 +577,14 @@ where
             }
 
             for (last, elem) in arr.elems.take().into_iter().identify_last() {
-                match elem {
-                    Some(ExprOrSpread { spread: None, expr }) => match &*expr {
+                if let Some(ExprOrSpread { spread: None, expr }) = elem {
+                    match &*expr {
                         e if is_pure_undefined(e) => {}
                         Expr::Lit(Lit::Null(..)) => {}
                         _ => {
                             add(&mut res, expr);
                         }
-                    },
-                    _ => {}
+                    }
                 }
 
                 if !last {

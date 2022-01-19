@@ -517,8 +517,6 @@ where
                 } else {
                     self.vars_for_inlining.insert(i.to_id(), e);
                 }
-
-                return;
             } else {
                 if cfg!(feature = "debug") {
                     tracing::trace!("inline: [x] Usage: {:?}", usage);
@@ -568,7 +566,7 @@ where
 
             // Check without cloning
             if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
-                if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(&value) {
+                if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(value) {
                     return;
                 }
 
@@ -617,9 +615,8 @@ fn is_arrow_simple_enough(e: &ArrowExpr) -> bool {
 
         false
     }
-    match &e.body {
-        BlockStmtOrExpr::Expr(e) => return is_arrow_body_simple_enough(&e),
-        _ => {}
+    if let BlockStmtOrExpr::Expr(e) = &e.body {
+        return is_arrow_body_simple_enough(e);
     }
 
     false

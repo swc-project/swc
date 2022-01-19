@@ -118,7 +118,6 @@ where
                         }));
                         f.update = None;
                         *stmt = *f.body.take();
-                        return;
                     } else if let Known(true) = val {
                         if purity.is_pure() {
                             self.changed = true;
@@ -135,9 +134,7 @@ where
     }
 
     pub(super) fn drop_if_break(&mut self, _s: &ForStmt) {
-        if !self.options.loops {
-            return;
-        }
+        if !self.options.loops {}
     }
 
     ///
@@ -154,7 +151,6 @@ where
                     let new = self.ignore_return_value(&mut **init);
                     if let Some(new) = new {
                         *init = Box::new(new);
-                        return;
                     } else {
                         s.init = None;
                         self.changed = true;
