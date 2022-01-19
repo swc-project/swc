@@ -76,7 +76,6 @@ where
             ..self.ctx
         };
 
-        self.changed = true;
         self.with_ctx(ctx).negate(&mut e.left, false);
         self.with_ctx(ctx).negate(&mut e.right, is_ret_val_ignored);
 
