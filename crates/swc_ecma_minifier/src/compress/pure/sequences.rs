@@ -18,30 +18,27 @@ where
             return;
         }
 
-        match (
+        if let (Expr::Assign(assign @ AssignExpr { op: op!("="), .. }), Expr::Ident(ident)) = (
             &*seq.exprs[seq.exprs.len() - 2],
             &*seq.exprs[seq.exprs.len() - 1],
         ) {
-            (Expr::Assign(assign @ AssignExpr { op: op!("="), .. }), Expr::Ident(ident)) => {
-                // Check if lhs is same as `ident`.
-                match &assign.left {
-                    PatOrExpr::Expr(_) => {}
-                    PatOrExpr::Pat(left) => match &**left {
-                        Pat::Ident(left) => {
-                            if left.id.sym == ident.sym && left.id.span.ctxt == ident.span.ctxt {
-                                tracing::debug!(
-                                    "drop_useless_ident_ref_in_seq: Dropping `{}` as it's useless",
-                                    left.id
-                                );
-                                self.changed = true;
-                                seq.exprs.pop();
-                            }
+            // Check if lhs is same as `ident`.
+            match &assign.left {
+                PatOrExpr::Expr(_) => {}
+                PatOrExpr::Pat(left) => match &**left {
+                    Pat::Ident(left) => {
+                        if left.id.sym == ident.sym && left.id.span.ctxt == ident.span.ctxt {
+                            tracing::debug!(
+                                "drop_useless_ident_ref_in_seq: Dropping `{}` as it's useless",
+                                left.id
+                            );
+                            self.changed = true;
+                            seq.exprs.pop();
                         }
-                        _ => {}
-                    },
-                }
+                    }
+                    _ => {}
+                },
             }
-            _ => {}
         }
     }
 
