@@ -6,14 +6,16 @@
 @media print {}
 @media screen and (color) {}
 @media screen and (color), projection and (color) {}
+@media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
 @media print and (min-resolution: 118dpcm) {}
 @media (device-aspect-ratio: 16/9) {}
 @media (grid) and (max-width: 15em) {}
 @media (monochrome) {}
-@media (min-width: 20px)  {}
+@media (min-width: 20px) {}
+@media   (   min-width   :   20px   )   {}
 @media (min-width: 20em) and (min-width: 20em) {}
+@media   (min-width   :   20em   )   and   (   min-width   :   20em   )   {}
 @media    all    {}
-@media    not   all   {}
 @media   screen   and    (   color   )   {}
 
 @media not all and (monochrome) {}
@@ -21,8 +23,10 @@
 @media not (device-aspect-ratio: 16/9) {}
 @media not (device-aspect-ratio: 16 / 9) {}
 @media not all {}
+@media    not   all   {}
 
 @media only screen and (color) {}
+@media   only   screen   and   (   color   )   {}
 
 @media (height < 600px) {}
 @media (height <= 600px) {}
