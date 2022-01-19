@@ -50,10 +50,9 @@ impl PrecompressOptimizer<'_> {
         }
 
         if self.data.is_none() {
-            let has_decl = stmts.iter().any(|stmt| match stmt.as_module_decl() {
-                Ok(..) | Err(Stmt::Decl(..)) => true,
-                _ => false,
-            });
+            let has_decl = stmts
+                .iter()
+                .any(|stmt| matches!(stmt.as_module_decl(), Ok(..) | Err(Stmt::Decl(..))));
 
             if has_decl {
                 let data = Some(analyze(&*stmts, Some(self.marks)));
@@ -97,11 +96,8 @@ impl VisitMut for PrecompressOptimizer<'_> {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
-        match e {
-            Expr::Paren(p) => {
-                *e = *p.expr.take();
-            }
-            _ => {}
+        if let Expr::Paren(p) = e {
+            *e = *p.expr.take();
         }
     }
 
