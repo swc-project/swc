@@ -86,7 +86,6 @@ where
                     left: cond.test.take(),
                     right: cond.cons.take(),
                 });
-                return;
             }
         }
     }
@@ -121,7 +120,6 @@ where
                     })),
                     right: cons.right.take(),
                 });
-                return;
             }
             _ => {}
         }
@@ -179,7 +177,6 @@ where
                 self.changed = true;
                 tracing::debug!("conditionals: `!!foo || true` => `true`");
                 *e = make_bool(bin.span, true);
-                return;
             }
         }
     }

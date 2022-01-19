@@ -512,7 +512,7 @@ where
             return false;
         }
 
-        if self.can_swap_bin_operands(&left, &right, false) {
+        if self.can_swap_bin_operands(left, right, false) {
             tracing::debug!("Swapping operands of binary expession");
             swap(left, right);
             return true;
@@ -646,23 +646,19 @@ where
                 }
             }
 
-            match (&mut *e.left, &mut *e.right) {
-                (Expr::Bin(left), right) => {
-                    if e.op == left.op {
-                        let res = opt(right.span(), e.op, &mut left.right, &mut *right);
-                        if let Some(res) = res {
-                            self.changed = true;
-                            *e = BinExpr {
-                                span: e.span,
-                                op: e.op,
-                                left: left.left.take(),
-                                right: Box::new(Expr::Bin(res)),
-                            };
-                            return;
-                        }
+            if let (Expr::Bin(left), right) = (&mut *e.left, &mut *e.right) {
+                if e.op == left.op {
+                    let res = opt(right.span(), e.op, &mut left.right, &mut *right);
+                    if let Some(res) = res {
+                        self.changed = true;
+                        *e = BinExpr {
+                            span: e.span,
+                            op: e.op,
+                            left: left.left.take(),
+                            right: Box::new(Expr::Bin(res)),
+                        };
                     }
                 }
-                _ => {}
             }
         }
     }
