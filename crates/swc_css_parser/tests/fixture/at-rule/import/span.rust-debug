@@ -388,18 +388,6 @@ error: MediaQuery
 10 | @import "common.css" screen;
    |                      ^^^^^^
 
-error: MediaCondition
-  --> $DIR/tests/fixture/at-rule/import/input.css:10:22
-   |
-10 | @import "common.css" screen;
-   |                      ^^^^^^
-
-error: MediaQueryItem
-  --> $DIR/tests/fixture/at-rule/import/input.css:10:22
-   |
-10 | @import "common.css" screen;
-   |                      ^^^^^^
-
 error: Ident
   --> $DIR/tests/fixture/at-rule/import/input.css:10:22
    |
@@ -460,35 +448,17 @@ error: MediaQuery
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: MediaCondition
-  --> $DIR/tests/fixture/at-rule/import/input.css:11:30
-   |
-11 | @import url('landscape.css') screen and (orientation:landscape);
-   |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
-  --> $DIR/tests/fixture/at-rule/import/input.css:11:30
-   |
-11 | @import url('landscape.css') screen and (orientation:landscape);
-   |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AndMediaQuery
-  --> $DIR/tests/fixture/at-rule/import/input.css:11:30
-   |
-11 | @import url('landscape.css') screen and (orientation:landscape);
-   |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
-  --> $DIR/tests/fixture/at-rule/import/input.css:11:30
-   |
-11 | @import url('landscape.css') screen and (orientation:landscape);
-   |                              ^^^^^^
-
 error: Ident
   --> $DIR/tests/fixture/at-rule/import/input.css:11:30
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |                              ^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:41
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                                         ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQueryItem
   --> $DIR/tests/fixture/at-rule/import/input.css:11:41

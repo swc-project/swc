@@ -29,27 +29,17 @@
               "ctxt": 0
             },
             "modifier": null,
-            "mediaType": null,
-            "condition": {
-              "type": "MediaCondition",
+            "mediaType": {
+              "type": "Identifier",
               "span": {
                 "start": 7,
-                "end": 14,
+                "end": 13,
                 "ctxt": 0
               },
-              "conditions": [
-                {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 7,
-                    "end": 13,
-                    "ctxt": 0
-                  },
-                  "value": "screen",
-                  "raw": "screen"
-                }
-              ]
-            }
+              "value": "screen",
+              "raw": "screen"
+            },
+            "condition": null
           }
         ]
       },

@@ -320,18 +320,6 @@ error: MediaQuery
 23 | @media/* comment */screen/* comment */{}
    |                    ^^^^^^
 
-error: MediaCondition
-  --> $DIR/tests/fixture/comment/input.css:23:20
-   |
-23 | @media/* comment */screen/* comment */{}
-   |                    ^^^^^^
-
-error: MediaQueryItem
-  --> $DIR/tests/fixture/comment/input.css:23:20
-   |
-23 | @media/* comment */screen/* comment */{}
-   |                    ^^^^^^
-
 error: Ident
   --> $DIR/tests/fixture/comment/input.css:23:20
    |
@@ -367,18 +355,6 @@ error: MediaQuery
    |
 24 | @media /* comment */ screen /* comment */ {}
    |                      ^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaCondition
-  --> $DIR/tests/fixture/comment/input.css:24:22
-   |
-24 | @media /* comment */ screen /* comment */ {}
-   |                      ^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
-  --> $DIR/tests/fixture/comment/input.css:24:22
-   |
-24 | @media /* comment */ screen /* comment */ {}
-   |                      ^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/comment/input.css:24:22

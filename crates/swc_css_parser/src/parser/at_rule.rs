@@ -734,30 +734,52 @@ where
 {
     fn parse(&mut self) -> PResult<MediaQuery> {
         let span = self.input.cur_span()?;
+        let state = self.input.state();
 
-        // TODO https://github.com/chromium/chromium/blob/main/third_party/blink/renderer/core/css/parser/media_query_parser.cc#L462
-        let mut modifier = None;
-        let mut media_type = None;
+        // TODO uppercase acceptable
+        let mut modifier = if is!(self, "not") {
+            let modifier = Some(self.parse()?);
 
-        // TODO better check
-        if is!(self, Ident) && peeked_is!(self, Ident) {
-            if eat!(self, "not") {
-                modifier = Some(self.parse()?)
-            } else if eat!(self, "only") {
-                modifier = Some(self.parse()?)
-            };
+            self.input.skip_ws()?;
 
-            media_type = match bump!(self) {
-                Token::Ident { value, raw } => Some(Ident { span, value, raw }),
-                _ => {
-                    // TODO should be error
-                    unreachable!()
-                }
-            };
-        }
+            modifier
+        } else if is!(self, "only") {
+            let modifier = Some(self.parse()?);
 
-        // TODO maybe optional
-        let condition = self.parse()?;
+            self.input.skip_ws()?;
+
+            modifier
+        } else {
+            None
+        };
+
+        let media_type = if !is!(self, Ident) {
+            None
+        } else if is_one_of!(self, "not", "and", "or", "only") {
+            None
+        } else {
+            let media_type = Some(self.parse()?);
+
+            self.input.skip_ws()?;
+
+            media_type
+        };
+
+        let condition = if media_type.is_some() {
+            if eat!(self, "and") {
+                self.input.skip_ws()?;
+
+                Some(self.parse()?)
+            } else {
+                None
+            }
+        } else {
+            modifier = None;
+
+            self.input.reset(&state);
+
+            Some(self.parse()?)
+        };
 
         Ok(MediaQuery {
             span: span!(self, span.lo),
@@ -777,7 +799,7 @@ where
 
         let span = self.input.cur_span()?;
         let conditions = vec![self.parse()?];
-        
+
         Ok(MediaCondition {
             span: span!(self, span.lo),
             conditions,

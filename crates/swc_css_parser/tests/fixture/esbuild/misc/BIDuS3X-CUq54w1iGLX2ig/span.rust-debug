@@ -58,18 +58,6 @@ error: MediaQuery
 1 | @import url("foo.css") print;
   |                        ^^^^^
 
-error: MediaCondition
- --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:24
-  |
-1 | @import url("foo.css") print;
-  |                        ^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:24
-  |
-1 | @import url("foo.css") print;
-  |                        ^^^^^
-
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:24
   |

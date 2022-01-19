@@ -40,35 +40,17 @@ error: MediaQuery
 1 | @media screen and (color) {}
   |        ^^^^^^^^^^^^^^^^^^^
 
-error: MediaCondition
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:8
-  |
-1 | @media screen and (color) {}
-  |        ^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:8
-  |
-1 | @media screen and (color) {}
-  |        ^^^^^^^^^^^^^^^^^^
-
-error: AndMediaQuery
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:8
-  |
-1 | @media screen and (color) {}
-  |        ^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:8
-  |
-1 | @media screen and (color) {}
-  |        ^^^^^^
-
 error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:1:8
   |
 1 | @media screen and (color) {}
   |        ^^^^^^
+
+error: MediaCondition
+ --> $DIR/tests/fixture/rome/media/feature/input.css:1:19
+  |
+1 | @media screen and (color) {}
+  |                   ^^^^^^^^
 
 error: MediaQueryItem
  --> $DIR/tests/fixture/rome/media/feature/input.css:1:19
@@ -130,47 +112,23 @@ error: MediaQuery
 2 | @media only screen and (color) {}
   |        ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: MediaCondition
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:2:8
   |
 2 | @media only screen and (color) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:8
-  |
-2 | @media only screen and (color) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: OnlyMediaQuery
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:8
-  |
-2 | @media only screen and (color) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:13
-  |
-2 | @media only screen and (color) {}
-  |             ^^^^^^^^^^^^^^^^^^
-
-error: AndMediaQuery
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:13
-  |
-2 | @media only screen and (color) {}
-  |             ^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:13
-  |
-2 | @media only screen and (color) {}
-  |             ^^^^^^
+  |        ^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:2:13
   |
 2 | @media only screen and (color) {}
   |             ^^^^^^
+
+error: MediaCondition
+ --> $DIR/tests/fixture/rome/media/feature/input.css:2:24
+  |
+2 | @media only screen and (color) {}
+  |                        ^^^^^^^^
 
 error: MediaQueryItem
  --> $DIR/tests/fixture/rome/media/feature/input.css:2:24
@@ -232,47 +190,23 @@ error: MediaQuery
 3 | @media only screen and (min-width: 800px) {}
   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: MediaCondition
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:3:8
   |
 3 | @media only screen and (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:8
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: OnlyMediaQuery
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:8
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:13
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AndMediaQuery
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:13
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:13
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |             ^^^^^^
+  |        ^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:3:13
   |
 3 | @media only screen and (min-width: 800px) {}
   |             ^^^^^^
+
+error: MediaCondition
+ --> $DIR/tests/fixture/rome/media/feature/input.css:3:24
+  |
+3 | @media only screen and (min-width: 800px) {}
+  |                        ^^^^^^^^^^^^^^^^^^^
 
 error: MediaQueryItem
  --> $DIR/tests/fixture/rome/media/feature/input.css:3:24
@@ -358,35 +292,17 @@ error: MediaQuery
 4 | @media screen and (min-width       :          800px        ) {}
   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: MediaCondition
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:8
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:8
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AndMediaQuery
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:8
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:8
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |        ^^^^^^
-
 error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:4:8
   |
 4 | @media screen and (min-width       :          800px        ) {}
   |        ^^^^^^
+
+error: MediaCondition
+ --> $DIR/tests/fixture/rome/media/feature/input.css:4:19
+  |
+4 | @media screen and (min-width       :          800px        ) {}
+  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQueryItem
  --> $DIR/tests/fixture/rome/media/feature/input.css:4:19
@@ -472,35 +388,17 @@ error: MediaQuery
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: MediaCondition
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:8
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:8
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AndMediaQuery
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:8
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:8
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |        ^^^^^^
-
 error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:5:8
   |
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |        ^^^^^^
+
+error: MediaCondition
+ --> $DIR/tests/fixture/rome/media/feature/input.css:5:19
+  |
+5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQueryItem
  --> $DIR/tests/fixture/rome/media/feature/input.css:5:19
@@ -718,35 +616,17 @@ error: MediaQuery
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: MediaCondition
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:8
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:8
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AndMediaQuery
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:8
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:8
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |        ^^^^^^
-
 error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:8
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |        ^^^^^^
+
+error: MediaCondition
+ --> $DIR/tests/fixture/rome/media/feature/input.css:6:19
+  |
+6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQueryItem
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:19

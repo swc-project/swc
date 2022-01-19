@@ -354,27 +354,17 @@
               "ctxt": 0
             },
             "modifier": null,
-            "mediaType": null,
-            "condition": {
-              "type": "MediaCondition",
+            "mediaType": {
+              "type": "Identifier",
               "span": {
                 "start": 293,
                 "end": 299,
                 "ctxt": 0
               },
-              "conditions": [
-                {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 293,
-                    "end": 299,
-                    "ctxt": 0
-                  },
-                  "value": "screen",
-                  "raw": "screen"
-                }
-              ]
-            }
+              "value": "screen",
+              "raw": "screen"
+            },
+            "condition": null
           }
         ]
       },
@@ -403,27 +393,17 @@
               "ctxt": 0
             },
             "modifier": null,
-            "mediaType": null,
-            "condition": {
-              "type": "MediaCondition",
+            "mediaType": {
+              "type": "Identifier",
               "span": {
                 "start": 336,
-                "end": 357,
+                "end": 342,
                 "ctxt": 0
               },
-              "conditions": [
-                {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 336,
-                    "end": 342,
-                    "ctxt": 0
-                  },
-                  "value": "screen",
-                  "raw": "screen"
-                }
-              ]
-            }
+              "value": "screen",
+              "raw": "screen"
+            },
+            "condition": null
           }
         ]
       },

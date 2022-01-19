@@ -52,27 +52,17 @@
           "ctxt": 0
         },
         "modifier": null,
-        "mediaType": null,
-        "condition": {
-          "type": "MediaCondition",
+        "mediaType": {
+          "type": "Identifier",
           "span": {
             "start": 23,
             "end": 28,
             "ctxt": 0
           },
-          "conditions": [
-            {
-              "type": "Identifier",
-              "span": {
-                "start": 23,
-                "end": 28,
-                "ctxt": 0
-              },
-              "value": "print",
-              "raw": "print"
-            }
-          ]
-        }
+          "value": "print",
+          "raw": "print"
+        },
+        "condition": null
       }
     }
   ]
