@@ -462,31 +462,24 @@ define!({
 
     pub enum MediaQueryItem {
         Not(MediaNot),
-        And(AndMediaQuery),
-        Or(OrMediaQuery),
+        And(MediaAnd),
+        Or(MediaOr),
         MediaInParens(MediaInParens),
-    }
-
-    pub struct AndMediaQuery {
-        pub span: Span,
-        pub left: Box<MediaQueryItem>,
-        pub right: Box<MediaQueryItem>,
-    }
-
-    pub struct OrMediaQuery {
-        pub span: Span,
-        pub left: Box<MediaQueryItem>,
-        pub right: Box<MediaQueryItem>,
     }
 
     pub struct MediaNot {
         pub span: Span,
         pub condition: Box<MediaInParens>,
     }
-
-    pub struct OnlyMediaQuery {
+    
+    pub struct MediaAnd {
         pub span: Span,
-        pub query: Box<MediaQueryItem>,
+        pub condition: Box<MediaInParens>,
+    }
+
+    pub struct MediaOr {
+        pub span: Span,
+        pub condition: Box<MediaInParens>,
     }
 
     pub enum MediaInParens {

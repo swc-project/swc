@@ -643,31 +643,31 @@
               },
               "conditions": [
                 {
-                  "type": "AndMediaQuery",
+                  "type": "MediaFeatureBoolean",
                   "span": {
                     "start": 269,
+                    "end": 275,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 270,
+                      "end": 274,
+                      "ctxt": 0
+                    },
+                    "value": "grid",
+                    "raw": "grid"
+                  }
+                },
+                {
+                  "type": "MediaAnd",
+                  "span": {
+                    "start": 276,
                     "end": 297,
                     "ctxt": 0
                   },
-                  "left": {
-                    "type": "MediaFeatureBoolean",
-                    "span": {
-                      "start": 269,
-                      "end": 275,
-                      "ctxt": 0
-                    },
-                    "name": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 270,
-                        "end": 274,
-                        "ctxt": 0
-                      },
-                      "value": "grid",
-                      "raw": "grid"
-                    }
-                  },
-                  "right": {
+                  "condition": {
                     "type": "MediaFeaturePlain",
                     "span": {
                       "start": 280,

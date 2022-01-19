@@ -674,18 +674,6 @@ error: MediaQueryItem
   --> $DIR/tests/fixture/at-rule/media/input.css:10:8
    |
 10 | @media (grid) and (max-width: 15em) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AndMediaQuery
-  --> $DIR/tests/fixture/at-rule/media/input.css:10:8
-   |
-10 | @media (grid) and (max-width: 15em) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
-  --> $DIR/tests/fixture/at-rule/media/input.css:10:8
-   |
-10 | @media (grid) and (max-width: 15em) {}
    |        ^^^^^^
 
 error: MediaInParens
@@ -713,10 +701,16 @@ error: Ident
    |         ^^^^
 
 error: MediaQueryItem
-  --> $DIR/tests/fixture/at-rule/media/input.css:10:19
+  --> $DIR/tests/fixture/at-rule/media/input.css:10:15
    |
 10 | @media (grid) and (max-width: 15em) {}
-   |                   ^^^^^^^^^^^^^^^^^
+   |               ^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaAnd
+  --> $DIR/tests/fixture/at-rule/media/input.css:10:15
+   |
+10 | @media (grid) and (max-width: 15em) {}
+   |               ^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:10:19

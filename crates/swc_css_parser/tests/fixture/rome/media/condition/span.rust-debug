@@ -8,7 +8,7 @@ error: Stylesheet
 ...  |
 12 | |     }
 13 | | }
-   | |__^
+   | |_
 
 error: Rule
  --> $DIR/tests/fixture/rome/media/condition/input.css:1:1
@@ -140,18 +140,6 @@ error: MediaQueryItem
  --> $DIR/tests/fixture/rome/media/condition/input.css:2:8
   |
 2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AndMediaQuery
- --> $DIR/tests/fixture/rome/media/condition/input.css:2:8
-  |
-2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:2:8
-  |
-2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |        ^^^^^^^^^^^^^^^^^^
 
 error: MediaInParens
@@ -203,22 +191,16 @@ error: Unit
   |                       ^^
 
 error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:2:31
+ --> $DIR/tests/fixture/rome/media/condition/input.css:2:27
   |
 2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |                           ^^^^^^^^^^^^^^^^^^^^^^
 
-error: AndMediaQuery
- --> $DIR/tests/fixture/rome/media/condition/input.css:2:31
+error: MediaAnd
+ --> $DIR/tests/fixture/rome/media/condition/input.css:2:27
   |
 2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:2:31
-  |
-2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                               ^^^^^^^^^^^^^^^^^^
+  |                           ^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaInParens
  --> $DIR/tests/fixture/rome/media/condition/input.css:2:31
@@ -269,10 +251,16 @@ error: Unit
   |                                              ^^
 
 error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:2:54
+ --> $DIR/tests/fixture/rome/media/condition/input.css:2:50
   |
 2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                      ^^^^^^^^^^^^^^^^^^
+  |                                                  ^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaAnd
+ --> $DIR/tests/fixture/rome/media/condition/input.css:2:50
+  |
+2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                                                  ^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaInParens
  --> $DIR/tests/fixture/rome/media/condition/input.css:2:54
@@ -362,18 +350,6 @@ error: MediaQueryItem
  --> $DIR/tests/fixture/rome/media/condition/input.css:3:8
   |
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AndMediaQuery
- --> $DIR/tests/fixture/rome/media/condition/input.css:3:8
-  |
-3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:3:8
-  |
-3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |        ^^^^^^^^^^^^^^^^^^
 
 error: MediaInParens
@@ -425,22 +401,16 @@ error: Unit
   |                       ^^
 
 error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:3:31
+ --> $DIR/tests/fixture/rome/media/condition/input.css:3:27
   |
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |                           ^^^^^^^^^^^^^^^^^^^^^^
 
-error: AndMediaQuery
- --> $DIR/tests/fixture/rome/media/condition/input.css:3:31
+error: MediaAnd
+ --> $DIR/tests/fixture/rome/media/condition/input.css:3:27
   |
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:3:31
-  |
-3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                               ^^^^^^^^^^^^^^^^^^
+  |                           ^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaInParens
  --> $DIR/tests/fixture/rome/media/condition/input.css:3:31
@@ -491,22 +461,16 @@ error: Unit
   |                                              ^^
 
 error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:3:54
+ --> $DIR/tests/fixture/rome/media/condition/input.css:3:50
   |
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |                                                  ^^^^^^^^^^^^^^^^^^^^^^
 
-error: AndMediaQuery
- --> $DIR/tests/fixture/rome/media/condition/input.css:3:54
+error: MediaAnd
+ --> $DIR/tests/fixture/rome/media/condition/input.css:3:50
   |
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:3:54
-  |
-3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                      ^^^^^^^^^^^^^^^^^^
+  |                                                  ^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaInParens
  --> $DIR/tests/fixture/rome/media/condition/input.css:3:54
@@ -557,10 +521,16 @@ error: Unit
   |                                                                     ^^
 
 error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:3:77
+ --> $DIR/tests/fixture/rome/media/condition/input.css:3:73
   |
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                                             ^^^^^^^^^^^^^^^^^^
+  |                                                                         ^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaAnd
+ --> $DIR/tests/fixture/rome/media/condition/input.css:3:73
+  |
+3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                                                                         ^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaInParens
  --> $DIR/tests/fixture/rome/media/condition/input.css:3:77
@@ -718,512 +688,458 @@ error: AtRule
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: MediaRule
+error: UnknownAtRule
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:1
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: MediaQueryList
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:8
-  |
-5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQuery
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:8
-  |
-5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaCondition
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:8
-  |
-5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:8
-  |
-5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AndMediaQuery
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:8
-  |
-5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:8
-  |
-5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:8
-  |
-5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:8
-  |
-5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:8
-  |
-5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^
-
 error: Ident
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:9
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:1
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |         ^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Value
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:20
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:50
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                    ^^^^^
+  |                                                  ^^
 
-error: UnitValue
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:20
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:50
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                    ^^^^^
+  |                                                  ^^
 
-error: Num
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:20
+error: Ident { value: Atom('or' type=static), raw: Atom('or' type=static) }
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:50
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                    ^^^
-
-error: Unit
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:23
-  |
-5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                       ^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:31
-  |
-5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: OrMediaQuery
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:31
-  |
-5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:31
-  |
-5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                               ^^^^^^^^^^^^^^^^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:31
-  |
-5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                               ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:31
-  |
-5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                               ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:31
-  |
-5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                               ^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:32
-  |
-5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                                ^^^^^^^^^
+  |                                                  ^^
 
 error: Value
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:43
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:52
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                                           ^^^^^
+  |                                                    ^
 
-error: UnitValue
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:43
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:52
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                                           ^^^^^
+  |                                                    ^
 
-error: Num
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:43
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:52
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                                           ^^^
+  |                                                    ^
 
-error: Unit
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:46
+error: Value
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:52
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                                              ^^
+  |                                                    ^^^^^^^^^^^^^^^^^^^
 
-error: MediaQueryItem
+error: Value
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:53
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                                                     ^^^^^^^^^^^^^^^^^^
+  |                                                     ^
 
-error: MediaInParens
+error: Tokens
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:53
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                                                     ^^^^^^^^^^^^^^^^^^
+  |                                                     ^
 
-error: MediaFeature
+error: LParen
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:53
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                                                     ^^^^^^^^^^^^^^^^^^
+  |                                                     ^
 
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:53
+error: Value
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:54
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                                                     ^^^^^^^^^^^^^^^^^^
+  |                                                      ^^^^^^^^^
 
-error: Ident
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:54
+  |
+5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
+  |                                                      ^^^^^^^^^
+
+error: Ident { value: Atom('min-width' type=dynamic), raw: Atom('min-width' type=dynamic) }
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:54
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
   |                                                      ^^^^^^^^^
 
 error: Value
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:63
+  |
+5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
+  |                                                               ^
+
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:63
+  |
+5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
+  |                                                               ^
+
+error: Colon
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:63
+  |
+5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
+  |                                                               ^
+
+error: Value
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:64
+  |
+5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
+  |                                                                ^
+
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:64
+  |
+5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
+  |                                                                ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:64
+  |
+5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
+  |                                                                ^
+
+error: Value
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:65
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
   |                                                                 ^^^^^
 
-error: UnitValue
+error: Tokens
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:65
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
   |                                                                 ^^^^^
 
-error: Num
+error: Dimension { value: 800.0, raw_value: Atom('800' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:65
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                                                                 ^^^
+  |                                                                 ^^^^^
 
-error: Unit
- --> $DIR/tests/fixture/rome/media/condition/input.css:5:68
+error: Value
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:71
   |
 5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
-  |                                                                    ^^
+  |                                                                       ^
+
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:71
+  |
+5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
+  |                                                                       ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:71
+  |
+5 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {}
+  |                                                                       ^
 
 error: Rule
-  --> $DIR/tests/fixture/rome/media/condition/input.css:6:1
-   |
-6  | / @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-7  | |     a {
-8  | |
-9  | |     }
-...  |
-12 | |     }
-13 | | }
-   | |_^
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:1
+  |
+6 | / @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
+7 | |     a {
+8 | |
+9 | |     }
+  | |_____^
 
 error: AtRule
-  --> $DIR/tests/fixture/rome/media/condition/input.css:6:1
-   |
-6  | / @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-7  | |     a {
-8  | |
-9  | |     }
-...  |
-12 | |     }
-13 | | }
-   | |_^
-
-error: MediaRule
-  --> $DIR/tests/fixture/rome/media/condition/input.css:6:1
-   |
-6  | / @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-7  | |     a {
-8  | |
-9  | |     }
-...  |
-12 | |     }
-13 | | }
-   | |_^
-
-error: MediaQueryList
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:8
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:1
   |
-6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+6 | / @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
+7 | |     a {
+8 | |
+9 | |     }
+  | |_____^
 
-error: MediaQuery
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:8
+error: UnknownAtRule
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:1
   |
-6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaCondition
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:8
-  |
-6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:8
-  |
-6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AndMediaQuery
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:8
-  |
-6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:8
-  |
-6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |        ^^^^^^^^^^^^^^^^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:8
-  |
-6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |        ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:8
-  |
-6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |        ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:8
-  |
-6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |        ^^^^^^^^^^^^^^^^^^
+6 | / @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
+7 | |     a {
+8 | |
+9 | |     }
+  | |_____^
 
 error: Ident
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:9
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:1
   |
 6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |         ^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Value
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:20
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:50
   |
 6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                    ^^^^^
+  |                                                  ^^
 
-error: UnitValue
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:20
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:50
   |
 6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                    ^^^^^
+  |                                                  ^^
 
-error: Num
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:20
+error: Ident { value: Atom('or' type=static), raw: Atom('or' type=static) }
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:50
   |
 6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                    ^^^
-
-error: Unit
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:23
-  |
-6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                       ^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:31
-  |
-6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: OrMediaQuery
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:31
-  |
-6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:31
-  |
-6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                               ^^^^^^^^^^^^^^^^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:31
-  |
-6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                               ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:31
-  |
-6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                               ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:31
-  |
-6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                               ^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:32
-  |
-6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                                ^^^^^^^^^
+  |                                                  ^^
 
 error: Value
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:43
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:52
   |
 6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                                           ^^^^^
+  |                                                    ^
 
-error: UnitValue
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:43
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:52
   |
 6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                                           ^^^^^
+  |                                                    ^
 
-error: Num
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:43
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:52
   |
 6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                                           ^^^
+  |                                                    ^
 
-error: Unit
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:46
+error: Value
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:52
   |
 6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                                              ^^
+  |                                                    ^^^^^^^^^^^^^^^^^^^
 
-error: MediaQueryItem
+error: Value
  --> $DIR/tests/fixture/rome/media/condition/input.css:6:53
   |
 6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                                                     ^^^^^^^^^^^^^^^^^^
+  |                                                     ^
 
-error: MediaInParens
+error: Tokens
  --> $DIR/tests/fixture/rome/media/condition/input.css:6:53
   |
 6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                                                     ^^^^^^^^^^^^^^^^^^
+  |                                                     ^
 
-error: MediaFeature
+error: LParen
  --> $DIR/tests/fixture/rome/media/condition/input.css:6:53
   |
 6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                                                     ^^^^^^^^^^^^^^^^^^
+  |                                                     ^
 
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:53
+error: Value
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:54
   |
 6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                                                     ^^^^^^^^^^^^^^^^^^
+  |                                                      ^^^^^^^^^
 
-error: Ident
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:54
+  |
+6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
+  |                                                      ^^^^^^^^^
+
+error: Ident { value: Atom('min-width' type=dynamic), raw: Atom('min-width' type=dynamic) }
  --> $DIR/tests/fixture/rome/media/condition/input.css:6:54
   |
 6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
   |                                                      ^^^^^^^^^
 
 error: Value
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:63
+  |
+6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
+  |                                                               ^
+
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:63
+  |
+6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
+  |                                                               ^
+
+error: Colon
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:63
+  |
+6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
+  |                                                               ^
+
+error: Value
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:64
+  |
+6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
+  |                                                                ^
+
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:64
+  |
+6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
+  |                                                                ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:64
+  |
+6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
+  |                                                                ^
+
+error: Value
  --> $DIR/tests/fixture/rome/media/condition/input.css:6:65
   |
 6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
   |                                                                 ^^^^^
 
-error: UnitValue
+error: Tokens
  --> $DIR/tests/fixture/rome/media/condition/input.css:6:65
   |
 6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
   |                                                                 ^^^^^
 
-error: Num
+error: Dimension { value: 800.0, raw_value: Atom('800' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
  --> $DIR/tests/fixture/rome/media/condition/input.css:6:65
   |
 6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                                                                 ^^^
+  |                                                                 ^^^^^
 
-error: Unit
- --> $DIR/tests/fixture/rome/media/condition/input.css:6:68
+error: Value
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:71
   |
 6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
-  |                                                                    ^^
+  |                                                                       ^
 
-error: Rule
- --> $DIR/tests/fixture/rome/media/condition/input.css:7:2
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:71
   |
-7 |       a {
-  |  _____^
-8 | |
-9 | |     }
-  | |_____^
+6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
+  |                                                                       ^
 
-error: QualifiedRule
- --> $DIR/tests/fixture/rome/media/condition/input.css:7:2
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:71
   |
-7 |       a {
-  |  _____^
-8 | |
-9 | |     }
-  | |_____^
+6 | @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
+  |                                                                       ^
 
-error: SelectorList
- --> $DIR/tests/fixture/rome/media/condition/input.css:7:2
+error: Value
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:73
   |
-7 |     a {
-  |     ^
+6 |   @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
+  |  _________________________________________________________________________^
+7 | |     a {
+  | |____^
 
-error: ComplexSelector
- --> $DIR/tests/fixture/rome/media/condition/input.css:7:2
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:73
   |
-7 |     a {
-  |     ^
+6 |   @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
+  |  _________________________________________________________________________^
+7 | |     a {
+  | |____^
 
-error: CompoundSelector
- --> $DIR/tests/fixture/rome/media/condition/input.css:7:2
+error: WhiteSpace { value: Atom('
+    ' type=inline) }
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:73
   |
-7 |     a {
-  |     ^
+6 |   @media (min-width: 800px) and (min-width: 800px) or (min-width: 800px) {
+  |  _________________________________________________________________________^
+7 | |     a {
+  | |____^
 
-error: TypeSelector
- --> $DIR/tests/fixture/rome/media/condition/input.css:7:2
-  |
-7 |     a {
-  |     ^
-
-error: Ident
+error: Value
  --> $DIR/tests/fixture/rome/media/condition/input.css:7:2
   |
 7 |     a {
   |     ^
 
-error: Block
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/condition/input.css:7:2
+  |
+7 |     a {
+  |     ^
+
+error: Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+ --> $DIR/tests/fixture/rome/media/condition/input.css:7:2
+  |
+7 |     a {
+  |     ^
+
+error: Value
+ --> $DIR/tests/fixture/rome/media/condition/input.css:7:3
+  |
+7 |     a {
+  |      ^
+
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/condition/input.css:7:3
+  |
+7 |     a {
+  |      ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/rome/media/condition/input.css:7:3
+  |
+7 |     a {
+  |      ^
+
+error: Value
  --> $DIR/tests/fixture/rome/media/condition/input.css:7:4
   |
+7 |     a {
+  |       ^
+
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/condition/input.css:7:4
+  |
+7 |     a {
+  |       ^
+
+error: LBrace
+ --> $DIR/tests/fixture/rome/media/condition/input.css:7:4
+  |
+7 |     a {
+  |       ^
+
+error: Value
+ --> $DIR/tests/fixture/rome/media/condition/input.css:7:5
+  |
 7 |       a {
-  |  _______^
+  |  ________^
 8 | |
 9 | |     }
-  | |_____^
+  | |____^
+
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/condition/input.css:7:5
+  |
+7 |       a {
+  |  ________^
+8 | |
+9 | |     }
+  | |____^
+
+error: WhiteSpace { value: Atom('
+
+    ' type=inline) }
+ --> $DIR/tests/fixture/rome/media/condition/input.css:7:5
+  |
+7 |       a {
+  |  ________^
+8 | |
+9 | |     }
+  | |____^
 
 error: Rule
   --> $DIR/tests/fixture/rome/media/condition/input.css:10:2

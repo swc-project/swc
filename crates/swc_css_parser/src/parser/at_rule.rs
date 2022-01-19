@@ -5,7 +5,7 @@ use crate::{
     Parse,
 };
 use swc_atoms::js_word;
-use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_common::{Span, DUMMY_SP};
 use swc_css_ast::*;
 
 #[derive(Debug, Default)]
@@ -798,10 +798,30 @@ where
         self.input.skip_ws()?;
 
         let span = self.input.cur_span()?;
-        let conditions = if is!(self, "not") {
-            vec![MediaQueryItem::Not(self.parse()?)]
+        let mut conditions = vec![];
+
+        if is!(self, "not") {
+            conditions.push(MediaQueryItem::Not(self.parse()?));
         } else {
-            vec![self.parse()?]
+            conditions.push(MediaQueryItem::MediaInParens(self.parse()?));
+
+            self.input.skip_ws()?;
+
+            if is!(self, "and") {
+                while is!(self, "and") {
+                    conditions.push(MediaQueryItem::And(self.parse()?));
+
+                    self.input.skip_ws()?;
+                }
+            } else if eat!(self, "or") {
+                while is!(self, "or") {
+                    conditions.push(MediaQueryItem::Or(self.parse()?));
+
+                    self.input.skip_ws()?;
+                }
+            } else {
+                // TODO ERROR
+            }
         };
 
         Ok(MediaCondition {
@@ -831,54 +851,43 @@ where
     }
 }
 
-impl<I> Parse<MediaQueryItem> for Parser<I>
+impl<I> Parse<MediaAnd> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<MediaQueryItem> {
-        self.input.skip_ws()?;
-
+    fn parse(&mut self) -> PResult<MediaAnd> {
         let span = self.input.cur_span()?;
 
-        let base = if is!(self, "(") {
-            if peeked_is!(self, Ident) {
-                let media_feature = self.parse()?;
-
-                MediaQueryItem::MediaInParens(media_feature)
-            } else {
-                expect!(self, "(");
-                let query: MediaQueryItem = self.parse()?;
-                expect!(self, ")");
-
-                query
-            }
-        } else {
-            return Err(Error::new(span, ErrorKind::InvalidMediaQuery));
-        };
+        expect!(self, "and");
 
         self.input.skip_ws()?;
 
-        if eat!(self, "and") {
-            let right: Box<MediaQueryItem> = self.parse()?;
+        let media_in_parens = self.parse()?;
 
-            return Ok(MediaQueryItem::And(AndMediaQuery {
-                span: Span::new(span.lo, right.span().hi, Default::default()),
-                left: Box::new(base),
-                right,
-            }));
-        }
+        Ok(MediaAnd {
+            span: span!(self, span.lo),
+            condition: media_in_parens,
+        })
+    }
+}
 
-        if eat!(self, "or") {
-            let right: Box<MediaQueryItem> = self.parse()?;
+impl<I> Parse<MediaOr> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<MediaOr> {
+        let span = self.input.cur_span()?;
 
-            return Ok(MediaQueryItem::Or(OrMediaQuery {
-                span: Span::new(span.lo, right.span().hi, Default::default()),
-                left: Box::new(base),
-                right,
-            }));
-        }
+        expect!(self, "or");
 
-        Ok(base)
+        self.input.skip_ws()?;
+
+        let media_in_parens = self.parse()?;
+
+        Ok(MediaOr {
+            span: span!(self, span.lo),
+            condition: media_in_parens,
+        })
     }
 }
 
