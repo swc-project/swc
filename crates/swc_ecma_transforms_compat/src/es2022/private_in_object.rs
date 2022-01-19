@@ -445,16 +445,6 @@ impl VisitMut for PrivateInObject {
         }
     }
 
-    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
-        match n {
-            PropName::Computed(_) => {
-                n.visit_mut_children_with(self);
-            }
-
-            _ => {}
-        }
-    }
-
     fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
         s.visit_mut_children_with(self);
 
