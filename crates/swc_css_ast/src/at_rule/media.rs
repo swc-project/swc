@@ -50,10 +50,11 @@ pub enum MediaQueryItem {
     MediaInParens(MediaInParens),
 }
 
+// TODO drop `Box`
 #[ast_node("MediaNot")]
 pub struct MediaNot {
     pub span: Span,
-    pub condition: Box<MediaQueryItem>,
+    pub condition: Box<MediaInParens>,
 }
 
 #[ast_node("AndMediaQuery")]

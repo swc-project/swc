@@ -1154,37 +1154,31 @@ error: MediaQueryItem
   --> $DIR/tests/fixture/at-rule/media/input.css:15:8
    |
 15 | @media not (device-aspect-ratio: 16/9) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaNot
   --> $DIR/tests/fixture/at-rule/media/input.css:15:8
    |
 15 | @media not (device-aspect-ratio: 16/9) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryItem
-  --> $DIR/tests/fixture/at-rule/media/input.css:15:12
-   |
-15 | @media not (device-aspect-ratio: 16/9) {}
-   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaInParens
-  --> $DIR/tests/fixture/at-rule/media/input.css:15:12
+  --> $DIR/tests/fixture/at-rule/media/input.css:15:11
    |
 15 | @media not (device-aspect-ratio: 16/9) {}
-   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaFeature
-  --> $DIR/tests/fixture/at-rule/media/input.css:15:12
+  --> $DIR/tests/fixture/at-rule/media/input.css:15:11
    |
 15 | @media not (device-aspect-ratio: 16/9) {}
-   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaFeaturePlain
-  --> $DIR/tests/fixture/at-rule/media/input.css:15:12
+  --> $DIR/tests/fixture/at-rule/media/input.css:15:11
    |
 15 | @media not (device-aspect-ratio: 16/9) {}
-   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:15:13

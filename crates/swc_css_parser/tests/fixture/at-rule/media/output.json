@@ -1087,13 +1087,13 @@
                   "type": "MediaNot",
                   "span": {
                     "start": 452,
-                    "end": 484,
+                    "end": 483,
                     "ctxt": 0
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 456,
+                      "start": 455,
                       "end": 483,
                       "ctxt": 0
                     },

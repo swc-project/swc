@@ -575,13 +575,13 @@
                   "type": "MediaNot",
                   "span": {
                     "start": 209,
-                    "end": 232,
+                    "end": 231,
                     "ctxt": 0
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 213,
+                      "start": 212,
                       "end": 231,
                       "ctxt": 0
                     },

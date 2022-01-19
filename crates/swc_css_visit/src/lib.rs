@@ -483,7 +483,7 @@ define!({
 
     pub struct MediaNot {
         pub span: Span,
-        pub condition: Box<MediaQueryItem>,
+        pub condition: Box<MediaInParens>,
     }
 
     pub struct OnlyMediaQuery {
