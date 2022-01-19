@@ -12,6 +12,9 @@
 @media (monochrome) {}
 @media (min-width: 20px)  {}
 @media (min-width: 20em) and (min-width: 20em) {}
+@media    all    {}
+@media    not   all   {}
+@media   screen   and    (   color   )   {}
 
 @media not all and (monochrome) {}
 @media not screen and (color), print and (color) {}
@@ -44,6 +47,3 @@
 @media (400px >= width >= 700px) {}
 
 @media (--modern) and (min-width: 1024px) {}
-
-@media    all    {}
-@media    not   all   {}

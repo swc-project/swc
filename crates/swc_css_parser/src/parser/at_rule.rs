@@ -907,8 +907,10 @@ where
 {
     fn parse(&mut self) -> PResult<MediaFeature> {
         let span = self.input.cur_span()?;
-
+ 
         expect!(self, "(");
+
+        self.input.skip_ws()?;
 
         let left = self.parse()?;
 
