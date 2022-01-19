@@ -126,6 +126,12 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) 
                     *e = *arg.take();
                     return true;
                 }
+
+                if is_ret_val_ignored {
+                    tracing::debug!("negate: !expr => expr (return value ignored)");
+                    *e = *arg.take();
+                    return true;
+                }
             }
         }
     }
