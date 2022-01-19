@@ -921,7 +921,7 @@ where
                 let name = match left {
                     MediaFeatureValue::Ident(ident) => ident,
                     _ => {
-                        return Err(Error::new(span, ErrorKind::Expected("identifier")));
+                        return Err(Error::new(span, ErrorKind::Expected("identifier value")));
                     }
                 };
 
@@ -938,7 +938,7 @@ where
                 let name = match left {
                     MediaFeatureValue::Ident(ident) => ident,
                     _ => {
-                        return Err(Error::new(span, ErrorKind::Expected("identifier")));
+                        return Err(Error::new(span, ErrorKind::Expected("identifier value")));
                     }
                 };
                 let value = self.parse()?;
@@ -1035,7 +1035,7 @@ where
                 let name = match center {
                     MediaFeatureValue::Ident(ident) => ident,
                     _ => {
-                        return Err(Error::new(span, ErrorKind::Expected("identifier")));
+                        return Err(Error::new(span, ErrorKind::Expected("identifier value")));
                     }
                 };
 
@@ -1051,7 +1051,7 @@ where
                 }))
             }
             _ => {
-                return Err(Error::new(span, ErrorKind::Expected("identifier")));
+                return Err(Error::new(span, ErrorKind::Expected("identifier value")));
             }
         }
     }
@@ -1088,8 +1088,7 @@ where
             Token::Ident { .. } => Ok(MediaFeatureValue::Ident(self.parse()?)),
             Token::Dimension { .. } => Ok(MediaFeatureValue::Dimension(self.parse()?)),
             _ => {
-                // TODO another error
-                return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
+                return Err(Error::new(span, ErrorKind::Expected("number, dimension, identifier or ration value")));
             }
         }
     }
