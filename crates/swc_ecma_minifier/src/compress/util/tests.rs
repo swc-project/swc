@@ -247,7 +247,7 @@ fn next_31077_1() {
          this.addHackNode('BR')))",
         true,
         true,
-        1000,
+        0,
     );
 }
 
@@ -260,6 +260,6 @@ fn next_31077_2() {
          this.addHackNode('BR')))",
         true,
         true,
-        1000,
+        -3,
     );
 }
