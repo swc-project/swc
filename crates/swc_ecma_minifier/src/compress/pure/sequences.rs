@@ -25,8 +25,8 @@ where
             // Check if lhs is same as `ident`.
             match &assign.left {
                 PatOrExpr::Expr(_) => {}
-                PatOrExpr::Pat(left) => match &**left {
-                    Pat::Ident(left) => {
+                PatOrExpr::Pat(left) => {
+                    if let Pat::Ident(left) = &**left {
                         if left.id.sym == ident.sym && left.id.span.ctxt == ident.span.ctxt {
                             tracing::debug!(
                                 "drop_useless_ident_ref_in_seq: Dropping `{}` as it's useless",
@@ -36,8 +36,7 @@ where
                             seq.exprs.pop();
                         }
                     }
-                    _ => {}
-                },
+                }
             }
         }
     }
@@ -50,32 +49,29 @@ where
             _ => return,
         };
 
-        match &mut *bin.left {
-            Expr::Seq(left) => {
-                if left.exprs.is_empty() {
-                    return;
-                }
-
-                self.changed = true;
-                tracing::debug!("sequences: Lifting sequence in a binary expression");
-
-                let left_last = left.exprs.pop().unwrap();
-
-                let mut exprs = left.exprs.take();
-
-                exprs.push(Box::new(Expr::Bin(BinExpr {
-                    span: left.span,
-                    op: bin.op,
-                    left: left_last,
-                    right: bin.right.take(),
-                })));
-
-                *e = Expr::Seq(SeqExpr {
-                    span: bin.span,
-                    exprs,
-                })
+        if let Expr::Seq(left) = &mut *bin.left {
+            if left.exprs.is_empty() {
+                return;
             }
-            _ => {}
+
+            self.changed = true;
+            tracing::debug!("sequences: Lifting sequence in a binary expression");
+
+            let left_last = left.exprs.pop().unwrap();
+
+            let mut exprs = left.exprs.take();
+
+            exprs.push(Box::new(Expr::Bin(BinExpr {
+                span: left.span,
+                op: bin.op,
+                left: left_last,
+                right: bin.right.take(),
+            })));
+
+            *e = Expr::Seq(SeqExpr {
+                span: bin.span,
+                exprs,
+            })
         }
     }
 
@@ -124,7 +120,6 @@ where
                         span: assign.span,
                         exprs: new_seq,
                     });
-                    return;
                 }
             }
             _ => {}
