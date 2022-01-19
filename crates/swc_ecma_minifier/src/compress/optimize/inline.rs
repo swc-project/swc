@@ -94,10 +94,7 @@ where
 
                         Expr::Unary(UnaryExpr {
                             op: op!("!"), arg, ..
-                        }) if match &**arg {
-                            Expr::Lit(..) => true,
-                            _ => false,
-                        } => {}
+                        }) if matches!(&**arg, Expr::Lit(..)) => {}
 
                         Expr::Fn(FnExpr {
                             function:
@@ -106,12 +103,7 @@ where
                                 },
                             ..
                         }) => {
-                            if body.stmts.len() == 1
-                                && match &body.stmts[0] {
-                                    Stmt::Return(..) => true,
-                                    _ => false,
-                                }
-                            {
+                            if body.stmts.len() == 1 && matches!(&body.stmts[0], Stmt::Return(..)) {
                             } else {
                                 if cfg!(feature = "debug") {
                                     tracing::trace!("inline: [x] It's not fn-local");
@@ -274,7 +266,6 @@ where
                     );
                     self.changed = true;
                     self.vars_for_inlining.insert(i.to_id(), init.take());
-                    return;
                 }
             }
         }
@@ -284,15 +275,17 @@ where
     fn is_fn_body_simple_enough_to_inline(&self, body: &BlockStmt) -> bool {
         if body.stmts.len() == 1 {
             match &body.stmts[0] {
-                Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
-                    Expr::Lit(..) => return true,
-                    _ => {}
-                },
+                Stmt::Expr(ExprStmt { expr, .. }) => {
+                    if let Expr::Lit(..) = &**expr {
+                        return true;
+                    }
+                }
 
-                Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
-                    Some(Expr::Lit(Lit::Num(..))) => return true,
-                    _ => {}
-                },
+                Stmt::Return(ReturnStmt { arg, .. }) => {
+                    if let Some(Expr::Lit(Lit::Num(..))) = arg.as_deref() {
+                        return true;
+                    }
+                }
 
                 Stmt::Try(TryStmt { block, .. }) => {
                     return self.is_fn_body_simple_enough_to_inline(block)
@@ -481,13 +474,10 @@ where
                     _ => false,
                 })
             {
-                match decl {
-                    Decl::Class(ClassDecl { class, .. }) => {
-                        if class_has_side_effect(&class) {
-                            return;
-                        }
+                if let Decl::Class(ClassDecl { class, .. }) = decl {
+                    if class_has_side_effect(class) {
+                        return;
                     }
-                    _ => {}
                 }
 
                 self.changed = true;
@@ -539,76 +529,70 @@ where
 
     /// Actually inlines variables.
     pub(super) fn inline(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Ident(i) => {
-                //
-                if let Some(value) = self
-                    .lits
-                    .get(&i.to_id())
-                    .and_then(|v| {
-                        // Prevent infinite recursion.
-                        let ids = idents_used_by(&**v);
-                        if ids.contains(&i.to_id()) {
-                            None
-                        } else {
-                            Some(v)
-                        }
-                    })
-                    .cloned()
-                {
-                    match &*value {
-                        Expr::Lit(Lit::Num(..)) => {
-                            if self.ctx.is_lhs_of_assign {
-                                return;
-                            }
-                        }
-                        Expr::Member(..) => {
-                            if self.ctx.executed_multiple_time {
-                                return;
-                            }
-                        }
-                        _ => {}
+        if let Expr::Ident(i) = e {
+            //
+            if let Some(value) = self
+                .lits
+                .get(&i.to_id())
+                .and_then(|v| {
+                    // Prevent infinite recursion.
+                    let ids = idents_used_by(&**v);
+                    if ids.contains(&i.to_id()) {
+                        None
+                    } else {
+                        Some(v)
                     }
+                })
+                .cloned()
+            {
+                match &*value {
+                    Expr::Lit(Lit::Num(..)) => {
+                        if self.ctx.is_lhs_of_assign {
+                            return;
+                        }
+                    }
+                    Expr::Member(..) => {
+                        if self.ctx.executed_multiple_time {
+                            return;
+                        }
+                    }
+                    _ => {}
+                }
 
-                    self.changed = true;
-                    tracing::debug!("inline: Replacing a variable with cheap expression");
+                self.changed = true;
+                tracing::debug!("inline: Replacing a variable with cheap expression");
 
-                    *e = *value;
+                *e = *value;
+                return;
+            }
+
+            // Check without cloning
+            if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
+                if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(&value) {
                     return;
                 }
 
-                // Check without cloning
-                if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
-                    if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(&value) {
+                if let Expr::Member(..) = &**value {
+                    if self.ctx.executed_multiple_time {
                         return;
-                    }
-
-                    match &**value {
-                        Expr::Member(..) => {
-                            if self.ctx.executed_multiple_time {
-                                return;
-                            }
-                        }
-                        _ => {}
-                    }
-                }
-
-                if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
-                    self.changed = true;
-                    tracing::debug!(
-                        "inline: Replacing '{}{:?}' with an expression",
-                        i.sym,
-                        i.span.ctxt
-                    );
-
-                    *e = *value.clone();
-
-                    if cfg!(feature = "debug") {
-                        tracing::trace!("inline: [Change] {}", dump(&*e, false))
                     }
                 }
             }
-            _ => {}
+
+            if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
+                self.changed = true;
+                tracing::debug!(
+                    "inline: Replacing '{}{:?}' with an expression",
+                    i.sym,
+                    i.span.ctxt
+                );
+
+                *e = *value.clone();
+
+                if cfg!(feature = "debug") {
+                    tracing::trace!("inline: [Change] {}", dump(&*e, false))
+                }
+            }
         }
     }
 }
