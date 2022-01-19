@@ -921,7 +921,7 @@ where
                             return Ok(true);
                         }
 
-                        if !self.is_skippable_for_seq(None, &a) {
+                        if !self.is_skippable_for_seq(None, a) {
                             return Ok(false);
                         }
                     }
@@ -1083,28 +1083,24 @@ where
                 tracing::trace!("seq: Try callee of call");
                 if self.merge_sequential_expr(a, &mut **b_callee)? {
                     if is_this_undefined {
-                        match &**b_callee {
-                            Expr::Member(..) => {
-                                let zero = Box::new(Expr::Lit(Lit::Num(Number {
-                                    span: DUMMY_SP,
-                                    value: 0.0,
-                                })));
-                                tracing::debug!("injecting zero to preserve `this` in call");
+                        if let Expr::Member(..) = &**b_callee {
+                            let zero = Box::new(Expr::Lit(Lit::Num(Number {
+                                span: DUMMY_SP,
+                                value: 0.0,
+                            })));
+                            tracing::debug!("injecting zero to preserve `this` in call");
 
-                                *b_callee = Box::new(Expr::Seq(SeqExpr {
-                                    span: b_callee.span(),
-                                    exprs: vec![zero, b_callee.take()],
-                                }));
-                            }
-
-                            _ => {}
+                            *b_callee = Box::new(Expr::Seq(SeqExpr {
+                                span: b_callee.span(),
+                                exprs: vec![zero, b_callee.take()],
+                            }));
                         }
                     }
 
                     return Ok(true);
                 }
 
-                if !self.is_skippable_for_seq(Some(a), &b_callee) {
+                if !self.is_skippable_for_seq(Some(a), b_callee) {
                     return Ok(false);
                 }
 
@@ -1141,7 +1137,7 @@ where
                         return Ok(true);
                     }
 
-                    if !self.is_skippable_for_seq(Some(a), &b_expr) {
+                    if !self.is_skippable_for_seq(Some(a), b_expr) {
                         return Ok(false);
                     }
                 }
@@ -1232,57 +1228,51 @@ where
 
             match a {
                 Mergable::Var(_) => {}
-                Mergable::Expr(a) => match *a {
-                    Expr::Update(UpdateExpr {
+                Mergable::Expr(a) => {
+                    if let Expr::Update(UpdateExpr {
                         op,
                         prefix: false,
                         arg,
                         ..
-                    }) => {
-                        match &**arg {
-                            Expr::Ident(a_id) => {
-                                let mut v = UsageCounter {
-                                    expr_usage: Default::default(),
-                                    pat_usage: Default::default(),
-                                    target: &*a_id,
-                                    in_lhs: false,
-                                };
-                                b.visit_with(&mut v);
-                                if v.expr_usage != 1 || v.pat_usage != 0 {
-                                    tracing::trace!(
-                                        "[X] sequences: Aborting merging of an update expression \
-                                         because of usage counts ({}, ref = {}, pat = {})",
-                                        a_id,
-                                        v.expr_usage,
-                                        v.pat_usage
-                                    );
-                                    return Ok(false);
-                                }
-
-                                let mut replaced = false;
-                                replace_expr(b, |e| match e {
-                                    Expr::Update(e @ UpdateExpr { prefix: false, .. }) => {
-                                        if *op == e.op && arg.is_ident_ref_to(a_id.sym.clone()) {
-                                            e.prefix = true;
-                                            replaced = true;
-                                        }
-                                    }
-                                    _ => {}
-                                });
-                                if replaced {
-                                    a.take();
-                                    return Ok(true);
-                                }
+                    }) = *a
+                    {
+                        if let Expr::Ident(a_id) = &**arg {
+                            let mut v = UsageCounter {
+                                expr_usage: Default::default(),
+                                pat_usage: Default::default(),
+                                target: &*a_id,
+                                in_lhs: false,
+                            };
+                            b.visit_with(&mut v);
+                            if v.expr_usage != 1 || v.pat_usage != 0 {
+                                tracing::trace!(
+                                    "[X] sequences: Aborting merging of an update expression \
+                                     because of usage counts ({}, ref = {}, pat = {})",
+                                    a_id,
+                                    v.expr_usage,
+                                    v.pat_usage
+                                );
+                                return Ok(false);
                             }
 
-                            _ => {}
+                            let mut replaced = false;
+                            replace_expr(b, |e| {
+                                if let Expr::Update(e @ UpdateExpr { prefix: false, .. }) = e {
+                                    if *op == e.op && arg.is_ident_ref_to(a_id.sym.clone()) {
+                                        e.prefix = true;
+                                        replaced = true;
+                                    }
+                                }
+                            });
+                            if replaced {
+                                a.take();
+                                return Ok(true);
+                            }
                         }
 
                         return Ok(false);
                     }
-
-                    _ => {}
-                },
+                }
             }
         }
 
