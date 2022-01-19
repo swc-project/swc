@@ -168,7 +168,7 @@ fn is_root_of_member_expr_declared(member_expr: &MemberExpr, data: &ProgramData)
         Expr::Ident(expr) => data
             .vars
             .get(&expr.to_id())
-            .and_then(|var| Some(var.declared))
+            .map(|var| var.declared)
             .unwrap_or(false),
 
         _ => false,
@@ -183,24 +183,25 @@ fn is_object_property_call(call: &CallExpr) -> bool {
                 obj,
                 prop: MemberProp::Ident(Ident { sym, .. }),
                 ..
-            }) if *sym == *"defineProperty" => match &**obj {
-                Expr::Ident(Ident {
+            }) if *sym == *"defineProperty" => {
+                if let Expr::Ident(Ident {
                     sym: js_word!("Object"),
                     ..
-                }) => return true,
-
-                _ => {}
-            },
+                }) = &**obj
+                {
+                    return true;
+                }
+            }
 
             _ => {}
         }
     };
 
-    return false;
+    false
 }
 
-fn get_object_define_property_name_arg<'a>(call: &'a mut CallExpr) -> Option<&'a mut Str> {
-    if is_object_property_call(&call) {
+fn get_object_define_property_name_arg(call: &mut CallExpr) -> Option<&mut Str> {
+    if is_object_property_call(call) {
         let second_arg: &mut Expr = call.args.get_mut(1).map(|arg| &mut arg.expr)?;
 
         if let Expr::Lit(Lit::Str(s)) = second_arg {
@@ -237,17 +238,19 @@ impl Mangler<'_> {
 impl VisitMut for Mangler<'_> {
     noop_visit_mut_type!();
 
-    fn visit_mut_prop_name(&mut self, name: &mut PropName) {
-        name.visit_mut_children_with(self);
+    fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
+        call.visit_mut_children_with(self);
 
-        match name {
-            PropName::Ident(ident) => {
-                self.mangle_ident(ident);
-            }
-            PropName::Str(string) => {
-                self.mangle_str(string);
-            }
-            _ => {}
+        if let Some(mut prop_name_str) = get_object_define_property_name_arg(call) {
+            self.mangle_str(&mut prop_name_str);
+        }
+    }
+
+    fn visit_mut_member_expr(&mut self, member_expr: &mut MemberExpr) {
+        member_expr.visit_mut_children_with(self);
+
+        if let MemberProp::Ident(ident) = &mut member_expr.prop {
+            self.mangle_ident(ident);
         }
     }
 
@@ -266,19 +269,17 @@ impl VisitMut for Mangler<'_> {
         }
     }
 
-    fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
-        call.visit_mut_children_with(self);
+    fn visit_mut_prop_name(&mut self, name: &mut PropName) {
+        name.visit_mut_children_with(self);
 
-        if let Some(mut prop_name_str) = get_object_define_property_name_arg(call) {
-            self.mangle_str(&mut prop_name_str);
-        }
-    }
-
-    fn visit_mut_member_expr(&mut self, member_expr: &mut MemberExpr) {
-        member_expr.visit_mut_children_with(self);
-
-        if let MemberProp::Ident(ident) = &mut member_expr.prop {
-            self.mangle_ident(ident);
+        match name {
+            PropName::Ident(ident) => {
+                self.mangle_ident(ident);
+            }
+            PropName::Str(string) => {
+                self.mangle_str(string);
+            }
+            _ => {}
         }
     }
 
