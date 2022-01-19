@@ -50,7 +50,7 @@ error: MediaCondition
  --> $DIR/tests/fixture/rome/media/feature/input.css:1:19
   |
 1 | @media screen and (color) {}
-  |                   ^^^^^^^^
+  |                   ^^^^^^^
 
 error: MediaConditionItem
  --> $DIR/tests/fixture/rome/media/feature/input.css:1:19
@@ -134,7 +134,7 @@ error: MediaCondition
  --> $DIR/tests/fixture/rome/media/feature/input.css:2:24
   |
 2 | @media only screen and (color) {}
-  |                        ^^^^^^^^
+  |                        ^^^^^^^
 
 error: MediaConditionItem
  --> $DIR/tests/fixture/rome/media/feature/input.css:2:24
@@ -218,7 +218,7 @@ error: MediaCondition
  --> $DIR/tests/fixture/rome/media/feature/input.css:3:24
   |
 3 | @media only screen and (min-width: 800px) {}
-  |                        ^^^^^^^^^^^^^^^^^^^
+  |                        ^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
  --> $DIR/tests/fixture/rome/media/feature/input.css:3:24
@@ -320,7 +320,7 @@ error: MediaCondition
  --> $DIR/tests/fixture/rome/media/feature/input.css:4:19
   |
 4 | @media screen and (min-width       :          800px        ) {}
-  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
  --> $DIR/tests/fixture/rome/media/feature/input.css:4:19

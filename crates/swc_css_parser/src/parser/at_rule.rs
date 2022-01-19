@@ -804,15 +804,13 @@ where
         if is!(self, "not") {
             let not = self.parse()?;
 
-            last_pos = match not {
-                MediaNot { span, .. } => span.hi,
-            };
+            last_pos = self.input.last_pos()?;
 
             conditions.push(MediaConditionItem::Not(not));
         } else {
             let media_in_parens = self.parse()?;
 
-            last_pos = self.input.cur_span()?.hi;
+            last_pos = self.input.last_pos()?;
 
             conditions.push(MediaConditionItem::MediaInParens(media_in_parens));
 
@@ -822,9 +820,7 @@ where
                 while is!(self, "and") {
                     let and = self.parse()?;
 
-                    last_pos = match and {
-                        MediaAnd { span, .. } => span.hi,
-                    };
+                    last_pos = self.input.last_pos()?;
 
                     conditions.push(MediaConditionItem::And(and));
 
@@ -834,9 +830,7 @@ where
                 while is!(self, "or") {
                     let or = self.parse()?;
 
-                    last_pos = match or {
-                        MediaOr { span, .. } => span.hi,
-                    };
+                    last_pos = self.input.last_pos()?;
 
                     conditions.push(MediaConditionItem::Or(or));
 

@@ -43,7 +43,7 @@
               "type": "MediaCondition",
               "span": {
                 "start": 18,
-                "end": 26,
+                "end": 25,
                 "ctxt": 0
               },
               "conditions": [
@@ -118,7 +118,7 @@
               "type": "MediaCondition",
               "span": {
                 "start": 52,
-                "end": 60,
+                "end": 59,
                 "ctxt": 0
               },
               "conditions": [
@@ -193,7 +193,7 @@
               "type": "MediaCondition",
               "span": {
                 "start": 86,
-                "end": 105,
+                "end": 104,
                 "ctxt": 0
               },
               "conditions": [
@@ -286,7 +286,7 @@
               "type": "MediaCondition",
               "span": {
                 "start": 126,
-                "end": 169,
+                "end": 168,
                 "ctxt": 0
               },
               "conditions": [

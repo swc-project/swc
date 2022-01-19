@@ -44,7 +44,7 @@ error: MediaCondition
  --> $DIR/tests/fixture/rome/media/condition/input.css:1:8
   |
 1 | @media (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
  --> $DIR/tests/fixture/rome/media/condition/input.css:1:8

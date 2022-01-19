@@ -230,7 +230,7 @@ error: MediaCondition
  --> $DIR/tests/fixture/at-rule/media/input.css:7:19
   |
 7 | @media screen and (color) {}
-  |                   ^^^^^^^^
+  |                   ^^^^^^^
 
 error: MediaConditionItem
  --> $DIR/tests/fixture/at-rule/media/input.css:7:19
@@ -308,7 +308,7 @@ error: MediaCondition
  --> $DIR/tests/fixture/at-rule/media/input.css:8:19
   |
 8 | @media screen and (color), projection and (color) {}
-  |                   ^^^^^^^^
+  |                   ^^^^^^^
 
 error: MediaConditionItem
  --> $DIR/tests/fixture/at-rule/media/input.css:8:19
@@ -362,7 +362,7 @@ error: MediaCondition
  --> $DIR/tests/fixture/at-rule/media/input.css:8:43
   |
 8 | @media screen and (color), projection and (color) {}
-  |                                           ^^^^^^^^
+  |                                           ^^^^^^^
 
 error: MediaConditionItem
  --> $DIR/tests/fixture/at-rule/media/input.css:8:43
@@ -440,7 +440,7 @@ error: MediaCondition
  --> $DIR/tests/fixture/at-rule/media/input.css:9:28
   |
 9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
-  |                            ^^^^^^^^^^^^^^^^
+  |                            ^^^^^^^^^^^^^
 
 error: MediaConditionItem
  --> $DIR/tests/fixture/at-rule/media/input.css:9:28
@@ -494,7 +494,7 @@ error: MediaCondition
  --> $DIR/tests/fixture/at-rule/media/input.css:9:68
   |
 9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
-  |                                                                    ^^^^^^^^^^^^^^^^
+  |                                                                    ^^^^^^^^^^^^^
 
 error: MediaConditionItem
  --> $DIR/tests/fixture/at-rule/media/input.css:9:68
@@ -572,7 +572,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:10:18
    |
 10 | @media print and (min-resolution: 118dpcm) {}
-   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:10:18
@@ -710,7 +710,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:12:19
    |
 12 | @media screen and (color) {}
-   |                   ^^^^^^^^
+   |                   ^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:12:19
@@ -788,7 +788,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:13:26
    |
 13 | @media   screen   and    (   color   )   {}
-   |                          ^^^^^^^^^^^^^^^^
+   |                          ^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:13:26
@@ -872,7 +872,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:15:20
    |
 15 | @media not all and (monochrome) {}
-   |                    ^^^^^^^^^^^^^
+   |                    ^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:15:20
@@ -956,7 +956,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:16:23
    |
 16 | @media not screen and (color), print and (color) {}
-   |                       ^^^^^^^^
+   |                       ^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:16:23
@@ -1010,7 +1010,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:16:42
    |
 16 | @media not screen and (color), print and (color) {}
-   |                                          ^^^^^^^^
+   |                                          ^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:16:42
@@ -1406,7 +1406,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:22:24
    |
 22 | @media only screen and (color) {}
-   |                        ^^^^^^^^
+   |                        ^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:22:24
@@ -1490,7 +1490,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:23:32
    |
 23 | @media   only   screen   and   (   color   )   {}
-   |                                ^^^^^^^^^^^^^^^^
+   |                                ^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:23:32
@@ -1562,7 +1562,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:25:8
    |
 25 | @media (min-width: 20px) {}
-   |        ^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:25:8
@@ -1658,7 +1658,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:26:7
    |
 26 | @media(min-width: 20px){}
-   |       ^^^^^^^^^^^^^^^^^^
+   |       ^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:26:7
@@ -1754,7 +1754,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:27:10
    |
 27 | @media   (   min-width   :   20px   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:27:10
@@ -1850,7 +1850,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:28:8
    |
 28 | @media (device-aspect-ratio: 16/9) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:28:8
@@ -1958,7 +1958,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:29:11
    |
 29 | @media    (   device-aspect-ratio   :    16   /   9   )   {}
-   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:29:11
@@ -2204,7 +2204,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:31:8
    |
 31 | @media (monochrome) {}
-   |        ^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:31:8
@@ -3566,7 +3566,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:43:8
    |
 43 | @media (height < 600px) {}
-   |        ^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:43:8
@@ -3662,7 +3662,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:44:8
    |
 44 | @media (height <= 600px) {}
-   |        ^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:44:8
@@ -3758,7 +3758,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:45:8
    |
 45 | @media (height > 600px) {}
-   |        ^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:45:8
@@ -3854,7 +3854,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:46:8
    |
 46 | @media (height >= 600px) {}
-   |        ^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:46:8
@@ -3950,7 +3950,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:47:8
    |
 47 | @media (height = 600px) {}
-   |        ^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:47:8
@@ -4046,7 +4046,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:48:10
    |
 48 | @media   (   height   <   600px   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:48:10
@@ -4142,7 +4142,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:49:10
    |
 49 | @media   (   height   <=   600px   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:49:10
@@ -4238,7 +4238,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:50:10
    |
 50 | @media   (   height   >   600px   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:50:10
@@ -4334,7 +4334,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:51:10
    |
 51 | @media   (   height   >=   600px   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:51:10
@@ -4430,7 +4430,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:52:10
    |
 52 | @media   (   height   =   600px   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:52:10
@@ -4526,7 +4526,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:53:7
    |
 53 | @media(height=600px){}
-   |       ^^^^^^^^^^^^^^^
+   |       ^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:53:7
@@ -4622,7 +4622,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:54:7
    |
 54 | @media(height>=600px) {}
-   |       ^^^^^^^^^^^^^^^^
+   |       ^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:54:7
@@ -4718,7 +4718,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:56:8
    |
 56 | @media (600px < height) {}
-   |        ^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:56:8
@@ -4814,7 +4814,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:57:8
    |
 57 | @media (600px <= height) {}
-   |        ^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:57:8
@@ -4910,7 +4910,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:58:8
    |
 58 | @media (600px > height) {}
-   |        ^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:58:8
@@ -5006,7 +5006,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:59:8
    |
 59 | @media (600px >= height) {}
-   |        ^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:59:8
@@ -5102,7 +5102,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:60:8
    |
 60 | @media (600px = height) {}
-   |        ^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:60:8
@@ -5198,7 +5198,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:61:10
    |
 61 | @media   (   600px   <   height   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:61:10
@@ -5294,7 +5294,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:62:10
    |
 62 | @media   (   600px   <=   height   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:62:10
@@ -5390,7 +5390,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:63:10
    |
 63 | @media   (   600px   >   height   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:63:10
@@ -5486,7 +5486,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:64:10
    |
 64 | @media   (   600px   >=   height   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:64:10
@@ -5582,7 +5582,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:65:10
    |
 65 | @media   (   600px   =   height   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:65:10
@@ -5678,7 +5678,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:66:7
    |
 66 | @media(600px=height) {}
-   |       ^^^^^^^^^^^^^^^
+   |       ^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:66:7
@@ -5774,7 +5774,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:67:7
    |
 67 | @media(600px>=height) {}
-   |       ^^^^^^^^^^^^^^^^
+   |       ^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:67:7
@@ -5870,7 +5870,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:69:8
    |
 69 | @media (400px < width < 700px) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:69:8
@@ -5990,7 +5990,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:70:8
    |
 70 | @media (400px <= width < 700px) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:70:8
@@ -6110,7 +6110,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:71:8
    |
 71 | @media (400px < width <= 700px) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:71:8
@@ -6230,7 +6230,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:72:8
    |
 72 | @media (400px <= width <= 700px) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:72:8
@@ -6350,7 +6350,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:73:7
    |
 73 | @media(400px<width<700px){}
-   |       ^^^^^^^^^^^^^^^^^^^^
+   |       ^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:73:7
@@ -6470,7 +6470,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:74:7
    |
 74 | @media(400px<=width<=700px){}
-   |       ^^^^^^^^^^^^^^^^^^^^^^
+   |       ^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:74:7
@@ -6590,7 +6590,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:75:10
    |
 75 | @media   (   400px   <   width   <   700px   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:75:10
@@ -6710,7 +6710,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:76:10
    |
 76 | @media   (   400px   <=   width   <   700px   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:76:10
@@ -6830,7 +6830,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:77:10
    |
 77 | @media   (   400px   <   width   <=   700px   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:77:10
@@ -6950,7 +6950,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:78:10
    |
 78 | @media   (   400px   <=   width   <=   700px   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:78:10
@@ -7070,7 +7070,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:79:7
    |
 79 | @media(400px<width<700px){}
-   |       ^^^^^^^^^^^^^^^^^^^^
+   |       ^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:79:7
@@ -7190,7 +7190,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:80:7
    |
 80 | @media(400px<=width<=700px){}
-   |       ^^^^^^^^^^^^^^^^^^^^^^
+   |       ^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:80:7
@@ -7310,7 +7310,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:82:8
    |
 82 | @media (400px > width > 700px) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:82:8
@@ -7430,7 +7430,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:83:8
    |
 83 | @media (400px >= width > 700px) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:83:8
@@ -7550,7 +7550,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:84:8
    |
 84 | @media (400px > width >= 700px) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:84:8
@@ -7670,7 +7670,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:85:8
    |
 85 | @media (400px >= width >= 700px) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:85:8
@@ -7790,7 +7790,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:86:7
    |
 86 | @media(400px>width>700px){}
-   |       ^^^^^^^^^^^^^^^^^^^^
+   |       ^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:86:7
@@ -7910,7 +7910,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:87:7
    |
 87 | @media(400px>=width>=700px) {}
-   |       ^^^^^^^^^^^^^^^^^^^^^^
+   |       ^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:87:7
@@ -8030,7 +8030,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:88:10
    |
 88 | @media   (   400px   >   width   >   700px   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:88:10
@@ -8150,7 +8150,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:89:10
    |
 89 | @media   (   400px   >=   width   >   700px   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:89:10
@@ -8270,7 +8270,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:90:10
    |
 90 | @media   (   400px   >   width   >=   700px   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:90:10
@@ -8390,7 +8390,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:91:10
    |
 91 | @media   (   400px   >=   width   >=   700px   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:91:10
@@ -8510,7 +8510,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:92:7
    |
 92 | @media(400px>width>700px){}
-   |       ^^^^^^^^^^^^^^^^^^^^
+   |       ^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:92:7
@@ -8630,7 +8630,7 @@ error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:93:7
    |
 93 | @media(400px>=width>=700px){}
-   |       ^^^^^^^^^^^^^^^^^^^^^^
+   |       ^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/media/input.css:93:7
@@ -9374,27 +9374,15 @@ error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:100:10
     |
 100 | @media (((color)) or ((hover))) and (width > 1024px) {}
-    |          ^^^^^^^^
+    |          ^^^^^^^
 
 error: MediaInParens
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:10
-    |
-100 | @media (((color)) or ((hover))) and (width > 1024px) {}
-    |          ^^^^^^^^
-
-error: MediaCondition
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:10
-    |
-100 | @media (((color)) or ((hover))) and (width > 1024px) {}
-    |          ^^^^^^^^
-
-error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:100:10
     |
 100 | @media (((color)) or ((hover))) and (width > 1024px) {}
     |          ^^^^^^^
 
-error: MediaInParens
+error: MediaCondition
    --> $DIR/tests/fixture/at-rule/media/input.css:100:10
     |
 100 | @media (((color)) or ((hover))) and (width > 1024px) {}
@@ -9440,21 +9428,15 @@ error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:100:23
     |
 100 | @media (((color)) or ((hover))) and (width > 1024px) {}
-    |                       ^^^^^^^^
+    |                       ^^^^^^^
 
 error: MediaCondition
    --> $DIR/tests/fixture/at-rule/media/input.css:100:23
     |
 100 | @media (((color)) or ((hover))) and (width > 1024px) {}
-    |                       ^^^^^^^^
-
-error: MediaConditionItem
-   --> $DIR/tests/fixture/at-rule/media/input.css:100:23
-    |
-100 | @media (((color)) or ((hover))) and (width > 1024px) {}
     |                       ^^^^^^^
 
-error: MediaInParens
+error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:100:23
     |
 100 | @media (((color)) or ((hover))) and (width > 1024px) {}
@@ -9590,37 +9572,37 @@ error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:101:9
     |
 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:101:9
     |
 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaCondition
    --> $DIR/tests/fixture/at-rule/media/input.css:101:9
     |
 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:101:10
     |
 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |          ^^^^^^^^^^^^^^^^^^^^^^^^^
+    |          ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:101:10
     |
 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |          ^^^^^^^^^^^^^^^^^^^^^^^^^
+    |          ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaCondition
    --> $DIR/tests/fixture/at-rule/media/input.css:101:10
     |
 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |          ^^^^^^^^^^^^^^^^^^^^^^^^^
+    |          ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:101:11
@@ -9639,24 +9621,6 @@ error: MediaCondition
     |
 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
     |           ^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaConditionItem
-   --> $DIR/tests/fixture/at-rule/media/input.css:101:12
-    |
-101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |            ^^^^^^^^
-
-error: MediaInParens
-   --> $DIR/tests/fixture/at-rule/media/input.css:101:12
-    |
-101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |            ^^^^^^^^
-
-error: MediaCondition
-   --> $DIR/tests/fixture/at-rule/media/input.css:101:12
-    |
-101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |            ^^^^^^^^
 
 error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:101:12
@@ -9665,6 +9629,12 @@ error: MediaConditionItem
     |            ^^^^^^^
 
 error: MediaInParens
+   --> $DIR/tests/fixture/at-rule/media/input.css:101:12
+    |
+101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
+    |            ^^^^^^^
+
+error: MediaCondition
    --> $DIR/tests/fixture/at-rule/media/input.css:101:12
     |
 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
@@ -9710,21 +9680,15 @@ error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:101:25
     |
 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                         ^^^^^^^^
+    |                         ^^^^^^^
 
 error: MediaCondition
    --> $DIR/tests/fixture/at-rule/media/input.css:101:25
     |
 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
-    |                         ^^^^^^^^
-
-error: MediaConditionItem
-   --> $DIR/tests/fixture/at-rule/media/input.css:101:25
-    |
-101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
     |                         ^^^^^^^
 
-error: MediaInParens
+error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:101:25
     |
 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
@@ -9860,37 +9824,37 @@ error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:102:14
     |
 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
-    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:102:14
     |
 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
-    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaCondition
    --> $DIR/tests/fixture/at-rule/media/input.css:102:14
     |
 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
-    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:102:18
     |
 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
-    |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:102:18
     |
 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
-    |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaCondition
    --> $DIR/tests/fixture/at-rule/media/input.css:102:18
     |
 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
-    |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:102:22
@@ -9909,24 +9873,6 @@ error: MediaCondition
     |
 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
     |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaConditionItem
-   --> $DIR/tests/fixture/at-rule/media/input.css:102:26
-    |
-102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
-    |                          ^^^^^^^^^^^^^^^^
-
-error: MediaInParens
-   --> $DIR/tests/fixture/at-rule/media/input.css:102:26
-    |
-102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
-    |                          ^^^^^^^^^^^^^^^^
-
-error: MediaCondition
-   --> $DIR/tests/fixture/at-rule/media/input.css:102:26
-    |
-102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
-    |                          ^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:102:26
@@ -9935,6 +9881,12 @@ error: MediaConditionItem
     |                          ^^^^^^^^^^^^^
 
 error: MediaInParens
+   --> $DIR/tests/fixture/at-rule/media/input.css:102:26
+    |
+102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
+    |                          ^^^^^^^^^^^^^
+
+error: MediaCondition
    --> $DIR/tests/fixture/at-rule/media/input.css:102:26
     |
 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
@@ -9980,21 +9932,15 @@ error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:102:55
     |
 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
-    |                                                       ^^^^^^^^^^^^^^^^
+    |                                                       ^^^^^^^^^^^^^
 
 error: MediaCondition
    --> $DIR/tests/fixture/at-rule/media/input.css:102:55
     |
 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
-    |                                                       ^^^^^^^^^^^^^^^^
-
-error: MediaConditionItem
-   --> $DIR/tests/fixture/at-rule/media/input.css:102:55
-    |
-102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
     |                                                       ^^^^^^^^^^^^^
 
-error: MediaInParens
+error: MediaConditionItem
    --> $DIR/tests/fixture/at-rule/media/input.css:102:55
     |
 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}

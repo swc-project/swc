@@ -383,7 +383,7 @@
               "type": "MediaCondition",
               "span": {
                 "start": 298,
-                "end": 322,
+                "end": 321,
                 "ctxt": 0
               },
               "conditions": [

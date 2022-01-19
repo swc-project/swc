@@ -34,7 +34,7 @@
               "type": "MediaCondition",
               "span": {
                 "start": 7,
-                "end": 26,
+                "end": 25,
                 "ctxt": 0
               },
               "conditions": [

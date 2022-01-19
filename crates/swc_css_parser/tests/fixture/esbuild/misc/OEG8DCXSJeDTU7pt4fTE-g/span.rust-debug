@@ -74,7 +74,7 @@ error: MediaCondition
  --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:35
   |
 1 | @import url("foo.css") screen and (orientation:landscape);
-  |                                   ^^^^^^^^^^^^^^^^^^^^^^^^
+  |                                   ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaConditionItem
  --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:35
