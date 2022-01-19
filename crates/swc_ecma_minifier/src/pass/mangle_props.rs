@@ -46,11 +46,11 @@ struct ManglePropertiesState {
 
 impl ManglePropertiesState {
     fn add(&mut self, name: &JsWord) {
-        if self.can_mangle(&name) {
+        if self.can_mangle(name) {
             self.names_to_mangle.insert(name.clone());
         }
 
-        if !self.should_mangle(&name) {
+        if !self.should_mangle(name) {
             self.unmangleable.insert(name.clone());
         }
     }
@@ -88,7 +88,7 @@ impl ManglePropertiesState {
 
                 let mangled_name: JsWord = sym.into();
                 self.cache.insert(name.clone(), mangled_name.clone());
-                return Some(mangled_name);
+                Some(mangled_name)
             }
         } else {
             None
@@ -96,7 +96,7 @@ impl ManglePropertiesState {
     }
 }
 
-pub(crate) fn mangle_properties<'a>(m: &mut Module, options: ManglePropertiesOptions) {
+pub(crate) fn mangle_properties(m: &mut Module, options: ManglePropertiesOptions) {
     let mut state = ManglePropertiesState {
         options,
         ..Default::default()
