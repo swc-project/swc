@@ -257,6 +257,8 @@ where
 
                 for (i, code) in self.dump_for_infinite_loop.iter().enumerate() {
                     msg.push_str(&format!("Code {:>4}:\n\n\n\n\n\n\n\n\n\n{}\n", i, code));
+
+                    // std::fs::write(&format!("pass_{}.js", i), code).unwrap();
                 }
 
                 panic!(
