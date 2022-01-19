@@ -829,9 +829,6 @@ where
                 span: span!(self, span.lo),
                 query,
             })
-        } else if is!(self, Ident) {
-            let ident = self.parse()?;
-            MediaQueryItem::Ident(ident)
         } else if is!(self, "(") {
             if peeked_is!(self, Ident) {
                 let media_feature = self.parse()?;

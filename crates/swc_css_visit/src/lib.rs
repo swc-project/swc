@@ -461,7 +461,6 @@ define!({
     }
 
     pub enum MediaQueryItem {
-        Ident(Ident),
         And(AndMediaQuery),
         Or(OrMediaQuery),
         Not(MediaNot),

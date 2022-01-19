@@ -31,9 +31,6 @@ pub struct MediaCondition {
 
 #[ast_node]
 pub enum MediaQueryItem {
-    #[tag("Ident")]
-    Ident(Ident),
-
     #[tag("AndMediaQuery")]
     And(AndMediaQuery),
 
