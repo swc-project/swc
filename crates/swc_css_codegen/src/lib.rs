@@ -337,6 +337,13 @@ where
     }
 
     #[emitter]
+    fn emit_media_feature_name(&mut self, n: &MediaFeatureName) -> Result {
+        match n {
+            MediaFeatureName::Ident(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
     fn emit_media_feature_value(&mut self, n: &MediaFeatureValue) -> Result {
         match n {
             MediaFeatureValue::Number(n) => emit!(self, n),

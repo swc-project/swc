@@ -494,6 +494,10 @@ define!({
         RangeInterval(MediaFeatureRangeInterval),
     }
 
+    pub enum MediaFeatureName {
+        Ident(Ident),
+    }
+
     pub enum MediaFeatureValue {
         Number(Num),
         Dimension(UnitValue),
@@ -503,13 +507,13 @@ define!({
 
     pub struct MediaFeaturePlain {
         pub span: Span,
-        pub name: Ident,
+        pub name: MediaFeatureName,
         pub value: MediaFeatureValue,
     }
 
     pub struct MediaFeatureBoolean {
         pub span: Span,
-        pub name: Ident,
+        pub name: MediaFeatureName,
     }
 
     pub struct MediaFeatureRange {
@@ -523,7 +527,7 @@ define!({
         pub span: Span,
         pub left: MediaFeatureValue,
         pub left_comparison: MediaFeatureRangeComparison,
-        pub name: Ident,
+        pub name: MediaFeatureName,
         pub right_comparison: MediaFeatureRangeComparison,
         pub right: MediaFeatureValue,
     }

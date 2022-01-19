@@ -343,6 +343,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(MediaAnd, visit_media_and);
     mtd!(MediaOr, visit_media_or);
     mtd!(MediaInParens, visit_media_in_parens);
+    mtd!(MediaFeatureName, visit_media_feature_name);
     mtd!(MediaFeatureValue, visit_media_feature_value);
     mtd!(MediaFeature, visit_media_feature);
     mtd!(MediaFeaturePlain, visit_media_feature_plain);

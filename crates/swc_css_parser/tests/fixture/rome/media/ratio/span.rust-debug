@@ -64,7 +64,7 @@ error: MediaFeaturePlain
 1 | @media (aspect-ratio: 12/9) {}
   |        ^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/ratio/input.css:1:9
   |
 1 | @media (aspect-ratio: 12/9) {}

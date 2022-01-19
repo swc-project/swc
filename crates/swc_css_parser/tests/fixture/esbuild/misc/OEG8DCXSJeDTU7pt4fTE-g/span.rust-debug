@@ -94,7 +94,7 @@ error: MediaFeaturePlain
 1 | @import url("foo.css") screen and (orientation:landscape);
   |                                   ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:36
   |
 1 | @import url("foo.css") screen and (orientation:landscape);

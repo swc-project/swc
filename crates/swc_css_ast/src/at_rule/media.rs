@@ -89,6 +89,12 @@ pub enum MediaFeature {
 }
 
 #[ast_node]
+pub enum MediaFeatureName {
+    #[tag("Ident")]
+    Ident(Ident),
+}
+
+#[ast_node]
 pub enum MediaFeatureValue {
     #[tag("Number")]
     Number(Num),
@@ -106,14 +112,14 @@ pub enum MediaFeatureValue {
 #[ast_node("MediaFeaturePlain")]
 pub struct MediaFeaturePlain {
     pub span: Span,
-    pub name: Ident,
+    pub name: MediaFeatureName,
     pub value: MediaFeatureValue,
 }
 
 #[ast_node("MediaFeatureBoolean")]
 pub struct MediaFeatureBoolean {
     pub span: Span,
-    pub name: Ident,
+    pub name: MediaFeatureName,
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
@@ -148,7 +154,7 @@ pub struct MediaFeatureRangeInterval {
     pub left: MediaFeatureValue,
     #[serde(rename = "leftComparison")]
     pub left_comparison: MediaFeatureRangeComparison,
-    pub name: Ident,
+    pub name: MediaFeatureName,
     #[serde(rename = "rightComparison")]
     pub right_comparison: MediaFeatureRangeComparison,
     pub right: MediaFeatureValue,

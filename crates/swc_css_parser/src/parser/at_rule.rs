@@ -934,7 +934,7 @@ where
                 eat!(self, ")");
 
                 let name = match left {
-                    MediaFeatureValue::Ident(ident) => ident,
+                    MediaFeatureValue::Ident(ident) => MediaFeatureName::Ident(ident),
                     _ => {
                         return Err(Error::new(span, ErrorKind::Expected("identifier value")));
                     }
@@ -951,7 +951,7 @@ where
                 self.input.skip_ws()?;
 
                 let name = match left {
-                    MediaFeatureValue::Ident(ident) => ident,
+                    MediaFeatureValue::Ident(ident) => MediaFeatureName::Ident(ident),
                     _ => {
                         return Err(Error::new(span, ErrorKind::Expected("identifier value")));
                     }
@@ -1036,7 +1036,7 @@ where
                 expect!(self, ")");
 
                 let name = match center {
-                    MediaFeatureValue::Ident(ident) => ident,
+                    MediaFeatureValue::Ident(ident) => MediaFeatureName::Ident(ident),
                     _ => {
                         return Err(Error::new(span, ErrorKind::Expected("identifier value")));
                     }

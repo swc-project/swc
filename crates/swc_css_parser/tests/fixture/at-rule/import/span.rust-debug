@@ -484,7 +484,7 @@ error: MediaFeaturePlain
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |                                         ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
   --> $DIR/tests/fixture/at-rule/import/input.css:11:42
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);

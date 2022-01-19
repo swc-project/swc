@@ -70,7 +70,7 @@ error: MediaFeaturePlain
 1 | @media (min-width: 800px) {}
   |        ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:1:9
   |
 1 | @media (min-width: 800px) {}
@@ -160,7 +160,7 @@ error: MediaFeaturePlain
 2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |        ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:2:9
   |
 2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -220,7 +220,7 @@ error: MediaFeaturePlain
 2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                               ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:2:32
   |
 2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -280,7 +280,7 @@ error: MediaFeaturePlain
 2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                                      ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:2:55
   |
 2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -370,7 +370,7 @@ error: MediaFeaturePlain
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |        ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:3:9
   |
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -430,7 +430,7 @@ error: MediaFeaturePlain
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                               ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:3:32
   |
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -490,7 +490,7 @@ error: MediaFeaturePlain
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                                      ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:3:55
   |
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -550,7 +550,7 @@ error: MediaFeaturePlain
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                                                             ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:3:78
   |
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -646,7 +646,7 @@ error: MediaFeaturePlain
 4 | @media not (min-width: 800px) {}
   |            ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:4:13
   |
 4 | @media not (min-width: 800px) {}
@@ -754,7 +754,7 @@ error: MediaFeaturePlain
 5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
   |         ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:10
   |
 5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
@@ -814,7 +814,7 @@ error: MediaFeaturePlain
 5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
   |                                ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:33
   |
 5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
@@ -874,7 +874,7 @@ error: MediaFeaturePlain
 5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
   |                                                       ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:56
   |
 5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
@@ -964,7 +964,7 @@ error: MediaFeaturePlain
 6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
   |        ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:6:9
   |
 6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
@@ -1042,7 +1042,7 @@ error: MediaFeaturePlain
 6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
   |                                ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:6:33
   |
 6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
@@ -1102,7 +1102,7 @@ error: MediaFeaturePlain
 6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
   |                                                      ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:6:55
   |
 6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
@@ -1228,7 +1228,7 @@ error: MediaFeaturePlain
 7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
   |         ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:7:10
   |
 7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
@@ -1288,7 +1288,7 @@ error: MediaFeaturePlain
 7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
   |                                ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:7:33
   |
 7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
@@ -1348,7 +1348,7 @@ error: MediaFeaturePlain
 7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
   |                                                       ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/condition/input.css:7:56
   |
 7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
@@ -1576,7 +1576,7 @@ error: MediaFeaturePlain
 15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
    |        ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
   --> $DIR/tests/fixture/rome/media/condition/input.css:15:9
    |
 15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
@@ -1654,7 +1654,7 @@ error: MediaFeaturePlain
 15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
    |                                ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
   --> $DIR/tests/fixture/rome/media/condition/input.css:15:33
    |
 15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
@@ -1714,7 +1714,7 @@ error: MediaFeaturePlain
 15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
    |                                                      ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
   --> $DIR/tests/fixture/rome/media/condition/input.css:15:55
    |
 15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {

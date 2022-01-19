@@ -76,7 +76,7 @@ error: MediaFeatureBoolean
 1 | @media screen and (color) {}
   |                   ^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/feature/input.css:1:20
   |
 1 | @media screen and (color) {}
@@ -154,7 +154,7 @@ error: MediaFeatureBoolean
 2 | @media only screen and (color) {}
   |                        ^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/feature/input.css:2:25
   |
 2 | @media only screen and (color) {}
@@ -232,7 +232,7 @@ error: MediaFeaturePlain
 3 | @media only screen and (min-width: 800px) {}
   |                        ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/feature/input.css:3:25
   |
 3 | @media only screen and (min-width: 800px) {}
@@ -328,7 +328,7 @@ error: MediaFeaturePlain
 4 | @media screen and (min-width       :          800px        ) {}
   |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/feature/input.css:4:20
   |
 4 | @media screen and (min-width       :          800px        ) {}
@@ -424,7 +424,7 @@ error: MediaFeaturePlain
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                   ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/feature/input.css:5:20
   |
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -484,7 +484,7 @@ error: MediaFeaturePlain
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                          ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/feature/input.css:5:43
   |
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -544,7 +544,7 @@ error: MediaFeaturePlain
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                                                 ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/feature/input.css:5:66
   |
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -640,7 +640,7 @@ error: MediaFeaturePlain
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |                   ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:20
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
@@ -700,7 +700,7 @@ error: MediaFeaturePlain
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |                                          ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:43
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
@@ -760,7 +760,7 @@ error: MediaFeaturePlain
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |                                                                 ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:66
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
@@ -820,7 +820,7 @@ error: MediaFeaturePlain
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |                                                                                        ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:89
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
