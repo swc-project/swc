@@ -69,7 +69,7 @@ impl Evaluator {
                 swc_common::GLOBALS.with(|globals| {
                     //
                     m.fold_with(&mut compressor(
-                        &globals,
+                        globals,
                         marks,
                         &serde_json::from_str("{}").unwrap(),
                         &data,
@@ -89,7 +89,7 @@ impl Evaluator {
             }
 
             Expr::Tpl(t) => {
-                return self.eval_tpl(&t);
+                return self.eval_tpl(t);
             }
 
             Expr::TaggedTpl(t) => {
@@ -145,7 +145,7 @@ impl Evaluator {
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => {
-                let arg = self.eval(&arg)?;
+                let arg = self.eval(arg)?;
 
                 if is_truthy(&arg)? {
                     return Some(EvalResult::Lit(Lit::Bool(Bool {
@@ -180,7 +180,7 @@ impl Evaluator {
             Expr::Member(MemberExpr {
                 span, obj, prop, ..
             }) if !prop.is_computed() => {
-                let obj = self.eval_as_expr(&obj)?;
+                let obj = self.eval_as_expr(obj)?;
 
                 let mut e = Expr::Member(MemberExpr {
                     span: *span,

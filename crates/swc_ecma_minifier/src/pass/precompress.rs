@@ -13,10 +13,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 /// Optimizer invoked before invoking compressor.
 ///
 /// - Remove parens.
-pub(crate) fn precompress_optimizer<'a>(
-    options: &'a CompressOptions,
-    marks: Marks,
-) -> impl 'a + VisitMut {
+pub(crate) fn precompress_optimizer(options: &CompressOptions, marks: Marks) -> impl '_ + VisitMut {
     PrecompressOptimizer {
         options,
         marks,
@@ -53,10 +50,9 @@ impl PrecompressOptimizer<'_> {
         }
 
         if self.data.is_none() {
-            let has_decl = stmts.iter().any(|stmt| match stmt.as_module_decl() {
-                Ok(..) | Err(Stmt::Decl(..)) => true,
-                _ => false,
-            });
+            let has_decl = stmts
+                .iter()
+                .any(|stmt| matches!(stmt.as_module_decl(), Ok(..) | Err(Stmt::Decl(..))));
 
             if has_decl {
                 let data = Some(analyze(&*stmts, Some(self.marks)));
@@ -80,7 +76,6 @@ impl PrecompressOptimizer<'_> {
                     ctx: self.ctx,
                 })
             }
-            return;
         }
     }
 }
@@ -91,24 +86,18 @@ impl VisitMut for PrecompressOptimizer<'_> {
     fn visit_mut_decl(&mut self, n: &mut Decl) {
         n.visit_mut_children_with(self);
 
-        match n {
-            Decl::Fn(FnDecl { ident, .. }) => {
-                if ident.sym == js_word!("") {
-                    n.take();
-                }
+        if let Decl::Fn(FnDecl { ident, .. }) = n {
+            if ident.sym == js_word!("") {
+                n.take();
             }
-            _ => {}
         }
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
-        match e {
-            Expr::Paren(p) => {
-                *e = *p.expr.take();
-            }
-            _ => {}
+        if let Expr::Paren(p) = e {
+            *e = *p.expr.take();
         }
     }
 
@@ -152,10 +141,7 @@ impl VisitMut for PrecompressOptimizer<'_> {
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         self.handle_stmts(n);
 
-        n.retain(|s| match s {
-            ModuleItem::Stmt(Stmt::Empty(..)) => false,
-            _ => true,
-        });
+        n.retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
     }
 
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
@@ -172,10 +158,7 @@ impl VisitMut for PrecompressOptimizer<'_> {
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         self.handle_stmts(n);
 
-        n.retain(|s| match s {
-            Stmt::Empty(..) => false,
-            _ => true,
-        });
+        n.retain(|s| !matches!(s, Stmt::Empty(..)));
     }
 
     fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {

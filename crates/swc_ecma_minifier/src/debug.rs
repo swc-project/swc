@@ -57,7 +57,7 @@ where
             cfg: Default::default(),
             cm: cm.clone(),
             comments: None,
-            wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+            wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),
         };
 
         node.emit_with(&mut emitter).unwrap();
@@ -95,7 +95,7 @@ pub(crate) fn invoke(module: &Module) {
             cfg: Default::default(),
             cm: cm.clone(),
             comments: None,
-            wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+            wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),
         };
 
         emitter.emit_module(&module).unwrap();

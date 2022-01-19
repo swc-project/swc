@@ -67,7 +67,7 @@ impl Scope {
                     continue;
                 }
 
-                if self.can_rename(&id, &sym, &to) {
+                if self.can_rename(&id, &sym, to) {
                     to.entry(id.clone()).or_insert(sym);
                     break;
                 }

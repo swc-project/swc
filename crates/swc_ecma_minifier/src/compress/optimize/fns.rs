@@ -43,8 +43,8 @@ where
             // Check for function declarations.
 
             match (a.as_module_decl(), b.as_module_decl()) {
-                (Ok(ModuleDecl::Import(..)), _) => return Some(Ordering::Less),
-                (Err(stmt), _) if is_directive(&stmt) => return Some(Ordering::Equal),
+                (Ok(ModuleDecl::Import(..)), _) => Some(Ordering::Less),
+                (Err(stmt), _) if is_directive(stmt) => Some(Ordering::Equal),
 
                 (
                     Err(Stmt::Decl(
