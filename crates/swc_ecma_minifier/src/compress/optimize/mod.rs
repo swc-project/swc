@@ -1597,24 +1597,17 @@ where
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
         n.visit_mut_children_with(self);
 
-        match &n.value {
-            Some(value) => {
-                if is_pure_undefined(&value) {
-                    n.value = None;
-                }
+        if let Some(value) = &n.value {
+            if is_pure_undefined(value) {
+                n.value = None;
             }
-            _ => {}
         }
     }
 
     fn visit_mut_bin_expr(&mut self, n: &mut BinExpr) {
         {
             let ctx = Ctx {
-                in_cond: self.ctx.in_cond
-                    || match n.op {
-                        op!("&&") | op!("||") | op!("??") => true,
-                        _ => false,
-                    },
+                in_cond: self.ctx.in_cond || matches!(n.op, op!("&&") | op!("||") | op!("??")),
                 ..self.ctx
             };
 
@@ -1672,7 +1665,7 @@ where
                 is_this_aware_callee: is_this_undefined
                     || match &e.callee {
                         Callee::Super(_) | Callee::Import(_) => false,
-                        Callee::Expr(callee) => is_callee_this_aware(&callee),
+                        Callee::Expr(callee) => is_callee_this_aware(callee),
                     },
                 ..self.ctx
             };
@@ -1680,24 +1673,20 @@ where
         }
 
         if is_this_undefined {
-            match &mut e.callee {
-                Callee::Expr(callee) => match &mut **callee {
-                    Expr::Member(..) => {
-                        let zero = Box::new(Expr::Lit(Lit::Num(Number {
-                            span: DUMMY_SP,
-                            value: 0.0,
-                        })));
-                        self.changed = true;
-                        tracing::debug!("injecting zero to preserve `this` in call");
+            if let Callee::Expr(callee) = &mut e.callee {
+                if let Expr::Member(..) = &mut **callee {
+                    let zero = Box::new(Expr::Lit(Lit::Num(Number {
+                        span: DUMMY_SP,
+                        value: 0.0,
+                    })));
+                    self.changed = true;
+                    tracing::debug!("injecting zero to preserve `this` in call");
 
-                        *callee = Box::new(Expr::Seq(SeqExpr {
-                            span: callee.span(),
-                            exprs: vec![zero, callee.take()],
-                        }));
-                    }
-                    _ => {}
-                },
-                _ => {}
+                    *callee = Box::new(Expr::Seq(SeqExpr {
+                        span: callee.span(),
+                        exprs: vec![zero, callee.take()],
+                    }));
+                }
             }
         }
 
@@ -1765,15 +1754,12 @@ where
     }
 
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
-        match &mut n.decl {
-            Decl::Fn(f) => {
-                // I don't know why, but terser removes parameters from an exported function if
-                // `unused` is true, regardless of keep_fargs or others.
-                if self.options.unused {
-                    self.drop_unused_params(&mut f.function.params);
-                }
+        if let Decl::Fn(f) = &mut n.decl {
+            // I don't know why, but terser removes parameters from an exported function if
+            // `unused` is true, regardless of keep_fargs or others.
+            if self.options.unused {
+                self.drop_unused_params(&mut f.function.params);
             }
-            _ => {}
         }
 
         let ctx = Ctx {
@@ -1828,16 +1814,13 @@ where
 
         self.inline(e);
 
-        match e {
-            Expr::Bin(bin) => {
-                let expr = self.optimize_lit_cmp(bin);
-                if let Some(expr) = expr {
-                    tracing::debug!("Optimizing: Literal comparison");
-                    self.changed = true;
-                    *e = expr;
-                }
+        if let Expr::Bin(bin) = e {
+            let expr = self.optimize_lit_cmp(bin);
+            if let Some(expr) = expr {
+                tracing::debug!("Optimizing: Literal comparison");
+                self.changed = true;
+                *e = expr;
             }
-            _ => {}
         }
 
         self.compress_cond_expr_if_similar(e);
@@ -1882,10 +1865,7 @@ where
 
         self.negate_iife_ignoring_ret(&mut n.expr);
 
-        let is_directive = match &*n.expr {
-            Expr::Lit(Lit::Str(..)) => true,
-            _ => false,
-        };
+        let is_directive = matches!(&*n.expr, Expr::Lit(Lit::Str(..)));
 
         if is_directive {
             return;
@@ -1897,28 +1877,25 @@ where
             || self.options.reduce_fns
             || (self.options.sequences() && n.expr.is_seq())
             || (self.options.conditionals
-                && match &*n.expr {
+                && matches!(
+                    &*n.expr,
                     Expr::Bin(BinExpr {
                         op: op!("||") | op!("&&"),
                         ..
-                    }) => true,
-                    _ => false,
-                })
+                    })
+                ))
         {
             // Preserve top-level negated iifes.
-            match &*n.expr {
-                Expr::Unary(unary @ UnaryExpr { op: op!("!"), .. }) => match &*unary.arg {
-                    Expr::Call(CallExpr {
-                        callee: Callee::Expr(callee),
-                        ..
-                    }) => match &**callee {
-                        Expr::Fn(..) => return,
-                        _ => {}
-                    },
-
-                    _ => {}
-                },
-                _ => {}
+            if let Expr::Unary(unary @ UnaryExpr { op: op!("!"), .. }) = &*n.expr {
+                if let Expr::Call(CallExpr {
+                    callee: Callee::Expr(callee),
+                    ..
+                }) = &*unary.arg
+                {
+                    if let Expr::Fn(..) = &**callee {
+                        return;
+                    }
+                }
             }
             let expr = self.ignore_return_value(&mut n.expr);
             n.expr = expr.map(Box::new).unwrap_or_else(|| {
@@ -2160,13 +2137,10 @@ where
     fn visit_mut_opt_stmt(&mut self, s: &mut Option<Box<Stmt>>) {
         s.visit_mut_children_with(self);
 
-        match s.as_deref() {
-            Some(Stmt::Empty(..)) => {
-                self.changed = true;
-                tracing::debug!("misc: Removing empty statement");
-                *s = None;
-            }
-            _ => {}
+        if let Some(Stmt::Empty(..)) = s.as_deref() {
+            self.changed = true;
+            tracing::debug!("misc: Removing empty statement");
+            *s = None;
         }
     }
 
@@ -2204,21 +2178,17 @@ where
     fn visit_mut_prop(&mut self, n: &mut Prop) {
         n.visit_mut_children_with(self);
 
-        match n {
-            Prop::Shorthand(i) => {
-                if self.lits.contains_key(&i.to_id())
-                    || self.vars_for_inlining.contains_key(&i.to_id())
-                {
-                    let mut e = Box::new(Expr::Ident(i.clone()));
-                    e.visit_mut_with(self);
+        if let Prop::Shorthand(i) = n {
+            if self.lits.contains_key(&i.to_id()) || self.vars_for_inlining.contains_key(&i.to_id())
+            {
+                let mut e = Box::new(Expr::Ident(i.clone()));
+                e.visit_mut_with(self);
 
-                    *n = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(i.clone()),
-                        value: e,
-                    });
-                }
+                *n = Prop::KeyValue(KeyValueProp {
+                    key: PropName::Ident(i.clone()),
+                    value: e,
+                });
             }
-            _ => {}
         }
 
         if cfg!(debug_assertions) {
@@ -2250,14 +2220,14 @@ where
         self.shift_assignment(n);
 
         {
-            let should_preserve_zero = match n.exprs.last().map(|v| &**v) {
-                Some(Expr::Member(..)) => true,
-                Some(Expr::Ident(Ident {
-                    sym: js_word!("eval"),
-                    ..
-                })) => true,
-                _ => false,
-            };
+            let should_preserve_zero = matches!(
+                n.exprs.last().map(|v| &**v),
+                Some(Expr::Member(..))
+                    | Some(Expr::Ident(Ident {
+                        sym: js_word!("eval"),
+                        ..
+                    }))
+            );
 
             let exprs = n
                 .exprs
@@ -2276,7 +2246,7 @@ where
                             || !self.ctx.is_this_aware_callee
                             || !should_preserve_zero);
 
-                    let ret = if can_remove {
+                    if can_remove {
                         // If negate_iife is true, it's already handled by
                         // visit_mut_children_with(self) above.
                         if !self.options.negate_iife {
@@ -2286,9 +2256,7 @@ where
                         self.ignore_return_value(&mut **expr).map(Box::new)
                     } else {
                         Some(expr.take())
-                    };
-
-                    ret
+                    }
                 })
                 .collect::<Vec<_>>();
             n.exprs = exprs;
@@ -2398,49 +2366,43 @@ where
             }
         }
 
-        match s {
-            Stmt::Expr(ExprStmt { expr, .. }) => {
-                if is_pure_undefined(expr) {
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    return;
-                }
+        if let Stmt::Expr(ExprStmt { expr, .. }) = s {
+            if is_pure_undefined(expr) {
+                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                return;
+            }
 
-                let is_directive = match &**expr {
-                    Expr::Lit(Lit::Str(..)) => true,
+            let is_directive = match &**expr {
+                Expr::Lit(Lit::Str(..)) => true,
+                _ => false,
+            };
+
+            if self.options.directives
+                && is_directive
+                && self.ctx.in_strict
+                && match &**expr {
+                    Expr::Lit(Lit::Str(Str { value, .. })) => *value == *"use strict",
                     _ => false,
-                };
+                }
+            {
+                tracing::debug!("Removing 'use strict'");
+                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                return;
+            }
 
-                if self.options.directives
-                    && is_directive
-                    && self.ctx.in_strict
-                    && match &**expr {
-                        Expr::Lit(Lit::Str(Str { value, .. })) => *value == *"use strict",
-                        _ => false,
+            if self.options.unused {
+                let can_be_removed = !is_directive && !expr.may_have_side_effects();
+
+                if can_be_removed {
+                    self.changed = true;
+                    tracing::debug!("unused: Dropping an expression without side effect");
+                    if cfg!(feature = "debug") {
+                        tracing::trace!("unused: [Change] Dropping \n{}\n", dump(&*expr, false));
                     }
-                {
-                    tracing::debug!("Removing 'use strict'");
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
-                }
-
-                if self.options.unused {
-                    let can_be_removed = !is_directive && !expr.may_have_side_effects();
-
-                    if can_be_removed {
-                        self.changed = true;
-                        tracing::debug!("unused: Dropping an expression without side effect");
-                        if cfg!(feature = "debug") {
-                            tracing::trace!(
-                                "unused: [Change] Dropping \n{}\n",
-                                dump(&*expr, false)
-                            );
-                        }
-                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                        return;
-                    }
                 }
             }
-            _ => {}
         }
 
         match s {
