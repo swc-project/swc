@@ -283,15 +283,14 @@ where
         match &mut *opt.expr {
             Expr::Member(MemberExpr { span, obj, .. }) => {
                 //
-                if is_pure_undefined_or_null(&obj) {
+                if is_pure_undefined_or_null(obj) {
                     self.changed = true;
                     tracing::debug!(
-                        "evaluate: Reduced an optioanl chaining operation because object is \
+                        "evaluate: Reduced an optional chaining operation because object is \
                          always null or undefined"
                     );
 
                     *e = *undefined(*span);
-                    return;
                 }
             }
 
@@ -300,15 +299,14 @@ where
                 callee: Callee::Expr(callee),
                 ..
             }) => {
-                if is_pure_undefined_or_null(&callee) {
+                if is_pure_undefined_or_null(callee) {
                     self.changed = true;
                     tracing::debug!(
-                        "evaluate: Reduced a call expression with optioanl chaining operation \
+                        "evaluate: Reduced a call expression with optional chaining operation \
                          because object is always null or undefined"
                     );
 
                     *e = *undefined(*span);
-                    return;
                 }
             }
 

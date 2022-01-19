@@ -12,7 +12,7 @@ impl<M> Pure<'_, M> {
         let idx = stmts
             .iter()
             .enumerate()
-            .find(|(_, stmt)| always_terminates(&stmt));
+            .find(|(_, stmt)| always_terminates(stmt));
 
         if let Some((idx, _)) = idx {
             stmts.iter_mut().skip(idx + 1).for_each(|stmt| match stmt {
@@ -67,14 +67,10 @@ impl<M> Pure<'_, M> {
 
             if stmts.len() == 1 {
                 for s in stmts.iter_mut() {
-                    match s {
-                        Stmt::If(s) => match &mut *s.cons {
-                            Stmt::Block(cons) => {
-                                self.negate_if_terminate(&mut cons.stmts, true, false);
-                            }
-                            _ => {}
-                        },
-                        _ => {}
+                    if let Stmt::If(s) = s {
+                        if let Stmt::Block(cons) = &mut *s.cons {
+                            self.negate_if_terminate(&mut cons.stmts, true, false);
+                        }
                     }
                 }
             }
