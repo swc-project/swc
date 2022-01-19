@@ -21,22 +21,8 @@ var A = function() {
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
     }(this, A);
-    var _this = this;
-    this.b = (function(fn) {
-        return function() {
-            var self = this, args = arguments;
-            return new Promise(function(resolve, reject) {
-                var gen = fn.apply(self, args);
-                function _next(value) {
-                    asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-                }
-                function _throw(err) {
-                    asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-                }
-                _next(void 0);
-            });
-        };
-    })(regeneratorRuntime.mark(function _callee() {
+    var fn, _this = this;
+    this.b = (fn = regeneratorRuntime.mark(function _callee() {
         var _len, args, _key, obj, _args = arguments;
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
@@ -52,5 +38,17 @@ var A = function() {
                     return _ctx.stop();
             }
         }, _callee);
-    }));
+    }), function() {
+        var self = this, args = arguments;
+        return new Promise(function(resolve, reject) {
+            var gen = fn.apply(self, args);
+            function _next(value) {
+                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+            }
+            function _throw(err) {
+                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+            }
+            _next(void 0);
+        });
+    });
 };

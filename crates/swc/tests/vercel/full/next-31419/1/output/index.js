@@ -29,23 +29,21 @@ Promise.all(assignAll).then(function() {
     };
 }());
 export var listOfUser = function(c) {
-    return new Promise(function() {
-        var d = a.asyncToGenerator(b.mark(function a(d, e) {
-            var f;
-            return b.wrap(function(a) {
-                for(;;)switch(a.prev = a.next){
-                    case 0:
-                        f = "Select Distinct id from \"TABLE\" Where id = '".concat(c, "' And user_id IS not null"), postgreSQL.query(f, null, function(a, b) {
-                            a ? e(a) : d(b.rows);
-                        });
-                    case 2:
-                    case "end":
-                        return a.stop();
-                }
-            }, a);
-        }));
-        return function(d, e) {
-            return d.apply(this, arguments);
-        };
-    }());
+    var d;
+    return new Promise((d = a.asyncToGenerator(b.mark(function a(d, e) {
+        var f;
+        return b.wrap(function(a) {
+            for(;;)switch(a.prev = a.next){
+                case 0:
+                    f = "Select Distinct id from \"TABLE\" Where id = '".concat(c, "' And user_id IS not null"), postgreSQL.query(f, null, function(a, b) {
+                        a ? e(a) : d(b.rows);
+                    });
+                case 2:
+                case "end":
+                    return a.stop();
+            }
+        }, a);
+    })), function(d, e) {
+        return d.apply(this, arguments);
+    }));
 };

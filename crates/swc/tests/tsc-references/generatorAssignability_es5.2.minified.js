@@ -390,11 +390,8 @@ function _asyncfn() {
     }))).apply(this, arguments);
 }
 function _f2() {
-    return (_f2 = (function(fn) {
-        return function() {
-            return new AsyncGenerator(fn.apply(this, arguments));
-        };
-    })(regeneratorRuntime.mark(function _callee() {
+    var fn;
+    return (_f2 = (fn = regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -410,7 +407,9 @@ function _f2() {
                     return _ctx.stop();
             }
         }, _callee);
-    }))).apply(this, arguments);
+    }), function() {
+        return new AsyncGenerator(fn.apply(this, arguments));
+    })).apply(this, arguments);
 }
 function _f3() {
     return (_f3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {

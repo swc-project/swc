@@ -54,11 +54,8 @@ function _AwaitValue(value) {
     this.wrapped = value;
 }
 function _f() {
-    return (_f = (function(fn) {
-        return function() {
-            return new AsyncGenerator(fn.apply(this, arguments));
-        };
-    })(regeneratorRuntime.mark(function _callee(a) {
+    var fn;
+    return (_f = (fn = regeneratorRuntime.mark(function _callee(a) {
         var _b, c;
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
@@ -78,7 +75,9 @@ function _f() {
                     return _ctx.stop();
             }
         }, _callee);
-    }))).apply(this, arguments);
+    }), function() {
+        return new AsyncGenerator(fn.apply(this, arguments));
+    })).apply(this, arguments);
 }
 "function" == typeof Symbol && Symbol.asyncIterator && (AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
     return this;

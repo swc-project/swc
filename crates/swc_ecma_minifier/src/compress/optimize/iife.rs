@@ -11,7 +11,7 @@ use std::{
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, undefined, ExprFactory, Id};
+use swc_ecma_utils::{contains_arguments, ident::IdentLike, undefined, ExprFactory, Id};
 use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `negate_iife`.
@@ -579,10 +579,7 @@ where
             return false;
         }
 
-        if idents_used_by(&*body)
-            .iter()
-            .any(|v| v.0 == js_word!("arguments"))
-        {
+        if contains_arguments(body) {
             return false;
         }
 

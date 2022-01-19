@@ -28,41 +28,37 @@ function _objectSpread(target) {
     return target;
 }
 !function(name) {
+    var fn, _ref;
     return {
-        resolve: (function() {
-            var _ref = function(fn) {
-                return function() {
-                    var self = this, args = arguments;
-                    return new Promise(function(resolve, reject) {
-                        var gen = fn.apply(self, args);
-                        function _next(value) {
-                            asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-                        }
-                        function _throw(err) {
-                            asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-                        }
-                        _next(void 0);
-                    });
-                };
-            }(regeneratorRuntime.mark(function _callee(context, args) {
-                var objects;
-                return regeneratorRuntime.wrap(function(_ctx) {
-                    for(;;)switch(_ctx.prev = _ctx.next){
-                        case 0:
-                            return _ctx.next = 2, {
-                                objects: 12
-                            };
-                        case 2:
-                            return objects = _ctx.sent.objects, _ctx.abrupt("return", _objectSpread({}, connectionFromArray(objects, args)));
-                        case 4:
-                        case "end":
-                            return _ctx.stop();
-                    }
-                }, _callee);
-            }));
-            return function(context, args) {
-                return _ref.apply(this, arguments);
-            };
-        })()
+        resolve: (fn = regeneratorRuntime.mark(function _callee(context, args) {
+            var objects;
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        return _ctx.next = 2, {
+                            objects: 12
+                        };
+                    case 2:
+                        return objects = _ctx.sent.objects, _ctx.abrupt("return", _objectSpread({}, connectionFromArray(objects, args)));
+                    case 4:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }), _ref = function() {
+            var self = this, args = arguments;
+            return new Promise(function(resolve, reject) {
+                var gen = fn.apply(self, args);
+                function _next(value) {
+                    asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+                }
+                function _throw(err) {
+                    asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+                }
+                _next(void 0);
+            });
+        }, function(context, args) {
+            return _ref.apply(this, arguments);
+        })
     };
 }("test");

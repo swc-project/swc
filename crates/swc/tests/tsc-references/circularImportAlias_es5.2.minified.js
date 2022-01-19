@@ -29,29 +29,26 @@ var B, A, _typeof = function(obj) {
                 }
             }), superClass && _setPrototypeOf(subClass, superClass);
         }(D, _C);
-        var _super = function(Derived) {
-            var hasNativeReflectConstruct = function() {
-                if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                if (Reflect.construct.sham) return !1;
-                if ("function" == typeof Proxy) return !0;
-                try {
-                    return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
-                } catch (e) {
-                    return !1;
-                }
-            }();
-            return function() {
-                var self, call, result, Super = _getPrototypeOf(Derived);
-                if (hasNativeReflectConstruct) {
-                    var NewTarget = _getPrototypeOf(this).constructor;
-                    result = Reflect.construct(Super, arguments, NewTarget);
-                } else result = Super.apply(this, arguments);
-                return self = this, (call = result) && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-                    if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-                    return self;
-                })(self);
-            };
-        }(D);
+        var Derived, hasNativeReflectConstruct, _super = (Derived = D, hasNativeReflectConstruct = function() {
+            if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+            if (Reflect.construct.sham) return !1;
+            if ("function" == typeof Proxy) return !0;
+            try {
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+            } catch (e) {
+                return !1;
+            }
+        }(), function() {
+            var self, call, result, Super = _getPrototypeOf(Derived);
+            if (hasNativeReflectConstruct) {
+                var NewTarget = _getPrototypeOf(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else result = Super.apply(this, arguments);
+            return self = this, (call = result) && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
+                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+                return self;
+            })(self);
+        });
         function D() {
             return _classCallCheck(this, D), _super.apply(this, arguments);
         }

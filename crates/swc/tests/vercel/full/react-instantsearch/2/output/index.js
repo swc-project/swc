@@ -198,20 +198,18 @@ export default function n(e) {
                 b.search = function(c) {
                     for(var e = arguments.length, f = new Array(e > 1 ? e - 1 : 0), g = 1; g < e; g++)f[g - 1] = arguments[g];
                     var h = c.map(function(b) {
+                        var c, d;
                         return a.objectSpread({}, b, {
-                            params: function(a) {
-                                var b = function(a) {
-                                    for(var b = arguments.length, c = new Array(b > 1 ? b - 1 : 0), d = 1; d < b; d++)c[d - 1] = arguments[d];
-                                    var e = 0;
-                                    return a.replace(/%s/g, function() {
-                                        return encodeURIComponent(c[e++]);
-                                    });
-                                };
-                                return Object.keys(a).map(function(c) {
-                                    var d;
-                                    return b("%s=%s", c, (d = a[c], "[object Object]" === Object.prototype.toString.call(d) || "[object Array]" === Object.prototype.toString.call(d)) ? JSON.stringify(a[c]) : a[c]);
-                                }).join("&");
-                            }(b.params)
+                            params: (c = b.params, d = function(a) {
+                                for(var b = arguments.length, c = new Array(b > 1 ? b - 1 : 0), d = 1; d < b; d++)c[d - 1] = arguments[d];
+                                var e = 0;
+                                return a.replace(/%s/g, function() {
+                                    return encodeURIComponent(c[e++]);
+                                });
+                            }, Object.keys(c).map(function(a) {
+                                var b;
+                                return d("%s=%s", a, (b = c[a], "[object Object]" === Object.prototype.toString.call(b) || "[object Array]" === Object.prototype.toString.call(b)) ? JSON.stringify(c[a]) : c[a]);
+                            }).join("&"))
                         });
                     });
                     return b.transporter.responsesCache.get({
