@@ -75,17 +75,17 @@ For running all tests, take the following steps:
     ```
 
 2. Install js dependencies.
+   Ensure [Yarn Package Manager is installed](https://yarnpkg.com/getting-started/install)
 
-    ```bash
-    yarn
-    ( cd crates/swc_ecma_transforms; yarn )
-    ```
+       ```bash
+       yarn
+       ```
 
 3. Setup some environment variables which is required for tests.
 
     ```bash
     export RUST_BACKTRACE=0
-    export PATH="$PATH:$PWD/crates/swc_ecma_transforms/node_modules/.bin"
+    export PATH="$PATH:$PWD/node_modules/.bin"
     export RUST_MIN_STACK=16777216
     ```
 
