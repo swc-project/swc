@@ -73,7 +73,7 @@ fn fixture(input: PathBuf) {
     })
     .expect_err("should fail");
 
-    let output = NormalizedOutput::from(format!("{:?}", err));
+    let output = NormalizedOutput::from(format!("{}", err));
 
     output.compare_to_file(&output_path).unwrap();
 }

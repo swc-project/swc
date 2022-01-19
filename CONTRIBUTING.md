@@ -84,7 +84,7 @@ For running all tests, take the following steps:
 3. Setup some environment variables which is required for tests.
 
     ```bash
-    export RUST_BACKTRACE=0
+    export RUST_BACKTRACE=full
     export PATH="$PATH:$PWD/node_modules/.bin"
     export RUST_MIN_STACK=16777216
     ```
