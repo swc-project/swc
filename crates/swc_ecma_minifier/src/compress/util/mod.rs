@@ -101,10 +101,11 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) 
 
     let mut arg = Box::new(e.take());
 
-    match &mut *arg {
-        Expr::Unary(UnaryExpr {
-            op: op!("!"), arg, ..
-        }) => match &mut **arg {
+    if let Expr::Unary(UnaryExpr {
+        op: op!("!"), arg, ..
+    }) = &mut *arg
+    {
+        match &mut **arg {
             Expr::Unary(UnaryExpr { op: op!("!"), .. }) => {
                 tracing::debug!("negate: !!bool => !bool");
                 *e = *arg.take();
@@ -126,9 +127,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) 
                     return true;
                 }
             }
-        },
-
-        _ => {}
+        }
     }
 
     if is_ret_val_ignored {
@@ -154,10 +153,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) 
 }
 
 pub(crate) fn is_ok_to_negate_for_cond(e: &Expr) -> bool {
-    match e {
-        Expr::Update(..) => false,
-        _ => true,
-    }
+    !matches!(e, Expr::Update(..))
 }
 
 pub(crate) fn is_ok_to_negate_rhs(rhs: &Expr) -> bool {
@@ -177,10 +173,10 @@ pub(crate) fn is_ok_to_negate_rhs(rhs: &Expr) -> bool {
             left,
             right,
             ..
-        }) => is_ok_to_negate_rhs(&left) && is_ok_to_negate_rhs(&right),
+        }) => is_ok_to_negate_rhs(left) && is_ok_to_negate_rhs(right),
 
         Expr::Bin(BinExpr { left, right, .. }) => {
-            is_ok_to_negate_rhs(&left) && is_ok_to_negate_rhs(&right)
+            is_ok_to_negate_rhs(left) && is_ok_to_negate_rhs(right)
         }
 
         Expr::Assign(e) => is_ok_to_negate_rhs(&e.right),
@@ -192,7 +188,7 @@ pub(crate) fn is_ok_to_negate_rhs(rhs: &Expr) -> bool {
 
         Expr::Seq(e) => {
             if let Some(last) = e.exprs.last() {
-                is_ok_to_negate_rhs(&last)
+                is_ok_to_negate_rhs(last)
             } else {
                 true
             }
@@ -233,15 +229,14 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
                     op: op!("!"), arg, ..
                 }) => {
                     // TODO: Check if this argument is actually start of line.
-                    match &**arg {
-                        Expr::Call(CallExpr {
-                            callee: Callee::Expr(callee),
-                            ..
-                        }) => match &**callee {
-                            Expr::Fn(..) => return 0,
-                            _ => {}
-                        },
-                        _ => {}
+                    if let Expr::Call(CallExpr {
+                        callee: Callee::Expr(callee),
+                        ..
+                    }) = &**arg
+                    {
+                        if let Expr::Fn(..) = &**callee {
+                            return 0;
+                        }
                     }
 
                     match &**arg {
