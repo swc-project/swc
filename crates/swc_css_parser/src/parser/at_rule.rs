@@ -768,6 +768,23 @@ where
     }
 }
 
+impl<I> Parse<MediaCondition> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<MediaCondition> {
+        self.input.skip_ws()?;
+
+        let span = self.input.cur_span()?;
+        let conditions = self.parse()?;
+        
+        Ok(MediaCondition {
+            span: span!(self, span.lo),
+            conditions,
+        })
+    }
+}
+
 impl<I> Parse<MediaQueryItem> for Parser<I>
 where
     I: ParserInput,
@@ -779,7 +796,7 @@ where
 
         let base = if eat!(self, "not") {
             let condition = self.parse()?;
-            
+
             MediaQueryItem::Not(MediaNot {
                 span: span!(self, span.lo),
                 condition,

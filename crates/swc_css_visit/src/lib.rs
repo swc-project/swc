@@ -452,7 +452,12 @@ define!({
         pub span: Span,
         pub modifier: Option<Ident>,
         pub media_type: Option<Ident>,
-        pub condition: MediaQueryItem,
+        pub condition: MediaCondition,
+    }
+
+    pub struct MediaCondition {
+        pub span: Span,
+        pub conditions: MediaQueryItem,
     }
 
     pub enum MediaQueryItem {

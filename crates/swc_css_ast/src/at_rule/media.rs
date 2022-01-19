@@ -19,7 +19,13 @@ pub struct MediaQuery {
     pub span: Span,
     pub modifier: Option<Ident>,
     pub media_type: Option<Ident>,
-    pub condition: MediaQueryItem,
+    pub condition: MediaCondition,
+}
+
+#[ast_node("MediaCondition")]
+pub struct MediaCondition {
+    pub span: Span,
+    pub conditions: MediaQueryItem,
 }
 
 #[ast_node]

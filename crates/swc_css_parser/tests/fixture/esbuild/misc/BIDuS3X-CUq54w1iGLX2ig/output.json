@@ -54,14 +54,22 @@
         "modifier": null,
         "mediaType": null,
         "condition": {
-          "type": "Identifier",
+          "type": "MediaCondition",
           "span": {
             "start": 23,
             "end": 28,
             "ctxt": 0
           },
-          "value": "print",
-          "raw": "print"
+          "conditions": {
+            "type": "Identifier",
+            "span": {
+              "start": 23,
+              "end": 28,
+              "ctxt": 0
+            },
+            "value": "print",
+            "raw": "print"
+          }
         }
       }
     }

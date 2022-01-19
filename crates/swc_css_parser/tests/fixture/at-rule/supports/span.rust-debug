@@ -336,6 +336,12 @@ error: MediaQuery
 12 |     @media screen and (min-width: 900px) {
    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:12
+   |
+12 |     @media screen and (min-width: 900px) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: MediaQueryItem
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:12
    |

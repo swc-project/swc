@@ -31,14 +31,22 @@
             "modifier": null,
             "mediaType": null,
             "condition": {
-              "type": "Identifier",
+              "type": "MediaCondition",
               "span": {
                 "start": 7,
-                "end": 13,
+                "end": 14,
                 "ctxt": 0
               },
-              "value": "screen",
-              "raw": "screen"
+              "conditions": {
+                "type": "Identifier",
+                "span": {
+                  "start": 7,
+                  "end": 13,
+                  "ctxt": 0
+                },
+                "value": "screen",
+                "raw": "screen"
+              }
             }
           }
         ]

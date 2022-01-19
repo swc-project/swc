@@ -388,6 +388,12 @@ error: MediaQuery
 10 | @import "common.css" screen;
    |                      ^^^^^^
 
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/import/input.css:10:22
+   |
+10 | @import "common.css" screen;
+   |                      ^^^^^^
+
 error: MediaQueryItem
   --> $DIR/tests/fixture/at-rule/import/input.css:10:22
    |
@@ -449,6 +455,12 @@ error: Str
    |             ^^^^^^^^^^^^^^^
 
 error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:30
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
   --> $DIR/tests/fixture/at-rule/import/input.css:11:30
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);

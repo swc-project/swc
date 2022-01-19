@@ -34,6 +34,12 @@ error: MediaQuery
 1 | @media screen {}
   |        ^^^^^^^
 
+error: MediaCondition
+ --> $DIR/tests/fixture/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:8
+  |
+1 | @media screen {}
+  |        ^^^^^^^
+
 error: MediaQueryItem
  --> $DIR/tests/fixture/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:8
   |

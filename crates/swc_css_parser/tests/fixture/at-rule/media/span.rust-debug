@@ -40,6 +40,12 @@ error: MediaQuery
 1 | @\media screen {}
   |         ^^^^^^^
 
+error: MediaCondition
+ --> $DIR/tests/fixture/at-rule/media/input.css:1:9
+  |
+1 | @\media screen {}
+  |         ^^^^^^^
+
 error: MediaQueryItem
  --> $DIR/tests/fixture/at-rule/media/input.css:1:9
   |
@@ -77,6 +83,12 @@ error: MediaQueryList
   |         ^^^^^^^^
 
 error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:2:9
+  |
+2 | @\media \screen {}
+  |         ^^^^^^^^
+
+error: MediaCondition
  --> $DIR/tests/fixture/at-rule/media/input.css:2:9
   |
 2 | @\media \screen {}
@@ -119,6 +131,12 @@ error: MediaQueryList
   |        ^^^^^^^
 
 error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:3:8
+  |
+3 | @media screen {}
+  |        ^^^^^^^
+
+error: MediaCondition
  --> $DIR/tests/fixture/at-rule/media/input.css:3:8
   |
 3 | @media screen {}
@@ -161,6 +179,12 @@ error: MediaQueryList
   |        ^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:4:8
+  |
+4 | @media screen and (color) {}
+  |        ^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
  --> $DIR/tests/fixture/at-rule/media/input.css:4:8
   |
 4 | @media screen and (color) {}
@@ -250,6 +274,12 @@ error: MediaQuery
 5 | @media screen and (color), projection and (color) {}
   |        ^^^^^^^^^^^^^^^^^^
 
+error: MediaCondition
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:8
+  |
+5 | @media screen and (color), projection and (color) {}
+  |        ^^^^^^^^^^^^^^^^^^
+
 error: MediaQueryItem
  --> $DIR/tests/fixture/at-rule/media/input.css:5:8
   |
@@ -305,6 +335,12 @@ error: Ident
   |                    ^^^^^
 
 error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:28
+  |
+5 | @media screen and (color), projection and (color) {}
+  |                            ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
  --> $DIR/tests/fixture/at-rule/media/input.css:5:28
   |
 5 | @media screen and (color), projection and (color) {}
@@ -394,6 +430,12 @@ error: MediaQuery
 6 | @media all {}
   |        ^^^^
 
+error: MediaCondition
+ --> $DIR/tests/fixture/at-rule/media/input.css:6:8
+  |
+6 | @media all {}
+  |        ^^^^
+
 error: MediaQueryItem
  --> $DIR/tests/fixture/at-rule/media/input.css:6:8
   |
@@ -431,6 +473,12 @@ error: MediaQueryList
   |        ^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:7:8
+  |
+7 | @media (min-width: 20em) {}
+  |        ^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
  --> $DIR/tests/fixture/at-rule/media/input.css:7:8
   |
 7 | @media (min-width: 20em) {}
@@ -515,6 +563,12 @@ error: MediaQueryList
   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:8
+  |
+8 | @media print and (min-resolution: 118dpcm) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
  --> $DIR/tests/fixture/at-rule/media/input.css:8:8
   |
 8 | @media print and (min-resolution: 118dpcm) {}
@@ -628,6 +682,12 @@ error: MediaQuery
 9 | @media (device-aspect-ratio: 16/9) {}
   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaCondition
+ --> $DIR/tests/fixture/at-rule/media/input.css:9:8
+  |
+9 | @media (device-aspect-ratio: 16/9) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: MediaQueryItem
  --> $DIR/tests/fixture/at-rule/media/input.css:9:8
   |
@@ -719,6 +779,12 @@ error: MediaQueryList
    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:10:8
+   |
+10 | @media (grid) and (max-width: 15em) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:10:8
    |
 10 | @media (grid) and (max-width: 15em) {}
@@ -850,6 +916,12 @@ error: MediaQuery
 11 | @media (monochrome) {}
    |        ^^^^^^^^^^^^^
 
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:11:8
+   |
+11 | @media (monochrome) {}
+   |        ^^^^^^^^^^^^^
+
 error: MediaQueryItem
   --> $DIR/tests/fixture/at-rule/media/input.css:11:8
    |
@@ -905,6 +977,12 @@ error: MediaQueryList
    |        ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:12:8
+   |
+12 | @media not all and (monochrome) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:12:8
    |
 12 | @media not all and (monochrome) {}
@@ -1006,6 +1084,12 @@ error: MediaQuery
 13 | @media not screen and (color), print and (color) {}
    |        ^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:13:8
+   |
+13 | @media not screen and (color), print and (color) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^
+
 error: MediaQueryItem
   --> $DIR/tests/fixture/at-rule/media/input.css:13:8
    |
@@ -1073,6 +1157,12 @@ error: Ident
    |                        ^^^^^
 
 error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:13:32
+   |
+13 | @media not screen and (color), print and (color) {}
+   |                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:13:32
    |
 13 | @media not screen and (color), print and (color) {}
@@ -1157,6 +1247,12 @@ error: MediaQueryList
    |        ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:14:8
+   |
+14 | @media only screen and (color) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
   --> $DIR/tests/fixture/at-rule/media/input.css:14:8
    |
 14 | @media only screen and (color) {}

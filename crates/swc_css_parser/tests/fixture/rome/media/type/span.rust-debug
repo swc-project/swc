@@ -40,6 +40,12 @@ error: MediaQuery
 1 | @media screen {}
   |        ^^^^^^^
 
+error: MediaCondition
+ --> $DIR/tests/fixture/rome/media/type/input.css:1:8
+  |
+1 | @media screen {}
+  |        ^^^^^^^
+
 error: MediaQueryItem
  --> $DIR/tests/fixture/rome/media/type/input.css:1:8
   |
@@ -77,6 +83,12 @@ error: MediaQueryList
   |        ^^^^^^^^^^^
 
 error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:2:8
+  |
+2 | @media not screen {}
+  |        ^^^^^^^^^^^
+
+error: MediaCondition
  --> $DIR/tests/fixture/rome/media/type/input.css:2:8
   |
 2 | @media not screen {}
@@ -131,6 +143,12 @@ error: MediaQueryList
   |        ^^^^^^^^^^^^
 
 error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:3:8
+  |
+3 | @media only screen {}
+  |        ^^^^^^^^^^^^
+
+error: MediaCondition
  --> $DIR/tests/fixture/rome/media/type/input.css:3:8
   |
 3 | @media only screen {}
@@ -190,6 +208,12 @@ error: MediaQuery
 4 | @media print, screen {}
   |        ^^^^^
 
+error: MediaCondition
+ --> $DIR/tests/fixture/rome/media/type/input.css:4:8
+  |
+4 | @media print, screen {}
+  |        ^^^^^
+
 error: MediaQueryItem
  --> $DIR/tests/fixture/rome/media/type/input.css:4:8
   |
@@ -203,6 +227,12 @@ error: Ident
   |        ^^^^^
 
 error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:4:15
+  |
+4 | @media print, screen {}
+  |               ^^^^^^^
+
+error: MediaCondition
  --> $DIR/tests/fixture/rome/media/type/input.css:4:15
   |
 4 | @media print, screen {}
@@ -250,6 +280,12 @@ error: MediaQuery
 5 | @media screen, all, print {}
   |        ^^^^^^
 
+error: MediaCondition
+ --> $DIR/tests/fixture/rome/media/type/input.css:5:8
+  |
+5 | @media screen, all, print {}
+  |        ^^^^^^
+
 error: MediaQueryItem
  --> $DIR/tests/fixture/rome/media/type/input.css:5:8
   |
@@ -268,6 +304,12 @@ error: MediaQuery
 5 | @media screen, all, print {}
   |                ^^^
 
+error: MediaCondition
+ --> $DIR/tests/fixture/rome/media/type/input.css:5:16
+  |
+5 | @media screen, all, print {}
+  |                ^^^
+
 error: MediaQueryItem
  --> $DIR/tests/fixture/rome/media/type/input.css:5:16
   |
@@ -281,6 +323,12 @@ error: Ident
   |                ^^^
 
 error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:5:21
+  |
+5 | @media screen, all, print {}
+  |                     ^^^^^^
+
+error: MediaCondition
  --> $DIR/tests/fixture/rome/media/type/input.css:5:21
   |
 5 | @media screen, all, print {}
@@ -328,6 +376,12 @@ error: MediaQuery
 6 | @media only screen, not all, only print {}
   |        ^^^^^^^^^^^
 
+error: MediaCondition
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:8
+  |
+6 | @media only screen, not all, only print {}
+  |        ^^^^^^^^^^^
+
 error: MediaQueryItem
  --> $DIR/tests/fixture/rome/media/type/input.css:6:8
   |
@@ -358,6 +412,12 @@ error: MediaQuery
 6 | @media only screen, not all, only print {}
   |                     ^^^^^^^
 
+error: MediaCondition
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:21
+  |
+6 | @media only screen, not all, only print {}
+  |                     ^^^^^^^
+
 error: MediaQueryItem
  --> $DIR/tests/fixture/rome/media/type/input.css:6:21
   |
@@ -383,6 +443,12 @@ error: Ident
   |                         ^^^
 
 error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:30
+  |
+6 | @media only screen, not all, only print {}
+  |                              ^^^^^^^^^^^
+
+error: MediaCondition
  --> $DIR/tests/fixture/rome/media/type/input.css:6:30
   |
 6 | @media only screen, not all, only print {}

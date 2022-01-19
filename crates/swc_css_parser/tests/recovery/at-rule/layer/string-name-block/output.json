@@ -507,34 +507,42 @@
             "modifier": null,
             "mediaType": null,
             "condition": {
-              "type": "MediaFeaturePlain",
+              "type": "MediaCondition",
               "span": {
                 "start": 81,
-                "end": 109,
+                "end": 110,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Identifier",
+              "conditions": {
+                "type": "MediaFeaturePlain",
                 "span": {
-                  "start": 82,
-                  "end": 102,
+                  "start": 81,
+                  "end": 109,
                   "ctxt": 0
                 },
-                "value": "prefers-color-scheme",
-                "raw": "prefers-color-scheme"
-              },
-              "value": [
-                {
+                "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 104,
-                    "end": 108,
+                    "start": 82,
+                    "end": 102,
                     "ctxt": 0
                   },
-                  "value": "dark",
-                  "raw": "dark"
-                }
-              ]
+                  "value": "prefers-color-scheme",
+                  "raw": "prefers-color-scheme"
+                },
+                "value": [
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 104,
+                      "end": 108,
+                      "ctxt": 0
+                    },
+                    "value": "dark",
+                    "raw": "dark"
+                  }
+                ]
+              }
             }
           }
         ]
