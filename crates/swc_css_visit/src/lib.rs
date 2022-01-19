@@ -471,7 +471,7 @@ define!({
         pub span: Span,
         pub condition: MediaInParens,
     }
-    
+
     pub struct MediaAnd {
         pub span: Span,
         pub condition: MediaInParens,
@@ -511,7 +511,7 @@ define!({
         pub comparison: MediaFeatureRangeComparison,
         pub right: MediaFeatureValue,
     }
-    
+
     pub struct MediaFeatureRangeInterval {
         pub span: Span,
         pub left: MediaFeatureValue,

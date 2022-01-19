@@ -1071,7 +1071,7 @@ where
                 let left = self.parse()?;
 
                 self.input.skip_ws()?;
-                
+
                 if eat!(self, "/") {
                     self.input.skip_ws()?;
 
