@@ -38,47 +38,42 @@ where
             return;
         }
 
-        match p {
-            Prop::KeyValue(kv) => {
-                //
-                if contains_this_expr(&kv.value) {
-                    return;
-                }
-
-                match &mut *kv.value {
-                    Expr::Arrow(
-                        m @ ArrowExpr {
-                            body: BlockStmtOrExpr::BlockStmt(..),
-                            ..
-                        },
-                    ) => {
-                        *p = Prop::Method(MethodProp {
-                            key: kv.key.take(),
-                            function: Function {
-                                params: m
-                                    .params
-                                    .take()
-                                    .into_iter()
-                                    .map(|pat| Param {
-                                        span: pat.span(),
-                                        decorators: Default::default(),
-                                        pat,
-                                    })
-                                    .collect(),
-                                decorators: Default::default(),
-                                span: m.span,
-                                body: m.body.take().block_stmt(),
-                                is_generator: m.is_generator,
-                                is_async: m.is_async,
-                                type_params: Default::default(),
-                                return_type: Default::default(),
-                            },
-                        });
-                    }
-                    _ => {}
-                }
+        if let Prop::KeyValue(kv) = p {
+            //
+            if contains_this_expr(&kv.value) {
+                return;
             }
-            _ => {}
+
+            if let Expr::Arrow(
+                m @ ArrowExpr {
+                    body: BlockStmtOrExpr::BlockStmt(..),
+                    ..
+                },
+            ) = &mut *kv.value
+            {
+                *p = Prop::Method(MethodProp {
+                    key: kv.key.take(),
+                    function: Function {
+                        params: m
+                            .params
+                            .take()
+                            .into_iter()
+                            .map(|pat| Param {
+                                span: pat.span(),
+                                decorators: Default::default(),
+                                pat,
+                            })
+                            .collect(),
+                        decorators: Default::default(),
+                        span: m.span,
+                        body: m.body.take().block_stmt(),
+                        is_generator: m.is_generator,
+                        is_async: m.is_async,
+                        type_params: Default::default(),
+                        return_type: Default::default(),
+                    },
+                });
+            }
         }
     }
 }

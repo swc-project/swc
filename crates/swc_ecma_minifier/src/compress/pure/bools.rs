@@ -34,18 +34,19 @@ where
             return;
         }
 
-        match e {
-            Expr::Unary(UnaryExpr {
-                op: op!("!"), arg, ..
-            }) => match &mut **arg {
+        if let Expr::Unary(UnaryExpr {
+            op: op!("!"), arg, ..
+        }) = e
+        {
+            match &mut **arg {
                 Expr::Bin(BinExpr {
                     op: op!("&&"),
                     left,
                     right,
                     ..
                 }) => {
-                    if negate_cost(&left, false, false).unwrap_or(isize::MAX) >= 0
-                        || negate_cost(&right, false, false).unwrap_or(isize::MAX) >= 0
+                    if negate_cost(left, false, false).unwrap_or(isize::MAX) >= 0
+                        || negate_cost(right, false, false).unwrap_or(isize::MAX) >= 0
                     {
                         return;
                     }
@@ -53,39 +54,33 @@ where
                     self.changed = true;
                     self.negate(arg, false, false);
                     *e = *arg.take();
-
-                    return;
                 }
 
                 Expr::Unary(UnaryExpr {
                     op: op!("!"),
                     arg: arg_of_arg,
                     ..
-                }) => match &mut **arg_of_arg {
-                    Expr::Bin(BinExpr {
+                }) => {
+                    if let Expr::Bin(BinExpr {
                         op: op!("||"),
                         left,
                         right,
                         ..
-                    }) => {
-                        if negate_cost(&left, false, false).unwrap_or(isize::MAX) > 0
-                            || negate_cost(&right, false, false).unwrap_or(isize::MAX) > 0
+                    }) = &mut **arg_of_arg
+                    {
+                        if negate_cost(left, false, false).unwrap_or(isize::MAX) > 0
+                            || negate_cost(right, false, false).unwrap_or(isize::MAX) > 0
                         {
                             return;
                         }
                         tracing::debug!("bools: Optimizing `!!(a || b)` as `!a && !b`");
                         self.negate(arg_of_arg, false, false);
                         *e = *arg.take();
-
-                        return;
                     }
-
-                    _ => {}
-                },
+                }
 
                 _ => {}
-            },
-            _ => {}
+            }
         }
     }
 
@@ -117,8 +112,8 @@ where
             _ => return,
         }
 
-        if should_optimize(&e.left, &e.right, &self.options)
-            || should_optimize(&e.right, &e.left, &self.options)
+        if should_optimize(&e.left, &e.right, self.options)
+            || should_optimize(&e.right, &e.left, self.options)
         {
             tracing::debug!("bools: Compressing comparison of `typeof` with literal");
             self.changed = true;
@@ -161,29 +156,25 @@ where
                 let lt = left.get_type();
                 let rt = right.get_type();
 
-                match (lt, rt) {
-                    (Value::Known(Type::Bool), Value::Known(Type::Bool)) => {
-                        let rb = right.as_pure_bool();
-                        let rb = match rb {
-                            Value::Known(v) => v,
-                            Value::Unknown => return,
-                        };
+                if let (Value::Known(Type::Bool), Value::Known(Type::Bool)) = (lt, rt) {
+                    let rb = right.as_pure_bool();
+                    let rb = match rb {
+                        Value::Known(v) => v,
+                        Value::Unknown => return,
+                    };
 
-                        //
-                        let can_remove = if *op == op!("&&") { rb } else { !rb };
+                    //
+                    let can_remove = if *op == op!("&&") { rb } else { !rb };
 
-                        if can_remove {
-                            if *op == op!("&&") {
-                                tracing::debug!("booleans: Compressing `!foo && true` as `!foo`");
-                            } else {
-                                tracing::debug!("booleans: Compressing `!foo || false` as `!foo`");
-                            }
-                            self.changed = true;
-                            *e = *left.take();
-                            return;
+                    if can_remove {
+                        if *op == op!("&&") {
+                            tracing::debug!("booleans: Compressing `!foo && true` as `!foo`");
+                        } else {
+                            tracing::debug!("booleans: Compressing `!foo || false` as `!foo`");
                         }
+                        self.changed = true;
+                        *e = *left.take();
                     }
-                    _ => {}
                 }
             }
             _ => {}
@@ -271,7 +262,6 @@ where
             let span = delete.arg.span();
             tracing::debug!("booleans: Compressing `delete` => true");
             *e = make_bool(span, true);
-            return;
         }
     }
 
