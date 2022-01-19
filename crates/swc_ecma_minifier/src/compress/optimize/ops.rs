@@ -165,7 +165,7 @@ where
     }
 
     pub(super) fn negate(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
-        self.changed |= negate(e, self.ctx.in_bool_ctx, is_ret_val_ignored)
+        negate(e, self.ctx.in_bool_ctx, is_ret_val_ignored)
     }
 
     /// This method does
