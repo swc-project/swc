@@ -896,6 +896,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<MediaInParens> {
+        // TODO fix me for parenses
         Ok(MediaInParens::Feature(self.parse()?))
     }
 }
@@ -928,6 +929,8 @@ where
                 };
                 let value = self.parse()?;
 
+                self.input.skip_ws()?;
+
                 expect!(self, ")");
 
                 Ok(MediaFeature::Plain(MediaFeaturePlain {
@@ -937,9 +940,7 @@ where
                 }))
             }
             tok!("<") | tok!(">") | tok!("=") => {
-                let token = bump!(self);
-
-                let comparison = match token {
+                let left_comparison = match bump!(self) {
                     tok!("<") => {
                         eat!(self, "<");
 
@@ -971,14 +972,68 @@ where
 
                 self.input.skip_ws()?;
 
+                let center = self.parse()?;
+
+                self.input.skip_ws()?;
+
+                if eat!(self, ")") {
+                    return Ok(MediaFeature::Range(MediaFeatureRange {
+                        span: span!(self, span.lo),
+                        left,
+                        comparison: left_comparison,
+                        right: center,
+                    }));
+                }
+
+                let right_comparison = match bump!(self) {
+                    tok!("<") => {
+                        eat!(self, "<");
+
+                        if eat!(self, "=") {
+                            MediaFeatureRangeComparison::Le
+                        } else {
+                            MediaFeatureRangeComparison::Lt
+                        }
+                    }
+                    tok!(">") => {
+                        eat!(self, ">");
+
+                        if eat!(self, "=") {
+                            MediaFeatureRangeComparison::Ge
+                        } else {
+                            MediaFeatureRangeComparison::Gt
+                        }
+                    }
+                    _ => {
+                        // TODO another error
+                        return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
+                    }
+                };
+
+                self.input.skip_ws()?;
+
                 let right = self.parse()?;
+
+                self.input.skip_ws()?;
 
                 expect!(self, ")");
 
-                Ok(MediaFeature::Range(MediaFeatureRange {
+                let name = match center {
+                    MediaFeatureValue::Ident(ident) => ident,
+                    _ => {
+                        // TODO another error
+                        return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
+                    }
+                };
+                
+                // TODO validate comparison
+
+                Ok(MediaFeature::RangeInterval(MediaFeatureRangeInterval {
                     span: span!(self, span.lo),
                     left,
-                    comparison,
+                    left_comparison,
+                    name,
+                    right_comparison,
                     right,
                 }))
             }
@@ -990,6 +1045,8 @@ where
                         return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
                     }
                 };
+
+                self.input.skip_ws()?;
 
                 expect!(self, ")");
 

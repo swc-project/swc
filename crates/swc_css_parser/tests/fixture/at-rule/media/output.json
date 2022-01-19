@@ -2264,1212 +2264,908 @@
       "rules": []
     },
     {
-      "type": "UnknownAtRule",
+      "type": "MediaRule",
       "span": {
         "start": 860,
         "end": 893,
         "ctxt": 0
       },
-      "name": {
-        "type": "Identifier",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
-          "start": 860,
-          "end": 882,
+          "start": 867,
+          "end": 891,
           "ctxt": 0
         },
-        "value": "media",
-        "raw": "media"
-      },
-      "prelude": [
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 882,
-            "end": 883,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 867,
+              "end": 891,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
               "span": {
-                "start": 882,
-                "end": 883,
-                "ctxt": 0
-              },
-              "token": {
-                "Delim": {
-                  "value": "<"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 883,
-            "end": 884,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 883,
-                "end": 884,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 884,
-            "end": 889,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 884,
-                "end": 889,
-                "ctxt": 0
-              },
-              "token": {
-                "Dimension": {
-                  "value": 700.0,
-                  "raw_value": "700",
-                  "unit": "px",
-                  "raw_unit": "px",
-                  "type": "integer"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 889,
-            "end": 890,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 889,
-                "end": 890,
-                "ctxt": 0
-              },
-              "token": "RParen"
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 890,
-            "end": 891,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 890,
+                "start": 867,
                 "end": 891,
                 "ctxt": 0
               },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 867,
+                    "end": 890,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 868,
+                      "end": 873,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 868,
+                        "end": 871,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 871,
+                        "end": 873,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": "<",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 876,
+                      "end": 881,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": "<",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 884,
+                      "end": 889,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 884,
+                        "end": 887,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 887,
+                        "end": 889,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
                 }
-              }
+              ]
             }
-          ]
-        }
-      ],
-      "block": {
-        "type": "SimpleBlock",
-        "span": {
-          "start": 891,
-          "end": 893,
-          "ctxt": 0
-        },
-        "name": "{",
-        "value": []
-      }
+          }
+        ]
+      },
+      "rules": []
     },
     {
-      "type": "UnknownAtRule",
+      "type": "MediaRule",
       "span": {
         "start": 894,
         "end": 928,
         "ctxt": 0
       },
-      "name": {
-        "type": "Identifier",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
-          "start": 894,
-          "end": 917,
+          "start": 901,
+          "end": 926,
           "ctxt": 0
         },
-        "value": "media",
-        "raw": "media"
-      },
-      "prelude": [
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 917,
-            "end": 918,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 901,
+              "end": 926,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
               "span": {
-                "start": 917,
-                "end": 918,
-                "ctxt": 0
-              },
-              "token": {
-                "Delim": {
-                  "value": "<"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 918,
-            "end": 919,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 918,
-                "end": 919,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 919,
-            "end": 924,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 919,
-                "end": 924,
-                "ctxt": 0
-              },
-              "token": {
-                "Dimension": {
-                  "value": 700.0,
-                  "raw_value": "700",
-                  "unit": "px",
-                  "raw_unit": "px",
-                  "type": "integer"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 924,
-            "end": 925,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 924,
-                "end": 925,
-                "ctxt": 0
-              },
-              "token": "RParen"
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 925,
-            "end": 926,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 925,
+                "start": 901,
                 "end": 926,
                 "ctxt": 0
               },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 901,
+                    "end": 925,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 902,
+                      "end": 907,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 902,
+                        "end": 905,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 905,
+                        "end": 907,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": "<=",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 911,
+                      "end": 916,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": "<",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 919,
+                      "end": 924,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 919,
+                        "end": 922,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 922,
+                        "end": 924,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
                 }
-              }
+              ]
             }
-          ]
-        }
-      ],
-      "block": {
-        "type": "SimpleBlock",
-        "span": {
-          "start": 926,
-          "end": 928,
-          "ctxt": 0
-        },
-        "name": "{",
-        "value": []
-      }
+          }
+        ]
+      },
+      "rules": []
     },
     {
-      "type": "UnknownAtRule",
+      "type": "MediaRule",
       "span": {
         "start": 929,
         "end": 963,
         "ctxt": 0
       },
-      "name": {
-        "type": "Identifier",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
-          "start": 929,
-          "end": 951,
+          "start": 936,
+          "end": 961,
           "ctxt": 0
         },
-        "value": "media",
-        "raw": "media"
-      },
-      "prelude": [
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 951,
-            "end": 952,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 936,
+              "end": 961,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
               "span": {
-                "start": 951,
-                "end": 952,
-                "ctxt": 0
-              },
-              "token": {
-                "Delim": {
-                  "value": "<"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 952,
-            "end": 953,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 952,
-                "end": 953,
-                "ctxt": 0
-              },
-              "token": {
-                "Delim": {
-                  "value": "="
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 953,
-            "end": 954,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 953,
-                "end": 954,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 954,
-            "end": 959,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 954,
-                "end": 959,
-                "ctxt": 0
-              },
-              "token": {
-                "Dimension": {
-                  "value": 700.0,
-                  "raw_value": "700",
-                  "unit": "px",
-                  "raw_unit": "px",
-                  "type": "integer"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 959,
-            "end": 960,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 959,
-                "end": 960,
-                "ctxt": 0
-              },
-              "token": "RParen"
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 960,
-            "end": 961,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 960,
+                "start": 936,
                 "end": 961,
                 "ctxt": 0
               },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 936,
+                    "end": 960,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 937,
+                      "end": 942,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 937,
+                        "end": 940,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 940,
+                        "end": 942,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": "<",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 945,
+                      "end": 950,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": "<=",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 954,
+                      "end": 959,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 954,
+                        "end": 957,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 957,
+                        "end": 959,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
                 }
-              }
+              ]
             }
-          ]
-        }
-      ],
-      "block": {
-        "type": "SimpleBlock",
-        "span": {
-          "start": 961,
-          "end": 963,
-          "ctxt": 0
-        },
-        "name": "{",
-        "value": []
-      }
+          }
+        ]
+      },
+      "rules": []
     },
     {
-      "type": "UnknownAtRule",
+      "type": "MediaRule",
       "span": {
         "start": 964,
         "end": 999,
         "ctxt": 0
       },
-      "name": {
-        "type": "Identifier",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
-          "start": 964,
-          "end": 987,
+          "start": 971,
+          "end": 997,
           "ctxt": 0
         },
-        "value": "media",
-        "raw": "media"
-      },
-      "prelude": [
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 987,
-            "end": 988,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 971,
+              "end": 997,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
               "span": {
-                "start": 987,
-                "end": 988,
-                "ctxt": 0
-              },
-              "token": {
-                "Delim": {
-                  "value": "<"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 988,
-            "end": 989,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 988,
-                "end": 989,
-                "ctxt": 0
-              },
-              "token": {
-                "Delim": {
-                  "value": "="
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 989,
-            "end": 990,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 989,
-                "end": 990,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 990,
-            "end": 995,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 990,
-                "end": 995,
-                "ctxt": 0
-              },
-              "token": {
-                "Dimension": {
-                  "value": 700.0,
-                  "raw_value": "700",
-                  "unit": "px",
-                  "raw_unit": "px",
-                  "type": "integer"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 995,
-            "end": 996,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 995,
-                "end": 996,
-                "ctxt": 0
-              },
-              "token": "RParen"
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 996,
-            "end": 997,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 996,
+                "start": 971,
                 "end": 997,
                 "ctxt": 0
               },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 971,
+                    "end": 996,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 972,
+                      "end": 977,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 972,
+                        "end": 975,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 975,
+                        "end": 977,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": "<=",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 981,
+                      "end": 986,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": "<=",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 990,
+                      "end": 995,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 990,
+                        "end": 993,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 993,
+                        "end": 995,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
                 }
-              }
+              ]
             }
-          ]
-        }
-      ],
-      "block": {
-        "type": "SimpleBlock",
-        "span": {
-          "start": 997,
-          "end": 999,
-          "ctxt": 0
-        },
-        "name": "{",
-        "value": []
-      }
+          }
+        ]
+      },
+      "rules": []
     },
     {
-      "type": "UnknownAtRule",
+      "type": "MediaRule",
       "span": {
         "start": 1005,
         "end": 1038,
         "ctxt": 0
       },
-      "name": {
-        "type": "Identifier",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
-          "start": 1005,
-          "end": 1027,
+          "start": 1012,
+          "end": 1036,
           "ctxt": 0
         },
-        "value": "media",
-        "raw": "media"
-      },
-      "prelude": [
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1027,
-            "end": 1028,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1012,
+              "end": 1036,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
               "span": {
-                "start": 1027,
-                "end": 1028,
-                "ctxt": 0
-              },
-              "token": {
-                "Delim": {
-                  "value": ">"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1028,
-            "end": 1029,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1028,
-                "end": 1029,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1029,
-            "end": 1034,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1029,
-                "end": 1034,
-                "ctxt": 0
-              },
-              "token": {
-                "Dimension": {
-                  "value": 700.0,
-                  "raw_value": "700",
-                  "unit": "px",
-                  "raw_unit": "px",
-                  "type": "integer"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1034,
-            "end": 1035,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1034,
-                "end": 1035,
-                "ctxt": 0
-              },
-              "token": "RParen"
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1035,
-            "end": 1036,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1035,
+                "start": 1012,
                 "end": 1036,
                 "ctxt": 0
               },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 1012,
+                    "end": 1035,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1013,
+                      "end": 1018,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1013,
+                        "end": 1016,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1016,
+                        "end": 1018,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": ">",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1021,
+                      "end": 1026,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": ">",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1029,
+                      "end": 1034,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1029,
+                        "end": 1032,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1032,
+                        "end": 1034,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
                 }
-              }
+              ]
             }
-          ]
-        }
-      ],
-      "block": {
-        "type": "SimpleBlock",
-        "span": {
-          "start": 1036,
-          "end": 1038,
-          "ctxt": 0
-        },
-        "name": "{",
-        "value": []
-      }
+          }
+        ]
+      },
+      "rules": []
     },
     {
-      "type": "UnknownAtRule",
+      "type": "MediaRule",
       "span": {
         "start": 1039,
         "end": 1073,
         "ctxt": 0
       },
-      "name": {
-        "type": "Identifier",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
-          "start": 1039,
-          "end": 1062,
+          "start": 1046,
+          "end": 1071,
           "ctxt": 0
         },
-        "value": "media",
-        "raw": "media"
-      },
-      "prelude": [
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1062,
-            "end": 1063,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1046,
+              "end": 1071,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
               "span": {
-                "start": 1062,
-                "end": 1063,
-                "ctxt": 0
-              },
-              "token": {
-                "Delim": {
-                  "value": ">"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1063,
-            "end": 1064,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1063,
-                "end": 1064,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1064,
-            "end": 1069,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1064,
-                "end": 1069,
-                "ctxt": 0
-              },
-              "token": {
-                "Dimension": {
-                  "value": 700.0,
-                  "raw_value": "700",
-                  "unit": "px",
-                  "raw_unit": "px",
-                  "type": "integer"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1069,
-            "end": 1070,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1069,
-                "end": 1070,
-                "ctxt": 0
-              },
-              "token": "RParen"
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1070,
-            "end": 1071,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1070,
+                "start": 1046,
                 "end": 1071,
                 "ctxt": 0
               },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 1046,
+                    "end": 1070,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1047,
+                      "end": 1052,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1047,
+                        "end": 1050,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1050,
+                        "end": 1052,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": ">=",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1056,
+                      "end": 1061,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": ">",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1064,
+                      "end": 1069,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1064,
+                        "end": 1067,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1067,
+                        "end": 1069,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
                 }
-              }
+              ]
             }
-          ]
-        }
-      ],
-      "block": {
-        "type": "SimpleBlock",
-        "span": {
-          "start": 1071,
-          "end": 1073,
-          "ctxt": 0
-        },
-        "name": "{",
-        "value": []
-      }
+          }
+        ]
+      },
+      "rules": []
     },
     {
-      "type": "UnknownAtRule",
+      "type": "MediaRule",
       "span": {
         "start": 1074,
         "end": 1108,
         "ctxt": 0
       },
-      "name": {
-        "type": "Identifier",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
-          "start": 1074,
-          "end": 1096,
+          "start": 1081,
+          "end": 1106,
           "ctxt": 0
         },
-        "value": "media",
-        "raw": "media"
-      },
-      "prelude": [
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1096,
-            "end": 1097,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1081,
+              "end": 1106,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
               "span": {
-                "start": 1096,
-                "end": 1097,
-                "ctxt": 0
-              },
-              "token": {
-                "Delim": {
-                  "value": ">"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1097,
-            "end": 1098,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1097,
-                "end": 1098,
-                "ctxt": 0
-              },
-              "token": {
-                "Delim": {
-                  "value": "="
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1098,
-            "end": 1099,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1098,
-                "end": 1099,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1099,
-            "end": 1104,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1099,
-                "end": 1104,
-                "ctxt": 0
-              },
-              "token": {
-                "Dimension": {
-                  "value": 700.0,
-                  "raw_value": "700",
-                  "unit": "px",
-                  "raw_unit": "px",
-                  "type": "integer"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1104,
-            "end": 1105,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1104,
-                "end": 1105,
-                "ctxt": 0
-              },
-              "token": "RParen"
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1105,
-            "end": 1106,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1105,
+                "start": 1081,
                 "end": 1106,
                 "ctxt": 0
               },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 1081,
+                    "end": 1105,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1082,
+                      "end": 1087,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1082,
+                        "end": 1085,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1085,
+                        "end": 1087,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": ">",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1090,
+                      "end": 1095,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": ">=",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1099,
+                      "end": 1104,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1099,
+                        "end": 1102,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1102,
+                        "end": 1104,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
                 }
-              }
+              ]
             }
-          ]
-        }
-      ],
-      "block": {
-        "type": "SimpleBlock",
-        "span": {
-          "start": 1106,
-          "end": 1108,
-          "ctxt": 0
-        },
-        "name": "{",
-        "value": []
-      }
+          }
+        ]
+      },
+      "rules": []
     },
     {
-      "type": "UnknownAtRule",
+      "type": "MediaRule",
       "span": {
         "start": 1109,
         "end": 1144,
         "ctxt": 0
       },
-      "name": {
-        "type": "Identifier",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
-          "start": 1109,
-          "end": 1132,
+          "start": 1116,
+          "end": 1142,
           "ctxt": 0
         },
-        "value": "media",
-        "raw": "media"
-      },
-      "prelude": [
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1132,
-            "end": 1133,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 1116,
+              "end": 1142,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
               "span": {
-                "start": 1132,
-                "end": 1133,
-                "ctxt": 0
-              },
-              "token": {
-                "Delim": {
-                  "value": ">"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1133,
-            "end": 1134,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1133,
-                "end": 1134,
-                "ctxt": 0
-              },
-              "token": {
-                "Delim": {
-                  "value": "="
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1134,
-            "end": 1135,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1134,
-                "end": 1135,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1135,
-            "end": 1140,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1135,
-                "end": 1140,
-                "ctxt": 0
-              },
-              "token": {
-                "Dimension": {
-                  "value": 700.0,
-                  "raw_value": "700",
-                  "unit": "px",
-                  "raw_unit": "px",
-                  "type": "integer"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1140,
-            "end": 1141,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1140,
-                "end": 1141,
-                "ctxt": 0
-              },
-              "token": "RParen"
-            }
-          ]
-        },
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 1141,
-            "end": 1142,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 1141,
+                "start": 1116,
                 "end": 1142,
                 "ctxt": 0
               },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
+              "conditions": [
+                {
+                  "type": "MediaFeatureRangeInterval",
+                  "span": {
+                    "start": 1116,
+                    "end": 1141,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1117,
+                      "end": 1122,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1117,
+                        "end": 1120,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1120,
+                        "end": 1122,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  "leftComparison": ">=",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1126,
+                      "end": 1131,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "rightComparison": ">=",
+                  "right": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 1135,
+                      "end": 1140,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1135,
+                        "end": 1138,
+                        "ctxt": 0
+                      },
+                      "value": 700.0,
+                      "raw": "700"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 1138,
+                        "end": 1140,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
                 }
-              }
+              ]
             }
-          ]
-        }
-      ],
-      "block": {
-        "type": "SimpleBlock",
-        "span": {
-          "start": 1142,
-          "end": 1144,
-          "ctxt": 0
-        },
-        "name": "{",
-        "value": []
-      }
+          }
+        ]
+      },
+      "rules": []
     },
     {
       "type": "MediaRule",

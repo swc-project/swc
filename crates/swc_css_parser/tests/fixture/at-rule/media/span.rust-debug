@@ -1918,107 +1918,53 @@ error: AtRule
 35 | @media (400px < width < 700px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UnknownAtRule
+error: MediaRule
   --> $DIR/tests/fixture/at-rule/media/input.css:35:1
    |
 35 | @media (400px < width < 700px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/media/input.css:35:8
+   |
+35 | @media (400px < width < 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:35:8
+   |
+35 | @media (400px < width < 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:35:8
+   |
+35 | @media (400px < width < 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:35:8
+   |
+35 | @media (400px < width < 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:35:8
+   |
+35 | @media (400px < width < 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:35:8
+   |
+35 | @media (400px < width < 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Ident
-  --> $DIR/tests/fixture/at-rule/media/input.css:35:1
+  --> $DIR/tests/fixture/at-rule/media/input.css:35:17
    |
 35 | @media (400px < width < 700px) {}
-   | ^^^^^^^^^^^^^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:35:23
-   |
-35 | @media (400px < width < 700px) {}
-   |                       ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:35:23
-   |
-35 | @media (400px < width < 700px) {}
-   |                       ^
-
-error: Delim { value: '<' }
-  --> $DIR/tests/fixture/at-rule/media/input.css:35:23
-   |
-35 | @media (400px < width < 700px) {}
-   |                       ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:35:24
-   |
-35 | @media (400px < width < 700px) {}
-   |                        ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:35:24
-   |
-35 | @media (400px < width < 700px) {}
-   |                        ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:35:24
-   |
-35 | @media (400px < width < 700px) {}
-   |                        ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:35:25
-   |
-35 | @media (400px < width < 700px) {}
-   |                         ^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:35:25
-   |
-35 | @media (400px < width < 700px) {}
-   |                         ^^^^^
-
-error: Dimension { value: 700.0, raw_value: Atom('700' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
-  --> $DIR/tests/fixture/at-rule/media/input.css:35:25
-   |
-35 | @media (400px < width < 700px) {}
-   |                         ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:35:30
-   |
-35 | @media (400px < width < 700px) {}
-   |                              ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:35:30
-   |
-35 | @media (400px < width < 700px) {}
-   |                              ^
-
-error: RParen
-  --> $DIR/tests/fixture/at-rule/media/input.css:35:30
-   |
-35 | @media (400px < width < 700px) {}
-   |                              ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:35:31
-   |
-35 | @media (400px < width < 700px) {}
-   |                               ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:35:31
-   |
-35 | @media (400px < width < 700px) {}
-   |                               ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:35:31
-   |
-35 | @media (400px < width < 700px) {}
-   |                               ^
+   |                 ^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:36:1
@@ -2032,107 +1978,53 @@ error: AtRule
 36 | @media (400px <= width < 700px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UnknownAtRule
+error: MediaRule
   --> $DIR/tests/fixture/at-rule/media/input.css:36:1
    |
 36 | @media (400px <= width < 700px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/media/input.css:36:8
+   |
+36 | @media (400px <= width < 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:36:8
+   |
+36 | @media (400px <= width < 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:36:8
+   |
+36 | @media (400px <= width < 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:36:8
+   |
+36 | @media (400px <= width < 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:36:8
+   |
+36 | @media (400px <= width < 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:36:8
+   |
+36 | @media (400px <= width < 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Ident
-  --> $DIR/tests/fixture/at-rule/media/input.css:36:1
+  --> $DIR/tests/fixture/at-rule/media/input.css:36:18
    |
 36 | @media (400px <= width < 700px) {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:36:24
-   |
-36 | @media (400px <= width < 700px) {}
-   |                        ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:36:24
-   |
-36 | @media (400px <= width < 700px) {}
-   |                        ^
-
-error: Delim { value: '<' }
-  --> $DIR/tests/fixture/at-rule/media/input.css:36:24
-   |
-36 | @media (400px <= width < 700px) {}
-   |                        ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:36:25
-   |
-36 | @media (400px <= width < 700px) {}
-   |                         ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:36:25
-   |
-36 | @media (400px <= width < 700px) {}
-   |                         ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:36:25
-   |
-36 | @media (400px <= width < 700px) {}
-   |                         ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:36:26
-   |
-36 | @media (400px <= width < 700px) {}
-   |                          ^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:36:26
-   |
-36 | @media (400px <= width < 700px) {}
-   |                          ^^^^^
-
-error: Dimension { value: 700.0, raw_value: Atom('700' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
-  --> $DIR/tests/fixture/at-rule/media/input.css:36:26
-   |
-36 | @media (400px <= width < 700px) {}
-   |                          ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:36:31
-   |
-36 | @media (400px <= width < 700px) {}
-   |                               ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:36:31
-   |
-36 | @media (400px <= width < 700px) {}
-   |                               ^
-
-error: RParen
-  --> $DIR/tests/fixture/at-rule/media/input.css:36:31
-   |
-36 | @media (400px <= width < 700px) {}
-   |                               ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:36:32
-   |
-36 | @media (400px <= width < 700px) {}
-   |                                ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:36:32
-   |
-36 | @media (400px <= width < 700px) {}
-   |                                ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:36:32
-   |
-36 | @media (400px <= width < 700px) {}
-   |                                ^
+   |                  ^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:37:1
@@ -2146,125 +2038,53 @@ error: AtRule
 37 | @media (400px < width <= 700px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UnknownAtRule
+error: MediaRule
   --> $DIR/tests/fixture/at-rule/media/input.css:37:1
    |
 37 | @media (400px < width <= 700px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/media/input.css:37:8
+   |
+37 | @media (400px < width <= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:37:8
+   |
+37 | @media (400px < width <= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:37:8
+   |
+37 | @media (400px < width <= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:37:8
+   |
+37 | @media (400px < width <= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:37:8
+   |
+37 | @media (400px < width <= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:37:8
+   |
+37 | @media (400px < width <= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Ident
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:1
+  --> $DIR/tests/fixture/at-rule/media/input.css:37:17
    |
 37 | @media (400px < width <= 700px) {}
-   | ^^^^^^^^^^^^^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:23
-   |
-37 | @media (400px < width <= 700px) {}
-   |                       ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:23
-   |
-37 | @media (400px < width <= 700px) {}
-   |                       ^
-
-error: Delim { value: '<' }
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:23
-   |
-37 | @media (400px < width <= 700px) {}
-   |                       ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:24
-   |
-37 | @media (400px < width <= 700px) {}
-   |                        ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:24
-   |
-37 | @media (400px < width <= 700px) {}
-   |                        ^
-
-error: Delim { value: '=' }
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:24
-   |
-37 | @media (400px < width <= 700px) {}
-   |                        ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:25
-   |
-37 | @media (400px < width <= 700px) {}
-   |                         ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:25
-   |
-37 | @media (400px < width <= 700px) {}
-   |                         ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:25
-   |
-37 | @media (400px < width <= 700px) {}
-   |                         ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:26
-   |
-37 | @media (400px < width <= 700px) {}
-   |                          ^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:26
-   |
-37 | @media (400px < width <= 700px) {}
-   |                          ^^^^^
-
-error: Dimension { value: 700.0, raw_value: Atom('700' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:26
-   |
-37 | @media (400px < width <= 700px) {}
-   |                          ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:31
-   |
-37 | @media (400px < width <= 700px) {}
-   |                               ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:31
-   |
-37 | @media (400px < width <= 700px) {}
-   |                               ^
-
-error: RParen
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:31
-   |
-37 | @media (400px < width <= 700px) {}
-   |                               ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:32
-   |
-37 | @media (400px < width <= 700px) {}
-   |                                ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:32
-   |
-37 | @media (400px < width <= 700px) {}
-   |                                ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:37:32
-   |
-37 | @media (400px < width <= 700px) {}
-   |                                ^
+   |                 ^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:38:1
@@ -2278,125 +2098,53 @@ error: AtRule
 38 | @media (400px <= width <= 700px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UnknownAtRule
+error: MediaRule
   --> $DIR/tests/fixture/at-rule/media/input.css:38:1
    |
 38 | @media (400px <= width <= 700px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/media/input.css:38:8
+   |
+38 | @media (400px <= width <= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:38:8
+   |
+38 | @media (400px <= width <= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:38:8
+   |
+38 | @media (400px <= width <= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:38:8
+   |
+38 | @media (400px <= width <= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:38:8
+   |
+38 | @media (400px <= width <= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:38:8
+   |
+38 | @media (400px <= width <= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Ident
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:1
+  --> $DIR/tests/fixture/at-rule/media/input.css:38:18
    |
 38 | @media (400px <= width <= 700px) {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:24
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                        ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:24
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                        ^
-
-error: Delim { value: '<' }
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:24
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                        ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:25
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                         ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:25
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                         ^
-
-error: Delim { value: '=' }
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:25
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                         ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:26
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                          ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:26
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                          ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:26
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                          ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:27
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                           ^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:27
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                           ^^^^^
-
-error: Dimension { value: 700.0, raw_value: Atom('700' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:27
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                           ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:32
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                                ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:32
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                                ^
-
-error: RParen
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:32
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                                ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:33
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                                 ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:33
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                                 ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:38:33
-   |
-38 | @media (400px <= width <= 700px) {}
-   |                                 ^
+   |                  ^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:40:1
@@ -2410,107 +2158,53 @@ error: AtRule
 40 | @media (400px > width > 700px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UnknownAtRule
+error: MediaRule
   --> $DIR/tests/fixture/at-rule/media/input.css:40:1
    |
 40 | @media (400px > width > 700px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/media/input.css:40:8
+   |
+40 | @media (400px > width > 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:40:8
+   |
+40 | @media (400px > width > 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:40:8
+   |
+40 | @media (400px > width > 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:40:8
+   |
+40 | @media (400px > width > 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:40:8
+   |
+40 | @media (400px > width > 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:40:8
+   |
+40 | @media (400px > width > 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Ident
-  --> $DIR/tests/fixture/at-rule/media/input.css:40:1
+  --> $DIR/tests/fixture/at-rule/media/input.css:40:17
    |
 40 | @media (400px > width > 700px) {}
-   | ^^^^^^^^^^^^^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:40:23
-   |
-40 | @media (400px > width > 700px) {}
-   |                       ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:40:23
-   |
-40 | @media (400px > width > 700px) {}
-   |                       ^
-
-error: Delim { value: '>' }
-  --> $DIR/tests/fixture/at-rule/media/input.css:40:23
-   |
-40 | @media (400px > width > 700px) {}
-   |                       ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:40:24
-   |
-40 | @media (400px > width > 700px) {}
-   |                        ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:40:24
-   |
-40 | @media (400px > width > 700px) {}
-   |                        ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:40:24
-   |
-40 | @media (400px > width > 700px) {}
-   |                        ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:40:25
-   |
-40 | @media (400px > width > 700px) {}
-   |                         ^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:40:25
-   |
-40 | @media (400px > width > 700px) {}
-   |                         ^^^^^
-
-error: Dimension { value: 700.0, raw_value: Atom('700' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
-  --> $DIR/tests/fixture/at-rule/media/input.css:40:25
-   |
-40 | @media (400px > width > 700px) {}
-   |                         ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:40:30
-   |
-40 | @media (400px > width > 700px) {}
-   |                              ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:40:30
-   |
-40 | @media (400px > width > 700px) {}
-   |                              ^
-
-error: RParen
-  --> $DIR/tests/fixture/at-rule/media/input.css:40:30
-   |
-40 | @media (400px > width > 700px) {}
-   |                              ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:40:31
-   |
-40 | @media (400px > width > 700px) {}
-   |                               ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:40:31
-   |
-40 | @media (400px > width > 700px) {}
-   |                               ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:40:31
-   |
-40 | @media (400px > width > 700px) {}
-   |                               ^
+   |                 ^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:41:1
@@ -2524,107 +2218,53 @@ error: AtRule
 41 | @media (400px >= width > 700px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UnknownAtRule
+error: MediaRule
   --> $DIR/tests/fixture/at-rule/media/input.css:41:1
    |
 41 | @media (400px >= width > 700px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/media/input.css:41:8
+   |
+41 | @media (400px >= width > 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:41:8
+   |
+41 | @media (400px >= width > 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:41:8
+   |
+41 | @media (400px >= width > 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:41:8
+   |
+41 | @media (400px >= width > 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:41:8
+   |
+41 | @media (400px >= width > 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:41:8
+   |
+41 | @media (400px >= width > 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Ident
-  --> $DIR/tests/fixture/at-rule/media/input.css:41:1
+  --> $DIR/tests/fixture/at-rule/media/input.css:41:18
    |
 41 | @media (400px >= width > 700px) {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:41:24
-   |
-41 | @media (400px >= width > 700px) {}
-   |                        ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:41:24
-   |
-41 | @media (400px >= width > 700px) {}
-   |                        ^
-
-error: Delim { value: '>' }
-  --> $DIR/tests/fixture/at-rule/media/input.css:41:24
-   |
-41 | @media (400px >= width > 700px) {}
-   |                        ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:41:25
-   |
-41 | @media (400px >= width > 700px) {}
-   |                         ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:41:25
-   |
-41 | @media (400px >= width > 700px) {}
-   |                         ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:41:25
-   |
-41 | @media (400px >= width > 700px) {}
-   |                         ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:41:26
-   |
-41 | @media (400px >= width > 700px) {}
-   |                          ^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:41:26
-   |
-41 | @media (400px >= width > 700px) {}
-   |                          ^^^^^
-
-error: Dimension { value: 700.0, raw_value: Atom('700' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
-  --> $DIR/tests/fixture/at-rule/media/input.css:41:26
-   |
-41 | @media (400px >= width > 700px) {}
-   |                          ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:41:31
-   |
-41 | @media (400px >= width > 700px) {}
-   |                               ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:41:31
-   |
-41 | @media (400px >= width > 700px) {}
-   |                               ^
-
-error: RParen
-  --> $DIR/tests/fixture/at-rule/media/input.css:41:31
-   |
-41 | @media (400px >= width > 700px) {}
-   |                               ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:41:32
-   |
-41 | @media (400px >= width > 700px) {}
-   |                                ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:41:32
-   |
-41 | @media (400px >= width > 700px) {}
-   |                                ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:41:32
-   |
-41 | @media (400px >= width > 700px) {}
-   |                                ^
+   |                  ^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:42:1
@@ -2638,125 +2278,53 @@ error: AtRule
 42 | @media (400px > width >= 700px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UnknownAtRule
+error: MediaRule
   --> $DIR/tests/fixture/at-rule/media/input.css:42:1
    |
 42 | @media (400px > width >= 700px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/media/input.css:42:8
+   |
+42 | @media (400px > width >= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:42:8
+   |
+42 | @media (400px > width >= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:42:8
+   |
+42 | @media (400px > width >= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:42:8
+   |
+42 | @media (400px > width >= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:42:8
+   |
+42 | @media (400px > width >= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:42:8
+   |
+42 | @media (400px > width >= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Ident
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:1
+  --> $DIR/tests/fixture/at-rule/media/input.css:42:17
    |
 42 | @media (400px > width >= 700px) {}
-   | ^^^^^^^^^^^^^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:23
-   |
-42 | @media (400px > width >= 700px) {}
-   |                       ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:23
-   |
-42 | @media (400px > width >= 700px) {}
-   |                       ^
-
-error: Delim { value: '>' }
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:23
-   |
-42 | @media (400px > width >= 700px) {}
-   |                       ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:24
-   |
-42 | @media (400px > width >= 700px) {}
-   |                        ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:24
-   |
-42 | @media (400px > width >= 700px) {}
-   |                        ^
-
-error: Delim { value: '=' }
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:24
-   |
-42 | @media (400px > width >= 700px) {}
-   |                        ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:25
-   |
-42 | @media (400px > width >= 700px) {}
-   |                         ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:25
-   |
-42 | @media (400px > width >= 700px) {}
-   |                         ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:25
-   |
-42 | @media (400px > width >= 700px) {}
-   |                         ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:26
-   |
-42 | @media (400px > width >= 700px) {}
-   |                          ^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:26
-   |
-42 | @media (400px > width >= 700px) {}
-   |                          ^^^^^
-
-error: Dimension { value: 700.0, raw_value: Atom('700' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:26
-   |
-42 | @media (400px > width >= 700px) {}
-   |                          ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:31
-   |
-42 | @media (400px > width >= 700px) {}
-   |                               ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:31
-   |
-42 | @media (400px > width >= 700px) {}
-   |                               ^
-
-error: RParen
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:31
-   |
-42 | @media (400px > width >= 700px) {}
-   |                               ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:32
-   |
-42 | @media (400px > width >= 700px) {}
-   |                                ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:32
-   |
-42 | @media (400px > width >= 700px) {}
-   |                                ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:42:32
-   |
-42 | @media (400px > width >= 700px) {}
-   |                                ^
+   |                 ^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:43:1
@@ -2770,125 +2338,53 @@ error: AtRule
 43 | @media (400px >= width >= 700px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UnknownAtRule
+error: MediaRule
   --> $DIR/tests/fixture/at-rule/media/input.css:43:1
    |
 43 | @media (400px >= width >= 700px) {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/media/input.css:43:8
+   |
+43 | @media (400px >= width >= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:43:8
+   |
+43 | @media (400px >= width >= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:43:8
+   |
+43 | @media (400px >= width >= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:43:8
+   |
+43 | @media (400px >= width >= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:43:8
+   |
+43 | @media (400px >= width >= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:43:8
+   |
+43 | @media (400px >= width >= 700px) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Ident
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:1
+  --> $DIR/tests/fixture/at-rule/media/input.css:43:18
    |
 43 | @media (400px >= width >= 700px) {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:24
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                        ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:24
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                        ^
-
-error: Delim { value: '>' }
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:24
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                        ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:25
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                         ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:25
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                         ^
-
-error: Delim { value: '=' }
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:25
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                         ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:26
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                          ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:26
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                          ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:26
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                          ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:27
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                           ^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:27
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                           ^^^^^
-
-error: Dimension { value: 700.0, raw_value: Atom('700' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:27
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                           ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:32
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                                ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:32
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                                ^
-
-error: RParen
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:32
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                                ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:33
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                                 ^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:33
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                                 ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/at-rule/media/input.css:43:33
-   |
-43 | @media (400px >= width >= 700px) {}
-   |                                 ^
+   |                  ^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:45:1

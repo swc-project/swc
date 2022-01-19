@@ -83,6 +83,9 @@ pub enum MediaFeature {
 
     #[tag("MediaFeatureRange")]
     Range(MediaFeatureRange),
+
+    #[tag("MediaFeatureRangeInterval")]
+    RangeInterval(MediaFeatureRangeInterval),
 }
 
 #[ast_node]
@@ -136,5 +139,17 @@ pub struct MediaFeatureRange {
     pub span: Span,
     pub left: MediaFeatureValue,
     pub comparison: MediaFeatureRangeComparison,
+    pub right: MediaFeatureValue,
+}
+
+#[ast_node("MediaFeatureRangeInterval")]
+pub struct MediaFeatureRangeInterval {
+    pub span: Span,
+    pub left: MediaFeatureValue,
+    #[serde(rename = "leftComparison")]
+    pub left_comparison: MediaFeatureRangeComparison,
+    pub name: Ident,
+    #[serde(rename = "rightComparison")]
+    pub right_comparison: MediaFeatureRangeComparison,
     pub right: MediaFeatureValue,
 }

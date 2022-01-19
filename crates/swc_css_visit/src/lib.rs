@@ -491,6 +491,7 @@ define!({
         Plain(MediaFeaturePlain),
         Boolean(MediaFeatureBoolean),
         Range(MediaFeatureRange),
+        RangeInterval(MediaFeatureRangeInterval),
     }
 
     pub struct MediaFeaturePlain {
@@ -508,6 +509,15 @@ define!({
         pub span: Span,
         pub left: MediaFeatureValue,
         pub comparison: MediaFeatureRangeComparison,
+        pub right: MediaFeatureValue,
+    }
+    
+    pub struct MediaFeatureRangeInterval {
+        pub span: Span,
+        pub left: MediaFeatureValue,
+        pub left_comparison: MediaFeatureRangeComparison,
+        pub name: Ident,
+        pub right_comparison: MediaFeatureRangeComparison,
         pub right: MediaFeatureValue,
     }
 
