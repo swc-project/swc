@@ -43,6 +43,18 @@
 
 - **(plugin)** Add `PluginError` (#3300) ([c6ffdc8](https://github.com/swc-project/swc/commit/c6ffdc87172e504adff5757ebbb6ec2014136cf1))
 
+### Refactor
+
+
+
+- **(es/minifier)** Fix clippy warnings (#3312) ([2891220](https://github.com/swc-project/swc/commit/289122009bff1e8d57178ca2cc1706f52335d1c5))
+
+### Testing
+
+
+
+- **(plugin/runner)** Pin dependencies for the integration test (#3306) ([7ba8a83](https://github.com/swc-project/swc/commit/7ba8a838819ae40f54801808a41af3d5334421b6))
+
 ## [1.2.130] - 2022-01-17
 
 ### Bug Fixes

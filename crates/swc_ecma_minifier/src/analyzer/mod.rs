@@ -680,7 +680,7 @@ where
         match n {
             PatOrExpr::Expr(e) => {
                 if let Expr::Ident(i) = &**e {
-                    self.visit_pat_id(&i)
+                    self.visit_pat_id(i)
                 } else {
                     e.visit_with(self);
                 }

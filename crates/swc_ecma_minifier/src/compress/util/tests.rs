@@ -11,11 +11,8 @@ impl VisitMut for UnwrapParen {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
-        match e {
-            Expr::Paren(p) => {
-                *e = *p.expr.take();
-            }
-            _ => {}
+        if let Expr::Paren(p) = e {
+            *e = *p.expr.take();
         }
     }
 }

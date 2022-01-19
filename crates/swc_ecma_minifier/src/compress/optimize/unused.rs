@@ -215,7 +215,6 @@ where
                     );
                     // This will remove variable.
                     name.take();
-                    return;
                 } else {
                     if cfg!(feature = "debug") {
                         tracing::trace!(
@@ -244,18 +243,17 @@ where
                     }
                 }
 
-                arr.elems.retain(|elem| match elem {
-                    Some(Pat::Invalid(..)) => false,
-                    _ => true,
-                })
+                arr.elems
+                    .retain(|elem| !matches!(elem, Some(Pat::Invalid(..))))
             }
 
             Pat::Object(obj) => {
                 // If a rest pattern exists, we can't remove anything at current level.
-                if obj.props.iter().any(|p| match p {
-                    ObjectPatProp::Rest(_) => true,
-                    _ => false,
-                }) {
+                if obj
+                    .props
+                    .iter()
+                    .any(|p| matches!(p, ObjectPatProp::Rest(_)))
+                {
                     return;
                 }
 
@@ -328,13 +326,10 @@ where
             }
         }
 
-        match decl {
-            Decl::Class(c) => {
-                if class_has_side_effect(&c.class) {
-                    return;
-                }
+        if let Decl::Class(c) = decl {
+            if class_has_side_effect(&c.class) {
+                return;
             }
-            _ => {}
         }
 
         match decl {
@@ -360,18 +355,15 @@ where
                     );
                     // This will remove the declaration.
                     decl.take();
-                    return;
                 }
             }
 
             Decl::Var(_) => {
                 // Variable declarations are handled by other functions.
-                return;
             }
 
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) | Decl::TsModule(_) => {
                 // Nothing to do. We might change this to unreachable!()
-                return;
             }
         }
     }
@@ -429,10 +421,9 @@ where
                         dump(&assign.left, false)
                     )
                 }
-                return;
             }
-            PatOrExpr::Pat(left) => match &**left {
-                Pat::Ident(i) => {
+            PatOrExpr::Pat(left) => {
+                if let Pat::Ident(i) = &**left {
                     if self.options.top_retain.contains(&i.id.sym) {
                         return;
                     }
@@ -450,7 +441,6 @@ where
                             );
                             self.changed = true;
                             *e = *assign.right.take();
-                            return;
                         } else {
                             if cfg!(feature = "debug") {
                                 tracing::trace!(
@@ -462,8 +452,7 @@ where
                         }
                     }
                 }
-                _ => return,
-            },
+            }
         }
     }
 
@@ -500,25 +489,20 @@ where
             return;
         }
 
-        match v.init.as_deref_mut() {
-            Some(Expr::Fn(f)) => {
-                if f.ident.is_none() {
-                    return;
-                }
-
-                if contains_ident_ref(&f.function.body, f.ident.as_ref().unwrap()) {
-                    return;
-                }
-
-                self.changed = true;
-                tracing::debug!(
-                    "unused: Removing the name of a function expression because it's not used by \
-                     it'"
-                );
-                f.ident = None;
+        if let Some(Expr::Fn(f)) = v.init.as_deref_mut() {
+            if f.ident.is_none() {
+                return;
             }
 
-            _ => {}
+            if contains_ident_ref(&f.function.body, f.ident.as_ref().unwrap()) {
+                return;
+            }
+
+            self.changed = true;
+            tracing::debug!(
+                "unused: Removing the name of a function expression because it's not used by it'"
+            );
+            f.ident = None;
         }
     }
 }
@@ -539,19 +523,16 @@ impl UnreachableHandler {
         if s.is_empty() {
             return false;
         }
-        match s {
-            Stmt::Decl(Decl::Var(v)) => {
-                let mut changed = false;
-                for decl in &mut v.decls {
-                    if decl.init.is_some() {
-                        decl.init = None;
-                        changed = true;
-                    }
+        if let Stmt::Decl(Decl::Var(v)) = s {
+            let mut changed = false;
+            for decl in &mut v.decls {
+                if decl.init.is_some() {
+                    decl.init = None;
+                    changed = true;
                 }
-
-                return changed;
             }
-            _ => {}
+
+            return changed;
         }
 
         let mut v = Self::default();
@@ -589,11 +570,8 @@ impl VisitMut for UnreachableHandler {
         n.visit_mut_children_with(self);
 
         if self.in_var_name && self.in_hoisted_var {
-            match n {
-                Pat::Ident(i) => {
-                    self.vars.push(i.id.clone());
-                }
-                _ => {}
+            if let Pat::Ident(i) = n {
+                self.vars.push(i.id.clone());
             }
         }
     }

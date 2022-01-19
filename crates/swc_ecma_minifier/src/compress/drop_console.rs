@@ -29,53 +29,49 @@ impl VisitMut for DropConsole {
 
         n.visit_mut_children_with(self);
 
-        match n {
-            Expr::Call(CallExpr {
-                span, callee, args, ..
-            }) => {
-                // Find console.log
-                let callee = match callee {
-                    Callee::Expr(callee) => callee,
-                    _ => return,
-                };
+        if let Expr::Call(CallExpr {
+            span, callee, args, ..
+        }) = n
+        {
+            // Find console.log
+            let callee = match callee {
+                Callee::Expr(callee) => callee,
+                _ => return,
+            };
 
-                match &**callee {
-                    Expr::Member(MemberExpr {
-                        obj: callee_obj,
-                        prop: MemberProp::Ident(_),
-                        ..
-                    }) => {
-                        let mut loop_co = &**callee_obj;
-                        loop {
-                            match loop_co {
-                                Expr::Ident(obj) => {
-                                    if obj.sym != *"console" {
-                                        return;
-                                    }
-                                    break;
-                                }
-
-                                Expr::Member(MemberExpr {
-                                    obj: loop_co_obj,
-                                    prop: MemberProp::Ident(_),
-                                    ..
-                                }) => {
-                                    loop_co = &loop_co_obj;
-                                }
-                                _ => return,
+            if let Expr::Member(MemberExpr {
+                obj: callee_obj,
+                prop: MemberProp::Ident(_),
+                ..
+            }) = &**callee
+            {
+                let mut loop_co = &**callee_obj;
+                loop {
+                    match loop_co {
+                        Expr::Ident(obj) => {
+                            if obj.sym != *"console" {
+                                return;
                             }
+                            break;
                         }
 
-                        // Simplifier will remove side-effect-free items.
-                        *n = Expr::Seq(SeqExpr {
-                            span: *span,
-                            exprs: take(args).into_iter().map(|arg| arg.expr).collect(),
-                        })
+                        Expr::Member(MemberExpr {
+                            obj: loop_co_obj,
+                            prop: MemberProp::Ident(_),
+                            ..
+                        }) => {
+                            loop_co = loop_co_obj;
+                        }
+                        _ => return,
                     }
-                    _ => {}
                 }
+
+                // Simplifier will remove side-effect-free items.
+                *n = Expr::Seq(SeqExpr {
+                    span: *span,
+                    exprs: take(args).into_iter().map(|arg| arg.expr).collect(),
+                })
             }
-            _ => {}
         }
     }
 

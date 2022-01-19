@@ -258,24 +258,21 @@ where
             let mut child_ctx = Ctx { ..self.ctx };
             let mut directive_count = 0;
 
-            if stmts.len() >= 1 {
+            if !stmts.is_empty() {
                 // TODO: Handle multiple directives.
                 if let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmts[0].as_stmt() {
-                    match &**expr {
-                        Expr::Lit(Lit::Str(v)) => {
-                            directive_count += 1;
+                    if let Expr::Lit(Lit::Str(v)) = &**expr {
+                        directive_count += 1;
 
-                            if v.value == *"use strict" && !v.has_escape {
-                                child_ctx.in_strict = true;
-                            }
-
-                            if v.value == *"use asm" && !v.has_escape {
-                                child_ctx.in_asm = true;
-                                self.ctx.in_asm = true;
-                                use_asm = true;
-                            }
+                        if v.value == *"use strict" && !v.has_escape {
+                            child_ctx.in_strict = true;
                         }
-                        _ => {}
+
+                        if v.value == *"use asm" && !v.has_escape {
+                            child_ctx.in_asm = true;
+                            self.ctx.in_asm = true;
+                            use_asm = true;
+                        }
                     }
                 }
             }
@@ -512,11 +509,14 @@ where
             _ => return,
         };
 
-        if arr.elems.iter().any(|elem| match elem {
-            Some(ExprOrSpread {
-                spread: Some(..), ..
-            }) => true,
-            _ => false,
+        if arr.elems.iter().any(|elem| {
+            matches!(
+                elem,
+                Some(ExprOrSpread {
+                    spread: Some(..),
+                    ..
+                })
+            )
         }) {
             return;
         }
@@ -527,10 +527,7 @@ where
             .filter_map(|v| v.as_ref())
             .any(|v| match &*v.expr {
                 e if is_pure_undefined(e) => false,
-                Expr::Lit(lit) => match lit {
-                    Lit::Str(..) | Lit::Num(..) | Lit::Null(..) => false,
-                    _ => true,
-                },
+                Expr::Lit(lit) => !matches!(lit, Lit::Str(..) | Lit::Num(..) | Lit::Null(..)),
                 _ => true,
             });
 
@@ -547,10 +544,7 @@ where
                 .filter_map(|v| v.as_ref())
                 .any(|v| match &*v.expr {
                     e if is_pure_undefined(e) => false,
-                    Expr::Lit(lit) => match lit {
-                        Lit::Str(..) | Lit::Num(..) | Lit::Null(..) => false,
-                        _ => true,
-                    },
+                    Expr::Lit(lit) => !matches!(lit, Lit::Str(..) | Lit::Num(..) | Lit::Null(..)),
                     // This can change behavior if the value is `undefined` or `null`.
                     Expr::Ident(..) => false,
                     _ => true,
@@ -583,15 +577,14 @@ where
             }
 
             for (last, elem) in arr.elems.take().into_iter().identify_last() {
-                match elem {
-                    Some(ExprOrSpread { spread: None, expr }) => match &*expr {
+                if let Some(ExprOrSpread { spread: None, expr }) = elem {
+                    match &*expr {
                         e if is_pure_undefined(e) => {}
                         Expr::Lit(Lit::Null(..)) => {}
                         _ => {
                             add(&mut res, expr);
                         }
-                    },
-                    _ => {}
+                    }
                 }
 
                 if !last {
@@ -646,16 +639,13 @@ where
     ///
     /// - `undefined` => `void 0`
     fn compress_undefined(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Ident(Ident {
-                span,
-                sym: js_word!("undefined"),
-                ..
-            }) => {
-                *e = *undefined(*span);
-                return;
-            }
-            _ => {}
+        if let Expr::Ident(Ident {
+            span,
+            sym: js_word!("undefined"),
+            ..
+        }) = e
+        {
+            *e = *undefined(*span);
         }
     }
 
@@ -669,41 +659,33 @@ where
         };
 
         if self.options.bools_as_ints || self.options.bools {
-            match lit {
-                Lit::Bool(v) => {
-                    self.changed = true;
-                    tracing::debug!("Compressing boolean literal");
-                    *e = Expr::Unary(UnaryExpr {
+            if let Lit::Bool(v) = lit {
+                self.changed = true;
+                tracing::debug!("Compressing boolean literal");
+                *e = Expr::Unary(UnaryExpr {
+                    span: v.span,
+                    op: op!("!"),
+                    arg: Box::new(Expr::Lit(Lit::Num(Number {
                         span: v.span,
-                        op: op!("!"),
-                        arg: Box::new(Expr::Lit(Lit::Num(Number {
-                            span: v.span,
-                            value: if v.value { 0.0 } else { 1.0 },
-                        }))),
-                    });
-                }
-                _ => {}
+                        value: if v.value { 0.0 } else { 1.0 },
+                    }))),
+                });
             }
         }
     }
 
     fn remove_invalid(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Bin(BinExpr { left, right, .. }) => {
-                self.remove_invalid(left);
-                self.remove_invalid(right);
+        if let Expr::Bin(BinExpr { left, right, .. }) = e {
+            self.remove_invalid(left);
+            self.remove_invalid(right);
 
-                if left.is_invalid() {
-                    *e = *right.take();
-                    self.remove_invalid(e);
-                    return;
-                } else if right.is_invalid() {
-                    *e = *left.take();
-                    self.remove_invalid(e);
-                    return;
-                }
+            if left.is_invalid() {
+                *e = *right.take();
+                self.remove_invalid(e);
+            } else if right.is_invalid() {
+                *e = *left.take();
+                self.remove_invalid(e);
             }
-            _ => {}
         }
     }
 
@@ -757,12 +739,12 @@ where
 
                 for member in &mut cls.class.body {
                     match member {
-                        ClassMember::Method(ClassMethod { key, .. }) => match key {
-                            PropName::Computed(key) => {
-                                exprs.extend(self.ignore_return_value(&mut key.expr).map(Box::new));
-                            }
-                            _ => {}
-                        },
+                        ClassMember::Method(ClassMethod {
+                            key: PropName::Computed(key),
+                            ..
+                        }) => {
+                            exprs.extend(self.ignore_return_value(&mut key.expr).map(Box::new));
+                        }
                         ClassMember::ClassProp(ClassProp {
                             key,
                             is_static,
@@ -890,32 +872,25 @@ where
                 args,
                 ..
             }) => {
-                match &mut **callee {
-                    Expr::Fn(FnExpr {
-                        ident: None,
-                        function,
-                    }) => {
-                        if args.is_empty() {
-                            for param in &mut function.params {
-                                self.drop_unused_param(&mut param.pat, true);
-                            }
-
-                            function.params.retain(|p| !p.pat.is_invalid());
+                if let Expr::Fn(FnExpr {
+                    ident: None,
+                    function,
+                }) = &mut **callee
+                {
+                    if args.is_empty() {
+                        for param in &mut function.params {
+                            self.drop_unused_param(&mut param.pat, true);
                         }
+
+                        function.params.retain(|p| !p.pat.is_invalid());
                     }
-                    _ => {}
                 }
 
                 if args.is_empty() {
-                    match &mut **callee {
-                        Expr::Fn(f) => {
-                            if f.function.body.is_none()
-                                || f.function.body.as_ref().unwrap().is_empty()
-                            {
-                                return None;
-                            }
+                    if let Expr::Fn(f) = &mut **callee {
+                        if f.function.body.is_empty() {
+                            return None;
                         }
-                        _ => {}
                     }
                 }
 
@@ -940,23 +915,20 @@ where
                 if !prop.is_computed()
                     && (self.options.top_level() || !self.ctx.in_top_level()) =>
             {
-                match &**obj {
-                    Expr::Ident(obj) => {
-                        if let Some(usage) = self
-                            .data
-                            .as_ref()
-                            .and_then(|data| data.vars.get(&obj.to_id()))
-                        {
-                            if !usage.declared_as_fn_param && usage.var_kind.is_none() {
-                                return None;
-                            }
+                if let Expr::Ident(obj) = &**obj {
+                    if let Some(usage) = self
+                        .data
+                        .as_ref()
+                        .and_then(|data| data.vars.get(&obj.to_id()))
+                    {
+                        if !usage.declared_as_fn_param && usage.var_kind.is_none() {
+                            return None;
+                        }
 
-                            if !usage.reassigned && usage.no_side_effect_for_member_access {
-                                return None;
-                            }
+                        if !usage.reassigned && usage.no_side_effect_for_member_access {
+                            return None;
                         }
                     }
-                    _ => {}
                 }
             }
 
@@ -978,14 +950,15 @@ where
                 let mut exprs = vec![];
                 self.changed = true;
                 tracing::debug!("ignore_return_value: Inverting an array literal");
-                for elem in arr.elems.take() {
-                    match elem {
-                        Some(mut elem) => {
-                            exprs.extend(self.ignore_return_value(&mut elem.expr).map(Box::new));
-                        }
-                        None => {}
-                    }
-                }
+                exprs.extend(
+                    arr.elems
+                        .take()
+                        .into_iter()
+                        .flatten()
+                        .map(|v| v.expr)
+                        .filter_map(|mut e| self.ignore_return_value(&mut e))
+                        .map(Box::new),
+                );
 
                 if exprs.is_empty() {
                     return None;
@@ -1060,21 +1033,15 @@ where
                 && !self.ctx.dont_use_negated_iife
                 && match &**arg {
                     Expr::Call(arg) => match &arg.callee {
-                        Callee::Expr(callee) => match &**callee {
-                            Expr::Fn(..) => true,
-                            _ => false,
-                        },
+                        Callee::Expr(callee) => matches!(&**callee, Expr::Fn(..)),
                         _ => false,
                     },
                     _ => false,
                 } =>
             {
-                let processed_arg = self.ignore_return_value(&mut **arg);
+                let processed_arg = self.ignore_return_value(&mut **arg)?;
 
-                if processed_arg.is_none() {
-                    return None;
-                }
-                *arg = Box::new(processed_arg.unwrap());
+                *arg = Box::new(processed_arg);
 
                 tracing::trace!("ignore_return_value: Preserving negated iife");
                 return Some(e.take());
@@ -1175,7 +1142,7 @@ where
                 if exprs.len() <= 1 {
                     return exprs.pop().map(|v| *v);
                 } else {
-                    let is_last_undefined = is_pure_undefined(&exprs.last().unwrap());
+                    let is_last_undefined = is_pure_undefined(exprs.last().unwrap());
 
                     // (foo(), void 0) => void foo()
                     if is_last_undefined {
@@ -1243,14 +1210,11 @@ where
                         if s.value.contains(|c: char| {
                             // whitelist
                             !c.is_ascii_alphanumeric()
-                                && match c {
-                                    '%' | '[' | ']' | '(' | ')' | '{' | '}' | '-' | '+' => false,
-                                    _ => true,
-                                }
+                                && !matches!(c, '%' | '[' | ']' | '(' | ')' | '{' | '}' | '-' | '+')
                         }) {
                             return true;
                         }
-                        if s.value.contains("\\\0") || s.value.contains("/") {
+                        if s.value.contains("\\\0") || s.value.contains('/') {
                             return true;
                         }
 
@@ -1266,7 +1230,7 @@ where
         let pattern = args[0].expr.take();
 
         let pattern = match *pattern {
-            Expr::Lit(Lit::Str(s)) => s.value.clone(),
+            Expr::Lit(Lit::Str(s)) => s.value,
             _ => {
                 unreachable!()
             }
@@ -1281,7 +1245,7 @@ where
 
                     let s = s.value.to_string();
                     let mut bytes = s.into_bytes();
-                    bytes.sort();
+                    bytes.sort_unstable();
 
                     String::from_utf8(bytes).unwrap().into()
                 }
@@ -1339,7 +1303,6 @@ where
         if !lb && rb {
             self.negate(&mut cond.test, false);
             *expr = *cond.test.take();
-            return;
         }
     }
 
@@ -1421,7 +1384,7 @@ where
     fn try_removing_block(&mut self, s: &mut Stmt, unwrap_more: bool) {
         match s {
             Stmt::Block(bs) => {
-                if bs.stmts.len() == 0 {
+                if bs.stmts.is_empty() {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
                 }
@@ -1434,10 +1397,11 @@ where
                     }
 
                     if let Stmt::Block(block) = &mut bs.stmts[0] {
-                        if block.stmts.iter().all(|stmt| match stmt {
-                            Stmt::Decl(..) => false,
-                            _ => true,
-                        }) {
+                        if block
+                            .stmts
+                            .iter()
+                            .all(|stmt| !matches!(stmt, Stmt::Decl(..)))
+                        {
                             tracing::debug!("optimizer: Removing nested block");
                             self.changed = true;
                             bs.stmts = block.stmts.take();
@@ -1449,12 +1413,14 @@ where
                 //
                 // TODO: Support multiple statements.
                 if bs.stmts.len() == 1
-                    && bs.stmts.iter().all(|stmt| match stmt {
-                        Stmt::Decl(Decl::Var(VarDecl {
-                            kind: VarDeclKind::Var,
-                            ..
-                        })) => true,
-                        _ => false,
+                    && bs.stmts.iter().all(|stmt| {
+                        matches!(
+                            stmt,
+                            Stmt::Decl(Decl::Var(VarDecl {
+                                kind: VarDeclKind::Var,
+                                ..
+                            }))
+                        )
                     })
                 {
                     tracing::debug!("optimizer: Unwrapping a block with variable statements");
@@ -1494,10 +1460,7 @@ where
                 self.try_removing_block(&mut s.cons, true);
                 let can_remove_block_of_alt = match &*s.cons {
                     Stmt::Expr(..) | Stmt::If(..) => true,
-                    Stmt::Block(bs) if bs.stmts.len() == 1 => match &bs.stmts[0] {
-                        Stmt::For(..) => true,
-                        _ => false,
-                    },
+                    Stmt::Block(bs) if bs.stmts.len() == 1 => matches!(&bs.stmts[0], Stmt::For(..)),
                     _ => false,
                 };
                 if can_remove_block_of_alt {
@@ -1554,17 +1517,13 @@ where
         };
 
         if stmt.alt.is_none() {
-            match &mut *stmt.cons {
-                Stmt::Expr(cons) => {
-                    self.changed = true;
-                    tracing::debug!("Converting if statement to a form `test && cons`");
-                    *s = Stmt::Expr(ExprStmt {
-                        span: stmt.span,
-                        expr: Box::new(stmt.test.take().make_bin(op!("&&"), *cons.expr.take())),
-                    });
-                    return;
-                }
-                _ => {}
+            if let Stmt::Expr(cons) = &mut *stmt.cons {
+                self.changed = true;
+                tracing::debug!("Converting if statement to a form `test && cons`");
+                *s = Stmt::Expr(ExprStmt {
+                    span: stmt.span,
+                    expr: Box::new(stmt.test.take().make_bin(op!("&&"), *cons.expr.take())),
+                });
             }
         }
     }
@@ -1638,24 +1597,17 @@ where
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
         n.visit_mut_children_with(self);
 
-        match &n.value {
-            Some(value) => {
-                if is_pure_undefined(&value) {
-                    n.value = None;
-                }
+        if let Some(value) = &n.value {
+            if is_pure_undefined(value) {
+                n.value = None;
             }
-            _ => {}
         }
     }
 
     fn visit_mut_bin_expr(&mut self, n: &mut BinExpr) {
         {
             let ctx = Ctx {
-                in_cond: self.ctx.in_cond
-                    || match n.op {
-                        op!("&&") | op!("||") | op!("??") => true,
-                        _ => false,
-                    },
+                in_cond: self.ctx.in_cond || matches!(n.op, op!("&&") | op!("||") | op!("??")),
                 ..self.ctx
             };
 
@@ -1713,7 +1665,7 @@ where
                 is_this_aware_callee: is_this_undefined
                     || match &e.callee {
                         Callee::Super(_) | Callee::Import(_) => false,
-                        Callee::Expr(callee) => is_callee_this_aware(&callee),
+                        Callee::Expr(callee) => is_callee_this_aware(callee),
                     },
                 ..self.ctx
             };
@@ -1721,24 +1673,20 @@ where
         }
 
         if is_this_undefined {
-            match &mut e.callee {
-                Callee::Expr(callee) => match &mut **callee {
-                    Expr::Member(..) => {
-                        let zero = Box::new(Expr::Lit(Lit::Num(Number {
-                            span: DUMMY_SP,
-                            value: 0.0,
-                        })));
-                        self.changed = true;
-                        tracing::debug!("injecting zero to preserve `this` in call");
+            if let Callee::Expr(callee) = &mut e.callee {
+                if let Expr::Member(..) = &mut **callee {
+                    let zero = Box::new(Expr::Lit(Lit::Num(Number {
+                        span: DUMMY_SP,
+                        value: 0.0,
+                    })));
+                    self.changed = true;
+                    tracing::debug!("injecting zero to preserve `this` in call");
 
-                        *callee = Box::new(Expr::Seq(SeqExpr {
-                            span: callee.span(),
-                            exprs: vec![zero, callee.take()],
-                        }));
-                    }
-                    _ => {}
-                },
-                _ => {}
+                    *callee = Box::new(Expr::Seq(SeqExpr {
+                        span: callee.span(),
+                        exprs: vec![zero, callee.take()],
+                    }));
+                }
             }
         }
 
@@ -1806,15 +1754,12 @@ where
     }
 
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
-        match &mut n.decl {
-            Decl::Fn(f) => {
-                // I don't know why, but terser removes parameters from an exported function if
-                // `unused` is true, regardless of keep_fargs or others.
-                if self.options.unused {
-                    self.drop_unused_params(&mut f.function.params);
-                }
+        if let Decl::Fn(f) = &mut n.decl {
+            // I don't know why, but terser removes parameters from an exported function if
+            // `unused` is true, regardless of keep_fargs or others.
+            if self.options.unused {
+                self.drop_unused_params(&mut f.function.params);
             }
-            _ => {}
         }
 
         let ctx = Ctx {
@@ -1869,16 +1814,13 @@ where
 
         self.inline(e);
 
-        match e {
-            Expr::Bin(bin) => {
-                let expr = self.optimize_lit_cmp(bin);
-                if let Some(expr) = expr {
-                    tracing::debug!("Optimizing: Literal comparison");
-                    self.changed = true;
-                    *e = expr;
-                }
+        if let Expr::Bin(bin) = e {
+            let expr = self.optimize_lit_cmp(bin);
+            if let Some(expr) = expr {
+                tracing::debug!("Optimizing: Literal comparison");
+                self.changed = true;
+                *e = expr;
             }
-            _ => {}
         }
 
         self.compress_cond_expr_if_similar(e);
@@ -1923,10 +1865,7 @@ where
 
         self.negate_iife_ignoring_ret(&mut n.expr);
 
-        let is_directive = match &*n.expr {
-            Expr::Lit(Lit::Str(..)) => true,
-            _ => false,
-        };
+        let is_directive = matches!(&*n.expr, Expr::Lit(Lit::Str(..)));
 
         if is_directive {
             return;
@@ -1938,28 +1877,25 @@ where
             || self.options.reduce_fns
             || (self.options.sequences() && n.expr.is_seq())
             || (self.options.conditionals
-                && match &*n.expr {
+                && matches!(
+                    &*n.expr,
                     Expr::Bin(BinExpr {
                         op: op!("||") | op!("&&"),
                         ..
-                    }) => true,
-                    _ => false,
-                })
+                    })
+                ))
         {
             // Preserve top-level negated iifes.
-            match &*n.expr {
-                Expr::Unary(unary @ UnaryExpr { op: op!("!"), .. }) => match &*unary.arg {
-                    Expr::Call(CallExpr {
-                        callee: Callee::Expr(callee),
-                        ..
-                    }) => match &**callee {
-                        Expr::Fn(..) => return,
-                        _ => {}
-                    },
-
-                    _ => {}
-                },
-                _ => {}
+            if let Expr::Unary(unary @ UnaryExpr { op: op!("!"), .. }) = &*n.expr {
+                if let Expr::Call(CallExpr {
+                    callee: Callee::Expr(callee),
+                    ..
+                }) = &*unary.arg
+                {
+                    if let Expr::Fn(..) = &**callee {
+                        return;
+                    }
+                }
             }
             let expr = self.ignore_return_value(&mut n.expr);
             n.expr = expr.map(Box::new).unwrap_or_else(|| {
@@ -2201,13 +2137,10 @@ where
     fn visit_mut_opt_stmt(&mut self, s: &mut Option<Box<Stmt>>) {
         s.visit_mut_children_with(self);
 
-        match s.as_deref() {
-            Some(Stmt::Empty(..)) => {
-                self.changed = true;
-                tracing::debug!("misc: Removing empty statement");
-                *s = None;
-            }
-            _ => {}
+        if let Some(Stmt::Empty(..)) = s.as_deref() {
+            self.changed = true;
+            tracing::debug!("misc: Removing empty statement");
+            *s = None;
         }
     }
 
@@ -2245,21 +2178,17 @@ where
     fn visit_mut_prop(&mut self, n: &mut Prop) {
         n.visit_mut_children_with(self);
 
-        match n {
-            Prop::Shorthand(i) => {
-                if self.lits.contains_key(&i.to_id())
-                    || self.vars_for_inlining.contains_key(&i.to_id())
-                {
-                    let mut e = Box::new(Expr::Ident(i.clone()));
-                    e.visit_mut_with(self);
+        if let Prop::Shorthand(i) = n {
+            if self.lits.contains_key(&i.to_id()) || self.vars_for_inlining.contains_key(&i.to_id())
+            {
+                let mut e = Box::new(Expr::Ident(i.clone()));
+                e.visit_mut_with(self);
 
-                    *n = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(i.clone()),
-                        value: e,
-                    });
-                }
+                *n = Prop::KeyValue(KeyValueProp {
+                    key: PropName::Ident(i.clone()),
+                    value: e,
+                });
             }
-            _ => {}
         }
 
         if cfg!(debug_assertions) {
@@ -2291,14 +2220,14 @@ where
         self.shift_assignment(n);
 
         {
-            let should_preserve_zero = match n.exprs.last().map(|v| &**v) {
-                Some(Expr::Member(..)) => true,
-                Some(Expr::Ident(Ident {
-                    sym: js_word!("eval"),
-                    ..
-                })) => true,
-                _ => false,
-            };
+            let should_preserve_zero = matches!(
+                n.exprs.last().map(|v| &**v),
+                Some(Expr::Member(..))
+                    | Some(Expr::Ident(Ident {
+                        sym: js_word!("eval"),
+                        ..
+                    }))
+            );
 
             let exprs = n
                 .exprs
@@ -2317,7 +2246,7 @@ where
                             || !self.ctx.is_this_aware_callee
                             || !should_preserve_zero);
 
-                    let ret = if can_remove {
+                    if can_remove {
                         // If negate_iife is true, it's already handled by
                         // visit_mut_children_with(self) above.
                         if !self.options.negate_iife {
@@ -2327,9 +2256,7 @@ where
                         self.ignore_return_value(&mut **expr).map(Box::new)
                     } else {
                         Some(expr.take())
-                    };
-
-                    ret
+                    }
                 })
                 .collect::<Vec<_>>();
             n.exprs = exprs;
@@ -2439,49 +2366,40 @@ where
             }
         }
 
-        match s {
-            Stmt::Expr(ExprStmt { expr, .. }) => {
-                if is_pure_undefined(expr) {
+        if let Stmt::Expr(ExprStmt { expr, .. }) = s {
+            if is_pure_undefined(expr) {
+                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                return;
+            }
+
+            let is_directive = matches!(&**expr, Expr::Lit(Lit::Str(..)));
+
+            if self.options.directives
+                && is_directive
+                && self.ctx.in_strict
+                && match &**expr {
+                    Expr::Lit(Lit::Str(Str { value, .. })) => *value == *"use strict",
+                    _ => false,
+                }
+            {
+                tracing::debug!("Removing 'use strict'");
+                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                return;
+            }
+
+            if self.options.unused {
+                let can_be_removed = !is_directive && !expr.may_have_side_effects();
+
+                if can_be_removed {
+                    self.changed = true;
+                    tracing::debug!("unused: Dropping an expression without side effect");
+                    if cfg!(feature = "debug") {
+                        tracing::trace!("unused: [Change] Dropping \n{}\n", dump(&*expr, false));
+                    }
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
                 }
-
-                let is_directive = match &**expr {
-                    Expr::Lit(Lit::Str(..)) => true,
-                    _ => false,
-                };
-
-                if self.options.directives && is_directive {
-                    if self.ctx.in_strict
-                        && match &**expr {
-                            Expr::Lit(Lit::Str(Str { value, .. })) => *value == *"use strict",
-                            _ => false,
-                        }
-                    {
-                        tracing::debug!("Removing 'use strict'");
-                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                        return;
-                    }
-                }
-
-                if self.options.unused {
-                    let can_be_removed = !is_directive && !expr.may_have_side_effects();
-
-                    if can_be_removed {
-                        self.changed = true;
-                        tracing::debug!("unused: Dropping an expression without side effect");
-                        if cfg!(feature = "debug") {
-                            tracing::trace!(
-                                "unused: [Change] Dropping \n{}\n",
-                                dump(&*expr, false)
-                            );
-                        }
-                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                        return;
-                    }
-                }
             }
-            _ => {}
         }
 
         match s {
@@ -2535,16 +2453,12 @@ where
         drop_invalid_stmts(stmts);
 
         if stmts.len() == 1 {
-            match &stmts[0] {
-                Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
-                    Expr::Lit(Lit::Str(s)) => {
-                        if s.value == *"use strict" {
-                            stmts.clear();
-                        }
+            if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
+                if let Expr::Lit(Lit::Str(s)) = &**expr {
+                    if s.value == *"use strict" {
+                        stmts.clear();
                     }
-                    _ => {}
-                },
-                _ => {}
+                }
             }
         }
 
@@ -2636,8 +2550,8 @@ where
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         // infinite loop
-        match n.op {
-            op!("void") => match &*n.arg {
+        if n.op == op!("void") {
+            match &*n.arg {
                 Expr::Lit(Lit::Num(..)) => {}
 
                 _ => {
@@ -2645,9 +2559,7 @@ where
 
                     n.arg = Box::new(arg.unwrap_or_else(|| make_number(DUMMY_SP, 0.0)));
                 }
-            },
-
-            _ => {}
+            }
         }
     }
 
@@ -2725,8 +2637,7 @@ where
             true
         });
 
-        for idx in 0..vars.len() {
-            let v = &mut vars[idx];
+        for v in vars.iter_mut() {
             if v.init
                 .as_deref()
                 .map(|e| !e.may_have_side_effects())
@@ -2736,8 +2647,7 @@ where
             }
         }
 
-        for idx in 0..vars.len() {
-            let v = &mut vars[idx];
+        for v in vars.iter_mut() {
             self.drop_unused_var_declarator(v, true);
             if v.name.is_invalid() {
                 continue;
@@ -2746,8 +2656,7 @@ where
             break;
         }
 
-        for idx in (0..vars.len()).rev() {
-            let v = &mut vars[idx];
+        for v in vars.iter_mut().rev() {
             self.drop_unused_var_declarator(v, false);
             if v.name.is_invalid() {
                 continue;
@@ -2786,10 +2695,8 @@ where
         if let Some(arg) = &mut n.arg {
             self.compress_undefined(&mut **arg);
 
-            if !n.delegate {
-                if is_pure_undefined(&arg) {
-                    n.arg = None;
-                }
+            if !n.delegate && is_pure_undefined(arg) {
+                n.arg = None;
             }
         }
     }
@@ -2800,14 +2707,13 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
     match &*callee {
         Expr::Arrow(..) => return false,
         Expr::Seq(..) => return true,
-        Expr::Member(MemberExpr { obj, .. }) => match &**obj {
-            Expr::Ident(obj) => {
+        Expr::Member(MemberExpr { obj, .. }) => {
+            if let Expr::Ident(obj) = &**obj {
                 if &*obj.sym == "console" {
                     return false;
                 }
             }
-            _ => {}
-        },
+        }
 
         _ => {}
     }
@@ -2817,22 +2723,22 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
 
 fn is_expr_access_to_arguments(l: &Expr) -> bool {
     match l {
-        Expr::Member(MemberExpr { obj, .. }) => match &**obj {
+        Expr::Member(MemberExpr { obj, .. }) => matches!(
+            &**obj,
             Expr::Ident(Ident {
                 sym: js_word!("arguments"),
                 ..
-            }) => true,
-            _ => false,
-        },
+            })
+        ),
         _ => false,
     }
 }
 
 fn is_left_access_to_arguments(l: &PatOrExpr) -> bool {
     match l {
-        PatOrExpr::Expr(e) => is_expr_access_to_arguments(&e),
+        PatOrExpr::Expr(e) => is_expr_access_to_arguments(e),
         PatOrExpr::Pat(pat) => match &**pat {
-            Pat::Expr(e) => is_expr_access_to_arguments(&e),
+            Pat::Expr(e) => is_expr_access_to_arguments(e),
             _ => false,
         },
     }

@@ -110,18 +110,15 @@ where
     {
         // Skip if `use asm` exists.
         if stmts.iter().any(|stmt| match stmt.as_stmt() {
-            Some(v) => match v {
-                Stmt::Expr(stmt) => match &*stmt.expr {
-                    Expr::Lit(Lit::Str(Str {
-                        value,
-                        has_escape: false,
-                        ..
-                    })) => &**value == "use asm",
-                    _ => false,
-                },
+            Some(Stmt::Expr(stmt)) => match &*stmt.expr {
+                Expr::Lit(Lit::Str(Str {
+                    value,
+                    has_escape: false,
+                    ..
+                })) => &**value == "use asm",
                 _ => false,
             },
-            None => false,
+            _ => false,
         }) {
             return;
         }
@@ -159,7 +156,7 @@ where
             let results = nodes
                 .par_iter_mut()
                 .map(|node| {
-                    swc_common::GLOBALS.set(&self.globals, || {
+                    swc_common::GLOBALS.set(self.globals, || {
                         let mut v = Compressor {
                             globals: self.globals,
                             marks: self.marks,
@@ -244,7 +241,7 @@ where
             None
         };
 
-        if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
+        if self.options.passes != 0 && self.options.passes < self.pass {
             let done = dump(&*n, false);
             tracing::debug!("===== Done =====\n{}", done);
             return;
@@ -333,7 +330,7 @@ where
 
             let start_time = now();
 
-            let mut visitor = pure_optimizer(&self.options, self.marks, self.mode, self.pass >= 20);
+            let mut visitor = pure_optimizer(self.options, self.marks, self.mode, self.pass >= 20);
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
 

@@ -68,13 +68,10 @@ impl Visit for Preserver {
     fn visit_expr(&mut self, n: &Expr) {
         n.visit_children_with(self);
 
-        match n {
-            Expr::Ident(i) => {
-                if self.should_preserve {
-                    self.preserved.insert(i.to_id());
-                }
+        if let Expr::Ident(i) = n {
+            if self.should_preserve {
+                self.preserved.insert(i.to_id());
             }
-            _ => {}
         }
     }
 
@@ -119,13 +116,10 @@ impl Visit for Preserver {
     fn visit_pat(&mut self, n: &Pat) {
         n.visit_children_with(self);
 
-        match n {
-            Pat::Ident(i) => {
-                if self.should_preserve {
-                    self.preserved.insert(i.to_id());
-                }
+        if let Pat::Ident(i) = n {
+            if self.should_preserve {
+                self.preserved.insert(i.to_id());
             }
-            _ => {}
         }
     }
 

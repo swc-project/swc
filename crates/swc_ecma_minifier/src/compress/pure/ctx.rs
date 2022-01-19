@@ -45,7 +45,7 @@ impl<'b, M> Deref for WithCtx<'_, 'b, M> {
     type Target = Pure<'b, M>;
 
     fn deref(&self) -> &Self::Target {
-        &self.pass
+        self.pass
     }
 }
 

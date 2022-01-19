@@ -13,11 +13,11 @@ use swc_ecma_visit::{
 mod tests;
 
 /// This pass analyzes the comment and convert it to a mark.
-pub(crate) fn info_marker<'a>(
-    comments: Option<&'a dyn Comments>,
+pub(crate) fn info_marker(
+    comments: Option<&dyn Comments>,
     marks: Marks,
     top_level_mark: Mark,
-) -> impl 'a + VisitMut {
+) -> impl '_ + VisitMut {
     InfoMarker {
         comments,
         marks,
@@ -74,7 +74,7 @@ impl InfoMarker<'_> {
             let cs = comments.get_leading(span.lo);
             if let Some(cs) = cs {
                 for c in &cs {
-                    found |= op(&c);
+                    found |= op(c);
                     if found {
                         break;
                     }
@@ -153,8 +153,8 @@ impl VisitMut for InfoMarker<'_> {
             ) {
                 // self.state.is_bundle = true;
 
-                // n.function.span = n.function.span.apply_mark(self.marks.standalone);
-                return;
+                // n.function.span =
+                // n.function.span.apply_mark(self.marks.standalone);
             }
         }
     }
@@ -273,7 +273,7 @@ where
             _ => {}
         }
 
-        if external_bindings.contains(&used_id) {
+        if external_bindings.contains(used_id) {
             if cfg!(feature = "debug") {
                 tracing::debug!(
                     "bundle: Due to {}{:?} (top-level), it's not a bundle",
@@ -421,11 +421,8 @@ impl VisitMut for IdentCollector {
     }
 
     fn visit_mut_prop_name(&mut self, p: &mut PropName) {
-        match p {
-            PropName::Computed(..) => {
-                p.visit_mut_children_with(self);
-            }
-            _ => {}
+        if let PropName::Computed(..) = p {
+            p.visit_mut_children_with(self);
         }
     }
 

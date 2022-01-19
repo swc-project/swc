@@ -178,7 +178,6 @@ impl VisitMut for VarMover {
                 ..
             })) if d.decls.is_empty() => {
                 s.take();
-                return;
             }
 
             _ => {}
@@ -188,13 +187,10 @@ impl VisitMut for VarMover {
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
         n.visit_mut_children_with(self);
 
-        match n {
-            Some(VarDeclOrExpr::VarDecl(var)) => {
-                if var.decls.is_empty() {
-                    *n = None;
-                }
+        if let Some(VarDeclOrExpr::VarDecl(var)) = n {
+            if var.decls.is_empty() {
+                *n = None;
             }
-            _ => {}
         }
     }
 
@@ -204,7 +200,6 @@ impl VisitMut for VarMover {
         match s {
             Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
                 s.take();
-                return;
             }
             _ => {}
         }
@@ -249,7 +244,7 @@ impl VisitMut for VarMover {
         let mut new = vec![];
 
         if has_init {
-            new.extend(self.vars.drain(..));
+            new.append(&mut self.vars);
         }
 
         for v in d.take() {

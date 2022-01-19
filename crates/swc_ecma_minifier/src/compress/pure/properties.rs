@@ -49,8 +49,8 @@ where
             return;
         }
 
-        match p {
-            PropName::Computed(c) => match &mut *c.expr {
+        if let PropName::Computed(c) = p {
+            match &mut *c.expr {
                 Expr::Lit(Lit::Str(s)) => {
                     if s.value == *"constructor" || s.value == *"__proto__" {
                         return;
@@ -64,38 +64,30 @@ where
                             s.span.with_ctxt(SyntaxContext::empty()),
                         ));
                     }
-
-                    return;
                 }
                 Expr::Lit(Lit::Num(n)) => {
-                    *p = PropName::Num(n.clone());
-                    return;
+                    *p = PropName::Num(*n);
                 }
                 _ => {}
-            },
-            _ => {}
+            }
         }
     }
 
     pub(super) fn optimize_prop_name(&mut self, name: &mut PropName) {
-        match name {
-            PropName::Str(s) => {
-                if s.value.is_reserved() || s.value.is_reserved_in_es3() {
-                    return;
-                }
-
-                if is_valid_identifier(&s.value, false) {
-                    self.changed = true;
-                    tracing::debug!("misc: Optimizing string property name");
-                    *name = PropName::Ident(Ident {
-                        span: s.span,
-                        sym: s.value.clone(),
-                        optional: false,
-                    });
-                    return;
-                }
+        if let PropName::Str(s) = name {
+            if s.value.is_reserved() || s.value.is_reserved_in_es3() {
+                return;
             }
-            _ => {}
+
+            if is_valid_identifier(&s.value, false) {
+                self.changed = true;
+                tracing::debug!("misc: Optimizing string property name");
+                *name = PropName::Ident(Ident {
+                    span: s.span,
+                    sym: s.value.clone(),
+                    optional: false,
+                });
+            }
         }
     }
 
@@ -205,13 +197,8 @@ where
             Expr::Lit(Lit::Str(s)) => {
                 if s.value == js_word!("")
                     || s.value.starts_with(|c: char| c.is_digit(10))
-                    || s.value.contains(|c: char| match c {
-                        '0'..='9' => false,
-                        'a'..='z' => false,
-                        'A'..='Z' => false,
-                        '$' => false,
-                        _ => true,
-                    })
+                    || s.value
+                        .contains(|c: char| !matches!(c, '0'..='9' | 'a'..='z' | 'A'..='Z' | '$'))
                 {
                     return None;
                 }
