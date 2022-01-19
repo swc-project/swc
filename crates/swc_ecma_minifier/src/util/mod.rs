@@ -448,7 +448,7 @@ pub(crate) fn can_end_conditionally(s: &Stmt) -> bool {
             Stmt::Switch(s) => s
                 .cases
                 .iter()
-                .any(|case| case.cons.iter().any(|s| can_end(&s, false))),
+                .any(|case| case.cons.iter().any(|s| can_end(s, false))),
 
             Stmt::DoWhile(s) => can_end(&s.body, false),
 
