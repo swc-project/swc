@@ -836,6 +836,8 @@ impl Compiler {
     /// `custom_after_pass` is applied after swc transforms are applied.
     ///
     /// `program`: If you already parsed `Program`, you can pass it.
+    ///
+    /// # Guarantee
     pub fn process_js_with_custom_pass<P1, P2>(
         &self,
         fm: Arc<SourceFile>,
