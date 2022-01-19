@@ -807,6 +807,8 @@ where
 
             self.input.skip_ws()?;
 
+            println!("{:?}", self.input.cur());
+            
             if is!(self, "and") {
                 while is!(self, "and") {
                     conditions.push(MediaConditionItem::And(self.parse()?));

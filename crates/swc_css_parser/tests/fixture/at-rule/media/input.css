@@ -33,12 +33,12 @@
 @media (min-width: 20em) and (min-width: 20em) {}
 @media   (min-width   :   20em   )   and   (   min-width   :   20em   )   {}
 @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
-@media(min-width:20em)and(min-width: 20em){}
-@media(min-width:20em)and(min-width:20em){}
+@media(min-width:20em)and (min-width: 20em){}
+@media(min-width:20em)and (min-width:20em){}
 
 @media (update: slow) or (hover: none) {}
 @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
-@media(update: slow)or(hover: none){}
+@media(update: slow)or (hover: none){}
 
 @media (height < 600px) {}
 @media (height <= 600px) {}
