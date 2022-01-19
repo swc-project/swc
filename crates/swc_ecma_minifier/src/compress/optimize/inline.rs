@@ -50,238 +50,233 @@ where
         // position
 
         // We will inline if possible.
-        match &var.name {
-            Pat::Ident(i) => {
-                if i.id.sym == *"arguments" {
+        if let Pat::Ident(i) = &var.name {
+            if i.id.sym == *"arguments" {
+                return;
+            }
+            if self.options.top_retain.contains(&i.id.sym) {
+                return;
+            }
+
+            // Store variables if it's used only once
+            if let Some(usage) = self
+                .data
+                .as_ref()
+                .and_then(|data| data.vars.get(&i.to_id()))
+            {
+                if usage.declared_as_catch_param {
                     return;
                 }
-                if self.options.top_retain.contains(&i.id.sym) {
+                if usage.inline_prevented {
                     return;
                 }
 
-                // Store variables if it's used only once
-                if let Some(usage) = self
-                    .data
-                    .as_ref()
-                    .and_then(|data| data.vars.get(&i.to_id()))
-                {
-                    if usage.declared_as_catch_param {
-                        return;
+                if should_preserve && usage.var_kind != Some(VarDeclKind::Const) {
+                    if cfg!(feature = "debug") {
+                        tracing::trace!(
+                            "inline: [x] Preserving non-const variable `{}` because it's top-level",
+                            dump(&var.name, false)
+                        );
                     }
-                    if usage.inline_prevented {
-                        return;
+                    return;
+                }
+
+                if usage.cond_init || usage.used_above_decl {
+                    if cfg!(feature = "debug") {
+                        tracing::trace!("inline: [x] It's cond init or used before decl",);
                     }
+                    return;
+                }
 
-                    if should_preserve && usage.var_kind != Some(VarDeclKind::Const) {
-                        if cfg!(feature = "debug") {
-                            tracing::trace!(
-                                "inline: [x] Preserving non-const variable `{}` because it's \
-                                 top-level",
-                                dump(&var.name, false)
-                            );
-                        }
-                        return;
-                    }
+                if !usage.is_fn_local {
+                    match &**init {
+                        Expr::Lit(..) => {}
 
-                    if usage.cond_init || usage.used_above_decl {
-                        if cfg!(feature = "debug") {
-                            tracing::trace!("inline: [x] It's cond init or used before decl",);
-                        }
-                        return;
-                    }
+                        Expr::Unary(UnaryExpr {
+                            op: op!("!"), arg, ..
+                        }) if match &**arg {
+                            Expr::Lit(..) => true,
+                            _ => false,
+                        } => {}
 
-                    if !usage.is_fn_local {
-                        match &**init {
-                            Expr::Lit(..) => {}
-
-                            Expr::Unary(UnaryExpr {
-                                op: op!("!"), arg, ..
-                            }) if match &**arg {
-                                Expr::Lit(..) => true,
-                                _ => false,
-                            } => {}
-
-                            Expr::Fn(FnExpr {
-                                function:
-                                    Function {
-                                        body: Some(body), ..
-                                    },
-                                ..
-                            }) => {
-                                if body.stmts.len() == 1
-                                    && match &body.stmts[0] {
-                                        Stmt::Return(..) => true,
-                                        _ => false,
-                                    }
-                                {
-                                } else {
-                                    if cfg!(feature = "debug") {
-                                        tracing::trace!("inline: [x] It's not fn-local");
-                                    }
-                                    return;
+                        Expr::Fn(FnExpr {
+                            function:
+                                Function {
+                                    body: Some(body), ..
+                                },
+                            ..
+                        }) => {
+                            if body.stmts.len() == 1
+                                && match &body.stmts[0] {
+                                    Stmt::Return(..) => true,
+                                    _ => false,
                                 }
-                            }
-                            _ => {
+                            {
+                            } else {
                                 if cfg!(feature = "debug") {
                                     tracing::trace!("inline: [x] It's not fn-local");
                                 }
                                 return;
                             }
                         }
-                    }
-
-                    if !usage.reassigned {
-                        match &**init {
-                            Expr::Fn(..) | Expr::Arrow(..) => {
-                                self.typeofs.insert(i.to_id(), js_word!("function"));
+                        _ => {
+                            if cfg!(feature = "debug") {
+                                tracing::trace!("inline: [x] It's not fn-local");
                             }
-                            Expr::Array(..) | Expr::Object(..) => {
-                                self.typeofs.insert(i.to_id(), js_word!("object"));
-                            }
-                            _ => {}
-                        }
-                    }
-
-                    if !usage.mutated {
-                        self.mode.store(i.to_id(), &*init);
-                    }
-
-                    // No use => dropped
-                    if usage.ref_count == 0 {
-                        if init.may_have_side_effects() {
-                            // TODO: Inline partially
                             return;
                         }
-
-                        // TODO: Remove
-                        return;
-                    }
-
-                    let is_inline_enabled = self.options.reduce_vars
-                        || self.options.collapse_vars
-                        || self.options.inline != 0;
-
-                    // Mutation of properties are ok
-                    if is_inline_enabled
-                        && (!usage.mutated
-                            || (usage.assign_count == 0
-                                && !usage.reassigned
-                                && !usage.has_property_mutation))
-                        && match &**init {
-                            Expr::Lit(lit) => match lit {
-                                Lit::Str(s) => usage.ref_count == 1 || s.value.len() <= 3,
-                                Lit::Bool(_) | Lit::Null(_) | Lit::Num(_) | Lit::BigInt(_) => true,
-                                Lit::Regex(_) => self.options.unsafe_regexp,
-                                _ => false,
-                            },
-                            Expr::This(..) => usage.is_fn_local,
-                            Expr::Arrow(arr) => is_arrow_simple_enough(arr),
-                            _ => false,
-                        }
-                    {
-                        self.mode.store(i.to_id(), &*init);
-
-                        if self.options.inline != 0
-                            && !should_preserve
-                            && match &**init {
-                                Expr::Arrow(..) => self.options.unused,
-                                _ => true,
-                            }
-                        {
-                            self.changed = true;
-
-                            tracing::debug!(
-                                "inline: Decided to inline '{}{:?}' because it's simple",
-                                i.id.sym,
-                                i.id.span.ctxt
-                            );
-
-                            if self.ctx.var_kind == Some(VarDeclKind::Const) {
-                                var.span = var.span.apply_mark(self.marks.non_top_level);
-                            }
-
-                            self.lits.insert(i.to_id(), init.take());
-
-                            var.name.take();
-                        } else {
-                            tracing::debug!(
-                                "inline: Decided to copy '{}{:?}' because it's simple",
-                                i.id.sym,
-                                i.id.span.ctxt
-                            );
-
-                            self.lits.insert(i.to_id(), init.clone());
-                        }
-                        return;
-                    }
-
-                    // Single use => inlined
-                    if is_inline_enabled
-                        && !should_preserve
-                        && !usage.reassigned
-                        && (!usage.mutated || usage.is_mutated_only_by_one_call())
-                        && usage.ref_count == 1
-                    {
-                        match &**init {
-                            Expr::Fn(FnExpr {
-                                function: Function { is_async: true, .. },
-                                ..
-                            })
-                            | Expr::Fn(FnExpr {
-                                function:
-                                    Function {
-                                        is_generator: true, ..
-                                    },
-                                ..
-                            })
-                            | Expr::Arrow(ArrowExpr { is_async: true, .. })
-                            | Expr::Arrow(ArrowExpr {
-                                is_generator: true, ..
-                            }) => return,
-                            _ => {}
-                        }
-                        match &**init {
-                            Expr::Lit(Lit::Regex(..)) => {
-                                if !usage.is_fn_local || usage.used_in_loop {
-                                    return;
-                                }
-                            }
-
-                            Expr::This(..) => {
-                                // Don't inline this if it passes function boundaries.
-                                if !usage.is_fn_local {
-                                    return;
-                                }
-                            }
-
-                            _ => {}
-                        }
-
-                        if usage.used_in_loop {
-                            match &**init {
-                                Expr::Lit(..) | Expr::Fn(..) => {}
-                                _ => {
-                                    return;
-                                }
-                            }
-                        }
-
-                        if init.may_have_side_effects() {
-                            return;
-                        }
-
-                        tracing::debug!(
-                            "inline: Decided to inline var '{}' because it's used only once",
-                            i.id
-                        );
-                        self.changed = true;
-                        self.vars_for_inlining.insert(i.to_id(), init.take());
-                        return;
                     }
                 }
+
+                if !usage.reassigned {
+                    match &**init {
+                        Expr::Fn(..) | Expr::Arrow(..) => {
+                            self.typeofs.insert(i.to_id(), js_word!("function"));
+                        }
+                        Expr::Array(..) | Expr::Object(..) => {
+                            self.typeofs.insert(i.to_id(), js_word!("object"));
+                        }
+                        _ => {}
+                    }
+                }
+
+                if !usage.mutated {
+                    self.mode.store(i.to_id(), &*init);
+                }
+
+                // No use => dropped
+                if usage.ref_count == 0 {
+                    if init.may_have_side_effects() {
+                        // TODO: Inline partially
+                        return;
+                    }
+
+                    // TODO: Remove
+                    return;
+                }
+
+                let is_inline_enabled = self.options.reduce_vars
+                    || self.options.collapse_vars
+                    || self.options.inline != 0;
+
+                // Mutation of properties are ok
+                if is_inline_enabled
+                    && (!usage.mutated
+                        || (usage.assign_count == 0
+                            && !usage.reassigned
+                            && !usage.has_property_mutation))
+                    && match &**init {
+                        Expr::Lit(lit) => match lit {
+                            Lit::Str(s) => usage.ref_count == 1 || s.value.len() <= 3,
+                            Lit::Bool(_) | Lit::Null(_) | Lit::Num(_) | Lit::BigInt(_) => true,
+                            Lit::Regex(_) => self.options.unsafe_regexp,
+                            _ => false,
+                        },
+                        Expr::This(..) => usage.is_fn_local,
+                        Expr::Arrow(arr) => is_arrow_simple_enough(arr),
+                        _ => false,
+                    }
+                {
+                    self.mode.store(i.to_id(), &*init);
+
+                    if self.options.inline != 0
+                        && !should_preserve
+                        && match &**init {
+                            Expr::Arrow(..) => self.options.unused,
+                            _ => true,
+                        }
+                    {
+                        self.changed = true;
+
+                        tracing::debug!(
+                            "inline: Decided to inline '{}{:?}' because it's simple",
+                            i.id.sym,
+                            i.id.span.ctxt
+                        );
+
+                        if self.ctx.var_kind == Some(VarDeclKind::Const) {
+                            var.span = var.span.apply_mark(self.marks.non_top_level);
+                        }
+
+                        self.lits.insert(i.to_id(), init.take());
+
+                        var.name.take();
+                    } else {
+                        tracing::debug!(
+                            "inline: Decided to copy '{}{:?}' because it's simple",
+                            i.id.sym,
+                            i.id.span.ctxt
+                        );
+
+                        self.lits.insert(i.to_id(), init.clone());
+                    }
+                    return;
+                }
+
+                // Single use => inlined
+                if is_inline_enabled
+                    && !should_preserve
+                    && !usage.reassigned
+                    && (!usage.mutated || usage.is_mutated_only_by_one_call())
+                    && usage.ref_count == 1
+                {
+                    match &**init {
+                        Expr::Fn(FnExpr {
+                            function: Function { is_async: true, .. },
+                            ..
+                        })
+                        | Expr::Fn(FnExpr {
+                            function:
+                                Function {
+                                    is_generator: true, ..
+                                },
+                            ..
+                        })
+                        | Expr::Arrow(ArrowExpr { is_async: true, .. })
+                        | Expr::Arrow(ArrowExpr {
+                            is_generator: true, ..
+                        }) => return,
+                        _ => {}
+                    }
+                    match &**init {
+                        Expr::Lit(Lit::Regex(..)) => {
+                            if !usage.is_fn_local || usage.used_in_loop {
+                                return;
+                            }
+                        }
+
+                        Expr::This(..) => {
+                            // Don't inline this if it passes function boundaries.
+                            if !usage.is_fn_local {
+                                return;
+                            }
+                        }
+
+                        _ => {}
+                    }
+
+                    if usage.used_in_loop {
+                        match &**init {
+                            Expr::Lit(..) | Expr::Fn(..) => {}
+                            _ => {
+                                return;
+                            }
+                        }
+                    }
+
+                    if init.may_have_side_effects() {
+                        return;
+                    }
+
+                    tracing::debug!(
+                        "inline: Decided to inline var '{}' because it's used only once",
+                        i.id
+                    );
+                    self.changed = true;
+                    self.vars_for_inlining.insert(i.to_id(), init.take());
+                    return;
+                }
             }
-            // TODO
-            _ => {}
         }
     }
 
