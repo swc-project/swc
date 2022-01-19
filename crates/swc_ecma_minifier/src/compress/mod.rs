@@ -32,6 +32,7 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use swc_timer::timer;
 use tracing::{error, span, Level};
 
 mod drop_console;
@@ -233,13 +234,9 @@ where
     where
         N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa, M>>,
     {
-        self.data = Some(analyze(&*n, Some(self.marks)));
+        let _timer = timer!("optimize", pass = self.pass);
 
-        let _tracing = if cfg!(feature = "debug") {
-            Some(span!(Level::ERROR, "compressor", "pass" = self.pass).entered())
-        } else {
-            None
-        };
+        self.data = Some(analyze(&*n, Some(self.marks)));
 
         if self.options.passes != 0 && self.options.passes < self.pass {
             let done = dump(&*n, false);

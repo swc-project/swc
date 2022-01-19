@@ -4,9 +4,8 @@ use self::{
 };
 use crate::{
     marks::Marks,
-    util::{can_end_conditionally, idents_used_by, now},
+    util::{can_end_conditionally, idents_used_by},
 };
-use std::time::Instant;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -15,6 +14,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_timer::timer;
 
 mod ctx;
 pub(crate) mod storage;
@@ -35,7 +35,7 @@ where
     S: Storage,
     N: VisitWith<UsageAnalyzer<S>>,
 {
-    let start_time = now();
+    let _timer = timer!("analyze");
 
     let mut v = UsageAnalyzer {
         data: Default::default(),
@@ -46,12 +46,6 @@ where
     n.visit_with(&mut v);
     let top_scope = v.scope;
     v.data.top_scope().merge(top_scope, false);
-
-    if let Some(start_time) = start_time {
-        let end_time = Instant::now();
-
-        tracing::debug!("Scope analysis took {:?}", end_time - start_time);
-    }
 
     v.data
 }
