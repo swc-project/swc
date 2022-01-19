@@ -275,19 +275,19 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
                     right,
                     ..
                 }) => {
-                    let l_cost = cost(&left, in_bool_ctx, Some(*op), false);
+                    let l_cost = cost(left, in_bool_ctx, Some(*op), false);
 
-                    if !is_ret_val_ignored && !is_ok_to_negate_rhs(&right) {
+                    if !is_ret_val_ignored && !is_ok_to_negate_rhs(right) {
                         return l_cost + 3;
                     }
-                    l_cost + cost(&right, in_bool_ctx, Some(*op), is_ret_val_ignored)
+                    l_cost + cost(right, in_bool_ctx, Some(*op), is_ret_val_ignored)
                 }
 
                 Expr::Cond(CondExpr { cons, alt, .. })
-                    if is_ok_to_negate_for_cond(&cons) && is_ok_to_negate_for_cond(&alt) =>
+                    if is_ok_to_negate_for_cond(cons) && is_ok_to_negate_for_cond(&alt =>
                 {
-                    cost(&cons, in_bool_ctx, bin_op, is_ret_val_ignored)
-                        + cost(&alt, in_bool_ctx, bin_op, is_ret_val_ignored)
+                    cost(cons, in_bool_ctx, bin_op, is_ret_val_ignored)
+                        + cost(alt, in_bool_ctx, bin_op, is_ret_val_ignored)
                 }
 
                 Expr::Cond(..)
@@ -307,7 +307,7 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
 
                 Expr::Seq(e) => {
                     if let Some(last) = e.exprs.last() {
-                        return cost(&last, in_bool_ctx, bin_op, is_ret_val_ignored);
+                        return cost(last, in_bool_ctx, bin_op, is_ret_val_ignored);
                     }
 
                     if is_ret_val_ignored {
@@ -380,7 +380,7 @@ pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
 
     s.starts_with(|c: char| c.is_xid_start())
         && s.chars().all(|c: char| c.is_xid_continue())
-        && !s.contains("𝒶")
+        && !s.contains('𝒶')
         && !s.is_reserved()
 }
 
@@ -395,11 +395,7 @@ pub(crate) fn is_directive(e: &Stmt) -> bool {
 }
 
 pub(crate) fn is_pure_undefined_or_null(e: &Expr) -> bool {
-    is_pure_undefined(e)
-        || match e {
-            Expr::Lit(Lit::Null(..)) => true,
-            _ => false,
-        }
+    is_pure_undefined(e) || matches!(e, Expr::Lit(Lit::Null(..)))
 }
 
 /// This method does **not** modifies `e`.
@@ -414,8 +410,8 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
             right,
             ..
         }) => {
-            let l = eval_as_number(&left)?;
-            let r = eval_as_number(&right)?;
+            let l = eval_as_number(left)?;
+            let r = eval_as_number(right)?;
 
             return Some(l - r);
         }
@@ -431,12 +427,13 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
                 }
             }
 
-            match &**callee {
-                Expr::Member(MemberExpr {
-                    obj,
-                    prop: MemberProp::Ident(prop),
-                    ..
-                }) => match &**obj {
+            if let Expr::Member(MemberExpr {
+                obj,
+                prop: MemberProp::Ident(prop),
+                ..
+            }) = &**callee
+            {
+                match &**obj {
                     Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
                         "cos" => {
                             let v = eval_as_number(&args.first()?.expr)?;
@@ -498,8 +495,7 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
                         _ => {}
                     },
                     _ => {}
-                },
-                _ => {}
+                }
             }
         }
 
@@ -531,7 +527,7 @@ pub(crate) fn always_terminates(s: &Stmt) -> bool {
     match s {
         Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => true,
         Stmt::If(IfStmt { cons, alt, .. }) => {
-            always_terminates(&cons) && alt.as_deref().map(always_terminates).unwrap_or(false)
+            always_terminates(cons) && alt.as_deref().map(always_terminates).unwrap_or(false)
         }
         Stmt::Block(s) => s.stmts.iter().any(always_terminates),
 
