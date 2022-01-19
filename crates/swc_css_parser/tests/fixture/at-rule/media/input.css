@@ -14,3 +14,4 @@
 @media only screen and (color) {}
 @media not (device-aspect-ratio: 16/9) {}
 @media (min-width: 20px)  {}
+@media not all {}
