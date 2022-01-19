@@ -553,14 +553,15 @@ impl Token {
     ///
     /// e.g. `let a = xx;`, `let {a:{}} = 1`
     pub(crate) fn follows_keyword_let(&self, _strict: bool) -> bool {
-        match *self {
-            // This is required to recognize `let let` in strict mode.
-            tok!("let") => true,
-
-            tok!('{') | tok!('[') | Word(Word::Ident(..)) | tok!("yield") | tok!("await") => true,
-
-            _ => false,
-        }
+        matches!(
+            *self,
+            crate::token::Token::Word(crate::token::Word::Keyword(crate::token::Keyword::Let))
+                | tok!('{')
+                | tok!('[')
+                | Word(Word::Ident(..))
+                | tok!("yield")
+                | tok!("await")
+        )
     }
 }
 
@@ -568,7 +569,7 @@ impl Word {
     pub(crate) fn cow(&self) -> Cow<JsWord> {
         match *self {
             Word::Keyword(k) => Cow::Owned(k.into_js_word()),
-            Word::Ident(ref w) => Cow::Borrowed(&w),
+            Word::Ident(ref w) => Cow::Borrowed(w),
             Word::False => Cow::Owned(js_word!("false")),
             Word::True => Cow::Owned(js_word!("true")),
             Word::Null => Cow::Owned(js_word!("null")),

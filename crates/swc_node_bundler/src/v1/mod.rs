@@ -57,8 +57,7 @@ impl Config {
     pub fn codegen_target(&self) -> Option<EsVersion> {
         self.options
             .as_ref()
-            .map(|options| options.codegen_target())
-            .flatten()
+            .and_then(|options| options.codegen_target())
     }
 }
 

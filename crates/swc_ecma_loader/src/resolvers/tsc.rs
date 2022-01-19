@@ -196,7 +196,7 @@ fn compile_regex(src: String) -> Regex {
 
     if !CACHE.contains_key(&*src) {
         // Create capture group
-        let regex_pat = src.replace("*", "(.*)");
+        let regex_pat = src.replace('*', "(.*)");
         let re = Regex::new(&regex_pat).unwrap_or_else(|err| {
             panic!("failed to compile `{}` as a pattern: {:?}", regex_pat, err)
         });

@@ -131,7 +131,7 @@ where
                     let l_str = &mut l_last.raw;
 
                     let new: JsWord =
-                        format!("{}{}", l_str.value, rs.value.replace("\\", "\\\\")).into();
+                        format!("{}{}", l_str.value, rs.value.replace('\\', "\\\\")).into();
                     l_str.value = new.clone();
                     l_last.raw.value = new;
 
@@ -151,7 +151,7 @@ where
                     let r_str = &mut r_first.raw;
 
                     let new: JsWord =
-                        format!("{}{}", ls.value.replace("\\", "\\\\"), r_str.value).into();
+                        format!("{}{}", ls.value.replace('\\', "\\\\"), r_str.value).into();
                     r_str.value = new.clone();
                     r_first.raw.value = new;
 

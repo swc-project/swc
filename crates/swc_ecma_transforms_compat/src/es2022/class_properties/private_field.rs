@@ -37,21 +37,18 @@ impl VisitMut for BrandCheckHandler<'_> {
                         unreachable!()
                     }
                 };
-                match &**right {
-                    Expr::Ident(right) => {
-                        if self.class_name.sym == right.sym
-                            && self.class_name.span.ctxt == right.span.ctxt
-                        {
-                            *e = Expr::Bin(BinExpr {
-                                span: *span,
-                                op: op!("==="),
-                                left: Box::new(Expr::Ident(self.class_name.clone())),
-                                right: Box::new(Expr::Ident(right.clone())),
-                            });
-                            return;
-                        }
+                if let Expr::Ident(right) = &**right {
+                    if self.class_name.sym == right.sym
+                        && self.class_name.span.ctxt == right.span.ctxt
+                    {
+                        *e = Expr::Bin(BinExpr {
+                            span: *span,
+                            op: op!("==="),
+                            left: Box::new(Expr::Ident(self.class_name.clone())),
+                            right: Box::new(Expr::Ident(right.clone())),
+                        });
+                        return;
                     }
-                    _ => {}
                 }
 
                 self.names.insert(n.id.sym.clone());
@@ -305,10 +302,7 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
 
                 let var = alias_ident_for(&obj, "_ref");
 
-                let this = if match *obj {
-                    Expr::This(..) => true,
-                    _ => false,
-                } {
+                let this = if matches!(*obj, Expr::This(..)) {
                     ThisExpr { span: DUMMY_SP }.as_arg()
                 } else if *op == op!("=") {
                     obj.as_arg()
@@ -560,8 +554,7 @@ impl<'a> FieldAccessFolder<'a> {
 
                             type_args: Default::default(),
                         }
-                        .make_member(quote_ident!("value"))
-                        .into(),
+                        .make_member(quote_ident!("value")),
                         Some(Expr::This(*this)),
                     ),
                     _ => unimplemented!("destructuring set for object except this"),
@@ -614,18 +607,16 @@ impl<'a> FieldAccessFolder<'a> {
 
                     let first_arg = if is_alias_initialized {
                         var.clone().as_arg()
-                    } else {
-                        if aliased {
-                            AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Pat(var.clone().into()),
-                                op: op!("="),
-                                right: obj.take(),
-                            }
-                            .as_arg()
-                        } else {
-                            var.clone().as_arg()
+                    } else if aliased {
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            left: PatOrExpr::Pat(var.clone().into()),
+                            op: op!("="),
+                            right: obj.take(),
                         }
+                        .as_arg()
+                    } else {
+                        var.clone().as_arg()
                     };
 
                     let args = if is_method {

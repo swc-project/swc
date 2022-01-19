@@ -104,7 +104,7 @@ fn derive_fmt(i: &DeriveInput, trait_path: TokenStream) -> ItemImpl {
 
 fn get_str_value(attrs: &[Attribute]) -> String {
     // TODO: Accept multiline string
-    let docs: Vec<_> = attrs.iter().map(doc_str).flatten().collect();
+    let docs: Vec<_> = attrs.iter().filter_map(doc_str).collect();
     for raw_line in docs {
         let line = raw_line.trim();
         if line.starts_with('`') && line.ends_with('`') {

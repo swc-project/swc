@@ -502,8 +502,7 @@ where
                                     if !use_create_element && i.sym == js_word!("key") {
                                         key = attr
                                             .value
-                                            .map(jsx_attr_value_to_expr)
-                                            .flatten()
+                                            .and_then(jsx_attr_value_to_expr)
                                             .map(|expr| ExprOrSpread { expr, spread: None });
                                         assert_ne!(
                                             key, None,
@@ -521,8 +520,7 @@ where
                                         }
                                         source_props = attr
                                             .value
-                                            .map(jsx_attr_value_to_expr)
-                                            .flatten()
+                                            .and_then(jsx_attr_value_to_expr)
                                             .map(|expr| ExprOrSpread { expr, spread: None });
                                         assert_ne!(
                                             source_props, None,
@@ -540,8 +538,7 @@ where
                                         }
                                         self_props = attr
                                             .value
-                                            .map(jsx_attr_value_to_expr)
-                                            .flatten()
+                                            .and_then(jsx_attr_value_to_expr)
                                             .map(|expr| ExprOrSpread { expr, spread: None });
                                         assert_ne!(
                                             self_props, None,

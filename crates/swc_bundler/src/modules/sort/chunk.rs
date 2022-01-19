@@ -56,7 +56,7 @@ fn toposort_real_modules<'a>(
     mut modules: Vec<(ModuleId, Module)>,
     entry: ModuleId,
     graph: &'a ModuleGraph,
-    cycles: &'a Vec<Vec<ModuleId>>,
+    cycles: &'a [Vec<ModuleId>],
     cm: &Lrc<SourceMap>,
 ) -> Vec<Chunk> {
     let mut queue = modules.iter().map(|v| v.0).collect::<VecDeque<_>>();
@@ -127,7 +127,7 @@ fn toposort_real_modules<'a>(
 }
 
 fn cycles_for(
-    cycles: &Vec<Vec<ModuleId>>,
+    cycles: &[Vec<ModuleId>],
     id: ModuleId,
     checked: &mut Vec<ModuleId>,
 ) -> IndexSet<ModuleId, ahash::RandomState> {
@@ -154,7 +154,7 @@ fn cycles_for(
 fn toposort_real_module_ids<'a>(
     mut queue: VecDeque<ModuleId>,
     graph: &'a ModuleGraph,
-    cycles: &'a Vec<Vec<ModuleId>>,
+    cycles: &'a [Vec<ModuleId>],
 ) -> impl 'a + Iterator<Item = Vec<ModuleId>> {
     let mut done = AHashSet::<ModuleId>::default();
     let mut errorred = AHashSet::<ModuleId>::default();

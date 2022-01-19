@@ -68,7 +68,7 @@ fn spec(file: PathBuf) {
         .display()
         .to_string()
         .replace("\\\\", "/")
-        .replace("\\", "/");
+        .replace('\\', "/");
 
     // Ignore some useless tests
     let ignore = file_name.contains("tsc/FunctionDeclaration7_es6")

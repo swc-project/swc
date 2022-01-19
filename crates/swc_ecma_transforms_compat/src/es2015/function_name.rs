@@ -67,41 +67,33 @@ impl VisitMut for FnName {
             };
 
             expr.right.visit_mut_with(&mut folder);
-
-            return;
         }
     }
 
     fn visit_mut_key_value_prop(&mut self, p: &mut KeyValueProp) {
         p.visit_mut_children_with(self);
 
-        match &mut *p.value {
-            Expr::Fn(expr @ FnExpr { ident: None, .. }) => {
-                //
-                p.value = if let PropName::Ident(ref i) = p.key {
-                    Box::new(Expr::Fn(FnExpr {
-                        ident: Some(prepare(i.clone())),
-                        ..expr.take()
-                    }))
-                } else {
-                    Box::new(Expr::Fn(expr.take()))
-                };
-            }
-            _ => {}
+        if let Expr::Fn(expr @ FnExpr { ident: None, .. }) = &mut *p.value {
+            //
+            p.value = if let PropName::Ident(ref i) = p.key {
+                Box::new(Expr::Fn(FnExpr {
+                    ident: Some(prepare(i.clone())),
+                    ..expr.take()
+                }))
+            } else {
+                Box::new(Expr::Fn(expr.take()))
+            };
         };
     }
 
     fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
         decl.visit_mut_children_with(self);
 
-        match decl.name {
-            Pat::Ident(ref mut ident) => {
-                let mut folder = Rename {
-                    name: Some(prepare(ident.id.clone())),
-                };
-                decl.init.visit_mut_with(&mut folder);
-            }
-            _ => {}
+        if let Pat::Ident(ref mut ident) = decl.name {
+            let mut folder = Rename {
+                name: Some(prepare(ident.id.clone())),
+            };
+            decl.init.visit_mut_with(&mut folder);
         }
     }
 }

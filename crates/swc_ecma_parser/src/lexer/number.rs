@@ -591,7 +591,7 @@ mod tests {
 
         assert_eq!(
             lex(LONG, |l| l.read_radix_number(2).unwrap().left().unwrap()),
-            9.671406556917009e+24
+            9.671_406_556_917_009e24
         );
     }
 
@@ -599,7 +599,7 @@ mod tests {
     fn large_float_number() {
         const LONG: &str = "9.671406556917009e+24";
 
-        assert_eq!(num(LONG), 9.671406556917009e+24);
+        assert_eq!(num(LONG), 9.671_406_556_917_009e24);
     }
 
     /// Valid even on strict mode.

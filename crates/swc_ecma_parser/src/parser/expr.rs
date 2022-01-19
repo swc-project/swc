@@ -239,8 +239,8 @@ impl<'a, I: Tokens> Parser<I> {
             .map(|s| s == start)
             .unwrap_or(false);
 
-        match self.input.cur() {
-            Some(tok) => match tok {
+        if let Some(tok) = self.input.cur() {
+            match tok {
                 tok!("this") => {
                     self.input.bump();
                     return Ok(Box::new(Expr::This(ThisExpr {
@@ -341,8 +341,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 _ => {}
-            },
-            None => {}
+            }
         }
 
         let decorators = self.parse_decorators(false)?;
@@ -427,14 +426,12 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        if self.input.syntax().private_in_object() {
-            if eat!(self, '#') {
-                let id = self.parse_ident_name()?;
-                return Ok(Box::new(Expr::PrivateName(PrivateName {
-                    span: span!(self, start),
-                    id,
-                })));
-            }
+        if self.input.syntax().private_in_object() && eat!(self, '#') {
+            let id = self.parse_ident_name()?;
+            return Ok(Box::new(Expr::PrivateName(PrivateName {
+                span: span!(self, start),
+                id,
+            })));
         }
 
         unexpected!(
@@ -653,7 +650,7 @@ impl<'a, I: Tokens> Parser<I> {
     ) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_paren_expr_or_arrow_fn);
 
-        let expr_start = async_span.map(|x| x.lo()).unwrap_or(cur_pos!(self));
+        let expr_start = async_span.map(|x| x.lo()).unwrap_or_else(|| cur_pos!(self));
 
         // At this point, we can't know if it's parenthesized
         // expression or head of arrow function.
@@ -694,11 +691,9 @@ impl<'a, I: Tokens> Parser<I> {
                     params.is_simple_parameter_list(),
                 )?;
 
-                if is_direct_child_of_cond {
-                    if !is_one_of!(p, ':', ';') {
-                        trace_cur!(p, parse_arrow_in_cond__fail);
-                        unexpected!(p, "fail")
-                    }
+                if is_direct_child_of_cond && !is_one_of!(p, ':', ';') {
+                    trace_cur!(p, parse_arrow_in_cond__fail);
+                    unexpected!(p, "fail")
                 }
 
                 Ok(Some(Box::new(Expr::Arrow(ArrowExpr {
@@ -758,8 +753,8 @@ impl<'a, I: Tokens> Parser<I> {
                 return_type,
                 type_params: None,
             };
-            match arrow_expr.body {
-                BlockStmtOrExpr::BlockStmt(..) => match cur!(self, false) {
+            if let BlockStmtOrExpr::BlockStmt(..) = arrow_expr.body {
+                match cur!(self, false) {
                     Ok(&Token::BinOp(..)) => {
                         // ) is required
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
@@ -774,8 +769,7 @@ impl<'a, I: Tokens> Parser<I> {
                         return Ok(errorred_expr);
                     }
                     _ => {}
-                },
-                _ => {}
+                }
             }
             return Ok(Box::new(Expr::Arrow(arrow_expr)));
         }
@@ -1081,12 +1075,10 @@ impl<'a, I: Tokens> Parser<I> {
                         )
                         .map(|expr| (Box::new(Expr::TaggedTpl(expr)), true))
                         .map(Some)
+                    } else if no_call {
+                        unexpected!(p, "`")
                     } else {
-                        if no_call {
-                            unexpected!(p, "`")
-                        } else {
-                            unexpected!(p, "( or `")
-                        }
+                        unexpected!(p, "( or `")
                     }
                 });
                 if let Some(result) = result {
@@ -1143,7 +1135,7 @@ impl<'a, I: Tokens> Parser<I> {
                 Box::new(match obj {
                     Callee::Import(..) => unreachable!(),
                     Callee::Super(obj) => {
-                        if let Some(_) = question_dot_token {
+                        if question_dot_token.is_some() {
                             if no_call {
                                 syntax_error!(
                                     self,
@@ -1231,7 +1223,7 @@ impl<'a, I: Tokens> Parser<I> {
                         }
                     }
                     Callee::Super(obj) => {
-                        if let Some(_) = question_dot_token {
+                        if question_dot_token.is_some() {
                             if no_call {
                                 syntax_error!(
                                     self,
@@ -1828,14 +1820,12 @@ impl<'a, I: Tokens> Parser<I> {
             // IsValidSimpleAssignmentTarget of LeftHandSideExpression is false.
             if !is_eval_or_arguments
                 && !expr.is_valid_simple_assignment_target(self.ctx().strict)
-                && should_deny(&expr, deny_call)
+                && should_deny(expr, deny_call)
             {
                 self.emit_err(expr.span(), SyntaxError::TS2406);
             }
-        } else {
-            if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
-                self.emit_err(expr.span(), SyntaxError::TS2406);
-            }
+        } else if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
+            self.emit_err(expr.span(), SyntaxError::TS2406);
         }
     }
 }

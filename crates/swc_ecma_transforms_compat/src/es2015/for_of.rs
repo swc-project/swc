@@ -149,7 +149,7 @@ impl ForOf {
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
                                 name: var.decls.into_iter().next().unwrap().name,
-                                init: Some(Box::new(Expr::Ident(arr.clone()).computed_member(i))),
+                                init: Some(Box::new(Expr::Ident(arr).computed_member(i))),
                                 definite: false,
                             }],
                         })),
@@ -162,7 +162,7 @@ impl ForOf {
                         span: DUMMY_SP,
                         left: PatOrExpr::Pat(Box::new(pat)),
                         op: op!("="),
-                        right: Box::new(Expr::Ident(arr.clone()).computed_member(i)),
+                        right: Box::new(Expr::Ident(arr).computed_member(i)),
                     }
                     .into_stmt(),
                 ),
@@ -305,14 +305,12 @@ impl ForOf {
                         })),
                     }));
 
-                    let iteration_normal_completion = Box::new(Expr::Assign(AssignExpr {
+                    Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         left: PatOrExpr::Pat(normal_completion_ident.clone().into()),
                         op: op!("="),
                         right: Box::new(step_expr.make_member(quote_ident!("done"))),
-                    }));
-
-                    iteration_normal_completion
+                    }))
                 },
             }))),
 

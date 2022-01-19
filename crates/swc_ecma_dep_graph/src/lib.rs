@@ -94,7 +94,7 @@ struct DependencyCollector<'a> {
 
 impl<'a> DependencyCollector<'a> {
     fn get_leading_comments(&self, span: Span) -> Vec<Comment> {
-        self.comments.get_leading(span.lo).unwrap_or_else(Vec::new)
+        self.comments.get_leading(span.lo).unwrap_or_default()
     }
 }
 
