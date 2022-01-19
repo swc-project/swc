@@ -639,16 +639,13 @@ where
     ///
     /// - `undefined` => `void 0`
     fn compress_undefined(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Ident(Ident {
-                span,
-                sym: js_word!("undefined"),
-                ..
-            }) => {
-                *e = *undefined(*span);
-                return;
-            }
-            _ => {}
+        if let Expr::Ident(Ident {
+            span,
+            sym: js_word!("undefined"),
+            ..
+        }) = e
+        {
+            *e = *undefined(*span);
         }
     }
 
@@ -662,41 +659,35 @@ where
         };
 
         if self.options.bools_as_ints || self.options.bools {
-            match lit {
-                Lit::Bool(v) => {
-                    self.changed = true;
-                    tracing::debug!("Compressing boolean literal");
-                    *e = Expr::Unary(UnaryExpr {
+            if let Lit::Bool(v) = lit {
+                self.changed = true;
+                tracing::debug!("Compressing boolean literal");
+                *e = Expr::Unary(UnaryExpr {
+                    span: v.span,
+                    op: op!("!"),
+                    arg: Box::new(Expr::Lit(Lit::Num(Number {
                         span: v.span,
-                        op: op!("!"),
-                        arg: Box::new(Expr::Lit(Lit::Num(Number {
-                            span: v.span,
-                            value: if v.value { 0.0 } else { 1.0 },
-                        }))),
-                    });
-                }
-                _ => {}
+                        value: if v.value { 0.0 } else { 1.0 },
+                    }))),
+                });
             }
         }
     }
 
     fn remove_invalid(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Bin(BinExpr { left, right, .. }) => {
-                self.remove_invalid(left);
-                self.remove_invalid(right);
+        if let Expr::Bin(BinExpr { left, right, .. }) = e {
+            self.remove_invalid(left);
+            self.remove_invalid(right);
 
-                if left.is_invalid() {
-                    *e = *right.take();
-                    self.remove_invalid(e);
-                    return;
-                } else if right.is_invalid() {
-                    *e = *left.take();
-                    self.remove_invalid(e);
-                    return;
-                }
+            if left.is_invalid() {
+                *e = *right.take();
+                self.remove_invalid(e);
+                return;
+            } else if right.is_invalid() {
+                *e = *left.take();
+                self.remove_invalid(e);
+                return;
             }
-            _ => {}
         }
     }
 
@@ -750,12 +741,11 @@ where
 
                 for member in &mut cls.class.body {
                     match member {
-                        ClassMember::Method(ClassMethod { key, .. }) => match key {
-                            PropName::Computed(key) => {
+                        ClassMember::Method(ClassMethod { key, .. }) => {
+                            if let PropName::Computed(key) = key {
                                 exprs.extend(self.ignore_return_value(&mut key.expr).map(Box::new));
                             }
-                            _ => {}
-                        },
+                        }
                         ClassMember::ClassProp(ClassProp {
                             key,
                             is_static,
