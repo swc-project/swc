@@ -154,9 +154,10 @@ class C7 {
 class C8 {
     g() {}
     f() {
-        return _wrapAsyncGenerator((function*() {
-            this.g();
-        }).bind(this))();
+        var _this = this;
+        return _wrapAsyncGenerator(function*() {
+            _this.g();
+        })();
     }
 }
 // @filename: C9.ts
@@ -165,10 +166,10 @@ class B9 {
 }
 class C9 extends B9 {
     f() {
-        var _super_g = (..._args)=>super.g(..._args)
+        var _this = this, _superprop_get_g = ()=>super.g
         ;
         return _wrapAsyncGenerator(function*() {
-            _super_g();
+            _superprop_get_g().call(_this);
         })();
     }
 }

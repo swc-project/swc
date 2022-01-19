@@ -58,7 +58,7 @@ foo({
         e: 3
     }
 });
-var arr, array = [
+var array = [
     "string",
     1,
     !0
@@ -76,12 +76,14 @@ baz([
     1,
     !0
 ].concat(function(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}(arr = array) || function(iter) {
-    if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
-}(arr) || _unsupportedIterableToArray(arr) || function() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}())), foo({
+    return (function(arr) {
+        if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+    })(arr) || (function(iter) {
+        if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
+    })(arr) || _unsupportedIterableToArray(arr) || (function() {
+        throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    })();
+}(array))), foo({
     x: [
         "string",
         1

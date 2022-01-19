@@ -1,4 +1,4 @@
-use swc_plugin::{ast::*, plugin_module, DUMMY_SP};
+use swc_plugin::{ast::*, plugin_module, PluginError, DUMMY_SP};
 
 struct ConsoleOutputReplacer;
 
@@ -28,13 +28,18 @@ impl VisitMut for ConsoleOutputReplacer {
 /// returning ptr back to host.
 ///
 /// It is possible to opt out from macro by writing transform fn manually via
-/// `__plugin_process_impl(*const u8, i32, *const u8, i32) -> (i32,i32)`
-/// if plugin need to handle low-level ptr directly.
+/// `__plugin_process_impl(
+///     ast_ptr: *const u8,
+///     ast_ptr_len: i32,
+///     config_str_ptr: *const u8,
+///     config_str_ptr_len: i32) ->
+///     (is_ok: i32 /* 0 means success */,
+///      result_ptr: i32,
+///      result_ptr_length: i32)`
 ///
-/// TODO:
-/// - better developer experience: println / dbg!() doesn't emit anything
+/// if plugin need to handle low-level ptr directly.
 #[plugin_module]
-pub fn process(program: Program, _plugin_config: String) -> Result<Program, std::fmt::Error> {
+pub fn process(program: Program, _plugin_config: String) -> Result<Program, PluginError> {
     let transformed_program = program.fold_with(&mut as_folder(ConsoleOutputReplacer));
     Ok(transformed_program)
 }

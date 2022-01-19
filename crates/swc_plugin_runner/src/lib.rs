@@ -7,7 +7,10 @@ use anyhow::{anyhow, Context, Error};
 use once_cell::sync::Lazy;
 use parking_lot::Mutex;
 use resolve::PluginCache;
-use swc_common::{collections::AHashMap, plugin::Serialized};
+use swc_common::{
+    collections::AHashMap,
+    plugin::{PluginError, Serialized},
+};
 use wasmer::{imports, Array, Exports, Instance, Memory, MemoryType, Module, Store, WasmPtr};
 use wasmer_cache::{Cache, Hash};
 use wasmer_wasi::{get_wasi_version, WasiState};
@@ -140,7 +143,7 @@ fn load_plugin(plugin_path: &Path, cache: &mut Option<PluginCache>) -> Result<In
 /// teardown
 struct PluginTransformTracker {
     // Main transform interface plugin exports
-    exported_plugin_transform: wasmer::NativeFunc<(i32, i32, i32, i32), (i32, i32)>,
+    exported_plugin_transform: wasmer::NativeFunc<(i32, i32, i32, i32), (i32, i32, i32)>,
     // `__free` function automatically exported via swc_plugin sdk to allow deallocation in guest
     // memory space
     exported_plugin_free: wasmer::NativeFunc<(i32, i32), i32>,
@@ -159,7 +162,9 @@ impl PluginTransformTracker {
         let tracker = PluginTransformTracker {
             exported_plugin_transform: instance
                 .exports
-                .get_native_function::<(i32, i32, i32, i32), (i32, i32)>("__plugin_process_impl")?,
+                .get_native_function::<(i32, i32, i32, i32), (i32, i32, i32)>(
+                    "__plugin_process_impl",
+                )?,
             exported_plugin_free: instance
                 .exports
                 .get_native_function::<(i32, i32), i32>("__free")?,
@@ -209,7 +214,12 @@ impl PluginTransformTracker {
 
     /// Copy guest's memory into host, construct serialized struct from raw
     /// bytes.
-    fn read_bytes_from_guest(&mut self, returned_ptr: i32, len: i32) -> Result<Serialized, Error> {
+    fn read_bytes_from_guest(
+        &mut self,
+        returned_ptr_result: i32,
+        returned_ptr: i32,
+        len: i32,
+    ) -> Result<Serialized, Error> {
         let memory = self.instance.exports.get_memory("memory")?;
         let ptr: WasmPtr<u8, Array> = WasmPtr::new(returned_ptr as _);
 
@@ -225,7 +235,26 @@ impl PluginTransformTracker {
             .map(|(_size, cell)| cell.get())
             .collect::<Vec<u8>>();
 
-        Ok(Serialized::new_for_plugin(&transformed_raw_bytes[..], len))
+        let ret = Serialized::new_for_plugin(&transformed_raw_bytes[..], len);
+
+        if returned_ptr_result == 0 {
+            Ok(ret)
+        } else {
+            let err: PluginError = Serialized::deserialize(&ret)?;
+            match err {
+                PluginError::SizeInteropFailure(msg) => Err(anyhow!(
+                    "Failed to convert pointer size to calculate: {}",
+                    msg
+                )),
+                PluginError::Deserialize((msg, ..)) | PluginError::Serialize(msg) => {
+                    Err(anyhow!("{}", msg))
+                }
+                PluginError::Transform => Err(anyhow!("Failed to apply transform via plugin")),
+                _ => Err(anyhow!(
+                    "Unexpected error occurred while running plugin transform"
+                )),
+            }
+        }
     }
 
     fn transform(
@@ -243,8 +272,10 @@ impl PluginTransformTracker {
             config_str_ptr.1,
         )?;
 
-        self.allocated_ptr_vec.push(returned_ptr);
-        self.read_bytes_from_guest(returned_ptr.0, returned_ptr.1)
+        self.allocated_ptr_vec
+            .push((returned_ptr.1, returned_ptr.2));
+
+        self.read_bytes_from_guest(returned_ptr.0, returned_ptr.1, returned_ptr.2)
     }
 }
 
@@ -258,8 +289,6 @@ impl Drop for PluginTransformTracker {
     }
 }
 
-// TODO
-// - error propagation from plugin
 pub fn apply_js_plugin(
     plugin_name: &str,
     path: &Path,

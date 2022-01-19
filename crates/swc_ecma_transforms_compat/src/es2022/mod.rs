@@ -11,10 +11,10 @@ pub mod static_blocks;
 
 pub fn es2022(config: Config) -> impl Fold {
     chain!(
+        static_blocks(),
         class_properties(class_properties::Config {
             loose: config.loose,
         }),
-        static_blocks(),
         private_in_object(),
     )
 }

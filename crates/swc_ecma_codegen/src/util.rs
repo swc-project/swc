@@ -252,10 +252,9 @@ impl StartsWithAlphaNum for Expr {
             Expr::Call(CallExpr { callee: left, .. }) => left.starts_with_alpha_num(),
             Expr::Member(MemberExpr { obj: ref left, .. }) => left.starts_with_alpha_num(),
 
-            Expr::Unary(UnaryExpr { op, .. }) => match op {
-                op!("void") | op!("delete") | op!("typeof") => true,
-                _ => false,
-            },
+            Expr::Unary(UnaryExpr { op, .. }) => {
+                matches!(op, op!("void") | op!("delete") | op!("typeof"))
+            }
 
             Expr::Arrow(ref expr) => {
                 if expr.is_async {

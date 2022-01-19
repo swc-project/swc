@@ -130,7 +130,7 @@ impl Visit for AssertValid {
     noop_visit_type!();
 
     fn visit_invalid(&mut self, _: &Invalid) {
-        panic!("[SWC_RUN] Invalid node found");
+        panic!("Invalid node found");
     }
 
     fn visit_setter_prop(&mut self, p: &SetterProp) {
@@ -141,5 +141,13 @@ impl Visit for AssertValid {
         l.visit_children_with(self);
 
         assert_eq!(l.exprs.len() + 1, l.quasis.len());
+    }
+
+    fn visit_var_declarators(&mut self, v: &[VarDeclarator]) {
+        v.visit_children_with(self);
+
+        if v.is_empty() {
+            panic!("Found empty var declarators");
+        }
     }
 }

@@ -38,11 +38,11 @@ class Derived extends Base {
         return (ref = super.method) === null || ref === void 0 ? void 0 : ref.call(this);
     }
     asyncMethod() {
-        var _super_method = ()=>super.method
+        var _this = this, _superprop_get_method = ()=>super.method
         ;
-        return _asyncToGenerator((function*() {
+        return _asyncToGenerator(function*() {
             var ref;
-            return (ref = _super_method()) === null || ref === void 0 ? void 0 : ref.call(this);
-        }).bind(this))();
+            return (ref = _superprop_get_method()) === null || ref === void 0 ? void 0 : ref.call(_this);
+        })();
     }
 }

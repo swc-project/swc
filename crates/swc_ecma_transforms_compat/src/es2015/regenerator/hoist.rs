@@ -175,7 +175,6 @@ impl VisitMut for Hoister {
                     self.vars.extend(find_ids(&pat));
 
                     *v = pat.into();
-                    return;
                 }
             }
         };

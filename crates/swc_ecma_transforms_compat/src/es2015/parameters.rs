@@ -8,7 +8,7 @@ use swc_ecma_ast::*;
 // use swc_ecma_transforms_base::perf::Parallel;
 // use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
-    function::{init_this, FnEnvHoister, FnEnvState},
+    function::{init_this, FnEnvHoister},
     member_expr, prepend, prepend_stmts, private_ident, quote_ident, undefined, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -21,11 +21,11 @@ pub fn parameters(c: Config) -> impl 'static + Fold {
     })
 }
 
-#[derive(Clone, Default)]
+#[derive(Default)]
 struct Params {
     /// Used to store `this, in case if `arguments` is used and we should
     /// transform an arrow expression to a function expression.
-    state: FnEnvState,
+    hoister: FnEnvHoister,
     in_subclass: bool,
     c: Config,
 }
@@ -102,7 +102,7 @@ impl Params {
                         let binding = private_ident!(span, "param");
 
                         params.push(Param {
-                            pat: Pat::Ident(binding.clone().into()),
+                            pat: binding.clone().into(),
                             ..param
                         });
                         let decl = VarDeclarator {
@@ -135,10 +135,10 @@ impl Params {
                                 span,
                                 test: Box::new(Expr::Bin(BinExpr {
                                     left: Box::new(check_arg_len(i)),
-                                    op: BinaryOp::LogicalAnd,
+                                    op: op!("&&"),
                                     right: Box::new(Expr::Bin(BinExpr {
                                         left: Box::new(make_arg_nth(i)),
-                                        op: BinaryOp::NotEqEq,
+                                        op: op!("!=="),
                                         right: undefined(DUMMY_SP),
                                         span: DUMMY_SP,
                                     })),
@@ -153,7 +153,7 @@ impl Params {
                         if let Pat::Ident(ident) = left.as_ref() {
                             params.push(Param {
                                 span,
-                                pat: Pat::Ident(ident.clone()),
+                                pat: ident.clone().into(),
                                 decorators: Vec::new(),
                             });
                             loose_stmt.push(Stmt::If(IfStmt {
@@ -169,7 +169,7 @@ impl Params {
                                     expr: Box::new(Expr::Assign(AssignExpr {
                                         span,
                                         left: PatOrExpr::Pat(left),
-                                        op: AssignOp::Assign,
+                                        op: op!("="),
                                         right,
                                     })),
                                 })),
@@ -180,7 +180,7 @@ impl Params {
                             params.push(Param {
                                 span: DUMMY_SP,
                                 decorators: Default::default(),
-                                pat: Pat::Ident(binding.clone().into()),
+                                pat: binding.clone().into(),
                             });
                             loose_stmt.push(Stmt::Decl(Decl::Var(VarDecl {
                                 span,
@@ -193,7 +193,7 @@ impl Params {
                                         test: Box::new(Expr::Bin(BinExpr {
                                             span: DUMMY_SP,
                                             left: Box::new(Expr::Ident(binding.clone())),
-                                            op: BinaryOp::EqEqEq,
+                                            op: op!("==="),
                                             right: undefined(DUMMY_SP),
                                         })),
                                         cons: right,
@@ -270,7 +270,7 @@ impl Params {
                                     .into(),
                                 ),
                                 cons: Box::new(bin),
-                                alt: Box::new(Expr::Lit(Lit::Num(Number { span, value: 0.0 }))),
+                                alt: 0.into(),
                             })
                         }
                     };
@@ -284,14 +284,14 @@ impl Params {
                                 // _len = arguments.length - i
                                 VarDeclarator {
                                     span,
-                                    name: Pat::Ident(len_ident.clone().into()),
+                                    name: len_ident.clone().into(),
                                     init: Some(member_expr!(span, arguments.length)),
                                     definite: false,
                                 },
                                 // a1 = new Array(_len - $i)
                                 VarDeclarator {
                                     span,
-                                    name: Pat::Ident(arg.clone().into()),
+                                    name: arg.clone().into(),
                                     init: Some(Box::new(Expr::New(NewExpr {
                                         span,
                                         callee: Box::new(quote_ident!("Array").into()),
@@ -306,7 +306,7 @@ impl Params {
                                 // _key = 0
                                 VarDeclarator {
                                     span,
-                                    name: Pat::Ident(idx_ident.clone().into()),
+                                    name: idx_ident.clone().into(),
                                     init: Some(Box::new(Expr::Lit(Lit::Num(Number {
                                         span,
                                         value: i as f64,
@@ -398,11 +398,11 @@ impl VisitMut for Params {
     noop_visit_mut_type!();
 
     fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
-        let old_rep = self.state.take();
+        let old_rep = self.hoister.take();
 
         body.visit_mut_children_with(self);
 
-        let decls = mem::replace(&mut self.state, old_rep).to_stmt();
+        let decls = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
         if let Some(decls) = decls {
             if let BlockStmtOrExpr::Expr(v) = body {
@@ -453,12 +453,13 @@ impl VisitMut for Params {
         f.params.visit_mut_with(self);
 
         if let Some(BlockStmt { span: _, stmts }) = &mut f.body {
-            let old_rep = self.state.take();
+            let old_rep = self.hoister.take();
 
             stmts.visit_mut_children_with(self);
 
             if self.in_subclass {
-                let (decl, this_id) = mem::replace(&mut self.state, old_rep).to_stmt_in_subclass();
+                let (decl, this_id) =
+                    mem::replace(&mut self.hoister, old_rep).to_stmt_in_subclass();
 
                 if let Some(stmt) = decl {
                     if let Some(this_id) = this_id {
@@ -467,7 +468,7 @@ impl VisitMut for Params {
                     prepend(stmts, stmt);
                 }
             } else {
-                let decl = mem::replace(&mut self.state, old_rep).to_stmt();
+                let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
                 if let Some(stmt) = decl {
                     prepend(stmts, stmt);
@@ -486,10 +487,7 @@ impl VisitMut for Params {
             Expr::Arrow(f) => {
                 f.visit_mut_children_with(self);
 
-                let was_expr = match f.body {
-                    BlockStmtOrExpr::Expr(..) => true,
-                    _ => false,
-                };
+                let was_expr = f.body.is_expr();
 
                 let need_arrow_to_function = f.params.iter().any(|p| match p {
                     Pat::Rest(..) => true,
@@ -499,7 +497,7 @@ impl VisitMut for Params {
 
                 // this needs to happen before rest parameter transform
                 if need_arrow_to_function {
-                    f.visit_mut_children_with(&mut FnEnvHoister::new(&mut self.state));
+                    f.visit_mut_children_with(&mut self.hoister);
                 }
 
                 let body_span = f.body.span();
@@ -635,7 +633,7 @@ impl VisitMut for Params {
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         stmts.visit_mut_children_with(self);
 
-        let decl = self.state.take().to_stmt();
+        let decl = self.hoister.take().to_stmt();
 
         if let Some(stmt) = decl {
             prepend(stmts, ModuleItem::Stmt(stmt));
@@ -643,11 +641,11 @@ impl VisitMut for Params {
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        let old_rep = self.state.take();
+        let old_rep = self.hoister.take();
 
         stmts.visit_mut_children_with(self);
 
-        let decl = mem::replace(&mut self.state, old_rep).to_stmt();
+        let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
         if let Some(stmt) = decl {
             prepend(stmts, stmt);
@@ -656,12 +654,7 @@ impl VisitMut for Params {
 }
 
 fn make_arg_nth(n: usize) -> Expr {
-    Expr::Ident(Ident::new(js_word!("arguments"), DUMMY_SP)).computed_member(Expr::Lit(Lit::Num(
-        Number {
-            span: DUMMY_SP,
-            value: n as f64,
-        },
-    )))
+    Expr::Ident(Ident::new(js_word!("arguments"), DUMMY_SP)).computed_member(n)
 }
 
 fn check_arg_len(n: usize) -> Expr {
@@ -670,11 +663,8 @@ fn check_arg_len(n: usize) -> Expr {
             Expr::Ident(Ident::new(js_word!("arguments"), DUMMY_SP))
                 .make_member(Ident::new(js_word!("length"), DUMMY_SP)),
         ),
-        op: BinaryOp::Gt,
-        right: Box::new(Expr::Lit(Lit::Num(Number {
-            span: DUMMY_SP,
-            value: n as f64,
-        }))),
+        op: op!(">"),
+        right: n.into(),
         span: DUMMY_SP,
     })
 }

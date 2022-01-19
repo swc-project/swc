@@ -1,4 +1,3 @@
-var arr;
 function _arrayLikeToArray(arr, len) {
     (null == len || len > arr.length) && (len = arr.length);
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
@@ -41,8 +40,14 @@ function _unsupportedIterableToArray(o, minLen) {
     var __tmp = _slicedToArray(_tmp, 2), ref = _slicedToArray(__tmp[0], 2), k1 = ref[0], v1 = ref[1], ref1 = _slicedToArray(__tmp[1], 2);
     ref1[0], ref1[1];
 }).apply(void 0, function(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}(arr = new Map([
+    return (function(arr) {
+        if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+    })(arr) || (function(iter) {
+        if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
+    })(arr) || _unsupportedIterableToArray(arr) || (function() {
+        throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    })();
+}(new Map([
     [
         "",
         !0
@@ -51,8 +56,4 @@ function _unsupportedIterableToArray(o, minLen) {
         "hello",
         !0
     ]
-])) || function(iter) {
-    if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
-}(arr) || _unsupportedIterableToArray(arr) || function() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}());
+])));

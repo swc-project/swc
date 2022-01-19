@@ -18,15 +18,13 @@ impl Visit for ImportFinder {
         e.visit_children_with(self);
 
         match &e.callee {
-            Callee::Expr(callee) => match &**callee {
-                Expr::Ident(i) => {
+            Callee::Expr(callee) => {
+                if let Expr::Ident(i) = &**callee {
                     if &*i.sym == "require" {
                         self.found = true;
                     }
                 }
-
-                _ => {}
-            },
+            }
 
             Callee::Import(_) => self.found = true,
 

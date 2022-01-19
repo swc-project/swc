@@ -170,7 +170,7 @@ impl ProgramData {
             return;
         }
 
-        let e = self.vars.entry(i.clone()).or_insert_with(|| {
+        let e = self.vars.entry(i).or_insert_with(|| {
             // tracing::trace!("insert({}{:?})", i.0, i.1);
 
             VarUsageInfo {

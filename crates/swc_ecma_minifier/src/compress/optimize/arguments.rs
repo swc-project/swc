@@ -145,6 +145,9 @@ impl ArgReplacer<'_> {
 impl VisitMut for ArgReplacer<'_> {
     noop_visit_mut_type!();
 
+    /// Noop.
+    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         n.visit_mut_children_with(self);
 
@@ -160,16 +163,18 @@ impl VisitMut for ArgReplacer<'_> {
 
         n.visit_mut_children_with(self);
 
-        match n {
-            Expr::Member(MemberExpr {
-                obj,
-                prop: MemberProp::Computed(c),
+        if let Expr::Member(MemberExpr {
+            obj,
+            prop: MemberProp::Computed(c),
+            ..
+        }) = n
+        {
+            if let Expr::Ident(Ident {
+                sym: js_word!("arguments"),
                 ..
-            }) => match &**obj {
-                Expr::Ident(Ident {
-                    sym: js_word!("arguments"),
-                    ..
-                }) => match &*c.expr {
+            }) = &**obj
+            {
+                match &*c.expr {
                     Expr::Lit(Lit::Str(Str { value, .. })) => {
                         let idx = value.parse::<usize>();
                         let idx = match idx {
@@ -180,13 +185,9 @@ impl VisitMut for ArgReplacer<'_> {
                         self.inject_params_if_required(idx);
 
                         if let Some(param) = self.params.get(idx) {
-                            match &param.pat {
-                                Pat::Ident(i) => {
-                                    self.changed = true;
-                                    *n = Expr::Ident(i.id.clone());
-                                    return;
-                                }
-                                _ => {}
+                            if let Pat::Ident(i) = &param.pat {
+                                self.changed = true;
+                                *n = Expr::Ident(i.id.clone());
                             }
                         }
                     }
@@ -202,28 +203,23 @@ impl VisitMut for ArgReplacer<'_> {
 
                         //
                         if let Some(param) = self.params.get(idx) {
-                            match &param.pat {
-                                Pat::Ident(i) => {
-                                    tracing::debug!(
-                                        "arguments: Replacing access to arguments to normal \
-                                         reference",
-                                    );
-                                    self.changed = true;
-                                    *n = Expr::Ident(i.id.clone());
-                                    return;
-                                }
-                                _ => {}
+                            if let Pat::Ident(i) = &param.pat {
+                                tracing::debug!(
+                                    "arguments: Replacing access to arguments to normal reference",
+                                );
+                                self.changed = true;
+                                *n = Expr::Ident(i.id.clone());
                             }
                         }
                     }
                     _ => {}
-                },
-                _ => {}
-            },
-
-            _ => {}
+                }
+            }
         }
     }
+
+    /// Noop.
+    fn visit_mut_function(&mut self, _: &mut Function) {}
 
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
         if self.prevent {
@@ -246,10 +242,4 @@ impl VisitMut for ArgReplacer<'_> {
             c.visit_mut_with(self);
         }
     }
-
-    /// Noop.
-    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
-
-    /// Noop.
-    fn visit_mut_function(&mut self, _: &mut Function) {}
 }

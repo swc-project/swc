@@ -2,13 +2,17 @@ class C {
 }
 class D {
 }
-for((M = M1 || (M1 = {})).A = class {
-}, M.F2 = function(x) {
-    return x.toString();
-}, (N = N1 || (N1 = {})).A = class {
-}, N.F2 = function(x) {
-    return x.toString();
-};;);
+for(!function(M1) {
+    M1.A = class {
+    }, M1.F2 = function(x) {
+        return x.toString();
+    };
+}(M || (M = {})), (function(N1) {
+    N1.A = class {
+    }, N1.F2 = function(x) {
+        return x.toString();
+    };
+})(N || (N = {}));;);
 for(;;);
 do ;
 while (null)
@@ -42,7 +46,7 @@ while (new C())
 for(new D(); new D(););
 do ;
 while (new D())
-for(var M, N, M1, N1, a = !0; a;);
+for(var M, N, a = !0; a;);
 do ;
 while (a)
 do ;

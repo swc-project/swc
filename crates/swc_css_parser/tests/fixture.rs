@@ -1,3 +1,5 @@
+#![allow(clippy::needless_update)]
+
 use std::path::PathBuf;
 use swc_common::{errors::Handler, input::SourceFileInput, Span, Spanned};
 use swc_css_ast::*;

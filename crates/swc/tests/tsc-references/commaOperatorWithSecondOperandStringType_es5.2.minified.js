@@ -1,2 +1,2 @@
-var BOOLEAN, NUMBER, STRING;
-new Date(), NUMBER.toString(), new Object, STRING + "string", new Date(), void 0 == BOOLEAN, NUMBER.toString(), new Object, STRING + "string";
+var NUMBER;
+new Date(), NUMBER.toString(), new Object, new Date(), NUMBER.toString(), new Object;

@@ -1340,12 +1340,6 @@ impl VisitMut for ReduceAst {
         }
     }
 
-    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
-        }
-    }
-
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         if !self.collected_data {
             self.collected_data = true;
@@ -2001,6 +1995,12 @@ impl VisitMut for ReduceAst {
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         self.visit_mut_stmt_likes(stmts);
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
+        }
     }
 
     fn visit_mut_switch_cases(&mut self, cases: &mut Vec<SwitchCase>) {

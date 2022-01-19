@@ -50,7 +50,7 @@ fn require_rt(global_mark: Mark, rt: Ident, src: Option<JsWord>) -> Stmt {
         declare: false,
         decls: vec![VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(rt.into()),
+            name: rt.into(),
             init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: quote_ident!(DUMMY_SP.apply_mark(global_mark), "require").as_callee(),
@@ -155,7 +155,7 @@ impl VisitMut for Regenerator {
 
             self.top_level_vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(marked.clone().into()),
+                name: marked.clone().into(),
                 init: Some(Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: self
@@ -299,8 +299,7 @@ impl VisitMut for Regenerator {
                     self.top_level_mark,
                     rt_ident,
                     self.config.import_path.clone(),
-                )
-                .into(),
+                ),
             );
         }
     }
@@ -345,14 +344,14 @@ impl Regenerator {
         let mut outer_fn_vars = vec![];
         outer_fn_vars.extend(hoister.vars.into_iter().map(|id| VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(id.into()),
+            name: id.into(),
             init: None,
             definite: false,
         }));
         outer_fn_vars.extend(hoister.arguments.into_iter().map(|id| {
             VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(id.clone().into()),
+                name: id.clone().into(),
                 init: Some(Box::new(
                     Ident {
                         sym: js_word!("arguments"),
@@ -463,7 +462,7 @@ impl Regenerator {
                                         params: vec![Param {
                                             span: DUMMY_SP,
                                             decorators: Default::default(),
-                                            pat: Pat::Ident(ctx.clone().into()),
+                                            pat: ctx.clone().into(),
                                         }],
                                         decorators: Default::default(),
                                         span: DUMMY_SP,

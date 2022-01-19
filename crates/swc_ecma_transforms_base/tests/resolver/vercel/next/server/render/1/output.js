@@ -226,7 +226,7 @@ export async function renderToHTML(req__7, res__7, pathname__7, query__7, render
 
 
 
-                <App__7 {...props__15} Component__7={Component__7} router__7={router__7}/>
+                <App__7 {...props__15} Component__0={Component__7} router__0={router__7}/>
 
 
 
@@ -259,15 +259,15 @@ export async function renderToHTML(req__7, res__7, pathname__7, query__7, render
     let head__7 = defaultHead(inAmpMode__7);
     let scriptLoader__7 = {};
     const nextExport__7 = !isSSG__7 && (renderOpts__7.nextExport || dev__7 && (isAutoExport__7 || isFallback__7));
-    const AppContainer__7 = ({ children__19  })=><RouterContext.Provider value={router__7}>
+    const AppContainer__7 = ({ children__19  })=><RouterContext.Provider value__0={router__7}>
 
 
 
-        <AmpStateContext.Provider value={ampState__7}>
+        <AmpStateContext.Provider value__0={ampState__7}>
 
 
 
-            <HeadManagerContext.Provider value={{
+            <HeadManagerContext.Provider value__0={{
             updateHead: (state__20)=>{
                 head__7 = state__20;
             },
@@ -280,12 +280,12 @@ export async function renderToHTML(req__7, res__7, pathname__7, query__7, render
 
 
 
-                <LoadableContext.Provider value={(moduleName__22)=>reactLoadableModules__7.push(moduleName__22)
+                <LoadableContext.Provider value__0={(moduleName__22)=>reactLoadableModules__7.push(moduleName__22)
         }>
 
 
 
-                    <StyleRegistry registry={jsxStyleRegistry__7}>
+                    <StyleRegistry registry__0={jsxStyleRegistry__7}>
 
 
 
@@ -525,7 +525,7 @@ export async function renderToHTML(req__7, res__7, pathname__7, query__7, render
         if (Document__7.getInitialProps) {
             const renderPage__33 = (options__34 = {})=>{
                 if (ctx__7.err && ErrorDebug__7) {
-                    const html__35 = ReactDOMServer.renderToString(<ErrorDebug__7 error={ctx__7.err}/>);
+                    const html__35 = ReactDOMServer.renderToString(<ErrorDebug__7 error__0={ctx__7.err}/>);
                     return {
                         html__35,
                         head__7
@@ -539,7 +539,7 @@ export async function renderToHTML(req__7, res__7, pathname__7, query__7, render
 
 
 
-                    <EnhancedApp__34 Component__7={EnhancedComponent__34} router__7={router__7} {...props__7}/>
+                    <EnhancedApp__34 Component__0={EnhancedComponent__34} router__0={router__7} {...props__7}/>
 
 
 
@@ -570,11 +570,11 @@ export async function renderToHTML(req__7, res__7, pathname__7, query__7, render
                 styles: docProps__33.styles
             };
         } else {
-            const content__38 = ctx__7.err && ErrorDebug__7 ? <ErrorDebug__7 error={ctx__7.err}/> : <AppContainer__7 >
+            const content__38 = ctx__7.err && ErrorDebug__7 ? <ErrorDebug__7 error__0={ctx__7.err}/> : <AppContainer__7 >
 
 
 
-                <App__7 {...props__7} Component__7={Component__7} router__7={router__7}/>
+                <App__7 {...props__7} Component__0={Component__7} router__0={router__7}/>
 
 
 
@@ -655,11 +655,11 @@ export async function renderToHTML(req__7, res__7, pathname__7, query__7, render
         styles: documentResult__7.styles,
         useMaybeDeferContent
     };
-    const documentHTML__7 = ReactDOMServer.renderToStaticMarkup(<AmpStateContext.Provider value={ampState__7}>
+    const documentHTML__7 = ReactDOMServer.renderToStaticMarkup(<AmpStateContext.Provider value__0={ampState__7}>
 
 
 
-        <HtmlContext.Provider value={htmlProps__7}>
+        <HtmlContext.Provider value__0={htmlProps__7}>
 
 
 

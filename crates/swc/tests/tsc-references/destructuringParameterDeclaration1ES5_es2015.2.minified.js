@@ -1,4 +1,4 @@
-var Foo, Foo;
+var Foo;
 function a1([a, b, [[c]]]) {}
 function b2(z = null, o = {
     x: 0,
@@ -33,7 +33,9 @@ a1([
 }), b2("string", {
     x: 200,
     y: !0
-}), (Foo = Foo || (Foo = {}))[Foo.a = 0] = "a", c0({
+}), (function(Foo) {
+    Foo[Foo.a = 0] = "a";
+})(Foo || (Foo = {})), c0({
     z: {
         x: 1,
         y: {

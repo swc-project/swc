@@ -1,5 +1,7 @@
-(E = E || (E = {}))[E.A = 0] = "A", (E = x).A = x;
-var E, x, E, M, C = function() {
+!function(E) {
+    E[E.A = 0] = "A";
+}(E || (E = {})), (E = x).A = x;
+var x, E, M, C = function() {
     "use strict";
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");

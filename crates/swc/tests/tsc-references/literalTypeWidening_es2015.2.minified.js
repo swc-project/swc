@@ -1,4 +1,4 @@
-var E, E;
+var E;
 export function Set(...keys1) {
     const result = {};
     return keys1.forEach((key)=>result[key] = !0
@@ -12,4 +12,6 @@ export const langCodes = keys(langCodeSet);
 langCodes.map((code)=>({
         code
     })
-), (E = E || (E = {}))[E.A = 0] = "A", E[E.B = 1] = "B", f(E.A);
+), (function(E) {
+    E[E.A = 0] = "A", E[E.B = 1] = "B";
+})(E || (E = {})), f(E.A);

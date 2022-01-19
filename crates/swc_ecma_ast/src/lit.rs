@@ -2,6 +2,7 @@ use crate::jsx::JSXText;
 use num_bigint::BigInt as BigIntValue;
 use serde::{Deserialize, Serialize};
 use std::{
+    borrow::Cow,
     fmt::{self, Display, Formatter},
     hash::{Hash, Hasher},
     mem,
@@ -34,6 +35,30 @@ pub enum Lit {
     #[tag("JSXText")]
     JSXText(JSXText),
 }
+
+macro_rules! bridge_lit_from {
+    ($bridge: ty, $src:ty) => {
+        bridge_expr_from!(crate::Lit, $src);
+        bridge_from!(Lit, $bridge, $src);
+    };
+}
+
+bridge_expr_from!(Lit, Str);
+bridge_expr_from!(Lit, Bool);
+bridge_expr_from!(Lit, Number);
+bridge_expr_from!(Lit, BigInt);
+bridge_expr_from!(Lit, Regex);
+bridge_expr_from!(Lit, Null);
+bridge_expr_from!(Lit, JSXText);
+
+bridge_lit_from!(Str, &'_ str);
+bridge_lit_from!(Str, JsWord);
+bridge_lit_from!(Str, Cow<'_, str>);
+bridge_lit_from!(Str, String);
+bridge_lit_from!(Bool, bool);
+bridge_lit_from!(Number, f64);
+bridge_lit_from!(Number, usize);
+bridge_lit_from!(BigInt, BigIntValue);
 
 #[ast_node("BigIntLiteral")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
@@ -310,6 +335,62 @@ impl Display for Number {
             }
         } else {
             Display::fmt(&self.value, f)
+        }
+    }
+}
+
+impl From<JsWord> for Str {
+    #[inline]
+    fn from(value: JsWord) -> Self {
+        Str {
+            span: DUMMY_SP,
+            value,
+            has_escape: Default::default(),
+            kind: Default::default(),
+        }
+    }
+}
+
+bridge_from!(Str, JsWord, &'_ str);
+bridge_from!(Str, JsWord, String);
+bridge_from!(Str, JsWord, Cow<'_, str>);
+
+impl From<bool> for Bool {
+    #[inline]
+    fn from(value: bool) -> Self {
+        Bool {
+            span: DUMMY_SP,
+            value,
+        }
+    }
+}
+
+impl From<f64> for Number {
+    #[inline]
+    fn from(value: f64) -> Self {
+        Number {
+            span: DUMMY_SP,
+            value,
+        }
+    }
+}
+
+impl From<usize> for Number {
+    #[inline]
+    fn from(value: usize) -> Self {
+        Number {
+            span: DUMMY_SP,
+            value: value as _,
+        }
+    }
+}
+
+impl From<BigIntValue> for BigInt {
+    #[inline]
+    fn from(value: BigIntValue) -> Self {
+        BigInt {
+            span: DUMMY_SP,
+            value,
         }
     }
 }

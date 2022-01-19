@@ -29,9 +29,7 @@ macro_rules! try_val {
 
 /// All [bool] fields defaults to [false].
 #[derive(Debug, Clone, Copy, Default, Hash)]
-pub struct Config {
-    pub preserve_string_call: bool,
-}
+pub struct Config {}
 
 /// Not intended for general use. Use [simplifier] instead.
 ///
@@ -231,20 +229,14 @@ impl SimplifyExpr {
                     let var_name = alias_ident_for(&v, "_v");
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(BindingIdent {
-                            id: var_name.clone(),
-                            type_ann: None,
-                        }),
+                        name: var_name.clone().into(),
                         init: None,
                         definite: false,
                     });
 
                     exprs.push(Box::new(Expr::Assign(AssignExpr {
                         span: v.span(),
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(BindingIdent {
-                            id: var_name.clone(),
-                            type_ann: None,
-                        }))),
+                        left: PatOrExpr::Pat(var_name.clone().into()),
                         op: op!("="),
                         right: v,
                     })));
@@ -1339,31 +1331,6 @@ impl VisitMut for SimplifyExpr {
                         }
                     }
                     ObjectLit { span, props: ps }.into()
-                }
-
-                Expr::New(e) => {
-                    if !self.config.preserve_string_call
-                        && e.callee.is_ident_ref_to(js_word!("String"))
-                        && e.args.is_some()
-                        && e.args.as_ref().unwrap().len() == 1
-                        && e.args.as_ref().unwrap()[0].spread.is_none()
-                        && is_literal(&e.args.as_ref().unwrap()[0].expr)
-                    {
-                        let e = &*e.args.into_iter().next().unwrap().pop().unwrap().expr;
-                        if let Known(value) = e.as_string() {
-                            self.changed = true;
-
-                            return Expr::Lit(Lit::Str(Str {
-                                span: e.span(),
-                                value: value.into(),
-                                has_escape: false,
-                                kind: Default::default(),
-                            }));
-                        }
-                        unreachable!()
-                    }
-
-                    NewExpr { ..e }.into()
                 }
 
                 // be conservative.

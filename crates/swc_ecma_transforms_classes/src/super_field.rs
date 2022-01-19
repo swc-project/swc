@@ -136,7 +136,6 @@ impl<'a> SuperFieldAccessFolder<'a> {
         if let Expr::Call(CallExpr {
             callee: Callee::Expr(callee_expr),
             args,
-            type_args,
             ..
         }) = n
         {
@@ -159,12 +158,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                 if args.len() == 1 && is_rest_arguments(&args[0]) {
                     *n = Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: MemberExpr {
-                            span: DUMMY_SP,
-                            obj: Box::new(callee),
-                            prop: MemberProp::Ident(quote_ident!("apply")),
-                        }
-                        .as_callee(),
+                        callee: callee.make_member(quote_ident!("apply")).as_callee(),
                         args: iter::once(this)
                             .chain(iter::once({
                                 let mut arg = args.pop().unwrap();
@@ -172,21 +166,16 @@ impl<'a> SuperFieldAccessFolder<'a> {
                                 arg
                             }))
                             .collect(),
-                        type_args: type_args.clone(),
+                        type_args: Default::default(),
                     });
                     return;
                 }
 
                 *n = Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: MemberExpr {
-                        span: DUMMY_SP,
-                        obj: Box::new(callee),
-                        prop: MemberProp::Ident(quote_ident!("call")),
-                    }
-                    .as_callee(),
+                    callee: callee.make_member(quote_ident!("call")).as_callee(),
                     args: iter::once(this).chain(args).collect(),
-                    type_args: type_args.clone(),
+                    type_args: Default::default(),
                 });
             }
         }
@@ -213,16 +202,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                         op!("--") => op!("-="),
                     };
 
-                    *n = self.super_to_set_call(
-                        *super_token,
-                        true,
-                        prop.take(),
-                        op,
-                        Box::new(Expr::Lit(Lit::Num(Number {
-                            span: DUMMY_SP,
-                            value: 1.0,
-                        }))),
-                    );
+                    *n = self.super_to_set_call(*super_token, true, prop.take(), op, 1.0.into());
                 }
             }
 
@@ -369,7 +349,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
             // Memoize
             self.vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(ref_ident.clone().into()),
+                name: ref_ident.clone().into(),
                 init: None,
                 definite: false,
             });
@@ -377,7 +357,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
             if is_update {
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(update_ident.clone().into()),
+                    name: update_ident.clone().into(),
                     init: None,
                     definite: false,
                 });
@@ -406,7 +386,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
             op!("=") => prop_arg.as_arg(),
             _ => AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
+                left: PatOrExpr::Pat(ref_ident.clone().into()),
                 op: op!("="),
                 right: prop_arg,
             }
@@ -427,7 +407,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     Box::new(
                         AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(update_ident.clone().into()))),
+                            left: PatOrExpr::Pat(update_ident.clone().into()),
                             op: op!("="),
                             right: Box::new(Expr::Unary(UnaryExpr {
                                 span: DUMMY_SP,
@@ -444,25 +424,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                 BinExpr {
                     span: DUMMY_SP,
                     left,
-                    op: match op {
-                        op!("=") => unreachable!(),
-
-                        op!("+=") => op!(bin, "+"),
-                        op!("-=") => op!(bin, "-"),
-                        op!("*=") => op!("*"),
-                        op!("/=") => op!("/"),
-                        op!("%=") => op!("%"),
-                        op!("<<=") => op!("<<"),
-                        op!(">>=") => op!(">>"),
-                        op!(">>>=") => op!(">>>"),
-                        op!("|=") => op!("|"),
-                        op!("&=") => op!("&"),
-                        op!("^=") => op!("^"),
-                        op!("**=") => op!("**"),
-                        op!("&&=") => op!("&&"),
-                        op!("||=") => op!("||"),
-                        op!("??=") => op!("??"),
-                    },
+                    op: op.to_update().unwrap(),
                     right: rhs,
                 }
                 .as_arg()
@@ -480,11 +442,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                 rhs_arg,
                 this_arg,
                 // strict
-                Lit::Bool(Bool {
-                    span: DUMMY_SP,
-                    value: true,
-                })
-                .as_arg(),
+                true.as_arg(),
             ],
             type_args: Default::default(),
         });

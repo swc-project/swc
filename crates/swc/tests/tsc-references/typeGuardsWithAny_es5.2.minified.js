@@ -1,4 +1,6 @@
-var left, right;
-left = {
+var x = {
     p: 0
-}, null != (right = Object) && "undefined" != typeof Symbol && right[Symbol.hasInstance] && right[Symbol.hasInstance](left);
+};
+(function(left, right) {
+    null != right && "undefined" != typeof Symbol && right[Symbol.hasInstance] && right[Symbol.hasInstance](left);
+})(x, Object), x.p, x.p, x.p, x.p, x.p;

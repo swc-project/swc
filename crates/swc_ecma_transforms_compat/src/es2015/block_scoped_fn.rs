@@ -40,7 +40,7 @@ impl VisitMut for BlockScopedFns {
                             kind: VarDeclKind::Let,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(decl.ident.clone().into()),
+                                name: decl.ident.clone().into(),
                                 init: Some(Box::new(Expr::Fn(FnExpr {
                                     ident: Some(decl.ident),
                                     function: decl.function,

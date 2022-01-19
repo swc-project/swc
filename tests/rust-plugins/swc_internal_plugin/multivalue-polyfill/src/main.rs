@@ -20,8 +20,11 @@ fn get_ids_by_name(module: &Module, function_name: &str) -> (ExportId, FunctionI
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // We'll polyfill return type of plugin's `process` interface to (i32, i32)
-    let transformations = vec![("__plugin_process_impl", vec![ValType::I32, ValType::I32])];
+    // We'll polyfill return type of plugin's `process` interface to (i32, i32, i32)
+    let transformations = vec![(
+        "__plugin_process_impl",
+        vec![ValType::I32, ValType::I32, ValType::I32],
+    )];
 
     let target: Vec<String> = env::args().collect();
 

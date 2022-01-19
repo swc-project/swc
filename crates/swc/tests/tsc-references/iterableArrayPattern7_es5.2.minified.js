@@ -22,7 +22,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var ref, arr, i, Bar = function() {
+var ref, Bar = function() {
     "use strict";
     _classCallCheck(this, Bar);
 }, Foo = function(Bar1) {
@@ -88,32 +88,34 @@ var ref, arr, i, Bar = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), FooIterator;
 }();
-(ref = (i = 2, (function(arr) {
-    if (Array.isArray(arr)) return arr;
-})(arr = new FooIterator) || (function(arr, i) {
-    var _s, _e, _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
-    if (null != _i) {
-        var _arr = [], _n = !0, _d = !1;
-        try {
-            for(_i = _i.call(arr); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
-        } catch (err) {
-            _d = !0, _e = err;
-        } finally{
+(ref = (function(arr, i) {
+    return (function(arr) {
+        if (Array.isArray(arr)) return arr;
+    })(arr) || (function(arr, i) {
+        var _s, _e, _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+        if (null != _i) {
+            var _arr = [], _n = !0, _d = !1;
             try {
-                _n || null == _i.return || _i.return();
+                for(_i = _i.call(arr); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
+            } catch (err) {
+                _d = !0, _e = err;
             } finally{
-                if (_d) throw _e;
+                try {
+                    _n || null == _i.return || _i.return();
+                } finally{
+                    if (_d) throw _e;
+                }
             }
+            return _arr;
         }
-        return _arr;
-    }
-})(arr, i) || (function(o, minLen) {
-    if (o) {
-        if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
-        var n = Object.prototype.toString.call(o).slice(8, -1);
-        if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(n);
-        if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-    }
-})(arr, i) || (function() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-})()))[0], ref[1];
+    })(arr, i) || (function(o, minLen) {
+        if (o) {
+            if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
+            var n = Object.prototype.toString.call(o).slice(8, -1);
+            if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(n);
+            if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+        }
+    })(arr, i) || (function() {
+        throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    })();
+})(new FooIterator, 2))[0], ref[1];

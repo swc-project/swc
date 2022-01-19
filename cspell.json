@@ -31,6 +31,7 @@
         "compiliation",
         "cond",
         "Cond",
+        "conds",
         "constness",
         "consts",
         "corejs",
@@ -66,6 +67,7 @@
         "fargs",
         "finalizer",
         "fnames",
+        "fract",
         "gnueabihf",
         "hasher",
         "idents",
@@ -141,6 +143,7 @@
         "Unexported",
         "Unexporter",
         "unimpl",
+        "unsafes",
         "untrusted",
         "variadic",
         "vercel"

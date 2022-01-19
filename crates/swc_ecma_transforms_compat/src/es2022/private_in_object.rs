@@ -45,7 +45,7 @@ impl Mode {
             Mode::ClassExpr { vars, init_exprs } => {
                 vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(n.clone().into()),
+                    name: n.clone().into(),
                     init: None,
                     definite: Default::default(),
                 });
@@ -53,7 +53,7 @@ impl Mode {
                     init_exprs.push(Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(n.into()))),
+                        left: PatOrExpr::Pat(n.into()),
                         right: init,
                     })));
                 }
@@ -61,7 +61,7 @@ impl Mode {
             Mode::ClassDecl { vars } => {
                 vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(n.into()),
+                    name: n.into(),
                     init,
                     definite: Default::default(),
                 });
@@ -421,7 +421,7 @@ impl VisitMut for PrivateInObject {
                     let assign = Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(tmp.clone().into()))),
+                        left: PatOrExpr::Pat(tmp.clone().into()),
                         right: init.take(),
                     }));
 

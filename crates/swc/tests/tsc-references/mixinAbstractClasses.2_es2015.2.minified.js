@@ -1,6 +1,7 @@
-var baseClass;
-const MixedBase = (baseClass = class {
-}, class extends baseClass {
-    mixinMethod() {}
+const MixedBase = function(baseClass) {
+    return class extends baseClass {
+        mixinMethod() {}
+    };
+}(class {
 });
 new MixedBase();

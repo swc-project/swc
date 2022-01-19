@@ -1,10 +1,12 @@
-var M, M1;
 class C {
 }
-for((M = M1 || (M1 = {})).A = class {
-}, M.F2 = function(x) {
-    return x.toString();
-};;);
+!function(M1) {
+    M1.A = class {
+    }, M1.F2 = function(x) {
+        return x.toString();
+    };
+}(M || (M = {}));
+for(var M;;);
 for(;;);
 for(new Date(12);;);
 for(new Object();;);
@@ -22,6 +24,6 @@ for(;;);
 for((x)=>2
 ;;);
 for(;;);
-for(new M1.A();;);
+for(new M.A();;);
 for((x)=>"this is a string"
 ;;);

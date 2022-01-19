@@ -10,8 +10,10 @@ var C1 = function() {
     _classCallCheck(this, C2);
 };
 function f() {}
-(E = E || (E = {}))[E.A = 0] = "A", (f || (f = {})).bar = 1;
-var E, E, c = function() {
+!function(E) {
+    E[E.A = 0] = "A";
+}(E || (E = {})), E.A, (f || (f = {})).bar = 1;
+var E, c = function() {
     "use strict";
     _classCallCheck(this, c);
 };

@@ -177,7 +177,7 @@ pub fn make_assign_stmt(handle: Ident, expr: Box<Expr>) -> Expr {
     Expr::Assign(AssignExpr {
         span: expr.span(),
         op: op!("="),
-        left: PatOrExpr::Pat(Box::new(Pat::Ident(BindingIdent::from(handle)))),
+        left: PatOrExpr::Pat(handle.into()),
         right: expr,
     })
 }

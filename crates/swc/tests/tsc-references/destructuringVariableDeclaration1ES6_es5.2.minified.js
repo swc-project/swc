@@ -42,7 +42,7 @@ var tmp = {
 (void 0 === tmp ? {
     b11: "string"
 } : tmp).b11;
-var arr, ref = [
+var ref = [
     void 0,
     void 0,
     void 0
@@ -50,17 +50,19 @@ var arr, ref = [
     1,
     "string"
 ].concat(function(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}(arr = [
+    return (function(arr) {
+        if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+    })(arr) || (function(iter) {
+        if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
+    })(arr) || _unsupportedIterableToArray(arr) || (function() {
+        throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    })();
+}([
     !0,
     !1,
     !0
-]) || function(iter) {
-    if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
-}(arr) || _unsupportedIterableToArray(arr) || function() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}()), 2);
-ref1[0], ref1[1], void 0 === tmp4;
+])), 2);
+ref1[0], ref1[1];
 var _e = _slicedToArray([
     1,
     2,
@@ -76,8 +78,4 @@ var _e = _slicedToArray([
         f5: 0
     }
 ], 3), f1 = _f[0], f2 = _f[1], ref2 = _f[2];
-ref2.f3, ref2.f5, void 0 === _g1;
-var _g1 = [
-    1,
-    2
-];
+ref2.f3, ref2.f5;

@@ -37,6 +37,7 @@ struct Hook {
 }
 
 // we only consider two kinds of callee as hook call
+#[allow(clippy::large_enum_variant)]
 enum HookCall {
     Ident(Ident),
     Member(Expr, Ident), // for obj and prop
@@ -61,7 +62,7 @@ impl<'a> HookRegister<'a> {
                 .into_iter()
                 .map(|id| VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(BindingIdent::from(id)),
+                    name: id.into(),
                     init: Some(Box::new(make_call_expr(quote_ident!(self
                         .options
                         .refresh_sig
