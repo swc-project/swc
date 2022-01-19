@@ -354,7 +354,6 @@ where
                                 js_word!("NaN"),
                                 bin.span.with_ctxt(SyntaxContext::empty()),
                             ));
-                            return;
                         }
                         (FpCategory::Normal, FpCategory::Zero) => {
                             self.changed = true;
@@ -376,11 +375,9 @@ where
                                     ))),
                                 })
                             };
-                            return;
                         }
                         _ => {}
                     }
-                    return;
                 }
             }
 
@@ -403,38 +400,30 @@ where
             _ => return,
         }
 
-        match &mut *e.left {
-            Expr::Bin(left) => {
-                if left.op != e.op {
+        if let Expr::Bin(left) = &mut *e.left {
+            if left.op != e.op {
+                return;
+            }
+            // Remove rhs of lhs if possible.
+
+            let v = left.right.as_pure_bool();
+            if let Known(v) = v {
+                // As we used as_pure_bool, we can drop it.
+                if v && e.op == op!("&&") {
+                    self.changed = true;
+                    tracing::debug!("Removing `b` from `a && b && c` because b is always truthy");
+
+                    left.right.take();
                     return;
                 }
-                // Remove rhs of lhs if possible.
 
-                let v = left.right.as_pure_bool();
-                if let Known(v) = v {
-                    // As we used as_pure_bool, we can drop it.
-                    if v && e.op == op!("&&") {
-                        self.changed = true;
-                        tracing::debug!(
-                            "Removing `b` from `a && b && c` because b is always truthy"
-                        );
+                if !v && e.op == op!("||") {
+                    self.changed = true;
+                    tracing::debug!("Removing `b` from `a || b || c` because b is always falsy");
 
-                        left.right.take();
-                        return;
-                    }
-
-                    if !v && e.op == op!("||") {
-                        self.changed = true;
-                        tracing::debug!(
-                            "Removing `b` from `a || b || c` because b is always falsy"
-                        );
-
-                        left.right.take();
-                        return;
-                    }
+                    left.right.take();
                 }
             }
-            _ => return,
         }
     }
 }

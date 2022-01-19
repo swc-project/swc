@@ -330,7 +330,7 @@ where
 
             let start_time = now();
 
-            let mut visitor = pure_optimizer(&self.options, self.marks, self.mode, self.pass >= 20);
+            let mut visitor = pure_optimizer(self.options, self.marks, self.mode, self.pass >= 20);
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
 
