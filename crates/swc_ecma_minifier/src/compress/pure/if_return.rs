@@ -54,6 +54,7 @@ impl<M> Pure<'_, M> {
     ///         console.log(b);
     /// }
     /// ```
+    #[allow(clippy::unnecessary_filter_map)]
     pub(super) fn negate_if_terminate(
         &mut self,
         stmts: &mut Vec<Stmt>,

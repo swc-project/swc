@@ -88,10 +88,7 @@ where
 
         self.collapse_vars_without_init(stmts);
 
-        stmts.retain(|s| match s.as_stmt() {
-            Some(Stmt::Empty(..)) => false,
-            _ => true,
-        });
+        stmts.retain(|s| !matches!(s.as_stmt(), Some(Stmt::Empty(..))));
     }
 
     fn optimize_fn_stmts(&mut self, stmts: &mut Vec<Stmt>) {
@@ -225,18 +222,15 @@ where
 
         self.remove_invalid(e);
 
-        match e {
-            Expr::Seq(seq) => {
-                if seq.exprs.is_empty() {
-                    *e = Expr::Invalid(Invalid { span: DUMMY_SP });
-                    return;
-                }
-                if seq.exprs.len() == 1 {
-                    self.changed = true;
-                    *e = *seq.exprs.take().into_iter().next().unwrap();
-                }
+        if let Expr::Seq(seq) = e {
+            if seq.exprs.is_empty() {
+                *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                return;
             }
-            _ => {}
+            if seq.exprs.len() == 1 {
+                self.changed = true;
+                *e = *seq.exprs.take().into_iter().next().unwrap();
+            }
         }
 
         self.eval_opt_chain(e);
@@ -305,11 +299,8 @@ where
 
         n.body.visit_mut_with(self);
 
-        match &mut *n.body {
-            Stmt::Block(body) => {
-                self.negate_if_terminate(&mut body.stmts, false, true);
-            }
-            _ => {}
+        if let Stmt::Block(body) = &mut *n.body {
+            self.negate_if_terminate(&mut body.stmts, false, true);
         }
     }
 
@@ -320,11 +311,8 @@ where
 
         n.body.visit_mut_with(self);
 
-        match &mut *n.body {
-            Stmt::Block(body) => {
-                self.negate_if_terminate(&mut body.stmts, false, true);
-            }
-            _ => {}
+        if let Stmt::Block(body) = &mut *n.body {
+            self.negate_if_terminate(&mut body.stmts, false, true);
         }
     }
 
@@ -337,11 +325,8 @@ where
             self.optimize_expr_in_bool_ctx(&mut **test);
         }
 
-        match &mut *s.body {
-            Stmt::Block(body) => {
-                self.negate_if_terminate(&mut body.stmts, false, true);
-            }
-            _ => {}
+        if let Stmt::Block(body) = &mut *s.body {
+            self.negate_if_terminate(&mut body.stmts, false, true);
         }
     }
 
@@ -454,7 +439,7 @@ where
             true
         });
 
-        if e.exprs.len() == 0 {
+        if e.exprs.is_empty() {
             return;
         }
 
@@ -550,10 +535,7 @@ where
 
         self.handle_stmt_likes(items);
 
-        items.retain(|s| match s {
-            Stmt::Empty(..) => false,
-            _ => true,
-        });
+        items.retain(|s| !matches!(s, Stmt::Empty(..)));
 
         if cfg!(debug_assertions) {
             items.visit_with(&mut AssertValid);
