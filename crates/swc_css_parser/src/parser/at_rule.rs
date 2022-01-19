@@ -909,35 +909,90 @@ where
 
         expect!(self, "(");
 
-        let name = self.parse()?;
+        let left = self.parse()?;
 
         self.input.skip_ws()?;
 
-        // TODO implement range support
-        if eat!(self, ":") {
-            self.input.skip_ws()?;
+        match cur!(self) {
+            tok!(":") => {
+                eat!(self, ":");
 
-            let ctx = Ctx {
-                allow_operation_in_value: true,
-                ..self.ctx
-            };
-            // TODO improve and move to own enum, only one value allowed
-            let value = self.with_ctx(ctx).parse_property_values()?.0;
+                self.input.skip_ws()?;
 
-            expect!(self, ")");
+                let ctx = Ctx {
+                    allow_operation_in_value: true,
+                    ..self.ctx
+                };
+                // TODO improve and move to own enum, only one value allowed
+                let value = self.with_ctx(ctx).parse_property_values()?.0;
 
-            Ok(MediaFeature::Plain(MediaFeaturePlain {
-                span: span!(self, span.lo),
-                name,
-                value,
-            }))
-        } else {
-            expect!(self, ")");
+                expect!(self, ")");
 
-            Ok(MediaFeature::Boolean(MediaFeatureBoolean {
-                span: span!(self, span.lo),
-                name,
-            }))
+                Ok(MediaFeature::Plain(MediaFeaturePlain {
+                    span: span!(self, span.lo),
+                    name: left,
+                    value,
+                }))
+            }
+            tok!("<") | tok!(">") | tok!("=") => {
+                let token = bump!(self);
+
+                let comparison = match token {
+                    tok!("<") => {
+                        eat!(self, "<");
+
+                        if eat!(self, "=") {
+                            1
+                        } else {
+                            0
+                        }
+                    }
+                    tok!(">") => {
+                        eat!(self, ">");
+
+                        if eat!(self, "=") {
+                            2
+                        } else {
+                            3
+                        }
+                    }
+                    tok!("=") => {
+                        eat!(self, "=");
+
+                        4
+                    }
+                    _ => {
+                        // TODO error
+                        -1
+                    }
+                };
+
+                self.input.skip_ws()?;
+
+                let ctx = Ctx {
+                    allow_operation_in_value: true,
+                    ..self.ctx
+                };
+                // TODO improve and move to own enum, only one value allowed
+                let right = self.with_ctx(ctx).parse_property_values()?.0;
+
+                expect!(self, ")");
+
+                Ok(MediaFeature::Range(MediaFeatureRange {
+                    span: span!(self, span.lo),
+                    left,
+                    comparison,
+                    right,
+                }))
+            }
+            _ => {
+                expect!(self, ")");
+
+                Ok(MediaFeature::Boolean(MediaFeatureBoolean {
+                    span: span!(self, span.lo),
+                    name: left,
+                }))
+            }
         }
     }
 }

@@ -79,6 +79,9 @@ pub enum MediaFeature {
 
     #[tag("MediaFeatureBoolean")]
     Boolean(MediaFeatureBoolean),
+
+    #[tag("MediaFeatureRange")]
+    Range(MediaFeatureRange),
 }
 
 #[ast_node("MediaFeaturePlain")]
@@ -92,4 +95,31 @@ pub struct MediaFeaturePlain {
 pub struct MediaFeatureBoolean {
     pub span: Span,
     pub name: Ident,
+}
+
+// TODO
+// #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+pub enum MediaFeatureRangeComparison {
+    /// `<`
+    Lt,
+
+    /// `<=`
+    Le,
+
+    /// `>`
+    Gt,
+
+    /// `>=`
+    GE,
+
+    /// `=`
+    Eq,
+}
+
+#[ast_node("MediaFeatureRange")]
+pub struct MediaFeatureRange {
+    pub span: Span,
+    pub left: Ident,
+    pub comparison: i32,
+    pub right: Vec<Value>,
 }

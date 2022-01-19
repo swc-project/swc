@@ -490,6 +490,7 @@ define!({
     pub enum MediaFeature {
         Plain(MediaFeaturePlain),
         Boolean(MediaFeatureBoolean),
+        Range(MediaFeatureRange),
     }
 
     pub struct MediaFeaturePlain {
@@ -501,6 +502,13 @@ define!({
     pub struct MediaFeatureBoolean {
         pub span: Span,
         pub name: Ident,
+    }
+
+    pub struct MediaFeatureRange {
+        pub span: Span,
+        pub left: Ident,
+        pub comparison: i32,
+        pub right: Vec<Value>,
     }
 
     pub struct PageRule {
