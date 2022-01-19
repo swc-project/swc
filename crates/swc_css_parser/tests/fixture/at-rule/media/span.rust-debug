@@ -6,9 +6,9 @@ error: Stylesheet
 3  | | @media screen {}
 4  | | @media screen and (color) {}
 ...  |
-17 | | @media not all {}
 18 | | @media print {}
-   | |________________^
+19 | | @media (min-width: 20em) and (min-width: 20em) {}
+   | |__________________________________________________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:1:1
@@ -1383,4 +1383,154 @@ error: Ident
    |
 18 | @media print {}
    |        ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:1
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:1
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:1
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:8
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:8
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:8
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:8
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |        ^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:8
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |        ^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:8
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |        ^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:8
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |        ^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:9
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |         ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:20
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                    ^^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:20
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                    ^^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:20
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                    ^^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:22
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                      ^^
+
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:26
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                          ^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaAnd
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:26
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                          ^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:30
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                              ^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:30
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                              ^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:30
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                              ^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:31
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                               ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:42
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                                          ^^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:42
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                                          ^^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:42
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                                          ^^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:44
+   |
+19 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                                            ^^
 

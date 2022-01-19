@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 550,
+    "end": 600,
     "ctxt": 0
   },
   "rules": [
@@ -1315,6 +1315,147 @@
               "raw": "print"
             },
             "condition": null
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 550,
+        "end": 599,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 557,
+          "end": 597,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 557,
+              "end": 597,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 557,
+                "end": 597,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
+                  "span": {
+                    "start": 557,
+                    "end": 574,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 558,
+                      "end": 567,
+                      "ctxt": 0
+                    },
+                    "value": "min-width",
+                    "raw": "min-width"
+                  },
+                  "value": [
+                    {
+                      "type": "UnitValue",
+                      "span": {
+                        "start": 569,
+                        "end": 573,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 569,
+                          "end": 571,
+                          "ctxt": 0
+                        },
+                        "value": 20.0,
+                        "raw": "20"
+                      },
+                      "unit": {
+                        "span": {
+                          "start": 571,
+                          "end": 573,
+                          "ctxt": 0
+                        },
+                        "value": "em",
+                        "raw": "em"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "MediaAnd",
+                  "span": {
+                    "start": 575,
+                    "end": 596,
+                    "ctxt": 0
+                  },
+                  "condition": {
+                    "type": "MediaFeaturePlain",
+                    "span": {
+                      "start": 579,
+                      "end": 596,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 580,
+                        "end": 589,
+                        "ctxt": 0
+                      },
+                      "value": "min-width",
+                      "raw": "min-width"
+                    },
+                    "value": [
+                      {
+                        "type": "UnitValue",
+                        "span": {
+                          "start": 591,
+                          "end": 595,
+                          "ctxt": 0
+                        },
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 591,
+                            "end": 593,
+                            "ctxt": 0
+                          },
+                          "value": 20.0,
+                          "raw": "20"
+                        },
+                        "unit": {
+                          "span": {
+                            "start": 593,
+                            "end": 595,
+                            "ctxt": 0
+                          },
+                          "value": "em",
+                          "raw": "em"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
           }
         ]
       },
