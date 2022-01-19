@@ -261,21 +261,18 @@ where
             if stmts.len() >= 1 {
                 // TODO: Handle multiple directives.
                 if let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmts[0].as_stmt() {
-                    match &**expr {
-                        Expr::Lit(Lit::Str(v)) => {
-                            directive_count += 1;
+                    if let Expr::Lit(Lit::Str(v)) = &**expr {
+                        directive_count += 1;
 
-                            if v.value == *"use strict" && !v.has_escape {
-                                child_ctx.in_strict = true;
-                            }
-
-                            if v.value == *"use asm" && !v.has_escape {
-                                child_ctx.in_asm = true;
-                                self.ctx.in_asm = true;
-                                use_asm = true;
-                            }
+                        if v.value == *"use strict" && !v.has_escape {
+                            child_ctx.in_strict = true;
                         }
-                        _ => {}
+
+                        if v.value == *"use asm" && !v.has_escape {
+                            child_ctx.in_asm = true;
+                            self.ctx.in_asm = true;
+                            use_asm = true;
+                        }
                     }
                 }
             }
@@ -2725,8 +2722,7 @@ where
             true
         });
 
-        for idx in 0..vars.len() {
-            let v = &mut vars[idx];
+        for v in vars.iter_mut() {
             if v.init
                 .as_deref()
                 .map(|e| !e.may_have_side_effects())
@@ -2736,8 +2732,7 @@ where
             }
         }
 
-        for idx in 0..vars.len() {
-            let v = &mut vars[idx];
+        for v in vars.iter_mut() {
             self.drop_unused_var_declarator(v, true);
             if v.name.is_invalid() {
                 continue;
@@ -2746,8 +2741,7 @@ where
             break;
         }
 
-        for idx in (0..vars.len()).rev() {
-            let v = &mut vars[idx];
+        for v in vars.iter_mut().rev() {
             self.drop_unused_var_declarator(v, false);
             if v.name.is_invalid() {
                 continue;

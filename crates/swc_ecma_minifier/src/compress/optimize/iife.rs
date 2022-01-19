@@ -592,7 +592,7 @@ where
         body: &mut BlockStmt,
         args: &mut [ExprOrSpread],
     ) -> Option<Expr> {
-        if !self.can_inline_fn_like(&params, &*body) {
+        if !self.can_inline_fn_like(params, &*body) {
             return None;
         }
 
