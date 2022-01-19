@@ -30,7 +30,8 @@ pub use swc_common::errors::HANDLER;
 use swc_common::{collections::AHashSet, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_obj_and_computed,
+    Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::trace;
 
@@ -169,14 +170,6 @@ impl Visit for ArgumentsFinder {
     /// Don't recurse into fn
     fn visit_function(&mut self, _: &Function) {}
 
-    /// Don't recurse into member expression prop if not computed
-    fn visit_member_expr(&mut self, m: &MemberExpr) {
-        m.obj.visit_with(self);
-        if let MemberProp::Computed(expr) = &m.prop {
-            expr.visit_with(self)
-        }
-    }
-
     fn visit_prop(&mut self, n: &Prop) {
         n.visit_children_with(self);
 
@@ -186,13 +179,6 @@ impl Visit for ArgumentsFinder {
         }) = n
         {
             self.found = true;
-        }
-    }
-
-    /// Don't recurse into super expression prop if not computed
-    fn visit_super_prop_expr(&mut self, m: &SuperPropExpr) {
-        if let SuperProp::Computed(expr) = &m.prop {
-            expr.visit_with(self)
         }
     }
 }
@@ -1897,19 +1883,7 @@ impl<'a> Visit for UsageFinder<'a> {
         }
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr) {
-        e.obj.visit_with(self);
-
-        if let MemberProp::Computed(expr) = &e.prop {
-            expr.visit_with(self);
-        }
-    }
-
-    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
-        if let SuperProp::Computed(expr) = &e.prop {
-            expr.visit_with(self);
-        }
-    }
+    visit_obj_and_computed!();
 }
 
 impl<'a> UsageFinder<'a> {
@@ -2132,19 +2106,7 @@ impl VisitMut for IdentReplacer<'_> {
         }
     }
 
-    fn visit_mut_member_expr(&mut self, node: &mut MemberExpr) {
-        node.obj.visit_mut_with(self);
-
-        if let MemberProp::Computed(expr) = &mut node.prop {
-            expr.visit_mut_with(self);
-        }
-    }
-
-    fn visit_mut_super_prop_expr(&mut self, node: &mut SuperPropExpr) {
-        if let SuperProp::Computed(expr) = &mut node.prop {
-            expr.visit_mut_with(self);
-        }
-    }
+    visit_mut_obj_and_computed!();
 }
 
 pub struct BindingCollector<I>
@@ -2214,19 +2176,6 @@ where
 
     fn visit_import_star_as_specifier(&mut self, node: &ImportStarAsSpecifier) {
         self.add(&node.local);
-    }
-
-    fn visit_member_expr(&mut self, n: &MemberExpr) {
-        n.obj.visit_with(self);
-        if let MemberProp::Computed(expr) = &n.prop {
-            expr.visit_with(self);
-        }
-    }
-
-    fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {
-        if let SuperProp::Computed(expr) = &n.prop {
-            expr.visit_with(self);
-        }
     }
 
     fn visit_module_items(&mut self, nodes: &[ModuleItem]) {

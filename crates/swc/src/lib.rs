@@ -836,6 +836,17 @@ impl Compiler {
     /// `custom_after_pass` is applied after swc transforms are applied.
     ///
     /// `program`: If you already parsed `Program`, you can pass it.
+    ///
+    /// # Guarantee
+    ///
+    /// `swc` invokes `custom_before_pass` after
+    ///
+    ///  - Handling decorators, if configured
+    ///  - Applying `resolver`
+    ///  - Stripping typescript nodes
+    ///
+    /// This means, you can use `noop_visit_type`, `noop_fold_type` and
+    /// `noop_visit_mut_type` in your visitor to reduce the binary size.
     pub fn process_js_with_custom_pass<P1, P2>(
         &self,
         fm: Arc<SourceFile>,

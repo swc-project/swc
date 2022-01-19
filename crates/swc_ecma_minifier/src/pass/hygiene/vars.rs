@@ -104,22 +104,4 @@ impl Visit for VarAnalyzer<'_> {
 
         self.cur.add(i);
     }
-
-    fn visit_member_expr(&mut self, n: &MemberExpr) {
-        n.obj.visit_with(self);
-
-        if n.computed {
-            n.prop.visit_with(self);
-        }
-    }
-
-    fn visit_prop_name(&mut self, n: &PropName) {
-        match n {
-            PropName::Computed(_) => {
-                n.visit_children_with(self);
-            }
-
-            _ => {}
-        }
-    }
 }

@@ -32,7 +32,8 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
-use tracing::{error, span, Level};
+use swc_timer::timer;
+use tracing::error;
 
 mod drop_console;
 mod hoist_decls;
@@ -110,18 +111,15 @@ where
     {
         // Skip if `use asm` exists.
         if stmts.iter().any(|stmt| match stmt.as_stmt() {
-            Some(v) => match v {
-                Stmt::Expr(stmt) => match &*stmt.expr {
-                    Expr::Lit(Lit::Str(Str {
-                        value,
-                        has_escape: false,
-                        ..
-                    })) => &**value == "use asm",
-                    _ => false,
-                },
+            Some(Stmt::Expr(stmt)) => match &*stmt.expr {
+                Expr::Lit(Lit::Str(Str {
+                    value,
+                    has_escape: false,
+                    ..
+                })) => &**value == "use asm",
                 _ => false,
             },
-            None => false,
+            _ => false,
         }) {
             return;
         }
@@ -159,7 +157,7 @@ where
             let results = nodes
                 .par_iter_mut()
                 .map(|node| {
-                    swc_common::GLOBALS.set(&self.globals, || {
+                    swc_common::GLOBALS.set(self.globals, || {
                         let mut v = Compressor {
                             globals: self.globals,
                             marks: self.marks,
@@ -236,15 +234,11 @@ where
     where
         N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa, M>>,
     {
+        let _timer = timer!("optimize", pass = self.pass);
+
         self.data = Some(analyze(&*n, Some(self.marks)));
 
-        let _tracing = if cfg!(feature = "debug") {
-            Some(span!(Level::ERROR, "compressor", "pass" = self.pass).entered())
-        } else {
-            None
-        };
-
-        if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
+        if self.options.passes != 0 && self.options.passes < self.pass {
             let done = dump(&*n, false);
             tracing::debug!("===== Done =====\n{}", done);
             return;
@@ -263,6 +257,8 @@ where
 
                 for (i, code) in self.dump_for_infinite_loop.iter().enumerate() {
                     msg.push_str(&format!("Code {:>4}:\n\n\n\n\n\n\n\n\n\n{}\n", i, code));
+
+                    // std::fs::write(&format!("pass_{}.js", i), code).unwrap();
                 }
 
                 panic!(
@@ -333,7 +329,7 @@ where
 
             let start_time = now();
 
-            let mut visitor = pure_optimizer(&self.options, self.marks, self.mode, self.pass >= 20);
+            let mut visitor = pure_optimizer(self.options, self.marks, self.mode, self.pass >= 20);
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
 

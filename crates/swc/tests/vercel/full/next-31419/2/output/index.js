@@ -16,15 +16,13 @@ Promise.all(assignAll).then(function() {
     };
 }());
 export const listOfUser = function(b) {
-    return new Promise(function() {
-        var c = a.asyncToGenerator(function*(a, c) {
-            const d = `Select Distinct id from "TABLE" Where id = '${b}' And user_id IS not null`;
-            postgreSQL.query(d, null, function(b, d) {
-                b ? c(b) : a(d.rows);
-            });
+    var c;
+    return new Promise((c = a.asyncToGenerator(function*(a, c) {
+        const d = `Select Distinct id from "TABLE" Where id = '${b}' And user_id IS not null`;
+        postgreSQL.query(d, null, function(b, d) {
+            b ? c(b) : a(d.rows);
         });
-        return function(a, c) {
-            return c.apply(this, arguments);
-        };
-    }());
+    }), function(a, c) {
+        return c.apply(this, arguments);
+    }));
 };

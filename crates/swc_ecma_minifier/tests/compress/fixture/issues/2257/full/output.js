@@ -7057,12 +7057,9 @@
         14721: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
             __webpack_require__(7457);
-            var $ = __webpack_require__(35437), isCallable = __webpack_require__(67106), isObject = __webpack_require__(39817), DELEGATES_TO_EXEC = function() {
-                var execCalled = !1, re = /[ac]/;
-                return re.exec = function() {
-                    return execCalled = !0, /./.exec.apply(this, arguments);
-                }, !0 === re.test("abc") && execCalled;
-            }(), nativeTest = /./.test;
+            var execCalled, re, $ = __webpack_require__(35437), isCallable = __webpack_require__(67106), isObject = __webpack_require__(39817), DELEGATES_TO_EXEC = (execCalled = !1, (re = /[ac]/).exec = function() {
+                return execCalled = !0, /./.exec.apply(this, arguments);
+            }, !0 === re.test("abc") && execCalled), nativeTest = /./.test;
             $({
                 target: "RegExp",
                 proto: !0,

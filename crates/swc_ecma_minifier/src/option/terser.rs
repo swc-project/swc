@@ -347,8 +347,8 @@ impl TerserCompressorOptions {
                             )
                         })
                     };
-                    let key = parse(if k.starts_with('@') {
-                        k[1..].to_string()
+                    let key = parse(if let Some(k) = k.strip_prefix('@') {
+                        k.to_string()
                     } else {
                         k.to_string()
                     });
@@ -482,7 +482,7 @@ impl From<TerserTopRetainOption> for Vec<JsWord> {
     fn from(v: TerserTopRetainOption) -> Self {
         match v {
             TerserTopRetainOption::Str(s) => s
-                .split(",")
+                .split(',')
                 .filter(|s| s.trim() != "")
                 .map(|v| v.into())
                 .collect(),

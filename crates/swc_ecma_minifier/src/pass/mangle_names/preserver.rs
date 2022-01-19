@@ -68,13 +68,10 @@ impl Visit for Preserver {
     fn visit_expr(&mut self, n: &Expr) {
         n.visit_children_with(self);
 
-        match n {
-            Expr::Ident(i) => {
-                if self.should_preserve {
-                    self.preserved.insert(i.to_id());
-                }
+        if let Expr::Ident(i) = n {
+            if self.should_preserve {
+                self.preserved.insert(i.to_id());
             }
-            _ => {}
         }
     }
 
@@ -96,19 +93,6 @@ impl Visit for Preserver {
         }
     }
 
-    fn visit_member_expr(&mut self, n: &MemberExpr) {
-        n.obj.visit_with(self);
-        if let MemberProp::Computed(c) = &n.prop {
-            c.visit_with(self);
-        }
-    }
-
-    fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {
-        if let SuperProp::Computed(c) = &n.prop {
-            c.visit_with(self);
-        }
-    }
-
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
         for n in n {
             self.in_top_level = true;
@@ -119,13 +103,10 @@ impl Visit for Preserver {
     fn visit_pat(&mut self, n: &Pat) {
         n.visit_children_with(self);
 
-        match n {
-            Pat::Ident(i) => {
-                if self.should_preserve {
-                    self.preserved.insert(i.to_id());
-                }
+        if let Pat::Ident(i) = n {
+            if self.should_preserve {
+                self.preserved.insert(i.to_id());
             }
-            _ => {}
         }
     }
 

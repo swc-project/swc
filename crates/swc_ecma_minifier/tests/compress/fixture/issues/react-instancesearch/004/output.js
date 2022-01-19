@@ -198,20 +198,18 @@ export default function createInstantSearchManager(param1) {
                 client.search = function(requests) {
                     for(var _len1 = arguments.length, methodArgs = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++)methodArgs[_key1 - 1] = arguments[_key1];
                     var requestsWithSerializedParams = requests.map(function(request) {
+                        var parameters, encode;
                         return swcHelpers.objectSpread({}, request, {
-                            params: function(parameters) {
-                                var encode = function(format) {
-                                    for(var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
-                                    var i = 0;
-                                    return format.replace(/%s/g, function() {
-                                        return encodeURIComponent(args[i++]);
-                                    });
-                                };
-                                return Object.keys(parameters).map(function(key) {
-                                    var value;
-                                    return encode("%s=%s", key, (value = parameters[key], "[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)) ? JSON.stringify(parameters[key]) : parameters[key]);
-                                }).join("&");
-                            }(request.params)
+                            params: (parameters = request.params, encode = function(format) {
+                                for(var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
+                                var i = 0;
+                                return format.replace(/%s/g, function() {
+                                    return encodeURIComponent(args[i++]);
+                                });
+                            }, Object.keys(parameters).map(function(key) {
+                                var value;
+                                return encode("%s=%s", key, (value = parameters[key], "[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)) ? JSON.stringify(parameters[key]) : parameters[key]);
+                            }).join("&"))
                         });
                     });
                     return client.transporter.responsesCache.get({

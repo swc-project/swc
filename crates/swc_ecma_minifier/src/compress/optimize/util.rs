@@ -18,27 +18,24 @@ where
         expr: &'e mut Expr,
         prop: &JsWord,
     ) -> Option<&'e mut Expr> {
-        match expr {
-            Expr::Object(obj) => {
-                for obj_prop in obj.props.iter_mut() {
-                    match obj_prop {
-                        PropOrSpread::Spread(_) => {}
-                        PropOrSpread::Prop(p) => match &mut **p {
-                            Prop::Shorthand(_) => {}
-                            Prop::KeyValue(p) => {
-                                if prop_name_eq(&p.key, &prop) {
-                                    return Some(&mut *p.value);
-                                }
+        if let Expr::Object(obj) = expr {
+            for obj_prop in obj.props.iter_mut() {
+                match obj_prop {
+                    PropOrSpread::Spread(_) => {}
+                    PropOrSpread::Prop(p) => match &mut **p {
+                        Prop::Shorthand(_) => {}
+                        Prop::KeyValue(p) => {
+                            if prop_name_eq(&p.key, prop) {
+                                return Some(&mut *p.value);
                             }
-                            Prop::Assign(_) => {}
-                            Prop::Getter(_) => {}
-                            Prop::Setter(_) => {}
-                            Prop::Method(_) => {}
-                        },
-                    }
+                        }
+                        Prop::Assign(_) => {}
+                        Prop::Getter(_) => {}
+                        Prop::Setter(_) => {}
+                        Prop::Method(_) => {}
+                    },
                 }
             }
-            _ => {}
         }
 
         None
@@ -102,7 +99,7 @@ impl<'b, M> Deref for WithCtx<'_, 'b, M> {
     type Target = Optimizer<'b, M>;
 
     fn deref(&self) -> &Self::Target {
-        &self.reducer
+        self.reducer
     }
 }
 
@@ -164,11 +161,7 @@ pub(crate) fn class_has_side_effect(c: &Class) -> bool {
 }
 
 pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
-    match e {
-        Expr::Lit(..) => return false,
-        Expr::Unary(..) => return false,
-        _ => true,
-    }
+    !matches!(e, Expr::Lit(..) | Expr::Unary(..))
 }
 
 pub(crate) struct MultiReplacer {
@@ -182,29 +175,12 @@ impl VisitMut for MultiReplacer {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
-        match e {
-            Expr::Ident(i) => {
-                if let Some(new) = self.vars.remove(&i.to_id()) {
-                    debug!("multi-replacer: Replaced `{}`", i);
-                    *e = *new;
-                    self.changed = true;
-                }
+        if let Expr::Ident(i) = e {
+            if let Some(new) = self.vars.remove(&i.to_id()) {
+                debug!("multi-replacer: Replaced `{}`", i);
+                *e = *new;
+                self.changed = true;
             }
-            _ => {}
-        }
-    }
-
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
-
-        if let MemberProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
-        }
-    }
-
-    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
         }
     }
 
@@ -229,21 +205,16 @@ impl VisitMut for MultiReplacer {
     fn visit_mut_prop(&mut self, p: &mut Prop) {
         p.visit_mut_children_with(self);
 
-        match p {
-            Prop::Shorthand(i) => {
-                if let Some(value) = self.vars.remove(&i.to_id()) {
-                    debug!("multi-replacer: Replaced `{}` as shorthand", i);
-                    self.changed = true;
+        if let Prop::Shorthand(i) = p {
+            if let Some(value) = self.vars.remove(&i.to_id()) {
+                debug!("multi-replacer: Replaced `{}` as shorthand", i);
+                self.changed = true;
 
-                    *p = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(i.clone()),
-                        value,
-                    });
-
-                    return;
-                }
+                *p = Prop::KeyValue(KeyValueProp {
+                    key: PropName::Ident(i.clone()),
+                    value,
+                });
             }
-            _ => {}
         }
     }
 }
@@ -252,10 +223,7 @@ pub(crate) fn replace_id_with_expr<N>(node: &mut N, from: Id, to: Box<Expr>) -> 
 where
     N: VisitMutWith<ExprReplacer>,
 {
-    let mut v = ExprReplacer {
-        from: from.clone(),
-        to: Some(to),
-    };
+    let mut v = ExprReplacer { from, to: Some(to) };
     node.visit_mut_with(&mut v);
 
     v.to
@@ -272,54 +240,32 @@ impl VisitMut for ExprReplacer {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
-        match e {
-            Expr::Ident(i) => {
-                if self.from.0 == i.sym && self.from.1 == i.span.ctxt {
-                    if let Some(new) = self.to.take() {
-                        *e = *new;
-                    } else {
-                        unreachable!("`{}` is already taken", i)
-                    }
+        if let Expr::Ident(i) = e {
+            if self.from.0 == i.sym && self.from.1 == i.span.ctxt {
+                if let Some(new) = self.to.take() {
+                    *e = *new;
+                } else {
+                    unreachable!("`{}` is already taken", i)
                 }
             }
-            _ => {}
-        }
-    }
-
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
-
-        if let MemberProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
-        }
-    }
-
-    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
         }
     }
 
     fn visit_mut_prop(&mut self, p: &mut Prop) {
         p.visit_mut_children_with(self);
 
-        match p {
-            Prop::Shorthand(i) => {
-                if self.from.0 == i.sym && self.from.1 == i.span.ctxt {
-                    let value = if let Some(new) = self.to.take() {
-                        new
-                    } else {
-                        unreachable!("`{}` is already taken", i)
-                    };
-                    *p = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(i.clone()),
-                        value,
-                    });
-
-                    return;
-                }
+        if let Prop::Shorthand(i) = p {
+            if self.from.0 == i.sym && self.from.1 == i.span.ctxt {
+                let value = if let Some(new) = self.to.take() {
+                    new
+                } else {
+                    unreachable!("`{}` is already taken", i)
+                };
+                *p = Prop::KeyValue(KeyValueProp {
+                    key: PropName::Ident(i.clone()),
+                    value,
+                });
             }
-            _ => {}
         }
     }
 }

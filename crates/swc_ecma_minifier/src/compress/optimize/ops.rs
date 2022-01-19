@@ -122,13 +122,15 @@ where
     /// - `!!(a in b)` => `a in b`
     /// - `!!(function() {})()` => `!(function() {})()`
     pub(super) fn optimize_bangbang(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Unary(UnaryExpr {
+        if let Expr::Unary(UnaryExpr {
+            op: op!("!"), arg, ..
+        }) = e
+        {
+            if let Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
-            }) => match &mut **arg {
-                Expr::Unary(UnaryExpr {
-                    op: op!("!"), arg, ..
-                }) => match &**arg {
+            }) = &mut **arg
+            {
+                match &**arg {
                     Expr::Unary(UnaryExpr { op: op!("!"), .. })
                     | Expr::Bin(BinExpr { op: op!("in"), .. })
                     | Expr::Bin(BinExpr {
@@ -148,15 +150,11 @@ where
                             tracing::debug!("Optimizing: `!!expr` => `expr`");
                             *e = *arg.take();
                         }
-
-                        return;
                     }
 
                     _ => {}
-                },
-                _ => {}
-            },
-            _ => {}
+                }
+            }
         }
     }
 
@@ -167,7 +165,7 @@ where
     }
 
     pub(super) fn negate(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
-        self.changed |= negate(e, self.ctx.in_bool_ctx, is_ret_val_ignored)
+        negate(e, self.ctx.in_bool_ctx, is_ret_val_ignored)
     }
 
     /// This method does
@@ -374,7 +372,6 @@ where
                 tracing::debug!("Removing null from lhs of ??");
                 self.changed = true;
                 *e = r.take();
-                return;
             }
             Expr::Lit(Lit::Num(..))
             | Expr::Lit(Lit::Str(..))
@@ -384,7 +381,6 @@ where
                 tracing::debug!("Removing rhs of ?? as lhs cannot be null nor undefined");
                 self.changed = true;
                 *e = l.take();
-                return;
             }
             _ => {}
         }
@@ -396,13 +392,14 @@ where
             return;
         }
 
-        match e {
-            Expr::Unary(UnaryExpr {
-                span,
-                op: op!("typeof"),
-                arg,
-                ..
-            }) => match &**arg {
+        if let Expr::Unary(UnaryExpr {
+            span,
+            op: op!("typeof"),
+            arg,
+            ..
+        }) = e
+        {
+            match &**arg {
                 Expr::Ident(arg) => {
                     if let Some(value) = self.typeofs.get(&arg.to_id()).cloned() {
                         tracing::debug!(
@@ -415,7 +412,6 @@ where
                             has_escape: false,
                             kind: Default::default(),
                         }));
-                        return;
                     }
                 }
 
@@ -428,7 +424,6 @@ where
                         has_escape: false,
                         kind: Default::default(),
                     }));
-                    return;
                 }
 
                 Expr::Array(..) | Expr::Object(..) => {
@@ -440,11 +435,9 @@ where
                         has_escape: false,
                         kind: Default::default(),
                     }));
-                    return;
                 }
                 _ => {}
-            },
-            _ => {}
+            }
         }
     }
 }

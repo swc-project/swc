@@ -12,21 +12,8 @@ function fun(deepPromised) {
     return _fun.apply(this, arguments);
 }
 function _fun() {
-    return (_fun = (function(fn) {
-        return function() {
-            var self = this, args = arguments;
-            return new Promise(function(resolve, reject) {
-                var gen = fn.apply(self, args);
-                function _next(value) {
-                    asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-                }
-                function _throw(err) {
-                    asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-                }
-                _next(void 0);
-            });
-        };
-    })(regeneratorRuntime.mark(function _callee(deepPromised) {
+    var fn;
+    return (_fun = (fn = regeneratorRuntime.mark(function _callee(deepPromised) {
         var deepPromisedWithIndexer, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, value, awaitedValue;
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
@@ -82,7 +69,19 @@ function _fun() {
                 28
             ]
         ]);
-    }))).apply(this, arguments);
+    }), function() {
+        var self = this, args = arguments;
+        return new Promise(function(resolve, reject) {
+            var gen = fn.apply(self, args);
+            function _next(value) {
+                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+            }
+            function _throw(err) {
+                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+            }
+            _next(void 0);
+        });
+    })).apply(this, arguments);
 }
 f1(1, 2), f1(1, "hello"), f1(1, sn), f1(void 0, "abc"), f1("foo", "bar"), f1(!0, !1), f1("hello", 1), f2([
     "string",

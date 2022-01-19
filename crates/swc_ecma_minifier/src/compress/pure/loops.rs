@@ -62,52 +62,46 @@ where
     /// for (; size-- && (result = eq(a[size], b[size], aStack, bStack)););
     /// ```
     pub(super) fn merge_for_if_break(&mut self, s: &mut ForStmt) {
-        match &mut *s.body {
-            Stmt::If(IfStmt {
-                test,
-                cons,
-                alt: None,
-                ..
-            }) => {
-                match &**cons {
-                    Stmt::Break(BreakStmt { label: None, .. }) => {
-                        // We only care about instant breaks.
-                        //
-                        // Note: As the minifier of swc is very fast, we don't
-                        // care about block statements with a single break as a
-                        // body.
-                        //
-                        // If it's optimizable, other pass for if statements
-                        // will remove block and with the next pass we can apply
-                        // this pass.
-                        self.changed = true;
-                        tracing::debug!("loops: Compressing for-if-break into a for statement");
+        if let Stmt::If(IfStmt {
+            test,
+            cons,
+            alt: None,
+            ..
+        }) = &mut *s.body
+        {
+            if let Stmt::Break(BreakStmt { label: None, .. }) = &**cons {
+                // We only care about instant breaks.
+                //
+                // Note: As the minifier of swc is very fast, we don't
+                // care about block statements with a single break as a
+                // body.
+                //
+                // If it's optimizable, other pass for if statements
+                // will remove block and with the next pass we can apply
+                // this pass.
+                self.changed = true;
+                tracing::debug!("loops: Compressing for-if-break into a for statement");
 
-                        // We negate because this `test` is used as a condition for `break`.
-                        self.negate(test, true, false);
+                // We negate because this `test` is used as a condition for `break`.
+                self.negate(test, true, false);
 
-                        match s.test.take() {
-                            Some(left) => {
-                                s.test = Some(Box::new(Expr::Bin(BinExpr {
-                                    span: s.test.span(),
-                                    op: op!("&&"),
-                                    left,
-                                    right: test.take(),
-                                })));
-                            }
-                            None => {
-                                s.test = Some(test.take());
-                            }
-                        }
-
-                        // Remove body
-                        s.body.take();
+                match s.test.take() {
+                    Some(left) => {
+                        s.test = Some(Box::new(Expr::Bin(BinExpr {
+                            span: s.test.span(),
+                            op: op!("&&"),
+                            left,
+                            right: test.take(),
+                        })));
                     }
-                    _ => {}
+                    None => {
+                        s.test = Some(test.take());
+                    }
                 }
-            }
 
-            _ => {}
+                // Remove body
+                s.body.take();
+            }
         }
     }
 }

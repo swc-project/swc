@@ -11,7 +11,7 @@ use std::{
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, undefined, ExprFactory, Id};
+use swc_ecma_utils::{contains_arguments, ident::IdentLike, undefined, ExprFactory, Id};
 use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `negate_iife`.
@@ -35,17 +35,13 @@ where
             Callee::Expr(e) => &mut **e,
         };
 
-        match callee {
-            Expr::Fn(..) => {
-                tracing::debug!("negate_iife: Negating iife");
-                *e = Expr::Unary(UnaryExpr {
-                    span: DUMMY_SP,
-                    op: op!("!"),
-                    arg: Box::new(e.take()),
-                });
-                return;
-            }
-            _ => {}
+        if let Expr::Fn(..) = callee {
+            tracing::debug!("negate_iife: Negating iife");
+            *e = Expr::Unary(UnaryExpr {
+                span: DUMMY_SP,
+                op: op!("!"),
+                arg: Box::new(e.take()),
+            });
         }
     }
 
@@ -78,7 +74,7 @@ where
                     arg: cond.test.take(),
                 }));
                 swap(&mut cond.cons, &mut cond.alt);
-                return true;
+                true
             }
             _ => false,
         }
@@ -89,30 +85,27 @@ where
             return;
         }
 
-        match &mut *cond.test {
-            Expr::Unary(UnaryExpr {
-                op: op!("!"), arg, ..
-            }) => match &mut **arg {
-                Expr::Call(CallExpr {
-                    span: call_span,
-                    callee: Callee::Expr(callee),
-                    args,
-                    ..
-                }) => match &**callee {
-                    Expr::Fn(..) => {
-                        cond.test = Box::new(Expr::Call(CallExpr {
-                            span: *call_span,
-                            callee: callee.take().as_callee(),
-                            args: args.take(),
-                            type_args: Default::default(),
-                        }));
-                        swap(&mut cond.cons, &mut cond.alt);
-                    }
-                    _ => {}
-                },
-                _ => {}
-            },
-            _ => {}
+        if let Expr::Unary(UnaryExpr {
+            op: op!("!"), arg, ..
+        }) = &mut *cond.test
+        {
+            if let Expr::Call(CallExpr {
+                span: call_span,
+                callee: Callee::Expr(callee),
+                args,
+                ..
+            }) = &mut **arg
+            {
+                if let Expr::Fn(..) = &**callee {
+                    cond.test = Box::new(Expr::Call(CallExpr {
+                        span: *call_span,
+                        callee: callee.take().as_callee(),
+                        args: args.take(),
+                        type_args: Default::default(),
+                    }));
+                    swap(&mut cond.cons, &mut cond.alt);
+                }
+            }
         };
     }
 }
@@ -170,7 +163,7 @@ where
                         .map(|param| &param.pat)
                         .collect(),
                 ),
-                _ => return None,
+                _ => None,
             }
         }
 
@@ -185,7 +178,7 @@ where
             }
         }
 
-        let params = find_params(&callee);
+        let params = find_params(callee);
         if let Some(params) = params {
             let mut vars = HashMap::default();
             // We check for parameter and argument
@@ -334,10 +327,8 @@ where
                 if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
                     match &f.body {
                         BlockStmtOrExpr::BlockStmt(body) => {
-                            let has_decl = body.stmts.iter().any(|stmt| match stmt {
-                                Stmt::Decl(..) => true,
-                                _ => false,
-                            });
+                            let has_decl =
+                                body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)));
                             if has_decl {
                                 return;
                             }
@@ -367,14 +358,13 @@ where
                         }
                         return;
                     }
-                    BlockStmtOrExpr::Expr(body) => match &**body {
-                        Expr::Lit(Lit::Num(..)) => {
+                    BlockStmtOrExpr::Expr(body) => {
+                        if let Expr::Lit(Lit::Num(..)) = &**body {
                             if self.ctx.in_obj_of_non_computed_member {
                                 return;
                             }
                         }
-                        _ => {}
-                    },
+                    }
                 }
 
                 match &mut f.body {
@@ -407,8 +397,7 @@ where
                             }
                         }
 
-                        let mut exprs = vec![];
-                        exprs.push(Box::new(make_number(DUMMY_SP, 0.0)));
+                        let mut exprs = vec![Box::new(make_number(DUMMY_SP, 0.0))];
                         for (idx, param) in f.params.iter().enumerate() {
                             if let Some(arg) = call.args.get_mut(idx) {
                                 exprs.push(Box::new(Expr::Assign(AssignExpr {
@@ -432,17 +421,13 @@ where
                             span: DUMMY_SP,
                             exprs,
                         });
-                        return;
                     }
                 }
             }
             Expr::Fn(f) => {
                 if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
                     let body = f.function.body.as_ref().unwrap();
-                    let has_decl = body.stmts.iter().any(|stmt| match stmt {
-                        Stmt::Decl(..) => true,
-                        _ => false,
-                    });
+                    let has_decl = body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)));
                     if has_decl {
                         tracing::trace!("iife: [x] Found decl");
                         return;
@@ -460,9 +445,11 @@ where
                 }
 
                 // Abort if a parameter is complex
-                if f.function.params.iter().any(|param| match param.pat {
-                    Pat::Object(..) | Pat::Array(..) | Pat::Assign(..) | Pat::Rest(..) => true,
-                    _ => false,
+                if f.function.params.iter().any(|param| {
+                    matches!(
+                        param.pat,
+                        Pat::Object(..) | Pat::Array(..) | Pat::Assign(..) | Pat::Rest(..)
+                    )
                 }) {
                     tracing::trace!("iife: [x] Found complex pattern");
                     return;
@@ -584,13 +571,7 @@ where
             Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
                 Some(Expr::Await(..)) => false,
 
-                Some(Expr::Lit(Lit::Num(..))) => {
-                    if self.ctx.in_obj_of_non_computed_member {
-                        false
-                    } else {
-                        true
-                    }
-                }
+                Some(Expr::Lit(Lit::Num(..))) => !self.ctx.in_obj_of_non_computed_member,
                 _ => true,
             },
             _ => false,
@@ -598,10 +579,7 @@ where
             return false;
         }
 
-        if idents_used_by(&*body)
-            .iter()
-            .any(|v| v.0 == js_word!("arguments"))
-        {
+        if contains_arguments(body) {
             return false;
         }
 
@@ -614,12 +592,12 @@ where
         body: &mut BlockStmt,
         args: &mut [ExprOrSpread],
     ) -> Option<Expr> {
-        if !self.can_inline_fn_like(&params, &*body) {
+        if !self.can_inline_fn_like(params, &*body) {
             return None;
         }
 
         self.changed = true;
-        tracing::debug!("inline: Inling an iife");
+        tracing::debug!("inline: Inlining an iife");
 
         let mut exprs = vec![];
 
@@ -727,19 +705,19 @@ where
             })
             | Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
-            }) => self.can_be_inlined_for_iife(&arg),
+            }) => self.can_be_inlined_for_iife(arg),
 
             Expr::Ident(..) => true,
 
             Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
-                self.can_be_inlined_for_iife(&obj)
+                self.can_be_inlined_for_iife(obj)
             }
 
             Expr::Bin(BinExpr {
                 op, left, right, ..
             }) => match op {
                 op!(bin, "+") | op!("*") => {
-                    self.can_be_inlined_for_iife(&left) && self.can_be_inlined_for_iife(&right)
+                    self.can_be_inlined_for_iife(left) && self.can_be_inlined_for_iife(right)
                 }
                 _ => false,
             },
@@ -780,7 +758,7 @@ where
                 is_async: false,
                 is_generator: false,
                 ..
-            }) => params.iter().all(|p| p.is_ident()) && self.can_be_inlined_for_iife(&body),
+            }) => params.iter().all(|p| p.is_ident()) && self.can_be_inlined_for_iife(body),
 
             _ => false,
         }

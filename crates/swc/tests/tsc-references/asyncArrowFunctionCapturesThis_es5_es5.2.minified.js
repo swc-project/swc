@@ -13,10 +13,25 @@ var C = function() {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
         }(this, C);
     }
-    return protoProps = [
+    return Constructor = C, protoProps = [
         {
             key: "method",
-            value: function() {}
+            value: function() {
+                var _this = this;
+                regeneratorRuntime.mark(function _callee() {
+                    return regeneratorRuntime.wrap(function(_ctx) {
+                        for(;;)switch(_ctx.prev = _ctx.next){
+                            case 0:
+                                return _ctx.next = 2, _this;
+                            case 2:
+                                return _ctx.abrupt("return", _ctx.sent);
+                            case 3:
+                            case "end":
+                                return _ctx.stop();
+                        }
+                    }, _callee);
+                });
+            }
         }
-    ], _defineProperties((Constructor = C).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
+    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

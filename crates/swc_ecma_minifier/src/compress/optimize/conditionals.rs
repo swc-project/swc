@@ -32,7 +32,7 @@ where
             _ => {}
         }
 
-        if negate_cost(&stmt.test, true, false).unwrap_or(isize::MAX) < 0 {
+        if negate_cost(&stmt.test, true, false) < 0 {
             self.changed = true;
             tracing::debug!("if_return: Negating `cond` of an if statement which has cons and alt");
             let ctx = Ctx {

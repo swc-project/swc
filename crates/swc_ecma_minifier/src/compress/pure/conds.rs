@@ -86,7 +86,6 @@ where
                     left: cond.test.take(),
                     right: cond.cons.take(),
                 });
-                return;
             }
         }
     }
@@ -121,14 +120,13 @@ where
                     })),
                     right: cons.right.take(),
                 });
-                return;
             }
             _ => {}
         }
     }
 
     pub(super) fn negate_cond_expr(&mut self, cond: &mut CondExpr) {
-        if negate_cost(&cond.test, true, false).unwrap_or(isize::MAX) >= 0 {
+        if negate_cost(&cond.test, true, false) >= 0 {
             return;
         }
 
@@ -179,7 +177,6 @@ where
                 self.changed = true;
                 tracing::debug!("conditionals: `!!foo || true` => `true`");
                 *e = make_bool(bin.span, true);
-                return;
             }
         }
     }

@@ -16,7 +16,8 @@ use swc_ecma_utils::{
     StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+    as_folder, noop_visit_mut_type, visit_obj_and_computed, Fold, Visit, VisitMut, VisitMutWith,
+    VisitWith,
 };
 
 /// Value does not contain TsLit::Bool
@@ -1874,12 +1875,7 @@ where
         }
     }
 
-    fn visit_member_expr(&mut self, n: &MemberExpr) {
-        n.obj.visit_with(self);
-        if let MemberProp::Computed(c) = &n.prop {
-            c.visit_with(self);
-        }
-    }
+    visit_obj_and_computed!();
 
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
         let old = self.non_top_level;
@@ -1908,12 +1904,6 @@ where
         self.non_top_level = true;
         n.iter().for_each(|n| n.visit_with(self));
         self.non_top_level = old;
-    }
-
-    fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {
-        if let SuperProp::Computed(c) = &n.prop {
-            c.visit_with(self);
-        }
     }
 
     fn visit_ts_entity_name(&mut self, name: &TsEntityName) {

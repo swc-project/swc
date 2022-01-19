@@ -49,6 +49,7 @@ pub struct Marks {
 }
 
 impl Marks {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
         fn m() -> Mark {
             Mark::fresh(Mark::root())

@@ -1941,17 +1941,15 @@
         }, this.$get = [
             "$window",
             function($window) {
+                var fn;
                 return {
                     log: consoleLog("log"),
                     info: consoleLog("info"),
                     warn: consoleLog("warn"),
                     error: consoleLog("error"),
-                    debug: (function() {
-                        var fn = consoleLog("debug");
-                        return function() {
-                            debug && fn.apply(self, arguments);
-                        };
-                    })()
+                    debug: (fn = consoleLog("debug"), function() {
+                        debug && fn.apply(self, arguments);
+                    })
                 };
                 function consoleLog(type) {
                     var console = $window.console || {}, logFn = console[type] || console.log || noop;
