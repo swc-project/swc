@@ -258,10 +258,120 @@ where
 
         if n.media_type.is_some() {
             emit!(self, n.media_type);
-            space!(self);
+
+            if n.condition.is_some() {
+                space!(self);
+                keyword!(self, "and");
+                space!(self);
+            }
         }
 
+        if n.condition.is_some() {
+            emit!(self, n.condition);
+        }
+    }
+
+    #[emitter]
+    fn emit_media_condition(&mut self, n: &MediaCondition) -> Result {
+        self.emit_list(&n.conditions, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_media_condition_item(&mut self, n: &MediaConditionItem) -> Result {
+        match n {
+            MediaConditionItem::Not(n) => emit!(self, n),
+            MediaConditionItem::And(n) => emit!(self, n),
+            MediaConditionItem::Or(n) => emit!(self, n),
+            MediaConditionItem::MediaInParens(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_media_not(&mut self, n: &MediaNot) -> Result {
+        keyword!(self, "not");
+        space!(self);
         emit!(self, n.condition);
+    }
+
+    #[emitter]
+    fn emit_media_and(&mut self, n: &MediaAnd) -> Result {
+        keyword!(self, "and");
+        space!(self);
+        emit!(self, n.condition);
+    }
+
+    #[emitter]
+    fn emit_media_or(&mut self, n: &MediaOr) -> Result {
+        keyword!(self, "or");
+        space!(self);
+        emit!(self, n.condition);
+    }
+
+    #[emitter]
+    fn emit_media_in_parens(&mut self, n: &MediaInParens) -> Result {
+        match n {
+            MediaInParens::MediaCondition(n) => emit!(self, n),
+            MediaInParens::Feature(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_media_feature(&mut self, n: &MediaFeature) -> Result {
+        punct!(self, "(");
+
+        match n {
+            MediaFeature::Plain(n) => emit!(self, n),
+            MediaFeature::Boolean(n) => emit!(self, n),
+            MediaFeature::Range(n) => emit!(self, n),
+            MediaFeature::RangeInterval(n) => emit!(self, n),
+        }
+
+        punct!(self, ")");
+    }
+
+    #[emitter]
+    fn emit_media_feature_value(&mut self, n: &MediaFeatureValue) -> Result {
+        match n {
+            MediaFeatureValue::Number(n) => emit!(self, n),
+            MediaFeatureValue::Dimension(n) => emit!(self, n),
+            MediaFeatureValue::Ident(n) => emit!(self, n),
+            MediaFeatureValue::Ratio(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_media_feature_plain(&mut self, n: &MediaFeaturePlain) -> Result {
+        emit!(self, n.name);
+        punct!(self, ":");
+        space!(self);
+        emit!(self, n.value);
+    }
+
+    #[emitter]
+    fn emit_media_feature_boolean(&mut self, n: &MediaFeatureBoolean) -> Result {
+        emit!(self, n.name);
+    }
+
+    #[emitter]
+    fn emit_media_feature_range(&mut self, n: &MediaFeatureRange) -> Result {
+        emit!(self, n.left);
+        space!(self);
+        self.wr.write_punct(None, n.comparison.as_str())?;
+        space!(self);
+        emit!(self, n.right);
+    }
+
+    #[emitter]
+    fn emit_media_feature_range_interval(&mut self, n: &MediaFeatureRangeInterval) -> Result {
+        emit!(self, n.left);
+        space!(self);
+        self.wr.write_punct(None, n.left_comparison.as_str())?;
+        space!(self);
+        emit!(self, n.name);
+        space!(self);
+        self.wr.write_punct(None, n.right_comparison.as_str())?;
+        space!(self);
+        emit!(self, n.right);
     }
 
     #[emitter]
@@ -393,18 +503,6 @@ where
     #[emitter]
     fn emit_str(&mut self, n: &Str) -> Result {
         self.wr.write_raw(Some(n.span), &n.raw)?;
-    }
-
-    #[emitter]
-    fn emit_media_query_item(&mut self, n: &MediaQueryItem) -> Result {
-        match n {
-            MediaQueryItem::Ident(n) => emit!(self, n),
-            MediaQueryItem::And(n) => emit!(self, n),
-            MediaQueryItem::Or(n) => emit!(self, n),
-            MediaQueryItem::Not(n) => emit!(self, n),
-            MediaQueryItem::Only(n) => emit!(self, n),
-            MediaQueryItem::MediaInParens(n) => emit!(self, n),
-        }
     }
 
     #[emitter]
@@ -715,77 +813,6 @@ where
         punct!(self, "(");
         self.wr.write_raw(Some(n.span), &n.raw)?;
         punct!(self, ")");
-    }
-
-    #[emitter]
-    fn emit_and_media_query(&mut self, n: &AndMediaQuery) -> Result {
-        emit!(self, n.left);
-        space!(self);
-
-        keyword!(self, "and");
-
-        space!(self);
-        emit!(self, n.right);
-    }
-
-    #[emitter]
-    fn emit_or_media_query(&mut self, n: &OrMediaQuery) -> Result {
-        emit!(self, n.left);
-        space!(self);
-
-        keyword!(self, "or");
-
-        space!(self);
-        emit!(self, n.right);
-    }
-
-    #[emitter]
-    fn emit_not_media_query(&mut self, n: &NotMediaQuery) -> Result {
-        keyword!(self, "not");
-        space!(self);
-        emit!(self, n.query);
-    }
-
-    #[emitter]
-    fn emit_only_media_query(&mut self, n: &OnlyMediaQuery) -> Result {
-        keyword!(self, "only");
-        space!(self);
-        emit!(self, n.query);
-    }
-
-    #[emitter]
-    fn emit_media_in_parens(&mut self, n: &MediaInParens) -> Result {
-        match n {
-            MediaInParens::Feature(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
-    fn emit_media_feature(&mut self, n: &MediaFeature) -> Result {
-        punct!(self, "(");
-
-        match n {
-            MediaFeature::Plain(n) => emit!(self, n),
-            MediaFeature::Boolean(n) => emit!(self, n),
-        }
-
-        punct!(self, ")");
-    }
-
-    #[emitter]
-    fn emit_media_feature_plain(&mut self, n: &MediaFeaturePlain) -> Result {
-        emit!(self, n.name);
-        punct!(self, ":");
-        space!(self);
-        self.emit_list(
-            &n.value,
-            ListFormat::SpaceDelimited | ListFormat::SingleLine,
-        )?;
-    }
-
-    #[emitter]
-    fn emit_media_feature_boolean(&mut self, n: &MediaFeatureBoolean) -> Result {
-        emit!(self, n.name);
     }
 
     #[emitter]
