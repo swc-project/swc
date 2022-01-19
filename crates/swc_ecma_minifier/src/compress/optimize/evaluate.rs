@@ -128,7 +128,7 @@ where
                 }
 
                 match args.len() {
-                    0 => return,
+                    0 => {}
                     1 => {
                         if let Expr::Lit(Lit::Str(exp)) = &*args[0].expr {
                             self.changed = true;
@@ -283,20 +283,17 @@ where
             return;
         }
 
-        match e {
-            Expr::Call(..) => {
-                if let Some(value) = eval_as_number(&e) {
-                    self.changed = true;
-                    tracing::debug!("evaluate: Evaluated an expression as `{}`", value);
+        if let Expr::Call(..) = e {
+            if let Some(value) = eval_as_number(e) {
+                self.changed = true;
+                tracing::debug!("evaluate: Evaluated an expression as `{}`", value);
 
-                    *e = Expr::Lit(Lit::Num(Number {
-                        span: e.span(),
-                        value,
-                    }));
-                    return;
-                }
+                *e = Expr::Lit(Lit::Num(Number {
+                    span: e.span(),
+                    value,
+                }));
+                return;
             }
-            _ => {}
         }
 
         match e {
@@ -314,7 +311,6 @@ where
                             span: bin.span,
                             value,
                         }));
-                        return;
                     }
                 }
             }
@@ -323,71 +319,68 @@ where
                 let ln = bin.left.as_number();
 
                 let rn = bin.right.as_number();
-                match (ln, rn) {
-                    (Known(ln), Known(rn)) => {
-                        // Prefer `0/0` over NaN.
-                        if ln == 0.0 && rn == 0.0 {
-                            return;
-                        }
-                        // Prefer `1/0` over Infinity.
-                        if ln == 1.0 && rn == 0.0 {
-                            return;
-                        }
-
-                        // It's NaN
-                        match (ln.classify(), rn.classify()) {
-                            (FpCategory::Zero, FpCategory::Zero) => {
-                                // If a variable named `NaN` is in scope, don't convert e into NaN.
-                                if self
-                                    .data
-                                    .as_ref()
-                                    .map(|data| {
-                                        data.vars.iter().any(|(name, v)| {
-                                            v.declared && name.0 == js_word!("NaN")
-                                        })
-                                    })
-                                    .unwrap_or(false)
-                                {
-                                    return;
-                                }
-
-                                self.changed = true;
-                                tracing::debug!("evaluate: `0 / 0` => `NaN`");
-
-                                // Sign does not matter for NaN
-                                *e = Expr::Ident(Ident::new(
-                                    js_word!("NaN"),
-                                    bin.span.with_ctxt(SyntaxContext::empty()),
-                                ));
-                                return;
-                            }
-                            (FpCategory::Normal, FpCategory::Zero) => {
-                                self.changed = true;
-                                tracing::debug!("evaluate: `{} / 0` => `Infinity`", ln);
-
-                                // Sign does not matter for NaN
-                                *e = if ln.is_sign_positive() == rn.is_sign_positive() {
-                                    Expr::Ident(Ident::new(
-                                        js_word!("Infinity"),
-                                        bin.span.with_ctxt(SyntaxContext::empty()),
-                                    ))
-                                } else {
-                                    Expr::Unary(UnaryExpr {
-                                        span: bin.span,
-                                        op: op!(unary, "-"),
-                                        arg: Box::new(Expr::Ident(Ident::new(
-                                            js_word!("Infinity"),
-                                            bin.span.with_ctxt(SyntaxContext::empty()),
-                                        ))),
-                                    })
-                                };
-                                return;
-                            }
-                            _ => {}
-                        }
+                if let (Known(ln), Known(rn)) = (ln, rn) {
+                    // Prefer `0/0` over NaN.
+                    if ln == 0.0 && rn == 0.0 {
                         return;
                     }
-                    _ => {}
+                    // Prefer `1/0` over Infinity.
+                    if ln == 1.0 && rn == 0.0 {
+                        return;
+                    }
+
+                    // It's NaN
+                    match (ln.classify(), rn.classify()) {
+                        (FpCategory::Zero, FpCategory::Zero) => {
+                            // If a variable named `NaN` is in scope, don't convert e into NaN.
+                            if self
+                                .data
+                                .as_ref()
+                                .map(|data| {
+                                    data.vars
+                                        .iter()
+                                        .any(|(name, v)| v.declared && name.0 == js_word!("NaN"))
+                                })
+                                .unwrap_or(false)
+                            {
+                                return;
+                            }
+
+                            self.changed = true;
+                            tracing::debug!("evaluate: `0 / 0` => `NaN`");
+
+                            // Sign does not matter for NaN
+                            *e = Expr::Ident(Ident::new(
+                                js_word!("NaN"),
+                                bin.span.with_ctxt(SyntaxContext::empty()),
+                            ));
+                            return;
+                        }
+                        (FpCategory::Normal, FpCategory::Zero) => {
+                            self.changed = true;
+                            tracing::debug!("evaluate: `{} / 0` => `Infinity`", ln);
+
+                            // Sign does not matter for NaN
+                            *e = if ln.is_sign_positive() == rn.is_sign_positive() {
+                                Expr::Ident(Ident::new(
+                                    js_word!("Infinity"),
+                                    bin.span.with_ctxt(SyntaxContext::empty()),
+                                ))
+                            } else {
+                                Expr::Unary(UnaryExpr {
+                                    span: bin.span,
+                                    op: op!(unary, "-"),
+                                    arg: Box::new(Expr::Ident(Ident::new(
+                                        js_word!("Infinity"),
+                                        bin.span.with_ctxt(SyntaxContext::empty()),
+                                    ))),
+                                })
+                            };
+                            return;
+                        }
+                        _ => {}
+                    }
+                    return;
                 }
             }
 

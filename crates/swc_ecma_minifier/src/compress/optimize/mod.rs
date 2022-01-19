@@ -2451,17 +2451,17 @@ where
                     _ => false,
                 };
 
-                if self.options.directives && is_directive {
-                    if self.ctx.in_strict
-                        && match &**expr {
-                            Expr::Lit(Lit::Str(Str { value, .. })) => *value == *"use strict",
-                            _ => false,
-                        }
-                    {
-                        tracing::debug!("Removing 'use strict'");
-                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                        return;
+                if self.options.directives
+                    && is_directive
+                    && self.ctx.in_strict
+                    && match &**expr {
+                        Expr::Lit(Lit::Str(Str { value, .. })) => *value == *"use strict",
+                        _ => false,
                     }
+                {
+                    tracing::debug!("Removing 'use strict'");
+                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    return;
                 }
 
                 if self.options.unused {
@@ -2786,10 +2786,8 @@ where
         if let Some(arg) = &mut n.arg {
             self.compress_undefined(&mut **arg);
 
-            if !n.delegate {
-                if is_pure_undefined(&arg) {
-                    n.arg = None;
-                }
+            if !n.delegate && is_pure_undefined(arg) {
+                n.arg = None;
             }
         }
     }
