@@ -923,8 +923,7 @@ where
                 let name = match left {
                     MediaFeatureValue::Ident(ident) => ident,
                     _ => {
-                        // TODO another error
-                        return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
+                        return Err(Error::new(span, ErrorKind::Expected("identifier")));
                     }
                 };
                 let value = self.parse()?;
