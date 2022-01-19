@@ -45,24 +45,34 @@
       },
       "layerName": null,
       "media": {
-        "type": "MediaQuery",
+        "type": "MediaQueryList",
         "span": {
           "start": 23,
           "end": 28,
           "ctxt": 0
         },
-        "modifier": null,
-        "mediaType": {
-          "type": "Identifier",
-          "span": {
-            "start": 23,
-            "end": 28,
-            "ctxt": 0
-          },
-          "value": "print",
-          "raw": "print"
-        },
-        "condition": null
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 23,
+              "end": 28,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": {
+              "type": "Identifier",
+              "span": {
+                "start": 23,
+                "end": 28,
+                "ctxt": 0
+              },
+              "value": "print",
+              "raw": "print"
+            },
+            "condition": null
+          }
+        ]
       }
     }
   ]

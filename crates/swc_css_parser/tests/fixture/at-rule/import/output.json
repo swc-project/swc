@@ -285,24 +285,34 @@
       },
       "layerName": null,
       "media": {
-        "type": "MediaQuery",
+        "type": "MediaQueryList",
         "span": {
           "start": 250,
           "end": 256,
           "ctxt": 0
         },
-        "modifier": null,
-        "mediaType": {
-          "type": "Identifier",
-          "span": {
-            "start": 250,
-            "end": 256,
-            "ctxt": 0
-          },
-          "value": "screen",
-          "raw": "screen"
-        },
-        "condition": null
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 250,
+              "end": 256,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": {
+              "type": "Identifier",
+              "span": {
+                "start": 250,
+                "end": 256,
+                "ctxt": 0
+              },
+              "value": "screen",
+              "raw": "screen"
+            },
+            "condition": null
+          }
+        ]
       }
     },
     {
@@ -344,61 +354,71 @@
       },
       "layerName": null,
       "media": {
-        "type": "MediaQuery",
+        "type": "MediaQueryList",
         "span": {
           "start": 287,
           "end": 321,
           "ctxt": 0
         },
-        "modifier": null,
-        "mediaType": {
-          "type": "Identifier",
-          "span": {
-            "start": 287,
-            "end": 293,
-            "ctxt": 0
-          },
-          "value": "screen",
-          "raw": "screen"
-        },
-        "condition": {
-          "type": "MediaCondition",
-          "span": {
-            "start": 298,
-            "end": 322,
-            "ctxt": 0
-          },
-          "conditions": [
-            {
-              "type": "MediaFeaturePlain",
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 287,
+              "end": 321,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": {
+              "type": "Identifier",
               "span": {
-                "start": 298,
-                "end": 321,
+                "start": 287,
+                "end": 293,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Identifier",
-                "span": {
-                  "start": 299,
-                  "end": 310,
-                  "ctxt": 0
-                },
-                "value": "orientation",
-                "raw": "orientation"
+              "value": "screen",
+              "raw": "screen"
+            },
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 298,
+                "end": 322,
+                "ctxt": 0
               },
-              "value": {
-                "type": "Identifier",
-                "span": {
-                  "start": 311,
-                  "end": 320,
-                  "ctxt": 0
-                },
-                "value": "landscape",
-                "raw": "landscape"
-              }
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
+                  "span": {
+                    "start": 298,
+                    "end": 321,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 299,
+                      "end": 310,
+                      "ctxt": 0
+                    },
+                    "value": "orientation",
+                    "raw": "orientation"
+                  },
+                  "value": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 311,
+                      "end": 320,
+                      "ctxt": 0
+                    },
+                    "value": "landscape",
+                    "raw": "landscape"
+                  }
+                }
+              ]
             }
-          ]
-        }
+          }
+        ]
       }
     },
     {

@@ -382,6 +382,12 @@ error: Str
 10 | @import "common.css" screen;
    |         ^^^^^^^^^^^^
 
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/import/input.css:10:22
+   |
+10 | @import "common.css" screen;
+   |                      ^^^^^^
+
 error: MediaQuery
   --> $DIR/tests/fixture/at-rule/import/input.css:10:22
    |
@@ -441,6 +447,12 @@ error: Str
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |             ^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:30
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
   --> $DIR/tests/fixture/at-rule/import/input.css:11:30

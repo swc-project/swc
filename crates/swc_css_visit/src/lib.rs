@@ -352,7 +352,7 @@ define!({
         pub span: Span,
         pub href: ImportHref,
         pub layer_name: Option<ImportLayerName>,
-        pub media: Option<MediaQuery>,
+        pub media: Option<MediaQueryList>,
     }
 
     pub struct FontFaceRule {

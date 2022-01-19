@@ -45,61 +45,71 @@
       },
       "layerName": null,
       "media": {
-        "type": "MediaQuery",
+        "type": "MediaQueryList",
         "span": {
           "start": 23,
           "end": 57,
           "ctxt": 0
         },
-        "modifier": null,
-        "mediaType": {
-          "type": "Identifier",
-          "span": {
-            "start": 23,
-            "end": 29,
-            "ctxt": 0
-          },
-          "value": "screen",
-          "raw": "screen"
-        },
-        "condition": {
-          "type": "MediaCondition",
-          "span": {
-            "start": 34,
-            "end": 58,
-            "ctxt": 0
-          },
-          "conditions": [
-            {
-              "type": "MediaFeaturePlain",
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 23,
+              "end": 57,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": {
+              "type": "Identifier",
               "span": {
-                "start": 34,
-                "end": 57,
+                "start": 23,
+                "end": 29,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Identifier",
-                "span": {
-                  "start": 35,
-                  "end": 46,
-                  "ctxt": 0
-                },
-                "value": "orientation",
-                "raw": "orientation"
+              "value": "screen",
+              "raw": "screen"
+            },
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 34,
+                "end": 58,
+                "ctxt": 0
               },
-              "value": {
-                "type": "Identifier",
-                "span": {
-                  "start": 47,
-                  "end": 56,
-                  "ctxt": 0
-                },
-                "value": "landscape",
-                "raw": "landscape"
-              }
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
+                  "span": {
+                    "start": 34,
+                    "end": 57,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 35,
+                      "end": 46,
+                      "ctxt": 0
+                    },
+                    "value": "orientation",
+                    "raw": "orientation"
+                  },
+                  "value": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 47,
+                      "end": 56,
+                      "ctxt": 0
+                    },
+                    "value": "landscape",
+                    "raw": "landscape"
+                  }
+                }
+              ]
             }
-          ]
-        }
+          }
+        ]
       }
     }
   ]

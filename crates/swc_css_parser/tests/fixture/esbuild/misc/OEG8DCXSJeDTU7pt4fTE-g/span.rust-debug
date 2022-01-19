@@ -52,6 +52,12 @@ error: Str
 1 | @import url("foo.css") screen and (orientation:landscape);
   |             ^^^^^^^^^
 
+error: MediaQueryList
+ --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:24
+  |
+1 | @import url("foo.css") screen and (orientation:landscape);
+  |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: MediaQuery
  --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:24
   |
