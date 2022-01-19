@@ -184,12 +184,6 @@ impl Visit for Analyzer {
         }
     }
 
-    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
-        if let SuperProp::Computed(c) = &e.prop {
-            c.visit_with(self);
-        }
-    }
-
     fn visit_method_prop(&mut self, f: &MethodProp) {
         f.key.visit_with(self);
 
@@ -221,24 +215,26 @@ impl Visit for Analyzer {
     fn visit_pat(&mut self, e: &Pat) {
         e.visit_children_with(self);
 
-        match e {
-            Pat::Ident(i) => {
-                if self.is_pat_decl {
-                    self.add_decl(i.to_id())
-                } else {
-                    self.add_usage(i.to_id())
-                }
+        if let Pat::Ident(i) = e {
+            if self.is_pat_decl {
+                self.add_decl(i.to_id())
+            } else {
+                self.add_usage(i.to_id())
             }
-            _ => {}
         }
     }
 
     fn visit_prop(&mut self, p: &Prop) {
         p.visit_children_with(self);
 
-        match p {
-            Prop::Shorthand(i) => self.add_usage(i.to_id()),
-            _ => {}
+        if let Prop::Shorthand(i) = p {
+            self.add_usage(i.to_id())
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            c.visit_with(self);
         }
     }
 
