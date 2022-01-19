@@ -1,3 +1,4 @@
+var fn;
 import regeneratorRuntime from "regenerator-runtime";
 function AsyncGenerator(gen) {
     var front, back;
@@ -74,11 +75,7 @@ function _AwaitValue(value) {
                 return _ctx.stop();
         }
     }, _callee);
-})), f2(function(fn) {
-    return function() {
-        return new AsyncGenerator(fn.apply(this, arguments));
-    };
-}(regeneratorRuntime.mark(function _callee() {
+})), f2((fn = regeneratorRuntime.mark(function _callee() {
     var a;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
@@ -91,4 +88,6 @@ function _AwaitValue(value) {
                 return _ctx.stop();
         }
     }, _callee);
-})));
+}), function() {
+    return new AsyncGenerator(fn.apply(this, arguments));
+}));

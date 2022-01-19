@@ -65,17 +65,15 @@ var A = function() {
         return _classCallCheck(this, K), _super1.apply(this, arguments);
     }
     return K;
-}(function() {
-    return (function(A2) {
-        "use strict";
-        _inherits(_class, A2);
-        var _super = _createSuper(_class);
-        function _class() {
-            return _classCallCheck(this, _class), _super.apply(this, arguments);
-        }
-        return _class;
-    })(A);
-}()), C = function(_super) {
+}(function(A2) {
+    "use strict";
+    _inherits(_class, A2);
+    var _super = _createSuper(_class);
+    function _class() {
+        return _classCallCheck(this, _class), _super.apply(this, arguments);
+    }
+    return _class;
+}(A)), C = function(_super) {
     "use strict";
     _inherits(C, _super);
     var _super2 = _createSuper(C);
@@ -91,15 +89,13 @@ var A = function() {
         return _classCallCheck(this, S), _super.apply(this, arguments);
     }
     return S;
-}(function() {
-    return (function(A3) {
-        "use strict";
-        _inherits(Inner, A3);
-        var _super = _createSuper(Inner);
-        function Inner() {
-            return _classCallCheck(this, Inner), _super.apply(this, arguments);
-        }
-        return Inner;
-    })(A);
-}()), c = new C(), k = new K(), s = new S();
+}(function(A3) {
+    "use strict";
+    _inherits(Inner, A3);
+    var _super = _createSuper(Inner);
+    function Inner() {
+        return _classCallCheck(this, Inner), _super.apply(this, arguments);
+    }
+    return Inner;
+}(A)), c = new C(), k = new K(), s = new S();
 c.genericVar = 12, k.genericVar = 12, s.genericVar = 12;

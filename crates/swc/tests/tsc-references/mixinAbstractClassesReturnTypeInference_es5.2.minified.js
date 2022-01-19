@@ -53,7 +53,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var AbstractBase = function() {
+var MixinClass, AbstractBase = function() {
     "use strict";
     _classCallCheck(this, AbstractBase);
 }, DerivedFromAbstract2 = function(_super) {
@@ -69,25 +69,22 @@ var AbstractBase = function() {
             value: function() {}
         }
     ]), DerivedFromAbstract2;
-}(function(baseClass1) {
-    var MixinClass = function(baseClass) {
-        "use strict";
-        _inherits(MixinClass, baseClass);
-        var _super = _createSuper(MixinClass);
-        function MixinClass() {
-            return _classCallCheck(this, MixinClass), _super.apply(this, arguments);
+}(MixinClass = function(baseClass) {
+    "use strict";
+    _inherits(MixinClass, baseClass);
+    var _super = _createSuper(MixinClass);
+    function MixinClass() {
+        return _classCallCheck(this, MixinClass), _super.apply(this, arguments);
+    }
+    return _createClass(MixinClass, [
+        {
+            key: "mixinMethod",
+            value: function() {}
         }
-        return _createClass(MixinClass, [
-            {
-                key: "mixinMethod",
-                value: function() {}
-            }
-        ], [
-            {
-                key: "staticMixinMethod",
-                value: function() {}
-            }
-        ]), MixinClass;
-    }(baseClass1);
-    return MixinClass;
+    ], [
+        {
+            key: "staticMixinMethod",
+            value: function() {}
+        }
+    ]), MixinClass;
 }(AbstractBase));
