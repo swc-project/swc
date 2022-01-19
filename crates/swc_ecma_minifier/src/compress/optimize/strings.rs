@@ -97,7 +97,6 @@ where
                     has_escape: false,
                     kind: Default::default(),
                 }));
-                return;
             }
 
             Expr::Lit(Lit::Regex(v)) => {
@@ -117,7 +116,6 @@ where
                     has_escape: false,
                     kind: Default::default(),
                 }));
-                return;
             }
 
             Expr::Ident(i) => {

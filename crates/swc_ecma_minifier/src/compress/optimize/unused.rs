@@ -215,7 +215,6 @@ where
                     );
                     // This will remove variable.
                     name.take();
-                    return;
                 } else {
                     if cfg!(feature = "debug") {
                         tracing::trace!(
