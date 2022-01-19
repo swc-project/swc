@@ -492,6 +492,7 @@ define!({
     }
     
     pub enum MediaInParens {
+        MediaQueryItem(MediaCondition),
         Feature(MediaFeature),
     }
 

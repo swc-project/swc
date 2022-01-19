@@ -78,9 +78,8 @@ pub struct OnlyMediaQuery {
 
 #[ast_node]
 pub enum MediaInParens {
-    // TODO fix me
-    // #[tag("MediaQueryItem")]
-    // MediaQueryItem(MediaQueryItem),
+    #[tag("MediaCondition")]
+    MediaQueryItem(MediaCondition),
 
     #[tag("MediaFeature")]
     Feature(MediaFeature),
