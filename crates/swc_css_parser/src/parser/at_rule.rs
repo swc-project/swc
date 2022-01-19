@@ -915,6 +915,21 @@ where
         self.input.skip_ws()?;
 
         match cur!(self) {
+            tok!(")") => {
+                eat!(self, ")");
+
+                let name = match left {
+                    MediaFeatureValue::Ident(ident) => ident,
+                    _ => {
+                        return Err(Error::new(span, ErrorKind::Expected("identifier")));
+                    }
+                };
+
+                Ok(MediaFeature::Boolean(MediaFeatureBoolean {
+                    span: span!(self, span.lo),
+                    name,
+                }))
+            }
             tok!(":") => {
                 eat!(self, ":");
 
@@ -1020,8 +1035,7 @@ where
                 let name = match center {
                     MediaFeatureValue::Ident(ident) => ident,
                     _ => {
-                        // TODO another error
-                        return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
+                        return Err(Error::new(span, ErrorKind::Expected("identifier")));
                     }
                 };
 
@@ -1037,22 +1051,7 @@ where
                 }))
             }
             _ => {
-                let name = match left {
-                    MediaFeatureValue::Ident(ident) => ident,
-                    _ => {
-                        // TODO another error
-                        return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
-                    }
-                };
-
-                self.input.skip_ws()?;
-
-                expect!(self, ")");
-
-                Ok(MediaFeature::Boolean(MediaFeatureBoolean {
-                    span: span!(self, span.lo),
-                    name,
-                }))
+                return Err(Error::new(span, ErrorKind::Expected("identifier")));
             }
         }
     }
