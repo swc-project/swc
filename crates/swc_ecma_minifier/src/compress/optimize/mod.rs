@@ -1460,10 +1460,7 @@ where
                 self.try_removing_block(&mut s.cons, true);
                 let can_remove_block_of_alt = match &*s.cons {
                     Stmt::Expr(..) | Stmt::If(..) => true,
-                    Stmt::Block(bs) if bs.stmts.len() == 1 => match &bs.stmts[0] {
-                        Stmt::For(..) => true,
-                        _ => false,
-                    },
+                    Stmt::Block(bs) if bs.stmts.len() == 1 => matches!(&bs.stmts[0], Stmt::For(..)),
                     _ => false,
                 };
                 if can_remove_block_of_alt {
@@ -1520,17 +1517,13 @@ where
         };
 
         if stmt.alt.is_none() {
-            match &mut *stmt.cons {
-                Stmt::Expr(cons) => {
-                    self.changed = true;
-                    tracing::debug!("Converting if statement to a form `test && cons`");
-                    *s = Stmt::Expr(ExprStmt {
-                        span: stmt.span,
-                        expr: Box::new(stmt.test.take().make_bin(op!("&&"), *cons.expr.take())),
-                    });
-                    return;
-                }
-                _ => {}
+            if let Stmt::Expr(cons) = &mut *stmt.cons {
+                self.changed = true;
+                tracing::debug!("Converting if statement to a form `test && cons`");
+                *s = Stmt::Expr(ExprStmt {
+                    span: stmt.span,
+                    expr: Box::new(stmt.test.take().make_bin(op!("&&"), *cons.expr.take())),
+                });
             }
         }
     }
