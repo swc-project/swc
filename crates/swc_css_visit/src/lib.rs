@@ -494,6 +494,13 @@ define!({
         RangeInterval(MediaFeatureRangeInterval),
     }
 
+    pub enum MediaFeatureValue {
+        Number(Num),
+        Dimension(UnitValue),
+        Ident(Ident),
+        Ratio(BinValue),
+    }
+
     pub struct MediaFeaturePlain {
         pub span: Span,
         pub name: Ident,
