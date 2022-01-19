@@ -372,7 +372,6 @@ where
                 tracing::debug!("Removing null from lhs of ??");
                 self.changed = true;
                 *e = r.take();
-                return;
             }
             Expr::Lit(Lit::Num(..))
             | Expr::Lit(Lit::Str(..))
@@ -382,7 +381,6 @@ where
                 tracing::debug!("Removing rhs of ?? as lhs cannot be null nor undefined");
                 self.changed = true;
                 *e = l.take();
-                return;
             }
             _ => {}
         }
@@ -414,7 +412,6 @@ where
                             has_escape: false,
                             kind: Default::default(),
                         }));
-                        return;
                     }
                 }
 
@@ -427,7 +424,6 @@ where
                         has_escape: false,
                         kind: Default::default(),
                     }));
-                    return;
                 }
 
                 Expr::Array(..) | Expr::Object(..) => {
@@ -439,7 +435,6 @@ where
                         has_escape: false,
                         kind: Default::default(),
                     }));
-                    return;
                 }
                 _ => {}
             }

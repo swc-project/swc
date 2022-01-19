@@ -2372,10 +2372,7 @@ where
                 return;
             }
 
-            let is_directive = match &**expr {
-                Expr::Lit(Lit::Str(..)) => true,
-                _ => false,
-            };
+            let is_directive = matches!(&**expr, Expr::Lit(Lit::Str(..)));
 
             if self.options.directives
                 && is_directive
@@ -2456,16 +2453,12 @@ where
         drop_invalid_stmts(stmts);
 
         if stmts.len() == 1 {
-            match &stmts[0] {
-                Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
-                    Expr::Lit(Lit::Str(s)) => {
-                        if s.value == *"use strict" {
-                            stmts.clear();
-                        }
+            if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
+                if let Expr::Lit(Lit::Str(s)) = &**expr {
+                    if s.value == *"use strict" {
+                        stmts.clear();
                     }
-                    _ => {}
-                },
-                _ => {}
+                }
             }
         }
 
@@ -2557,8 +2550,8 @@ where
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         // infinite loop
-        match n.op {
-            op!("void") => match &*n.arg {
+        if n.op == op!("void") {
+            match &*n.arg {
                 Expr::Lit(Lit::Num(..)) => {}
 
                 _ => {
@@ -2566,9 +2559,7 @@ where
 
                     n.arg = Box::new(arg.unwrap_or_else(|| make_number(DUMMY_SP, 0.0)));
                 }
-            },
-
-            _ => {}
+            }
         }
     }
 
@@ -2716,14 +2707,13 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
     match &*callee {
         Expr::Arrow(..) => return false,
         Expr::Seq(..) => return true,
-        Expr::Member(MemberExpr { obj, .. }) => match &**obj {
-            Expr::Ident(obj) => {
+        Expr::Member(MemberExpr { obj, .. }) => {
+            if let Expr::Ident(obj) = &**obj {
                 if &*obj.sym == "console" {
                     return false;
                 }
             }
-            _ => {}
-        },
+        }
 
         _ => {}
     }
@@ -2733,22 +2723,22 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
 
 fn is_expr_access_to_arguments(l: &Expr) -> bool {
     match l {
-        Expr::Member(MemberExpr { obj, .. }) => match &**obj {
+        Expr::Member(MemberExpr { obj, .. }) => matches!(
+            &**obj,
             Expr::Ident(Ident {
                 sym: js_word!("arguments"),
                 ..
-            }) => true,
-            _ => false,
-        },
+            })
+        ),
         _ => false,
     }
 }
 
 fn is_left_access_to_arguments(l: &PatOrExpr) -> bool {
     match l {
-        PatOrExpr::Expr(e) => is_expr_access_to_arguments(&e),
+        PatOrExpr::Expr(e) => is_expr_access_to_arguments(e),
         PatOrExpr::Pat(pat) => match &**pat {
-            Pat::Expr(e) => is_expr_access_to_arguments(&e),
+            Pat::Expr(e) => is_expr_access_to_arguments(e),
             _ => false,
         },
     }
