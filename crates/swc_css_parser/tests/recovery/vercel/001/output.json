@@ -37,53 +37,55 @@
                 "end": 26,
                 "ctxt": 0
               },
-              "conditions": {
-                "type": "MediaFeaturePlain",
-                "span": {
-                  "start": 7,
-                  "end": 25,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Identifier",
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
                   "span": {
-                    "start": 8,
-                    "end": 17,
+                    "start": 7,
+                    "end": 25,
                     "ctxt": 0
                   },
-                  "value": "min-width",
-                  "raw": "min-width"
-                },
-                "value": [
-                  {
-                    "type": "UnitValue",
+                  "name": {
+                    "type": "Identifier",
                     "span": {
-                      "start": 19,
-                      "end": 24,
+                      "start": 8,
+                      "end": 17,
                       "ctxt": 0
                     },
-                    "value": {
-                      "type": "Number",
+                    "value": "min-width",
+                    "raw": "min-width"
+                  },
+                  "value": [
+                    {
+                      "type": "UnitValue",
                       "span": {
                         "start": 19,
-                        "end": 22,
-                        "ctxt": 0
-                      },
-                      "value": 935.0,
-                      "raw": "935"
-                    },
-                    "unit": {
-                      "span": {
-                        "start": 22,
                         "end": 24,
                         "ctxt": 0
                       },
-                      "value": "px",
-                      "raw": "px"
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 19,
+                          "end": 22,
+                          "ctxt": 0
+                        },
+                        "value": 935.0,
+                        "raw": "935"
+                      },
+                      "unit": {
+                        "span": {
+                          "start": 22,
+                          "end": 24,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
                     }
-                  }
-                ]
-              }
+                  ]
+                }
+              ]
             }
           }
         ]

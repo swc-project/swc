@@ -457,7 +457,7 @@ define!({
 
     pub struct MediaCondition {
         pub span: Span,
-        pub conditions: MediaQueryItem,
+        pub conditions: Vec<MediaQueryItem>,
     }
 
     pub enum MediaQueryItem {

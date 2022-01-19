@@ -776,7 +776,7 @@ where
         self.input.skip_ws()?;
 
         let span = self.input.cur_span()?;
-        let conditions = self.parse()?;
+        let conditions = vec![self.parse()?];
         
         Ok(MediaCondition {
             span: span!(self, span.lo),

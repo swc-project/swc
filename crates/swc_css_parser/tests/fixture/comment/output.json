@@ -362,16 +362,18 @@
                 "end": 299,
                 "ctxt": 0
               },
-              "conditions": {
-                "type": "Identifier",
-                "span": {
-                  "start": 293,
-                  "end": 299,
-                  "ctxt": 0
-                },
-                "value": "screen",
-                "raw": "screen"
-              }
+              "conditions": [
+                {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 293,
+                    "end": 299,
+                    "ctxt": 0
+                  },
+                  "value": "screen",
+                  "raw": "screen"
+                }
+              ]
             }
           }
         ]
@@ -409,16 +411,18 @@
                 "end": 357,
                 "ctxt": 0
               },
-              "conditions": {
-                "type": "Identifier",
-                "span": {
-                  "start": 336,
-                  "end": 342,
-                  "ctxt": 0
-                },
-                "value": "screen",
-                "raw": "screen"
-              }
+              "conditions": [
+                {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 336,
+                    "end": 342,
+                    "ctxt": 0
+                  },
+                  "value": "screen",
+                  "raw": "screen"
+                }
+              ]
             }
           }
         ]

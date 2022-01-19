@@ -25,7 +25,7 @@ pub struct MediaQuery {
 #[ast_node("MediaCondition")]
 pub struct MediaCondition {
     pub span: Span,
-    pub conditions: MediaQueryItem,
+    pub conditions: Vec<MediaQueryItem>,
 }
 
 #[ast_node]
