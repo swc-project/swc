@@ -16,6 +16,7 @@
 @media not all and (monochrome) {}
 @media not screen and (color), print and (color) {}
 @media not (device-aspect-ratio: 16/9) {}
+@media not (device-aspect-ratio: 16 / 9) {}
 @media not all {}
 
 @media only screen and (color) {}

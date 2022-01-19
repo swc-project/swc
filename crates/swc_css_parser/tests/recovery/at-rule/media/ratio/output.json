@@ -17,35 +17,13 @@
         "type": "Identifier",
         "span": {
           "start": 0,
-          "end": 24,
+          "end": 25,
           "ctxt": 0
         },
         "value": "media",
         "raw": "media"
       },
       "prelude": [
-        {
-          "type": "Tokens",
-          "span": {
-            "start": 24,
-            "end": 25,
-            "ctxt": 0
-          },
-          "tokens": [
-            {
-              "span": {
-                "start": 24,
-                "end": 25,
-                "ctxt": 0
-              },
-              "token": {
-                "Delim": {
-                  "value": "/"
-                }
-              }
-            }
-          ]
-        },
         {
           "type": "Tokens",
           "span": {

@@ -1025,7 +1025,7 @@ where
                         return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
                     }
                 };
-                
+
                 // TODO validate comparison
 
                 Ok(MediaFeature::RangeInterval(MediaFeatureRangeInterval {
@@ -1066,9 +1066,27 @@ where
     fn parse(&mut self) -> PResult<MediaFeatureValue> {
         let span = self.input.cur_span()?;
 
-        // TODO fix ration
         match cur!(self) {
-            Token::Num { .. } => Ok(MediaFeatureValue::Number(self.parse()?)),
+            Token::Num { .. } => {
+                let left = self.parse()?;
+
+                self.input.skip_ws()?;
+                
+                if eat!(self, "/") {
+                    self.input.skip_ws()?;
+
+                    let right = self.parse()?;
+
+                    return Ok(MediaFeatureValue::Ratio(BinValue {
+                        span: span!(self, span.lo),
+                        op: BinOp::Div,
+                        left: Box::new(Value::Number(left)),
+                        right: Box::new(Value::Number(right)),
+                    }));
+                }
+
+                return Ok(MediaFeatureValue::Number(left));
+            }
             Token::Ident { .. } => Ok(MediaFeatureValue::Ident(self.parse()?)),
             Token::Dimension { .. } => Ok(MediaFeatureValue::Dimension(self.parse()?)),
             _ => {
