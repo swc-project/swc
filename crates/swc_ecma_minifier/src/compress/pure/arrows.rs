@@ -21,7 +21,6 @@ where
                         if let Some(arg) = &mut s.arg {
                             tracing::debug!("arrows: Optimizing the body of an arrow");
                             *b = BlockStmtOrExpr::Expr(arg.take());
-                            return;
                         }
                     }
                 }

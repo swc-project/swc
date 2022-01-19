@@ -422,8 +422,8 @@ where
                     )
                 }
             }
-            PatOrExpr::Pat(left) => match &**left {
-                Pat::Ident(i) => {
+            PatOrExpr::Pat(left) => {
+                if let Pat::Ident(i) = &**left {
                     if self.options.top_retain.contains(&i.id.sym) {
                         return;
                     }
@@ -452,8 +452,7 @@ where
                         }
                     }
                 }
-                _ => {}
-            },
+            }
         }
     }
 
@@ -490,25 +489,20 @@ where
             return;
         }
 
-        match v.init.as_deref_mut() {
-            Some(Expr::Fn(f)) => {
-                if f.ident.is_none() {
-                    return;
-                }
-
-                if contains_ident_ref(&f.function.body, f.ident.as_ref().unwrap()) {
-                    return;
-                }
-
-                self.changed = true;
-                tracing::debug!(
-                    "unused: Removing the name of a function expression because it's not used by \
-                     it'"
-                );
-                f.ident = None;
+        if let Some(Expr::Fn(f)) = v.init.as_deref_mut() {
+            if f.ident.is_none() {
+                return;
             }
 
-            _ => {}
+            if contains_ident_ref(&f.function.body, f.ident.as_ref().unwrap()) {
+                return;
+            }
+
+            self.changed = true;
+            tracing::debug!(
+                "unused: Removing the name of a function expression because it's not used by it'"
+            );
+            f.ident = None;
         }
     }
 }
@@ -529,19 +523,16 @@ impl UnreachableHandler {
         if s.is_empty() {
             return false;
         }
-        match s {
-            Stmt::Decl(Decl::Var(v)) => {
-                let mut changed = false;
-                for decl in &mut v.decls {
-                    if decl.init.is_some() {
-                        decl.init = None;
-                        changed = true;
-                    }
+        if let Stmt::Decl(Decl::Var(v)) = s {
+            let mut changed = false;
+            for decl in &mut v.decls {
+                if decl.init.is_some() {
+                    decl.init = None;
+                    changed = true;
                 }
-
-                return changed;
             }
-            _ => {}
+
+            return changed;
         }
 
         let mut v = Self::default();
@@ -579,11 +570,8 @@ impl VisitMut for UnreachableHandler {
         n.visit_mut_children_with(self);
 
         if self.in_var_name && self.in_hoisted_var {
-            match n {
-                Pat::Ident(i) => {
-                    self.vars.push(i.id.clone());
-                }
-                _ => {}
+            if let Pat::Ident(i) = n {
+                self.vars.push(i.id.clone());
             }
         }
     }
