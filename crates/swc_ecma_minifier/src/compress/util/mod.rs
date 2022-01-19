@@ -55,7 +55,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) 
             right,
             op: op @ op!("&&"),
             ..
-        }) if is_ok_to_negate_rhs(&right) => {
+        }) if is_ok_to_negate_rhs(right) => {
             tracing::debug!("negate: a && b => !a || !b");
 
             let a = negate(&mut **left, in_bool_ctx, false);
@@ -69,7 +69,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) 
             right,
             op: op @ op!("||"),
             ..
-        }) if is_ok_to_negate_rhs(&right) => {
+        }) if is_ok_to_negate_rhs(right) => {
             tracing::debug!("negate: a || b => !a && !b");
 
             let a = negate(&mut **left, in_bool_ctx, false);
@@ -79,7 +79,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) 
         }
 
         Expr::Cond(CondExpr { cons, alt, .. })
-            if is_ok_to_negate_for_cond(&cons) && is_ok_to_negate_for_cond(&alt) =>
+            if is_ok_to_negate_for_cond(cons) && is_ok_to_negate_for_cond(alt) =>
         {
             tracing::debug!("negate: cond");
 
