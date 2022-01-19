@@ -6,9 +6,9 @@ error: Stylesheet
 3  | |
 4  | | @media all {}
 ...  |
-72 | | @media (--modern) and (min-width: 1024px) {}
-73 | |
-   | |_^
+74 | | @media (update: slow) or (hover: none) {}
+75 | | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   | |__________________________________________________________________________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:1:1
@@ -4167,4 +4167,208 @@ error: Ident
    |
 72 | @media (--modern) and (min-width: 1024px) {}
    |                        ^^^^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:1
+   |
+74 | @media (update: slow) or (hover: none) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:1
+   |
+74 | @media (update: slow) or (hover: none) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:1
+   |
+74 | @media (update: slow) or (hover: none) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:8
+   |
+74 | @media (update: slow) or (hover: none) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:8
+   |
+74 | @media (update: slow) or (hover: none) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:8
+   |
+74 | @media (update: slow) or (hover: none) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:8
+   |
+74 | @media (update: slow) or (hover: none) {}
+   |        ^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:8
+   |
+74 | @media (update: slow) or (hover: none) {}
+   |        ^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:8
+   |
+74 | @media (update: slow) or (hover: none) {}
+   |        ^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:8
+   |
+74 | @media (update: slow) or (hover: none) {}
+   |        ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:9
+   |
+74 | @media (update: slow) or (hover: none) {}
+   |         ^^^^^^
+
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:23
+   |
+74 | @media (update: slow) or (hover: none) {}
+   |                       ^^^^^^^^^^^^^^^^
+
+error: MediaOr
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:23
+   |
+74 | @media (update: slow) or (hover: none) {}
+   |                       ^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:26
+   |
+74 | @media (update: slow) or (hover: none) {}
+   |                          ^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:26
+   |
+74 | @media (update: slow) or (hover: none) {}
+   |                          ^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:26
+   |
+74 | @media (update: slow) or (hover: none) {}
+   |                          ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:27
+   |
+74 | @media (update: slow) or (hover: none) {}
+   |                           ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:1
+   |
+75 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:1
+   |
+75 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:1
+   |
+75 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:10
+   |
+75 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:10
+   |
+75 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:10
+   |
+75 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:10
+   |
+75 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:10
+   |
+75 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:10
+   |
+75 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:10
+   |
+75 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:14
+   |
+75 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   |              ^^^^^^
+
+error: MediaConditionItem
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:39
+   |
+75 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaOr
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:39
+   |
+75 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:44
+   |
+75 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   |                                            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:44
+   |
+75 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   |                                            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:44
+   |
+75 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   |                                            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:48
+   |
+75 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   |                                                ^^^^^
 

@@ -71,3 +71,5 @@
                     
 @media (--modern) and (min-width: 1024px) {}
 
+@media (update: slow) or (hover: none) {}
+@media   (   update   :   slow   )    or   (   hover   :   none   )    {}

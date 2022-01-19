@@ -813,7 +813,7 @@ where
 
                     self.input.skip_ws()?;
                 }
-            } else if eat!(self, "or") {
+            } else if is!(self, "or") {
                 while is!(self, "or") {
                     conditions.push(MediaConditionItem::Or(self.parse()?));
 

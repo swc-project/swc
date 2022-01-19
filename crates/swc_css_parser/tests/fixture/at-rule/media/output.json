@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 2484,
+    "end": 2600,
     "ctxt": 0
   },
   "rules": [
@@ -5709,6 +5709,212 @@
                         "value": "px",
                         "raw": "px"
                       }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 2484,
+        "end": 2525,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 2491,
+          "end": 2523,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 2491,
+              "end": 2523,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 2491,
+                "end": 2523,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
+                  "span": {
+                    "start": 2491,
+                    "end": 2505,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2492,
+                      "end": 2498,
+                      "ctxt": 0
+                    },
+                    "value": "update",
+                    "raw": "update"
+                  },
+                  "value": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2500,
+                      "end": 2504,
+                      "ctxt": 0
+                    },
+                    "value": "slow",
+                    "raw": "slow"
+                  }
+                },
+                {
+                  "type": "MediaOr",
+                  "span": {
+                    "start": 2506,
+                    "end": 2522,
+                    "ctxt": 0
+                  },
+                  "condition": {
+                    "type": "MediaFeaturePlain",
+                    "span": {
+                      "start": 2509,
+                      "end": 2522,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2510,
+                        "end": 2515,
+                        "ctxt": 0
+                      },
+                      "value": "hover",
+                      "raw": "hover"
+                    },
+                    "value": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2517,
+                        "end": 2521,
+                        "ctxt": 0
+                      },
+                      "value": "none",
+                      "raw": "none"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 2526,
+        "end": 2599,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 2535,
+          "end": 2597,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 2535,
+              "end": 2597,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 2535,
+                "end": 2597,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
+                  "span": {
+                    "start": 2535,
+                    "end": 2560,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2539,
+                      "end": 2545,
+                      "ctxt": 0
+                    },
+                    "value": "update",
+                    "raw": "update"
+                  },
+                  "value": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2552,
+                      "end": 2556,
+                      "ctxt": 0
+                    },
+                    "value": "slow",
+                    "raw": "slow"
+                  }
+                },
+                {
+                  "type": "MediaOr",
+                  "span": {
+                    "start": 2564,
+                    "end": 2593,
+                    "ctxt": 0
+                  },
+                  "condition": {
+                    "type": "MediaFeaturePlain",
+                    "span": {
+                      "start": 2569,
+                      "end": 2593,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2573,
+                        "end": 2578,
+                        "ctxt": 0
+                      },
+                      "value": "hover",
+                      "raw": "hover"
+                    },
+                    "value": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2585,
+                        "end": 2589,
+                        "ctxt": 0
+                      },
+                      "value": "none",
+                      "raw": "none"
                     }
                   }
                 }
