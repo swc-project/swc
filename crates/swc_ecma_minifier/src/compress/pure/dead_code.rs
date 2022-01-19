@@ -17,13 +17,13 @@ where
         T: StmtLike,
     {
         fn is_ok(b: &BlockStmt) -> bool {
-            b.stmts.iter().all(|s| is_fine_for_if_cons(s))
+            b.stmts.iter().all(is_fine_for_if_cons)
         }
 
-        if stmts.iter().all(|stmt| match stmt.as_stmt() {
-            Some(Stmt::Block(b)) if is_ok(b) => false,
-            _ => true,
-        }) {
+        if stmts
+            .iter()
+            .all(|stmt| !matches!(stmt.as_stmt(), Some(Stmt::Block(b)) if is_ok(b)))
+        {
             return;
         }
 
@@ -49,24 +49,20 @@ where
     }
 
     pub(super) fn drop_unused_stmt_at_end_of_fn(&mut self, s: &mut Stmt) {
-        match s {
-            Stmt::Return(r) => match r.arg.as_deref_mut() {
-                Some(Expr::Unary(UnaryExpr {
-                    span,
-                    op: op!("void"),
-                    arg,
-                })) => {
-                    tracing::debug!("unused: Removing `return void` in end of a function");
-                    self.changed = true;
-                    *s = Stmt::Expr(ExprStmt {
-                        span: *span,
-                        expr: arg.take(),
-                    });
-                    return;
-                }
-                _ => {}
-            },
-            _ => {}
+        if let Stmt::Return(r) = s {
+            if let Some(Expr::Unary(UnaryExpr {
+                span,
+                op: op!("void"),
+                arg,
+            })) = r.arg.as_deref_mut()
+            {
+                tracing::debug!("unused: Removing `return void` in end of a function");
+                self.changed = true;
+                *s = Stmt::Expr(ExprStmt {
+                    span: *span,
+                    expr: arg.take(),
+                });
+            }
         }
     }
 
@@ -132,7 +128,7 @@ where
         let mut terminated = false;
         for (idx, stmt) in stmts.iter().enumerate() {
             match stmt.as_stmt() {
-                Some(stmt) if always_terminates(&stmt) => {
+                Some(stmt) if always_terminates(stmt) => {
                     terminated = true;
                 }
                 _ => {
