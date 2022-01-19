@@ -7,7 +7,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, ModuleItemLike, StmtLike, Value};
-use swc_ecma_visit::{noop_visit_type, Fold, FoldWith, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Fold, FoldWith, Visit, VisitWith};
 
 pub(crate) mod base54;
 pub(crate) mod sort;
@@ -387,19 +387,7 @@ impl Visit for IdentUsageCollector {
         self.ids.insert(n.to_id());
     }
 
-    fn visit_member_expr(&mut self, n: &MemberExpr) {
-        n.obj.visit_with(self);
-
-        if let MemberProp::Computed(c) = &n.prop {
-            c.visit_with(self);
-        }
-    }
-
-    fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {
-        if let SuperProp::Computed(c) = &n.prop {
-            c.visit_with(self);
-        }
-    }
+    visit_obj_and_computed!();
 
     fn visit_prop_name(&mut self, n: &PropName) {
         if let PropName::Computed(..) = n {

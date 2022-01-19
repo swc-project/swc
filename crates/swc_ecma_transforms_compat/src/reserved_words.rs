@@ -2,7 +2,9 @@ use swc_atoms::{js_word, JsWord};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_transforms_macros::parallel;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
+};
 
 pub fn reserved_words() -> impl 'static + Fold + VisitMut {
     as_folder(EsReservedWord)
@@ -33,21 +35,7 @@ impl VisitMut for EsReservedWord {
         s.local.visit_mut_with(self);
     }
 
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
-
-        if let MemberProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
-        }
-    }
-
-    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
-        }
-    }
-
-    fn visit_mut_meta_prop_expr(&mut self, _n: &mut MetaPropExpr) {}
+    visit_mut_obj_and_computed!();
 
     fn visit_mut_prop_name(&mut self, _n: &mut PropName) {}
 }

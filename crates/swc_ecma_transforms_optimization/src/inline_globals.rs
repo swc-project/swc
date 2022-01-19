@@ -180,14 +180,6 @@ impl VisitMut for InlineGlobals {
         }
     }
 
-    fn visit_mut_member_expr(&mut self, expr: &mut MemberExpr) {
-        expr.obj.visit_mut_with(self);
-
-        if let MemberProp::Computed(c) = &mut expr.prop {
-            c.visit_mut_with(self);
-        }
-    }
-
     fn visit_mut_module(&mut self, module: &mut Module) {
         self.bindings = Lrc::new(collect_decls(&*module));
 
@@ -217,12 +209,6 @@ impl VisitMut for InlineGlobals {
         self.bindings = Lrc::new(collect_decls(&*script));
 
         script.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_super_prop_expr(&mut self, expr: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut expr.prop {
-            c.visit_mut_with(self);
-        }
     }
 }
 

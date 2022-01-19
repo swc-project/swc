@@ -508,22 +508,6 @@ impl VisitMut for FnEnvHoister {
         }
     }
 
-    /// Don't recurse into prop of member expression unless computed
-    fn visit_mut_member_expr(&mut self, m: &mut MemberExpr) {
-        if let MemberProp::Computed(computed) = &mut m.prop {
-            computed.visit_mut_with(self);
-        }
-
-        m.obj.visit_mut_with(self);
-    }
-
-    /// Don't recurse into prop of super expression unless computed
-    fn visit_mut_super_prop_expr(&mut self, m: &mut SuperPropExpr) {
-        if let SuperProp::Computed(computed) = &mut m.prop {
-            computed.visit_mut_with(self);
-        }
-    }
-
     /// Don't recurse into constructor
     fn visit_mut_class(&mut self, _: &mut Class) {}
 

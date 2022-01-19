@@ -545,14 +545,6 @@ impl Visit for UsageAnalyzer<'_> {
         self.add_decl(s.local.to_id());
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr) {
-        e.obj.visit_with(self);
-
-        if let MemberProp::Computed(c) = &e.prop {
-            c.visit_with(self)
-        }
-    }
-
     fn visit_method_prop(&mut self, f: &MethodProp) {
         f.key.visit_with(self);
 
@@ -620,12 +612,6 @@ impl Visit for UsageAnalyzer<'_> {
 
     fn visit_stmts(&mut self, stmts: &[Stmt]) {
         self.visit_stmt_likes(stmts);
-    }
-
-    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
-        if let SuperProp::Computed(c) = &e.prop {
-            c.visit_with(self);
-        }
     }
 
     fn visit_var_declarator(&mut self, v: &VarDeclarator) {

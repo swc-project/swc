@@ -77,20 +77,6 @@ impl VisitMut for KeywordRenamer {
         }
     }
 
-    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
-        n.obj.visit_mut_with(self);
-
-        if let MemberProp::Computed(c) = &mut n.prop {
-            c.visit_mut_with(self)
-        }
-    }
-
-    fn visit_mut_super_prop_expr(&mut self, n: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut n.prop {
-            c.visit_mut_with(self)
-        }
-    }
-
     fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
         n.visit_mut_children_with(self);
 
