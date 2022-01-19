@@ -223,13 +223,13 @@ struct Mangler<'a> {
 impl Mangler<'_> {
     fn mangle_ident(&mut self, ident: &mut Ident) {
         if let Some(mangled) = self.state.gen_name(&ident.sym) {
-            ident.sym = mangled.into();
+            ident.sym = mangled;
         }
     }
 
     fn mangle_str(&mut self, string: &mut Str) {
         if let Some(mangled) = self.state.gen_name(&string.value) {
-            string.value = mangled.into();
+            string.value = mangled;
             string.kind = StrKind::Synthesized;
         }
     }
@@ -242,7 +242,7 @@ impl VisitMut for Mangler<'_> {
         call.visit_mut_children_with(self);
 
         if let Some(mut prop_name_str) = get_object_define_property_name_arg(call) {
-            self.mangle_str(&mut prop_name_str);
+            self.mangle_str(prop_name_str);
         }
     }
 

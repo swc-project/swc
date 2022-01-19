@@ -13,10 +13,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 /// Optimizer invoked before invoking compressor.
 ///
 /// - Remove parens.
-pub(crate) fn precompress_optimizer<'a>(
-    options: &'a CompressOptions,
-    marks: Marks,
-) -> impl 'a + VisitMut {
+pub(crate) fn precompress_optimizer(options: &CompressOptions, marks: Marks) -> impl '_ + VisitMut {
     PrecompressOptimizer {
         options,
         marks,
@@ -80,7 +77,6 @@ impl PrecompressOptimizer<'_> {
                     ctx: self.ctx,
                 })
             }
-            return;
         }
     }
 }
@@ -91,13 +87,10 @@ impl VisitMut for PrecompressOptimizer<'_> {
     fn visit_mut_decl(&mut self, n: &mut Decl) {
         n.visit_mut_children_with(self);
 
-        match n {
-            Decl::Fn(FnDecl { ident, .. }) => {
-                if ident.sym == js_word!("") {
-                    n.take();
-                }
+        if let Decl::Fn(FnDecl { ident, .. }) = n {
+            if ident.sym == js_word!("") {
+                n.take();
             }
-            _ => {}
         }
     }
 
