@@ -139,9 +139,8 @@ impl Visit for Analyzer {
         self.is_pat_decl = false;
         e.visit_children_with(self);
 
-        match e {
-            Expr::Ident(i) => self.add_usage(i.to_id()),
-            _ => {}
+        if let Expr::Ident(i) = e {
+            self.add_usage(i.to_id())
         }
 
         self.is_pat_decl = old_is_pat_decl;

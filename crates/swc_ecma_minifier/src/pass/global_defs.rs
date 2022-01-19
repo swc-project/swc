@@ -126,7 +126,7 @@ fn should_replace(pred: &Expr, node: &Expr) -> bool {
                 ..
             }),
         ) if !(pred.is_computed() || nodes.is_computed()) => {
-            if !pred.eq_ignore_span(&nodes) {
+            if !pred.eq_ignore_span(nodes) {
                 return false;
             }
 
