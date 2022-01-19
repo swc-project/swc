@@ -243,18 +243,17 @@ where
                     }
                 }
 
-                arr.elems.retain(|elem| match elem {
-                    Some(Pat::Invalid(..)) => false,
-                    _ => true,
-                })
+                arr.elems
+                    .retain(|elem| !matches!(elem, Some(Pat::Invalid(..))))
             }
 
             Pat::Object(obj) => {
                 // If a rest pattern exists, we can't remove anything at current level.
-                if obj.props.iter().any(|p| match p {
-                    ObjectPatProp::Rest(_) => true,
-                    _ => false,
-                }) {
+                if obj
+                    .props
+                    .iter()
+                    .any(|p| matches!(p, ObjectPatProp::Rest(_)))
+                {
                     return;
                 }
 
@@ -327,13 +326,10 @@ where
             }
         }
 
-        match decl {
-            Decl::Class(c) => {
-                if class_has_side_effect(&c.class) {
-                    return;
-                }
+        if let Decl::Class(c) = decl {
+            if class_has_side_effect(&c.class) {
+                return;
             }
-            _ => {}
         }
 
         match decl {
@@ -359,18 +355,15 @@ where
                     );
                     // This will remove the declaration.
                     decl.take();
-                    return;
                 }
             }
 
             Decl::Var(_) => {
                 // Variable declarations are handled by other functions.
-                return;
             }
 
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) | Decl::TsModule(_) => {
                 // Nothing to do. We might change this to unreachable!()
-                return;
             }
         }
     }
@@ -428,7 +421,6 @@ where
                         dump(&assign.left, false)
                     )
                 }
-                return;
             }
             PatOrExpr::Pat(left) => match &**left {
                 Pat::Ident(i) => {
@@ -449,7 +441,6 @@ where
                             );
                             self.changed = true;
                             *e = *assign.right.take();
-                            return;
                         } else {
                             if cfg!(feature = "debug") {
                                 tracing::trace!(
@@ -461,7 +452,7 @@ where
                         }
                     }
                 }
-                _ => return,
+                _ => {}
             },
         }
     }
