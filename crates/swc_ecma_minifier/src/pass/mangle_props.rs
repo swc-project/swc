@@ -241,7 +241,7 @@ impl VisitMut for Mangler<'_> {
     fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         call.visit_mut_children_with(self);
 
-        if let Some(mut prop_name_str) = get_object_define_property_name_arg(call) {
+        if let Some(prop_name_str) = get_object_define_property_name_arg(call) {
             self.mangle_str(prop_name_str);
         }
     }
