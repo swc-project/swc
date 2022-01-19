@@ -595,12 +595,12 @@ where
         body: &mut BlockStmt,
         args: &mut [ExprOrSpread],
     ) -> Option<Expr> {
-        if !self.can_inline_fn_like(&params, &*body) {
+        if !self.can_inline_fn_like(params, &*body) {
             return None;
         }
 
         self.changed = true;
-        tracing::debug!("inline: Inling an iife");
+        tracing::debug!("inline: Inlining an iife");
 
         let mut exprs = vec![];
 
@@ -708,19 +708,19 @@ where
             })
             | Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
-            }) => self.can_be_inlined_for_iife(&arg),
+            }) => self.can_be_inlined_for_iife(arg),
 
             Expr::Ident(..) => true,
 
             Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
-                self.can_be_inlined_for_iife(&obj)
+                self.can_be_inlined_for_iife(obj)
             }
 
             Expr::Bin(BinExpr {
                 op, left, right, ..
             }) => match op {
                 op!(bin, "+") | op!("*") => {
-                    self.can_be_inlined_for_iife(&left) && self.can_be_inlined_for_iife(&right)
+                    self.can_be_inlined_for_iife(left) && self.can_be_inlined_for_iife(right)
                 }
                 _ => false,
             },
@@ -761,7 +761,7 @@ where
                 is_async: false,
                 is_generator: false,
                 ..
-            }) => params.iter().all(|p| p.is_ident()) && self.can_be_inlined_for_iife(&body),
+            }) => params.iter().all(|p| p.is_ident()) && self.can_be_inlined_for_iife(body),
 
             _ => false,
         }
