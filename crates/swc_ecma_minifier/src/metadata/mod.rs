@@ -153,8 +153,8 @@ impl VisitMut for InfoMarker<'_> {
             ) {
                 // self.state.is_bundle = true;
 
-                // n.function.span = n.function.span.apply_mark(self.marks.standalone);
-                return;
+                // n.function.span =
+                // n.function.span.apply_mark(self.marks.standalone);
             }
         }
     }
@@ -273,7 +273,7 @@ where
             _ => {}
         }
 
-        if external_bindings.contains(&used_id) {
+        if external_bindings.contains(used_id) {
             if cfg!(feature = "debug") {
                 tracing::debug!(
                     "bundle: Due to {}{:?} (top-level), it's not a bundle",
@@ -421,11 +421,8 @@ impl VisitMut for IdentCollector {
     }
 
     fn visit_mut_prop_name(&mut self, p: &mut PropName) {
-        match p {
-            PropName::Computed(..) => {
-                p.visit_mut_children_with(self);
-            }
-            _ => {}
+        if let PropName::Computed(..) = p {
+            p.visit_mut_children_with(self);
         }
     }
 

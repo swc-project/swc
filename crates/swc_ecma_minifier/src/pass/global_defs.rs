@@ -63,20 +63,19 @@ impl VisitMut for GlobalDefs {
                     return;
                 }
             }
-            Expr::Member(MemberExpr { obj, .. }) => match &**obj {
-                Expr::Ident(i) => {
+            Expr::Member(MemberExpr { obj, .. }) => {
+                if let Expr::Ident(i) = &**obj {
                     if i.span.ctxt != self.top_level_ctxt
                         || self.top_level_bindings.contains(&i.to_id())
                     {
                         return;
                     }
                 }
-                _ => {}
-            },
+            }
             _ => {}
         }
 
-        if let Some((_, new)) = self.defs.iter().find(|(pred, _)| should_replace(&pred, &n)) {
+        if let Some((_, new)) = self.defs.iter().find(|(pred, _)| should_replace(pred, n)) {
             *n = *new.clone();
             return;
         }
