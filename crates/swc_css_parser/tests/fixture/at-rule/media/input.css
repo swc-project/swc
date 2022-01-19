@@ -93,3 +93,8 @@
 @media(400px>=width>=700px){}
 
 @media (--modern) and (min-width: 1024px) {}
+
+@media (not (color)) or (hover) {}
+@media ((color) or (hover)) and (width > 1024px) {}
+@media (((color)) or ((hover))) and (width > 1024px) {}
+@media (((((color)) or ((hover))))) and (width > 1024px) {}
