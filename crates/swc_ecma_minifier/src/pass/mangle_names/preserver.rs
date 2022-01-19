@@ -93,19 +93,6 @@ impl Visit for Preserver {
         }
     }
 
-    fn visit_member_expr(&mut self, n: &MemberExpr) {
-        n.obj.visit_with(self);
-        if let MemberProp::Computed(c) = &n.prop {
-            c.visit_with(self);
-        }
-    }
-
-    fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {
-        if let SuperProp::Computed(c) = &n.prop {
-            c.visit_with(self);
-        }
-    }
-
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
         for n in n {
             self.in_top_level = true;

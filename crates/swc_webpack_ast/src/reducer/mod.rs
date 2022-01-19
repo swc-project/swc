@@ -137,14 +137,6 @@ impl Visit for Analyzer {
         }
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr) {
-        e.obj.visit_with(self);
-
-        if let MemberProp::Computed(c) = &e.prop {
-            c.visit_with(self);
-        }
-    }
-
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
@@ -158,12 +150,6 @@ impl Visit for Analyzer {
 
         if let Prop::Shorthand(s) = p {
             self.used_refs.entry(s.to_id()).or_default().used_as_var = true;
-        }
-    }
-
-    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
-        if let SuperProp::Computed(c) = &e.prop {
-            c.visit_with(self);
         }
     }
 

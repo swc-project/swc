@@ -5,7 +5,9 @@ use swc_common::{FileName, FilePathMapping, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_ecma_utils::{prepend_stmts, quote_ident, quote_str, DropSpan};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
+};
 
 #[macro_export]
 macro_rules! enable_helper {
@@ -321,17 +323,7 @@ impl VisitMut for Marker {
         i.span = i.span.apply_mark(self.0);
     }
 
-    fn visit_mut_member_prop(&mut self, p: &mut MemberProp) {
-        if let MemberProp::Computed(p) = p {
-            p.visit_mut_with(self);
-        }
-    }
-
-    fn visit_mut_super_prop(&mut self, p: &mut SuperProp) {
-        if let SuperProp::Computed(p) = p {
-            p.visit_mut_with(self);
-        }
-    }
+    visit_mut_obj_and_computed!();
 }
 
 #[cfg(test)]

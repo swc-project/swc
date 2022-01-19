@@ -3,7 +3,9 @@
 use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
+};
 
 /// This pass is kind of inliner, but it's far faster.
 pub fn constant_propagation() -> impl 'static + Fold + VisitMut {
@@ -97,13 +99,7 @@ impl VisitMut for ConstPropagation<'_> {
         n.visit_mut_children_with(&mut v);
     }
 
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
-
-        if let MemberProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
-        }
-    }
+    visit_mut_obj_and_computed!();
 
     fn visit_mut_prop(&mut self, p: &mut Prop) {
         p.visit_mut_children_with(self);
@@ -115,12 +111,6 @@ impl VisitMut for ConstPropagation<'_> {
                     value: expr.clone(),
                 });
             }
-        }
-    }
-
-    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
         }
     }
 

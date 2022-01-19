@@ -4,7 +4,9 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, Id};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
+};
 use tracing::{debug, span, Level};
 
 #[cfg(test)]
@@ -819,14 +821,7 @@ impl<'a> VisitMut for Resolver<'a> {
     /// See https://github.com/swc-project/swc/issues/2854
     fn visit_mut_jsx_attr_name(&mut self, _: &mut JSXAttrName) {}
 
-    /// Leftmost one of a member expression should be resolved.
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
-
-        if let MemberProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
-        }
-    }
+    visit_mut_obj_and_computed!();
 
     fn visit_mut_method_prop(&mut self, m: &mut MethodProp) {
         m.key.visit_mut_with(self);
@@ -962,12 +957,6 @@ impl<'a> VisitMut for Resolver<'a> {
 
         // Phase 2.
         stmts.visit_mut_children_with(self)
-    }
-
-    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
-        }
     }
 
     fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {

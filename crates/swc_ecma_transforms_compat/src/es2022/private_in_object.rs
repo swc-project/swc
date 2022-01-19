@@ -374,20 +374,6 @@ impl VisitMut for PrivateInObject {
         }
     }
 
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
-
-        if let MemberProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
-        }
-    }
-
-    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
-        }
-    }
-
     fn visit_mut_module_items(&mut self, ns: &mut Vec<ModuleItem>) {
         ns.visit_mut_children_with(self);
 

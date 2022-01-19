@@ -390,19 +390,6 @@ impl VisitMut for IdentCollector {
         s.body.visit_mut_with(self);
     }
 
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
-        if let MemberProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
-        }
-    }
-
-    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
-        }
-    }
-
     fn visit_mut_param(&mut self, p: &mut Param) {
         let old = self.is_pat_decl;
         self.is_pat_decl = true;
