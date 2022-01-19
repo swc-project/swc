@@ -26,6 +26,9 @@
 - **(es/minifier)** Fix logic for checking `arguments` (#3313) ([1aa494b](https://github.com/swc-project/swc/commit/1aa494b1c0d26151c56500dd2bab283b7a4222c5))
 
 
+- **(es/minifier)** Prevent infinite loop due to negation (#3310) ([b4d21bf](https://github.com/swc-project/swc/commit/b4d21bf0778d973d651b6f1825c4eb27dc150ea2))
+
+
 - **(es/resolver)** Ignore names of jsx attributes (#3289) ([9a89895](https://github.com/swc-project/swc/commit/9a898951bc14e96af926e8a47a87d9220eaf4826))
 
 ### Documentation
