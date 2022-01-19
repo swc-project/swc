@@ -288,6 +288,7 @@ where
 
     #[emitter]
     fn emit_media_not(&mut self, n: &MediaNot) -> Result {
+        space!(self);
         keyword!(self, "not");
         space!(self);
         emit!(self, n.condition);
@@ -295,6 +296,7 @@ where
 
     #[emitter]
     fn emit_media_and(&mut self, n: &MediaAnd) -> Result {
+        space!(self);
         keyword!(self, "and");
         space!(self);
         emit!(self, n.condition);
@@ -302,6 +304,7 @@ where
 
     #[emitter]
     fn emit_media_or(&mut self, n: &MediaOr) -> Result {
+        space!(self);
         keyword!(self, "or");
         space!(self);
         emit!(self, n.condition);
