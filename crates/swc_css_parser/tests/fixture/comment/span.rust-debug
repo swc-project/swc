@@ -348,13 +348,13 @@ error: MediaQueryList
   --> $DIR/tests/fixture/comment/input.css:24:22
    |
 24 | @media /* comment */ screen /* comment */ {}
-   |                      ^^^^^^^^^^^^^^^^^^^^^
+   |                      ^^^^^^
 
 error: MediaQuery
   --> $DIR/tests/fixture/comment/input.css:24:22
    |
 24 | @media /* comment */ screen /* comment */ {}
-   |                      ^^^^^^^^^^^^^^^^^^^^^
+   |                      ^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/comment/input.css:24:22

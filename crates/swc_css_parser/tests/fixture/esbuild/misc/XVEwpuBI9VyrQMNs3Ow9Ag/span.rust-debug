@@ -26,13 +26,13 @@ error: MediaQueryList
  --> $DIR/tests/fixture/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:8
   |
 1 | @media screen {}
-  |        ^^^^^^^
+  |        ^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:8
   |
 1 | @media screen {}
-  |        ^^^^^^^
+  |        ^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:8

@@ -733,7 +733,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<MediaQuery> {
-        let span = self.input.cur_span()?;
+        let start_pos = self.input.cur_span()?.lo;
         let state = self.input.state();
 
         // TODO uppercase acceptable
@@ -753,12 +753,16 @@ where
             None
         };
 
+        let mut last_pos = self.input.last_pos()?;
+
         let media_type = if !is!(self, Ident) {
             None
         } else if is_one_of!(self, "not", "and", "or", "only") {
             None
         } else {
             let media_type = Some(self.parse()?);
+
+            last_pos = self.input.last_pos()?;
 
             self.input.skip_ws()?;
 
@@ -767,9 +771,13 @@ where
 
         let condition = if media_type.is_some() {
             if eat!(self, "and") {
+                let condition_without_or = self.parse()?;
+                
                 self.input.skip_ws()?;
 
-                Some(self.parse()?)
+                last_pos = self.input.last_pos()?;
+
+                Some(condition_without_or)
             } else {
                 None
             }
@@ -777,12 +785,16 @@ where
             modifier = None;
 
             self.input.reset(&state);
+            
+            let condition = self.parse()?;
 
-            Some(self.parse()?)
+            last_pos = self.input.last_pos()?;
+
+            Some(condition)
         };
 
         Ok(MediaQuery {
-            span: span!(self, span.lo),
+            span: Span::new(start_pos, last_pos, Default::default()),
             modifier,
             media_type,
             condition,

@@ -32,13 +32,13 @@ error: MediaQueryList
  --> $DIR/tests/fixture/at-rule/media/input.css:1:9
   |
 1 | @\media screen {}
-  |         ^^^^^^^
+  |         ^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/at-rule/media/input.css:1:9
   |
 1 | @\media screen {}
-  |         ^^^^^^^
+  |         ^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/at-rule/media/input.css:1:9
@@ -68,13 +68,13 @@ error: MediaQueryList
  --> $DIR/tests/fixture/at-rule/media/input.css:2:9
   |
 2 | @\media \screen {}
-  |         ^^^^^^^^
+  |         ^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/at-rule/media/input.css:2:9
   |
 2 | @\media \screen {}
-  |         ^^^^^^^^
+  |         ^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/at-rule/media/input.css:2:9
@@ -104,13 +104,13 @@ error: MediaQueryList
  --> $DIR/tests/fixture/at-rule/media/input.css:4:8
   |
 4 | @media all {}
-  |        ^^^^
+  |        ^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/at-rule/media/input.css:4:8
   |
 4 | @media all {}
-  |        ^^^^
+  |        ^^^
 
 error: Ident
  --> $DIR/tests/fixture/at-rule/media/input.css:4:8
@@ -140,13 +140,13 @@ error: MediaQueryList
  --> $DIR/tests/fixture/at-rule/media/input.css:5:8
   |
 5 | @media screen {}
-  |        ^^^^^^^
+  |        ^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/at-rule/media/input.css:5:8
   |
 5 | @media screen {}
-  |        ^^^^^^^
+  |        ^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/at-rule/media/input.css:5:8
@@ -176,13 +176,13 @@ error: MediaQueryList
  --> $DIR/tests/fixture/at-rule/media/input.css:6:8
   |
 6 | @media print {}
-  |        ^^^^^^
+  |        ^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/at-rule/media/input.css:6:8
   |
 6 | @media print {}
-  |        ^^^^^^
+  |        ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/at-rule/media/input.css:6:8
@@ -656,13 +656,13 @@ error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/media/input.css:11:11
    |
 11 | @media    all    {}
-   |           ^^^^^^^
+   |           ^^^
 
 error: MediaQuery
   --> $DIR/tests/fixture/at-rule/media/input.css:11:11
    |
 11 | @media    all    {}
-   |           ^^^^^^^
+   |           ^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:11:11
@@ -1298,13 +1298,13 @@ error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/media/input.css:19:8
    |
 19 | @media not all {}
-   |        ^^^^^^^^
+   |        ^^^^^^^
 
 error: MediaQuery
   --> $DIR/tests/fixture/at-rule/media/input.css:19:8
    |
 19 | @media not all {}
-   |        ^^^^^^^^
+   |        ^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:19:8
@@ -1340,13 +1340,13 @@ error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/media/input.css:20:11
    |
 20 | @media    not   all   {}
-   |           ^^^^^^^^^^^^
+   |           ^^^^^^^^^
 
 error: MediaQuery
   --> $DIR/tests/fixture/at-rule/media/input.css:20:11
    |
 20 | @media    not   all   {}
-   |           ^^^^^^^^^^^^
+   |           ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:20:11
