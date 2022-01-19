@@ -35,17 +35,13 @@ where
             Callee::Expr(e) => &mut **e,
         };
 
-        match callee {
-            Expr::Fn(..) => {
-                tracing::debug!("negate_iife: Negating iife");
-                *e = Expr::Unary(UnaryExpr {
-                    span: DUMMY_SP,
-                    op: op!("!"),
-                    arg: Box::new(e.take()),
-                });
-                return;
-            }
-            _ => {}
+        if let Expr::Fn(..) = callee {
+            tracing::debug!("negate_iife: Negating iife");
+            *e = Expr::Unary(UnaryExpr {
+                span: DUMMY_SP,
+                op: op!("!"),
+                arg: Box::new(e.take()),
+            });
         }
     }
 

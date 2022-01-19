@@ -15,6 +15,7 @@
 #![allow(clippy::blocks_in_if_conditions)]
 #![allow(clippy::collapsible_else_if)]
 #![allow(clippy::collapsible_if)]
+#![allow(clippy::vec_box)]
 
 pub use crate::pass::unique_scope::unique_scope;
 use crate::{

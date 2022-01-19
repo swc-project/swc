@@ -25,81 +25,75 @@ where
             return;
         }
 
-        match &mut *s.cons {
-            Stmt::If(IfStmt {
-                test,
-                cons,
-                alt: None,
-                ..
-            }) => {
-                self.changed = true;
-                tracing::debug!("if_return: Merging nested if statements");
+        if let Stmt::If(IfStmt {
+            test,
+            cons,
+            alt: None,
+            ..
+        }) = &mut *s.cons
+        {
+            self.changed = true;
+            tracing::debug!("if_return: Merging nested if statements");
 
-                s.test = Box::new(Expr::Bin(BinExpr {
-                    span: s.test.span(),
-                    op: op!("&&"),
-                    left: s.test.take(),
-                    right: test.take(),
-                }));
-                s.cons = cons.take();
-            }
-            _ => {}
+            s.test = Box::new(Expr::Bin(BinExpr {
+                span: s.test.span(),
+                op: op!("&&"),
+                left: s.test.take(),
+                right: test.take(),
+            }));
+            s.cons = cons.take();
         }
     }
 
     pub(super) fn merge_else_if(&mut self, s: &mut IfStmt) {
-        match s.alt.as_deref_mut() {
-            Some(Stmt::If(IfStmt {
-                span: span_of_alt,
-                test: test_of_alt,
-                cons: cons_of_alt,
-                alt: Some(alt_of_alt),
-                ..
-            })) => {
-                match &**cons_of_alt {
-                    Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => {}
-                    _ => return,
-                }
-
-                match &mut **alt_of_alt {
-                    Stmt::Block(..) => {}
-                    Stmt::Expr(..) => {
-                        *alt_of_alt = Box::new(Stmt::Block(BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: vec![*alt_of_alt.take()],
-                        }));
-                    }
-                    _ => {
-                        return;
-                    }
-                }
-
-                self.changed = true;
-                tracing::debug!("if_return: Merging `else if` into `else`");
-
-                match &mut **alt_of_alt {
-                    Stmt::Block(alt_of_alt) => {
-                        prepend(
-                            &mut alt_of_alt.stmts,
-                            Stmt::If(IfStmt {
-                                span: *span_of_alt,
-                                test: test_of_alt.take(),
-                                cons: cons_of_alt.take(),
-                                alt: None,
-                            }),
-                        );
-                    }
-
-                    _ => {
-                        unreachable!()
-                    }
-                }
-
-                s.alt = Some(alt_of_alt.take());
-                return;
+        if let Some(Stmt::If(IfStmt {
+            span: span_of_alt,
+            test: test_of_alt,
+            cons: cons_of_alt,
+            alt: Some(alt_of_alt),
+            ..
+        })) = s.alt.as_deref_mut()
+        {
+            match &**cons_of_alt {
+                Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => {}
+                _ => return,
             }
 
-            _ => {}
+            match &mut **alt_of_alt {
+                Stmt::Block(..) => {}
+                Stmt::Expr(..) => {
+                    *alt_of_alt = Box::new(Stmt::Block(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![*alt_of_alt.take()],
+                    }));
+                }
+                _ => {
+                    return;
+                }
+            }
+
+            self.changed = true;
+            tracing::debug!("if_return: Merging `else if` into `else`");
+
+            match &mut **alt_of_alt {
+                Stmt::Block(alt_of_alt) => {
+                    prepend(
+                        &mut alt_of_alt.stmts,
+                        Stmt::If(IfStmt {
+                            span: *span_of_alt,
+                            test: test_of_alt.take(),
+                            cons: cons_of_alt.take(),
+                            alt: None,
+                        }),
+                    );
+                }
+
+                _ => {
+                    unreachable!()
+                }
+            }
+
+            s.alt = Some(alt_of_alt.take());
         }
     }
 
@@ -197,17 +191,14 @@ where
                     _ => break,
                 };
 
-                match s {
-                    Stmt::Decl(Decl::Var(v)) => {
-                        if v.decls.iter().all(|v| v.init.is_none()) {
-                            if last_idx == 0 {
-                                break;
-                            }
-                            last_idx -= 1;
-                            continue;
+                if let Stmt::Decl(Decl::Var(v)) = s {
+                    if v.decls.iter().all(|v| v.init.is_none()) {
+                        if last_idx == 0 {
+                            break;
                         }
+                        last_idx -= 1;
+                        continue;
                     }
-                    _ => {}
                 }
 
                 break;
@@ -221,7 +212,7 @@ where
 
         {
             let stmts = &stmts[skip..=last_idx];
-            let return_count: usize = stmts.iter().map(|v| count_leaping_returns(v)).sum();
+            let return_count: usize = stmts.iter().map(count_leaping_returns).sum();
 
             // There's no return statement so merging requires injecting unnecessary `void
             // 0`
@@ -239,7 +230,7 @@ where
                 .filter(|s| match s {
                     Stmt::If(IfStmt {
                         cons, alt: None, ..
-                    }) => always_terminates_with_return_arg(&cons),
+                    }) => always_terminates_with_return_arg(cons),
                     _ => false,
                 })
                 .count();
@@ -356,10 +347,7 @@ where
             } else {
                 stmt
             };
-            let is_nonconditional_return = match stmt {
-                Stmt::Return(..) => true,
-                _ => false,
-            };
+            let is_nonconditional_return = matches!(stmt, Stmt::Return(..));
             let new_expr = self.merge_if_returns_to(stmt, vec![]);
             match new_expr {
                 Expr::Seq(v) => match &mut cur {
@@ -442,7 +430,7 @@ where
                     if seq
                         .exprs
                         .last()
-                        .map(|v| is_pure_undefined(&v))
+                        .map(|v| is_pure_undefined(v))
                         .unwrap_or(true) =>
                 {
                     let expr = self.ignore_return_value(&mut cur);
@@ -590,7 +578,7 @@ fn always_terminates_with_return_arg(s: &Stmt) -> bool {
     match s {
         Stmt::Return(ReturnStmt { arg: Some(..), .. }) => true,
         Stmt::If(IfStmt { cons, alt, .. }) => {
-            always_terminates_with_return_arg(&cons)
+            always_terminates_with_return_arg(cons)
                 && alt
                     .as_deref()
                     .map(always_terminates_with_return_arg)
@@ -604,13 +592,10 @@ fn always_terminates_with_return_arg(s: &Stmt) -> bool {
 
 fn can_merge_as_if_return(s: &Stmt) -> bool {
     fn cost(s: &Stmt) -> Option<isize> {
-        match s {
-            Stmt::Block(..) => {
-                if !always_terminates(s) {
-                    return None;
-                }
+        if let Stmt::Block(..) = s {
+            if !always_terminates(s) {
+                return None;
             }
-            _ => {}
         }
 
         match s {
@@ -621,7 +606,7 @@ fn can_merge_as_if_return(s: &Stmt) -> bool {
             Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => Some(0),
 
             Stmt::If(IfStmt { cons, alt, .. }) => {
-                Some(cost(&cons)? + alt.as_deref().and_then(cost).unwrap_or(0))
+                Some(cost(cons)? + alt.as_deref().and_then(cost).unwrap_or(0))
             }
             Stmt::Block(s) => {
                 let mut sum = 0;
