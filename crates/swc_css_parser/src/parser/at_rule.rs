@@ -801,21 +801,21 @@ where
         let mut conditions = vec![];
 
         if is!(self, "not") {
-            conditions.push(MediaQueryItem::Not(self.parse()?));
+            conditions.push(MediaConditionItem::Not(self.parse()?));
         } else {
-            conditions.push(MediaQueryItem::MediaInParens(self.parse()?));
+            conditions.push(MediaConditionItem::MediaInParens(self.parse()?));
 
             self.input.skip_ws()?;
 
             if is!(self, "and") {
                 while is!(self, "and") {
-                    conditions.push(MediaQueryItem::And(self.parse()?));
+                    conditions.push(MediaConditionItem::And(self.parse()?));
 
                     self.input.skip_ws()?;
                 }
             } else if eat!(self, "or") {
                 while is!(self, "or") {
-                    conditions.push(MediaQueryItem::Or(self.parse()?));
+                    conditions.push(MediaConditionItem::Or(self.parse()?));
 
                     self.input.skip_ws()?;
                 }

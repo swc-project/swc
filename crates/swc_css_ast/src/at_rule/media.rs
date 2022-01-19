@@ -26,11 +26,11 @@ pub struct MediaQuery {
 #[ast_node("MediaCondition")]
 pub struct MediaCondition {
     pub span: Span,
-    pub conditions: Vec<MediaQueryItem>,
+    pub conditions: Vec<MediaConditionItem>,
 }
 
 #[ast_node]
-pub enum MediaQueryItem {
+pub enum MediaConditionItem {
     #[tag("MediaNot")]
     Not(MediaNot),
 

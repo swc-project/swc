@@ -348,7 +348,7 @@ error: MediaCondition
 12 |     @media screen and (min-width: 900px) {
    |                       ^^^^^^^^^^^^^^^^^^^
 
-error: MediaQueryItem
+error: MediaConditionItem
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:23
    |
 12 |     @media screen and (min-width: 900px) {

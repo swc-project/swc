@@ -457,10 +457,10 @@ define!({
 
     pub struct MediaCondition {
         pub span: Span,
-        pub conditions: Vec<MediaQueryItem>,
+        pub conditions: Vec<MediaConditionItem>,
     }
 
-    pub enum MediaQueryItem {
+    pub enum MediaConditionItem {
         Not(MediaNot),
         And(MediaAnd),
         Or(MediaOr),
