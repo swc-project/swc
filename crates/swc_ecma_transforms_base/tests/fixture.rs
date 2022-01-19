@@ -7,7 +7,9 @@ use swc_ecma_transforms_base::{
     fixer::fixer,
     resolver::{resolver_with_mark, ts_resolver},
 };
-use swc_ecma_visit::{as_folder, Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    as_folder, visit_mut_obj_and_computed, Fold, FoldWith, VisitMut, VisitMutWith,
+};
 use testing::{fixture, run_test2, NormalizedOutput};
 
 pub fn print(cm: Lrc<SourceMap>, module: &Module) -> String {
@@ -114,22 +116,11 @@ impl VisitMut for TsHygiene {
         i.span = i.span.with_ctxt(SyntaxContext::empty());
     }
 
-    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
-        n.obj.visit_mut_with(self);
-        if let MemberProp::Computed(c) = &mut n.prop {
-            c.visit_mut_with(self);
-        }
-    }
+    visit_mut_obj_and_computed!();
 
     fn visit_mut_prop_name(&mut self, n: &mut PropName) {
         if let PropName::Computed(n) = n {
             n.visit_mut_with(self);
-        }
-    }
-
-    fn visit_mut_super_prop_expr(&mut self, n: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut n.prop {
-            c.visit_mut_with(self);
         }
     }
 

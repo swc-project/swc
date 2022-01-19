@@ -8,7 +8,8 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{pass::RepeatedJsPass, scope::IdentType};
 use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, Id};
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, visit_obj_and_computed, Visit, VisitMut,
+    VisitMutWith, VisitWith,
 };
 use tracing::{span, Level};
 
@@ -459,13 +460,6 @@ impl VisitMut for Inlining<'_> {
         self.visit_with_child(ScopeKind::Cond, &mut stmt.alt);
     }
 
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
-        if let MemberProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
-        }
-    }
-
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         let _tracing = span!(Level::ERROR, "inlining", pass = self.pass).entered();
 
@@ -543,12 +537,6 @@ impl VisitMut for Inlining<'_> {
 
                 self.phase = old_phase
             }
-        }
-    }
-
-    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
         }
     }
 
@@ -754,19 +742,7 @@ impl Visit for IdentListVisitor<'_, '_> {
         self.scope.add_write(&node.to_id(), true);
     }
 
-    fn visit_member_expr(&mut self, node: &MemberExpr) {
-        node.obj.visit_with(self);
-
-        if let MemberProp::Computed(c) = &node.prop {
-            c.visit_with(self);
-        }
-    }
-
-    fn visit_super_prop_expr(&mut self, node: &SuperPropExpr) {
-        if let SuperProp::Computed(c) = &node.prop {
-            c.visit_with(self);
-        }
-    }
+    visit_obj_and_computed!();
 }
 
 /// Mark idents as `written`.
@@ -781,17 +757,5 @@ impl Visit for WriteVisitor<'_, '_> {
         self.scope.add_write(&node.to_id(), false);
     }
 
-    fn visit_member_expr(&mut self, node: &MemberExpr) {
-        node.obj.visit_with(self);
-
-        if let MemberProp::Computed(c) = &node.prop {
-            c.visit_with(self);
-        }
-    }
-
-    fn visit_super_prop_expr(&mut self, node: &SuperPropExpr) {
-        if let SuperProp::Computed(c) = &node.prop {
-            c.visit_with(self);
-        }
-    }
+    visit_obj_and_computed!();
 }

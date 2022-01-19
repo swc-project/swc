@@ -9,7 +9,8 @@ use swc_ecma_utils::{
     quote_ident, quote_str, undefined, var::VarCollector, ExprFactory, Id, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, Fold, Visit,
+    VisitMut, VisitMutWith, VisitWith,
 };
 
 ///
@@ -970,19 +971,7 @@ impl VisitMut for MutationHandler<'_> {
         n.arg = Some(Box::new(self.make_reassignment(val)))
     }
 
-    /// Don't recurse into member expression prop if not computed
-    fn visit_mut_member_expr(&mut self, m: &mut MemberExpr) {
-        m.obj.visit_mut_with(self);
-        if let MemberProp::Computed(c) = &mut m.prop {
-            c.visit_mut_with(self)
-        }
-    }
-
-    fn visit_mut_super_prop_expr(&mut self, m: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut m.prop {
-            c.visit_mut_with(self)
-        }
-    }
+    visit_mut_obj_and_computed!();
 }
 
 #[derive(Debug)]

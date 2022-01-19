@@ -2,7 +2,8 @@ use crate::{id::Id, modules::Modules, util::Readonly};
 use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, Visit, VisitMut,
+    VisitMutWith, VisitWith,
 };
 
 #[derive(Debug, Default)]
@@ -100,20 +101,7 @@ impl VisitMut for Inliner {
         }
     }
 
-    /// General logic for member expression.s
-    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
-        n.obj.visit_mut_with(self);
-
-        if let MemberProp::Computed(c) = &mut n.prop {
-            c.visit_mut_with(self);
-        }
-    }
-
-    fn visit_mut_super_prop_expr(&mut self, n: &mut SuperPropExpr) {
-        if let SuperProp::Computed(c) = &mut n.prop {
-            c.visit_mut_with(self);
-        }
-    }
+    visit_mut_obj_and_computed!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         n.visit_mut_children_with(self);

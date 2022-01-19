@@ -1782,3 +1782,39 @@ define!({
         pub expr: Box<Expr>,
     }
 });
+
+#[macro_export]
+macro_rules! visit_obj_and_computed {
+    () => {
+        fn visit_member_expr(&mut self, n: &$crate::swc_ecma_ast::MemberExpr) {
+            n.obj.visit_with(self);
+            if let $crate::swc_ecma_ast::MemberProp::Computed(c) = &n.prop {
+                c.visit_with(self);
+            }
+        }
+
+        fn visit_super_prop_expr(&mut self, n: &$crate::swc_ecma_ast::SuperPropExpr) {
+            if let $crate::swc_ecma_ast::SuperProp::Computed(c) = &n.prop {
+                c.visit_with(self);
+            }
+        }
+    };
+}
+
+#[macro_export]
+macro_rules! visit_mut_obj_and_computed {
+    () => {
+        fn visit_mut_member_expr(&mut self, n: &mut $crate::swc_ecma_ast::MemberExpr) {
+            n.obj.visit_mut_with(self);
+            if let $crate::swc_ecma_ast::MemberProp::Computed(c) = &mut n.prop {
+                c.visit_mut_with(self);
+            }
+        }
+
+        fn visit_mut_super_prop_expr(&mut self, n: &mut $crate::swc_ecma_ast::SuperPropExpr) {
+            if let $crate::swc_ecma_ast::SuperProp::Computed(c) = &mut n.prop {
+                c.visit_mut_with(self);
+            }
+        }
+    };
+}

@@ -45,16 +45,6 @@ fn no_empty(input: PathBuf) {
 struct AssertNoEmptyCtxt;
 
 impl Visit for AssertNoEmptyCtxt {
-    fn visit_class_prop(&mut self, n: &ClassProp) {
-        if let PropName::Computed(key) = &n.key {
-            key.expr.visit_with(self);
-        }
-
-        n.value.visit_with(self);
-        n.type_ann.visit_with(self);
-        n.decorators.visit_with(self);
-    }
-
     fn visit_expr(&mut self, n: &Expr) {
         n.visit_children_with(self);
 
@@ -65,13 +55,6 @@ impl Visit for AssertNoEmptyCtxt {
         }
     }
 
-    fn visit_member_expr(&mut self, n: &MemberExpr) {
-        n.obj.visit_with(self);
-        if let MemberProp::Computed(c) = &n.prop {
-            c.visit_with(self);
-        }
-    }
-
     fn visit_pat(&mut self, n: &Pat) {
         n.visit_children_with(self);
 
@@ -79,12 +62,6 @@ impl Visit for AssertNoEmptyCtxt {
             if i.id.span.ctxt == SyntaxContext::empty() {
                 unreachable!("ts_resolver has a bug")
             }
-        }
-    }
-
-    fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {
-        if let SuperProp::Computed(c) = &n.prop {
-            c.visit_with(self);
         }
     }
 
