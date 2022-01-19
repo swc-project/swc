@@ -25,6 +25,12 @@
 
 - **(es/resolver)** Ignore names of jsx attributes (#3289) ([9a89895](https://github.com/swc-project/swc/commit/9a898951bc14e96af926e8a47a87d9220eaf4826))
 
+### Documentation
+
+
+
+- **(swc)** Document `typescript::strip` (#3305) ([18cd98e](https://github.com/swc-project/swc/commit/18cd98e54cdd3c651fc12815aa59a6640a1c0dcb))
+
 ### Features
 
 
