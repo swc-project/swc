@@ -919,18 +919,20 @@ where
 
                 self.input.skip_ws()?;
 
-                let ctx = Ctx {
-                    allow_operation_in_value: true,
-                    ..self.ctx
+                let name = match left {
+                    MediaFeatureValue::Ident(ident) => ident,
+                    _ => {
+                        // TODO another error
+                        return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
+                    }
                 };
-                // TODO improve and move to own enum, only one value allowed
-                let value = self.with_ctx(ctx).parse_property_values()?.0;
+                let value = self.parse()?;
 
                 expect!(self, ")");
 
                 Ok(MediaFeature::Plain(MediaFeaturePlain {
                     span: span!(self, span.lo),
-                    name: left,
+                    name,
                     value,
                 }))
             }
@@ -969,12 +971,7 @@ where
 
                 self.input.skip_ws()?;
 
-                let ctx = Ctx {
-                    allow_operation_in_value: true,
-                    ..self.ctx
-                };
-                // TODO improve and move to own enum, only one value allowed
-                let right = self.with_ctx(ctx).parse_property_values()?.0;
+                let right = self.parse()?;
 
                 expect!(self, ")");
 
@@ -986,12 +983,40 @@ where
                 }))
             }
             _ => {
+                let name = match left {
+                    MediaFeatureValue::Ident(ident) => ident,
+                    _ => {
+                        // TODO another error
+                        return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
+                    }
+                };
+
                 expect!(self, ")");
 
                 Ok(MediaFeature::Boolean(MediaFeatureBoolean {
                     span: span!(self, span.lo),
-                    name: left,
+                    name,
                 }))
+            }
+        }
+    }
+}
+
+impl<I> Parse<MediaFeatureValue> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<MediaFeatureValue> {
+        let span = self.input.cur_span()?;
+
+        // TODO fix ration
+        match cur!(self) {
+            Token::Num { .. } => Ok(MediaFeatureValue::Number(self.parse()?)),
+            Token::Ident { .. } => Ok(MediaFeatureValue::Ident(self.parse()?)),
+            Token::Dimension { .. } => Ok(MediaFeatureValue::Dimension(self.parse()?)),
+            _ => {
+                // TODO another error
+                return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
             }
         }
     }

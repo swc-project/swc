@@ -16,83 +16,35 @@ error: AtRule
 1 | @media (aspect-ratio: 12/9) {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: MediaRule
+error: UnknownAtRule
  --> $DIR/tests/fixture/rome/media/ratio/input.css:1:1
   |
 1 | @media (aspect-ratio: 12/9) {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: MediaQueryList
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
-  |
-1 | @media (aspect-ratio: 12/9) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQuery
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
-  |
-1 | @media (aspect-ratio: 12/9) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaCondition
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
-  |
-1 | @media (aspect-ratio: 12/9) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaConditionItem
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
-  |
-1 | @media (aspect-ratio: 12/9) {}
-  |        ^^^^^^^^^^^^^^^^^^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
-  |
-1 | @media (aspect-ratio: 12/9) {}
-  |        ^^^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
-  |
-1 | @media (aspect-ratio: 12/9) {}
-  |        ^^^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
-  |
-1 | @media (aspect-ratio: 12/9) {}
-  |        ^^^^^^^^^^^^^^^^^^^^
-
 error: Ident
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:9
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:1
   |
 1 | @media (aspect-ratio: 12/9) {}
-  |         ^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Value
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:23
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:25
   |
 1 | @media (aspect-ratio: 12/9) {}
-  |                       ^^^^
+  |                         ^
 
-error: BinValue
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:23
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:25
   |
 1 | @media (aspect-ratio: 12/9) {}
-  |                       ^^^^
+  |                         ^
 
-error: Value
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:23
+error: Delim { value: '/' }
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:25
   |
 1 | @media (aspect-ratio: 12/9) {}
-  |                       ^^
-
-error: Num
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:23
-  |
-1 | @media (aspect-ratio: 12/9) {}
-  |                       ^^
+  |                         ^
 
 error: Value
  --> $DIR/tests/fixture/rome/media/ratio/input.css:1:26
@@ -100,9 +52,51 @@ error: Value
 1 | @media (aspect-ratio: 12/9) {}
   |                          ^
 
-error: Num
+error: Tokens
  --> $DIR/tests/fixture/rome/media/ratio/input.css:1:26
   |
 1 | @media (aspect-ratio: 12/9) {}
   |                          ^
+
+error: Num { value: 9.0, raw: Atom('9' type=inline), type_flag: Integer }
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:26
+  |
+1 | @media (aspect-ratio: 12/9) {}
+  |                          ^
+
+error: Value
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:27
+  |
+1 | @media (aspect-ratio: 12/9) {}
+  |                           ^
+
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:27
+  |
+1 | @media (aspect-ratio: 12/9) {}
+  |                           ^
+
+error: RParen
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:27
+  |
+1 | @media (aspect-ratio: 12/9) {}
+  |                           ^
+
+error: Value
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:28
+  |
+1 | @media (aspect-ratio: 12/9) {}
+  |                            ^
+
+error: Tokens
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:28
+  |
+1 | @media (aspect-ratio: 12/9) {}
+  |                            ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:28
+  |
+1 | @media (aspect-ratio: 12/9) {}
+  |                            ^
 

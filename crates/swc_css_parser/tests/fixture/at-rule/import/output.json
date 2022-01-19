@@ -386,18 +386,16 @@
                 "value": "orientation",
                 "raw": "orientation"
               },
-              "value": [
-                {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 311,
-                    "end": 320,
-                    "ctxt": 0
-                  },
-                  "value": "landscape",
-                  "raw": "landscape"
-                }
-              ]
+              "value": {
+                "type": "Identifier",
+                "span": {
+                  "start": 311,
+                  "end": 320,
+                  "ctxt": 0
+                },
+                "value": "landscape",
+                "raw": "landscape"
+              }
             }
           ]
         }

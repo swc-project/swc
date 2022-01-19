@@ -688,6 +688,56 @@ where
     }
 }
 
+impl<I> Parse<UnitValue> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<UnitValue> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Dimension) {
+            return Err(Error::new(span, ErrorKind::Expected("Dimension")));
+        }
+
+        match bump!(self) {
+            Token::Dimension {
+                value,
+                raw_value,
+                unit,
+                raw_unit,
+                ..
+            } => {
+                let unit_len = raw_unit.len() as u32;
+
+                Ok(UnitValue {
+                    span,
+                    value: Num {
+                        value,
+                        raw: raw_value,
+                        span: swc_common::Span::new(
+                            span.lo,
+                            span.hi - BytePos(unit_len),
+                            Default::default(),
+                        ),
+                    },
+                    unit: Unit {
+                        span: swc_common::Span::new(
+                            span.hi - BytePos(unit_len),
+                            span.hi,
+                            Default::default(),
+                        ),
+                        value: unit,
+                        raw: raw_unit,
+                    },
+                })
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
 impl<I> Parse<PercentValue> for Parser<I>
 where
     I: ParserInput,

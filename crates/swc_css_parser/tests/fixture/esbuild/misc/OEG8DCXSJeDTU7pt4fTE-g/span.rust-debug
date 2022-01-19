@@ -100,15 +100,3 @@ error: Ident
 1 | @import url("foo.css") screen and (orientation:landscape);
   |                                    ^^^^^^^^^^^
 
-error: Value
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:48
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |                                                ^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:48
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |                                                ^^^^^^^^^
-

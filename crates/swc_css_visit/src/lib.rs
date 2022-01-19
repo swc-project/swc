@@ -496,7 +496,7 @@ define!({
     pub struct MediaFeaturePlain {
         pub span: Span,
         pub name: Ident,
-        pub value: Vec<Value>,
+        pub value: MediaFeatureValue,
     }
 
     pub struct MediaFeatureBoolean {
@@ -506,9 +506,9 @@ define!({
 
     pub struct MediaFeatureRange {
         pub span: Span,
-        pub left: Ident,
+        pub left: MediaFeatureValue,
         pub comparison: MediaFeatureRangeComparison,
-        pub right: Vec<Value>,
+        pub right: MediaFeatureValue,
     }
 
     pub struct PageRule {

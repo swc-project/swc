@@ -1,4 +1,4 @@
-use crate::{Ident, Rule, Value};
+use crate::{BinValue, Ident, Num, Rule, UnitValue};
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
@@ -85,11 +85,26 @@ pub enum MediaFeature {
     Range(MediaFeatureRange),
 }
 
+#[ast_node]
+pub enum MediaFeatureValue {
+    #[tag("Number")]
+    Number(Num),
+
+    #[tag("UnitValue")]
+    Dimension(UnitValue),
+
+    #[tag("Ident")]
+    Ident(Ident),
+
+    #[tag("BinValue")]
+    Ratio(BinValue),
+}
+
 #[ast_node("MediaFeaturePlain")]
 pub struct MediaFeaturePlain {
     pub span: Span,
     pub name: Ident,
-    pub value: Vec<Value>,
+    pub value: MediaFeatureValue,
 }
 
 #[ast_node("MediaFeatureBoolean")]
@@ -119,7 +134,7 @@ pub enum MediaFeatureRangeComparison {
 #[ast_node("MediaFeatureRange")]
 pub struct MediaFeatureRange {
     pub span: Span,
-    pub left: Ident,
+    pub left: MediaFeatureValue,
     pub comparison: MediaFeatureRangeComparison,
-    pub right: Vec<Value>,
+    pub right: MediaFeatureValue,
 }

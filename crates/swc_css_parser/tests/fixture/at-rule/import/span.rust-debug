@@ -490,18 +490,6 @@ error: Ident
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |                                          ^^^^^^^^^^^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/import/input.css:11:54
-   |
-11 | @import url('landscape.css') screen and (orientation:landscape);
-   |                                                      ^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/import/input.css:11:54
-   |
-11 | @import url('landscape.css') screen and (orientation:landscape);
-   |                                                      ^^^^^^^^^
-
 error: Rule
   --> $DIR/tests/fixture/at-rule/import/input.css:12:1
    |

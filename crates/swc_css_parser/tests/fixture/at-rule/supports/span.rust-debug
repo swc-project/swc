@@ -378,30 +378,6 @@ error: Ident
 12 |     @media screen and (min-width: 900px) {
    |                        ^^^^^^^^^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:12:35
-   |
-12 |     @media screen and (min-width: 900px) {
-   |                                   ^^^^^
-
-error: UnitValue
-  --> $DIR/tests/fixture/at-rule/supports/input.css:12:35
-   |
-12 |     @media screen and (min-width: 900px) {
-   |                                   ^^^^^
-
-error: Num
-  --> $DIR/tests/fixture/at-rule/supports/input.css:12:35
-   |
-12 |     @media screen and (min-width: 900px) {
-   |                                   ^^^
-
-error: Unit
-  --> $DIR/tests/fixture/at-rule/supports/input.css:12:38
-   |
-12 |     @media screen and (min-width: 900px) {
-   |                                      ^^
-
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:13:9
    |

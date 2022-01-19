@@ -55,35 +55,33 @@
                     "value": "min-width",
                     "raw": "min-width"
                   },
-                  "value": [
-                    {
-                      "type": "UnitValue",
+                  "value": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 19,
+                      "end": 24,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
                       "span": {
                         "start": 19,
+                        "end": 22,
+                        "ctxt": 0
+                      },
+                      "value": 935.0,
+                      "raw": "935"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 22,
                         "end": 24,
                         "ctxt": 0
                       },
-                      "value": {
-                        "type": "Number",
-                        "span": {
-                          "start": 19,
-                          "end": 22,
-                          "ctxt": 0
-                        },
-                        "value": 935.0,
-                        "raw": "935"
-                      },
-                      "unit": {
-                        "span": {
-                          "start": 22,
-                          "end": 24,
-                          "ctxt": 0
-                        },
-                        "value": "px",
-                        "raw": "px"
-                      }
+                      "value": "px",
+                      "raw": "px"
                     }
-                  ]
+                  }
                 }
               ]
             }

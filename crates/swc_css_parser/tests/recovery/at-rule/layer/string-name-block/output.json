@@ -531,18 +531,16 @@
                     "value": "prefers-color-scheme",
                     "raw": "prefers-color-scheme"
                   },
-                  "value": [
-                    {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 104,
-                        "end": 108,
-                        "ctxt": 0
-                      },
-                      "value": "dark",
-                      "raw": "dark"
-                    }
-                  ]
+                  "value": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 104,
+                      "end": 108,
+                      "ctxt": 0
+                    },
+                    "value": "dark",
+                    "raw": "dark"
+                  }
                 }
               ]
             }

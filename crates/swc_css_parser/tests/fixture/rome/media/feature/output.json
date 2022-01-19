@@ -214,35 +214,33 @@
                     "value": "min-width",
                     "raw": "min-width"
                   },
-                  "value": [
-                    {
-                      "type": "UnitValue",
+                  "value": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 98,
+                      "end": 103,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
                       "span": {
                         "start": 98,
+                        "end": 101,
+                        "ctxt": 0
+                      },
+                      "value": 800.0,
+                      "raw": "800"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 101,
                         "end": 103,
                         "ctxt": 0
                       },
-                      "value": {
-                        "type": "Number",
-                        "span": {
-                          "start": 98,
-                          "end": 101,
-                          "ctxt": 0
-                        },
-                        "value": 800.0,
-                        "raw": "800"
-                      },
-                      "unit": {
-                        "span": {
-                          "start": 101,
-                          "end": 103,
-                          "ctxt": 0
-                        },
-                        "value": "px",
-                        "raw": "px"
-                      }
+                      "value": "px",
+                      "raw": "px"
                     }
-                  ]
+                  }
                 }
               ]
             }
@@ -309,35 +307,33 @@
                     "value": "min-width",
                     "raw": "min-width"
                   },
-                  "value": [
-                    {
-                      "type": "UnitValue",
+                  "value": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 154,
+                      "end": 159,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
                       "span": {
                         "start": 154,
+                        "end": 157,
+                        "ctxt": 0
+                      },
+                      "value": 800.0,
+                      "raw": "800"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 157,
                         "end": 159,
                         "ctxt": 0
                       },
-                      "value": {
-                        "type": "Number",
-                        "span": {
-                          "start": 154,
-                          "end": 157,
-                          "ctxt": 0
-                        },
-                        "value": 800.0,
-                        "raw": "800"
-                      },
-                      "unit": {
-                        "span": {
-                          "start": 157,
-                          "end": 159,
-                          "ctxt": 0
-                        },
-                        "value": "px",
-                        "raw": "px"
-                      }
+                      "value": "px",
+                      "raw": "px"
                     }
-                  ]
+                  }
                 }
               ]
             }
@@ -404,35 +400,33 @@
                     "value": "min-width",
                     "raw": "min-width"
                   },
-                  "value": [
-                    {
-                      "type": "UnitValue",
+                  "value": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 202,
+                      "end": 207,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
                       "span": {
                         "start": 202,
+                        "end": 205,
+                        "ctxt": 0
+                      },
+                      "value": 800.0,
+                      "raw": "800"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 205,
                         "end": 207,
                         "ctxt": 0
                       },
-                      "value": {
-                        "type": "Number",
-                        "span": {
-                          "start": 202,
-                          "end": 205,
-                          "ctxt": 0
-                        },
-                        "value": 800.0,
-                        "raw": "800"
-                      },
-                      "unit": {
-                        "span": {
-                          "start": 205,
-                          "end": 207,
-                          "ctxt": 0
-                        },
-                        "value": "px",
-                        "raw": "px"
-                      }
+                      "value": "px",
+                      "raw": "px"
                     }
-                  ]
+                  }
                 },
                 {
                   "type": "MediaAnd",
@@ -458,35 +452,33 @@
                       "value": "min-width",
                       "raw": "min-width"
                     },
-                    "value": [
-                      {
-                        "type": "UnitValue",
+                    "value": {
+                      "type": "UnitValue",
+                      "span": {
+                        "start": 225,
+                        "end": 230,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
                         "span": {
                           "start": 225,
+                          "end": 228,
+                          "ctxt": 0
+                        },
+                        "value": 800.0,
+                        "raw": "800"
+                      },
+                      "unit": {
+                        "span": {
+                          "start": 228,
                           "end": 230,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Number",
-                          "span": {
-                            "start": 225,
-                            "end": 228,
-                            "ctxt": 0
-                          },
-                          "value": 800.0,
-                          "raw": "800"
-                        },
-                        "unit": {
-                          "span": {
-                            "start": 228,
-                            "end": 230,
-                            "ctxt": 0
-                          },
-                          "value": "px",
-                          "raw": "px"
-                        }
+                        "value": "px",
+                        "raw": "px"
                       }
-                    ]
+                    }
                   }
                 },
                 {
@@ -513,35 +505,33 @@
                       "value": "min-width",
                       "raw": "min-width"
                     },
-                    "value": [
-                      {
-                        "type": "UnitValue",
+                    "value": {
+                      "type": "UnitValue",
+                      "span": {
+                        "start": 248,
+                        "end": 253,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
                         "span": {
                           "start": 248,
+                          "end": 251,
+                          "ctxt": 0
+                        },
+                        "value": 800.0,
+                        "raw": "800"
+                      },
+                      "unit": {
+                        "span": {
+                          "start": 251,
                           "end": 253,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Number",
-                          "span": {
-                            "start": 248,
-                            "end": 251,
-                            "ctxt": 0
-                          },
-                          "value": 800.0,
-                          "raw": "800"
-                        },
-                        "unit": {
-                          "span": {
-                            "start": 251,
-                            "end": 253,
-                            "ctxt": 0
-                          },
-                          "value": "px",
-                          "raw": "px"
-                        }
+                        "value": "px",
+                        "raw": "px"
                       }
-                    ]
+                    }
                   }
                 }
               ]
@@ -609,35 +599,33 @@
                     "value": "min-width",
                     "raw": "min-width"
                   },
-                  "value": [
-                    {
-                      "type": "UnitValue",
+                  "value": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 288,
+                      "end": 293,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
                       "span": {
                         "start": 288,
+                        "end": 291,
+                        "ctxt": 0
+                      },
+                      "value": 800.0,
+                      "raw": "800"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 291,
                         "end": 293,
                         "ctxt": 0
                       },
-                      "value": {
-                        "type": "Number",
-                        "span": {
-                          "start": 288,
-                          "end": 291,
-                          "ctxt": 0
-                        },
-                        "value": 800.0,
-                        "raw": "800"
-                      },
-                      "unit": {
-                        "span": {
-                          "start": 291,
-                          "end": 293,
-                          "ctxt": 0
-                        },
-                        "value": "px",
-                        "raw": "px"
-                      }
+                      "value": "px",
+                      "raw": "px"
                     }
-                  ]
+                  }
                 },
                 {
                   "type": "MediaAnd",
@@ -663,35 +651,33 @@
                       "value": "min-width",
                       "raw": "min-width"
                     },
-                    "value": [
-                      {
-                        "type": "UnitValue",
+                    "value": {
+                      "type": "UnitValue",
+                      "span": {
+                        "start": 311,
+                        "end": 316,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
                         "span": {
                           "start": 311,
+                          "end": 314,
+                          "ctxt": 0
+                        },
+                        "value": 800.0,
+                        "raw": "800"
+                      },
+                      "unit": {
+                        "span": {
+                          "start": 314,
                           "end": 316,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Number",
-                          "span": {
-                            "start": 311,
-                            "end": 314,
-                            "ctxt": 0
-                          },
-                          "value": 800.0,
-                          "raw": "800"
-                        },
-                        "unit": {
-                          "span": {
-                            "start": 314,
-                            "end": 316,
-                            "ctxt": 0
-                          },
-                          "value": "px",
-                          "raw": "px"
-                        }
+                        "value": "px",
+                        "raw": "px"
                       }
-                    ]
+                    }
                   }
                 },
                 {
@@ -718,35 +704,33 @@
                       "value": "min-width",
                       "raw": "min-width"
                     },
-                    "value": [
-                      {
-                        "type": "UnitValue",
+                    "value": {
+                      "type": "UnitValue",
+                      "span": {
+                        "start": 334,
+                        "end": 339,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
                         "span": {
                           "start": 334,
+                          "end": 337,
+                          "ctxt": 0
+                        },
+                        "value": 800.0,
+                        "raw": "800"
+                      },
+                      "unit": {
+                        "span": {
+                          "start": 337,
                           "end": 339,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Number",
-                          "span": {
-                            "start": 334,
-                            "end": 337,
-                            "ctxt": 0
-                          },
-                          "value": 800.0,
-                          "raw": "800"
-                        },
-                        "unit": {
-                          "span": {
-                            "start": 337,
-                            "end": 339,
-                            "ctxt": 0
-                          },
-                          "value": "px",
-                          "raw": "px"
-                        }
+                        "value": "px",
+                        "raw": "px"
                       }
-                    ]
+                    }
                   }
                 },
                 {
@@ -773,35 +757,33 @@
                       "value": "min-width",
                       "raw": "min-width"
                     },
-                    "value": [
-                      {
-                        "type": "UnitValue",
+                    "value": {
+                      "type": "UnitValue",
+                      "span": {
+                        "start": 357,
+                        "end": 362,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
                         "span": {
                           "start": 357,
+                          "end": 360,
+                          "ctxt": 0
+                        },
+                        "value": 800.0,
+                        "raw": "800"
+                      },
+                      "unit": {
+                        "span": {
+                          "start": 360,
                           "end": 362,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Number",
-                          "span": {
-                            "start": 357,
-                            "end": 360,
-                            "ctxt": 0
-                          },
-                          "value": 800.0,
-                          "raw": "800"
-                        },
-                        "unit": {
-                          "span": {
-                            "start": 360,
-                            "end": 362,
-                            "ctxt": 0
-                          },
-                          "value": "px",
-                          "raw": "px"
-                        }
+                        "value": "px",
+                        "raw": "px"
                       }
-                    ]
+                    }
                   }
                 }
               ]
