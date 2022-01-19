@@ -11,7 +11,7 @@ use std::{
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_arguments, ident::IdentLike, undefined, ExprFactory, Id};
+use swc_ecma_utils::{ident::IdentLike, undefined, ExprFactory, Id};
 use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `negate_iife`.
@@ -579,7 +579,10 @@ where
             return false;
         }
 
-        if contains_arguments(body) {
+        if idents_used_by(&*body)
+            .iter()
+            .any(|v| v.0 == js_word!("arguments"))
+        {
             return false;
         }
 
@@ -592,7 +595,7 @@ where
         body: &mut BlockStmt,
         args: &mut [ExprOrSpread],
     ) -> Option<Expr> {
-        if !self.can_inline_fn_like(params, &*body) {
+        if !self.can_inline_fn_like(&params, &*body) {
             return None;
         }
 
@@ -705,19 +708,19 @@ where
             })
             | Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
-            }) => self.can_be_inlined_for_iife(arg),
+            }) => self.can_be_inlined_for_iife(&arg),
 
             Expr::Ident(..) => true,
 
             Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
-                self.can_be_inlined_for_iife(obj)
+                self.can_be_inlined_for_iife(&obj)
             }
 
             Expr::Bin(BinExpr {
                 op, left, right, ..
             }) => match op {
                 op!(bin, "+") | op!("*") => {
-                    self.can_be_inlined_for_iife(left) && self.can_be_inlined_for_iife(right)
+                    self.can_be_inlined_for_iife(&left) && self.can_be_inlined_for_iife(&right)
                 }
                 _ => false,
             },
@@ -758,7 +761,7 @@ where
                 is_async: false,
                 is_generator: false,
                 ..
-            }) => params.iter().all(|p| p.is_ident()) && self.can_be_inlined_for_iife(body),
+            }) => params.iter().all(|p| p.is_ident()) && self.can_be_inlined_for_iife(&body),
 
             _ => false,
         }
