@@ -1062,7 +1062,7 @@
         "type": "MediaQueryList",
         "span": {
           "start": 452,
-          "end": 484,
+          "end": 483,
           "ctxt": 0
         },
         "queries": [
@@ -1070,7 +1070,7 @@
             "type": "MediaQuery",
             "span": {
               "start": 452,
-              "end": 484,
+              "end": 483,
               "ctxt": 0
             },
             "modifier": null,
@@ -1079,7 +1079,7 @@
               "type": "MediaCondition",
               "span": {
                 "start": 452,
-                "end": 484,
+                "end": 483,
                 "ctxt": 0
               },
               "conditions": [
@@ -1093,7 +1093,7 @@
                   "condition": {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 455,
+                      "start": 456,
                       "end": 483,
                       "ctxt": 0
                     },

@@ -798,11 +798,35 @@ where
         self.input.skip_ws()?;
 
         let span = self.input.cur_span()?;
-        let conditions = vec![self.parse()?];
+        let conditions = if is!(self, "not") {
+            vec![MediaQueryItem::Not(self.parse()?)]
+        } else {
+            vec![self.parse()?]
+        };
 
         Ok(MediaCondition {
             span: span!(self, span.lo),
             conditions,
+        })
+    }
+}
+
+impl<I> Parse<MediaNot> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<MediaNot> {
+        let span = self.input.cur_span()?;
+
+        expect!(self, "not");
+
+        self.input.skip_ws()?;
+
+        let media_in_parens = self.parse()?;
+
+        Ok(MediaNot {
+            span: span!(self, span.lo),
+            condition: media_in_parens,
         })
     }
 }
@@ -816,14 +840,7 @@ where
 
         let span = self.input.cur_span()?;
 
-        let base = if eat!(self, "not") {
-            let condition = self.parse()?;
-
-            MediaQueryItem::Not(MediaNot {
-                span: span!(self, span.lo),
-                condition,
-            })
-        } else if eat!(self, "only") {
+        let base = if eat!(self, "only") {
             let query = self.parse()?;
             MediaQueryItem::Only(OnlyMediaQuery {
                 span: span!(self, span.lo),

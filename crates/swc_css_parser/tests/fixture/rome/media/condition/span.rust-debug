@@ -632,19 +632,19 @@ error: MediaQueryList
  --> $DIR/tests/fixture/rome/media/condition/input.css:4:8
   |
 4 | @media not (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/rome/media/condition/input.css:4:8
   |
 4 | @media not (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaCondition
  --> $DIR/tests/fixture/rome/media/condition/input.css:4:8
   |
 4 | @media not (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQueryItem
  --> $DIR/tests/fixture/rome/media/condition/input.css:4:8
@@ -659,22 +659,22 @@ error: MediaNot
   |        ^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaInParens
- --> $DIR/tests/fixture/rome/media/condition/input.css:4:11
+ --> $DIR/tests/fixture/rome/media/condition/input.css:4:12
   |
 4 | @media not (min-width: 800px) {}
-  |           ^^^^^^^^^^^^^^^^^^^
+  |            ^^^^^^^^^^^^^^^^^^
 
 error: MediaFeature
- --> $DIR/tests/fixture/rome/media/condition/input.css:4:11
+ --> $DIR/tests/fixture/rome/media/condition/input.css:4:12
   |
 4 | @media not (min-width: 800px) {}
-  |           ^^^^^^^^^^^^^^^^^^^
+  |            ^^^^^^^^^^^^^^^^^^
 
 error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/condition/input.css:4:11
+ --> $DIR/tests/fixture/rome/media/condition/input.css:4:12
   |
 4 | @media not (min-width: 800px) {}
-  |           ^^^^^^^^^^^^^^^^^^^
+  |            ^^^^^^^^^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/media/condition/input.css:4:13

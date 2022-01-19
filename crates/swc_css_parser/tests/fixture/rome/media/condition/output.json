@@ -550,7 +550,7 @@
         "type": "MediaQueryList",
         "span": {
           "start": 209,
-          "end": 232,
+          "end": 231,
           "ctxt": 0
         },
         "queries": [
@@ -558,7 +558,7 @@
             "type": "MediaQuery",
             "span": {
               "start": 209,
-              "end": 232,
+              "end": 231,
               "ctxt": 0
             },
             "modifier": null,
@@ -567,7 +567,7 @@
               "type": "MediaCondition",
               "span": {
                 "start": 209,
-                "end": 232,
+                "end": 231,
                 "ctxt": 0
               },
               "conditions": [
@@ -581,7 +581,7 @@
                   "condition": {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 212,
+                      "start": 213,
                       "end": 231,
                       "ctxt": 0
                     },
