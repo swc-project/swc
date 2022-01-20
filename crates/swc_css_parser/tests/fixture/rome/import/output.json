@@ -24,6 +24,7 @@
         "raw": "\"something.css\""
       },
       "layerName": null,
+      "supports": null,
       "media": null
     },
     {
@@ -64,6 +65,7 @@
         ]
       },
       "layerName": null,
+      "supports": null,
       "media": null
     }
   ]

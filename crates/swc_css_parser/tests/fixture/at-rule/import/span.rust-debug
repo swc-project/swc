@@ -6,9 +6,9 @@ error: Stylesheet
 3  | | @import url(./style.css);
 4  | | @import './style.css';
 ...  |
-18 | | @import url("override.css") layer();
-19 | | /*@import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);*/
-   | |_
+20 | | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+21 | | @import url("fallback-layout.css") supports(not (display: flex));
+   | |__________________________________________________________________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/import/input.css:1:1
@@ -921,4 +921,424 @@ error: Ident
    |
 18 | @import url("override.css") layer();
    |                             ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:1
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:1
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:1
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportHref
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:9
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |         ^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:9
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |         ^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:9
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |         ^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:13
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |             ^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:13
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |             ^^^^^^^^^^^^
+
+error: ImportSupportsType
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:36
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                    ^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:36
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                    ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:36
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                    ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:45
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                             ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:45
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                             ^^^^
+
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:51
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:51
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:51
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                                   ^^^^^^^^
+
+error: MediaConditionWithoutOr
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:64
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionWithoutOrType
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:64
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:64
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:64
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:64
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:65
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                                                 ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:65
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                                                 ^^^^^^^^^
+
+error: MediaFeatureValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:76
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                                                            ^^^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:76
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                                                            ^^^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:76
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                                                            ^^^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:79
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                                                               ^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:1
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:1
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:1
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportHref
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:9
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |         ^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:9
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |         ^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:9
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |         ^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:13
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |             ^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:13
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |             ^^^^^^^^^^^^
+
+error: ImportSupportsType
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:36
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                    ^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:36
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                    ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:36
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                    ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:45
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                             ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:45
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                             ^^^^
+
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:51
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:51
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:51
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                                   ^^^^^^^^
+
+error: MediaConditionWithoutOr
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:64
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionWithoutOrType
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:64
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:64
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:64
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:64
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:65
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                                                 ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:65
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                                                 ^^^^^^^^^
+
+error: MediaFeatureValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:76
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                                                            ^^^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:76
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                                                            ^^^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:76
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                                                            ^^^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:79
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                                                               ^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:1
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:1
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:1
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportHref
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:9
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:9
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:9
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   |         ^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:13
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   |             ^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:13
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   |             ^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportSupportsType
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:45
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   |                                             ^^^^^^^^^^^^^^^^^^^
+
+error: SupportQuery
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:45
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   |                                             ^^^^^^^^^^^^^^^^^^^
+
+error: NotSupportQuery
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:45
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   |                                             ^^^^^^^^^^^^^^^^^^^
+
+error: SupportQuery
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:50
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   |                                                  ^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:50
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   |                                                  ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:50
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   |                                                  ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:59
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   |                                                           ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:59
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   |                                                           ^^^^
 

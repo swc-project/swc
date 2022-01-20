@@ -16,4 +16,6 @@
 @import url("theme.css") LAYER(default);
 /*@import url("tabs.css") layer(framework.component);*/
 @import url("override.css") layer();
-/*@import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);*/
+@import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+@import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+@import url("fallback-layout.css") supports(not (display: flex));

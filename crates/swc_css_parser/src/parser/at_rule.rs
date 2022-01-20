@@ -315,6 +315,25 @@ where
             _ => None,
         };
 
+        let supports = match cur!(self) {
+            Token::Function { value, .. } if *value.to_ascii_lowercase() == *"supports" => {
+                bump!(self);
+
+                self.input.skip_ws()?;
+
+                let supports = if is_one_of!(self, "not", "(") {
+                    ImportSupportsType::SupportQuery(self.parse()?)
+                } else {
+                    ImportSupportsType::Declaration(self.parse()?)
+                };
+
+                expect!(self, ")");
+
+                Some(supports)
+            }
+            _ => None,
+        };
+
         let media = if !is!(self, ";") {
             Some(self.parse()?)
         } else {
@@ -327,6 +346,7 @@ where
             span: span!(self, span.lo),
             href,
             layer_name,
+            supports,
             media,
         })
     }
@@ -767,6 +787,70 @@ where
         } else {
             Ok(true)
         }
+    }
+}
+
+impl<I> Parse<SupportQuery> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<SupportQuery> {
+        self.input.skip_ws()?;
+
+        let span = self.input.cur_span()?;
+
+        if eat!(self, "not") {
+            let query = self.parse()?;
+            return Ok(SupportQuery::Not(NotSupportQuery {
+                span: span!(self, span.lo),
+                query,
+            }));
+        }
+
+        if eat!(self, "(") {
+            self.input.skip_ws()?;
+
+            let query = if is!(self, "(") {
+                let query = self.parse()?;
+
+                SupportQuery::Paren(ParenSupportQuery {
+                    span: span!(self, span.lo),
+                    query,
+                })
+            } else {
+                let declaration = self.parse()?;
+
+                SupportQuery::Declaration(declaration)
+            };
+
+            expect!(self, ")");
+
+            self.input.skip_ws()?;
+
+            if eat!(self, "and") {
+                let right = self.parse()?;
+
+                return Ok(SupportQuery::And(AndSupportQuery {
+                    span: span!(self, span.lo),
+                    left: Box::new(query),
+                    right,
+                }));
+            }
+
+            if eat!(self, "or") {
+                let right = self.parse()?;
+
+                return Ok(SupportQuery::Or(OrSupportQuery {
+                    span: span!(self, span.lo),
+                    left: Box::new(query),
+                    right,
+                }));
+            }
+
+            return Ok(query);
+        }
+
+        Err(Error::new(span, ErrorKind::InvalidSupportQuery))
     }
 }
 

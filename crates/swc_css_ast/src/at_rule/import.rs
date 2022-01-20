@@ -1,4 +1,4 @@
-use crate::{Function, Ident, MediaQueryList, Str, UrlValue};
+use crate::{Declaration, Function, Ident, MediaQueryList, Str, SupportQuery, UrlValue};
 use swc_common::{ast_node, Span};
 
 #[ast_node]
@@ -22,10 +22,19 @@ pub enum ImportLayerName {
     Function(Function),
 }
 
+#[ast_node]
+pub enum ImportSupportsType {
+    #[tag("SupportQuery")]
+    SupportQuery(SupportQuery),
+    #[tag("Declaration")]
+    Declaration(Declaration),
+}
+
 #[ast_node("ImportRule")]
 pub struct ImportRule {
     pub span: Span,
     pub href: ImportHref,
     pub layer_name: Option<ImportLayerName>,
+    pub supports: Option<ImportSupportsType>,
     pub media: Option<MediaQueryList>,
 }

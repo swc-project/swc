@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 597,
+    "end": 829,
     "ctxt": 0
   },
   "rules": [
@@ -44,6 +44,7 @@
         ]
       },
       "layerName": null,
+      "supports": null,
       "media": null
     },
     {
@@ -84,6 +85,7 @@
         ]
       },
       "layerName": null,
+      "supports": null,
       "media": null
     },
     {
@@ -104,6 +106,7 @@
         "raw": "./style.css"
       },
       "layerName": null,
+      "supports": null,
       "media": null
     },
     {
@@ -124,6 +127,7 @@
         "raw": "'./style.css'"
       },
       "layerName": null,
+      "supports": null,
       "media": null
     },
     {
@@ -144,6 +148,7 @@
         "raw": "\"./style.css\""
       },
       "layerName": null,
+      "supports": null,
       "media": null
     },
     {
@@ -184,6 +189,7 @@
         ]
       },
       "layerName": null,
+      "supports": null,
       "media": null
     },
     {
@@ -204,6 +210,7 @@
         "raw": "./style.css"
       },
       "layerName": null,
+      "supports": null,
       "media": null
     },
     {
@@ -244,6 +251,7 @@
         ]
       },
       "layerName": null,
+      "supports": null,
       "media": null
     },
     {
@@ -264,6 +272,7 @@
         "raw": "\"test.css\""
       },
       "layerName": null,
+      "supports": null,
       "media": null
     },
     {
@@ -284,6 +293,7 @@
         "raw": "\"common.css\""
       },
       "layerName": null,
+      "supports": null,
       "media": {
         "type": "MediaQueryList",
         "span": {
@@ -353,6 +363,7 @@
         ]
       },
       "layerName": null,
+      "supports": null,
       "media": {
         "type": "MediaQueryList",
         "span": {
@@ -468,6 +479,7 @@
         "value": "layer",
         "raw": "layer"
       },
+      "supports": null,
       "media": null
     },
     {
@@ -517,6 +529,7 @@
         "value": "layer",
         "raw": "layer"
       },
+      "supports": null,
       "media": null
     },
     {
@@ -566,6 +579,7 @@
         "value": "LAYER",
         "raw": "LAYER"
       },
+      "supports": null,
       "media": null
     },
     {
@@ -635,6 +649,7 @@
           }
         ]
       },
+      "supports": null,
       "media": null
     },
     {
@@ -704,6 +719,7 @@
           }
         ]
       },
+      "supports": null,
       "media": null
     },
     {
@@ -761,6 +777,394 @@
           "raw": "layer"
         },
         "value": []
+      },
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 597,
+        "end": 679,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "Function",
+        "span": {
+          "start": 605,
+          "end": 622,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 605,
+            "end": 608,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "value": [
+          {
+            "type": "String",
+            "span": {
+              "start": 609,
+              "end": 621,
+              "ctxt": 0
+            },
+            "value": "narrow.css",
+            "raw": "\"narrow.css\""
+          }
+        ]
+      },
+      "layerName": null,
+      "supports": {
+        "type": "Declaration",
+        "span": {
+          "start": 632,
+          "end": 645,
+          "ctxt": 0
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 632,
+            "end": 639,
+            "ctxt": 0
+          },
+          "value": "display",
+          "raw": "display"
+        },
+        "value": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 641,
+              "end": 645,
+              "ctxt": 0
+            },
+            "value": "flex",
+            "raw": "flex"
+          }
+        ],
+        "important": null
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 647,
+          "end": 678,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 647,
+              "end": 678,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": {
+              "type": "Identifier",
+              "span": {
+                "start": 647,
+                "end": 655,
+                "ctxt": 0
+              },
+              "value": "handheld",
+              "raw": "handheld"
+            },
+            "condition": {
+              "type": "MediaConditionWithoutOr",
+              "span": {
+                "start": 660,
+                "end": 678,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
+                  "span": {
+                    "start": 660,
+                    "end": 678,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 661,
+                      "end": 670,
+                      "ctxt": 0
+                    },
+                    "value": "max-width",
+                    "raw": "max-width"
+                  },
+                  "value": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 672,
+                      "end": 677,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 672,
+                        "end": 675,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 675,
+                        "end": 677,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 680,
+        "end": 762,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "Function",
+        "span": {
+          "start": 688,
+          "end": 705,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 688,
+            "end": 691,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "value": [
+          {
+            "type": "String",
+            "span": {
+              "start": 692,
+              "end": 704,
+              "ctxt": 0
+            },
+            "value": "narrow.css",
+            "raw": "\"narrow.css\""
+          }
+        ]
+      },
+      "layerName": null,
+      "supports": {
+        "type": "Declaration",
+        "span": {
+          "start": 715,
+          "end": 728,
+          "ctxt": 0
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 715,
+            "end": 722,
+            "ctxt": 0
+          },
+          "value": "display",
+          "raw": "display"
+        },
+        "value": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 724,
+              "end": 728,
+              "ctxt": 0
+            },
+            "value": "flex",
+            "raw": "flex"
+          }
+        ],
+        "important": null
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 730,
+          "end": 761,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 730,
+              "end": 761,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": {
+              "type": "Identifier",
+              "span": {
+                "start": 730,
+                "end": 738,
+                "ctxt": 0
+              },
+              "value": "handheld",
+              "raw": "handheld"
+            },
+            "condition": {
+              "type": "MediaConditionWithoutOr",
+              "span": {
+                "start": 743,
+                "end": 761,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
+                  "span": {
+                    "start": 743,
+                    "end": 761,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 744,
+                      "end": 753,
+                      "ctxt": 0
+                    },
+                    "value": "max-width",
+                    "raw": "max-width"
+                  },
+                  "value": {
+                    "type": "UnitValue",
+                    "span": {
+                      "start": 755,
+                      "end": 760,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 755,
+                        "end": 758,
+                        "ctxt": 0
+                      },
+                      "value": 400.0,
+                      "raw": "400"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 758,
+                        "end": 760,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 763,
+        "end": 828,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "Function",
+        "span": {
+          "start": 771,
+          "end": 797,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 771,
+            "end": 774,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "value": [
+          {
+            "type": "String",
+            "span": {
+              "start": 775,
+              "end": 796,
+              "ctxt": 0
+            },
+            "value": "fallback-layout.css",
+            "raw": "\"fallback-layout.css\""
+          }
+        ]
+      },
+      "layerName": null,
+      "supports": {
+        "type": "NotSupportQuery",
+        "span": {
+          "start": 807,
+          "end": 826,
+          "ctxt": 0
+        },
+        "query": {
+          "type": "Declaration",
+          "span": {
+            "start": 812,
+            "end": 825,
+            "ctxt": 0
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 812,
+              "end": 819,
+              "ctxt": 0
+            },
+            "value": "display",
+            "raw": "display"
+          },
+          "value": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 821,
+                "end": 825,
+                "ctxt": 0
+              },
+              "value": "flex",
+              "raw": "flex"
+            }
+          ],
+          "important": null
+        }
       },
       "media": null
     }
