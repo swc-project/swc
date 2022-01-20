@@ -741,13 +741,7 @@ where
         let state = self.input.state();
 
         // TODO uppercase acceptable
-        let mut modifier = if is!(self, "not") {
-            let modifier = Some(self.parse()?);
-
-            self.input.skip_ws()?;
-
-            modifier
-        } else if is!(self, "only") {
+        let mut modifier = if is!(self, "not") || is!(self, "only") {
             let modifier = Some(self.parse()?);
 
             self.input.skip_ws()?;
@@ -759,9 +753,7 @@ where
 
         let mut last_pos = self.input.last_pos()?;
 
-        let media_type = if !is!(self, Ident) {
-            None
-        } else if is_one_of!(self, "not", "and", "or", "only") {
+        let media_type = if !is!(self, Ident) || is_one_of!(self, "not", "and", "or", "only") {
             None
         } else {
             let media_type = Some(self.parse()?);
