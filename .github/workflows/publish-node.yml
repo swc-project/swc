@@ -73,16 +73,16 @@ jobs:
               cp ./target/aarch64-apple-darwin/release/swc .
               yarn build --target=aarch64-apple-darwin
               strip -x *.node
-          - host: ubuntu-latest
+          - host: ubuntu-18.04
             target: aarch64-unknown-linux-gnu
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine-zig
-            build: >-
-              set -e &&
-              rustup target add aarch64-unknown-linux-gnu aarch64-unknown-linux-musl &&
-              RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release --target aarch64-unknown-linux-musl &&
-              cp ./target/aarch64-unknown-linux-musl/release/swc . &&
-              yarn build --target aarch64-unknown-linux-gnu --zig --zig-abi-suffix 2.17 &&
-              llvm-strip -x swc.linux-arm64-gnu.node
+            setup: |
+              sudo apt-get update
+              sudo apt-get install g++-aarch64-linux-gnu gcc-aarch64-linux-gnu -y
+            build: |
+              cargo build -p swc_cli --release --target=aarch64-unknown-linux-gnu
+              cp ./target/aarch64-unknown-linux-gnu/release/swc .
+              yarn build --target=aarch64-unknown-linux-gnu
+              aarch64-linux-gnu-strip swc.linux-arm64-gnu.node
           - host: ubuntu-18.04
             target: armv7-unknown-linux-gnueabihf
             setup: |
@@ -118,15 +118,13 @@ jobs:
           - host: ubuntu-latest
             target: aarch64-unknown-linux-musl
             downloadTarget: aarch64-unknown-linux-musl
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-            build: >-
-              rustup toolchain install $(cat ./rust-toolchain) &&
-              rustup target add aarch64-unknown-linux-musl &&
-              RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release --target aarch64-unknown-linux-musl &&
-              rm -rf target/release/.cargo-lock &&
-              cp target/aarch64-unknown-linux-musl/release/swc . &&
-              env RUSTFLAGS='-C target-feature=-crt-static -Z new-llvm-pass-manager=no' yarn build --target=aarch64-unknown-linux-musl &&
-              /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip swc.linux-arm64-musl.node
+            docker: |
+              docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY_URL
+              docker pull ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+              docker tag ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine builder
+            build: |
+              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder sh -c "rustup toolchain install $(cat ./rust-toolchain) && rustup target add aarch64-unknown-linux-musl && env RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release --target=aarch64-unknown-linux-musl && rm -rf target/release/.cargo-lock" && cp target/aarch64-unknown-linux-musl/release/swc .
+              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder sh -c "rustup toolchain install $(cat ./rust-toolchain) && rustup target add aarch64-unknown-linux-musl && env RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static -Z new-llvm-pass-manager=no' yarn build --target=aarch64-unknown-linux-musl && /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip swc.linux-arm64-musl.node"
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             build: |
