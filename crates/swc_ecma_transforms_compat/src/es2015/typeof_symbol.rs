@@ -34,25 +34,21 @@ impl VisitMut for TypeOfSymbol {
             }
         }
 
-        match *expr.left {
-            Expr::Unary(UnaryExpr {
-                op: op!("typeof"), ..
-            }) => {
-                if is_non_symbol_literal(&expr.right) {
-                    return;
-                }
+        if let Expr::Unary(UnaryExpr {
+            op: op!("typeof"), ..
+        }) = *expr.left
+        {
+            if is_non_symbol_literal(&expr.right) {
+                return;
             }
-            _ => {}
         }
-        match *expr.right {
-            Expr::Unary(UnaryExpr {
-                op: op!("typeof"), ..
-            }) => {
-                if is_non_symbol_literal(&expr.left) {
-                    return;
-                }
+        if let Expr::Unary(UnaryExpr {
+            op: op!("typeof"), ..
+        }) = *expr.right
+        {
+            if is_non_symbol_literal(&expr.left) {
+                return;
             }
-            _ => {}
         }
 
         expr.visit_mut_children_with(self)
@@ -61,12 +57,13 @@ impl VisitMut for TypeOfSymbol {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
 
-        match expr {
-            Expr::Unary(UnaryExpr {
-                span,
-                op: op!("typeof"),
-                arg,
-            }) => match &**arg {
+        if let Expr::Unary(UnaryExpr {
+            span,
+            op: op!("typeof"),
+            arg,
+        }) = expr
+        {
+            match &**arg {
                 Expr::Ident(..) => {
                     let undefined_str = quote_str!("undefined");
                     let undefined_str = Box::new(Expr::Lit(Lit::Str(undefined_str)));
@@ -108,8 +105,7 @@ impl VisitMut for TypeOfSymbol {
 
                     *expr = call;
                 }
-            },
-            _ => {}
+            }
         }
     }
 
@@ -124,12 +120,11 @@ impl VisitMut for TypeOfSymbol {
     fn visit_mut_function(&mut self, f: &mut Function) {
         if let Some(body) = &f.body {
             if let Some(Stmt::Expr(first)) = body.stmts.get(0) {
-                match &*first.expr {
-                    Expr::Lit(Lit::Str(s)) => match &*s.value {
+                if let Expr::Lit(Lit::Str(s)) = &*first.expr {
+                    match &*s.value {
                         "@swc/helpers - typeof" | "@babel/helpers - typeof" => return,
                         _ => {}
-                    },
-                    _ => {}
+                    }
                 }
             }
         }
@@ -140,45 +135,35 @@ impl VisitMut for TypeOfSymbol {
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
         v.visit_mut_children_with(self);
 
-        match &v.name {
-            Pat::Ident(i) => {
-                if &i.id.sym == "_typeof" {
-                    return;
-                }
-            }
-            _ => {}
+        if let Pat::Ident(i) = &v.name {
+            if &i.id.sym == "_typeof" {}
         }
     }
 }
 
 fn is_non_symbol_literal(e: &Expr) -> bool {
-    match *e {
+    matches!(
+        *e,
         Expr::Lit(Lit::Str(Str {
             value: js_word!("undefined"),
             ..
-        }))
-        | Expr::Lit(Lit::Str(Str {
+        })) | Expr::Lit(Lit::Str(Str {
             value: js_word!("object"),
             ..
-        }))
-        | Expr::Lit(Lit::Str(Str {
+        })) | Expr::Lit(Lit::Str(Str {
             value: js_word!("boolean"),
             ..
-        }))
-        | Expr::Lit(Lit::Str(Str {
+        })) | Expr::Lit(Lit::Str(Str {
             value: js_word!("number"),
             ..
-        }))
-        | Expr::Lit(Lit::Str(Str {
+        })) | Expr::Lit(Lit::Str(Str {
             value: js_word!("string"),
             ..
-        }))
-        | Expr::Lit(Lit::Str(Str {
+        })) | Expr::Lit(Lit::Str(Str {
             value: js_word!("function"),
             ..
-        })) => true,
-        _ => false,
-    }
+        }))
+    )
 }
 
 #[cfg(test)]

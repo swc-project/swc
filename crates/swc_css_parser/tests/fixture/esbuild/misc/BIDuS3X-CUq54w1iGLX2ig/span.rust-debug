@@ -52,6 +52,12 @@ error: Str
 1 | @import url("foo.css") print;
   |             ^^^^^^^^^
 
+error: MediaQueryList
+ --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:24
+  |
+1 | @import url("foo.css") print;
+  |                        ^^^^^
+
 error: MediaQuery
  --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:24
   |

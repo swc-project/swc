@@ -120,8 +120,11 @@ impl OptChaining {
                     .take()
                     .into_par_iter()
                     .map(|stmt| {
-                        GLOBALS.set(&globals, || {
-                            let mut visitor = Self::default();
+                        GLOBALS.set(globals, || {
+                            let mut visitor = OptChaining {
+                                c: self.c,
+                                ..Self::default()
+                            };
                             visitor.c = self.c;
                             let mut stmts = Vec::with_capacity(3);
                             visitor.visit_mut_one_stmt_to(stmt, &mut stmts);
@@ -484,10 +487,7 @@ impl OptChaining {
                 ..
             }) => {
                 let obj_span = obj.span();
-                let is_super_access = match **obj {
-                    Expr::SuperProp(_) => true,
-                    _ => false,
-                };
+                let is_super_access = matches!(**obj, Expr::SuperProp(_));
 
                 let (left, right, alt) = match &**obj {
                     Expr::Ident(ident) => (
@@ -499,7 +499,7 @@ impl OptChaining {
                             e.expr.take()
                         },
                     ),
-                    _ if is_simple_expr(&obj) && self.c.pure_getter => {
+                    _ if is_simple_expr(obj) && self.c.pure_getter => {
                         (obj.clone(), obj.clone(), e.expr.take())
                     }
                     _ => {
@@ -573,11 +573,11 @@ impl OptChaining {
                                 callee: Callee::Expr(Box::new(if should_call {
                                     Expr::Member(MemberExpr {
                                         span: DUMMY_SP,
-                                        obj: Box::new(Expr::Ident(tmp.clone())),
+                                        obj: Box::new(Expr::Ident(tmp)),
                                         prop: MemberProp::Ident(Ident::new("call".into(), span)),
                                     })
                                 } else {
-                                    Expr::Ident(tmp.clone())
+                                    Expr::Ident(tmp)
                                 })),
                                 args: if should_call {
                                     once(if is_super_access {

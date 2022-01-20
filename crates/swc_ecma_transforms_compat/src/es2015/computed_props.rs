@@ -73,251 +73,246 @@ impl VisitMut for ComputedProps {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
 
-        match expr {
-            Expr::Object(ObjectLit { props, span }) => {
-                if !is_complex(props) {
-                    return;
-                }
+        if let Expr::Object(ObjectLit { props, span }) = expr {
+            if !is_complex(props) {
+                return;
+            }
 
-                let mark = Mark::fresh(Mark::root());
-                let obj_ident = quote_ident!(span.apply_mark(mark), "_obj");
+            let mark = Mark::fresh(Mark::root());
+            let obj_ident = quote_ident!(span.apply_mark(mark), "_obj");
 
-                let mut exprs = Vec::with_capacity(props.len() + 2);
-                let mutator_map = quote_ident!(span.apply_mark(mark), "_mutatorMap");
+            let mut exprs = Vec::with_capacity(props.len() + 2);
+            let mutator_map = quote_ident!(span.apply_mark(mark), "_mutatorMap");
 
-                // Optimization
-                let obj_props = {
-                    let idx = props.iter().position(|v| is_complex(v)).unwrap_or(0);
+            // Optimization
+            let obj_props = {
+                let idx = props.iter().position(is_complex).unwrap_or(0);
 
-                    props.drain(0..idx).collect()
-                };
+                props.drain(0..idx).collect()
+            };
 
-                let props_cnt = props.len();
+            let props_cnt = props.len();
 
-                self.used_define_enum_props = props.iter().any(|pp| match *pp {
-                    PropOrSpread::Prop(ref p) if p.is_getter() || p.is_setter() => true,
-                    _ => false,
-                });
+            self.used_define_enum_props = props.iter().any(
+                |pp| matches!(*pp, PropOrSpread::Prop(ref p) if p.is_getter() || p.is_setter()),
+            );
 
-                exprs.push(
-                    if !self.c.loose && props_cnt == 1 && !self.used_define_enum_props {
-                        Box::new(Expr::Object(ObjectLit {
+            exprs.push(
+                if !self.c.loose && props_cnt == 1 && !self.used_define_enum_props {
+                    Box::new(Expr::Object(ObjectLit {
+                        span: DUMMY_SP,
+                        props: obj_props,
+                    }))
+                } else {
+                    Box::new(Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        left: PatOrExpr::Pat(obj_ident.clone().into()),
+                        op: op!("="),
+                        right: Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: obj_props,
-                        }))
-                    } else {
-                        Box::new(Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            left: PatOrExpr::Pat(obj_ident.clone().into()),
-                            op: op!("="),
-                            right: Box::new(Expr::Object(ObjectLit {
-                                span: DUMMY_SP,
-                                props: obj_props,
-                            })),
-                        }))
-                    },
-                );
+                        })),
+                    }))
+                },
+            );
 
-                let mut single_cnt_prop = None;
+            let mut single_cnt_prop = None;
 
-                for prop in props.drain(..) {
-                    let span = prop.span();
+            for prop in props.drain(..) {
+                let span = prop.span();
 
-                    let ((key, is_compute), value) = match prop {
-                        PropOrSpread::Prop(prop) => match *prop {
-                            Prop::Shorthand(ident) => (
-                                (
-                                    if self.c.loose {
-                                        Expr::Ident(ident.clone())
-                                    } else {
-                                        Expr::Lit(Lit::Str(Str {
-                                            span: ident.span,
-                                            value: ident.sym.clone(),
-                                            has_escape: false,
-                                            kind: Default::default(),
-                                        }))
-                                    },
-                                    false,
-                                ),
-                                Expr::Ident(ident),
+                let ((key, is_compute), value) = match prop {
+                    PropOrSpread::Prop(prop) => match *prop {
+                        Prop::Shorthand(ident) => (
+                            (
+                                if self.c.loose {
+                                    Expr::Ident(ident.clone())
+                                } else {
+                                    Expr::Lit(Lit::Str(Str {
+                                        span: ident.span,
+                                        value: ident.sym.clone(),
+                                        has_escape: false,
+                                        kind: Default::default(),
+                                    }))
+                                },
+                                false,
                             ),
-                            Prop::KeyValue(KeyValueProp { key, value }) => {
-                                (prop_name_to_expr(key, self.c.loose), *value)
-                            }
-                            Prop::Assign(..) => {
-                                unreachable!("assign property in object literal is invalid")
-                            }
-                            prop @ Prop::Getter(GetterProp { .. })
-                            | prop @ Prop::Setter(SetterProp { .. }) => {
-                                self.used_define_enum_props = true;
+                            Expr::Ident(ident),
+                        ),
+                        Prop::KeyValue(KeyValueProp { key, value }) => {
+                            (prop_name_to_expr(key, self.c.loose), *value)
+                        }
+                        Prop::Assign(..) => {
+                            unreachable!("assign property in object literal is invalid")
+                        }
+                        prop @ Prop::Getter(GetterProp { .. })
+                        | prop @ Prop::Setter(SetterProp { .. }) => {
+                            self.used_define_enum_props = true;
 
-                                // getter/setter property name
-                                let gs_prop_name = match prop {
-                                    Prop::Getter(..) => Some("get"),
-                                    Prop::Setter(..) => Some("set"),
-                                    _ => None,
-                                };
-                                let (key, function) = match prop {
-                                    Prop::Getter(GetterProp {
+                            // getter/setter property name
+                            let gs_prop_name = match prop {
+                                Prop::Getter(..) => Some("get"),
+                                Prop::Setter(..) => Some("set"),
+                                _ => None,
+                            };
+                            let (key, function) = match prop {
+                                Prop::Getter(GetterProp {
+                                    span,
+                                    body,
+                                    key,
+                                    type_ann,
+                                }) => (
+                                    key,
+                                    Function {
                                         span,
                                         body,
-                                        key,
-                                        type_ann,
-                                    }) => (
-                                        key,
-                                        Function {
-                                            span,
-                                            body,
-                                            is_async: false,
-                                            is_generator: false,
-                                            params: vec![],
-                                            decorators: Default::default(),
-                                            type_params: Default::default(),
-                                            return_type: type_ann,
-                                        },
-                                    ),
-                                    Prop::Setter(SetterProp {
+                                        is_async: false,
+                                        is_generator: false,
+                                        params: vec![],
+                                        decorators: Default::default(),
+                                        type_params: Default::default(),
+                                        return_type: type_ann,
+                                    },
+                                ),
+                                Prop::Setter(SetterProp {
+                                    span,
+                                    body,
+                                    param,
+                                    key,
+                                }) => (
+                                    key,
+                                    Function {
                                         span,
                                         body,
-                                        param,
-                                        key,
-                                    }) => (
-                                        key,
-                                        Function {
-                                            span,
-                                            body,
-                                            is_async: false,
-                                            is_generator: false,
-                                            params: vec![Param {
-                                                span: DUMMY_SP,
-                                                decorators: Default::default(),
-                                                pat: param,
-                                            }],
+                                        is_async: false,
+                                        is_generator: false,
+                                        params: vec![Param {
+                                            span: DUMMY_SP,
                                             decorators: Default::default(),
-                                            type_params: Default::default(),
-                                            return_type: Default::default(),
-                                        },
-                                    ),
-                                    _ => unreachable!(),
-                                };
+                                            pat: param,
+                                        }],
+                                        decorators: Default::default(),
+                                        type_params: Default::default(),
+                                        return_type: Default::default(),
+                                    },
+                                ),
+                                _ => unreachable!(),
+                            };
 
-                                // mutator[f]
-                                let mutator_elem = mutator_map
-                                    .clone()
-                                    .computed_member(prop_name_to_expr(key, false).0);
+                            // mutator[f]
+                            let mutator_elem = mutator_map
+                                .clone()
+                                .computed_member(prop_name_to_expr(key, false).0);
 
-                                // mutator[f] = mutator[f] || {}
-                                exprs.push(Box::new(Expr::Assign(AssignExpr {
+                            // mutator[f] = mutator[f] || {}
+                            exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                span,
+                                left: PatOrExpr::Expr(Box::new(mutator_elem.clone())),
+                                op: op!("="),
+                                right: Box::new(Expr::Bin(BinExpr {
                                     span,
-                                    left: PatOrExpr::Expr(Box::new(mutator_elem.clone())),
-                                    op: op!("="),
-                                    right: Box::new(Expr::Bin(BinExpr {
+                                    left: Box::new(mutator_elem.clone()),
+                                    op: op!("||"),
+                                    right: Box::new(Expr::Object(ObjectLit {
                                         span,
-                                        left: Box::new(mutator_elem.clone()),
-                                        op: op!("||"),
-                                        right: Box::new(Expr::Object(ObjectLit {
-                                            span,
-                                            props: vec![],
-                                        })),
+                                        props: vec![],
                                     })),
-                                })));
+                                })),
+                            })));
 
-                                // mutator[f].get = function(){}
-                                exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                    span,
-                                    left: PatOrExpr::Expr(Box::new(
-                                        mutator_elem
-                                            .make_member(quote_ident!(gs_prop_name.unwrap())),
-                                    )),
-                                    op: op!("="),
-                                    right: Box::new(Expr::Fn(FnExpr {
-                                        ident: None,
-                                        function,
-                                    })),
-                                })));
-
-                                continue;
-                                // unimplemented!("getter /setter property")
-                            }
-                            Prop::Method(MethodProp { key, function }) => (
-                                prop_name_to_expr(key, self.c.loose),
-                                Expr::Fn(FnExpr {
+                            // mutator[f].get = function(){}
+                            exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                span,
+                                left: PatOrExpr::Expr(Box::new(
+                                    mutator_elem.make_member(quote_ident!(gs_prop_name.unwrap())),
+                                )),
+                                op: op!("="),
+                                right: Box::new(Expr::Fn(FnExpr {
                                     ident: None,
                                     function,
-                                }),
-                            ),
-                        },
-                        PropOrSpread::Spread(..) => unimplemented!("computed spread property"),
-                    };
+                                })),
+                            })));
 
-                    if !self.c.loose && props_cnt == 1 {
-                        single_cnt_prop = Some(Expr::Call(CallExpr {
-                            span,
-                            callee: helper!(define_property, "defineProperty"),
-                            args: vec![exprs.pop().unwrap().as_arg(), key.as_arg(), value.as_arg()],
-                            type_args: Default::default(),
-                        }));
-                        break;
-                    }
-                    exprs.push(if self.c.loose {
-                        let left = if is_compute {
-                            obj_ident.clone().computed_member(key)
-                        } else {
-                            obj_ident.clone().make_member(key.ident().unwrap())
-                        };
-                        Box::new(Expr::Assign(AssignExpr {
-                            span,
-                            op: op!("="),
-                            left: PatOrExpr::Expr(Box::new(left)),
-                            right: value.into(),
-                        }))
-                    } else {
-                        Box::new(Expr::Call(CallExpr {
-                            span,
-                            callee: helper!(define_property, "defineProperty"),
-                            args: vec![obj_ident.clone().as_arg(), key.as_arg(), value.as_arg()],
-                            type_args: Default::default(),
-                        }))
-                    });
-                }
+                            continue;
+                            // unimplemented!("getter /setter property")
+                        }
+                        Prop::Method(MethodProp { key, function }) => (
+                            prop_name_to_expr(key, self.c.loose),
+                            Expr::Fn(FnExpr {
+                                ident: None,
+                                function,
+                            }),
+                        ),
+                    },
+                    PropOrSpread::Spread(..) => unimplemented!("computed spread property"),
+                };
 
-                if let Some(single_expr) = single_cnt_prop {
-                    *expr = single_expr;
-                    return;
-                }
-
-                self.vars.push(VarDeclarator {
-                    span: *span,
-                    name: obj_ident.clone().into(),
-                    init: None,
-                    definite: false,
-                });
-                if self.used_define_enum_props {
-                    self.vars.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: mutator_map.clone().into(),
-                        init: Some(Box::new(Expr::Object(ObjectLit {
-                            span: DUMMY_SP,
-                            props: vec![],
-                        }))),
-                        definite: false,
-                    });
-                    exprs.push(Box::new(Expr::Call(CallExpr {
-                        span: *span,
-                        callee: helper!(define_enumerable_properties, "defineEnumerableProperties"),
-                        args: vec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
+                if !self.c.loose && props_cnt == 1 {
+                    single_cnt_prop = Some(Expr::Call(CallExpr {
+                        span,
+                        callee: helper!(define_property, "defineProperty"),
+                        args: vec![exprs.pop().unwrap().as_arg(), key.as_arg(), value.as_arg()],
                         type_args: Default::default(),
-                    })));
+                    }));
+                    break;
                 }
-
-                // Last value
-                exprs.push(Box::new(Expr::Ident(obj_ident)));
-                *expr = Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
-                    exprs,
+                exprs.push(if self.c.loose {
+                    let left = if is_compute {
+                        obj_ident.clone().computed_member(key)
+                    } else {
+                        obj_ident.clone().make_member(key.ident().unwrap())
+                    };
+                    Box::new(Expr::Assign(AssignExpr {
+                        span,
+                        op: op!("="),
+                        left: PatOrExpr::Expr(Box::new(left)),
+                        right: value.into(),
+                    }))
+                } else {
+                    Box::new(Expr::Call(CallExpr {
+                        span,
+                        callee: helper!(define_property, "defineProperty"),
+                        args: vec![obj_ident.clone().as_arg(), key.as_arg(), value.as_arg()],
+                        type_args: Default::default(),
+                    }))
                 });
             }
-            _ => {}
+
+            if let Some(single_expr) = single_cnt_prop {
+                *expr = single_expr;
+                return;
+            }
+
+            self.vars.push(VarDeclarator {
+                span: *span,
+                name: obj_ident.clone().into(),
+                init: None,
+                definite: false,
+            });
+            if self.used_define_enum_props {
+                self.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: mutator_map.clone().into(),
+                    init: Some(Box::new(Expr::Object(ObjectLit {
+                        span: DUMMY_SP,
+                        props: vec![],
+                    }))),
+                    definite: false,
+                });
+                exprs.push(Box::new(Expr::Call(CallExpr {
+                    span: *span,
+                    callee: helper!(define_enumerable_properties, "defineEnumerableProperties"),
+                    args: vec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
+                    type_args: Default::default(),
+                })));
+            }
+
+            // Last value
+            exprs.push(Box::new(Expr::Ident(obj_ident)));
+            *expr = Expr::Seq(SeqExpr {
+                span: DUMMY_SP,
+                exprs,
+            });
         };
     }
 }
@@ -337,9 +332,8 @@ impl Visit for ComplexVisitor {
     noop_visit_type!();
 
     fn visit_prop_name(&mut self, pn: &PropName) {
-        match *pn {
-            PropName::Computed(..) => self.found = true,
-            _ => {}
+        if let PropName::Computed(..) = *pn {
+            self.found = true
         }
     }
 }
@@ -422,9 +416,8 @@ impl Visit for ShouldWork {
     noop_visit_type!();
 
     fn visit_prop_name(&mut self, node: &PropName) {
-        match *node {
-            PropName::Computed(_) => self.found = true,
-            _ => {}
+        if let PropName::Computed(_) = *node {
+            self.found = true
         }
     }
 }

@@ -352,7 +352,7 @@ define!({
         pub span: Span,
         pub href: ImportHref,
         pub layer_name: Option<ImportLayerName>,
-        pub media: Option<MediaQuery>,
+        pub media: Option<MediaQueryList>,
     }
 
     pub struct FontFaceRule {
@@ -439,47 +439,113 @@ define!({
 
     pub struct MediaRule {
         pub span: Span,
-
-        pub query: Box<MediaQuery>,
-
+        pub media: MediaQueryList,
         pub rules: Vec<Rule>,
     }
 
-    pub enum MediaQuery {
-        Ident(Ident),
-        And(AndMediaQuery),
-        Or(OrMediaQuery),
-        Not(NotMediaQuery),
-        Only(OnlyMediaQuery),
-        Declaration(Declaration),
-        Comma(CommaMediaQuery),
-    }
-
-    pub struct AndMediaQuery {
-        pub span: Span,
-        pub left: Box<MediaQuery>,
-        pub right: Box<MediaQuery>,
-    }
-
-    pub struct OrMediaQuery {
-        pub span: Span,
-        pub left: Box<MediaQuery>,
-        pub right: Box<MediaQuery>,
-    }
-
-    pub struct NotMediaQuery {
-        pub span: Span,
-        pub query: Box<MediaQuery>,
-    }
-
-    pub struct OnlyMediaQuery {
-        pub span: Span,
-        pub query: Box<MediaQuery>,
-    }
-
-    pub struct CommaMediaQuery {
+    pub struct MediaQueryList {
         pub span: Span,
         pub queries: Vec<MediaQuery>,
+    }
+
+    pub struct MediaQuery {
+        pub span: Span,
+        pub modifier: Option<Ident>,
+        pub media_type: Option<Ident>,
+        pub condition: Option<MediaConditionType>,
+    }
+
+    pub enum MediaConditionType {
+        All(MediaCondition),
+        WithoutOr(MediaConditionWithoutOr),
+    }
+
+    pub struct MediaCondition {
+        pub span: Span,
+        pub conditions: Vec<MediaConditionAllType>,
+    }
+
+    pub struct MediaConditionWithoutOr {
+        pub span: Span,
+        pub conditions: Vec<MediaConditionWithoutOrType>,
+    }
+
+    pub enum MediaConditionAllType {
+        Not(MediaNot),
+        And(MediaAnd),
+        Or(MediaOr),
+        MediaInParens(MediaInParens),
+    }
+
+    pub enum MediaConditionWithoutOrType {
+        Not(MediaNot),
+        And(MediaAnd),
+        MediaInParens(MediaInParens),
+    }
+
+    pub struct MediaNot {
+        pub span: Span,
+        pub condition: MediaInParens,
+    }
+
+    pub struct MediaAnd {
+        pub span: Span,
+        pub condition: MediaInParens,
+    }
+
+    pub struct MediaOr {
+        pub span: Span,
+        pub condition: MediaInParens,
+    }
+
+    pub enum MediaInParens {
+        MediaCondition(MediaCondition),
+        Feature(MediaFeature),
+    }
+
+    pub enum MediaFeature {
+        Plain(MediaFeaturePlain),
+        Boolean(MediaFeatureBoolean),
+        Range(MediaFeatureRange),
+        RangeInterval(MediaFeatureRangeInterval),
+    }
+
+    pub enum MediaFeatureName {
+        Ident(Ident),
+    }
+
+    pub enum MediaFeatureValue {
+        Number(Num),
+        Dimension(UnitValue),
+        Ident(Ident),
+        Ratio(BinValue),
+    }
+
+    pub struct MediaFeaturePlain {
+        pub span: Span,
+        pub name: MediaFeatureName,
+        pub value: MediaFeatureValue,
+    }
+
+    pub struct MediaFeatureBoolean {
+        pub span: Span,
+        pub name: MediaFeatureName,
+    }
+
+    pub struct MediaFeatureRange {
+        pub span: Span,
+        pub left: MediaFeatureValue,
+        pub comparison: MediaFeatureRangeComparison,
+        pub right: MediaFeatureValue,
+    }
+
+    pub struct MediaFeatureRangeInterval {
+        pub span: Span,
+        pub left: MediaFeatureValue,
+        pub left_comparison: MediaFeatureRangeComparison,
+        pub name: MediaFeatureName,
+        pub right_comparison: MediaFeatureRangeComparison,
+        pub right: MediaFeatureValue,
     }
 
     pub struct PageRule {

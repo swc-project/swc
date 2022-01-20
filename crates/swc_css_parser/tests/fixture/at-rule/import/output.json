@@ -285,14 +285,34 @@
       },
       "layerName": null,
       "media": {
-        "type": "Identifier",
+        "type": "MediaQueryList",
         "span": {
           "start": 250,
           "end": 256,
           "ctxt": 0
         },
-        "value": "screen",
-        "raw": "screen"
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 250,
+              "end": 256,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": {
+              "type": "Identifier",
+              "span": {
+                "start": 250,
+                "end": 256,
+                "ctxt": 0
+              },
+              "value": "screen",
+              "raw": "screen"
+            },
+            "condition": null
+          }
+        ]
       }
     },
     {
@@ -334,53 +354,71 @@
       },
       "layerName": null,
       "media": {
-        "type": "AndMediaQuery",
+        "type": "MediaQueryList",
         "span": {
           "start": 287,
           "end": 321,
           "ctxt": 0
         },
-        "left": {
-          "type": "Identifier",
-          "span": {
-            "start": 287,
-            "end": 293,
-            "ctxt": 0
-          },
-          "value": "screen",
-          "raw": "screen"
-        },
-        "right": {
-          "type": "Declaration",
-          "span": {
-            "start": 299,
-            "end": 321,
-            "ctxt": 0
-          },
-          "property": {
-            "type": "Identifier",
+        "queries": [
+          {
+            "type": "MediaQuery",
             "span": {
-              "start": 299,
-              "end": 310,
+              "start": 287,
+              "end": 321,
               "ctxt": 0
             },
-            "value": "orientation",
-            "raw": "orientation"
-          },
-          "value": [
-            {
+            "modifier": null,
+            "mediaType": {
               "type": "Identifier",
               "span": {
-                "start": 311,
-                "end": 320,
+                "start": 287,
+                "end": 293,
                 "ctxt": 0
               },
-              "value": "landscape",
-              "raw": "landscape"
+              "value": "screen",
+              "raw": "screen"
+            },
+            "condition": {
+              "type": "MediaConditionWithoutOr",
+              "span": {
+                "start": 298,
+                "end": 321,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
+                  "span": {
+                    "start": 298,
+                    "end": 321,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 299,
+                      "end": 310,
+                      "ctxt": 0
+                    },
+                    "value": "orientation",
+                    "raw": "orientation"
+                  },
+                  "value": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 311,
+                      "end": 320,
+                      "ctxt": 0
+                    },
+                    "value": "landscape",
+                    "raw": "landscape"
+                  }
+                }
+              ]
             }
-          ],
-          "important": null
-        }
+          }
+        ]
       }
     },
     {

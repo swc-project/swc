@@ -117,10 +117,10 @@ where
             });
         }
 
-        return Ok(Combinator {
+        Ok(Combinator {
             span,
             value: CombinatorValue::Descendant,
-        });
+        })
     }
 
     fn parse_ns_prefix(&mut self) -> PResult<Option<Ident>> {
@@ -437,8 +437,8 @@ where
 
                 NthValue::Ident(Ident {
                     span: span!(self, span.lo),
-                    value: names.0.into(),
-                    raw: names.1.into(),
+                    value: names.0,
+                    raw: names.1,
                 })
             }
             // <integer>

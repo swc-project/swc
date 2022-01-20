@@ -113,69 +113,61 @@ impl VisitMut for ClassProperties {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
 
-        match expr {
-            // TODO(kdy1): Make it generate smaller code.
-            //
-            // We currently creates a iife for a class expression.
-            // Although this results in a large code, but it's ok as class expression is rarely used
-            // in wild.
-            Expr::Class(ClassExpr { ident, class }) => {
-                let ident = ident.take().unwrap_or_else(|| private_ident!("_class"));
-                let mut stmts = vec![];
-                let (vars, decl, mut extra_stmts) =
-                    self.visit_mut_class_as_decl(ident.clone(), class.take());
+        if let Expr::Class(ClassExpr { ident, class }) = expr {
+            let ident = ident.take().unwrap_or_else(|| private_ident!("_class"));
+            let mut stmts = vec![];
+            let (vars, decl, mut extra_stmts) =
+                self.visit_mut_class_as_decl(ident.clone(), class.take());
 
-                if !vars.is_empty() {
-                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: vars,
-                        declare: false,
-                    })));
-                }
-
-                if stmts.is_empty() && extra_stmts.is_empty() {
-                    *expr = Expr::Class(ClassExpr {
-                        ident: Some(decl.ident),
-                        class: decl.class,
-                    });
-                    return;
-                }
-
-                stmts.push(Stmt::Decl(Decl::Class(decl)));
-                stmts.append(&mut extra_stmts);
-
-                stmts.push(Stmt::Return(ReturnStmt {
+            if !vars.is_empty() {
+                stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
-                    arg: Some(Box::new(Expr::Ident(ident))),
-                }));
-
-                *expr = Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: FnExpr {
-                        ident: None,
-                        function: Function {
-                            span: DUMMY_SP,
-                            decorators: vec![],
-                            is_async: false,
-                            is_generator: false,
-                            params: vec![],
-
-                            body: Some(BlockStmt {
-                                span: DUMMY_SP,
-                                stmts,
-                            }),
-
-                            type_params: Default::default(),
-                            return_type: Default::default(),
-                        },
-                    }
-                    .as_callee(),
-                    args: vec![],
-                    type_args: Default::default(),
-                });
+                    kind: VarDeclKind::Var,
+                    decls: vars,
+                    declare: false,
+                })));
             }
-            _ => {}
+
+            if stmts.is_empty() && extra_stmts.is_empty() {
+                *expr = Expr::Class(ClassExpr {
+                    ident: Some(decl.ident),
+                    class: decl.class,
+                });
+                return;
+            }
+
+            stmts.push(Stmt::Decl(Decl::Class(decl)));
+            stmts.append(&mut extra_stmts);
+
+            stmts.push(Stmt::Return(ReturnStmt {
+                span: DUMMY_SP,
+                arg: Some(Box::new(Expr::Ident(ident))),
+            }));
+
+            *expr = Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: FnExpr {
+                    ident: None,
+                    function: Function {
+                        span: DUMMY_SP,
+                        decorators: vec![],
+                        is_async: false,
+                        is_generator: false,
+                        params: vec![],
+
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts,
+                        }),
+
+                        type_params: Default::default(),
+                        return_type: Default::default(),
+                    },
+                }
+                .as_callee(),
+                args: vec![],
+                type_args: Default::default(),
+            });
         };
     }
 }
@@ -359,12 +351,8 @@ impl ClassProperties {
             let mut s = HashSet::default();
 
             for member in &class.body {
-                match member {
-                    ClassMember::PrivateMethod(method) => {
-                        s.insert(method.key.id.sym.clone());
-                    }
-
-                    _ => {}
+                if let ClassMember::PrivateMethod(method) = member {
+                    s.insert(method.key.id.sym.clone());
                 }
             }
 
@@ -437,7 +425,7 @@ impl ClassProperties {
                                 contains_quote: false,
                             },
                         }))),
-                        PropName::Num(ref num) => Box::new(Expr::from(num.clone())),
+                        PropName::Num(ref num) => Box::new(Expr::from(*num)),
                         PropName::Str(ref str) => Box::new(Expr::from(str.clone())),
                         PropName::BigInt(ref big_int) => Box::new(Expr::from(big_int.clone())),
 

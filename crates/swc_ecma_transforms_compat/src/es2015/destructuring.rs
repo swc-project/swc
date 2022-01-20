@@ -267,7 +267,7 @@ impl AssignFolder {
                 }
             }
             Pat::Object(ObjectPat { span, props, .. }) if props.is_empty() => {
-                let (ident, aliased) = alias_if_required(&decl.init.as_ref().unwrap(), "ref");
+                let (ident, aliased) = alias_if_required(decl.init.as_ref().unwrap(), "ref");
                 if aliased {
                     decls.push(VarDeclarator {
                         span: DUMMY_SP,
@@ -297,7 +297,7 @@ impl AssignFolder {
                             op: op!("!=="),
                             right: Null { span: DUMMY_SP }.into(),
                         })),
-                        cons: Box::new(Expr::Ident(ident.clone())),
+                        cons: Box::new(Expr::Ident(ident)),
                         alt: Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: helper!(throw, "throw"),
@@ -328,17 +328,15 @@ impl AssignFolder {
                 );
 
                 if props.len() == 1 {
-                    match &props[0] {
-                        ObjectPatProp::Assign(p @ AssignPatProp { value: None, .. }) => {
-                            decls.push(VarDeclarator {
-                                span: decl.span,
-                                name: p.key.clone().into(),
-                                init: Some(Box::new(decl.init.unwrap().make_member(p.key.clone()))),
-                                definite: false,
-                            });
-                            return;
-                        }
-                        _ => {}
+                    if let ObjectPatProp::Assign(p @ AssignPatProp { value: None, .. }) = &props[0]
+                    {
+                        decls.push(VarDeclarator {
+                            span: decl.span,
+                            name: p.key.clone().into(),
+                            init: Some(Box::new(decl.init.unwrap().make_member(p.key.clone()))),
+                            definite: false,
+                        });
+                        return;
                     }
                 }
 
@@ -353,7 +351,7 @@ impl AssignFolder {
                 let ref_ident = make_ref_ident(self.c, ref_decls, decl.init);
 
                 let ref_ident = if can_be_null {
-                    let init = Box::new(Expr::Ident(ref_ident.clone()));
+                    let init = Box::new(Expr::Ident(ref_ident));
                     make_ref_ident(self.c, ref_decls, Some(init))
                 } else {
                     ref_ident
@@ -364,10 +362,7 @@ impl AssignFolder {
 
                     match prop {
                         ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
-                            let computed = match key {
-                                PropName::Computed(..) => true,
-                                _ => false,
-                            };
+                            let computed = matches!(key, PropName::Computed(..));
 
                             let var_decl = VarDeclarator {
                                 span: prop_span,
@@ -446,14 +441,13 @@ impl AssignFolder {
 
                 let init = decl.init;
                 let tmp_ident: Ident = (|| {
-                    match init {
-                        Some(ref e) => match &**e {
+                    if let Some(ref e) = init {
+                        match &**e {
                             Expr::Ident(ref i) if i.span.ctxt() != SyntaxContext::empty() => {
                                 return i.clone();
                             }
                             _ => {}
-                        },
-                        _ => {}
+                        }
                     }
 
                     let tmp_ident = private_ident!(span, "tmp");
@@ -590,382 +584,357 @@ impl VisitMut for AssignFolder {
             _ => expr.visit_mut_children_with(self),
         };
 
-        match expr {
-            Expr::Assign(AssignExpr {
-                span,
-                left,
-                op: op!("="),
-                right,
-            }) => match left {
-                PatOrExpr::Pat(pat) => match &mut **pat {
-                    Pat::Expr(pat_expr) => {
-                        *expr = Expr::Assign(AssignExpr {
-                            span: *span,
-                            left: PatOrExpr::Expr(pat_expr.take()),
-                            op: op!("="),
-                            right: right.take(),
-                        });
-                    }
+        if let Expr::Assign(AssignExpr {
+            span,
+            left: PatOrExpr::Pat(pat),
+            op: op!("="),
+            right,
+        }) = expr
+        {
+            match &mut **pat {
+                Pat::Expr(pat_expr) => {
+                    *expr = Expr::Assign(AssignExpr {
+                        span: *span,
+                        left: PatOrExpr::Expr(pat_expr.take()),
+                        op: op!("="),
+                        right: right.take(),
+                    });
+                }
 
-                    Pat::Ident(..) => {
-                        return;
-                    }
-                    Pat::Array(ArrayPat { elems, .. }) => {
-                        let mut exprs = Vec::with_capacity(elems.len() + 1);
+                Pat::Ident(..) => {}
+                Pat::Array(ArrayPat { elems, .. }) => {
+                    let mut exprs = Vec::with_capacity(elems.len() + 1);
 
-                        if is_literal(right) && ignore_return_value {
-                            match &mut **right {
-                                Expr::Array(arr)
-                                    if elems.len() == arr.elems.len()
-                                        || (elems.len() < arr.elems.len()
-                                            && has_rest_pat(elems)) =>
-                                {
-                                    let mut arr_elems = Some(arr.elems.take().into_iter());
-                                    elems.into_iter().for_each(|p| match p {
-                                        Some(Pat::Rest(p)) => {
-                                            exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                                span: p.span(),
-                                                left: PatOrExpr::Pat(p.arg.take()),
-                                                op: op!("="),
-                                                right: Box::new(Expr::Array(ArrayLit {
-                                                    span: DUMMY_SP,
-                                                    elems: arr_elems
-                                                        .take()
-                                                        .expect("two rest element?")
-                                                        .collect(),
-                                                })),
-                                            })));
-                                        }
-                                        Some(p) => {
-                                            let e = arr_elems
-                                                .as_mut()
-                                                .expect("pattern after rest element?")
-                                                .next()
-                                                .and_then(|v| v);
-                                            let right = e
-                                                .map(|e| {
-                                                    debug_assert_eq!(e.spread, None);
-                                                    e.expr
-                                                })
-                                                .unwrap_or_else(|| undefined(p.span()));
+                    if is_literal(right) && ignore_return_value {
+                        match &mut **right {
+                            Expr::Array(arr)
+                                if elems.len() == arr.elems.len()
+                                    || (elems.len() < arr.elems.len() && has_rest_pat(elems)) =>
+                            {
+                                let mut arr_elems = Some(arr.elems.take().into_iter());
+                                elems.iter_mut().for_each(|p| match p {
+                                    Some(Pat::Rest(p)) => {
+                                        exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                            span: p.span(),
+                                            left: PatOrExpr::Pat(p.arg.take()),
+                                            op: op!("="),
+                                            right: Box::new(Expr::Array(ArrayLit {
+                                                span: DUMMY_SP,
+                                                elems: arr_elems
+                                                    .take()
+                                                    .expect("two rest element?")
+                                                    .collect(),
+                                            })),
+                                        })));
+                                    }
+                                    Some(p) => {
+                                        let e = arr_elems
+                                            .as_mut()
+                                            .expect("pattern after rest element?")
+                                            .next()
+                                            .and_then(|v| v);
+                                        let right = e
+                                            .map(|e| {
+                                                debug_assert_eq!(e.spread, None);
+                                                e.expr
+                                            })
+                                            .unwrap_or_else(|| undefined(p.span()));
 
-                                            let mut expr = Expr::Assign(AssignExpr {
-                                                span: p.span(),
-                                                left: Box::new(p.take()).into(),
-                                                op: op!("="),
-                                                right,
-                                            });
+                                        let mut expr = Expr::Assign(AssignExpr {
+                                            span: p.span(),
+                                            left: Box::new(p.take()).into(),
+                                            op: op!("="),
+                                            right,
+                                        });
 
-                                            self.visit_mut_expr(&mut expr);
+                                        self.visit_mut_expr(&mut expr);
 
-                                            exprs.push(Box::new(expr));
-                                        }
+                                        exprs.push(Box::new(expr));
+                                    }
 
-                                        None => {
-                                            arr_elems
-                                                .as_mut()
-                                                .expect("pattern after rest element?")
-                                                .next();
-                                        }
-                                    });
-                                    *expr = SeqExpr { span: *span, exprs }.into();
-                                    return;
-                                }
-                                _ => {}
+                                    None => {
+                                        arr_elems
+                                            .as_mut()
+                                            .expect("pattern after rest element?")
+                                            .next();
+                                    }
+                                });
+                                *expr = SeqExpr { span: *span, exprs }.into();
+                                return;
                             }
+                            _ => {}
                         }
+                    }
 
-                        // initialized by first element of sequence expression
-                        let ref_ident = make_ref_ident_for_array(
-                            self.c,
-                            &mut self.vars,
-                            None,
-                            Some(if has_rest_pat(elems) {
-                                std::usize::MAX
-                            } else {
-                                elems.len()
-                            }),
-                        );
-                        exprs.push(Box::new(Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            op: op!("="),
-                            left: PatOrExpr::Pat(ref_ident.clone().into()),
-                            right: if self.c.loose {
-                                right.take()
-                            } else {
-                                match &mut **right {
-                                    Expr::Ident(Ident {
-                                        sym: js_word!("arguments"),
-                                        ..
-                                    }) => Box::new(Expr::Call(CallExpr {
+                    // initialized by first element of sequence expression
+                    let ref_ident = make_ref_ident_for_array(
+                        self.c,
+                        &mut self.vars,
+                        None,
+                        Some(if has_rest_pat(elems) {
+                            std::usize::MAX
+                        } else {
+                            elems.len()
+                        }),
+                    );
+                    exprs.push(Box::new(Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: PatOrExpr::Pat(ref_ident.clone().into()),
+                        right: if self.c.loose {
+                            right.take()
+                        } else {
+                            match &mut **right {
+                                Expr::Ident(Ident {
+                                    sym: js_word!("arguments"),
+                                    ..
+                                }) => Box::new(Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
+                                        .as_callee(),
+                                    args: vec![right.take().as_arg()],
+                                    type_args: Default::default(),
+                                })),
+                                Expr::Array(..) => right.take(),
+                                _ => {
+                                    // if left has rest then need `_toArray`
+                                    // else `_slicedToArray`
+                                    if elems.iter().any(|elem| matches!(elem, Some(Pat::Rest(..))))
+                                    {
+                                        Box::new(Expr::Call(CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: helper!(to_array, "toArray"),
+                                            args: vec![right.take().as_arg()],
+                                            type_args: Default::default(),
+                                        }))
+                                    } else {
+                                        Box::new(
+                                            CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: helper!(sliced_to_array, "slicedToArray"),
+                                                args: vec![
+                                                    right.take().as_arg(),
+                                                    elems.len().as_arg(),
+                                                ],
+                                                type_args: Default::default(),
+                                            }
+                                            .into(),
+                                        )
+                                    }
+                                }
+                            }
+                        },
+                    })));
+
+                    for (i, elem) in elems.iter_mut().enumerate() {
+                        let elem = match elem {
+                            Some(elem) => elem,
+                            None => continue,
+                        };
+                        let elem_span = elem.span();
+
+                        match elem {
+                            Pat::Assign(AssignPat {
+                                span, left, right, ..
+                            }) => {
+                                // initialized by sequence expression.
+                                let assign_ref_ident = make_ref_ident(self.c, &mut self.vars, None);
+                                exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                    span: DUMMY_SP,
+                                    left: PatOrExpr::Pat(assign_ref_ident.clone().into()),
+                                    op: op!("="),
+                                    right: Box::new(ref_ident.clone().computed_member(i as f64)),
+                                })));
+
+                                let mut assign_expr = Expr::Assign(AssignExpr {
+                                    span: *span,
+                                    left: PatOrExpr::Pat(left.take()),
+                                    op: op!("="),
+                                    right: Box::new(make_cond_expr(assign_ref_ident, right.take())),
+                                });
+                                assign_expr.visit_mut_with(self);
+
+                                exprs.push(Box::new(assign_expr));
+                            }
+                            Pat::Rest(RestPat { arg, .. }) => {
+                                let mut assign_expr = Expr::Assign(AssignExpr {
+                                    span: elem_span,
+                                    op: op!("="),
+                                    left: PatOrExpr::Pat(arg.take()),
+                                    right: Box::new(Expr::Call(CallExpr {
                                         span: DUMMY_SP,
-                                        callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
+                                        callee: ref_ident
+                                            .clone()
+                                            .make_member(quote_ident!("slice"))
                                             .as_callee(),
-                                        args: vec![right.take().as_arg()],
+                                        args: vec![(i as f64).as_arg()],
                                         type_args: Default::default(),
                                     })),
-                                    Expr::Array(..) => right.take(),
-                                    _ => {
-                                        // if left has rest then need `_toArray`
-                                        // else `_slicedToArray`
-                                        if elems.iter().any(|elem| match elem {
-                                            Some(Pat::Rest(..)) => true,
-                                            _ => false,
-                                        }) {
-                                            Box::new(Expr::Call(CallExpr {
-                                                span: DUMMY_SP,
-                                                callee: helper!(to_array, "toArray"),
-                                                args: vec![right.take().as_arg()],
-                                                type_args: Default::default(),
-                                            }))
-                                        } else {
-                                            Box::new(
-                                                CallExpr {
-                                                    span: DUMMY_SP,
-                                                    callee: helper!(
-                                                        sliced_to_array,
-                                                        "slicedToArray"
-                                                    ),
-                                                    args: vec![
-                                                        right.take().as_arg(),
-                                                        elems.len().as_arg(),
-                                                    ],
-                                                    type_args: Default::default(),
-                                                }
-                                                .into(),
-                                            )
-                                        }
+                                });
+
+                                assign_expr.visit_mut_with(self);
+                                exprs.push(Box::new(assign_expr));
+                            }
+                            _ => {
+                                let mut assign_expr = Expr::Assign(AssignExpr {
+                                    span: elem_span,
+                                    op: op!("="),
+                                    left: PatOrExpr::Pat(Box::new(elem.take())),
+                                    right: Box::new(make_ref_idx_expr(&ref_ident, i)),
+                                });
+
+                                assign_expr.visit_mut_with(self);
+                                exprs.push(Box::new(assign_expr))
+                            }
+                        }
+                    }
+
+                    // last one should be `ref`
+                    exprs.push(Box::new(Expr::Ident(ref_ident)));
+
+                    *expr = Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs,
+                    })
+                }
+                Pat::Object(ObjectPat { span, props, .. }) => {
+                    if props.len() == 1 {
+                        if let ObjectPatProp::Assign(p @ AssignPatProp { value: None, .. }) =
+                            &props[0]
+                        {
+                            *expr = Expr::Assign(AssignExpr {
+                                span: *span,
+                                op: op!("="),
+                                left: PatOrExpr::Pat(p.key.clone().into()),
+                                right: Box::new(right.take().make_member(p.key.clone())),
+                            });
+                            return;
+                        }
+                    }
+
+                    let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
+
+                    let mut exprs = vec![Box::new(Expr::Assign(AssignExpr {
+                        span: *span,
+                        left: PatOrExpr::Pat(ref_ident.clone().into()),
+                        op: op!("="),
+                        right: right.take(),
+                    }))];
+
+                    for prop in props {
+                        let span = prop.span();
+                        match prop {
+                            ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
+                                let computed = matches!(key, PropName::Computed(..));
+
+                                let mut expr = Expr::Assign(AssignExpr {
+                                    span,
+                                    left: PatOrExpr::Pat(value.take()),
+                                    op: op!("="),
+                                    right: Box::new(make_ref_prop_expr(
+                                        &ref_ident,
+                                        Box::new(prop_name_to_expr(key.take())),
+                                        computed,
+                                    )),
+                                });
+
+                                expr.visit_mut_with(self);
+                                exprs.push(Box::new(expr));
+                            }
+                            ObjectPatProp::Assign(AssignPatProp { key, value, .. }) => {
+                                let computed = false;
+
+                                match value {
+                                    Some(value) => {
+                                        let prop_ident =
+                                            make_ref_ident(self.c, &mut self.vars, None);
+
+                                        exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                            span,
+                                            left: PatOrExpr::Pat(prop_ident.clone().into()),
+                                            op: op!("="),
+                                            right: Box::new(make_ref_prop_expr(
+                                                &ref_ident,
+                                                Box::new(key.clone().into()),
+                                                computed,
+                                            )),
+                                        })));
+
+                                        exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                            span,
+                                            left: PatOrExpr::Pat(key.clone().into()),
+                                            op: op!("="),
+                                            right: Box::new(make_cond_expr(
+                                                prop_ident,
+                                                value.take(),
+                                            )),
+                                        })));
+                                    }
+                                    None => {
+                                        exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                            span,
+                                            left: PatOrExpr::Pat(key.clone().into()),
+                                            op: op!("="),
+                                            right: Box::new(make_ref_prop_expr(
+                                                &ref_ident,
+                                                Box::new(key.clone().into()),
+                                                computed,
+                                            )),
+                                        })));
                                     }
                                 }
-                            },
-                        })));
-
-                        for (i, elem) in elems.into_iter().enumerate() {
-                            let elem = match elem {
-                                Some(elem) => elem,
-                                None => continue,
-                            };
-                            let elem_span = elem.span();
-
-                            match elem {
-                                Pat::Assign(AssignPat {
-                                    span, left, right, ..
-                                }) => {
-                                    // initialized by sequence expression.
-                                    let assign_ref_ident =
-                                        make_ref_ident(self.c, &mut self.vars, None);
-                                    exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                        span: DUMMY_SP,
-                                        left: PatOrExpr::Pat(assign_ref_ident.clone().into()),
-                                        op: op!("="),
-                                        right: Box::new(
-                                            ref_ident.clone().computed_member(i as f64),
-                                        ),
-                                    })));
-
-                                    let mut assign_expr = Expr::Assign(AssignExpr {
-                                        span: *span,
-                                        left: PatOrExpr::Pat(left.take()),
-                                        op: op!("="),
-                                        right: Box::new(make_cond_expr(
-                                            assign_ref_ident,
-                                            right.take(),
-                                        )),
-                                    });
-                                    assign_expr.visit_mut_with(self);
-
-                                    exprs.push(Box::new(assign_expr));
-                                }
-                                Pat::Rest(RestPat { arg, .. }) => {
-                                    let mut assign_expr = Expr::Assign(AssignExpr {
-                                        span: elem_span,
-                                        op: op!("="),
-                                        left: PatOrExpr::Pat(arg.take()),
-                                        right: Box::new(Expr::Call(CallExpr {
-                                            span: DUMMY_SP,
-                                            callee: ref_ident
-                                                .clone()
-                                                .make_member(quote_ident!("slice"))
-                                                .as_callee(),
-                                            args: vec![(i as f64).as_arg()],
-                                            type_args: Default::default(),
-                                        })),
-                                    });
-
-                                    assign_expr.visit_mut_with(self);
-                                    exprs.push(Box::new(assign_expr));
-                                }
-                                _ => {
-                                    let mut assign_expr = Expr::Assign(AssignExpr {
-                                        span: elem_span,
-                                        op: op!("="),
-                                        left: PatOrExpr::Pat(Box::new(elem.take())),
-                                        right: Box::new(make_ref_idx_expr(&ref_ident, i)),
-                                    });
-
-                                    assign_expr.visit_mut_with(self);
-                                    exprs.push(Box::new(assign_expr))
-                                }
                             }
+                            ObjectPatProp::Rest(_) => unreachable!(
+                                "object rest pattern should be removed by \
+                                 es2018::object_rest_spread pass"
+                            ),
                         }
-
-                        // last one should be `ref`
-                        exprs.push(Box::new(Expr::Ident(ref_ident)));
-
-                        *expr = Expr::Seq(SeqExpr {
-                            span: DUMMY_SP,
-                            exprs,
-                        })
                     }
-                    Pat::Object(ObjectPat { span, props, .. }) => {
-                        if props.len() == 1 {
-                            match &props[0] {
-                                ObjectPatProp::Assign(p @ AssignPatProp { value: None, .. }) => {
-                                    *expr = Expr::Assign(AssignExpr {
-                                        span: *span,
-                                        op: op!("="),
-                                        left: PatOrExpr::Pat(p.key.clone().into()),
-                                        right: Box::new(right.take().make_member(p.key.clone())),
-                                    });
-                                    return;
-                                }
-                                _ => {}
-                            }
-                        }
 
-                        let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
+                    // Last one should be object itself.
+                    exprs.push(Box::new(Expr::Ident(ref_ident)));
 
-                        let mut exprs = vec![];
+                    *expr = Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs,
+                    });
+                }
+                Pat::Assign(pat) => {
+                    let ref_ident = match *pat.right {
+                        Expr::Ident(ref i) => i.clone(),
 
-                        exprs.push(Box::new(Expr::Assign(AssignExpr {
+                        _ => make_ref_ident(self.c, &mut self.vars, None),
+                    };
+
+                    let mut exprs = vec![Box::new(
+                        AssignExpr {
                             span: *span,
                             left: PatOrExpr::Pat(ref_ident.clone().into()),
                             op: op!("="),
                             right: right.take(),
-                        })));
-
-                        for prop in props {
-                            let span = prop.span();
-                            match prop {
-                                ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
-                                    let computed = match key {
-                                        PropName::Computed(..) => true,
-                                        _ => false,
-                                    };
-
-                                    let mut expr = Expr::Assign(AssignExpr {
-                                        span,
-                                        left: PatOrExpr::Pat(value.take()),
-                                        op: op!("="),
-                                        right: Box::new(make_ref_prop_expr(
-                                            &ref_ident,
-                                            Box::new(prop_name_to_expr(key.take())),
-                                            computed,
-                                        )),
-                                    });
-
-                                    expr.visit_mut_with(self);
-                                    exprs.push(Box::new(expr));
-                                }
-                                ObjectPatProp::Assign(AssignPatProp { key, value, .. }) => {
-                                    let computed = false;
-
-                                    match value {
-                                        Some(value) => {
-                                            let prop_ident =
-                                                make_ref_ident(self.c, &mut self.vars, None);
-
-                                            exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                                span,
-                                                left: PatOrExpr::Pat(prop_ident.clone().into()),
-                                                op: op!("="),
-                                                right: Box::new(make_ref_prop_expr(
-                                                    &ref_ident,
-                                                    Box::new(key.clone().into()),
-                                                    computed,
-                                                )),
-                                            })));
-
-                                            exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                                span,
-                                                left: PatOrExpr::Pat(key.clone().into()),
-                                                op: op!("="),
-                                                right: Box::new(make_cond_expr(
-                                                    prop_ident,
-                                                    value.take(),
-                                                )),
-                                            })));
-                                        }
-                                        None => {
-                                            exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                                span,
-                                                left: PatOrExpr::Pat(key.clone().into()),
-                                                op: op!("="),
-                                                right: Box::new(make_ref_prop_expr(
-                                                    &ref_ident,
-                                                    Box::new(key.clone().into()),
-                                                    computed,
-                                                )),
-                                            })));
-                                        }
-                                    }
-                                }
-                                ObjectPatProp::Rest(_) => unreachable!(
-                                    "object rest pattern should be removed by \
-                                     es2018::object_rest_spread pass"
-                                ),
-                            }
                         }
+                        .into(),
+                    )];
 
-                        // Last one should be object itself.
-                        exprs.push(Box::new(Expr::Ident(ref_ident)));
+                    let mut assign_cond_expr = Expr::Assign(AssignExpr {
+                        span: *span,
+                        left: pat.left.take().into(),
+                        op: op!("="),
+                        right: Box::new(make_cond_expr(ref_ident, pat.right.take())),
+                    });
 
-                        *expr = Expr::Seq(SeqExpr {
-                            span: DUMMY_SP,
-                            exprs,
-                        });
-                    }
-                    Pat::Assign(pat) => {
-                        let ref_ident = match *pat.right {
-                            Expr::Ident(ref i) => i.clone(),
+                    assign_cond_expr.visit_mut_with(self);
+                    exprs.push(Box::new(assign_cond_expr));
 
-                            _ => make_ref_ident(self.c, &mut self.vars, None),
-                        };
+                    *expr = Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs,
+                    });
+                }
+                Pat::Rest(pat) => unimplemented!("rest pattern {:?}", pat),
 
-                        let mut exprs = vec![];
-
-                        exprs.push(Box::new(
-                            AssignExpr {
-                                span: *span,
-                                left: PatOrExpr::Pat(ref_ident.clone().into()),
-                                op: op!("="),
-                                right: right.take(),
-                            }
-                            .into(),
-                        ));
-
-                        let mut assign_cond_expr = Expr::Assign(AssignExpr {
-                            span: *span,
-                            left: pat.left.take().into(),
-                            op: op!("="),
-                            right: Box::new(make_cond_expr(ref_ident, pat.right.take())),
-                        });
-
-                        assign_cond_expr.visit_mut_with(self);
-                        exprs.push(Box::new(assign_cond_expr));
-
-                        *expr = Expr::Seq(SeqExpr {
-                            span: DUMMY_SP,
-                            exprs,
-                        });
-                    }
-                    Pat::Rest(pat) => unimplemented!("rest pattern {:?}", pat),
-
-                    Pat::Invalid(..) => unreachable!(),
-                },
-                _ => {}
-            },
-            _ => {}
+                Pat::Invalid(..) => unreachable!(),
+            }
         };
     }
 
@@ -975,7 +944,6 @@ impl VisitMut for AssignFolder {
                 self.ignore_return_value = Some(());
                 e.visit_mut_with(self);
                 assert_eq!(self.ignore_return_value, None);
-                return;
             }
             _ => s.visit_mut_children_with(self),
         };
@@ -984,10 +952,9 @@ impl VisitMut for AssignFolder {
     fn visit_mut_var_declarators(&mut self, declarators: &mut Vec<VarDeclarator>) {
         declarators.visit_mut_children_with(self);
 
-        let is_complex = declarators.iter().any(|d| match d.name {
-            Pat::Ident(..) => false,
-            _ => true,
-        });
+        let is_complex = declarators
+            .iter()
+            .any(|d| !matches!(d.name, Pat::Ident(..)));
         if !is_complex {
             return;
         }
@@ -1086,16 +1053,14 @@ fn make_ref_ident_for_array(
 
     let (ref_ident, aliased) = if c.loose {
         if let Some(ref init) = init {
-            alias_if_required(&init, "ref")
+            alias_if_required(init, "ref")
         } else {
             (private_ident!(span, "ref"), true)
         }
+    } else if let Some(ref init) = init {
+        (alias_ident_for(init, "ref"), true)
     } else {
-        if let Some(ref init) = init {
-            (alias_ident_for(&init, "ref"), true)
-        } else {
-            (private_ident!(span, "ref"), true)
-        }
+        (private_ident!(span, "ref"), true)
     };
 
     if aliased {
@@ -1103,12 +1068,7 @@ fn make_ref_ident_for_array(
             span,
             name: ref_ident.clone().into(),
             init: init.map(|v| {
-                if c.loose
-                    || match *v {
-                        Expr::Array(..) => true,
-                        _ => false,
-                    }
-                {
+                if c.loose || matches!(*v, Expr::Array(..)) {
                     v
                 } else {
                     match elem_cnt {
@@ -1142,10 +1102,7 @@ fn make_ref_ident_for_array(
 }
 
 fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) -> Expr {
-    computed |= match *prop {
-        Expr::Lit(Lit::Num(..)) | Expr::Lit(Lit::Str(..)) => true,
-        _ => false,
-    };
+    computed |= matches!(*prop, Expr::Lit(Lit::Num(..)) | Expr::Lit(Lit::Str(..)));
 
     Expr::Member(MemberExpr {
         span: DUMMY_SP,

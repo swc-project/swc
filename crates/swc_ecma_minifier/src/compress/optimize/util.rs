@@ -74,6 +74,7 @@ where
     }
 
     #[allow(unused)]
+    #[allow(clippy::wrong_self_convention)]
     pub(super) fn is_done(&mut self, span: Span) -> bool {
         span.has_mark(self.done)
     }

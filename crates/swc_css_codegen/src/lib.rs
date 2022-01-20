@@ -235,13 +235,179 @@ where
         keyword!(self, "media");
         space!(self);
 
-        emit!(self, n.query);
+        emit!(self, n.media);
 
         space!(self);
 
         punct!(self, "{");
         self.emit_list(&n.rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
         punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_media_query_list(&mut self, n: &MediaQueryList) -> Result {
+        self.emit_list(&n.queries, ListFormat::CommaDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_media_query(&mut self, n: &MediaQuery) -> Result {
+        if n.modifier.is_some() {
+            emit!(self, n.modifier);
+            space!(self);
+        }
+
+        if n.media_type.is_some() {
+            emit!(self, n.media_type);
+
+            if n.condition.is_some() {
+                space!(self);
+                keyword!(self, "and");
+                space!(self);
+            }
+        }
+
+        if n.condition.is_some() {
+            emit!(self, n.condition);
+        }
+    }
+
+    #[emitter]
+    fn emit_media_condition_type(&mut self, n: &MediaConditionType) -> Result {
+        match n {
+            MediaConditionType::All(n) => emit!(self, n),
+            MediaConditionType::WithoutOr(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_media_condition(&mut self, n: &MediaCondition) -> Result {
+        self.emit_list(&n.conditions, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_media_condition_without_or(&mut self, n: &MediaConditionWithoutOr) -> Result {
+        self.emit_list(&n.conditions, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_media_condition_all_type(&mut self, n: &MediaConditionAllType) -> Result {
+        match n {
+            MediaConditionAllType::Not(n) => emit!(self, n),
+            MediaConditionAllType::And(n) => emit!(self, n),
+            MediaConditionAllType::Or(n) => emit!(self, n),
+            MediaConditionAllType::MediaInParens(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_media_condition_without_or_type(&mut self, n: &MediaConditionWithoutOrType) -> Result {
+        match n {
+            MediaConditionWithoutOrType::Not(n) => emit!(self, n),
+            MediaConditionWithoutOrType::And(n) => emit!(self, n),
+            MediaConditionWithoutOrType::MediaInParens(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_media_not(&mut self, n: &MediaNot) -> Result {
+        space!(self);
+        keyword!(self, "not");
+        space!(self);
+        emit!(self, n.condition);
+    }
+
+    #[emitter]
+    fn emit_media_and(&mut self, n: &MediaAnd) -> Result {
+        space!(self);
+        keyword!(self, "and");
+        space!(self);
+        emit!(self, n.condition);
+    }
+
+    #[emitter]
+    fn emit_media_or(&mut self, n: &MediaOr) -> Result {
+        space!(self);
+        keyword!(self, "or");
+        space!(self);
+        emit!(self, n.condition);
+    }
+
+    #[emitter]
+    fn emit_media_in_parens(&mut self, n: &MediaInParens) -> Result {
+        match n {
+            MediaInParens::MediaCondition(n) => {
+                punct!(self, "(");
+                emit!(self, n);
+                punct!(self, ")");
+            }
+            MediaInParens::Feature(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_media_feature(&mut self, n: &MediaFeature) -> Result {
+        punct!(self, "(");
+
+        match n {
+            MediaFeature::Plain(n) => emit!(self, n),
+            MediaFeature::Boolean(n) => emit!(self, n),
+            MediaFeature::Range(n) => emit!(self, n),
+            MediaFeature::RangeInterval(n) => emit!(self, n),
+        }
+
+        punct!(self, ")");
+    }
+
+    #[emitter]
+    fn emit_media_feature_name(&mut self, n: &MediaFeatureName) -> Result {
+        match n {
+            MediaFeatureName::Ident(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_media_feature_value(&mut self, n: &MediaFeatureValue) -> Result {
+        match n {
+            MediaFeatureValue::Number(n) => emit!(self, n),
+            MediaFeatureValue::Dimension(n) => emit!(self, n),
+            MediaFeatureValue::Ident(n) => emit!(self, n),
+            MediaFeatureValue::Ratio(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_media_feature_plain(&mut self, n: &MediaFeaturePlain) -> Result {
+        emit!(self, n.name);
+        punct!(self, ":");
+        space!(self);
+        emit!(self, n.value);
+    }
+
+    #[emitter]
+    fn emit_media_feature_boolean(&mut self, n: &MediaFeatureBoolean) -> Result {
+        emit!(self, n.name);
+    }
+
+    #[emitter]
+    fn emit_media_feature_range(&mut self, n: &MediaFeatureRange) -> Result {
+        emit!(self, n.left);
+        space!(self);
+        self.wr.write_punct(None, n.comparison.as_str())?;
+        space!(self);
+        emit!(self, n.right);
+    }
+
+    #[emitter]
+    fn emit_media_feature_range_interval(&mut self, n: &MediaFeatureRangeInterval) -> Result {
+        emit!(self, n.left);
+        space!(self);
+        self.wr.write_punct(None, n.left_comparison.as_str())?;
+        space!(self);
+        emit!(self, n.name);
+        space!(self);
+        self.wr.write_punct(None, n.right_comparison.as_str())?;
+        space!(self);
+        emit!(self, n.right);
     }
 
     #[emitter]
@@ -373,23 +539,6 @@ where
     #[emitter]
     fn emit_str(&mut self, n: &Str) -> Result {
         self.wr.write_raw(Some(n.span), &n.raw)?;
-    }
-
-    #[emitter]
-    fn emit_media_query(&mut self, n: &MediaQuery) -> Result {
-        match n {
-            MediaQuery::Ident(n) => emit!(self, n),
-            MediaQuery::And(n) => emit!(self, n),
-            MediaQuery::Or(n) => emit!(self, n),
-            MediaQuery::Not(n) => emit!(self, n),
-            MediaQuery::Only(n) => emit!(self, n),
-            MediaQuery::Declaration(n) => {
-                punct!(self, "(");
-                emit!(self, n);
-                punct!(self, ")");
-            }
-            MediaQuery::Comma(n) => emit!(self, n),
-        }
     }
 
     #[emitter]
@@ -700,47 +849,6 @@ where
         punct!(self, "(");
         self.wr.write_raw(Some(n.span), &n.raw)?;
         punct!(self, ")");
-    }
-
-    #[emitter]
-    fn emit_and_media_query(&mut self, n: &AndMediaQuery) -> Result {
-        emit!(self, n.left);
-        space!(self);
-
-        keyword!(self, "and");
-
-        space!(self);
-        emit!(self, n.right);
-    }
-
-    #[emitter]
-    fn emit_or_media_query(&mut self, n: &OrMediaQuery) -> Result {
-        emit!(self, n.left);
-        space!(self);
-
-        keyword!(self, "or");
-
-        space!(self);
-        emit!(self, n.right);
-    }
-
-    #[emitter]
-    fn emit_not_media_query(&mut self, n: &NotMediaQuery) -> Result {
-        keyword!(self, "not");
-        space!(self);
-        emit!(self, n.query);
-    }
-
-    #[emitter]
-    fn emit_only_media_query(&mut self, n: &OnlyMediaQuery) -> Result {
-        keyword!(self, "only");
-        space!(self);
-        emit!(self, n.query);
-    }
-
-    #[emitter]
-    fn emit_comma_media_query(&mut self, n: &CommaMediaQuery) -> Result {
-        self.emit_list(&n.queries, ListFormat::CommaDelimited)?;
     }
 
     #[emitter]

@@ -90,7 +90,7 @@ impl VisitMut for NullishCoalescing {
                 right,
             }) => {
                 //
-                let (l, aliased) = alias_if_required(&left, "ref");
+                let (l, aliased) = alias_if_required(left, "ref");
 
                 if aliased {
                     self.vars.push(VarDeclarator {
@@ -113,13 +113,12 @@ impl VisitMut for NullishCoalescing {
                 };
 
                 *e = make_cond(self.c, *span, &l, var_expr, right.take());
-                return;
             }
 
             Expr::Assign(ref mut assign @ AssignExpr { op: op!("??="), .. }) => {
                 match &mut assign.left {
                     PatOrExpr::Expr(left) => {
-                        let (alias, aliased) = alias_if_required(&left, "ref$");
+                        let (alias, aliased) = alias_if_required(left, "ref$");
                         if aliased {
                             self.vars.push(VarDeclarator {
                                 span: DUMMY_SP,
@@ -164,10 +163,9 @@ impl VisitMut for NullishCoalescing {
                                 right_expr,
                             )),
                         });
-                        return;
                     }
-                    PatOrExpr::Pat(left) => match &mut **left {
-                        Pat::Ident(i) => {
+                    PatOrExpr::Pat(left) => {
+                        if let Pat::Ident(i) = &mut **left {
                             *e = Expr::Assign(AssignExpr {
                                 span: assign.span,
                                 op: op!("="),
@@ -180,10 +178,8 @@ impl VisitMut for NullishCoalescing {
                                     assign.right.take(),
                                 )),
                             });
-                            return;
                         }
-                        _ => {}
-                    },
+                    }
                 }
             }
 

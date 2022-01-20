@@ -145,14 +145,12 @@ impl<'a, I: Tokens> Parser<I> {
                     } else if !self.ctx().is_break_allowed {
                         self.emit_err(span, SyntaxError::TS1105);
                     }
-                } else {
-                    if !self.ctx().is_continue_allowed {
-                        self.emit_err(span, SyntaxError::TS1115);
-                    } else if label.is_some()
-                        && !self.state.labels.contains(&label.as_ref().unwrap().sym)
-                    {
-                        self.emit_err(span, SyntaxError::TS1107);
-                    }
+                } else if !self.ctx().is_continue_allowed {
+                    self.emit_err(span, SyntaxError::TS1115);
+                } else if label.is_some()
+                    && !self.state.labels.contains(&label.as_ref().unwrap().sym)
+                {
+                    self.emit_err(span, SyntaxError::TS1107);
                 }
 
                 return Ok(if is_break {
@@ -330,19 +328,18 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        match *expr {
-            Expr::Ident(Ident { ref sym, span, .. }) => match *sym {
+        if let Expr::Ident(Ident { ref sym, span, .. }) = *expr {
+            match *sym {
                 js_word!("enum") | js_word!("interface") => {
                     self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict);
                 }
                 _ => {}
-            },
-            _ => {}
+            }
         }
 
         if self.syntax().typescript() {
-            match *expr {
-                Expr::Ident(ref i) => match i.sym {
+            if let Expr::Ident(ref i) = *expr {
+                match i.sym {
                     js_word!("public") | js_word!("static") | js_word!("abstract") => {
                         if eat!(self, "interface") {
                             self.emit_err(i.span, SyntaxError::TS2427);
@@ -353,8 +350,7 @@ impl<'a, I: Tokens> Parser<I> {
                         }
                     }
                     _ => {}
-                },
-                _ => {}
+                }
             }
         }
 
@@ -364,18 +360,14 @@ impl<'a, I: Tokens> Parser<I> {
                 expr,
             }))
         } else {
-            match *cur!(self, false)? {
-                Token::BinOp(..) => {
-                    self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
-                    let expr = self.parse_bin_op_recursively(expr, 0)?;
-                    return Ok(ExprStmt {
-                        span: span!(self, start),
-                        expr,
-                    }
-                    .into());
+            if let Token::BinOp(..) = *cur!(self, false)? {
+                self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
+                let expr = self.parse_bin_op_recursively(expr, 0)?;
+                return Ok(ExprStmt {
+                    span: span!(self, start),
+                    expr,
                 }
-
-                _ => {}
+                .into());
             }
 
             syntax_error!(
@@ -709,15 +701,13 @@ impl<'a, I: Tokens> Parser<I> {
             decls.push(self.with_ctx(ctx).parse_var_declarator(for_loop)?);
         }
 
-        if !for_loop {
-            if !eat!(self, ';') {
-                self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
+        if !for_loop && !eat!(self, ';') {
+            self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
 
-                let _ = self.parse_expr();
+            let _ = self.parse_expr();
 
-                while !eat!(self, ';') {
-                    bump!(self);
-                }
+            while !eat!(self, ';') {
+                bump!(self);
             }
         }
 
@@ -902,17 +892,17 @@ impl<'a, I: Tokens> Parser<I> {
 
             let body = Box::new(if is!(p, "function") {
                 let f = p.parse_fn_decl(vec![])?;
-                match f {
-                    Decl::Fn(FnDecl {
-                        function:
-                            Function {
-                                span,
-                                is_generator: true,
-                                ..
-                            },
-                        ..
-                    }) => syntax_error!(p, span, SyntaxError::LabelledGenerator),
-                    _ => {}
+                if let Decl::Fn(FnDecl {
+                    function:
+                        Function {
+                            span,
+                            is_generator: true,
+                            ..
+                        },
+                    ..
+                }) = f
+                {
+                    syntax_error!(p, span, SyntaxError::LabelledGenerator)
                 }
 
                 f.into()
@@ -1806,7 +1796,7 @@ export default function waitUntil(callback, options = {}) {
                     }]
                 })
             ),
-            _ => assert!(false),
+            _ => unreachable!(),
         }
     }
 

@@ -125,7 +125,7 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
                 continue 'add;
             }
 
-            if cfg!(target_os = "windows") && pattern.is_match(&path_str.replace("\\", "/")) {
+            if cfg!(target_os = "windows") && pattern.is_match(&path_str.replace('\\', "/")) {
                 continue 'add;
             }
         }
@@ -139,11 +139,11 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
             callee,
             path_for_name
                 .to_string_lossy()
-                .replace("\\", "__")
-                .replace(" ", "_")
-                .replace("/", "__")
-                .replace(".", "_")
-                .replace("-", "_")
+                .replace('\\', "__")
+                .replace(' ', "_")
+                .replace('/', "__")
+                .replace('.', "_")
+                .replace('-', "_")
         )
         .replace("___", "__");
         let test_ident = Ident::new(&test_name, Span::call_site());

@@ -150,7 +150,7 @@ impl<'a, I: Tokens> Parser<I> {
             let _ = self.parse_ts_modifier(&["public", "protected", "private", "readonly"], false);
         }
 
-        return Ok(has_modifier);
+        Ok(has_modifier)
     }
 
     /// spec: 'FormalParameter'
@@ -223,7 +223,7 @@ impl<'a, I: Tokens> Parser<I> {
                     *type_ann = new_type_ann;
                 }
                 Pat::Assign(AssignPat { ref mut span, .. }) => {
-                    if let Some(_) = self.try_parse_ts_type_ann()? {
+                    if (self.try_parse_ts_type_ann()?).is_some() {
                         *span = Span::new(pat_start, self.input.prev_span().hi, Default::default());
                         self.emit_err(*span, SyntaxError::TSTypeAnnotationAfterAssign);
                     }

@@ -38,7 +38,6 @@ impl<'a> VisitMut for ClassNameTdzFolder<'a> {
                             Box::new(Expr::Ident(i.clone())),
                         ],
                     });
-                    return;
                 }
             }
 
