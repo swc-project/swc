@@ -27,11 +27,17 @@ pub struct MediaQuery {
 #[ast_node("MediaCondition")]
 pub struct MediaCondition {
     pub span: Span,
-    pub conditions: Vec<MediaConditionAll>,
+    pub conditions: Vec<MediaConditionAllType>,
+}
+
+#[ast_node("MediaConditionWithoutOr")]
+pub struct MediaConditionWithoutOr {
+    pub span: Span,
+    pub conditions: Vec<MediaConditionWithoutOrType>,
 }
 
 #[ast_node]
-pub enum MediaConditionAll {
+pub enum MediaConditionAllType {
     #[tag("MediaNot")]
     Not(MediaNot),
 
@@ -40,6 +46,18 @@ pub enum MediaConditionAll {
 
     #[tag("MediaOr")]
     Or(MediaOr),
+
+    #[tag("MediaInParens")]
+    MediaInParens(MediaInParens),
+}
+
+#[ast_node]
+pub enum MediaConditionWithoutOrType {
+    #[tag("MediaNot")]
+    Not(MediaNot),
+
+    #[tag("MediaAnd")]
+    And(MediaAnd),
 
     #[tag("MediaInParens")]
     MediaInParens(MediaInParens),

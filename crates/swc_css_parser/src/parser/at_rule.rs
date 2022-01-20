@@ -822,13 +822,13 @@ where
 
             last_pos = self.input.last_pos()?;
 
-            conditions.push(MediaConditionAll::Not(not));
+            conditions.push(MediaConditionAllType::Not(not));
         } else {
             let media_in_parens = self.parse()?;
 
             last_pos = self.input.last_pos()?;
 
-            conditions.push(MediaConditionAll::MediaInParens(media_in_parens));
+            conditions.push(MediaConditionAllType::MediaInParens(media_in_parens));
 
             self.input.skip_ws()?;
 
@@ -838,7 +838,7 @@ where
 
                     last_pos = self.input.last_pos()?;
 
-                    conditions.push(MediaConditionAll::And(and));
+                    conditions.push(MediaConditionAllType::And(and));
 
                     self.input.skip_ws()?;
                 }
@@ -848,7 +848,7 @@ where
 
                     last_pos = self.input.last_pos()?;
 
-                    conditions.push(MediaConditionAll::Or(or));
+                    conditions.push(MediaConditionAllType::Or(or));
 
                     self.input.skip_ws()?;
                 }
@@ -856,6 +856,52 @@ where
         };
 
         Ok(MediaCondition {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            conditions,
+        })
+    }
+}
+
+impl<I> Parse<MediaConditionWithoutOr> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<MediaConditionWithoutOr> {
+        self.input.skip_ws()?;
+
+        let start_pos = self.input.cur_span()?.lo;
+        let mut last_pos;
+        let mut conditions = vec![];
+
+        if is!(self, "not") {
+            let not = self.parse()?;
+
+            last_pos = self.input.last_pos()?;
+
+            conditions.push(MediaConditionWithoutOrType::Not(not));
+        } else {
+            let media_in_parens = self.parse()?;
+
+            last_pos = self.input.last_pos()?;
+
+            conditions.push(MediaConditionWithoutOrType::MediaInParens(media_in_parens));
+
+            self.input.skip_ws()?;
+
+            if is!(self, "and") {
+                while is!(self, "and") {
+                    let and = self.parse()?;
+
+                    last_pos = self.input.last_pos()?;
+
+                    conditions.push(MediaConditionWithoutOrType::And(and));
+
+                    self.input.skip_ws()?;
+                }
+            }
+        };
+
+        Ok(MediaConditionWithoutOr {
             span: Span::new(start_pos, last_pos, Default::default()),
             conditions,
         })
