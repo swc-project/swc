@@ -263,13 +263,11 @@ impl NodeModulesResolver {
             }
         };
 
-        for main in main_fields {
-            if let Some(target) = main {
-                let path = pkg_dir.join(target);
-                return self
-                    .resolve_as_file(&path)
-                    .or_else(|_| self.resolve_as_directory(&path));
-            }
+        if let Some(Some(target)) = main_fields.iter().find(|x| x.is_some()) {
+            let path = pkg_dir.join(target);
+            return self
+                .resolve_as_file(&path)
+                .or_else(|_| self.resolve_as_directory(&path));
         }
 
         Ok(None)

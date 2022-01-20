@@ -215,7 +215,7 @@ where
 
     // TODO:Remove '"' only for first and last.
     let tts = tt
-        .replace("\"", "")
+        .replace('\"', "")
         .parse::<TokenStream>()
         .expect("failed to create TokenStream for return type")
         .into_iter()

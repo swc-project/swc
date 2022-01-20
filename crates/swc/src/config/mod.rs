@@ -863,7 +863,7 @@ impl FileMatcher {
                 let re = CACHE.get(&*s).unwrap();
 
                 let filename = if cfg!(target_os = "windows") {
-                    filename.to_string_lossy().replace("\\", "/")
+                    filename.to_string_lossy().replace('\\', "/")
                 } else {
                     filename.to_string_lossy().to_string()
                 };

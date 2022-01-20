@@ -309,7 +309,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                     });
                 }
             }
-            self.state.update(start, &token);
+            self.state.update(start, token);
             self.state.prev_hi = self.last_pos();
         }
 

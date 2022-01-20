@@ -606,11 +606,8 @@ impl<'a, I: Tokens> Parser<I> {
         };
         let is_optional = self.input.syntax().typescript() && eat!(self, '?');
 
-        match &mut key {
-            Either::Right(PropName::Ident(i)) => {
-                i.optional = is_optional;
-            }
-            _ => {}
+        if let Either::Right(PropName::Ident(i)) = &mut key {
+            i.optional = is_optional;
         }
 
         if self.is_class_method() {
@@ -618,9 +615,8 @@ impl<'a, I: Tokens> Parser<I> {
 
             trace_cur!(self, parse_class_member_with_is_static__normal_class_method);
 
-            match declare_token {
-                Some(token) => self.emit_err(token, SyntaxError::TS1031),
-                None => {}
+            if let Some(token) = declare_token {
+                self.emit_err(token, SyntaxError::TS1031)
             }
 
             if readonly.is_some() {
@@ -806,76 +802,73 @@ impl<'a, I: Tokens> Parser<I> {
             );
         }
 
-        match getter_or_setter_ident {
-            Some(i) => {
-                let key_span = key.span();
+        if let Some(i) = getter_or_setter_ident {
+            let key_span = key.span();
 
-                // handle get foo(){} / set foo(v){}
-                let key = self.parse_class_prop_name()?;
+            // handle get foo(){} / set foo(v){}
+            let key = self.parse_class_prop_name()?;
 
-                if readonly.is_some() {
-                    self.emit_err(key_span, SyntaxError::GetterSetterCannotBeReadonly);
-                }
-
-                return match i.sym {
-                    js_word!("get") => self.make_method(
-                        |p| {
-                            let params = p.parse_formal_params()?;
-
-                            if params.iter().filter(|p| is_not_this(p)).count() != 0 {
-                                p.emit_err(key_span, SyntaxError::TS1094);
-                            }
-
-                            Ok(params)
-                        },
-                        MakeMethodArgs {
-                            decorators,
-                            start,
-                            is_abstract,
-                            is_async: false,
-                            is_generator: false,
-                            is_optional,
-                            is_override,
-                            accessibility,
-                            static_token,
-                            key,
-                            kind: MethodKind::Getter,
-                        },
-                    ),
-                    js_word!("set") => self.make_method(
-                        |p| {
-                            let params = p.parse_formal_params()?;
-
-                            if params.iter().filter(|p| is_not_this(p)).count() != 1 {
-                                p.emit_err(key_span, SyntaxError::TS1094);
-                            }
-
-                            if !params.is_empty() {
-                                if let Pat::Rest(..) = params[0].pat {
-                                    p.emit_err(params[0].pat.span(), SyntaxError::RestPatInSetter);
-                                }
-                            }
-
-                            Ok(params)
-                        },
-                        MakeMethodArgs {
-                            decorators,
-                            start,
-                            is_optional,
-                            is_abstract,
-                            is_override,
-                            is_async: false,
-                            is_generator: false,
-                            accessibility,
-                            static_token,
-                            key,
-                            kind: MethodKind::Setter,
-                        },
-                    ),
-                    _ => unreachable!(),
-                };
+            if readonly.is_some() {
+                self.emit_err(key_span, SyntaxError::GetterSetterCannotBeReadonly);
             }
-            _ => {}
+
+            return match i.sym {
+                js_word!("get") => self.make_method(
+                    |p| {
+                        let params = p.parse_formal_params()?;
+
+                        if params.iter().filter(|p| is_not_this(p)).count() != 0 {
+                            p.emit_err(key_span, SyntaxError::TS1094);
+                        }
+
+                        Ok(params)
+                    },
+                    MakeMethodArgs {
+                        decorators,
+                        start,
+                        is_abstract,
+                        is_async: false,
+                        is_generator: false,
+                        is_optional,
+                        is_override,
+                        accessibility,
+                        static_token,
+                        key,
+                        kind: MethodKind::Getter,
+                    },
+                ),
+                js_word!("set") => self.make_method(
+                    |p| {
+                        let params = p.parse_formal_params()?;
+
+                        if params.iter().filter(|p| is_not_this(p)).count() != 1 {
+                            p.emit_err(key_span, SyntaxError::TS1094);
+                        }
+
+                        if !params.is_empty() {
+                            if let Pat::Rest(..) = params[0].pat {
+                                p.emit_err(params[0].pat.span(), SyntaxError::RestPatInSetter);
+                            }
+                        }
+
+                        Ok(params)
+                    },
+                    MakeMethodArgs {
+                        decorators,
+                        start,
+                        is_optional,
+                        is_abstract,
+                        is_override,
+                        is_async: false,
+                        is_generator: false,
+                        accessibility,
+                        static_token,
+                        key,
+                        kind: MethodKind::Setter,
+                    },
+                ),
+                _ => unreachable!(),
+            };
         }
 
         unexpected!(self, "* for generator, private key, identifier or async")
@@ -984,7 +977,7 @@ impl<'a, I: Tokens> Parser<I> {
         Self: MaybeOptionalIdentParser<T::Ident>,
         T::Ident: Spanned,
     {
-        let start = start_of_async.unwrap_or(cur_pos!(self));
+        let start = start_of_async.unwrap_or_else(|| cur_pos!(self));
         assert_and_bump!(self, "function");
         let is_async = start_of_async.is_some();
 
@@ -1099,7 +1092,7 @@ impl<'a, I: Tokens> Parser<I> {
                 // in_generator: prev_in_generator,
                 ..p.ctx()
             };
-            let params = p.with_ctx(arg_ctx).parse_with(|mut p| parse_args(&mut p))?;
+            let params = p.with_ctx(arg_ctx).parse_with(|p| parse_args(p))?;
 
             expect!(p, ')');
 
@@ -1281,7 +1274,7 @@ impl IsInvalidClassName for Ident {
 }
 impl IsInvalidClassName for Option<Ident> {
     fn invalid_class_name(&self) -> Option<Span> {
-        if let Some(ref i) = self.as_ref() {
+        if let Some(i) = self.as_ref() {
             return i.invalid_class_name();
         }
 

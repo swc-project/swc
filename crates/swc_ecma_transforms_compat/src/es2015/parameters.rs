@@ -149,61 +149,59 @@ impl Params {
                             }))),
                             definite: false,
                         })
-                    } else {
-                        if let Pat::Ident(ident) = left.as_ref() {
-                            params.push(Param {
-                                span,
-                                pat: ident.clone().into(),
-                                decorators: Vec::new(),
-                            });
-                            loose_stmt.push(Stmt::If(IfStmt {
-                                span,
-                                test: Box::new(Expr::Bin(BinExpr {
-                                    span: DUMMY_SP,
-                                    left: Box::new(Expr::Ident(ident.id.clone())),
-                                    op: op!("==="),
-                                    right: undefined(DUMMY_SP),
-                                })),
-                                cons: Box::new(Stmt::Expr(ExprStmt {
-                                    span,
-                                    expr: Box::new(Expr::Assign(AssignExpr {
-                                        span,
-                                        left: PatOrExpr::Pat(left),
-                                        op: op!("="),
-                                        right,
-                                    })),
-                                })),
-                                alt: None,
-                            }))
-                        } else {
-                            let binding = private_ident!(span, "param");
-                            params.push(Param {
+                    } else if let Pat::Ident(ident) = left.as_ref() {
+                        params.push(Param {
+                            span,
+                            pat: ident.clone().into(),
+                            decorators: Vec::new(),
+                        });
+                        loose_stmt.push(Stmt::If(IfStmt {
+                            span,
+                            test: Box::new(Expr::Bin(BinExpr {
                                 span: DUMMY_SP,
-                                decorators: Default::default(),
-                                pat: binding.clone().into(),
-                            });
-                            loose_stmt.push(Stmt::Decl(Decl::Var(VarDecl {
+                                left: Box::new(Expr::Ident(ident.id.clone())),
+                                op: op!("==="),
+                                right: undefined(DUMMY_SP),
+                            })),
+                            cons: Box::new(Stmt::Expr(ExprStmt {
                                 span,
-                                kind: VarDeclKind::Let,
-                                decls: vec![VarDeclarator {
+                                expr: Box::new(Expr::Assign(AssignExpr {
                                     span,
-                                    name: *left,
-                                    init: Some(Box::new(Expr::Cond(CondExpr {
-                                        span,
-                                        test: Box::new(Expr::Bin(BinExpr {
-                                            span: DUMMY_SP,
-                                            left: Box::new(Expr::Ident(binding.clone())),
-                                            op: op!("==="),
-                                            right: undefined(DUMMY_SP),
-                                        })),
-                                        cons: right,
-                                        alt: Box::new(Expr::Ident(binding)),
-                                    }))),
-                                    definite: false,
-                                }],
-                                declare: false,
-                            })))
-                        }
+                                    left: PatOrExpr::Pat(left),
+                                    op: op!("="),
+                                    right,
+                                })),
+                            })),
+                            alt: None,
+                        }))
+                    } else {
+                        let binding = private_ident!(span, "param");
+                        params.push(Param {
+                            span: DUMMY_SP,
+                            decorators: Default::default(),
+                            pat: binding.clone().into(),
+                        });
+                        loose_stmt.push(Stmt::Decl(Decl::Var(VarDecl {
+                            span,
+                            kind: VarDeclKind::Let,
+                            decls: vec![VarDeclarator {
+                                span,
+                                name: *left,
+                                init: Some(Box::new(Expr::Cond(CondExpr {
+                                    span,
+                                    test: Box::new(Expr::Bin(BinExpr {
+                                        span: DUMMY_SP,
+                                        left: Box::new(Expr::Ident(binding.clone())),
+                                        op: op!("==="),
+                                        right: undefined(DUMMY_SP),
+                                    })),
+                                    cons: right,
+                                    alt: Box::new(Expr::Ident(binding)),
+                                }))),
+                                definite: false,
+                            }],
+                            declare: false,
+                        })))
                     }
                 }
                 Pat::Rest(RestPat { arg, .. }) => {
@@ -335,7 +333,8 @@ impl Params {
                             stmts: vec![{
                                 let prop = Box::new(Expr::Ident(idx_ident.clone()));
                                 // a1[_key - i] = arguments[_key];
-                                let expr = AssignExpr {
+
+                                AssignExpr {
                                     span,
                                     left: PatOrExpr::Expr(Box::new(
                                         arg.computed_member(make_minus_i(&idx_ident, false)),
@@ -353,9 +352,7 @@ impl Params {
                                         .into(),
                                     ),
                                 }
-                                .into_stmt();
-
-                                expr
+                                .into_stmt()
                             }],
                         })),
                     }))
@@ -435,7 +432,7 @@ impl VisitMut for Params {
         self.visit_mut_fn_like(&mut params, &mut f.body, false);
 
         assert!(
-            params.len() == 0 || params.len() == 1,
+            params.is_empty() || params.len() == 1,
             "fold_fn_like should return 0 ~ 1 parameter while handling catch clause"
         );
 
@@ -544,10 +541,10 @@ impl VisitMut for Params {
 
                 let body = if was_expr
                     && body.stmts.len() == 1
-                    && match body.stmts[0] {
-                        Stmt::Return(ReturnStmt { arg: Some(..), .. }) => true,
-                        _ => false,
-                    } {
+                    && matches!(
+                        body.stmts[0],
+                        Stmt::Return(ReturnStmt { arg: Some(..), .. })
+                    ) {
                     match body.stmts.pop().unwrap() {
                         Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
                             BlockStmtOrExpr::Expr(arg)

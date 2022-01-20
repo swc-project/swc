@@ -520,7 +520,7 @@ impl ReduceAst {
     fn is_safe_to_flatten_test(&self, e: &Expr) -> bool {
         match e {
             Expr::Ident(i) => {
-                self.data.imported_ids.contains(&i.to_id()) || !self.data.should_preserve(&i)
+                self.data.imported_ids.contains(&i.to_id()) || !self.data.should_preserve(i)
             }
 
             Expr::Paren(ParenExpr { expr: inner, .. })
@@ -531,7 +531,7 @@ impl ReduceAst {
                 arg: Some(inner), ..
             })
             | Expr::OptChain(OptChainExpr { expr: inner, .. }) => {
-                self.is_safe_to_flatten_test(&inner)
+                self.is_safe_to_flatten_test(inner)
             }
 
             Expr::Bin(e) => {
@@ -548,16 +548,16 @@ impl ReduceAst {
                 callee: Callee::Expr(callee),
                 ..
             })
-            | Expr::New(NewExpr { callee, .. }) => self.is_safe_to_flatten_test(&callee),
+            | Expr::New(NewExpr { callee, .. }) => self.is_safe_to_flatten_test(callee),
 
-            Expr::Member(MemberExpr { obj, .. }) => self.is_safe_to_flatten_test(&obj),
+            Expr::Member(MemberExpr { obj, .. }) => self.is_safe_to_flatten_test(obj),
 
             _ => true,
         }
     }
 
     fn is_safe_to_flatten_stmt(&self, s: &Stmt) -> bool {
-        !contains_import(&s)
+        !contains_import(s)
     }
 }
 
@@ -590,7 +590,7 @@ impl VisitMut for ReduceAst {
         c.visit_mut_children_with(self);
 
         if let Some(s) = &c.super_class {
-            if self.can_remove(&s, true) {
+            if self.can_remove(s, true) {
                 c.super_class = None;
             }
         }
@@ -606,17 +606,12 @@ impl VisitMut for ReduceAst {
 
                 ClassMember::ClassProp(p) => {
                     if let PropName::Computed(key) = &p.key {
-                        if p.decorators.is_empty()
+                        return !(p.decorators.is_empty()
                             && self.can_remove(&key.expr, false)
                             && p.value
                                 .as_deref()
                                 .map(|e| self.can_remove(e, true))
-                                .unwrap_or(true)
-                        {
-                            return false;
-                        } else {
-                            return true;
-                        }
+                                .unwrap_or(true));
                     } else {
                         return false;
                     }
@@ -640,7 +635,7 @@ impl VisitMut for ReduceAst {
                 ClassMember::PrivateProp(PrivateProp {
                     value: Some(value), ..
                 }) => {
-                    if self.can_remove(&value, true) {
+                    if self.can_remove(value, true) {
                         return false;
                     }
                 }
@@ -657,7 +652,7 @@ impl VisitMut for ReduceAst {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Bin(BinExpr { left, right, .. }) => {
-                if is_related_to_process(&left) || is_related_to_process(&right) {
+                if is_related_to_process(left) || is_related_to_process(right) {
                     return;
                 }
             }
@@ -705,11 +700,8 @@ impl VisitMut for ReduceAst {
 
                 if is_define {
                     for arg in args {
-                        match &mut *arg.expr {
-                            Expr::Fn(f) => {
-                                f.function.body.visit_mut_with(self);
-                            }
-                            _ => {}
+                        if let Expr::Fn(f) = &mut *arg.expr {
+                            f.function.body.visit_mut_with(self);
                         }
                     }
 
@@ -755,18 +747,15 @@ impl VisitMut for ReduceAst {
 
         e.visit_mut_children_with(self);
 
-        match e {
-            Expr::Seq(seq) => {
-                if seq.exprs.is_empty() {
-                    *e = null_expr(seq.span);
-                    return;
-                }
-
-                if seq.exprs.len() == 1 {
-                    *e = *seq.exprs.pop().unwrap();
-                }
+        if let Expr::Seq(seq) = e {
+            if seq.exprs.is_empty() {
+                *e = null_expr(seq.span);
+                return;
             }
-            _ => {}
+
+            if seq.exprs.len() == 1 {
+                *e = *seq.exprs.pop().unwrap();
+            }
         }
 
         match e {
@@ -775,22 +764,20 @@ impl VisitMut for ReduceAst {
             }
 
             Expr::Ident(i) => {
-                if self.data.should_preserve(&i) {
+                if self.data.should_preserve(i) {
                     return;
                 }
 
                 *e = null_expr(i.span);
-                return;
             }
 
             Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
-                if let Some(left) = left_most(&obj) {
+                if let Some(left) = left_most(obj) {
                     if self.data.should_preserve(&left) {
                         return;
                     }
                 }
                 *e = *obj.take();
-                return;
             }
 
             Expr::OptChain(opt) => {
@@ -806,7 +793,6 @@ impl VisitMut for ReduceAst {
                     *e = *arg;
                 } else {
                     *e = null_expr(expr.span);
-                    return;
                 }
             }
 
@@ -853,7 +839,7 @@ impl VisitMut for ReduceAst {
                 match &mut expr.left {
                     PatOrExpr::Pat(pat) => {
                         if let Pat::Expr(left) = &mut **pat {
-                            let left = left_most(&left);
+                            let left = left_most(left);
 
                             if let Some(left) = left {
                                 if self.data.should_preserve(&left) {
@@ -863,7 +849,7 @@ impl VisitMut for ReduceAst {
                         }
                     }
                     PatOrExpr::Expr(left) => {
-                        let left = left_most(&left);
+                        let left = left_most(left);
 
                         if let Some(left) = left {
                             if self.data.should_preserve(&left) {
@@ -889,15 +875,11 @@ impl VisitMut for ReduceAst {
             Expr::Seq(seq) => {
                 if seq.exprs.is_empty() {
                     *e = Expr::Invalid(Invalid { span: seq.span });
-                    return;
                 }
             }
 
             Expr::Bin(expr) => {
-                let mut exprs = Vec::with_capacity(2);
-
-                exprs.push(expr.left.take());
-                exprs.push(expr.right.take());
+                let exprs = vec![expr.left.take(), expr.right.take()];
 
                 let mut seq = Expr::Seq(SeqExpr {
                     span: expr.span,
@@ -910,11 +892,7 @@ impl VisitMut for ReduceAst {
             }
 
             Expr::Cond(expr) => {
-                let mut exprs = Vec::with_capacity(3);
-
-                exprs.push(expr.test.take());
-                exprs.push(expr.cons.take());
-                exprs.push(expr.alt.take());
+                let exprs = vec![expr.test.take(), expr.cons.take(), expr.alt.take()];
 
                 let mut seq = Expr::Seq(SeqExpr {
                     span: expr.span,
@@ -1006,7 +984,6 @@ impl VisitMut for ReduceAst {
 
                 if el.opening.attrs.is_empty() && el.children.is_empty() {
                     *e = null_expr(el.span);
-                    return;
                 }
             }
 
@@ -1038,7 +1015,6 @@ impl VisitMut for ReduceAst {
                 {
                     *e = null_expr(function.span);
                     self.changed = true;
-                    return;
                 }
             }
 
@@ -1051,20 +1027,17 @@ impl VisitMut for ReduceAst {
                 if !self.preserve_fn && params.is_empty() && body.is_empty() {
                     *e = null_expr(*span);
                     self.changed = true;
-                    return;
                 }
             }
 
             Expr::New(NewExpr {
                 span, callee, args, ..
             }) => {
-                let mut exprs = vec![];
-                exprs.push(callee.take());
+                let mut exprs = vec![callee.take()];
                 exprs.extend(args.take().into_iter().flatten().map(|v| v.expr));
 
                 *e = Expr::Seq(SeqExpr { span: *span, exprs });
                 self.changed = true;
-                return;
             }
 
             Expr::Call(CallExpr {
@@ -1152,7 +1125,7 @@ impl VisitMut for ReduceAst {
             }
 
             Some(VarDeclOrExpr::Expr(init)) => {
-                if self.can_remove(&init, true) {
+                if self.can_remove(init, true) {
                     s.init = None;
                 }
             }
@@ -1162,7 +1135,7 @@ impl VisitMut for ReduceAst {
         if let Some(test) = &mut s.test {
             self.ignore_expr(&mut **test, false);
 
-            if self.can_remove(&test, true) {
+            if self.can_remove(test, true) {
                 s.test = None;
             }
         }
@@ -1170,7 +1143,7 @@ impl VisitMut for ReduceAst {
         if let Some(update) = &mut s.update {
             self.ignore_expr(&mut **update, true);
 
-            if self.can_remove(&update, true) {
+            if self.can_remove(update, true) {
                 s.update = None;
             }
         }
@@ -1219,7 +1192,7 @@ impl VisitMut for ReduceAst {
                                 return true;
                             }
                             JSXExpr::Expr(e) => {
-                                if self.can_remove(&e, false) {
+                                if self.can_remove(e, false) {
                                     return false;
                                 }
                             }
@@ -1260,11 +1233,8 @@ impl VisitMut for ReduceAst {
         }
 
         if el.children.len() == 1 {
-            match &mut el.children[0] {
-                JSXElementChild::JSXElement(c) => {
-                    *el = *c.take();
-                }
-                _ => {}
+            if let JSXElementChild::JSXElement(c) = &mut el.children[0] {
+                *el = *c.take();
             }
         }
     }
@@ -1272,36 +1242,38 @@ impl VisitMut for ReduceAst {
     fn visit_mut_jsx_element_children(&mut self, v: &mut Vec<JSXElementChild>) {
         v.visit_mut_children_with(self);
 
-        v.retain(|c| match c {
-            JSXElementChild::JSXText(_)
-            | JSXElementChild::JSXExprContainer(JSXExprContainer {
-                expr: JSXExpr::JSXEmptyExpr(..),
-                ..
-            }) => return false,
-            JSXElementChild::JSXExprContainer(JSXExprContainer {
-                expr: JSXExpr::Expr(expr),
-                ..
-            }) => return !self.can_remove(&expr, false),
+        v.retain(|c| -> bool {
+            match c {
+                JSXElementChild::JSXText(_)
+                | JSXElementChild::JSXExprContainer(JSXExprContainer {
+                    expr: JSXExpr::JSXEmptyExpr(..),
+                    ..
+                }) => false,
+                JSXElementChild::JSXExprContainer(JSXExprContainer {
+                    expr: JSXExpr::Expr(expr),
+                    ..
+                }) => !self.can_remove(expr, false),
 
-            JSXElementChild::JSXElement(el) => {
-                // Remove empty, non-component elements.
-                match &el.opening.name {
-                    JSXElementName::Ident(name) => {
-                        if name.sym.chars().next().unwrap().is_uppercase() {
-                            return true;
+                JSXElementChild::JSXElement(el) => {
+                    // Remove empty, non-component elements.
+                    match &el.opening.name {
+                        JSXElementName::Ident(name) => {
+                            if name.sym.chars().next().unwrap().is_uppercase() {
+                                return true;
+                            }
                         }
+                        _ => return true,
                     }
-                    _ => return true,
+
+                    if el.opening.attrs.is_empty() && el.children.is_empty() {
+                        return false;
+                    }
+
+                    true
                 }
 
-                if el.opening.attrs.is_empty() && el.children.is_empty() {
-                    return false;
-                }
-
-                true
+                _ => true,
             }
-
-            _ => true,
         })
     }
 
@@ -1332,7 +1304,7 @@ impl VisitMut for ReduceAst {
 
             {
                 let _timer = timer!("analyze before reducing");
-                self.data = Arc::new(ScopeData::analyze(&stmts));
+                self.data = Arc::new(ScopeData::analyze(stmts));
             }
             {
                 let _timer = timer!("remove typescript nodes");
@@ -1358,10 +1330,8 @@ impl VisitMut for ReduceAst {
                 true
             }
             ObjectPatProp::Assign(p) => {
-                if self.can_remove_pat {
-                    if p.value.is_none() {
-                        return false;
-                    }
+                if self.can_remove_pat && p.value.is_none() {
+                    return false;
                 }
 
                 true
@@ -1448,11 +1418,8 @@ impl VisitMut for ReduceAst {
 
     fn visit_mut_pat(&mut self, pat: &mut Pat) {
         // We don't need rest pattern.
-        match pat {
-            Pat::Rest(rest) => {
-                *pat = *rest.arg.take();
-            }
-            _ => {}
+        if let Pat::Rest(rest) = pat {
+            *pat = *rest.arg.take();
         }
 
         match pat {
@@ -1478,21 +1445,18 @@ impl VisitMut for ReduceAst {
                 }
                 if p.id.span.ctxt != self.top_level_ctxt {
                     pat.take();
-                    return;
                 }
             }
 
             Pat::Array(arr) => {
                 if arr.elems.is_empty() {
                     pat.take();
-                    return;
                 }
             }
 
             Pat::Object(obj) => {
                 if obj.props.is_empty() {
                     pat.take();
-                    return;
                 }
             }
 
@@ -1502,7 +1466,6 @@ impl VisitMut for ReduceAst {
 
                     *pat = *a.left.take();
                     self.changed = true;
-                    return;
                 }
             }
 
@@ -1519,14 +1482,10 @@ impl VisitMut for ReduceAst {
     fn visit_mut_prop(&mut self, p: &mut Prop) {
         p.visit_mut_children_with(self);
 
-        match p {
-            Prop::Shorthand(i) => {
-                if !self.data.should_preserve(&*i) {
-                    i.take();
-                    return;
-                }
+        if let Prop::Shorthand(i) = p {
+            if !self.data.should_preserve(&*i) {
+                i.take();
             }
-            _ => {}
         }
     }
 
@@ -1576,7 +1535,7 @@ impl VisitMut for ReduceAst {
             self.ignore_expr(&mut **elem, true);
         }
 
-        e.exprs.retain(|e| !self.can_remove(&e, false));
+        e.exprs.retain(|e| !self.can_remove(e, false));
     }
 
     /// Normalize statements.
@@ -1618,7 +1577,7 @@ impl VisitMut for ReduceAst {
                     && self.is_safe_to_flatten_stmt(&s.cons)
                     && s.alt
                         .as_deref()
-                        .map(|s| self.is_safe_to_flatten_stmt(&s))
+                        .map(|s| self.is_safe_to_flatten_stmt(s))
                         .unwrap_or(true)
                 {
                     // Flatten if statements.
@@ -1681,12 +1640,8 @@ impl VisitMut for ReduceAst {
 
         stmt.visit_mut_children_with(self);
 
-        match stmt {
-            Stmt::Labeled(l) => {
-                *stmt = *l.body.take();
-            }
-
-            _ => {}
+        if let Stmt::Labeled(l) = stmt {
+            *stmt = *l.body.take();
         }
 
         match stmt {
@@ -1697,66 +1652,60 @@ impl VisitMut for ReduceAst {
                     return;
                 }
 
-                match &mut *e.expr {
-                    // Optimize IIFE
-                    Expr::Call(CallExpr {
-                        span,
-                        callee: Callee::Expr(callee),
-                        args,
-                        ..
-                    }) => match &mut **callee {
-                        Expr::Fn(callee) => {
-                            self.changed = true;
-                            let mut stmts = vec![];
-                            let Function {
-                                params,
-                                decorators,
-                                body,
-                                ..
-                            } = callee.function.take();
+                if let Expr::Call(CallExpr {
+                    span,
+                    callee: Callee::Expr(callee),
+                    args,
+                    ..
+                }) = &mut *e.expr
+                {
+                    if let Expr::Fn(callee) = &mut **callee {
+                        self.changed = true;
+                        let mut stmts = vec![];
+                        let Function {
+                            params,
+                            decorators,
+                            body,
+                            ..
+                        } = callee.function.take();
 
-                            if !decorators.is_empty() {
-                                let mut s = Stmt::Expr(ExprStmt {
+                        if !decorators.is_empty() {
+                            let mut s = Stmt::Expr(ExprStmt {
+                                span: *span,
+                                expr: Box::new(Expr::Seq(SeqExpr {
                                     span: *span,
-                                    expr: Box::new(Expr::Seq(SeqExpr {
-                                        span: *span,
-                                        exprs: decorators.into_iter().map(|d| d.expr).collect(),
-                                    })),
-                                });
-                                s.visit_mut_with(self);
-                                stmts.push(s);
-                            }
-
-                            if !params.is_empty() {
-                                let mut exprs = Vec::with_capacity(params.len());
-
-                                for p in params {
-                                    exprs.extend(p.decorators.into_iter().map(|d| d.expr));
-
-                                    preserve_pat(&mut exprs, p.pat);
-                                }
-
-                                exprs.extend(args.into_iter().map(|arg| arg.expr.take()));
-
-                                let mut s = Stmt::Expr(ExprStmt {
-                                    span: *span,
-                                    expr: Box::new(Expr::Seq(SeqExpr { span: *span, exprs })),
-                                });
-                                s.visit_mut_with(self);
-                                stmts.push(s);
-                            }
-
-                            if let Some(body) = body {
-                                stmts.extend(body.stmts);
-                            }
-
-                            *stmt = Stmt::Block(BlockStmt { span: *span, stmts });
-                            return;
+                                    exprs: decorators.into_iter().map(|d| d.expr).collect(),
+                                })),
+                            });
+                            s.visit_mut_with(self);
+                            stmts.push(s);
                         }
-                        _ => {}
-                    },
 
-                    _ => {}
+                        if !params.is_empty() {
+                            let mut exprs = Vec::with_capacity(params.len());
+
+                            for p in params {
+                                exprs.extend(p.decorators.into_iter().map(|d| d.expr));
+
+                                preserve_pat(&mut exprs, p.pat);
+                            }
+
+                            exprs.extend(args.iter_mut().map(|arg| arg.expr.take()));
+
+                            let mut s = Stmt::Expr(ExprStmt {
+                                span: *span,
+                                expr: Box::new(Expr::Seq(SeqExpr { span: *span, exprs })),
+                            });
+                            s.visit_mut_with(self);
+                            stmts.push(s);
+                        }
+
+                        if let Some(body) = body {
+                            stmts.extend(body.stmts);
+                        }
+
+                        *stmt = Stmt::Block(BlockStmt { span: *span, stmts });
+                    }
                 }
             }
 
@@ -1766,14 +1715,10 @@ impl VisitMut for ReduceAst {
                     return;
                 }
                 if block.stmts.len() == 1 {
-                    match &block.stmts[0] {
-                        Stmt::Decl(..) => {
-                            return;
-                        }
-                        _ => {}
+                    if let Stmt::Decl(..) = &block.stmts[0] {
+                        return;
                     }
                     *stmt = block.stmts.take().into_iter().next().unwrap();
-                    return;
                 }
             }
 
@@ -1808,7 +1753,6 @@ impl VisitMut for ReduceAst {
                         span: is.test.span(),
                         expr: is.test.take(),
                     });
-                    return;
                 }
             }
 
@@ -1825,7 +1769,6 @@ impl VisitMut for ReduceAst {
                 if self.can_remove(&s.test, true) {
                     *stmt = *s.body.take();
                     self.changed = true;
-                    return;
                 }
             }
 
@@ -1842,7 +1785,6 @@ impl VisitMut for ReduceAst {
                 if self.can_remove(&s.test, true) {
                     *stmt = *s.body.take();
                     self.changed = true;
-                    return;
                 }
             }
 
@@ -1856,7 +1798,6 @@ impl VisitMut for ReduceAst {
                 if body.is_empty() {
                     *stmt = Stmt::Decl(Decl::Var(v.take()));
                     self.changed = true;
-                    return;
                 }
             }
 
@@ -1869,7 +1810,6 @@ impl VisitMut for ReduceAst {
             }) => {
                 *stmt = *body.take();
                 self.changed = true;
-                return;
             }
 
             Stmt::Switch(s) => {
@@ -1879,7 +1819,6 @@ impl VisitMut for ReduceAst {
                         expr: s.discriminant.take(),
                     });
                     self.changed = true;
-                    return;
                 }
             }
 
@@ -1890,7 +1829,6 @@ impl VisitMut for ReduceAst {
                     && c.class.body.is_empty()
                 {
                     stmt.take();
-                    return;
                 }
             }
 
@@ -1925,7 +1863,6 @@ impl VisitMut for ReduceAst {
                     span: ts.span,
                     stmts,
                 });
-                return;
             }
 
             Stmt::For(ForStmt {
@@ -1970,7 +1907,6 @@ impl VisitMut for ReduceAst {
                 stmts.push(*body.take());
 
                 *stmt = Stmt::Block(BlockStmt { span: *span, stmts });
-                return;
             }
 
             // TODO: Flatten loops
@@ -2064,7 +2000,7 @@ impl VisitMut for ReduceAst {
 fn is_related_to_process(right: &Expr) -> bool {
     match right {
         Expr::Ident(i) => &*i.sym == "process",
-        Expr::Member(MemberExpr { obj, .. }) => is_related_to_process(&obj),
+        Expr::Member(MemberExpr { obj, .. }) => is_related_to_process(obj),
         _ => false,
     }
 }
@@ -2116,11 +2052,8 @@ fn preserve_obj_pat(exprs: &mut Vec<Box<Expr>>, p: ObjectPatProp) {
 }
 
 fn preserve_prop_name(exprs: &mut Vec<Box<Expr>>, p: PropName) {
-    match p {
-        PropName::Computed(e) => {
-            exprs.push(e.expr);
-        }
-        _ => {}
+    if let PropName::Computed(e) = p {
+        exprs.push(e.expr);
     }
 }
 

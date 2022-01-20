@@ -201,12 +201,12 @@ impl<'w, I: Tokens> Deref for WithState<'w, I> {
     type Target = Parser<I>;
 
     fn deref(&self) -> &Parser<I> {
-        &self.inner
+        self.inner
     }
 }
 impl<'w, I: Tokens> DerefMut for WithState<'w, I> {
     fn deref_mut(&mut self) -> &mut Parser<I> {
-        &mut self.inner
+        self.inner
     }
 }
 impl<'w, I: Tokens> Drop for WithState<'w, I> {
@@ -223,12 +223,12 @@ impl<'w, I: Tokens> Deref for WithCtx<'w, I> {
     type Target = Parser<I>;
 
     fn deref(&self) -> &Parser<I> {
-        &self.inner
+        self.inner
     }
 }
 impl<'w, I: Tokens> DerefMut for WithCtx<'w, I> {
     fn deref_mut(&mut self) -> &mut Parser<I> {
-        &mut self.inner
+        self.inner
     }
 }
 

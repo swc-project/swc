@@ -13,9 +13,8 @@ impl VisitMut for ThisInStaticFolder {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
-        match e {
-            Expr::This(..) => *e = Expr::Ident(self.ident.clone()),
-            _ => {}
+        if let Expr::This(..) = e {
+            *e = Expr::Ident(self.ident.clone())
         }
     }
 

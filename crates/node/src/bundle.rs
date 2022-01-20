@@ -54,8 +54,8 @@ impl Task for BundleTask {
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let builtins = if let TargetEnv::Node = self.config.static_items.config.target {
             NODE_BUILTINS
-                .to_vec()
-                .into_iter()
+                .iter()
+                .copied()
                 .map(JsWord::from)
                 .collect::<Vec<_>>()
         } else {

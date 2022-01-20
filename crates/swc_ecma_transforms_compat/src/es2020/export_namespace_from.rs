@@ -21,9 +21,11 @@ impl VisitMut for ExportNamespaceFrom {
                 ModuleItem::Stmt(ref s) if s.is_use_strict() => items_updated.push(item),
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
                     // Skip if it does not have namespace export
-                    if export.specifiers.iter().all(|s| match *s {
-                        ExportSpecifier::Named(..) | ExportSpecifier::Default(..) => true,
-                        _ => false,
+                    if export.specifiers.iter().all(|s| {
+                        matches!(
+                            *s,
+                            ExportSpecifier::Named(..) | ExportSpecifier::Default(..)
+                        )
                     }) {
                         extra_stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)));
                         continue;

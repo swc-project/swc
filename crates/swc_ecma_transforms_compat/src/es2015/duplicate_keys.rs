@@ -27,12 +27,9 @@ impl VisitMut for DuplicateKeys {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
 
-        match expr {
-            Expr::Object(ObjectLit { props, .. }) => {
-                let mut folder = PropFolder::default();
-                props.visit_mut_with(&mut folder);
-            }
-            _ => {}
+        if let Expr::Object(ObjectLit { props, .. }) = expr {
+            let mut folder = PropFolder::default();
+            props.visit_mut_with(&mut folder);
         }
     }
 }
@@ -122,11 +119,8 @@ impl<'a> VisitMut for PropNameFolder<'a> {
             }
             PropName::Computed(ComputedPropName { expr, .. }) => {
                 // Computed property might collide
-                match &**expr {
-                    Expr::Lit(Lit::Str(Str { ref value, .. })) => {
-                        self.props.insert(value.clone());
-                    }
-                    _ => {}
+                if let Expr::Lit(Lit::Str(Str { ref value, .. })) = &**expr {
+                    self.props.insert(value.clone());
                 }
             }
             _ => {}

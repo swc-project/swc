@@ -80,9 +80,7 @@ where
         let val = if self.ctx.allow_separating_value_with_space && eat!(self, " ") {
             self.input.skip_ws()?;
 
-            let mut values = vec![];
-
-            values.push(value);
+            let mut values = vec![value];
 
             loop {
                 if !is_one_of!(self, Str, Num, Ident, Function, Dimension, "[", "(") {
@@ -96,12 +94,10 @@ where
                 self.input.skip_ws()?;
             }
 
-            let val = Value::Space(SpaceValues {
+            Value::Space(SpaceValues {
                 span: span!(self, span.lo),
                 values,
-            });
-
-            val
+            })
         } else {
             value
         };
@@ -179,14 +175,14 @@ where
 
                 // ... or top-level <semicolon-token> tokens
                 tok!(";") => {
-                    if balance_stack.len() == 0 {
+                    if balance_stack.is_empty() {
                         break;
                     }
                 }
 
                 // ... or <delim-token> tokens with a value of "!"
                 tok!("!") => {
-                    if balance_stack.len() == 0 {
+                    if balance_stack.is_empty() {
                         break;
                     }
                 }
@@ -305,11 +301,7 @@ where
 
                 match token {
                     Token::Hash { value, raw, .. } => {
-                        return Ok(Value::Hash(HashValue {
-                            span,
-                            value: value.into(),
-                            raw: raw.into(),
-                        }))
+                        return Ok(Value::Hash(HashValue { span, value, raw }))
                     }
                     _ => {
                         unreachable!()
@@ -402,7 +394,7 @@ where
 
         self.input.reset(&start_state);
 
-        return Ok(base);
+        Ok(base)
     }
 
     fn parse_brace_value(&mut self) -> PResult<BraceValue> {
@@ -466,7 +458,7 @@ where
             } => {
                 let unit_len = raw_unit.len() as u32;
 
-                return Ok(Value::Unit(UnitValue {
+                Ok(Value::Unit(UnitValue {
                     span,
                     value: Num {
                         value,
@@ -486,7 +478,7 @@ where
                         value: unit,
                         raw: raw_unit,
                     },
-                }));
+                }))
             }
             Token::Num { value, raw, .. } => Ok(Value::Number(Num { span, value, raw })),
             _ => {
@@ -624,15 +616,15 @@ where
 
     pub fn parse_component_value(&mut self) -> PResult<Value> {
         match cur!(self) {
-            tok!("[") => return Ok(Value::SimpleBlock(self.parse_simple_block(']')?)),
-            tok!("(") => return Ok(Value::SimpleBlock(self.parse_simple_block(')')?)),
-            tok!("{") => return Ok(Value::SimpleBlock(self.parse_simple_block('}')?)),
-            tok!("function") => return Ok(Value::Function(self.parse()?)),
+            tok!("[") => Ok(Value::SimpleBlock(self.parse_simple_block(']')?)),
+            tok!("(") => Ok(Value::SimpleBlock(self.parse_simple_block(')')?)),
+            tok!("{") => Ok(Value::SimpleBlock(self.parse_simple_block('}')?)),
+            tok!("function") => Ok(Value::Function(self.parse()?)),
             _ => {
                 let span = self.input.cur_span()?;
                 let token = self.input.bump()?;
 
-                return match token {
+                match token {
                     Some(t) => Ok(Value::Lazy(Tokens {
                         span: span!(self, span.lo),
                         tokens: vec![t],
@@ -640,7 +632,7 @@ where
                     _ => {
                         unreachable!();
                     }
-                };
+                }
             }
         }
     }
@@ -781,8 +773,8 @@ where
         };
         let is_url = name.value.to_ascii_lowercase() == js_word!("url");
         let ctx = Ctx {
-            allow_operation_in_value: if is_url { false } else { true },
-            allow_separating_value_with_space: if is_url { false } else { true },
+            allow_operation_in_value: !is_url,
+            allow_separating_value_with_space: !is_url,
             allow_separating_value_with_comma: false,
             ..self.ctx
         };
@@ -790,10 +782,10 @@ where
 
         expect!(self, ")");
 
-        return Ok(Function {
+        Ok(Function {
             span: span!(self, span.lo),
             name,
             value,
-        });
+        })
     }
 }

@@ -472,7 +472,7 @@ impl Compiler {
         T: Node + VisitWith<IdentCollector>,
     {
         self.run(|| {
-            let preserve_comments = preserve_comments.unwrap_or_else(|| {
+            let preserve_comments = preserve_comments.unwrap_or({
                 if minify {
                     BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments)
                 } else {
@@ -640,7 +640,7 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
             Some(v) => {
                 let s = v.to_string_lossy().to_string();
                 if cfg!(target_os = "windows") {
-                    s.replace("\\", "/")
+                    s.replace('\\', "/")
                 } else {
                     s
                 }

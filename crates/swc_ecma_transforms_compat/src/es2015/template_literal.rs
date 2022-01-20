@@ -86,7 +86,7 @@ impl VisitMut for TemplateLiteral {
                 let len = quasis.len() + exprs.len();
 
                 let mut args = vec![];
-                let mut quasis = quasis.into_iter();
+                let mut quasis = quasis.iter_mut();
                 let mut exprs = exprs.take().into_iter();
 
                 for i in 0..len {
@@ -126,13 +126,13 @@ impl VisitMut for TemplateLiteral {
                     let is_lit = is_literal(&expr);
 
                     if is_lit {
-                        let is_empty = match *expr {
+                        let is_empty = matches!(
+                            *expr,
                             Expr::Lit(Lit::Str(Str {
                                 value: js_word!(""),
                                 ..
-                            })) => true,
-                            _ => false,
-                        };
+                            }))
+                        );
 
                         if !is_empty && args.is_empty() {
                             if let Expr::Lit(Lit::Str(Str {
