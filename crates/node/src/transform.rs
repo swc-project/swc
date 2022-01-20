@@ -5,7 +5,7 @@ use crate::{
 use anyhow::Context as _;
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
-    Env, Task,
+    Env, JsBuffer, JsBufferValue, Ref, Task,
 };
 use path_clean::clean;
 use std::{
@@ -30,7 +30,7 @@ pub enum Input {
 pub struct TransformTask {
     pub c: Arc<Compiler>,
     pub input: Input,
-    pub options: String,
+    pub options: Ref<JsBufferValue>,
 }
 
 #[napi]
@@ -39,7 +39,7 @@ impl Task for TransformTask {
     type JsValue = TransformOutput;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        let mut options: Options = deserialize_json(&self.options)?;
+        let mut options: Options = serde_json::from_slice(self.options.as_ref())?;
         if !options.filename.is_empty() {
             options.config.adjust(Path::new(&options.filename));
         }
@@ -82,18 +82,21 @@ impl Task for TransformTask {
     fn resolve(&mut self, _env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
         Ok(result)
     }
+
+    fn finally(&mut self, env: Env) -> napi::Result<()> {
+        self.options.unref(env)?;
+        Ok(())
+    }
 }
 
 #[napi]
 pub fn transform(
     src: String,
     is_module: bool,
-    options: Buffer,
+    options: JsBuffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<TransformTask>> {
     let c = get_compiler();
-
-    let options = String::from_utf8_lossy(options.as_ref()).to_string();
 
     let input = if is_module {
         Input::Program(src)
@@ -101,7 +104,11 @@ pub fn transform(
         Input::Source { src }
     };
 
-    let task = TransformTask { c, input, options };
+    let task = TransformTask {
+        c,
+        input,
+        options: options.into_ref()?,
+    };
     Ok(AsyncTask::with_optional_signal(task, signal))
 }
 
@@ -141,17 +148,16 @@ pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<
 pub fn transform_file(
     src: String,
     _is_module: bool,
-    options: Buffer,
+    options: JsBuffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<TransformTask>> {
     let c = get_compiler();
 
-    let options = String::from_utf8_lossy(options.as_ref()).to_string();
     let path = clean(&src);
     let task = TransformTask {
         c,
         input: Input::File(path.into()),
-        options,
+        options: options.into_ref()?,
     };
     Ok(AsyncTask::with_optional_signal(task, signal))
 }
