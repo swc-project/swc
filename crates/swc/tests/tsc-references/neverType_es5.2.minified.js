@@ -45,13 +45,12 @@ var C = function() {
 function test(cb) {
     return cb();
 }
-var errorCallback = function() {
-    return error("Error callback");
-};
 test(function() {
     return "hello";
 }), test(function() {
     return error("Something failed");
 }), test(function() {
     throw new Error();
-}), test(errorCallback);
+}), test(function() {
+    return error("Error callback");
+});

@@ -1,5 +1,5 @@
-var React = require("react"), Foo = function(props) {
+var React = require("react");
+React.createElement(function(props) {
     return React.createElement("div", null);
-};
-React.createElement(Foo, null);
+}, null);
 export { };
