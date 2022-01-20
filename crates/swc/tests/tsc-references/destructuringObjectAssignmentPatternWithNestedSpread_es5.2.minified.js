@@ -1,4 +1,4 @@
-var _c;
+var _c, ref, d;
 (function(source, excluded) {
     if (null == source) return {};
     var key, i, target = function(source, excluded) {
@@ -18,4 +18,4 @@ var _c;
     }
 }).x, [
     "a"
-]), _c.x.a;
+]), (void 0 === (ref = _c.x) ? d : ref).a;

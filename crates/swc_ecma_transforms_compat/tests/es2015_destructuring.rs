@@ -1962,3 +1962,33 @@ test!(
     NODE_ENV = process.env.NODE_ENV;
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    issue_3315_1,
+    "\
+    var baz = 1;
+    ({ foo: bar = baz } = {});
+    ",
+    "\
+    var baz = 1;
+    var ref, ref1;
+    ref = {}, ref1 = ref.foo, bar = ref1 === void 0 ? baz : ref1, ref;
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    issue_3315_2,
+    "\
+    var baz = 1;
+    [bar = baz] = [];    
+    ",
+    "\
+    var baz = 1;
+    var ref, ref1;
+    ref = [], ref1 = ref[0], bar = ref1 === void 0 ? baz : ref1, ref;
+    "
+);

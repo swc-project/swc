@@ -900,11 +900,7 @@ impl VisitMut for AssignFolder {
                     });
                 }
                 Pat::Assign(pat) => {
-                    let ref_ident = match *pat.right {
-                        Expr::Ident(ref i) => i.clone(),
-
-                        _ => make_ref_ident(self.c, &mut self.vars, None),
-                    };
+                    let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
 
                     let mut exprs = vec![Box::new(
                         AssignExpr {
