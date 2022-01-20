@@ -17,7 +17,7 @@
         "type": "MediaQueryList",
         "span": {
           "start": 7,
-          "end": 26,
+          "end": 25,
           "ctxt": 0
         },
         "queries": [
@@ -25,7 +25,7 @@
             "type": "MediaQuery",
             "span": {
               "start": 7,
-              "end": 26,
+              "end": 25,
               "ctxt": 0
             },
             "modifier": null,
@@ -101,7 +101,7 @@
         "type": "MediaQueryList",
         "span": {
           "start": 36,
-          "end": 101,
+          "end": 100,
           "ctxt": 0
         },
         "queries": [
@@ -109,7 +109,7 @@
             "type": "MediaQuery",
             "span": {
               "start": 36,
-              "end": 101,
+              "end": 100,
               "ctxt": 0
             },
             "modifier": null,
@@ -291,7 +291,7 @@
         "type": "MediaQueryList",
         "span": {
           "start": 111,
-          "end": 199,
+          "end": 198,
           "ctxt": 0
         },
         "queries": [
@@ -299,7 +299,7 @@
             "type": "MediaQuery",
             "span": {
               "start": 111,
-              "end": 199,
+              "end": 198,
               "ctxt": 0
             },
             "modifier": null,
@@ -626,7 +626,7 @@
         "type": "MediaQueryList",
         "span": {
           "start": 242,
-          "end": 308,
+          "end": 307,
           "ctxt": 0
         },
         "queries": [
@@ -634,7 +634,7 @@
             "type": "MediaQuery",
             "span": {
               "start": 242,
-              "end": 308,
+              "end": 307,
               "ctxt": 0
             },
             "modifier": null,
@@ -826,7 +826,7 @@
         "type": "MediaQueryList",
         "span": {
           "start": 318,
-          "end": 384,
+          "end": 383,
           "ctxt": 0
         },
         "queries": [
@@ -834,7 +834,7 @@
             "type": "MediaQuery",
             "span": {
               "start": 318,
-              "end": 384,
+              "end": 383,
               "ctxt": 0
             },
             "modifier": null,
@@ -1026,7 +1026,7 @@
         "type": "MediaQueryList",
         "span": {
           "start": 394,
-          "end": 460,
+          "end": 459,
           "ctxt": 0
         },
         "queries": [
@@ -1034,7 +1034,7 @@
             "type": "MediaQuery",
             "span": {
               "start": 394,
-              "end": 460,
+              "end": 459,
               "ctxt": 0
             },
             "modifier": null,
@@ -1360,7 +1360,7 @@
         "type": "MediaQueryList",
         "span": {
           "start": 494,
-          "end": 560,
+          "end": 559,
           "ctxt": 0
         },
         "queries": [
@@ -1368,7 +1368,7 @@
             "type": "MediaQuery",
             "span": {
               "start": 494,
-              "end": 560,
+              "end": 559,
               "ctxt": 0
             },
             "modifier": null,

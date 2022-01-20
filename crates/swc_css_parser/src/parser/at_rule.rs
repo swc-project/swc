@@ -786,9 +786,9 @@ where
 
             self.input.reset(&state);
 
-            let condition = self.parse()?;
+            let condition: MediaCondition = self.parse()?;
 
-            last_pos = self.input.last_pos()?;
+            last_pos = condition.span.hi;
 
             Some(condition)
         };
