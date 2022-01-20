@@ -454,7 +454,7 @@ define!({
         pub media_type: Option<Ident>,
         pub condition: Option<MediaConditionType>,
     }
-    
+
     pub enum MediaConditionType {
         All(MediaCondition),
         WithoutOr(MediaConditionWithoutOr),

@@ -96,7 +96,6 @@ pub enum MediaInParens {
 
     #[tag("MediaFeature")]
     Feature(MediaFeature),
-
     // TODO <general-enclosed>
 }
 
