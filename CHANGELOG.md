@@ -1,11 +1,23 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(css)** Fix parsing of media queries (#3318) ([0723ee2](https://github.com/swc-project/swc/commit/0723ee282861a1e648490989c122d5f4e683dc35))
+
 ### Documentation
 
 
 
 - **(repo)** Update contributing docs (#3298) ([5af79f6](https://github.com/swc-project/swc/commit/5af79f634b7431e886b254992e7fbdbe044d1e9d))
+
+### Build
+
+
+
+- **(node-swc)** Fix GLIBC < 2.18 compatible issues and android arm binary loading issue (#3314) ([9608605](https://github.com/swc-project/swc/commit/9608605772351a2406870e19ed8738adf2147374))
 
 ## [1.2.131] - 2022-01-19
 
