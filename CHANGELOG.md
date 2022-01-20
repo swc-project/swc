@@ -7,6 +7,9 @@
 
 - **(css/parser)** Fix parsing of at rules (#3328) ([506a310](https://github.com/swc-project/swc/commit/506a31078aaebf50129658f096bbd5929995205f))
 
+
+- **(es/compat)** Fix regression of `destructuring` (#3326) ([6d1ad36](https://github.com/swc-project/swc/commit/6d1ad368aca53ee64a63ae565cd015909f2f4458))
+
 ### Performance
 
 

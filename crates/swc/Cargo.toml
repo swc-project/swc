@@ -9,7 +9,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.116.15"
+version = "0.116.16"
 
 [lib]
 name = "swc"
@@ -55,7 +55,7 @@ swc_ecma_loader = {version = "0.27.0", path = "../swc_ecma_loader", features = [
 swc_ecma_minifier = {version = "0.70.9", path = "../swc_ecma_minifier"}
 swc_ecma_parser = {version = "0.87.0", path = "../swc_ecma_parser"}
 swc_ecma_preset_env = {version = "0.86.1", path = "../swc_ecma_preset_env"}
-swc_ecma_transforms = {version = "0.113.3", path = "../swc_ecma_transforms", features = [
+swc_ecma_transforms = {version = "0.113.4", path = "../swc_ecma_transforms", features = [
   "compat",
   "module",
   "optimization",
@@ -64,11 +64,11 @@ swc_ecma_transforms = {version = "0.113.3", path = "../swc_ecma_transforms", fea
   "typescript",
 ]}
 swc_ecma_transforms_base = {version = "0.57.1", path = "../swc_ecma_transforms_base"}
-swc_ecma_transforms_compat = {version = "0.68.2", path = "../swc_ecma_transforms_compat"}
+swc_ecma_transforms_compat = {version = "0.68.3", path = "../swc_ecma_transforms_compat"}
 swc_ecma_transforms_optimization = {version = "0.83.0", path = "../swc_ecma_transforms_optimization"}
 swc_ecma_utils = {version = "0.64.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.51.1", path = "../swc_ecma_visit"}
-swc_ecmascript = {version = "0.110.14", path = "../swc_ecmascript"}
+swc_ecmascript = {version = "0.110.15", path = "../swc_ecmascript"}
 swc_node_comments = {version = "0.4.0", path = "../swc_node_comments"}
 swc_plugin_runner = {version = "0.30.0", path = "../swc_plugin_runner", optional = true}
 swc_visit = {version = "0.3.0", path = "../swc_visit"}
