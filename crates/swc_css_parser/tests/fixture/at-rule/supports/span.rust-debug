@@ -324,13 +324,7 @@ error: MediaRule
 16 | |     }
    | |_____^
 
-error: MediaQuery
-  --> $DIR/tests/fixture/at-rule/supports/input.css:12:12
-   |
-12 |     @media screen and (min-width: 900px) {
-   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AndMediaQuery
+error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:12
    |
 12 |     @media screen and (min-width: 900px) {
@@ -340,7 +334,7 @@ error: MediaQuery
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:12
    |
 12 |     @media screen and (min-width: 900px) {
-   |            ^^^^^^
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:12
@@ -348,17 +342,41 @@ error: Ident
 12 |     @media screen and (min-width: 900px) {
    |            ^^^^^^
 
-error: MediaQuery
-  --> $DIR/tests/fixture/at-rule/supports/input.css:12:24
+error: MediaConditionWithoutOr
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:23
    |
 12 |     @media screen and (min-width: 900px) {
-   |                        ^^^^^^^^^^^^^^^^^
+   |                       ^^^^^^^^^^^^^^^^^^
 
-error: Declaration
+error: MediaConditionWithoutOrType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:23
+   |
+12 |     @media screen and (min-width: 900px) {
+   |                       ^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:23
+   |
+12 |     @media screen and (min-width: 900px) {
+   |                       ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:23
+   |
+12 |     @media screen and (min-width: 900px) {
+   |                       ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:23
+   |
+12 |     @media screen and (min-width: 900px) {
+   |                       ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:24
    |
 12 |     @media screen and (min-width: 900px) {
-   |                        ^^^^^^^^^^^^^^^^^
+   |                        ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:24
@@ -366,7 +384,7 @@ error: Ident
 12 |     @media screen and (min-width: 900px) {
    |                        ^^^^^^^^^
 
-error: Value
+error: MediaFeatureValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:35
    |
 12 |     @media screen and (min-width: 900px) {

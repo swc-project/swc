@@ -22,17 +22,53 @@ error: MediaRule
 1 | @media (aspect-ratio: 12/9) {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: MediaQuery
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:9
+error: MediaQueryList
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
   |
 1 | @media (aspect-ratio: 12/9) {}
-  |         ^^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^^^^^^^^
 
-error: Declaration
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
+  |
+1 | @media (aspect-ratio: 12/9) {}
+  |        ^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
+  |
+1 | @media (aspect-ratio: 12/9) {}
+  |        ^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionAllType
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
+  |
+1 | @media (aspect-ratio: 12/9) {}
+  |        ^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
+  |
+1 | @media (aspect-ratio: 12/9) {}
+  |        ^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
+  |
+1 | @media (aspect-ratio: 12/9) {}
+  |        ^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+ --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
+  |
+1 | @media (aspect-ratio: 12/9) {}
+  |        ^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
  --> $DIR/tests/fixture/rome/media/ratio/input.css:1:9
   |
 1 | @media (aspect-ratio: 12/9) {}
-  |         ^^^^^^^^^^^^^^^^^^^
+  |         ^^^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/media/ratio/input.css:1:9
@@ -40,7 +76,7 @@ error: Ident
 1 | @media (aspect-ratio: 12/9) {}
   |         ^^^^^^^^^^^^
 
-error: Value
+error: MediaFeatureValue
  --> $DIR/tests/fixture/rome/media/ratio/input.css:1:23
   |
 1 | @media (aspect-ratio: 12/9) {}

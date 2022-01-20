@@ -289,71 +289,89 @@
             "end": 240,
             "ctxt": 0
           },
-          "query": {
-            "type": "AndMediaQuery",
+          "media": {
+            "type": "MediaQueryList",
             "span": {
               "start": 148,
               "end": 177,
               "ctxt": 0
             },
-            "left": {
-              "type": "Identifier",
-              "span": {
-                "start": 148,
-                "end": 154,
-                "ctxt": 0
-              },
-              "value": "screen",
-              "raw": "screen"
-            },
-            "right": {
-              "type": "Declaration",
-              "span": {
-                "start": 160,
-                "end": 177,
-                "ctxt": 0
-              },
-              "property": {
-                "type": "Identifier",
+            "queries": [
+              {
+                "type": "MediaQuery",
                 "span": {
-                  "start": 160,
-                  "end": 169,
+                  "start": 148,
+                  "end": 177,
                   "ctxt": 0
                 },
-                "value": "min-width",
-                "raw": "min-width"
-              },
-              "value": [
-                {
-                  "type": "UnitValue",
+                "modifier": null,
+                "mediaType": {
+                  "type": "Identifier",
                   "span": {
-                    "start": 171,
-                    "end": 176,
+                    "start": 148,
+                    "end": 154,
                     "ctxt": 0
                   },
-                  "value": {
-                    "type": "Number",
-                    "span": {
-                      "start": 171,
-                      "end": 174,
-                      "ctxt": 0
-                    },
-                    "value": 900.0,
-                    "raw": "900"
+                  "value": "screen",
+                  "raw": "screen"
+                },
+                "condition": {
+                  "type": "MediaConditionWithoutOr",
+                  "span": {
+                    "start": 159,
+                    "end": 177,
+                    "ctxt": 0
                   },
-                  "unit": {
-                    "span": {
-                      "start": 174,
-                      "end": 176,
-                      "ctxt": 0
-                    },
-                    "value": "px",
-                    "raw": "px"
-                  }
+                  "conditions": [
+                    {
+                      "type": "MediaFeaturePlain",
+                      "span": {
+                        "start": 159,
+                        "end": 177,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 160,
+                          "end": 169,
+                          "ctxt": 0
+                        },
+                        "value": "min-width",
+                        "raw": "min-width"
+                      },
+                      "value": {
+                        "type": "UnitValue",
+                        "span": {
+                          "start": 171,
+                          "end": 176,
+                          "ctxt": 0
+                        },
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 171,
+                            "end": 174,
+                            "ctxt": 0
+                          },
+                          "value": 900.0,
+                          "raw": "900"
+                        },
+                        "unit": {
+                          "span": {
+                            "start": 174,
+                            "end": 176,
+                            "ctxt": 0
+                          },
+                          "value": "px",
+                          "raw": "px"
+                        }
+                      }
+                    }
+                  ]
                 }
-              ],
-              "important": null
-            }
+              }
+            ]
           },
           "rules": [
             {

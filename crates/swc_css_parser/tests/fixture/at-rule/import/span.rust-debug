@@ -382,6 +382,12 @@ error: Str
 10 | @import "common.css" screen;
    |         ^^^^^^^^^^^^
 
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/import/input.css:10:22
+   |
+10 | @import "common.css" screen;
+   |                      ^^^^^^
+
 error: MediaQuery
   --> $DIR/tests/fixture/at-rule/import/input.css:10:22
    |
@@ -442,13 +448,7 @@ error: Str
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |             ^^^^^^^^^^^^^^^
 
-error: MediaQuery
-  --> $DIR/tests/fixture/at-rule/import/input.css:11:30
-   |
-11 | @import url('landscape.css') screen and (orientation:landscape);
-   |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AndMediaQuery
+error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/import/input.css:11:30
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);
@@ -458,7 +458,7 @@ error: MediaQuery
   --> $DIR/tests/fixture/at-rule/import/input.css:11:30
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);
-   |                              ^^^^^^
+   |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/import/input.css:11:30
@@ -466,17 +466,41 @@ error: Ident
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |                              ^^^^^^
 
-error: MediaQuery
-  --> $DIR/tests/fixture/at-rule/import/input.css:11:42
+error: MediaConditionWithoutOr
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:41
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);
-   |                                          ^^^^^^^^^^^^^^^^^^^^^^
+   |                                         ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Declaration
+error: MediaConditionWithoutOrType
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:41
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                                         ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:41
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                                         ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:41
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                                         ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:41
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                                         ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
   --> $DIR/tests/fixture/at-rule/import/input.css:11:42
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);
-   |                                          ^^^^^^^^^^^^^^^^^^^^^^
+   |                                          ^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/import/input.css:11:42
@@ -484,7 +508,7 @@ error: Ident
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |                                          ^^^^^^^^^^^
 
-error: Value
+error: MediaFeatureValue
   --> $DIR/tests/fixture/at-rule/import/input.css:11:54
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);

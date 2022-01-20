@@ -1,4 +1,4 @@
-use crate::{Function, Ident, MediaQuery, Str, UrlValue};
+use crate::{Function, Ident, MediaQueryList, Str, UrlValue};
 use swc_common::{ast_node, Span};
 
 #[ast_node]
@@ -27,5 +27,5 @@ pub struct ImportRule {
     pub span: Span,
     pub href: ImportHref,
     pub layer_name: Option<ImportLayerName>,
-    pub media: Option<MediaQuery>,
+    pub media: Option<MediaQueryList>,
 }

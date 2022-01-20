@@ -319,10 +319,8 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(UrlValue, visit_url_value);
     mtd!(Value, visit_value);
 
-    mtd!(AndMediaQuery, visit_and_media_query);
     mtd!(AndSupportQuery, visit_and_support_query);
     mtd!(CharsetRule, visit_charset_rule);
-    mtd!(CommaMediaQuery, visit_comma_media_query);
     mtd!(DocumentRule, visit_document_rule);
     mtd!(FontFaceRule, visit_font_face_rule);
     mtd!(ImportHref, visit_import_href);
@@ -336,15 +334,34 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(LayerNameList, visit_layer_name_list);
     mtd!(LayerPrelude, visit_layer_prelude);
     mtd!(LayerRule, visit_layer_rule);
-    mtd!(MediaQuery, visit_media_query);
     mtd!(MediaRule, visit_media_rule);
+    mtd!(MediaQueryList, visit_media_query_list);
+    mtd!(MediaQuery, visit_media_query);
+    mtd!(MediaCondition, visit_media_condition);
+    mtd!(MediaConditionWithoutOr, visit_media_condition_without_or);
+    mtd!(MediaConditionAllType, visit_media_condition_all_type);
+    mtd!(
+        MediaConditionWithoutOrType,
+        visit_media_condition_without_or_type
+    );
+    mtd!(MediaNot, visit_media_not);
+    mtd!(MediaAnd, visit_media_and);
+    mtd!(MediaOr, visit_media_or);
+    mtd!(MediaInParens, visit_media_in_parens);
+    mtd!(MediaFeatureName, visit_media_feature_name);
+    mtd!(MediaFeatureValue, visit_media_feature_value);
+    mtd!(MediaFeature, visit_media_feature);
+    mtd!(MediaFeaturePlain, visit_media_feature_plain);
+    mtd!(MediaFeatureBoolean, visit_media_feature_boolean);
+    mtd!(MediaFeatureRange, visit_media_feature_range);
+    mtd!(
+        MediaFeatureRangeInterval,
+        visit_media_feature_range_interval
+    );
     mtd!(NamespaceUri, visit_namespace_uri);
     mtd!(NamespaceRule, visit_namespace_rule);
     mtd!(NestedPageRule, visit_nested_page_rule);
-    mtd!(NotMediaQuery, visit_not_media_query);
     mtd!(NotSupportQuery, visit_not_support_query);
-    mtd!(OnlyMediaQuery, visit_only_media_query);
-    mtd!(OrMediaQuery, visit_or_media_query);
     mtd!(OrSupportQuery, visit_or_support_query);
     mtd!(PageRule, visit_page_rule);
     mtd!(PageRuleBlock, visit_page_rule_block);
