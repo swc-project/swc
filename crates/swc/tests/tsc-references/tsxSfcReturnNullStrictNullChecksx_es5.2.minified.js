@@ -1,7 +1,7 @@
-var React = require("react");
-React.createElement(function(props) {
+var React = require("react"), Foo = function(props) {
     return null;
-}, null), React.createElement(function(x) {
+};
+React.createElement(Foo, null), React.createElement(function(x) {
     return null;
 }, null);
 export { };
