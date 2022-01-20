@@ -247,7 +247,7 @@ where
                         _ => {}
                     }
 
-                    if usage.used_as_arg {
+                    if usage.used_as_arg && !usage.is_fn_local {
                         if let Expr::Fn(..) = &**init {
                             return;
                         }
