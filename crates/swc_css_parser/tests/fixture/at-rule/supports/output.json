@@ -293,7 +293,7 @@
             "type": "MediaQueryList",
             "span": {
               "start": 148,
-              "end": 178,
+              "end": 177,
               "ctxt": 0
             },
             "queries": [
@@ -301,7 +301,7 @@
                 "type": "MediaQuery",
                 "span": {
                   "start": 148,
-                  "end": 178,
+                  "end": 177,
                   "ctxt": 0
                 },
                 "modifier": null,

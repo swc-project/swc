@@ -212,13 +212,13 @@ error: MediaQueryList
  --> $DIR/tests/fixture/at-rule/media/input.css:7:8
   |
 7 | @media screen and (color) {}
-  |        ^^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/at-rule/media/input.css:7:8
   |
 7 | @media screen and (color) {}
-  |        ^^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/at-rule/media/input.css:7:8
@@ -290,7 +290,7 @@ error: MediaQueryList
  --> $DIR/tests/fixture/at-rule/media/input.css:8:8
   |
 8 | @media screen and (color), projection and (color) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/at-rule/media/input.css:8:8
@@ -350,7 +350,7 @@ error: MediaQuery
  --> $DIR/tests/fixture/at-rule/media/input.css:8:28
   |
 8 | @media screen and (color), projection and (color) {}
-  |                            ^^^^^^^^^^^^^^^^^^^^^^^
+  |                            ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/at-rule/media/input.css:8:28
@@ -422,13 +422,13 @@ error: MediaQueryList
  --> $DIR/tests/fixture/at-rule/media/input.css:9:11
   |
 9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
-  |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/at-rule/media/input.css:9:11
   |
 9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
-  |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/at-rule/media/input.css:9:11
@@ -482,7 +482,7 @@ error: MediaQuery
  --> $DIR/tests/fixture/at-rule/media/input.css:9:48
   |
 9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
-  |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/at-rule/media/input.css:9:48
@@ -554,13 +554,13 @@ error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/media/input.css:10:8
    |
 10 | @media print and (min-resolution: 118dpcm) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
   --> $DIR/tests/fixture/at-rule/media/input.css:10:8
    |
 10 | @media print and (min-resolution: 118dpcm) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:10:8
@@ -692,13 +692,13 @@ error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/media/input.css:12:8
    |
 12 | @media screen and (color) {}
-   |        ^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
   --> $DIR/tests/fixture/at-rule/media/input.css:12:8
    |
 12 | @media screen and (color) {}
-   |        ^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:12:8
@@ -770,13 +770,13 @@ error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/media/input.css:13:10
    |
 13 | @media   screen   and    (   color   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
   --> $DIR/tests/fixture/at-rule/media/input.css:13:10
    |
 13 | @media   screen   and    (   color   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:13:10
@@ -848,13 +848,13 @@ error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/media/input.css:15:8
    |
 15 | @media not all and (monochrome) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
   --> $DIR/tests/fixture/at-rule/media/input.css:15:8
    |
 15 | @media not all and (monochrome) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:15:8
@@ -932,7 +932,7 @@ error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/media/input.css:16:8
    |
 16 | @media not screen and (color), print and (color) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
   --> $DIR/tests/fixture/at-rule/media/input.css:16:8
@@ -998,7 +998,7 @@ error: MediaQuery
   --> $DIR/tests/fixture/at-rule/media/input.css:16:32
    |
 16 | @media not screen and (color), print and (color) {}
-   |                                ^^^^^^^^^^^^^^^^^^
+   |                                ^^^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:16:32
@@ -1382,13 +1382,13 @@ error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/media/input.css:22:8
    |
 22 | @media only screen and (color) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
   --> $DIR/tests/fixture/at-rule/media/input.css:22:8
    |
 22 | @media only screen and (color) {}
-   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+   |        ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:22:8
@@ -1466,13 +1466,13 @@ error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/media/input.css:23:10
    |
 23 | @media   only   screen   and   (   color   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
   --> $DIR/tests/fixture/at-rule/media/input.css:23:10
    |
 23 | @media   only   screen   and   (   color   )   {}
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/media/input.css:23:10

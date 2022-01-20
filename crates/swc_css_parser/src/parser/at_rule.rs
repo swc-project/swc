@@ -771,11 +771,11 @@ where
 
         let condition = if media_type.is_some() {
             if eat!(self, "and") {
-                let condition_without_or = self.parse()?;
-                
                 self.input.skip_ws()?;
 
-                last_pos = self.input.last_pos()?;
+                let condition_without_or: MediaCondition = self.parse()?;
+
+                last_pos = condition_without_or.span.hi;
 
                 Some(condition_without_or)
             } else {
@@ -785,7 +785,7 @@ where
             modifier = None;
 
             self.input.reset(&state);
-            
+
             let condition = self.parse()?;
 
             last_pos = self.input.last_pos()?;

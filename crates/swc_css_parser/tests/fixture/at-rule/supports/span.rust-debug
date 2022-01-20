@@ -328,13 +328,13 @@ error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:12
    |
 12 |     @media screen and (min-width: 900px) {
-   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: MediaQuery
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:12
    |
 12 |     @media screen and (min-width: 900px) {
-   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:12
