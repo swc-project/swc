@@ -27,6 +27,8 @@ where
             }
         };
 
+        let state = self.input.state();
+
         match &*name.0.to_ascii_lowercase() {
             "charset" => {
                 self.input.skip_ws()?;
@@ -196,6 +198,8 @@ where
 
             _ => {}
         }
+
+        self.input.reset(&state);
 
         // Consume the next input token. Create a new at-rule with its name set to the
         // value of the current input token, its prelude initially set to an empty list,
@@ -1002,7 +1006,7 @@ where
 
         match cur!(self) {
             tok!(")") => {
-                eat!(self, ")");
+                bump!(self);
 
                 let name = match left {
                     MediaFeatureValue::Ident(ident) => MediaFeatureName::Ident(ident),
@@ -1017,7 +1021,7 @@ where
                 }))
             }
             tok!(":") => {
-                eat!(self, ":");
+                bump!(self);
 
                 self.input.skip_ws()?;
 
@@ -1057,8 +1061,7 @@ where
                     }
                     tok!("=") => MediaFeatureRangeComparison::Eq,
                     _ => {
-                        // TODO another error
-                        return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
+                        unreachable!();
                     }
                 };
 
@@ -1093,8 +1096,10 @@ where
                         }
                     }
                     _ => {
-                        // TODO another error
-                        return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
+                        return Err(Error::new(
+                            span,
+                            ErrorKind::Expected("'>' or '<' operators"),
+                        ));
                     }
                 };
 
@@ -1113,7 +1118,30 @@ where
                     }
                 };
 
-                // TODO validate comparison
+                let is_valid_operator = match left_comparison {
+                    MediaFeatureRangeComparison::Lt | MediaFeatureRangeComparison::Le
+                        if right_comparison == MediaFeatureRangeComparison::Lt
+                            || right_comparison == MediaFeatureRangeComparison::Le =>
+                    {
+                        true
+                    }
+                    MediaFeatureRangeComparison::Gt | MediaFeatureRangeComparison::Ge
+                        if right_comparison == MediaFeatureRangeComparison::Gt
+                            || right_comparison == MediaFeatureRangeComparison::Ge =>
+                    {
+                        true
+                    }
+                    _ => false,
+                };
+
+                if !is_valid_operator {
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected(
+                            "left comparison operator should be equal right comparison operator",
+                        ),
+                    ));
+                }
 
                 Ok(MediaFeature::RangeInterval(MediaFeatureRangeInterval {
                     span: span!(self, span.lo),

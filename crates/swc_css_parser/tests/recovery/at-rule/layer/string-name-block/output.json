@@ -27,6 +27,28 @@
         {
           "type": "Tokens",
           "span": {
+            "start": 6,
+            "end": 7,
+            "ctxt": 0
+          },
+          "tokens": [
+            {
+              "span": {
+                "start": 6,
+                "end": 7,
+                "ctxt": 0
+              },
+              "token": {
+                "WhiteSpace": {
+                  "value": " "
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "Tokens",
+          "span": {
             "start": 7,
             "end": 18,
             "ctxt": 0
