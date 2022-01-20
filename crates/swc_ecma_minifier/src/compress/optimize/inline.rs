@@ -232,7 +232,7 @@ where
                     }
                     match &**init {
                         Expr::Lit(Lit::Regex(..)) => {
-                            if !usage.is_fn_local || usage.used_in_loop {
+                            if !usage.is_fn_local || usage.executed_multiple_time {
                                 return;
                             }
                         }
@@ -247,7 +247,7 @@ where
                         _ => {}
                     }
 
-                    if usage.used_in_loop {
+                    if usage.executed_multiple_time {
                         match &**init {
                             Expr::Lit(..) | Expr::Fn(..) => {}
                             _ => {
@@ -466,7 +466,7 @@ where
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
                 && (usage.is_fn_local || (usage.used_as_callee && !usage.used_above_decl))
-                && !usage.used_in_loop
+                && !usage.executed_multiple_time
                 && !usage.inline_prevented
                 && (match decl {
                     Decl::Class(..) => !usage.used_above_decl,

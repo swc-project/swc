@@ -92,7 +92,7 @@ pub(crate) struct VarUsageInfo {
 
     used_by_nested_fn: bool,
 
-    pub used_in_loop: bool,
+    pub executed_multiple_time: bool,
     pub used_in_cond: bool,
 
     pub var_kind: Option<VarDeclKind>,
@@ -400,7 +400,7 @@ where
 
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
         let ctx = Ctx {
-            in_loop: true,
+            executed_multiple_time: true,
             in_cond: true,
             ..self.ctx
         };
@@ -481,7 +481,7 @@ where
             n.right.visit_with(child);
 
             let ctx = Ctx {
-                in_loop: true,
+                executed_multiple_time: true,
                 in_cond: true,
                 ..child.ctx
             };
@@ -501,7 +501,7 @@ where
             n.left.visit_with(&mut *child.with_ctx(ctx));
 
             let ctx = Ctx {
-                in_loop: true,
+                executed_multiple_time: true,
                 in_cond: true,
                 ..child.ctx
             };
@@ -513,7 +513,7 @@ where
         n.init.visit_with(self);
 
         let ctx = Ctx {
-            in_loop: true,
+            executed_multiple_time: true,
             in_cond: true,
             ..self.ctx
         };
@@ -836,7 +836,7 @@ where
 
     fn visit_while_stmt(&mut self, n: &WhileStmt) {
         let ctx = Ctx {
-            in_loop: true,
+            executed_multiple_time: true,
             in_cond: true,
             ..self.ctx
         };
