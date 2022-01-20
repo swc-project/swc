@@ -1,0 +1,177 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 32,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "UnknownAtRule",
+      "span": {
+        "start": 0,
+        "end": 31,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Identifier",
+        "span": {
+          "start": 0,
+          "end": 23,
+          "ctxt": 0
+        },
+        "value": "import",
+        "raw": "import"
+      },
+      "prelude": [
+        {
+          "type": "Tokens",
+          "span": {
+            "start": 7,
+            "end": 8,
+            "ctxt": 0
+          },
+          "tokens": [
+            {
+              "span": {
+                "start": 7,
+                "end": 8,
+                "ctxt": 0
+              },
+              "token": {
+                "WhiteSpace": {
+                  "value": " "
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "Function",
+          "span": {
+            "start": 8,
+            "end": 22,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 8,
+              "end": 11,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
+          },
+          "value": [
+            {
+              "type": "String",
+              "span": {
+                "start": 12,
+                "end": 21,
+                "ctxt": 0
+              },
+              "value": "http://",
+              "raw": "'http://'"
+            }
+          ]
+        },
+        {
+          "type": "Tokens",
+          "span": {
+            "start": 22,
+            "end": 23,
+            "ctxt": 0
+          },
+          "tokens": [
+            {
+              "span": {
+                "start": 22,
+                "end": 23,
+                "ctxt": 0
+              },
+              "token": {
+                "WhiteSpace": {
+                  "value": " "
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "Tokens",
+          "span": {
+            "start": 23,
+            "end": 24,
+            "ctxt": 0
+          },
+          "tokens": [
+            {
+              "span": {
+                "start": 23,
+                "end": 24,
+                "ctxt": 0
+              },
+              "token": "Colon"
+            }
+          ]
+        },
+        {
+          "type": "Tokens",
+          "span": {
+            "start": 24,
+            "end": 28,
+            "ctxt": 0
+          },
+          "tokens": [
+            {
+              "span": {
+                "start": 24,
+                "end": 28,
+                "ctxt": 0
+              },
+              "token": {
+                "Ident": {
+                  "value": "root",
+                  "raw": "root"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "Tokens",
+          "span": {
+            "start": 28,
+            "end": 29,
+            "ctxt": 0
+          },
+          "tokens": [
+            {
+              "span": {
+                "start": 28,
+                "end": 29,
+                "ctxt": 0
+              },
+              "token": {
+                "WhiteSpace": {
+                  "value": " "
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 29,
+          "end": 31,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
+    }
+  ]
+}

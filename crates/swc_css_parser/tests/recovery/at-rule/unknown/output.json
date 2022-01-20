@@ -1,0 +1,30 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 19,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "UnknownAtRule",
+      "span": {
+        "start": 0,
+        "end": 18,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Identifier",
+        "span": {
+          "start": 0,
+          "end": 17,
+          "ctxt": 0
+        },
+        "value": "import-normalize",
+        "raw": "import-normalize"
+      },
+      "prelude": [],
+      "block": null
+    }
+  ]
+}
