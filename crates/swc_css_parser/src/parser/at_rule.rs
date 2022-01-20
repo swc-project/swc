@@ -822,13 +822,13 @@ where
 
             last_pos = self.input.last_pos()?;
 
-            conditions.push(MediaConditionItem::Not(not));
+            conditions.push(MediaConditionAll::Not(not));
         } else {
             let media_in_parens = self.parse()?;
 
             last_pos = self.input.last_pos()?;
 
-            conditions.push(MediaConditionItem::MediaInParens(media_in_parens));
+            conditions.push(MediaConditionAll::MediaInParens(media_in_parens));
 
             self.input.skip_ws()?;
 
@@ -838,7 +838,7 @@ where
 
                     last_pos = self.input.last_pos()?;
 
-                    conditions.push(MediaConditionItem::And(and));
+                    conditions.push(MediaConditionAll::And(and));
 
                     self.input.skip_ws()?;
                 }
@@ -848,7 +848,7 @@ where
 
                     last_pos = self.input.last_pos()?;
 
-                    conditions.push(MediaConditionItem::Or(or));
+                    conditions.push(MediaConditionAll::Or(or));
 
                     self.input.skip_ws()?;
                 }

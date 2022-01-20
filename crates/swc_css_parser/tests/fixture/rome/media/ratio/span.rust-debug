@@ -40,7 +40,7 @@ error: MediaCondition
 1 | @media (aspect-ratio: 12/9) {}
   |        ^^^^^^^^^^^^^^^^^^^^
 
-error: MediaConditionItem
+error: MediaConditionAll
  --> $DIR/tests/fixture/rome/media/ratio/input.css:1:8
   |
 1 | @media (aspect-ratio: 12/9) {}

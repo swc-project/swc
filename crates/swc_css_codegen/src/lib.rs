@@ -277,12 +277,12 @@ where
     }
 
     #[emitter]
-    fn emit_media_condition_item(&mut self, n: &MediaConditionItem) -> Result {
+    fn emit_media_condition_all(&mut self, n: &MediaConditionAll) -> Result {
         match n {
-            MediaConditionItem::Not(n) => emit!(self, n),
-            MediaConditionItem::And(n) => emit!(self, n),
-            MediaConditionItem::Or(n) => emit!(self, n),
-            MediaConditionItem::MediaInParens(n) => emit!(self, n),
+            MediaConditionAll::Not(n) => emit!(self, n),
+            MediaConditionAll::And(n) => emit!(self, n),
+            MediaConditionAll::Or(n) => emit!(self, n),
+            MediaConditionAll::MediaInParens(n) => emit!(self, n),
         }
     }
 

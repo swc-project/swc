@@ -472,7 +472,7 @@ error: MediaCondition
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |                                         ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: MediaConditionItem
+error: MediaConditionAll
   --> $DIR/tests/fixture/at-rule/import/input.css:11:41
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);
