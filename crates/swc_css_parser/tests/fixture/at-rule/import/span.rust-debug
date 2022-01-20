@@ -466,13 +466,13 @@ error: Ident
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |                              ^^^^^^
 
-error: MediaCondition
+error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/import/input.css:11:41
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |                                         ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: MediaConditionAllType
+error: MediaConditionWithoutOrType
   --> $DIR/tests/fixture/at-rule/import/input.css:11:41
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);

@@ -235,7 +235,7 @@
               "raw": "screen"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 103,
                 "end": 110,
@@ -301,7 +301,7 @@
               "raw": "screen"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 132,
                 "end": 139,
@@ -348,7 +348,7 @@
               "raw": "projection"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 156,
                 "end": 163,
@@ -414,7 +414,7 @@
               "raw": "screen"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 194,
                 "end": 207,
@@ -461,7 +461,7 @@
               "raw": "projection"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 234,
                 "end": 247,
@@ -527,7 +527,7 @@
               "raw": "print"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 270,
                 "end": 295,
@@ -659,7 +659,7 @@
               "raw": "screen"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 337,
                 "end": 344,
@@ -725,7 +725,7 @@
               "raw": "screen"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 373,
                 "end": 386,
@@ -800,7 +800,7 @@
               "raw": "all"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 412,
                 "end": 424,
@@ -875,7 +875,7 @@
               "raw": "screen"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 450,
                 "end": 457,
@@ -922,7 +922,7 @@
               "raw": "print"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 469,
                 "end": 476,
@@ -1281,7 +1281,7 @@
               "raw": "screen"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 633,
                 "end": 640,
@@ -1356,7 +1356,7 @@
               "raw": "screen"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 675,
                 "end": 688,

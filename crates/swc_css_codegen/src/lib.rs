@@ -272,17 +272,39 @@ where
     }
 
     #[emitter]
+    fn emit_media_condition_type(&mut self, n: &MediaConditionType) -> Result {
+        match n {
+            MediaConditionType::All(n) => emit!(self, n),
+            MediaConditionType::WithoutOr(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
     fn emit_media_condition(&mut self, n: &MediaCondition) -> Result {
         self.emit_list(&n.conditions, ListFormat::NotDelimited)?;
     }
 
     #[emitter]
-    fn emit_media_condition_all(&mut self, n: &MediaConditionAll) -> Result {
+    fn emit_media_condition_without_or(&mut self, n: &MediaConditionWithoutOr) -> Result {
+        self.emit_list(&n.conditions, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_media_condition_all_type(&mut self, n: &MediaConditionAllType) -> Result {
         match n {
-            MediaConditionAll::Not(n) => emit!(self, n),
-            MediaConditionAll::And(n) => emit!(self, n),
-            MediaConditionAll::Or(n) => emit!(self, n),
-            MediaConditionAll::MediaInParens(n) => emit!(self, n),
+            MediaConditionAllType::Not(n) => emit!(self, n),
+            MediaConditionAllType::And(n) => emit!(self, n),
+            MediaConditionAllType::Or(n) => emit!(self, n),
+            MediaConditionAllType::MediaInParens(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_media_condition_without_or_type(&mut self, n: &MediaConditionWithoutOrType) -> Result {
+        match n {
+            MediaConditionWithoutOrType::Not(n) => emit!(self, n),
+            MediaConditionWithoutOrType::And(n) => emit!(self, n),
+            MediaConditionWithoutOrType::MediaInParens(n) => emit!(self, n),
         }
     }
 

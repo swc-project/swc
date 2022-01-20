@@ -777,11 +777,11 @@ where
             if eat!(self, "and") {
                 self.input.skip_ws()?;
 
-                let condition_without_or: MediaCondition = self.parse()?;
+                let condition_without_or: MediaConditionWithoutOr = self.parse()?;
 
                 last_pos = condition_without_or.span.hi;
 
-                Some(condition_without_or)
+                Some(MediaConditionType::WithoutOr(condition_without_or))
             } else {
                 None
             }
@@ -794,7 +794,7 @@ where
 
             last_pos = condition.span.hi;
 
-            Some(condition)
+            Some(MediaConditionType::All(condition))
         };
 
         Ok(MediaQuery {

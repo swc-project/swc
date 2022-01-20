@@ -316,7 +316,7 @@
                   "raw": "screen"
                 },
                 "condition": {
-                  "type": "MediaCondition",
+                  "type": "MediaConditionWithoutOr",
                   "span": {
                     "start": 159,
                     "end": 177,

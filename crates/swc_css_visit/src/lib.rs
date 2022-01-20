@@ -452,7 +452,12 @@ define!({
         pub span: Span,
         pub modifier: Option<Ident>,
         pub media_type: Option<Ident>,
-        pub condition: Option<MediaCondition>,
+        pub condition: Option<MediaConditionType>,
+    }
+    
+    pub enum MediaConditionType {
+        All(MediaCondition),
+        WithoutOr(MediaConditionWithoutOr),
     }
 
     pub struct MediaCondition {

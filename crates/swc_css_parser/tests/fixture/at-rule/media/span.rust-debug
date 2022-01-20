@@ -226,13 +226,13 @@ error: Ident
 7 | @media screen and (color) {}
   |        ^^^^^^
 
-error: MediaCondition
+error: MediaConditionWithoutOr
  --> $DIR/tests/fixture/at-rule/media/input.css:7:19
   |
 7 | @media screen and (color) {}
   |                   ^^^^^^^
 
-error: MediaConditionAllType
+error: MediaConditionWithoutOrType
  --> $DIR/tests/fixture/at-rule/media/input.css:7:19
   |
 7 | @media screen and (color) {}
@@ -304,13 +304,13 @@ error: Ident
 8 | @media screen and (color), projection and (color) {}
   |        ^^^^^^
 
-error: MediaCondition
+error: MediaConditionWithoutOr
  --> $DIR/tests/fixture/at-rule/media/input.css:8:19
   |
 8 | @media screen and (color), projection and (color) {}
   |                   ^^^^^^^
 
-error: MediaConditionAllType
+error: MediaConditionWithoutOrType
  --> $DIR/tests/fixture/at-rule/media/input.css:8:19
   |
 8 | @media screen and (color), projection and (color) {}
@@ -358,13 +358,13 @@ error: Ident
 8 | @media screen and (color), projection and (color) {}
   |                            ^^^^^^^^^^
 
-error: MediaCondition
+error: MediaConditionWithoutOr
  --> $DIR/tests/fixture/at-rule/media/input.css:8:43
   |
 8 | @media screen and (color), projection and (color) {}
   |                                           ^^^^^^^
 
-error: MediaConditionAllType
+error: MediaConditionWithoutOrType
  --> $DIR/tests/fixture/at-rule/media/input.css:8:43
   |
 8 | @media screen and (color), projection and (color) {}
@@ -436,13 +436,13 @@ error: Ident
 9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
   |           ^^^^^^
 
-error: MediaCondition
+error: MediaConditionWithoutOr
  --> $DIR/tests/fixture/at-rule/media/input.css:9:28
   |
 9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
   |                            ^^^^^^^^^^^^^
 
-error: MediaConditionAllType
+error: MediaConditionWithoutOrType
  --> $DIR/tests/fixture/at-rule/media/input.css:9:28
   |
 9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
@@ -490,13 +490,13 @@ error: Ident
 9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
   |                                                ^^^^^^^^^^
 
-error: MediaCondition
+error: MediaConditionWithoutOr
  --> $DIR/tests/fixture/at-rule/media/input.css:9:68
   |
 9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
   |                                                                    ^^^^^^^^^^^^^
 
-error: MediaConditionAllType
+error: MediaConditionWithoutOrType
  --> $DIR/tests/fixture/at-rule/media/input.css:9:68
   |
 9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
@@ -568,13 +568,13 @@ error: Ident
 10 | @media print and (min-resolution: 118dpcm) {}
    |        ^^^^^
 
-error: MediaCondition
+error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/media/input.css:10:18
    |
 10 | @media print and (min-resolution: 118dpcm) {}
    |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: MediaConditionAllType
+error: MediaConditionWithoutOrType
   --> $DIR/tests/fixture/at-rule/media/input.css:10:18
    |
 10 | @media print and (min-resolution: 118dpcm) {}
@@ -706,13 +706,13 @@ error: Ident
 12 | @media screen and (color) {}
    |        ^^^^^^
 
-error: MediaCondition
+error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/media/input.css:12:19
    |
 12 | @media screen and (color) {}
    |                   ^^^^^^^
 
-error: MediaConditionAllType
+error: MediaConditionWithoutOrType
   --> $DIR/tests/fixture/at-rule/media/input.css:12:19
    |
 12 | @media screen and (color) {}
@@ -784,13 +784,13 @@ error: Ident
 13 | @media   screen   and    (   color   )   {}
    |          ^^^^^^
 
-error: MediaCondition
+error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/media/input.css:13:26
    |
 13 | @media   screen   and    (   color   )   {}
    |                          ^^^^^^^^^^^^^
 
-error: MediaConditionAllType
+error: MediaConditionWithoutOrType
   --> $DIR/tests/fixture/at-rule/media/input.css:13:26
    |
 13 | @media   screen   and    (   color   )   {}
@@ -868,13 +868,13 @@ error: Ident
 15 | @media not all and (monochrome) {}
    |            ^^^
 
-error: MediaCondition
+error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/media/input.css:15:20
    |
 15 | @media not all and (monochrome) {}
    |                    ^^^^^^^^^^^^
 
-error: MediaConditionAllType
+error: MediaConditionWithoutOrType
   --> $DIR/tests/fixture/at-rule/media/input.css:15:20
    |
 15 | @media not all and (monochrome) {}
@@ -952,13 +952,13 @@ error: Ident
 16 | @media not screen and (color), print and (color) {}
    |            ^^^^^^
 
-error: MediaCondition
+error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/media/input.css:16:23
    |
 16 | @media not screen and (color), print and (color) {}
    |                       ^^^^^^^
 
-error: MediaConditionAllType
+error: MediaConditionWithoutOrType
   --> $DIR/tests/fixture/at-rule/media/input.css:16:23
    |
 16 | @media not screen and (color), print and (color) {}
@@ -1006,13 +1006,13 @@ error: Ident
 16 | @media not screen and (color), print and (color) {}
    |                                ^^^^^
 
-error: MediaCondition
+error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/media/input.css:16:42
    |
 16 | @media not screen and (color), print and (color) {}
    |                                          ^^^^^^^
 
-error: MediaConditionAllType
+error: MediaConditionWithoutOrType
   --> $DIR/tests/fixture/at-rule/media/input.css:16:42
    |
 16 | @media not screen and (color), print and (color) {}
@@ -1402,13 +1402,13 @@ error: Ident
 22 | @media only screen and (color) {}
    |             ^^^^^^
 
-error: MediaCondition
+error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/media/input.css:22:24
    |
 22 | @media only screen and (color) {}
    |                        ^^^^^^^
 
-error: MediaConditionAllType
+error: MediaConditionWithoutOrType
   --> $DIR/tests/fixture/at-rule/media/input.css:22:24
    |
 22 | @media only screen and (color) {}
@@ -1486,13 +1486,13 @@ error: Ident
 23 | @media   only   screen   and   (   color   )   {}
    |                 ^^^^^^
 
-error: MediaCondition
+error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/media/input.css:23:32
    |
 23 | @media   only   screen   and   (   color   )   {}
    |                                ^^^^^^^^^^^^^
 
-error: MediaConditionAllType
+error: MediaConditionWithoutOrType
   --> $DIR/tests/fixture/at-rule/media/input.css:23:32
    |
 23 | @media   only   screen   and   (   color   )   {}

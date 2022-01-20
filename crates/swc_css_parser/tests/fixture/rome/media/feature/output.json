@@ -40,7 +40,7 @@
               "raw": "screen"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 18,
                 "end": 25,
@@ -115,7 +115,7 @@
               "raw": "screen"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 52,
                 "end": 59,
@@ -190,7 +190,7 @@
               "raw": "screen"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 86,
                 "end": 104,
@@ -283,7 +283,7 @@
               "raw": "screen"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 126,
                 "end": 168,
@@ -376,7 +376,7 @@
               "raw": "screen"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 190,
                 "end": 254,
@@ -575,7 +575,7 @@
               "raw": "screen"
             },
             "condition": {
-              "type": "MediaCondition",
+              "type": "MediaConditionWithoutOr",
               "span": {
                 "start": 276,
                 "end": 363,

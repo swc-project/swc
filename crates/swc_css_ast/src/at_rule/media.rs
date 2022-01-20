@@ -15,13 +15,21 @@ pub struct MediaQueryList {
     pub queries: Vec<MediaQuery>,
 }
 
-// TODO need two versions
 #[ast_node("MediaQuery")]
 pub struct MediaQuery {
     pub span: Span,
     pub modifier: Option<Ident>,
     pub media_type: Option<Ident>,
-    pub condition: Option<MediaCondition>,
+    pub condition: Option<MediaConditionType>,
+}
+
+#[ast_node]
+pub enum MediaConditionType {
+    #[tag("MediaCondition")]
+    All(MediaCondition),
+
+    #[tag("MediaConditionWithoutOr")]
+    WithoutOr(MediaConditionWithoutOr),
 }
 
 #[ast_node("MediaCondition")]
@@ -88,6 +96,7 @@ pub enum MediaInParens {
 
     #[tag("MediaFeature")]
     Feature(MediaFeature),
+
     // TODO <general-enclosed>
 }
 
