@@ -92,7 +92,7 @@ pub(crate) struct VarUsageInfo {
 
     used_by_nested_fn: bool,
 
-    pub used_in_loop: bool,
+    pub executed_multiple_time: bool,
     pub used_in_cond: bool,
 
     pub var_kind: Option<VarDeclKind>,
@@ -103,6 +103,8 @@ pub(crate) struct VarUsageInfo {
     pub no_side_effect_for_member_access: bool,
 
     pub used_as_callee: bool,
+
+    pub used_as_arg: bool,
 
     /// In `c = b`, `b` infects `c`.
     infects: Vec<Id>,
@@ -318,6 +320,12 @@ where
             n.args.visit_with(&mut *self.with_ctx(ctx));
         }
 
+        for arg in &n.args {
+            if let Expr::Ident(arg) = &*arg.expr {
+                self.data.var_or_default(arg.to_id()).mark_used_as_arg();
+            }
+        }
+
         if let Callee::Expr(callee) = &n.callee {
             match &**callee {
                 Expr::Ident(Ident { sym, .. }) if *sym == *"eval" => {
@@ -400,7 +408,7 @@ where
 
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
         let ctx = Ctx {
-            in_loop: true,
+            executed_multiple_time: true,
             in_cond: true,
             ..self.ctx
         };
@@ -481,7 +489,7 @@ where
             n.right.visit_with(child);
 
             let ctx = Ctx {
-                in_loop: true,
+                executed_multiple_time: true,
                 in_cond: true,
                 ..child.ctx
             };
@@ -501,7 +509,7 @@ where
             n.left.visit_with(&mut *child.with_ctx(ctx));
 
             let ctx = Ctx {
-                in_loop: true,
+                executed_multiple_time: true,
                 in_cond: true,
                 ..child.ctx
             };
@@ -513,7 +521,7 @@ where
         n.init.visit_with(self);
 
         let ctx = Ctx {
-            in_loop: true,
+            executed_multiple_time: true,
             in_cond: true,
             ..self.ctx
         };
@@ -836,7 +844,7 @@ where
 
     fn visit_while_stmt(&mut self, n: &WhileStmt) {
         let ctx = Ctx {
-            in_loop: true,
+            executed_multiple_time: true,
             in_cond: true,
             ..self.ctx
         };

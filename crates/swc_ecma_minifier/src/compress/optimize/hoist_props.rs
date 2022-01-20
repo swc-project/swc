@@ -117,7 +117,7 @@ where
                         v.ref_count == 1
                             && v.has_property_access
                             && v.is_fn_local
-                            && !v.used_in_loop
+                            && !v.executed_multiple_time
                             && !v.used_in_cond
                     })
                 })

@@ -41,7 +41,7 @@ where
                     return;
                 }
 
-                if usage.used_in_loop || usage.used_in_cond {
+                if usage.executed_multiple_time || usage.used_in_cond {
                     match &*assign.right {
                         Expr::Lit(..) | Expr::Ident(..) => {}
                         _ => return,

@@ -2774,6 +2774,10 @@
                 ];
             }, unpackInt32 = function(buffer) {
                 return buffer[3] << 24 | buffer[2] << 16 | buffer[1] << 8 | buffer[0];
+            }, packFloat32 = function(number) {
+                return packIEEE754(number, 23, 4);
+            }, packFloat64 = function(number) {
+                return packIEEE754(number, 52, 8);
             }, addGetter = function(Constructor, key) {
                 defineProperty(Constructor[PROTOTYPE], key, {
                     get: function() {
@@ -2879,14 +2883,10 @@
                     set(this, 4, byteOffset, packInt32, value, arguments.length > 2 ? arguments[2] : void 0);
                 },
                 setFloat32: function(byteOffset, value) {
-                    set(this, 4, byteOffset, function(number) {
-                        return packIEEE754(number, 23, 4);
-                    }, value, arguments.length > 2 ? arguments[2] : void 0);
+                    set(this, 4, byteOffset, packFloat32, value, arguments.length > 2 ? arguments[2] : void 0);
                 },
                 setFloat64: function(byteOffset, value) {
-                    set(this, 8, byteOffset, function(number) {
-                        return packIEEE754(number, 52, 8);
-                    }, value, arguments.length > 2 ? arguments[2] : void 0);
+                    set(this, 8, byteOffset, packFloat64, value, arguments.length > 2 ? arguments[2] : void 0);
                 }
             });
             setToStringTag($ArrayBuffer, ARRAY_BUFFER), setToStringTag($DataView, DATA_VIEW), module.exports = {
@@ -8406,10 +8406,10 @@
                 ")": "%29",
                 "~": "%7E",
                 "%20": "+"
+            }, replacer = function(match) {
+                return replace[match];
             }, serialize = function(it) {
-                return encodeURIComponent(it).replace(find, function(match) {
-                    return replace[match];
-                });
+                return encodeURIComponent(it).replace(find, replacer);
             }, parseSearchParams = function(result, query) {
                 if (query) for(var attribute, entry, attributes = query.split("&"), index = 0; index < attributes.length;)(attribute = attributes[index++]).length && (entry = attribute.split("="), result.push({
                     key: deserialize(entry.shift()),

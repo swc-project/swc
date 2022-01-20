@@ -1,7 +1,9 @@
 !function(window1, undefined1) {
     var readyList, rootjQuery1, core_strundefined = "undefined", document1 = window1.document, location = window1.location, _jQuery = window1.jQuery, _$ = window1.$, class2type = {}, core_deletedIds = [], core_version = "1.9.1", core_concat = core_deletedIds.concat, core_push = core_deletedIds.push, core_slice = core_deletedIds.slice, core_indexOf = core_deletedIds.indexOf, core_toString = class2type.toString, core_hasOwn = class2type.hasOwnProperty, core_trim = core_version.trim, jQuery = function(selector, context) {
         return new jQuery.fn.init(selector, context, rootjQuery1);
-    }, core_pnum = /[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source, core_rnotwhite = /\S+/g, rtrim1 = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, rquickExpr1 = /^(?:(<[\w\W]+>)[^>]*|#([\w-]*))$/, rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/, rvalidchars = /^[\],:{}\s]*$/, rvalidbraces = /(?:^|:|,)(?:\s*\[)+/g, rvalidescape = /\\(?:["\\\/bfnrt]|u[\da-fA-F]{4})/g, rvalidtokens = /"[^"\\\r\n]*"|true|false|null|-?(?:\d+\.|)\d+(?:[eE][+-]?\d+|)/g, rmsPrefix = /^-ms-/, rdashAlpha = /-([\da-z])/gi, completed = function(event) {
+    }, core_pnum = /[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source, core_rnotwhite = /\S+/g, rtrim1 = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, rquickExpr1 = /^(?:(<[\w\W]+>)[^>]*|#([\w-]*))$/, rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/, rvalidchars = /^[\],:{}\s]*$/, rvalidbraces = /(?:^|:|,)(?:\s*\[)+/g, rvalidescape = /\\(?:["\\\/bfnrt]|u[\da-fA-F]{4})/g, rvalidtokens = /"[^"\\\r\n]*"|true|false|null|-?(?:\d+\.|)\d+(?:[eE][+-]?\d+|)/g, rmsPrefix = /^-ms-/, rdashAlpha = /-([\da-z])/gi, fcamelCase = function(all, letter) {
+        return letter.toUpperCase();
+    }, completed = function(event) {
         (document1.addEventListener || "load" === event.type || "complete" === document1.readyState) && (detach(), jQuery.ready());
     }, detach = function() {
         document1.addEventListener ? (document1.removeEventListener("DOMContentLoaded", completed, !1), window1.removeEventListener("load", completed, !1)) : (document1.detachEvent("onreadystatechange", completed), window1.detachEvent("onload", completed));
@@ -168,9 +170,7 @@
             })(data1);
         },
         camelCase: function(string) {
-            return string.replace(rmsPrefix, "ms-").replace(rdashAlpha, function(all, letter) {
-                return letter.toUpperCase();
-            });
+            return string.replace(rmsPrefix, "ms-").replace(rdashAlpha, fcamelCase);
         },
         nodeName: function(elem, name) {
             return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();

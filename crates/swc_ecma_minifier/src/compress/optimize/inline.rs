@@ -232,7 +232,7 @@ where
                     }
                     match &**init {
                         Expr::Lit(Lit::Regex(..)) => {
-                            if !usage.is_fn_local || usage.used_in_loop {
+                            if !usage.is_fn_local || usage.executed_multiple_time {
                                 return;
                             }
                         }
@@ -247,7 +247,13 @@ where
                         _ => {}
                     }
 
-                    if usage.used_in_loop {
+                    if usage.used_as_arg && !usage.is_fn_local {
+                        if let Expr::Fn(..) = &**init {
+                            return;
+                        }
+                    }
+
+                    if usage.executed_multiple_time {
                         match &**init {
                             Expr::Lit(..) | Expr::Fn(..) => {}
                             _ => {
@@ -261,8 +267,9 @@ where
                     }
 
                     tracing::debug!(
-                        "inline: Decided to inline var '{}' because it's used only once",
-                        i.id
+                        "inline: Decided to inline var '{}' because it's used only once {:?}",
+                        i.id,
+                        usage
                     );
                     self.changed = true;
                     self.vars_for_inlining.insert(i.to_id(), init.take());
@@ -466,7 +473,7 @@ where
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
                 && (usage.is_fn_local || (usage.used_as_callee && !usage.used_above_decl))
-                && !usage.used_in_loop
+                && !usage.executed_multiple_time
                 && !usage.inline_prevented
                 && (match decl {
                     Decl::Class(..) => !usage.used_above_decl,

@@ -11,7 +11,7 @@ const rl = readline.createInterface({
 rl.on('line', async (data) => {
     try {
         const { name, source } = eval(`(${data})`)
-        const targetPath = path.join(__dirname, '..', '..', 'tests', 'compress', 'fixture', 'issues', 'next', name.replace('.js', ''), 'input.js');
+        const targetPath = path.join(__dirname, '..', '..', 'tests', 'compress', 'fixture', 'next', 'raw', name.replace('.js', ''), 'input.js');
 
 
         await fs.mkdir(path.dirname(targetPath), { recursive: true });

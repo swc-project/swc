@@ -7135,6 +7135,8 @@
             }, formatHexString = function(e, i) {
                 var value = e.toString(16);
                 return "00".substring(0, 2 - value.length) + value + (i % 2 ? " " : "");
+            }, formatAsciiString = function(e) {
+                return e >= 32 && e < 126 ? String.fromCharCode(e) : ".";
             }, createTransferableMessage1 = function(message) {
                 var transferable = {};
                 return Object.keys(message).forEach(function(key) {
@@ -7158,9 +7160,7 @@
             }, segmentKeyId = function(key) {
                 return key.resolvedUri;
             }, hexDump = function(data) {
-                for(var hex, ascii, bytes = Array.prototype.slice.call(data), result = "", j = 0; j < bytes.length / 16; j++)hex = bytes.slice(16 * j, 16 * j + 16).map(formatHexString).join(""), ascii = bytes.slice(16 * j, 16 * j + 16).map(function(e) {
-                    return e >= 32 && e < 126 ? String.fromCharCode(e) : ".";
-                }).join(""), result += hex + " " + ascii + "\n";
+                for(var hex, ascii, bytes = Array.prototype.slice.call(data), result = "", j = 0; j < bytes.length / 16; j++)hex = bytes.slice(16 * j, 16 * j + 16).map(formatHexString).join(""), ascii = bytes.slice(16 * j, 16 * j + 16).map(formatAsciiString).join(""), result += hex + " " + ascii + "\n";
                 return result;
             }, utils1 = Object.freeze({
                 __proto__: null,
