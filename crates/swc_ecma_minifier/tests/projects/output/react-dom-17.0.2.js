@@ -5491,7 +5491,7 @@
             source,
             subscribe
         ]), dispatcher.useEffect(function() {
-            var unsubscribe = subscribe(source._source, function() {
+            var handleChange = function() {
                 var latestGetSnapshot = refs.getSnapshot, latestSetSnapshot = refs.setSnapshot;
                 try {
                     latestSetSnapshot(latestGetSnapshot(source._source));
@@ -5502,7 +5502,7 @@
                         throw error;
                     });
                 }
-            });
+            }, unsubscribe = subscribe(source._source, handleChange);
             return "function" != typeof unsubscribe && error1("Mutable source subscribe function must return an unsubscribe function."), unsubscribe;
         }, [
             source,

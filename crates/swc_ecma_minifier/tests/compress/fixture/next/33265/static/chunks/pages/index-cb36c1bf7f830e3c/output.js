@@ -2685,10 +2685,10 @@
                         }), !0;
                     });
                 }, _proto.addTagMapper = function(_ref2) {
-                    var expression = _ref2.expression, map = _ref2.map;
-                    this.tagMappers.push(function(line) {
+                    var expression = _ref2.expression, map = _ref2.map, mapFn = function(line) {
                         return expression.test(line) ? map(line) : line;
-                    });
+                    };
+                    this.tagMappers.push(mapFn);
                 }, ParseStream;
             }(Stream1), camelCase = function(str) {
                 return str.toLowerCase().replace(/-(\w)/g, function(a) {

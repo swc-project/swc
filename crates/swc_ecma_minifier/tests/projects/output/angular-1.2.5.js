@@ -3746,15 +3746,15 @@
         return {
             require: "ngModel",
             link: function(scope, element, attr, ctrl) {
-                var match = /\/(.*)\//.exec(attr.ngList), separator = match && new RegExp(match[1]) || attr.ngList || ",";
-                ctrl.$parsers.push(function(viewValue) {
+                var match = /\/(.*)\//.exec(attr.ngList), separator = match && new RegExp(match[1]) || attr.ngList || ",", parse = function(viewValue) {
                     if (!isUndefined(viewValue)) {
                         var list = [];
                         return viewValue && forEach(viewValue.split(separator), function(value) {
                             value && list.push(trim1(value));
                         }), list;
                     }
-                }), ctrl.$formatters.push(function(value) {
+                };
+                ctrl.$parsers.push(parse), ctrl.$formatters.push(function(value) {
                     if (isArray(value)) return value.join(", ");
                 }), ctrl.$isEmpty = function(value) {
                     return !value || !value.length;

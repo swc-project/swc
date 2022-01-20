@@ -5,7 +5,7 @@
         return factory($, root, doc), $.mobile;
     }) : factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window3, document1, undefined9) {
-    var $27, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $1, window1, compensateToolbars, $2, undefined1, uuid1, slice, _cleanData, $3, rcapitals, $4, doc1, bool, docElem, refNode, fakeBody1, div1, $5, support1, $6, self1, $win1, dummyFnToInitNavigate, $7, undefined2, path2, $base, dialogHashKey, $8, undefined3, $9, path1, initialHref, $10, undefined4, props1, testElement, vendorPrefixes, $11, heldCall, curr, diff1, handler1, lastCall, $12, baseElement, base1, $13, undefined5, originalWidget, keepNativeFactoryDefault, orig1, $14, undefined6, pageTransitionQueue, isPageTransitioning, $15, window2, $16, $17, $18, $19, $20, $21, undefined7, rInitialLetter, iconposClass1, $22, $23, $24, meta, initialContent1, disabledZoom, enabledZoom, disabledInitially, $25, $26, undefined8, rDividerListItem, origDefaultFilterCallback;
+    var $27, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $1, window1, compensateToolbars, $2, undefined1, uuid1, slice, _cleanData, $3, rcapitals, replaceFunction, $4, doc1, bool, docElem, refNode, fakeBody1, div1, $5, support1, $6, self1, $win1, dummyFnToInitNavigate, $7, undefined2, path2, $base, dialogHashKey, $8, undefined3, $9, path1, initialHref, $10, undefined4, props1, testElement, vendorPrefixes, $11, heldCall, curr, diff1, handler1, lastCall, $12, baseElement, base1, $13, undefined5, originalWidget, keepNativeFactoryDefault, orig1, $14, undefined6, pageTransitionQueue, isPageTransitioning, $15, window2, $16, $17, $18, $19, $20, $21, undefined7, rInitialLetter, iconposClass1, $22, $23, $24, meta, initialContent1, disabledZoom, enabledZoom, disabledInitially, $25, $26, undefined8, rDividerListItem, origDefaultFilterCallback;
     jQuery.mobile = {}, (function($, window, undefined) {
         $.extend($.mobile, {
             version: "1.4.2",
@@ -485,12 +485,12 @@
                 $2(this)[method](), callback && callback.call(element[0]), next();
             });
         };
-    }), rcapitals = /[A-Z]/g, ($3 = jQuery).extend($3.Widget.prototype, {
+    }), $3 = jQuery, rcapitals = /[A-Z]/g, replaceFunction = function(c) {
+        return "-" + c.toLowerCase();
+    }, $3.extend($3.Widget.prototype, {
         _getCreateOptions: function() {
             var option, value, elem = this.element[0], options = {};
-            if (!$3.mobile.getAttribute(elem, "defaults")) for(option in this.options)null != (value = $3.mobile.getAttribute(elem, option.replace(rcapitals, function(c) {
-                return "-" + c.toLowerCase();
-            }))) && (options[option] = value);
+            if (!$3.mobile.getAttribute(elem, "defaults")) for(option in this.options)null != (value = $3.mobile.getAttribute(elem, option.replace(rcapitals, replaceFunction))) && (options[option] = value);
             return options;
         }
     }), $3.mobile.widget = $3.Widget, (function($) {
