@@ -694,6 +694,10 @@ where
         let query = self.parse()?;
         let mut queries = vec![query];
 
+        // TODO error recovery
+        // To parse a <media-query-list> production, parse a comma-separated list of
+        // component values, then parse each entry in the returned list as a
+        // <media-query>. Its value is the list of <media-query>s so produced.
         loop {
             self.input.skip_ws()?;
 
