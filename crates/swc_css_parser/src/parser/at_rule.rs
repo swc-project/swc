@@ -1002,7 +1002,7 @@ where
 
         match cur!(self) {
             tok!(")") => {
-                eat!(self, ")");
+                bump!(self);
 
                 let name = match left {
                     MediaFeatureValue::Ident(ident) => MediaFeatureName::Ident(ident),
@@ -1017,7 +1017,7 @@ where
                 }))
             }
             tok!(":") => {
-                eat!(self, ":");
+                bump!(self);
 
                 self.input.skip_ws()?;
 
@@ -1057,8 +1057,7 @@ where
                     }
                     tok!("=") => MediaFeatureRangeComparison::Eq,
                     _ => {
-                        // TODO another error
-                        return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
+                        unreachable!();
                     }
                 };
 
@@ -1093,8 +1092,7 @@ where
                         }
                     }
                     _ => {
-                        // TODO another error
-                        return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
+                        return Err(Error::new(span, ErrorKind::Expected("'>' or '<' operators")));
                     }
                 };
 
