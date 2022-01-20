@@ -5,6 +5,14 @@
 
 
 
+- **(es/minifier)** Don't inline functions used as arguments (#3320) ([57204e3](https://github.com/swc-project/swc/commit/57204e39cd24ecdb190a671bd3e163ff0c2ab983))
+
+## [1.2.132] - 2022-01-20
+
+### Bug Fixes
+
+
+
 - **(css)** Fix parsing of media queries (#3318) ([0723ee2](https://github.com/swc-project/swc/commit/0723ee282861a1e648490989c122d5f4e683dc35))
 
 ### Documentation
@@ -12,6 +20,12 @@
 
 
 - **(repo)** Update contributing docs (#3298) ([5af79f6](https://github.com/swc-project/swc/commit/5af79f634b7431e886b254992e7fbdbe044d1e9d))
+
+### Miscellaneous Tasks
+
+
+
+- **(rustc)** Downgrade rustc ([041bf00](https://github.com/swc-project/swc/commit/041bf003627e55cdef2839a31cbb3149e161eb6e))
 
 ### Build
 
