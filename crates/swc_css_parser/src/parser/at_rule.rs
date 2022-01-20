@@ -1092,7 +1092,10 @@ where
                         }
                     }
                     _ => {
-                        return Err(Error::new(span, ErrorKind::Expected("'>' or '<' operators")));
+                        return Err(Error::new(
+                            span,
+                            ErrorKind::Expected("'>' or '<' operators"),
+                        ));
                     }
                 };
 
@@ -1111,7 +1114,30 @@ where
                     }
                 };
 
-                // TODO validate comparison
+                let is_valid_operator = match left_comparison {
+                    MediaFeatureRangeComparison::Lt | MediaFeatureRangeComparison::Le
+                        if right_comparison == MediaFeatureRangeComparison::Lt
+                            || right_comparison == MediaFeatureRangeComparison::Le =>
+                    {
+                        true
+                    }
+                    MediaFeatureRangeComparison::Gt | MediaFeatureRangeComparison::Ge
+                        if right_comparison == MediaFeatureRangeComparison::Gt
+                            || right_comparison == MediaFeatureRangeComparison::Ge =>
+                    {
+                        true
+                    }
+                    _ => false,
+                };
+
+                if !is_valid_operator {
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected(
+                            "left comparison operator should be equal right comparison operator",
+                        ),
+                    ));
+                }
 
                 Ok(MediaFeature::RangeInterval(MediaFeatureRangeInterval {
                     span: span!(self, span.lo),
