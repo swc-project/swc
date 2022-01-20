@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Documentation
+
+
+
+- **(repo)** Update contributing docs (#3298) ([5af79f6](https://github.com/swc-project/swc/commit/5af79f634b7431e886b254992e7fbdbe044d1e9d))
+
+## [1.2.131] - 2022-01-19
+
 ### Bug Fixes
 
 
