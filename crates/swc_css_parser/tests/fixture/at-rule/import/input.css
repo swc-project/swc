@@ -19,3 +19,24 @@
 @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
 @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
 @import url("fallback-layout.css") supports(not (display: flex));
+@import url(test.css);
+@import url('test.css');
+@import url("test.css");
+@IMPORT url(test.css);
+@import URL(test.css);
+@import url(test.css );
+@import url( test.css);
+@import url( test.css );
+@import url(
+test.css
+);
+@import url();
+@import url('');
+@import url("");
+@import "test.css";
+@import 'test.css';
+@import '';
+@import "";
+@import "   ";
+@import "\
+";

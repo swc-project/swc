@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 829,
+    "end": 1188,
     "ctxt": 0
   },
   "rules": [
@@ -1166,6 +1166,464 @@
           "important": null
         }
       },
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 829,
+        "end": 851,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "UrlValue",
+        "span": {
+          "start": 837,
+          "end": 850,
+          "ctxt": 0
+        },
+        "url": "test.css",
+        "raw": "test.css"
+      },
+      "layerName": null,
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 852,
+        "end": 876,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "Function",
+        "span": {
+          "start": 860,
+          "end": 875,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 860,
+            "end": 863,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "value": [
+          {
+            "type": "String",
+            "span": {
+              "start": 864,
+              "end": 874,
+              "ctxt": 0
+            },
+            "value": "test.css",
+            "raw": "'test.css'"
+          }
+        ]
+      },
+      "layerName": null,
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 877,
+        "end": 901,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "Function",
+        "span": {
+          "start": 885,
+          "end": 900,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 885,
+            "end": 888,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "value": [
+          {
+            "type": "String",
+            "span": {
+              "start": 889,
+              "end": 899,
+              "ctxt": 0
+            },
+            "value": "test.css",
+            "raw": "\"test.css\""
+          }
+        ]
+      },
+      "layerName": null,
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 902,
+        "end": 924,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "UrlValue",
+        "span": {
+          "start": 910,
+          "end": 923,
+          "ctxt": 0
+        },
+        "url": "test.css",
+        "raw": "test.css"
+      },
+      "layerName": null,
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 925,
+        "end": 947,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "UrlValue",
+        "span": {
+          "start": 933,
+          "end": 946,
+          "ctxt": 0
+        },
+        "url": "test.css",
+        "raw": "test.css"
+      },
+      "layerName": null,
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 948,
+        "end": 971,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "UrlValue",
+        "span": {
+          "start": 956,
+          "end": 970,
+          "ctxt": 0
+        },
+        "url": "test.css",
+        "raw": "test.css "
+      },
+      "layerName": null,
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 972,
+        "end": 995,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "UrlValue",
+        "span": {
+          "start": 980,
+          "end": 994,
+          "ctxt": 0
+        },
+        "url": "test.css",
+        "raw": "test.css"
+      },
+      "layerName": null,
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 996,
+        "end": 1020,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "UrlValue",
+        "span": {
+          "start": 1004,
+          "end": 1019,
+          "ctxt": 0
+        },
+        "url": "test.css",
+        "raw": "test.css "
+      },
+      "layerName": null,
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 1021,
+        "end": 1045,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "UrlValue",
+        "span": {
+          "start": 1029,
+          "end": 1044,
+          "ctxt": 0
+        },
+        "url": "test.css",
+        "raw": "test.css\n"
+      },
+      "layerName": null,
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 1046,
+        "end": 1060,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "UrlValue",
+        "span": {
+          "start": 1054,
+          "end": 1059,
+          "ctxt": 0
+        },
+        "url": "",
+        "raw": ""
+      },
+      "layerName": null,
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 1061,
+        "end": 1077,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "Function",
+        "span": {
+          "start": 1069,
+          "end": 1076,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 1069,
+            "end": 1072,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "value": [
+          {
+            "type": "String",
+            "span": {
+              "start": 1073,
+              "end": 1075,
+              "ctxt": 0
+            },
+            "value": "",
+            "raw": "''"
+          }
+        ]
+      },
+      "layerName": null,
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 1078,
+        "end": 1094,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "Function",
+        "span": {
+          "start": 1086,
+          "end": 1093,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 1086,
+            "end": 1089,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "value": [
+          {
+            "type": "String",
+            "span": {
+              "start": 1090,
+              "end": 1092,
+              "ctxt": 0
+            },
+            "value": "",
+            "raw": "\"\""
+          }
+        ]
+      },
+      "layerName": null,
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 1095,
+        "end": 1114,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "String",
+        "span": {
+          "start": 1103,
+          "end": 1113,
+          "ctxt": 0
+        },
+        "value": "test.css",
+        "raw": "\"test.css\""
+      },
+      "layerName": null,
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 1115,
+        "end": 1134,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "String",
+        "span": {
+          "start": 1123,
+          "end": 1133,
+          "ctxt": 0
+        },
+        "value": "test.css",
+        "raw": "'test.css'"
+      },
+      "layerName": null,
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 1135,
+        "end": 1146,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "String",
+        "span": {
+          "start": 1143,
+          "end": 1145,
+          "ctxt": 0
+        },
+        "value": "",
+        "raw": "''"
+      },
+      "layerName": null,
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 1147,
+        "end": 1158,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "String",
+        "span": {
+          "start": 1155,
+          "end": 1157,
+          "ctxt": 0
+        },
+        "value": "",
+        "raw": "\"\""
+      },
+      "layerName": null,
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 1159,
+        "end": 1173,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "String",
+        "span": {
+          "start": 1167,
+          "end": 1172,
+          "ctxt": 0
+        },
+        "value": "   ",
+        "raw": "\"   \""
+      },
+      "layerName": null,
+      "supports": null,
+      "media": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 1174,
+        "end": 1187,
+        "ctxt": 0
+      },
+      "href": {
+        "type": "String",
+        "span": {
+          "start": 1182,
+          "end": 1186,
+          "ctxt": 0
+        },
+        "value": "",
+        "raw": "\"\\\n\""
+      },
+      "layerName": null,
+      "supports": null,
       "media": null
     }
   ]
