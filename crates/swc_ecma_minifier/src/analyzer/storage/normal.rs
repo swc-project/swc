@@ -68,6 +68,7 @@ impl Storage for ProgramData {
                             && var_info.no_side_effect_for_member_access;
 
                     e.get_mut().used_as_callee |= var_info.used_as_callee;
+                    e.get_mut().used_as_arg |= var_info.used_as_arg;
 
                     match kind {
                         ScopeKind::Fn => {
@@ -230,6 +231,10 @@ impl VarDataLike for VarUsageInfo {
 
     fn mark_used_as_callee(&mut self) {
         self.used_as_callee = true;
+    }
+
+    fn mark_used_as_arg(&mut self) {
+        self.used_as_arg = true
     }
 
     fn add_accessed_property(&mut self, name: swc_atoms::JsWord) {

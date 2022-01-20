@@ -247,6 +247,12 @@ where
                         _ => {}
                     }
 
+                    if usage.used_as_arg {
+                        if let Expr::Fn(..) = &**init {
+                            return;
+                        }
+                    }
+
                     if usage.executed_multiple_time {
                         match &**init {
                             Expr::Lit(..) | Expr::Fn(..) => {}
@@ -261,8 +267,9 @@ where
                     }
 
                     tracing::debug!(
-                        "inline: Decided to inline var '{}' because it's used only once",
-                        i.id
+                        "inline: Decided to inline var '{}' because it's used only once {:?}",
+                        i.id,
+                        usage
                     );
                     self.changed = true;
                     self.vars_for_inlining.insert(i.to_id(), init.take());

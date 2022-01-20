@@ -104,6 +104,8 @@ pub(crate) struct VarUsageInfo {
 
     pub used_as_callee: bool,
 
+    pub used_as_arg: bool,
+
     /// In `c = b`, `b` infects `c`.
     infects: Vec<Id>,
 }
@@ -316,6 +318,12 @@ where
                 ..self.ctx
             };
             n.args.visit_with(&mut *self.with_ctx(ctx));
+        }
+
+        for arg in &n.args {
+            if let Expr::Ident(arg) = &*arg.expr {
+                self.data.var_or_default(arg.to_id()).mark_used_as_arg();
+            }
         }
 
         if let Callee::Expr(callee) = &n.callee {
