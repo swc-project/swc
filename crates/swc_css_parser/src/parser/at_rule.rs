@@ -356,6 +356,13 @@ where
             }
             tok!("str") => KeyframesName::Str(self.parse()?),
             _ => return Err(Error::new(span, ErrorKind::Expected("ident or string"))),
+            tok!("ident") => KeyframesName::Ident(self.parse()?),
+            tok!("str") => KeyframesName::Str(self.parse()?),
+            _ => KeyframesName::Ident(Ident {
+                span: DUMMY_SP,
+                value: js_word!(""),
+                raw: js_word!(""),
+            }),
         };
         let mut blocks = vec![];
 
