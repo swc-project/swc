@@ -111,8 +111,7 @@ impl Fold for InjectSelf {
                     let args = args
                         .into_pairs()
                         .map(|el| el.map_item(|expr| self.fold_expr(expr)))
-                        .map(|arg| arg.dump())
-                        .flatten();
+                        .flat_map(|arg| arg.dump());
 
                     quote_spanned!(span => #parser,)
                         .into_iter()

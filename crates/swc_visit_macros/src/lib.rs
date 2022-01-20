@@ -1568,8 +1568,7 @@ fn skip(ty: &Type) -> bool {
         Type::Path(p) => {
             let i = &p.path.segments.last().as_ref().unwrap().ident;
 
-            if i == "bool"
-                || i == "u128"
+            p.path.segments.last().as_ref().unwrap().ident == "bool"
                 || i == "u128"
                 || i == "u64"
                 || i == "u32"
@@ -1577,19 +1576,6 @@ fn skip(ty: &Type) -> bool {
                 || i == "u8"
                 || i == "isize"
                 || i == "i128"
-                || i == "i128"
-                || i == "i64"
-                || i == "i32"
-                || i == "i16"
-                || i == "i8"
-                || i == "isize"
-                || i == "f64"
-                || i == "f32"
-            {
-                return true;
-            }
-
-            false
         }
         _ => false,
     }

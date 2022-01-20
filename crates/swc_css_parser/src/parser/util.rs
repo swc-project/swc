@@ -21,10 +21,8 @@ where
     {
         let mut items = vec![];
 
-        if allow_zero {
-            if !ParseDelmited::eat_delimiter(self)? {
-                return Ok(vec![]);
-            }
+        if allow_zero && !ParseDelmited::eat_delimiter(self)? {
+            return Ok(vec![]);
         }
 
         loop {
@@ -60,12 +58,12 @@ impl<'w, I: ParserInput> Deref for WithCtx<'w, I> {
     type Target = Parser<I>;
 
     fn deref(&self) -> &Parser<I> {
-        &self.inner
+        self.inner
     }
 }
 impl<'w, I: ParserInput> DerefMut for WithCtx<'w, I> {
     fn deref_mut(&mut self) -> &mut Parser<I> {
-        &mut self.inner
+        self.inner
     }
 }
 

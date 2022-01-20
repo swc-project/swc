@@ -1413,10 +1413,10 @@ where
             }
         };
 
-        return Ok(LayerRule {
+        Ok(LayerRule {
             span: span!(self, span.lo),
             prelude,
             rules,
-        });
+        })
     }
 }

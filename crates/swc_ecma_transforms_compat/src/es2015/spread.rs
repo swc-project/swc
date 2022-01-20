@@ -50,11 +50,14 @@ impl VisitMut for Spread {
 
         match e {
             Expr::Array(ArrayLit { span, elems }) => {
-                if !elems.iter().any(|e| match e {
-                    Some(ExprOrSpread {
-                        spread: Some(_), ..
-                    }) => true,
-                    _ => false,
+                if !elems.iter().any(|e| {
+                    matches!(
+                        e,
+                        Some(ExprOrSpread {
+                            spread: Some(_),
+                            ..
+                        })
+                    )
                 }) {
                     return;
                 }
@@ -94,7 +97,7 @@ impl VisitMut for Spread {
                     Expr::Ident(Ident { span, .. }) => (undefined(*span), None),
 
                     Expr::Member(MemberExpr { span, obj, prop }) => {
-                        let ident = alias_ident_for(&obj, "_instance");
+                        let ident = alias_ident_for(obj, "_instance");
                         self.vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             definite: false,
@@ -142,7 +145,7 @@ impl VisitMut for Spread {
 
                 let apply = MemberExpr {
                     span: DUMMY_SP,
-                    obj: callee_updated.unwrap_or(callee.take()),
+                    obj: callee_updated.unwrap_or_else(|| callee.take()),
                     prop: MemberProp::Ident(Ident::new(js_word!("apply"), *span)),
                 };
 

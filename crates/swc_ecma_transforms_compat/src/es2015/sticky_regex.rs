@@ -41,32 +41,29 @@ impl VisitMut for StickyRegex {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
-        match e {
-            Expr::Lit(Lit::Regex(Regex { exp, flags, span })) => {
-                if flags.contains('y') {
-                    let str_lit = |s: JsWord| {
-                        Box::new(Expr::Lit(Lit::Str(Str {
-                            span: DUMMY_SP,
-                            value: s,
-                            has_escape: false,
-                            kind: StrKind::Normal {
-                                contains_quote: false,
-                            },
-                        })))
-                    };
+        if let Expr::Lit(Lit::Regex(Regex { exp, flags, span })) = e {
+            if flags.contains('y') {
+                let str_lit = |s: JsWord| {
+                    Box::new(Expr::Lit(Lit::Str(Str {
+                        span: DUMMY_SP,
+                        value: s,
+                        has_escape: false,
+                        kind: StrKind::Normal {
+                            contains_quote: false,
+                        },
+                    })))
+                };
 
-                    *e = Expr::New(NewExpr {
-                        span: *span,
-                        callee: Box::new(quote_ident!(*span, "RegExp").into()),
-                        args: Some(vec![
-                            str_lit(exp.clone()).as_arg(),
-                            str_lit(flags.clone()).as_arg(),
-                        ]),
-                        type_args: Default::default(),
-                    })
-                }
+                *e = Expr::New(NewExpr {
+                    span: *span,
+                    callee: Box::new(quote_ident!(*span, "RegExp").into()),
+                    args: Some(vec![
+                        str_lit(exp.clone()).as_arg(),
+                        str_lit(flags.clone()).as_arg(),
+                    ]),
+                    type_args: Default::default(),
+                })
             }
-            _ => {}
         }
     }
 }

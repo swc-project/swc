@@ -391,7 +391,7 @@ where
                 formatting_space!();
             }
         }
-        if has_named_specs || (!has_namespace_spec && !has_named_specs) {
+        if has_named_specs || !has_namespace_spec {
             punct!("{");
             self.emit_list(
                 node.span,
@@ -402,7 +402,7 @@ where
         }
 
         if let Some(ref src) = node.src {
-            if has_named_specs || (!has_namespace_spec && !has_named_specs) {
+            if has_named_specs || !has_namespace_spec {
                 formatting_space!();
             } else if has_namespace_spec {
                 space!();

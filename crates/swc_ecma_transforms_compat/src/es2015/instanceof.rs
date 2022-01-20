@@ -50,21 +50,19 @@ impl VisitMut for InstanceOf {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
 
-        match expr {
-            Expr::Bin(BinExpr {
-                span,
-                left,
-                op: op!("instanceof"),
-                right,
-            }) => {
-                *expr = Expr::Call(CallExpr {
-                    span: *span,
-                    callee: helper!(*span, instanceof, "instanceof"),
-                    args: vec![left.take().as_arg(), right.take().as_arg()],
-                    type_args: Default::default(),
-                });
-            }
-            _ => {}
+        if let Expr::Bin(BinExpr {
+            span,
+            left,
+            op: op!("instanceof"),
+            right,
+        }) = expr
+        {
+            *expr = Expr::Call(CallExpr {
+                span: *span,
+                callee: helper!(*span, instanceof, "instanceof"),
+                args: vec![left.take().as_arg(), right.take().as_arg()],
+                type_args: Default::default(),
+            });
         }
     }
 }

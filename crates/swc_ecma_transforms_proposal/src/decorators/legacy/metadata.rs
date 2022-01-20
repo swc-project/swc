@@ -228,16 +228,14 @@ impl Fold for Metadata<'_> {
             .type_ann
             .as_ref()
             .map(|ty| &ty.type_ann)
-            .map(|type_ann| match &**type_ann {
+            .and_then(|type_ann| match &**type_ann {
                 TsType::TsTypeRef(r) => Some(r),
                 _ => None,
             })
-            .flatten()
-            .map(|r| match &r.type_name {
+            .and_then(|r| match &r.type_name {
                 TsEntityName::TsQualifiedName(_) => None,
                 TsEntityName::Ident(i) => Some(i),
             })
-            .flatten()
         {
             if let Some(kind) = self.enums.get(&name.to_id()) {
                 let dec = self.create_metadata_design_decorator(

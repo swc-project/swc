@@ -93,13 +93,13 @@ impl<'a, I: Input> Lexer<'a, I> {
             self.input.bump();
 
             if c == ';' {
-                if s.starts_with('#') {
-                    if s[1..].starts_with('x') {
+                if let Some(stripped) = s.strip_prefix('#') {
+                    if stripped.starts_with('x') {
                         if is_hex(&s[2..]) {
                             return from_code(&s[2..], 16);
                         }
-                    } else if is_dec(&s[1..]) {
-                        return from_code(&s[1..], 10);
+                    } else if is_dec(stripped) {
+                        return from_code(stripped, 10);
                     }
                 } else if let Some(entity) = xhtml(&s) {
                     return Ok(entity);

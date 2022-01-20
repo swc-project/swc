@@ -27,9 +27,13 @@ pub fn acquire_global_lock(name: &str) -> Box<dyn Any> {
     use std::{ffi::CString, io};
 
     type LPSECURITY_ATTRIBUTES = *mut u8;
+    #[allow(clippy::upper_case_acronyms)]
     type BOOL = i32;
+    #[allow(clippy::upper_case_acronyms)]
     type LPCSTR = *const u8;
+    #[allow(clippy::upper_case_acronyms)]
     type HANDLE = *mut u8;
+    #[allow(clippy::upper_case_acronyms)]
     type DWORD = u32;
 
     const INFINITE: DWORD = !0;
@@ -74,7 +78,7 @@ pub fn acquire_global_lock(name: &str) -> Box<dyn Any> {
         //
         // This will silently create one if it doesn't already exist, or it'll
         // open up a handle to one if it already exists.
-        let mutex = CreateMutexA(0 as *mut _, 0, cname.as_ptr() as *const u8);
+        let mutex = CreateMutexA(std::ptr::null_mut(), 0, cname.as_ptr() as *const u8);
         if mutex.is_null() {
             panic!(
                 "failed to create global mutex named `{}`: {}",
