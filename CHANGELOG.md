@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.2.133] - 2022-01-20
 
 ### Bug Fixes
 
@@ -27,6 +27,9 @@
 
 
 - **(node-swc)** Fix GLIBC < 2.18 compatible issues and android arm binary loading issue (#3314) ([9608605](https://github.com/swc-project/swc/commit/9608605772351a2406870e19ed8738adf2147374))
+
+
+- **(node-swc)** Fix Windows arm64 build OOM (#3324) ([c069c78](https://github.com/swc-project/swc/commit/c069c78b21b9b4bf150d22e8ff333053f2039e3b))
 
 ## [1.2.131] - 2022-01-19
 
