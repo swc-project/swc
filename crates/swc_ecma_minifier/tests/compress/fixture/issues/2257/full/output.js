@@ -259,15 +259,16 @@
             }), exports.default = void 0;
             var swcHelpers = __webpack_require__(547), _jsxRuntime = __webpack_require__(37712), _auth = __webpack_require__(45440);
             exports.default = function(param2) {
-                var authConfig, context = param2.context, appConfig = param2.appConfig, addProvider = param2.addProvider, wrapperPageComponent = param2.wrapperPageComponent, initialData = context && context.initialData ? context.initialData : {}, initialAuth = initialData.auth || {}, authConfig1 = appConfig.auth || {}, AuthStoreProvider = function(param) {
+                var authConfig, context = param2.context, appConfig = param2.appConfig, addProvider = param2.addProvider, wrapperPageComponent = param2.wrapperPageComponent, initialData = context && context.initialData ? context.initialData : {}, initialAuth = initialData.auth || {}, authConfig1 = appConfig.auth || {};
+                addProvider(function(param) {
                     var children = param.children;
                     return _jsxRuntime.jsx(_auth.Provider, {
                         value: initialAuth,
                         children: children
                     });
-                };
-                addProvider(AuthStoreProvider), wrapperPageComponent((authConfig = authConfig1, function(PageComponent) {
-                    var _pageConfig = PageComponent.pageConfig, pageConfig = void 0 === _pageConfig ? {} : _pageConfig, AuthWrappedComponent = function(props) {
+                }), wrapperPageComponent((authConfig = authConfig1, function(PageComponent) {
+                    var _pageConfig = PageComponent.pageConfig, pageConfig = void 0 === _pageConfig ? {} : _pageConfig;
+                    return _auth.withAuth(function(props) {
                         var auth = props.auth, setAuth = props.setAuth, rest = swcHelpers.objectWithoutProperties(props, [
                             "auth",
                             "setAuth"
@@ -276,8 +277,7 @@
                         return Array.isArray(pageConfigAuth) && pageConfigAuth.length && !Object.keys(auth).filter(function(item) {
                             return !!pageConfigAuth.includes(item) && auth[item];
                         }).length ? authConfig.NoAuthFallback ? "function" == typeof authConfig.NoAuthFallback ? _jsxRuntime.jsx(authConfig.NoAuthFallback, {}) : authConfig.NoAuthFallback : null : _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, rest));
-                    };
-                    return _auth.withAuth(AuthWrappedComponent);
+                    });
                 }));
             };
         },
@@ -338,20 +338,21 @@
             }), exports.default = void 0;
             var swcHelpers = __webpack_require__(547), _jsxRuntime = __webpack_require__(37712), _errorBoundary = swcHelpers.interopRequireDefault(__webpack_require__(11179)), _routes = swcHelpers.interopRequireDefault(__webpack_require__(72791)), _router = __webpack_require__(37447), _formatRoutes = swcHelpers.interopRequireWildcard(__webpack_require__(14710));
             exports.default = function(param3) {
-                var setRenderApp = param3.setRenderApp, appConfig = param3.appConfig, modifyRoutes = param3.modifyRoutes, wrapperPageComponent = param3.wrapperPageComponent, modifyRoutesComponent = param3.modifyRoutesComponent, buildConfig = param3.buildConfig, context = param3.context, applyRuntimeAPI = param3.applyRuntimeAPI, tmp = appConfig.router, appConfigRouter = void 0 === tmp ? {} : tmp, _app = appConfig.app, app = void 0 === _app ? {} : _app, ErrorBoundaryFallback = app.ErrorBoundaryFallback, onErrorBoundaryHandler = app.onErrorBoundaryHandler, _parseSearchParams = app.parseSearchParams, parseSearchParams = void 0 === _parseSearchParams || _parseSearchParams, WrappedPageComponent = function(PageComponent) {
+                var setRenderApp = param3.setRenderApp, appConfig = param3.appConfig, modifyRoutes = param3.modifyRoutes, wrapperPageComponent = param3.wrapperPageComponent, modifyRoutesComponent = param3.modifyRoutesComponent, buildConfig = param3.buildConfig, context = param3.context, applyRuntimeAPI = param3.applyRuntimeAPI, tmp = appConfig.router, appConfigRouter = void 0 === tmp ? {} : tmp, _app = appConfig.app, app = void 0 === _app ? {} : _app, ErrorBoundaryFallback = app.ErrorBoundaryFallback, onErrorBoundaryHandler = app.onErrorBoundaryHandler, _parseSearchParams = app.parseSearchParams, parseSearchParams = void 0 === _parseSearchParams || _parseSearchParams;
+                wrapperPageComponent(function(PageComponent) {
                     return function(props) {
                         var searchParams = parseSearchParams && applyRuntimeAPI("getSearchParams");
                         return _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, Object.assign({}, props, {
                             searchParams: searchParams
                         })));
                     };
-                };
-                wrapperPageComponent(WrappedPageComponent), modifyRoutes(function() {
+                }), modifyRoutes(function() {
                     return _formatRoutes.default(appConfigRouter.routes || _routes.default, "");
                 }), modifyRoutesComponent(function() {
                     return _router.Routes;
                 });
-                var wrapperPageErrorBoundary = function(PageComponent) {
+                var wrapperPageFn = process.env.__IS_SERVER__ ? _formatRoutes.wrapperPageWithSSR(context) : _formatRoutes.wrapperPageWithCSR();
+                wrapperPageComponent(wrapperPageFn), wrapperPageComponent(function(PageComponent) {
                     var _pageConfig = PageComponent.pageConfig, pageConfig = void 0 === _pageConfig ? {} : _pageConfig;
                     return function(props) {
                         return pageConfig.errorBoundary ? _jsxRuntime.jsx(_errorBoundary.default, {
@@ -360,9 +361,9 @@
                             children: _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, props))
                         }) : _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, props));
                     };
-                }, wrapperPageFn = process.env.__IS_SERVER__ ? _formatRoutes.wrapperPageWithSSR(context) : _formatRoutes.wrapperPageWithCSR();
-                wrapperPageComponent(wrapperPageFn), wrapperPageComponent(wrapperPageErrorBoundary), appConfigRouter.modifyRoutes && modifyRoutes(appConfigRouter.modifyRoutes);
-                var lazy = buildConfig && buildConfig.router && buildConfig.router.lazy, renderRouter = function(routes, RoutesComponent, param) {
+                }), appConfigRouter.modifyRoutes && modifyRoutes(appConfigRouter.modifyRoutes);
+                var lazy = buildConfig && buildConfig.router && buildConfig.router.lazy;
+                setRenderApp(function(routes, RoutesComponent, param) {
                     var customRouterProps = void 0 === param ? {} : param;
                     return function() {
                         var routerProps = swcHelpers.objectSpread({}, appConfigRouter, {
@@ -388,8 +389,7 @@
                             }) : null
                         }));
                     };
-                };
-                setRenderApp(renderRouter);
+                });
             };
         },
         37447: function(__unused_webpack_module, exports, __webpack_require__) {
@@ -1207,11 +1207,11 @@
                 void 0 !== element.descriptor.get ? other.descriptor.get = element.descriptor.get : other.descriptor.set = element.descriptor.set;
             }
             function _coalesceClassElements(elements) {
-                for(var newElements = [], isSameElement = function(other) {
-                    return "method" === other.kind && other.key === element.key && other.placement === element.placement;
-                }, i = 0; i < elements.length; i++){
+                for(var newElements = [], i = 0; i < elements.length; i++){
                     var other1, element = elements[i];
-                    if ("method" === element.kind && (other1 = newElements.find(isSameElement))) if (_isDataDescriptor(element.descriptor) || _isDataDescriptor(other1.descriptor)) {
+                    if ("method" === element.kind && (other1 = newElements.find(function(other) {
+                        return "method" === other.kind && other.key === element.key && other.placement === element.placement;
+                    }))) if (_isDataDescriptor(element.descriptor) || _isDataDescriptor(other1.descriptor)) {
                         if (_hasDecorators(element) || _hasDecorators(other1)) throw new ReferenceError("Duplicated methods (" + element.key + ") can't be decorated.");
                         other1.descriptor = element.descriptor;
                     } else {

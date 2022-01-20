@@ -1592,19 +1592,18 @@
                 }));
             }, TextTrack1 = function(_Track) {
                 function TextTrack(options) {
-                    var _this;
                     if (void 0 === options && (options = {}), !options.tech) throw new Error("A tech was not provided.");
                     var settings = mergeOptions$3(options, {
                         kind: TextTrackKind[options.kind] || "subtitles",
                         language: options.language || options.srclang || ""
                     }), mode = TextTrackMode[settings.mode] || "disabled", default_ = settings.default;
                     ("metadata" === settings.kind || "chapters" === settings.kind) && (mode = "hidden"), (_this = _Track.call(this, settings) || this).tech_ = settings.tech, _this.cues_ = [], _this.activeCues_ = [], _this.preload_ = !1 !== _this.tech_.preloadTextTracks;
-                    var cues = new TextTrackCueList1(_this.cues_), activeCues = new TextTrackCueList1(_this.activeCues_), changed = !1, timeupdateHandler = bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), function() {
+                    var _this, cues = new TextTrackCueList1(_this.cues_), activeCues = new TextTrackCueList1(_this.activeCues_), changed = !1, timeupdateHandler = bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), function() {
                         !(!this.tech_.isReady_ || this.tech_.isDisposed()) && (this.activeCues = this.activeCues, changed && (this.trigger("cuechange"), changed = !1));
-                    }), disposeHandler = function() {
+                    });
+                    return _this.tech_.one("dispose", function() {
                         _this.tech_.off("timeupdate", timeupdateHandler);
-                    };
-                    return _this.tech_.one("dispose", disposeHandler), "disabled" !== mode && _this.tech_.on("timeupdate", timeupdateHandler), Object.defineProperties((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), {
+                    }), "disabled" !== mode && _this.tech_.on("timeupdate", timeupdateHandler), Object.defineProperties((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), {
                         "default": {
                             get: function() {
                                 return default_;
@@ -5519,10 +5518,10 @@
                 }, _proto.handleTechWaiting_ = function() {
                     var _this8 = this;
                     this.addClass("vjs-waiting"), this.trigger("waiting");
-                    var timeWhenWaiting = this.currentTime(), timeUpdateListener1 = function timeUpdateListener() {
+                    var timeWhenWaiting = this.currentTime();
+                    this.on("timeupdate", function timeUpdateListener() {
                         timeWhenWaiting !== _this8.currentTime() && (_this8.removeClass("vjs-waiting"), _this8.off("timeupdate", timeUpdateListener));
-                    };
-                    this.on("timeupdate", timeUpdateListener1);
+                    });
                 }, _proto.handleTechCanPlay_ = function() {
                     this.removeClass("vjs-waiting"), this.trigger("canplay");
                 }, _proto.handleTechCanPlayThrough_ = function() {
@@ -6022,14 +6021,14 @@
                         }), this.userActivity_ = !1, this.removeClass("vjs-user-active"), this.addClass("vjs-user-inactive"), this.trigger("userinactive");
                     }
                 }, _proto.listenForUserActivity_ = function() {
-                    var mouseInProgress, lastMoveX, lastMoveY, inactivityTimeout, handleActivity = bind(this, this.reportUserActivity), handleMouseMove = function(e) {
-                        (e.screenX !== lastMoveX || e.screenY !== lastMoveY) && (lastMoveX = e.screenX, lastMoveY = e.screenY, handleActivity());
-                    }, handleMouseDown = function() {
-                        handleActivity(), this.clearInterval(mouseInProgress), mouseInProgress = this.setInterval(handleActivity, 250);
-                    }, handleMouseUpAndMouseLeave = function(event) {
+                    var mouseInProgress, lastMoveX, lastMoveY, inactivityTimeout, handleActivity = bind(this, this.reportUserActivity), handleMouseUpAndMouseLeave = function(event) {
                         handleActivity(), this.clearInterval(mouseInProgress);
                     };
-                    this.on("mousedown", handleMouseDown), this.on("mousemove", handleMouseMove), this.on("mouseup", handleMouseUpAndMouseLeave), this.on("mouseleave", handleMouseUpAndMouseLeave);
+                    this.on("mousedown", function() {
+                        handleActivity(), this.clearInterval(mouseInProgress), mouseInProgress = this.setInterval(handleActivity, 250);
+                    }), this.on("mousemove", function(e) {
+                        (e.screenX !== lastMoveX || e.screenY !== lastMoveY) && (lastMoveX = e.screenX, lastMoveY = e.screenY, handleActivity());
+                    }), this.on("mouseup", handleMouseUpAndMouseLeave), this.on("mouseleave", handleMouseUpAndMouseLeave);
                     var controlBar = this.getChild("controlBar");
                     !controlBar || IS_IOS || IS_ANDROID || (controlBar.on("mouseenter", function(event) {
                         0 !== this.player().options_.inactivityTimeout && (this.player().cache_.inactivityTimeout = this.player().options_.inactivityTimeout), this.player().options_.inactivityTimeout = 0;
@@ -7273,10 +7272,10 @@
                         callback: callback
                     });
                 }));
-                var seekToTime = segment.start + mediaOffset, seekedCallback = function() {
+                var seekToTime = segment.start + mediaOffset;
+                tech.one("seeked", function() {
                     return callback(null, tech.currentTime());
-                };
-                tech.one("seeked", seekedCallback), pauseAfterSeek && tech.pause(), seekTo(seekToTime);
+                }), pauseAfterSeek && tech.pause(), seekTo(seekToTime);
             }, callbackOnCompleted = function(request, cb) {
                 if (4 === request.readyState) return cb();
             }, containerRequest = function(uri, xhr, cb) {
@@ -11132,10 +11131,10 @@
                     endAction: null,
                     transmuxer: null,
                     callback: null
-                }), listenForEndEvent1 = function listenForEndEvent(event) {
+                });
+                if (transmuxer.addEventListener("message", function listenForEndEvent(event) {
                     event.data.action === endAction && (transmuxer.removeEventListener("message", listenForEndEvent), event.data.data && (event.data.data = new Uint8Array(event.data.data, options.byteOffset || 0, options.byteLength || event.data.data.byteLength), options.data && (options.data = event.data.data)), callback(event.data));
-                };
-                if (transmuxer.addEventListener("message", listenForEndEvent1), options.data) {
+                }), options.data) {
                     var isArrayBuffer = options.data instanceof ArrayBuffer;
                     message.byteOffset = isArrayBuffer ? 0 : options.data.byteOffset, message.byteLength = options.data.byteLength;
                     var transfers = [
@@ -11372,14 +11371,14 @@
                     onTransmuxerLog: onTransmuxerLog
                 });
             }, decrypt1 = function(_ref7, callback) {
-                var keyBytes, id = _ref7.id, key = _ref7.key, encryptedBytes = _ref7.encryptedBytes, decryptionWorker = _ref7.decryptionWorker, decryptionHandler1 = function decryptionHandler(event) {
+                var keyBytes, id = _ref7.id, key = _ref7.key, encryptedBytes = _ref7.encryptedBytes, decryptionWorker = _ref7.decryptionWorker;
+                decryptionWorker.addEventListener("message", function decryptionHandler(event) {
                     if (event.data.source === id) {
                         decryptionWorker.removeEventListener("message", decryptionHandler);
                         var decrypted = event.data.decrypted;
                         callback(new Uint8Array(decrypted.bytes, decrypted.byteOffset, decrypted.byteLength));
                     }
-                };
-                decryptionWorker.addEventListener("message", decryptionHandler1), keyBytes = key.bytes.slice ? key.bytes.slice() : new Uint32Array(Array.prototype.slice.call(key.bytes)), decryptionWorker.postMessage(createTransferableMessage1({
+                }), keyBytes = key.bytes.slice ? key.bytes.slice() : new Uint32Array(Array.prototype.slice.call(key.bytes)), decryptionWorker.postMessage(createTransferableMessage1({
                     source: id,
                     encrypted: encryptedBytes,
                     key: keyBytes,
@@ -14698,8 +14697,6 @@
                 player.on("error", errorHandler), player.on("dispose", cleanupEvents1), player.reloadSourceOnError = function(newOptions) {
                     cleanupEvents1(), initPlugin(player, newOptions);
                 };
-            }, reloadSourceOnError = function(options) {
-                initPlugin1(this, options);
             }, version$4 = "2.12.0", Vhs = {
                 PlaylistLoader: PlaylistLoader1,
                 Playlist: Playlist,
@@ -15266,7 +15263,9 @@
                     return videojs.log.warn("videojs.Hls is deprecated. Use videojs.Vhs instead."), Vhs;
                 },
                 configurable: !0
-            }), videojs.use || (videojs.registerComponent("Hls", Vhs), videojs.registerComponent("Vhs", Vhs)), videojs.options.vhs = videojs.options.vhs || {}, videojs.options.hls = videojs.options.hls || {}, videojs.getPlugin && videojs.getPlugin("reloadSourceOnError") || (videojs.registerPlugin || videojs.plugin)("reloadSourceOnError", reloadSourceOnError), __webpack_exports__.Z = videojs;
+            }), videojs.use || (videojs.registerComponent("Hls", Vhs), videojs.registerComponent("Vhs", Vhs)), videojs.options.vhs = videojs.options.vhs || {}, videojs.options.hls = videojs.options.hls || {}, videojs.getPlugin && videojs.getPlugin("reloadSourceOnError") || (videojs.registerPlugin || videojs.plugin)("reloadSourceOnError", function(options) {
+                initPlugin1(this, options);
+            }), __webpack_exports__.Z = videojs;
         }
     }
 ]);
