@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 28,
+    "end": 35,
     "ctxt": 0
   },
   "rules": [
@@ -10,14 +10,14 @@
       "type": "UnknownAtRule",
       "span": {
         "start": 0,
-        "end": 27,
+        "end": 34,
         "ctxt": 0
       },
       "name": {
         "type": "Identifier",
         "span": {
           "start": 0,
-          "end": 16,
+          "end": 24,
           "ctxt": 0
         },
         "value": "media",
@@ -50,7 +50,7 @@
           "type": "SimpleBlock",
           "span": {
             "start": 6,
-            "end": 24,
+            "end": 31,
             "ctxt": 0
           },
           "name": "(",
@@ -77,20 +77,45 @@
               "type": "Tokens",
               "span": {
                 "start": 8,
-                "end": 14,
+                "end": 13,
                 "ctxt": 0
               },
               "tokens": [
                 {
                   "span": {
                     "start": 8,
+                    "end": 13,
+                    "ctxt": 0
+                  },
+                  "token": {
+                    "Dimension": {
+                      "value": 400.0,
+                      "raw_value": "400",
+                      "unit": "px",
+                      "raw_unit": "px",
+                      "type": "integer"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "Tokens",
+              "span": {
+                "start": 13,
+                "end": 14,
+                "ctxt": 0
+              },
+              "tokens": [
+                {
+                  "span": {
+                    "start": 13,
                     "end": 14,
                     "ctxt": 0
                   },
                   "token": {
-                    "Ident": {
-                      "value": "height",
-                      "raw": "height"
+                    "WhiteSpace": {
+                      "value": " "
                     }
                   }
                 }
@@ -111,8 +136,8 @@
                     "ctxt": 0
                   },
                   "token": {
-                    "WhiteSpace": {
-                      "value": " "
+                    "Delim": {
+                      "value": ">"
                     }
                   }
                 }
@@ -134,7 +159,7 @@
                   },
                   "token": {
                     "Delim": {
-                      "value": "<"
+                      "value": "="
                     }
                   }
                 }
@@ -155,8 +180,8 @@
                     "ctxt": 0
                   },
                   "token": {
-                    "Delim": {
-                      "value": "<"
+                    "WhiteSpace": {
+                      "value": " "
                     }
                   }
                 }
@@ -166,14 +191,37 @@
               "type": "Tokens",
               "span": {
                 "start": 17,
-                "end": 18,
+                "end": 22,
                 "ctxt": 0
               },
               "tokens": [
                 {
                   "span": {
                     "start": 17,
-                    "end": 18,
+                    "end": 22,
+                    "ctxt": 0
+                  },
+                  "token": {
+                    "Ident": {
+                      "value": "width",
+                      "raw": "width"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "Tokens",
+              "span": {
+                "start": 22,
+                "end": 23,
+                "ctxt": 0
+              },
+              "tokens": [
+                {
+                  "span": {
+                    "start": 22,
+                    "end": 23,
                     "ctxt": 0
                   },
                   "token": {
@@ -187,21 +235,65 @@
             {
               "type": "Tokens",
               "span": {
-                "start": 18,
-                "end": 23,
+                "start": 23,
+                "end": 24,
                 "ctxt": 0
               },
               "tokens": [
                 {
                   "span": {
-                    "start": 18,
-                    "end": 23,
+                    "start": 23,
+                    "end": 24,
+                    "ctxt": 0
+                  },
+                  "token": {
+                    "Delim": {
+                      "value": "!"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "Tokens",
+              "span": {
+                "start": 24,
+                "end": 25,
+                "ctxt": 0
+              },
+              "tokens": [
+                {
+                  "span": {
+                    "start": 24,
+                    "end": 25,
+                    "ctxt": 0
+                  },
+                  "token": {
+                    "WhiteSpace": {
+                      "value": " "
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "Tokens",
+              "span": {
+                "start": 25,
+                "end": 30,
+                "ctxt": 0
+              },
+              "tokens": [
+                {
+                  "span": {
+                    "start": 25,
+                    "end": 30,
                     "ctxt": 0
                   },
                   "token": {
                     "Dimension": {
-                      "value": 600.0,
-                      "raw_value": "600",
+                      "value": 700.0,
+                      "raw_value": "700",
                       "unit": "px",
                       "raw_unit": "px",
                       "type": "integer"
@@ -215,15 +307,15 @@
         {
           "type": "Tokens",
           "span": {
-            "start": 24,
-            "end": 25,
+            "start": 31,
+            "end": 32,
             "ctxt": 0
           },
           "tokens": [
             {
               "span": {
-                "start": 24,
-                "end": 25,
+                "start": 31,
+                "end": 32,
                 "ctxt": 0
               },
               "token": {
@@ -238,8 +330,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 25,
-          "end": 27,
+          "start": 32,
+          "end": 34,
           "ctxt": 0
         },
         "name": "{",
