@@ -84,6 +84,14 @@ where
     }
 
     #[emitter]
+    fn emit_import_supports_type(&mut self, n: &ImportSupportsType) -> Result {
+        match n {
+            ImportSupportsType::SupportQuery(n) => emit!(self, n),
+            ImportSupportsType::Declaration(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
     fn emit_charset_rule(&mut self, n: &CharsetRule) -> Result {
         punct!(self, "@");
         keyword!(self, "charset");
@@ -91,6 +99,34 @@ where
         space!(self);
 
         emit!(self, n.charset);
+
+        semi!(self);
+    }
+
+    #[emitter]
+    fn emit_import_rule(&mut self, n: &ImportRule) -> Result {
+        punct!(self, "@");
+        keyword!(self, "import");
+        space!(self);
+        emit!(self, n.href);
+
+        if let Some(layer_name) = &n.layer_name {
+            space!(self);
+            emit!(self, layer_name);
+        }
+
+        if let Some(supports) = &n.supports {
+            space!(self);
+            keyword!(self, "supports");
+            punct!(self, "(");
+            emit!(self, supports);
+            punct!(self, ")");
+        }
+
+        if let Some(media) = &n.media {
+            space!(self);
+            emit!(self, media);
+        }
 
         semi!(self);
     }
@@ -110,26 +146,6 @@ where
             ImportLayerName::Ident(n) => emit!(self, n),
             ImportLayerName::Function(n) => emit!(self, n),
         }
-    }
-
-    #[emitter]
-    fn emit_import_rule(&mut self, n: &ImportRule) -> Result {
-        punct!(self, "@");
-        keyword!(self, "import");
-        space!(self);
-        emit!(self, n.href);
-
-        if let Some(layer_name) = &n.layer_name {
-            space!(self);
-            emit!(self, layer_name);
-        }
-
-        if let Some(media) = &n.media {
-            space!(self);
-            emit!(self, media);
-        }
-
-        semi!(self);
     }
 
     #[emitter]
