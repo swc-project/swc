@@ -338,17 +338,9 @@ where
 {
     fn parse(&mut self) -> PResult<KeyframesRule> {
         let span = self.input.cur_span()?;
-        let name = match bump!(self) {
-            Token::Ident { value, raw } => KeyframesName::Ident(Ident {
-                span: span!(self, span.lo),
-                value,
-                raw,
-            }),
-            Token::Str { value, raw } => KeyframesName::Str(Str {
-                span: span!(self, span.lo),
-                value,
-                raw,
-            }),
+        let name = match cur!(self) {
+            tok!("ident") => KeyframesName::Ident(self.parse()?),
+            tok!("str") => KeyframesName::Str(self.parse()?),
             _ => KeyframesName::Ident(Ident {
                 span: DUMMY_SP,
                 value: js_word!(""),
