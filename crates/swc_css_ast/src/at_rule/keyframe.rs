@@ -1,10 +1,10 @@
-use crate::{AtRule, Block, Ident, PercentValue, Str};
+use crate::{AtRule, Block, CustomIdent, Ident, PercentValue, Str};
 use swc_common::{ast_node, Span};
 
 #[ast_node]
 pub enum KeyframesName {
-    #[tag("Ident")]
-    Ident(Ident),
+    #[tag("CustomIdent")]
+    CustomIdent(CustomIdent),
     #[tag("Str")]
     Str(Str),
 }

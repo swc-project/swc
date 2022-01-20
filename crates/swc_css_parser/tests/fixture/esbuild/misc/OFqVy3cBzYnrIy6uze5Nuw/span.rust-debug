@@ -22,7 +22,7 @@ error: KeyframesRule
 1 | @keyframes test { from {} to { color: red } }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: CustomIdent
  --> $DIR/tests/fixture/esbuild/misc/OFqVy3cBzYnrIy6uze5Nuw/input.css:1:12
   |
 1 | @keyframes test { from {} to { color: red } }

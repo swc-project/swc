@@ -151,7 +151,7 @@
             "ctxt": 0
           },
           "name": {
-            "type": "Identifier",
+            "type": "CustomIdentifier",
             "span": {
               "start": 87,
               "end": 97,
@@ -339,7 +339,7 @@
             "ctxt": 0
           },
           "name": {
-            "type": "Identifier",
+            "type": "CustomIdentifier",
             "span": {
               "start": 209,
               "end": 219,

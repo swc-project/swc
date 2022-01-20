@@ -22,7 +22,7 @@ error: KeyframesRule
 1 | @keyframes test { from {} to {} }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: CustomIdent
  --> $DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:12
   |
 1 | @keyframes test { from {} to {} }

@@ -172,7 +172,7 @@ error: KeyframesRule
 7 | |     }
   | |_____^
 
-error: Ident
+error: CustomIdent
  --> $DIR/tests/fixture/at-rule/layer/input.css:4:16
   |
 4 |     @keyframes slide-left {
@@ -382,7 +382,7 @@ error: KeyframesRule
 14 | |     }
    | |_____^
 
-error: Ident
+error: CustomIdent
   --> $DIR/tests/fixture/at-rule/layer/input.css:11:16
    |
 11 |     @keyframes slide-left {

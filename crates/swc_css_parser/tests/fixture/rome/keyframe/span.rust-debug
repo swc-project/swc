@@ -46,7 +46,7 @@ error: KeyframesRule
 8 | | }
   | |_^
 
-error: Ident
+error: CustomIdent
  --> $DIR/tests/fixture/rome/keyframe/input.css:1:12
   |
 1 | @keyframes important1 {
@@ -236,7 +236,7 @@ error: KeyframesRule
 21 | | }
    | |_^
 
-error: Ident
+error: CustomIdent
   --> $DIR/tests/fixture/rome/keyframe/input.css:10:12
    |
 10 | @keyframes foo {
@@ -456,7 +456,7 @@ error: KeyframesRule
 24 | | }
    | |_^
 
-error: Ident
+error: CustomIdent
   --> $DIR/tests/fixture/rome/keyframe/input.css:23:12
    |
 23 | @keyframes FOO {

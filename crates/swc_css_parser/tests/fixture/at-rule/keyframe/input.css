@@ -18,3 +18,7 @@
     68%, 72% { left: 50px; }
     100% { top: 100px; left: 100%; }
 }
+
+@keyframes FOO {}
+@keyframes "initial" {}
+@keyframes "None" {}

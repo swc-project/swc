@@ -33,6 +33,12 @@ define!({
         pub raw: JsWord,
     }
 
+    pub struct CustomIdent {
+        pub span: Span,
+        pub value: JsWord,
+        pub raw: JsWord,
+    }
+
     pub struct Str {
         pub span: Span,
         pub value: JsWord,
@@ -390,7 +396,7 @@ define!({
     }
 
     pub enum KeyframesName {
-        Ident(Ident),
+        CustomIdent(CustomIdent),
         Str(Str),
     }
 

@@ -51,6 +51,14 @@ impl Error {
             ErrorKind::UnknownAtRuleNotTerminated => "Unknown @rule is not terminated".into(),
             ErrorKind::InvalidDeclarationValue => "Expected a property value".into(),
             ErrorKind::InvalidAnPlusBMicrosyntax => "Invalid An+B microsyntax".into(),
+            ErrorKind::InvalidCustomIdent(s) => format!(
+                "The CSS-wide keywords are not valid custom-ident, found '{}'",
+                s
+            )
+            .into(),
+            ErrorKind::InvalidKeyframesName(s) => {
+                format!("{} is not valid name for keyframes", s).into()
+            }
         };
         handler.struct_span_err(self.inner.0, &msg)
     }
@@ -84,6 +92,8 @@ pub enum ErrorKind {
     InvalidLayerBlockAtRule,
     InvalidMediaQuery,
     InvalidAnPlusBMicrosyntax,
+    InvalidCustomIdent(&'static str),
+    InvalidKeyframesName(&'static str),
 
     UnknownAtRuleNotTerminated,
 }
