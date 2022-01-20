@@ -27,6 +27,8 @@ where
             }
         };
 
+        let state = self.input.state();
+
         match &*name.0.to_ascii_lowercase() {
             "charset" => {
                 self.input.skip_ws()?;
@@ -196,6 +198,8 @@ where
 
             _ => {}
         }
+
+        self.input.reset(&state);
 
         // Consume the next input token. Create a new at-rule with its name set to the
         // value of the current input token, its prelude initially set to an empty list,
