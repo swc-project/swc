@@ -432,7 +432,7 @@ error: UnitValue
 12 |     @media screen and (min-width: 900px) {
    |                                   ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:35
    |
 12 |     @media screen and (min-width: 900px) {
@@ -793,7 +793,7 @@ error: Value
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                        ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:24
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -805,7 +805,7 @@ error: Value
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                          ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:26
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -823,7 +823,7 @@ error: UnitValue
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                            ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:28
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -901,7 +901,7 @@ error: Value
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                   ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:67
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -913,7 +913,7 @@ error: Value
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                     ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:69
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -931,7 +931,7 @@ error: UnitValue
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                       ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:71
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1009,7 +1009,7 @@ error: Value
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                 ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:113
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1021,7 +1021,7 @@ error: Value
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                   ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:115
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1039,7 +1039,7 @@ error: UnitValue
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                     ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:117
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1117,7 +1117,7 @@ error: Value
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                                                          ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:154
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1129,7 +1129,7 @@ error: Value
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                                                            ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:156
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1147,7 +1147,7 @@ error: UnitValue
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                                                              ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:158
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1262,7 +1262,7 @@ error: Value
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
    |                         ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:22:25
    |
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -1274,7 +1274,7 @@ error: Value
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
    |                           ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:22:27
    |
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -1292,7 +1292,7 @@ error: UnitValue
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
    |                             ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:22:29
    |
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -1374,7 +1374,7 @@ error: Value
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
    |                      ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:23:22
    |
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -1386,7 +1386,7 @@ error: Value
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
    |                        ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:23:24
    |
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -1404,7 +1404,7 @@ error: UnitValue
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
    |                          ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:23:26
    |
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -1486,7 +1486,7 @@ error: Value
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
    |                         ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:24:25
    |
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -1498,7 +1498,7 @@ error: Value
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
    |                           ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:24:27
    |
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -1516,7 +1516,7 @@ error: UnitValue
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
    |                             ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:24:29
    |
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -1598,7 +1598,7 @@ error: Value
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
    |                    ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:25:20
    |
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
@@ -1610,7 +1610,7 @@ error: Value
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
    |                      ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:25:22
    |
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
@@ -1628,7 +1628,7 @@ error: UnitValue
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
    |                        ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:25:24
    |
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
@@ -1862,7 +1862,7 @@ error: UnitValue
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
    |                                                                                          ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:28:90
    |
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
@@ -2072,7 +2072,7 @@ error: UnitValue
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
    |                                                                                         ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:29:89
    |
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
@@ -2282,7 +2282,7 @@ error: UnitValue
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
    |                                                                                                                                     ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:30:133
    |
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
@@ -2492,7 +2492,7 @@ error: UnitValue
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
    |                                                                                   ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:31:83
    |
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}

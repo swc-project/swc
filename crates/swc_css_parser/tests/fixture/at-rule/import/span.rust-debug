@@ -1072,7 +1072,7 @@ error: UnitValue
 19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
    |                                                                            ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/import/input.css:19:76
    |
 19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
@@ -1234,7 +1234,7 @@ error: UnitValue
 20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
    |                                                                            ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/import/input.css:20:76
    |
 20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
@@ -5170,7 +5170,7 @@ error: UnitValue
 130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
     |                                                                          ^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/import/input.css:130:74
     |
 130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
@@ -5500,7 +5500,7 @@ error: UnitValue
 133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
     |                                                                                         ^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/import/input.css:133:89
     |
 133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
@@ -5674,7 +5674,7 @@ error: UnitValue
 134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
     |                                                                                ^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/import/input.css:134:80
     |
 134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
@@ -5854,7 +5854,7 @@ error: UnitValue
 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
     |                                                                                  ^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/import/input.css:135:82
     |
 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
@@ -6082,7 +6082,7 @@ error: UnitValue
 137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
     |                                                                                            ^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/import/input.css:137:92
     |
 137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
@@ -6274,7 +6274,7 @@ error: UnitValue
 138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
     |                                                                                     ^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/import/input.css:138:85
     |
 138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
@@ -6406,7 +6406,7 @@ error: UnitValue
 139 | @import url("./test.css")screen and (min-width: 400px);
     |                                                 ^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/import/input.css:139:49
     |
 139 | @import url("./test.css")screen and (min-width: 400px);
@@ -6598,7 +6598,7 @@ error: UnitValue
 142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
     |                                                                                                                                                                                                                                                                                 ^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/import/input.css:142:273
     |
 142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
@@ -7570,7 +7570,7 @@ error: UnitValue
 154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
     |                                                                                                    ^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/import/input.css:154:100
     |
 154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);

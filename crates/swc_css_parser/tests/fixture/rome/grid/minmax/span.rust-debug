@@ -121,7 +121,7 @@ error: UnitValue
 2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
   |                                                ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/grid/minmax/input.css:2:45
   |
 2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
@@ -163,7 +163,7 @@ error: UnitValue
 2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
   |                                                              ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/grid/minmax/input.css:2:59
   |
 2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
@@ -187,7 +187,7 @@ error: UnitValue
 2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
   |                                                                     ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/grid/minmax/input.css:2:66
   |
 2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);

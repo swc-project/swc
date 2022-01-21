@@ -602,11 +602,11 @@ where
     }
 }
 
-impl<I> Parse<Num> for Parser<I>
+impl<I> Parse<Number> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Num> {
+    fn parse(&mut self) -> PResult<Number> {
         let span = self.input.cur_span()?;
 
         if !is!(self, Num) {
@@ -616,7 +616,7 @@ where
         let value = bump!(self);
 
         match value {
-            Token::Num { value, raw, .. } => Ok(Num { span, value, raw }),
+            Token::Num { value, raw, .. } => Ok(Number { span, value, raw }),
             _ => {
                 unreachable!()
             }
@@ -699,7 +699,7 @@ where
 
                 Ok(UnitValue {
                     span,
-                    value: Num {
+                    value: Number {
                         value,
                         raw: raw_value,
                         span: swc_common::Span::new(
@@ -739,7 +739,7 @@ where
 
         match bump!(self) {
             Token::Percent { value, raw } => {
-                let value = Num {
+                let value = Number {
                     span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
                     value,
                     raw,

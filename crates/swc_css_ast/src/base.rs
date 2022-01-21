@@ -22,10 +22,3 @@ pub struct Str {
     pub value: JsWord,
     pub raw: JsWord,
 }
-
-#[ast_node("Number")]
-pub struct Num {
-    pub span: Span,
-    pub value: f64,
-    pub raw: JsWord,
-}

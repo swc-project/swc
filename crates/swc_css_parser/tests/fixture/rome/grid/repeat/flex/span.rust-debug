@@ -103,7 +103,7 @@ error: Value
 2 |     grid-template-columns: repeat(4, 1fr);
   |                                   ^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:32
   |
 2 |     grid-template-columns: repeat(4, 1fr);
@@ -121,7 +121,7 @@ error: UnitValue
 2 |     grid-template-columns: repeat(4, 1fr);
   |                                      ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:35
   |
 2 |     grid-template-columns: repeat(4, 1fr);

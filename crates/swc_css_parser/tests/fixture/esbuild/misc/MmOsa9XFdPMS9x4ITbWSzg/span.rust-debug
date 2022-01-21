@@ -70,7 +70,7 @@ error: Value
 1 | a { width: -.00; }
   |            ^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/esbuild/misc/MmOsa9XFdPMS9x4ITbWSzg/input.css:1:12
   |
 1 | a { width: -.00; }

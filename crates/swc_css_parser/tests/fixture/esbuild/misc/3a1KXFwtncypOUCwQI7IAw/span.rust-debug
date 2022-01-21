@@ -46,7 +46,7 @@ error: PercentValue
 1 | @keyframes name { 100% { color: red } }
   |                   ^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:19
   |
 1 | @keyframes name { 100% { color: red } }

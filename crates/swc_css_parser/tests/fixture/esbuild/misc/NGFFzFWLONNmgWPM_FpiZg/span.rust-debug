@@ -76,7 +76,7 @@ error: PercentValue
 1 | a { width: +.00%; }
   |            ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/esbuild/misc/NGFFzFWLONNmgWPM_FpiZg/input.css:1:12
   |
 1 | a { width: +.00%; }

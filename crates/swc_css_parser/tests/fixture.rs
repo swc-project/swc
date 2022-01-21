@@ -296,7 +296,8 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(NestingSelector, visit_nesting_selector);
     mtd!(IdSelector, visit_id_selector);
     mtd!(TypeSelector, visit_type_selector);
-    mtd!(Num, visit_num);
+    mtd!(Number, visit_number);
+    mtd!(Ratio, visit_ratio);
     mtd!(PercentValue, visit_percent_value);
     mtd!(Declaration, visit_declaration);
     mtd!(Nth, visit_nth);

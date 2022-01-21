@@ -97,7 +97,7 @@ error: Value
 2 |     margin-right: 0;
   |                   ^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/vercel/001/input.css:2:19
   |
 2 |     margin-right: 0;

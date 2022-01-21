@@ -125,7 +125,7 @@ error: UnitValue
 2 |     width: max(500px);
   |                ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:2:13
   |
 2 |     width: max(500px);
@@ -179,7 +179,7 @@ error: UnitValue
 3 |     width: max(500px, 6 / 4);
   |                ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:3:13
   |
 3 |     width: max(500px, 6 / 4);
@@ -209,7 +209,7 @@ error: Value
 3 |     width: max(500px, 6 / 4);
   |                       ^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:3:20
   |
 3 |     width: max(500px, 6 / 4);
@@ -221,7 +221,7 @@ error: Value
 3 |     width: max(500px, 6 / 4);
   |                           ^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:3:24
   |
 3 |     width: max(500px, 6 / 4);
@@ -269,7 +269,7 @@ error: UnitValue
 4 |     width: max(500px, 40px + 5%);
   |                ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:4:13
   |
 4 |     width: max(500px, 40px + 5%);
@@ -305,7 +305,7 @@ error: UnitValue
 4 |     width: max(500px, 40px + 5%);
   |                       ^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:4:20
   |
 4 |     width: max(500px, 40px + 5%);
@@ -329,7 +329,7 @@ error: PercentValue
 4 |     width: max(500px, 40px + 5%);
   |                              ^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:4:27
   |
 4 |     width: max(500px, 40px + 5%);
@@ -377,7 +377,7 @@ error: UnitValue
 5 |     width: max(500px, 5% * 400px + 2px);
   |                ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:5:13
   |
 5 |     width: max(500px, 5% * 400px + 2px);
@@ -425,7 +425,7 @@ error: PercentValue
 5 |     width: max(500px, 5% * 400px + 2px);
   |                       ^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:5:20
   |
 5 |     width: max(500px, 5% * 400px + 2px);
@@ -455,7 +455,7 @@ error: UnitValue
 5 |     width: max(500px, 5% * 400px + 2px);
   |                            ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:5:25
   |
 5 |     width: max(500px, 5% * 400px + 2px);
@@ -479,7 +479,7 @@ error: UnitValue
 5 |     width: max(500px, 5% * 400px + 2px);
   |                                    ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:5:33
   |
 5 |     width: max(500px, 5% * 400px + 2px);
@@ -533,7 +533,7 @@ error: UnitValue
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:13
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -581,7 +581,7 @@ error: PercentValue
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                       ^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:20
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -611,7 +611,7 @@ error: UnitValue
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                            ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:25
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -635,7 +635,7 @@ error: UnitValue
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                                    ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:33
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -683,7 +683,7 @@ error: PercentValue
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                                         ^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:38
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -713,7 +713,7 @@ error: UnitValue
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                                              ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:43
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -737,7 +737,7 @@ error: UnitValue
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                                                      ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:51
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -785,7 +785,7 @@ error: PercentValue
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                                                           ^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:56
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -815,7 +815,7 @@ error: UnitValue
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                                                                ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:61
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -839,7 +839,7 @@ error: UnitValue
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                                                                        ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:69
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -893,7 +893,7 @@ error: UnitValue
 7 |     width: min(500px);
   |                ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:7:13
   |
 7 |     width: min(500px);
@@ -947,7 +947,7 @@ error: UnitValue
 8 |     width: min(500px, 6 / 4);
   |                ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:8:13
   |
 8 |     width: min(500px, 6 / 4);
@@ -977,7 +977,7 @@ error: Value
 8 |     width: min(500px, 6 / 4);
   |                       ^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:8:20
   |
 8 |     width: min(500px, 6 / 4);
@@ -989,7 +989,7 @@ error: Value
 8 |     width: min(500px, 6 / 4);
   |                           ^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:8:24
   |
 8 |     width: min(500px, 6 / 4);
@@ -1037,7 +1037,7 @@ error: UnitValue
 9 |     width: min(500px, 40px + 5%);
   |                ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:9:13
   |
 9 |     width: min(500px, 40px + 5%);
@@ -1073,7 +1073,7 @@ error: UnitValue
 9 |     width: min(500px, 40px + 5%);
   |                       ^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:9:20
   |
 9 |     width: min(500px, 40px + 5%);
@@ -1097,7 +1097,7 @@ error: PercentValue
 9 |     width: min(500px, 40px + 5%);
   |                              ^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:9:27
   |
 9 |     width: min(500px, 40px + 5%);
@@ -1145,7 +1145,7 @@ error: UnitValue
 10 |     width: min(500px, 5% * 400px + 2px);
    |                ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:10:13
    |
 10 |     width: min(500px, 5% * 400px + 2px);
@@ -1193,7 +1193,7 @@ error: PercentValue
 10 |     width: min(500px, 5% * 400px + 2px);
    |                       ^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:10:20
    |
 10 |     width: min(500px, 5% * 400px + 2px);
@@ -1223,7 +1223,7 @@ error: UnitValue
 10 |     width: min(500px, 5% * 400px + 2px);
    |                            ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:10:25
    |
 10 |     width: min(500px, 5% * 400px + 2px);
@@ -1247,7 +1247,7 @@ error: UnitValue
 10 |     width: min(500px, 5% * 400px + 2px);
    |                                    ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:10:33
    |
 10 |     width: min(500px, 5% * 400px + 2px);
@@ -1301,7 +1301,7 @@ error: UnitValue
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:13
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1349,7 +1349,7 @@ error: PercentValue
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                       ^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:20
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1379,7 +1379,7 @@ error: UnitValue
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                            ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:25
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1403,7 +1403,7 @@ error: UnitValue
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                                    ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:33
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1451,7 +1451,7 @@ error: PercentValue
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                                         ^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:38
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1481,7 +1481,7 @@ error: UnitValue
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                                              ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:43
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1505,7 +1505,7 @@ error: UnitValue
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                                                      ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:51
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1553,7 +1553,7 @@ error: PercentValue
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                                                           ^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:56
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1583,7 +1583,7 @@ error: UnitValue
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                                                                ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:61
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1607,7 +1607,7 @@ error: UnitValue
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                                                                        ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:69
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);

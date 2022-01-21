@@ -204,7 +204,7 @@ error: PercentValue
 7 |         transform: translateX(0%);
   |                               ^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:31
   |
 7 |         transform: translateX(0%);
@@ -290,7 +290,7 @@ error: PercentValue
 11 |         transform: translateX(100%);
    |                               ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:31
    |
 11 |         transform: translateX(100%);
@@ -353,7 +353,7 @@ error: PercentValue
 16 |     0% { top: 0; left: 0; }
    |     ^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:5
    |
 16 |     0% { top: 0; left: 0; }
@@ -389,7 +389,7 @@ error: Value
 16 |     0% { top: 0; left: 0; }
    |               ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:15
    |
 16 |     0% { top: 0; left: 0; }
@@ -413,7 +413,7 @@ error: Value
 16 |     0% { top: 0; left: 0; }
    |                        ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:24
    |
 16 |     0% { top: 0; left: 0; }
@@ -437,7 +437,7 @@ error: PercentValue
 17 |     30% { top: 50px; }
    |     ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:5
    |
 17 |     30% { top: 50px; }
@@ -479,7 +479,7 @@ error: UnitValue
 17 |     30% { top: 50px; }
    |                ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:16
    |
 17 |     30% { top: 50px; }
@@ -509,7 +509,7 @@ error: PercentValue
 18 |     68%, 72% { left: 50px; }
    |     ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:5
    |
 18 |     68%, 72% { left: 50px; }
@@ -527,7 +527,7 @@ error: PercentValue
 18 |     68%, 72% { left: 50px; }
    |          ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:10
    |
 18 |     68%, 72% { left: 50px; }
@@ -569,7 +569,7 @@ error: UnitValue
 18 |     68%, 72% { left: 50px; }
    |                      ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:22
    |
 18 |     68%, 72% { left: 50px; }
@@ -599,7 +599,7 @@ error: PercentValue
 19 |     100% { top: 100px; left: 100%; }
    |     ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:5
    |
 19 |     100% { top: 100px; left: 100%; }
@@ -641,7 +641,7 @@ error: UnitValue
 19 |     100% { top: 100px; left: 100%; }
    |                 ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:17
    |
 19 |     100% { top: 100px; left: 100%; }
@@ -677,7 +677,7 @@ error: PercentValue
 19 |     100% { top: 100px; left: 100%; }
    |                              ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:30
    |
 19 |     100% { top: 100px; left: 100%; }
