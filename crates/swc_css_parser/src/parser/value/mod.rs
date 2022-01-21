@@ -276,17 +276,17 @@ where
 
         let span = self.input.cur_span()?;
         match cur!(self) {
-            Token::Str { .. } => return Ok(Value::Str(self.parse()?)),
+            tok!("str") => return Ok(Value::Str(self.parse()?)),
 
-            Token::Num { .. } => return self.parse_numeric_value(),
+            tok!("num") => return self.parse_numeric_value(),
 
-            Token::Function { .. } => return Ok(Value::Function(self.parse()?)),
+            tok!("function") => return Ok(Value::Function(self.parse()?)),
 
-            Token::Percent { .. } => return self.parse_numeric_value(),
+            tok!("percent") => return self.parse_numeric_value(),
 
-            Token::Dimension { .. } => return self.parse_numeric_value(),
+            tok!("dimension") => return self.parse_numeric_value(),
 
-            Token::Ident { .. } => return Ok(Value::Ident(self.parse()?)),
+            tok!("ident") => return Ok(Value::Ident(self.parse()?)),
 
             tok!("[") => return self.parse_square_brackets_value().map(From::from),
 
@@ -331,7 +331,7 @@ where
                 }));
             }
 
-            Token::Url { .. } => return Ok(Value::Url(self.parse()?)),
+            tok!("url") => return Ok(Value::Url(self.parse()?)),
 
             _ => {}
         }

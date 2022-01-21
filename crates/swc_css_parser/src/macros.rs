@@ -19,7 +19,7 @@ macro_rules! tok {
     ("percent") => {
         swc_css_ast::Token::Percent { .. }
     };
-    
+
     ("function") => {
         swc_css_ast::Token::Function { .. }
     };
@@ -34,6 +34,10 @@ macro_rules! tok {
 
     ("bad-string") => {
         swc_css_ast::Token::BadStr { .. }
+    };
+
+    ("url") => {
+        swc_css_ast::Token::Url { .. }
     };
 
     ("bad-url") => {
