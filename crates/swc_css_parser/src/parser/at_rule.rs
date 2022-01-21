@@ -5,7 +5,7 @@ use crate::{
     Parse,
 };
 use swc_atoms::js_word;
-use swc_common::{Span, DUMMY_SP};
+use swc_common::Span;
 use swc_css_ast::*;
 
 #[derive(Debug, Default)]
@@ -338,22 +338,24 @@ where
 {
     fn parse(&mut self) -> PResult<KeyframesRule> {
         let span = self.input.cur_span()?;
-        let name = match bump!(self) {
-            Token::Ident { value, raw } => KeyframesName::Ident(Ident {
-                span: span!(self, span.lo),
-                value,
-                raw,
-            }),
-            Token::Str { value, raw } => KeyframesName::Str(Str {
-                span: span!(self, span.lo),
-                value,
-                raw,
-            }),
-            _ => KeyframesName::Ident(Ident {
-                span: DUMMY_SP,
-                value: js_word!(""),
-                raw: js_word!(""),
-            }),
+        let name = match cur!(self) {
+            tok!("ident") => {
+                let custom_ident: CustomIdent = self.parse()?;
+
+                match &*custom_ident.value.to_ascii_lowercase() {
+                    "none" => {
+                        return Err(Error::new(
+                            span,
+                            ErrorKind::InvalidCustomIdent(stringify!(value)),
+                        ));
+                    }
+                    _ => {}
+                }
+
+                KeyframesName::CustomIdent(custom_ident)
+            }
+            tok!("str") => KeyframesName::Str(self.parse()?),
+            _ => return Err(Error::new(span, ErrorKind::Expected("ident or string"))),
         };
         let mut blocks = vec![];
 

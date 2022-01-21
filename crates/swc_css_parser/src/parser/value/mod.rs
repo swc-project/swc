@@ -660,6 +660,38 @@ where
     }
 }
 
+impl<I> Parse<CustomIdent> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CustomIdent> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Ident) {
+            return Err(Error::new(span, ErrorKind::Expected("Ident")));
+        }
+
+        match bump!(self) {
+            Token::Ident { value, raw } => {
+                match &*value.to_ascii_lowercase() {
+                    "initial" | "inherit" | "unset" | "revert" | "default" => {
+                        return Err(Error::new(
+                            span,
+                            ErrorKind::InvalidCustomIdent(stringify!(value)),
+                        ));
+                    }
+                    _ => {}
+                }
+
+                Ok(CustomIdent { span, value, raw })
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
 impl<I> Parse<Ident> for Parser<I>
 where
     I: ParserInput,

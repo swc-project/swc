@@ -22,7 +22,7 @@ error: KeyframesRule
 1 | @-moz-keyframes name {}
   | ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: CustomIdent
  --> $DIR/tests/fixture/esbuild/misc/D6tjKw383eOL-bbWEm1-4w/input.css:1:17
   |
 1 | @-moz-keyframes name {}

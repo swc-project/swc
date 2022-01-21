@@ -144,7 +144,7 @@ where
     #[emitter]
     fn emit_keyframes_name(&mut self, n: &KeyframesName) -> Result {
         match n {
-            KeyframesName::Ident(n) => emit!(self, n),
+            KeyframesName::CustomIdent(n) => emit!(self, n),
             KeyframesName::Str(n) => emit!(self, n),
         }
     }
@@ -156,19 +156,7 @@ where
         space!(self);
 
         emit!(self, n.name);
-
-        match &n.name {
-            KeyframesName::Ident(n) => {
-                if !n.value.is_empty() {
-                    space!(self);
-                }
-            }
-            KeyframesName::Str(n) => {
-                if !n.value.is_empty() {
-                    space!(self);
-                }
-            }
-        }
+        space!(self);
 
         punct!(self, "{");
         self.emit_list(&n.blocks, ListFormat::NotDelimited)?;
@@ -669,6 +657,11 @@ where
 
     #[emitter]
     fn emit_ident(&mut self, n: &Ident) -> Result {
+        self.wr.write_raw(Some(n.span), &n.raw)?;
+    }
+
+    #[emitter]
+    fn emit_custom_ident(&mut self, n: &CustomIdent) -> Result {
         self.wr.write_raw(Some(n.span), &n.raw)?;
     }
 

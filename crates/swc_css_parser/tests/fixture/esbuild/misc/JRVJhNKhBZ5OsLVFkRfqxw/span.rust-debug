@@ -22,7 +22,7 @@ error: KeyframesRule
 1 | @keyframes a\2c c { \66rom {} }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: CustomIdent
  --> $DIR/tests/fixture/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:12
   |
 1 | @keyframes a\2c c { \66rom {} }

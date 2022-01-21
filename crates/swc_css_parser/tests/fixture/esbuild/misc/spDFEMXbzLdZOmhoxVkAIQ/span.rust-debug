@@ -22,7 +22,7 @@ error: KeyframesRule
 1 | @-webkit-keyframes name {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: CustomIdent
  --> $DIR/tests/fixture/esbuild/misc/spDFEMXbzLdZOmhoxVkAIQ/input.css:1:20
   |
 1 | @-webkit-keyframes name {}
