@@ -19,6 +19,9 @@
 
 - **(es/minifier)** Consider capturing while inlining (#3322) ([4f23d65](https://github.com/swc-project/swc/commit/4f23d651d1a8855f9383c5306d5e417c273c5c22))
 
+
+- **(es/minifier)** Don't inline a var if the initializer is reassigned (#3333) ([d52a1f3](https://github.com/swc-project/swc/commit/d52a1f3899d7d782917ea1c8701e951fcd6c214f))
+
 ### Performance
 
 
