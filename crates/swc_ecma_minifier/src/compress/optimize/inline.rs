@@ -230,6 +230,7 @@ where
                         }) => return,
                         _ => {}
                     }
+
                     match &**init {
                         Expr::Lit(Lit::Regex(..)) => {
                             if !usage.is_fn_local || usage.executed_multiple_time {
@@ -245,6 +246,18 @@ where
                         }
 
                         _ => {}
+                    }
+
+                    if let Expr::Ident(v) = &**init {
+                        if let Some(v_usage) = self
+                            .data
+                            .as_ref()
+                            .and_then(|data| data.vars.get(&v.to_id()))
+                        {
+                            if v_usage.reassigned {
+                                return;
+                            }
+                        }
                     }
 
                     if usage.used_as_arg && !usage.is_fn_local {
@@ -284,9 +297,8 @@ where
                     }
 
                     tracing::debug!(
-                        "inline: Decided to inline var '{}' because it's used only once {:?}",
-                        i.id,
-                        usage
+                        "inline: Decided to inline var '{}' because it's used only once",
+                        i.id
                     );
                     self.changed = true;
                     self.vars_for_inlining.insert(i.to_id(), init.take());

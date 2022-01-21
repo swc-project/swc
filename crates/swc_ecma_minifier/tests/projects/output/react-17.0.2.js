@@ -746,10 +746,11 @@
     }
     function flushWork(hasTimeRemaining, initialTime) {
         isHostCallbackScheduled = !1, isHostTimeoutScheduled && (isHostTimeoutScheduled = !1, cancelHostTimeout()), isPerformingWork = !0;
+        var previousPriorityLevel = currentPriorityLevel;
         try {
             return workLoop(hasTimeRemaining, initialTime);
         } finally{
-            currentTask = null, currentPriorityLevel = currentPriorityLevel, isPerformingWork = !1;
+            currentTask = null, currentPriorityLevel = previousPriorityLevel, isPerformingWork = !1;
         }
     }
     function workLoop(hasTimeRemaining, initialTime) {
@@ -768,7 +769,7 @@
         var firstTimer = peek(timerQueue);
         return null !== firstTimer && requestHostTimeout(handleTimeout, firstTimer.startTime - currentTime), !1;
     }
-    var Scheduler = Object.freeze({
+    var unstable_requestPaint = requestPaint, Scheduler = Object.freeze({
         __proto__: null,
         unstable_ImmediatePriority: 1,
         unstable_UserBlockingPriority: 2,
@@ -869,7 +870,7 @@
         get unstable_shouldYield () {
             return shouldYieldToHost;
         },
-        unstable_requestPaint: requestPaint,
+        unstable_requestPaint: unstable_requestPaint,
         unstable_continueExecution: function() {
             isHostCallbackScheduled || isPerformingWork || (isHostCallbackScheduled = !0, requestHostCallback(flushWork));
         },

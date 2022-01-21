@@ -8505,6 +8505,7 @@
             while (null !== nextEffect)
             nextEffect = null, requestPaint(), popInteractions(prevInteractions), executionContext = prevExecutionContext;
         } else root6.current = finishedWork, recordCommitTime();
+        var rootDidHavePassiveEffects = rootDoesHavePassiveEffects;
         if (rootDoesHavePassiveEffects) rootDoesHavePassiveEffects = !1, rootWithPendingPassiveEffects = root6, pendingPassiveEffectsLanes = lanes5, pendingPassiveEffectsRenderPriority = renderPriorityLevel;
         else for(nextEffect = firstEffect; null !== nextEffect;){
             var nextNextEffect = nextEffect.nextEffect;
@@ -8518,7 +8519,7 @@
             }
             schedulePendingInteractions(root6, remainingLanes1);
         } else legacyErrorBoundariesThatAlreadyFailed = null;
-        if (rootDoesHavePassiveEffects || finishPendingInteractions(root6, lanes5), remainingLanes1 === SyncLane ? root6 === rootWithNestedUpdates ? nestedUpdateCount++ : (nestedUpdateCount = 0, rootWithNestedUpdates = root6) : nestedUpdateCount = 0, !function(root, priorityLevel) {
+        if (rootDidHavePassiveEffects || finishPendingInteractions(root6, lanes5), remainingLanes1 === SyncLane ? root6 === rootWithNestedUpdates ? nestedUpdateCount++ : (nestedUpdateCount = 0, rootWithNestedUpdates = root6) : nestedUpdateCount = 0, !function(root, priorityLevel) {
             if (injectedHook && "function" == typeof injectedHook.onCommitFiberRoot) try {
                 var didError = (root.current.flags & DidCapture) === DidCapture;
                 enableProfilerTimer ? injectedHook.onCommitFiberRoot(rendererID, root, priorityLevel, didError) : injectedHook.onCommitFiberRoot(rendererID, root, void 0, didError);
@@ -8718,10 +8719,11 @@
                 } else didWarnStateUpdateForNotYetMountedComponent = new Set([
                     componentName
                 ]);
+                var previousFiber = current1;
                 try {
                     setCurrentFiber(fiber), error1("Can't perform a React state update on a component that hasn't mounted yet. This indicates that you have a side-effect in your render function that asynchronously later calls tries to update the component. Move this work to useEffect instead.");
                 } finally{
-                    current1 ? setCurrentFiber(fiber) : resetCurrentFiber();
+                    previousFiber ? setCurrentFiber(fiber) : resetCurrentFiber();
                 }
             }
         }
