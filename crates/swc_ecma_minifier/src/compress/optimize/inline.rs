@@ -254,7 +254,7 @@ where
                             .as_ref()
                             .and_then(|data| data.vars.get(&v.to_id()))
                         {
-                            if v_usage.mutated {
+                            if v_usage.reassigned {
                                 return;
                             }
                         }
