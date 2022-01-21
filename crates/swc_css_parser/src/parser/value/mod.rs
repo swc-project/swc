@@ -508,7 +508,7 @@ where
         Ok(args)
     }
 
-    fn parse_square_brackets_value(&mut self) -> PResult<SquareBracketBlock> {
+    fn parse_square_brackets_value(&mut self) -> PResult<SimpleBlock> {
         let span = self.input.cur_span()?;
 
         expect!(self, "[");
@@ -520,15 +520,16 @@ where
             ..self.ctx
         };
 
-        let children = Some(self.with_ctx(ctx).parse_property_values()?.0);
+        let value = self.with_ctx(ctx).parse_property_values()?.0;
 
         self.input.skip_ws()?;
 
         expect!(self, "]");
 
-        Ok(SquareBracketBlock {
+        Ok(SimpleBlock {
             span: span!(self, span.lo),
-            children,
+            name: '[',
+            value,
         })
     }
 

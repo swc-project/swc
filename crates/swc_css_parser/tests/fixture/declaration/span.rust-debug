@@ -197,7 +197,7 @@ error: Value
 5 |     prop: [value];
   |           ^^^^^^^
 
-error: SquareBracketBlock
+error: SimpleBlock
  --> $DIR/tests/fixture/declaration/input.css:5:11
   |
 5 |     prop: [value];

@@ -89,13 +89,14 @@
             },
             "value": [
               {
-                "type": "SquareBracketBlock",
+                "type": "SimpleBlock",
                 "span": {
                   "start": 17,
                   "end": 19,
                   "ctxt": 0
                 },
-                "children": []
+                "name": "[",
+                "value": []
               }
             ],
             "important": null
@@ -119,13 +120,14 @@
             },
             "value": [
               {
-                "type": "SquareBracketBlock",
+                "type": "SimpleBlock",
                 "span": {
                   "start": 32,
                   "end": 35,
                   "ctxt": 0
                 },
-                "children": []
+                "name": "[",
+                "value": []
               }
             ],
             "important": null
@@ -149,13 +151,14 @@
             },
             "value": [
               {
-                "type": "SquareBracketBlock",
+                "type": "SimpleBlock",
                 "span": {
                   "start": 48,
                   "end": 60,
                   "ctxt": 0
                 },
-                "children": [
+                "name": "[",
+                "value": [
                   {
                     "type": "Identifier",
                     "span": {
@@ -190,13 +193,14 @@
             },
             "value": [
               {
-                "type": "SquareBracketBlock",
+                "type": "SimpleBlock",
                 "span": {
                   "start": 73,
                   "end": 110,
                   "ctxt": 0
                 },
-                "children": [
+                "name": "[",
+                "value": [
                   {
                     "type": "Identifier",
                     "span": {
@@ -231,13 +235,14 @@
             },
             "value": [
               {
-                "type": "SquareBracketBlock",
+                "type": "SimpleBlock",
                 "span": {
                   "start": 123,
                   "end": 138,
                   "ctxt": 0
                 },
-                "children": [
+                "name": "[",
+                "value": [
                   {
                     "type": "Identifier",
                     "span": {
@@ -309,13 +314,14 @@
             },
             "value": [
               {
-                "type": "SquareBracketBlock",
+                "type": "SimpleBlock",
                 "span": {
                   "start": 150,
                   "end": 162,
                   "ctxt": 0
                 },
-                "children": [
+                "name": "[",
+                "value": [
                   {
                     "type": "Identifier",
                     "span": {
@@ -347,13 +353,14 @@
                 }
               },
               {
-                "type": "SquareBracketBlock",
+                "type": "SimpleBlock",
                 "span": {
                   "start": 167,
                   "end": 188,
                   "ctxt": 0
                 },
-                "children": [
+                "name": "[",
+                "value": [
                   {
                     "type": "Identifier",
                     "span": {
@@ -395,13 +402,14 @@
                 }
               },
               {
-                "type": "SquareBracketBlock",
+                "type": "SimpleBlock",
                 "span": {
                   "start": 193,
                   "end": 203,
                   "ctxt": 0
                 },
-                "children": [
+                "name": "[",
+                "value": [
                   {
                     "type": "Identifier",
                     "span": {

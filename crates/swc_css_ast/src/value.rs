@@ -8,9 +8,6 @@ pub enum Value {
     #[tag("SimpleBlock")]
     SimpleBlock(SimpleBlock),
 
-    #[tag("SquareBracketBlock")]
-    SquareBracketBlock(SquareBracketBlock),
-
     #[tag("RoundBracketBlock")]
     RoundBracketBlock(RoundBracketBlock),
 
@@ -95,13 +92,6 @@ pub struct Function {
 #[ast_node("RoundBracketBlock")]
 pub struct RoundBracketBlock {
     /// Includes `(` and `)`.
-    pub span: Span,
-    pub children: Option<Vec<Value>>,
-}
-
-#[ast_node("SquareBracketBlock")]
-pub struct SquareBracketBlock {
-    /// Includes `[` and `]`.
     pub span: Span,
     pub children: Option<Vec<Value>>,
 }

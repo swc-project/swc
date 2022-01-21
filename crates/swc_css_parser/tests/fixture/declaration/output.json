@@ -213,13 +213,14 @@
             },
             "value": [
               {
-                "type": "SquareBracketBlock",
+                "type": "SimpleBlock",
                 "span": {
                   "start": 71,
                   "end": 78,
                   "ctxt": 0
                 },
-                "children": [
+                "name": "[",
+                "value": [
                   {
                     "type": "Identifier",
                     "span": {

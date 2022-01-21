@@ -567,7 +567,6 @@ where
         match n {
             Value::Function(n) => emit!(self, n),
             Value::SimpleBlock(n) => emit!(self, n),
-            Value::SquareBracketBlock(n) => emit!(self, n),
             Value::RoundBracketBlock(n) => emit!(self, n),
             Value::Unit(n) => emit!(self, n),
             Value::Number(n) => emit!(self, n),
@@ -750,17 +749,6 @@ where
         punct!(self, n.op.as_str());
         space!(self);
         emit!(self, n.right);
-    }
-
-    #[emitter]
-    fn emit_square_bracket_block(&mut self, n: &SquareBracketBlock) -> Result {
-        punct!(self, "[");
-
-        if let Some(values) = &n.children {
-            self.emit_list(values, ListFormat::SpaceDelimited)?;
-        }
-
-        punct!(self, "]");
     }
 
     #[emitter]

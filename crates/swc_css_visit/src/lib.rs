@@ -84,8 +84,6 @@ define!({
     pub enum Value {
         SimpleBlock(SimpleBlock),
 
-        SquareBracketBlock(SquareBracketBlock),
-
         RoundBracketBlock(RoundBracketBlock),
 
         Unit(UnitValue),
@@ -144,11 +142,6 @@ define!({
     }
 
     pub struct RoundBracketBlock {
-        pub span: Span,
-        pub children: Option<Vec<Value>>,
-    }
-
-    pub struct SquareBracketBlock {
         pub span: Span,
         pub children: Option<Vec<Value>>,
     }
