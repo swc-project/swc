@@ -315,6 +315,25 @@ where
             _ => None,
         };
 
+        let supports = match cur!(self) {
+            Token::Function { value, .. } if *value.to_ascii_lowercase() == *"supports" => {
+                bump!(self);
+
+                self.input.skip_ws()?;
+
+                let supports = if is_one_of!(self, "not", "(") {
+                    ImportSupportsType::SupportsCondition(self.parse()?)
+                } else {
+                    ImportSupportsType::Declaration(self.parse()?)
+                };
+
+                expect!(self, ")");
+
+                Some(supports)
+            }
+            _ => None,
+        };
+
         let media = if !is!(self, ";") {
             Some(self.parse()?)
         } else {
@@ -327,6 +346,7 @@ where
             span: span!(self, span.lo),
             href,
             layer_name,
+            supports,
             media,
         })
     }

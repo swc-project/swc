@@ -323,9 +323,10 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(CharsetRule, visit_charset_rule);
     mtd!(DocumentRule, visit_document_rule);
     mtd!(FontFaceRule, visit_font_face_rule);
+    mtd!(ImportRule, visit_import_rule);
     mtd!(ImportHref, visit_import_href);
     mtd!(ImportLayerName, visit_import_layer_name);
-    mtd!(ImportRule, visit_import_rule);
+    mtd!(ImportSupportsType, visit_import_supports_type);
     mtd!(KeyframeBlock, visit_keyframe_block);
     mtd!(KeyframeBlockRule, visit_keyframe_block_rule);
     mtd!(KeyframeSelector, visit_keyframe_selector);
