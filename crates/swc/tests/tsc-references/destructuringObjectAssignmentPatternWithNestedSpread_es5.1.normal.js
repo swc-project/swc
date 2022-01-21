@@ -34,7 +34,7 @@ var a, b, c = {
     }
 }, d;
 var _c;
-var ref;
+var ref, ref1;
 _c = c, b = _objectWithoutProperties(_c.x, [
     "a"
-]), ref = _c, d = ref.x, a = (d === void 0 ? d : d).a, ref, _c;
+]), ref = _c, ref1 = ref.x, a = (ref1 === void 0 ? d : ref1).a, ref, _c;
