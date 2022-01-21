@@ -3,7 +3,7 @@ use crate::{
     compress::optimize::util::{class_has_side_effect, is_valid_for_lhs},
     debug::dump,
     mode::Mode,
-    util::idents_used_by,
+    util::{idents_captured_by, idents_used_by},
 };
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned};
