@@ -291,7 +291,6 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Combinator, visit_combinator);
     mtd!(CompoundSelector, visit_compound_selector);
     mtd!(Block, visit_block);
-    mtd!(RoundBracketBlock, visit_round_bracket_block);
     mtd!(SimpleBlock, visit_simple_block);
     mtd!(Function, visit_function);
     mtd!(HashValue, visit_hash_value);

@@ -119,7 +119,7 @@ error: Value
 3 |     prop: (value);
   |           ^^^^^^^
 
-error: RoundBracketBlock
+error: SimpleBlock
  --> $DIR/tests/fixture/declaration/input.css:3:11
   |
 3 |     prop: (value);

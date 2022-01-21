@@ -533,29 +533,30 @@ where
         })
     }
 
-    fn parse_round_brackets_value(&mut self) -> PResult<RoundBracketBlock> {
+    fn parse_round_brackets_value(&mut self) -> PResult<SimpleBlock> {
         let span = self.input.cur_span()?;
 
         expect!(self, "(");
 
         self.input.skip_ws()?;
 
-        let children = if is!(self, ")") {
-            None
+        let value = if is!(self, ")") {
+            vec![]
         } else {
             let ctx = Ctx {
                 allow_operation_in_value: true,
                 ..self.ctx
             };
 
-            Some(self.with_ctx(ctx).parse_property_values()?.0)
+            self.with_ctx(ctx).parse_property_values()?.0
         };
 
         expect!(self, ")");
 
-        Ok(RoundBracketBlock {
+        Ok(SimpleBlock {
             span: span!(self, span.lo),
-            children,
+            name: '(',
+            value,
         })
     }
 

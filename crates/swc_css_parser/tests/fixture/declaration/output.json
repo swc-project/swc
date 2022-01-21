@@ -120,13 +120,14 @@
             },
             "value": [
               {
-                "type": "RoundBracketBlock",
+                "type": "SimpleBlock",
                 "span": {
                   "start": 33,
                   "end": 40,
                   "ctxt": 0
                 },
-                "children": [
+                "name": "(",
+                "value": [
                   {
                     "type": "Identifier",
                     "span": {
