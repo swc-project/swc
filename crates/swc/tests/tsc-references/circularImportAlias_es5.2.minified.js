@@ -60,5 +60,7 @@ var B, A, _typeof = function(obj) {
         "use strict";
         _classCallCheck(this, C);
     };
-    A1.C = C, A1.b = B;
+    A1.C = C;
+    var b = B;
+    A1.b = b;
 })(A || (A = {})), new B.a.C();

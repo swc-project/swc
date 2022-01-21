@@ -7,5 +7,7 @@ var B, A;
     B1.D = D;
 }(B || (B = {})), (function(A1) {
     A1.C = class {
-    }, A1.b = B;
+    };
+    var b = B;
+    A1.b = b;
 })(A || (A = {})), new B.a.C();
