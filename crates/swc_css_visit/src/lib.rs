@@ -354,10 +354,16 @@ define!({
         Function(Function),
     }
 
+    pub enum ImportSupportsType {
+        SupportsCondition(SupportsCondition),
+        Declaration(Declaration),
+    }
+
     pub struct ImportRule {
         pub span: Span,
         pub href: ImportHref,
         pub layer_name: Option<ImportLayerName>,
+        pub supports: Option<ImportSupportsType>,
         pub media: Option<MediaQueryList>,
     }
 
