@@ -1,4 +1,4 @@
-use crate::{Ident, Num, Str, Tokens};
+use crate::{Ident, Num, SimpleBlock, Str, Tokens};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
@@ -148,11 +148,4 @@ pub struct UrlValue {
     pub span: Span,
     pub url: JsWord,
     pub raw: JsWord,
-}
-
-#[ast_node("SimpleBlock")]
-pub struct SimpleBlock {
-    pub span: Span,
-    pub name: char,
-    pub value: Vec<Value>,
 }

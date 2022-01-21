@@ -32,3 +32,10 @@ pub struct Declaration {
     /// The span includes `!`
     pub important: Option<Span>,
 }
+
+#[ast_node("SimpleBlock")]
+pub struct SimpleBlock {
+    pub span: Span,
+    pub name: char,
+    pub value: Vec<Value>,
+}
