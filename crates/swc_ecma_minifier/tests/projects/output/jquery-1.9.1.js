@@ -2110,8 +2110,8 @@
     ];
     function vendorPropName(style, name) {
         if (name in style) return name;
-        for(var capName = name.charAt(0).toUpperCase() + name.slice(1), i = cssPrefixes.length; i--;)if ((name = cssPrefixes[i] + capName) in style) return name;
-        return name;
+        for(var capName = name.charAt(0).toUpperCase() + name.slice(1), origName = name, i = cssPrefixes.length; i--;)if ((name = cssPrefixes[i] + capName) in style) return name;
+        return origName;
     }
     function isHidden(elem, el) {
         return elem = el || elem, "none" === jQuery.css(elem, "display") || !jQuery.contains(elem.ownerDocument, elem);

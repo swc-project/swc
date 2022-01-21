@@ -9434,7 +9434,7 @@
                         }
                     };
                 }).prototype = new stream1();
-                var TimestampRolloverStream1 = timestampRolloverStream.TimestampRolloverStream;
+                var metadataStream1 = _MetadataStream, TimestampRolloverStream1 = timestampRolloverStream.TimestampRolloverStream;
                 (_TransportPacketStream = function() {
                     var buffer = new Uint8Array(188), bytesInBuffer = 0;
                     _TransportPacketStream.prototype.init.call(this), this.push = function(bytes) {
@@ -9592,7 +9592,7 @@
                     CaptionStream: captionStream1.CaptionStream,
                     Cea608Stream: captionStream1.Cea608Stream,
                     Cea708Stream: captionStream1.Cea708Stream,
-                    MetadataStream: _MetadataStream
+                    MetadataStream: metadataStream1
                 };
                 for(var type1 in streamTypes)streamTypes.hasOwnProperty(type1) && (m2ts[type1] = streamTypes[type1]);
                 var m2ts_1 = m2ts, ONE_SECOND_IN_TS$2 = clock.ONE_SECOND_IN_TS, ADTS_SAMPLING_FREQUENCIES$1 = [
