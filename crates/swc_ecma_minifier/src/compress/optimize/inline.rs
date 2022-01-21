@@ -3,12 +3,12 @@ use crate::{
     compress::optimize::util::{class_has_side_effect, is_valid_for_lhs},
     debug::dump,
     mode::Mode,
-    util::idents_used_by,
+    util::{idents_captured_by, idents_used_by},
 };
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, ExprExt, UsageFinder};
+use swc_ecma_utils::{find_ids, ident::IdentLike, ExprExt, UsageFinder};
 
 /// Methods related to option `inline`.
 impl<M> Optimizer<'_, M>
@@ -255,7 +255,24 @@ where
 
                     if usage.executed_multiple_time {
                         match &**init {
-                            Expr::Lit(..) | Expr::Fn(..) => {}
+                            Expr::Lit(..) => {}
+                            Expr::Fn(f) => {
+                                // Similar to `_loop` generation of the
+                                // block_scoping pass.
+                                // If the function captures the environment, we
+                                // can't inline it.
+                                let params: Vec<Id> = find_ids(&f.function.params);
+
+                                if !params.is_empty() {
+                                    let captured = idents_captured_by(&f.function.body);
+
+                                    for param in params {
+                                        if captured.contains(&param) {
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
                             _ => {
                                 return;
                             }

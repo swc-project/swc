@@ -1457,13 +1457,15 @@
                 var _proto = TextTrackCueList.prototype;
                 return _proto.setCues_ = function(cues) {
                     var oldLength = this.length || 0, i = 0, l = cues.length;
-                    if (this.cues_ = cues, this.length_ = cues.length, oldLength < l) for(i = oldLength; i < l; i++)(function(index) {
+                    this.cues_ = cues, this.length_ = cues.length;
+                    var defineProp = function(index) {
                         "" + index in this || Object.defineProperty(this, "" + index, {
                             get: function() {
                                 return this.cues_[index];
                             }
                         });
-                    }).call(this, i);
+                    };
+                    if (oldLength < l) for(i = oldLength; i < l; i++)defineProp.call(this, i);
                 }, _proto.getCueById = function(id) {
                     for(var result = null, i = 0, l = this.length; i < l; i++){
                         var cue = this[i];
@@ -1500,18 +1502,21 @@
                 showing: "showing"
             }, Track1 = function(_EventTarget) {
                 function Track(options) {
+                    var _this;
                     void 0 === options && (options = {}), _this = _EventTarget.call(this) || this;
-                    var key, _this, trackProps = {
+                    var trackProps = {
                         id: options.id || "vjs_track_" + newGUID(),
                         kind: options.kind || "",
                         language: options.language || ""
-                    }, label = options.label || "";
-                    for(var key1 in trackProps)key = key1, Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), key, {
-                        get: function() {
-                            return trackProps[key];
-                        },
-                        set: function() {}
-                    });
+                    }, label = options.label || "", _loop = function(key) {
+                        Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), key, {
+                            get: function() {
+                                return trackProps[key];
+                            },
+                            set: function() {}
+                        });
+                    };
+                    for(var key1 in trackProps)_loop(key1);
                     return Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), "label", {
                         get: function() {
                             return label;
