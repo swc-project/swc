@@ -8,6 +8,18 @@ macro_rules! ident_tok {
 }
 
 macro_rules! tok {
+    ("num") => {
+        swc_css_ast::Token::Num { .. }
+    };
+
+    ("dimension") => {
+        swc_css_ast::Token::Dimension { .. }
+    };
+
+    ("percent") => {
+        swc_css_ast::Token::Percent { .. }
+    };
+    
     ("function") => {
         swc_css_ast::Token::Function { .. }
     };

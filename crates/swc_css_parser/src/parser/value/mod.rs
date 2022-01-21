@@ -439,50 +439,10 @@ where
     }
 
     fn parse_basical_numeric_value(&mut self) -> PResult<Value> {
-        let span = self.input.cur_span()?;
-
-        match bump!(self) {
-            Token::Percent { value, raw, .. } => {
-                let value = Num {
-                    span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
-                    value,
-                    raw,
-                };
-
-                Ok(Value::Percent(PercentValue { span, value }))
-            }
-            Token::Dimension {
-                value,
-                raw_value,
-                unit,
-                raw_unit,
-                ..
-            } => {
-                let unit_len = raw_unit.len() as u32;
-
-                Ok(Value::Unit(UnitValue {
-                    span,
-                    value: Num {
-                        value,
-                        raw: raw_value,
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
-                    },
-                    unit: Unit {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
-                        value: unit,
-                        raw: raw_unit,
-                    },
-                }))
-            }
-            Token::Num { value, raw, .. } => Ok(Value::Number(Num { span, value, raw })),
+        match cur!(self) {
+            tok!("percent") => Ok(Value::Percent(self.parse()?)),
+            tok!("dimension") => Ok(Value::Unit(self.parse()?)),
+            tok!("num") => Ok(Value::Number(self.parse()?)),
             _ => {
                 unreachable!()
             }
