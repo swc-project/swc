@@ -8,6 +8,9 @@
 - **(css)** Fix the type definition of `@support` at-rules (#3330) ([34943ff](https://github.com/swc-project/swc/commit/34943ffa15ddecb56ee0889a598dfd3d0aa4025c))
 
 
+- **(css)** Fix `@keyframes` at-rule (#3331) ([f89ffa6](https://github.com/swc-project/swc/commit/f89ffa67aea6c99ec61a961754001e7fa85b86b5))
+
+
 - **(css/parser)** Fix parsing of at rules (#3328) ([506a310](https://github.com/swc-project/swc/commit/506a31078aaebf50129658f096bbd5929995205f))
 
 
