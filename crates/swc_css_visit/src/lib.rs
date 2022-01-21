@@ -586,39 +586,43 @@ define!({
 
     pub struct SupportsRule {
         pub span: Span,
-
-        pub query: SupportQuery,
-
+        pub condition: SupportsCondition,
         pub rules: Vec<Rule>,
     }
 
-    pub enum SupportQuery {
-        Not(NotSupportQuery),
-        And(AndSupportQuery),
-        Or(OrSupportQuery),
+    pub struct SupportsCondition {
+        pub span: Span,
+        pub conditions: Vec<SupportsConditionType>,
+    }
+
+    pub enum SupportsConditionType {
+        Not(SupportsNot),
+        And(SupportsAnd),
+        Or(SupportsOr),
+        SupportsInParens(SupportsInParens),
+    }
+
+    pub struct SupportsNot {
+        pub span: Span,
+        pub condition: SupportsInParens,
+    }
+
+    pub struct SupportsAnd {
+        pub span: Span,
+        pub condition: SupportsInParens,
+    }
+
+    pub struct SupportsOr {
+        pub span: Span,
+        pub condition: SupportsInParens,
+    }
+
+    pub enum SupportsInParens {
+        SupportsCondition(SupportsCondition),
+        Feature(SupportsFeature),
+    }
+
+    pub enum SupportsFeature {
         Declaration(Declaration),
-        Paren(ParenSupportQuery),
-    }
-
-    pub struct NotSupportQuery {
-        pub span: Span,
-        pub query: Box<SupportQuery>,
-    }
-
-    pub struct AndSupportQuery {
-        pub span: Span,
-        pub left: Box<SupportQuery>,
-        pub right: Box<SupportQuery>,
-    }
-
-    pub struct OrSupportQuery {
-        pub span: Span,
-        pub left: Box<SupportQuery>,
-        pub right: Box<SupportQuery>,
-    }
-
-    pub struct ParenSupportQuery {
-        pub span: Span,
-        pub query: Box<SupportQuery>,
     }
 });

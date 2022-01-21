@@ -111,12 +111,14 @@
             "replaceState",
             "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236)."
         ]
+    }, defineDeprecationWarning = function(methodName, info) {
+        Object.defineProperty(Component.prototype, methodName, {
+            get: function() {
+                warn("%s(...) is deprecated in plain JavaScript React classes. %s", info[0], info[1]);
+            }
+        });
     };
-    for(var fnName in deprecatedAPIs)deprecatedAPIs.hasOwnProperty(fnName) && (methodName = fnName, info1 = deprecatedAPIs[fnName], Object.defineProperty(Component.prototype, methodName, {
-        get: function() {
-            warn("%s(...) is deprecated in plain JavaScript React classes. %s", info1[0], info1[1]);
-        }
-    }));
+    for(var fnName in deprecatedAPIs)deprecatedAPIs.hasOwnProperty(fnName) && defineDeprecationWarning(fnName, deprecatedAPIs[fnName]);
     function ComponentDummy() {}
     function PureComponent(props, context, updater) {
         this.props = props, this.context = context, this.refs = emptyObject, this.updater = updater || ReactNoopUpdateQueue;
@@ -368,7 +370,7 @@
         }
         return "\n" + prefix + name;
     }
-    var methodName, info1, reentry = !1;
+    var reentry = !1;
     function describeNativeComponentFrame(fn, construct) {
         if (!fn || reentry) return "";
         var control, previousDispatcher, frame = componentFrameCache.get(fn);

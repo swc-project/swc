@@ -404,13 +404,72 @@ where
         keyword!(self, "supports");
         space!(self);
 
-        emit!(self, n.query);
+        emit!(self, n.condition);
 
         space!(self);
 
         punct!(self, "{");
         self.emit_list(&n.rules, ListFormat::NotDelimited)?;
         punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_supports_condition(&mut self, n: &SupportsCondition) -> Result {
+        self.emit_list(&n.conditions, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_supports_condition_type(&mut self, n: &SupportsConditionType) -> Result {
+        match n {
+            SupportsConditionType::Not(n) => emit!(self, n),
+            SupportsConditionType::And(n) => emit!(self, n),
+            SupportsConditionType::Or(n) => emit!(self, n),
+            SupportsConditionType::SupportsInParens(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_supports_not(&mut self, n: &SupportsNot) -> Result {
+        keyword!(self, "not");
+        space!(self);
+        emit!(self, n.condition);
+    }
+
+    #[emitter]
+    fn emit_supports_and(&mut self, n: &SupportsAnd) -> Result {
+        keyword!(self, "and");
+        space!(self);
+        emit!(self, n.condition);
+    }
+
+    #[emitter]
+    fn emit_support_or(&mut self, n: &SupportsOr) -> Result {
+        keyword!(self, "or");
+        space!(self);
+        emit!(self, n.condition);
+    }
+
+    #[emitter]
+    fn emit_supports_in_parens(&mut self, n: &SupportsInParens) -> Result {
+        match n {
+            SupportsInParens::SupportsCondition(n) => {
+                punct!(self, "(");
+                emit!(self, n);
+                punct!(self, ")");
+            }
+            SupportsInParens::Feature(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_supports_feature(&mut self, n: &SupportsFeature) -> Result {
+        punct!(self, "(");
+
+        match n {
+            SupportsFeature::Declaration(n) => emit!(self, n),
+        }
+
+        punct!(self, ")");
     }
 
     #[emitter]
@@ -621,21 +680,6 @@ where
     }
 
     #[emitter]
-    fn emit_support_query(&mut self, n: &SupportQuery) -> Result {
-        match n {
-            SupportQuery::Not(n) => emit!(self, n),
-            SupportQuery::And(n) => emit!(self, n),
-            SupportQuery::Or(n) => emit!(self, n),
-            SupportQuery::Declaration(n) => {
-                punct!(self, "(");
-                emit!(self, n);
-                punct!(self, ")");
-            }
-            SupportQuery::Paren(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
     fn emit_page_rule_block(&mut self, n: &PageRuleBlock) -> Result {
         punct!(self, "{");
 
@@ -841,43 +885,6 @@ where
         keyword!(self, "url");
         punct!(self, "(");
         self.wr.write_raw(Some(n.span), &n.raw)?;
-        punct!(self, ")");
-    }
-
-    #[emitter]
-    fn emit_not_support_query(&mut self, n: &NotSupportQuery) -> Result {
-        keyword!(self, "not");
-        space!(self);
-
-        emit!(self, n.query);
-    }
-
-    #[emitter]
-    fn emit_and_support_query(&mut self, n: &AndSupportQuery) -> Result {
-        emit!(self, n.left);
-        space!(self);
-
-        keyword!(self, "and");
-
-        space!(self);
-        emit!(self, n.right);
-    }
-
-    #[emitter]
-    fn emit_or_support_query(&mut self, n: &OrSupportQuery) -> Result {
-        emit!(self, n.left);
-        space!(self);
-
-        keyword!(self, "or");
-
-        space!(self);
-        emit!(self, n.right);
-    }
-
-    #[emitter]
-    fn emit_paren_support_query(&mut self, n: &ParenSupportQuery) -> Result {
-        punct!(self, "(");
-        emit!(self, n.query);
         punct!(self, ")");
     }
 
