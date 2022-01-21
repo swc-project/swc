@@ -567,7 +567,6 @@ where
         match n {
             Value::Function(n) => emit!(self, n),
             Value::SimpleBlock(n) => emit!(self, n),
-            Value::RoundBracketBlock(n) => emit!(self, n),
             Value::Unit(n) => emit!(self, n),
             Value::Number(n) => emit!(self, n),
             Value::Percent(n) => emit!(self, n),
@@ -615,7 +614,14 @@ where
         };
 
         self.wr.write_raw_char(None, n.name)?;
-        self.emit_list(&n.value, ListFormat::NotDelimited)?;
+        self.emit_list(
+            &n.value,
+            if ending == ']' {
+                ListFormat::SpaceDelimited
+            } else {
+                ListFormat::NotDelimited
+            },
+        )?;
         self.wr.write_raw_char(None, ending)?;
     }
 
@@ -749,17 +755,6 @@ where
         punct!(self, n.op.as_str());
         space!(self);
         emit!(self, n.right);
-    }
-
-    #[emitter]
-    fn emit_round_bracket_block(&mut self, n: &RoundBracketBlock) -> Result {
-        punct!(self, "(");
-
-        if let Some(values) = &n.children {
-            self.emit_list(values, ListFormat::CommaDelimited)?;
-        }
-
-        punct!(self, ")");
     }
 
     #[emitter]
