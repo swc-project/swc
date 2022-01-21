@@ -319,7 +319,6 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(UrlValue, visit_url_value);
     mtd!(Value, visit_value);
 
-    mtd!(AndSupportQuery, visit_and_support_query);
     mtd!(CharsetRule, visit_charset_rule);
     mtd!(DocumentRule, visit_document_rule);
     mtd!(FontFaceRule, visit_font_face_rule);
@@ -358,18 +357,21 @@ impl Visit for SpanVisualizer<'_> {
         MediaFeatureRangeInterval,
         visit_media_feature_range_interval
     );
+    mtd!(SupportsRule, visit_supports_rule);
+    mtd!(SupportsCondition, visit_supports_condition);
+    mtd!(SupportsConditionType, visit_supports_condition_type);
+    mtd!(SupportsNot, visit_supports_not);
+    mtd!(SupportsAnd, visit_supports_and);
+    mtd!(SupportsOr, visit_supports_or);
+    mtd!(SupportsInParens, visit_supports_in_parens);
+    mtd!(SupportsFeature, visit_supports_feature);
     mtd!(NamespaceUri, visit_namespace_uri);
     mtd!(NamespaceRule, visit_namespace_rule);
     mtd!(NestedPageRule, visit_nested_page_rule);
-    mtd!(NotSupportQuery, visit_not_support_query);
-    mtd!(OrSupportQuery, visit_or_support_query);
     mtd!(PageRule, visit_page_rule);
     mtd!(PageRuleBlock, visit_page_rule_block);
     mtd!(PageRuleBlockItem, visit_page_rule_block_item);
     mtd!(PageSelector, visit_page_selector);
-    mtd!(ParenSupportQuery, visit_paren_support_query);
-    mtd!(SupportQuery, visit_support_query);
-    mtd!(SupportsRule, visit_supports_rule);
     mtd!(UnknownAtRule, visit_unknown_at_rule);
     mtd!(ViewportRule, visit_viewport_rule);
 

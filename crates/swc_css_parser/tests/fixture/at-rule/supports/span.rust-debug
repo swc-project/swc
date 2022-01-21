@@ -6,9 +6,9 @@ error: Stylesheet
 3  | |         display: grid;
 4  | |     }
 ...  |
-16 | |     }
-17 | | }
-   | |__^
+32 | | @supports ((display: flex)) {}
+33 | | @supports (display: flex !important) {}
+   | |________________________________________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/supports/input.css:1:1
@@ -40,7 +40,25 @@ error: SupportsRule
 5 | | }
   | |_^
 
-error: SupportQuery
+error: SupportsCondition
+ --> $DIR/tests/fixture/at-rule/supports/input.css:1:11
+  |
+1 | @supports (display: grid) {
+  |           ^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+ --> $DIR/tests/fixture/at-rule/supports/input.css:1:12
+  |
+1 | @supports (display: grid) {
+  |            ^^^^^^^^^^^^^
+
+error: SupportsInParens
+ --> $DIR/tests/fixture/at-rule/supports/input.css:1:12
+  |
+1 | @supports (display: grid) {
+  |            ^^^^^^^^^^^^^
+
+error: SupportsFeature
  --> $DIR/tests/fixture/at-rule/supports/input.css:1:12
   |
 1 | @supports (display: grid) {
@@ -185,7 +203,25 @@ error: SupportsRule
 17 | | }
    | |_^
 
-error: SupportQuery
+error: SupportsCondition
+ --> $DIR/tests/fixture/at-rule/supports/input.css:7:11
+  |
+7 | @supports (display: flex) {
+  |           ^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+ --> $DIR/tests/fixture/at-rule/supports/input.css:7:12
+  |
+7 | @supports (display: flex) {
+  |            ^^^^^^^^^^^^^
+
+error: SupportsInParens
+ --> $DIR/tests/fixture/at-rule/supports/input.css:7:12
+  |
+7 | @supports (display: flex) {
+  |            ^^^^^^^^^^^^^
+
+error: SupportsFeature
  --> $DIR/tests/fixture/at-rule/supports/input.css:7:12
   |
 7 | @supports (display: flex) {
@@ -486,4 +522,2135 @@ error: Ident
    |
 14 |             display: flex;
    |                      ^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:18:1
+   |
+18 | @supports   (   display   :   flex   )   {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:18:1
+   |
+18 | @supports   (   display   :   flex   )   {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:18:1
+   |
+18 | @supports   (   display   :   flex   )   {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/at-rule/supports/input.css:18:13
+   |
+18 | @supports   (   display   :   flex   )   {}
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:18:17
+   |
+18 | @supports   (   display   :   flex   )   {}
+   |                 ^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:18:17
+   |
+18 | @supports   (   display   :   flex   )   {}
+   |                 ^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:18:17
+   |
+18 | @supports   (   display   :   flex   )   {}
+   |                 ^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:18:17
+   |
+18 | @supports   (   display   :   flex   )   {}
+   |                 ^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:18:17
+   |
+18 | @supports   (   display   :   flex   )   {}
+   |                 ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:18:31
+   |
+18 | @supports   (   display   :   flex   )   {}
+   |                               ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:18:31
+   |
+18 | @supports   (   display   :   flex   )   {}
+   |                               ^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:19:1
+   |
+19 | @supports not (display: flex) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:19:1
+   |
+19 | @supports not (display: flex) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:19:1
+   |
+19 | @supports not (display: flex) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/at-rule/supports/input.css:19:11
+   |
+19 | @supports not (display: flex) {}
+   |           ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:19:11
+   |
+19 | @supports not (display: flex) {}
+   |           ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsNot
+  --> $DIR/tests/fixture/at-rule/supports/input.css:19:11
+   |
+19 | @supports not (display: flex) {}
+   |           ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:19:16
+   |
+19 | @supports not (display: flex) {}
+   |                ^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:19:16
+   |
+19 | @supports not (display: flex) {}
+   |                ^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:19:16
+   |
+19 | @supports not (display: flex) {}
+   |                ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:19:16
+   |
+19 | @supports not (display: flex) {}
+   |                ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:19:25
+   |
+19 | @supports not (display: flex) {}
+   |                         ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:19:25
+   |
+19 | @supports not (display: flex) {}
+   |                         ^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:20:1
+   |
+20 | @SUPPORTS not (display: flex) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:20:1
+   |
+20 | @SUPPORTS not (display: flex) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:20:1
+   |
+20 | @SUPPORTS not (display: flex) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/at-rule/supports/input.css:20:11
+   |
+20 | @SUPPORTS not (display: flex) {}
+   |           ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:20:11
+   |
+20 | @SUPPORTS not (display: flex) {}
+   |           ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsNot
+  --> $DIR/tests/fixture/at-rule/supports/input.css:20:11
+   |
+20 | @SUPPORTS not (display: flex) {}
+   |           ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:20:16
+   |
+20 | @SUPPORTS not (display: flex) {}
+   |                ^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:20:16
+   |
+20 | @SUPPORTS not (display: flex) {}
+   |                ^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:20:16
+   |
+20 | @SUPPORTS not (display: flex) {}
+   |                ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:20:16
+   |
+20 | @SUPPORTS not (display: flex) {}
+   |                ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:20:25
+   |
+20 | @SUPPORTS not (display: flex) {}
+   |                         ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:20:25
+   |
+20 | @SUPPORTS not (display: flex) {}
+   |                         ^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:1
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:1
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:1
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:11
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:12
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:12
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:12
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:12
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:12
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |            ^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:24
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                        ^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:24
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                        ^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:26
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                          ^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:26
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                          ^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:28
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                            ^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:28
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                            ^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:28
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                            ^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:29
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                             ^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:32
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:32
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:38
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                      ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:38
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                      ^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:46
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsOr
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:46
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:50
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:50
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:50
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:50
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                  ^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:67
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                   ^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:67
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                   ^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:69
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                     ^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:69
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                     ^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:71
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                       ^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:71
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                       ^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:71
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                       ^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:72
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                        ^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:75
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                           ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:75
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                           ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:81
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                 ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:81
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                 ^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:89
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsOr
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:89
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:93
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:93
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:93
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:93
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                             ^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:113
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                 ^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:113
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                 ^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:115
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                   ^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:115
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                   ^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:117
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                     ^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:117
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                     ^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:117
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                     ^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:118
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                      ^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:121
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                         ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:121
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                         ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:127
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                               ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:127
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                               ^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:135
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsOr
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:135
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:139
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:139
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:139
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:139
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                           ^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:154
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                                          ^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:154
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                                          ^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:156
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                                            ^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:156
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                                            ^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:158
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                                              ^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:158
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                                              ^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:158
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                                              ^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:159
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                                               ^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:162
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                                                  ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:162
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                                                  ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:168
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                                                        ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:168
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                                                        ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:1
+   |
+22 | / @supports ( box-shadow: 0 0 2px black inset ) or
+23 | |   ( -moz-box-shadow: 0 0 2px black inset ) or
+24 | |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+25 | |   ( -o-box-shadow: 0 0 2px black inset ) {
+26 | |     
+27 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:1
+   |
+22 | / @supports ( box-shadow: 0 0 2px black inset ) or
+23 | |   ( -moz-box-shadow: 0 0 2px black inset ) or
+24 | |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+25 | |   ( -o-box-shadow: 0 0 2px black inset ) {
+26 | |     
+27 | | }
+   | |_^
+
+error: SupportsRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:1
+   |
+22 | / @supports ( box-shadow: 0 0 2px black inset ) or
+23 | |   ( -moz-box-shadow: 0 0 2px black inset ) or
+24 | |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+25 | |   ( -o-box-shadow: 0 0 2px black inset ) {
+26 | |     
+27 | | }
+   | |_^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:11
+   |
+22 |   @supports ( box-shadow: 0 0 2px black inset ) or
+   |  ___________^
+23 | |   ( -moz-box-shadow: 0 0 2px black inset ) or
+24 | |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+25 | |   ( -o-box-shadow: 0 0 2px black inset ) {
+   | |________________________________________^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:13
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:13
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:13
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:13
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:13
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |             ^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:25
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |                         ^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:25
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |                         ^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:27
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |                           ^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:27
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |                           ^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:29
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |                             ^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:29
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |                             ^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:29
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |                             ^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:30
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |                              ^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:33
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |                                 ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:33
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |                                 ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:39
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |                                       ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:39
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |                                       ^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:47
+   |
+22 |   @supports ( box-shadow: 0 0 2px black inset ) or
+   |  _______________________________________________^
+23 | |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   | |__________________________________________^
+
+error: SupportsOr
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:47
+   |
+22 |   @supports ( box-shadow: 0 0 2px black inset ) or
+   |  _______________________________________________^
+23 | |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   | |__________________________________________^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:5
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:5
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:5
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:5
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |     ^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:22
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |                      ^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:22
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |                      ^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:24
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |                        ^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:24
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |                        ^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:26
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |                          ^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:26
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |                          ^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:26
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |                          ^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:27
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |                           ^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:30
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |                              ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:30
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |                              ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:36
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |                                    ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:36
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |                                    ^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:44
+   |
+23 |     ( -moz-box-shadow: 0 0 2px black inset ) or
+   |  ____________________________________________^
+24 | |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   | |_____________________________________________^
+
+error: SupportsOr
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:44
+   |
+23 |     ( -moz-box-shadow: 0 0 2px black inset ) or
+   |  ____________________________________________^
+24 | |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   | |_____________________________________________^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:5
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:5
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:5
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:5
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |     ^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:25
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |                         ^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:25
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |                         ^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:27
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |                           ^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:27
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |                           ^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:29
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |                             ^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:29
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |                             ^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:29
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |                             ^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:30
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |                              ^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:33
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |                                 ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:33
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |                                 ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:39
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |                                       ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:39
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |                                       ^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:47
+   |
+24 |     ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |  _______________________________________________^
+25 | |   ( -o-box-shadow: 0 0 2px black inset ) {
+   | |________________________________________^
+
+error: SupportsOr
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:47
+   |
+24 |     ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |  _______________________________________________^
+25 | |   ( -o-box-shadow: 0 0 2px black inset ) {
+   | |________________________________________^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:5
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:5
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:5
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:5
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |     ^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:20
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |                    ^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:20
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |                    ^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:22
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |                      ^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:22
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |                      ^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:24
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |                        ^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:24
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |                        ^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:24
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |                        ^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:25
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |                         ^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:28
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |                            ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:28
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |                            ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:34
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |                                  ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:34
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |                                  ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:1
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:1
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:1
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:11
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:12
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:12
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:12
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:13
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:13
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:13
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:13
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:13
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |             ^^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:34
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                  ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:34
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                  ^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:41
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsOr
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:41
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:45
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                             ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:45
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                             ^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:45
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                             ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:45
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                             ^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:61
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                             ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:61
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                             ^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:67
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsAnd
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:67
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:72
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:72
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:72
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:72
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                                        ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:83
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                                                   ^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:83
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                                                   ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:83
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                                                   ^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:90
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                                                          ^^^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:90
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                                                          ^^^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:90
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                                                          ^^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:92
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                                                            ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:1
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:1
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:1
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:11
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:12
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:12
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:12
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:12
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:12
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |            ^^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:33
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                 ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:33
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                 ^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:40
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsOr
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:40
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:44
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:44
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:45
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                             ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:45
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                             ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:45
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                             ^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:45
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                             ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:45
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                             ^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:61
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                             ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:61
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                             ^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:66
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsAnd
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:66
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:71
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:71
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:71
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:71
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                                       ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:82
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                                                  ^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:82
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                                                  ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:82
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                                                  ^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:89
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                                                         ^^^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:89
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                                                         ^^^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:89
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                                                         ^^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:91
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                                                           ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:1
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:1
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:1
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:13
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:17
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:17
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:17
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:17
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:17
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                 ^^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:43
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                           ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:43
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                           ^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:55
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsOr
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:55
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:64
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:64
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:68
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:68
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:68
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:68
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:68
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                    ^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:89
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                         ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:89
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                         ^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:99
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsAnd
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:99
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:109
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:109
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:109
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:109
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                                             ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:126
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                                                              ^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:126
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                                                              ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:126
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                                                              ^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:133
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                                                                     ^^^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:133
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                                                                     ^^^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:133
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                                                                     ^^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:135
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                                                                       ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:1
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:1
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:1
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:10
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:11
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:11
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:11
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:11
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:11
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |           ^^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:31
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                               ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:31
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                               ^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:37
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsOr
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:37
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:41
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:41
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:42
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                          ^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:42
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                          ^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:42
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                          ^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:42
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                          ^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:42
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                          ^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:57
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                         ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:57
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                         ^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:61
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsAnd
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:61
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:66
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                                  ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:66
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                                  ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:66
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                                  ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:66
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                                  ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:76
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                                            ^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:76
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                                            ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:76
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                                            ^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:83
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                                                   ^^^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:83
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                                                   ^^^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:83
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                                                   ^^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:85
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                                                     ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:32:1
+   |
+32 | @supports ((display: flex)) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:32:1
+   |
+32 | @supports ((display: flex)) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:32:1
+   |
+32 | @supports ((display: flex)) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/at-rule/supports/input.css:32:11
+   |
+32 | @supports ((display: flex)) {}
+   |           ^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:32:12
+   |
+32 | @supports ((display: flex)) {}
+   |            ^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:32:12
+   |
+32 | @supports ((display: flex)) {}
+   |            ^^^^^^^^^^^^^^^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/at-rule/supports/input.css:32:12
+   |
+32 | @supports ((display: flex)) {}
+   |            ^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:32:13
+   |
+32 | @supports ((display: flex)) {}
+   |             ^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:32:13
+   |
+32 | @supports ((display: flex)) {}
+   |             ^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:32:13
+   |
+32 | @supports ((display: flex)) {}
+   |             ^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:32:13
+   |
+32 | @supports ((display: flex)) {}
+   |             ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:32:13
+   |
+32 | @supports ((display: flex)) {}
+   |             ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:32:22
+   |
+32 | @supports ((display: flex)) {}
+   |                      ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:32:22
+   |
+32 | @supports ((display: flex)) {}
+   |                      ^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:33:1
+   |
+33 | @supports (display: flex !important) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:33:1
+   |
+33 | @supports (display: flex !important) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:33:1
+   |
+33 | @supports (display: flex !important) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/at-rule/supports/input.css:33:11
+   |
+33 | @supports (display: flex !important) {}
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/at-rule/supports/input.css:33:12
+   |
+33 | @supports (display: flex !important) {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/supports/input.css:33:12
+   |
+33 | @supports (display: flex !important) {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/at-rule/supports/input.css:33:12
+   |
+33 | @supports (display: flex !important) {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:33:12
+   |
+33 | @supports (display: flex !important) {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:33:12
+   |
+33 | @supports (display: flex !important) {}
+   |            ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:33:21
+   |
+33 | @supports (display: flex !important) {}
+   |                     ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:33:21
+   |
+33 | @supports (display: flex !important) {}
+   |                     ^^^^
 

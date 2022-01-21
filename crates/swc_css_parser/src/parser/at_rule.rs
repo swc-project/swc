@@ -27,6 +27,8 @@ where
             }
         };
 
+        let state = self.input.state();
+
         match &*name.0.to_ascii_lowercase() {
             "charset" => {
                 self.input.skip_ws()?;
@@ -196,6 +198,8 @@ where
 
             _ => {}
         }
+
+        self.input.reset(&state);
 
         // Consume the next input token. Create a new at-rule with its name set to the
         // value of the current input token, its prelude initially set to an empty list,
@@ -457,7 +461,7 @@ where
 {
     fn parse(&mut self) -> PResult<SupportsRule> {
         let span = self.input.cur_span()?;
-        let query = self.parse()?;
+        let condition = self.parse()?;
 
         expect!(self, "{");
 
@@ -469,9 +473,169 @@ where
 
         Ok(SupportsRule {
             span: span!(self, span.lo),
-            query,
+            condition,
             rules,
         })
+    }
+}
+
+impl<I> Parse<SupportsCondition> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<SupportsCondition> {
+        self.input.skip_ws()?;
+
+        let start_pos = self.input.cur_span()?.lo;
+        let mut last_pos;
+        let mut conditions = vec![];
+
+        if is!(self, "not") {
+            let not = self.parse()?;
+
+            last_pos = self.input.last_pos()?;
+
+            conditions.push(SupportsConditionType::Not(not));
+        } else {
+            let supports_in_parens = self.parse()?;
+
+            last_pos = self.input.last_pos()?;
+
+            conditions.push(SupportsConditionType::SupportsInParens(supports_in_parens));
+
+            self.input.skip_ws()?;
+
+            if is!(self, "and") {
+                while is!(self, "and") {
+                    let and = self.parse()?;
+
+                    last_pos = self.input.last_pos()?;
+
+                    conditions.push(SupportsConditionType::And(and));
+
+                    self.input.skip_ws()?;
+                }
+            } else if is!(self, "or") {
+                while is!(self, "or") {
+                    let or = self.parse()?;
+
+                    last_pos = self.input.last_pos()?;
+
+                    conditions.push(SupportsConditionType::Or(or));
+
+                    self.input.skip_ws()?;
+                }
+            }
+        };
+
+        Ok(SupportsCondition {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            conditions,
+        })
+    }
+}
+
+impl<I> Parse<SupportsNot> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<SupportsNot> {
+        let span = self.input.cur_span()?;
+
+        expect!(self, "not");
+
+        self.input.skip_ws()?;
+
+        let supports_in_parens = self.parse()?;
+
+        Ok(SupportsNot {
+            span: span!(self, span.lo),
+            condition: supports_in_parens,
+        })
+    }
+}
+
+impl<I> Parse<SupportsAnd> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<SupportsAnd> {
+        let span = self.input.cur_span()?;
+
+        expect!(self, "and");
+
+        self.input.skip_ws()?;
+
+        let supports_in_parens = self.parse()?;
+
+        Ok(SupportsAnd {
+            span: span!(self, span.lo),
+            condition: supports_in_parens,
+        })
+    }
+}
+
+impl<I> Parse<SupportsOr> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<SupportsOr> {
+        let span = self.input.cur_span()?;
+
+        expect!(self, "or");
+
+        self.input.skip_ws()?;
+
+        let supports_in_parens = self.parse()?;
+
+        Ok(SupportsOr {
+            span: span!(self, span.lo),
+            condition: supports_in_parens,
+        })
+    }
+}
+
+impl<I> Parse<SupportsInParens> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<SupportsInParens> {
+        let state = self.input.state();
+
+        expect!(self, "(");
+
+        self.input.skip_ws()?;
+
+        if !is!(self, "(") && !is!(self, "not") {
+            self.input.reset(&state);
+
+            return Ok(SupportsInParens::Feature(self.parse()?));
+        }
+
+        let condition = SupportsInParens::SupportsCondition(self.parse()?);
+
+        expect!(self, ")");
+
+        Ok(condition)
+    }
+}
+
+impl<I> Parse<SupportsFeature> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<SupportsFeature> {
+        expect!(self, "(");
+
+        self.input.skip_ws()?;
+
+        let declaration = self.parse()?;
+
+        self.input.skip_ws()?;
+
+        expect!(self, ")");
+
+        Ok(SupportsFeature::Declaration(declaration))
     }
 }
 
@@ -594,69 +758,6 @@ where
         } else {
             Ok(true)
         }
-    }
-}
-
-impl<I> Parse<SupportQuery> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<SupportQuery> {
-        self.input.skip_ws()?;
-
-        let span = self.input.cur_span()?;
-
-        if eat!(self, "not") {
-            let query = self.parse()?;
-            return Ok(SupportQuery::Not(NotSupportQuery {
-                span: span!(self, span.lo),
-                query,
-            }));
-        }
-
-        if eat!(self, "(") {
-            self.input.skip_ws()?;
-
-            let query = if is!(self, "(") {
-                let query = self.parse()?;
-
-                SupportQuery::Paren(ParenSupportQuery {
-                    span: span!(self, span.lo),
-                    query,
-                })
-            } else {
-                let declaration = self.parse()?;
-
-                SupportQuery::Declaration(declaration)
-            };
-
-            expect!(self, ")");
-            self.input.skip_ws()?;
-
-            if eat!(self, "and") {
-                let right = self.parse()?;
-
-                return Ok(SupportQuery::And(AndSupportQuery {
-                    span: span!(self, span.lo),
-                    left: Box::new(query),
-                    right,
-                }));
-            }
-
-            if eat!(self, "or") {
-                let right = self.parse()?;
-
-                return Ok(SupportQuery::Or(OrSupportQuery {
-                    span: span!(self, span.lo),
-                    left: Box::new(query),
-                    right,
-                }));
-            }
-
-            return Ok(query);
-        }
-
-        Err(Error::new(span, ErrorKind::InvalidSupportQuery))
     }
 }
 
@@ -981,7 +1082,7 @@ where
 
         expect!(self, ")");
 
-        return Ok(condition);
+        Ok(condition)
     }
 }
 
@@ -1002,7 +1103,7 @@ where
 
         match cur!(self) {
             tok!(")") => {
-                eat!(self, ")");
+                bump!(self);
 
                 let name = match left {
                     MediaFeatureValue::Ident(ident) => MediaFeatureName::Ident(ident),
@@ -1017,7 +1118,7 @@ where
                 }))
             }
             tok!(":") => {
-                eat!(self, ":");
+                bump!(self);
 
                 self.input.skip_ws()?;
 
@@ -1057,8 +1158,7 @@ where
                     }
                     tok!("=") => MediaFeatureRangeComparison::Eq,
                     _ => {
-                        // TODO another error
-                        return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
+                        unreachable!();
                     }
                 };
 
@@ -1093,8 +1193,10 @@ where
                         }
                     }
                     _ => {
-                        // TODO another error
-                        return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
+                        return Err(Error::new(
+                            span,
+                            ErrorKind::Expected("'>' or '<' operators"),
+                        ));
                     }
                 };
 
@@ -1113,7 +1215,30 @@ where
                     }
                 };
 
-                // TODO validate comparison
+                let is_valid_operator = match left_comparison {
+                    MediaFeatureRangeComparison::Lt | MediaFeatureRangeComparison::Le
+                        if right_comparison == MediaFeatureRangeComparison::Lt
+                            || right_comparison == MediaFeatureRangeComparison::Le =>
+                    {
+                        true
+                    }
+                    MediaFeatureRangeComparison::Gt | MediaFeatureRangeComparison::Ge
+                        if right_comparison == MediaFeatureRangeComparison::Gt
+                            || right_comparison == MediaFeatureRangeComparison::Ge =>
+                    {
+                        true
+                    }
+                    _ => false,
+                };
+
+                if !is_valid_operator {
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected(
+                            "left comparison operator should be equal right comparison operator",
+                        ),
+                    ));
+                }
 
                 Ok(MediaFeature::RangeInterval(MediaFeatureRangeInterval {
                     span: span!(self, span.lo),
