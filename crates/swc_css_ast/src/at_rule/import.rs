@@ -1,4 +1,4 @@
-use crate::{Declaration, Function, Ident, MediaQueryList, Str, SupportQuery, UrlValue};
+use crate::{Declaration, Function, Ident, MediaQueryList, Str, SupportsCondition, UrlValue};
 use swc_common::{ast_node, Span};
 
 #[ast_node]
@@ -24,8 +24,8 @@ pub enum ImportLayerName {
 
 #[ast_node]
 pub enum ImportSupportsType {
-    #[tag("SupportQuery")]
-    SupportQuery(SupportQuery),
+    #[tag("SupportsCondition")]
+    SupportsCondition(SupportsCondition),
     #[tag("Declaration")]
     Declaration(Declaration),
 }

@@ -86,7 +86,7 @@ where
     #[emitter]
     fn emit_import_supports_type(&mut self, n: &ImportSupportsType) -> Result {
         match n {
-            ImportSupportsType::SupportQuery(n) => emit!(self, n),
+            ImportSupportsType::SupportsCondition(n) => emit!(self, n),
             ImportSupportsType::Declaration(n) => emit!(self, n),
         }
     }

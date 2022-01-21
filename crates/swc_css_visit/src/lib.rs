@@ -355,7 +355,7 @@ define!({
     }
 
     pub enum ImportSupportsType {
-        SupportQuery(SupportQuery),
+        SupportsCondition(SupportsCondition),
         Declaration(Declaration),
     }
 

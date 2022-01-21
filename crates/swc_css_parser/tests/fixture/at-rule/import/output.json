@@ -1128,43 +1128,53 @@
       },
       "layerName": null,
       "supports": {
-        "type": "NotSupportQuery",
+        "type": "SupportsCondition",
         "span": {
           "start": 807,
           "end": 826,
           "ctxt": 0
         },
-        "query": {
-          "type": "Declaration",
-          "span": {
-            "start": 812,
-            "end": 825,
-            "ctxt": 0
-          },
-          "property": {
-            "type": "Identifier",
+        "conditions": [
+          {
+            "type": "SupportsNot",
             "span": {
-              "start": 812,
-              "end": 819,
+              "start": 807,
+              "end": 826,
               "ctxt": 0
             },
-            "value": "display",
-            "raw": "display"
-          },
-          "value": [
-            {
-              "type": "Identifier",
+            "condition": {
+              "type": "Declaration",
               "span": {
-                "start": 821,
+                "start": 812,
                 "end": 825,
                 "ctxt": 0
               },
-              "value": "flex",
-              "raw": "flex"
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 812,
+                  "end": 819,
+                  "ctxt": 0
+                },
+                "value": "display",
+                "raw": "display"
+              },
+              "value": [
+                {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 821,
+                    "end": 825,
+                    "ctxt": 0
+                  },
+                  "value": "flex",
+                  "raw": "flex"
+                }
+              ],
+              "important": null
             }
-          ],
-          "important": null
-        }
+          }
+        ]
       },
       "media": null
     },
@@ -5958,43 +5968,55 @@
       },
       "layerName": null,
       "supports": {
-        "type": "ParenSupportQuery",
+        "type": "SupportsCondition",
         "span": {
           "start": 5624,
-          "end": 5640,
+          "end": 5641,
           "ctxt": 0
         },
-        "query": {
-          "type": "Declaration",
-          "span": {
-            "start": 5626,
-            "end": 5639,
-            "ctxt": 0
-          },
-          "property": {
-            "type": "Identifier",
+        "conditions": [
+          {
+            "type": "SupportsCondition",
             "span": {
-              "start": 5626,
-              "end": 5633,
+              "start": 5625,
+              "end": 5640,
               "ctxt": 0
             },
-            "value": "display",
-            "raw": "display"
-          },
-          "value": [
-            {
-              "type": "Identifier",
-              "span": {
-                "start": 5635,
-                "end": 5639,
-                "ctxt": 0
-              },
-              "value": "flex",
-              "raw": "flex"
-            }
-          ],
-          "important": null
-        }
+            "conditions": [
+              {
+                "type": "Declaration",
+                "span": {
+                  "start": 5626,
+                  "end": 5639,
+                  "ctxt": 0
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 5626,
+                    "end": 5633,
+                    "ctxt": 0
+                  },
+                  "value": "display",
+                  "raw": "display"
+                },
+                "value": [
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 5635,
+                      "end": 5639,
+                      "ctxt": 0
+                    },
+                    "value": "flex",
+                    "raw": "flex"
+                  }
+                ],
+                "important": null
+              }
+            ]
+          }
+        ]
       },
       "media": null
     },

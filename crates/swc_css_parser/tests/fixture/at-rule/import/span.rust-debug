@@ -1300,19 +1300,31 @@ error: ImportSupportsType
 21 | @import url("fallback-layout.css") supports(not (display: flex));
    |                                             ^^^^^^^^^^^^^^^^^^^
 
-error: SupportQuery
+error: SupportsCondition
   --> $DIR/tests/fixture/at-rule/import/input.css:21:45
    |
 21 | @import url("fallback-layout.css") supports(not (display: flex));
    |                                             ^^^^^^^^^^^^^^^^^^^
 
-error: NotSupportQuery
+error: SupportsConditionType
   --> $DIR/tests/fixture/at-rule/import/input.css:21:45
    |
 21 | @import url("fallback-layout.css") supports(not (display: flex));
    |                                             ^^^^^^^^^^^^^^^^^^^
 
-error: SupportQuery
+error: SupportsNot
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:45
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   |                                             ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:50
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   |                                                  ^^^^^^^^^^^^^
+
+error: SupportsFeature
   --> $DIR/tests/fixture/at-rule/import/input.css:21:50
    |
 21 | @import url("fallback-layout.css") supports(not (display: flex));
@@ -7106,21 +7118,45 @@ error: ImportSupportsType
    --> $DIR/tests/fixture/at-rule/import/input.css:150:52
     |
 150 | @import url("./import-with-supports.css") supports(((display: flex)));
-    |                                                    ^^^^^^^^^^^^^^^^
+    |                                                    ^^^^^^^^^^^^^^^^^
 
-error: SupportQuery
+error: SupportsCondition
    --> $DIR/tests/fixture/at-rule/import/input.css:150:52
     |
 150 | @import url("./import-with-supports.css") supports(((display: flex)));
-    |                                                    ^^^^^^^^^^^^^^^^
+    |                                                    ^^^^^^^^^^^^^^^^^
 
-error: ParenSupportQuery
-   --> $DIR/tests/fixture/at-rule/import/input.css:150:52
+error: SupportsConditionType
+   --> $DIR/tests/fixture/at-rule/import/input.css:150:53
     |
 150 | @import url("./import-with-supports.css") supports(((display: flex)));
-    |                                                    ^^^^^^^^^^^^^^^^
+    |                                                     ^^^^^^^^^^^^^^^
 
-error: SupportQuery
+error: SupportsInParens
+   --> $DIR/tests/fixture/at-rule/import/input.css:150:53
+    |
+150 | @import url("./import-with-supports.css") supports(((display: flex)));
+    |                                                     ^^^^^^^^^^^^^^^
+
+error: SupportsCondition
+   --> $DIR/tests/fixture/at-rule/import/input.css:150:53
+    |
+150 | @import url("./import-with-supports.css") supports(((display: flex)));
+    |                                                     ^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+   --> $DIR/tests/fixture/at-rule/import/input.css:150:54
+    |
+150 | @import url("./import-with-supports.css") supports(((display: flex)));
+    |                                                      ^^^^^^^^^^^^^
+
+error: SupportsInParens
+   --> $DIR/tests/fixture/at-rule/import/input.css:150:54
+    |
+150 | @import url("./import-with-supports.css") supports(((display: flex)));
+    |                                                      ^^^^^^^^^^^^^
+
+error: SupportsFeature
    --> $DIR/tests/fixture/at-rule/import/input.css:150:54
     |
 150 | @import url("./import-with-supports.css") supports(((display: flex)));
