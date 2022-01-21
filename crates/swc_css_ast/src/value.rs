@@ -38,11 +38,8 @@ pub enum Value {
     #[tag("CommaValues")]
     Comma(CommaValues),
 
-    #[tag("BraceValue")]
-    Brace(BraceValue),
-
     #[tag("Tokens")]
-    Lazy(Tokens),
+    Tokens(Tokens),
 
     #[tag("AtTextValue")]
     AtText(AtTextValue),
@@ -128,19 +125,12 @@ pub enum BinOp {
     Div,
 }
 
-/// Values starting with `{` and ending with `}`.
-#[ast_node("BraceValue")]
-pub struct BraceValue {
-    pub span: Span,
-    pub value: Box<Value>,
-}
-
 #[ast_node("AtTextValue")]
 pub struct AtTextValue {
     pub span: Span,
     /// Includes `@`.
     pub name: Ident,
-    pub block: Option<BraceValue>,
+    pub block: Option<SimpleBlock>,
 }
 
 #[ast_node("UrlValue")]

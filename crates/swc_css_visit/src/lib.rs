@@ -104,9 +104,7 @@ define!({
 
         Comma(CommaValues),
 
-        Brace(BraceValue),
-
-        Lazy(Tokens),
+        Tokens(Tokens),
 
         AtText(AtTextValue),
 
@@ -156,15 +154,10 @@ define!({
         pub value: Num,
     }
 
-    pub struct BraceValue {
-        pub span: Span,
-        pub value: Box<Value>,
-    }
-
     pub struct AtTextValue {
         pub span: Span,
         pub name: Ident,
-        pub block: Option<BraceValue>,
+        pub block: Option<SimpleBlock>,
     }
 
     pub struct UrlValue {

@@ -162,35 +162,38 @@
             },
             "value": [
               {
-                "type": "BraceValue",
+                "type": "SimpleBlock",
                 "span": {
                   "start": 52,
                   "end": 59,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Tokens",
-                  "span": {
-                    "start": 53,
-                    "end": 58,
-                    "ctxt": 0
-                  },
-                  "tokens": [
-                    {
-                      "span": {
-                        "start": 53,
-                        "end": 58,
-                        "ctxt": 0
-                      },
-                      "token": {
-                        "Ident": {
-                          "value": "value",
-                          "raw": "value"
+                "name": "{",
+                "value": [
+                  {
+                    "type": "Tokens",
+                    "span": {
+                      "start": 53,
+                      "end": 58,
+                      "ctxt": 0
+                    },
+                    "tokens": [
+                      {
+                        "span": {
+                          "start": 53,
+                          "end": 58,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "value",
+                            "raw": "value"
+                          }
                         }
                       }
-                    }
-                  ]
-                }
+                    ]
+                  }
+                ]
               }
             ],
             "important": null

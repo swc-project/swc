@@ -574,9 +574,8 @@ where
             Value::Ident(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
-            Value::Brace(n) => emit!(self, n),
             Value::Space(n) => emit!(self, n),
-            Value::Lazy(n) => emit!(self, n),
+            Value::Tokens(n) => emit!(self, n),
             Value::AtText(n) => emit!(self, n),
             Value::Url(n) => emit!(self, n),
             Value::Comma(n) => emit!(self, n),
@@ -765,13 +764,6 @@ where
     #[emitter]
     fn emit_space_values(&mut self, n: &SpaceValues) -> Result {
         self.emit_list(&n.values, ListFormat::SpaceDelimited)?;
-    }
-
-    #[emitter]
-    fn emit_brace_value(&mut self, n: &BraceValue) -> Result {
-        punct!(self, "{");
-        emit!(self, n.value);
-        punct!(self, "}");
     }
 
     #[emitter]

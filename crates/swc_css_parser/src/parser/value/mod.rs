@@ -57,7 +57,7 @@ where
                     }
 
                     let span = span!(self, start_pos);
-                    let v = Value::Lazy(Tokens { span, tokens });
+                    let v = Value::Tokens(Tokens { span, tokens });
 
                     self.errors
                         .push(Error::new(span, ErrorKind::InvalidDeclarationValue));
@@ -338,7 +338,7 @@ where
 
         if is_one_of!(self, "<!--", "-->", "!", ";") {
             let token = self.input.bump()?.unwrap();
-            return Ok(Value::Lazy(Tokens {
+            return Ok(Value::Tokens(Tokens {
                 span,
                 tokens: vec![token],
             }));
@@ -397,7 +397,7 @@ where
         Ok(base)
     }
 
-    fn parse_brace_value(&mut self) -> PResult<BraceValue> {
+    fn parse_brace_value(&mut self) -> PResult<SimpleBlock> {
         let span = self.input.cur_span()?;
 
         expect!(self, "{");
@@ -427,12 +427,14 @@ where
         let brace_span = span!(self, brace_start);
         expect!(self, "}");
 
-        Ok(BraceValue {
+        Ok(SimpleBlock {
             span: span!(self, span.lo),
-            value: Box::new(Value::Lazy(Tokens {
+            name: '{',
+            // TODO refactor me
+            value: vec![Value::Tokens(Tokens {
                 span: brace_span,
                 tokens,
-            })),
+            })],
         })
     }
 
@@ -607,7 +609,7 @@ where
                     let span = self.input.cur_span()?;
                     let token = self.input.bump()?.unwrap();
 
-                    simple_block.value.push(Value::Lazy(Tokens {
+                    simple_block.value.push(Value::Tokens(Tokens {
                         span: span!(self, span.lo),
                         tokens: vec![token],
                     }));
@@ -627,7 +629,7 @@ where
                 let token = self.input.bump()?;
 
                 match token {
-                    Some(t) => Ok(Value::Lazy(Tokens {
+                    Some(t) => Ok(Value::Tokens(Tokens {
                         span: span!(self, span.lo),
                         tokens: vec![t],
                     })),

@@ -155,7 +155,7 @@ error: Value
 4 |     prop: {value};
   |           ^^^^^^^
 
-error: BraceValue
+error: SimpleBlock
  --> $DIR/tests/fixture/declaration/input.css:4:11
   |
 4 |     prop: {value};
