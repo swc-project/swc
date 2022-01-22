@@ -58,7 +58,7 @@ where
             let mut p = PathBuf::from(target_path);
             if is_file.unwrap_or_else(|| p.is_file()) {
                 if let Some(v) = p.extension() {
-                    if v == "ts" || v == "tsx" || v == "js" {
+                    if v == "ts" || v == "tsx" || v == "js" || v == "jsx" {
                         p.set_extension("");
                     }
                 }
