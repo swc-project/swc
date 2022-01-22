@@ -361,6 +361,7 @@ define!({
 
     pub enum NamespaceUri {
         Url(UrlValue),
+        Function(Function),
         Str(Str),
     }
 

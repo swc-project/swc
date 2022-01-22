@@ -1,7 +1,7 @@
 pub use self::{
     charset::*, document::*, import::*, keyframe::*, layer::*, media::*, page::*, support::*,
 };
-use crate::{Block, Ident, SimpleBlock, Str, UrlValue, Value};
+use crate::{Block, Function, Ident, SimpleBlock, Str, UrlValue, Value};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
@@ -64,6 +64,9 @@ pub struct FontFaceRule {
 pub enum NamespaceUri {
     #[tag("UrlValue")]
     Url(UrlValue),
+
+    #[tag("Function")]
+    Function(Function),
 
     #[tag("Str")]
     Str(Str),

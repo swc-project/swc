@@ -422,12 +422,8 @@ where
         let mut prefix = None;
 
         if is!(self, Ident) {
-            prefix = match bump!(self) {
-                Token::Ident { value, raw } => Some(Ident {
-                    span: span!(self, span.lo),
-                    value,
-                    raw,
-                }),
+            prefix = match cur!(self) {
+                tok!("ident") => Some(self.parse()?),
                 _ => {
                     unreachable!()
                 }
@@ -436,20 +432,16 @@ where
             self.input.skip_ws()?;
         }
 
-        let start_value_span = self.input.cur_span()?;
-
-        let uri = match bump!(self) {
-            Token::Str { value, raw } => NamespaceUri::Str(Str {
-                span: span!(self, start_value_span.lo),
-                value,
-                raw,
-            }),
-            Token::Url { value, raw } => NamespaceUri::Url(UrlValue {
-                span: span!(self, start_value_span.lo),
-                url: value,
-                raw,
-            }),
-            _ => return Err(Error::new(span, ErrorKind::Expected("Str or Url"))),
+        let uri = match cur!(self) {
+            tok!("str") => NamespaceUri::Str(self.parse()?),
+            tok!("url") => NamespaceUri::Url(self.parse()?),
+            tok!("function") => NamespaceUri::Function(self.parse()?),
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("string, function or url"),
+                ))
+            }
         };
 
         eat!(self, ";");
