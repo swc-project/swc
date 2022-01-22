@@ -1,4 +1,4 @@
-use crate::{Ident, Num, Str, Tokens};
+use crate::{Ident, Num, SimpleBlock, Str, Tokens};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
@@ -7,12 +7,6 @@ use swc_common::{ast_node, EqIgnoreSpan, Span};
 pub enum Value {
     #[tag("SimpleBlock")]
     SimpleBlock(SimpleBlock),
-
-    #[tag("SquareBracketBlock")]
-    SquareBracketBlock(SquareBracketBlock),
-
-    #[tag("RoundBracketBlock")]
-    RoundBracketBlock(RoundBracketBlock),
 
     #[tag("UnitValue")]
     Unit(UnitValue),
@@ -44,11 +38,8 @@ pub enum Value {
     #[tag("CommaValues")]
     Comma(CommaValues),
 
-    #[tag("BraceValue")]
-    Brace(BraceValue),
-
     #[tag("Tokens")]
-    Lazy(Tokens),
+    Tokens(Tokens),
 
     #[tag("AtTextValue")]
     AtText(AtTextValue),
@@ -90,20 +81,6 @@ pub struct Function {
     pub span: Span,
     pub name: Ident,
     pub value: Vec<Value>,
-}
-
-#[ast_node("RoundBracketBlock")]
-pub struct RoundBracketBlock {
-    /// Includes `(` and `)`.
-    pub span: Span,
-    pub children: Option<Vec<Value>>,
-}
-
-#[ast_node("SquareBracketBlock")]
-pub struct SquareBracketBlock {
-    /// Includes `[` and `]`.
-    pub span: Span,
-    pub children: Option<Vec<Value>>,
 }
 
 #[ast_node("HashValue")]
@@ -148,19 +125,12 @@ pub enum BinOp {
     Div,
 }
 
-/// Values starting with `{` and ending with `}`.
-#[ast_node("BraceValue")]
-pub struct BraceValue {
-    pub span: Span,
-    pub value: Box<Value>,
-}
-
 #[ast_node("AtTextValue")]
 pub struct AtTextValue {
     pub span: Span,
     /// Includes `@`.
     pub name: Ident,
-    pub block: Option<BraceValue>,
+    pub block: Option<SimpleBlock>,
 }
 
 #[ast_node("UrlValue")]
@@ -168,11 +138,4 @@ pub struct UrlValue {
     pub span: Span,
     pub url: JsWord,
     pub raw: JsWord,
-}
-
-#[ast_node("SimpleBlock")]
-pub struct SimpleBlock {
-    pub span: Span,
-    pub name: char,
-    pub value: Vec<Value>,
 }

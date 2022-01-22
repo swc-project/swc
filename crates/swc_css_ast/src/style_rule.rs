@@ -1,6 +1,15 @@
 use crate::{AtRule, Ident, SelectorList, Tokens, Value};
 use swc_common::{ast_node, Span};
 
+#[ast_node("SimpleBlock")]
+pub struct SimpleBlock {
+    pub span: Span,
+    // TODO Create a simple block with its associated token set to the current input token and with
+    // its value initially set to an empty list.
+    pub name: char,
+    pub value: Vec<Value>,
+}
+
 #[ast_node("QualifiedRule")]
 pub struct QualifiedRule {
     pub span: Span,

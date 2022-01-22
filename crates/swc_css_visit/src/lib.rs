@@ -84,10 +84,6 @@ define!({
     pub enum Value {
         SimpleBlock(SimpleBlock),
 
-        SquareBracketBlock(SquareBracketBlock),
-
-        RoundBracketBlock(RoundBracketBlock),
-
         Unit(UnitValue),
 
         Number(Num),
@@ -108,9 +104,7 @@ define!({
 
         Comma(CommaValues),
 
-        Brace(BraceValue),
-
-        Lazy(Tokens),
+        Tokens(Tokens),
 
         AtText(AtTextValue),
 
@@ -143,16 +137,6 @@ define!({
         pub value: Vec<Value>,
     }
 
-    pub struct RoundBracketBlock {
-        pub span: Span,
-        pub children: Option<Vec<Value>>,
-    }
-
-    pub struct SquareBracketBlock {
-        pub span: Span,
-        pub children: Option<Vec<Value>>,
-    }
-
     pub struct HashValue {
         pub span: Span,
         pub value: JsWord,
@@ -170,15 +154,10 @@ define!({
         pub value: Num,
     }
 
-    pub struct BraceValue {
-        pub span: Span,
-        pub value: Box<Value>,
-    }
-
     pub struct AtTextValue {
         pub span: Span,
         pub name: Ident,
-        pub block: Option<BraceValue>,
+        pub block: Option<SimpleBlock>,
     }
 
     pub struct UrlValue {

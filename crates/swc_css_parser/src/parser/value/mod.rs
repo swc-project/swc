@@ -57,7 +57,7 @@ where
                     }
 
                     let span = span!(self, start_pos);
-                    let v = Value::Lazy(Tokens { span, tokens });
+                    let v = Value::Tokens(Tokens { span, tokens });
 
                     self.errors
                         .push(Error::new(span, ErrorKind::InvalidDeclarationValue));
@@ -338,7 +338,7 @@ where
 
         if is_one_of!(self, "<!--", "-->", "!", ";") {
             let token = self.input.bump()?.unwrap();
-            return Ok(Value::Lazy(Tokens {
+            return Ok(Value::Tokens(Tokens {
                 span,
                 tokens: vec![token],
             }));
@@ -397,7 +397,7 @@ where
         Ok(base)
     }
 
-    fn parse_brace_value(&mut self) -> PResult<BraceValue> {
+    fn parse_brace_value(&mut self) -> PResult<SimpleBlock> {
         let span = self.input.cur_span()?;
 
         expect!(self, "{");
@@ -427,12 +427,14 @@ where
         let brace_span = span!(self, brace_start);
         expect!(self, "}");
 
-        Ok(BraceValue {
+        Ok(SimpleBlock {
             span: span!(self, span.lo),
-            value: Box::new(Value::Lazy(Tokens {
+            name: '{',
+            // TODO refactor me
+            value: vec![Value::Tokens(Tokens {
                 span: brace_span,
                 tokens,
-            })),
+            })],
         })
     }
 
@@ -508,7 +510,7 @@ where
         Ok(args)
     }
 
-    fn parse_square_brackets_value(&mut self) -> PResult<SquareBracketBlock> {
+    fn parse_square_brackets_value(&mut self) -> PResult<SimpleBlock> {
         let span = self.input.cur_span()?;
 
         expect!(self, "[");
@@ -520,41 +522,43 @@ where
             ..self.ctx
         };
 
-        let children = Some(self.with_ctx(ctx).parse_property_values()?.0);
+        let value = self.with_ctx(ctx).parse_property_values()?.0;
 
         self.input.skip_ws()?;
 
         expect!(self, "]");
 
-        Ok(SquareBracketBlock {
+        Ok(SimpleBlock {
             span: span!(self, span.lo),
-            children,
+            name: '[',
+            value,
         })
     }
 
-    fn parse_round_brackets_value(&mut self) -> PResult<RoundBracketBlock> {
+    fn parse_round_brackets_value(&mut self) -> PResult<SimpleBlock> {
         let span = self.input.cur_span()?;
 
         expect!(self, "(");
 
         self.input.skip_ws()?;
 
-        let children = if is!(self, ")") {
-            None
+        let value = if is!(self, ")") {
+            vec![]
         } else {
             let ctx = Ctx {
                 allow_operation_in_value: true,
                 ..self.ctx
             };
 
-            Some(self.with_ctx(ctx).parse_property_values()?.0)
+            self.with_ctx(ctx).parse_property_values()?.0
         };
 
         expect!(self, ")");
 
-        Ok(RoundBracketBlock {
+        Ok(SimpleBlock {
             span: span!(self, span.lo),
-            children,
+            name: '(',
+            value,
         })
     }
 
@@ -605,7 +609,7 @@ where
                     let span = self.input.cur_span()?;
                     let token = self.input.bump()?.unwrap();
 
-                    simple_block.value.push(Value::Lazy(Tokens {
+                    simple_block.value.push(Value::Tokens(Tokens {
                         span: span!(self, span.lo),
                         tokens: vec![token],
                     }));
@@ -625,7 +629,7 @@ where
                 let token = self.input.bump()?;
 
                 match token {
-                    Some(t) => Ok(Value::Lazy(Tokens {
+                    Some(t) => Ok(Value::Tokens(Tokens {
                         span: span!(self, span.lo),
                         tokens: vec![t],
                     })),

@@ -95,7 +95,7 @@ error: Value
 2 |     prop:  [];
   |            ^^
 
-error: SquareBracketBlock
+error: SimpleBlock
  --> $DIR/tests/fixture/value/square-brackets/input.css:2:12
   |
 2 |     prop:  [];
@@ -119,7 +119,7 @@ error: Value
 3 |     prop:  [ ];
   |            ^^^
 
-error: SquareBracketBlock
+error: SimpleBlock
  --> $DIR/tests/fixture/value/square-brackets/input.css:3:12
   |
 3 |     prop:  [ ];
@@ -143,7 +143,7 @@ error: Value
 4 |     prop:  [row1-start];
   |            ^^^^^^^^^^^^
 
-error: SquareBracketBlock
+error: SimpleBlock
  --> $DIR/tests/fixture/value/square-brackets/input.css:4:12
   |
 4 |     prop:  [row1-start];
@@ -179,7 +179,7 @@ error: Value
 5 |     prop:  [   row1-start-with-spaces-around   ];
   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: SquareBracketBlock
+error: SimpleBlock
  --> $DIR/tests/fixture/value/square-brackets/input.css:5:12
   |
 5 |     prop:  [   row1-start-with-spaces-around   ];
@@ -215,7 +215,7 @@ error: Value
 6 |     prop:  [red #fff 12px];
   |            ^^^^^^^^^^^^^^^
 
-error: SquareBracketBlock
+error: SimpleBlock
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:12
   |
 6 |     prop:  [red #fff 12px];
@@ -287,7 +287,7 @@ error: Value
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |           ^^^^^^^^^^^^
 
-error: SquareBracketBlock
+error: SimpleBlock
  --> $DIR/tests/fixture/value/square-brackets/input.css:7:11
   |
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
@@ -329,7 +329,7 @@ error: Value
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |                            ^^^^^^^^^^^^^^^^^^^^^
 
-error: SquareBracketBlock
+error: SimpleBlock
  --> $DIR/tests/fixture/value/square-brackets/input.css:7:28
   |
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
@@ -383,7 +383,7 @@ error: Value
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |                                                      ^^^^^^^^^^
 
-error: SquareBracketBlock
+error: SimpleBlock
  --> $DIR/tests/fixture/value/square-brackets/input.css:7:54
   |
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];

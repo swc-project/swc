@@ -126,13 +126,14 @@
                     },
                     "values": [
                       {
-                        "type": "SquareBracketBlock",
+                        "type": "SimpleBlock",
                         "span": {
                           "start": 43,
                           "end": 54,
                           "ctxt": 0
                         },
-                        "children": [
+                        "name": "[",
+                        "value": [
                           {
                             "type": "Identifier",
                             "span": {
@@ -156,13 +157,14 @@
                         "raw": "min-content"
                       },
                       {
-                        "type": "SquareBracketBlock",
+                        "type": "SimpleBlock",
                         "span": {
                           "start": 67,
                           "end": 79,
                           "ctxt": 0
                         },
-                        "children": [
+                        "name": "[",
+                        "value": [
                           {
                             "type": "Identifier",
                             "span": {
@@ -186,13 +188,14 @@
                         "raw": "max-content"
                       },
                       {
-                        "type": "SquareBracketBlock",
+                        "type": "SimpleBlock",
                         "span": {
                           "start": 92,
                           "end": 101,
                           "ctxt": 0
                         },
-                        "children": [
+                        "name": "[",
+                        "value": [
                           {
                             "type": "Identifier",
                             "span": {

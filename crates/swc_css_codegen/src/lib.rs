@@ -567,8 +567,6 @@ where
         match n {
             Value::Function(n) => emit!(self, n),
             Value::SimpleBlock(n) => emit!(self, n),
-            Value::SquareBracketBlock(n) => emit!(self, n),
-            Value::RoundBracketBlock(n) => emit!(self, n),
             Value::Unit(n) => emit!(self, n),
             Value::Number(n) => emit!(self, n),
             Value::Percent(n) => emit!(self, n),
@@ -576,9 +574,8 @@ where
             Value::Ident(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
-            Value::Brace(n) => emit!(self, n),
             Value::Space(n) => emit!(self, n),
-            Value::Lazy(n) => emit!(self, n),
+            Value::Tokens(n) => emit!(self, n),
             Value::AtText(n) => emit!(self, n),
             Value::Url(n) => emit!(self, n),
             Value::Comma(n) => emit!(self, n),
@@ -616,7 +613,14 @@ where
         };
 
         self.wr.write_raw_char(None, n.name)?;
-        self.emit_list(&n.value, ListFormat::NotDelimited)?;
+        self.emit_list(
+            &n.value,
+            if ending == ']' {
+                ListFormat::SpaceDelimited
+            } else {
+                ListFormat::NotDelimited
+            },
+        )?;
         self.wr.write_raw_char(None, ending)?;
     }
 
@@ -753,28 +757,6 @@ where
     }
 
     #[emitter]
-    fn emit_square_bracket_block(&mut self, n: &SquareBracketBlock) -> Result {
-        punct!(self, "[");
-
-        if let Some(values) = &n.children {
-            self.emit_list(values, ListFormat::SpaceDelimited)?;
-        }
-
-        punct!(self, "]");
-    }
-
-    #[emitter]
-    fn emit_round_bracket_block(&mut self, n: &RoundBracketBlock) -> Result {
-        punct!(self, "(");
-
-        if let Some(values) = &n.children {
-            self.emit_list(values, ListFormat::CommaDelimited)?;
-        }
-
-        punct!(self, ")");
-    }
-
-    #[emitter]
     fn emit_comma_values(&mut self, n: &CommaValues) -> Result {
         self.emit_list(&n.values, ListFormat::CommaDelimited)?;
     }
@@ -782,13 +764,6 @@ where
     #[emitter]
     fn emit_space_values(&mut self, n: &SpaceValues) -> Result {
         self.emit_list(&n.values, ListFormat::SpaceDelimited)?;
-    }
-
-    #[emitter]
-    fn emit_brace_value(&mut self, n: &BraceValue) -> Result {
-        punct!(self, "{");
-        emit!(self, n.value);
-        punct!(self, "}");
     }
 
     #[emitter]
