@@ -5,7 +5,6 @@ use crate::{
     error::{Error, ErrorKind},
     Parse,
 };
-use swc_atoms::js_word;
 use swc_common::{BytePos, Spanned};
 use swc_css_ast::*;
 
@@ -902,10 +901,9 @@ where
             value: name.0,
             raw: name.1,
         };
-        let is_url = name.value.to_ascii_lowercase() == js_word!("url");
         let ctx = Ctx {
-            allow_operation_in_value: !is_url,
-            allow_separating_value_with_space: !is_url,
+            allow_operation_in_value: true,
+            allow_separating_value_with_space: true,
             allow_separating_value_with_comma: false,
             ..self.ctx
         };
