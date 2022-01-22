@@ -89,14 +89,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 22,
                   "end": 56,
                   "ctxt": 0
                 },
-                "url": "https://example.com/image.png",
-                "raw": "https://example.com/image.png"
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 22,
+                    "end": 25,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 26,
+                    "end": 55,
+                    "ctxt": 0
+                  },
+                  "value": "https://example.com/image.png",
+                  "raw": "https://example.com/image.png"
+                },
+                "modifiers": null
               }
             ],
             "important": null
@@ -222,14 +241,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 182,
                   "end": 215,
                   "ctxt": 0
                 },
-                "url": "data:image/png;base64,iRxVB0",
-                "raw": "data:image/png;base64,iRxVB0"
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 182,
+                    "end": 185,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 186,
+                    "end": 214,
+                    "ctxt": 0
+                  },
+                  "value": "data:image/png;base64,iRxVB0",
+                  "raw": "data:image/png;base64,iRxVB0"
+                },
+                "modifiers": null
               }
             ],
             "important": null
@@ -253,14 +291,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 233,
                   "end": 250,
                   "ctxt": 0
                 },
-                "url": "#IDofSVGpath",
-                "raw": "#IDofSVGpath"
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 233,
+                    "end": 236,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 237,
+                    "end": 249,
+                    "ctxt": 0
+                  },
+                  "value": "#IDofSVGpath",
+                  "raw": "#IDofSVGpath"
+                },
+                "modifiers": null
               }
             ],
             "important": null
@@ -284,14 +341,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 491,
                   "end": 496,
                   "ctxt": 0
                 },
-                "url": "",
-                "raw": ""
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 491,
+                    "end": 494,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 495,
+                    "end": 495,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "raw": ""
+                },
+                "modifiers": null
               }
             ],
             "important": null

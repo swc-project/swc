@@ -316,9 +316,8 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Tokens, visit_tokens);
     mtd!(Unit, visit_unit);
     mtd!(UnitValue, visit_unit_value);
-    mtd!(UrlValue, visit_url_value);
     mtd!(Url, visit_url);
-    mtd!(UrlValueType, visit_url_value_type);
+    mtd!(UrlValue, visit_url_value);
     mtd!(UrlValueRaw, visit_url_value_raw);
     mtd!(Value, visit_value);
 

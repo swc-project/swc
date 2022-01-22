@@ -47,8 +47,8 @@ pub enum Value {
     #[tag("AtTextValue")]
     AtText(AtTextValue),
 
-    #[tag("UrlValue")]
-    Url(UrlValue),
+    #[tag("Url")]
+    Url(Url),
 }
 
 /// List of values separated by a space.
@@ -150,13 +150,6 @@ pub struct AtTextValue {
     pub block: Option<SimpleBlock>,
 }
 
-#[ast_node("UrlValue")]
-pub struct UrlValue {
-    pub span: Span,
-    pub url: JsWord,
-    pub raw: JsWord,
-}
-
 #[ast_node("SimpleBlock")]
 pub struct SimpleBlock {
     pub span: Span,
@@ -168,13 +161,12 @@ pub struct SimpleBlock {
 pub struct Url {
     pub span: Span,
     pub name: Ident,
-    pub value: UrlValueType,
+    pub value: UrlValue,
     pub modifiers: Option<Vec<Value>>,
 }
 
-// TODO rename me to `UrlValue` and remove `UrlValue` in favor `Url`
 #[ast_node]
-pub enum UrlValueType {
+pub enum UrlValue {
     #[tag("Str")]
     Str(Str),
     #[tag("UrlValueRaw")]

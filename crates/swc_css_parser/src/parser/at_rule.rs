@@ -4,7 +4,6 @@ use crate::{
     parser::{Ctx, RuleContext},
     Parse,
 };
-use swc_atoms::js_word;
 use swc_common::Span;
 use swc_css_ast::*;
 
@@ -282,15 +281,13 @@ where
     fn parse(&mut self) -> PResult<ImportRule> {
         let span = self.input.cur_span()?;
         let href = match cur!(self) {
-            Token::Str { .. } => ImportHref::Str(self.parse()?),
-            Token::Function { value, .. } if *value.to_ascii_lowercase() == js_word!("url") => {
-                ImportHref::Function(self.parse()?)
-            }
-            Token::Url { .. } => ImportHref::Url(self.parse()?),
+            tok!("str") => ImportHref::Str(self.parse()?),
+            tok!("url") => ImportHref::Url(self.parse()?),
+            tok!("function") => ImportHref::Url(self.parse()?),
             _ => {
                 return Err(Error::new(
                     span,
-                    ErrorKind::Expected("url('https://example.com') or 'https://example.com'"),
+                    ErrorKind::Expected("string, url or function"),
                 ))
             }
         };
@@ -439,7 +436,7 @@ where
             _ => {
                 return Err(Error::new(
                     span,
-                    ErrorKind::Expected("string, function or url"),
+                    ErrorKind::Expected("string, url or function"),
                 ))
             }
         };

@@ -95,11 +95,29 @@ error: Value
 2 |     background: url(https://example.com/image.png);
   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
  --> $DIR/tests/fixture/value/url/input.css:2:17
   |
 2 |     background: url(https://example.com/image.png);
   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/url/input.css:2:17
+  |
+2 |     background: url(https://example.com/image.png);
+  |                 ^^^
+
+error: UrlValue
+ --> $DIR/tests/fixture/value/url/input.css:2:21
+  |
+2 |     background: url(https://example.com/image.png);
+  |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+ --> $DIR/tests/fixture/value/url/input.css:2:21
+  |
+2 |     background: url(https://example.com/image.png);
+  |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/url/input.css:3:5
@@ -203,11 +221,29 @@ error: Value
 5 |     background: url(data:image/png;base64,iRxVB0);
   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
  --> $DIR/tests/fixture/value/url/input.css:5:17
   |
 5 |     background: url(data:image/png;base64,iRxVB0);
   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/url/input.css:5:17
+  |
+5 |     background: url(data:image/png;base64,iRxVB0);
+  |                 ^^^
+
+error: UrlValue
+ --> $DIR/tests/fixture/value/url/input.css:5:21
+  |
+5 |     background: url(data:image/png;base64,iRxVB0);
+  |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+ --> $DIR/tests/fixture/value/url/input.css:5:21
+  |
+5 |     background: url(data:image/png;base64,iRxVB0);
+  |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/url/input.css:6:5
@@ -227,11 +263,29 @@ error: Value
 6 |     background: url(#IDofSVGpath);
   |                 ^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
  --> $DIR/tests/fixture/value/url/input.css:6:17
   |
 6 |     background: url(#IDofSVGpath);
   |                 ^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/url/input.css:6:17
+  |
+6 |     background: url(#IDofSVGpath);
+  |                 ^^^
+
+error: UrlValue
+ --> $DIR/tests/fixture/value/url/input.css:6:21
+  |
+6 |     background: url(#IDofSVGpath);
+  |                     ^^^^^^^^^^^^
+
+error: UrlValueRaw
+ --> $DIR/tests/fixture/value/url/input.css:6:21
+  |
+6 |     background: url(#IDofSVGpath);
+  |                     ^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:12:5
@@ -251,11 +305,29 @@ error: Value
 12 |     background: url();
    |                 ^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/value/url/input.css:12:17
    |
 12 |     background: url();
    |                 ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:12:17
+   |
+12 |     background: url();
+   |                 ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/value/url/input.css:12:21
+   |
+12 |     background: url();
+   |                     ^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/value/url/input.css:12:21
+   |
+12 |     background: url();
+   |                     ^
 
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:13:5

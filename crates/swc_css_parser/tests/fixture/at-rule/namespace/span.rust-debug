@@ -112,7 +112,7 @@ error: Ident
 3 | @namespace url(http://www.w3.org/1999/xhtml);
   |            ^^^
 
-error: UrlValueType
+error: UrlValue
  --> $DIR/tests/fixture/at-rule/namespace/input.css:3:16
   |
 3 | @namespace url(http://www.w3.org/1999/xhtml);
@@ -160,7 +160,7 @@ error: Ident
 4 | @namespace url("http://www.w3.org/1999/xhtml");
   |            ^^^
 
-error: UrlValueType
+error: UrlValue
  --> $DIR/tests/fixture/at-rule/namespace/input.css:4:16
   |
 4 | @namespace url("http://www.w3.org/1999/xhtml");
@@ -214,7 +214,7 @@ error: Ident
 5 | @namespace svg url(http://www.w3.org/2000/svg);
   |                ^^^
 
-error: UrlValueType
+error: UrlValue
  --> $DIR/tests/fixture/at-rule/namespace/input.css:5:20
   |
 5 | @namespace svg url(http://www.w3.org/2000/svg);
@@ -268,7 +268,7 @@ error: Ident
 6 | @namespace svg url("http://www.w3.org/2000/svg");
   |                ^^^
 
-error: UrlValueType
+error: UrlValue
  --> $DIR/tests/fixture/at-rule/namespace/input.css:6:20
   |
 6 | @namespace svg url("http://www.w3.org/2000/svg");

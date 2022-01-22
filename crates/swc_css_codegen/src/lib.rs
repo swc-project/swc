@@ -134,7 +134,6 @@ where
     #[emitter]
     fn emit_import_href(&mut self, n: &ImportHref) -> Result {
         match n {
-            ImportHref::Function(n) => emit!(self, n),
             ImportHref::Url(n) => emit!(self, n),
             ImportHref::Str(n) => emit!(self, n),
         }
@@ -891,24 +890,16 @@ where
     }
 
     #[emitter]
-    fn emit_url_value_type(&mut self, n: &UrlValueType) -> Result {
+    fn emit_url_value(&mut self, n: &UrlValue) -> Result {
         match n {
-            UrlValueType::Raw(n) => emit!(self, n),
-            UrlValueType::Str(n) => emit!(self, n),
+            UrlValue::Raw(n) => emit!(self, n),
+            UrlValue::Str(n) => emit!(self, n),
         }
     }
 
     #[emitter]
     fn emit_url_value_raw(&mut self, n: &UrlValueRaw) -> Result {
         self.wr.write_raw(Some(n.span), &n.raw)?;
-    }
-
-    #[emitter]
-    fn emit_url_value(&mut self, n: &UrlValue) -> Result {
-        keyword!(self, "url");
-        punct!(self, "(");
-        self.wr.write_raw(Some(n.span), &n.raw)?;
-        punct!(self, ")");
     }
 
     #[emitter]

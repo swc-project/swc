@@ -110,7 +110,7 @@ define!({
 
         AtText(AtTextValue),
 
-        Url(UrlValue),
+        Url(Url),
     }
 
     pub struct SpaceValues {
@@ -168,20 +168,14 @@ define!({
         pub block: Option<SimpleBlock>,
     }
 
-    pub struct UrlValue {
-        pub span: Span,
-        pub url: JsWord,
-        pub raw: JsWord,
-    }
-
     pub struct Url {
         pub span: Span,
         pub name: Ident,
-        pub value: UrlValueType,
-        pub modifiers: Option<Vec<Value>>
+        pub value: UrlValue,
+        pub modifiers: Option<Vec<Value>>,
     }
 
-    pub enum UrlValueType {
+    pub enum UrlValue {
         Str(Str),
         Raw(UrlValueRaw),
     }
@@ -354,8 +348,7 @@ define!({
     }
 
     pub enum ImportHref {
-        Function(Function),
-        Url(UrlValue),
+        Url(Url),
         Str(Str),
     }
 

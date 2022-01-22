@@ -774,30 +774,6 @@ where
     }
 }
 
-impl<I> Parse<UrlValue> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<UrlValue> {
-        let span = self.input.cur_span()?;
-
-        if !is!(self, Url) {
-            return Err(Error::new(span, ErrorKind::Expected("Url")));
-        }
-
-        match bump!(self) {
-            Token::Url { value, raw } => Ok(UrlValue {
-                span,
-                url: value,
-                raw,
-            }),
-            _ => {
-                unreachable!()
-            }
-        }
-    }
-}
-
 impl<I> Parse<Url> for Parser<I>
 where
     I: ParserInput,
@@ -818,7 +794,7 @@ where
                     raw: "url".into(),
                 };
 
-                let value = UrlValueType::Raw(UrlValueRaw {
+                let value = UrlValue::Raw(UrlValueRaw {
                     span: swc_common::Span::new(
                         span.lo + BytePos(4),
                         span.hi - BytePos(1),
@@ -854,7 +830,7 @@ where
                 self.input.skip_ws()?;
 
                 let value = match cur!(self) {
-                    tok!("str") => UrlValueType::Str(self.parse()?),
+                    tok!("str") => UrlValue::Str(self.parse()?),
                     _ => {
                         return Err(Error::new(span, ErrorKind::Expected("string")));
                     }
