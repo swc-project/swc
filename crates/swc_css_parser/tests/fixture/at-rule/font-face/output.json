@@ -71,7 +71,7 @@
             },
             "value": [
               {
-                "type": "Function",
+                "type": "Url",
                 "span": {
                   "start": 52,
                   "end": 96,
@@ -87,18 +87,17 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "value": [
-                  {
-                    "type": "String",
-                    "span": {
-                      "start": 56,
-                      "end": 95,
-                      "ctxt": 0
-                    },
-                    "value": "/fonts/OpenSans-Regular-webfont.woff2",
-                    "raw": "\"/fonts/OpenSans-Regular-webfont.woff2\""
-                  }
-                ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 56,
+                    "end": 95,
+                    "ctxt": 0
+                  },
+                  "value": "/fonts/OpenSans-Regular-webfont.woff2",
+                  "raw": "\"/fonts/OpenSans-Regular-webfont.woff2\""
+                },
+                "modifiers": null
               },
               {
                 "type": "CommaValues",
@@ -139,7 +138,7 @@
                     ]
                   },
                   {
-                    "type": "Function",
+                    "type": "Url",
                     "span": {
                       "start": 118,
                       "end": 161,
@@ -155,18 +154,17 @@
                       "value": "url",
                       "raw": "url"
                     },
-                    "value": [
-                      {
-                        "type": "String",
-                        "span": {
-                          "start": 122,
-                          "end": 160,
-                          "ctxt": 0
-                        },
-                        "value": "/fonts/OpenSans-Regular-webfont.woff",
-                        "raw": "\"/fonts/OpenSans-Regular-webfont.woff\""
-                      }
-                    ]
+                    "value": {
+                      "type": "String",
+                      "span": {
+                        "start": 122,
+                        "end": 160,
+                        "ctxt": 0
+                      },
+                      "value": "/fonts/OpenSans-Regular-webfont.woff",
+                      "raw": "\"/fonts/OpenSans-Regular-webfont.woff\""
+                    },
+                    "modifiers": null
                   }
                 ]
               },

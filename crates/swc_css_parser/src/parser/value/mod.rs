@@ -281,6 +281,15 @@ where
             tok!("num") => return self.parse_numeric_value(),
 
             tok!("function") => return Ok(Value::Function(self.parse()?)),
+            Token::Url { .. } => return Ok(Value::Url(self.parse()?)),
+
+            Token::Function { value, .. } => {
+                if &*value.to_ascii_lowercase() == "url" || &*value.to_ascii_lowercase() == "src" {
+                    return Ok(Value::Url(self.parse()?));
+                }
+
+                return Ok(Value::Function(self.parse()?));
+            }
 
             tok!("percent") => return self.parse_numeric_value(),
 
