@@ -435,7 +435,7 @@ where
         let uri = match cur!(self) {
             tok!("str") => NamespaceUri::Str(self.parse()?),
             tok!("url") => NamespaceUri::Url(self.parse()?),
-            tok!("function") => NamespaceUri::Function(self.parse()?),
+            tok!("function") => NamespaceUri::Url(self.parse()?),
             _ => {
                 return Err(Error::new(
                     span,

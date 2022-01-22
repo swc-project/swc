@@ -1,0 +1,583 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 693,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 0,
+        "end": 692,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 3,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 3,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 3,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TypeSelector",
+                  "span": {
+                    "start": 0,
+                    "end": 3,
+                    "ctxt": 0
+                  },
+                  "prefix": null,
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 0,
+                      "end": 3,
+                      "ctxt": 0
+                    },
+                    "value": "div",
+                    "raw": "div"
+                  }
+                },
+                "subclassSelectors": []
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 4,
+          "end": 692,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 10,
+              "end": 56,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 10,
+                "end": 20,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "UrlValue",
+                "span": {
+                  "start": 22,
+                  "end": 56,
+                  "ctxt": 0
+                },
+                "url": "https://example.com/image.png",
+                "raw": "https://example.com/image.png"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 62,
+              "end": 110,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 62,
+                "end": 72,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 74,
+                  "end": 110,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 74,
+                    "end": 77,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": [
+                  {
+                    "type": "String",
+                    "span": {
+                      "start": 78,
+                      "end": 109,
+                      "ctxt": 0
+                    },
+                    "value": "https://example.com/image.png",
+                    "raw": "\"https://example.com/image.png\""
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 116,
+              "end": 164,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 116,
+                "end": 126,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 128,
+                  "end": 164,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 128,
+                    "end": 131,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": [
+                  {
+                    "type": "String",
+                    "span": {
+                      "start": 132,
+                      "end": 163,
+                      "ctxt": 0
+                    },
+                    "value": "https://example.com/image.png",
+                    "raw": "'https://example.com/image.png'"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 170,
+              "end": 215,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 170,
+                "end": 180,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "UrlValue",
+                "span": {
+                  "start": 182,
+                  "end": 215,
+                  "ctxt": 0
+                },
+                "url": "data:image/png;base64,iRxVB0",
+                "raw": "data:image/png;base64,iRxVB0"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 221,
+              "end": 250,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 221,
+                "end": 231,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "UrlValue",
+                "span": {
+                  "start": 233,
+                  "end": 250,
+                  "ctxt": 0
+                },
+                "url": "#IDofSVGpath",
+                "raw": "#IDofSVGpath"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 479,
+              "end": 496,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 479,
+                "end": 489,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "UrlValue",
+                "span": {
+                  "start": 491,
+                  "end": 496,
+                  "ctxt": 0
+                },
+                "url": "",
+                "raw": ""
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 502,
+              "end": 521,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 502,
+                "end": 512,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 514,
+                  "end": 521,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 514,
+                    "end": 517,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": [
+                  {
+                    "type": "String",
+                    "span": {
+                      "start": 518,
+                      "end": 520,
+                      "ctxt": 0
+                    },
+                    "value": "",
+                    "raw": "\"\""
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 527,
+              "end": 546,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 527,
+                "end": 537,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 539,
+                  "end": 546,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 539,
+                    "end": 542,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": [
+                  {
+                    "type": "String",
+                    "span": {
+                      "start": 543,
+                      "end": 545,
+                      "ctxt": 0
+                    },
+                    "value": "",
+                    "raw": "''"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 553,
+              "end": 560,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 553,
+                "end": 558,
+                "ctxt": 0
+              },
+              "value": "--foo",
+              "raw": "--foo"
+            },
+            "value": [
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 559,
+                  "end": 596,
+                  "ctxt": 0
+                },
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 559,
+                      "end": 560,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 560,
+                      "end": 596,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Str": {
+                        "value": "http://www.example.com/pinkish.gif",
+                        "raw": "\"http://www.example.com/pinkish.gif\""
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 603,
+              "end": 656,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 603,
+                "end": 613,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 615,
+                  "end": 656,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 615,
+                    "end": 618,
+                    "ctxt": 0
+                  },
+                  "value": "src",
+                  "raw": "src"
+                },
+                "value": [
+                  {
+                    "type": "String",
+                    "span": {
+                      "start": 619,
+                      "end": 655,
+                      "ctxt": 0
+                    },
+                    "value": "http://www.example.com/pinkish.gif",
+                    "raw": "\"http://www.example.com/pinkish.gif\""
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 662,
+              "end": 689,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 662,
+                "end": 672,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 674,
+                  "end": 689,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 674,
+                    "end": 677,
+                    "ctxt": 0
+                  },
+                  "value": "src",
+                  "raw": "src"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 678,
+                      "end": 688,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 678,
+                        "end": 681,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 682,
+                          "end": 687,
+                          "ctxt": 0
+                        },
+                        "value": "--foo",
+                        "raw": "--foo"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    }
+  ]
+}

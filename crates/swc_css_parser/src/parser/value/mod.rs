@@ -798,6 +798,91 @@ where
     }
 }
 
+impl<I> Parse<Url> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Url> {
+        let span = self.input.cur_span()?;
+
+        if !is_one_of!(self, Url, Function) {
+            return Err(Error::new(span, ErrorKind::Expected("url or function")));
+        }
+
+        match bump!(self) {
+            Token::Url { value, raw } => {
+                let name = Ident {
+                    span: swc_common::Span::new(span.lo, span.lo + BytePos(3), Default::default()),
+                    // TODO add additional fields in lexer to keep original name of url and spaces
+                    value: "url".into(),
+                    raw: "url".into(),
+                };
+
+                let value = UrlValueType::Raw(UrlValueRaw {
+                    span: swc_common::Span::new(
+                        span.lo + BytePos(4),
+                        span.hi - BytePos(1),
+                        Default::default(),
+                    ),
+                    value,
+                    raw,
+                });
+
+                Ok(Url {
+                    span: span!(self, span.lo),
+                    name,
+                    value,
+                    modifiers: None,
+                })
+            }
+            Token::Function {
+                value: function_name,
+                raw: raw_function_name,
+            } => {
+                if &*function_name.to_ascii_lowercase() != "url"
+                    && &*function_name.to_ascii_lowercase() != "src"
+                {
+                    return Err(Error::new(span, ErrorKind::Expected("'url' or 'src' name")));
+                }
+
+                let name = Ident {
+                    span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+                    value: function_name,
+                    raw: raw_function_name,
+                };
+
+                self.input.skip_ws()?;
+
+                let value = match cur!(self) {
+                    tok!("str") => UrlValueType::Str(self.parse()?),
+                    _ => {
+                        return Err(Error::new(span, ErrorKind::Expected("string")));
+                    }
+                };
+
+                self.input.skip_ws()?;
+
+                // TODO improve me
+                let modifiers = None;
+
+                expect!(self, ")");
+
+                println!("{:?}", self.input.cur());
+
+                Ok(Url {
+                    span: span!(self, span.lo),
+                    name,
+                    value,
+                    modifiers,
+                })
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
 impl<I> Parse<Function> for Parser<I>
 where
     I: ParserInput,

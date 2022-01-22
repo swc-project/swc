@@ -174,6 +174,29 @@ define!({
         pub raw: JsWord,
     }
 
+    pub struct Url {
+        pub span: Span,
+        pub name: Ident,
+        pub value: UrlValueType,
+        pub modifiers: Option<Vec<Value>>
+    }
+
+    pub enum UrlValueType {
+        Str(Str),
+        Raw(UrlValueRaw),
+    }
+
+    pub struct UrlValueRaw {
+        pub span: Span,
+        pub value: JsWord,
+        pub raw: JsWord,
+    }
+
+    pub enum UrlModifier {
+        Ident(Ident),
+        Function(Function),
+    }
+
     pub struct SelectorList {
         pub span: Span,
         pub children: Vec<ComplexSelector>,
@@ -360,8 +383,7 @@ define!({
     }
 
     pub enum NamespaceUri {
-        Url(UrlValue),
-        Function(Function),
+        Url(Url),
         Str(Str),
     }
 

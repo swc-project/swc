@@ -156,3 +156,42 @@ pub struct UrlValue {
     pub url: JsWord,
     pub raw: JsWord,
 }
+
+#[ast_node("SimpleBlock")]
+pub struct SimpleBlock {
+    pub span: Span,
+    pub name: char,
+    pub value: Vec<Value>,
+}
+
+#[ast_node("Url")]
+pub struct Url {
+    pub span: Span,
+    pub name: Ident,
+    pub value: UrlValueType,
+    pub modifiers: Option<Vec<Value>>,
+}
+
+// TODO rename me to `UrlValue` and remove `UrlValue` in favor `Url`
+#[ast_node]
+pub enum UrlValueType {
+    #[tag("Str")]
+    Str(Str),
+    #[tag("UrlValueRaw")]
+    Raw(UrlValueRaw),
+}
+
+#[ast_node("UrlValueRaw")]
+pub struct UrlValueRaw {
+    pub span: Span,
+    pub value: JsWord,
+    pub raw: JsWord,
+}
+
+#[ast_node]
+pub enum UrlModifier {
+    #[tag("Ident")]
+    Ident(Ident),
+    #[tag("Function")]
+    Function(Function),
+}

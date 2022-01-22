@@ -62,14 +62,33 @@
       },
       "prefix": null,
       "uri": {
-        "type": "UrlValue",
+        "type": "Url",
         "span": {
           "start": 47,
           "end": 80,
           "ctxt": 0
         },
-        "url": "http://www.w3.org/1999/xhtml",
-        "raw": "http://www.w3.org/1999/xhtml"
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 47,
+            "end": 50,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "value": {
+          "type": "UrlValueRaw",
+          "span": {
+            "start": 51,
+            "end": 79,
+            "ctxt": 0
+          },
+          "value": "http://www.w3.org/1999/xhtml",
+          "raw": "http://www.w3.org/1999/xhtml"
+        },
+        "modifiers": null
       }
     },
     {
@@ -81,7 +100,7 @@
       },
       "prefix": null,
       "uri": {
-        "type": "Function",
+        "type": "Url",
         "span": {
           "start": 93,
           "end": 128,
@@ -97,18 +116,17 @@
           "value": "url",
           "raw": "url"
         },
-        "value": [
-          {
-            "type": "String",
-            "span": {
-              "start": 97,
-              "end": 127,
-              "ctxt": 0
-            },
-            "value": "http://www.w3.org/1999/xhtml",
-            "raw": "\"http://www.w3.org/1999/xhtml\""
-          }
-        ]
+        "value": {
+          "type": "String",
+          "span": {
+            "start": 97,
+            "end": 127,
+            "ctxt": 0
+          },
+          "value": "http://www.w3.org/1999/xhtml",
+          "raw": "\"http://www.w3.org/1999/xhtml\""
+        },
+        "modifiers": null
       }
     },
     {
@@ -129,14 +147,33 @@
         "raw": "svg"
       },
       "uri": {
-        "type": "UrlValue",
+        "type": "Url",
         "span": {
           "start": 145,
           "end": 176,
           "ctxt": 0
         },
-        "url": "http://www.w3.org/2000/svg",
-        "raw": "http://www.w3.org/2000/svg"
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 145,
+            "end": 148,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "value": {
+          "type": "UrlValueRaw",
+          "span": {
+            "start": 149,
+            "end": 175,
+            "ctxt": 0
+          },
+          "value": "http://www.w3.org/2000/svg",
+          "raw": "http://www.w3.org/2000/svg"
+        },
+        "modifiers": null
       }
     },
     {
@@ -157,7 +194,7 @@
         "raw": "svg"
       },
       "uri": {
-        "type": "Function",
+        "type": "Url",
         "span": {
           "start": 193,
           "end": 226,
@@ -173,18 +210,17 @@
           "value": "url",
           "raw": "url"
         },
-        "value": [
-          {
-            "type": "String",
-            "span": {
-              "start": 197,
-              "end": 225,
-              "ctxt": 0
-            },
-            "value": "http://www.w3.org/2000/svg",
-            "raw": "\"http://www.w3.org/2000/svg\""
-          }
-        ]
+        "value": {
+          "type": "String",
+          "span": {
+            "start": 197,
+            "end": 225,
+            "ctxt": 0
+          },
+          "value": "http://www.w3.org/2000/svg",
+          "raw": "\"http://www.w3.org/2000/svg\""
+        },
+        "modifiers": null
       }
     },
     {

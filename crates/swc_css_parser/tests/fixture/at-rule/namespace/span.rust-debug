@@ -100,11 +100,29 @@ error: NamespaceUri
 3 | @namespace url(http://www.w3.org/1999/xhtml);
   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
  --> $DIR/tests/fixture/at-rule/namespace/input.css:3:12
   |
 3 | @namespace url(http://www.w3.org/1999/xhtml);
   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/namespace/input.css:3:12
+  |
+3 | @namespace url(http://www.w3.org/1999/xhtml);
+  |            ^^^
+
+error: UrlValueType
+ --> $DIR/tests/fixture/at-rule/namespace/input.css:3:16
+  |
+3 | @namespace url(http://www.w3.org/1999/xhtml);
+  |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+ --> $DIR/tests/fixture/at-rule/namespace/input.css:3:16
+  |
+3 | @namespace url(http://www.w3.org/1999/xhtml);
+  |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/namespace/input.css:4:1
@@ -130,7 +148,7 @@ error: NamespaceUri
 4 | @namespace url("http://www.w3.org/1999/xhtml");
   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
  --> $DIR/tests/fixture/at-rule/namespace/input.css:4:12
   |
 4 | @namespace url("http://www.w3.org/1999/xhtml");
@@ -142,7 +160,7 @@ error: Ident
 4 | @namespace url("http://www.w3.org/1999/xhtml");
   |            ^^^
 
-error: Value
+error: UrlValueType
  --> $DIR/tests/fixture/at-rule/namespace/input.css:4:16
   |
 4 | @namespace url("http://www.w3.org/1999/xhtml");
@@ -184,11 +202,29 @@ error: NamespaceUri
 5 | @namespace svg url(http://www.w3.org/2000/svg);
   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
  --> $DIR/tests/fixture/at-rule/namespace/input.css:5:16
   |
 5 | @namespace svg url(http://www.w3.org/2000/svg);
   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/namespace/input.css:5:16
+  |
+5 | @namespace svg url(http://www.w3.org/2000/svg);
+  |                ^^^
+
+error: UrlValueType
+ --> $DIR/tests/fixture/at-rule/namespace/input.css:5:20
+  |
+5 | @namespace svg url(http://www.w3.org/2000/svg);
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+ --> $DIR/tests/fixture/at-rule/namespace/input.css:5:20
+  |
+5 | @namespace svg url(http://www.w3.org/2000/svg);
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/namespace/input.css:6:1
@@ -220,7 +256,7 @@ error: NamespaceUri
 6 | @namespace svg url("http://www.w3.org/2000/svg");
   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
  --> $DIR/tests/fixture/at-rule/namespace/input.css:6:16
   |
 6 | @namespace svg url("http://www.w3.org/2000/svg");
@@ -232,7 +268,7 @@ error: Ident
 6 | @namespace svg url("http://www.w3.org/2000/svg");
   |                ^^^
 
-error: Value
+error: UrlValueType
  --> $DIR/tests/fixture/at-rule/namespace/input.css:6:20
   |
 6 | @namespace svg url("http://www.w3.org/2000/svg");
