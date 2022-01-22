@@ -794,12 +794,17 @@ where
         }
 
         match bump!(self) {
-            Token::Url { value, raw } => {
+            Token::Url {
+                name,
+                raw_name,
+                value,
+                raw_value,
+            } => {
                 let name = Ident {
+                    // TODO add additional fields in lexer to keep original spaces and fix span
                     span: swc_common::Span::new(span.lo, span.lo + BytePos(3), Default::default()),
-                    // TODO add additional fields in lexer to keep original name of url and spaces
-                    value: "url".into(),
-                    raw: "url".into(),
+                    value: name,
+                    raw: raw_name,
                 };
 
                 let value = Some(UrlValue::Raw(UrlValueRaw {
@@ -809,7 +814,7 @@ where
                         Default::default(),
                     ),
                     value,
-                    raw,
+                    raw: raw_value,
                 }));
 
                 Ok(Url {

@@ -828,16 +828,24 @@ where
                 Token::Str { raw, .. } => {
                     self.wr.write_raw(Some(span), raw)?;
                 }
-                Token::Url { raw, .. } => {
-                    self.wr.write_raw(Some(span), "url")?;
+                Token::Url {
+                    raw_name,
+                    raw_value,
+                    ..
+                } => {
+                    self.wr.write_raw(None, raw_name)?;
                     punct!(self, "(");
-                    self.wr.write_raw(None, raw)?;
+                    self.wr.write_raw(None, raw_value)?;
                     punct!(self, ")");
                 }
-                Token::BadUrl { raw, .. } => {
-                    self.wr.write_raw(Some(span), "url")?;
+                Token::BadUrl {
+                    raw_name,
+                    raw_value,
+                    ..
+                } => {
+                    self.wr.write_raw(Some(span), raw_name)?;
                     punct!(self, "(");
-                    self.wr.write_raw(None, raw)?;
+                    self.wr.write_raw(None, raw_value)?;
                     punct!(self, ")");
                 }
                 Token::Comma => {

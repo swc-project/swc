@@ -1,9 +1,11 @@
 div {
     background: url(https://example.com/image.png);
     background: URL(https://example.com/image.png);
+    background: \URL(https://example.com/image.png);
     background: url("https://example.com/image.png");
     background: url('https://example.com/image.png');
     background: URL('https://example.com/image.png');
+    background: \URL('https://example.com/image.png');
     background: url(data:image/png;base64,iRxVB0);
     background: url(#IDofSVGpath);
 
