@@ -54,11 +54,15 @@ where
         module_specifier: &str,
     ) -> Result<Lrc<FileName>, Error> {
         self.run(|| {
-            let path = self
+            let mut path = self
                 .resolver
                 .resolve(base, module_specifier)
                 .with_context(|| format!("failed to resolve {} from {}", module_specifier, base))?;
-
+            if let FileName::Real(ref mut p) = path {
+                if let Ok(absolute) = p.canonicalize() {
+                    *p = absolute
+                }
+            }
             let path = Lrc::new(path);
 
             Ok(path)
