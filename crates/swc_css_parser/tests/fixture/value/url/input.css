@@ -8,8 +8,9 @@ div {
     background: url(#IDofSVGpath);
 
     /* A <url-modifier> is either an <ident> or a functional notation. */
-    /*background: url("//aa.com/img.svg" prefetch);*/
-    /*background: url("http://example.com/image.svg" param(--color var(--primary-color)));*/
+    background: url("//aa.com/img.svg" prefetch);
+    background: url("//aa.com/img.svg" foo bar baz func(test));
+    background: url("http://example.com/image.svg" param(--color var(--primary-color)));
 
     background: url();
     background: url("");
@@ -19,5 +20,5 @@ div {
 
     background: src("http://www.example.com/pinkish.gif");
     background: SRC("http://www.example.com/pinkish.gif");
-    /*background: src(var(--foo));*/
+    background: src(var(--foo));
 }

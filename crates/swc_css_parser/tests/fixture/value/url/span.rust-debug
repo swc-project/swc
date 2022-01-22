@@ -6,8 +6,8 @@ error: Stylesheet
 3  | |     background: URL(https://example.com/image.png);
 4  | |     background: url("https://example.com/image.png");
 ...  |
-22 | |     /*background: src(var(--foo));*/
-23 | | }
+23 | |     background: src(var(--foo));
+24 | | }
    | |__^
 
 error: Rule
@@ -18,8 +18,8 @@ error: Rule
 3  | |     background: URL(https://example.com/image.png);
 4  | |     background: url("https://example.com/image.png");
 ...  |
-22 | |     /*background: src(var(--foo));*/
-23 | | }
+23 | |     background: src(var(--foo));
+24 | | }
    | |_^
 
 error: QualifiedRule
@@ -30,8 +30,8 @@ error: QualifiedRule
 3  | |     background: URL(https://example.com/image.png);
 4  | |     background: url("https://example.com/image.png");
 ...  |
-22 | |     /*background: src(var(--foo));*/
-23 | | }
+23 | |     background: src(var(--foo));
+24 | | }
    | |_^
 
 error: SelectorList
@@ -73,8 +73,8 @@ error: Block
 3  | |     background: URL(https://example.com/image.png);
 4  | |     background: url("https://example.com/image.png");
 ...  |
-22 | |     /*background: src(var(--foo));*/
-23 | | }
+23 | |     background: src(var(--foo));
+24 | | }
    | |_^
 
 error: Declaration
@@ -372,248 +372,584 @@ error: UrlValueRaw
   |                     ^^^^^^^^^^^^
 
 error: Declaration
-  --> $DIR/tests/fixture/value/url/input.css:14:5
+  --> $DIR/tests/fixture/value/url/input.css:11:5
    |
-14 |     background: url();
+11 |     background: url("//aa.com/img.svg" prefetch);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:11:5
+   |
+11 |     background: url("//aa.com/img.svg" prefetch);
+   |     ^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/url/input.css:11:17
+   |
+11 |     background: url("//aa.com/img.svg" prefetch);
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/value/url/input.css:11:17
+   |
+11 |     background: url("//aa.com/img.svg" prefetch);
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:11:17
+   |
+11 |     background: url("//aa.com/img.svg" prefetch);
+   |                 ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/value/url/input.css:11:21
+   |
+11 |     background: url("//aa.com/img.svg" prefetch);
+   |                     ^^^^^^^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/value/url/input.css:11:21
+   |
+11 |     background: url("//aa.com/img.svg" prefetch);
+   |                     ^^^^^^^^^^^^^^^^^^
+
+error: UrlModifier
+  --> $DIR/tests/fixture/value/url/input.css:11:40
+   |
+11 |     background: url("//aa.com/img.svg" prefetch);
+   |                                        ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:11:40
+   |
+11 |     background: url("//aa.com/img.svg" prefetch);
+   |                                        ^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/url/input.css:12:5
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:12:5
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |     ^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/url/input.css:12:17
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/value/url/input.css:12:17
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:12:17
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |                 ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/value/url/input.css:12:21
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |                     ^^^^^^^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/value/url/input.css:12:21
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |                     ^^^^^^^^^^^^^^^^^^
+
+error: UrlModifier
+  --> $DIR/tests/fixture/value/url/input.css:12:40
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |                                        ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:12:40
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |                                        ^^^
+
+error: UrlModifier
+  --> $DIR/tests/fixture/value/url/input.css:12:44
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |                                            ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:12:44
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |                                            ^^^
+
+error: UrlModifier
+  --> $DIR/tests/fixture/value/url/input.css:12:48
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |                                                ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:12:48
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |                                                ^^^
+
+error: UrlModifier
+  --> $DIR/tests/fixture/value/url/input.css:12:52
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |                                                    ^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/url/input.css:12:52
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |                                                    ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:12:52
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |                                                    ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/url/input.css:12:57
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |                                                         ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:12:57
+   |
+12 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |                                                         ^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/url/input.css:13:5
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:13:5
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |     ^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/url/input.css:13:17
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/value/url/input.css:13:17
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:13:17
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |                 ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/value/url/input.css:13:21
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/value/url/input.css:13:21
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: UrlModifier
+  --> $DIR/tests/fixture/value/url/input.css:13:52
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/url/input.css:13:52
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:13:52
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |                                                    ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/url/input.css:13:58
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SpaceValues
+  --> $DIR/tests/fixture/value/url/input.css:13:58
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/url/input.css:13:58
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |                                                          ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:13:58
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |                                                          ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/url/input.css:13:66
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |                                                                  ^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/url/input.css:13:66
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |                                                                  ^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:13:66
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |                                                                  ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/url/input.css:13:70
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |                                                                      ^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:13:70
+   |
+13 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |                                                                      ^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/url/input.css:15:5
+   |
+15 |     background: url();
    |     ^^^^^^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/value/url/input.css:14:5
+  --> $DIR/tests/fixture/value/url/input.css:15:5
    |
-14 |     background: url();
+15 |     background: url();
    |     ^^^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/url/input.css:14:17
+  --> $DIR/tests/fixture/value/url/input.css:15:17
    |
-14 |     background: url();
+15 |     background: url();
    |                 ^^^^^
 
 error: Url
-  --> $DIR/tests/fixture/value/url/input.css:14:17
+  --> $DIR/tests/fixture/value/url/input.css:15:17
    |
-14 |     background: url();
+15 |     background: url();
    |                 ^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/value/url/input.css:14:17
+  --> $DIR/tests/fixture/value/url/input.css:15:17
    |
-14 |     background: url();
+15 |     background: url();
    |                 ^^^
 
 error: UrlValue
-  --> $DIR/tests/fixture/value/url/input.css:14:21
+  --> $DIR/tests/fixture/value/url/input.css:15:21
    |
-14 |     background: url();
+15 |     background: url();
    |                     ^
 
 error: UrlValueRaw
-  --> $DIR/tests/fixture/value/url/input.css:14:21
+  --> $DIR/tests/fixture/value/url/input.css:15:21
    |
-14 |     background: url();
+15 |     background: url();
    |                     ^
 
 error: Declaration
-  --> $DIR/tests/fixture/value/url/input.css:15:5
-   |
-15 |     background: url("");
-   |     ^^^^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/value/url/input.css:15:5
-   |
-15 |     background: url("");
-   |     ^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/value/url/input.css:15:17
-   |
-15 |     background: url("");
-   |                 ^^^^^^^
-
-error: Url
-  --> $DIR/tests/fixture/value/url/input.css:15:17
-   |
-15 |     background: url("");
-   |                 ^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/value/url/input.css:15:17
-   |
-15 |     background: url("");
-   |                 ^^^
-
-error: UrlValue
-  --> $DIR/tests/fixture/value/url/input.css:15:21
-   |
-15 |     background: url("");
-   |                     ^^
-
-error: Str
-  --> $DIR/tests/fixture/value/url/input.css:15:21
-   |
-15 |     background: url("");
-   |                     ^^
-
-error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:16:5
    |
-16 |     background: url('');
+16 |     background: url("");
    |     ^^^^^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/value/url/input.css:16:5
    |
-16 |     background: url('');
+16 |     background: url("");
    |     ^^^^^^^^^^
 
 error: Value
   --> $DIR/tests/fixture/value/url/input.css:16:17
    |
-16 |     background: url('');
+16 |     background: url("");
    |                 ^^^^^^^
 
 error: Url
   --> $DIR/tests/fixture/value/url/input.css:16:17
    |
-16 |     background: url('');
+16 |     background: url("");
    |                 ^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/value/url/input.css:16:17
    |
-16 |     background: url('');
+16 |     background: url("");
    |                 ^^^
 
 error: UrlValue
   --> $DIR/tests/fixture/value/url/input.css:16:21
    |
-16 |     background: url('');
+16 |     background: url("");
    |                     ^^
 
 error: Str
   --> $DIR/tests/fixture/value/url/input.css:16:21
    |
-16 |     background: url('');
+16 |     background: url("");
    |                     ^^
 
 error: Declaration
-  --> $DIR/tests/fixture/value/url/input.css:18:5
+  --> $DIR/tests/fixture/value/url/input.css:17:5
    |
-18 |     --foo: "http://www.example.com/pinkish.gif";
+17 |     background: url('');
+   |     ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:17:5
+   |
+17 |     background: url('');
+   |     ^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/url/input.css:17:17
+   |
+17 |     background: url('');
+   |                 ^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/value/url/input.css:17:17
+   |
+17 |     background: url('');
+   |                 ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:17:17
+   |
+17 |     background: url('');
+   |                 ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/value/url/input.css:17:21
+   |
+17 |     background: url('');
+   |                     ^^
+
+error: Str
+  --> $DIR/tests/fixture/value/url/input.css:17:21
+   |
+17 |     background: url('');
+   |                     ^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/url/input.css:19:5
+   |
+19 |     --foo: "http://www.example.com/pinkish.gif";
    |     ^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/value/url/input.css:18:5
+  --> $DIR/tests/fixture/value/url/input.css:19:5
    |
-18 |     --foo: "http://www.example.com/pinkish.gif";
+19 |     --foo: "http://www.example.com/pinkish.gif";
    |     ^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/url/input.css:18:11
+  --> $DIR/tests/fixture/value/url/input.css:19:11
    |
-18 |     --foo: "http://www.example.com/pinkish.gif";
+19 |     --foo: "http://www.example.com/pinkish.gif";
    |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/url/input.css:18:11
+  --> $DIR/tests/fixture/value/url/input.css:19:11
    |
-18 |     --foo: "http://www.example.com/pinkish.gif";
+19 |     --foo: "http://www.example.com/pinkish.gif";
    |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/url/input.css:18:11
+  --> $DIR/tests/fixture/value/url/input.css:19:11
    |
-18 |     --foo: "http://www.example.com/pinkish.gif";
+19 |     --foo: "http://www.example.com/pinkish.gif";
    |           ^
 
 error: Str { value: Atom('http://www.example.com/pinkish.gif' type=dynamic), raw: Atom('"http://www.example.com/pinkish.gif"' type=dynamic) }
-  --> $DIR/tests/fixture/value/url/input.css:18:12
+  --> $DIR/tests/fixture/value/url/input.css:19:12
    |
-18 |     --foo: "http://www.example.com/pinkish.gif";
+19 |     --foo: "http://www.example.com/pinkish.gif";
    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
-  --> $DIR/tests/fixture/value/url/input.css:20:5
+  --> $DIR/tests/fixture/value/url/input.css:21:5
    |
-20 |     background: src("http://www.example.com/pinkish.gif");
+21 |     background: src("http://www.example.com/pinkish.gif");
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/value/url/input.css:20:5
+  --> $DIR/tests/fixture/value/url/input.css:21:5
    |
-20 |     background: src("http://www.example.com/pinkish.gif");
+21 |     background: src("http://www.example.com/pinkish.gif");
    |     ^^^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/url/input.css:20:17
+  --> $DIR/tests/fixture/value/url/input.css:21:17
    |
-20 |     background: src("http://www.example.com/pinkish.gif");
+21 |     background: src("http://www.example.com/pinkish.gif");
    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Url
-  --> $DIR/tests/fixture/value/url/input.css:20:17
+  --> $DIR/tests/fixture/value/url/input.css:21:17
    |
-20 |     background: src("http://www.example.com/pinkish.gif");
+21 |     background: src("http://www.example.com/pinkish.gif");
    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/value/url/input.css:20:17
+  --> $DIR/tests/fixture/value/url/input.css:21:17
    |
-20 |     background: src("http://www.example.com/pinkish.gif");
+21 |     background: src("http://www.example.com/pinkish.gif");
    |                 ^^^
 
 error: UrlValue
-  --> $DIR/tests/fixture/value/url/input.css:20:21
+  --> $DIR/tests/fixture/value/url/input.css:21:21
    |
-20 |     background: src("http://www.example.com/pinkish.gif");
+21 |     background: src("http://www.example.com/pinkish.gif");
    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Str
-  --> $DIR/tests/fixture/value/url/input.css:20:21
+  --> $DIR/tests/fixture/value/url/input.css:21:21
    |
-20 |     background: src("http://www.example.com/pinkish.gif");
+21 |     background: src("http://www.example.com/pinkish.gif");
    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
-  --> $DIR/tests/fixture/value/url/input.css:21:5
+  --> $DIR/tests/fixture/value/url/input.css:22:5
    |
-21 |     background: SRC("http://www.example.com/pinkish.gif");
+22 |     background: SRC("http://www.example.com/pinkish.gif");
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/value/url/input.css:21:5
+  --> $DIR/tests/fixture/value/url/input.css:22:5
    |
-21 |     background: SRC("http://www.example.com/pinkish.gif");
+22 |     background: SRC("http://www.example.com/pinkish.gif");
    |     ^^^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/url/input.css:21:17
+  --> $DIR/tests/fixture/value/url/input.css:22:17
    |
-21 |     background: SRC("http://www.example.com/pinkish.gif");
+22 |     background: SRC("http://www.example.com/pinkish.gif");
    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Url
-  --> $DIR/tests/fixture/value/url/input.css:21:17
+  --> $DIR/tests/fixture/value/url/input.css:22:17
    |
-21 |     background: SRC("http://www.example.com/pinkish.gif");
+22 |     background: SRC("http://www.example.com/pinkish.gif");
    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/value/url/input.css:21:17
+  --> $DIR/tests/fixture/value/url/input.css:22:17
    |
-21 |     background: SRC("http://www.example.com/pinkish.gif");
+22 |     background: SRC("http://www.example.com/pinkish.gif");
    |                 ^^^
 
 error: UrlValue
-  --> $DIR/tests/fixture/value/url/input.css:21:21
+  --> $DIR/tests/fixture/value/url/input.css:22:21
    |
-21 |     background: SRC("http://www.example.com/pinkish.gif");
+22 |     background: SRC("http://www.example.com/pinkish.gif");
    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Str
-  --> $DIR/tests/fixture/value/url/input.css:21:21
+  --> $DIR/tests/fixture/value/url/input.css:22:21
    |
-21 |     background: SRC("http://www.example.com/pinkish.gif");
+22 |     background: SRC("http://www.example.com/pinkish.gif");
    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/url/input.css:23:5
+   |
+23 |     background: src(var(--foo));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:23:5
+   |
+23 |     background: src(var(--foo));
+   |     ^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/url/input.css:23:17
+   |
+23 |     background: src(var(--foo));
+   |                 ^^^^^^^^^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/value/url/input.css:23:17
+   |
+23 |     background: src(var(--foo));
+   |                 ^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:23:17
+   |
+23 |     background: src(var(--foo));
+   |                 ^^^
+
+error: UrlModifier
+  --> $DIR/tests/fixture/value/url/input.css:23:21
+   |
+23 |     background: src(var(--foo));
+   |                     ^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/url/input.css:23:21
+   |
+23 |     background: src(var(--foo));
+   |                     ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:23:21
+   |
+23 |     background: src(var(--foo));
+   |                     ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/url/input.css:23:25
+   |
+23 |     background: src(var(--foo));
+   |                         ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:23:25
+   |
+23 |     background: src(var(--foo));
+   |                         ^^^^^
 

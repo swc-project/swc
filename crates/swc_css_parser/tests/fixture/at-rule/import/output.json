@@ -40,7 +40,7 @@
           "value": "./style.css",
           "raw": "\"./style.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -80,7 +80,7 @@
           "value": "./style.css",
           "raw": "'./style.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -202,7 +202,7 @@
           "value": "./style.css",
           "raw": "\"./style.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -282,7 +282,7 @@
           "value": "./style.css",
           "raw": "\"./style.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -393,7 +393,7 @@
           "value": "landscape.css",
           "raw": "'landscape.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -499,7 +499,7 @@
           "value": "theme.css",
           "raw": "\"theme.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Identifier",
@@ -548,7 +548,7 @@
           "value": "theme.css",
           "raw": "\"theme.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Identifier",
@@ -597,7 +597,7 @@
           "value": "theme.css",
           "raw": "\"theme.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Identifier",
@@ -646,7 +646,7 @@
           "value": "theme.css",
           "raw": "\"theme.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Function",
@@ -715,7 +715,7 @@
           "value": "theme.css",
           "raw": "\"theme.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Function",
@@ -784,7 +784,7 @@
           "value": "override.css",
           "raw": "\"override.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Function",
@@ -842,7 +842,7 @@
           "value": "narrow.css",
           "raw": "\"narrow.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": {
@@ -995,7 +995,7 @@
           "value": "narrow.css",
           "raw": "\"narrow.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": {
@@ -1148,7 +1148,7 @@
           "value": "fallback-layout.css",
           "raw": "\"fallback-layout.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": {
@@ -1276,7 +1276,7 @@
           "value": "test.css",
           "raw": "'test.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -1316,7 +1316,7 @@
           "value": "test.css",
           "raw": "\"test.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -1636,7 +1636,7 @@
           "value": "",
           "raw": "''"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -1676,7 +1676,7 @@
           "value": "",
           "raw": "\"\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -1882,7 +1882,7 @@
           "value": "",
           "raw": "''"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -1922,7 +1922,7 @@
           "value": "",
           "raw": "\"\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -2386,7 +2386,7 @@
           "value": "//example.com/style.css",
           "raw": "\"//example.com/style.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -2466,7 +2466,7 @@
           "value": "https://fonts.googleapis.com/css?family=Roboto",
           "raw": "'https://fonts.googleapis.com/css?family=Roboto'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -2506,7 +2506,7 @@
           "value": "https://fonts.googleapis.com/css?family=Noto+Sans+TC",
           "raw": "'https://fonts.googleapis.com/css?family=Noto+Sans+TC'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -2546,7 +2546,7 @@
           "value": "https://fonts.googleapis.com/css?family=Noto+Sans+TC|Roboto",
           "raw": "'https://fonts.googleapis.com/css?family=Noto+Sans+TC|Roboto'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -2586,7 +2586,7 @@
           "value": "./relative.css",
           "raw": "'./relative.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -2626,7 +2626,7 @@
           "value": "../import/top-relative.css",
           "raw": "'../import/top-relative.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -2746,7 +2746,7 @@
           "value": "./url.css",
           "raw": "'./url.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -2868,7 +2868,7 @@
           "value": "./test.css",
           "raw": "'./te\\\nst.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -2908,7 +2908,7 @@
           "value": "./test.css",
           "raw": "'./te\\\n\\\n\\\nst.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -2969,7 +2969,7 @@
           "value": "./te'st.css",
           "raw": "\"./te'st.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -3030,7 +3030,7 @@
           "value": "./te'st.css",
           "raw": "'./te\\'st.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -3091,7 +3091,7 @@
           "value": "./test test.css",
           "raw": "'./test test.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -3152,7 +3152,7 @@
           "value": "./test test.css",
           "raw": "'./test\\ test.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -3213,7 +3213,7 @@
           "value": "./test%20test.css",
           "raw": "'./test%20test.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -3274,7 +3274,7 @@
           "value": "./test.css",
           "raw": "'./\\74\\65\\73\\74.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -3335,7 +3335,7 @@
           "value": "./test.css",
           "raw": "'./t\\65\\73\\74.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -3455,7 +3455,7 @@
           "value": "./test%20test.css",
           "raw": "'./t\\65st%20test.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -3495,7 +3495,7 @@
           "value": "./test%20test.css",
           "raw": "\"./t\\65st%20test.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -3638,7 +3638,7 @@
           "value": "!!../../helpers/string-loader.js?esModule=false!~package/tilde.css",
           "raw": "'!!../../helpers/string-loader.js?esModule=false!~package/tilde.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -4104,7 +4104,7 @@
           "value": "   ./test.css   ",
           "raw": "'   ./test.css   '"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -4205,7 +4205,7 @@
           "value": "   https://fonts.googleapis.com/css?family=Roboto   ",
           "raw": "'   https://fonts.googleapis.com/css?family=Roboto   '"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -4245,7 +4245,7 @@
           "value": "!!../../helpers/string-loader.js?esModule=false!",
           "raw": "'!!../../helpers/string-loader.js?esModule=false!'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -4285,7 +4285,7 @@
           "value": "   !!../../helpers/string-loader.js?esModule=false!~package/tilde.css   ",
           "raw": "'   !!../../helpers/string-loader.js?esModule=false!~package/tilde.css   '"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -4445,7 +4445,7 @@
           "value": "./test.css",
           "raw": "\"./test.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": {
@@ -4515,7 +4515,7 @@
           "value": "./test.css",
           "raw": "\"./test.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": {
@@ -4589,7 +4589,7 @@
           "value": "./test.css",
           "raw": "\"./test.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": {
@@ -4742,7 +4742,7 @@
           "value": "./test.css",
           "raw": "\"./test.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Identifier",
@@ -4791,7 +4791,7 @@
           "value": "./test.css",
           "raw": "\"./test.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Function",
@@ -4860,7 +4860,7 @@
           "value": "./test.css",
           "raw": "\"./test.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Function",
@@ -5042,7 +5042,7 @@
           "value": "./test.css",
           "raw": "\"./test.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Identifier",
@@ -5204,7 +5204,7 @@
           "value": "./test.css",
           "raw": "\"./test.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Function",
@@ -5375,7 +5375,7 @@
           "value": "./test.css",
           "raw": "\"./test.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Function",
@@ -5433,7 +5433,7 @@
           "value": "http://example.com/style.css",
           "raw": "\"http://example.com/style.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": {
@@ -5586,7 +5586,7 @@
           "value": "./test.css",
           "raw": "\"./test.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Function",
@@ -5768,7 +5768,7 @@
           "value": "./test.css",
           "raw": "\"./test.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -5891,7 +5891,7 @@
           "value": "./test.css",
           "raw": "\"./test.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Function",
@@ -6365,7 +6365,7 @@
           "value": "./deep-import-with-media.css",
           "raw": "\"./deep-import-with-media.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
@@ -6462,7 +6462,7 @@
           "value": "./import-with-supports.css",
           "raw": "\"./import-with-supports.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": {
@@ -6532,7 +6532,7 @@
           "value": "./import-with-supports.css",
           "raw": "\"./import-with-supports.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": {
@@ -6622,7 +6622,7 @@
           "value": "./deep-import-with-supports.css",
           "raw": "\"./deep-import-with-supports.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": {
@@ -6692,7 +6692,7 @@
           "value": "./test.css",
           "raw": "'./test.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": {
@@ -6762,7 +6762,7 @@
           "value": "./test.css",
           "raw": "'./test.css'"
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": {
@@ -6832,7 +6832,7 @@
           "value": "./import-with-supports-and-media.css",
           "raw": "\"./import-with-supports-and-media.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": {
@@ -6985,7 +6985,7 @@
           "value": "./test.css",
           "raw": "\"./test.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Function",
@@ -7054,7 +7054,7 @@
           "value": "./import-multiple-with-layer.css",
           "raw": "\"./import-multiple-with-layer.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Function",
@@ -7123,7 +7123,7 @@
           "value": "./import-unnamed-layer.css",
           "raw": "\"./import-unnamed-layer.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Function",
@@ -7192,7 +7192,7 @@
           "value": "./import-with-layer-and-supports.css",
           "raw": "\"./import-with-layer-and-supports.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": {
         "type": "Function",

@@ -885,7 +885,15 @@ where
     fn emit_url(&mut self, n: &Url) -> Result {
         emit!(self, n.name);
         punct!(self, "(");
-        emit!(self, n.value);
+
+        if let Some(value) = &n.value {
+            emit!(self, value);
+        }
+
+        if let Some(modifiers) = &n.modifiers {
+            self.emit_list(&modifiers, ListFormat::SpaceDelimited)?;
+        }
+
         punct!(self, ")");
     }
 
@@ -900,6 +908,14 @@ where
     #[emitter]
     fn emit_url_value_raw(&mut self, n: &UrlValueRaw) -> Result {
         self.wr.write_raw(Some(n.span), &n.raw)?;
+    }
+
+    #[emitter]
+    fn emit_url_modifier(&mut self, n: &UrlModifier) -> Result {
+        match n {
+            UrlModifier::Ident(n) => emit!(self, n),
+            UrlModifier::Function(n) => emit!(self, n),
+        }
     }
 
     #[emitter]

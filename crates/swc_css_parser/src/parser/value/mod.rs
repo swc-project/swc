@@ -803,7 +803,7 @@ where
                     raw: "url".into(),
                 };
 
-                let value = UrlValue::Raw(UrlValueRaw {
+                let value = Some(UrlValue::Raw(UrlValueRaw {
                     span: swc_common::Span::new(
                         span.lo + BytePos(4),
                         span.hi - BytePos(1),
@@ -811,7 +811,7 @@ where
                     ),
                     value,
                     raw,
-                });
+                }));
 
                 Ok(Url {
                     span: span!(self, span.lo),
@@ -839,26 +839,41 @@ where
                 self.input.skip_ws()?;
 
                 let value = match cur!(self) {
-                    tok!("str") => UrlValue::Str(self.parse()?),
-                    _ => {
-                        return Err(Error::new(span, ErrorKind::Expected("string")));
-                    }
+                    tok!("str") => Some(UrlValue::Str(self.parse()?)),
+                    _ => None,
                 };
 
                 self.input.skip_ws()?;
 
-                // TODO improve me
-                let modifiers = None;
+                let mut modifiers = vec![];
+
+                loop {
+                    if is!(self, ")") {
+                        break;
+                    }
+
+                    match cur!(self) {
+                        tok!("ident") => {
+                            modifiers.push(UrlModifier::Ident(self.parse()?));
+                        }
+                        tok!("function") => {
+                            modifiers.push(UrlModifier::Function(self.parse()?));
+                        }
+                        _ => {
+                            return Err(Error::new(span, ErrorKind::Expected("ident or function")));
+                        }
+                    }
+
+                    self.input.skip_ws()?;
+                }
 
                 expect!(self, ")");
-
-                println!("{:?}", self.input.cur());
 
                 Ok(Url {
                     span: span!(self, span.lo),
                     name,
                     value,
-                    modifiers,
+                    modifiers: Some(modifiers),
                 })
             }
             _ => {

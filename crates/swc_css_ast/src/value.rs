@@ -161,8 +161,8 @@ pub struct SimpleBlock {
 pub struct Url {
     pub span: Span,
     pub name: Ident,
-    pub value: UrlValue,
-    pub modifiers: Option<Vec<Value>>,
+    pub value: Option<UrlValue>,
+    pub modifiers: Option<Vec<UrlModifier>>,
 }
 
 #[ast_node]

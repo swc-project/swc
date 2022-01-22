@@ -97,7 +97,7 @@
                   "value": "/fonts/OpenSans-Regular-webfont.woff2",
                   "raw": "\"/fonts/OpenSans-Regular-webfont.woff2\""
                 },
-                "modifiers": null
+                "modifiers": []
               },
               {
                 "type": "CommaValues",
@@ -164,7 +164,7 @@
                       "value": "/fonts/OpenSans-Regular-webfont.woff",
                       "raw": "\"/fonts/OpenSans-Regular-webfont.woff\""
                     },
-                    "modifiers": null
+                    "modifiers": []
                   }
                 ]
               },

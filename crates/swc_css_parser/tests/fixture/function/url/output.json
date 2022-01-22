@@ -165,7 +165,7 @@
                   "value": "./image (1).jpg",
                   "raw": "\"./image (1).jpg\""
                 },
-                "modifiers": null
+                "modifiers": []
               }
             ],
             "important": null
@@ -215,7 +215,7 @@
                   "value": "./image (1).jpg",
                   "raw": "'./image (1).jpg'"
                 },
-                "modifiers": null
+                "modifiers": []
               }
             ],
             "important": null
@@ -265,7 +265,7 @@
                   "value": "./image (1).jpg",
                   "raw": "'./image (1).jpg'"
                 },
-                "modifiers": null
+                "modifiers": []
               }
             ],
             "important": null
@@ -315,7 +315,7 @@
                   "value": "./image (1).jpg",
                   "raw": "'./image (1).jpg'"
                 },
-                "modifiers": null
+                "modifiers": []
               }
             ],
             "important": null
@@ -365,7 +365,7 @@
                   "value": "./image (1).jpg",
                   "raw": "'./image (1).jpg'"
                 },
-                "modifiers": null
+                "modifiers": []
               }
             ],
             "important": null
@@ -415,7 +415,7 @@
                   "value": "./image (1).jpg",
                   "raw": "'./image (1).jpg'"
                 },
-                "modifiers": null
+                "modifiers": []
               }
             ],
             "important": null
@@ -465,7 +465,7 @@
                   "value": "./image (1).jpg",
                   "raw": "'./image (1).jpg'"
                 },
-                "modifiers": null
+                "modifiers": []
               }
             ],
             "important": null
@@ -615,7 +615,7 @@
                   "value": "",
                   "raw": "\"\""
                 },
-                "modifiers": null
+                "modifiers": []
               }
             ],
             "important": null
@@ -665,7 +665,7 @@
                   "value": "",
                   "raw": "\"\""
                 },
-                "modifiers": null
+                "modifiers": []
               }
             ],
             "important": null
@@ -715,7 +715,7 @@
                   "value": "",
                   "raw": "''"
                 },
-                "modifiers": null
+                "modifiers": []
               }
             ],
             "important": null
@@ -765,7 +765,7 @@
                   "value": "",
                   "raw": "''"
                 },
-                "modifiers": null
+                "modifiers": []
               }
             ],
             "important": null
@@ -815,7 +815,7 @@
                   "value": " ",
                   "raw": "' '"
                 },
-                "modifiers": null
+                "modifiers": []
               }
             ],
             "important": null

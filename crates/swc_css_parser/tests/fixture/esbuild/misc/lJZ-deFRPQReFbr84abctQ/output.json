@@ -40,7 +40,7 @@
           "value": "foo.css",
           "raw": "\"foo.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,

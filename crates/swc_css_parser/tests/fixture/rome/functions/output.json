@@ -330,7 +330,7 @@
                   "value": "",
                   "raw": "\"\""
                 },
-                "modifiers": null
+                "modifiers": []
               }
             ],
             "important": null
@@ -380,7 +380,7 @@
                   "value": "something",
                   "raw": "\"something\""
                 },
-                "modifiers": null
+                "modifiers": []
               }
             ],
             "important": null
@@ -430,7 +430,7 @@
                   "value": "./something",
                   "raw": "\"./something\""
                 },
-                "modifiers": null
+                "modifiers": []
               }
             ],
             "important": null

@@ -126,7 +126,7 @@
           "value": "http://www.w3.org/1999/xhtml",
           "raw": "\"http://www.w3.org/1999/xhtml\""
         },
-        "modifiers": null
+        "modifiers": []
       }
     },
     {
@@ -220,7 +220,7 @@
           "value": "http://www.w3.org/2000/svg",
           "raw": "\"http://www.w3.org/2000/svg\""
         },
-        "modifiers": null
+        "modifiers": []
       }
     },
     {

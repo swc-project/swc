@@ -61,7 +61,7 @@
           "value": "something.css",
           "raw": "\"something.css\""
         },
-        "modifiers": null
+        "modifiers": []
       },
       "layerName": null,
       "supports": null,
