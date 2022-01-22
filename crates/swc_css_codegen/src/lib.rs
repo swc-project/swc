@@ -883,6 +883,27 @@ where
     }
 
     #[emitter]
+    fn emit_url(&mut self, n: &Url) -> Result {
+        emit!(self, n.name);
+        punct!(self, "(");
+        emit!(self, n.value);
+        punct!(self, ")");
+    }
+
+    #[emitter]
+    fn emit_url_value_type(&mut self, n: &UrlValueType) -> Result {
+        match n {
+            UrlValueType::Raw(n) => emit!(self, n),
+            UrlValueType::Str(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_url_value_raw(&mut self, n: &UrlValueRaw) -> Result {
+        self.wr.write_raw(Some(n.span), &n.raw)?;
+    }
+
+    #[emitter]
     fn emit_url_value(&mut self, n: &UrlValue) -> Result {
         keyword!(self, "url");
         punct!(self, "(");
