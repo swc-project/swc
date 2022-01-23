@@ -39,7 +39,6 @@ impl VisitMut for ConsoleOutputReplacer {
 /// manually need to be performed like transformed results back to host. Refer swc_plugin_macro
 /// how does it work internally.
 #[plugin_module]
-pub fn process(program: Program, _plugin_config: String) -> Result<Program, PluginError> {
-    let transformed_program = program.fold_with(&mut as_folder(ConsoleOutputReplacer));
-    Ok(transformed_program)
+pub fn process(program: Program, _plugin_config: String) -> Program {
+    program.fold_with(&mut as_folder(ConsoleOutputReplacer))
 }
