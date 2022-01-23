@@ -137,6 +137,7 @@ impl TestBuilder {
                         disable_dce: false,
                         external_modules: vec![],
                         module: Default::default(),
+                        preserve_symlinks: true,
                     },
                     Box::new(Hook),
                 );
