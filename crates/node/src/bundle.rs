@@ -89,6 +89,7 @@ impl Task for BundleTask {
                                 .cloned(),
                         )
                         .collect(),
+                    preserve_symlinks: self.config.static_items.config.preserve_symlinks,
                     ..Default::default()
                 },
                 Box::new(Hook),

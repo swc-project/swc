@@ -58,9 +58,11 @@ where
                 .resolver
                 .resolve(base, module_specifier)
                 .with_context(|| format!("failed to resolve {} from {}", module_specifier, base))?;
-            if let FileName::Real(ref mut p) = path {
-                if let Ok(absolute) = p.canonicalize() {
-                    *p = absolute
+            if !self.config.preserve_symlinks {
+                if let FileName::Real(ref mut p) = path {
+                    if let Ok(absolute) = p.canonicalize() {
+                        *p = absolute
+                    }
                 }
             }
             let path = Lrc::new(path);

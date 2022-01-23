@@ -44,6 +44,9 @@ pub struct Config {
 
     /// Type of emitted module
     pub module: ModuleType,
+
+    /// If it's false, try to find the real path.
+    pub preserve_symlinks: bool,
 }
 
 #[derive(Debug, PartialEq, Eq, Hash)]
