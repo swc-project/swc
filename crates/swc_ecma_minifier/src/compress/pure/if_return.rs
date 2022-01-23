@@ -99,6 +99,19 @@ impl<M> Pure<'_, M> {
             _ => return,
         };
 
+        // If we negate a block, these variables will have narrower scope.
+        if stmts[pos_of_if..].iter().any(|s| {
+            matches!(
+                s,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    kind: VarDeclKind::Const | VarDeclKind::Let,
+                    ..
+                }))
+            )
+        }) {
+            return;
+        }
+
         self.changed = true;
         tracing::debug!(
             "if_return: Negating `foo` in `if (foo) return; bar()` to make it `if (!foo) bar()`"
