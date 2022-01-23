@@ -37,6 +37,12 @@
 
 - **(node)** Avoid cloning options (#3325) ([8a76935](https://github.com/swc-project/swc/commit/8a76935ca261579f23519d1e2c3b7849ba75a6e0))
 
+### Refactor
+
+
+
+- **(css/ast)** Merge several kinds of blocks into a single type (#3336) ([c664eaf](https://github.com/swc-project/swc/commit/c664eafdefe2b8a65d3d745e4538063a33f93346))
+
 ## [1.2.133] - 2022-01-20
 
 ### Bug Fixes
