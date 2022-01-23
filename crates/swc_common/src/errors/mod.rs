@@ -44,6 +44,10 @@ mod styled_buffer;
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
 )]
+#[cfg_attr(
+    feature = "plugin-base",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub enum Applicability {
     MachineApplicable,
     HasPlaceholders,
@@ -55,6 +59,10 @@ pub enum Applicability {
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
+)]
+#[cfg_attr(
+    feature = "plugin-base",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub struct CodeSuggestion {
     /// Each substitute can have multiple variants due to multiple
@@ -103,6 +111,10 @@ pub struct CodeSuggestion {
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
 )]
+#[cfg_attr(
+    feature = "plugin-base",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct Substitution {
     pub parts: Vec<SubstitutionPart>,
 }
@@ -111,6 +123,10 @@ pub struct Substitution {
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
+)]
+#[cfg_attr(
+    feature = "plugin-base",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub struct SubstitutionPart {
     pub span: Span,
@@ -785,6 +801,10 @@ impl Handler {
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
+)]
+#[cfg_attr(
+    feature = "plugin-base",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub enum Level {
     Bug,
