@@ -549,16 +549,16 @@ where
                                 raw_name: ref mut raw_url_name,
                                 ..
                             } => {
-                                *url_name = name.0.into();
-                                *raw_url_name = name.1.into();
+                                *url_name = name.0;
+                                *raw_url_name = name.1;
                             }
                             Token::BadUrl {
                                 name: ref mut url_name,
                                 raw_name: ref mut raw_url_name,
                                 ..
                             } => {
-                                *url_name = name.0.into();
-                                *raw_url_name = name.1.into();
+                                *url_name = name.0;
+                                *raw_url_name = name.1;
                             }
                             _ => {}
                         }
@@ -1243,7 +1243,7 @@ where
             }
         }
 
-        return Ok((value, raw));
+        Ok((value, raw))
     }
 }
 

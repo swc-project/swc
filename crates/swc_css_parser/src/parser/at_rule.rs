@@ -1260,9 +1260,7 @@ where
                     right,
                 }))
             }
-            _ => {
-                return Err(Error::new(span, ErrorKind::Expected("identifier value")));
-            }
+            _ => Err(Error::new(span, ErrorKind::Expected("identifier value"))),
         }
     }
 }
@@ -1292,16 +1290,14 @@ where
                     }));
                 }
 
-                return Ok(MediaFeatureValue::Number(left));
+                Ok(MediaFeatureValue::Number(left))
             }
             Token::Ident { .. } => Ok(MediaFeatureValue::Ident(self.parse()?)),
             Token::Dimension { .. } => Ok(MediaFeatureValue::Dimension(self.parse()?)),
-            _ => {
-                return Err(Error::new(
-                    span,
-                    ErrorKind::Expected("number, dimension, identifier or ration value"),
-                ));
-            }
+            _ => Err(Error::new(
+                span,
+                ErrorKind::Expected("number, dimension, identifier or ration value"),
+            )),
         }
     }
 }

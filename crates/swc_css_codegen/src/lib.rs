@@ -899,7 +899,7 @@ where
         }
 
         if let Some(modifiers) = &n.modifiers {
-            self.emit_list(&modifiers, ListFormat::SpaceDelimited)?;
+            self.emit_list(modifiers, ListFormat::SpaceDelimited)?;
         }
 
         punct!(self, ")");

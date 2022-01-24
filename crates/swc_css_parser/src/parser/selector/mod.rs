@@ -507,8 +507,8 @@ where
                             }
                         };
 
-                        let has_minus_sign = ident_value.chars().nth(0) == Some('-');
-                        let n_char = if has_minus_sign { ident_value.chars().nth(1) } else { ident_value.chars().nth(0) };
+                        let has_minus_sign = ident_value.chars().next() == Some('-');
+                        let n_char = if has_minus_sign { ident_value.chars().nth(1) } else { ident_value.chars().next() };
 
                         if n_char != Some('n') && n_char != Some('N') {
                             return Err(Error::new(
@@ -530,7 +530,7 @@ where
                             }
                         };
 
-                        let n_char = dimension.2.chars().nth(0);
+                        let n_char = dimension.2.chars().next();
 
                         if n_char != Some('n') && n_char != Some('N') {
                             return Err(Error::new(
@@ -540,7 +540,7 @@ where
                         }
 
                         a = Some(dimension.0 as i32);
-                        a_raw = Some(dimension.1.into());
+                        a_raw = Some(dimension.1);
 
                         n_value =  (*dimension.2).to_string();
                     }
@@ -582,7 +582,7 @@ where
                             }
                         };
 
-                        b = Some(-1 * num.0 as i32);
+                        b = Some(-num.0 as i32);
 
                         let mut b_raw_str = String::new();
 
@@ -632,7 +632,7 @@ where
                             )
                         });
 
-                        b = Some(-1 * parsed);
+                        b = Some(-parsed);
 
                         let mut b_raw_str = String::new();
 
@@ -890,7 +890,7 @@ where
 
         let span = span!(self, start_pos);
 
-        if nesting_selector.is_none() && type_selector.is_none() && subclass_selectors.len() == 0 {
+        if nesting_selector.is_none() && type_selector.is_none() && subclass_selectors.is_empty() {
             return Err(Error::new(span, ErrorKind::InvalidSelector));
         }
 
