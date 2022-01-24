@@ -83,20 +83,33 @@ enum StringOrBool {
 pub struct NodeModulesResolver {
     target_env: TargetEnv,
     alias: AHashMap<String, String>,
+    // if true do not resolve symlink
+    preserve_symlinks: bool,
 }
 
 static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
 
 impl NodeModulesResolver {
     /// Create a node modules resolver for the target runtime environment.
-    pub fn new(target_env: TargetEnv, alias: AHashMap<String, String>) -> Self {
-        Self { target_env, alias }
+    pub fn new(
+        target_env: TargetEnv,
+        alias: AHashMap<String, String>,
+        preserve_symlinks: bool,
+    ) -> Self {
+        Self {
+            target_env,
+            alias,
+            preserve_symlinks,
+        }
     }
 
     fn wrap(&self, path: Option<PathBuf>) -> Result<FileName, Error> {
         if let Some(path) = path {
-            let path = path.clean();
-            return Ok(FileName::Real(path));
+            if self.preserve_symlinks {
+                return Ok(FileName::Real(path.clean()));
+            } else {
+                return Ok(FileName::Real(path.canonicalize()?));
+            }
         }
         bail!("index not found")
     }

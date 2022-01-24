@@ -51,6 +51,9 @@ pub struct Config {
 
     #[serde(default)]
     pub alias: AHashMap<TargetEnv, AHashMap<String, String>>,
+
+    #[serde(default)]
+    pub preserve_symlinks: bool,
 }
 
 impl Config {
