@@ -53,7 +53,7 @@ pub struct Config {
     pub alias: AHashMap<TargetEnv, AHashMap<String, String>>,
 
     #[serde(default)]
-    pub resolve_symlinks: bool,
+    pub preserve_symlinks: bool,
 }
 
 impl Config {

@@ -226,13 +226,13 @@ pub(crate) fn bundle(
             alias,
             base_url,
             paths,
-            static_items.config.resolve_symlinks,
+            static_items.config.preserve_symlinks,
         ))
     } else {
         Box::new(environment_resolver(
             target_env,
             alias,
-            static_items.config.resolve_symlinks,
+            static_items.config.preserve_symlinks,
         ))
     };
 

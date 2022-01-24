@@ -83,7 +83,8 @@ enum StringOrBool {
 pub struct NodeModulesResolver {
     target_env: TargetEnv,
     alias: AHashMap<String, String>,
-    resolve_symlinks: bool,
+    // if true do not resolve symlink
+    preserve_symlinks: bool,
 }
 
 static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
@@ -93,19 +94,22 @@ impl NodeModulesResolver {
     pub fn new(
         target_env: TargetEnv,
         alias: AHashMap<String, String>,
-        resolve_symlinks: bool,
+        preserve_symlinks: bool,
     ) -> Self {
         Self {
             target_env,
             alias,
-            resolve_symlinks,
+            preserve_symlinks,
         }
     }
 
     fn wrap(&self, path: Option<PathBuf>) -> Result<FileName, Error> {
         if let Some(path) = path {
-            let path = path.clean();
-            return Ok(FileName::Real(path));
+            if self.preserve_symlinks {
+                return Ok(FileName::Real(path.clean()));
+            } else {
+                return Ok(FileName::Real(path.canonicalize()?));
+            }
         }
         bail!("index not found")
     }
@@ -314,18 +318,10 @@ impl Resolve for NodeModulesResolver {
             target, base, self.target_env
         );
 
-        let mut base = match base {
+        let base = match base {
             FileName::Real(v) => v,
             _ => bail!("node-resolver supports only files"),
         };
-        let abs_path = if self.resolve_symlinks {
-            Some(base.canonicalize()?)
-        } else {
-            None
-        };
-        if let Some(ref path) = abs_path {
-            base = path
-        }
 
         let base_dir = if base.is_file() {
             let cwd = &Path::new(".");

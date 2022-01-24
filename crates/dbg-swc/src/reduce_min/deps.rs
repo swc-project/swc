@@ -20,6 +20,7 @@ pub fn collect_deps(cm: Arc<SourceMap>, working_dir: &Path, entry: &Path) -> Res
         resolver: Box::new(NodeModulesResolver::new(
             TargetEnv::Node,
             Default::default(),
+            false
         )),
     };
 
