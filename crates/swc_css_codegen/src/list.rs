@@ -27,13 +27,12 @@ add_bitflags!(
         /// There is no delimiter between list items (default).
         NotDelimited: 0,
         SpaceDelimited: 1 << 2,
-        SemiDelimited: 1 << 3,
-        CommaDelimited: 1 << 4,
-        DotDelimited: 1 << 5,
-        DelimitersMask: SpaceDelimited | SemiDelimited | CommaDelimited | DotDelimited,
+        CommaDelimited: 1 << 3,
+        DotDelimited: 1 << 4,
+        DelimitersMask: SpaceDelimited | CommaDelimited | DotDelimited,
     },
     Values {
         /// Write a trailing comma (",") if present.
-        AllowTrailingComma: 1 << 6,
+        AllowTrailingComma: 1 << 5,
     },
 );

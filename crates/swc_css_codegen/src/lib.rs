@@ -581,8 +581,7 @@ where
         }
 
         punct!(self, "{");
-        // TODO avoid using `SemiDelimited`
-        self.emit_list(&n.block, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
+        self.emit_list(&n.block, ListFormat::MultiLine)?;
         punct!(self, "}");
     }
 
@@ -619,8 +618,7 @@ where
         emit!(self, n.name);
         space!(self);
         punct!(self, "{");
-        // TODO avoid using `SemiDelimited`
-        self.emit_list(&n.block, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
+        self.emit_list(&n.block, ListFormat::MultiLine)?;
         punct!(self, "}");
     }
 
@@ -842,6 +840,7 @@ where
                 ListFormat::SemiDelimited | ListFormat::MultiLine
             },
         )?;
+        self.emit_list(&n.value, ListFormat::MultiLine)?;
 
         punct!(self, "}");
     }
@@ -849,7 +848,12 @@ where
     #[emitter]
     fn emit_declaration_block_item(&mut self, n: &DeclarationBlockItem) -> Result {
         match n {
-            DeclarationBlockItem::Declaration(n) => emit!(self, n),
+            DeclarationBlockItem::Declaration(n) => {
+                emit!(self, n);
+
+                // TODO implement ListFormat::DotAtEnd to avoid writting `;` in minify mode
+                punct!(self, ";");
+            }
             DeclarationBlockItem::AtRule(n) => emit!(self, n),
             DeclarationBlockItem::Invalid(n) => emit!(self, n),
         }
@@ -896,10 +900,6 @@ where
             }
 
             emit!(self, n.important);
-        }
-
-        if self.ctx.semi_after_property {
-            punct!(self, ";");
         }
     }
 
@@ -1508,9 +1508,6 @@ where
             }
             ListFormat::SpaceDelimited => {
                 space!(self)
-            }
-            ListFormat::SemiDelimited => {
-                punct!(self, ";")
             }
             ListFormat::DotDelimited => {
                 punct!(self, ".");
