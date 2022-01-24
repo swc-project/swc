@@ -8,7 +8,6 @@ collapse_vars/cascade_conditional/input.js
 collapse_vars/cascade_statement/input.js
 collapse_vars/cascade_switch/input.js
 collapse_vars/collapse_vars_arguments/input.js
-collapse_vars/collapse_vars_array/input.js
 collapse_vars/collapse_vars_assignment/input.js
 collapse_vars/collapse_vars_constants/input.js
 collapse_vars/collapse_vars_do_while/input.js
