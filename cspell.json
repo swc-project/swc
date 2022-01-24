@@ -108,6 +108,7 @@
         "Paren",
         "pmutil",
         "pointee",
+        "polonius",
         "prec",
         "PREC",
         "proto",
