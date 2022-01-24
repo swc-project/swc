@@ -40,6 +40,9 @@
 
 - **(es/bugfix)** Add `bugfix-safari-id-destructuring-collision-in-function-expression` (#3109) ([d1c90a4](https://github.com/swc-project/swc/commit/d1c90a4e5f2ddfc71c6143ef07e16af352da25fa))
 
+
+- **(es/minifier)** Handle array literals in `sequences` (#3348) ([8007b2d](https://github.com/swc-project/swc/commit/8007b2dc9338e34a1e9780606fd35181890af990))
+
 ### Performance
 
 
@@ -51,6 +54,9 @@
 
 
 - **(css/ast)** Merge several kinds of blocks into a single type (#3336) ([c664eaf](https://github.com/swc-project/swc/commit/c664eafdefe2b8a65d3d745e4538063a33f93346))
+
+
+- **(plugin)** Remove multivalue polyfill (#3346) ([4386498](https://github.com/swc-project/swc/commit/438649818fb7e7b1ef6cddf5ba244f80cf7e69a9))
 
 ## [1.2.133] - 2022-01-20
 
