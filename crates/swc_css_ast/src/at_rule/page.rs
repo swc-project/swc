@@ -4,19 +4,34 @@ use swc_common::{ast_node, Span};
 #[ast_node("PageRule")]
 pub struct PageRule {
     pub span: Span,
-
-    pub prelude: Vec<PageSelector>,
-
+    pub prelude: Option<PageSelectorList>,
     pub block: PageRuleBlock,
+}
+
+#[ast_node]
+pub struct PageSelectorList {
+    pub span: Span,
+    pub selectors: Vec<PageSelector>,
 }
 
 #[ast_node]
 pub struct PageSelector {
     pub span: Span,
+    #[serde(rename = "type")]
+    pub page_type: Option<PageSelectorType>,
+    pub pseudos: Option<Vec<PageSelectorPseudo>>,
+}
 
-    pub ident: Option<Ident>,
+#[ast_node]
+pub struct PageSelectorType {
+    pub span: Span,
+    pub value: Ident,
+}
 
-    pub pseudo: Option<Ident>,
+#[ast_node]
+pub struct PageSelectorPseudo {
+    pub span: Span,
+    pub value: Ident,
 }
 
 #[ast_node]

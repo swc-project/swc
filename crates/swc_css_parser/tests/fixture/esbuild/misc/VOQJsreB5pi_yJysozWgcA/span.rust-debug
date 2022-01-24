@@ -28,7 +28,19 @@ error: PageRule
 2 |         @page :first { margin: 0 }
   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: PageSelectorList
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:9
+  |
+2 |         @page :first { margin: 0 }
+  |               ^^^^^^
+
 error: PageSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:9
+  |
+2 |         @page :first { margin: 0 }
+  |               ^^^^^^
+
+error: PageSelectorPseudo
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:9
   |
 2 |         @page :first { margin: 0 }

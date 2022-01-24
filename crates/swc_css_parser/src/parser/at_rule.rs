@@ -1385,23 +1385,10 @@ where
     fn parse(&mut self) -> PResult<PageRule> {
         let start = self.input.cur_span()?.lo;
 
-        let prelude = {
-            let mut items = vec![];
-            loop {
-                self.input.skip_ws()?;
-
-                if is!(self, "{") {
-                    break;
-                }
-
-                items.push(self.parse()?);
-
-                self.input.skip_ws()?;
-                if !eat!(self, ",") {
-                    break;
-                }
-            }
-            items
+        let prelude = if !is!(self, "{") {
+            Some(self.parse()?)
+        } else {
+            None
         };
 
         let block = self.parse()?;
@@ -1410,6 +1397,48 @@ where
             span: span!(self, start),
             prelude,
             block,
+        })
+    }
+}
+
+impl<I> Parse<PageSelectorList> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PageSelectorList> {
+        let selector = self.parse()?;
+        let mut selectors = vec![selector];
+
+        loop {
+            self.input.skip_ws()?;
+
+            if !eat!(self, ",") {
+                break;
+            }
+
+            self.input.skip_ws()?;
+
+            let selector = self.parse()?;
+
+            selectors.push(selector);
+        }
+
+        let start_pos = match selectors.first() {
+            Some(PageSelector { span, .. }) => span.lo,
+            _ => {
+                unreachable!();
+            }
+        };
+        let last_pos = match selectors.last() {
+            Some(PageSelector { span, .. }) => span.hi,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        Ok(PageSelectorList {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            selectors,
         })
     }
 }
@@ -1423,22 +1452,67 @@ where
 
         let start = self.input.cur_span()?.lo;
 
-        let ident = if is!(self, Ident) {
+        let page_type = if is!(self, Ident) {
             Some(self.parse()?)
         } else {
             None
         };
 
-        let pseudo = if eat!(self, ":") {
-            Some(self.parse()?)
+        let pseudos = if is!(self, ":") {
+            let mut pseudos = vec![];
+
+            loop {
+                if !is!(self, ":") {
+                    break;
+                }
+
+                let pseudo = self.parse()?;
+
+                pseudos.push(pseudo);
+            }
+
+            Some(pseudos)
         } else {
             None
         };
 
         Ok(PageSelector {
             span: span!(self, start),
-            ident,
-            pseudo,
+            page_type,
+            pseudos,
+        })
+    }
+}
+
+impl<I> Parse<PageSelectorType> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PageSelectorType> {
+        let span = self.input.cur_span()?;
+        let value = self.parse()?;
+
+        Ok(PageSelectorType {
+            span: span!(self, span.lo),
+            value,
+        })
+    }
+}
+
+impl<I> Parse<PageSelectorPseudo> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PageSelectorPseudo> {
+        let span = self.input.cur_span()?;
+
+        expect!(self, ":");
+
+        let value = self.parse()?;
+
+        Ok(PageSelectorPseudo {
+            span: span!(self, span.lo),
+            value,
         })
     }
 }

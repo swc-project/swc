@@ -13,26 +13,42 @@
         "end": 29,
         "ctxt": 0
       },
-      "prelude": [
-        {
-          "span": {
-            "start": 9,
-            "end": 15,
-            "ctxt": 0
-          },
-          "ident": null,
-          "pseudo": {
-            "type": "Identifier",
+      "prelude": {
+        "span": {
+          "start": 9,
+          "end": 15,
+          "ctxt": 0
+        },
+        "selectors": [
+          {
             "span": {
-              "start": 10,
+              "start": 9,
               "end": 15,
               "ctxt": 0
             },
-            "value": "first",
-            "raw": "first"
+            "type": null,
+            "pseudos": [
+              {
+                "span": {
+                  "start": 9,
+                  "end": 15,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 10,
+                    "end": 15,
+                    "ctxt": 0
+                  },
+                  "value": "first",
+                  "raw": "first"
+                }
+              }
+            ]
           }
-        }
-      ],
+        ]
+      },
       "block": {
         "span": {
           "start": 16,
@@ -81,7 +97,7 @@
         "end": 609,
         "ctxt": 0
       },
-      "prelude": [],
+      "prelude": null,
       "block": {
         "span": {
           "start": 38,

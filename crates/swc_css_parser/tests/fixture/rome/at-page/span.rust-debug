@@ -37,17 +37,35 @@ error: PageRule
 4 | | }
   | |_^
 
+error: PageSelectorList
+ --> $DIR/tests/fixture/rome/at-page/input.css:1:7
+  |
+1 | @page MyPage:blank {
+  |       ^^^^^^^^^^^^
+
 error: PageSelector
  --> $DIR/tests/fixture/rome/at-page/input.css:1:7
   |
 1 | @page MyPage:blank {
   |       ^^^^^^^^^^^^
 
+error: PageSelectorType
+ --> $DIR/tests/fixture/rome/at-page/input.css:1:7
+  |
+1 | @page MyPage:blank {
+  |       ^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/at-page/input.css:1:7
   |
 1 | @page MyPage:blank {
   |       ^^^^^^
+
+error: PageSelectorPseudo
+ --> $DIR/tests/fixture/rome/at-page/input.css:1:13
+  |
+1 | @page MyPage:blank {
+  |             ^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/at-page/input.css:1:14
@@ -230,7 +248,19 @@ error: PageRule
 9 | | }
   | |_^
 
+error: PageSelectorList
+ --> $DIR/tests/fixture/rome/at-page/input.css:6:7
+  |
+6 | @page :blank {
+  |       ^^^^^^
+
 error: PageSelector
+ --> $DIR/tests/fixture/rome/at-page/input.css:6:7
+  |
+6 | @page :blank {
+  |       ^^^^^^
+
+error: PageSelectorPseudo
  --> $DIR/tests/fixture/rome/at-page/input.css:6:7
   |
 6 | @page :blank {

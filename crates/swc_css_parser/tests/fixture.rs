@@ -377,12 +377,16 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(SupportsFeature, visit_supports_feature);
     mtd!(NamespaceUri, visit_namespace_uri);
     mtd!(NamespaceRule, visit_namespace_rule);
-    mtd!(NestedPageRule, visit_nested_page_rule);
     mtd!(PageRule, visit_page_rule);
+    mtd!(PageSelectorList, visit_page_selector_list);
+    mtd!(PageSelector, visit_page_selector);
+    mtd!(PageSelectorType, visit_page_selector_type);
+    mtd!(PageSelectorPseudo, visit_page_selector_pseudo);
     mtd!(PageRuleBlock, visit_page_rule_block);
     mtd!(PageRuleBlockItem, visit_page_rule_block_item);
     mtd!(PageSelector, visit_page_selector);
     mtd!(AtRuleName, visit_at_rule_name);
+    mtd!(NestedPageRule, visit_nested_page_rule);
     mtd!(UnknownAtRule, visit_unknown_at_rule);
     mtd!(ViewportRule, visit_viewport_rule);
     mtd!(ColorProfileName, visit_color_profile_name);

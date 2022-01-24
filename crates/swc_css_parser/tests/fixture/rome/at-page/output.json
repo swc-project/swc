@@ -13,35 +13,58 @@
         "end": 72,
         "ctxt": 0
       },
-      "prelude": [
-        {
-          "span": {
-            "start": 6,
-            "end": 18,
-            "ctxt": 0
-          },
-          "ident": {
-            "type": "Identifier",
+      "prelude": {
+        "span": {
+          "start": 6,
+          "end": 18,
+          "ctxt": 0
+        },
+        "selectors": [
+          {
             "span": {
               "start": 6,
-              "end": 12,
-              "ctxt": 0
-            },
-            "value": "MyPage",
-            "raw": "MyPage"
-          },
-          "pseudo": {
-            "type": "Identifier",
-            "span": {
-              "start": 13,
               "end": 18,
               "ctxt": 0
             },
-            "value": "blank",
-            "raw": "blank"
+            "type": {
+              "span": {
+                "start": 6,
+                "end": 12,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Identifier",
+                "span": {
+                  "start": 6,
+                  "end": 12,
+                  "ctxt": 0
+                },
+                "value": "MyPage",
+                "raw": "MyPage"
+              }
+            },
+            "pseudos": [
+              {
+                "span": {
+                  "start": 12,
+                  "end": 18,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 13,
+                    "end": 18,
+                    "ctxt": 0
+                  },
+                  "value": "blank",
+                  "raw": "blank"
+                }
+              }
+            ]
           }
-        }
-      ],
+        ]
+      },
       "block": {
         "span": {
           "start": 19,
@@ -206,26 +229,42 @@
         "end": 140,
         "ctxt": 0
       },
-      "prelude": [
-        {
-          "span": {
-            "start": 80,
-            "end": 86,
-            "ctxt": 0
-          },
-          "ident": null,
-          "pseudo": {
-            "type": "Identifier",
+      "prelude": {
+        "span": {
+          "start": 80,
+          "end": 86,
+          "ctxt": 0
+        },
+        "selectors": [
+          {
             "span": {
-              "start": 81,
+              "start": 80,
               "end": 86,
               "ctxt": 0
             },
-            "value": "blank",
-            "raw": "blank"
+            "type": null,
+            "pseudos": [
+              {
+                "span": {
+                  "start": 80,
+                  "end": 86,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 81,
+                    "end": 86,
+                    "ctxt": 0
+                  },
+                  "value": "blank",
+                  "raw": "blank"
+                }
+              }
+            ]
           }
-        }
-      ],
+        ]
+      },
       "block": {
         "span": {
           "start": 87,
@@ -390,7 +429,7 @@
         "end": 201,
         "ctxt": 0
       },
-      "prelude": [],
+      "prelude": null,
       "block": {
         "span": {
           "start": 148,
@@ -555,7 +594,7 @@
         "end": 262,
         "ctxt": 0
       },
-      "prelude": [],
+      "prelude": null,
       "block": {
         "span": {
           "start": 209,

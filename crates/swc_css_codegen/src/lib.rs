@@ -574,19 +574,71 @@ where
         keyword!(self, "page");
         space!(self);
 
-        self.emit_list(&n.prelude, ListFormat::CommaDelimited)?;
+        if n.prelude.is_some() {
+            emit!(self, n.prelude);
+            space!(self);
+        }
 
         emit!(self, n.block);
     }
 
     #[emitter]
+    fn emit_page_selector_list(&mut self, n: &PageSelectorList) -> Result {
+        self.emit_list(&n.selectors, ListFormat::CommaDelimited)?;
+    }
+
+    #[emitter]
     fn emit_page_selector(&mut self, n: &PageSelector) -> Result {
-        emit!(self, n.ident);
-        if let Some(pseudo) = &n.pseudo {
-            punct!(self, ":");
-            emit!(self, pseudo);
+        if let Some(page_type) = &n.page_type {
+            emit!(self, page_type);
+        }
+
+        if let Some(pseudos) = &n.pseudos {
+            self.emit_list(pseudos, ListFormat::NotDelimited)?;
         }
     }
+
+    #[emitter]
+    fn emit_page_selector_type(&mut self, n: &PageSelectorType) -> Result {
+        emit!(self, n.value);
+    }
+
+    #[emitter]
+    fn emit_page_selector_pseudo(&mut self, n: &PageSelectorPseudo) -> Result {
+        punct!(self, ":");
+        emit!(self, n.value);
+    }
+
+    #[emitter]
+    fn emit_page_rule_block(&mut self, n: &PageRuleBlock) -> Result {
+        punct!(self, "{");
+
+        self.wr.write_newline()?;
+
+        self.wr.increase_indent();
+
+        let ctx = Ctx {
+            semi_after_property: true,
+            ..self.ctx
+        };
+        self.with_ctx(ctx)
+            .emit_list(&n.items, ListFormat::MultiLine | ListFormat::NotDelimited)?;
+
+        self.wr.write_newline()?;
+
+        self.wr.decrease_indent();
+
+        punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_page_rule_block_item(&mut self, n: &PageRuleBlockItem) -> Result {
+        match n {
+            PageRuleBlockItem::Declaration(n) => emit!(self, n),
+            PageRuleBlockItem::Nested(n) => emit!(self, n),
+        }
+    }
+
     #[emitter]
     fn emit_namespace_uri(&mut self, n: &NamespaceUri) -> Result {
         match n {
@@ -936,6 +988,7 @@ where
 
     #[emitter]
     fn emit_dimension(&mut self, n: &Dimension) -> Result {
+    fn emit_unit_value(&mut self, n: &UnitValue) -> Result {
         emit!(self, n.value);
         emit!(self, n.unit);
     }

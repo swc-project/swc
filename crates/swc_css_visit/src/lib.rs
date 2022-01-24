@@ -593,16 +593,29 @@ define!({
 
     pub struct PageRule {
         pub span: Span,
-
-        pub prelude: Vec<PageSelector>,
-
+        pub prelude: Option<PageSelectorList>,
         pub block: PageRuleBlock,
+    }
+
+    pub struct PageSelectorList {
+        pub span: Span,
+        pub selectors: Vec<PageSelector>,
     }
 
     pub struct PageSelector {
         pub span: Span,
-        pub ident: Option<Ident>,
-        pub pseudo: Option<Ident>,
+        pub page_type: Option<PageSelectorType>,
+        pub pseudos: Option<Vec<PageSelectorPseudo>>,
+    }
+
+    pub struct PageSelectorType {
+        pub span: Span,
+        pub value: Ident,
+    }
+
+    pub struct PageSelectorPseudo {
+        pub span: Span,
+        pub value: Ident,
     }
 
     pub struct PageRuleBlock {
