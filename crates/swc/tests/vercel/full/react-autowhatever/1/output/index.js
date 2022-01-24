@@ -85,10 +85,11 @@ var i = function(b) {
         })(b);
     });
     function i() {
-        var a;
-        return !function(a, c) {
+        !function(a, c) {
             if (!(a instanceof c)) throw new TypeError("Cannot call a class as a function");
-        }(this, i), a = m.apply(this, arguments), a.storeHighlightedItemReference = function(b) {
+        }(this, i);
+        var a = m.apply(this, arguments);
+        return a.storeHighlightedItemReference = function(b) {
             a.props.onHighlightedItemChange(null === b ? null : b.item);
         }, a;
     }
