@@ -8,7 +8,6 @@ collapse_vars/cascade_conditional/input.js
 collapse_vars/cascade_statement/input.js
 collapse_vars/cascade_switch/input.js
 collapse_vars/collapse_vars_arguments/input.js
-collapse_vars/collapse_vars_array/input.js
 collapse_vars/collapse_vars_assignment/input.js
 collapse_vars/collapse_vars_constants/input.js
 collapse_vars/collapse_vars_do_while/input.js
@@ -26,7 +25,6 @@ collapse_vars/collapse_vars_side_effects_1/input.js
 collapse_vars/collapse_vars_side_effects_2/input.js
 collapse_vars/collapse_vars_switch/input.js
 collapse_vars/collapse_vars_unary/input.js
-collapse_vars/compound_assignment/input.js
 collapse_vars/double_def_1/input.js
 collapse_vars/double_def_2/input.js
 collapse_vars/issue_1537_destructuring_1/input.js
@@ -41,10 +39,7 @@ collapse_vars/issue_2364_5/input.js
 collapse_vars/issue_2436_1/input.js
 collapse_vars/issue_2436_10/input.js
 collapse_vars/issue_2436_11/input.js
-collapse_vars/issue_2436_2/input.js
-collapse_vars/issue_2436_3/input.js
 collapse_vars/issue_2436_4/input.js
-collapse_vars/issue_2436_5/input.js
 collapse_vars/issue_2436_6/input.js
 collapse_vars/issue_2436_7/input.js
 collapse_vars/issue_2436_8/input.js
@@ -129,7 +124,6 @@ drop_unused/variable_refs_outside_unused_class/input.js
 evaluate/delete_expr_1/input.js
 evaluate/delete_expr_2/input.js
 evaluate/issue_2535_1/input.js
-evaluate/issue_2916_2/input.js
 expansions/avoid_spread_getset_object/input.js
 expansions/avoid_spread_hole/input.js
 export/export_default_named_async_function/input.js
@@ -215,7 +209,6 @@ issue_1443/keep_fnames/input.js
 issue_1443/unsafe_undefined/input.js
 issue_1446/undefined_redefined_mangle/input.js
 issue_1569/inner_reference/input.js
-issue_1609/chained_evaluation_2/input.js
 issue_1673/side_effects_else/input.js
 issue_1733/function_catch_catch/input.js
 issue_1750/case_1/input.js
@@ -372,7 +365,6 @@ reduce_vars/defun_var_2/input.js
 reduce_vars/escaped_prop_1/input.js
 reduce_vars/escaped_prop_2/input.js
 reduce_vars/issue_1595_3/input.js
-reduce_vars/issue_2916/input.js
 reduce_vars/issue_294/input.js
 reduce_vars/issue_308/input.js
 reduce_vars/issue_432_1/input.js
