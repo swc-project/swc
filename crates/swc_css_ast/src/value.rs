@@ -1,5 +1,4 @@
-use crate::{Ident, Num, SimpleBlock, Str, Tokens};
-use crate::{Ident, Str, Tokens};
+use crate::{Ident, SimpleBlock, Str, Tokens};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
