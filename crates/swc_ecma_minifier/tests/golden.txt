@@ -97,6 +97,7 @@ classes/class_duplication/input.js
 classes/class_duplication_2/input.js
 classes/class_recursive_refs/input.js
 collapse_vars/anonymous_function/input.js
+collapse_vars/assignment/input.js
 collapse_vars/boolean_binary_1/input.js
 collapse_vars/boolean_binary_2/input.js
 collapse_vars/cascade_if_1/input.js
@@ -193,6 +194,7 @@ collapse_vars/side_effect_free_replacement/input.js
 collapse_vars/side_effects_property/input.js
 collapse_vars/switch_case_2/input.js
 collapse_vars/switch_case_3/input.js
+collapse_vars/undeclared/input.js
 collapse_vars/unsafe_builtin/input.js
 collapse_vars/var_side_effects_1/input.js
 comments/comment_moved_between_return_and_value/input.js

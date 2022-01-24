@@ -58,7 +58,6 @@ collapse_vars/ref_scope/input.js
 collapse_vars/replace_all_var_scope/input.js
 collapse_vars/switch_case_1/input.js
 collapse_vars/toplevel_single_reference/input.js
-collapse_vars/undeclared/input.js
 collapse_vars/unused_orig/input.js
 comparing/keep_comparisons/input.js
 comparing/keep_comparisons_with_unsafe_comps/input.js
