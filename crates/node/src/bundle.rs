@@ -222,9 +222,19 @@ pub(crate) fn bundle(
         .unwrap_or_default();
 
     let resolver: Box<dyn Resolve> = if let Some((base_url, paths)) = paths {
-        Box::new(paths_resolver(target_env, alias, base_url, paths))
+        Box::new(paths_resolver(
+            target_env,
+            alias,
+            base_url,
+            paths,
+            static_items.config.resolve_symlinks,
+        ))
     } else {
-        Box::new(environment_resolver(target_env, alias))
+        Box::new(environment_resolver(
+            target_env,
+            alias,
+            static_items.config.resolve_symlinks,
+        ))
     };
 
     Ok(AsyncTask::with_optional_signal(

@@ -80,7 +80,7 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool, mini
             Loader { cm: cm.clone() },
             CachingResolver::new(
                 4096,
-                NodeModulesResolver::new(TargetEnv::Node, Default::default()),
+                NodeModulesResolver::new(TargetEnv::Node, Default::default(), true),
             ),
             swc_bundler::Config {
                 require: false,
@@ -90,7 +90,6 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool, mini
                 disable_hygiene: minify,
                 disable_dce: false,
                 module: Default::default(),
-                preserve_symlinks: false,
             },
             Box::new(Hook),
         );

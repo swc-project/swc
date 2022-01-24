@@ -179,16 +179,25 @@ pub mod resolver {
         alias: AHashMap<String, String>,
         base_url: PathBuf,
         paths: CompiledPaths,
+        resolve_symlinks: bool,
     ) -> CachingResolver<TsConfigResolver<NodeModulesResolver>> {
-        let r = TsConfigResolver::new(NodeModulesResolver::new(target_env, alias), base_url, paths);
+        let r = TsConfigResolver::new(
+            NodeModulesResolver::new(target_env, alias, resolve_symlinks),
+            base_url,
+            paths,
+        );
         CachingResolver::new(40, r)
     }
 
     pub fn environment_resolver(
         target_env: TargetEnv,
         alias: AHashMap<String, String>,
+        resolve_symlinks: bool,
     ) -> NodeResolver {
-        CachingResolver::new(40, NodeModulesResolver::new(target_env, alias))
+        CachingResolver::new(
+            40,
+            NodeModulesResolver::new(target_env, alias, resolve_symlinks),
+        )
     }
 }
 
