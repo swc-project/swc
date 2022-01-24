@@ -82,26 +82,12 @@
                     },
                     "init": {
                       "type": "MetaProperty",
-                      "meta": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 64,
-                          "end": 67,
-                          "ctxt": 0
-                        },
-                        "value": "new",
-                        "optional": false
+                      "span": {
+                        "start": 64,
+                        "end": 74,
+                        "ctxt": 0
                       },
-                      "property": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 68,
-                          "end": 74,
-                          "ctxt": 0
-                        },
-                        "value": "target",
-                        "optional": false
-                      }
+                      "kind": "new.target"
                     },
                     "definite": false
                   }
@@ -145,26 +131,12 @@
                       "params": [],
                       "body": {
                         "type": "MetaProperty",
-                        "meta": {
-                          "type": "Identifier",
-                          "span": {
-                            "start": 100,
-                            "end": 103,
-                            "ctxt": 0
-                          },
-                          "value": "new",
-                          "optional": false
+                        "span": {
+                          "start": 100,
+                          "end": 110,
+                          "ctxt": 0
                         },
-                        "property": {
-                          "type": "Identifier",
-                          "span": {
-                            "start": 104,
-                            "end": 110,
-                            "ctxt": 0
-                          },
-                          "value": "target",
-                          "optional": false
-                        }
+                        "kind": "new.target"
                       },
                       "async": false,
                       "generator": false,
@@ -224,26 +196,12 @@
                   },
                   "argument": {
                     "type": "MetaProperty",
-                    "meta": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 154,
-                        "end": 157,
-                        "ctxt": 0
-                      },
-                      "value": "new",
-                      "optional": false
+                    "span": {
+                      "start": 154,
+                      "end": 164,
+                      "ctxt": 0
                     },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 158,
-                        "end": 164,
-                        "ctxt": 0
-                      },
-                      "value": "target",
-                      "optional": false
-                    }
+                    "kind": "new.target"
                   }
                 }
               ]
@@ -308,26 +266,12 @@
                   },
                   "argument": {
                     "type": "MetaProperty",
-                    "meta": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 197,
-                        "end": 200,
-                        "ctxt": 0
-                      },
-                      "value": "new",
-                      "optional": false
+                    "span": {
+                      "start": 197,
+                      "end": 207,
+                      "ctxt": 0
                     },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 201,
-                        "end": 207,
-                        "ctxt": 0
-                      },
-                      "value": "target",
-                      "optional": false
-                    }
+                    "kind": "new.target"
                   }
                 }
               ]
@@ -457,26 +401,12 @@
                     },
                     "init": {
                       "type": "MetaProperty",
-                      "meta": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 289,
-                          "end": 292,
-                          "ctxt": 0
-                        },
-                        "value": "new",
-                        "optional": false
+                      "span": {
+                        "start": 289,
+                        "end": 299,
+                        "ctxt": 0
                       },
-                      "property": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 293,
-                          "end": 299,
-                          "ctxt": 0
-                        },
-                        "value": "target",
-                        "optional": false
-                      }
+                      "kind": "new.target"
                     },
                     "definite": false
                   }
@@ -520,26 +450,12 @@
                       "params": [],
                       "body": {
                         "type": "MetaProperty",
-                        "meta": {
-                          "type": "Identifier",
-                          "span": {
-                            "start": 325,
-                            "end": 328,
-                            "ctxt": 0
-                          },
-                          "value": "new",
-                          "optional": false
+                        "span": {
+                          "start": 325,
+                          "end": 335,
+                          "ctxt": 0
                         },
-                        "property": {
-                          "type": "Identifier",
-                          "span": {
-                            "start": 329,
-                            "end": 335,
-                            "ctxt": 0
-                          },
-                          "value": "target",
-                          "optional": false
-                        }
+                        "kind": "new.target"
                       },
                       "async": false,
                       "generator": false,
@@ -629,26 +545,12 @@
                 },
                 "init": {
                   "type": "MetaProperty",
-                  "meta": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 376,
-                      "end": 379,
-                      "ctxt": 0
-                    },
-                    "value": "new",
-                    "optional": false
+                  "span": {
+                    "start": 376,
+                    "end": 386,
+                    "ctxt": 0
                   },
-                  "property": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 380,
-                      "end": 386,
-                      "ctxt": 0
-                    },
-                    "value": "target",
-                    "optional": false
-                  }
+                  "kind": "new.target"
                 },
                 "definite": false
               }
@@ -692,26 +594,12 @@
                   "params": [],
                   "body": {
                     "type": "MetaProperty",
-                    "meta": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 408,
-                        "end": 411,
-                        "ctxt": 0
-                      },
-                      "value": "new",
-                      "optional": false
+                    "span": {
+                      "start": 408,
+                      "end": 418,
+                      "ctxt": 0
                     },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 412,
-                        "end": 418,
-                        "ctxt": 0
-                      },
-                      "value": "target",
-                      "optional": false
-                    }
+                    "kind": "new.target"
                   },
                   "async": false,
                   "generator": false,
@@ -805,26 +693,12 @@
                       },
                       "init": {
                         "type": "MetaProperty",
-                        "meta": {
-                          "type": "Identifier",
-                          "span": {
-                            "start": 462,
-                            "end": 465,
-                            "ctxt": 0
-                          },
-                          "value": "new",
-                          "optional": false
+                        "span": {
+                          "start": 462,
+                          "end": 472,
+                          "ctxt": 0
                         },
-                        "property": {
-                          "type": "Identifier",
-                          "span": {
-                            "start": 466,
-                            "end": 472,
-                            "ctxt": 0
-                          },
-                          "value": "target",
-                          "optional": false
-                        }
+                        "kind": "new.target"
                       },
                       "definite": false
                     }
@@ -868,26 +742,12 @@
                         "params": [],
                         "body": {
                           "type": "MetaProperty",
-                          "meta": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 494,
-                              "end": 497,
-                              "ctxt": 0
-                            },
-                            "value": "new",
-                            "optional": false
+                          "span": {
+                            "start": 494,
+                            "end": 504,
+                            "ctxt": 0
                           },
-                          "property": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 498,
-                              "end": 504,
-                              "ctxt": 0
-                            },
-                            "value": "target",
-                            "optional": false
-                          }
+                          "kind": "new.target"
                         },
                         "async": false,
                         "generator": false,
@@ -984,26 +844,12 @@
                         },
                         "argument": {
                           "type": "MetaProperty",
-                          "meta": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 549,
-                              "end": 552,
-                              "ctxt": 0
-                            },
-                            "value": "new",
-                            "optional": false
+                          "span": {
+                            "start": 549,
+                            "end": 559,
+                            "ctxt": 0
                           },
-                          "property": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 553,
-                              "end": 559,
-                              "ctxt": 0
-                            },
-                            "value": "target",
-                            "optional": false
-                          }
+                          "kind": "new.target"
                         }
                       }
                     ]

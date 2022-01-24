@@ -26,8 +26,7 @@ var C = // BUG 745747
     _createClass(C, null, [
         {
             key: "f",
-            value: function f(x) {
-            }
+            value: function f(x) {}
         }
     ]);
     return C;
@@ -40,8 +39,7 @@ var C2 = /*#__PURE__*/ function() {
     _createClass(C2, null, [
         {
             key: "f",
-            value: function f(x) {
-            }
+            value: function f(x) {}
         }
     ]);
     return C2;
@@ -54,8 +52,7 @@ var C3 = /*#__PURE__*/ function() {
     _createClass(C3, null, [
         {
             key: "f",
-            value: function f(x) {
-            }
+            value: function f(x) {}
         }
     ]);
     return C3;

@@ -23,22 +23,18 @@ class Opt extends React.Component {
         return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
     }
 }
-const obj = {
-};
+const obj = {};
 const obj1 = {
     x: 2
 };
 // Error
-let y = /*#__PURE__*/ React.createElement(Opt, _extends({
-}, obj, {
+let y = /*#__PURE__*/ React.createElement(Opt, _extends({}, obj, {
     x: 3
 }));
-let y1 = /*#__PURE__*/ React.createElement(Opt, _extends({
-}, obj1, {
+let y1 = /*#__PURE__*/ React.createElement(Opt, _extends({}, obj1, {
     x: "Hi"
 }));
-let y2 = /*#__PURE__*/ React.createElement(Opt, _extends({
-}, obj1, {
+let y2 = /*#__PURE__*/ React.createElement(Opt, _extends({}, obj1, {
     x: 3
 }));
 let y3 = /*#__PURE__*/ React.createElement(Opt, {

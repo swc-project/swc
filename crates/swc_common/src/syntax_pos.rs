@@ -26,15 +26,20 @@ pub mod hygiene;
 /// assume that the length of the `span = hi - lo`; there may be space in the
 /// `BytePos` range between files.
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, Ord, PartialOrd, Serialize, Deserialize)]
-#[cfg_attr(feature = "abi_stable", repr(C))]
-#[cfg_attr(feature = "abi_stable", derive(abi_stable::StableAbi))]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct Span {
     #[serde(rename = "start")]
+    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub lo: BytePos,
     #[serde(rename = "end")]
+    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub hi: BytePos,
     /// Information about where the macro came from, if this piece of
     /// code was created by a macro expansion.
+    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub ctxt: SyntaxContext,
 }
 
@@ -178,7 +183,7 @@ impl FileName {
 ///   and would be rendered with `^^^`.
 /// - they can have a *label*. In this case, the label is written next to the
 ///   mark in the snippet when we render.
-#[derive(Clone, Debug, Hash, PartialEq, Eq)]
+#[derive(Clone, Debug, Default, Hash, PartialEq, Eq)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
@@ -436,10 +441,7 @@ impl Default for Span {
 impl MultiSpan {
     #[inline]
     pub fn new() -> MultiSpan {
-        MultiSpan {
-            primary_spans: vec![],
-            span_labels: vec![],
-        }
+        Self::default()
     }
 
     pub fn from_span(primary_span: Span) -> MultiSpan {
@@ -721,11 +723,7 @@ impl SourceFile {
         }
 
         let begin = {
-            let line = if let Some(line) = self.lines.get(line_number) {
-                line
-            } else {
-                return None;
-            };
+            let line = self.lines.get(line_number)?;
             let begin: BytePos = *line - self.start_pos;
             begin.to_usize()
         };
@@ -783,7 +781,7 @@ impl SourceFile {
 
 /// Remove utf-8 BOM if any.
 fn remove_bom(src: &mut String) {
-    if src.starts_with("\u{feff}") {
+    if src.starts_with('\u{feff}') {
         src.drain(..3);
     }
 }
@@ -803,10 +801,12 @@ pub trait Pos {
 /// a lot of them.
 #[derive(Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug, Serialize, Deserialize)]
 #[serde(transparent)]
-#[cfg_attr(feature = "abi_stable", repr(transparent))]
-#[cfg_attr(feature = "abi_stable", derive(abi_stable::StableAbi))]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub struct BytePos(pub u32);
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+pub struct BytePos(#[cfg_attr(feature = "rkyv", omit_bounds)] pub u32);
 
 /// A character offset. Because of multibyte utf8 characters, a byte offset
 /// is not equivalent to a character offset. The SourceMap will convert BytePos

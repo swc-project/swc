@@ -1,25 +1,17 @@
 // Missing properties
 function f1() {
-    var { x , y  } = {
-    };
-    var { x =1 , y  } = {
-    };
-    var { x , y =1  } = {
-    };
-    var { x =1 , y =1  } = {
-    };
+    var { x , y  } = {};
+    var { x =1 , y  } = {};
+    var { x , y =1  } = {};
+    var { x =1 , y =1  } = {};
 }
 // Missing properties
 function f2() {
     var x, y;
-    ({ x , y  } = {
-    });
-    ({ x: x = 1 , y  } = {
-    });
-    ({ x , y: y = 1  } = {
-    });
-    ({ x: x = 1 , y: y = 1  } = {
-    });
+    ({ x , y  } = {});
+    ({ x: x = 1 , y  } = {});
+    ({ x , y: y = 1  } = {});
+    ({ x: x = 1 , y: y = 1  } = {});
 }
 // Excess properties
 function f3() {

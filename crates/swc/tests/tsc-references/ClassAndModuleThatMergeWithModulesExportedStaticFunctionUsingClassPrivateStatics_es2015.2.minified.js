@@ -3,7 +3,6 @@ class clodule {
         return 42;
     }
 }
-(clodule || (clodule = {
-})).fn = function(x, y) {
+(clodule || (clodule = {})).fn = function(x, y) {
     return clodule.sfn("a");
 };

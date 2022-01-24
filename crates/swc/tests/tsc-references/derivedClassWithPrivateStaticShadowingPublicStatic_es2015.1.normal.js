@@ -5,8 +5,7 @@ class Base {
     static get a() {
         return 1;
     }
-    static set a(v) {
-    }
+    static set a(v) {}
 }
 // BUG 847404
 // should be error
@@ -17,8 +16,7 @@ class Derived extends Base {
     static get a() {
         return 1;
     }
-    static set a(v) {
-    }
+    static set a(v) {}
 }
 var r = Base.x; // ok
 var r2 = Derived.x; // error

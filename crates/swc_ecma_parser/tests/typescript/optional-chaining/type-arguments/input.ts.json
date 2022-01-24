@@ -65,8 +65,7 @@
                 },
                 "value": "inner",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -77,8 +76,7 @@
               },
               "value": "greet",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "arguments": [],

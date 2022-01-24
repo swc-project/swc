@@ -15,3 +15,19 @@
         }
     }
 }
+@supports   (   display   :   flex   )   {}
+@supports not (display: flex) {}
+@SUPPORTS not (display: flex) {}
+@supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+@supports ( box-shadow: 0 0 2px black inset ) or
+  ( -moz-box-shadow: 0 0 2px black inset ) or
+  ( -webkit-box-shadow: 0 0 2px black inset ) or
+  ( -o-box-shadow: 0 0 2px black inset ) {
+    
+}
+@supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+@supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+@supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+@supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+@supports ((display: flex)) {}
+@supports (display: flex !important) {}

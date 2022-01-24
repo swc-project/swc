@@ -10,5 +10,4 @@ import regeneratorRuntime from "regenerator-runtime";
             }
         }, f);
     });
-}(M || (M = {
-}));
+}(M || (M = {}));

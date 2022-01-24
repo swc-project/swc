@@ -66,8 +66,7 @@
                 },
                 "value": "hasInstance",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -162,8 +161,7 @@
                 },
                 "value": "hasInstance",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -274,35 +272,41 @@
             }
           },
           "property": {
-            "type": "MemberExpression",
+            "type": "Computed",
             "span": {
-              "start": 162,
-              "end": 180,
+              "start": 161,
+              "end": 181,
               "ctxt": 0
             },
-            "object": {
-              "type": "Identifier",
+            "expression": {
+              "type": "MemberExpression",
               "span": {
                 "start": 162,
-                "end": 168,
-                "ctxt": 0
-              },
-              "value": "Symbol",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 169,
                 "end": 180,
                 "ctxt": 0
               },
-              "value": "hasInstance",
-              "optional": false
-            },
-            "computed": false
-          },
-          "computed": true
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 162,
+                  "end": 168,
+                  "ctxt": 0
+                },
+                "value": "Symbol",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 169,
+                  "end": 180,
+                  "ctxt": 0
+                },
+                "value": "hasInstance",
+                "optional": false
+              }
+            }
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -366,35 +370,41 @@
             }
           },
           "property": {
-            "type": "MemberExpression",
+            "type": "Computed",
             "span": {
-              "start": 195,
-              "end": 213,
+              "start": 194,
+              "end": 214,
               "ctxt": 0
             },
-            "object": {
-              "type": "Identifier",
+            "expression": {
+              "type": "MemberExpression",
               "span": {
                 "start": 195,
-                "end": 201,
-                "ctxt": 0
-              },
-              "value": "Symbol",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 202,
                 "end": 213,
                 "ctxt": 0
               },
-              "value": "hasInstance",
-              "optional": false
-            },
-            "computed": false
-          },
-          "computed": true
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 195,
+                  "end": 201,
+                  "ctxt": 0
+                },
+                "value": "Symbol",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 202,
+                  "end": 213,
+                  "ctxt": 0
+                },
+                "value": "hasInstance",
+                "optional": false
+              }
+            }
+          }
         },
         "right": {
           "type": "StringLiteral",

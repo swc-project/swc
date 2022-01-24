@@ -3169,8 +3169,7 @@
                     },
                     "value": "number",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -3211,8 +3210,7 @@
                     },
                     "value": "node",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -3260,8 +3258,7 @@
                       },
                       "value": "string",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "property": {
                     "type": "Identifier",
@@ -3272,8 +3269,7 @@
                     },
                     "value": "isRequired",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ]
@@ -4328,8 +4324,7 @@
                     },
                     "value": "number",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -4377,8 +4372,7 @@
                       },
                       "value": "node",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "property": {
                     "type": "Identifier",
@@ -4389,8 +4383,7 @@
                     },
                     "value": "isRequired",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ]
@@ -5489,8 +5482,7 @@
                     },
                     "value": "string",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -5531,8 +5523,7 @@
                     },
                     "value": "node",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -5580,8 +5571,7 @@
                       },
                       "value": "number",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "property": {
                     "type": "Identifier",
@@ -5592,8 +5582,7 @@
                     },
                     "value": "isRequired",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ]
@@ -6681,8 +6670,7 @@
                     },
                     "value": "string",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -6730,8 +6718,7 @@
                       },
                       "value": "node",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "property": {
                     "type": "Identifier",
@@ -6742,8 +6729,7 @@
                     },
                     "value": "isRequired",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ]

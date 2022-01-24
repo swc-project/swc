@@ -63,23 +63,19 @@ impl VisitMut for GlobalDefs {
                     return;
                 }
             }
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                ..
-            }) => match &**obj {
-                Expr::Ident(i) => {
+            Expr::Member(MemberExpr { obj, .. }) => {
+                if let Expr::Ident(i) = &**obj {
                     if i.span.ctxt != self.top_level_ctxt
                         || self.top_level_bindings.contains(&i.to_id())
                     {
                         return;
                     }
                 }
-                _ => {}
-            },
+            }
             _ => {}
         }
 
-        if let Some((_, new)) = self.defs.iter().find(|(pred, _)| should_replace(&pred, &n)) {
+        if let Some((_, new)) = self.defs.iter().find(|(pred, _)| should_replace(pred, n)) {
             *n = *new.clone();
             return;
         }
@@ -92,9 +88,7 @@ impl VisitMut for GlobalDefs {
         match &mut *e.arg {
             Expr::Ident(..) => {}
 
-            Expr::Member(MemberExpr {
-                computed: false, ..
-            }) => {
+            Expr::Member(MemberExpr { prop, .. }) if !prop.is_computed() => {
                 // TODO: Check for `obj`
             }
 
@@ -119,21 +113,24 @@ fn should_replace(pred: &Expr, node: &Expr) -> bool {
             }
         }
 
-        (Expr::Member(pred), Expr::Member(node)) => {
-            if pred.computed || node.computed {
+        // super?. is invalid
+        (
+            Expr::Member(MemberExpr {
+                obj: pred_obj,
+                prop: pred,
+                ..
+            }),
+            Expr::Member(MemberExpr {
+                obj: node_obj,
+                prop: nodes,
+                ..
+            }),
+        ) if !(pred.is_computed() || nodes.is_computed()) => {
+            if !pred.eq_ignore_span(nodes) {
                 return false;
             }
 
-            if !pred.prop.eq_ignore_span(&node.prop) {
-                return false;
-            }
-
-            match (&pred.obj, &node.obj) {
-                (ExprOrSuper::Expr(pred_obj), ExprOrSuper::Expr(node_obj)) => {
-                    return should_replace(pred_obj, node_obj)
-                }
-                _ => {}
-            }
+            return should_replace(pred_obj, node_obj);
         }
         _ => {}
     }

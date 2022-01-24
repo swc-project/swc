@@ -227,20 +227,27 @@
                 "optional": false
               },
               "property": {
-                "type": "StringLiteral",
+                "type": "Computed",
                 "span": {
-                  "start": 170,
-                  "end": 173,
+                  "start": 169,
+                  "end": 174,
                   "ctxt": 0
                 },
-                "value": "B",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 170,
+                    "end": 173,
+                    "ctxt": 0
+                  },
+                  "value": "B",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
-              },
-              "computed": true
+              }
             }
           },
           "definite": false
@@ -324,8 +331,7 @@
                     },
                     "value": "B",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "MemberExpression",
@@ -345,20 +351,27 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "StringLiteral",
+                    "type": "Computed",
                     "span": {
-                      "start": 215,
-                      "end": 218,
+                      "start": 214,
+                      "end": 219,
                       "ctxt": 0
                     },
-                    "value": "C",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 215,
+                        "end": 218,
+                        "ctxt": 0
+                      },
+                      "value": "C",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
                     }
-                  },
-                  "computed": true
+                  }
                 }
               }
             }
@@ -512,20 +525,27 @@
                         "optional": false
                       },
                       "property": {
-                        "type": "StringLiteral",
+                        "type": "Computed",
                         "span": {
-                          "start": 310,
-                          "end": 313,
+                          "start": 309,
+                          "end": 314,
                           "ctxt": 0
                         },
-                        "value": "B",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 310,
+                            "end": 313,
+                            "ctxt": 0
+                          },
+                          "value": "B",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": true
+                          }
                         }
-                      },
-                      "computed": true
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -553,8 +573,7 @@
                         },
                         "value": "C",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 }
@@ -660,8 +679,7 @@
             },
             "value": "B",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },

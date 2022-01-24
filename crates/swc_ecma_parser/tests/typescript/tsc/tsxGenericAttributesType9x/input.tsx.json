@@ -292,8 +292,7 @@
                                           },
                                           "value": "props",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       }
                                     }
                                   ],
@@ -385,8 +384,7 @@
                     },
                     "value": "PureComponent",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "isAbstract": false,
                 "typeParams": null,

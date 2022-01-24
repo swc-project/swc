@@ -2,8 +2,7 @@
 var s = Symbol;
 var x = {
     [s]: 0,
-    [s] () {
-    },
+    [s] () {},
     get [s] () {
         return 0;
     }

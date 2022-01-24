@@ -13,7 +13,7 @@
         "end": 29,
         "ctxt": 0
       },
-      "src": {
+      "href": {
         "type": "Function",
         "span": {
           "start": 8,
@@ -43,15 +43,37 @@
           }
         ]
       },
-      "condition": {
-        "type": "Identifier",
+      "layerName": null,
+      "supports": null,
+      "media": {
+        "type": "MediaQueryList",
         "span": {
           "start": 23,
           "end": 28,
           "ctxt": 0
         },
-        "value": "print",
-        "raw": "print"
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 23,
+              "end": 28,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": {
+              "type": "Identifier",
+              "span": {
+                "start": 23,
+                "end": 28,
+                "ctxt": 0
+              },
+              "value": "print",
+              "raw": "print"
+            },
+            "condition": null
+          }
+        ]
       }
     }
   ]

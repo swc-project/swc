@@ -41,25 +41,19 @@ where
     fn resolve(&self, base: &FileName, src: &str) -> Result<FileName, Error> {
         {
             let lock = self.cache.lock();
-            match lock {
-                Ok(mut lock) => {
-                    //
-                    if let Some(v) = lock.get(&(base.clone(), src.to_string())) {
-                        return Ok(v.clone());
-                    }
+            if let Ok(mut lock) = lock {
+                //
+                if let Some(v) = lock.get(&(base.clone(), src.to_string())) {
+                    return Ok(v.clone());
                 }
-                Err(_) => {}
             }
         }
 
         let resolved = self.inner.resolve(base, src)?;
         {
             let lock = self.cache.lock();
-            match lock {
-                Ok(mut lock) => {
-                    lock.put((base.clone(), src.to_string()), resolved.clone());
-                }
-                Err(_) => {}
+            if let Ok(mut lock) = lock {
+                lock.put((base.clone(), src.to_string()), resolved.clone());
             }
         }
 

@@ -3,4 +3,4 @@ var array = [
     2,
     3
 ];
-1 / array[1], 1 / array[1], 1 / array[1];
+array[1], array[1], array[1];

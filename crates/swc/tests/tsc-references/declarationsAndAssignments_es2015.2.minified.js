@@ -1,8 +1,6 @@
-var M, M1;
-function f14([a = 1, [b = "hello", { x , y: c = !1  }]]) {
-}
-function f17({ a ="" , b =0 , c =!1  }) {
-}
+var M;
+function f14([a = 1, [b = "hello", { x , y: c = !1  }]]) {}
+function f17({ a ="" , b =0 , c =!1  }) {}
 f14([
     2,
     [
@@ -28,12 +26,12 @@ f14([
             y: !1
         }
     ]
-]), M1 = M || (M = {
-}), [M1.a, M1.b] = [
-    1,
-    2
-], f17({
-}), f17({
+]), (function(M1) {
+    [M1.a, M1.b] = [
+        1,
+        2
+    ];
+})(M || (M = {})), f17({}), f17({
     a: "hello"
 }), f17({
     c: !0

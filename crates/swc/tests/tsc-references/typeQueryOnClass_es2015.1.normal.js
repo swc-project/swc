@@ -1,13 +1,10 @@
 class C {
-    static foo(x) {
-    }
-    static bar(x) {
-    }
+    static foo(x) {}
+    static bar(x) {}
     static get sc() {
         return 1;
     }
-    static set sc(x) {
-    }
+    static set sc(x) {}
     static get sd() {
         return 1;
     }
@@ -17,8 +14,7 @@ class C {
     get ic() {
         return 1;
     }
-    set ic(x) {
-    }
+    set ic(x) {}
     get id() {
         return 1;
     }
@@ -37,8 +33,7 @@ var c;
 var r1;
 var r2;
 class D {
-    foo() {
-    }
+    foo() {}
     constructor(y){
         this.y = y;
     }

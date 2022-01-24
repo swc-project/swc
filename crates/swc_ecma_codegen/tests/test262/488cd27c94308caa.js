@@ -1,5 +1,4 @@
 function a() {
-    var b = {
-    };
+    var b = {};
     b[void 1] = (c(), d);
 }

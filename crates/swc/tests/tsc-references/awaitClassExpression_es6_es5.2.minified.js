@@ -37,8 +37,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -56,21 +55,8 @@ function _createSuper(Derived) {
     };
 }
 function _func() {
-    return (_func = (function(fn) {
-        return function() {
-            var self = this, args = arguments;
-            return new Promise(function(resolve, reject) {
-                var gen = fn.apply(self, args);
-                function _next(value) {
-                    asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-                }
-                function _throw(err) {
-                    asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-                }
-                _next(void 0);
-            });
-        };
-    })(regeneratorRuntime.mark(function _callee() {
+    var fn;
+    return (_func = (fn = regeneratorRuntime.mark(function _callee() {
         var D;
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
@@ -91,5 +77,17 @@ function _func() {
                     return _ctx.stop();
             }
         }, _callee);
-    }))).apply(this, arguments);
+    }), function() {
+        var self = this, args = arguments;
+        return new Promise(function(resolve, reject) {
+            var gen = fn.apply(self, args);
+            function _next(value) {
+                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+            }
+            function _throw(err) {
+                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+            }
+            _next(void 0);
+        });
+    })).apply(this, arguments);
 }

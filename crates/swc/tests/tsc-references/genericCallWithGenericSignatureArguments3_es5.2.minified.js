@@ -1,8 +1,6 @@
-var E, F, x, E, F;
-function foo(x, a, b) {
-}
-function foo2(x, a, b) {
-}
+var E, F, x;
+function foo(x, a, b) {}
+function foo2(x, a, b) {}
 foo("", function(x) {
     return "";
 }, function(x) {
@@ -27,9 +25,11 @@ foo("", function(x) {
     return "";
 }, function(x) {
     return "";
-}), (E = E || (E = {
-}))[E.A = 0] = "A", (F = F || (F = {
-}))[F.A = 0] = "A", foo(E.A, function(x) {
+}), (function(E) {
+    E[E.A = 0] = "A";
+})(E || (E = {})), (function(F) {
+    F[F.A = 0] = "A";
+})(F || (F = {})), foo(E.A, function(x) {
     return E.A;
 }, function(x) {
     return F.A;

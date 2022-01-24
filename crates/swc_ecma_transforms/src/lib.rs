@@ -1,3 +1,4 @@
+#![deny(clippy::all)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![deny(unused)]
 
@@ -6,7 +7,9 @@ pub use self::{
     hygiene::hygiene,
     resolver::{resolver, resolver_with_mark},
 };
-pub use swc_ecma_transforms_base::{fixer, helpers, hygiene, pass, perf, resolver};
+pub use swc_ecma_transforms_base::{
+    assumptions::Assumptions, fixer, helpers, hygiene, pass, perf, resolver,
+};
 #[cfg(feature = "swc_ecma_transforms_compat")]
 #[cfg_attr(docsrs, doc(cfg(feature = "compat")))]
 pub use swc_ecma_transforms_compat as compat;

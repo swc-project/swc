@@ -3,13 +3,10 @@
 // @outDir: ./out
 // @declaration: true
 // @filename: index.js
-module.exports.a = function a() {
-};
-module.exports.b = function b() {
-};
+module.exports.a = function a() {};
+module.exports.b = function b() {};
 module.exports.b.cat = "cat";
-module.exports.c = function c() {
-};
+module.exports.c = function c() {};
 module.exports.c.Cls = class {
 };
 /**
@@ -48,10 +45,8 @@ module.exports.g = g;
     return a.x && b.y();
 }
 module.exports.h = hh;
-module.exports.i = function i() {
-};
+module.exports.i = function i() {};
 module.exports.ii = module.exports.i;
 // note that this last one doesn't make much sense in cjs, since exports aren't hoisted bindings
 module.exports.jj = module.exports.j;
-module.exports.j = function j() {
-};
+module.exports.j = function j() {};

@@ -11,9 +11,8 @@ var Foo = function Foo() {
     this.test = "test";
 };
 (function(Foo) {
-    Foo.answer = 42;
-})(Foo || (Foo = {
-}));
+    var answer = Foo.answer = 42;
+})(Foo || (Foo = {}));
 module.exports = Foo;
 // @Filename: foo_1.ts
 var foo = require("./foo_0");

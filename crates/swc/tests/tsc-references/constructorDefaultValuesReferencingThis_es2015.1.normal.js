@@ -1,10 +1,8 @@
 class C {
-    constructor(x = this){
-    }
+    constructor(x = this){}
 }
 class D {
-    constructor(x = this){
-    }
+    constructor(x = this){}
 }
 class E {
     constructor(x = this){

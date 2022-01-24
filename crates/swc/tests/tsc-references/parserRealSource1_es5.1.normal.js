@@ -76,9 +76,9 @@ var TypeScript;
     };
     var CompilerDiagnostics1;
     (function(CompilerDiagnostics) {
-        CompilerDiagnostics.debug = false;
-        CompilerDiagnostics.diagnosticWriter = null;
-        CompilerDiagnostics.analysisPass = 0;
+        var debug = CompilerDiagnostics.debug = false;
+        var diagnosticWriter = CompilerDiagnostics.diagnosticWriter = null;
+        var analysisPass = CompilerDiagnostics.analysisPass = 0;
         function Alert(output) {
             if (diagnosticWriter) {
                 diagnosticWriter.Alert(output);
@@ -99,8 +99,7 @@ var TypeScript;
             }
         }
         CompilerDiagnostics.assert = assert;
-    })(CompilerDiagnostics1 = TypeScript1.CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {
-    }));
+    })(CompilerDiagnostics1 = TypeScript1.CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {}));
     var NullLogger = /*#__PURE__*/ function() {
         "use strict";
         function NullLogger() {
@@ -139,8 +138,7 @@ var TypeScript;
             },
             {
                 key: "log",
-                value: function log(s) {
-                }
+                value: function log(s) {}
             }
         ]);
         return NullLogger;
@@ -247,5 +245,4 @@ var TypeScript;
     TypeScript1.BufferedLogger = BufferedLogger;
     TypeScript1.timeFunction = timeFunction;
     TypeScript1.stringToLiteral = stringToLiteral;
-})(TypeScript || (TypeScript = {
-}));
+})(TypeScript || (TypeScript = {}));

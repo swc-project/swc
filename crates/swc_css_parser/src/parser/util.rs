@@ -21,10 +21,8 @@ where
     {
         let mut items = vec![];
 
-        if allow_zero {
-            if !ParseDelmited::eat_delimiter(self)? {
-                return Ok(vec![]);
-            }
+        if allow_zero && !ParseDelmited::eat_delimiter(self)? {
+            return Ok(vec![]);
         }
 
         loop {
@@ -49,14 +47,6 @@ where
             inner: self,
         }
     }
-
-    #[inline]
-    pub(super) fn parse_with<F, Ret>(&mut self, op: F) -> PResult<Ret>
-    where
-        F: for<'aa> FnOnce(&'aa mut Parser<I>) -> PResult<Ret>,
-    {
-        op(self)
-    }
 }
 
 pub(super) struct WithCtx<'w, I: 'w + ParserInput> {
@@ -68,12 +58,12 @@ impl<'w, I: ParserInput> Deref for WithCtx<'w, I> {
     type Target = Parser<I>;
 
     fn deref(&self) -> &Parser<I> {
-        &self.inner
+        self.inner
     }
 }
 impl<'w, I: ParserInput> DerefMut for WithCtx<'w, I> {
     fn deref_mut(&mut self) -> &mut Parser<I> {
-        &mut self.inner
+        self.inner
     }
 }
 

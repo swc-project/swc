@@ -42,6 +42,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -49,8 +50,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -105,13 +105,11 @@ var F = /*#__PURE__*/ function(A) {
 var E1;
 (function(E1) {
     E1[E1["one"] = 0] = "one";
-})(E1 || (E1 = {
-}));
+})(E1 || (E1 = {}));
 var E2;
 (function(E2) {
     E2[E2["one"] = 0] = "one";
-})(E2 || (E2 = {
-}));
+})(E2 || (E2 = {}));
 // no error
 var numStrTuple = [
     5,

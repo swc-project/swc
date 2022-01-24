@@ -7,14 +7,12 @@ const taskGroups = {
         id: "styleLayout",
         label: "Style & Layout"
     }
-}, taskNameToGroup = {
-};
+}, taskNameToGroup = {};
 module.exports = {
     taskGroups,
     taskNameToGroup
 };
 const { taskGroups , taskNameToGroup  } = require("./module.js");
 module.exports = class {
-    constructor(x, y){
-    }
+    constructor(x, y){}
 };

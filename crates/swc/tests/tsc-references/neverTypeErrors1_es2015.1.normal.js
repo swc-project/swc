@@ -5,8 +5,7 @@ function f1() {
     x = false;
     x = undefined;
     x = null;
-    x = {
-    };
+    x = {};
     x();
 }
 function f2() {
@@ -15,9 +14,6 @@ function f2() {
 function f3() {
     return 1;
 }
-function f4() {
-}
-for (const n of f4()){
-}
-for(const n1 in f4()){
-}
+function f4() {}
+for (const n of f4()){}
+for(const n1 in f4()){}

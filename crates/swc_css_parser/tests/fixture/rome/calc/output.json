@@ -683,13 +683,14 @@
                         },
                         "values": [
                           {
-                            "type": "RoundBracketBlock",
+                            "type": "SimpleBlock",
                             "span": {
                               "start": 153,
                               "end": 160,
                               "ctxt": 0
                             },
-                            "children": [
+                            "name": "(",
+                            "value": [
                               {
                                 "type": "BinValue",
                                 "span": {
@@ -725,13 +726,14 @@
                       }
                     },
                     "right": {
-                      "type": "RoundBracketBlock",
+                      "type": "SimpleBlock",
                       "span": {
                         "start": 163,
                         "end": 170,
                         "ctxt": 0
                       },
-                      "children": [
+                      "name": "(",
+                      "value": [
                         {
                           "type": "BinValue",
                           "span": {

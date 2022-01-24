@@ -48,7 +48,7 @@ pub fn init() -> tracing::subscriber::DefaultGuard {
 }
 
 pub fn find_executable(name: &str) -> Option<PathBuf> {
-    static CACHE: Lazy<RwLock<AHashMap<String, PathBuf>>> = Lazy::new(|| Default::default());
+    static CACHE: Lazy<RwLock<AHashMap<String, PathBuf>>> = Lazy::new(Default::default);
 
     {
         let locked = CACHE.read().unwrap();
@@ -119,6 +119,7 @@ pub struct Tester {
 }
 
 impl Tester {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
         Tester {
             cm: Lrc::new(SourceMap::new(FilePathMapping::empty())),

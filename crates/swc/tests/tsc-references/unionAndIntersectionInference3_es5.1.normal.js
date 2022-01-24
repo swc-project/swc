@@ -34,17 +34,22 @@ concatMaybe([
     3
 ], 4);
 // Repros from #32247
-var g = _asyncToGenerator(regeneratorRuntime.mark(function _callee(com) {
-    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
-            case 0:
-                throw com;
-            case 1:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _callee);
-}));
+var g = function() {
+    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(com) {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    throw com;
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
+    return function g(com) {
+        return _ref.apply(this, arguments);
+    };
+}();
 f1 = f2;
 f2 = f1;
 g1 = g2;

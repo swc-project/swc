@@ -3,15 +3,13 @@ try {
         0,
         1
     ];
-} catch ([a, b]) {
-}
+} catch ([a, b]) {}
 try {
     throw {
         a: 0,
         b: 1
     };
-} catch ({ a: a1 , b: b1  }) {
-}
+} catch ({ a: a1 , b: b1  }) {}
 try {
     throw [
         {
@@ -21,8 +19,5 @@ try {
             z: 1
         }
     ];
-} catch ([{ x: [y] , z  }]) {
-}
-try {
-} catch ([a2]) {
-}
+} catch ([{ x: [y] , z  }]) {}
+try {} catch ([a2]) {}

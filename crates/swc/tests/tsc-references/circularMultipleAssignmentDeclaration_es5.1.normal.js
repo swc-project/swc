@@ -3,8 +3,6 @@
 // @checkJs: true
 // @noEmit: true
 ns.next = ns.next || {
-    shared: {
-    }
+    shared: {}
 };
-ns.next.shared.mymethod = {
-};
+ns.next.shared.mymethod = {};

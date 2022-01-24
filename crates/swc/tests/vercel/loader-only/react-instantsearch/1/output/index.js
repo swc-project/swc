@@ -68,8 +68,7 @@ function serializeQueryParameters(parameters) {
  * @param {number} stalledSearchDelay - time (in ms) after the search is stalled
  * @return {InstantSearchManager} a new instance of InstantSearchManager
  */ export default function createInstantSearchManager(param1) {
-    var indexName = param1.indexName, _initialState = param1.initialState, initialState1 = _initialState === void 0 ? {
-    } : _initialState, searchClient = param1.searchClient, resultsState = param1.resultsState, stalledSearchDelay = param1.stalledSearchDelay;
+    var indexName = param1.indexName, _initialState = param1.initialState, initialState1 = _initialState === void 0 ? {} : _initialState, searchClient = param1.searchClient, resultsState = param1.resultsState, stalledSearchDelay = param1.stalledSearchDelay;
     var createStore = function createStore(initialState) {
         var state = initialState;
         var listeners = [];
@@ -140,11 +139,8 @@ function serializeQueryParameters(parameters) {
         .sort(sortIndexWidgetsFirst).reduce(function(indices, widget) {
             var indexId = isMultiIndexContext(widget) ? widget.props.indexContextValue.targetedIndex : widget.props.indexId;
             var widgets = indices[indexId] || [];
-            return swcHelpers.objectSpread({
-            }, indices, swcHelpers.defineProperty({
-            }, indexId, widgets.concat(widget)));
-        }, {
-        });
+            return swcHelpers.objectSpread({}, indices, swcHelpers.defineProperty({}, indexId, widgets.concat(widget)));
+        }, {});
         var derivedParameters = Object.keys(derivedIndices).map(function(indexId) {
             return {
                 parameters: derivedIndices[indexId].reduce(function(res, widget) {
@@ -200,17 +196,13 @@ function serializeQueryParameters(parameters) {
         return function(event) {
             var state = store.getState();
             var isDerivedHelpersEmpty = !helper.derivedHelpers.length;
-            var results = state.results ? state.results : {
-            };
+            var results = state.results ? state.results : {};
             // Switching from mono index to multi index and vice versa must reset the
             // results to an empty object, otherwise we keep reference of stalled and
             // unused results.
-            results = !isDerivedHelpersEmpty && results.getFacetByName ? {
-            } : results;
+            results = !isDerivedHelpersEmpty && results.getFacetByName ? {} : results;
             if (!isDerivedHelpersEmpty) {
-                results = swcHelpers.objectSpread({
-                }, results, swcHelpers.defineProperty({
-                }, indexId, event.results));
+                results = swcHelpers.objectSpread({}, results, swcHelpers.defineProperty({}, indexId, event.results));
             } else {
                 results = event.results;
             }
@@ -224,8 +216,7 @@ function serializeQueryParameters(parameters) {
             var resultsFacetValues = currentState.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(currentState, [
                 "resultsFacetValues"
             ]);
-            store.setState(swcHelpers.objectSpread({
-            }, partialState, {
+            store.setState(swcHelpers.objectSpread({}, partialState, {
                 results: results,
                 isSearchStalled: nextIsSearchStalled,
                 searching: false,
@@ -244,8 +235,7 @@ function serializeQueryParameters(parameters) {
         var resultsFacetValues = currentState.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(currentState, [
             "resultsFacetValues"
         ]);
-        store.setState(swcHelpers.objectSpread({
-        }, partialState, {
+        store.setState(swcHelpers.objectSpread({}, partialState, {
             isSearchStalled: nextIsSearchStalled,
             error: error,
             searching: false
@@ -258,8 +248,7 @@ function serializeQueryParameters(parameters) {
                 var _ref = store.getState(), resultsFacetValues = _ref.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(_ref, [
                     "resultsFacetValues"
                 ]);
-                store.setState(swcHelpers.objectSpread({
-                }, partialState, {
+                store.setState(swcHelpers.objectSpread({}, partialState, {
                     isSearchStalled: true
                 }));
             }, stalledSearchDelay), stalledSearchTimer = _tmp, _tmp;
@@ -290,8 +279,7 @@ function serializeQueryParameters(parameters) {
                     methodArgs[_key - 1] = arguments[_key];
                 }
                 var requestsWithSerializedParams = requests.map(function(request) {
-                    return swcHelpers.objectSpread({
-                    }, request, {
+                    return swcHelpers.objectSpread({}, request, {
                         params: serializeQueryParameters(request.params)
                     });
                 });
@@ -352,9 +340,7 @@ function serializeQueryParameters(parameters) {
                 }));
             }, [])
         }));
-        client.cache = swcHelpers.objectSpread({
-        }, client.cache, swcHelpers.defineProperty({
-        }, key, JSON.stringify({
+        client.cache = swcHelpers.objectSpread({}, client.cache, swcHelpers.defineProperty({}, key, JSON.stringify({
             results: results.reduce(function(acc, result) {
                 return acc.concat(result.rawResults);
             }, [])
@@ -393,9 +379,7 @@ function serializeQueryParameters(parameters) {
                 };
             })
         }));
-        client.cache = swcHelpers.objectSpread({
-        }, client.cache, swcHelpers.defineProperty({
-        }, key, JSON.stringify({
+        client.cache = swcHelpers.objectSpread({}, client.cache, swcHelpers.defineProperty({}, key, JSON.stringify({
             results: results.rawResults
         })));
     };
@@ -405,19 +389,15 @@ function serializeQueryParameters(parameters) {
         }
         if (Array.isArray(results.results)) {
             return results.results.reduce(function(acc, result) {
-                return swcHelpers.objectSpread({
-                }, acc, swcHelpers.defineProperty({
-                }, result._internalIndexId, new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(result.state), result.rawResults)));
-            }, {
-            });
+                return swcHelpers.objectSpread({}, acc, swcHelpers.defineProperty({}, result._internalIndexId, new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(result.state), result.rawResults)));
+            }, {});
         }
         return new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results.state), results.rawResults);
     };
     var onWidgetsUpdate = // Called whenever a widget has been rendered with new props.
     function onWidgetsUpdate() {
         var metadata = getMetadata(store.getState().widgets);
-        store.setState(swcHelpers.objectSpread({
-        }, store.getState(), {
+        store.setState(swcHelpers.objectSpread({}, store.getState(), {
             metadata: metadata,
             searching: true
         }));
@@ -435,8 +415,7 @@ function serializeQueryParameters(parameters) {
     };
     var onExternalStateUpdate = function onExternalStateUpdate(nextSearchState) {
         var metadata = getMetadata(nextSearchState);
-        store.setState(swcHelpers.objectSpread({
-        }, store.getState(), {
+        store.setState(swcHelpers.objectSpread({}, store.getState(), {
             widgets: nextSearchState,
             metadata: metadata,
             searching: true
@@ -448,23 +427,18 @@ function serializeQueryParameters(parameters) {
         // The values 1, 100 are the min / max values that the engine accepts.
         // see: https://www.algolia.com/doc/api-reference/api-parameters/maxFacetHits
         var maxFacetHitsWithinRange = Math.max(1, Math.min(maxFacetHits, 100));
-        store.setState(swcHelpers.objectSpread({
-        }, store.getState(), {
+        store.setState(swcHelpers.objectSpread({}, store.getState(), {
             searchingForFacetValues: true
         }));
         helper.searchForFacetValues(facetName, query, maxFacetHitsWithinRange).then(function(content) {
             var _obj;
-            store.setState(swcHelpers.objectSpread({
-            }, store.getState(), {
+            store.setState(swcHelpers.objectSpread({}, store.getState(), {
                 error: null,
                 searchingForFacetValues: false,
-                resultsFacetValues: swcHelpers.objectSpread({
-                }, store.getState().resultsFacetValues, (_obj = {
-                }, swcHelpers.defineProperty(_obj, facetName, content.facetHits), swcHelpers.defineProperty(_obj, "query", query), _obj))
+                resultsFacetValues: swcHelpers.objectSpread({}, store.getState().resultsFacetValues, (_obj = {}, swcHelpers.defineProperty(_obj, facetName, content.facetHits), swcHelpers.defineProperty(_obj, "query", query), _obj))
             }));
         }, function(error) {
-            store.setState(swcHelpers.objectSpread({
-            }, store.getState(), {
+            store.setState(swcHelpers.objectSpread({}, store.getState(), {
                 searchingForFacetValues: false,
                 error: error
             }));
@@ -487,8 +461,7 @@ function serializeQueryParameters(parameters) {
             return typeof meta.id !== 'undefined' ? res.concat(meta.id) : res;
         }, []);
     };
-    var helper = algoliasearchHelper(searchClient, indexName, swcHelpers.objectSpread({
-    }, HIGHLIGHT_TAGS));
+    var helper = algoliasearchHelper(searchClient, indexName, swcHelpers.objectSpread({}, HIGHLIGHT_TAGS));
     addAlgoliaAgents(searchClient);
     helper.on('search', handleNewSearch).on('result', handleSearchSuccess({
         indexId: indexName
@@ -529,22 +502,19 @@ function hydrateMetadata(resultsState) {
     return resultsState.metadata.map(function(datum) {
         return swcHelpers.objectSpread({
             value: function() {
-                return {
-                };
+                return {};
             }
         }, datum, {
             items: datum.items && datum.items.map(function(item) {
                 return swcHelpers.objectSpread({
                     value: function() {
-                        return {
-                        };
+                        return {};
                     }
                 }, item, {
                     items: item.items && item.items.map(function(nestedItem) {
                         return swcHelpers.objectSpread({
                             value: function() {
-                                return {
-                                };
+                                return {};
                             }
                         }, nestedItem);
                     })

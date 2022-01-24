@@ -9,8 +9,7 @@ class A {
         class C extends A {
         }
     }
-    constructor(){
-    }
+    constructor(){}
 }
 class D {
     method() {
@@ -22,6 +21,5 @@ class D {
         class F extends D {
         }
     }
-    constructor(){
-    }
+    constructor(){}
 }

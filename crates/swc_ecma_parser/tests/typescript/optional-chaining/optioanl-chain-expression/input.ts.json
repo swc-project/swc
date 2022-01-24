@@ -65,8 +65,7 @@
                 },
                 "value": "b",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -77,8 +76,7 @@
               },
               "value": "c",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "arguments": [],

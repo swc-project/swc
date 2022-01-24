@@ -24,10 +24,10 @@ pub fn minify_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
 
         let fm = c.cm.new_source_file(FileName::Anon, s.into());
         let program = c
-            .minify(fm, &handler, &opts)
+            .minify(fm, handler, &opts)
             .context("failed to minify file")?;
 
-        Ok(JsValue::from_serde(&program).context("failed to serialize json")?)
+        JsValue::from_serde(&program).context("failed to serialize json")
     })
     .map_err(convert_err)
 }
@@ -45,7 +45,7 @@ pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
         let program = c
             .parse_js(
                 fm,
-                &handler,
+                handler,
                 opts.target,
                 opts.syntax,
                 opts.is_module,
@@ -53,7 +53,7 @@ pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
             )
             .context("failed to parse code")?;
 
-        Ok(JsValue::from_serde(&program).context("failed to serialize json")?)
+        JsValue::from_serde(&program).context("failed to serialize json")
     })
     .map_err(convert_err)
 }
@@ -86,7 +86,7 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
             )
             .context("failed to print code")?;
 
-        Ok(JsValue::from_serde(&s).context("failed to serialize json")?)
+        JsValue::from_serde(&s).context("failed to serialize json")
     })
     .map_err(convert_err)
 }
@@ -101,7 +101,7 @@ pub fn transform_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
         let opts: Options = opts.into_serde().context("failed to parse options")?;
 
         let fm = c.cm.new_source_file(
-            if opts.filename == "" {
+            if opts.filename.is_empty() {
                 FileName::Anon
             } else {
                 FileName::Real(opts.filename.clone().into())
@@ -109,10 +109,10 @@ pub fn transform_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
             s.into(),
         );
         let out = c
-            .process_js_file(fm, &handler, &opts)
+            .process_js_file(fm, handler, &opts)
             .context("failed to process js file")?;
 
-        Ok(JsValue::from_serde(&out).context("failed to serialize json")?)
+        JsValue::from_serde(&out).context("failed to serialize json")
     })
     .map_err(convert_err)
 }

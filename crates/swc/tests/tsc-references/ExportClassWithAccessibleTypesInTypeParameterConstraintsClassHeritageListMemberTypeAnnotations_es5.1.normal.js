@@ -42,6 +42,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -49,8 +50,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -76,7 +76,7 @@ var A;
         _classCallCheck(this, Point);
     };
     A1.Point = Point;
-    A1.Origin = {
+    var Origin = A1.Origin = {
         x: 0,
         y: 0
     };
@@ -91,7 +91,7 @@ var A;
         return Point3d;
     }(Point);
     A1.Point3d = Point3d;
-    A1.Origin3d = {
+    var Origin3d = A1.Origin3d = {
         x: 0,
         y: 0,
         z: 0
@@ -103,5 +103,4 @@ var A;
         this.end = end;
     };
     A1.Line = Line;
-})(A || (A = {
-}));
+})(A || (A = {}));

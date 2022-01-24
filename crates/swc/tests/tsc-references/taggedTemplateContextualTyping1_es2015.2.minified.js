@@ -1,24 +1,16 @@
-function tempTag1(...rest) {
-}
+function tempTag1(...rest) {}
 tempTag1`${(x)=>{
-    x(undefined);
-    return x;
+    return x(void 0), x;
 }}${10}`, tempTag1`${(x)=>{
-    x(undefined);
-    return x;
+    return x(void 0), x;
 }}${(y)=>{
-    y(undefined);
-    return y;
+    return y(void 0), y;
 }}${10}`, tempTag1`${(x)=>{
-    x(undefined);
-    return x;
+    return x(void 0), x;
 }}${(y)=>{
-    y(undefined);
-    return y;
-}}${undefined}`, tempTag1`${(x)=>{
-    x(undefined);
-    return x;
+    return y(void 0), y;
+}}${void 0}`, tempTag1`${(x)=>{
+    return x(void 0), x;
 }}${(y)=>{
-    y(undefined);
-    return y;
-}}${undefined}`;
+    return y(void 0), y;
+}}${void 0}`;

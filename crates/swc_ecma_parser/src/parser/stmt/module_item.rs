@@ -190,11 +190,9 @@ impl<'a, I: Tokens> Parser<I> {
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
     fn parse_import_specifier(&mut self, type_only: bool) -> PResult<ImportSpecifier> {
         let start = cur_pos!(self);
-        match cur!(self, false) {
-            Ok(&Word(..)) => {
+        match self.parse_module_export_name()? {
+            ModuleExportName::Ident(mut orig_name) => {
                 let mut is_type_only = false;
-                let mut orig_name = self.parse_ident_name()?;
-
                 // Handle:
                 // `import { type xx } from 'mod'`
                 // `import { type xx as yy } from 'mod'`
@@ -243,7 +241,7 @@ impl<'a, I: Tokens> Parser<I> {
                                 return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                                     span: Span::new(start, orig_name.span.hi(), Default::default()),
                                     local,
-                                    imported: Some(possibly_orig_name),
+                                    imported: Some(ModuleExportName::Ident(possibly_orig_name)),
                                     is_type_only: true,
                                 }));
                             } else {
@@ -251,7 +249,7 @@ impl<'a, I: Tokens> Parser<I> {
                                 return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                                     span: Span::new(start, maybe_as.span.hi(), Default::default()),
                                     local: maybe_as,
-                                    imported: Some(orig_name),
+                                    imported: Some(ModuleExportName::Ident(orig_name)),
                                     is_type_only: false,
                                 }));
                             }
@@ -260,7 +258,7 @@ impl<'a, I: Tokens> Parser<I> {
                             return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                                 span: Span::new(start, orig_name.span.hi(), Default::default()),
                                 local: maybe_as,
-                                imported: Some(orig_name),
+                                imported: Some(ModuleExportName::Ident(orig_name)),
                                 is_type_only: false,
                             }));
                         }
@@ -281,7 +279,7 @@ impl<'a, I: Tokens> Parser<I> {
                     return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new(start, local.span.hi(), Default::default()),
                         local,
-                        imported: Some(orig_name),
+                        imported: Some(ModuleExportName::Ident(orig_name)),
                         is_type_only,
                     }));
                 }
@@ -302,7 +300,23 @@ impl<'a, I: Tokens> Parser<I> {
                     is_type_only,
                 }))
             }
-            _ => unexpected!(self, "an identifier"),
+            ModuleExportName::Str(orig_str) => {
+                if eat!(self, "as") {
+                    let local = self.parse_binding_ident()?.id;
+                    Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                        span: Span::new(start, local.span.hi(), Default::default()),
+                        local,
+                        imported: Some(ModuleExportName::Str(orig_str)),
+                        is_type_only: false,
+                    }))
+                } else {
+                    syntax_error!(
+                        self,
+                        orig_str.span,
+                        SyntaxError::ImportBindingIsString(orig_str.value)
+                    )
+                }
+            }
         }
     }
 
@@ -422,7 +436,7 @@ impl<'a, I: Tokens> Parser<I> {
             if eat!(self, "as") {
                 let _ = cur!(self, false);
 
-                let name = self.parse_ident_name()?;
+                let name = self.parse_module_export_name()?;
                 export_ns = Some(ExportSpecifier::Namespace(ExportNamespaceSpecifier {
                     span: span!(self, ns_export_specifier_start),
                     name,
@@ -609,11 +623,13 @@ impl<'a, I: Tokens> Parser<I> {
                     exported: default,
                 }))
             }
+            let mut string_export_binding_span = None;
             while !eof!(self) && !is!(self, '}') {
-                specifiers.push(
-                    self.parse_named_export_specifier(type_only)
-                        .map(ExportSpecifier::Named)?,
-                );
+                let specifier = self.parse_named_export_specifier(type_only)?;
+                if let ModuleExportName::Str(str_export) = &specifier.orig {
+                    string_export_binding_span = Some(str_export.span);
+                }
+                specifiers.push(ExportSpecifier::Named(specifier));
 
                 if is!(self, '}') {
                     break;
@@ -633,6 +649,9 @@ impl<'a, I: Tokens> Parser<I> {
                         span!(self, start),
                         SyntaxError::ExportDefaultWithOutFrom
                     );
+                }
+                if let Some(span) = string_export_binding_span {
+                    syntax_error!(self, span, SyntaxError::ExportBindingIsString);
                 }
                 None
             };
@@ -659,80 +678,97 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let mut is_type_only = false;
-        let mut orig = self.parse_ident_name()?;
 
-        // Handle:
-        // `export { type xx }`
-        // `export { type xx as yy }`
-        // `export { type as }`
-        // `export { type as as }`
-        // `export { type as as as }`
-        if self.syntax().typescript() && orig.sym == js_word!("type") && is!(self, IdentName) {
-            let possibly_orig = self.parse_ident_name()?;
-            if possibly_orig.sym == js_word!("as") {
-                // `export { type as }`
-                if !is!(self, IdentName) {
-                    if type_only {
-                        self.emit_err(orig.span, SyntaxError::TS2207);
-                    }
-
-                    return Ok(ExportNamedSpecifier {
-                        span: span!(self, start),
-                        orig: possibly_orig,
-                        exported: None,
-                        is_type_only: true,
-                    });
-                }
-
-                let maybe_as = self.parse_ident_name()?;
-                if maybe_as.sym == js_word!("as") {
-                    if is!(self, IdentName) {
-                        // `export { type as as as }`
-                        // `export { type as as foo }`
-                        let exported = self.parse_ident_name()?;
-
-                        if type_only {
-                            self.emit_err(orig.span, SyntaxError::TS2207);
-                        }
-
-                        return Ok(ExportNamedSpecifier {
-                            span: Span::new(start, orig.span.hi(), Default::default()),
-                            orig: possibly_orig,
-                            exported: Some(exported),
-                            is_type_only: true,
-                        });
-                    } else {
-                        // `export { type as as }`
-                        return Ok(ExportNamedSpecifier {
-                            span: Span::new(start, orig.span.hi(), Default::default()),
-                            orig,
-                            exported: Some(maybe_as),
-                            is_type_only: false,
-                        });
-                    }
-                } else {
-                    // `export { type as xxx }`
-                    return Ok(ExportNamedSpecifier {
-                        span: Span::new(start, orig.span.hi(), Default::default()),
-                        orig,
-                        exported: Some(maybe_as),
-                        is_type_only: false,
-                    });
-                }
-            } else {
+        let orig = match self.parse_module_export_name()? {
+            ModuleExportName::Ident(orig_ident) => {
+                // Handle:
                 // `export { type xx }`
                 // `export { type xx as yy }`
-                if type_only {
-                    self.emit_err(orig.span, SyntaxError::TS2207);
-                }
+                // `export { type as }`
+                // `export { type as as }`
+                // `export { type as as as }`
+                if self.syntax().typescript()
+                    && orig_ident.sym == js_word!("type")
+                    && is!(self, IdentName)
+                {
+                    let possibly_orig = self.parse_ident_name()?;
+                    if possibly_orig.sym == js_word!("as") {
+                        // `export { type as }`
+                        if !is!(self, IdentName) {
+                            if type_only {
+                                self.emit_err(orig_ident.span, SyntaxError::TS2207);
+                            }
 
-                orig = possibly_orig;
-                is_type_only = true;
+                            return Ok(ExportNamedSpecifier {
+                                span: span!(self, start),
+                                orig: ModuleExportName::Ident(possibly_orig),
+                                exported: None,
+                                is_type_only: true,
+                            });
+                        }
+
+                        let maybe_as = self.parse_ident_name()?;
+                        if maybe_as.sym == js_word!("as") {
+                            if is!(self, IdentName) {
+                                // `export { type as as as }`
+                                // `export { type as as foo }`
+                                let exported = self.parse_ident_name()?;
+
+                                if type_only {
+                                    self.emit_err(orig_ident.span, SyntaxError::TS2207);
+                                }
+
+                                return Ok(ExportNamedSpecifier {
+                                    span: Span::new(
+                                        start,
+                                        orig_ident.span.hi(),
+                                        Default::default(),
+                                    ),
+                                    orig: ModuleExportName::Ident(possibly_orig),
+                                    exported: Some(ModuleExportName::Ident(exported)),
+                                    is_type_only: true,
+                                });
+                            } else {
+                                // `export { type as as }`
+                                return Ok(ExportNamedSpecifier {
+                                    span: Span::new(
+                                        start,
+                                        orig_ident.span.hi(),
+                                        Default::default(),
+                                    ),
+                                    orig: ModuleExportName::Ident(orig_ident),
+                                    exported: Some(ModuleExportName::Ident(maybe_as)),
+                                    is_type_only: false,
+                                });
+                            }
+                        } else {
+                            // `export { type as xxx }`
+                            return Ok(ExportNamedSpecifier {
+                                span: Span::new(start, orig_ident.span.hi(), Default::default()),
+                                orig: ModuleExportName::Ident(orig_ident),
+                                exported: Some(ModuleExportName::Ident(maybe_as)),
+                                is_type_only: false,
+                            });
+                        }
+                    } else {
+                        // `export { type xx }`
+                        // `export { type xx as yy }`
+                        if type_only {
+                            self.emit_err(orig_ident.span, SyntaxError::TS2207);
+                        }
+
+                        is_type_only = true;
+                        ModuleExportName::Ident(possibly_orig)
+                    }
+                } else {
+                    ModuleExportName::Ident(orig_ident)
+                }
             }
-        }
+            module_export_name => module_export_name,
+        };
 
         let exported = if eat!(self, "as") {
-            Some(self.parse_ident_name()?)
+            Some(self.parse_module_export_name()?)
         } else {
             None
         };

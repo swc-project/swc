@@ -2,11 +2,9 @@ class Handler {
     static get OPTIONS() {
         return 1;
     }
-    process() {
-    }
+    process() {}
 }
-Handler.statische = function() {
-}, module.exports = Handler, module.exports.Strings = {
+Handler.statische = function() {}, module.exports = Handler, module.exports.Strings = {
     a: "A",
     b: "B"
 } /**

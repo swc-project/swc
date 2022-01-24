@@ -1,8 +1,7 @@
 var M;
 (function(M1) {
-    M1.a = 1;
-})(M || (M = {
-}));
+    var a = M1.a = 1;
+})(M || (M = {}));
 // primary expression
 var m;
 var m = M;
@@ -21,10 +20,8 @@ var M2;
             };
         }
         Point.Origin = Origin;
-    })(Point1 = M21.Point || (M21.Point = {
-    }));
-})(M2 || (M2 = {
-}));
+    })(Point1 = M21.Point || (M21.Point = {}));
+})(M2 || (M2 = {}));
 var p;
 var p;
 var p2;
@@ -34,5 +31,4 @@ var M3;
     class Utils {
     }
     M31.Utils = Utils;
-})(M3 || (M3 = {
-}));
+})(M3 || (M3 = {}));

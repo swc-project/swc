@@ -18,9 +18,7 @@ static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 fn mk() -> swc::Compiler {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
-    let c = swc::Compiler::new(cm.clone());
-
-    c
+    swc::Compiler::new(cm)
 }
 
 fn parse(c: &swc::Compiler, src: &str) -> (Arc<SourceFile>, Program) {

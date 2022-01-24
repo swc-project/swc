@@ -12,8 +12,7 @@ const props = {
 };
 React.createElement("div", _extends({
     key: "foo"
-}, props), "text"), React.createElement("div", _extends({
-}, props, {
+}, props), "text"), React.createElement("div", _extends({}, props, {
     key: "bar"
 }), "text");
 export { };

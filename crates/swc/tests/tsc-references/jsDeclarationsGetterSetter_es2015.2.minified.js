@@ -4,15 +4,13 @@ export class A {
     }
 }
 export class B {
-    set x(_arg) {
-    }
+    set x(_arg) {}
 }
 export class C {
     get x() {
         return 12;
     }
-    set x(_arg) {
-    }
+    set x(_arg) {}
 }
 export class D {
 }
@@ -24,8 +22,7 @@ Object.defineProperty(D.prototype, "x", {
 export class E {
 }
 Object.defineProperty(E.prototype, "x", {
-    set (_arg) {
-    }
+    set (_arg) {}
 });
 export class F {
 }
@@ -33,6 +30,5 @@ Object.defineProperty(F.prototype, "x", {
     get () {
         return 12;
     },
-    set (_arg) {
-    }
+    set (_arg) {}
 });

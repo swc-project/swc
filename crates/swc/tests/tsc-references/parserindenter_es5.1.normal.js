@@ -654,5 +654,4 @@ var Formatting;
         return Indenter;
     }();
     Formatting1.Indenter = Indenter;
-})(Formatting || (Formatting = {
-}));
+})(Formatting || (Formatting = {}));

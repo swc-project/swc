@@ -547,8 +547,7 @@
                         },
                         "value": "x",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "async": false,
                     "generator": false,
@@ -601,8 +600,7 @@
                         },
                         "value": "y",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "async": false,
                     "generator": false,
@@ -655,8 +653,7 @@
                         },
                         "value": "z",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "async": false,
                     "generator": false,
@@ -1525,8 +1522,7 @@
                         },
                         "value": "x",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "async": false,
                     "generator": false,
@@ -1579,8 +1575,7 @@
                         },
                         "value": "y",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "async": false,
                     "generator": false,
@@ -1633,8 +1628,7 @@
                         },
                         "value": "z",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "async": false,
                     "generator": false,
@@ -2180,20 +2174,27 @@
                   "optional": false
                 },
                 "property": {
-                  "type": "StringLiteral",
+                  "type": "Computed",
                   "span": {
-                    "start": 760,
-                    "end": 766,
+                    "start": 759,
+                    "end": 767,
                     "ctxt": 0
                   },
-                  "value": "prop",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 760,
+                      "end": 766,
+                      "ctxt": 0
+                    },
+                    "value": "prop",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
                   }
-                },
-                "computed": true
+                }
               },
               "typeParameters": {
                 "type": "TsTypeParameterInstantiation",
@@ -2417,8 +2418,7 @@
             },
             "value": "returnedObjProp",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -2429,8 +2429,7 @@
           },
           "value": "x",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2473,8 +2472,7 @@
             },
             "value": "returnedObjProp",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -2485,8 +2483,7 @@
           },
           "value": "y",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2529,8 +2526,7 @@
             },
             "value": "returnedObjProp",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -2541,8 +2537,7 @@
           },
           "value": "z",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2604,8 +2599,7 @@
               },
               "value": "prop",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeParameters": {
             "type": "TsTypeParameterInstantiation",
@@ -2826,8 +2820,7 @@
             },
             "value": "returnedObjProp",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -2838,8 +2831,7 @@
           },
           "value": "x",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2882,8 +2874,7 @@
             },
             "value": "returnedObjProp",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -2894,8 +2885,7 @@
           },
           "value": "y",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2938,8 +2928,7 @@
             },
             "value": "returnedObjProp",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -2950,8 +2939,7 @@
           },
           "value": "z",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

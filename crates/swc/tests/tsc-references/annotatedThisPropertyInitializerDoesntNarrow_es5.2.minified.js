@@ -10,14 +10,12 @@ export var C = function() {
     function C() {
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, C), this.assets = {
-        };
+        }(this, C), this.assets = {};
     }
     return protoProps = [
         {
             key: "m",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties((Constructor = C).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

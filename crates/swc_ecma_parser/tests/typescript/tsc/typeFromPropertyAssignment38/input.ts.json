@@ -73,20 +73,27 @@
             "optional": false
           },
           "property": {
-            "type": "StringLiteral",
+            "type": "Computed",
             "span": {
-              "start": 75,
-              "end": 81,
+              "start": 74,
+              "end": 82,
               "ctxt": 0
             },
-            "value": "prop",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 75,
+                "end": 81,
+                "ctxt": 0
+              },
+              "value": "prop",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
             }
-          },
-          "computed": true
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -188,20 +195,27 @@
             "optional": false
           },
           "property": {
-            "type": "StringLiteral",
+            "type": "Computed",
             "span": {
-              "start": 117,
-              "end": 123,
+              "start": 116,
+              "end": 124,
               "ctxt": 0
             },
-            "value": "prop",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 117,
+                "end": 123,
+                "ctxt": 0
+              },
+              "value": "prop",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
             }
-          },
-          "computed": true
+          }
         },
         "right": {
           "type": "NumericLiteral",

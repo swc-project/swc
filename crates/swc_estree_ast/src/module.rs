@@ -113,8 +113,8 @@ pub enum ExportKind {
 pub struct ExportSpecifier {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub local: Identifier,
-    pub exported: IdOrString,
+    pub local: ModuleExportNameType,
+    pub exported: ModuleExportNameType,
     pub export_kind: ExportKind,
 }
 
@@ -131,7 +131,7 @@ pub struct ExportDefaultSpecifier {
 pub struct ExportNamespaceSpecifier {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub exported: Identifier,
+    pub exported: ModuleExportNameType,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -219,7 +219,7 @@ pub struct ImportSpecifier {
     #[serde(flatten)]
     pub base: BaseNode,
     pub local: Identifier,
-    pub imported: IdOrString,
+    pub imported: ModuleExportNameType,
     #[serde(default)]
     pub import_kind: Option<ImportKind>,
 }
@@ -272,4 +272,13 @@ pub struct ImportDeclaration {
     pub assertions: Option<Vec<ImportAttribute>>,
     #[serde(default)]
     pub import_kind: Option<ImportKind>,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
+pub enum ModuleExportNameType {
+    #[tag("Identifier")]
+    Ident(Identifier),
+    #[tag("StringLiteral")]
+    Str(StringLiteral),
 }

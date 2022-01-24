@@ -14,19 +14,15 @@ var A2 = function A2() {
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
-function f() {
-}
+})(E || (E = {}));
+function f() {}
 (function(f1) {
-    f1.bar = 1;
-})(f || (f = {
-}));
+    var bar = f1.bar = 1;
+})(f || (f = {}));
 var c = function c() {
     "use strict";
     _classCallCheck(this, c);
 };
 (function(c) {
-    c.bar = 1;
-})(c || (c = {
-}));
+    var bar = c.bar = 1;
+})(c || (c = {}));

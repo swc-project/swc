@@ -77,7 +77,6 @@ try {
     y + z;
 }
 // Test of comment ranges. A fix to GH#11755 should update this.
-try {
-} catch (param3) {
+try {} catch (param3) {
     var _param2 = _slicedToArray(param3, 1), /*a*/ a2 = _param2[0];
 }

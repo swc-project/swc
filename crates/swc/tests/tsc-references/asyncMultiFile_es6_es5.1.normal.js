@@ -46,5 +46,4 @@ function _f() {
     return _f.apply(this, arguments);
 }
 // @filename: b.ts
-function g() {
-}
+function g() {}

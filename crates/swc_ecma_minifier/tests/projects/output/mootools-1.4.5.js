@@ -50,8 +50,7 @@
             if ("string" != typeof a ? args = a : arguments.length > 1 ? args = arguments : usePlural && (args = [
                 a
             ]), args) {
-                result = {
-                };
+                result = {};
                 for(var i = 0; i < args.length; i++)result[args[i]] = self.call(this, args[i]);
             } else result = self.call(this, a);
             return result;
@@ -97,8 +96,7 @@
     Type.isEnumerable = function(item) {
         return null != item && "number" == typeof item.length && "[object Function]" != toString.call(item);
     };
-    var hooks1 = {
-    }, hooksOf = function(object) {
+    var hooks1 = {}, hooksOf = function(object) {
         var type = typeOf(object.prototype);
         return hooks1[type] || (hooks1[type] = []);
     }, implement = function(name, method) {
@@ -264,15 +262,13 @@
             return source;
         },
         clone: function(object) {
-            var clone = {
-            };
+            var clone = {};
             for(var key in object)clone[key] = cloneOf(object[key]);
             return clone;
         },
         append: function(original) {
             for(var i = 1, l = arguments.length; i < l; i++){
-                var extended = arguments[i] || {
-                };
+                var extended = arguments[i] || {};
                 for(var key in extended)original[key] = extended[key];
             }
             return original;
@@ -299,8 +295,7 @@
             Object.forEach(this, fn, bind);
         },
         getClean: function() {
-            var clean = {
-            };
+            var clean = {};
             for(var key in this)this.hasOwnProperty(key) && (clean[key] = this[key]);
             return clean;
         },
@@ -335,15 +330,13 @@
     }, this.$each = function(iterable, fn, bind) {
         var type = typeOf(iterable);
         ("arguments" == type || "collection" == type || "array" == type || "elements" == type ? Array : Object).each(iterable, fn, bind);
-    }, this.$empty = function() {
-    }, this.$extend = function(original, extended) {
+    }, this.$empty = function() {}, this.$extend = function(original, extended) {
         return Object.append(original, extended);
     }, this.$H = function(object) {
         return new Hash(object);
     }, this.$merge = function() {
         var args = Array.slice(arguments);
-        return args.unshift({
-        }), Object.merge.apply(null, args);
+        return args.unshift({}), Object.merge.apply(null, args);
     }, this.$lambda = Function.from, this.$mixin = Object.merge, this.$random = Number.random, this.$splat = Array.from, this.$time = Date.now, this.$type = function(object) {
         var type = typeOf(object);
         return "elements" == type ? "array" : "null" != type && type;
@@ -392,13 +385,11 @@
         });
     },
     associate: function(keys) {
-        for(var obj = {
-        }, length = Math.min(this.length, keys.length), i = 0; i < length; i++)obj[keys[i]] = this[i];
+        for(var obj = {}, length = Math.min(this.length, keys.length), i = 0; i < length; i++)obj[keys[i]] = this[i];
         return obj;
     },
     link: function(object) {
-        for(var result = {
-        }, i = 0, l = this.length; i < l; i++)for(var key in object)if (object[key](this[i])) {
+        for(var result = {}, i = 0, l = this.length; i < l; i++)for(var key in object)if (object[key](this[i])) {
             result[key] = this[i], delete object[key];
             break;
         }
@@ -528,8 +519,7 @@ String.implement({
         return parseInt(this, base || 10);
     }
 }), Number.alias("each", "times"), (function(math) {
-    var methods = {
-    };
+    var methods = {};
     math.each(function(name) {
         Number[name] || (methods[name] = function() {
             return Math[name].apply(null, [
@@ -558,21 +548,18 @@ String.implement({
     attempt: function() {
         for(var i = 0, l = arguments.length; i < l; i++)try {
             return arguments[i]();
-        } catch (e) {
-        }
+        } catch (e) {}
         return null;
     }
 }), Function.implement({
     attempt: function(args, bind) {
         try {
             return this.apply(bind, Array.from(args));
-        } catch (e) {
-        }
+        } catch (e) {}
         return null;
     },
     bind: function(that) {
-        var self = this, args = arguments.length > 1 ? Array.slice(arguments, 1) : null, F = function() {
-        }, bound = function() {
+        var self = this, args = arguments.length > 1 ? Array.slice(arguments, 1) : null, F = function() {}, bound = function() {
             var context = that, length = arguments.length;
             this instanceof bound && (F.prototype = self.prototype, context = new F);
             var result = args || length ? self.apply(context, args && length ? args.concat(Array.slice(arguments)) : args || arguments) : self.call(context);
@@ -595,8 +582,7 @@ String.implement({
 }), delete Function.prototype.bind, Function.implement({
     create: function(options) {
         var self = this;
-        return options = options || {
-        }, function(event) {
+        return options = options || {}, function(event) {
             var args = options.arguments;
             args = null != args ? Array.from(args) : Array.slice(arguments, options.event ? 1 : 0), options.event && (args = [
                 event || window.event
@@ -630,22 +616,19 @@ var $try = Function.attempt;
     var hasOwnProperty = Object.prototype.hasOwnProperty;
     Object.extend({
         subset: function(object, keys) {
-            for(var results = {
-            }, i = 0, l = keys.length; i < l; i++){
+            for(var results = {}, i = 0, l = keys.length; i < l; i++){
                 var k = keys[i];
                 k in object && (results[k] = object[k]);
             }
             return results;
         },
         map: function(object, fn, bind) {
-            var results = {
-            };
+            var results = {};
             for(var key in object)hasOwnProperty.call(object, key) && (results[key] = fn.call(bind, object[key], key, object));
             return results;
         },
         filter: function(object, fn, bind) {
-            var results = {
-            };
+            var results = {};
             for(var key in object){
                 var value = object[key];
                 hasOwnProperty.call(object, key) && fn.call(bind, value, key, object) && (results[key] = value);
@@ -688,8 +671,7 @@ var $try = Function.attempt;
                         result = Object.toQueryString(value, key);
                         break;
                     case "array":
-                        var result, qs = {
-                        };
+                        var result, qs = {};
                         value.each(function(val, i) {
                             qs[i] = val;
                         }), result = Object.toQueryString(qs, key);
@@ -710,14 +692,12 @@ var $try = Function.attempt;
         return Object.contains(this, value);
     },
     extend: function(properties) {
-        return Hash.each(properties || {
-        }, function(value, key) {
+        return Hash.each(properties || {}, function(value, key) {
             Hash.set(this, key, value);
         }, this), this;
     },
     combine: function(properties) {
-        return Hash.each(properties || {
-        }, function(value, key) {
+        return Hash.each(properties || {}, function(value, key) {
             Hash.include(this, key, value);
         }, this), this;
     },
@@ -782,8 +762,7 @@ var $try = Function.attempt;
             query: !!document.querySelector,
             json: !!window.JSON
         },
-        Plugins: {
-        }
+        Plugins: {}
     };
     Browser[Browser.name] = !0, Browser[Browser.name + parseInt(Browser.version, 10)] = !0, Browser.Platform[Browser.Platform.name] = !0, XMLHTTP = function() {
         return new XMLHttpRequest();
@@ -824,16 +803,13 @@ var $try = Function.attempt;
         Window: this.Window,
         Element: this.Element,
         Event: this.Event
-    }), this.Window = this.$constructor = new Type("Window", function() {
-    }), this.$family = Function.from("window").hide(), Window.mirror(function(name, method) {
+    }), this.Window = this.$constructor = new Type("Window", function() {}), this.$family = Function.from("window").hide(), Window.mirror(function(name, method) {
         window[name] = method;
-    }), this.Document = document.$constructor = new Type("Document", function() {
-    }), document.$family = Function.from("document").hide(), Document.mirror(function(name, method) {
+    }), this.Document = document.$constructor = new Type("Document", function() {}), document.$family = Function.from("document").hide(), Document.mirror(function(name, method) {
         document[name] = method;
     }), document.html = document.documentElement, document.head || (document.head = document.getElementsByTagName("head")[0]), document.execCommand) try {
         document.execCommand("BackgroundImageCache", !1, !0);
-    } catch (e) {
-    }
+    } catch (e) {}
     if (this.attachEvent && !this.addEventListener) {
         var unloadEvent = function() {
             this.detachEvent("onunload", unloadEvent), document.head = document.html = document.window = null;
@@ -870,8 +846,7 @@ var $try = Function.attempt;
             };
         });
     }
-    Browser.Platform.ios && (Browser.Platform.ipod = !0), Browser.Engine = {
-    };
+    Browser.Platform.ios && (Browser.Platform.ipod = !0), Browser.Engine = {};
     var setEngine = function(name, version) {
         Browser.Engine.name = name, Browser.Engine[name + version] = !0, Browser.Engine.version = version;
     };
@@ -905,8 +880,7 @@ var $try = Function.attempt;
     }
     this.$exec = Browser.exec;
 })(), (function() {
-    var _keys = {
-    }, DOMEvent = this.DOMEvent = new Type("DOMEvent", function(event, win) {
+    var _keys = {}, DOMEvent = this.DOMEvent = new Type("DOMEvent", function(event, win) {
         if (win || (win = window), (event = event || win.event).$extended) return event;
         this.event = event, this.$extended = !0, this.shift = event.shiftKey, this.control = event.ctrlKey, this.alt = event.altKey, this.meta = event.metaKey;
         for(var type = this.type = event.type, target = event.target || event.srcElement; target && 3 == target.nodeType;)target = target.parentNode;
@@ -939,9 +913,7 @@ var $try = Function.attempt;
                 };
             }
         }
-        this.client || (this.client = {
-        }), this.page || (this.page = {
-        });
+        this.client || (this.client = {}), this.page || (this.page = {});
     });
     DOMEvent.implement({
         stop: function() {
@@ -969,8 +941,7 @@ var $try = Function.attempt;
     });
 })();
 var Event = DOMEvent;
-Event.Keys = {
-}, Event.Keys = new Hash(Event.Keys), (function() {
+Event.Keys = {}, Event.Keys = new Hash(Event.Keys), (function() {
     var Class = this.Class = new Type("Class", function(params) {
         instanceOf(params, Function) && (params = {
             initialize: params
@@ -992,8 +963,7 @@ Event.Keys = {
             var value = object[key];
             switch(typeOf(value)){
                 case "object":
-                    var F = function() {
-                    };
+                    var F = function() {};
                     F.prototype = value, object[key] = reset(new F);
                     break;
                 case "array":
@@ -1058,8 +1028,7 @@ Event.Keys = {
         });
     };
     this.Events = new Class({
-        $events: {
-        },
+        $events: {},
         addEvent: function(type, fn, internal) {
             return type = removeOn(type), fn == $empty || (this.$events[type] = (this.$events[type] || []).include(fn), internal && (fn.internal = !0)), this;
         },
@@ -1095,8 +1064,7 @@ Event.Keys = {
     }), this.Options = new Class({
         setOptions: function() {
             var options = this.options = Object.merge.apply(null, [
-                {
-                },
+                {},
                 this.options
             ].append(arguments));
             if (this.addEvent) for(var option in options)"function" == typeOf(options[option]) && /^on[A-Z]/.test(option) && (this.addEvent(option, options[option]), delete options[option]);
@@ -1104,9 +1072,7 @@ Event.Keys = {
         }
     });
 })(), (function() {
-    var parsed, separatorIndex, combinatorIndex, reversed, cache = {
-    }, reverseCache = {
-    }, reUnescape = /\\/g, parse = function(expression, isReversed) {
+    var parsed, separatorIndex, combinatorIndex, reversed, cache = {}, reverseCache = {}, reUnescape = /\\/g, parse = function(expression, isReversed) {
         if (null == expression) return null;
         if (!0 === expression.Slick) return expression;
         expression = ("" + expression).replace(/^\s+|\s+$/g, "");
@@ -1210,15 +1176,12 @@ Event.Keys = {
         }
         return "";
     }
-    var Slick = this.Slick || {
-    };
+    var Slick = this.Slick || {};
     Slick.parse = function(expression) {
         return parse(expression);
     }, Slick.escapeRegExp = escapeRegExp, this.Slick || (this.Slick = Slick);
 }).apply("undefined" != typeof exports ? exports : this), (function() {
-    var local = {
-    }, featuresCache = {
-    }, toString = Object.prototype.toString;
+    var local = {}, featuresCache = {}, toString = Object.prototype.toString;
     local.isNativeCode = function(fn) {
         return /\{\s*\[native code\]\s*\}/.test("" + fn);
     }, local.isXML = function(document) {
@@ -1238,62 +1201,50 @@ Event.Keys = {
                 for(feature in features)this[feature] = features[feature];
                 return;
             }
-            (features = featuresCache[rootUid] = {
-            }).root = root, features.isXMLDocument = this.isXML(document), features.brokenStarGEBTN = features.starSelectsClosedQSA = features.idGetsName = features.brokenMixedCaseQSA = features.brokenGEBCN = features.brokenCheckedQSA = features.brokenEmptyAttributeQSA = features.isHTMLDocument = features.nativeMatchesSelector = !1;
+            (features = featuresCache[rootUid] = {}).root = root, features.isXMLDocument = this.isXML(document), features.brokenStarGEBTN = features.starSelectsClosedQSA = features.idGetsName = features.brokenMixedCaseQSA = features.brokenGEBCN = features.brokenCheckedQSA = features.brokenEmptyAttributeQSA = features.isHTMLDocument = features.nativeMatchesSelector = !1;
             var starSelectsClosed, starSelectsComments, brokenSecondClassNameGEBCN, cachedGetElementsByClassName, brokenFormAttributeGetter, selected, id = "slick_uniqueid", testNode = document.createElement("div"), testRoot = document.body || document.getElementsByTagName("body")[0] || root;
             testRoot.appendChild(testNode);
             try {
                 testNode.innerHTML = "<a id=\"" + id + "\"></a>", features.isHTMLDocument = !!document.getElementById(id);
-            } catch (e) {
-            }
+            } catch (e) {}
             if (features.isHTMLDocument) {
                 testNode.style.display = "none", testNode.appendChild(document.createComment("")), starSelectsComments = testNode.getElementsByTagName("*").length > 1;
                 try {
                     testNode.innerHTML = "foo</foo>", starSelectsClosed = (selected = testNode.getElementsByTagName("*")) && !!selected.length && "/" == selected[0].nodeName.charAt(0);
-                } catch (e) {
-                }
+                } catch (e) {}
                 features.brokenStarGEBTN = starSelectsComments || starSelectsClosed;
                 try {
                     testNode.innerHTML = "<a name=\"" + id + "\"></a><b id=\"" + id + "\"></b>", features.idGetsName = document.getElementById(id) === testNode.firstChild;
-                } catch (e2) {
-                }
+                } catch (e2) {}
                 if (testNode.getElementsByClassName) {
                     try {
                         testNode.innerHTML = "<a class=\"f\"></a><a class=\"b\"></a>", testNode.getElementsByClassName("b").length, testNode.firstChild.className = "b", cachedGetElementsByClassName = 2 != testNode.getElementsByClassName("b").length;
-                    } catch (e) {
-                    }
+                    } catch (e) {}
                     try {
                         testNode.innerHTML = "<a class=\"a\"></a><a class=\"f b a\"></a>", brokenSecondClassNameGEBCN = 2 != testNode.getElementsByClassName("a").length;
-                    } catch (e3) {
-                    }
+                    } catch (e3) {}
                     features.brokenGEBCN = cachedGetElementsByClassName || brokenSecondClassNameGEBCN;
                 }
                 if (testNode.querySelectorAll) {
                     try {
                         testNode.innerHTML = "foo</foo>", selected = testNode.querySelectorAll("*"), features.starSelectsClosedQSA = selected && !!selected.length && "/" == selected[0].nodeName.charAt(0);
-                    } catch (e) {
-                    }
+                    } catch (e) {}
                     try {
                         testNode.innerHTML = "<a class=\"MiX\"></a>", features.brokenMixedCaseQSA = !testNode.querySelectorAll(".MiX").length;
-                    } catch (e4) {
-                    }
+                    } catch (e4) {}
                     try {
                         testNode.innerHTML = "<select><option selected=\"selected\">a</option></select>", features.brokenCheckedQSA = 0 == testNode.querySelectorAll(":checked").length;
-                    } catch (e5) {
-                    }
+                    } catch (e5) {}
                     try {
                         testNode.innerHTML = "<a class=\"\"></a>", features.brokenEmptyAttributeQSA = 0 != testNode.querySelectorAll("[class*=\"\"]").length;
-                    } catch (e6) {
-                    }
+                    } catch (e6) {}
                 }
                 try {
                     testNode.innerHTML = "<form action=\"s\"><input id=\"action\"/></form>", brokenFormAttributeGetter = "s" != testNode.firstChild.getAttribute("action");
-                } catch (e7) {
-                }
+                } catch (e7) {}
                 if (features.nativeMatchesSelector = root.matchesSelector || root.mozMatchesSelector || root.webkitMatchesSelector, features.nativeMatchesSelector) try {
                     features.nativeMatchesSelector.call(root, ":slick"), features.nativeMatchesSelector = null;
-                } catch (e8) {
-                }
+                } catch (e8) {}
             }
             try {
                 root.slick_expando = 1, delete root.slick_expando, features.getUID = this.getUIDHTML;
@@ -1335,15 +1286,13 @@ Event.Keys = {
             } : null, root = null, features)this[feature] = features[feature];
         }
     };
-    var reSimpleSelector = /^([#.]?)((?:[\w-]+|\*))$/, reEmptyAttribute = /\[.+[*$^]=(?:""|'')?\]/, qsaFailExpCache = {
-    };
+    var reSimpleSelector = /^([#.]?)((?:[\w-]+|\*))$/, reEmptyAttribute = /\[.+[*$^]=(?:""|'')?\]/, qsaFailExpCache = {};
     local.search = function(context, expression, append, first) {
         var found = this.found = first ? null : append || [];
         if (!context) return found;
         if (context.navigator) context = context.document;
         else if (!context.nodeType) return found;
-        var parsed, i, uniques = this.uniques = {
-        }, hasOthers = !!(append && append.length), contextIsDocument = 9 == context.nodeType;
+        var parsed, i, uniques = this.uniques = {}, hasOthers = !!(append && append.length), contextIsDocument = 9 == context.nodeType;
         if (this.document !== (contextIsDocument ? context : context.ownerDocument) && this.setDocument(context), hasOthers) for(i = found.length; i--;)uniques[this.getUID(found[i])] = !0;
         if ("string" == typeof expression) {
             var simpleSelector = expression.match(reSimpleSelector);
@@ -1401,17 +1350,11 @@ Event.Keys = {
         else if (expression.Slick) parsed = expression;
         else if (this.contains(context.documentElement || context, expression)) return found ? found.push(expression) : found = expression, found;
         else return found;
-        this.posNTH = {
-        }, this.posNTHLast = {
-        }, this.posNTHType = {
-        }, this.posNTHTypeLast = {
-        }, this.push = !hasOthers && (first || 1 == parsed.length && 1 == parsed.expressions[0].length) ? this.pushArray : this.pushUID, null == found && (found = []);
+        this.posNTH = {}, this.posNTHLast = {}, this.posNTHType = {}, this.posNTHTypeLast = {}, this.push = !hasOthers && (first || 1 == parsed.length && 1 == parsed.expressions[0].length) ? this.pushArray : this.pushUID, null == found && (found = []);
         var j, m, n, combinator, tag, id, classList, classes, attributes, pseudos, currentItems, currentExpression, currentBit, lastBit, expressions = parsed.expressions;
         search: for(i = 0; currentExpression = expressions[i]; i++)for(j = 0; currentBit = currentExpression[j]; j++){
             if (!this[combinator = "combinator:" + currentBit.combinator]) continue search;
-            if (tag = this.isXMLDocument ? currentBit.tag : currentBit.tag.toUpperCase(), id = currentBit.id, classList = currentBit.classList, classes = currentBit.classes, attributes = currentBit.attributes, pseudos = currentBit.pseudos, lastBit = j === currentExpression.length - 1, this.bitUniques = {
-            }, lastBit ? (this.uniques = uniques, this.found = found) : (this.uniques = {
-            }, this.found = []), 0 === j) {
+            if (tag = this.isXMLDocument ? currentBit.tag : currentBit.tag.toUpperCase(), id = currentBit.id, classList = currentBit.classList, classes = currentBit.classes, attributes = currentBit.attributes, pseudos = currentBit.pseudos, lastBit = j === currentExpression.length - 1, this.bitUniques = {}, lastBit ? (this.uniques = uniques, this.found = found) : (this.uniques = {}, this.found = []), 0 === j) {
                 if (this[combinator](context, tag, id, classes, attributes, pseudos, classList), first && lastBit && found.length) break search;
             } else if (first && lastBit) {
                 for(m = 0, n = currentItems.length; m < n; m++)if (this[combinator](currentItems[m], tag, id, classes, attributes, pseudos, classList), found.length) break search;
@@ -1426,8 +1369,7 @@ Event.Keys = {
         return node.uniqueNumber || (node.uniqueNumber = this.uidx++);
     }, local.sort = function(results) {
         return this.documentSorter && results.sort(this.documentSorter), results;
-    }, local.cacheNTH = {
-    }, local.matchNTH = /^([+-]?\d*)?([a-z]+)?([+-]\d+)?$/, local.parseNTHArgument = function(argument) {
+    }, local.cacheNTH = {}, local.matchNTH = /^([+-]?\d*)?([a-z]+)?([+-]\d+)?$/, local.parseNTHArgument = function(argument) {
         var parsed = argument.match(this.matchNTH);
         if (!parsed) return !1;
         var special = parsed[2] || !1, a = parsed[1] || 1;
@@ -1482,8 +1424,7 @@ Event.Keys = {
     }, local.matchNode = function(node, selector) {
         if (this.isHTMLDocument && this.nativeMatchesSelector) try {
             return this.nativeMatchesSelector.call(node, selector.replace(/\[([^=]+)=\s*([^'"\]]+?)\s*\]/g, "[$1=\"$2\"]"));
-        } catch (matchError) {
-        }
+        } catch (matchError) {}
         var parsed = this.Slick.parse(selector);
         if (!parsed) return !0;
         var i, expressions = parsed.expressions, simpleExpCounter = 0;
@@ -1701,8 +1642,7 @@ Event.Keys = {
         }
     };
     attributeGetters.MAXLENGTH = attributeGetters.maxLength = attributeGetters.maxlength;
-    var Slick = local.Slick = this.Slick || {
-    };
+    var Slick = local.Slick = this.Slick || {};
     Slick.version = "1.1.7", Slick.search = function(context, expression, append) {
         return local.search(context, expression, append);
     }, Slick.find = function(context, expression) {
@@ -1738,8 +1678,7 @@ var Element = function(tag, props) {
     var konstructor = Element.Constructors[tag];
     if (konstructor) return konstructor(props);
     if ("string" != typeof tag) return document.id(tag).set(props);
-    if (props || (props = {
-    }), !/^[\w-]+$/.test(tag)) {
+    if (props || (props = {}), !/^[\w-]+$/.test(tag)) {
         var parsed = Slick.parse(tag).expressions[0][0];
         tag = "*" == parsed.tag ? "div" : parsed.tag, parsed.id && null == props.id && (props.id = parsed.id);
         var attributes = parsed.attributes;
@@ -1752,8 +1691,7 @@ Browser.Element && (Element.prototype = Browser.Element.prototype, fireEvent = E
     return fireEvent.call(this, type, event);
 }), new Type("Element", Element).mirror(function(name) {
     if (!Array.prototype[name]) {
-        var obj = {
-        };
+        var obj = {};
         obj[name] = function() {
             for(var results = [], args = arguments, elements = !0, i = 0, l = this.length; i < l; i++){
                 var element = this[i], result = results[i] = element[name].apply(element, args);
@@ -1767,19 +1705,16 @@ Browser.Element && (Element.prototype = Browser.Element.prototype, fireEvent = E
     "$family": Function.from("element").hide()
 }, Element.mirror(function(name, method) {
     Element.Prototype[name] = method;
-})), Element.Constructors = {
-}, Element.Constructors = new Hash;
+})), Element.Constructors = {}, Element.Constructors = new Hash;
 var IFrame = new Type("IFrame", function() {
     var iframe, params = Array.link(arguments, {
         properties: Type.isObject,
         iframe: function(obj) {
             return null != obj;
         }
-    }), props = params.properties || {
-    };
+    }), props = params.properties || {};
     params.iframe && (iframe = document.id(params.iframe));
-    var onload = props.onload || function() {
-    };
+    var onload = props.onload || function() {};
     delete props.onload, props.id = props.name = [
         props.id,
         props.name,
@@ -1790,8 +1725,7 @@ var IFrame = new Type("IFrame", function() {
     };
     return window.frames[props.id] ? onLoad() : iframe.addListener("load", onLoad), iframe;
 }), Elements = this.Elements = function(nodes) {
-    if (nodes && nodes.length) for(var node, uniques = {
-    }, i = 0; node = nodes[i++];){
+    if (nodes && nodes.length) for(var node, uniques = {}, i = 0; node = nodes[i++];){
         var uid = Slick.uidOf(node);
         uniques[uid] || (uniques[uid] = !0, this.push(node));
     }
@@ -1847,8 +1781,7 @@ Elements.prototype = {
     }), Array.mirror(Elements);
     try {
         createElementAcceptsHTML = "x" == document.createElement("<input name=x>").name;
-    } catch (e) {
-    }
+    } catch (e) {}
     var escapeQuotes = function(html) {
         return ("" + html).replace(/&/g, "&amp;").replace(/"/g, "&quot;");
     };
@@ -1918,8 +1851,7 @@ Elements.prototype = {
     };
     document.contains || Document.implement(contains), document.createElement("div").contains || Element.implement(contains), Element.implement("hasChild", function(element) {
         return this !== element && this.contains(element);
-    }), search = Slick.search, find = Slick.find, match = Slick.match, this.Selectors = {
-    }, pseudos = this.Selectors.Pseudo = new Hash(), addSlickPseudos = function() {
+    }), search = Slick.search, find = Slick.find, match = Slick.match, this.Selectors = {}, pseudos = this.Selectors.Pseudo = new Hash(), addSlickPseudos = function() {
         for(var name in pseudos)pseudos.hasOwnProperty(name) && (Slick.definePseudo(name, pseudos[name]), delete pseudos[name]);
     }, Slick.search = function(context, expression, append) {
         return addSlickPseudos(), search.call(this, context, expression, append);
@@ -2009,18 +1941,14 @@ Elements.prototype = {
     };
     inserters.inside = inserters.bottom, Object.each(inserters, function(inserter, where) {
         where = where.capitalize();
-        var methods = {
-        };
+        var methods = {};
         methods["inject" + where] = function(el) {
             return inserter(this, document.id(el, !0)), this;
         }, methods["grab" + where] = function(el) {
             return inserter(document.id(el, !0), this), this;
         }, Element.implement(methods);
     });
-    var propertyGetters = {
-    }, propertySetters = {
-    }, properties = {
-    };
+    var propertyGetters = {}, propertySetters = {}, properties = {};
     Array.forEach([
         "type",
         "value",
@@ -2060,8 +1988,7 @@ Elements.prototype = {
         "controls",
         "autoplay",
         "loop"
-    ], booleans = {
-    };
+    ], booleans = {};
     Array.forEach(bools, function(bool) {
         var lower = bool.toLowerCase();
         booleans[lower] = bool, propertySetters[lower] = function(node, value) {
@@ -2088,8 +2015,7 @@ Elements.prototype = {
     var el1 = document.createElement("button");
     try {
         el1.type = "button";
-    } catch (e) {
-    }
+    } catch (e) {}
     "button" != el1.type && (propertySetters.type = function(node, value) {
         node.setAttribute("type", value);
     }), el1 = null;
@@ -2104,8 +2030,7 @@ Elements.prototype = {
             var setter = propertySetters[name.toLowerCase()];
             if (setter) setter(this, value);
             else {
-                if (pollutesGetAttribute) var attributeWhiteList = this.retrieve("$attributeWhiteList", {
-                });
+                if (pollutesGetAttribute) var attributeWhiteList = this.retrieve("$attributeWhiteList", {});
                 null == value ? (this.removeAttribute(name), pollutesGetAttribute && delete attributeWhiteList[name]) : (this.setAttribute(name, "" + value), pollutesGetAttribute && (attributeWhiteList[name] = !0));
             }
             return this;
@@ -2118,8 +2043,7 @@ Elements.prototype = {
             var getter = propertyGetters[name.toLowerCase()];
             if (getter) return getter(this);
             if (pollutesGetAttribute) {
-                var attr = this.getAttributeNode(name), attributeWhiteList = this.retrieve("$attributeWhiteList", {
-                });
+                var attr = this.getAttributeNode(name), attributeWhiteList = this.retrieve("$attributeWhiteList", {});
                 if (!attr) return null;
                 if (attr.expando && !attributeWhiteList[name]) {
                     var outer = this.outerHTML;
@@ -2208,11 +2132,8 @@ Elements.prototype = {
             }), queryString.join("&");
         }
     });
-    var collected = {
-    }, storage1 = {
-    }, get = function(uid) {
-        return storage1[uid] || (storage1[uid] = {
-        });
+    var collected = {}, storage1 = {}, get = function(uid) {
+        return storage1[uid] || (storage1[uid] = {});
     }, clean = function(item) {
         var uid = item.uniqueNumber;
         return item.removeEvents && item.removeEvents(), item.clearAttributes && item.clearAttributes(), null != uid && (delete collected[uid], delete storage1[uid]), item;
@@ -2280,8 +2201,7 @@ Elements.prototype = {
         }
     }), window.attachEvent && !window.addEventListener && window.addListener("unload", function() {
         Object.each(collected, clean), window.CollectGarbage && CollectGarbage();
-    }), Element.Properties = {
-    }, Element.Properties = new Hash, Element.Properties.style = {
+    }), Element.Properties = {}, Element.Properties = new Hash, Element.Properties.style = {
         set: function(style) {
             this.style.cssText = style;
         },
@@ -2350,7 +2270,7 @@ Elements.prototype = {
         this.empty().adopt(target.childNodes), supportsHTML5Elements || fragment1.removeChild(wrapper), wrapper = null;
     }));
     var testForm = document.createElement("form");
-    null.innerHTML = "<select><option>s</option></select>", "s" != null.firstChild.value && (Element.Properties.value = {
+    testForm.innerHTML = "<select><option>s</option></select>", "s" != testForm.firstChild.value && (Element.Properties.value = {
         set: function(value) {
             if ("select" != this.get("tag")) return this.setProperty("value", value);
             for(var options = this.getElements("option"), i = 0; i < options.length; i++){
@@ -2378,8 +2298,8 @@ Elements.prototype = {
     });
 })(), (function() {
     var html = document.html, el = document.createElement("div");
-    null.style.color = "red", null.style.color = null;
-    var doesNotRemoveStyles = "red" == null.style.color;
+    el.style.color = "red", el.style.color = null;
+    var doesNotRemoveStyles = "red" == el.style.color;
     el = null, Element.Properties.styles = {
         set: function(styles) {
             this.setStyles(styles);
@@ -2457,8 +2377,7 @@ Elements.prototype = {
             return this;
         },
         getStyles: function() {
-            var result = {
-            };
+            var result = {};
             return Array.flatten(arguments).each(function(key) {
                 result[key] = this.getStyle(key);
             }, this), result;
@@ -2507,18 +2426,12 @@ Elements.prototype = {
             return getOpacity(this);
         }
     }, Element.Styles = new Hash(Element.Styles), Element.ShortStyles = {
-        margin: {
-        },
-        padding: {
-        },
-        border: {
-        },
-        borderWidth: {
-        },
-        borderStyle: {
-        },
-        borderColor: {
-        }
+        margin: {},
+        padding: {},
+        border: {},
+        borderWidth: {},
+        borderStyle: {},
+        borderColor: {}
     }, [
         "Top",
         "Right",
@@ -2536,8 +2449,7 @@ Elements.prototype = {
         var bd = "border" + direction;
         Short.border[bd] = All[bd] = "@px @ rgb(@, @, @)";
         var bdw = bd + "Width", bds = bd + "Style", bdc = bd + "Color";
-        Short[bd] = {
-        }, Short.borderWidth[bdw] = Short[bd][bdw] = All[bdw] = "@px", Short.borderStyle[bds] = Short[bd][bds] = All[bds] = "@", Short.borderColor[bdc] = Short[bd][bdc] = All[bdc] = "rgb(@, @, @)";
+        Short[bd] = {}, Short.borderWidth[bdw] = Short[bd][bdw] = All[bdw] = "@px", Short.borderStyle[bds] = Short[bd][bds] = All[bds] = "@", Short.borderColor[bdc] = Short[bd][bdc] = All[bdc] = "rgb(@, @, @)";
     });
 })(), (function() {
     if (Element.Properties.events = {
@@ -2550,8 +2462,7 @@ Elements.prototype = {
         Document
     ].invoke("implement", {
         addEvent: function(type, fn) {
-            var events = this.retrieve("events", {
-            });
+            var events = this.retrieve("events", {});
             if (events[type] || (events[type] = {
                 keys: [],
                 values: []
@@ -2710,15 +2621,13 @@ Elements.prototype = {
         return {
             base: "focusin",
             remove: function(self, uid) {
-                var list = self.retrieve(_key + type + "listeners", {
-                })[uid];
+                var list = self.retrieve(_key + type + "listeners", {})[uid];
                 if (list && list.forms) for(var i = list.forms.length; i--;)list.forms[i].removeEvent(type, list.fns[i]);
             },
             listen: function(self, match, fn, event1, target, uid) {
                 var form = "form" == target.get("tag") ? target : event1.target.getParent("form");
                 if (form) {
-                    var listeners = self.retrieve(_key + type + "listeners", {
-                    }), listener = listeners[uid] || {
+                    var listeners = self.retrieve(_key + type + "listeners", {}), listener = listeners[uid] || {
                         forms: [],
                         fns: []
                     }, forms = listener.forms, fns = listener.fns;
@@ -2765,13 +2674,11 @@ Elements.prototype = {
         };
     }, delegation = {
         addEvent: function(type, match, fn) {
-            var storage = this.retrieve("$delegates", {
-            }), stored = storage[type];
+            var storage = this.retrieve("$delegates", {}), stored = storage[type];
             if (stored) {
                 for(var _uid in stored)if (stored[_uid].fn == fn && stored[_uid].match == match) return this;
             }
-            var _type = type, _match = match, _fn = fn, _map = map[type] || {
-            };
+            var _type = type, _match = match, _fn = fn, _map = map[type] || {};
             type = _map.base || _type, match = function(target) {
                 return Slick.match(target, _match);
             };
@@ -2787,20 +2694,17 @@ Elements.prototype = {
             } : function(event, target) {
                 !target && event && event.target && (target = event.target), target && bubbleUp(self, match, fn, event, target);
             };
-            return stored || (stored = {
-            }), stored[uid] = {
+            return stored || (stored = {}), stored[uid] = {
                 match: _match,
                 fn: _fn,
                 delegator: delegator
             }, storage[_type] = stored, addEvent.call(this, type, delegator, _map.capture);
         },
         removeEvent: function(type, match, fn, _uid) {
-            var __uid, s, storage = this.retrieve("$delegates", {
-            }), stored = storage[type];
+            var __uid, s, storage = this.retrieve("$delegates", {}), stored = storage[type];
             if (!stored) return this;
             if (_uid) {
-                var _type = type, delegator = stored[_uid].delegator, _map = map[type] || {
-                };
+                var _type = type, delegator = stored[_uid].delegator, _map = map[type] || {};
                 return type = _map.base || _type, _map.remove && _map.remove(this, _uid), delete stored[_uid], storage[_type] = stored, removeEvent.call(this, type, delegator);
             }
             if (fn) {
@@ -2866,8 +2770,7 @@ Elements.prototype = {
             if (isBody(element) || "fixed" == styleString(element, "position")) return null;
             try {
                 return element.offsetParent;
-            } catch (e) {
-            }
+            } catch (e) {}
             return null;
         },
         getOffsets: function() {
@@ -3099,9 +3002,7 @@ Elements.prototype = {
         normal: 500,
         "long": 1000
     };
-    var instances = {
-    }, timers = {
-    }, loop = function() {
+    var instances = {}, timers = {}, loop = function() {
         for(var now = Date.now(), i = this.length; i--;){
             var instance = this[i];
             instance && instance.step(now);
@@ -3174,8 +3075,7 @@ Elements.prototype = {
     },
     search: function(selector) {
         if (Fx.CSS.Cache[selector]) return Fx.CSS.Cache[selector];
-        var to = {
-        }, selectorTest = new RegExp("^" + selector.escapeRegExp() + "$");
+        var to = {}, selectorTest = new RegExp("^" + selector.escapeRegExp() + "$");
         return Array.each(document.styleSheets, function(sheet, j) {
             var href = sheet.href;
             if (!(href && href.contains("://")) || href.contains(document.domain)) {
@@ -3193,8 +3093,7 @@ Elements.prototype = {
             }
         }), Fx.CSS.Cache[selector] = to;
     }
-}), Fx.CSS.Cache = {
-}, Fx.CSS.Parsers = {
+}), Fx.CSS.Cache = {}, Fx.CSS.Parsers = {
     Color: {
         parse: function(value) {
             return value.match(/^#[0-9a-f]{3,6}$/i) ? value.hexToRgb(!0) : !!(value = value.match(/(\d+),\s*(\d+),\s*(\d+)/)) && [
@@ -3304,17 +3203,14 @@ Elements.prototype = {
         return this;
     },
     compute: function(from, to, delta) {
-        var now = {
-        };
+        var now = {};
         for(var p in from)now[p] = this.parent(from[p], to[p], delta);
         return now;
     },
     start: function(properties) {
         if (!this.check(properties)) return this;
         "string" == typeof properties && (properties = this.search(properties));
-        var from = {
-        }, to = {
-        };
+        var from = {}, to = {};
         for(var p in properties){
             var parsed = this.prepare(this.element, p, properties[p]);
             from[p] = parsed.from, to[p] = parsed.to;
@@ -3400,8 +3296,7 @@ Elements.prototype = {
         return Math.pow(p, i + 2);
     });
 }), (function() {
-    var empty = function() {
-    }, progressSupport = "onprogress" in new Browser.Request, Request = this.Request = new Class({
+    var empty = function() {}, progressSupport = "onprogress" in new Browser.Request, Request = this.Request = new Class({
         Implements: [
             Chain,
             Events,
@@ -3554,8 +3449,7 @@ Elements.prototype = {
             var xhr = this.xhr;
             return xhr.abort(), clearTimeout(this.timer), xhr.onreadystatechange = empty, progressSupport && (xhr.onprogress = xhr.onloadstart = empty), this.xhr = new Browser.Request(), this.fireEvent("cancel"), this;
         }
-    }), methods = {
-    };
+    }), methods = {};
     [
         "get",
         "post",
@@ -3642,8 +3536,7 @@ Elements.prototype = {
             url: Type.isString
         })), this;
     }
-}), "undefined" == typeof JSON && (this.JSON = {
-}), JSON = new Hash({
+}), "undefined" == typeof JSON && (this.JSON = {}), JSON = new Hash({
     stringify: JSON.stringify,
     parse: JSON.parse
 }), (function() {
@@ -3740,8 +3633,7 @@ var Cookie = new Class({
         return value ? decodeURIComponent(value[1]) : null;
     },
     dispose: function() {
-        return new Cookie(this.key, Object.merge({
-        }, this.options, {
+        return new Cookie(this.key, Object.merge({}, this.options, {
             duration: -1
         })).write(""), this;
     }
@@ -3765,8 +3657,7 @@ Cookie.write = function(key, value, options) {
     var doScrollWorks = function() {
         try {
             return testElement.doScroll(), !0;
-        } catch (e) {
-        }
+        } catch (e) {}
         return !1;
     };
     testElement.doScroll && !doScrollWorks() && (checks.push(doScrollWorks), shouldPoll = !0), document.readyState && checks.push(function() {
@@ -3795,36 +3686,30 @@ Cookie.write = function(key, value, options) {
             height: 1,
             width: 1,
             container: null,
-            properties: {
-            },
+            properties: {},
             params: {
                 quality: "high",
                 allowScriptAccess: "always",
                 wMode: "window",
                 swLiveConnect: !0
             },
-            callBacks: {
-            },
-            vars: {
-            }
+            callBacks: {},
+            vars: {}
         },
         toElement: function() {
             return this.object;
         },
         initialize: function(path, options) {
             this.instance = "Swiff_" + String.uniqueID(), this.setOptions(options), options = this.options;
-            var id = this.id = options.id || this.instance, container = document.id(options.container);
-            Swiff.CallBacks[this.instance] = {
-            };
+            var option, id = this.id = options.id || this.instance, container = document.id(options.container);
+            Swiff.CallBacks[this.instance] = {};
             var params = options.params, vars = options.vars, callBacks = options.callBacks, properties = Object.append({
                 height: options.height,
                 width: options.width
             }, options.properties), self = this;
-            for(var callBack in callBacks)Swiff.CallBacks[this.instance][callBack] = (function(option) {
-                return function() {
-                    return option.apply(self.object, arguments);
-                };
-            })(callBacks[callBack]), vars[callBack] = "Swiff.CallBacks." + this.instance + "." + callBack;
+            for(var callBack in callBacks)option = callBacks[callBack], Swiff.CallBacks[this.instance][callBack] = function() {
+                return option.apply(self.object, arguments);
+            }, vars[callBack] = "Swiff.CallBacks." + this.instance + "." + callBack;
             params.flashVars = Object.toQueryString(vars), Browser.ie ? (properties.classid = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000", params.movie = path) : properties.type = "application/x-shockwave-flash", properties.data = path;
             var build = "<object id=\"" + id + "\"";
             for(var property in properties)build += " " + property + "=\"" + properties[property] + "\"";
@@ -3843,8 +3728,7 @@ Cookie.write = function(key, value, options) {
             ].append(arguments));
         }
     });
-    Swiff.CallBacks = {
-    }, Swiff.remote = function(obj, fn) {
+    Swiff.CallBacks = {}, Swiff.remote = function(obj, fn) {
         var rs = obj.CallFunction("<invoke name=\"" + fn + "\" returntype=\"javascript\">" + __flash__argumentsToXML(arguments, 2) + "</invoke>");
         return eval(rs);
     };

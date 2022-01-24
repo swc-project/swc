@@ -10,6 +10,5 @@ var M;
         "use strict";
         _classCallCheck(this, C);
     };
-})(M || (M = {
-}));
+})(M || (M = {}));
 var r;

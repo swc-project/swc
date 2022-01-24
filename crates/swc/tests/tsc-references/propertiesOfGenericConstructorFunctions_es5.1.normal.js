@@ -21,11 +21,9 @@ function _defineProperty(obj, key, value) {
  * @param {string} ik
  * @param {V} iv
  */ function Multimap(ik, iv) {
-    /** @type {{ [s: string]: V }} */ this._map = {
-    };
+    /** @type {{ [s: string]: V }} */ this._map = {};
     // without type annotation
-    this._map2 = _defineProperty({
-    }, ik, iv);
+    this._map2 = _defineProperty({}, ik, iv);
 }
 /** @type {Multimap<"a" | "b", number>} with type annotation */ var map = new Multimap("a", 1);
 // without type annotation

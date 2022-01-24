@@ -130,6 +130,7 @@ function _superPropBase(object, property) {
     return object;
 }
 var _typeof = function(obj1) {
+    "@swc/helpers - typeof";
     return obj1 && typeof Symbol !== "undefined" && obj1.constructor === Symbol ? "symbol" : typeof obj1;
 };
 function _isNativeReflectConstruct() {
@@ -137,8 +138,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -209,24 +209,20 @@ var SomeBase = /*#__PURE__*/ function() {
     _createClass(SomeBase, [
         {
             key: "privateFunc",
-            value: function privateFunc() {
-            }
+            value: function privateFunc() {}
         },
         {
             key: "publicFunc",
-            value: function publicFunc() {
-            }
+            value: function publicFunc() {}
         }
     ], [
         {
             key: "privateStaticFunc",
-            value: function privateStaticFunc() {
-            }
+            value: function privateStaticFunc() {}
         },
         {
             key: "publicStaticFunc",
-            value: function publicStaticFunc() {
-            }
+            value: function publicStaticFunc() {}
         }
     ]);
     return SomeBase;

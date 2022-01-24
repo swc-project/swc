@@ -13,13 +13,10 @@ var x12;
 var x13;
 var x14;
 var intersectDictionaries = function(d11, d21) {
-    return Object.assign({
-    }, d11, d21);
+    return Object.assign({}, d11, d21);
 };
-var testDictionary = function(_value) {
-};
-var d1 = {
-};
+var testDictionary = function(_value) {};
+var d1 = {};
 testDictionary(d1);
 var d2 = intersectDictionaries(d1, d1);
 testDictionary(d2);

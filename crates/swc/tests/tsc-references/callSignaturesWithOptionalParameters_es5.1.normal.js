@@ -18,12 +18,9 @@ function _createClass(Constructor, protoProps, staticProps) {
     return Constructor;
 }
 // Optional parameters should be valid in all the below casts
-function foo(x) {
-}
-var f = function foo(x) {
-};
-var f2 = function(x, y) {
-};
+function foo(x) {}
+var f = function foo(x) {};
+var f2 = function(x, y) {};
 foo(1);
 foo();
 f(1);
@@ -38,8 +35,7 @@ var C = /*#__PURE__*/ function() {
     _createClass(C, [
         {
             key: "foo",
-            value: function foo(x) {
-            }
+            value: function foo(x) {}
         }
     ]);
     return C;
@@ -58,12 +54,9 @@ a(1);
 a.foo();
 a.foo(1);
 var b = {
-    foo: function foo(x) {
-    },
-    a: function foo(x, y) {
-    },
-    b: function(x) {
-    }
+    foo: function foo(x) {},
+    a: function foo(x, y) {},
+    b: function(x) {}
 };
 b.foo();
 b.foo(1);

@@ -55,5 +55,4 @@ var TypeScript;
         return ast;
     }
     TypeScript1.postPrintAST = postPrintAST;
-})(TypeScript || (TypeScript = {
-}));
+})(TypeScript || (TypeScript = {}));

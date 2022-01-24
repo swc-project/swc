@@ -15,8 +15,7 @@ function baz() {
         var arg = _arguments2[0];
     });
 }
-function foo(inputFunc) {
-}
+function foo(inputFunc) {}
 foo(function() {
     var arg = _arguments[0]; // error
 });

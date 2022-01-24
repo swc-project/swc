@@ -8,7 +8,5 @@ export var A;
     (function(B) {
         const Something1 = require("fs").Something;
         const thing = new Something1();
-    })(B = A1.B || (A1.B = {
-    }));
-})(A || (A = {
-}));
+    })(B = A1.B || (A1.B = {}));
+})(A || (A = {}));

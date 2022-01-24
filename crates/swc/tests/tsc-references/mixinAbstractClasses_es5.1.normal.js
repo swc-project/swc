@@ -56,6 +56,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -63,8 +64,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -95,8 +95,7 @@ function Mixin(baseClass1) {
         _createClass(MixinClass, [
             {
                 key: "mixinMethod",
-                value: function mixinMethod() {
-                }
+                value: function mixinMethod() {}
             }
         ]);
         return MixinClass;
@@ -111,8 +110,7 @@ var ConcreteBase = /*#__PURE__*/ function() {
     _createClass(ConcreteBase, [
         {
             key: "baseMethod",
-            value: function baseMethod() {
-            }
+            value: function baseMethod() {}
         }
     ]);
     return ConcreteBase;
@@ -145,8 +143,7 @@ var DerivedFromAbstract = /*#__PURE__*/ function(_super) {
     _createClass(DerivedFromAbstract, [
         {
             key: "abstractBaseMethod",
-            value: function abstractBaseMethod() {
-            }
+            value: function abstractBaseMethod() {}
         }
     ]);
     return DerivedFromAbstract;

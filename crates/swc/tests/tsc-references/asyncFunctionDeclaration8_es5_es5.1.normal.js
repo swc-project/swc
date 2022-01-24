@@ -14,5 +14,4 @@ function _defineProperty(obj, key, value) {
 // @target: ES5
 // @lib: es5,es2015.promise
 // @noEmitHelpers: true
-var v = _defineProperty({
-}, _await, foo);
+var v = _defineProperty({}, _await, foo);

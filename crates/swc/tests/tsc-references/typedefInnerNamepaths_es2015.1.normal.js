@@ -6,6 +6,5 @@ class C {
     /**
      * @typedef {C~A} C~B
      * @typedef {object} C~A
-     */ /** @param {C~A} o */ constructor(o){
-    }
+     */ /** @param {C~A} o */ constructor(o){}
 }

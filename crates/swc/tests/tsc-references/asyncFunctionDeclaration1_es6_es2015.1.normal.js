@@ -33,7 +33,6 @@ function foo() {
 function _foo() {
     _foo = // @target: ES6
     // @noEmitHelpers: true
-    _asyncToGenerator(function*() {
-    });
+    _asyncToGenerator(function*() {});
     return _foo.apply(this, arguments);
 }

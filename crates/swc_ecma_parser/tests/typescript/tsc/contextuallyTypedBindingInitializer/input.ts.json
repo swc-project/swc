@@ -224,8 +224,7 @@
                         },
                         "value": "toString",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -405,8 +404,7 @@
                           },
                           "value": "toString",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -596,8 +594,7 @@
                           },
                           "value": "toString",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -864,8 +861,7 @@
                               },
                               "value": "toString",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "arguments": [],
                           "typeArguments": null

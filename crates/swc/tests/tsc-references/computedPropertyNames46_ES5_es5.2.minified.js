@@ -1,8 +1,8 @@
-var obj;
-0 in (obj = {
-}) ? Object.defineProperty(obj, 0, {
-    value: 0,
-    enumerable: !0,
-    configurable: !0,
-    writable: !0
-}) : obj[0] = 0;
+!function(obj, key, value) {
+    return key in obj ? Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: !0,
+        configurable: !0,
+        writable: !0
+    }) : obj[key] = value, obj;
+}({}, 0, 0);

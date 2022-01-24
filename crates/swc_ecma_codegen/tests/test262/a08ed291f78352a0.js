@@ -1,6 +1,5 @@
 a(function() {
-    function b() {
-    }
+    function b() {}
     if (b()) {
         b();
         return void 1;

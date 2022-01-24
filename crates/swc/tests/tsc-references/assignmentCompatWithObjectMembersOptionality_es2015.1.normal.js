@@ -29,8 +29,7 @@ var TargetHasOptional;
     b = f;
     b = a;
     b = c;
-})(TargetHasOptional || (TargetHasOptional = {
-}));
+})(TargetHasOptional || (TargetHasOptional = {}));
 var SourceHasOptional;
 (function(SourceHasOptional) {
     var c;
@@ -54,5 +53,4 @@ var SourceHasOptional;
     b = f; // ok
     b = a; // ok
     b = c; // ok
-})(SourceHasOptional || (SourceHasOptional = {
-}));
+})(SourceHasOptional || (SourceHasOptional = {}));

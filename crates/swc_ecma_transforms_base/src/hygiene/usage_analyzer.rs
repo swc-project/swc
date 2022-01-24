@@ -37,7 +37,7 @@ pub(super) struct CurScope<'a> {
 
 impl CurScope<'_> {
     fn contains_decl_with_symbol(&self, sym: &JsWord) -> bool {
-        if let Some(ctxts) = self.data.decls.borrow().get(&sym) {
+        if let Some(ctxts) = self.data.decls.borrow().get(sym) {
             if !ctxts.is_empty() {
                 return true;
             }
@@ -61,11 +61,8 @@ impl CurScope<'_> {
         }
 
         // TODO: Consider `var` / `let` / `const`.
-        match self.parent {
-            Some(v) => {
-                v.remove_usage(id);
-            }
-            None => {}
+        if let Some(v) = self.parent {
+            v.remove_usage(id);
         }
     }
     fn remove_decl(&self, id: &Id) {
@@ -81,11 +78,8 @@ impl CurScope<'_> {
         }
 
         // TODO: Consider `var` / `let` / `const`.
-        match self.parent {
-            Some(v) => {
-                v.remove_decl(id);
-            }
-            None => {}
+        if let Some(v) = self.parent {
+            v.remove_decl(id);
         }
     }
 
@@ -93,7 +87,7 @@ impl CurScope<'_> {
     fn remove_decls_from_map(&self, map: &AHashMap<JsWord, Vec<SyntaxContext>>) {
         for (sym, dropped_ctxts) in map {
             let mut b = self.data.decls.borrow_mut();
-            let ctxts_of_decls = b.get_mut(&sym);
+            let ctxts_of_decls = b.get_mut(sym);
 
             if let Some(ctxts_of_decls) = ctxts_of_decls {
                 ctxts_of_decls.retain(|&(_, ctxt)| !dropped_ctxts.contains(&ctxt));
@@ -101,11 +95,8 @@ impl CurScope<'_> {
         }
 
         // TODO: Consider `var` / `let` / `const`.
-        match self.parent {
-            Some(v) => {
-                v.remove_decls_from_map(map);
-            }
-            None => {}
+        if let Some(v) = self.parent {
+            v.remove_decls_from_map(map);
         }
     }
 
@@ -135,11 +126,8 @@ impl CurScope<'_> {
         }
 
         // TODO: Consider `var` / `let` / `const`.
-        match self.parent {
-            Some(v) => {
-                v.add_decl_inner(id, false);
-            }
-            None => {}
+        if let Some(v) = self.parent {
+            v.add_decl_inner(id, false);
         }
     }
 
@@ -197,11 +185,8 @@ impl CurScope<'_> {
             }
         }
 
-        match self.parent {
-            Some(v) => {
-                v.add_usage_inner(id, false);
-            }
-            None => {}
+        if let Some(v) = self.parent {
+            v.add_usage_inner(id, false);
         }
     }
 }
@@ -336,13 +321,11 @@ impl UsageAnalyzer<'_> {
                 let cur_scope_conflict = if ctxts_of_decls.iter().any(|(_, ctxt)| ctxt == &id.1) {
                     ctxts_of_decls.len() > 1
                 } else {
-                    ctxts_of_decls.len() > 0
+                    !ctxts_of_decls.is_empty()
                 };
 
-                if cur_scope_conflict {
-                    if LOG {
-                        debug!("Renaming: Decl-decl conflict (same scope)");
-                    }
+                if cur_scope_conflict && LOG {
+                    debug!("Renaming: Decl-decl conflict (same scope)");
                 }
 
                 cur_scope_conflict
@@ -374,18 +357,18 @@ impl UsageAnalyzer<'_> {
         let conflicts = self.cur.conflict(&id.0, id.1);
         if !conflicts.is_empty() {
             let scope_depth = self.cur.scope_depth(&id);
-            let mut top_match = (scope_depth, id.1.clone());
+            let mut top_match = (scope_depth, id.1);
 
             for (scope_depth, ctxt) in conflicts.iter() {
                 if scope_depth < &top_match.0 {
-                    top_match = (*scope_depth, ctxt.clone());
+                    top_match = (*scope_depth, *ctxt);
                 }
             }
 
             let top_level_depth = 1; // 1 because script and module create a scope
             let renames = if top_match.0 == top_level_depth {
                 let mut all_candidates = conflicts;
-                all_candidates.push((scope_depth, id.1.clone()));
+                all_candidates.push((scope_depth, id.1));
                 all_candidates
                     .into_iter()
                     .filter(|(depth, _)| *depth > top_level_depth)
@@ -480,11 +463,8 @@ impl Visit for UsageAnalyzer<'_> {
             m.function.params.visit_with(v);
             v.is_pat_decl = false;
 
-            match m.function.body.as_ref() {
-                Some(body) => {
-                    body.visit_children_with(v);
-                }
-                None => {}
+            if let Some(body) = m.function.body.as_ref() {
+                body.visit_children_with(v);
             }
         })
     }
@@ -495,11 +475,8 @@ impl Visit for UsageAnalyzer<'_> {
             c.params.visit_with(v);
             v.is_pat_decl = false;
 
-            match c.body.as_ref() {
-                Some(body) => {
-                    body.visit_children_with(v);
-                }
-                None => {}
+            if let Some(body) = c.body.as_ref() {
+                body.visit_children_with(v);
             }
         })
     }
@@ -509,17 +486,16 @@ impl Visit for UsageAnalyzer<'_> {
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
-        self.add_usage(n.orig.to_id());
+        if let ModuleExportName::Ident(orig) = &n.orig {
+            self.add_usage(orig.to_id());
+        }
     }
 
     fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
-        match e {
-            Expr::Ident(i) => {
-                self.add_usage(i.to_id());
-            }
-            _ => {}
+        if let Expr::Ident(i) = e {
+            self.add_usage(i.to_id());
         }
     }
 
@@ -533,11 +509,8 @@ impl Visit for UsageAnalyzer<'_> {
             f.function.params.visit_with(v);
             v.is_pat_decl = false;
 
-            match f.function.body.as_ref() {
-                Some(body) => {
-                    body.visit_children_with(v);
-                }
-                None => {}
+            if let Some(body) = f.function.body.as_ref() {
+                body.visit_children_with(v);
             }
         })
     }
@@ -554,11 +527,8 @@ impl Visit for UsageAnalyzer<'_> {
             }
 
             v.is_pat_decl = false;
-            match f.function.body.as_ref() {
-                Some(body) => {
-                    body.visit_children_with(v);
-                }
-                None => {}
+            if let Some(body) = f.function.body.as_ref() {
+                body.visit_children_with(v);
             }
         })
     }
@@ -575,14 +545,6 @@ impl Visit for UsageAnalyzer<'_> {
         self.add_decl(s.local.to_id());
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr) {
-        e.obj.visit_with(self);
-
-        if e.computed {
-            e.obj.visit_with(self);
-        }
-    }
-
     fn visit_method_prop(&mut self, f: &MethodProp) {
         f.key.visit_with(self);
 
@@ -593,11 +555,8 @@ impl Visit for UsageAnalyzer<'_> {
             f.function.params.visit_with(v);
 
             v.is_pat_decl = false;
-            match f.function.body.as_ref() {
-                Some(body) => {
-                    body.visit_children_with(v);
-                }
-                None => {}
+            if let Some(body) = f.function.body.as_ref() {
+                body.visit_children_with(v);
             }
         })
     }
@@ -630,26 +589,20 @@ impl Visit for UsageAnalyzer<'_> {
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
-        match p {
-            Pat::Ident(i) => {
-                if self.is_pat_decl {
-                    self.add_decl(i.id.to_id());
-                } else {
-                    self.add_usage(i.id.to_id());
-                }
+        if let Pat::Ident(i) = p {
+            if self.is_pat_decl {
+                self.add_decl(i.id.to_id());
+            } else {
+                self.add_usage(i.id.to_id());
             }
-            _ => {}
         }
     }
 
     fn visit_prop(&mut self, p: &Prop) {
         p.visit_children_with(self);
 
-        match p {
-            Prop::Shorthand(i) => {
-                self.add_usage(i.to_id());
-            }
-            _ => {}
+        if let Prop::Shorthand(i) = p {
+            self.add_usage(i.to_id());
         }
     }
 
@@ -747,22 +700,19 @@ impl Visit for Hoister<'_, '_> {
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
-        match p {
-            Pat::Ident(i) => {
-                if !self.is_pat_decl {
+        if let Pat::Ident(i) = p {
+            if !self.is_pat_decl {
+                return;
+            }
+            if self.in_block_stmt {
+                //
+                if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.var_decl_kind {
                     return;
                 }
-                if self.in_block_stmt {
-                    //
-                    if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.var_decl_kind {
-                        return;
-                    }
-                } else {
-                }
-
-                self.inner.add_decl(i.id.to_id());
+            } else {
             }
-            _ => {}
+
+            self.inner.add_decl(i.id.to_id());
         }
     }
 

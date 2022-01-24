@@ -1,5 +1,6 @@
 [workspace]
 members = [
+  "crates/dbg-swc",
   "crates/jsdoc",
   "crates/node",
   "crates/swc_cli",
@@ -7,9 +8,9 @@ members = [
   "crates/swc_ecmascript",
   "crates/swc_ecma_diff",
   "crates/swc_ecma_lints",
-  "crates/swc_ecma_plugin_ast",
   "crates/swc_estree_compat",
   "crates/swc_plugin",
+  "crates/swc_plugin_macro",
   "crates/swc_plugin_runner",
   "crates/swc_plugin_testing",
   "crates/swc_stylis",
@@ -35,3 +36,7 @@ opt-level = 3
 
 [profile.test.package.pretty_assertions]
 opt-level = 3
+
+[patch.crates-io]
+cranelift-codegen = {git = "https://github.com/kdy1/wasmtime", branch = "tls"}
+cranelift-entity = {git = "https://github.com/kdy1/wasmtime", branch = "tls"}

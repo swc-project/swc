@@ -56,6 +56,7 @@ var Router = /*#__PURE__*/ function() {
         {
             key: "change",
             value: function change(method, url, as, options, forcedScroll) {
+                var _this = this;
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                     var shouldResolveHref, prevLocale, parsedAs, localePathResult, didNavigate, ref, detectedDomain, asNoBasePath, _shallow, shallow, routeProps, cleanedAs, localeChange, parsed, pathname, query, pages, rewrites, ref1, resolvedAs, rewritesResult, route, parsedAs1, asPathname, routeRegex, routeMatch, shouldInterpolate, interpolatedAs, missingParams, ref2, ref3, routeInfo, error, props, __N_SSG, __N_SSP, destination, parsedHref, ref4, newUrl, newAs, notFoundRoute, isValidShallowRoute, _scroll, shouldScroll, resetScroll;
                     return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -72,24 +73,24 @@ var Router = /*#__PURE__*/ function() {
                                 // for static pages with query params in the URL we delay
                                 // marking the router ready until after the query is updated
                                 if (options._h) {
-                                    this.isReady = true;
+                                    _this.isReady = true;
                                 }
-                                prevLocale = this.locale;
+                                prevLocale = _this.locale;
                                 if (!process.env.__NEXT_I18N_SUPPORT) {
                                     _ctx.next = 18;
                                     break;
                                 }
-                                this.locale = options.locale === false ? this.defaultLocale : options.locale || this.locale;
+                                _this.locale = options.locale === false ? _this.defaultLocale : options.locale || _this.locale;
                                 if (typeof options.locale === 'undefined') {
-                                    options.locale = this.locale;
+                                    options.locale = _this.locale;
                                 }
                                 parsedAs = parseRelativeUrl(hasBasePath(as) ? delBasePath(as) : as);
-                                localePathResult = normalizeLocalePath(parsedAs.pathname, this.locales);
+                                localePathResult = normalizeLocalePath(parsedAs.pathname, _this.locales);
                                 if (localePathResult.detectedLocale) {
-                                    this.locale = localePathResult.detectedLocale;
+                                    _this.locale = localePathResult.detectedLocale;
                                     parsedAs.pathname = addBasePath(parsedAs.pathname);
                                     as = formatWithValidation(parsedAs);
-                                    url = addBasePath(normalizeLocalePath(hasBasePath(url) ? delBasePath(url) : url, this.locales).pathname);
+                                    url = addBasePath(normalizeLocalePath(hasBasePath(url) ? delBasePath(url) : url, _this.locales).pathname);
                                 }
                                 didNavigate = false;
                                 // we need to wrap this in the env check again since regenerator runtime
@@ -97,23 +98,23 @@ var Router = /*#__PURE__*/ function() {
                                 if (process.env.__NEXT_I18N_SUPPORT) {
                                     ;
                                     // if the locale isn't configured hard navigate to show 404 page
-                                    if (!((ref = this.locales) === null || ref === void 0 ? void 0 : ref.includes(this.locale))) {
-                                        parsedAs.pathname = addLocale(parsedAs.pathname, this.locale);
+                                    if (!((ref = _this.locales) === null || ref === void 0 ? void 0 : ref.includes(_this.locale))) {
+                                        parsedAs.pathname = addLocale(parsedAs.pathname, _this.locale);
                                         window.location.href = formatWithValidation(parsedAs);
                                         // this was previously a return but was removed in favor
                                         // of better dead code elimination with regenerator runtime
                                         didNavigate = true;
                                     }
                                 }
-                                detectedDomain = detectDomainLocale(this.domainLocales, undefined, this.locale);
+                                detectedDomain = detectDomainLocale(_this.domainLocales, undefined, _this.locale);
                                 // we need to wrap this in the env check again since regenerator runtime
                                 // moves this on its own due to the return
                                 if (process.env.__NEXT_I18N_SUPPORT) {
                                     // if we are navigating to a domain locale ensure we redirect to the
                                     // correct domain
-                                    if (!didNavigate && detectedDomain && this.isLocaleDomain && self.location.hostname !== detectedDomain.domain) {
+                                    if (!didNavigate && detectedDomain && _this.isLocaleDomain && self.location.hostname !== detectedDomain.domain) {
                                         asNoBasePath = delBasePath(as);
-                                        window.location.href = "http".concat(detectedDomain.http ? '' : 's', "://").concat(detectedDomain.domain).concat(addBasePath("".concat(this.locale === detectedDomain.defaultLocale ? '' : "/".concat(this.locale)).concat(asNoBasePath === '/' ? '' : asNoBasePath) || '/'));
+                                        window.location.href = "http".concat(detectedDomain.http ? '' : 's', "://").concat(detectedDomain.domain).concat(addBasePath("".concat(_this.locale === detectedDomain.defaultLocale ? '' : "/".concat(_this.locale)).concat(asNoBasePath === '/' ? '' : asNoBasePath) || '/'));
                                         // this was previously a return but was removed in favor
                                         // of better dead code elimination with regenerator runtime
                                         didNavigate = true;
@@ -123,11 +124,10 @@ var Router = /*#__PURE__*/ function() {
                                     _ctx.next = 18;
                                     break;
                                 }
-                                return _ctx.abrupt("return", new Promise(function() {
-                                }));
+                                return _ctx.abrupt("return", new Promise(function() {}));
                             case 18:
                                 if (!options._h) {
-                                    this.isSsr = false;
+                                    _this.isSsr = false;
                                 }
                                 // marking route changes as a navigation start entry
                                 if (ST) {
@@ -137,23 +137,23 @@ var Router = /*#__PURE__*/ function() {
                                 routeProps = {
                                     shallow: shallow
                                 };
-                                if (this._inFlightRoute) {
-                                    this.abortComponentLoad(this._inFlightRoute, routeProps);
+                                if (_this._inFlightRoute) {
+                                    _this.abortComponentLoad(_this._inFlightRoute, routeProps);
                                 }
-                                as = addBasePath(addLocale(hasBasePath(as) ? delBasePath(as) : as, options.locale, this.defaultLocale));
-                                cleanedAs = delLocale(hasBasePath(as) ? delBasePath(as) : as, this.locale);
-                                this._inFlightRoute = as;
-                                localeChange = prevLocale !== this.locale;
-                                if (!(!options._h && this.onlyAHashChange(cleanedAs) && !localeChange)) {
+                                as = addBasePath(addLocale(hasBasePath(as) ? delBasePath(as) : as, options.locale, _this.defaultLocale));
+                                cleanedAs = delLocale(hasBasePath(as) ? delBasePath(as) : as, _this.locale);
+                                _this._inFlightRoute = as;
+                                localeChange = prevLocale !== _this.locale;
+                                if (!(!options._h && _this.onlyAHashChange(cleanedAs) && !localeChange)) {
                                     _ctx.next = 35;
                                     break;
                                 }
-                                this.asPath = cleanedAs;
+                                _this.asPath = cleanedAs;
                                 Router.events.emit('hashChangeStart', as, routeProps);
                                 // TODO: do we need the resolved href when only a hash change?
-                                this.changeState(method, url, as, options);
-                                this.scrollToHash(cleanedAs);
-                                this.notify(this.components[this.route], null);
+                                _this.changeState(method, url, as, options);
+                                _this.scrollToHash(cleanedAs);
+                                _this.notify(_this.components[_this.route], null);
                                 Router.events.emit('hashChangeComplete', as, routeProps);
                                 return _ctx.abrupt("return", true);
                             case 35:
@@ -162,7 +162,7 @@ var Router = /*#__PURE__*/ function() {
                                 ;
                                 _ctx.prev = 38;
                                 _ctx.next = 41;
-                                return this.pageLoader.getPageList();
+                                return _this.pageLoader.getPageList();
                             case 41:
                                 pages = _ctx.sent;
                                 ;
@@ -187,7 +187,7 @@ var Router = /*#__PURE__*/ function() {
                                 // We also need to set the method = replaceState always
                                 // as this should not go into the history (That's how browsers work)
                                 // We should compare the new asPath to the current asPath, not the url
-                                if (!this.urlIsNew(cleanedAs) && !localeChange) {
+                                if (!_this.urlIsNew(cleanedAs) && !localeChange) {
                                     method = 'replaceState';
                                 }
                                 resolvedAs = as;
@@ -198,9 +198,9 @@ var Router = /*#__PURE__*/ function() {
                                 if (shouldResolveHref && pathname !== '/_error') {
                                     options._shouldResolveHref = true;
                                     if (process.env.__NEXT_HAS_REWRITES && as.startsWith('/')) {
-                                        rewritesResult = resolveRewrites(addBasePath(addLocale(cleanedAs, this.locale)), pages, rewrites, query, function(p) {
+                                        rewritesResult = resolveRewrites(addBasePath(addLocale(cleanedAs, _this.locale)), pages, rewrites, query, function(p) {
                                             return resolveDynamicRoute(p, pages);
-                                        }, this.locales);
+                                        }, _this.locales);
                                         resolvedAs = rewritesResult.asPath;
                                         if (rewritesResult.matchedPage && rewritesResult.resolvedHref) {
                                             // if this directly matches a page we need to update the href to
@@ -232,7 +232,7 @@ var Router = /*#__PURE__*/ function() {
                                 window.location.href = as;
                                 return _ctx.abrupt("return", false);
                             case 64:
-                                resolvedAs = delLocale(delBasePath(resolvedAs), this.locale);
+                                resolvedAs = delLocale(delBasePath(resolvedAs), _this.locale);
                                 if (!isDynamicRoute(route)) {
                                     _ctx.next = 80;
                                     break;
@@ -242,8 +242,7 @@ var Router = /*#__PURE__*/ function() {
                                 routeRegex = getRouteRegex(route);
                                 routeMatch = getRouteMatcher(routeRegex)(asPathname);
                                 shouldInterpolate = route === asPathname;
-                                interpolatedAs = shouldInterpolate ? interpolateAs(route, asPathname, query) : {
-                                };
+                                interpolatedAs = shouldInterpolate ? interpolateAs(route, asPathname, query) : {};
                                 if (!(!routeMatch || shouldInterpolate && !interpolatedAs.result)) {
                                     _ctx.next = 79;
                                     break;
@@ -264,8 +263,7 @@ var Router = /*#__PURE__*/ function() {
                                 break;
                             case 79:
                                 if (shouldInterpolate) {
-                                    as = formatWithValidation(Object.assign({
-                                    }, parsedAs1, {
+                                    as = formatWithValidation(Object.assign({}, parsedAs1, {
                                         pathname: interpolatedAs.result,
                                         query: omitParmsFromQuery(query, interpolatedAs.params)
                                     }));
@@ -278,7 +276,7 @@ var Router = /*#__PURE__*/ function() {
                                 _ctx.prev = 81;
                                 ;
                                 _ctx.next = 85;
-                                return this.getRouteInfo(route, pathname, query, as, resolvedAs, routeProps);
+                                return _this.getRouteInfo(route, pathname, query, as, resolvedAs, routeProps);
                             case 85:
                                 routeInfo = _ctx.sent;
                                 error = routeInfo.error, props = routeInfo.props, __N_SSG = routeInfo.__N_SSG, __N_SSP = routeInfo.__N_SSP;
@@ -297,14 +295,13 @@ var Router = /*#__PURE__*/ function() {
                                 }
                                 parsedHref = parseRelativeUrl(destination);
                                 parsedHref.pathname = resolveDynamicRoute(parsedHref.pathname, pages);
-                                ref4 = prepareUrlAs(this, destination, destination), newUrl = ref4.url, newAs = ref4.as;
-                                return _ctx.abrupt("return", this.change(method, newUrl, newAs, options));
+                                ref4 = prepareUrlAs(_this, destination, destination), newUrl = ref4.url, newAs = ref4.as;
+                                return _ctx.abrupt("return", _this.change(method, newUrl, newAs, options));
                             case 95:
                                 window.location.href = destination;
-                                return _ctx.abrupt("return", new Promise(function() {
-                                }));
+                                return _ctx.abrupt("return", new Promise(function() {}));
                             case 97:
-                                this.isPreview = !!props.__N_PREVIEW;
+                                _this.isPreview = !!props.__N_PREVIEW;
                                 if (!(props.notFound === SSG_DATA_NOT_FOUND)) {
                                     _ctx.next = 112;
                                     break;
@@ -312,7 +309,7 @@ var Router = /*#__PURE__*/ function() {
                                 ;
                                 _ctx.prev = 100;
                                 _ctx.next = 103;
-                                return this.fetchComponent('/404');
+                                return _this.fetchComponent('/404');
                             case 103:
                                 notFoundRoute = '/404';
                                 _ctx.next = 109;
@@ -323,20 +320,20 @@ var Router = /*#__PURE__*/ function() {
                                 notFoundRoute = '/_error';
                             case 109:
                                 _ctx.next = 111;
-                                return this.getRouteInfo(notFoundRoute, notFoundRoute, query, as, resolvedAs, {
+                                return _this.getRouteInfo(notFoundRoute, notFoundRoute, query, as, resolvedAs, {
                                     shallow: false
                                 });
                             case 111:
                                 routeInfo = _ctx.sent;
                             case 112:
                                 Router.events.emit('beforeHistoryChange', as, routeProps);
-                                this.changeState(method, url, as, options);
+                                _this.changeState(method, url, as, options);
                                 if (options._h && pathname === '/_error' && ((ref2 = self.__NEXT_DATA__.props) === null || ref2 === void 0 ? void 0 : (ref3 = ref2.pageProps) === null || ref3 === void 0 ? void 0 : ref3.statusCode) === 500 && (props === null || props === void 0 ? void 0 : props.pageProps)) {
                                     // ensure statusCode is still correct for static 500 page
                                     // when updating query information
                                     props.pageProps.statusCode = 500;
                                 }
-                                isValidShallowRoute = options.shallow && this.route === route;
+                                isValidShallowRoute = options.shallow && _this.route === route;
                                 ;
                                 shouldScroll = (_scroll = options.scroll) !== null && _scroll !== void 0 ? _scroll : !isValidShallowRoute;
                                 resetScroll = shouldScroll ? {
@@ -344,7 +341,7 @@ var Router = /*#__PURE__*/ function() {
                                     y: 0
                                 } : null;
                                 _ctx.next = 121;
-                                return this.set(route, pathname, query, cleanedAs, routeInfo, forcedScroll !== null && forcedScroll !== void 0 ? forcedScroll : resetScroll).catch(function(e) {
+                                return _this.set(route, pathname, query, cleanedAs, routeInfo, forcedScroll !== null && forcedScroll !== void 0 ? forcedScroll : resetScroll).catch(function(e) {
                                     if (e.cancelled) error = error || e;
                                     else throw e;
                                 });
@@ -357,8 +354,8 @@ var Router = /*#__PURE__*/ function() {
                                 throw error;
                             case 124:
                                 if (process.env.__NEXT_I18N_SUPPORT) {
-                                    if (this.locale) {
-                                        document.documentElement.lang = this.locale;
+                                    if (_this.locale) {
+                                        document.documentElement.lang = _this.locale;
                                     }
                                 }
                                 Router.events.emit('routeChangeComplete', as, routeProps);
@@ -377,7 +374,7 @@ var Router = /*#__PURE__*/ function() {
                             case "end":
                                 return _ctx.stop();
                         }
-                    }, _callee, this, [
+                    }, _callee, null, [
                         [
                             38,
                             50
@@ -391,7 +388,7 @@ var Router = /*#__PURE__*/ function() {
                             106
                         ]
                     ]);
-                }).bind(this))();
+                }))();
             }
         }
     ]);

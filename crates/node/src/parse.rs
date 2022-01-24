@@ -45,7 +45,7 @@ impl Task for ParseTask {
         let program = try_with(self.c.cm.clone(), false, |handler| {
             self.c.parse_js(
                 fm,
-                &handler,
+                handler,
                 options.target,
                 options.syntax,
                 options.is_module,
@@ -113,7 +113,7 @@ pub fn parse(
 
     AsyncTask::with_optional_signal(
         ParseTask {
-            c: c.clone(),
+            c,
             filename,
             src,
             options,

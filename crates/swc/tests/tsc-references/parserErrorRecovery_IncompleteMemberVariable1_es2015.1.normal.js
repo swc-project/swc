@@ -14,8 +14,7 @@ var Shapes;
     }
     Shapes1.Point = Point;
     Point.origin = new Point(0, 0);
-})(Shapes || (Shapes = {
-}));
+})(Shapes || (Shapes = {}));
 // Local variables
 var p = new Shapes.Point(3, 4);
 var dist = p.getDist();

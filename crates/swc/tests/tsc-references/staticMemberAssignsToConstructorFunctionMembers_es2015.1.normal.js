@@ -1,11 +1,9 @@
 class C {
     static foo() {
-        C.foo = ()=>{
-        };
+        C.foo = ()=>{};
     }
     static bar(x1) {
-        C.bar = ()=>{
-        } // error
+        C.bar = ()=>{} // error
         ;
         C.bar = (x)=>x
         ; // ok

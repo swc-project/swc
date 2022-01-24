@@ -1,17 +1,13 @@
 class a {
-    constructor(){
-    }
+    constructor(){}
     ;
-    b() {
-    }
+    b() {}
     ;
 }
 ;
 class c {
-    constructor(...d){
-    }
-    b() {
-    }
+    constructor(...d){}
+    b() {}
 }
 ;
 class e extends a {

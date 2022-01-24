@@ -56,6 +56,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -63,8 +64,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -91,30 +91,26 @@ var Base = /*#__PURE__*/ function() {
     _createClass(Base, [
         {
             key: "b",
-            value: function b() {
-            }
+            value: function b() {}
         },
         {
             key: "c",
             get: function get() {
                 return '';
             },
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ], [
         {
             key: "s",
-            value: function s() {
-            }
+            value: function s() {}
         },
         {
             key: "t",
             get: function get() {
                 return '';
             },
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ]);
     return Base;

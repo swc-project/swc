@@ -27,8 +27,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -49,24 +48,22 @@ var _class, _class1, C = function() {
     "use strict";
     _classCallCheck(this, C);
 };
-!function() {
-    (void 0)[((_class = (function(C) {
+(void 0)[((_class = (function(C1) {
+    "use strict";
+    _inherits(_class2, C1);
+    var _super = _createSuper(_class2);
+    function _class2() {
+        return _classCallCheck(this, _class2), _super.apply(this, arguments);
+    }
+    return _class2;
+})(C)).x = 1, _class).x], (function() {
+    (void 0)[((_class1 = (function(C2) {
         "use strict";
-        _inherits(_class, C);
-        var _super = _createSuper(_class);
-        function _class() {
-            return _classCallCheck(this, _class), _super.apply(this, arguments);
+        _inherits(_class2, C2);
+        var _super = _createSuper(_class2);
+        function _class2() {
+            return _classCallCheck(this, _class2), _super.apply(this, arguments);
         }
-        return _class;
-    })(C)).x = 1, _class).x];
-}(), (function() {
-    (void 0)[((_class1 = (function(C) {
-        "use strict";
-        _inherits(_class, C);
-        var _super = _createSuper(_class);
-        function _class() {
-            return _classCallCheck(this, _class), _super.apply(this, arguments);
-        }
-        return _class;
+        return _class2;
     })(C)).x = 1, _class1).x], arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
 })();

@@ -5,8 +5,7 @@ var person = {
     name: name,
     id: id
 };
-function foo(p) {
-}
+function foo(p) {}
 foo(person);
 var obj = {
     name: name,

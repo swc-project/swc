@@ -165,8 +165,7 @@
                     },
                     "value": "className",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "CallExpression",
@@ -208,8 +207,7 @@
                         },
                         "value": "className",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "property": {
                       "type": "Identifier",
@@ -220,8 +218,7 @@
                       },
                       "value": "replace",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -418,8 +415,7 @@
                                         },
                                         "value": "length",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "MemberExpression",
@@ -447,8 +443,7 @@
                                         },
                                         "value": "length",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     }
                                   },
                                   "right": {

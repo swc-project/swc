@@ -18,5 +18,4 @@ var A;
             this.start = start, this.end = end;
         }
     };
-}(A || (A = {
-}));
+}(A || (A = {}));

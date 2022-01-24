@@ -1,4 +1,3 @@
 (class {
-    constructor(){
-    }
+    constructor(){}
 });

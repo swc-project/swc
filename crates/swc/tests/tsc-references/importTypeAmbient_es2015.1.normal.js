@@ -7,8 +7,7 @@ let y = {
     b: 0
 };
 class Bar2 {
-    constructor(input){
-    }
+    constructor(input){}
 }
 let shim = {
     Bar: Bar2

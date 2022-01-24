@@ -3,6 +3,5 @@
 // @declaration: true
 // @emitDeclarationOnly: true
 // @Filename: privateIdentifierExpando.js
-const x = {
-};
+const x = {};
 x.#bar.baz = 20;

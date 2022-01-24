@@ -258,15 +258,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 99,
-                "end": 100,
+                "start": 98,
+                "end": 101,
                 "ctxt": 0
               },
-              "value": 1.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 99,
+                  "end": 100,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              }
+            }
           },
           "definite": false
         }
@@ -318,15 +325,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 115,
-                "end": 116,
+                "start": 114,
+                "end": 117,
                 "ctxt": 0
               },
-              "value": 2.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 115,
+                  "end": 116,
+                  "ctxt": 0
+                },
+                "value": 2.0
+              }
+            }
           },
           "definite": false
         }
@@ -378,15 +392,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 131,
-                "end": 135,
+                "start": 130,
+                "end": 136,
                 "ctxt": 0
               },
-              "value": 1000.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 131,
+                  "end": 135,
+                  "ctxt": 0
+                },
+                "value": 1000.0
+              }
+            }
           },
           "definite": false
         }
@@ -438,15 +459,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 154,
-                "end": 155,
+                "start": 153,
+                "end": 156,
                 "ctxt": 0
               },
-              "value": 1.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 154,
+                  "end": 155,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              }
+            }
           },
           "definite": false
         }
@@ -498,15 +526,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 173,
-                "end": 174,
+                "start": 172,
+                "end": 175,
                 "ctxt": 0
               },
-              "value": 2.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 173,
+                  "end": 174,
+                  "ctxt": 0
+                },
+                "value": 2.0
+              }
+            }
           },
           "definite": false
         }
@@ -558,15 +593,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 192,
-                "end": 193,
+                "start": 191,
+                "end": 194,
                 "ctxt": 0
               },
-              "value": 3.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 192,
+                  "end": 193,
+                  "ctxt": 0
+                },
+                "value": 3.0
+              }
+            }
           },
           "definite": false
         }
@@ -618,15 +660,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 211,
-                "end": 215,
+                "start": 210,
+                "end": 216,
                 "ctxt": 0
               },
-              "value": 1000.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 211,
+                  "end": 215,
+                  "ctxt": 0
+                },
+                "value": 1000.0
+              }
+            }
           },
           "definite": false
         }

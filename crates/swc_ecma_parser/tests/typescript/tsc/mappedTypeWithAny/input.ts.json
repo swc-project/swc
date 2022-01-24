@@ -1019,16 +1019,23 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "Identifier",
+                    "type": "Computed",
                     "span": {
-                      "start": 475,
-                      "end": 477,
+                      "start": 474,
+                      "end": 478,
                       "ctxt": 0
                     },
-                    "value": "id",
-                    "optional": false
-                  },
-                  "computed": true
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 475,
+                        "end": 477,
+                        "ctxt": 0
+                      },
+                      "value": "id",
+                      "optional": false
+                    }
+                  }
                 },
                 "definite": false
               }
@@ -1088,8 +1095,7 @@
                     },
                     "value": "notAValue",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }

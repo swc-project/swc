@@ -1,2 +1,1 @@
-export default function f(...args) {
-};
+export default function f(...args) {};

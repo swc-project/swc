@@ -10,19 +10,16 @@ var YUI = function() {
     return Y.instanceOf = instanceOf, Y;
 };
 !function() {
-    var proto, prop1, VERSION = "3.12.0", BASE = "http://yui.yahooapis.com/", DOC_LABEL = "yui3-js-enabled", CSS_STAMP_EL = "yui3-css-stamp", NOOP = function() {
-    }, SLICE = Array.prototype.slice, APPLY_TO_AUTH = {
+    var proto, prop1, VERSION = "3.12.0", BASE = "http://yui.yahooapis.com/", DOC_LABEL = "yui3-js-enabled", CSS_STAMP_EL = "yui3-css-stamp", NOOP = function() {}, SLICE = Array.prototype.slice, APPLY_TO_AUTH = {
         "io.xdrReady": 1,
         "io.xdrResponse": 1,
         "SWF.eventHandler": 1
-    }, hasWin = "undefined" != typeof window, win = hasWin ? window : null, doc = hasWin ? win.document : null, docEl = doc && doc.documentElement, docClass = docEl && docEl.className, instances = {
-    }, time = new Date().getTime(), add = function(el, type, fn, capture) {
+    }, hasWin = "undefined" != typeof window, win = hasWin ? window : null, doc = hasWin ? win.document : null, docEl = doc && doc.documentElement, docClass = docEl && docEl.className, instances = {}, time = new Date().getTime(), add = function(el, type, fn, capture) {
         el && el.addEventListener ? el.addEventListener(type, fn, capture) : el && el.attachEvent && el.attachEvent("on" + type, fn);
     }, remove = function(el, type, fn, capture) {
         if (el && el.removeEventListener) try {
             el.removeEventListener(type, fn, capture);
-        } catch (ex) {
-        }
+        } catch (ex) {}
         else el && el.detachEvent && el.detachEvent("on" + type, fn);
     }, handleLoad = function() {
         YUI.Env.windowLoaded = !0, YUI.Env.DOMReady = !0, hasWin && remove(window, "load", handleLoad);
@@ -64,23 +61,18 @@ var YUI = function() {
                         "loader-rollup",
                         "loader-yui3"
                     ],
-                    mods: {
-                    },
-                    versions: {
-                    },
+                    mods: {},
+                    versions: {},
                     base: BASE,
                     cdn: BASE + VERSION + "/build/",
                     _idx: 0,
-                    _used: {
-                    },
-                    _attached: {
-                    },
+                    _used: {},
+                    _attached: {},
                     _missed: [],
                     _yidx: 0,
                     _uidx: 0,
                     _guidp: "y",
-                    _loaded: {
-                    },
+                    _loaded: {},
                     _BASE_RE: /(?:\?(?:[^&]*&)*([^&]*))?\b(simpleyui|yui(?:-\w+)?)\/\2(?:-(min|debug))?\.js/,
                     parseBasePath: function(src, pattern) {
                         var path, filter, match = src.match(pattern);
@@ -97,8 +89,7 @@ var YUI = function() {
                         }
                         return path;
                     }
-                }, (Env = Y.Env)._loaded[VERSION] = {
-                }, G_ENV && Y !== YUI) Env._yidx = ++G_ENV._yidx, Env._guidp = ("yui_" + VERSION + "_" + Env._yidx + "_" + time).replace(/[^a-z0-9_]+/g, "_");
+                }, (Env = Y.Env)._loaded[VERSION] = {}, G_ENV && Y !== YUI) Env._yidx = ++G_ENV._yidx, Env._guidp = ("yui_" + VERSION + "_" + Env._yidx + "_" + time).replace(/[^a-z0-9_]+/g, "_");
                 else if (YUI._YUI) {
                     for(prop in G_ENV = YUI._YUI.Env, Env._yidx += G_ENV._yidx, Env._uidx += G_ENV._uidx, G_ENV)prop in Env || (Env[prop] = G_ENV[prop]);
                     delete YUI._YUI;
@@ -135,17 +126,14 @@ var YUI = function() {
             return null;
         },
         add: function(name, fn, version, details) {
-            details = details || {
-            };
+            details = details || {};
             var loader, inst, i, env = YUI.Env, mod = {
                 name: name,
                 fn: fn,
                 version: version,
                 details: details
-            }, applied = {
-            }, versions = env.versions;
-            for(i in env.mods[name] = mod, versions[version] = versions[version] || {
-            }, versions[version][name] = mod, instances)instances.hasOwnProperty(i) && !applied[(inst = instances[i]).id] && (applied[inst.id] = !0, (loader = inst.Env._loader) && (!loader.moduleInfo[name] || loader.moduleInfo[name].temp) && loader.addModule(details, name));
+            }, applied = {}, versions = env.versions;
+            for(i in env.mods[name] = mod, versions[version] = versions[version] || {}, versions[version][name] = mod, instances)instances.hasOwnProperty(i) && !applied[(inst = instances[i]).id] && (applied[inst.id] = !0, (loader = inst.Env._loader) && (!loader.moduleInfo[name] || loader.moduleInfo[name].temp) && loader.addModule(details, name));
             return this;
         },
         _attach: function(r, moot) {
@@ -267,10 +255,8 @@ var YUI = function() {
             }))) : (ret1 = Y._attach(args)) && handleLoader(), Y;
         },
         namespace: function() {
-            for(var o, j, d, arg, a = arguments, i = 0; i < a.length; i++)if (o = this, (arg = a[i]).indexOf(".") > -1) for(j = "YAHOO" == (d = arg.split("."))[0] ? 1 : 0; j < d.length; j++)o[d[j]] = o[d[j]] || {
-            }, o = o[d[j]];
-            else o[arg] = o[arg] || {
-            }, o = o[arg];
+            for(var o, j, d, arg, a = arguments, i = 0; i < a.length; i++)if (o = this, (arg = a[i]).indexOf(".") > -1) for(j = "YAHOO" == (d = arg.split("."))[0] ? 1 : 0; j < d.length; j++)o[d[j]] = o[d[j]] || {}, o = o[d[j]];
+            else o[arg] = o[arg] || {}, o = o[arg];
             return o;
         },
         log: NOOP,
@@ -306,11 +292,9 @@ var YUI = function() {
         o && (YUI.GlobalConfig && this.prototype.applyConfig.call(this, YUI.GlobalConfig), this.prototype.applyConfig.call(this, o), YUI.GlobalConfig = this.config);
     }, YUI._init(), hasWin ? add(window, "load", handleLoad) : handleLoad(), YUI.Env.add = add, YUI.Env.remove = remove, "object" == typeof exports && (exports.YUI = YUI, YUI.setLoadHook = function(fn) {
         YUI._getLoadHook = fn;
-    }, YUI._getLoadHook = null), YUI.Env[VERSION] = {
-    };
+    }, YUI._getLoadHook = null), YUI.Env[VERSION] = {};
 }(), YUI.add("yui-base", function(Y, NAME) {
-    var L = Y.Lang || (Y.Lang = {
-    }), STRING_PROTO = String.prototype, TOSTRING = Object.prototype.toString, TYPES = {
+    var L = Y.Lang || (Y.Lang = {}), STRING_PROTO = String.prototype, TOSTRING = Object.prototype.toString, TYPES = {
         undefined: "undefined",
         number: "number",
         "boolean": "boolean",
@@ -399,8 +383,7 @@ var YUI = function() {
         for(i = 0, len = array.length; i < len; ++i)hash[item = array[i]] || (hash[item] = 1, results.push(item));
         return results;
     } : function(array) {
-        var i, item, len, hash = {
-        }, results = [];
+        var i, item, len, hash = {}, results = [];
         for(i = 0, len = array.length; i < len; ++i)item = array[i], hasOwn.call(hash, item) || (hash[item] = 1, results.push(item));
         return results;
     }, YArray.each = YArray.forEach = Lang._isNative(Native.forEach) ? function(array, fn, thisObj) {
@@ -409,8 +392,7 @@ var YUI = function() {
         for(var i = 0, len = array && array.length || 0; i < len; ++i)i in array && fn.call(thisObj || Y, array[i], i, array);
         return Y;
     }, YArray.hash = function(keys, values) {
-        var i, len, hash = {
-        }, vlen = values && values.length || 0;
+        var i, len, hash = {}, vlen = values && values.length || 0;
         for(i = 0, len = keys.length; i < len; ++i)i in keys && (hash[keys[i]] = !(vlen > i) || !(i in values) || values[i]);
         return hash;
     }, YArray.indexOf = Lang._isNative(Native.indexOf) ? function(array, value, from) {
@@ -431,8 +413,7 @@ var YUI = function() {
         if (Lang.isArray(obj)) result = 1;
         else if (Lang.isObject(obj)) try {
             "length" in obj && !obj.tagName && !(obj.scrollTo && obj.document) && !obj.apply && (result = 2);
-        } catch (ex) {
-        }
+        } catch (ex) {}
         return result;
     }, Queue.prototype = {
         _init: function() {
@@ -453,8 +434,7 @@ var YUI = function() {
     }, Y.Queue = Queue, YUI.Env._loaderQueue = YUI.Env._loaderQueue || new Queue();
     var hasOwn = Object.prototype.hasOwnProperty, isObject = Y.Lang.isObject;
     Y.cached = function(source, cache, refetch) {
-        return cache || (cache = {
-        }), function(arg) {
+        return cache || (cache = {}), function(arg) {
             var key = arguments.length > 1 ? Array.prototype.join.call(arguments, "__") : String(arg);
             return key in cache && (!refetch || cache[key] != refetch) || (cache[key] = source.apply(source, arguments)), cache[key];
         };
@@ -462,8 +442,7 @@ var YUI = function() {
         var win = Y.config.win;
         return win && win.location;
     }, Y.merge = function() {
-        for(var key, obj, i = 0, len = arguments.length, result = {
-        }; i < len; ++i)for(key in obj = arguments[i])hasOwn.call(obj, key) && (result[key] = obj[key]);
+        for(var key, obj, i = 0, len = arguments.length, result = {}; i < len; ++i)for(key in obj = arguments[i])hasOwn.call(obj, key) && (result[key] = obj[key]);
         return result;
     }, Y.mix = function(receiver, supplier, overwrite, whitelist, mode, merge) {
         var alwaysOverwrite, exists, from, i, key, len, to;
@@ -481,8 +460,7 @@ var YUI = function() {
     var UNDEFINED, Lang = Y.Lang, hasOwn = Object.prototype.hasOwnProperty, O = Y.Object = Lang._isNative(Object.create) ? function(obj) {
         return Object.create(obj);
     } : function() {
-        function F() {
-        }
+        function F() {}
         return function(obj) {
             return F.prototype = obj, new F();
         };
@@ -495,8 +473,7 @@ var YUI = function() {
         "valueOf"
     ], hasEnumBug = O._hasEnumBug = !({
         valueOf: 0
-    }).propertyIsEnumerable("valueOf"), hasProtoEnumBug = O._hasProtoEnumBug = (function() {
-    }).propertyIsEnumerable("prototype"), owns = O.owns = function(obj, key) {
+    }).propertyIsEnumerable("valueOf"), hasProtoEnumBug = O._hasProtoEnumBug = (function() {}).propertyIsEnumerable("prototype"), owns = O.owns = function(obj, key) {
         return !!obj && hasOwn.call(obj, key);
     };
     O.hasKey = owns, O.keys = Lang._isNative(Object.keys) && !hasProtoEnumBug ? Object.keys : function(obj) {
@@ -871,8 +848,7 @@ var YUI = function() {
         },
         REGEX_CSS: /\.css(?:[?;].*)?$/i,
         REGEX_JS: /\.js(?:[?;].*)?$/i,
-        _insertCache: {
-        },
+        _insertCache: {},
         _pending: null,
         _purgeNodes: [],
         _queue: [],
@@ -914,8 +890,7 @@ var YUI = function() {
                 urls
             ]), (options = Y.merge(this.options, options)).attributes = Y.merge(this.options.attributes, options.attributes), i = 0, len = urls.length; i < len; ++i){
                 if (req = {
-                    attributes: {
-                    }
+                    attributes: {}
                 }, "string" == typeof (url = urls[i])) req.url = url;
                 else {
                     if (!url.url) continue;
@@ -927,9 +902,7 @@ var YUI = function() {
         },
         _load: function(type, urls, options, callback) {
             var transaction;
-            return "function" == typeof options && (callback = options, options = {
-            }), options || (options = {
-            }), options.type = type, options._onFinish = Get._onTransactionFinish, this._env || this._getEnv(), transaction = this._getTransaction(urls, options), this._queue.push({
+            return "function" == typeof options && (callback = options, options = {}), options || (options = {}), options.type = type, options._onFinish = Get._onTransactionFinish, this._env || this._getEnv(), transaction = this._getTransaction(urls, options), this._queue.push({
                 callback: callback,
                 transaction: transaction
             }), this._next(), transaction;
@@ -972,8 +945,7 @@ var YUI = function() {
         },
         _createNode: function(name, attrs, doc) {
             var attr, testEl, node = doc.createElement(name);
-            for(attr in CUSTOM_ATTRS || ((testEl = doc.createElement("div")).setAttribute("class", "a"), CUSTOM_ATTRS = "a" === testEl.className ? {
-            } : {
+            for(attr in CUSTOM_ATTRS || ((testEl = doc.createElement("div")).setAttribute("class", "a"), CUSTOM_ATTRS = "a" === testEl.className ? {} : {
                 "for": "htmlFor",
                 "class": "className"
             }), attrs)attrs.hasOwnProperty(attr) && node.setAttribute(CUSTOM_ATTRS[attr] || attr, attrs[attr]);
@@ -1028,8 +1000,7 @@ var YUI = function() {
                     }
                 } else try {
                     req.node.sheet.cssRules, pendingCSS.splice(i, 1), i -= 1, self._progress(null, req);
-                } catch (ex) {
-                }
+                } catch (ex) {}
                 pendingCSS.length && (self._pollTimer = setTimeout(function() {
                     self._poll.call(self);
                 }, self.options.pollInterval));
@@ -1048,13 +1019,11 @@ var YUI = function() {
         "yui-base"
     ]
 }), YUI.add("features", function(Y1, NAME) {
-    var feature_tests = {
-    };
+    var feature_tests = {};
     Y1.mix(Y1.namespace("Features"), {
         tests: feature_tests,
         add: function(cat, name, o) {
-            feature_tests[cat] = feature_tests[cat] || {
-            }, feature_tests[cat][name] = o;
+            feature_tests[cat] = feature_tests[cat] || {}, feature_tests[cat][name] = o;
         },
         all: function(cat, args) {
             var cat_o = feature_tests[cat], result = [];
@@ -1319,27 +1288,22 @@ var YUI = function() {
                 "cssfonts-context"
             ]
         },
-        groups: {
-        },
-        patterns: {
-        }
+        groups: {},
+        patterns: {}
     }, groups = META.groups, yui2Update = function(tnt, yui2, config) {
         var root = "2in3." + (tnt || "4") + "/" + (yui2 || "2.9.0") + BUILD, base = config && config.base ? config.base : CDN_BASE, combo = config && config.comboBase ? config.comboBase : COMBO_BASE;
         groups.yui2.base = base + root, groups.yui2.root = root, groups.yui2.comboBase = combo;
     }, galleryUpdate = function(tag, config) {
         var root = (tag || "gallery-2013.08.22-21-03") + BUILD, base = config && config.base ? config.base : CDN_BASE, combo = config && config.comboBase ? config.comboBase : COMBO_BASE;
         groups.gallery.base = base + root, groups.gallery.root = root, groups.gallery.comboBase = combo;
-    }, groups[VERSION] = {
-    }, groups.gallery = {
+    }, groups[VERSION] = {}, groups.gallery = {
         ext: !1,
         combine: !0,
         comboBase: COMBO_BASE,
         update: galleryUpdate,
         patterns: {
-            "gallery-": {
-            },
-            "lang/gallery-": {
-            },
+            "gallery-": {},
+            "lang/gallery-": {},
             "gallerycss-": {
                 type: "css"
             }
@@ -1361,26 +1325,13 @@ var YUI = function() {
         "groups",
         "skin"
     ], 0, !0), YUI.Env[VERSION] = META;
-    var modulekey, NOT_FOUND = {
-    }, NO_REQUIREMENTS = [], GLOBAL_ENV = YUI.Env, GLOBAL_LOADED = GLOBAL_ENV._loaded, INTL = "intl", VERSION1 = Y.version, YObject = Y.Object, oeach = YObject.each, yArray = Y.Array, _queue = GLOBAL_ENV._loaderQueue, META1 = GLOBAL_ENV[VERSION1], L = Y.Lang, ON_PAGE = GLOBAL_ENV.mods, _path = function(dir, file, type, nomin) {
+    var modulekey, NOT_FOUND = {}, NO_REQUIREMENTS = [], GLOBAL_ENV = YUI.Env, GLOBAL_LOADED = GLOBAL_ENV._loaded, INTL = "intl", VERSION1 = Y.version, YObject = Y.Object, oeach = YObject.each, yArray = Y.Array, _queue = GLOBAL_ENV._loaderQueue, META1 = GLOBAL_ENV[VERSION1], L = Y.Lang, ON_PAGE = GLOBAL_ENV.mods, _path = function(dir, file, type, nomin) {
         var path = dir + "/" + file;
         return nomin || (path += "-min"), path += "." + (type || "css");
     };
-    YUI.Env._cssLoaded || (YUI.Env._cssLoaded = {
-    }), Y.Env.meta = META1, Y.Loader = function(o) {
+    YUI.Env._cssLoaded || (YUI.Env._cssLoaded = {}), Y.Env.meta = META1, Y.Loader = function(o) {
         var self = this;
-        o = o || {
-        }, modulekey = META1.md5, self.context = Y, self.base = Y.Env.meta.base + Y.Env.meta.root, self.comboBase = Y.Env.meta.comboBase, self.combine = o.base && o.base.indexOf(self.comboBase.substr(0, 20)) > -1, self.comboSep = "&", self.maxURLLength = 1024, self.ignoreRegistered = o.ignoreRegistered, self.root = Y.Env.meta.root, self.timeout = 0, self.forceMap = {
-        }, self.allowRollup = !1, self.filters = {
-        }, self.required = {
-        }, self.patterns = {
-        }, self.moduleInfo = {
-        }, self.groups = Y.merge(Y.Env.meta.groups), self.skin = Y.merge(Y.Env.meta.skin), self.conditions = {
-        }, self.config = o, self._internal = !0, self._populateCache(), self.loaded = GLOBAL_LOADED[VERSION1], self.async = !0, self._inspectPage(), self._internal = !1, self._config(o), self.forceMap = self.force ? Y.Array.hash(self.force) : {
-        }, self.testresults = null, Y.config.tests && (self.testresults = Y.config.tests), self.sorted = [], self.dirty = !0, self.inserted = {
-        }, self.skipped = {
-        }, self.tested = {
-        }, self.ignoreRegistered && self._resetModules();
+        o = o || {}, modulekey = META1.md5, self.context = Y, self.base = Y.Env.meta.base + Y.Env.meta.root, self.comboBase = Y.Env.meta.comboBase, self.combine = o.base && o.base.indexOf(self.comboBase.substr(0, 20)) > -1, self.comboSep = "&", self.maxURLLength = 1024, self.ignoreRegistered = o.ignoreRegistered, self.root = Y.Env.meta.root, self.timeout = 0, self.forceMap = {}, self.allowRollup = !1, self.filters = {}, self.required = {}, self.patterns = {}, self.moduleInfo = {}, self.groups = Y.merge(Y.Env.meta.groups), self.skin = Y.merge(Y.Env.meta.skin), self.conditions = {}, self.config = o, self._internal = !0, self._populateCache(), self.loaded = GLOBAL_LOADED[VERSION1], self.async = !0, self._inspectPage(), self._internal = !1, self._config(o), self.forceMap = self.force ? Y.Array.hash(self.force) : {}, self.testresults = null, Y.config.tests && (self.testresults = Y.config.tests), self.sorted = [], self.dirty = !0, self.inserted = {}, self.skipped = {}, self.tested = {}, self.ignoreRegistered && self._resetModules();
     }, Y.Loader.prototype = {
         _populateCache: function() {
             var i, defaults = META1.modules, cache = GLOBAL_ENV._renderedMods;
@@ -1430,7 +1381,7 @@ var YUI = function() {
             return !!rm && mod2 in rm || !!m.ext && "css" === m.type && !other.ext && "css" === other.type;
         },
         _config: function(o) {
-            var i, j, val, a, f, group, groupName, mod, self = this, mods = [];
+            var i, j, val, a, f, group, groupName, mod1, self = this, mods = [];
             if (o) {
                 for(i in o)if (o.hasOwnProperty(i)) if (val = o[i], "require" === i) self.require(val);
                 else if ("skin" === i) "string" == typeof val && (self.skin.defaultSkin = o.skin, val = {
@@ -1443,9 +1394,8 @@ var YUI = function() {
                 else "gallery" === i ? this.groups.gallery.update && this.groups.gallery.update(val, o) : "yui2" === i || "2in3" === i ? this.groups.yui2.update && this.groups.yui2.update(o["2in3"], o.yui2, o) : self[i] = val;
             }
             if (f = self.filter, L.isString(f) && (f = f.toUpperCase(), self.filterName = f, self.filter = self.FILTER_DEFS[f], "DEBUG" === f && self.require("yui-log", "dump")), self.filterName && self.coverage && "COVERAGE" === self.filterName && L.isArray(self.coverage) && self.coverage.length) {
-                for(i = 0; i < self.coverage.length; i++)mod = self.coverage[i], self.moduleInfo[mod] && self.moduleInfo[mod].use ? mods = [].concat(mods, self.moduleInfo[mod].use) : mods.push(mod);
-                self.filters = self.filters || {
-                }, Y.Array.each(mods, function(mod) {
+                for(i = 0; i < self.coverage.length; i++)mod1 = self.coverage[i], self.moduleInfo[mod1] && self.moduleInfo[mod1].use ? mods = [].concat(mods, self.moduleInfo[mod1].use) : mods.push(mod1);
+                self.filters = self.filters || {}, Y.Array.each(mods, function(mod) {
                     self.filters[mod] = self.FILTER_DEFS.COVERAGE;
                 }), self.filterName = "RAW", self.filter = self.FILTER_DEFS[self.filterName];
             }
@@ -1508,11 +1458,8 @@ var YUI = function() {
             if (plugins = o.plugins) for(i in plugins)plugins.hasOwnProperty(i) && ((plug = plugins[i]).pkg = name, plug.path = plug.path || _path(name, i, o.type), plug.requires = plug.requires || [], plug.group = o.group, this.addModule(plug, i), o.skinnable && this._addSkin(this.skin.defaultSkin, i, name));
             if (o.condition) for(t = o.condition.trigger, YUI.Env.aliases[t] && (t = YUI.Env.aliases[t]), Y.Lang.isArray(t) || (t = [
                 t
-            ]), i = 0; i < t.length; i++)trigger = t[i], when = o.condition.when, conditions[trigger] = conditions[trigger] || {
-            }, conditions[trigger][name] = o.condition, when && "after" !== when ? "instead" === when && (o.supersedes = o.supersedes || [], o.supersedes.push(trigger)) : (o.after = o.after || [], o.after.push(trigger));
-            return o.supersedes && (o.supersedes = this.filterRequires(o.supersedes)), o.after && (o.after = this.filterRequires(o.after), o.after_map = yArray.hash(o.after)), o.configFn && !1 === o.configFn(o) && (delete this.moduleInfo[name], delete GLOBAL_ENV._renderedMods[name], o = null), o && (GLOBAL_ENV._renderedMods || (GLOBAL_ENV._renderedMods = {
-            }), GLOBAL_ENV._renderedMods[name] = Y.mix(GLOBAL_ENV._renderedMods[name] || {
-            }, o), GLOBAL_ENV._conditions = conditions), o;
+            ]), i = 0; i < t.length; i++)trigger = t[i], when = o.condition.when, conditions[trigger] = conditions[trigger] || {}, conditions[trigger][name] = o.condition, when && "after" !== when ? "instead" === when && (o.supersedes = o.supersedes || [], o.supersedes.push(trigger)) : (o.after = o.after || [], o.after.push(trigger));
+            return o.supersedes && (o.supersedes = this.filterRequires(o.supersedes)), o.after && (o.after = this.filterRequires(o.after), o.after_map = yArray.hash(o.after)), o.configFn && !1 === o.configFn(o) && (delete this.moduleInfo[name], delete GLOBAL_ENV._renderedMods[name], o = null), o && (GLOBAL_ENV._renderedMods || (GLOBAL_ENV._renderedMods = {}), GLOBAL_ENV._renderedMods[name] = Y.mix(GLOBAL_ENV._renderedMods[name] || {}, o), GLOBAL_ENV._conditions = conditions), o;
         },
         require: function(what) {
             var a = "string" == typeof what ? yArray(arguments) : what;
@@ -1543,8 +1490,7 @@ var YUI = function() {
             if (mod._parsed) return mod.expanded || NO_REQUIREMENTS;
             var i, m, j, add, packName, lang, cond, d, def, r, old_mod, o, skinmod, skindef, skinpar, skinname, hash, reparse, testresults = this.testresults, name = mod.name, adddef = ON_PAGE[name] && ON_PAGE[name].details, intl = mod.lang || mod.intl, info = this.moduleInfo, ftests = Y.Features && Y.Features.tests.load;
             if (mod.temp && adddef && (old_mod = mod, (mod = this.addModule(adddef, name)).group = old_mod.group, mod.pkg = old_mod.pkg, delete mod.expanded), reparse = !((!this.lang || mod.langCache === this.lang) && mod.skinCache === this.skin.defaultSkin), mod.expanded && !reparse) return mod.expanded;
-            for(d = [], hash = {
-            }, r = this.filterRequires(mod.requires), mod.lang && (d.unshift("intl"), r.unshift("intl"), intl = !0), o = this.filterRequires(mod.optional), mod._parsed = !0, mod.langCache = this.lang, mod.skinCache = this.skin.defaultSkin, i = 0; i < r.length; i++)if (!hash[r[i]] && (d.push(r[i]), hash[r[i]] = !0, m = this.getModule(r[i]))) for(j = 0, add = this.getRequires(m), intl = intl || m.expanded_map && (INTL in m.expanded_map); j < add.length; j++)d.push(add[j]);
+            for(d = [], hash = {}, r = this.filterRequires(mod.requires), mod.lang && (d.unshift("intl"), r.unshift("intl"), intl = !0), o = this.filterRequires(mod.optional), mod._parsed = !0, mod.langCache = this.lang, mod.skinCache = this.skin.defaultSkin, i = 0; i < r.length; i++)if (!hash[r[i]] && (d.push(r[i]), hash[r[i]] = !0, m = this.getModule(r[i]))) for(j = 0, add = this.getRequires(m), intl = intl || m.expanded_map && (INTL in m.expanded_map); j < add.length; j++)d.push(add[j]);
             if (r = this.filterRequires(mod.supersedes)) {
                 for(i = 0; i < r.length; i++)if (!hash[r[i]] && (mod.submodules && d.push(r[i]), hash[r[i]] = !0, m = this.getModule(r[i]))) for(j = 0, add = this.getRequires(m), intl = intl || m.expanded_map && (INTL in m.expanded_map); j < add.length; j++)d.push(add[j]);
             }
@@ -1572,8 +1518,7 @@ var YUI = function() {
         },
         getProvides: function(name) {
             var o, s, m = this.getModule(name);
-            return m ? (m && !m.provides && (o = {
-            }, (s = m.supersedes) && yArray.each(s, function(v) {
+            return m ? (m && !m.provides && (o = {}, (s = m.supersedes) && yArray.each(s, function(v) {
                 Y.mix(o, this.getProvides(v));
             }, this), o[name] = !0, m.provides = o), m.provides) : NOT_FOUND;
         },
@@ -1589,15 +1534,12 @@ var YUI = function() {
                 ext: m.ext,
                 group: m.group,
                 supersedes: []
-            }, m.root && (conf.root = m.root), m.base && (conf.base = m.base), m.configFn && (conf.configFn = m.configFn), this.addModule(conf, packName), lang && (Y.Env.lang = Y.Env.lang || {
-            }, Y.Env.lang[lang] = Y.Env.lang[lang] || {
-            }, Y.Env.lang[lang][name] = !0)), this.moduleInfo[packName];
+            }, m.root && (conf.root = m.root), m.base && (conf.base = m.base), m.configFn && (conf.configFn = m.configFn), this.addModule(conf, packName), lang && (Y.Env.lang = Y.Env.lang || {}, Y.Env.lang[lang] = Y.Env.lang[lang] || {}, Y.Env.lang[lang][name] = !0)), this.moduleInfo[packName];
         },
         _setup: function() {
             var name, i, j, m, l, packName, info = this.moduleInfo;
             for(name in info)info.hasOwnProperty(name) && (m = info[name]) && (m.requires = yArray.dedupe(m.requires), m.lang && (packName = this.getLangPackName("", name), this._addLangPack(null, m, packName)));
-            for(j in l = {
-            }, this.ignoreRegistered || Y.mix(l, GLOBAL_ENV.mods), this.ignore && Y.mix(l, yArray.hash(this.ignore)), l)l.hasOwnProperty(j) && Y.mix(l, this.getProvides(j));
+            for(j in l = {}, this.ignoreRegistered || Y.mix(l, GLOBAL_ENV.mods), this.ignore && Y.mix(l, yArray.hash(this.ignore)), l)l.hasOwnProperty(j) && Y.mix(l, this.getProvides(j));
             if (this.force) for(i = 0; i < this.force.length; i++)this.force[i] in l && delete l[this.force[i]];
             Y.mix(this.loaded, l), this._init = !0;
         },
@@ -1605,8 +1547,7 @@ var YUI = function() {
             return "lang/" + mname + (lang ? "_" + lang : "");
         },
         _explode: function() {
-            var m, reqs, name, expound, r = this.required, done = {
-            }, self = this;
+            var m, reqs, name, expound, r = this.required, done = {}, self = this;
             for(name in self.dirty = !1, self._explodeRollups(), r = self.required)r.hasOwnProperty(name) && !done[name] && (done[name] = !0, (m = self.getModule(name)) && ((expound = m.expound) && (r[expound] = self.getModule(expound), reqs = self.getRequires(r[expound]), Y.mix(r, yArray.hash(reqs))), reqs = self.getRequires(m), Y.mix(r, yArray.hash(reqs))));
         },
         _patternTest: function(mname, pname) {
@@ -1623,8 +1564,7 @@ var YUI = function() {
             }
             return m ? found && m && found.configFn && !m.configFn && (m.configFn = found.configFn, m.configFn(m)) : found && (p.action ? p.action.call(this, mname, pname) : (m = this.addModule(Y.merge(found), mname), found.configFn && (m.configFn = found.configFn), m.temp = !0)), m;
         },
-        _rollup: function() {
-        },
+        _rollup: function() {},
         _reduce: function(r) {
             r = r || this.required;
             var i, j, s, m, type = this.loadType, ignore = !!this.ignore && yArray.hash(this.ignore);
@@ -1643,8 +1583,7 @@ var YUI = function() {
         _onSuccess: function() {
             var fn, success, msg, i, mod, self = this, skipped = Y.merge(self.skipped), failed = [], rreg = self.requireRegistration;
             for(i in skipped)skipped.hasOwnProperty(i) && delete self.inserted[i];
-            for(i in self.skipped = {
-            }, self.inserted)self.inserted.hasOwnProperty(i) && ((mod = self.getModule(i)) && rreg && "js" === mod.type && !(i in YUI.Env.mods) ? failed.push(i) : Y.mix(self.loaded, self.getProvides(i)));
+            for(i in self.skipped = {}, self.inserted)self.inserted.hasOwnProperty(i) && ((mod = self.getModule(i)) && rreg && "js" === mod.type && !(i in YUI.Env.mods) ? failed.push(i) : Y.mix(self.loaded, self.getProvides(i)));
             fn = self.onSuccess, msg = failed.length ? "notregistered" : "success", success = !failed.length, fn && fn.call(self.context, {
                 msg: msg,
                 data: self.data,
@@ -1679,8 +1618,7 @@ var YUI = function() {
             });
         },
         _sort: function() {
-            for(var l, a, b, j, k, moved, doneKey, s = YObject.keys(this.required), done = {
-            }, p = 0;;){
+            for(var l, a, b, j, k, moved, doneKey, s = YObject.keys(this.required), done = {}, p = 0;;){
                 for(l = s.length, moved = !1, j = p; j < l; j++){
                     for(a = s[j], k = j + 1; k < l; k++)if (!done[doneKey = a + s[k]] && this._requires(a, s[k])) {
                         b = s.splice(k, 1), s.splice(j, 0, b[0]), done[doneKey] = !0, moved = !0;
@@ -1695,12 +1633,10 @@ var YUI = function() {
         },
         _insert: function(source, o1, type, skipcalc) {
             source && this._config(source);
-            var deps, complete, modules = this.resolve(!skipcalc), self = this, comp = 0, actions = 0, mods = {
-            };
+            var deps, complete, modules = this.resolve(!skipcalc), self = this, comp = 0, actions = 0, mods = {};
             if (self._refetch = [], type && (modules["js" === type ? "css" : "js"] = []), self.fetchCSS || (modules.css = []), modules.js.length && comp++, modules.css.length && comp++, complete = function(d) {
                 actions++;
-                var fn, modName, resMods, errs = {
-                }, i = 0, o = 0, u = "";
+                var fn, modName, resMods, errs = {}, i = 0, o = 0, u = "";
                 if (d && d.errors) for(i = 0; i < d.errors.length; i++)errs[u = d.errors[i].request ? d.errors[i].request.url : d.errors[i]] = u;
                 if (d && d.data && d.data.length && "success" === d.type) for(i = 0; i < d.data.length; i++)self.inserted[d.data[i].name] = !0, (d.data[i].lang || d.data[i].skinnable) && (delete self.inserted[d.data[i].name], self._refetch.push(d.data[i].name));
                 if (actions === comp) {
@@ -1773,8 +1709,7 @@ var YUI = function() {
                 self._insert(copy, o, type, skipsort);
             }), this._continue();
         },
-        loadNext: function() {
-        },
+        loadNext: function() {},
         _filter: function(u, name, group) {
             var f = this.filter, hasFilter = name && name in this.filters, modFilter = hasFilter && this.filters[name], groupName = group || (this.moduleInfo[name] ? this.moduleInfo[name].group : null);
             return groupName && this.groups[groupName] && this.groups[groupName].filter && (modFilter = this.groups[groupName].filter, hasFilter = !0), u && (hasFilter && (f = L.isString(modFilter) ? this.FILTER_DEFS[modFilter.toUpperCase()] || null : modFilter), f && (u = u.replace(new RegExp(f.searchExp, "g"), f.replaceStr))), u;
@@ -1783,9 +1718,7 @@ var YUI = function() {
             return this._filter((base || this.base || "") + path, name);
         },
         resolve: function(calc, s) {
-            var len, i, m1, url, group, groupName, j, frag, comboSource, comboSources, mods, comboBase, base, urls, tmpBase, baseLen, comboSep, maxURLLength, addSingle, u = [], resCombos = {
-            }, self = this, inserted = self.ignoreRegistered ? {
-            } : self.inserted, resolved = {
+            var len, i, m1, url, group, groupName, j, frag, comboSource, comboSources, mods, comboBase, base, urls, tmpBase, baseLen, comboSep, maxURLLength, addSingle, u = [], resCombos = {}, self = this, inserted = self.ignoreRegistered ? {} : self.inserted, resolved = {
                 js: [],
                 jsMods: [],
                 css: [],
@@ -1796,8 +1729,7 @@ var YUI = function() {
                     url: url,
                     async: m.async
                 }, m.attributes && (url.attributes = m.attributes)), resolved[m.type].push(url), resolved[m.type + "Mods"].push(m));
-            }, len = s.length, url = comboBase = self.comboBase, comboSources = {
-            }, i = 0; i < len; i++){
+            }, len = s.length, url = comboBase = self.comboBase, comboSources = {}, i = 0; i < len; i++){
                 if (comboSource = comboBase, groupName = (m1 = self.getModule(s[i])) && m1.group, group = self.groups[groupName], groupName && group) {
                     if (!group.combine || m1.fullpath) {
                         addSingle(m1);
@@ -1844,8 +1776,7 @@ var YUI = function() {
 }), YUI.add("loader-rollup", function(Y, NAME) {
     Y.Loader.prototype._rollup = function() {
         var i, j, m, s, roll, rolled, c, smod, r = this.required, info = this.moduleInfo;
-        if (this.dirty || !this.rollups) for(i in this.rollups = {
-        }, info)info.hasOwnProperty(i) && (m = this.getModule(i)) && m.rollup && (this.rollups[i] = m);
+        if (this.dirty || !this.rollups) for(i in this.rollups = {}, info)info.hasOwnProperty(i) && (m = this.getModule(i)) && m.rollup && (this.rollups[i] = m);
         for(;;){
             for(i in rolled = !1, this.rollups)if (this.rollups.hasOwnProperty(i) && !r[i] && (!this.loaded[i] || this.forceMap[i])) {
                 if (s = (m = this.getModule(i)).supersedes || [], roll = !1, !m.rollup) continue;
@@ -1866,8 +1797,7 @@ var YUI = function() {
         "loader-base"
     ]
 }), YUI.add("loader-yui3", function(Y3, NAME) {
-    YUI.Env[Y3.version].modules = YUI.Env[Y3.version].modules || {
-    }, Y3.mix(YUI.Env[Y3.version].modules, {
+    YUI.Env[Y3.version].modules = YUI.Env[Y3.version].modules || {}, Y3.mix(YUI.Env[Y3.version].modules, {
         "align-plugin": {
             requires: [
                 "node-screen",
@@ -2915,28 +2845,23 @@ var YUI = function() {
                 "yui-base"
             ]
         },
-        "datatype-date-parse": {
-        },
+        "datatype-date-parse": {},
         "datatype-number": {
             use: [
                 "datatype-number-parse",
                 "datatype-number-format"
             ]
         },
-        "datatype-number-format": {
-        },
-        "datatype-number-parse": {
-        },
+        "datatype-number-format": {},
+        "datatype-number-parse": {},
         "datatype-xml": {
             use: [
                 "datatype-xml-parse",
                 "datatype-xml-format"
             ]
         },
-        "datatype-xml-format": {
-        },
-        "datatype-xml-parse": {
-        },
+        "datatype-xml-format": {},
+        "datatype-xml-parse": {},
         dd: {
             use: [
                 "dd-ddm-base",
@@ -4238,10 +4163,8 @@ var YUI = function() {
                 "series-curve-util"
             ]
         },
-        "series-curve-util": {
-        },
-        "series-fill-util": {
-        },
+        "series-curve-util": {},
+        "series-fill-util": {},
         "series-histogram-base": {
             requires: [
                 "series-cartesian",
@@ -4260,8 +4183,7 @@ var YUI = function() {
                 "series-line"
             ]
         },
-        "series-line-util": {
-        },
+        "series-line-util": {},
         "series-marker": {
             requires: [
                 "series-cartesian",
@@ -4285,8 +4207,7 @@ var YUI = function() {
                 "series-plot-util"
             ]
         },
-        "series-plot-util": {
-        },
+        "series-plot-util": {},
         "series-range": {
             requires: [
                 "series-cartesian"
@@ -4497,8 +4418,7 @@ var YUI = function() {
                 "tree"
             ]
         },
-        "tree-node": {
-        },
+        "tree-node": {},
         "tree-openable": {
             requires: [
                 "tree"
@@ -4715,10 +4635,8 @@ var YUI = function() {
                 when: "after"
             }
         },
-        yui: {
-        },
-        "yui-base": {
-        },
+        yui: {},
+        "yui-base": {},
         "yui-later": {
             requires: [
                 "yui-base"
@@ -4739,8 +4657,7 @@ var YUI = function() {
     requires: [
         "loader-base"
     ]
-}), YUI.add("yui", function(Y, NAME) {
-}, "3.12.0", {
+}), YUI.add("yui", function(Y, NAME) {}, "3.12.0", {
     use: [
         "yui-base",
         "get",

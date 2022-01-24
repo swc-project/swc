@@ -249,8 +249,7 @@
                       },
                       "value": "length",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "definite": false
                 }
@@ -357,16 +356,23 @@
                         "optional": false
                       },
                       "property": {
-                        "type": "Identifier",
+                        "type": "Computed",
                         "span": {
-                          "start": 322,
-                          "end": 323,
+                          "start": 321,
+                          "end": 324,
                           "ctxt": 0
                         },
-                        "value": "i",
-                        "optional": false
-                      },
-                      "computed": true
+                        "expression": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 322,
+                            "end": 323,
+                            "ctxt": 0
+                          },
+                          "value": "i",
+                          "optional": false
+                        }
+                      }
                     }
                   }
                 }

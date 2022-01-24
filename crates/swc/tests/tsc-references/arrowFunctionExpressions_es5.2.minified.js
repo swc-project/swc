@@ -20,11 +20,14 @@ var MyClass = function() {
     return protoProps = [
         {
             key: "fn",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties((Constructor = MyClass).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), MyClass;
 }();
-(function() {
+(m = 3, function() {
+    return function(n) {
+        return 3 + n;
+    };
+})()(4), (function() {
     return 0;
 })().toExponential();

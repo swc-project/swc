@@ -240,14 +240,12 @@
           "ctxt": 0
         },
         "callee": {
-          "type": "Identifier",
+          "type": "Import",
           "span": {
             "start": 353,
             "end": 359,
             "ctxt": 0
-          },
-          "value": "import",
-          "optional": false
+          }
         },
         "arguments": [
           {

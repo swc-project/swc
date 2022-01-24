@@ -5,8 +5,10 @@ try {
             x: "",
             y: 0
         }
-    ][Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)var _value = _step.value;
-    _value.x, _value.y;
+    ][Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0){
+        var _value = _step.value;
+        _value.x, _value.y;
+    }
 } catch (err) {
     _didIteratorError = !0, _iteratorError = err;
 } finally{

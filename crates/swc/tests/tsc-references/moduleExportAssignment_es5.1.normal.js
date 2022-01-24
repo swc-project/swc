@@ -29,8 +29,7 @@ var EE = // @noEmit: true
     _createClass(EE, [
         {
             /** @param {string} s */ key: "on",
-            value: function on(s) {
-            }
+            value: function on(s) {}
         }
     ]);
     return EE;

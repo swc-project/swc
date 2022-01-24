@@ -3,8 +3,7 @@
 // @strict: true
 // @checkJs: true
 // @filename: index.js
-const x = {
-};
+const x = {};
 Object.defineProperty(x, "name", {
     value: "Charles",
     writable: true
@@ -20,8 +19,7 @@ Object.defineProperty(x, "zip", {
     get () {
         return 98122;
     },
-    set (_) {
-    }
+    set (_) {}
 });
 Object.defineProperty(x, "houseNumber", {
     get () {
@@ -54,8 +52,7 @@ const expected = /** @type {{name: string, readonly middleInit: string, readonly
  * 
  * @param {typeof returnExemplar} a 
  * @param {typeof needsExemplar} b 
- */ function match(a, b) {
-}
+ */ function match(a, b) {}
 match(()=>expected
 , (x = expected)=>void 0
 );

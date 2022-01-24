@@ -29,59 +29,49 @@ impl VisitMut for DropConsole {
 
         n.visit_mut_children_with(self);
 
-        match n {
-            Expr::Call(CallExpr {
-                span, callee, args, ..
-            }) => {
-                // Find console.log
-                let callee = match callee {
-                    ExprOrSuper::Expr(callee) => callee,
-                    _ => return,
-                };
+        if let Expr::Call(CallExpr {
+            span, callee, args, ..
+        }) = n
+        {
+            // Find console.log
+            let callee = match callee {
+                Callee::Expr(callee) => callee,
+                _ => return,
+            };
 
-                match &**callee {
-                    Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(callee_obj),
-                        prop: callee_prop,
-                        computed: false,
-                        ..
-                    }) => {
-                        let mut loop_co = &**callee_obj;
-                        let mut loop_cp = &**callee_prop;
-                        loop {
-                            match (loop_co, loop_cp) {
-                                (Expr::Ident(obj), Expr::Ident(_prop)) => {
-                                    if obj.sym != *"console" {
-                                        return;
-                                    }
-                                    break;
-                                }
-                                (
-                                    Expr::Member(MemberExpr {
-                                        obj: ExprOrSuper::Expr(loop_co_obj),
-                                        prop: loop_cp_prop,
-                                        computed: false,
-                                        ..
-                                    }),
-                                    Expr::Ident(_prop),
-                                ) => {
-                                    loop_co = &loop_co_obj;
-                                    loop_cp = &loop_cp_prop;
-                                }
-                                _ => return,
+            if let Expr::Member(MemberExpr {
+                obj: callee_obj,
+                prop: MemberProp::Ident(_),
+                ..
+            }) = &**callee
+            {
+                let mut loop_co = &**callee_obj;
+                loop {
+                    match loop_co {
+                        Expr::Ident(obj) => {
+                            if obj.sym != *"console" {
+                                return;
                             }
+                            break;
                         }
 
-                        // Sioplifier will remove side-effect-free items.
-                        *n = Expr::Seq(SeqExpr {
-                            span: *span,
-                            exprs: take(args).into_iter().map(|arg| arg.expr).collect(),
-                        })
+                        Expr::Member(MemberExpr {
+                            obj: loop_co_obj,
+                            prop: MemberProp::Ident(_),
+                            ..
+                        }) => {
+                            loop_co = loop_co_obj;
+                        }
+                        _ => return,
                     }
-                    _ => {}
                 }
+
+                // Simplifier will remove side-effect-free items.
+                *n = Expr::Seq(SeqExpr {
+                    span: *span,
+                    exprs: take(args).into_iter().map(|arg| arg.expr).collect(),
+                })
             }
-            _ => {}
         }
     }
 

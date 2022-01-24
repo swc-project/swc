@@ -51,9 +51,8 @@ where
         let mut analyzer = GraphAnalyzer::new(&self.scope);
 
         for (name, module) in entries {
-            match builder.kinds.insert(module.id, BundleKind::Named { name }) {
-                Some(v) => bail!("Multiple entries with same input path detected: {:?}", v),
-                None => {}
+            if let Some(v) = builder.kinds.insert(module.id, BundleKind::Named { name }) {
+                bail!("Multiple entries with same input path detected: {:?}", v)
             }
 
             analyzer.load(module.id);

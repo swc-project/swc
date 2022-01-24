@@ -1,4 +1,4 @@
-var EX, EX;
+var EX;
 class C1 extends Constructor() {
 }
 class C2 extends Constructor() {
@@ -9,5 +9,6 @@ class C4 extends Constructor() {
 }
 class C5 extends Constructor() {
 }
-(EX = EX || (EX = {
-}))[EX.A = 0] = "A", EX[EX.B = 1] = "B", EX[EX.C = 2] = "C";
+!function(EX) {
+    EX[EX.A = 0] = "A", EX[EX.B = 1] = "B", EX[EX.C = 2] = "C";
+}(EX || (EX = {}));

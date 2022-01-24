@@ -1,4 +1,3 @@
-(function(...rest) {
-})`${function(x) {
-    x = "bad";
+(function(...rest) {})`${function(x) {
+    "bad";
 }}`;

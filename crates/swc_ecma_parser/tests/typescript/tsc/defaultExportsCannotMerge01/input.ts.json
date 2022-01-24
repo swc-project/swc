@@ -588,8 +588,7 @@
           },
           "value": "x",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -625,8 +624,7 @@
           },
           "value": "y",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

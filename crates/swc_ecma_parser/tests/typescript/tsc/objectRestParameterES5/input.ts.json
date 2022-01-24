@@ -587,8 +587,7 @@
                   },
                   "value": "y",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "async": false,
               "generator": false,
@@ -897,8 +896,7 @@
                     },
                     "value": "y",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "MemberExpression",
@@ -926,8 +924,7 @@
                     },
                     "value": "ka",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               "async": false,

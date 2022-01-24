@@ -73,8 +73,7 @@
                   },
                   "value": "unknown",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NullLiteral",
@@ -125,8 +124,7 @@
                   },
                   "value": "unknowable",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -179,8 +177,7 @@
                   },
                   "value": "empty",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "ArrayExpression",
@@ -293,8 +290,7 @@
             },
             "value": "unknown",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -348,8 +344,7 @@
             },
             "value": "unknown",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BooleanLiteral",
@@ -403,8 +398,7 @@
             },
             "value": "unknown",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -458,8 +452,7 @@
             },
             "value": "unknown",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -518,8 +511,7 @@
             },
             "value": "unknowable",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -573,8 +565,7 @@
             },
             "value": "unknowable",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BooleanLiteral",
@@ -628,8 +619,7 @@
             },
             "value": "unknowable",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -683,8 +673,7 @@
             },
             "value": "unknowable",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -749,8 +738,7 @@
               },
               "value": "empty",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -761,8 +749,7 @@
             },
             "value": "push",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -828,8 +815,7 @@
               },
               "value": "empty",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -840,8 +826,7 @@
             },
             "value": "push",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -907,8 +892,7 @@
               },
               "value": "empty",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -919,8 +903,7 @@
             },
             "value": "push",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -986,8 +969,7 @@
               },
               "value": "empty",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -998,8 +980,7 @@
             },
             "value": "push",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1583,8 +1564,7 @@
                   },
                   "value": "push",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -1643,8 +1623,7 @@
                   },
                   "value": "push",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -1989,8 +1968,7 @@
             },
             "value": "push",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

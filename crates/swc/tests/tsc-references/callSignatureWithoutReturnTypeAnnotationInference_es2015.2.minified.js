@@ -1,4 +1,4 @@
-var M, e1, M1, e1;
+var M, e1;
 function foo3() {
     return foo3();
 }
@@ -6,20 +6,16 @@ function m1() {
     return 1;
 }
 foo3(), (function(x) {
-    try {
-    } catch (e) {
+    try {} catch (e) {
         return [];
-    } finally{
-    }
-})(1), (M1 = M || (M = {
-})).x = 1, M1.C = class {
-}, (m1 || (m1 = {
-})).y = 2;
+    } finally{}
+})(1), (function(M1) {
+    M1.x = 1, M1.C = class {
+    };
+})(M || (M = {})), (m1 || (m1 = {})).y = 2;
 class c1 {
-    constructor(x){
-    }
+    constructor(x){}
 }
-(c1 || (c1 = {
-})).x = 1, (e1 = e1 || (e1 = {
-}))[e1.A = 0] = "A", (e1 || (e1 = {
-})).y = 1;
+(c1 || (c1 = {})).x = 1, (function(e1) {
+    e1[e1.A = 0] = "A";
+})(e1 || (e1 = {})), (e1 || (e1 = {})).y = 1;

@@ -14,13 +14,11 @@ var c;
 x = c;
 var M;
 (function(M1) {
-    M1.x = 1;
-})(M || (M = {
-}));
+    var x = M1.x = 1;
+})(M || (M = {}));
 x = M;
 x = {
-    f () {
-    }
+    f () {}
 };
 function f(a1) {
     x = a1;
@@ -29,7 +27,6 @@ x = f;
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 x = E;
 x = E.A;

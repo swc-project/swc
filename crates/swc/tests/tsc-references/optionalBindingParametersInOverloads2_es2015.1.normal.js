@@ -1,5 +1,4 @@
-function foo(...rest) {
-}
+function foo(...rest) {}
 foo({
     x: "",
     y: 0,

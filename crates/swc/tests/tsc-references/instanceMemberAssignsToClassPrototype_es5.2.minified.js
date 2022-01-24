@@ -16,15 +16,13 @@ var C = function() {
         {
             key: "foo",
             value: function() {
-                C.prototype.foo = function() {
-                };
+                C.prototype.foo = function() {};
             }
         },
         {
             key: "bar",
             value: function(x1) {
-                return C.prototype.bar = function() {
-                }, C.prototype.bar = function(x) {
+                return C.prototype.bar = function() {}, C.prototype.bar = function(x) {
                     return x;
                 }, C.prototype.bar = function(x) {
                     return 1;

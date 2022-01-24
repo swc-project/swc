@@ -1,13 +1,9 @@
-var A, X, X1;
-(A || (A = {
-})).Point = class {
-}, (function(X2) {
+var A, X;
+(A || (A = {})).Point = class {
+}, (function(X1) {
     var Y;
-    ((Y = X2.Y || (X2.Y = {
-    })).Z || (Y.Z = {
-    })).Line = class {
+    ((Y = X1.Y || (X1.Y = {})).Z || (Y.Z = {})).Line = class {
     };
-})(X || (X = {
-})), (X1 = X || (X = {
-})).Y || (X1.Y = {
-});
+})(X || (X = {})), (function(X2) {
+    X2.Y || (X2.Y = {});
+})(X || (X = {}));

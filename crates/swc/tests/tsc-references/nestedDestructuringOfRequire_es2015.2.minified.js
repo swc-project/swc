@@ -1,5 +1,4 @@
 module.exports.chalk = {
-    grey: {
-    }
+    grey: {}
 };
 const { chalk: { grey  }  } = require("./mod1");

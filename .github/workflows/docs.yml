@@ -1,0 +1,39 @@
+name: Docs
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  rustdoc:
+    name: Rustdoc
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - name: Create rustdoc
+        run: cargo doc --all
+
+      - name: Create CNAME
+        run: |
+          echo 'rustdoc.swc.rs' > target/doc/CNAME
+
+      - name: Deploy
+        if: github.ref == 'refs/heads/main'
+        uses: JamesIves/github-pages-deploy-action@4.1.8
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          branch: gh-pages
+          folder: target/doc
+          clean: true
+          git-config-email: github-bot@swc.rs
+          repository-name: swc-project/rustdoc
+          commit-message: "Update"
+          single-commit: true

@@ -31,8 +31,7 @@ export var Clazz = /*#__PURE__*/ function() {
     _createClass(Clazz, null, [
         {
             key: "method",
-            value: function method() {
-            }
+            value: function method() {}
         }
     ]);
     return Clazz;

@@ -30,8 +30,7 @@ var C = function() {
             get: function() {
                 return 1;
             },
-            set: function(x) {
-            }
+            set: function(x) {}
         },
         {
             key: "id",
@@ -42,21 +41,18 @@ var C = function() {
     ], [
         {
             key: "foo",
-            value: function(x) {
-            }
+            value: function(x) {}
         },
         {
             key: "bar",
-            value: function(x) {
-            }
+            value: function(x) {}
         },
         {
             key: "sc",
             get: function() {
                 return 1;
             },
-            set: function(x) {
-            }
+            set: function(x) {}
         },
         {
             key: "sd",
@@ -77,8 +73,7 @@ var D = function() {
     return _createClass(D, [
         {
             key: "foo",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), D;
 }();

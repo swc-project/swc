@@ -217,17 +217,32 @@ where
                                         ))));
                                     }
                                     ExportSpecifier::Named(s) => match s.exported {
-                                        Some(exported) => {
+                                        Some(ModuleExportName::Ident(exported)) => {
+                                            let orig = match s.orig {
+                                                ModuleExportName::Ident(ident) => ident,
+                                                ModuleExportName::Str(..) => unimplemented!(
+                                                    "module string names unimplemented"
+                                                ),
+                                            };
                                             props.push(PropOrSpread::Prop(Box::new(
                                                 Prop::KeyValue(KeyValueProp {
                                                     key: PropName::Ident(exported),
-                                                    value: Box::new(Expr::Ident(s.orig)),
+                                                    value: Box::new(Expr::Ident(orig)),
                                                 }),
                                             )));
                                         }
+                                        Some(ModuleExportName::Str(..)) => {
+                                            unimplemented!("module string names unimplemented")
+                                        }
                                         None => {
+                                            let orig = match s.orig {
+                                                ModuleExportName::Ident(ident) => ident,
+                                                ModuleExportName::Str(..) => unimplemented!(
+                                                    "module string names unimplemented"
+                                                ),
+                                            };
                                             props.push(PropOrSpread::Prop(Box::new(
-                                                Prop::Shorthand(s.orig),
+                                                Prop::Shorthand(orig),
                                             )));
                                         }
                                     },
@@ -408,7 +423,7 @@ where
             let value = v.as_str();
             return ImportDecl {
                 src: Str {
-                    value: if value.starts_with(".") {
+                    value: if value.starts_with('.') {
                         value.into()
                     } else {
                         format!("./{}", value).into()

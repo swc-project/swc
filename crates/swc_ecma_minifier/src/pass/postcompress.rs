@@ -3,7 +3,7 @@ use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-pub fn postcompress_optimizer<'a>(options: &'a CompressOptions) -> impl 'a + VisitMut {
+pub fn postcompress_optimizer(options: &CompressOptions) -> impl '_ + VisitMut {
     PostcompressOptimizer { options }
 }
 
@@ -22,43 +22,38 @@ impl PostcompressOptimizer<'_> {
         }
 
         // Note: `||` is not handled because of precedence.
-        match e {
-            Expr::Bin(BinExpr {
-                op: op @ op!("&&"),
-                right,
-                left,
-                ..
-            }) => {
-                match &**left {
-                    Expr::Bin(BinExpr { op: op!("&&"), .. }) => return,
-                    _ => {}
-                }
-
-                match &mut **right {
-                    Expr::Unary(UnaryExpr {
-                        op: op!("!"), arg, ..
-                    }) if arg.is_ident() => {
-                        let new_op = if *op == op!("&&") {
-                            op!("||")
-                        } else {
-                            op!("&&")
-                        };
-
-                        tracing::debug!(
-                            "bools: `(a {} !b)` => `(a {} b)` (in bool context)",
-                            *op,
-                            new_op
-                        );
-                        *op = new_op;
-                        *right = arg.take();
-                        return;
-                    }
-
-                    _ => {}
-                }
+        if let Expr::Bin(BinExpr {
+            op: op @ op!("&&"),
+            right,
+            left,
+            ..
+        }) = e
+        {
+            if let Expr::Bin(BinExpr { op: op!("&&"), .. }) = &**left {
+                return;
             }
 
-            _ => {}
+            match &mut **right {
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"), arg, ..
+                }) if arg.is_ident() => {
+                    let new_op = if *op == op!("&&") {
+                        op!("||")
+                    } else {
+                        op!("&&")
+                    };
+
+                    tracing::debug!(
+                        "bools: `(a {} !b)` => `(a {} b)` (in bool context)",
+                        *op,
+                        new_op
+                    );
+                    *op = new_op;
+                    *right = arg.take();
+                }
+
+                _ => {}
+            }
         }
     }
 }

@@ -7,9 +7,10 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-(E = E || (E = {
-}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
-var E, E, cond, C1 = function() {
+!function(E) {
+    E[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
+}(E || (E = {}));
+var E, cond, C1 = function() {
     "use strict";
     _classCallCheck(this, C1), this.x1 = 1, this.x2 = -123, this.x3 = 7, this.x4 = "abc", this.x5 = "", this.x6 = "abcdef", this.x7 = !0, this.x8 = E.A, this.c1 = 1, this.c2 = -123, this.c3 = 7, this.c4 = "abc", this.c5 = "", this.c6 = "abcdef", this.c7 = !0, this.c8 = E.A;
 }, C2 = function() {

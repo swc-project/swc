@@ -18,6 +18,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     return Constructor;
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 // typeof  operator on string type
@@ -48,8 +49,7 @@ var M;
 (function(M1) {
     var n;
     M1.n = n;
-})(M || (M = {
-}));
+})(M || (M = {}));
 var objA = new A();
 // string type var
 var ResultIsString1 = typeof STRING === "undefined" ? "undefined" : _typeof(STRING);

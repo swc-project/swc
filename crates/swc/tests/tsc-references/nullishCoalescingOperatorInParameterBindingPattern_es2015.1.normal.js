@@ -4,5 +4,4 @@
 const a = ()=>undefined
 ;
 var ref;
-(({ [(ref = a()) !== null && ref !== void 0 ? ref : "d"]: c = ""  })=>{
-})();
+(({ [(ref = a()) !== null && ref !== void 0 ? ref : "d"]: c = ""  })=>{})();

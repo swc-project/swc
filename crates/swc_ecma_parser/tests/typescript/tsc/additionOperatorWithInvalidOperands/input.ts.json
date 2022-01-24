@@ -1626,8 +1626,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "NewExpression",
@@ -1716,8 +1715,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "CallExpression",
@@ -1752,8 +1750,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -1825,8 +1822,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "Identifier",

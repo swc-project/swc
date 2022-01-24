@@ -19,8 +19,7 @@ function _extends() {
 // @libFiles: react.d.ts,lib.d.ts
 var React = require('react');
 export default function Component(props) {
-    return(/*#__PURE__*/ React.createElement(AnotherComponent, _extends({
-    }, props, {
+    return(/*#__PURE__*/ React.createElement(AnotherComponent, _extends({}, props, {
         property2: true,
         AnotherProperty1: "hi"
     })));

@@ -4,8 +4,10 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-left = result, (null != (right = RegExp) && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? right[Symbol.hasInstance](left) : left instanceof right) || (result = result2);
-var left, right, result, result2, C = function() {
+!function(left, right) {
+    return null != right && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? right[Symbol.hasInstance](left) : left instanceof right;
+}(result, RegExp) && (result = result2);
+var result, result2, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -17,8 +19,7 @@ var left, right, result, result2, C = function() {
         {
             key: "validate",
             value: function() {
-                return {
-                };
+                return {};
             }
         }
     ], _defineProperties((Constructor = C).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;

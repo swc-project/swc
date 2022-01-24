@@ -4,17 +4,17 @@ use self::{
 };
 use crate::{
     marks::Marks,
-    util::{can_end_conditionally, idents_used_by, now},
+    util::{can_end_conditionally, idents_used_by},
 };
-use std::time::Instant;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
     SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id};
+use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_timer::timer;
 
 mod ctx;
 pub(crate) mod storage;
@@ -35,7 +35,7 @@ where
     S: Storage,
     N: VisitWith<UsageAnalyzer<S>>,
 {
-    let start_time = now();
+    let _timer = timer!("analyze");
 
     let mut v = UsageAnalyzer {
         data: Default::default(),
@@ -46,12 +46,6 @@ where
     n.visit_with(&mut v);
     let top_scope = v.scope;
     v.data.top_scope().merge(top_scope, false);
-
-    if let Some(start_time) = start_time {
-        let end_time = Instant::now();
-
-        tracing::debug!("Scope analysis took {:?}", end_time - start_time);
-    }
 
     v.data
 }
@@ -98,7 +92,7 @@ pub(crate) struct VarUsageInfo {
 
     used_by_nested_fn: bool,
 
-    pub used_in_loop: bool,
+    pub executed_multiple_time: bool,
     pub used_in_cond: bool,
 
     pub var_kind: Option<VarDeclKind>,
@@ -109,6 +103,8 @@ pub(crate) struct VarUsageInfo {
     pub no_side_effect_for_member_access: bool,
 
     pub used_as_callee: bool,
+
+    pub used_as_arg: bool,
 
     /// In `c = b`, `b` infects `c`.
     infects: Vec<Id>,
@@ -194,7 +190,7 @@ where
 
         if self.ctx.in_pat_of_var_decl || self.ctx.in_pat_of_param || self.ctx.in_catch_param {
             let v = self.declare_decl(
-                &i,
+                i,
                 self.ctx.in_pat_of_var_decl_with_init,
                 self.ctx.var_decl_kind_of_pat,
                 false,
@@ -209,7 +205,7 @@ where
                 v.mark_mutated();
             }
         } else {
-            self.report_usage(&i, true);
+            self.report_usage(i, true);
         }
     }
 
@@ -305,17 +301,12 @@ where
             n.callee.visit_with(&mut *self.with_ctx(ctx));
         }
 
-        match &n.callee {
-            ExprOrSuper::Super(_) => {}
-            ExprOrSuper::Expr(callee) => match &**callee {
-                Expr::Ident(callee) => {
-                    self.data
-                        .var_or_default(callee.to_id())
-                        .mark_used_as_callee();
-                }
-
-                _ => {}
-            },
+        if let Callee::Expr(callee) = &n.callee {
+            if let Expr::Ident(callee) = &**callee {
+                self.data
+                    .var_or_default(callee.to_id())
+                    .mark_used_as_callee();
+            }
         }
 
         {
@@ -329,14 +320,19 @@ where
             n.args.visit_with(&mut *self.with_ctx(ctx));
         }
 
-        match &n.callee {
-            ExprOrSuper::Expr(callee) => match &**callee {
+        for arg in &n.args {
+            if let Expr::Ident(arg) = &*arg.expr {
+                self.data.var_or_default(arg.to_id()).mark_used_as_arg();
+            }
+        }
+
+        if let Callee::Expr(callee) = &n.callee {
+            match &**callee {
                 Expr::Ident(Ident { sym, .. }) if *sym == *"eval" => {
                     self.scope.mark_eval_called();
                 }
                 _ => {}
-            },
-            _ => {}
+            }
         }
     }
 
@@ -392,27 +388,74 @@ where
         }
     }
 
+    fn visit_default_decl(&mut self, d: &DefaultDecl) {
+        d.visit_children_with(self);
+
+        match d {
+            DefaultDecl::Class(c) => {
+                if let Some(i) = &c.ident {
+                    self.data.var_or_default(i.to_id()).prevent_inline();
+                }
+            }
+            DefaultDecl::Fn(f) => {
+                if let Some(i) = &f.ident {
+                    self.data.var_or_default(i.to_id()).prevent_inline();
+                }
+            }
+            _ => {}
+        }
+    }
+
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
         let ctx = Ctx {
-            in_loop: true,
+            executed_multiple_time: true,
             in_cond: true,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
+    fn visit_export_decl(&mut self, n: &ExportDecl) {
+        n.visit_children_with(self);
+
+        match &n.decl {
+            Decl::Class(c) => {
+                self.data.var_or_default(c.ident.to_id()).prevent_inline();
+            }
+            Decl::Fn(f) => {
+                self.data.var_or_default(f.ident.to_id()).prevent_inline();
+            }
+            Decl::Var(v) => {
+                let ids = find_ids(v);
+
+                for id in ids {
+                    self.data.var_or_default(id).prevent_inline();
+                }
+            }
+            _ => {}
+        }
+    }
+
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
-        self.report_usage(&n.orig, false)
+        match &n.orig {
+            ModuleExportName::Ident(orig) => {
+                self.report_usage(orig, false);
+                self.data.var_or_default(orig.to_id()).prevent_inline();
+            }
+            ModuleExportName::Str(..) => {}
+        };
     }
 
     fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
-        match e {
-            Expr::Ident(i) => {
+        if let Expr::Ident(i) = e {
+            if self.ctx.in_update_arg {
+                self.report_usage(i, true);
+                self.report_usage(i, false);
+            } else {
                 self.report_usage(i, self.ctx.in_update_arg || self.ctx.in_assign_lhs);
             }
-            _ => {}
         }
     }
 
@@ -446,7 +489,7 @@ where
             n.right.visit_with(child);
 
             let ctx = Ctx {
-                in_loop: true,
+                executed_multiple_time: true,
                 in_cond: true,
                 ..child.ctx
             };
@@ -466,7 +509,7 @@ where
             n.left.visit_with(&mut *child.with_ctx(ctx));
 
             let ctx = Ctx {
-                in_loop: true,
+                executed_multiple_time: true,
                 in_cond: true,
                 ..child.ctx
             };
@@ -478,7 +521,7 @@ where
         n.init.visit_with(self);
 
         let ctx = Ctx {
-            in_loop: true,
+            executed_multiple_time: true,
             in_cond: true,
             ..self.ctx
         };
@@ -555,37 +598,25 @@ where
             e.obj.visit_with(&mut *self.with_ctx(ctx));
         }
 
-        if e.computed {
+        if let MemberProp::Computed(c) = &e.prop {
             let ctx = Ctx {
                 is_exact_arg: false,
                 is_exact_reassignment: false,
                 ..self.ctx
             };
-            e.prop.visit_with(&mut *self.with_ctx(ctx));
+            c.visit_with(&mut *self.with_ctx(ctx));
         }
+        if let Expr::Ident(obj) = &*e.obj {
+            let v = self.data.var_or_default(obj.to_id());
+            v.mark_has_property_access();
 
-        match &e.obj {
-            ExprOrSuper::Super(_) => {}
-            ExprOrSuper::Expr(obj) => match &**obj {
-                Expr::Ident(obj) => {
-                    let v = self.data.var_or_default(obj.to_id());
-                    v.mark_has_property_access();
+            if self.ctx.in_assign_lhs {
+                v.mark_has_property_mutation();
+            }
 
-                    if self.ctx.in_assign_lhs {
-                        v.mark_has_property_mutation();
-                    }
-
-                    if !e.computed {
-                        match &*e.prop {
-                            Expr::Ident(prop) => {
-                                v.add_accessed_property(prop.sym.clone());
-                            }
-                            _ => {}
-                        }
-                    }
-                }
-                _ => {}
-            },
+            if let MemberProp::Ident(prop) = &e.prop {
+                v.add_accessed_property(prop.sym.clone());
+            }
         }
     }
 
@@ -619,11 +650,8 @@ where
     fn visit_object_pat_prop(&mut self, n: &ObjectPatProp) {
         n.visit_children_with(self);
 
-        match n {
-            ObjectPatProp::Assign(p) => {
-                self.visit_pat_id(&p.key);
-            }
-            _ => {}
+        if let ObjectPatProp::Assign(p) = n {
+            self.visit_pat_id(&p.key);
         }
     }
 
@@ -645,9 +673,23 @@ where
     fn visit_pat(&mut self, n: &Pat) {
         n.visit_children_with(self);
 
+        if let Pat::Ident(i) = n {
+            self.visit_pat_id(&i.id)
+        }
+    }
+
+    fn visit_pat_or_expr(&mut self, n: &PatOrExpr) {
         match n {
-            Pat::Ident(i) => self.visit_pat_id(&i.id),
-            _ => {}
+            PatOrExpr::Expr(e) => {
+                if let Expr::Ident(i) = &**e {
+                    self.visit_pat_id(i)
+                } else {
+                    e.visit_with(self);
+                }
+            }
+            PatOrExpr::Pat(p) => {
+                p.visit_with(self);
+            }
         }
     }
 
@@ -658,11 +700,8 @@ where
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
 
-        match n {
-            Prop::Shorthand(i) => {
-                self.report_usage(i, false);
-            }
-            _ => {}
+        if let Prop::Shorthand(i) = n {
+            self.report_usage(i, false);
         }
     }
 
@@ -704,6 +743,17 @@ where
         }
     }
 
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            let ctx = Ctx {
+                is_exact_arg: false,
+                is_exact_reassignment: false,
+                ..self.ctx
+            };
+            c.visit_with(&mut *self.with_ctx(ctx));
+        }
+    }
+
     fn visit_switch_case(&mut self, n: &SwitchCase) {
         n.test.visit_with(self);
 
@@ -742,44 +792,40 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx));
 
         for decl in &n.decls {
-            match (&decl.name, decl.init.as_deref()) {
-                (Pat::Ident(var), Some(init)) => {
-                    let used_idents = idents_used_by(init);
+            if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
+                let used_idents = idents_used_by(init);
 
-                    for id in used_idents {
-                        self.data
-                            .var_or_default(id.clone())
-                            .add_infects(var.to_id());
+                for id in used_idents {
+                    self.data
+                        .var_or_default(id.clone())
+                        .add_infects(var.to_id());
 
-                        self.data.var_or_default(var.to_id()).add_infects(id);
-                    }
+                    self.data.var_or_default(var.to_id()).add_infects(id);
                 }
-                _ => {}
             }
         }
     }
 
     fn visit_var_declarator(&mut self, e: &VarDeclarator) {
-        let prevent_inline = match &e.name {
+        let prevent_inline = matches!(
+            &e.name,
             Pat::Ident(BindingIdent {
-                id:
-                    Ident {
-                        sym: js_word!("arguments"),
-                        ..
-                    },
+                id: Ident {
+                    sym: js_word!("arguments"),
+                    ..
+                },
                 ..
-            }) => true,
-            _ => false,
-        };
+            })
+        );
         {
             let ctx = Ctx {
                 inline_prevented: self.ctx.inline_prevented || prevent_inline,
                 in_pat_of_var_decl: true,
                 in_pat_of_var_decl_with_init: e.init.is_some(),
-                in_var_decl_with_no_side_effect_for_member_access: match e.init.as_deref() {
-                    Some(Expr::Array(..) | Expr::Lit(..)) => true,
-                    _ => false,
-                },
+                in_var_decl_with_no_side_effect_for_member_access: matches!(
+                    e.init.as_deref(),
+                    Some(Expr::Array(..) | Expr::Lit(..))
+                ),
                 ..self.ctx
             };
             e.name.visit_with(&mut *self.with_ctx(ctx));
@@ -798,7 +844,7 @@ where
 
     fn visit_while_stmt(&mut self, n: &WhileStmt) {
         let ctx = Ctx {
-            in_loop: true,
+            executed_multiple_time: true,
             in_cond: true,
             ..self.ctx
         };

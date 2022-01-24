@@ -1809,8 +1809,7 @@
                   },
                   "value": "assign",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -4228,14 +4227,12 @@
                 "ctxt": 0
               },
               "callee": {
-                "type": "Identifier",
+                "type": "Import",
                 "span": {
                   "start": 1901,
                   "end": 1907,
                   "ctxt": 0
-                },
-                "value": "import",
-                "optional": false
+                }
               },
               "arguments": [
                 {

@@ -3,6 +3,5 @@ import * as _ns from './a';
 // @esModuleInterop: true
 // @noTypesAndSymbols: true
 // @Filename: a.ts
-module.exports = {
-};
+module.exports = {};
 export { _ns as ns };

@@ -103,7 +103,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             let dec_val = self.read_int(10, 0, &mut raw)?;
             val = {
                 if let Some(..) = dec_val {
-                    raw_val.push_str(&raw.0.as_ref().unwrap());
+                    raw_val.push_str(raw.0.as_ref().unwrap());
                 }
 
                 raw_val
@@ -370,26 +370,15 @@ impl<'a, I: Input> Lexer<'a, I> {
                     }
 
                     if radix == 16 {
-                        match c.unwrap() {
-                            '.' | 'X' | '_' | 'x' => true,
-                            _ => false,
-                        }
+                        matches!(c.unwrap(), '.' | 'X' | '_' | 'x')
                     } else {
-                        match c.unwrap() {
-                            '.' | 'B' | 'E' | 'O' | '_' | 'b' | 'e' | 'o' => true,
-                            _ => false,
-                        }
+                        matches!(c.unwrap(), '.' | 'B' | 'E' | 'O' | '_' | 'b' | 'e' | 'o')
                     }
                 };
 
                 let next = self.input.peek();
 
-                if !is_allowed(next) {
-                    self.emit_error(
-                        start,
-                        SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
-                    );
-                } else if is_forbidden(prev) || is_forbidden(next) {
+                if !is_allowed(next) || is_forbidden(prev) || is_forbidden(next) {
                     self.emit_error(
                         start,
                         SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
@@ -430,7 +419,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
         self.emit_strict_mode_error(start, SyntaxError::LegacyOctal);
 
-        return Ok(val);
+        Ok(val)
     }
 }
 
@@ -444,13 +433,13 @@ mod tests {
     where
         F: FnOnce(&mut Lexer<'_, StringInput<'_>>) -> Ret,
     {
-        crate::with_test_sess(s, |_, fm| {
+        crate::with_test_sess(s, |_, input| {
             let mut l = Lexer::new(
                 Syntax::Es(EsConfig {
                     ..Default::default()
                 }),
                 Default::default(),
-                fm.into(),
+                input,
                 None,
             );
             let ret = f(&mut l);
@@ -602,7 +591,7 @@ mod tests {
 
         assert_eq!(
             lex(LONG, |l| l.read_radix_number(2).unwrap().left().unwrap()),
-            9.671406556917009e+24
+            9.671_406_556_917_009e24
         );
     }
 
@@ -610,7 +599,7 @@ mod tests {
     fn large_float_number() {
         const LONG: &str = "9.671406556917009e+24";
 
-        assert_eq!(num(LONG), 9.671406556917009e+24);
+        assert_eq!(num(LONG), 9.671_406_556_917_009e24);
     }
 
     /// Valid even on strict mode.

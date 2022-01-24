@@ -27,8 +27,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -45,7 +44,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var E, E, Base = function() {
+var Base = function() {
     "use strict";
     _classCallCheck(this, Base);
 }, D0 = function(Base1) {
@@ -169,8 +168,9 @@ var E, E, Base = function() {
     }
     return D10;
 }(Base);
-(E = E || (E = {
-}))[E.A = 0] = "A";
+!function(E) {
+    E[E.A = 0] = "A";
+}(E || (E = {}));
 var D11 = function(Base16) {
     "use strict";
     _inherits(D11, Base16);
@@ -180,11 +180,9 @@ var D11 = function(Base16) {
     }
     return D11;
 }(Base);
-function f() {
-}
-(f || (f = {
-})).bar = 1;
-var D12 = function(Base17) {
+function f() {}
+(f || (f = {})).bar = 1;
+var E, D12 = function(Base17) {
     "use strict";
     _inherits(D12, Base17);
     var _super = _createSuper(D12);
@@ -196,8 +194,7 @@ var D12 = function(Base17) {
     "use strict";
     _classCallCheck(this, c);
 };
-(c || (c = {
-})).bar = 1;
+(c || (c = {})).bar = 1;
 var D13 = function(Base18) {
     "use strict";
     _inherits(D13, Base18);

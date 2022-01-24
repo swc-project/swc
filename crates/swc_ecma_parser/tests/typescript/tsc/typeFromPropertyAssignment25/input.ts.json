@@ -88,8 +88,7 @@
             },
             "value": "I",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -166,8 +165,7 @@
                           },
                           "value": "i",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "NumericLiteral",
@@ -235,8 +233,7 @@
             },
             "value": "O",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -339,8 +336,7 @@
                           },
                           "value": "o",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "NumericLiteral",
@@ -385,8 +381,7 @@
               },
               "value": "I",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "isAbstract": false,
           "typeParams": null,
@@ -456,8 +451,7 @@
                 },
                 "value": "O",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -527,8 +521,7 @@
                 },
                 "value": "I",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -570,8 +563,7 @@
           },
           "value": "i",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -607,8 +599,7 @@
           },
           "value": "o",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -644,8 +635,7 @@
           },
           "value": "i",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

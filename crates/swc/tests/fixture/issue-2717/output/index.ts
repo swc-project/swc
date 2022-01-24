@@ -1,11 +1,12 @@
 import a from "regenerator-runtime";
 import { takeLatest as b, select as c } from "redux-saga/effects";
 import { CHANGE_THEME as d, CHANGE_THEME_CUSTOM_PALETTE as e, CHANGE_THEME_SWITCH_MODE as f } from "core/actions/changeTheme";
-var _marked = a.mark(saveTheme), selectThemeObject = function(a) {
+var g = a.mark(saveTheme);
+export var selectThemeObject = function(a) {
     return a.theme;
 };
-function saveTheme(b) {
-    var d, e, g;
+export function saveTheme(b) {
+    var d, e, h;
     return a.wrap(function(a) {
         for(;;)switch(a.prev = a.next){
             case 0:
@@ -15,14 +16,14 @@ function saveTheme(b) {
                     theme: e.theme,
                     mode: e.mode,
                     palette: e.palette
-                })), d === f && (g = window.document.querySelector("body")) && (g.classList.add("light" === e.mode ? "light" : "dark"), g.classList.remove("light" === e.mode ? "dark" : "light"));
+                })), d === f && (h = window.document.querySelector("body")) && (h.classList.add("light" === e.mode ? "light" : "dark"), h.classList.remove("light" === e.mode ? "dark" : "light"));
             case 6:
             case "end":
                 return a.stop();
         }
-    }, _marked);
+    }, g);
 }
-export default function g() {
+export default function h() {
     return a.wrap(function(a) {
         for(;;)switch(a.prev = a.next){
             case 0:
@@ -35,5 +36,5 @@ export default function g() {
             case "end":
                 return a.stop();
         }
-    }, g);
+    }, h);
 };

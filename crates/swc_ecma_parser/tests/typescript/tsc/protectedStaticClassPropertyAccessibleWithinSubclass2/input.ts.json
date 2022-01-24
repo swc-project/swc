@@ -135,8 +135,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -244,8 +243,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 {
@@ -256,13 +254,13 @@
                     "ctxt": 0
                   },
                   "expression": {
-                    "type": "MemberExpression",
+                    "type": "SuperPropExpression",
                     "span": {
                       "start": 308,
                       "end": 315,
                       "ctxt": 0
                     },
-                    "object": {
+                    "obj": {
                       "type": "Super",
                       "span": {
                         "start": 308,
@@ -279,8 +277,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -442,8 +439,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 {
@@ -454,13 +450,13 @@
                     "ctxt": 0
                   },
                   "expression": {
-                    "type": "MemberExpression",
+                    "type": "SuperPropExpression",
                     "span": {
                       "start": 552,
                       "end": 559,
                       "ctxt": 0
                     },
-                    "object": {
+                    "obj": {
                       "type": "Super",
                       "span": {
                         "start": 552,
@@ -477,8 +473,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]

@@ -27,8 +27,7 @@ function f3() {
 function f4() {
     try {
         return 1;
-    } catch (e) {
-    } finally{
+    } catch (e) {} finally{
         return '';
     }
 }

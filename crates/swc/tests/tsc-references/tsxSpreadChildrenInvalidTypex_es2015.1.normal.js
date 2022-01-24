@@ -23,5 +23,4 @@ function TodoListNoError({ todos  }) {
     return(/*#__PURE__*/ React.createElement("div", null));
 }
 let x;
-/*#__PURE__*/ React.createElement(TodoList, _extends({
-}, x));
+/*#__PURE__*/ React.createElement(TodoList, _extends({}, x));

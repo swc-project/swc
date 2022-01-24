@@ -3,15 +3,14 @@ function Wagon(numberOxen) {
 }
 Wagon.circle = function(wagons) {
     return wagons ? wagons.length : 3.14;
-}, Wagon.prototype.load = function(supplies) {
-}, Wagon.prototype.weight = (supplies)=>supplies ? supplies.length : -1
+}, Wagon.prototype.load = function(supplies) {}, Wagon.prototype.weight = (supplies)=>supplies ? supplies.length : -1
 , Wagon.prototype.speed = function() {
     return this.numberOxen / this.weight();
 };
 var db = new class extends Wagon {
     load(files, format) {
         if ("xmlolololol" === format) throw new Error("please do not use XML. It was a joke.");
-        super.speed(), 0 > super.weight();
+        super.speed(), super.weight();
     }
     constructor(){
         super(), this.foonly = 12;

@@ -129,8 +129,7 @@
             }
             function _objectSpread(target) {
                 for(var i = 1; i < arguments.length; i++){
-                    var source = null != arguments[i] ? arguments[i] : {
-                    };
+                    var source = null != arguments[i] ? arguments[i] : {};
                     i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
                         _defineProperty(target, key, source[key]);
                     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
@@ -147,10 +146,7 @@
                 };
                 if (dynamicOptions instanceof Promise ? loadableOptions.loader = function() {
                     return dynamicOptions;
-                } : "function" == typeof dynamicOptions ? loadableOptions.loader = dynamicOptions : "object" == typeof dynamicOptions && (loadableOptions = _objectSpread(_objectSpread({
-                }, loadableOptions), dynamicOptions)), (loadableOptions = _objectSpread(_objectSpread({
-                }, loadableOptions), options)).loadableGenerated && delete (loadableOptions = _objectSpread(_objectSpread({
-                }, loadableOptions), loadableOptions.loadableGenerated)).loadableGenerated, "boolean" == typeof loadableOptions.ssr) {
+                } : "function" == typeof dynamicOptions ? loadableOptions.loader = dynamicOptions : "object" == typeof dynamicOptions && (loadableOptions = _objectSpread(_objectSpread({}, loadableOptions), dynamicOptions)), (loadableOptions = _objectSpread(_objectSpread({}, loadableOptions), options)).loadableGenerated && delete (loadableOptions = _objectSpread(_objectSpread({}, loadableOptions), loadableOptions.loadableGenerated)).loadableGenerated, "boolean" == typeof loadableOptions.ssr) {
                     if (!loadableOptions.ssr) return delete loadableOptions.ssr, noSSR(loadableFn, loadableOptions);
                     delete loadableOptions.ssr;
                 }
@@ -191,8 +187,7 @@
             }
             function _objectSpread(target) {
                 for(var i = 1; i < arguments.length; i++){
-                    var source = null != arguments[i] ? arguments[i] : {
-                    };
+                    var source = null != arguments[i] ? arguments[i] : {};
                     i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
                         _defineProperty(target, key, source[key]);
                     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
@@ -253,21 +248,16 @@
                                     timedOut: !0
                                 });
                             }, opts1.timeout))), this._res.promise.then(function() {
-                                _this._update({
-                                }), _this._clearTimeouts();
+                                _this._update({}), _this._clearTimeouts();
                             }).catch(function(_err) {
-                                _this._update({
-                                }), _this._clearTimeouts();
-                            }), this._update({
-                            });
+                                _this._update({}), _this._clearTimeouts();
+                            }), this._update({});
                         }
                     },
                     {
                         key: "_update",
                         value: function(partial) {
-                            this._state = _objectSpread(_objectSpread({
-                            }, this._state), {
-                            }, {
+                            this._state = _objectSpread(_objectSpread({}, this._state), {}, {
                                 error: this._res.error,
                                 loaded: this._res.loaded,
                                 loading: this._res.loading
@@ -335,8 +325,7 @@
                                         }
                                     })(o3)) || 0) {
                                         it && (o3 = it);
-                                        var i = 0, F = function() {
-                                        };
+                                        var i = 0, F = function() {};
                                         return {
                                             s: F,
                                             n: function() {
@@ -448,27 +437,23 @@
             });
             var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4512), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(8436), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(8370), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(2911), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3001), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7130), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2374), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(9178), Welcome1 = function(_React$Component) {
                 (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(Welcome, _React$Component);
-                var _super = function(Derived) {
-                    var hasNativeReflectConstruct = function() {
-                        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                        if (Reflect.construct.sham) return !1;
-                        if ("function" == typeof Proxy) return !0;
-                        try {
-                            return Date.prototype.toString.call(Reflect.construct(Date, [], function() {
-                            })), !0;
-                        } catch (e) {
-                            return !1;
-                        }
-                    }();
-                    return function() {
-                        var result, Super = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(Derived);
-                        if (hasNativeReflectConstruct) {
-                            var NewTarget = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(this).constructor;
-                            result = Reflect.construct(Super, arguments, NewTarget);
-                        } else result = Super.apply(this, arguments);
-                        return (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__.Z)(this, result);
-                    };
-                }(Welcome);
+                var Derived, hasNativeReflectConstruct, _super = (Derived = Welcome, hasNativeReflectConstruct = function() {
+                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+                    if (Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
+                    try {
+                        return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;
+                    } catch (e) {
+                        return !1;
+                    }
+                }(), function() {
+                    var result, Super = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(Derived);
+                    if (hasNativeReflectConstruct) {
+                        var NewTarget = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(this).constructor;
+                        result = Reflect.construct(Super, arguments, NewTarget);
+                    } else result = Super.apply(this, arguments);
+                    return (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__.Z)(this, result);
+                });
                 function Welcome() {
                     var _this;
                     (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_5__.Z)(this, Welcome);

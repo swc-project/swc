@@ -13,8 +13,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 var MyTestClass = function() {
     "use strict";
     function MyTestClass() {
-        _classCallCheck(this, MyTestClass), this.someFunc = function() {
-        }, this.canary, this.canary = 3;
+        _classCallCheck(this, MyTestClass), this.someFunc = function() {}, this.canary, this.canary = 3;
     }
     return _createClass(MyTestClass, [
         {
@@ -57,8 +56,7 @@ var MyTestClass = function() {
 }(), MyGenericTestClass = function() {
     "use strict";
     function MyGenericTestClass() {
-        _classCallCheck(this, MyGenericTestClass), this.someFunc = function() {
-        }, this.canary, this.canary = 3;
+        _classCallCheck(this, MyGenericTestClass), this.someFunc = function() {}, this.canary, this.canary = 3;
     }
     return _createClass(MyGenericTestClass, [
         {

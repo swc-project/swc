@@ -1,7 +1,6 @@
 //@target: es6
 class Parent {
-    foo() {
-    }
+    foo() {}
 }
 class Foo extends Parent {
     foo() {

@@ -31,19 +31,31 @@ error: SupportsRule
 2 | | }
   | |_^
 
-error: SupportQuery
+error: SupportsCondition
  --> $DIR/tests/fixture/rome/supports/input.css:1:11
   |
 1 | @supports not (display: flex) {
-  |           ^^^^^^^^^^^^^^^^^^^^
+  |           ^^^^^^^^^^^^^^^^^^^
 
-error: NotSupportQuery
+error: SupportsConditionType
  --> $DIR/tests/fixture/rome/supports/input.css:1:11
   |
 1 | @supports not (display: flex) {
-  |           ^^^^^^^^^^^^^^^^^^^^
+  |           ^^^^^^^^^^^^^^^^^^^
 
-error: SupportQuery
+error: SupportsNot
+ --> $DIR/tests/fixture/rome/supports/input.css:1:11
+  |
+1 | @supports not (display: flex) {
+  |           ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+ --> $DIR/tests/fixture/rome/supports/input.css:1:16
+  |
+1 | @supports not (display: flex) {
+  |                ^^^^^^^^^^^^^
+
+error: SupportsFeature
  --> $DIR/tests/fixture/rome/supports/input.css:1:16
   |
 1 | @supports not (display: flex) {
@@ -100,7 +112,7 @@ error: SupportsRule
 7 | |           ( -o-box-shadow: 0 0 2px black inset ) {}
   | |___________________________________________________^
 
-error: SupportQuery
+error: SupportsCondition
  --> $DIR/tests/fixture/rome/supports/input.css:4:11
   |
 4 |   @supports ( box-shadow: 0 0 2px black inset ) or
@@ -108,19 +120,21 @@ error: SupportQuery
 5 | |           ( -moz-box-shadow: 0 0 2px black inset ) or
 6 | |           ( -webkit-box-shadow: 0 0 2px black inset ) or
 7 | |           ( -o-box-shadow: 0 0 2px black inset ) {}
-  | |_________________________________________________^
+  | |________________________________________________^
 
-error: OrSupportQuery
- --> $DIR/tests/fixture/rome/supports/input.css:4:11
+error: SupportsConditionType
+ --> $DIR/tests/fixture/rome/supports/input.css:4:13
   |
-4 |   @supports ( box-shadow: 0 0 2px black inset ) or
-  |  ___________^
-5 | |           ( -moz-box-shadow: 0 0 2px black inset ) or
-6 | |           ( -webkit-box-shadow: 0 0 2px black inset ) or
-7 | |           ( -o-box-shadow: 0 0 2px black inset ) {}
-  | |_________________________________________________^
+4 | @supports ( box-shadow: 0 0 2px black inset ) or
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: SupportQuery
+error: SupportsInParens
+ --> $DIR/tests/fixture/rome/supports/input.css:4:13
+  |
+4 | @supports ( box-shadow: 0 0 2px black inset ) or
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
  --> $DIR/tests/fixture/rome/supports/input.css:4:13
   |
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -210,23 +224,29 @@ error: Ident
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
   |                                       ^^^^^
 
-error: SupportQuery
- --> $DIR/tests/fixture/rome/supports/input.css:5:11
+error: SupportsConditionType
+ --> $DIR/tests/fixture/rome/supports/input.css:4:47
   |
-5 | /           ( -moz-box-shadow: 0 0 2px black inset ) or
-6 | |           ( -webkit-box-shadow: 0 0 2px black inset ) or
-7 | |           ( -o-box-shadow: 0 0 2px black inset ) {}
-  | |_________________________________________________^
+4 |   @supports ( box-shadow: 0 0 2px black inset ) or
+  |  _______________________________________________^
+5 | |           ( -moz-box-shadow: 0 0 2px black inset ) or
+  | |__________________________________________________^
 
-error: OrSupportQuery
- --> $DIR/tests/fixture/rome/supports/input.css:5:11
+error: SupportsOr
+ --> $DIR/tests/fixture/rome/supports/input.css:4:47
   |
-5 | /           ( -moz-box-shadow: 0 0 2px black inset ) or
-6 | |           ( -webkit-box-shadow: 0 0 2px black inset ) or
-7 | |           ( -o-box-shadow: 0 0 2px black inset ) {}
-  | |_________________________________________________^
+4 |   @supports ( box-shadow: 0 0 2px black inset ) or
+  |  _______________________________________________^
+5 | |           ( -moz-box-shadow: 0 0 2px black inset ) or
+  | |__________________________________________________^
 
-error: SupportQuery
+error: SupportsInParens
+ --> $DIR/tests/fixture/rome/supports/input.css:5:13
+  |
+5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
  --> $DIR/tests/fixture/rome/supports/input.css:5:13
   |
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -316,21 +336,29 @@ error: Ident
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
   |                                            ^^^^^
 
-error: SupportQuery
- --> $DIR/tests/fixture/rome/supports/input.css:6:11
+error: SupportsConditionType
+ --> $DIR/tests/fixture/rome/supports/input.css:5:52
   |
-6 | /           ( -webkit-box-shadow: 0 0 2px black inset ) or
-7 | |           ( -o-box-shadow: 0 0 2px black inset ) {}
-  | |_________________________________________________^
+5 |             ( -moz-box-shadow: 0 0 2px black inset ) or
+  |  ____________________________________________________^
+6 | |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+  | |_____________________________________________________^
 
-error: OrSupportQuery
- --> $DIR/tests/fixture/rome/supports/input.css:6:11
+error: SupportsOr
+ --> $DIR/tests/fixture/rome/supports/input.css:5:52
   |
-6 | /           ( -webkit-box-shadow: 0 0 2px black inset ) or
-7 | |           ( -o-box-shadow: 0 0 2px black inset ) {}
-  | |_________________________________________________^
+5 |             ( -moz-box-shadow: 0 0 2px black inset ) or
+  |  ____________________________________________________^
+6 | |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+  | |_____________________________________________________^
 
-error: SupportQuery
+error: SupportsInParens
+ --> $DIR/tests/fixture/rome/supports/input.css:6:13
+  |
+6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
  --> $DIR/tests/fixture/rome/supports/input.css:6:13
   |
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -420,7 +448,29 @@ error: Ident
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
   |                                               ^^^^^
 
-error: SupportQuery
+error: SupportsConditionType
+ --> $DIR/tests/fixture/rome/supports/input.css:6:55
+  |
+6 |             ( -webkit-box-shadow: 0 0 2px black inset ) or
+  |  _______________________________________________________^
+7 | |           ( -o-box-shadow: 0 0 2px black inset ) {}
+  | |________________________________________________^
+
+error: SupportsOr
+ --> $DIR/tests/fixture/rome/supports/input.css:6:55
+  |
+6 |             ( -webkit-box-shadow: 0 0 2px black inset ) or
+  |  _______________________________________________________^
+7 | |           ( -o-box-shadow: 0 0 2px black inset ) {}
+  | |________________________________________________^
+
+error: SupportsInParens
+ --> $DIR/tests/fixture/rome/supports/input.css:7:13
+  |
+7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
  --> $DIR/tests/fixture/rome/supports/input.css:7:13
   |
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
@@ -534,41 +584,16 @@ error: SupportsRule
 12 | |           (transform: rotate(10deg)) {}
    | |_______________________________________^
 
-error: SupportQuery
+error: SupportsCondition
   --> $DIR/tests/fixture/rome/supports/input.css:10:11
    |
 10 |   @supports ((transition-property: color) or
    |  ___________^
 11 | |            (animation-name: foo)) and
 12 | |           (transform: rotate(10deg)) {}
-   | |_____________________________________^
+   | |____________________________________^
 
-error: AndSupportQuery
-  --> $DIR/tests/fixture/rome/supports/input.css:10:11
-   |
-10 |   @supports ((transition-property: color) or
-   |  ___________^
-11 | |            (animation-name: foo)) and
-12 | |           (transform: rotate(10deg)) {}
-   | |_____________________________________^
-
-error: SupportQuery
-  --> $DIR/tests/fixture/rome/supports/input.css:10:11
-   |
-10 |   @supports ((transition-property: color) or
-   |  ___________^
-11 | |            (animation-name: foo)) and
-   | |________________________________^
-
-error: ParenSupportQuery
-  --> $DIR/tests/fixture/rome/supports/input.css:10:11
-   |
-10 |   @supports ((transition-property: color) or
-   |  ___________^
-11 | |            (animation-name: foo)) and
-   | |________________________________^
-
-error: SupportQuery
+error: SupportsConditionType
   --> $DIR/tests/fixture/rome/supports/input.css:10:12
    |
 10 |   @supports ((transition-property: color) or
@@ -576,7 +601,7 @@ error: SupportQuery
 11 | |            (animation-name: foo)) and
    | |________________________________^
 
-error: OrSupportQuery
+error: SupportsInParens
   --> $DIR/tests/fixture/rome/supports/input.css:10:12
    |
 10 |   @supports ((transition-property: color) or
@@ -584,7 +609,27 @@ error: OrSupportQuery
 11 | |            (animation-name: foo)) and
    | |________________________________^
 
-error: SupportQuery
+error: SupportsCondition
+  --> $DIR/tests/fixture/rome/supports/input.css:10:12
+   |
+10 |   @supports ((transition-property: color) or
+   |  ____________^
+11 | |            (animation-name: foo)) and
+   | |________________________________^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/rome/supports/input.css:10:13
+   |
+10 | @supports ((transition-property: color) or
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/rome/supports/input.css:10:13
+   |
+10 | @supports ((transition-property: color) or
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
   --> $DIR/tests/fixture/rome/supports/input.css:10:13
    |
 10 | @supports ((transition-property: color) or
@@ -614,7 +659,29 @@ error: Ident
 10 | @supports ((transition-property: color) or
    |                                  ^^^^^
 
-error: SupportQuery
+error: SupportsConditionType
+  --> $DIR/tests/fixture/rome/supports/input.css:10:41
+   |
+10 |   @supports ((transition-property: color) or
+   |  _________________________________________^
+11 | |            (animation-name: foo)) and
+   | |________________________________^
+
+error: SupportsOr
+  --> $DIR/tests/fixture/rome/supports/input.css:10:41
+   |
+10 |   @supports ((transition-property: color) or
+   |  _________________________________________^
+11 | |            (animation-name: foo)) and
+   | |________________________________^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/rome/supports/input.css:11:13
+   |
+11 |            (animation-name: foo)) and
+   |             ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
   --> $DIR/tests/fixture/rome/supports/input.css:11:13
    |
 11 |            (animation-name: foo)) and
@@ -644,7 +711,29 @@ error: Ident
 11 |            (animation-name: foo)) and
    |                             ^^^
 
-error: SupportQuery
+error: SupportsConditionType
+  --> $DIR/tests/fixture/rome/supports/input.css:11:35
+   |
+11 |              (animation-name: foo)) and
+   |  ___________________________________^
+12 | |           (transform: rotate(10deg)) {}
+   | |____________________________________^
+
+error: SupportsAnd
+  --> $DIR/tests/fixture/rome/supports/input.css:11:35
+   |
+11 |              (animation-name: foo)) and
+   |  ___________________________________^
+12 | |           (transform: rotate(10deg)) {}
+   | |____________________________________^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/rome/supports/input.css:12:12
+   |
+12 |           (transform: rotate(10deg)) {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
   --> $DIR/tests/fixture/rome/supports/input.css:12:12
    |
 12 |           (transform: rotate(10deg)) {}

@@ -4,8 +4,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-export function foo() {
-}
+export function foo() {}
 export var Aleph = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
@@ -17,8 +16,7 @@ export var Aleph = function() {
     return protoProps = [
         {
             key: "doIt",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties((Constructor = Aleph).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Aleph;
 }();

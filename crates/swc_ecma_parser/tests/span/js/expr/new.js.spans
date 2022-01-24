@@ -77,7 +77,7 @@ warning: CallExpr
 2 | (new Date).toString()
   | ^^^^^^^^^^^^^^^^^^^^^
 
-warning: ExprOrSuper
+warning: Callee
  --> $DIR/tests/span/js/expr/new.js:2:1
   |
 2 | (new Date).toString()
@@ -94,12 +94,6 @@ warning: MemberExpr
   |
 2 | (new Date).toString()
   | ^^^^^^^^^^^^^^^^^^^
-
-warning: ExprOrSuper
- --> $DIR/tests/span/js/expr/new.js:2:1
-  |
-2 | (new Date).toString()
-  | ^^^^^^^^^^
 
 warning: Expr
  --> $DIR/tests/span/js/expr/new.js:2:1
@@ -136,12 +130,6 @@ warning: Ident
   |
 2 | (new Date).toString()
   |      ^^^^
-
-warning: Expr
- --> $DIR/tests/span/js/expr/new.js:2:12
-  |
-2 | (new Date).toString()
-  |            ^^^^^^^^
 
 warning: Ident
  --> $DIR/tests/span/js/expr/new.js:2:12

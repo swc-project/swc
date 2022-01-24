@@ -104,8 +104,7 @@ var f45 = function(value) {
     return value;
 }; // Error
 // Repro from #21863
-function f50() {
-}
+function f50() {}
 var a = {
     o: 1,
     b: 2,

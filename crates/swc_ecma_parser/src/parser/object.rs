@@ -76,15 +76,12 @@ impl<'a, I: Tokens> Parser<I> {
                 },
                 Word(..) => match bump!(p) {
                     Word(w) => {
-                        match w {
-                            Word::Keyword(Keyword::Function) => {
-                                // See https://github.com/swc-project/swc/issues/2075
-                                let ctx = p.input.token_context_mut();
-                                let token_ctx = ctx.pop();
+                        if let Word::Keyword(Keyword::Function) = w {
+                            // See https://github.com/swc-project/swc/issues/2075
+                            let ctx = p.input.token_context_mut();
+                            let token_ctx = ctx.pop();
 
-                                debug_assert_eq!(token_ctx, Some(TokenContext::FnExpr));
-                            }
-                            _ => {}
+                            debug_assert_eq!(token_ctx, Some(TokenContext::FnExpr));
                         }
                         PropName::Ident(Ident::new(w.into(), span!(p, start)))
                     }
@@ -182,11 +179,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         if self.input.syntax().typescript()
             && !is_one_of!(self, '(', '[', ':', ',', '?', '=', '*', IdentName, Str, Num)
             && !(self.input.syntax().typescript() && is!(self, '<'))
-            && !(is!(self, '}')
-                && match key {
-                    PropName::Ident(..) => true,
-                    _ => false,
-                })
+            && !(is!(self, '}') && matches!(key, PropName::Ident(..)))
         {
             trace_cur!(self, parse_object_prop_error);
 
@@ -296,8 +289,8 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                  return_type,
                                  ..
                              }| {
-                                if type_params.is_some() {
-                                    self.emit_err(type_params.unwrap().span(), SyntaxError::TS1094);
+                                if let Some(type_params) = type_params {
+                                    self.emit_err(type_params.span(), SyntaxError::TS1094);
                                 }
 
                                 if self.input.syntax().typescript()
@@ -350,8 +343,8 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                  type_params,
                                  ..
                              }| {
-                                if type_params.is_some() {
-                                    self.emit_err(type_params.unwrap().span(), SyntaxError::TS1094);
+                                if let Some(type_params) = type_params {
+                                    self.emit_err(type_params.span(), SyntaxError::TS1094);
                                 }
 
                                 // debug_assert_eq!(params.len(), 1);
@@ -359,9 +352,11 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                     span: span!(self, start),
                                     key,
                                     body,
-                                    param: params.into_iter().map(|p| p.pat).next().unwrap_or_else(
-                                        || Pat::Invalid(Invalid { span: key_span }),
-                                    ),
+                                    param: params
+                                        .into_iter()
+                                        .map(|p| p.pat)
+                                        .next()
+                                        .unwrap_or(Pat::Invalid(Invalid { span: key_span })),
                                 })))
                             },
                         ),

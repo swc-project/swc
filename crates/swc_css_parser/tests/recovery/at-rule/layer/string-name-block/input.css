@@ -1,0 +1,7 @@
+@layer "framework" {
+    h1, h2 { color: maroon; background: white;}
+
+    @media (prefers-color-scheme: dark) {
+        h1, h2 { color: red; background: black; }
+    }
+}

@@ -1,21 +1,15 @@
-var Foo, Foo;
-function a1([a, b, [[c]]]) {
-}
+var Foo;
+function a1([a, b, [[c]]]) {}
 function b2(z = null, o = {
     x: 0,
     y: void 0
-}) {
-}
-function c0({ z: { x , y: { j  }  }  }) {
-}
+}) {}
+function c0({ z: { x , y: { j  }  }  }) {}
 function c1({ z  } = {
     z: 10
-}) {
-}
-function c2({ z =10  }) {
-}
-function c5([a, b, [[c]]]) {
-}
+}) {}
+function c2({ z =10  }) {}
+function c5([a, b, [[c]]]) {}
 a1([
     1,
     2,
@@ -39,8 +33,9 @@ a1([
 }), b2("string", {
     x: 200,
     y: !0
-}), (Foo = Foo || (Foo = {
-}))[Foo.a = 0] = "a", c0({
+}), (function(Foo) {
+    Foo[Foo.a = 0] = "a";
+})(Foo || (Foo = {})), c0({
     z: {
         x: 1,
         y: {
@@ -56,8 +51,7 @@ a1([
     }
 }), c1(), c1({
     z: 1
-}), c2({
-}), c2({
+}), c2({}), c2({
     z: 1
 }), c5([
     1,

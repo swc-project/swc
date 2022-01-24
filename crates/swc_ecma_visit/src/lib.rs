@@ -1,4 +1,6 @@
 // This is not a public api.
+#![deny(clippy::all)]
+
 #[doc(hidden)]
 pub extern crate swc_ecma_ast;
 
@@ -368,14 +370,10 @@ macro_rules! noop_visit_type {
         noop_visit_type!(visit_ts_construct_signature_decl, TsConstructSignatureDecl);
         noop_visit_type!(visit_ts_constructor_type, TsConstructorType);
         noop_visit_type!(visit_ts_entity_name, TsEntityName);
-        noop_visit_type!(visit_ts_enum_decl, TsEnumDecl);
-        noop_visit_type!(visit_ts_enum_member, TsEnumMember);
-        noop_visit_type!(visit_ts_enum_member_id, TsEnumMemberId);
         noop_visit_type!(visit_ts_external_module_ref, TsExternalModuleRef);
         noop_visit_type!(visit_ts_fn_or_constructor_type, TsFnOrConstructorType);
         noop_visit_type!(visit_ts_fn_param, TsFnParam);
         noop_visit_type!(visit_ts_fn_type, TsFnType);
-        noop_visit_type!(visit_ts_import_equals_decl, TsImportEqualsDecl);
         noop_visit_type!(visit_ts_import_type, TsImportType);
         noop_visit_type!(visit_ts_index_signature, TsIndexSignature);
         noop_visit_type!(visit_ts_indexed_access_type, TsIndexedAccessType);
@@ -387,16 +385,8 @@ macro_rules! noop_visit_type {
         noop_visit_type!(visit_ts_keyword_type_kind, TsKeywordTypeKind);
         noop_visit_type!(visit_ts_mapped_type, TsMappedType);
         noop_visit_type!(visit_ts_method_signature, TsMethodSignature);
-        noop_visit_type!(visit_ts_module_block, TsModuleBlock);
-        noop_visit_type!(visit_ts_module_decl, TsModuleDecl);
-        noop_visit_type!(visit_ts_module_name, TsModuleName);
         noop_visit_type!(visit_ts_module_ref, TsModuleRef);
-        noop_visit_type!(visit_ts_namespace_body, TsNamespaceBody);
-        noop_visit_type!(visit_ts_namespace_decl, TsNamespaceDecl);
-        noop_visit_type!(visit_ts_namespace_export_decl, TsNamespaceExportDecl);
         noop_visit_type!(visit_ts_optional_type, TsOptionalType);
-        noop_visit_type!(visit_ts_param_prop, TsParamProp);
-        noop_visit_type!(visit_ts_param_prop_param, TsParamPropParam);
         noop_visit_type!(visit_ts_parenthesized_type, TsParenthesizedType);
         noop_visit_type!(visit_ts_property_signature, TsPropertySignature);
         noop_visit_type!(visit_ts_qualified_name, TsQualifiedName);
@@ -407,7 +397,6 @@ macro_rules! noop_visit_type {
         noop_visit_type!(visit_ts_type, TsType);
         noop_visit_type!(visit_ts_type_alias_decl, TsTypeAliasDecl);
         noop_visit_type!(visit_ts_type_ann, TsTypeAnn);
-        noop_visit_type!(visit_ts_type_assertion, TsTypeAssertion);
         noop_visit_type!(visit_ts_type_element, TsTypeElement);
         noop_visit_type!(visit_ts_type_lit, TsTypeLit);
         noop_visit_type!(visit_ts_type_operator, TsTypeOperator);
@@ -446,14 +435,10 @@ macro_rules! noop_visit_mut_type {
         );
         noop_visit_mut_type!(visit_mut_ts_constructor_type, TsConstructorType);
         noop_visit_mut_type!(visit_mut_ts_entity_name, TsEntityName);
-        noop_visit_mut_type!(visit_mut_ts_enum_decl, TsEnumDecl);
-        noop_visit_mut_type!(visit_mut_ts_enum_member, TsEnumMember);
-        noop_visit_mut_type!(visit_mut_ts_enum_member_id, TsEnumMemberId);
         noop_visit_mut_type!(visit_mut_ts_external_module_ref, TsExternalModuleRef);
         noop_visit_mut_type!(visit_mut_ts_fn_or_constructor_type, TsFnOrConstructorType);
         noop_visit_mut_type!(visit_mut_ts_fn_param, TsFnParam);
         noop_visit_mut_type!(visit_mut_ts_fn_type, TsFnType);
-        noop_visit_mut_type!(visit_mut_ts_import_equals_decl, TsImportEqualsDecl);
         noop_visit_mut_type!(visit_mut_ts_import_type, TsImportType);
         noop_visit_mut_type!(visit_mut_ts_index_signature, TsIndexSignature);
         noop_visit_mut_type!(visit_mut_ts_indexed_access_type, TsIndexedAccessType);
@@ -465,16 +450,8 @@ macro_rules! noop_visit_mut_type {
         noop_visit_mut_type!(visit_mut_ts_keyword_type_kind, TsKeywordTypeKind);
         noop_visit_mut_type!(visit_mut_ts_mapped_type, TsMappedType);
         noop_visit_mut_type!(visit_mut_ts_method_signature, TsMethodSignature);
-        noop_visit_mut_type!(visit_mut_ts_module_block, TsModuleBlock);
-        noop_visit_mut_type!(visit_mut_ts_module_decl, TsModuleDecl);
-        noop_visit_mut_type!(visit_mut_ts_module_name, TsModuleName);
         noop_visit_mut_type!(visit_mut_ts_module_ref, TsModuleRef);
-        noop_visit_mut_type!(visit_mut_ts_namespace_body, TsNamespaceBody);
-        noop_visit_mut_type!(visit_mut_ts_namespace_decl, TsNamespaceDecl);
-        noop_visit_mut_type!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
         noop_visit_mut_type!(visit_mut_ts_optional_type, TsOptionalType);
-        noop_visit_mut_type!(visit_mut_ts_param_prop, TsParamProp);
-        noop_visit_mut_type!(visit_mut_ts_param_prop_param, TsParamPropParam);
         noop_visit_mut_type!(visit_mut_ts_parenthesized_type, TsParenthesizedType);
         noop_visit_mut_type!(visit_mut_ts_property_signature, TsPropertySignature);
         noop_visit_mut_type!(visit_mut_ts_qualified_name, TsQualifiedName);
@@ -485,7 +462,6 @@ macro_rules! noop_visit_mut_type {
         noop_visit_mut_type!(visit_mut_ts_type, TsType);
         noop_visit_mut_type!(visit_mut_ts_type_alias_decl, TsTypeAliasDecl);
         noop_visit_mut_type!(visit_mut_ts_type_ann, TsTypeAnn);
-        noop_visit_mut_type!(visit_mut_ts_type_assertion, TsTypeAssertion);
         noop_visit_mut_type!(visit_mut_ts_type_element, TsTypeElement);
         noop_visit_mut_type!(visit_mut_ts_type_lit, TsTypeLit);
         noop_visit_mut_type!(visit_mut_ts_type_operator, TsTypeOperator);
@@ -650,6 +626,7 @@ define!({
         Bin(BinExpr),
         Assign(AssignExpr),
         Member(MemberExpr),
+        SuperProp(SuperPropExpr),
         Cond(CondExpr),
         Call(CallExpr),
         New(NewExpr),
@@ -729,9 +706,22 @@ define!({
     }
     pub struct MemberExpr {
         pub span: Span,
-        pub obj: ExprOrSuper,
-        pub prop: Box<Expr>,
-        pub computed: bool,
+        pub obj: Box<Expr>,
+        pub prop: MemberProp,
+    }
+    pub enum MemberProp {
+        Ident(Ident),
+        PrivateName(PrivateName),
+        Computed(ComputedPropName),
+    }
+    pub struct SuperPropExpr {
+        pub span: Span,
+        pub obj: Super,
+        pub prop: SuperProp,
+    }
+    pub enum SuperProp {
+        Ident(Ident),
+        Computed(ComputedPropName),
     }
     pub struct CondExpr {
         pub span: Span,
@@ -741,7 +731,7 @@ define!({
     }
     pub struct CallExpr {
         pub span: Span,
-        pub callee: ExprOrSuper,
+        pub callee: Callee,
         pub args: Vec<ExprOrSpread>,
         pub type_args: Option<TsTypeParamInstantiation>,
     }
@@ -770,8 +760,12 @@ define!({
         pub delegate: bool,
     }
     pub struct MetaPropExpr {
-        pub meta: Ident,
-        pub prop: Ident,
+        pub span: Span,
+        pub kind: MetaPropKind,
+    }
+    pub enum MetaPropKind {
+        NewTarget,
+        ImportMeta,
     }
     pub struct AwaitExpr {
         pub span: Span,
@@ -798,11 +792,15 @@ define!({
         pub span: Span,
         pub expr: Box<Expr>,
     }
-    pub enum ExprOrSuper {
+    pub enum Callee {
         Super(Super),
+        Import(Import),
         Expr(Box<Expr>),
     }
     pub struct Super {
+        pub span: Span,
+    }
+    pub struct Import {
         pub span: Span,
     }
     pub struct ExprOrSpread {
@@ -1069,7 +1067,7 @@ define!({
     pub struct ImportNamedSpecifier {
         pub span: Span,
         pub local: Ident,
-        pub imported: Option<Ident>,
+        pub imported: Option<ModuleExportName>,
         pub is_type_only: bool,
     }
     pub enum ExportSpecifier {
@@ -1079,15 +1077,19 @@ define!({
     }
     pub struct ExportNamespaceSpecifier {
         pub span: Span,
-        pub name: Ident,
+        pub name: ModuleExportName,
     }
     pub struct ExportDefaultSpecifier {
         pub exported: Ident,
     }
+    pub enum ModuleExportName {
+        Ident(Ident),
+        Str(Str),
+    }
     pub struct ExportNamedSpecifier {
         pub span: Span,
-        pub orig: Ident,
-        pub exported: Option<Ident>,
+        pub orig: ModuleExportName,
+        pub exported: Option<ModuleExportName>,
         pub is_type_only: bool,
     }
     pub enum BinaryOp {
@@ -1780,3 +1782,39 @@ define!({
         pub expr: Box<Expr>,
     }
 });
+
+#[macro_export]
+macro_rules! visit_obj_and_computed {
+    () => {
+        fn visit_member_expr(&mut self, n: &$crate::swc_ecma_ast::MemberExpr) {
+            n.obj.visit_with(self);
+            if let $crate::swc_ecma_ast::MemberProp::Computed(c) = &n.prop {
+                c.visit_with(self);
+            }
+        }
+
+        fn visit_super_prop_expr(&mut self, n: &$crate::swc_ecma_ast::SuperPropExpr) {
+            if let $crate::swc_ecma_ast::SuperProp::Computed(c) = &n.prop {
+                c.visit_with(self);
+            }
+        }
+    };
+}
+
+#[macro_export]
+macro_rules! visit_mut_obj_and_computed {
+    () => {
+        fn visit_mut_member_expr(&mut self, n: &mut $crate::swc_ecma_ast::MemberExpr) {
+            n.obj.visit_mut_with(self);
+            if let $crate::swc_ecma_ast::MemberProp::Computed(c) = &mut n.prop {
+                c.visit_mut_with(self);
+            }
+        }
+
+        fn visit_mut_super_prop_expr(&mut self, n: &mut $crate::swc_ecma_ast::SuperPropExpr) {
+            if let $crate::swc_ecma_ast::SuperProp::Computed(c) = &mut n.prop {
+                c.visit_mut_with(self);
+            }
+        }
+    };
+}

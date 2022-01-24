@@ -15,16 +15,14 @@ export var A;
             };
         }
         Utils.mirror = mirror;
-    })(Utils1 = A1.Utils || (A1.Utils = {
-    }));
-    A1.Origin = {
+    })(Utils1 = A1.Utils || (A1.Utils = {}));
+    var Origin = A1.Origin = {
         x: 0,
         y: 0
     };
-})(A || (A = {
-}));
+})(A || (A = {}));
 (function(A2) {
-    A2.Origin = {
+    var Origin = A2.Origin = {
         x: 0,
         y: 0
     };
@@ -37,7 +35,5 @@ export var A;
             this.br = br;
         };
         Utils.Plane = Plane;
-    })(Utils2 = A2.Utils || (A2.Utils = {
-    }));
-})(A || (A = {
-}));
+    })(Utils2 = A2.Utils || (A2.Utils = {}));
+})(A || (A = {}));

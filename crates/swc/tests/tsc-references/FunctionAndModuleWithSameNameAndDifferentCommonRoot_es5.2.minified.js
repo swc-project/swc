@@ -1,13 +1,12 @@
-var A, B, B1;
-(A || (A = {
-})).Point = function() {
+var A, B;
+(A || (A = {})).Point = function() {
     return {
         x: 0,
         y: 0
     };
-}, ((B1 = B || (B = {
-})).Point || (B1.Point = {
-})).Origin = {
-    x: 0,
-    y: 0
-}, A.Point, B.Point.Origin;
+}, (function(B1) {
+    (B1.Point || (B1.Point = {})).Origin = {
+        x: 0,
+        y: 0
+    };
+})(B || (B = {})), A.Point, B.Point.Origin;

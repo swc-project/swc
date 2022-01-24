@@ -1,7 +1,6 @@
 class SomeClass {
     method() {
-        while(0){
-        }
+        while(0){}
         this.state.data;
         if (this.state.type === "stringVariant") {
             const s = this.state.data;
@@ -12,8 +11,7 @@ class SomeClass2 {
     method() {
         var ref;
         const c = false;
-        while(c){
-        }
+        while(c){}
         if (this.state.type === "numberVariant") {
             this.state.data;
         }

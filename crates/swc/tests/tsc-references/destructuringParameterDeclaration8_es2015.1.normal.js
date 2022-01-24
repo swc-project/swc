@@ -4,8 +4,7 @@ function test({ method ='z' , nested: { p ='c'  }  }) {
     method;
     p;
 }
-test({
-});
+test({});
 test({
     method: 'x',
     nested: {

@@ -1,7 +1,6 @@
 "use strict";
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {
-    };
+    var desc = {};
     Object.keys(descriptor).forEach(function(key) {
         desc[key] = descriptor[key];
     });
@@ -42,8 +41,7 @@ var MyEnum;
 (function(MyEnum) {
     MyEnum["x"] = "xxx";
     MyEnum["y"] = "yyy";
-})(MyEnum || (MyEnum = {
-}));
+})(MyEnum || (MyEnum = {}));
 let Xpto = ((_class = class Xpto {
     constructor(){
         _initializerDefineProperty(this, "value", _descriptor, this);
@@ -58,6 +56,5 @@ let Xpto = ((_class = class Xpto {
     initializer: void 0
 }), _class);
 function Decorator() {
-    return function(...args) {
-    };
+    return function(...args) {};
 }

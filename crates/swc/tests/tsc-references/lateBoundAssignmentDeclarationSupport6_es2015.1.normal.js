@@ -7,8 +7,7 @@
 // currently unsupported
 const _sym = Symbol();
 const _str = "my-fake-sym";
-function F() {
-}
+function F() {}
 F.prototype.defsAClass = true;
 Object.defineProperty(F.prototype, _str, {
     value: "ok"

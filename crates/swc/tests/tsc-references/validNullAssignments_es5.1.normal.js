@@ -12,8 +12,7 @@ e = null; // ok
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 E.A = null; // error
 var C = function C() {
     "use strict";
@@ -27,9 +26,8 @@ g = null; // ok
 I = null; // error
 var M;
 (function(M1) {
-    M1.x = 1;
-})(M || (M = {
-}));
+    var x = M1.x = 1;
+})(M || (M = {}));
 M = null; // error
 var h = null;
 function i(a1) {

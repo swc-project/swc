@@ -1,12 +1,4 @@
 import regeneratorRuntime from "regenerator-runtime";
-function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
-    return arr2;
-}
-function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}
 function _assertThisInitialized(self) {
     if (self === void 0) {
         throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -109,12 +101,6 @@ function _inherits(subClass, superClass) {
     });
     if (superClass) _setPrototypeOf(subClass, superClass);
 }
-function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
 function _possibleConstructorReturn(self, call) {
     if (call && (_typeof(call) === "object" || typeof call === "function")) {
         return call;
@@ -173,27 +159,16 @@ function _superPropBase(object, property) {
     }
     return object;
 }
-function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-}
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n = Object.prototype.toString.call(o).slice(8, -1);
-    if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(n);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
 function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -221,13 +196,11 @@ var A = // @target: es6
     _createClass(A, [
         {
             key: "x",
-            value: function x() {
-            }
+            value: function x() {}
         },
         {
             key: "y",
-            value: function y() {
-            }
+            value: function y() {}
         }
     ]);
     return A;
@@ -246,35 +219,15 @@ var B = /*#__PURE__*/ function(A) {
             value: // async method with only call/get on 'super' does not require a binding
             function simple() {
                 var _this = this;
-                var // call with property access
-                _instance, // call additional property.
-                _instance1, // call with element access
-                _instance2;
-                var _super_x = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
-                        _args[_key] = arguments[_key];
-                    }
-                    return (_instance = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_y = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
-                        _args[_key] = arguments[_key];
-                    }
-                    return (_instance1 = _get(_getPrototypeOf(B.prototype), "y", _this)).call.apply(_instance1, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_method = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
-                        _args[_key] = arguments[_key];
-                    }
-                    return (_instance2 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance2, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_x1 = function() {
+                var _this1 = this, // call with property access
+                _superprop_get_x = function() {
                     return _get(_getPrototypeOf(B.prototype), "x", _this);
-                }, _super_method1 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this);
+                }, // call additional property.
+                _superprop_get_y = function() {
+                    return _get(_getPrototypeOf(B.prototype), "y", _this);
+                }, // call with element access
+                _superprop_get = function(_prop) {
+                    return _get(_getPrototypeOf(B.prototype), _prop, _this);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                     var _super, _superIndex, a, b;
@@ -283,11 +236,11 @@ var B = /*#__PURE__*/ function(A) {
                             case 0:
                                 _super = null;
                                 _superIndex = null;
-                                _super_x();
-                                _super_y();
-                                _super_method();
-                                a = _super_x1();
-                                b = _super_method1();
+                                _superprop_get_x().call(_this1);
+                                _superprop_get_y().call(_this1);
+                                _superprop_get("x").call(_this1);
+                                a = _superprop_get_x();
+                                b = _superprop_get("x");
                             case 7:
                             case "end":
                                 return _ctx.stop();
@@ -301,37 +254,18 @@ var B = /*#__PURE__*/ function(A) {
             value: // async method with assignment/destructuring on 'super' requires a binding
             function advanced() {
                 var _this = this;
-                var // call with property access
-                _instance, // call with element access
-                _instance3;
-                var _super_x = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
-                        _args[_key] = arguments[_key];
-                    }
-                    return (_instance = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_method = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
-                        _args[_key] = arguments[_key];
-                    }
-                    return (_instance3 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance3, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_x2 = function() {
+                var _this2 = this, // call with property access
+                _superprop_get_x = function() {
                     return _get(_getPrototypeOf(B.prototype), "x", _this);
-                }, _super_method2 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this);
-                }, _super_x3 = function(_args) {
-                    // property access (assign)
-                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
-                }, _super_method3 = function(_args) {
-                    // element access (assign)
-                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
-                }, _super_x4 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this);
-                }, _super_method4 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this);
+                }, // call with element access
+                _superprop_get = function(_prop) {
+                    return _get(_getPrototypeOf(B.prototype), _prop, _this);
+                }, // property access (assign)
+                _superprop_set_x = function(_value) {
+                    return _set(_getPrototypeOf(B.prototype), "x", _value, _this, true);
+                }, // element access (assign)
+                _superprop_set = function(_prop, _value) {
+                    return _set(_getPrototypeOf(B.prototype), _prop, _value, _this, true);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                     var _super, _superIndex, f, a, b, ref, ref1;
@@ -340,24 +274,23 @@ var B = /*#__PURE__*/ function(A) {
                             case 0:
                                 _super = null;
                                 _superIndex = null;
-                                f = function() {
-                                };
-                                _super_x();
-                                _super_method();
-                                a = _super_x2();
-                                b = _super_method2();
-                                _super_x3(f);
-                                _super_method3(f);
+                                f = function() {};
+                                _superprop_get_x().call(_this2);
+                                _superprop_get("x").call(_this2);
+                                a = _superprop_get_x();
+                                b = _superprop_get("x");
+                                _superprop_set_x(f);
+                                _superprop_set("x", f);
                                 ;
                                 // destructuring assign with property access
                                 (ref = {
                                     f: f
-                                }, _super_x4() = ref.f, ref);
+                                }, _superprop_get_x() = ref.f, ref);
                                 ;
                                 // destructuring assign with element access
                                 (ref1 = {
                                     f: f
-                                }, _super_method4() = ref1.f, ref1);
+                                }, _superprop_get("x") = ref1.f, ref1);
                             case 13:
                             case "end":
                                 return _ctx.stop();

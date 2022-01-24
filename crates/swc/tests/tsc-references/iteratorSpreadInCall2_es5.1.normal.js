@@ -43,8 +43,7 @@ function _unsupportedIterableToArray(o, minLen) {
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
 //@target: ES6
-function foo(s) {
-}
+function foo(s) {}
 var tmp = Symbol.iterator;
 var SymbolIterator = /*#__PURE__*/ function() {
     "use strict";

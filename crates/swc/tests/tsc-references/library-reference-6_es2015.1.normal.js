@@ -2,5 +2,4 @@
 /// <reference types="alpha" />
 var x = alpha.a;
 // @filename: /tsconfig.json
-{
-}
+{}

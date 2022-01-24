@@ -109,8 +109,7 @@
               },
               "value": "a",
               "optional": false
-            },
-            "computed": false
+            }
           }
         }
       }
@@ -176,8 +175,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "property": {
@@ -189,8 +187,7 @@
             },
             "value": "b",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -248,8 +245,7 @@
               },
               "value": "a",
               "optional": false
-            },
-            "computed": false
+            }
           }
         }
       }
@@ -315,8 +311,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "property": {
@@ -328,8 +323,7 @@
             },
             "value": "b",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -387,8 +381,7 @@
               },
               "value": "a",
               "optional": false
-            },
-            "computed": false
+            }
           }
         }
       }
@@ -454,8 +447,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "property": {
@@ -467,8 +459,7 @@
             },
             "value": "b",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -526,8 +517,7 @@
               },
               "value": "a",
               "optional": false
-            },
-            "computed": false
+            }
           }
         }
       }
@@ -593,8 +583,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "property": {
@@ -606,8 +595,7 @@
             },
             "value": "b",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -664,8 +652,7 @@
               },
               "value": "a",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "right": {
@@ -739,8 +726,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "property": {
@@ -752,8 +738,7 @@
             },
             "value": "b",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -819,8 +804,7 @@
               },
               "value": "a",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "right": {
@@ -894,8 +878,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "property": {
@@ -907,8 +890,7 @@
             },
             "value": "b",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -966,8 +948,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         }
       },
       "right": {
@@ -1040,8 +1021,7 @@
               },
               "value": "a",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "property": {
@@ -1053,8 +1033,7 @@
           },
           "value": "b",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "right": {
         "type": "ObjectExpression",
@@ -1120,8 +1099,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         }
       },
       "right": {
@@ -1195,8 +1173,7 @@
               },
               "value": "a",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "property": {
@@ -1208,8 +1185,7 @@
           },
           "value": "b",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "right": {
         "type": "ArrayExpression",
@@ -1406,8 +1382,7 @@
                         },
                         "value": "a",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   },
                   "property": {
@@ -1419,8 +1394,7 @@
                     },
                     "value": "b",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ],
@@ -1640,8 +1614,7 @@
                         },
                         "value": "a",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   },
                   "property": {
@@ -1653,8 +1626,7 @@
                     },
                     "value": "b",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "typeAnnotation": null
               }
@@ -1837,8 +1809,7 @@
                       },
                       "value": "a",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 "property": {
@@ -1850,8 +1821,7 @@
                   },
                   "value": "b",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "typeAnnotation": null
             }

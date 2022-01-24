@@ -13,8 +13,7 @@ new noParams(), new noParams(), new noParams(), new noGenericParams(""), new noG
     return n.substr(t * t);
 }), new someGenerics3(function() {
     return "";
-}), new someGenerics3(function() {
-}), new someGenerics3(function() {
+}), new someGenerics3(function() {}), new someGenerics3(function() {
     return 3;
 }), new someGenerics4(4, function() {
     return null;

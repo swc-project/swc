@@ -24,8 +24,7 @@ function fn8() {
     return;
 } // OK, eq. to 'return undefined'
 class C {
-    dispose() {
-    }
+    dispose() {}
 }
 class D extends C {
 }

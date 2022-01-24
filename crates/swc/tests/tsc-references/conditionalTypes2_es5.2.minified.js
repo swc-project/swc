@@ -18,8 +18,7 @@ var Opt = function() {
     return _createClass(Opt, [
         {
             key: "toVector",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), Opt;
 }(), Vector = function() {
@@ -30,13 +29,11 @@ var Opt = function() {
     return _createClass(Vector, [
         {
             key: "tail",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "partition2",
-            value: function(predicate) {
-            }
+            value: function(predicate) {}
         }
     ]), Vector;
 }();

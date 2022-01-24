@@ -120,8 +120,11 @@ impl OptChaining {
                     .take()
                     .into_par_iter()
                     .map(|stmt| {
-                        GLOBALS.set(&globals, || {
-                            let mut visitor = Self::default();
+                        GLOBALS.set(globals, || {
+                            let mut visitor = OptChaining {
+                                c: self.c,
+                                ..Self::default()
+                            };
                             visitor.c = self.c;
                             let mut stmts = Vec::with_capacity(3);
                             visitor.visit_mut_one_stmt_to(stmt, &mut stmts);
@@ -201,12 +204,7 @@ impl OptChaining {
                     .into();
                 }
 
-                Expr::Member(MemberExpr {
-                    span,
-                    obj: ExprOrSuper::Expr(obj),
-                    prop,
-                    computed,
-                }) if obj.is_opt_chain() => {
+                Expr::Member(MemberExpr { span, obj, prop }) if obj.is_opt_chain() => {
                     let mut obj = obj.take().opt_chain().unwrap();
 
                     let expr = self.unwrap(&mut obj);
@@ -218,9 +216,8 @@ impl OptChaining {
                             op: op!("delete"),
                             arg: Box::new(Expr::Member(MemberExpr {
                                 span: *span,
-                                obj: ExprOrSuper::Expr(expr.alt),
+                                obj: expr.alt,
                                 prop: prop.take(),
-                                computed: *computed,
                             })),
                         })),
                         ..expr
@@ -237,20 +234,20 @@ impl OptChaining {
     /// Only called from [VisitMut].
     fn handle_call(&mut self, e: &mut CallExpr) -> Result<CondExpr, Expr> {
         match &mut e.callee {
-            ExprOrSuper::Expr(callee) if callee.is_opt_chain() => {
+            Callee::Expr(callee) if callee.is_opt_chain() => {
                 let mut callee = callee.take().opt_chain().unwrap();
                 let expr = self.unwrap(&mut callee);
 
                 return Ok(CondExpr {
                     span: DUMMY_SP,
                     alt: Box::new(Expr::Call(CallExpr {
-                        callee: ExprOrSuper::Expr(expr.alt),
+                        callee: Callee::Expr(expr.alt),
                         ..e.take()
                     })),
                     ..expr
                 });
             }
-            ExprOrSuper::Expr(callee) if callee.is_member() => {
+            Callee::Expr(callee) if callee.is_member() => {
                 let mut callee = callee.take().member().unwrap();
                 let callee = self.handle_member(&mut callee);
 
@@ -278,10 +275,9 @@ impl OptChaining {
     }
 
     fn handle_member(&mut self, e: &mut MemberExpr) -> Result<CondExpr, Expr> {
-        let mut obj = match &mut e.obj {
-            ExprOrSuper::Expr(obj) if obj.is_member() => {
-                let mut obj = obj.take().member().unwrap();
-                let obj = self.handle_member(&mut obj).map(Expr::Cond);
+        let obj = match &mut *e.obj {
+            Expr::Member(obj) => {
+                let obj = self.handle_member(obj).map(Expr::Cond);
                 let (obj, handled) = match obj {
                     Ok(v) => (v, true),
                     Err(v) => (v, false),
@@ -292,7 +288,7 @@ impl OptChaining {
                         let cond_expr = CondExpr {
                             span: DUMMY_SP,
                             alt: Box::new(Expr::Member(MemberExpr {
-                                obj: ExprOrSuper::Expr(obj.alt),
+                                obj: obj.alt,
                                 ..e.take()
                             })),
                             ..obj
@@ -305,13 +301,11 @@ impl OptChaining {
                             Err(Expr::Cond(cond_expr))
                         };
                     }
-                    _ => ExprOrSuper::Expr(Box::new(obj)),
+                    _ => Box::new(obj),
                 }
             }
-            ExprOrSuper::Expr(obj) if obj.is_call() => {
-                let mut obj = obj.take().call().unwrap();
-
-                let obj = self.handle_call(&mut obj).map(Expr::Cond);
+            Expr::Call(obj) => {
+                let obj = self.handle_call(obj).map(Expr::Cond);
                 let (obj, handled) = match obj {
                     Ok(v) => (v, true),
                     Err(v) => (v, false),
@@ -322,7 +316,7 @@ impl OptChaining {
                         let cond_expr = CondExpr {
                             span: DUMMY_SP,
                             alt: Box::new(Expr::Member(MemberExpr {
-                                obj: ExprOrSuper::Expr(obj.alt),
+                                obj: obj.alt,
                                 ..e.take()
                             })),
                             ..obj
@@ -335,26 +329,23 @@ impl OptChaining {
                             Err(Expr::Cond(cond_expr))
                         };
                     }
-                    _ => ExprOrSuper::Expr(Box::new(obj)),
+                    _ => Box::new(obj),
                 }
             }
             _ => e.obj.take(),
         };
 
-        if let ExprOrSuper::Expr(expr) = obj {
-            if let Expr::OptChain(mut obj) = *expr {
-                let expr = self.unwrap(&mut obj);
+        if let Expr::OptChain(mut obj) = *obj {
+            let expr = self.unwrap(&mut obj);
 
-                return Ok(CondExpr {
-                    span: DUMMY_SP,
-                    alt: Box::new(Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(expr.alt),
-                        ..e.take()
-                    })),
-                    ..expr
-                });
-            }
-            obj = ExprOrSuper::Expr(expr);
+            return Ok(CondExpr {
+                span: DUMMY_SP,
+                alt: Box::new(Expr::Member(MemberExpr {
+                    obj: expr.alt,
+                    ..e.take()
+                })),
+                ..expr
+            });
         }
 
         Err(Expr::Member(MemberExpr { obj, ..e.take() }))
@@ -366,9 +357,8 @@ impl OptChaining {
 
         match &mut *e.expr {
             Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
+                obj,
                 prop,
-                computed,
                 span: m_span,
             }) if obj.is_opt_chain() => {
                 let mut obj = obj.take().opt_chain().unwrap();
@@ -379,9 +369,8 @@ impl OptChaining {
 
                 let alt = Box::new(Expr::Member(MemberExpr {
                     span: *m_span,
-                    obj: ExprOrSuper::Expr(obj.alt),
+                    obj: obj.alt,
                     prop: prop.take(),
-                    computed: *computed,
                 }));
                 let alt = Box::new(Expr::OptChain(OptChainExpr {
                     span: obj_span,
@@ -393,7 +382,7 @@ impl OptChaining {
             }
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Expr(callee),
                 args,
                 type_args,
             }) if callee.is_opt_chain() => {
@@ -404,7 +393,7 @@ impl OptChaining {
 
                 let alt = Box::new(Expr::Call(CallExpr {
                     span: *span,
-                    callee: ExprOrSuper::Expr(obj.alt),
+                    callee: Callee::Expr(obj.alt),
                     args: args.take(),
                     type_args: type_args.take(),
                 }));
@@ -426,12 +415,7 @@ impl OptChaining {
         e.expr.visit_mut_children_with(self);
 
         match &mut *e.expr {
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                prop,
-                computed,
-                ..
-            }) => {
+            Expr::Member(MemberExpr { obj, prop, .. }) => {
                 let obj_span = obj.span();
 
                 let (left, right, alt) = match &mut **obj {
@@ -441,21 +425,20 @@ impl OptChaining {
                         self.vars_without_init.push(VarDeclarator {
                             span: obj_span,
                             definite: false,
-                            name: Pat::Ident(i.clone().into()),
+                            name: i.clone().into(),
                             init: None,
                         });
 
                         (
                             Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone().into()))),
+                                left: PatOrExpr::Pat(i.clone().into()),
                                 op: op!("="),
                                 right: obj.take(),
                             })),
                             Box::new(Expr::Ident(i.clone())),
                             Box::new(Expr::Member(MemberExpr {
-                                obj: ExprOrSuper::Expr(Box::new(Expr::Ident(i))),
-                                computed: *computed,
+                                obj: Box::new(Expr::Ident(i)),
                                 span: DUMMY_SP,
                                 prop: prop.take(),
                             })),
@@ -498,19 +481,13 @@ impl OptChaining {
             }
 
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(obj),
+                callee: Callee::Expr(obj),
                 args,
                 type_args,
                 ..
             }) => {
                 let obj_span = obj.span();
-                let is_super_access = match **obj {
-                    Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Super(..),
-                        ..
-                    }) => true,
-                    _ => false,
-                };
+                let is_super_access = matches!(**obj, Expr::SuperProp(_));
 
                 let (left, right, alt) = match &**obj {
                     Expr::Ident(ident) => (
@@ -522,22 +499,20 @@ impl OptChaining {
                             e.expr.take()
                         },
                     ),
-                    _ if is_simple_expr(&obj) && self.c.pure_getter => {
+                    _ if is_simple_expr(obj) && self.c.pure_getter => {
                         (obj.clone(), obj.clone(), e.expr.take())
                     }
                     _ => {
                         let this_as_super;
-                        let should_call = obj.is_member();
+                        let should_call = obj.is_member() || obj.is_super_prop();
                         let (this_obj, aliased) = if should_call {
                             alias_if_required(
                                 match &**obj {
-                                    Expr::Member(m) => match &m.obj {
-                                        ExprOrSuper::Super(s) => {
-                                            this_as_super = Expr::This(ThisExpr { span: s.span });
-                                            &this_as_super
-                                        }
-                                        ExprOrSuper::Expr(obj) => &**obj,
-                                    },
+                                    Expr::SuperProp(m) => {
+                                        this_as_super = Expr::This(ThisExpr { span: m.obj.span });
+                                        &this_as_super
+                                    }
+                                    Expr::Member(m) => &*m.obj,
                                     _ => &*obj,
                                 },
                                 "_obj",
@@ -549,36 +524,26 @@ impl OptChaining {
                             self.vars_without_init.push(VarDeclarator {
                                 span: obj_span,
                                 definite: false,
-                                name: Pat::Ident(this_obj.clone().into()),
+                                name: this_obj.clone().into(),
                                 init: None,
                             });
 
                             match &mut **obj {
-                                Expr::Member(
-                                    obj @ MemberExpr {
-                                        obj: ExprOrSuper::Expr(..),
-                                        ..
-                                    },
-                                ) => Box::new(Expr::Member(MemberExpr {
+                                Expr::Member(obj) => Box::new(Expr::Member(MemberExpr {
                                     span: obj.span,
                                     obj: Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
                                         op: op!("="),
-                                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                            this_obj.clone().into(),
-                                        ))),
-                                        right: obj.obj.take().expect_expr(),
+                                        left: PatOrExpr::Pat(this_obj.clone().into()),
+                                        right: obj.obj.take(),
                                     })
-                                    .as_obj(),
+                                    .into(),
                                     prop: obj.prop.take(),
-                                    computed: obj.computed,
                                 })),
                                 _ => Box::new(Expr::Assign(AssignExpr {
                                     span: DUMMY_SP,
                                     op: op!("="),
-                                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                        this_obj.clone().into(),
-                                    ))),
+                                    left: PatOrExpr::Pat(this_obj.clone().into()),
                                     right: obj.take(),
                                 })),
                             }
@@ -591,32 +556,28 @@ impl OptChaining {
                         self.vars_without_init.push(VarDeclarator {
                             span: obj_span,
                             definite: false,
-                            name: Pat::Ident(tmp.clone().into()),
+                            name: tmp.clone().into(),
                             init: None,
                         });
 
                         (
                             Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(tmp.clone().into()))),
+                                left: PatOrExpr::Pat(tmp.clone().into()),
                                 op: op!("="),
                                 right: obj_expr,
                             })),
                             Box::new(Expr::Ident(tmp.clone())),
                             Box::new(Expr::Call(CallExpr {
                                 span,
-                                callee: ExprOrSuper::Expr(Box::new(if should_call {
+                                callee: Callee::Expr(Box::new(if should_call {
                                     Expr::Member(MemberExpr {
                                         span: DUMMY_SP,
-                                        obj: ExprOrSuper::Expr(Box::new(Expr::Ident(tmp.clone()))),
-                                        prop: Box::new(Expr::Ident(Ident::new(
-                                            "call".into(),
-                                            span,
-                                        ))),
-                                        computed: false,
+                                        obj: Box::new(Expr::Ident(tmp)),
+                                        prop: MemberProp::Ident(Ident::new("call".into(), span)),
                                     })
                                 } else {
-                                    Expr::Ident(tmp.clone())
+                                    Expr::Ident(tmp)
                                 })),
                                 args: if should_call {
                                     once(if is_super_access {
@@ -698,16 +659,13 @@ fn is_simple_expr(expr: &Expr) -> bool {
         Expr::Ident(_) => true,
         Expr::Member(MemberExpr {
             obj,
-            computed: false,
+            prop: MemberProp::Ident(..) | MemberProp::PrivateName(..),
             ..
-        }) if match obj {
-            ExprOrSuper::Super(..) => true,
-            ExprOrSuper::Expr(expr) if is_simple_expr(expr) => true,
-            _ => false,
-        } =>
-        {
-            true
-        }
+        }) if is_simple_expr(obj) => true,
+        Expr::SuperProp(SuperPropExpr {
+            prop: SuperProp::Ident(..),
+            ..
+        }) => true,
         _ => false,
     }
 }

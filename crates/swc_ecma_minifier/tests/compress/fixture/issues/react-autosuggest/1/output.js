@@ -9,8 +9,7 @@ var _react = function(obj) {
     };
     var cache = _getRequireWildcardCache();
     if (cache && cache.has(obj)) return cache.get(obj);
-    var newObj = {
-    }, hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    var newObj = {}, hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
     for(var key in obj)if (Object.prototype.hasOwnProperty.call(obj, key)) {
         var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
         desc && (desc.get || desc.set) ? Object.defineProperty(newObj, key, desc) : newObj[key] = obj[key];
@@ -94,26 +93,23 @@ var ItemsList = function(_Component) {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(ItemsList1, _Component);
-    var Constructor1, protoProps, staticProps, _super = function(Derived) {
-        return function() {
-            var self, call, result, Super = _getPrototypeOf(Derived);
-            if ((function() {
-                if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                if (Reflect.construct.sham) return !1;
-                if ("function" == typeof Proxy) return !0;
-                try {
-                    return Date.prototype.toString.call(Reflect.construct(Date, [], function() {
-                    })), !0;
-                } catch (e) {
-                    return !1;
-                }
-            })()) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else result = Super.apply(this, arguments);
-            return self = this, (call = result) && ("object" === _typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(self);
-        };
-    }(ItemsList1);
+    var Constructor1, protoProps, staticProps, Derived, _super = (Derived = ItemsList1, function() {
+        var self, call, result, Super = _getPrototypeOf(Derived);
+        if ((function() {
+            if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+            if (Reflect.construct.sham) return !1;
+            if ("function" == typeof Proxy) return !0;
+            try {
+                return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;
+            } catch (e) {
+                return !1;
+            }
+        })()) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" === _typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(self);
+    });
     function ItemsList1() {
         var _this;
         !function(instance, Constructor) {
@@ -147,8 +143,7 @@ var ItemsList = function(_Component) {
                         itemIndex: itemIndex
                     }) : itemProps, allItemProps = function(target) {
                         for(var i = 1; i < arguments.length; i++){
-                            var source = null != arguments[i] ? arguments[i] : {
-                            };
+                            var source = null != arguments[i] ? arguments[i] : {};
                             i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
                                 _defineProperty(target, key, source[key]);
                             }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
@@ -159,10 +154,8 @@ var ItemsList = function(_Component) {
                     }({
                         id: getItemId(sectionIndex, itemIndex),
                         "aria-selected": isHighlighted
-                    }, theme(itemKey, "item", 0 === itemIndex && "itemFirst", isHighlighted && "itemHighlighted"), {
-                    }, itemPropsObj);
-                    return isHighlighted && (allItemProps.ref = _this2.storeHighlightedItemReference), _react.default.createElement(_Item.default, _extends({
-                    }, allItemProps, {
+                    }, theme(itemKey, "item", 0 === itemIndex && "itemFirst", isHighlighted && "itemHighlighted"), {}, itemPropsObj);
+                    return isHighlighted && (allItemProps.ref = _this2.storeHighlightedItemReference), _react.default.createElement(_Item.default, _extends({}, allItemProps, {
                         sectionIndex: sectionIndex,
                         isHighlighted: isHighlighted,
                         itemIndex: itemIndex,

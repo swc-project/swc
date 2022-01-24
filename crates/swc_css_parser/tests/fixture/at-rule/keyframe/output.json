@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 368,
+    "end": 432,
     "ctxt": 0
   },
   "rules": [
@@ -14,7 +14,7 @@
         "ctxt": 0
       },
       "name": {
-        "type": "Identifier",
+        "type": "CustomIdentifier",
         "span": {
           "start": 11,
           "end": 14,
@@ -52,7 +52,7 @@
         "ctxt": 0
       },
       "name": {
-        "type": "Identifier",
+        "type": "CustomIdentifier",
         "span": {
           "start": 74,
           "end": 77,
@@ -71,7 +71,7 @@
         "ctxt": 0
       },
       "name": {
-        "type": "Identifier",
+        "type": "CustomIdentifier",
         "span": {
           "start": 107,
           "end": 114,
@@ -267,7 +267,7 @@
         "ctxt": 0
       },
       "name": {
-        "type": "Identifier",
+        "type": "CustomIdentifier",
         "span": {
           "start": 236,
           "end": 246,
@@ -689,6 +689,63 @@
           }
         }
       ]
+    },
+    {
+      "type": "KeyframesRule",
+      "span": {
+        "start": 369,
+        "end": 386,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "CustomIdentifier",
+        "span": {
+          "start": 380,
+          "end": 383,
+          "ctxt": 0
+        },
+        "value": "FOO",
+        "raw": "FOO"
+      },
+      "blocks": []
+    },
+    {
+      "type": "KeyframesRule",
+      "span": {
+        "start": 387,
+        "end": 410,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "String",
+        "span": {
+          "start": 398,
+          "end": 407,
+          "ctxt": 0
+        },
+        "value": "initial",
+        "raw": "\"initial\""
+      },
+      "blocks": []
+    },
+    {
+      "type": "KeyframesRule",
+      "span": {
+        "start": 411,
+        "end": 431,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "String",
+        "span": {
+          "start": 422,
+          "end": 428,
+          "ctxt": 0
+        },
+        "value": "None",
+        "raw": "\"None\""
+      },
+      "blocks": []
     }
   ]
 }

@@ -16,7 +16,7 @@ fn total(b: &mut Bencher) {
 
     b.iter(|| {
         testing::run_test(false, |cm, handler| {
-            let fm = cm.load_file(&input).unwrap();
+            let fm = cm.load_file(input).unwrap();
 
             let module = {
                 let mut p = Parser::new(
@@ -29,16 +29,16 @@ fn total(b: &mut Bencher) {
                 );
                 let res = p
                     .parse_module()
-                    .map_err(|e| e.into_diagnostic(&handler).emit());
+                    .map_err(|e| e.into_diagnostic(handler).emit());
 
                 for e in p.take_errors() {
-                    e.into_diagnostic(&handler).emit()
+                    e.into_diagnostic(handler).emit()
                 }
 
                 res?
             };
 
-            let s = swc_webpack_ast::webpack_ast(cm.clone(), fm.clone(), module.into()).unwrap();
+            let s = swc_webpack_ast::webpack_ast(cm, fm, module).unwrap();
             println!("{} bytes", s.len());
 
             Ok(())

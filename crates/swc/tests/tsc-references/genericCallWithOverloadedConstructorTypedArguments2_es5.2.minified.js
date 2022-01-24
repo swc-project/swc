@@ -4,5 +4,4 @@ var GenericParameter;
         return cb;
     };
     foo7(1, a), foo7(1, c);
-}(GenericParameter || (GenericParameter = {
-}));
+}(GenericParameter || (GenericParameter = {}));

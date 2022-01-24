@@ -5,8 +5,7 @@ function _defineProperties(target, props) {
     }
 }
 function _objectWithoutProperties(source, excluded) {
-    if (null == source) return {
-    };
+    if (null == source) return {};
     var key, i, target = _objectWithoutPropertiesLoose(source, excluded);
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -15,10 +14,8 @@ function _objectWithoutProperties(source, excluded) {
     return target;
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
-    if (null == source) return {
-    };
-    var key, i, target = {
-    }, sourceKeys = Object.keys(source);
+    if (null == source) return {};
+    var key, i, target = {}, sourceKeys = Object.keys(source);
     for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
     return target;
 }
@@ -68,8 +65,7 @@ var C = function() {
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();
 function foobar() {
-    var _param = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
-    };
+    var _param = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
     _param.bar, _objectWithoutProperties(_param, [
         "bar"
     ]);

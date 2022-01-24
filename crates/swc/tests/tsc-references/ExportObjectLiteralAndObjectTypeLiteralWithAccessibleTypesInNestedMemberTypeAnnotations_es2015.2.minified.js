@@ -1,3 +1,2 @@
 var A;
-(A || (A = {
-})).UnitSquare = null;
+(A || (A = {})).UnitSquare = null;

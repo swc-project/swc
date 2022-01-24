@@ -117,7 +117,7 @@ where
         config: Config,
         hook: Box<dyn 'a + Hook>,
     ) -> Self {
-        GLOBALS.set(&globals, || {
+        GLOBALS.set(globals, || {
             let helper_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
             tracing::debug!("Helper ctxt: {:?}", helper_ctxt);
             let synthesized_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));

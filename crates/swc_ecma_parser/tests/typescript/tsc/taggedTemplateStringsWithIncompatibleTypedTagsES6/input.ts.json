@@ -840,8 +840,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1027,8 +1026,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1113,20 +1111,27 @@
           }
         },
         "property": {
-          "type": "StringLiteral",
+          "type": "Computed",
           "span": {
-            "start": 286,
-            "end": 294,
+            "start": 285,
+            "end": 295,
             "ctxt": 0
           },
-          "value": "member",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
+          "expression": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 286,
+              "end": 294,
+              "ctxt": 0
+            },
+            "value": "member",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
           }
-        },
-        "computed": true
+        }
       }
     },
     {
@@ -1304,20 +1309,27 @@
           }
         },
         "property": {
-          "type": "StringLiteral",
+          "type": "Computed",
           "span": {
-            "start": 320,
-            "end": 328,
+            "start": 319,
+            "end": 329,
             "ctxt": 0
           },
-          "value": "member",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
+          "expression": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 320,
+              "end": 328,
+              "ctxt": 0
+            },
+            "value": "member",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
           }
-        },
-        "computed": true
+        }
       }
     },
     {
@@ -1416,15 +1428,22 @@
               }
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 340,
-                "end": 341,
+                "start": 339,
+                "end": 342,
                 "ctxt": 0
               },
-              "value": 0.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 340,
+                  "end": 341,
+                  "ctxt": 0
+                },
+                "value": 0.0
+              }
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1435,8 +1454,7 @@
             },
             "value": "member",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "typeParameters": null,
         "template": {
@@ -1771,20 +1789,27 @@
               }
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 394,
-                "end": 402,
+                "start": 393,
+                "end": 403,
                 "ctxt": 0
               },
-              "value": "member",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 394,
+                  "end": 402,
+                  "ctxt": 0
+                },
+                "value": "member",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1795,8 +1820,7 @@
             },
             "value": "member",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "typeParameters": null,
         "template": {
@@ -2131,20 +2155,27 @@
               }
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 465,
-                "end": 473,
+                "start": 464,
+                "end": 474,
                 "ctxt": 0
               },
-              "value": "member",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 465,
+                  "end": 473,
+                  "ctxt": 0
+                },
+                "value": "member",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "property": {
             "type": "Identifier",
@@ -2155,8 +2186,7 @@
             },
             "value": "member",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "typeParameters": null,
         "template": {
@@ -2342,8 +2372,7 @@
             },
             "value": "thisIsNotATag",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -2441,8 +2470,7 @@
             },
             "value": "thisIsNotATag",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

@@ -25,8 +25,7 @@ export var Foo = function Foo() {
     _classCallCheck(this, Foo);
 };
 // @filename: func.js
-export function func() {
-}
+export function func() {}
 // @filename: bar.js
 export * from "./cls";
 // @filename: bar2.js

@@ -77,8 +77,7 @@
                       },
                       "value": "nonsense",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 "value": {
@@ -159,35 +158,41 @@
           "optional": false
         },
         "property": {
-          "type": "MemberExpression",
+          "type": "Computed",
           "span": {
-            "start": 71,
-            "end": 86,
+            "start": 70,
+            "end": 87,
             "ctxt": 0
           },
-          "object": {
-            "type": "Identifier",
+          "expression": {
+            "type": "MemberExpression",
             "span": {
               "start": 71,
-              "end": 77,
-              "ctxt": 0
-            },
-            "value": "Symbol",
-            "optional": false
-          },
-          "property": {
-            "type": "Identifier",
-            "span": {
-              "start": 78,
               "end": 86,
               "ctxt": 0
             },
-            "value": "nonsense",
-            "optional": false
-          },
-          "computed": false
-        },
-        "computed": true
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 71,
+                "end": 77,
+                "ctxt": 0
+              },
+              "value": "Symbol",
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 78,
+                "end": 86,
+                "ctxt": 0
+              },
+              "value": "nonsense",
+              "optional": false
+            }
+          }
+        }
       }
     }
   ],

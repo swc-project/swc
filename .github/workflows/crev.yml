@@ -14,12 +14,20 @@ jobs:
         with:
           profile: minimal
 
+      - name: Remove unrelated
+        run: |
+          rm -rf packages
+          rm -rf tests
+          ls -al
+
       - name: Configure cargo-crev
         run: |
           cargo install cargo-crev
           git config --global user.name 'SWC bot'
           git config --global user.email 'bot@swc.rs'
+
           cargo crev trust --level high https://github.com/kdy1/crev-proofs
+          cargo crev repo fetch all
 
       - name: Check dependencies
         run: |

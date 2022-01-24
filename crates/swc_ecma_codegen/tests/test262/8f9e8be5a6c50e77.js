@@ -1,4 +1,3 @@
 function a() {
-    return function b(c) {
-    };
+    return function b(c) {};
 }

@@ -74,21 +74,8 @@ function _AwaitValue(value) {
     this.wrapped = value;
 }
 function _f1() {
-    return (_f1 = (function(fn) {
-        return function() {
-            var self = this, args = arguments;
-            return new Promise(function(resolve, reject) {
-                var gen = fn.apply(self, args);
-                function _next(value) {
-                    asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-                }
-                function _throw(err) {
-                    asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-                }
-                _next(void 0);
-            });
-        };
-    })(regeneratorRuntime.mark(function _callee() {
+    var fn;
+    return (_f1 = (fn = regeneratorRuntime.mark(function _callee() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x, _iteratorAbruptCompletion1, _didIteratorError1, _iteratorError1, _iterator1, _step1, _value1, x1, _iteratorAbruptCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _value2, x2, _iteratorAbruptCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, _value3, _iteratorAbruptCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, _value4, _iteratorAbruptCompletion5, _didIteratorError5, _iteratorError5, _iterator5, _step5, _value5;
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
@@ -374,14 +361,23 @@ function _f1() {
                 156
             ]
         ]);
-    }))).apply(this, arguments);
+    }), function() {
+        var self = this, args = arguments;
+        return new Promise(function(resolve, reject) {
+            var gen = fn.apply(self, args);
+            function _next(value) {
+                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+            }
+            function _throw(err) {
+                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+            }
+            _next(void 0);
+        });
+    })).apply(this, arguments);
 }
 function _f2() {
-    return (_f2 = (function(fn) {
-        return function() {
-            return new AsyncGenerator(fn.apply(this, arguments));
-        };
-    })(regeneratorRuntime.mark(function _callee() {
+    var fn;
+    return (_f2 = (fn = regeneratorRuntime.mark(function _callee() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x, _iteratorAbruptCompletion6, _didIteratorError6, _iteratorError6, _iterator6, _step6, _value6, x3, _iteratorAbruptCompletion7, _didIteratorError7, _iteratorError7, _iterator7, _step7, _value7, x4, _iteratorAbruptCompletion8, _didIteratorError8, _iteratorError8, _iterator8, _step8, _value8, _iteratorAbruptCompletion9, _didIteratorError9, _iteratorError9, _iterator9, _step9, _value9, _iteratorAbruptCompletion10, _didIteratorError10, _iteratorError10, _iterator10, _step10, _value10;
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
@@ -667,7 +663,9 @@ function _f2() {
                 156
             ]
         ]);
-    }))).apply(this, arguments);
+    }), function() {
+        return new AsyncGenerator(fn.apply(this, arguments));
+    })).apply(this, arguments);
 }
 "function" == typeof Symbol && Symbol.asyncIterator && (AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
     return this;

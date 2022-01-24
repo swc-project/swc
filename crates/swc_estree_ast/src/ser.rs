@@ -5,7 +5,7 @@ pub(crate) fn serialize_optional<S>(o: &Option<bool>, s: S) -> Result<S::Ok, S::
 where
     S: Serializer,
 {
-    return s.serialize_some(&o.unwrap_or(false));
+    s.serialize_some(&o.unwrap_or(false))
 }
 
 /// Always serializes as a boolean value.

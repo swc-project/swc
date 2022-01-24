@@ -4,8 +4,7 @@ Choice;
     Choice[Choice["Unknown"] = 0] = "Unknown";
     Choice[Choice["Yes"] = 1] = "Yes";
     Choice[Choice["No"] = 2] = "No";
-})(Choice || (Choice = {
-}));
+})(Choice || (Choice = {}));
 function f1() {
     var a;
     var a;

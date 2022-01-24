@@ -16,8 +16,9 @@ function _defineProperty(obj, key, value) {
     }) : obj[key] = value, obj;
 }
 !function(name) {
+    var _ref;
     return {
-        resolve: (function(fn) {
+        resolve: (_ref = (function(fn) {
             return function() {
                 var self = this, args = arguments;
                 return new Promise(function(resolve, reject) {
@@ -37,8 +38,7 @@ function _defineProperty(obj, key, value) {
             };
             return (function(target) {
                 for(var i = 1; i < arguments.length; i++){
-                    var source = null != arguments[i] ? arguments[i] : {
-                    }, ownKeys = Object.keys(source);
+                    var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
                     "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
@@ -46,8 +46,9 @@ function _defineProperty(obj, key, value) {
                     });
                 }
                 return target;
-            })({
-            }, connectionFromArray(objects, args));
+            })({}, connectionFromArray(objects, args));
+        }), function(context, args) {
+            return _ref.apply(this, arguments);
         })
     };
 }("test");

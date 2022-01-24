@@ -4,6 +4,7 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 var C = function C() {
@@ -28,8 +29,7 @@ var M;
     };
     M1.A = A;
     M1.F2 = F2;
-})(M || (M = {
-}));
+})(M || (M = {}));
 var aNumber = 9.9;
 throw aNumber;
 var aString = 'this is a string';

@@ -15,34 +15,28 @@ var methodName = "method", accessorName = "accessor", tmp = methodName, tmp1 = m
     return Constructor = C, protoProps = [
         {
             key: tmp,
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: tmp2,
-            get: function() {
-            }
+            get: function() {}
         },
         {
             key: tmp3,
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ], staticProps = [
         {
             key: tmp1,
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: tmp4,
-            get: function() {
-            }
+            get: function() {}
         },
         {
             key: tmp5,
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

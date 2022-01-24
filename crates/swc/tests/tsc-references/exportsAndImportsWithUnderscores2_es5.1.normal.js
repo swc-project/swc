@@ -4,7 +4,6 @@
 var R;
 export default R = {
     "__esmodule": true,
-    "__proto__": {
-    }
+    "__proto__": {}
 };
 var __esmodule = R.__esmodule, __proto__ = R.__proto__;

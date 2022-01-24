@@ -152,20 +152,27 @@
                 "optional": false
               },
               "property": {
-                "type": "StringLiteral",
+                "type": "Computed",
                 "span": {
-                  "start": 99,
-                  "end": 102,
+                  "start": 98,
+                  "end": 103,
                   "ctxt": 0
                 },
-                "value": "B",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 99,
+                    "end": 102,
+                    "ctxt": 0
+                  },
+                  "value": "B",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
-              },
-              "computed": true
+              }
             }
           },
           "definite": false
@@ -235,8 +242,7 @@
                 },
                 "value": "B",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -277,20 +283,27 @@
             "optional": false
           },
           "property": {
-            "type": "StringLiteral",
+            "type": "Computed",
             "span": {
-              "start": 175,
-              "end": 178,
+              "start": 174,
+              "end": 179,
               "ctxt": 0
             },
-            "value": "B",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 175,
+                "end": 178,
+                "ctxt": 0
+              },
+              "value": "B",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
             }
-          },
-          "computed": true
+          }
         }
       }
     },
@@ -336,8 +349,7 @@
             },
             "value": "B",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

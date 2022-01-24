@@ -4,27 +4,20 @@
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Speedy web compiler"
 documentation = "https://rustdoc.swc.rs/swc/"
-edition = "2018"
+edition = "2021"
 include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.101.0"
+version = "0.116.20"
 
 [lib]
 name = "swc"
 
 [features]
 default = ["es3"]
-# You can disable this feautre to reduce binary size.
+# You can disable this feature to reduce binary size.
 es3 = []
-# See https://github.com/swc-project/swc/issues/1108
-#
-# If this option is enabled, es2015 transforms are enabled if target is es2015.
-# If this option is disabled, es2015 transforms are disabled if target is es2015.
-#
-# This feature will be removed on v2 of node bindings.
-wrong-target = []
 
 concurrent = [
   "swc_ecma_utils/concurrent",
@@ -53,16 +46,16 @@ serde = {version = "1", features = ["derive"]}
 serde_json = "1"
 sourcemap = "6"
 swc_atoms = {version = "0.2", path = "../swc_atoms"}
-swc_common = {version = "0.15.0", path = "../swc_common", features = ["sourcemap", "concurrent"]}
-swc_ecma_ast = {version = "0.60.1", path = "../swc_ecma_ast"}
-swc_ecma_codegen = {version = "0.84.0", path = "../swc_ecma_codegen"}
-swc_ecma_ext_transforms = {version = "0.43.0", path = "../swc_ecma_ext_transforms"}
-swc_ecma_lints = {version = "0.2.0", path = "../swc_ecma_lints"}
-swc_ecma_loader = {version = "0.25.3", path = "../swc_ecma_loader", features = ["lru", "node", "tsc"]}
-swc_ecma_minifier = {version = "0.61.0", path = "../swc_ecma_minifier"}
-swc_ecma_parser = {version = "0.82.6", path = "../swc_ecma_parser"}
-swc_ecma_preset_env = {version = "0.77.0", path = "../swc_ecma_preset_env"}
-swc_ecma_transforms = {version = "0.104.0", path = "../swc_ecma_transforms", features = [
+swc_common = {version = "0.17.0", path = "../swc_common", features = ["sourcemap", "concurrent"]}
+swc_ecma_ast = {version = "0.65.3", path = "../swc_ecma_ast"}
+swc_ecma_codegen = {version = "0.89.0", path = "../swc_ecma_codegen"}
+swc_ecma_ext_transforms = {version = "0.50.0", path = "../swc_ecma_ext_transforms"}
+swc_ecma_lints = {version = "0.9.0", path = "../swc_ecma_lints"}
+swc_ecma_loader = {version = "0.27.0", path = "../swc_ecma_loader", features = ["lru", "node", "tsc"]}
+swc_ecma_minifier = {version = "0.70.12", path = "../swc_ecma_minifier"}
+swc_ecma_parser = {version = "0.87.0", path = "../swc_ecma_parser"}
+swc_ecma_preset_env = {version = "0.86.1", path = "../swc_ecma_preset_env"}
+swc_ecma_transforms = {version = "0.113.5", path = "../swc_ecma_transforms", features = [
   "compat",
   "module",
   "optimization",
@@ -70,14 +63,14 @@ swc_ecma_transforms = {version = "0.104.0", path = "../swc_ecma_transforms", fea
   "react",
   "typescript",
 ]}
-swc_ecma_transforms_base = {version = "0.50.0", path = "../swc_ecma_transforms_base"}
-swc_ecma_transforms_compat = {version = "0.60.0", path = "../swc_ecma_transforms_compat"}
-swc_ecma_transforms_optimization = {version = "0.74.0", path = "../swc_ecma_transforms_optimization"}
-swc_ecma_utils = {version = "0.57.0", path = "../swc_ecma_utils"}
-swc_ecma_visit = {version = "0.46.0", path = "../swc_ecma_visit"}
-swc_ecmascript = {version = "0.100.0", path = "../swc_ecmascript"}
-swc_node_comments = {version = "0.2.0", path = "../swc_node_comments"}
-swc_plugin_runner = {version = "0.22.0", path = "../swc_plugin_runner", optional = true}
+swc_ecma_transforms_base = {version = "0.57.1", path = "../swc_ecma_transforms_base"}
+swc_ecma_transforms_compat = {version = "0.68.3", path = "../swc_ecma_transforms_compat"}
+swc_ecma_transforms_optimization = {version = "0.83.0", path = "../swc_ecma_transforms_optimization"}
+swc_ecma_utils = {version = "0.64.0", path = "../swc_ecma_utils"}
+swc_ecma_visit = {version = "0.51.1", path = "../swc_ecma_visit"}
+swc_ecmascript = {version = "0.110.19", path = "../swc_ecmascript"}
+swc_node_comments = {version = "0.4.0", path = "../swc_node_comments"}
+swc_plugin_runner = {version = "0.30.0", path = "../swc_plugin_runner", optional = true}
 swc_visit = {version = "0.3.0", path = "../swc_visit"}
 tracing = "0.1.28"
 
@@ -96,7 +89,7 @@ version = "2.0.0"
 [dev-dependencies]
 rayon = "1"
 swc_node_base = {version = "0.5.0", path = "../swc_node_base"}
-testing = {version = "0.16.0", path = "../testing"}
+testing = {version = "0.18.0", path = "../testing"}
 walkdir = "2"
 
 [[example]]

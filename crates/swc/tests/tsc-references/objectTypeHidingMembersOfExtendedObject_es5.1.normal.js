@@ -56,6 +56,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -63,8 +64,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -105,8 +105,7 @@ var C = /*#__PURE__*/ function() {
     _createClass(C, [
         {
             key: "valueOf",
-            value: function valueOf() {
-            }
+            value: function valueOf() {}
         }
     ]);
     return C;
@@ -122,8 +121,7 @@ var r2b = i.data;
 var r2c = r2b['hm']; // should be 'Object'
 var r2d = i['hm']; // should be 'any'
 var a = {
-    valueOf: function() {
-    },
+    valueOf: function() {},
     data: new B()
 };
 var r3 = a.valueOf();

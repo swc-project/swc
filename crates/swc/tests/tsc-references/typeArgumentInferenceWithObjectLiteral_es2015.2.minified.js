@@ -1,6 +1,5 @@
-var E1, E2, s, E1, E2;
-function foo(x) {
-}
+var s, E1, E2;
+function foo(x) {}
 foo({
     read: ()=>s
     ,
@@ -9,9 +8,11 @@ foo({
     write: (value)=>s = value
     ,
     read: ()=>s
-}), (E1 = E1 || (E1 = {
-}))[E1.X = 0] = "X", (E2 = E2 || (E2 = {
-}))[E2.X = 0] = "X", f1({
+}), (function(E1) {
+    E1[E1.X = 0] = "X";
+})(E1 || (E1 = {})), (function(E2) {
+    E2[E2.X = 0] = "X";
+})(E2 || (E2 = {})), f1({
     w: (x)=>x
     ,
     r: ()=>0

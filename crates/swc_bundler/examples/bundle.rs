@@ -1,3 +1,5 @@
+#![allow(clippy::needless_update)]
+
 /// Use memory allocator
 extern crate swc_node_base;
 
@@ -114,7 +116,7 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool, mini
             modules = modules
                 .into_iter()
                 .map(|mut b| {
-                    GLOBALS.set(&globals, || {
+                    GLOBALS.set(globals, || {
                         b.module = swc_ecma_minifier::optimize(
                             b.module,
                             cm.clone(),
@@ -146,7 +148,7 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool, mini
         }
 
         {
-            let cm = cm.clone();
+            let cm = cm;
             print_bundles(cm, modules, minify);
         }
 
@@ -201,12 +203,11 @@ impl swc_bundler::Hook for Hook {
                 value: Box::new(if module_record.is_entry {
                     Expr::Member(MemberExpr {
                         span,
-                        obj: ExprOrSuper::Expr(Box::new(Expr::MetaProp(MetaPropExpr {
-                            meta: Ident::new(js_word!("import"), span),
-                            prop: Ident::new(js_word!("meta"), span),
-                        }))),
-                        prop: Box::new(Expr::Ident(Ident::new(js_word!("main"), span))),
-                        computed: false,
+                        obj: Box::new(Expr::MetaProp(MetaPropExpr {
+                            span,
+                            kind: MetaPropKind::ImportMeta,
+                        })),
+                        prop: MemberProp::Ident(Ident::new(js_word!("main"), span)),
                     })
                 } else {
                     Expr::Lit(Lit::Bool(Bool { span, value: false }))
@@ -223,7 +224,7 @@ pub struct Loader {
 impl Load for Loader {
     fn load(&self, f: &FileName) -> Result<ModuleData, Error> {
         let fm = match f {
-            FileName::Real(path) => self.cm.load_file(&path)?,
+            FileName::Real(path) => self.cm.load_file(path)?,
             _ => unreachable!(),
         };
 
@@ -283,7 +284,7 @@ impl NodeResolver {
     /// Resolve a path as a directory, using the "main" key from a
     /// package.json file if it exists, or resolving to the
     /// index.EXT file if it exists.
-    fn resolve_as_directory(&self, path: &PathBuf) -> Result<PathBuf, Error> {
+    fn resolve_as_directory(&self, path: &Path) -> Result<PathBuf, Error> {
         // 1. If X/package.json is a file, use it.
         let pkg_path = path.join("package.json");
         if pkg_path.is_file() {
@@ -298,12 +299,12 @@ impl NodeResolver {
     }
 
     /// Resolve using the package.json "main" key.
-    fn resolve_package_main(&self, _: &PathBuf) -> Result<PathBuf, Error> {
+    fn resolve_package_main(&self, _: &Path) -> Result<PathBuf, Error> {
         bail!("package.json is not supported")
     }
 
     /// Resolve a directory to its index.EXT.
-    fn resolve_index(&self, path: &PathBuf) -> Result<PathBuf, Error> {
+    fn resolve_index(&self, path: &Path) -> Result<PathBuf, Error> {
         // 1. If X/index.js is a file, load X/index.js as JavaScript text.
         // 2. If X/index.json is a file, parse X/index.json to a JavaScript object.
         // 3. If X/index.node is a file, load X/index.node as binary addon.
@@ -345,7 +346,7 @@ impl Resolve for NodeResolver {
         };
 
         // Absolute path
-        if target.starts_with("/") {
+        if target.starts_with('/') {
             let base_dir = &Path::new("/");
 
             let path = base_dir.join(target);
@@ -356,7 +357,7 @@ impl Resolve for NodeResolver {
         }
 
         let cwd = &Path::new(".");
-        let mut base_dir = base.parent().unwrap_or(&cwd);
+        let mut base_dir = base.parent().unwrap_or(cwd);
 
         if target.starts_with("./") || target.starts_with("../") {
             let win_target;

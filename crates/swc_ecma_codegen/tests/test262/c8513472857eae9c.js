@@ -1,4 +1,3 @@
 ({
-    set a (b = new.target){
-    }
+    set a (b = new.target){}
 });

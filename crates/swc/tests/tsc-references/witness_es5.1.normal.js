@@ -142,11 +142,10 @@ var propAcc1;
 // Property access of module member
 var M2;
 (function(M21) {
-    M21.x = M2.x;
+    var x = M21.x = M2.x;
     var y = x;
     var y;
-})(M2 || (M2 = {
-}));
+})(M2 || (M2 = {}));
 var C2 = function C2() {
     "use strict";
     _classCallCheck(this, C2);

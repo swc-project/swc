@@ -153,8 +153,7 @@
             },
             "value": "A",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": null,
         "typeArguments": null
@@ -200,8 +199,7 @@
             },
             "value": "B",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": null,
         "typeArguments": null

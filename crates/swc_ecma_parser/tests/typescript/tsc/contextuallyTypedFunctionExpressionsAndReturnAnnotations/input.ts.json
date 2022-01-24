@@ -277,8 +277,7 @@
                               },
                               "value": "charAt",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "arguments": [
                             {
@@ -557,8 +556,7 @@
                                       },
                                       "value": "toFixed",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "arguments": [],
                                   "typeArguments": null

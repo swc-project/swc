@@ -6,6 +6,5 @@ var A;
             this.y = y;
         }
     }
-    A1.UnitSquare = null;
-})(A || (A = {
-}));
+    var UnitSquare = A1.UnitSquare = null;
+})(A || (A = {}));

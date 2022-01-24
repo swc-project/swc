@@ -1,4 +1,3 @@
 class a {
-    static get [b]() {
-    }
+    static get [b]() {}
 }

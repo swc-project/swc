@@ -1,4 +1,4 @@
-var M, M1;
+var M;
 function _arrayLikeToArray(arr, len) {
     (null == len || len > arr.length) && (len = arr.length);
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
@@ -68,9 +68,9 @@ f14([
             y: !1
         }
     ]
-]), (M1 = M || (M = {
-})).a = 1, M1.b = 2, f17({
-}), f17({
+]), (function(M1) {
+    M1.a = 1, M1.b = 2;
+})(M || (M = {})), f17({}), f17({
     a: "hello"
 }), f17({
     c: !0

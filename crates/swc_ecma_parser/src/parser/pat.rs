@@ -136,19 +136,21 @@ impl<'a, I: Tokens> Parser<I> {
 
     pub(super) fn eat_any_ts_modifier(&mut self) -> PResult<bool> {
         let has_modifier = self.syntax().typescript()
-            && match *cur!(self, false)? {
-                Word(Word::Ident(js_word!("public")))
-                | Word(Word::Ident(js_word!("protected")))
-                | Word(Word::Ident(js_word!("private")))
-                | Word(Word::Ident(js_word!("readonly"))) => true,
-                _ => false,
-            }
+            && matches!(
+                *cur!(self, false)?,
+                Word(Word::Ident(
+                    js_word!("public")
+                        | js_word!("protected")
+                        | js_word!("private")
+                        | js_word!("readonly")
+                ))
+            )
             && (peeked_is!(self, IdentName) || peeked_is!(self, '{') || peeked_is!(self, '['));
         if has_modifier {
             let _ = self.parse_ts_modifier(&["public", "protected", "private", "readonly"], false);
         }
 
-        return Ok(has_modifier);
+        Ok(has_modifier)
     }
 
     /// spec: 'FormalParameter'
@@ -221,7 +223,7 @@ impl<'a, I: Tokens> Parser<I> {
                     *type_ann = new_type_ann;
                 }
                 Pat::Assign(AssignPat { ref mut span, .. }) => {
-                    if let Some(_) = self.try_parse_ts_type_ann()? {
+                    if (self.try_parse_ts_type_ann()?).is_some() {
                         *span = Span::new(pat_start, self.input.prev_span().hi, Default::default());
                         self.emit_err(*span, SyntaxError::TSTypeAnnotationAfterAssign);
                     }
@@ -552,6 +554,7 @@ impl<'a, I: Tokens> Parser<I> {
                 Expr::Array(..) | Expr::Object(..) => {}
 
                 Expr::Member(..)
+                | Expr::SuperProp(..)
                 | Expr::Call(..)
                 | Expr::New(..)
                 | Expr::Lit(..)
@@ -656,7 +659,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }))
             }
             Expr::Ident(ident) => Ok(ident.into()),
-            Expr::Member(..) => Ok(Pat::Expr(expr)),
+            Expr::Member(..) | Expr::SuperProp(..) => Ok(Pat::Expr(expr)),
             Expr::Array(ArrayLit {
                 elems: mut exprs, ..
             }) => {

@@ -1,0 +1,5 @@
+{
+    "comparisons": true,
+    "reduce_vars": true,
+    "toplevel": true
+}

@@ -10,11 +10,21 @@ use unicode_xid::UnicodeXID;
 /// Identifier used as a pattern.
 #[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Serialize, Deserialize)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(
+    feature = "rkyv",
+    archive(bound(serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace"))
+)]
 pub struct BindingIdent {
     #[span]
     #[serde(flatten)]
+    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub id: Ident,
     #[serde(default, rename = "typeAnnotation")]
+    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub type_ann: Option<TsTypeAnn>,
 }
 
@@ -79,6 +89,7 @@ impl From<Ident> for BindingIdent {
 pub struct Ident {
     pub span: Span,
     #[serde(rename = "value")]
+    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
     pub sym: JsWord,
 
     /// TypeScript only. Used in case of an optional parameter.
@@ -130,10 +141,8 @@ impl Ident {
             let mut chars = s.chars();
 
             if let Some(first) = chars.next() {
-                if Self::is_valid_start(first) {
-                    if chars.all(Self::is_valid_continue) {
-                        return Ok(());
-                    }
+                if Self::is_valid_start(first) && chars.all(Self::is_valid_continue) {
+                    return Ok(());
                 }
             }
         }

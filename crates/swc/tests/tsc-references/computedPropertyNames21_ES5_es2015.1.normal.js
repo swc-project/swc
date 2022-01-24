@@ -4,6 +4,5 @@ class C {
     bar() {
         return 0;
     }
-    [tmp]() {
-    }
+    [tmp]() {}
 }

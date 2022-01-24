@@ -31,8 +31,7 @@ var C = function() {
                     ]
                 ];
             },
-            set: function(value) {
-            }
+            set: function(value) {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

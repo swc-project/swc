@@ -1,7 +1,6 @@
-var x, M, E, E;
-(M || (M = {
-})).x = 1, M = x, (E = E || (E = {
-}))[E.A = 0] = "A", x = E, x = E.A, x = {
-    f () {
-    }
+var x, M, E;
+(M || (M = {})).x = 1, M = x, (function(E) {
+    E[E.A = 0] = "A";
+})(E || (E = {})), x = E, x = E.A, x = {
+    f () {}
 };

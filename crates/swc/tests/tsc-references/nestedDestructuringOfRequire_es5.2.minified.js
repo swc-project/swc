@@ -1,4 +1,3 @@
 module.exports.chalk = {
-    grey: {
-    }
+    grey: {}
 }, require("./mod1").chalk.grey;

@@ -1,9 +1,11 @@
-var E, obj, key, E;
-(E = E || (E = {
-}))[E.member = 0] = "member", obj = {
-}, (key = E.member) in obj ? Object.defineProperty(obj, key, {
-    value: 0,
-    enumerable: !0,
-    configurable: !0,
-    writable: !0
-}) : obj[key] = 0;
+var E;
+!function(E) {
+    E[E.member = 0] = "member";
+}(E || (E = {})), (function(obj, key, value) {
+    key in obj ? Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: !0,
+        configurable: !0,
+        writable: !0
+    }) : obj[key] = value;
+})({}, E.member, 0);

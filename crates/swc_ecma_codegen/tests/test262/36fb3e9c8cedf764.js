@@ -1,5 +1,4 @@
 class a {
-    set(b) {
-    }
+    set(b) {}
     ;
 }

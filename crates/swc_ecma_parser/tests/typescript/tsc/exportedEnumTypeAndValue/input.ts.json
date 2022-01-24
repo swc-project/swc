@@ -208,8 +208,7 @@
               },
               "value": "b",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

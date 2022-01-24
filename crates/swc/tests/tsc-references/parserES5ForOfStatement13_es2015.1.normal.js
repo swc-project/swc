@@ -1,3 +1,2 @@
 //@target: ES5
-for (let { a , b  } of X){
-}
+for (let { a , b  } of X){}

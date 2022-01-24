@@ -153,8 +153,7 @@
                         },
                         "value": "assets",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "ObjectExpression",
@@ -256,8 +255,7 @@
                               },
                               "value": "assets",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ],

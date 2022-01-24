@@ -13,21 +13,16 @@ class Poisoned extends React.Component {
         return React.createElement("div", null, "Hello");
     }
 }
-React.createElement(Poisoned, _extends({
-}, {
+React.createElement(Poisoned, _extends({}, {
     x: "ok",
     y: "2"
-})), React.createElement(Poisoned, _extends({
-}, {
-})), React.createElement(Poisoned, null), React.createElement(Poisoned, {
+})), React.createElement(Poisoned, _extends({}, {})), React.createElement(Poisoned, null), React.createElement(Poisoned, {
     x: !0,
     y: !0
-}), React.createElement(Poisoned, _extends({
-}, {
+}), React.createElement(Poisoned, _extends({}, {
     x: 5,
     y: "2"
-})), React.createElement(Poisoned, _extends({
-}, {
+})), React.createElement(Poisoned, _extends({}, {
     x: 5,
     y: "2"
 }, {

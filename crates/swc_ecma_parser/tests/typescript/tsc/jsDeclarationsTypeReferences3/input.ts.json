@@ -156,8 +156,7 @@
               },
               "value": "Something",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -211,8 +210,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -223,8 +221,7 @@
             },
             "value": "A",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -292,8 +289,7 @@
                 },
                 "value": "exports",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -304,8 +300,7 @@
               },
               "value": "A",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -316,8 +311,7 @@
             },
             "value": "B",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",

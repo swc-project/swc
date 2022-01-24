@@ -10,5 +10,4 @@ function _extends() {
 let x;
 React.createElement(function({ todos  }) {
     return React.createElement("div", null);
-}, _extends({
-}, x));
+}, _extends({}, x));

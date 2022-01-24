@@ -42,6 +42,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -49,8 +50,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -109,8 +109,7 @@ function fn1() {
 var s = fn1(undefined);
 var s;
 // No candidate overloads found
-fn1({
-}); // Error
+fn1({}); // Error
 function fn2() {
     return undefined;
 }
@@ -135,8 +134,7 @@ var s = fn3('', '', '');
 var n = fn3('', '', 3);
 // Generic overloads with differing arity called with type argument count that doesn't match any overload
 fn3(); // Error
-function fn4() {
-}
+function fn4() {}
 fn4('', 3);
 fn4(3, ''); // Error
 fn4('', 3); // Error

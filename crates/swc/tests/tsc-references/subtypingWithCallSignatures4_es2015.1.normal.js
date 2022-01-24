@@ -39,8 +39,7 @@ var r2b = [
 ];
 var r3arg = (x)=>null
 ;
-var r3arg2 = (x)=>{
-};
+var r3arg2 = (x)=>{};
 var r3 = foo3(r3arg);
 var r3a = [
     r3arg,

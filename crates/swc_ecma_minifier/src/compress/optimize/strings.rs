@@ -14,46 +14,38 @@ where
             return;
         }
 
-        match e {
-            Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(callee),
-                args,
-                ..
-            }) => {
-                if args.iter().any(|arg| arg.expr.may_have_side_effects()) {
-                    return;
-                }
-
-                match &**callee {
-                    Expr::Ident(Ident {
-                        sym: js_word!("RegExp"),
-                        ..
-                    }) if self.options.unsafe_regexp => {
-                        if args.len() != 1 {
-                            return;
-                        }
-
-                        self.optimize_expr_in_str_ctx(&mut args[0].expr);
-
-                        match &*args[0].expr {
-                            Expr::Lit(Lit::Str(..)) => {
-                                self.changed = true;
-                                tracing::debug!(
-                                    "strings: Unsafely reduced `RegExp` call in a string context"
-                                );
-
-                                *e = *args[0].expr.take();
-                                return;
-                            }
-
-                            _ => {}
-                        }
-                    }
-                    _ => {}
-                }
+        if let Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            args,
+            ..
+        }) = e
+        {
+            if args.iter().any(|arg| arg.expr.may_have_side_effects()) {
+                return;
             }
 
-            _ => {}
+            match &**callee {
+                Expr::Ident(Ident {
+                    sym: js_word!("RegExp"),
+                    ..
+                }) if self.options.unsafe_regexp => {
+                    if args.len() != 1 {
+                        return;
+                    }
+
+                    self.optimize_expr_in_str_ctx(&mut args[0].expr);
+
+                    if let Expr::Lit(Lit::Str(..)) = &*args[0].expr {
+                        self.changed = true;
+                        tracing::debug!(
+                            "strings: Unsafely reduced `RegExp` call in a string context"
+                        );
+
+                        *e = *args[0].expr.take();
+                    }
+                }
+                _ => {}
+            }
         }
     }
 
@@ -63,13 +55,10 @@ where
             Expr::Lit(Lit::Str(..)) => return,
             Expr::Paren(e) => {
                 self.optimize_expr_in_str_ctx(&mut e.expr);
-                match &*e.expr {
-                    Expr::Lit(Lit::Str(..)) => {
-                        *n = *e.expr.take();
-                        self.changed = true;
-                        tracing::debug!("string: Removed a paren in a string context");
-                    }
-                    _ => {}
+                if let Expr::Lit(Lit::Str(..)) = &*e.expr {
+                    *n = *e.expr.take();
+                    self.changed = true;
+                    tracing::debug!("string: Removed a paren in a string context");
                 }
 
                 return;
@@ -108,7 +97,6 @@ where
                     has_escape: false,
                     kind: Default::default(),
                 }));
-                return;
             }
 
             Expr::Lit(Lit::Regex(v)) => {
@@ -128,7 +116,6 @@ where
                     has_escape: false,
                     kind: Default::default(),
                 }));
-                return;
             }
 
             Expr::Ident(i) => {

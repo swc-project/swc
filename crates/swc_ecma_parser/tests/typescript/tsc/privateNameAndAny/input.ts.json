@@ -182,8 +182,7 @@
                         "value": "foo",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 {
@@ -227,8 +226,7 @@
                         "value": "bar",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]

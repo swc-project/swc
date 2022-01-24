@@ -345,8 +345,7 @@
               },
               "value": "g",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -357,8 +356,7 @@
             },
             "value": "h",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "typeParameters": null,
         "template": {
@@ -458,8 +456,7 @@
               },
               "value": "g",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -470,8 +467,7 @@
             },
             "value": "h",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "typeParameters": null,
         "template": {
@@ -707,8 +703,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -894,8 +889,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -980,20 +974,27 @@
           }
         },
         "property": {
-          "type": "StringLiteral",
+          "type": "Computed",
           "span": {
-            "start": 142,
-            "end": 150,
+            "start": 141,
+            "end": 151,
             "ctxt": 0
           },
-          "value": "member",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
+          "expression": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 142,
+              "end": 150,
+              "ctxt": 0
+            },
+            "value": "member",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
           }
-        },
-        "computed": true
+        }
       }
     },
     {
@@ -1171,20 +1172,27 @@
           }
         },
         "property": {
-          "type": "StringLiteral",
+          "type": "Computed",
           "span": {
-            "start": 176,
-            "end": 184,
+            "start": 175,
+            "end": 185,
             "ctxt": 0
           },
-          "value": "member",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
+          "expression": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 176,
+              "end": 184,
+              "ctxt": 0
+            },
+            "value": "member",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
           }
-        },
-        "computed": true
+        }
       }
     },
     {
@@ -1283,20 +1291,27 @@
               }
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 196,
-                "end": 204,
+                "start": 195,
+                "end": 205,
                 "ctxt": 0
               },
-              "value": "member",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 196,
+                  "end": 204,
+                  "ctxt": 0
+                },
+                "value": "member",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1307,8 +1322,7 @@
             },
             "value": "someOtherTag",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "typeParameters": null,
         "template": {
@@ -1643,20 +1657,27 @@
               }
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 263,
-                "end": 271,
+                "start": 262,
+                "end": 272,
                 "ctxt": 0
               },
-              "value": "member",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 263,
+                  "end": 271,
+                  "ctxt": 0
+                },
+                "value": "member",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1667,8 +1688,7 @@
             },
             "value": "someOtherTag",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "typeParameters": null,
         "template": {
@@ -1854,8 +1874,7 @@
             },
             "value": "thisIsNotATag",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1953,8 +1972,7 @@
             },
             "value": "thisIsNotATag",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

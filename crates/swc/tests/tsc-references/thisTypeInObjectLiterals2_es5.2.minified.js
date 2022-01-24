@@ -85,8 +85,7 @@ var vue = new Vue({
             get: function() {
                 return "hi";
             },
-            set: function(value) {
-            }
+            set: function(value) {}
         }
     }
 });

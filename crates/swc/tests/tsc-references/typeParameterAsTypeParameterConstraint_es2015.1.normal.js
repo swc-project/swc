@@ -4,8 +4,7 @@ function foo(x, y) {
     return y;
 }
 var r = foo(1, 2);
-var r = foo({
-}, 1);
+var r = foo({}, 1);
 var a;
 var b;
 var r2 = foo(a, b);
@@ -19,8 +18,7 @@ function foo2(x, y) {
     return y;
 }
 foo2(1, '');
-foo2({
-}, {
+foo2({}, {
     length: 2
 });
 foo2(1, {

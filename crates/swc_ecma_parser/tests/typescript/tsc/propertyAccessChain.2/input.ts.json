@@ -161,8 +161,7 @@
             },
             "value": "b",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -370,8 +369,7 @@
               },
               "value": "b",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "property": {
@@ -383,8 +381,7 @@
           },
           "value": "c",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -591,8 +588,7 @@
               },
               "value": "b",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -603,8 +599,7 @@
             },
             "value": "c",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

@@ -10,23 +10,15 @@
 // if it needs to be that way in JavaScript; the test simply
 // ensures no accidental changes were introduced while allowing
 // element access assignments to create declarations.
-this.x = {
-};
-this.x.y = {
-};
-this["y"] = {
-};
-this["y"]["z"] = {
-};
+this.x = {};
+this.x.y = {};
+this["y"] = {};
+this["y"]["z"] = {};
 /** @constructor */ function F() {
-    this.a = {
-    };
-    this.a.b = {
-    };
-    this["b"] = {
-    };
-    this["b"]["c"] = {
-    };
+    this.a = {};
+    this.a.b = {};
+    this["b"] = {};
+    this["b"]["c"] = {};
 }
 const f = new F();
 f.a;

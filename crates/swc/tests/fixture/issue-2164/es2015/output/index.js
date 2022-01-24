@@ -32,8 +32,7 @@ function fn() {
 }
 function _fn() {
     _fn = _asyncToGenerator(function*() {
-        for(const key in {
-        });
+        for(const key in {});
     });
     return _fn.apply(this, arguments);
 }

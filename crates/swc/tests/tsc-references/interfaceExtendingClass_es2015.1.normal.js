@@ -1,6 +1,5 @@
 class Foo {
-    y() {
-    }
+    y() {}
     get Z() {
         return 1;
     }

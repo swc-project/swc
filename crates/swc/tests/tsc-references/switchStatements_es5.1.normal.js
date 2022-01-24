@@ -42,6 +42,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -49,8 +50,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -75,8 +75,7 @@ var M;
         return '';
     };
     M1.fn = fn;
-})(M || (M = {
-}));
+})(M || (M = {}));
 var x;
 switch(x){
     case '':
@@ -88,8 +87,7 @@ switch(x){
     case new Object():
     case /[a-z]/:
     case []:
-    case {
-    }:
+    case {}:
     case {
         id: 12
     }:
@@ -147,8 +145,7 @@ switch(/[a-z]/){
 }
 switch([]){
 }
-switch({
-}){
+switch({}){
 }
 switch({
     id: 12

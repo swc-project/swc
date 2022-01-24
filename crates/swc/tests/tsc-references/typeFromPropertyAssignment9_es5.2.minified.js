@@ -7,13 +7,10 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var my = my || {
-};
+var my = my || {};
 my.method = function(n) {
     return n + 1;
-}, my.number = 1, my.object = {
-}, my.predicate = my.predicate || {
-}, my.predicate.query = function() {
+}, my.number = 1, my.object = {}, my.predicate = my.predicate || {}, my.predicate.query = function() {
     var me = this;
     me.property = !1;
 }, new my.predicate.query(), my.predicate.query.another = function() {
@@ -35,11 +32,8 @@ my.method = function(n) {
         }
     ], _defineProperties((Constructor = _class).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), _class;
 })();
-var min = window.min || {
-};
-min.nest = this.min.nest || function() {
-}, min.nest.other = self.min.nest.other || function _class() {
+var min = window.min || {};
+min.nest = this.min.nest || function() {}, min.nest.other = self.min.nest.other || function _class() {
     "use strict";
     _classCallCheck(this, _class);
-}, min.property = global.min.property || {
-};
+}, min.property = global.min.property || {};

@@ -7,8 +7,7 @@ var taskGroups = {
         id: "styleLayout",
         label: "Style & Layout"
     }
-}, taskNameToGroup = {
-};
+}, taskNameToGroup = {};
 module.exports = {
     taskGroups: taskGroups,
     taskNameToGroup: taskNameToGroup

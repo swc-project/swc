@@ -1,6 +1,5 @@
 class K {
-    privateMethod() {
-    }
+    privateMethod() {}
     m() {
         let { priv: a , prot: b  } = this, { priv , prot  } = new K();
     }

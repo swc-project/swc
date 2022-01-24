@@ -101,14 +101,6 @@ impl VisitMut for Hoister {
         }
     }
 
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
-
-        if e.computed {
-            e.prop.visit_mut_with(self);
-        }
-    }
-
     fn visit_mut_module_decl(&mut self, decl: &mut ModuleDecl) {
         if let ModuleDecl::ExportDecl(ExportDecl {
             span,
@@ -168,7 +160,6 @@ impl VisitMut for Hoister {
                     self.vars.extend(find_ids(&pat));
 
                     *v = pat.into();
-                    return;
                 }
             }
         };

@@ -149,8 +149,7 @@ function _f1() {
                     ;
                     _iteratorAbruptCompletion = false, _didIteratorError = false;
                     _ctx.prev = 2;
-                    _iterator = _asyncIterator({
-                    });
+                    _iterator = _asyncIterator({});
                 case 4:
                     _ctx.next = 6;
                     return _iterator.next();
@@ -198,8 +197,7 @@ function _f1() {
                 case 27:
                     _iteratorAbruptCompletion1 = false, _didIteratorError1 = false;
                     _ctx.prev = 28;
-                    _iterator1 = _asyncIterator({
-                    });
+                    _iterator1 = _asyncIterator({});
                 case 30:
                     _ctx.next = 32;
                     return _iterator1.next();
@@ -289,8 +287,7 @@ function _f2() {
                     ;
                     _iteratorAbruptCompletion = false, _didIteratorError = false;
                     _ctx.prev = 2;
-                    _iterator = _asyncIterator({
-                    });
+                    _iterator = _asyncIterator({});
                 case 4:
                     _ctx.next = 6;
                     return _awaitAsyncGenerator(_iterator.next());
@@ -338,8 +335,7 @@ function _f2() {
                 case 27:
                     _iteratorAbruptCompletion2 = false, _didIteratorError2 = false;
                     _ctx.prev = 28;
-                    _iterator2 = _asyncIterator({
-                    });
+                    _iterator2 = _asyncIterator({});
                 case 30:
                     _ctx.next = 32;
                     return _awaitAsyncGenerator(_iterator2.next());

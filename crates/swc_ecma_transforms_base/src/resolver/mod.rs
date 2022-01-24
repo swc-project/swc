@@ -4,12 +4,15 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, Id};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
+};
+use tracing::{debug, span, Level};
 
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = false && cfg!(debug_assertions);
 
 /// See [resolver_with_mark] for docs.
 pub fn resolver() -> impl 'static + Fold + VisitMut {
@@ -119,6 +122,14 @@ impl<'a> Scope<'a> {
             declared_types: Default::default(),
         }
     }
+
+    fn is_declared(&self, symbol: &JsWord) -> bool {
+        if self.declared_symbols.contains(symbol) {
+            return true;
+        }
+
+        self.parent.map_or(false, |p| p.is_declared(symbol))
+    }
 }
 
 /// # Phases
@@ -211,8 +222,8 @@ impl<'a> Resolver<'a> {
     /// Modifies a binding identifier.
     fn modify(&mut self, ident: &mut Ident, kind: Option<VarDeclKind>) {
         if cfg!(debug_assertions) && LOG {
-            eprintln!(
-                "resolver: Binding (type = {}) {}{:?} {:?}",
+            debug!(
+                "Binding (type = {}) {}{:?} {:?}",
                 self.in_type,
                 ident.sym,
                 ident.span.ctxt(),
@@ -233,7 +244,7 @@ impl<'a> Resolver<'a> {
             } else {
                 let span = ident.span.apply_mark(mark);
                 if cfg!(debug_assertions) && LOG {
-                    eprintln!("\t-> {:?}", span.ctxt());
+                    debug!("\t-> {:?}", span.ctxt());
                 }
                 span
             };
@@ -317,7 +328,7 @@ impl<'a> Resolver<'a> {
         } else {
             let span = ident.span.apply_mark(mark);
             if cfg!(debug_assertions) && LOG {
-                eprintln!("\t-> {:?}", span.ctxt());
+                debug!("\t-> {:?}", span.ctxt());
             }
             span
         };
@@ -474,8 +485,8 @@ impl<'a> VisitMut for Resolver<'a> {
     /// Handle body of the arrow functions
     fn visit_mut_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {
         match node {
-            BlockStmtOrExpr::BlockStmt(block) => block.visit_mut_children_with(self).into(),
-            BlockStmtOrExpr::Expr(e) => e.visit_mut_with(self).into(),
+            BlockStmtOrExpr::BlockStmt(block) => block.visit_mut_children_with(self),
+            BlockStmtOrExpr::Expr(e) => e.visit_mut_with(self),
         }
     }
 
@@ -615,6 +626,12 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        let _span = if LOG {
+            Some(span!(Level::ERROR, "visit_mut_expr").entered())
+        } else {
+            None
+        };
+
         self.in_type = false;
         let old = self.ident_type;
         self.ident_type = IdentType::Ref;
@@ -726,8 +743,8 @@ impl<'a> VisitMut for Resolver<'a> {
                 let Ident { span, sym, .. } = i;
 
                 if cfg!(debug_assertions) && LOG {
-                    eprintln!(
-                        "resolver: IdentRef (type = {}) {}{:?}",
+                    debug!(
+                        "IdentRef (type = {}) {}{:?}",
                         self.in_type,
                         sym,
                         span.ctxt()
@@ -738,16 +755,16 @@ impl<'a> VisitMut for Resolver<'a> {
                     return;
                 }
 
-                if let Some(mark) = self.mark_for_ref(&sym) {
+                if let Some(mark) = self.mark_for_ref(sym) {
                     let span = span.apply_mark(mark);
 
                     if cfg!(debug_assertions) && LOG {
-                        eprintln!("\t -> {:?}", span.ctxt());
+                        debug!("\t -> {:?}", span.ctxt());
                     }
                     i.span = span;
                 } else {
                     if cfg!(debug_assertions) && LOG {
-                        eprintln!("\t -> Unresolved");
+                        debug!("\t -> Unresolved");
                     }
 
                     let mark = {
@@ -771,7 +788,7 @@ impl<'a> VisitMut for Resolver<'a> {
                     let span = span.apply_mark(mark);
 
                     if cfg!(debug_assertions) && LOG {
-                        eprintln!("\t -> {:?}", span.ctxt());
+                        debug!("\t -> {:?}", span.ctxt());
                     }
 
                     i.span = span;
@@ -799,19 +816,12 @@ impl<'a> VisitMut for Resolver<'a> {
         self.ident_type = old;
     }
 
-    /// Leftmost one of a member expression should be resolved.
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
+    /// Ignore.
+    ///
+    /// See https://github.com/swc-project/swc/issues/2854
+    fn visit_mut_jsx_attr_name(&mut self, _: &mut JSXAttrName) {}
 
-        if e.computed {
-            e.prop.visit_mut_with(self);
-        }
-    }
-
-    // TODO: How should I handle this?
-    typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
-
-    track_ident_mut!();
+    visit_mut_obj_and_computed!();
 
     fn visit_mut_method_prop(&mut self, m: &mut MethodProp) {
         m.key.visit_mut_with(self);
@@ -848,6 +858,11 @@ impl<'a> VisitMut for Resolver<'a> {
         // Phase 2.
         stmts.visit_mut_children_with(self)
     }
+
+    // TODO: How should I handle this?
+    typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
+
+    track_ident_mut!();
 
     fn visit_mut_named_export(&mut self, e: &mut NamedExport) {
         if e.src.is_some() {
@@ -917,8 +932,20 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        let _span = if LOG {
+            Some(span!(Level::ERROR, "visit_mut_stmts").entered())
+        } else {
+            None
+        };
+
         // Phase 1: Handle hoisting
         {
+            let _span = if LOG {
+                Some(span!(Level::ERROR, "hoist").entered())
+            } else {
+                None
+            };
+
             let mut hoister = Hoister {
                 resolver: self,
                 kind: None,
@@ -930,6 +957,19 @@ impl<'a> VisitMut for Resolver<'a> {
 
         // Phase 2.
         stmts.visit_mut_children_with(self)
+    }
+
+    fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
+        s.discriminant.visit_mut_with(self);
+
+        let child_mark = Mark::fresh(Mark::root());
+
+        let mut child_folder = Resolver::new(
+            Scope::new(ScopeKind::Block, child_mark, Some(&self.current)),
+            self.handle_types,
+        );
+
+        s.cases.visit_mut_with(&mut child_folder);
     }
 
     fn visit_mut_ts_as_expr(&mut self, n: &mut TsAsExpr) {
@@ -1308,6 +1348,15 @@ impl VisitMut for Hoister<'_, '_> {
         self.in_block = old_in_block;
     }
 
+    fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
+        s.discriminant.visit_mut_with(self);
+
+        let old_in_block = self.in_block;
+        self.in_block = true;
+        s.cases.visit_mut_with(self);
+        self.in_block = old_in_block;
+    }
+
     #[inline]
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
         let params: Vec<Id> = find_ids(&c.param);
@@ -1386,6 +1435,21 @@ impl VisitMut for Hoister<'_, '_> {
         if self.catch_param_decls.contains(&node.ident.sym) {
             return;
         }
+        let _span = if LOG {
+            Some(span!(Level::ERROR, "Hoister.visit_mut_fn_decl").entered())
+        } else {
+            None
+        };
+
+        if self.in_block {
+            // If we are in nested block, and variable named `foo` is declared, we should
+            // ignore function foo while handling upper scopes.
+            let i = node.ident.clone();
+
+            if self.resolver.current.is_declared(&i.sym) {
+                return;
+            }
+        }
 
         self.resolver.in_type = false;
         self.resolver
@@ -1394,6 +1458,9 @@ impl VisitMut for Hoister<'_, '_> {
 
     #[inline]
     fn visit_mut_function(&mut self, _: &mut Function) {}
+
+    #[inline]
+    fn visit_mut_ts_module_block(&mut self, _: &mut TsModuleBlock) {}
 
     #[inline]
     fn visit_mut_param(&mut self, _: &mut Param) {}

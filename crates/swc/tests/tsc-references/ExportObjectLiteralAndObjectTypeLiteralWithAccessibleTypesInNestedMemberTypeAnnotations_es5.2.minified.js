@@ -7,5 +7,4 @@ var A;
         }(this, Point), this.x = x, this.y = y;
     };
     A1.UnitSquare = null;
-}(A || (A = {
-}));
+}(A || (A = {}));

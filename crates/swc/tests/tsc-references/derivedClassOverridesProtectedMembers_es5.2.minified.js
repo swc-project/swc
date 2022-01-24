@@ -28,30 +28,26 @@ var x, y, Base = function() {
     return _createClass(Base, [
         {
             key: "b",
-            value: function(a) {
-            }
+            value: function(a) {}
         },
         {
             key: "c",
             get: function() {
                 return x;
             },
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ], [
         {
             key: "s",
-            value: function(a) {
-            }
+            value: function(a) {}
         },
         {
             key: "t",
             get: function() {
                 return x;
             },
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ]), Base;
 }(), Derived1 = function(Base) {
@@ -66,60 +62,52 @@ var x, y, Base = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(Derived1, Base);
-    var _super = function(Derived2) {
-        var hasNativeReflectConstruct = function() {
-            if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-            if (Reflect.construct.sham) return !1;
-            if ("function" == typeof Proxy) return !0;
-            try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
-            } catch (e) {
-                return !1;
-            }
-        }();
-        return function() {
-            var obj, self, call, result, Super = _getPrototypeOf(Derived2);
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else result = Super.apply(this, arguments);
-            return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
-                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-                return self;
-            })(self);
-        };
-    }(Derived1);
+    var Derived, hasNativeReflectConstruct, _super = (Derived = Derived1, hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+        } catch (e) {
+            return !1;
+        }
+    }(), function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    });
     function Derived1(a) {
         return _classCallCheck(this, Derived1), _super.call(this, x);
     }
     return _createClass(Derived1, [
         {
             key: "b",
-            value: function(a) {
-            }
+            value: function(a) {}
         },
         {
             key: "c",
             get: function() {
                 return y;
             },
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ], [
         {
             key: "s",
-            value: function(a) {
-            }
+            value: function(a) {}
         },
         {
             key: "t",
             get: function() {
                 return y;
             },
-            set: function(a) {
-            }
+            set: function(a) {}
         }
     ]), Derived1;
 }(Base);

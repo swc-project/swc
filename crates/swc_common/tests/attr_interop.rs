@@ -14,7 +14,16 @@ pub struct Class {
 pub struct Tuple(#[span] HasSpan, usize, usize);
 
 #[derive(Debug, Clone, PartialEq, Spanned, Serialize, Deserialize)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(
+    feature = "rkyv",
+    archive(bound(serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace"))
+)]
 pub struct HasSpan {
+    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub span: Span,
 }
 

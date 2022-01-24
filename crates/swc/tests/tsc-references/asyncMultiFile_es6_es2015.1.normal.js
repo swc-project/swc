@@ -33,10 +33,8 @@ function f() {
 function _f() {
     _f = // @target: es6
     // @filename: a.ts
-    _asyncToGenerator(function*() {
-    });
+    _asyncToGenerator(function*() {});
     return _f.apply(this, arguments);
 }
 // @filename: b.ts
-function g() {
-}
+function g() {}

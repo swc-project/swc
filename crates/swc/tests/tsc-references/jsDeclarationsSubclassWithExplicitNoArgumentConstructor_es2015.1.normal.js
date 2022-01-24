@@ -8,8 +8,7 @@ export class Super {
     /**
      * @param {string} firstArg
      * @param {string} secondArg
-     */ constructor(firstArg, secondArg){
-    }
+     */ constructor(firstArg, secondArg){}
 }
 export class Sub extends Super {
     constructor(){

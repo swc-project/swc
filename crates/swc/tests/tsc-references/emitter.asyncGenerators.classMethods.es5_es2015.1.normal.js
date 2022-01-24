@@ -95,8 +95,7 @@ function _wrapAsyncGenerator(fn) {
 // @filename: C1.ts
 class C1 {
     f() {
-        return _wrapAsyncGenerator(function*() {
-        })();
+        return _wrapAsyncGenerator(function*() {})();
     }
 }
 // @filename: C2.ts
@@ -153,25 +152,24 @@ class C7 {
 }
 // @filename: C8.ts
 class C8 {
-    g() {
-    }
+    g() {}
     f() {
-        return _wrapAsyncGenerator((function*() {
-            this.g();
-        }).bind(this))();
+        var _this = this;
+        return _wrapAsyncGenerator(function*() {
+            _this.g();
+        })();
     }
 }
 // @filename: C9.ts
 class B9 {
-    g() {
-    }
+    g() {}
 }
 class C9 extends B9 {
     f() {
-        var _super_g = (..._args)=>super.g(..._args)
+        var _this = this, _superprop_get_g = ()=>super.g
         ;
         return _wrapAsyncGenerator(function*() {
-            _super_g();
+            _superprop_get_g().call(_this);
         })();
     }
 }

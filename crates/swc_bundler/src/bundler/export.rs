@@ -171,8 +171,6 @@ where
                         alias: None,
                     }
                 });
-
-                return;
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(_decl)) => {
@@ -184,8 +182,6 @@ where
                         local: Id::new(js_word!("default"), SyntaxContext::empty()),
                         alias: None,
                     });
-
-                return;
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(_expr)) => {
@@ -197,8 +193,6 @@ where
                         local: Id::new(js_word!("default"), SyntaxContext::empty()),
                         alias: None,
                     });
-
-                return;
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(named)) => {
@@ -213,13 +207,20 @@ where
                 for s in &mut named.specifiers {
                     match s {
                         ExportSpecifier::Namespace(n) => {
-                            n.name.span.ctxt = self.export_ctxt;
+                            match &mut n.name {
+                                ModuleExportName::Ident(name) => {
+                                    name.span.ctxt = self.export_ctxt;
 
-                            need_wrapping = true;
-                            v.push(Specifier::Namespace {
-                                local: n.name.clone().into(),
-                                all: true,
-                            })
+                                    need_wrapping = true;
+                                    v.push(Specifier::Namespace {
+                                        local: name.clone().into(),
+                                        all: true,
+                                    })
+                                }
+                                ModuleExportName::Str(..) => {
+                                    unimplemented!("module string names unimplemented")
+                                }
+                            };
                         }
                         ExportSpecifier::Default(d) => {
                             v.push(Specifier::Specific {
@@ -228,31 +229,46 @@ where
                             });
                         }
                         ExportSpecifier::Named(n) => {
+                            let orig = match &mut n.orig {
+                                ModuleExportName::Ident(ident) => ident,
+                                ModuleExportName::Str(..) => {
+                                    unimplemented!("module string names unimplemented")
+                                }
+                            };
                             if let Some((_, export_ctxt)) = ctxt {
-                                n.orig.span.ctxt = export_ctxt;
+                                orig.span.ctxt = export_ctxt;
                             }
 
                             match &mut n.exported {
-                                Some(exported) => {
+                                Some(ModuleExportName::Ident(exported)) => {
                                     exported.span.ctxt = self.export_ctxt;
                                 }
+                                Some(ModuleExportName::Str(..)) => {
+                                    unimplemented!("module string names unimplemented")
+                                }
                                 None => {
-                                    let mut exported: Ident = n.orig.clone();
+                                    let mut exported: Ident = orig.clone();
                                     exported.span.ctxt = self.export_ctxt;
-                                    n.exported = Some(exported);
+                                    n.exported = Some(ModuleExportName::Ident(exported));
                                 }
                             }
 
-                            if let Some(exported) = &n.exported {
-                                v.push(Specifier::Specific {
-                                    local: exported.clone().into(),
-                                    alias: Some(n.orig.clone().into()),
-                                });
-                            } else {
-                                v.push(Specifier::Specific {
-                                    local: n.orig.clone().into(),
-                                    alias: None,
-                                });
+                            match &n.exported {
+                                Some(ModuleExportName::Ident(exported)) => {
+                                    v.push(Specifier::Specific {
+                                        local: exported.clone().into(),
+                                        alias: Some(orig.clone().into()),
+                                    });
+                                }
+                                Some(ModuleExportName::Str(..)) => {
+                                    unimplemented!("module string names unimplemented")
+                                }
+                                _ => {
+                                    v.push(Specifier::Specific {
+                                        local: orig.clone().into(),
+                                        alias: None,
+                                    });
+                                }
                             }
                         }
                     }
@@ -261,8 +277,6 @@ where
                 if need_wrapping {
                     self.mark_as_wrapping_required(&named.src.as_ref().unwrap().value);
                 }
-
-                return;
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportAll(all)) => {

@@ -51,12 +51,10 @@ var createTest = function() {
 var x1 = f1('a');
 var x2 = f2('a', 'b');
 // Repro from #30442
-var func = function() {
-};
+var func = function() {};
 var assign = function(a, b) {
     return Object.assign(a, b);
 };
-var res = assign(function() {
-}, {
+var res = assign(function() {}, {
     func: func
 });

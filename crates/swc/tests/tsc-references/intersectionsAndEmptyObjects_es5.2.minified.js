@@ -1,9 +1,6 @@
 var intersectDictionaries = function(d11, d2) {
-    return Object.assign({
-    }, d11, d2);
-}, testDictionary = function(_value) {
-}, d1 = {
-};
+    return Object.assign({}, d11, d2);
+}, testDictionary = function(_value) {}, d1 = {};
 testDictionary(d1), testDictionary(intersectDictionaries(d1, d1));
 var d3 = {
     s: ""

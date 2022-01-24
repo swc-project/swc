@@ -7,7 +7,9 @@ use swc_ecma_transforms_base::{
     fixer::fixer,
     resolver::{resolver_with_mark, ts_resolver},
 };
-use swc_ecma_visit::{as_folder, Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    as_folder, visit_mut_obj_and_computed, Fold, FoldWith, VisitMut, VisitMutWith,
+};
 use testing::{fixture, run_test2, NormalizedOutput};
 
 pub fn print(cm: Lrc<SourceMap>, module: &Module) -> String {
@@ -17,16 +19,13 @@ pub fn print(cm: Lrc<SourceMap>, module: &Module) -> String {
             cfg: Default::default(),
             cm: cm.clone(),
             wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
-                cm.clone(),
-                "\n",
-                &mut buf,
-                None,
+                cm, "\n", &mut buf, None,
             )),
             comments: None,
         };
 
         // println!("Emitting: {:?}", module);
-        emitter.emit_module(&module).unwrap();
+        emitter.emit_module(module).unwrap();
     }
 
     let s = String::from_utf8_lossy(&buf);
@@ -58,7 +57,7 @@ where
 
         let module = module.fold_with(&mut folder);
 
-        let actual = print(cm.clone(), &module);
+        let actual = print(cm, &module);
         let actual = NormalizedOutput::from(actual);
 
         actual.compare_to_file(&output).unwrap();
@@ -117,19 +116,11 @@ impl VisitMut for TsHygiene {
         i.span = i.span.with_ctxt(SyntaxContext::empty());
     }
 
-    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
-        n.obj.visit_mut_with(self);
-        if n.computed {
-            n.prop.visit_mut_with(self);
-        }
-    }
+    visit_mut_obj_and_computed!();
 
     fn visit_mut_prop_name(&mut self, n: &mut PropName) {
-        match n {
-            PropName::Computed(n) => {
-                n.visit_mut_with(self);
-            }
-            _ => {}
+        if let PropName::Computed(n) = n {
+            n.visit_mut_with(self);
         }
     }
 

@@ -1,3 +1,6 @@
+#![deny(clippy::all)]
+#![allow(clippy::needless_update)]
+
 pub use self::emit::*;
 use self::{ctx::Ctx, list::ListFormat};
 pub use std::fmt::Result;
@@ -69,6 +72,7 @@ where
             AtRule::Import(n) => emit!(self, n),
             AtRule::FontFace(n) => emit!(self, n),
             AtRule::Keyframes(n) => emit!(self, n),
+            AtRule::Layer(n) => emit!(self, n),
             AtRule::Media(n) => emit!(self, n),
             AtRule::Supports(n) => emit!(self, n),
             AtRule::Page(n) => emit!(self, n),
@@ -76,6 +80,14 @@ where
             AtRule::Viewport(n) => emit!(self, n),
             AtRule::Document(n) => emit!(self, n),
             AtRule::Unknown(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_import_supports_type(&mut self, n: &ImportSupportsType) -> Result {
+        match n {
+            ImportSupportsType::SupportsCondition(n) => emit!(self, n),
+            ImportSupportsType::Declaration(n) => emit!(self, n),
         }
     }
 
@@ -92,28 +104,48 @@ where
     }
 
     #[emitter]
-    fn emit_import_source(&mut self, n: &ImportSource) -> Result {
+    fn emit_import_rule(&mut self, n: &ImportRule) -> Result {
+        punct!(self, "@");
+        keyword!(self, "import");
+        space!(self);
+        emit!(self, n.href);
+
+        if let Some(layer_name) = &n.layer_name {
+            space!(self);
+            emit!(self, layer_name);
+        }
+
+        if let Some(supports) = &n.supports {
+            space!(self);
+            keyword!(self, "supports");
+            punct!(self, "(");
+            emit!(self, supports);
+            punct!(self, ")");
+        }
+
+        if let Some(media) = &n.media {
+            space!(self);
+            emit!(self, media);
+        }
+
+        semi!(self);
+    }
+
+    #[emitter]
+    fn emit_import_href(&mut self, n: &ImportHref) -> Result {
         match n {
-            ImportSource::Function(n) => emit!(self, n),
-            ImportSource::Url(n) => emit!(self, n),
-            ImportSource::Str(n) => emit!(self, n),
+            ImportHref::Function(n) => emit!(self, n),
+            ImportHref::Url(n) => emit!(self, n),
+            ImportHref::Str(n) => emit!(self, n),
         }
     }
 
     #[emitter]
-    fn emit_import_rule(&mut self, n: &ImportRule) -> Result {
-        punct!(self, "@");
-        keyword!(self, "import");
-
-        space!(self);
-        emit!(self, n.src);
-
-        if let Some(query) = &n.condition {
-            space!(self);
-            emit!(self, query);
+    fn emit_import_layer_name(&mut self, n: &ImportLayerName) -> Result {
+        match n {
+            ImportLayerName::Ident(n) => emit!(self, n),
+            ImportLayerName::Function(n) => emit!(self, n),
         }
-
-        semi!(self);
     }
 
     #[emitter]
@@ -128,7 +160,7 @@ where
     #[emitter]
     fn emit_keyframes_name(&mut self, n: &KeyframesName) -> Result {
         match n {
-            KeyframesName::Ident(n) => emit!(self, n),
+            KeyframesName::CustomIdent(n) => emit!(self, n),
             KeyframesName::Str(n) => emit!(self, n),
         }
     }
@@ -140,23 +172,48 @@ where
         space!(self);
 
         emit!(self, n.name);
-
-        match &n.name {
-            KeyframesName::Ident(n) => {
-                if !n.value.is_empty() {
-                    space!(self);
-                }
-            }
-            KeyframesName::Str(n) => {
-                if !n.value.is_empty() {
-                    space!(self);
-                }
-            }
-        }
+        space!(self);
 
         punct!(self, "{");
         self.emit_list(&n.blocks, ListFormat::NotDelimited)?;
         punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_layer_name(&mut self, n: &LayerName) -> Result {
+        self.emit_list(&n.name, ListFormat::DotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_layer_name_list(&mut self, n: &LayerNameList) -> Result {
+        self.emit_list(&n.name_list, ListFormat::CommaDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_layer_prelude(&mut self, n: &LayerPrelude) -> Result {
+        match n {
+            LayerPrelude::Name(n) => emit!(self, n),
+            LayerPrelude::NameList(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_layer_rule(&mut self, n: &LayerRule) -> Result {
+        punct!(self, "@");
+        keyword!(self, "layer");
+        space!(self);
+
+        if n.prelude.is_some() {
+            emit!(self, n.prelude);
+        }
+
+        if let Some(rules) = &n.rules {
+            punct!(self, "{");
+            self.emit_list(rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
+            punct!(self, "}");
+        } else {
+            punct!(self, ";");
+        }
     }
 
     #[emitter]
@@ -182,7 +239,7 @@ where
         keyword!(self, "media");
         space!(self);
 
-        emit!(self, n.query);
+        emit!(self, n.media);
 
         space!(self);
 
@@ -192,18 +249,243 @@ where
     }
 
     #[emitter]
+    fn emit_media_query_list(&mut self, n: &MediaQueryList) -> Result {
+        self.emit_list(&n.queries, ListFormat::CommaDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_media_query(&mut self, n: &MediaQuery) -> Result {
+        if n.modifier.is_some() {
+            emit!(self, n.modifier);
+            space!(self);
+        }
+
+        if n.media_type.is_some() {
+            emit!(self, n.media_type);
+
+            if n.condition.is_some() {
+                space!(self);
+                keyword!(self, "and");
+                space!(self);
+            }
+        }
+
+        if n.condition.is_some() {
+            emit!(self, n.condition);
+        }
+    }
+
+    #[emitter]
+    fn emit_media_condition_type(&mut self, n: &MediaConditionType) -> Result {
+        match n {
+            MediaConditionType::All(n) => emit!(self, n),
+            MediaConditionType::WithoutOr(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_media_condition(&mut self, n: &MediaCondition) -> Result {
+        self.emit_list(&n.conditions, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_media_condition_without_or(&mut self, n: &MediaConditionWithoutOr) -> Result {
+        self.emit_list(&n.conditions, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_media_condition_all_type(&mut self, n: &MediaConditionAllType) -> Result {
+        match n {
+            MediaConditionAllType::Not(n) => emit!(self, n),
+            MediaConditionAllType::And(n) => emit!(self, n),
+            MediaConditionAllType::Or(n) => emit!(self, n),
+            MediaConditionAllType::MediaInParens(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_media_condition_without_or_type(&mut self, n: &MediaConditionWithoutOrType) -> Result {
+        match n {
+            MediaConditionWithoutOrType::Not(n) => emit!(self, n),
+            MediaConditionWithoutOrType::And(n) => emit!(self, n),
+            MediaConditionWithoutOrType::MediaInParens(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_media_not(&mut self, n: &MediaNot) -> Result {
+        space!(self);
+        keyword!(self, "not");
+        space!(self);
+        emit!(self, n.condition);
+    }
+
+    #[emitter]
+    fn emit_media_and(&mut self, n: &MediaAnd) -> Result {
+        space!(self);
+        keyword!(self, "and");
+        space!(self);
+        emit!(self, n.condition);
+    }
+
+    #[emitter]
+    fn emit_media_or(&mut self, n: &MediaOr) -> Result {
+        space!(self);
+        keyword!(self, "or");
+        space!(self);
+        emit!(self, n.condition);
+    }
+
+    #[emitter]
+    fn emit_media_in_parens(&mut self, n: &MediaInParens) -> Result {
+        match n {
+            MediaInParens::MediaCondition(n) => {
+                punct!(self, "(");
+                emit!(self, n);
+                punct!(self, ")");
+            }
+            MediaInParens::Feature(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_media_feature(&mut self, n: &MediaFeature) -> Result {
+        punct!(self, "(");
+
+        match n {
+            MediaFeature::Plain(n) => emit!(self, n),
+            MediaFeature::Boolean(n) => emit!(self, n),
+            MediaFeature::Range(n) => emit!(self, n),
+            MediaFeature::RangeInterval(n) => emit!(self, n),
+        }
+
+        punct!(self, ")");
+    }
+
+    #[emitter]
+    fn emit_media_feature_name(&mut self, n: &MediaFeatureName) -> Result {
+        match n {
+            MediaFeatureName::Ident(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_media_feature_value(&mut self, n: &MediaFeatureValue) -> Result {
+        match n {
+            MediaFeatureValue::Number(n) => emit!(self, n),
+            MediaFeatureValue::Dimension(n) => emit!(self, n),
+            MediaFeatureValue::Ident(n) => emit!(self, n),
+            MediaFeatureValue::Ratio(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_media_feature_plain(&mut self, n: &MediaFeaturePlain) -> Result {
+        emit!(self, n.name);
+        punct!(self, ":");
+        space!(self);
+        emit!(self, n.value);
+    }
+
+    #[emitter]
+    fn emit_media_feature_boolean(&mut self, n: &MediaFeatureBoolean) -> Result {
+        emit!(self, n.name);
+    }
+
+    #[emitter]
+    fn emit_media_feature_range(&mut self, n: &MediaFeatureRange) -> Result {
+        emit!(self, n.left);
+        space!(self);
+        self.wr.write_punct(None, n.comparison.as_str())?;
+        space!(self);
+        emit!(self, n.right);
+    }
+
+    #[emitter]
+    fn emit_media_feature_range_interval(&mut self, n: &MediaFeatureRangeInterval) -> Result {
+        emit!(self, n.left);
+        space!(self);
+        self.wr.write_punct(None, n.left_comparison.as_str())?;
+        space!(self);
+        emit!(self, n.name);
+        space!(self);
+        self.wr.write_punct(None, n.right_comparison.as_str())?;
+        space!(self);
+        emit!(self, n.right);
+    }
+
+    #[emitter]
     fn emit_supports_rule(&mut self, n: &SupportsRule) -> Result {
         punct!(self, "@");
         keyword!(self, "supports");
         space!(self);
 
-        emit!(self, n.query);
+        emit!(self, n.condition);
 
         space!(self);
 
         punct!(self, "{");
         self.emit_list(&n.rules, ListFormat::NotDelimited)?;
         punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_supports_condition(&mut self, n: &SupportsCondition) -> Result {
+        self.emit_list(&n.conditions, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_supports_condition_type(&mut self, n: &SupportsConditionType) -> Result {
+        match n {
+            SupportsConditionType::Not(n) => emit!(self, n),
+            SupportsConditionType::And(n) => emit!(self, n),
+            SupportsConditionType::Or(n) => emit!(self, n),
+            SupportsConditionType::SupportsInParens(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_supports_not(&mut self, n: &SupportsNot) -> Result {
+        keyword!(self, "not");
+        space!(self);
+        emit!(self, n.condition);
+    }
+
+    #[emitter]
+    fn emit_supports_and(&mut self, n: &SupportsAnd) -> Result {
+        keyword!(self, "and");
+        space!(self);
+        emit!(self, n.condition);
+    }
+
+    #[emitter]
+    fn emit_support_or(&mut self, n: &SupportsOr) -> Result {
+        keyword!(self, "or");
+        space!(self);
+        emit!(self, n.condition);
+    }
+
+    #[emitter]
+    fn emit_supports_in_parens(&mut self, n: &SupportsInParens) -> Result {
+        match n {
+            SupportsInParens::SupportsCondition(n) => {
+                punct!(self, "(");
+                emit!(self, n);
+                punct!(self, ")");
+            }
+            SupportsInParens::Feature(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_supports_feature(&mut self, n: &SupportsFeature) -> Result {
+        punct!(self, "(");
+
+        match n {
+            SupportsFeature::Declaration(n) => emit!(self, n),
+        }
+
+        punct!(self, ")");
     }
 
     #[emitter]
@@ -285,8 +567,6 @@ where
         match n {
             Value::Function(n) => emit!(self, n),
             Value::SimpleBlock(n) => emit!(self, n),
-            Value::SquareBracketBlock(n) => emit!(self, n),
-            Value::RoundBracketBlock(n) => emit!(self, n),
             Value::Unit(n) => emit!(self, n),
             Value::Number(n) => emit!(self, n),
             Value::Percent(n) => emit!(self, n),
@@ -294,9 +574,8 @@ where
             Value::Ident(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
-            Value::Brace(n) => emit!(self, n),
             Value::Space(n) => emit!(self, n),
-            Value::Lazy(n) => emit!(self, n),
+            Value::Tokens(n) => emit!(self, n),
             Value::AtText(n) => emit!(self, n),
             Value::Url(n) => emit!(self, n),
             Value::Comma(n) => emit!(self, n),
@@ -323,23 +602,6 @@ where
     }
 
     #[emitter]
-    fn emit_media_query(&mut self, n: &MediaQuery) -> Result {
-        match n {
-            MediaQuery::Ident(n) => emit!(self, n),
-            MediaQuery::And(n) => emit!(self, n),
-            MediaQuery::Or(n) => emit!(self, n),
-            MediaQuery::Not(n) => emit!(self, n),
-            MediaQuery::Only(n) => emit!(self, n),
-            MediaQuery::Declaration(n) => {
-                punct!(self, "(");
-                emit!(self, n);
-                punct!(self, ")");
-            }
-            MediaQuery::Comma(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
     fn emit_simple_block(&mut self, n: &SimpleBlock) -> Result {
         let ending = match n.name {
             '[' => ']',
@@ -351,7 +613,14 @@ where
         };
 
         self.wr.write_raw_char(None, n.name)?;
-        self.emit_list(&n.value, ListFormat::NotDelimited)?;
+        self.emit_list(
+            &n.value,
+            if ending == ']' {
+                ListFormat::SpaceDelimited
+            } else {
+                ListFormat::NotDelimited
+            },
+        )?;
         self.wr.write_raw_char(None, ending)?;
     }
 
@@ -412,6 +681,11 @@ where
     }
 
     #[emitter]
+    fn emit_custom_ident(&mut self, n: &CustomIdent) -> Result {
+        self.wr.write_raw(Some(n.span), &n.raw)?;
+    }
+
+    #[emitter]
     fn emit_keyframe_block_rule(&mut self, n: &KeyframeBlockRule) -> Result {
         match n {
             KeyframeBlockRule::Block(n) => emit!(self, n),
@@ -423,21 +697,6 @@ where
     fn emit_percent_value(&mut self, n: &PercentValue) -> Result {
         emit!(self, n.value);
         punct!(self, "%");
-    }
-
-    #[emitter]
-    fn emit_support_query(&mut self, n: &SupportQuery) -> Result {
-        match n {
-            SupportQuery::Not(n) => emit!(self, n),
-            SupportQuery::And(n) => emit!(self, n),
-            SupportQuery::Or(n) => emit!(self, n),
-            SupportQuery::Declaration(n) => {
-                punct!(self, "(");
-                emit!(self, n);
-                punct!(self, ")");
-            }
-            SupportQuery::Paren(n) => emit!(self, n),
-        }
     }
 
     #[emitter]
@@ -498,28 +757,6 @@ where
     }
 
     #[emitter]
-    fn emit_square_bracket_block(&mut self, n: &SquareBracketBlock) -> Result {
-        punct!(self, "[");
-
-        if let Some(values) = &n.children {
-            self.emit_list(&values, ListFormat::SpaceDelimited)?;
-        }
-
-        punct!(self, "]");
-    }
-
-    #[emitter]
-    fn emit_round_bracket_block(&mut self, n: &RoundBracketBlock) -> Result {
-        punct!(self, "(");
-
-        if let Some(values) = &n.children {
-            self.emit_list(&values, ListFormat::CommaDelimited)?;
-        }
-
-        punct!(self, ")");
-    }
-
-    #[emitter]
     fn emit_comma_values(&mut self, n: &CommaValues) -> Result {
         self.emit_list(&n.values, ListFormat::CommaDelimited)?;
     }
@@ -530,20 +767,13 @@ where
     }
 
     #[emitter]
-    fn emit_brace_value(&mut self, n: &BraceValue) -> Result {
-        punct!(self, "{");
-        emit!(self, n.value);
-        punct!(self, "}");
-    }
-
-    #[emitter]
     fn emit_tokens(&mut self, n: &Tokens) -> Result {
         for TokenAndSpan { span, token } in &n.tokens {
             let span = *span;
             match token {
                 Token::AtKeyword { raw, .. } => {
                     punct!(self, span, "@");
-                    self.wr.write_raw(Some(n.span), &raw)?;
+                    self.wr.write_raw(Some(n.span), raw)?;
                 }
                 Token::Delim { value } => {
                     self.wr.write_raw_char(Some(n.span), *value)?;
@@ -572,32 +802,32 @@ where
                     raw_unit,
                     ..
                 } => {
-                    self.wr.write_raw(Some(span), &raw_value)?;
-                    self.wr.write_raw(Some(span), &raw_unit)?;
+                    self.wr.write_raw(Some(span), raw_value)?;
+                    self.wr.write_raw(Some(span), raw_unit)?;
                 }
                 Token::Ident { raw, .. } => {
-                    self.wr.write_raw(Some(n.span), &raw)?;
+                    self.wr.write_raw(Some(n.span), raw)?;
                 }
                 Token::Function { raw, .. } => {
-                    self.wr.write_raw(Some(n.span), &raw)?;
+                    self.wr.write_raw(Some(n.span), raw)?;
                     punct!(self, "(");
                 }
                 Token::BadStr { raw, .. } => {
-                    self.wr.write_raw(Some(span), &raw)?;
+                    self.wr.write_raw(Some(span), raw)?;
                 }
                 Token::Str { raw, .. } => {
-                    self.wr.write_raw(Some(span), &raw)?;
+                    self.wr.write_raw(Some(span), raw)?;
                 }
                 Token::Url { raw, .. } => {
                     self.wr.write_raw(Some(span), "url")?;
                     punct!(self, "(");
-                    self.wr.write_raw(None, &raw)?;
+                    self.wr.write_raw(None, raw)?;
                     punct!(self, ")");
                 }
                 Token::BadUrl { raw, .. } => {
                     self.wr.write_raw(Some(span), "url")?;
                     punct!(self, "(");
-                    self.wr.write_raw(None, &raw)?;
+                    self.wr.write_raw(None, raw)?;
                     punct!(self, ")");
                 }
                 Token::Comma => {
@@ -617,10 +847,10 @@ where
                 }
                 Token::Hash { raw, .. } => {
                     punct!(self, "#");
-                    self.wr.write_raw(Some(span), &raw)?;
+                    self.wr.write_raw(Some(span), raw)?;
                 }
                 Token::WhiteSpace { value, .. } => {
-                    self.wr.write_raw(None, &value)?;
+                    self.wr.write_raw(None, value)?;
                 }
                 Token::CDC => {
                     punct!(self, span, "-->");
@@ -650,84 +880,6 @@ where
     }
 
     #[emitter]
-    fn emit_and_media_query(&mut self, n: &AndMediaQuery) -> Result {
-        emit!(self, n.left);
-        space!(self);
-
-        keyword!(self, "and");
-
-        space!(self);
-        emit!(self, n.right);
-    }
-
-    #[emitter]
-    fn emit_or_media_query(&mut self, n: &OrMediaQuery) -> Result {
-        emit!(self, n.left);
-        space!(self);
-
-        keyword!(self, "or");
-
-        space!(self);
-        emit!(self, n.right);
-    }
-
-    #[emitter]
-    fn emit_not_media_query(&mut self, n: &NotMediaQuery) -> Result {
-        keyword!(self, "not");
-        space!(self);
-        emit!(self, n.query);
-    }
-
-    #[emitter]
-    fn emit_only_media_query(&mut self, n: &OnlyMediaQuery) -> Result {
-        keyword!(self, "only");
-        space!(self);
-        emit!(self, n.query);
-    }
-
-    #[emitter]
-    fn emit_comma_media_query(&mut self, n: &CommaMediaQuery) -> Result {
-        self.emit_list(&n.queries, ListFormat::CommaDelimited)?;
-    }
-
-    #[emitter]
-    fn emit_not_support_query(&mut self, n: &NotSupportQuery) -> Result {
-        keyword!(self, "not");
-        space!(self);
-
-        emit!(self, n.query);
-    }
-
-    #[emitter]
-    fn emit_and_support_query(&mut self, n: &AndSupportQuery) -> Result {
-        emit!(self, n.left);
-        space!(self);
-
-        keyword!(self, "and");
-
-        space!(self);
-        emit!(self, n.right);
-    }
-
-    #[emitter]
-    fn emit_or_support_query(&mut self, n: &OrSupportQuery) -> Result {
-        emit!(self, n.left);
-        space!(self);
-
-        keyword!(self, "or");
-
-        space!(self);
-        emit!(self, n.right);
-    }
-
-    #[emitter]
-    fn emit_paren_support_query(&mut self, n: &ParenSupportQuery) -> Result {
-        punct!(self, "(");
-        emit!(self, n.query);
-        punct!(self, ")");
-    }
-
-    #[emitter]
     fn emit_nested_page_rule(&mut self, n: &NestedPageRule) -> Result {
         emit!(self, n.prelude);
         emit!(self, n.block);
@@ -742,11 +894,8 @@ where
     fn emit_complex_selector(&mut self, n: &ComplexSelector) -> Result {
         let mut need_space = false;
         for (idx, node) in n.children.iter().enumerate() {
-            match node {
-                ComplexSelectorChildren::Combinator(..) => {
-                    need_space = false;
-                }
-                _ => {}
+            if let ComplexSelectorChildren::Combinator(..) = node {
+                need_space = false;
             }
 
             if idx != 0 && need_space {
@@ -755,11 +904,8 @@ where
                 self.wr.write_space()?;
             }
 
-            match node {
-                ComplexSelectorChildren::CompoundSelector(..) => {
-                    need_space = true;
-                }
-                _ => {}
+            if let ComplexSelectorChildren::CompoundSelector(..) = node {
+                need_space = true;
             }
 
             emit!(self, node)
@@ -946,11 +1092,8 @@ where
             if idx != 0 {
                 self.write_delim(format)?;
 
-                match format & ListFormat::LinesMask {
-                    ListFormat::MultiLine => {
-                        self.wr.write_newline()?;
-                    }
-                    _ => {}
+                if format & ListFormat::LinesMask == ListFormat::MultiLine {
+                    self.wr.write_newline()?;
                 }
             }
             emit!(self, node)
@@ -971,6 +1114,9 @@ where
             }
             ListFormat::SemiDelimited => {
                 punct!(self, ";")
+            }
+            ListFormat::DotDelimited => {
+                punct!(self, ".");
             }
             _ => unreachable!(),
         }

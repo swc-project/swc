@@ -1,4 +1,3 @@
 function a() {
-    var b = function c() {
-    };
+    var b = function c() {};
 }

@@ -1,6 +1,5 @@
 var A;
-(A || (A = {
-})).Point = class {
+(A || (A = {})).Point = class {
     static Origin() {
         return {
             x: 0,

@@ -7,30 +7,25 @@ var C = function C() {
     "use strict";
     _classCallCheck(this, C);
 };
-function f1() {
-}
+function f1() {}
 var M;
 (function(M1) {
-    M1.y = 1;
-})(M || (M = {
-}));
+    var y = M1.y = 1;
+})(M || (M = {}));
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var a = {
     a: 1,
     b: '',
     c: true,
-    d: {
-    },
+    d: {},
     e: null,
     f: [
         1
     ],
-    g: {
-    },
+    g: {},
     h: function(x) {
         return 1;
     },
@@ -41,7 +36,6 @@ var a = {
     k: new C(),
     l: f1,
     m: M,
-    n: {
-    },
+    n: {},
     o: E.A
 };

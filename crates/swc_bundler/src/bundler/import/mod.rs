@@ -208,7 +208,6 @@ where
             .map(|import| import.src.value.clone())
         {
             self.info.forced_ns.insert(src);
-            return;
         }
     }
 
@@ -224,27 +223,24 @@ where
                 };
 
                 match &mut e.callee {
-                    ExprOrSuper::Expr(callee)
+                    Callee::Expr(callee)
                         if self.bundler.config.require
-                            && match &**callee {
+                            && matches!(
+                                &**callee,
                                 Expr::Ident(Ident {
                                     sym: js_word!("require"),
                                     ..
-                                }) => true,
-                                _ => false,
-                            } =>
+                                })
+                            ) =>
                     {
                         if self.bundler.is_external(&src.value) {
                             return;
                         }
-                        match &mut **callee {
-                            Expr::Ident(i) => {
-                                self.mark_as_cjs(&src.value);
-                                if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
-                                    i.span = i.span.with_ctxt(export_ctxt);
-                                }
+                        if let Expr::Ident(i) = &mut **callee {
+                            self.mark_as_cjs(&src.value);
+                            if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
+                                i.span = i.span.with_ctxt(export_ctxt);
                             }
-                            _ => {}
                         }
 
                         let span = callee.span();
@@ -263,7 +259,6 @@ where
                         }
 
                         self.info.lazy_imports.push(decl);
-                        return;
                     }
 
                     // TODO: Uncomment this after implementing an option to make swc_bundler
@@ -287,69 +282,58 @@ where
     }
 
     fn analyze_usage(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Member(e) => match &e.obj {
-                ExprOrSuper::Super(_) => return,
-                ExprOrSuper::Expr(obj) => match &**obj {
-                    Expr::Ident(obj) => {
-                        if !self.imported_idents.contains_key(&obj.to_id()) {
-                            // If it's not imported, just abort the usage analysis.
-                            return;
+        if let Expr::Member(e) = e {
+            if let Expr::Ident(obj) = &*e.obj {
+                if !self.imported_idents.contains_key(&obj.to_id()) {
+                    // If it's not imported, just abort the usage analysis.
+                    return;
+                }
+
+                if e.prop.is_computed() {
+                    // If a module is accessed with unknown key, we should import
+                    // everything from it.
+                    self.add_forced_ns_for(obj.to_id());
+                    return;
+                }
+
+                // Store usages of obj
+                let import = self.info.imports.iter().find(|import| {
+                    for s in &import.specifiers {
+                        if let ImportSpecifier::Namespace(n) = s {
+                            return obj.sym == n.local.sym
+                                && (obj.span.ctxt == self.module_ctxt
+                                    || obj.span.ctxt == n.local.span.ctxt);
                         }
-
-                        if e.computed {
-                            // If a module is accessed with unknown key, we should import
-                            // everything from it.
-                            self.add_forced_ns_for(obj.to_id());
-                            return;
-                        }
-
-                        // Store usages of obj
-                        let import = self.info.imports.iter().find(|import| {
-                            for s in &import.specifiers {
-                                match s {
-                                    ImportSpecifier::Namespace(n) => {
-                                        return obj.sym == n.local.sym
-                                            && (obj.span.ctxt == self.module_ctxt
-                                                || obj.span.ctxt == n.local.span.ctxt)
-                                    }
-                                    _ => {}
-                                }
-                            }
-
-                            false
-                        });
-                        let import = match import {
-                            Some(v) => v,
-                            None => return,
-                        };
-
-                        let mark = self.ctxt_for(&import.src.value);
-                        let exported_ctxt = match mark {
-                            None => return,
-                            Some(ctxts) => ctxts.1,
-                        };
-                        let prop = match &*e.prop {
-                            Expr::Ident(i) => {
-                                let mut i = i.clone();
-                                i.span = i.span.with_ctxt(exported_ctxt);
-                                i
-                            }
-                            _ => unreachable!(
-                                "Non-computed member expression with property other than ident is \
-                                 invalid"
-                            ),
-                        };
-
-                        self.usages
-                            .entry(obj.to_id())
-                            .or_default()
-                            .push(prop.to_id());
                     }
-                    _ => {}
-                },
-            },
-            _ => {}
+
+                    false
+                });
+                let import = match import {
+                    Some(v) => v,
+                    None => return,
+                };
+
+                let mark = self.ctxt_for(&import.src.value);
+                let exported_ctxt = match mark {
+                    None => return,
+                    Some(ctxts) => ctxts.1,
+                };
+                let prop = match &e.prop {
+                    MemberProp::Ident(i) => {
+                        let mut i = i.clone();
+                        i.span = i.span.with_ctxt(exported_ctxt);
+                        i
+                    }
+                    _ => unreachable!(
+                        "Non-computed member expression with property other than ident is invalid"
+                    ),
+                };
+
+                self.usages
+                    .entry(obj.to_id())
+                    .or_default()
+                    .push(prop.to_id());
+            }
         }
     }
 
@@ -358,16 +342,11 @@ where
             Expr::Member(e) => e,
             _ => return,
         };
-        if me.computed {
+        if me.prop.is_computed() {
             return;
         }
 
-        let obj = match &me.obj {
-            ExprOrSuper::Super(_) => return,
-            ExprOrSuper::Expr(e) => e,
-        };
-
-        let obj = match &**obj {
+        let obj = match &*me.obj {
             Expr::Ident(obj) => obj,
             _ => return,
         };
@@ -379,8 +358,8 @@ where
             _ => return,
         };
 
-        let mut prop = match &*me.prop {
-            Expr::Ident(v) => v.clone(),
+        let mut prop = match &me.prop {
+            MemberProp::Ident(v) => v.clone(),
             _ => return,
         };
         prop.span.ctxt = self.imported_idents.get(&obj.to_id()).copied().unwrap();
@@ -395,6 +374,53 @@ where
     R: Resolve,
 {
     noop_visit_mut_type!();
+
+    fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
+        let orig = match &s.orig {
+            ModuleExportName::Ident(ident) => ident,
+            ModuleExportName::Str(..) => unimplemented!("module string names unimplemented"),
+        };
+
+        self.add_forced_ns_for(orig.to_id());
+
+        match &mut s.exported {
+            Some(ModuleExportName::Ident(exported)) => {
+                // PR 3139 (https://github.com/swc-project/swc/pull/3139) removes the syntax context from any named exports from other sources.
+                exported.span.ctxt = self.module_ctxt;
+            }
+            Some(ModuleExportName::Str(..)) => unimplemented!("module string names unimplemented"),
+            None => {
+                let exported = Ident::new(orig.sym.clone(), orig.span.with_ctxt(self.module_ctxt));
+                s.exported = Some(ModuleExportName::Ident(exported));
+            }
+        }
+    }
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        if !self.deglob_phase {
+            // Firstly, we check for usages of imported namespaces.
+            // Code like below are handled by this check.
+            //
+            // import * as log from './log';
+            // console.log(log)
+            // console.log(log.getLogger())
+            if !self.in_obj_of_member {
+                if let Expr::Ident(i) = &e {
+                    if !self.in_obj_of_member {
+                        self.add_forced_ns_for(i.to_id());
+                        return;
+                    }
+                }
+            }
+
+            self.analyze_usage(e);
+            self.find_require(e);
+        } else {
+            self.try_deglob(e);
+        }
+    }
 
     fn visit_mut_import_decl(&mut self, import: &mut ImportDecl) {
         // Ignore if it's a core module.
@@ -413,13 +439,16 @@ where
                         ImportSpecifier::Named(n) => {
                             self.imported_idents.insert(n.local.to_id(), export_ctxt);
                             match &mut n.imported {
-                                Some(imported) => {
+                                Some(ModuleExportName::Ident(imported)) => {
                                     imported.span.ctxt = export_ctxt;
+                                }
+                                Some(ModuleExportName::Str(..)) => {
+                                    unimplemented!("module string names unimplemented")
                                 }
                                 None => {
                                     let mut imported: Ident = n.local.clone();
                                     imported.span.ctxt = export_ctxt;
-                                    n.imported = Some(imported);
+                                    n.imported = Some(ModuleExportName::Ident(imported));
                                 }
                             }
                         }
@@ -434,7 +463,7 @@ where
                 }
             }
 
-            self.info.insert(&import);
+            self.info.insert(import);
             return;
         }
 
@@ -447,80 +476,47 @@ where
 
         // deglob namespace imports
         if import.specifiers.len() == 1 {
-            match &import.specifiers[0] {
-                ImportSpecifier::Namespace(ns) => {
-                    //
-                    let specifiers = self
-                        .usages
-                        .get(&ns.local.to_id())
-                        .cloned()
-                        .map(|ids| {
-                            //
-                            let specifiers: Vec<_> = ids
-                                .into_iter()
-                                .map(|id| {
-                                    self.idents_to_deglob.insert(id.clone());
-                                    ImportSpecifier::Named(ImportNamedSpecifier {
-                                        span: DUMMY_SP,
-                                        local: Ident::new(id.0, DUMMY_SP.with_ctxt(id.1)),
-                                        imported: None,
-                                        is_type_only: false,
-                                    })
+            if let ImportSpecifier::Namespace(ns) = &import.specifiers[0] {
+                //
+                let specifiers = self
+                    .usages
+                    .get(&ns.local.to_id())
+                    .cloned()
+                    .map(|ids| {
+                        //
+                        let specifiers: Vec<_> = ids
+                            .into_iter()
+                            .map(|id| {
+                                self.idents_to_deglob.insert(id.clone());
+                                ImportSpecifier::Named(ImportNamedSpecifier {
+                                    span: DUMMY_SP,
+                                    local: Ident::new(id.0, DUMMY_SP.with_ctxt(id.1)),
+                                    imported: None,
+                                    is_type_only: false,
                                 })
-                                .collect();
+                            })
+                            .collect();
 
-                            for import_info in &mut self.info.imports {
-                                if import_info.src != import.src {
-                                    continue;
-                                }
-
-                                import_info.specifiers.extend(specifiers.clone());
+                        for import_info in &mut self.info.imports {
+                            if import_info.src != import.src {
+                                continue;
                             }
 
-                            specifiers
-                        })
-                        .unwrap_or_else(Vec::new);
-
-                    if !specifiers.is_empty() {
-                        import.specifiers = specifiers;
-                        return;
-                    }
-
-                    // We failed to found property usage.
-                    self.info.forced_ns.insert(import.src.value.clone());
-                }
-
-                _ => {}
-            }
-        }
-    }
-
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        e.visit_mut_children_with(self);
-
-        if !self.deglob_phase {
-            // Firstly, we check for usages of imported namespaces.
-            // Code like below are handled by this check.
-            //
-            // import * as log from './log';
-            // console.log(log)
-            // console.log(log.getLogger())
-            if !self.in_obj_of_member {
-                match &e {
-                    Expr::Ident(i) => {
-                        if !self.in_obj_of_member {
-                            self.add_forced_ns_for(i.to_id());
-                            return;
+                            import_info.specifiers.extend(specifiers.clone());
                         }
-                    }
-                    _ => {}
-                }
-            }
 
-            self.analyze_usage(e);
-            self.find_require(e);
-        } else {
-            self.try_deglob(e);
+                        specifiers
+                    })
+                    .unwrap_or_else(Vec::new);
+
+                if !specifiers.is_empty() {
+                    import.specifiers = specifiers;
+                    return;
+                }
+
+                // We failed to found property usage.
+                self.info.forced_ns.insert(import.src.value.clone());
+            }
         }
     }
 
@@ -529,12 +525,53 @@ where
         self.in_obj_of_member = true;
         e.obj.visit_mut_with(self);
 
-        if e.computed {
+        if let MemberProp::Computed(c) = &mut e.prop {
             self.in_obj_of_member = false;
-            e.prop.visit_mut_with(self);
+            c.visit_mut_with(self);
         }
 
         self.in_obj_of_member = old;
+    }
+
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        self.top_level = true;
+        items.visit_mut_children_with(self);
+
+        items.retain_mut(|item| match item {
+            ModuleItem::Stmt(Stmt::Empty(..)) => false,
+            ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                var.decls.retain(|d| !matches!(d.name, Pat::Invalid(..)));
+
+                !var.decls.is_empty()
+            }
+
+            _ => true,
+        });
+
+        if self.deglob_phase {
+            let mut wrapping_required = vec![];
+            for import in self.info.imports.iter_mut() {
+                let use_ns = self.info.forced_ns.contains(&import.src.value)
+                    || self
+                        .bundler
+                        .config
+                        .external_modules
+                        .contains(&import.src.value);
+
+                if use_ns {
+                    wrapping_required.push(import.src.value.clone());
+                } else {
+                    // De-glob namespace imports
+                    import
+                        .specifiers
+                        .retain(|s| !matches!(s, ImportSpecifier::Namespace(_)));
+                }
+            }
+
+            for id in wrapping_required {
+                self.mark_as_wrapping_required(&id);
+            }
+        }
     }
 
     fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
@@ -542,20 +579,15 @@ where
         items.visit_mut_children_with(self)
     }
 
-    fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
-        self.add_forced_ns_for(s.orig.to_id());
+    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
+        let old = self.in_obj_of_member;
 
-        match &mut s.exported {
-            Some(exported) => {
-                // PR 3139 (https://github.com/swc-project/swc/pull/3139) removes the syntax context from any named exports from other sources.
-                exported.span.ctxt = self.module_ctxt;
-            }
-            None => {
-                let exported =
-                    Ident::new(s.orig.sym.clone(), s.orig.span.with_ctxt(self.module_ctxt));
-                s.exported = Some(exported);
-            }
+        if let SuperProp::Computed(c) = &mut e.prop {
+            self.in_obj_of_member = false;
+            c.visit_mut_with(self);
         }
+
+        self.in_obj_of_member = old;
     }
 
     /// ```js
@@ -570,21 +602,21 @@ where
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
         node.visit_mut_children_with(self);
 
-        match &mut node.init {
-            Some(init) => match &mut **init {
+        if let Some(init) = &mut node.init {
+            match &mut **init {
                 Expr::Call(CallExpr {
                     span,
-                    callee: ExprOrSuper::Expr(ref mut callee),
+                    callee: Callee::Expr(ref mut callee),
                     ref args,
                     ..
                 }) if self.bundler.config.require
-                    && match &**callee {
+                    && matches!(
+                        &**callee,
                         Expr::Ident(Ident {
                             sym: js_word!("require"),
                             ..
-                        }) => true,
-                        _ => false,
-                    }
+                        })
+                    )
                     && args.len() == 1 =>
                 {
                     let span = *span;
@@ -602,13 +634,10 @@ where
 
                     self.mark_as_cjs(&src.value);
 
-                    match &mut **callee {
-                        Expr::Ident(i) => {
-                            if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
-                                i.span = i.span.with_ctxt(export_ctxt);
-                            }
+                    if let Expr::Ident(i) = &mut **callee {
+                        if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
+                            i.span = i.span.with_ctxt(export_ctxt);
                         }
-                        _ => {}
                     }
 
                     let ids: Vec<Ident> = find_ids(&node.name);
@@ -642,57 +671,6 @@ where
                 }
 
                 _ => {}
-            },
-
-            _ => {}
-        }
-    }
-
-    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        self.top_level = true;
-        items.visit_mut_children_with(self);
-
-        items.retain_mut(|item| match item {
-            ModuleItem::Stmt(Stmt::Empty(..)) => false,
-            ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                var.decls.retain(|d| match d.name {
-                    Pat::Invalid(..) => false,
-                    _ => true,
-                });
-
-                if var.decls.is_empty() {
-                    false
-                } else {
-                    true
-                }
-            }
-
-            _ => true,
-        });
-
-        if self.deglob_phase {
-            let mut wrapping_required = vec![];
-            for import in self.info.imports.iter_mut() {
-                let use_ns = self.info.forced_ns.contains(&import.src.value)
-                    || self
-                        .bundler
-                        .config
-                        .external_modules
-                        .contains(&import.src.value);
-
-                if use_ns {
-                    wrapping_required.push(import.src.value.clone());
-                } else {
-                    // De-glob namespace imports
-                    import.specifiers.retain(|s| match s {
-                        ImportSpecifier::Namespace(_) => false,
-                        _ => true,
-                    });
-                }
-            }
-
-            for id in wrapping_required {
-                self.mark_as_wrapping_required(&id);
             }
         }
     }

@@ -1,0 +1,20 @@
+{
+    "jsc": {
+        "target": "es5",
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "transform": {
+            "react": {
+                "runtime": "classic",
+                "pragma": "React.createElement",
+                "pragmaFrag": "React.Fragment",
+                "throwIfNamespace": true,
+                "useBuiltins": true,
+                "development": true
+            }
+        },
+        "externalHelpers": true
+    }
+}

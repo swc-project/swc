@@ -4,5 +4,4 @@ var M;
 (function(M) {
     class D {
     }
-})(M || (M = {
-}));
+})(M || (M = {}));

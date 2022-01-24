@@ -12,6 +12,14 @@ macro_rules! tok {
         swc_css_ast::Token::Function { .. }
     };
 
+    ("ident") => {
+        swc_css_ast::Token::Ident { .. }
+    };
+
+    ("str") => {
+        swc_css_ast::Token::Str { .. }
+    };
+
     ("bad-string") => {
         swc_css_ast::Token::BadStr { .. }
     };
@@ -134,6 +142,10 @@ macro_rules! tok {
 
     ("/") => {
        swc_css_ast::Token::Delim { value: '/', .. }
+    };
+
+    ("<") => {
+        swc_css_ast::Token::Delim { value: '<', .. }
     };
 
     (">") => {

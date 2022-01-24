@@ -10,8 +10,7 @@ class Point {
         this.x = x, this.y = y;
     }
 }
-(Point || (Point = {
-})).Origin = function() {
+(Point || (Point = {})).Origin = function() {
     return null;
 }, (function(A1) {
     class Point1 {
@@ -25,9 +24,7 @@ class Point {
             this.x = x, this.y = y;
         }
     }
-    A1.Point = Point1, (Point1 = A1.Point || (A1.Point = {
-    })).Origin = function() {
+    A1.Point = Point1, (Point1 = A1.Point || (A1.Point = {})).Origin = function() {
         return "";
     };
-})(A || (A = {
-}));
+})(A || (A = {}));

@@ -14,5 +14,4 @@ class StringIterator {
         this.return = 0;
     }
 }
-for (var v of new StringIterator){
-}
+for (var v of new StringIterator){}

@@ -1,6 +1,5 @@
 //@target: ES6
-function fun(...[a, b]) {
-}
+function fun(...[a, b]) {}
 fun(...new FooIteratorIterator);
 class Bar {
 }

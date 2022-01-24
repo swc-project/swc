@@ -11,5 +11,4 @@ var A = function A() {
 };
 export { B as C } from './a';
 new D();
-var d = {
-};
+var d = {};

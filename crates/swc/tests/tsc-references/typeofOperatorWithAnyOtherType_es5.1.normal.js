@@ -18,6 +18,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     return Constructor;
 }
 var _typeof = function(obj2) {
+    "@swc/helpers - typeof";
     return obj2 && typeof Symbol !== "undefined" && obj2.constructor === Symbol ? "symbol" : typeof obj2;
 };
 // typeof  operator on any type
@@ -30,8 +31,7 @@ var ANY2 = [
 var obj;
 var obj1 = {
     x: "a",
-    y: function() {
-    }
+    y: function() {}
 };
 function foo() {
     var a;
@@ -57,8 +57,7 @@ var M;
 (function(M1) {
     var n;
     M1.n = n;
-})(M || (M = {
-}));
+})(M || (M = {}));
 var objA = new A();
 // any type var
 var ResultIsString1 = typeof ANY1 === "undefined" ? "undefined" : _typeof(ANY1);
@@ -70,8 +69,7 @@ var ResultIsString6 = typeof obj1 === "undefined" ? "undefined" : _typeof(obj1);
 // any type literal
 var ResultIsString7 = typeof undefined === "undefined" ? "undefined" : _typeof(undefined);
 var ResultIsString8 = _typeof(null);
-var ResultIsString9 = _typeof({
-});
+var ResultIsString9 = _typeof({});
 // any type expressions
 var ResultIsString10 = _typeof(ANY2[0]);
 var ResultIsString11 = _typeof(objA.a);

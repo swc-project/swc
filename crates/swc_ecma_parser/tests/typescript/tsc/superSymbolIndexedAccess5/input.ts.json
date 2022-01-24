@@ -230,13 +230,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 145,
                         "end": 158,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 145,
@@ -245,16 +245,23 @@
                         }
                       },
                       "property": {
-                        "type": "Identifier",
+                        "type": "Computed",
                         "span": {
-                          "start": 151,
-                          "end": 157,
+                          "start": 150,
+                          "end": 158,
                           "ctxt": 0
                         },
-                        "value": "symbol",
-                        "optional": false
-                      },
-                      "computed": true
+                        "expression": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 151,
+                            "end": 157,
+                            "ctxt": 0
+                          },
+                          "value": "symbol",
+                          "optional": false
+                        }
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null

@@ -23,9 +23,11 @@ impl VisitMut for ExportDefaultFrom {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
                     // Skip if it does not have default export
-                    if export.specifiers.iter().all(|s| match *s {
-                        ExportSpecifier::Named(..) | ExportSpecifier::Namespace(..) => true,
-                        _ => false,
+                    if export.specifiers.iter().all(|s| {
+                        matches!(
+                            *s,
+                            ExportSpecifier::Named(..) | ExportSpecifier::Namespace(..)
+                        )
                     }) {
                         extra_stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)));
                         continue;
@@ -56,8 +58,8 @@ impl VisitMut for ExportDefaultFrom {
                                     specifiers: vec![ExportSpecifier::Named(
                                         ExportNamedSpecifier {
                                             span: DUMMY_SP,
-                                            orig: local,
-                                            exported: Some(default),
+                                            orig: ModuleExportName::Ident(local),
+                                            exported: Some(ModuleExportName::Ident(default)),
                                             is_type_only: false,
                                         },
                                     )],

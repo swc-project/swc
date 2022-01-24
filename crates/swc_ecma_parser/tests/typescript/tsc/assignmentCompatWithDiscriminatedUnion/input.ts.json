@@ -5389,8 +5389,7 @@
                 },
                 "value": "type",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -5426,8 +5425,7 @@
                 },
                 "value": "type",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -6704,8 +6702,7 @@
                   },
                   "value": "type",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "CallExpression",
@@ -8098,8 +8095,7 @@
                                 },
                                 "value": "type",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         ]

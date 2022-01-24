@@ -36,13 +36,11 @@ var X = /*#__PURE__*/ function() {
     _createClass(X, [
         {
             key: "m",
-            value: function m() {
-            }
+            value: function m() {}
         },
         {
             key: "mistake",
-            value: function mistake() {
-            }
+            value: function mistake() {}
         }
     ]);
     return X;
@@ -61,13 +59,11 @@ var Y = /*#__PURE__*/ function() {
     _createClass(Y, [
         {
             key: "mistake",
-            value: function mistake() {
-            }
+            value: function mistake() {}
         },
         {
             key: "m",
-            value: function m() {
-            }
+            value: function m() {}
         }
     ]);
     return Y;

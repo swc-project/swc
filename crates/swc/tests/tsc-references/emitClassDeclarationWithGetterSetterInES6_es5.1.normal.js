@@ -45,18 +45,15 @@ var C = // @target:es6
         },
         {
             key: tmp3,
-            set: function set(x) {
-            }
+            set: function set(x) {}
         },
         {
             key: tmp4,
-            set: function set(y) {
-            }
+            set: function set(y) {}
         },
         {
             key: "foo",
-            set: function set(a) {
-            }
+            set: function set(a) {}
         }
     ], [
         {
@@ -73,13 +70,11 @@ var C = // @target:es6
         },
         {
             key: "bar",
-            set: function set(b) {
-            }
+            set: function set(b) {}
         },
         {
             key: tmp5,
-            set: function set(b) {
-            }
+            set: function set(b) {}
         }
     ]);
     return C;

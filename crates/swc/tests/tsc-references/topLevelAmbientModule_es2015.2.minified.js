@@ -1,3 +1,3 @@
 const foo = require("foo");
-foo.x + 10;
+foo.x;
 export { };

@@ -144,8 +144,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -176,8 +175,7 @@
                 },
                 "value": "exports",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -277,8 +275,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -309,8 +306,7 @@
                 },
                 "value": "exports",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -418,8 +414,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -430,8 +425,7 @@
             },
             "value": "S",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -561,20 +555,27 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 469,
-                "end": 482,
+                "start": 468,
+                "end": 483,
                 "ctxt": 0
               },
-              "value": "my-fake-sym",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 469,
+                  "end": 482,
+                  "ctxt": 0
+                },
+                "value": "my-fake-sym",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "definite": false
         }
@@ -626,35 +627,41 @@
               "optional": false
             },
             "property": {
-              "type": "MemberExpression",
+              "type": "Computed",
               "span": {
-                "start": 497,
-                "end": 500,
+                "start": 496,
+                "end": 501,
                 "ctxt": 0
               },
-              "object": {
-                "type": "Identifier",
+              "expression": {
+                "type": "MemberExpression",
                 "span": {
                   "start": 497,
-                  "end": 498,
-                  "ctxt": 0
-                },
-                "value": "x",
-                "optional": false
-              },
-              "property": {
-                "type": "Identifier",
-                "span": {
-                  "start": 499,
                   "end": 500,
                   "ctxt": 0
                 },
-                "value": "S",
-                "optional": false
-              },
-              "computed": false
-            },
-            "computed": true
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 497,
+                    "end": 498,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 499,
+                    "end": 500,
+                    "ctxt": 0
+                  },
+                  "value": "S",
+                  "optional": false
+                }
+              }
+            }
           },
           "definite": false
         }

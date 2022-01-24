@@ -4,5 +4,4 @@ var test;
     class C {
     }
     var a;
-})(test || (test = {
-}));
+})(test || (test = {}));

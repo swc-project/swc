@@ -1,7 +1,6 @@
 "use strict";
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {
-    };
+    var desc = {};
     Object.keys(descriptor).forEach(function(key) {
         desc[key] = descriptor[key];
     });

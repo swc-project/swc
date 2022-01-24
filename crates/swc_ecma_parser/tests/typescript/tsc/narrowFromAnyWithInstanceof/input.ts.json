@@ -271,8 +271,7 @@
                 },
                 "value": "prop",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -363,8 +362,7 @@
                   },
                   "value": "method",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -479,8 +477,7 @@
                 },
                 "value": "message",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -516,8 +513,7 @@
                 },
                 "value": "mesage",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -608,8 +604,7 @@
                   },
                   "value": "getDate",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -655,8 +650,7 @@
                   },
                   "value": "getHuors",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null

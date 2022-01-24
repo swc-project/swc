@@ -18,5 +18,4 @@ import "core-js/modules/web.timers.js";
 async function a() {
     await 1;
 }
-(function() {
-});
+(function() {});

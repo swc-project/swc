@@ -42,8 +42,7 @@ function _defineProperty(obj, key, value) {
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {
-        };
+        var source = arguments[i] != null ? arguments[i] : {};
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
             ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -58,13 +57,17 @@ function _objectSpread(target) {
 }
 function rootConnection(name) {
     return {
-        resolve: _asyncToGenerator(function*(context, args) {
-            const { objects  } = yield {
-                objects: 12
+        resolve: (function() {
+            var _ref = _asyncToGenerator(function*(context, args) {
+                const { objects  } = yield {
+                    objects: 12
+                };
+                return _objectSpread({}, connectionFromArray(objects, args));
+            });
+            return function(context, args) {
+                return _ref.apply(this, arguments);
             };
-            return _objectSpread({
-            }, connectionFromArray(objects, args));
-        })
+        })()
     };
 }
 rootConnection('test');

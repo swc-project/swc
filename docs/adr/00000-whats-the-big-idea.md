@@ -1,0 +1,1 @@
+### This adr attempts to describe 10,000ft view for the swc project itself. To be filled gradually.

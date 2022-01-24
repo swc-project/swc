@@ -68,8 +68,7 @@ var ImmediatelyFix;
     var r3a = c2.foo(function(x) {
         return 1;
     }); // number
-})(ImmediatelyFix || (ImmediatelyFix = {
-}));
+})(ImmediatelyFix || (ImmediatelyFix = {}));
 var WithCandidates;
 (function(WithCandidates) {
     var other = function other(t, u) {
@@ -152,5 +151,4 @@ var WithCandidates;
         return C3;
     }();
     var c3;
-})(WithCandidates || (WithCandidates = {
-}));
+})(WithCandidates || (WithCandidates = {}));

@@ -27,8 +27,7 @@ function _extends() {
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {
-        };
+        var source = arguments[i] != null ? arguments[i] : {};
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
             ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -104,8 +103,7 @@ function f23(x) {
 }
 // Anything fresh but primitive assignable to { [x: string]: unknown }
 function f24(x) {
-    x = {
-    };
+    x = {};
     x = {
         a: 5
     };
@@ -137,12 +135,10 @@ function f26(x, y, z) {
     }, z); // any
 }
 // Functions with unknown return type don't need return expressions
-function f27() {
-}
+function f27() {}
 // Rest type cannot be created from unknown
 function f28(x) {
-    let a = _extends({
-    }, x); // Error
+    let a = _extends({}, x); // Error
 }
 // Class properties of type unknown don't need definite assignment
 class C1 {

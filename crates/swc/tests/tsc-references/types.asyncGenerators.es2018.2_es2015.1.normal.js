@@ -95,8 +95,7 @@ function _inferReturnType1() {
     // @lib: esnext
     // @noEmit: true
     _wrapAsyncGenerator(function*() {
-        yield* {
-        };
+        yield* {};
     });
     return _inferReturnType1.apply(this, arguments);
 }
@@ -125,7 +124,7 @@ const assignability1 = function() {
     var _ref = _wrapAsyncGenerator(function*() {
         yield "a";
     });
-    return function() {
+    return function assignability1() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -136,7 +135,7 @@ const assignability2 = function() {
             "b"
         ];
     });
-    return function() {
+    return function assignability2() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -146,7 +145,7 @@ const assignability3 = function() {
             yield "a";
         })();
     });
-    return function() {
+    return function assignability3() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -154,7 +153,7 @@ const assignability4 = function() {
     var _ref = _wrapAsyncGenerator(function*() {
         yield "a";
     });
-    return function() {
+    return function assignability4() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -165,7 +164,7 @@ const assignability5 = function() {
             "b"
         ];
     });
-    return function() {
+    return function assignability5() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -175,7 +174,7 @@ const assignability6 = function() {
             yield "a";
         })();
     });
-    return function() {
+    return function assignability6() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -183,7 +182,7 @@ const assignability7 = function() {
     var _ref = _wrapAsyncGenerator(function*() {
         yield "a";
     });
-    return function() {
+    return function assignability7() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -194,7 +193,7 @@ const assignability8 = function() {
             "b"
         ];
     });
-    return function() {
+    return function assignability8() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -204,7 +203,7 @@ const assignability9 = function() {
             yield "a";
         })();
     });
-    return function() {
+    return function assignability9() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -336,8 +335,7 @@ function yieldStar() {
 }
 function _yieldStar() {
     _yieldStar = _wrapAsyncGenerator(function*() {
-        yield* {
-        };
+        yield* {};
     });
     return _yieldStar.apply(this, arguments);
 }

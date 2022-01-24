@@ -9,8 +9,7 @@ var ANY2 = [
 var obj;
 var obj1 = {
     x: "",
-    y: ()=>{
-    }
+    y: ()=>{}
 };
 function foo() {
     var a;
@@ -26,8 +25,7 @@ var M;
 (function(M1) {
     var n;
     M1.n = n;
-})(M || (M = {
-}));
+})(M || (M = {}));
 var objA = new A();
 // any other type var
 var ResultIsNumber = ~ANY1;

@@ -13,8 +13,7 @@ function _defineProperty(obj, key, value) {
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {
-        };
+        var source = arguments[i] != null ? arguments[i] : {};
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
             ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -41,19 +40,16 @@ let swap = {
     a: 'yes',
     b: -1
 };
-let addAfter = _objectSpread({
-}, o, {
+let addAfter = _objectSpread({}, o, {
     c: false
 });
 let addBefore = _objectSpread({
     c: false
 }, o);
-let override = _objectSpread({
-}, o, {
+let override = _objectSpread({}, o, {
     b: 'override'
 });
-let nested = _objectSpread({
-}, _objectSpread({
+let nested = _objectSpread({}, _objectSpread({
     a: 3
 }, {
     b: false,
@@ -61,14 +57,11 @@ let nested = _objectSpread({
 }), {
     c: 'whatever'
 });
-let combined = _objectSpread({
-}, o, o2);
-let combinedAfter = _objectSpread({
-}, o, o2, {
+let combined = _objectSpread({}, o, o2);
+let combinedAfter = _objectSpread({}, o, o2, {
     b: 'ok'
 });
-let combinedNestedChangeType = _objectSpread({
-}, _objectSpread({
+let combinedNestedChangeType = _objectSpread({}, _objectSpread({
     a: 1
 }, {
     b: false,
@@ -77,8 +70,7 @@ let combinedNestedChangeType = _objectSpread({
     c: -1
 });
 let propertyNested = {
-    a: _objectSpread({
-    }, o)
+    a: _objectSpread({}, o)
 };
 // accessors don't copy the descriptor
 // (which means that readonly getters become read/write properties)
@@ -87,18 +79,14 @@ let op = {
         return 6;
     }
 };
-let getter = _objectSpread({
-}, op, {
+let getter = _objectSpread({}, op, {
     c: 7
 });
 getter.a = 12;
 // functions result in { }
-let spreadFunc = _objectSpread({
-}, function() {
-});
+let spreadFunc = _objectSpread({}, function() {});
 function from16326(header, authToken) {
-    return _objectSpread({
-    }, this.header, header, authToken && {
+    return _objectSpread({}, this.header, header, authToken && {
         authToken
     });
 }
@@ -108,12 +96,10 @@ function conditionalSpreadBoolean(b) {
         x: 12,
         y: 13
     };
-    o1 = _objectSpread({
-    }, o1, b && {
+    o1 = _objectSpread({}, o1, b && {
         x: 14
     });
-    let o2 = _objectSpread({
-    }, b && {
+    let o2 = _objectSpread({}, b && {
         x: 21
     });
     return o1;
@@ -123,12 +109,10 @@ function conditionalSpreadNumber(nt) {
         x: 15,
         y: 16
     };
-    o3 = _objectSpread({
-    }, o3, nt && {
+    o3 = _objectSpread({}, o3, nt && {
         x: nt
     });
-    let o2 = _objectSpread({
-    }, nt && {
+    let o2 = _objectSpread({}, nt && {
         x: nt
     });
     return o3;
@@ -138,80 +122,64 @@ function conditionalSpreadString(st) {
         x: 'hi',
         y: 17
     };
-    o4 = _objectSpread({
-    }, o4, st && {
+    o4 = _objectSpread({}, o4, st && {
         x: st
     });
-    let o2 = _objectSpread({
-    }, st && {
+    let o2 = _objectSpread({}, st && {
         x: st
     });
     return o4;
 }
 // any results in any
 let anything;
-let spreadAny = _objectSpread({
-}, anything);
+let spreadAny = _objectSpread({}, anything);
 // methods are not enumerable
 class C {
-    m() {
-    }
+    m() {}
     constructor(){
         this.p = 1;
     }
 }
 let c = new C();
-let spreadC = _objectSpread({
-}, c);
+let spreadC = _objectSpread({}, c);
 // own methods are enumerable
-let cplus = _objectSpread({
-}, c, {
+let cplus = _objectSpread({}, c, {
     plus () {
         return this.p + 1;
     }
 });
 cplus.plus();
 // new field's type conflicting with existing field is OK
-let changeTypeAfter = _objectSpread({
-}, o, {
+let changeTypeAfter = _objectSpread({}, o, {
     a: 'wrong type?'
 });
-let changeTypeBoth = _objectSpread({
-}, o, swap);
+let changeTypeBoth = _objectSpread({}, o, swap);
 // optional
 function container(definiteBoolean, definiteString, optionalString, optionalNumber) {
-    let optionalUnionStops = _objectSpread({
-    }, definiteBoolean, definiteString, optionalNumber);
-    let optionalUnionDuplicates = _objectSpread({
-    }, definiteBoolean, definiteString, optionalString, optionalNumber);
-    let allOptional = _objectSpread({
-    }, optionalString, optionalNumber);
+    let optionalUnionStops = _objectSpread({}, definiteBoolean, definiteString, optionalNumber);
+    let optionalUnionDuplicates = _objectSpread({}, definiteBoolean, definiteString, optionalString, optionalNumber);
+    let allOptional = _objectSpread({}, optionalString, optionalNumber);
     // computed property
     let computedFirst = _objectSpread({
         ['before everything']: 12
     }, o, {
         b: 'yes'
     });
-    let computedAfter = _objectSpread({
-    }, o, {
+    let computedAfter = _objectSpread({}, o, {
         b: 'yeah',
         ['at the end']: 14
     });
 }
 // shortcut syntax
 let a = 12;
-let shortCutted = _objectSpread({
-}, o, {
+let shortCutted = _objectSpread({}, o, {
     a
 });
 // non primitive
-let spreadNonPrimitive = _objectSpread({
-}, {
-});
+let spreadNonPrimitive = _objectSpread({}, {});
 // generic spreads
 function f(t, u) {
-    return _objectSpread({
-    }, t, u, {
+    return _objectSpread({}, t, u, {
         id: 'id'
     });
 }
@@ -241,20 +209,15 @@ let overwriteId = f({
     d: 'no'
 });
 function genericSpread(t, u, v, w, obj) {
-    let x01 = _objectSpread({
-    }, t);
-    let x02 = _objectSpread({
-    }, t, t);
-    let x03 = _objectSpread({
-    }, t, u);
-    let x04 = _objectSpread({
-    }, u, t);
+    let x01 = _objectSpread({}, t);
+    let x02 = _objectSpread({}, t, t);
+    let x03 = _objectSpread({}, t, u);
+    let x04 = _objectSpread({}, u, t);
     let x05 = _objectSpread({
         a: 5,
         b: 'hi'
     }, t);
-    let x06 = _objectSpread({
-    }, t, {
+    let x06 = _objectSpread({}, t, {
         a: 5,
         b: 'hi'
     });
@@ -275,20 +238,12 @@ function genericSpread(t, u, v, w, obj) {
     }, t, {
         b: 'hi'
     }, u, obj);
-    let x11 = _objectSpread({
-    }, v);
-    let x12 = _objectSpread({
-    }, v, obj);
-    let x13 = _objectSpread({
-    }, w);
-    let x14 = _objectSpread({
-    }, w, obj);
-    let x15 = _objectSpread({
-    }, t, v);
-    let x16 = _objectSpread({
-    }, t, w);
-    let x17 = _objectSpread({
-    }, t, w, obj);
-    let x18 = _objectSpread({
-    }, t, v, w);
+    let x11 = _objectSpread({}, v);
+    let x12 = _objectSpread({}, v, obj);
+    let x13 = _objectSpread({}, w);
+    let x14 = _objectSpread({}, w, obj);
+    let x15 = _objectSpread({}, t, v);
+    let x16 = _objectSpread({}, t, w);
+    let x17 = _objectSpread({}, t, w, obj);
+    let x18 = _objectSpread({}, t, v, w);
 }

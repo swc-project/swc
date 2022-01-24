@@ -55,8 +55,7 @@ function _f() {
                     ;
                     _iteratorAbruptCompletion = false, _didIteratorError = false;
                     _ctx.prev = 3;
-                    _iterator = _asyncIterator({
-                    });
+                    _iterator = _asyncIterator({});
                 case 5:
                     _ctx.next = 7;
                     return _iterator.next();
@@ -104,8 +103,7 @@ function _f() {
                 case 28:
                     _iteratorAbruptCompletion1 = false, _didIteratorError1 = false;
                     _ctx.prev = 29;
-                    _iterator1 = _asyncIterator({
-                    });
+                    _iterator1 = _asyncIterator({});
                 case 31:
                     _ctx.next = 33;
                     return _iterator1.next();

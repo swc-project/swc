@@ -42,6 +42,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj1) {
+    "@swc/helpers - typeof";
     return obj1 && typeof Symbol !== "undefined" && obj1.constructor === Symbol ? "symbol" : typeof obj1;
 };
 function _isNativeReflectConstruct() {
@@ -49,8 +50,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -121,8 +121,7 @@ d0({
     x: 1
 });
 d0({
-    x: {
-    }
+    x: {}
 });
 d0({
     x: "string"
@@ -131,8 +130,7 @@ d1({
     x: new Class()
 });
 d1({
-    x: {
-    }
+    x: {}
 });
 d1({
     x: "string"
@@ -141,8 +139,7 @@ d2({
     x: new SubClass()
 });
 d2({
-    x: {
-    }
+    x: {}
 });
 d3({
     y: new SubD()
@@ -154,8 +151,7 @@ d3({
 d3({
     y: new Class()
 });
-d3({
-});
+d3({});
 d3({
     y: 1
 });

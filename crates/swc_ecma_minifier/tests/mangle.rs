@@ -39,7 +39,7 @@ fn print(cm: Lrc<SourceMap>, m: &Module, minify: bool) -> String {
 
         let mut emitter = Emitter {
             cfg: swc_ecma_codegen::Config { minify },
-            cm: cm.clone(),
+            cm,
             comments: None,
             wr,
         };
@@ -77,7 +77,7 @@ fn run(
         .thread_name(|i| format!("rayon-{}", i + 1))
         .build_global();
 
-    let fm = cm.load_file(&input).expect("failed to load input.js");
+    let fm = cm.load_file(input).expect("failed to load input.js");
     let comments = SingleThreadedComments::default();
 
     eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
@@ -95,7 +95,7 @@ fn run(
     let program = parser
         .parse_module()
         .map_err(|err| {
-            err.into_diagnostic(&handler).emit();
+            err.into_diagnostic(handler).emit();
         })
         .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)));
 
@@ -109,7 +109,7 @@ fn run(
 
     let output = optimize(
         program,
-        cm.clone(),
+        cm,
         Some(&comments),
         None,
         &MinifyOptions {
@@ -215,7 +215,7 @@ fn fixture(input: PathBuf) {
             &ExtraOptions { top_level_mark },
         );
 
-        let mangled = print(cm.clone(), &m, false);
+        let mangled = print(cm, &m, false);
 
         NormalizedOutput::from(mangled)
             .compare_to_file(input.parent().unwrap().join("output.js"))
@@ -253,7 +253,7 @@ fn exec(input: PathBuf) {
         );
 
         let output = output.expect("Parsing in base test should not fail");
-        let output = print(cm.clone(), &output, false);
+        let output = print(cm, &output, false);
 
         eprintln!(
             "---- {} -----\n{}",

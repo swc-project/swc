@@ -50,8 +50,7 @@
             }
             function _objectSpread(target) {
                 for(var i = 1; i < arguments.length; i++){
-                    var source = null != arguments[i] ? arguments[i] : {
-                    };
+                    var source = null != arguments[i] ? arguments[i] : {};
                     i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
                         _defineProperty(target, key, source[key]);
                     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
@@ -68,10 +67,7 @@
                 };
                 if (dynamicOptions instanceof Promise ? loadableOptions.loader = function() {
                     return dynamicOptions;
-                } : "function" == typeof dynamicOptions ? loadableOptions.loader = dynamicOptions : "object" == typeof dynamicOptions && (loadableOptions = _objectSpread(_objectSpread({
-                }, loadableOptions), dynamicOptions)), (loadableOptions = _objectSpread(_objectSpread({
-                }, loadableOptions), options)).loadableGenerated && delete (loadableOptions = _objectSpread(_objectSpread({
-                }, loadableOptions), loadableOptions.loadableGenerated)).loadableGenerated, "boolean" == typeof loadableOptions.ssr) {
+                } : "function" == typeof dynamicOptions ? loadableOptions.loader = dynamicOptions : "object" == typeof dynamicOptions && (loadableOptions = _objectSpread(_objectSpread({}, loadableOptions), dynamicOptions)), (loadableOptions = _objectSpread(_objectSpread({}, loadableOptions), options)).loadableGenerated && delete (loadableOptions = _objectSpread(_objectSpread({}, loadableOptions), loadableOptions.loadableGenerated)).loadableGenerated, "boolean" == typeof loadableOptions.ssr) {
                     if (!loadableOptions.ssr) return delete loadableOptions.ssr, noSSR(loadableFn, loadableOptions);
                     delete loadableOptions.ssr;
                 }
@@ -112,8 +108,7 @@
             }
             function _objectSpread(target) {
                 for(var i = 1; i < arguments.length; i++){
-                    var source = null != arguments[i] ? arguments[i] : {
-                    };
+                    var source = null != arguments[i] ? arguments[i] : {};
                     i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
                         _defineProperty(target, key, source[key]);
                     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
@@ -174,21 +169,16 @@
                                     timedOut: !0
                                 });
                             }, opts1.timeout))), this._res.promise.then(function() {
-                                _this._update({
-                                }), _this._clearTimeouts();
+                                _this._update({}), _this._clearTimeouts();
                             }).catch(function(_err) {
-                                _this._update({
-                                }), _this._clearTimeouts();
-                            }), this._update({
-                            });
+                                _this._update({}), _this._clearTimeouts();
+                            }), this._update({});
                         }
                     },
                     {
                         key: "_update",
                         value: function(partial) {
-                            this._state = _objectSpread(_objectSpread({
-                            }, this._state), {
-                            }, {
+                            this._state = _objectSpread(_objectSpread({}, this._state), {}, {
                                 error: this._res.error,
                                 loaded: this._res.loaded,
                                 loading: this._res.loading
@@ -256,8 +246,7 @@
                                         }
                                     })(o1)) || 0) {
                                         it && (o1 = it);
-                                        var i = 0, F = function() {
-                                        };
+                                        var i = 0, F = function() {};
                                         return {
                                             s: F,
                                             n: function() {
@@ -363,37 +352,34 @@
         1804: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7945), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__), react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4512), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6086), next_dynamic__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4652), next_head__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1843), Test = (0, next_dynamic__WEBPACK_IMPORTED_MODULE_2__.default)({
-                loader: function() {
-                    var _loader = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4__.Z)(_Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-                        return _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function(_context) {
-                            for(;;)switch(_context.prev = _context.next){
-                                case 0:
-                                    return _context.abrupt("return", function() {
-                                        return (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                                            className: "dynamic-style",
-                                            children: [
-                                                (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(next_head__WEBPACK_IMPORTED_MODULE_3__.default, {
-                                                    children: (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("style", {
-                                                        dangerouslySetInnerHTML: {
-                                                            __html: "\n            .dynamic-style {\n              background-color: green;\n              height: 200px;\n            }\n          "
-                                                        }
-                                                    })
-                                                }),
-                                                "test", 
-                                            ]
-                                        });
+            var _loader, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7945), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__), react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4512), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6086), next_dynamic__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4652), next_head__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1843), Test = (0, next_dynamic__WEBPACK_IMPORTED_MODULE_2__.default)({
+                loader: (_loader = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4__.Z)(_Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+                    return _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function(_context) {
+                        for(;;)switch(_context.prev = _context.next){
+                            case 0:
+                                return _context.abrupt("return", function() {
+                                    return (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                                        className: "dynamic-style",
+                                        children: [
+                                            (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(next_head__WEBPACK_IMPORTED_MODULE_3__.default, {
+                                                children: (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("style", {
+                                                    dangerouslySetInnerHTML: {
+                                                        __html: "\n            .dynamic-style {\n              background-color: green;\n              height: 200px;\n            }\n          "
+                                                    }
+                                                })
+                                            }),
+                                            "test", 
+                                        ]
                                     });
-                                case 1:
-                                case "end":
-                                    return _context.stop();
-                            }
-                        }, _callee);
-                    }));
-                    return function() {
-                        return _loader.apply(this, arguments);
-                    };
-                }(),
+                                });
+                            case 1:
+                            case "end":
+                                return _context.stop();
+                        }
+                    }, _callee);
+                })), function() {
+                    return _loader.apply(this, arguments);
+                }),
                 ssr: !1
             });
             __webpack_exports__.default = Test;

@@ -46,8 +46,7 @@
             },
             "value": "on",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

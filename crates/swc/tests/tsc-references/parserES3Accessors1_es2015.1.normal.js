@@ -1,4 +1,3 @@
 class C {
-    get Foo() {
-    }
+    get Foo() {}
 }

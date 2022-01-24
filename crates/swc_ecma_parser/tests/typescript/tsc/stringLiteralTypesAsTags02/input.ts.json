@@ -966,8 +966,7 @@
                   },
                   "value": "kind",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",

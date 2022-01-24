@@ -70,6 +70,7 @@ function _setPrototypeOf(o, p1) {
     return _setPrototypeOf(o, p1);
 }
 var _typeof = function(obj1) {
+    "@swc/helpers - typeof";
     return obj1 && typeof Symbol !== "undefined" && obj1.constructor === Symbol ? "symbol" : typeof obj1;
 };
 function _isNativeReflectConstruct() {
@@ -77,8 +78,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -121,29 +121,24 @@ var Poisoned = /*#__PURE__*/ function(_Component) {
     ]);
     return Poisoned;
 }(React.Component);
-var obj = {
-};
+var obj = {};
 // OK
-/*#__PURE__*/ React.createElement(Poisoned, _extends({
-}, {
+/*#__PURE__*/ React.createElement(Poisoned, _extends({}, {
     x: "ok",
     y: "2"
 }));
 // Error
-var p = /*#__PURE__*/ React.createElement(Poisoned, _extends({
-}, obj));
+var p = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, obj));
 var y = /*#__PURE__*/ React.createElement(Poisoned, null);
 var z = /*#__PURE__*/ React.createElement(Poisoned, {
     x: true,
     y: true
 });
-var w = /*#__PURE__*/ React.createElement(Poisoned, _extends({
-}, {
+var w = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, {
     x: 5,
     y: "2"
 }));
-var w1 = /*#__PURE__*/ React.createElement(Poisoned, _extends({
-}, {
+var w1 = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, {
     x: 5,
     y: "2"
 }, {

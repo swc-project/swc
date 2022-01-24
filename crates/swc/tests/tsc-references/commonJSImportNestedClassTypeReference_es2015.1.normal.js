@@ -9,8 +9,7 @@ const { K  } = require("./mod1");
     k.values();
 }
 // @filename: mod1.js
-var NS = {
-};
+var NS = {};
 NS.K = class _class {
     values() {
         return new NS.K();

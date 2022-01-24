@@ -16,8 +16,7 @@ var Consts1;
     const EMPTY_STRING = getFalsyPrimitive("string");
     const ZERO = getFalsyPrimitive('number');
     const FALSE = getFalsyPrimitive("boolean");
-})(Consts1 || (Consts1 = {
-}));
+})(Consts1 || (Consts1 = {}));
 const string = "string";
 const number = "number";
 const boolean = "boolean";
@@ -34,5 +33,4 @@ var Consts2;
     const b = getFalsyPrimitive(stringOrBoolean);
     const c = getFalsyPrimitive(booleanOrNumber);
     const d = getFalsyPrimitive(stringOrBooleanOrNumber);
-})(Consts2 || (Consts2 = {
-}));
+})(Consts2 || (Consts2 = {}));

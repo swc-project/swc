@@ -1,7 +1,5 @@
 class a {
-    static [b]() {
-    }
+    static [b]() {}
     ;
-    static [c]() {
-    }
+    static [c]() {}
 }

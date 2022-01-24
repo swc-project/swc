@@ -42,8 +42,7 @@ var Point = /*#__PURE__*/ function() {
         return "";
     } // not an error, since not exported
     ;
-})(Point || (Point = {
-}));
+})(Point || (Point = {}));
 var A;
 (function(A1) {
     var Point = /*#__PURE__*/ function() {
@@ -71,7 +70,5 @@ var A;
         function Origin() {
             return "";
         } // not an error since not exported
-    })(Point = A1.Point || (A1.Point = {
-    }));
-})(A || (A = {
-}));
+    })(Point = A1.Point || (A1.Point = {}));
+})(A || (A = {}));

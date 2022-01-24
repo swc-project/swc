@@ -62,22 +62,22 @@ impl UsageVisitor {
             ..
         } = self;
 
-        self.required.extend(features.iter().filter_map(|f| {
+        self.required.extend(features.iter().filter(|f| {
             if !*shipped_proposals && f.starts_with("esnext.") {
-                return None;
+                return false;
             }
 
-            let feature = CORE_JS_COMPAT_DATA.get(&**f);
+            let feature = CORE_JS_COMPAT_DATA.get(&***f);
 
             if !*is_any_target {
                 if let Some(feature) = feature {
                     if !should_enable(*target, *feature, true) {
-                        return None;
+                        return false;
                     }
                 }
             }
 
-            Some(f)
+            true
         }));
     }
 
@@ -86,13 +86,7 @@ impl UsageVisitor {
             self.add(features)
         }
     }
-    fn add_property_deps(&mut self, obj: &Expr, prop: &Expr) {
-        let prop = match prop {
-            Expr::Ident(i) => &i.sym,
-            Expr::Lit(Lit::Str(s)) => &s.value,
-            _ => return,
-        };
-
+    fn add_property_deps(&mut self, obj: &Expr, prop: &JsWord) {
         let obj = match obj {
             Expr::Ident(i) => &i.sym,
             _ => {
@@ -110,14 +104,14 @@ impl UsageVisitor {
                 self.add_builtin(prop);
             }
 
-            if let Some(map) = STATIC_PROPERTIES.get_data(&obj) {
-                if let Some(features) = map.get_data(&prop) {
+            if let Some(map) = STATIC_PROPERTIES.get_data(obj) {
+                if let Some(features) = map.get_data(prop) {
                     self.add(features);
                 }
             }
         }
 
-        if let Some(features) = INSTANCE_PROPERTIES.get_data(&prop) {
+        if let Some(features) = INSTANCE_PROPERTIES.get_data(prop) {
             self.add(features);
         }
     }
@@ -157,26 +151,22 @@ impl Visit for UsageVisitor {
     fn visit_assign_expr(&mut self, e: &AssignExpr) {
         e.visit_children_with(self);
 
-        match &e.left {
-            // ({ keys, values } = Object)
-            PatOrExpr::Pat(pat) => match &**pat {
-                Pat::Object(ref o) => self.visit_object_pat_props(&e.right, &o.props),
-                _ => {}
-            },
-            _ => {}
+        if let PatOrExpr::Pat(pat) = &e.left {
+            if let Pat::Object(ref o) = &**pat {
+                self.visit_object_pat_props(&e.right, &o.props)
+            }
         }
     }
 
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         e.visit_children_with(self);
 
-        match e.op {
-            op!("in") => {
-                // 'entries' in Object
-                // 'entries' in [1, 2, 3]
-                self.add_property_deps(&e.right, &e.left);
+        if e.op == op!("in") {
+            // 'entries' in Object
+            // 'entries' in [1, 2, 3]
+            if let Expr::Lit(Lit::Str(str)) = &*e.left {
+                self.add_property_deps(&e.right, &str.value);
             }
-            _ => {}
         }
     }
 
@@ -184,23 +174,16 @@ impl Visit for UsageVisitor {
     fn visit_call_expr(&mut self, e: &CallExpr) {
         e.visit_children_with(self);
 
-        if let ExprOrSuper::Expr(expr) = &e.callee {
-            match &**expr {
-                Expr::Ident(Ident {
-                    sym: js_word!("import"),
-                    ..
-                }) => self.add(PROMISE_DEPENDENCIES),
-                _ => {}
-            }
+        if let Callee::Import(_) = &e.callee {
+            self.add(PROMISE_DEPENDENCIES)
         }
     }
 
     fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
-        match e {
-            Expr::Ident(i) => self.add_builtin(&i.sym),
-            _ => {}
+        if let Expr::Ident(i) = e {
+            self.add_builtin(&i.sym)
         }
     }
 
@@ -229,16 +212,23 @@ impl Visit for UsageVisitor {
 
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(self);
-        if e.computed {
-            e.prop.visit_with(self);
+        if let MemberProp::Computed(c) = &e.prop {
+            if let Expr::Lit(Lit::Str(str)) = &*c.expr {
+                self.add_property_deps(&e.obj, &str.value);
+            }
+            c.visit_with(self);
         }
 
         // Object.entries
         // [1, 2, 3].entries
+        if let MemberProp::Ident(i) = &e.prop {
+            self.add_property_deps(&e.obj, &i.sym)
+        }
+    }
 
-        match e.obj {
-            ExprOrSuper::Expr(ref obj) => self.add_property_deps(&obj, &e.prop),
-            _ => {}
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            c.visit_with(self);
         }
     }
 
@@ -246,20 +236,11 @@ impl Visit for UsageVisitor {
         d.visit_children_with(self);
 
         if let Some(ref init) = d.init {
-            match d.name {
-                // const { keys, values } = Object
-                Pat::Object(ref o) => self.visit_object_pat_props(&init, &o.props),
-                _ => {}
+            if let Pat::Object(ref o) = d.name {
+                self.visit_object_pat_props(init, &o.props)
             }
-        } else {
-            match d.name {
-                // const { keys, values } = Object
-                Pat::Object(ref o) => self.visit_object_pat_props(
-                    &Expr::Ident(Ident::new(js_word!(""), DUMMY_SP)),
-                    &o.props,
-                ),
-                _ => {}
-            }
+        } else if let Pat::Object(ref o) = d.name {
+            self.visit_object_pat_props(&Expr::Ident(Ident::new(js_word!(""), DUMMY_SP)), &o.props)
         }
     }
 

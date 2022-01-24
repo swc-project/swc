@@ -74,13 +74,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 38,
                         "end": 47,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 38,
@@ -97,8 +97,7 @@
                         },
                         "value": "foo",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -239,13 +238,13 @@
                               "ctxt": 0
                             },
                             "callee": {
-                              "type": "MemberExpression",
+                              "type": "SuperPropExpression",
                               "span": {
                                 "start": 125,
                                 "end": 134,
                                 "ctxt": 0
                               },
-                              "object": {
+                              "obj": {
                                 "type": "Super",
                                 "span": {
                                   "start": 125,
@@ -262,8 +261,7 @@
                                 },
                                 "value": "foo",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [],
                             "typeArguments": null

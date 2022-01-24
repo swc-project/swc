@@ -92,8 +92,7 @@
                       },
                       "value": "random",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [],
                   "typeArguments": null
@@ -145,8 +144,7 @@
                             },
                             "value": "inConstructor",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "NumericLiteral",
@@ -208,8 +206,7 @@
                             },
                             "value": "inConstructor",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "StringLiteral",
@@ -269,8 +266,7 @@
                       },
                       "value": "inMultiple",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -361,8 +357,7 @@
                         },
                         "value": "random",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -414,8 +409,7 @@
                               },
                               "value": "inMethod",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "NumericLiteral",
@@ -467,8 +461,7 @@
                               },
                               "value": "inMethodNullable",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "NullLiteral",
@@ -529,8 +522,7 @@
                               },
                               "value": "inMethod",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "StringLiteral",
@@ -587,8 +579,7 @@
                               },
                               "value": "inMethodNullable",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "Identifier",
@@ -644,8 +635,7 @@
                         },
                         "value": "inMultiple",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "StringLiteral",
@@ -702,8 +692,7 @@
                         },
                         "value": "inMultipleMethods",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "StringLiteral",
@@ -805,8 +794,7 @@
                                     },
                                     "value": "random",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "arguments": [],
                                 "typeArguments": null
@@ -858,8 +846,7 @@
                                           },
                                           "value": "inNestedArrowFunction",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "right": {
                                         "type": "NumericLiteral",
@@ -921,8 +908,7 @@
                                           },
                                           "value": "inNestedArrowFunction",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "right": {
                                         "type": "StringLiteral",
@@ -1041,8 +1027,7 @@
                         },
                         "value": "random",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -1094,8 +1079,7 @@
                               },
                               "value": "inGetter",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "NumericLiteral",
@@ -1157,8 +1141,7 @@
                               },
                               "value": "inGetter",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "StringLiteral",
@@ -1218,8 +1201,7 @@
                         },
                         "value": "inMultiple",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "BooleanLiteral",
@@ -1271,8 +1253,7 @@
                         },
                         "value": "inMultipleMethods",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "BooleanLiteral",
@@ -1372,8 +1353,7 @@
                         },
                         "value": "random",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -1425,8 +1405,7 @@
                               },
                               "value": "inSetter",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "NumericLiteral",
@@ -1488,8 +1467,7 @@
                               },
                               "value": "inSetter",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "StringLiteral",
@@ -1597,8 +1575,7 @@
                         },
                         "value": "random",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -1650,8 +1627,7 @@
                               },
                               "value": "inPropertyDeclaration",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "NumericLiteral",
@@ -1713,8 +1689,7 @@
                               },
                               "value": "inPropertyDeclaration",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "StringLiteral",
@@ -1826,8 +1801,7 @@
                         },
                         "value": "random",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -1879,8 +1853,7 @@
                               },
                               "value": "inStaticMethod",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "NumericLiteral",
@@ -1942,8 +1915,7 @@
                               },
                               "value": "inStaticMethod",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "StringLiteral",
@@ -2048,8 +2020,7 @@
                                     },
                                     "value": "random",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "arguments": [],
                                 "typeArguments": null
@@ -2101,8 +2072,7 @@
                                           },
                                           "value": "inStaticNestedArrowFunction",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "right": {
                                         "type": "NumericLiteral",
@@ -2164,8 +2134,7 @@
                                           },
                                           "value": "inStaticNestedArrowFunction",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "right": {
                                         "type": "StringLiteral",
@@ -2284,8 +2253,7 @@
                         },
                         "value": "random",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -2337,8 +2305,7 @@
                               },
                               "value": "inStaticGetter",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "NumericLiteral",
@@ -2400,8 +2367,7 @@
                               },
                               "value": "inStaticGetter",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "StringLiteral",
@@ -2509,8 +2475,7 @@
                         },
                         "value": "random",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -2562,8 +2527,7 @@
                               },
                               "value": "inStaticSetter",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "NumericLiteral",
@@ -2625,8 +2589,7 @@
                               },
                               "value": "inStaticSetter",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "StringLiteral",
@@ -2734,8 +2697,7 @@
                         },
                         "value": "random",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -2787,8 +2749,7 @@
                               },
                               "value": "inStaticPropertyDeclaration",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "NumericLiteral",
@@ -2850,8 +2811,7 @@
                               },
                               "value": "inStaticPropertyDeclaration",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "StringLiteral",
@@ -3071,8 +3031,7 @@
               },
               "value": "inConstructor",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -3209,8 +3168,7 @@
               },
               "value": "inMethod",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -3270,8 +3228,7 @@
               },
               "value": "inGetter",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -3331,8 +3288,7 @@
               },
               "value": "inSetter",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -3392,8 +3348,7 @@
               },
               "value": "inPropertyDeclaration",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -3453,8 +3408,7 @@
               },
               "value": "inNestedArrowFunction",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -3640,8 +3594,7 @@
               },
               "value": "inMultiple",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -3778,8 +3731,7 @@
               },
               "value": "inMultipleMethods",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -3888,8 +3840,7 @@
               },
               "value": "inMethodNullable",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -3949,8 +3900,7 @@
               },
               "value": "inStaticMethod",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -4010,8 +3960,7 @@
               },
               "value": "inStaticGetter",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -4071,8 +4020,7 @@
               },
               "value": "inStaticSetter",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -4132,8 +4080,7 @@
               },
               "value": "inStaticPropertyDeclaration",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -4193,8 +4140,7 @@
               },
               "value": "inStaticNestedArrowFunction",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

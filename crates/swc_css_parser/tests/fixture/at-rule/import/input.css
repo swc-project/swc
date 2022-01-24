@@ -9,3 +9,156 @@
 @import"test.css";
 @import "common.css" screen;
 @import url('landscape.css') screen and (orientation:landscape);
+@import url("theme.css") layer;
+@import url("theme.css") layer   ;
+@import url("theme.css") LAYER;
+@import url("theme.css") layer(default);
+@import url("theme.css") LAYER(default);
+/*@import url("tabs.css") layer(framework.component);*/
+@import url("override.css") layer();
+@import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+@import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+@import url("fallback-layout.css") supports(not (display: flex));
+@import url(test.css);
+@import url('test.css');
+@import url("test.css");
+@IMPORT url(test.css);
+@import URL(test.css);
+@import url(test.css );
+@import url( test.css);
+@import url( test.css );
+@import url(
+test.css
+);
+@import url();
+@import url('');
+@import url("");
+@import "test.css";
+@import 'test.css';
+@import '';
+@import "";
+@import "   ";
+@import "\
+";
+@import url();
+@import url('');
+@import url("");
+@import url(test.css) screen and (orientation:landscape);
+/*@import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);*/
+@import url(test.css)screen and (orientation:landscape);
+@import url(test.css)   screen   and   (   orientation   :   landscape   )   ;
+@import url(test.css) screen and (orientation:landscape);
+@import url("//example.com/style.css");
+@import url(~package/test.css);
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC');
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC|Roboto');
+@import url('./relative.css');
+@import url('../import/top-relative.css');
+@import url(~package/tilde.css);
+@import url(~aliasesImport/alias.css);
+@import url('./url.css');
+
+@import url(./test.css);
+
+@import './te\
+st.css';
+@import './te\
+\
+\
+st.css';
+@import url('./te\
+st.css');
+@import url('./te\
+\
+\
+st.css');
+
+@import "./te'st.css";
+@import url("./te'st.css");
+@import './te\'st.css';
+@import url('./te\'st.css');
+@import './test test.css';
+@import url('./test test.css');
+@import './test\ test.css';
+@import url('./test\ test.css');
+@import './test%20test.css';
+@import url('./test%20test.css');
+@import './\74\65\73\74.css';
+@import url('./\74\65\73\74.css');
+@import './t\65\73\74.css';
+@import url('./t\65\73\74.css');
+@import url(./test\ test.css);
+@import url(./t\65st%20test.css);
+@import url('./t\65st%20test.css');
+@import url("./t\65st%20test.css");
+@import "./t\65st%20test.css";
+@import './t\65st%20test.css';
+@import url(                 test.css                      );
+@import '\
+\
+\
+';
+@import url('!!../../helpers/string-loader.js?esModule=false!~package/tilde.css');
+
+@import url(test.css?foo=bar);
+@import url(test.css?foo=bar#hash);
+@import url(test.css?#hash);
+
+@import "test.css" supports(display: flex);
+@import "test.css" supports(display: flex) screen and (orientation:landscape);
+@import"test.css"supports(display: flex)screen and (orientation:landscape);
+
+@import "   ./test.css   ";
+@import url('   ./test.css   ');
+@import url(   ./test.css   );
+
+@import "./my.scss";
+
+@import url('   https://fonts.googleapis.com/css?family=Roboto   ');
+@import url('!!../../helpers/string-loader.js?esModule=false!');
+@import url('   !!../../helpers/string-loader.js?esModule=false!~package/tilde.css   ');
+@import url(data:text/css;charset=utf-8,a%20%7B%0D%0A%20%20color%3A%20red%3B%0D%0A%7D);
+
+@import url(package/first.css);
+@import url(package/second.css);
+
+/*@import url("./test.css") supports();*/
+/*@import url("./test.css") supports(unknown);*/
+@import url("./test.css") supports(display: flex);
+@import url("./test.css") supports(display: flex !important);
+@import url("./test.css") supports(display: flex) screen and (min-width: 400px);
+@import url("./test.css") layer;
+@import url("./test.css") layer(default);
+@import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
+@import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+@import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
+@import url("./test.css") layer();
+@import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
+@import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
+@import url("./test.css")screen and (min-width: 400px);
+/*@import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );*/
+/*@import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);*/
+@import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
+@import url(test.css) /* Comment */;
+@import /* Comment */ url(test.css) /* Comment */;
+@import url(test.css) /* Comment */ print and (orientation:landscape);
+@import /* Comment */ url(test.css) /* Comment */ print and (orientation:landscape);
+
+@import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
+@import url("./import-with-supports.css") supports(display: flex);
+@import url("./import-with-supports.css") supports(((display: flex)));
+@import url("./deep-import-with-supports.css") supports(display: flex);
+@import url('./test.css') supports(display: grid);
+@import url('./test.css') supports(   display   :    grid   );
+@import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
+@import url("./test.css") layer(framework);
+@import url("./import-multiple-with-layer.css") layer(default);
+@import url("./import-unnamed-layer.css") layer(base);
+@import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);
+
+/*@import url("./test.css") unknown(default) unknown(display: flex) unknown;*/
+
+/*.foo {*/
+/*    @import 'path.css';*/
+/*}*/

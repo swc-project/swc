@@ -8,8 +8,7 @@ function _defineProperty(obj, key, value) {
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
-        var source = null != arguments[i] ? arguments[i] : {
-        }, ownKeys = Object.keys(source);
+        var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
         "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
         }))), ownKeys.forEach(function(key) {
@@ -80,10 +79,8 @@ export var b = g(_templateObject1(), function(stuff) {
     return stuff.z;
 });
 export var c = obj.prop(_templateObject2(), function(input) {
-    return _objectSpread({
-    }, input);
+    return _objectSpread({}, input);
 });
-c.returnedObjProp.x, c.returnedObjProp.y, c.returnedObjProp.z, (c = obj.prop(_templateObject3(), function(input) {
-    return _objectSpread({
-    }, input);
-})).returnedObjProp.x, c.returnedObjProp.y, c.returnedObjProp.z;
+c.returnedObjProp.x, c.returnedObjProp.y, c.returnedObjProp.z, c = obj.prop(_templateObject3(), function(input) {
+    return _objectSpread({}, input);
+}), c.returnedObjProp.x, c.returnedObjProp.y, c.returnedObjProp.z;

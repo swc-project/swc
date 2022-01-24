@@ -5,8 +5,7 @@ function _defineProperties(target, props) {
     }
 }
 require("./mod1").K;
-var NS = {
-};
+var NS = {};
 NS.K = (function() {
     "use strict";
     var Constructor, protoProps, staticProps;

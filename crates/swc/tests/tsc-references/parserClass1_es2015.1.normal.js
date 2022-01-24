@@ -14,6 +14,5 @@ export class NullLogger {
     fatal() {
         return false;
     }
-    log(s) {
-    }
+    log(s) {}
 }

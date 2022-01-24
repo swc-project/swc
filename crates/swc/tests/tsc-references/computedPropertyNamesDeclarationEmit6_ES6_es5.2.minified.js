@@ -7,9 +7,4 @@ function _defineProperty(obj, key, value) {
         writable: !0
     }) : obj[key] = value, obj;
 }
-_defineProperty(_obj = {
-}, -1, {
-}), _defineProperty(_obj, 1, {
-}), _defineProperty(_obj, -2, {
-}), _defineProperty(_obj, !1, {
-});
+_defineProperty(_obj = {}, -1, {}), _defineProperty(_obj, 1, {}), _defineProperty(_obj, -2, {}), _defineProperty(_obj, !1, {});

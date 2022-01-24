@@ -9,7 +9,7 @@ var A;
     A1.Point = Point;
     let B1;
     (function(B) {
-        B.Origin = new Point(0, 0);
+        var Origin = B.Origin = new Point(0, 0);
         class Line {
             static fromOrigin(p) {
                 return new Line({
@@ -17,11 +17,8 @@ var A;
                     y: 0
                 }, p);
             }
-            constructor(start, end){
-            }
+            constructor(start, end){}
         }
         B.Line = Line;
-    })(B1 = A1.B || (A1.B = {
-    }));
-})(A || (A = {
-}));
+    })(B1 = A1.B || (A1.B = {}));
+})(A || (A = {}));

@@ -77,8 +77,7 @@ class SelfAssert {
     inThis() {
         if ("a" in this) {
             let y = this.a;
-        } else {
-        }
+        } else {}
     }
 }
 function f(i) {

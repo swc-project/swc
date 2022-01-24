@@ -56,6 +56,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -63,8 +64,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -128,8 +128,7 @@ export var D = function D(a, b) {
             },
             set: /**
      * @param {U} _p
-     */ function set(_p) {
-            }
+     */ function set(_p) {}
         },
         {
             key: "f2",
@@ -143,8 +142,7 @@ export var D = function D(a, b) {
             key: "f3",
             set: /**
      * @param {U} _p
-     */ function set(_p) {
-            }
+     */ function set(_p) {}
         }
     ], [
         {
@@ -156,8 +154,7 @@ export var D = function D(a, b) {
             },
             set: /**
      * @param {string} _p
-     */ function set(_p) {
-            }
+     */ function set(_p) {}
         },
         {
             key: "s2",
@@ -171,8 +168,7 @@ export var D = function D(a, b) {
             key: "s3",
             set: /**
      * @param {string} _p
-     */ function set(_p) {
-            }
+     */ function set(_p) {}
         }
     ]);
     return E;
@@ -308,8 +304,7 @@ export var HasStatics = /*#__PURE__*/ function() {
     _createClass(HasStatics, null, [
         {
             key: "staticMethod",
-            value: function staticMethod() {
-            }
+            value: function staticMethod() {}
         }
     ]);
     return HasStatics;
@@ -325,8 +320,7 @@ export var ExtendsStatics = /*#__PURE__*/ function(HasStatics) {
     _createClass(ExtendsStatics, null, [
         {
             key: "also",
-            value: function also() {
-            }
+            value: function also() {}
         }
     ]);
     return ExtendsStatics;

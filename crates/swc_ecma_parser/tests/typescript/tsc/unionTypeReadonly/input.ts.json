@@ -466,8 +466,7 @@
             },
             "value": "value",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -609,8 +608,7 @@
             },
             "value": "value",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -752,8 +750,7 @@
             },
             "value": "value",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -895,8 +892,7 @@
             },
             "value": "value",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1038,8 +1034,7 @@
             },
             "value": "value",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",

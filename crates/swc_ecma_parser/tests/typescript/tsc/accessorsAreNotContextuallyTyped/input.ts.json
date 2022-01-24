@@ -392,8 +392,7 @@
                 },
                 "value": "x",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {

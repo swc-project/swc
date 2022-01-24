@@ -7,16 +7,14 @@ function unbox(x) {
     return x.value;
 }
 function boxify(obj) {
-    let result = {
-    };
+    let result = {};
     for(let k in obj){
         result[k] = box(obj[k]);
     }
     return result;
 }
 function unboxify(obj) {
-    let result = {
-    };
+    let result = {};
     for(let k in obj){
         result[k] = unbox(obj[k]);
     }
@@ -148,11 +146,9 @@ let x4 = f24({
 });
 // Repro from #29765
 function getProps(obj, list) {
-    return {
-    };
+    return {};
 }
-const myAny = {
-};
+const myAny = {};
 const o1 = getProps(myAny, [
     'foo',
     'bar'

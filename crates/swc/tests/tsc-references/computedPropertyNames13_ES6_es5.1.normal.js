@@ -30,59 +30,48 @@ var C = /*#__PURE__*/ function() {
     _createClass(C, [
         {
             key: tmp,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: tmp1,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: tmp3,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: tmp4,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: tmp6,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: tmp7,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: tmp9,
-            value: function value() {
-            }
+            value: function value() {}
         }
     ], [
         {
             key: tmp2,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: tmp5,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: tmp8,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: tmp10,
-            value: function value() {
-            }
+            value: function value() {}
         }
     ]);
     return C;

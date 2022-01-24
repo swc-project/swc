@@ -2,6 +2,5 @@
 var obj = {
     [Symbol.nonsense]: 0
 };
-obj = {
-};
+obj = {};
 obj[Symbol.nonsense];

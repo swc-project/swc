@@ -81,13 +81,13 @@
                       "typeAnnotation": null
                     },
                     "init": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 288,
                         "end": 303,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 288,
@@ -104,8 +104,7 @@
                         },
                         "value": "prototype",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "definite": false
                   }
@@ -147,13 +146,13 @@
                         "ctxt": 0
                       },
                       "callee": {
-                        "type": "MemberExpression",
+                        "type": "SuperPropExpression",
                         "span": {
                           "start": 321,
                           "end": 341,
                           "ctxt": 0
                         },
-                        "object": {
+                        "obj": {
                           "type": "Super",
                           "span": {
                             "start": 321,
@@ -170,8 +169,7 @@
                           },
                           "value": "hasOwnProperty",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -265,13 +263,13 @@
                         "typeAnnotation": null
                       },
                       "init": {
-                        "type": "MemberExpression",
+                        "type": "SuperPropExpression",
                         "span": {
                           "start": 381,
                           "end": 396,
                           "ctxt": 0
                         },
-                        "object": {
+                        "obj": {
                           "type": "Super",
                           "span": {
                             "start": 381,
@@ -288,8 +286,7 @@
                           },
                           "value": "prototype",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -331,13 +328,13 @@
                           "ctxt": 0
                         },
                         "callee": {
-                          "type": "MemberExpression",
+                          "type": "SuperPropExpression",
                           "span": {
                             "start": 414,
                             "end": 434,
                             "ctxt": 0
                           },
-                          "object": {
+                          "obj": {
                             "type": "Super",
                             "span": {
                               "start": 414,
@@ -354,8 +351,7 @@
                             },
                             "value": "hasOwnProperty",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [
                           {
@@ -414,13 +410,13 @@
             "optional": false
           },
           "value": {
-            "type": "MemberExpression",
+            "type": "SuperPropExpression",
             "span": {
               "start": 455,
               "end": 470,
               "ctxt": 0
             },
-            "object": {
+            "obj": {
               "type": "Super",
               "span": {
                 "start": 455,
@@ -437,8 +433,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -476,13 +471,13 @@
               "ctxt": 0
             },
             "callee": {
-              "type": "MemberExpression",
+              "type": "SuperPropExpression",
               "span": {
                 "start": 480,
                 "end": 500,
                 "ctxt": 0
               },
-              "object": {
+              "obj": {
                 "type": "Super",
                 "span": {
                   "start": 480,
@@ -499,8 +494,7 @@
                 },
                 "value": "hasOwnProperty",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -582,13 +576,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 734,
                         "end": 754,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 734,
@@ -605,8 +599,7 @@
                         },
                         "value": "hasOwnProperty",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -692,13 +685,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 809,
                         "end": 829,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 809,
@@ -715,8 +708,7 @@
                         },
                         "value": "hasOwnProperty",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -845,13 +837,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 904,
                         "end": 924,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 904,
@@ -868,8 +860,7 @@
                         },
                         "value": "hasOwnProperty",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -1361,13 +1352,13 @@
                   },
                   "operator": "=",
                   "left": {
-                    "type": "MemberExpression",
+                    "type": "SuperPropExpression",
                     "span": {
                       "start": 1645,
                       "end": 1663,
                       "ctxt": 0
                     },
-                    "object": {
+                    "obj": {
                       "type": "Super",
                       "span": {
                         "start": 1645,
@@ -1384,8 +1375,7 @@
                       },
                       "value": "publicMember",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -1465,13 +1455,13 @@
                         "typeAnnotation": null
                       },
                       "init": {
-                        "type": "MemberExpression",
+                        "type": "SuperPropExpression",
                         "span": {
                           "start": 1703,
                           "end": 1721,
                           "ctxt": 0
                         },
-                        "object": {
+                        "obj": {
                           "type": "Super",
                           "span": {
                             "start": 1703,
@@ -1488,8 +1478,7 @@
                           },
                           "value": "publicMember",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -1571,13 +1560,13 @@
                         "typeAnnotation": null
                       },
                       "init": {
-                        "type": "MemberExpression",
+                        "type": "SuperPropExpression",
                         "span": {
                           "start": 1760,
                           "end": 1778,
                           "ctxt": 0
                         },
-                        "object": {
+                        "obj": {
                           "type": "Super",
                           "span": {
                             "start": 1760,
@@ -1594,8 +1583,7 @@
                           },
                           "value": "publicMember",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -1714,13 +1702,13 @@
                       "typeAnnotation": null
                     },
                     "right": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 1839,
                         "end": 1857,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 1839,
@@ -1737,8 +1725,7 @@
                         },
                         "value": "publicMember",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 }
@@ -1832,13 +1819,13 @@
                             "ctxt": 0
                           },
                           "callee": {
-                            "type": "MemberExpression",
+                            "type": "SuperPropExpression",
                             "span": {
                               "start": 1916,
                               "end": 1932,
                               "ctxt": 0
                             },
-                            "object": {
+                            "obj": {
                               "type": "Super",
                               "span": {
                                 "start": 1916,
@@ -1855,8 +1842,7 @@
                               },
                               "value": "publicFunc",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "arguments": [],
                           "typeArguments": null
@@ -1950,13 +1936,13 @@
                                         "ctxt": 0
                                       },
                                       "callee": {
-                                        "type": "MemberExpression",
+                                        "type": "SuperPropExpression",
                                         "span": {
                                           "start": 2003,
                                           "end": 2019,
                                           "ctxt": 0
                                         },
-                                        "object": {
+                                        "obj": {
                                           "type": "Super",
                                           "span": {
                                             "start": 2003,
@@ -1973,8 +1959,7 @@
                                           },
                                           "value": "publicFunc",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "arguments": [],
                                       "typeArguments": null
@@ -2112,13 +2097,13 @@
                   },
                   "operator": "=",
                   "left": {
-                    "type": "MemberExpression",
+                    "type": "SuperPropExpression",
                     "span": {
                       "start": 2334,
                       "end": 2353,
                       "ctxt": 0
                     },
-                    "object": {
+                    "obj": {
                       "type": "Super",
                       "span": {
                         "start": 2334,
@@ -2135,8 +2120,7 @@
                       },
                       "value": "privateMember",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -2216,13 +2200,13 @@
                         "typeAnnotation": null
                       },
                       "init": {
-                        "type": "MemberExpression",
+                        "type": "SuperPropExpression",
                         "span": {
                           "start": 2393,
                           "end": 2412,
                           "ctxt": 0
                         },
-                        "object": {
+                        "obj": {
                           "type": "Super",
                           "span": {
                             "start": 2393,
@@ -2239,8 +2223,7 @@
                           },
                           "value": "privateMember",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -2322,13 +2305,13 @@
                         "typeAnnotation": null
                       },
                       "init": {
-                        "type": "MemberExpression",
+                        "type": "SuperPropExpression",
                         "span": {
                           "start": 2451,
                           "end": 2470,
                           "ctxt": 0
                         },
-                        "object": {
+                        "obj": {
                           "type": "Super",
                           "span": {
                             "start": 2451,
@@ -2345,8 +2328,7 @@
                           },
                           "value": "privateMember",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -2465,13 +2447,13 @@
                       "typeAnnotation": null
                     },
                     "right": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 2531,
                         "end": 2550,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 2531,
@@ -2488,8 +2470,7 @@
                         },
                         "value": "privateMember",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 }
@@ -2592,13 +2573,13 @@
                     },
                     "operator": "=",
                     "left": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 2959,
                         "end": 2983,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 2959,
@@ -2615,8 +2596,7 @@
                         },
                         "value": "publicStaticMember",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -2645,13 +2625,13 @@
                     },
                     "operator": "=",
                     "left": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 2997,
                         "end": 3022,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 2997,
@@ -2668,8 +2648,7 @@
                         },
                         "value": "privateStaticMember",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -2697,13 +2676,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 3036,
                         "end": 3059,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 3036,
@@ -2720,8 +2699,7 @@
                         },
                         "value": "privateStaticFunc",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -2790,13 +2768,13 @@
                     },
                     "operator": "=",
                     "left": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 3098,
                         "end": 3122,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 3098,
@@ -2813,8 +2791,7 @@
                         },
                         "value": "publicStaticMember",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -2843,13 +2820,13 @@
                     },
                     "operator": "=",
                     "left": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 3136,
                         "end": 3161,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 3136,
@@ -2866,8 +2843,7 @@
                         },
                         "value": "privateStaticMember",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -2895,13 +2871,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 3175,
                         "end": 3198,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 3175,
@@ -2918,8 +2894,7 @@
                         },
                         "value": "privateStaticFunc",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -3031,13 +3006,13 @@
                     },
                     "operator": "=",
                     "left": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 3257,
                         "end": 3281,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 3257,
@@ -3054,8 +3029,7 @@
                         },
                         "value": "publicStaticMember",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -3084,13 +3058,13 @@
                     },
                     "operator": "=",
                     "left": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 3295,
                         "end": 3320,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 3295,
@@ -3107,8 +3081,7 @@
                         },
                         "value": "privateStaticMember",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -3136,13 +3109,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 3334,
                         "end": 3357,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 3334,
@@ -3159,8 +3132,7 @@
                         },
                         "value": "privateStaticFunc",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -3245,13 +3217,13 @@
                   "optional": false
                 },
                 "value": {
-                  "type": "MemberExpression",
+                  "type": "SuperPropExpression",
                   "span": {
                     "start": 3406,
                     "end": 3415,
                     "ctxt": 0
                   },
-                  "object": {
+                  "obj": {
                     "type": "Super",
                     "span": {
                       "start": 3406,
@@ -3268,8 +3240,7 @@
                     },
                     "value": "wat",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -3292,13 +3263,13 @@
                     "ctxt": 0
                   },
                   "callee": {
-                    "type": "MemberExpression",
+                    "type": "SuperPropExpression",
                     "span": {
                       "start": 3420,
                       "end": 3429,
                       "ctxt": 0
                     },
-                    "object": {
+                    "obj": {
                       "type": "Super",
                       "span": {
                         "start": 3420,
@@ -3315,8 +3286,7 @@
                       },
                       "value": "foo",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [],
                   "typeArguments": null

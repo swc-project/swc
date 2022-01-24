@@ -1,15 +1,10 @@
-function tempTag2(...rest) {
-}
+function tempTag2(...rest) {}
 tempTag2`${(x)=>{
-    x(undefined);
-    return x;
+    return x(void 0), x;
 }}${0}`, tempTag2`${(x)=>{
-    x(undefined);
-    return x;
+    return x(void 0), x;
 }}${(y)=>{
-    y(null);
-    return y;
+    return y(null), y;
 }}${"hello"}`, tempTag2`${(x)=>{
-    x(undefined);
-    return x;
-}}${undefined}${"hello"}`;
+    return x(void 0), x;
+}}${void 0}${"hello"}`;

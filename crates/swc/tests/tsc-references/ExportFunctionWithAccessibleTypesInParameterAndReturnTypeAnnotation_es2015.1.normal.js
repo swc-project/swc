@@ -17,5 +17,4 @@ var A;
         }, p);
     }
     A1.fromOrigin = fromOrigin;
-})(A || (A = {
-}));
+})(A || (A = {}));

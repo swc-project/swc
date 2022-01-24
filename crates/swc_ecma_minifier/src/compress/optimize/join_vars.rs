@@ -1,5 +1,8 @@
 use super::Optimizer;
-use crate::{compress::util::is_directive, mode::Mode};
+use crate::{
+    compress::util::{drop_invalid_stmts, is_directive},
+    mode::Mode,
+};
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_utils::StmtLike;
@@ -104,7 +107,10 @@ where
                                 .map(|v| v.kind == VarDeclKind::Var)
                                 .unwrap_or(true) =>
                             {
-                                stmt.init = cur.take().map(VarDeclOrExpr::VarDecl);
+                                stmt.init = cur
+                                    .take()
+                                    .and_then(|v| if v.decls.is_empty() { None } else { Some(v) })
+                                    .map(VarDeclOrExpr::VarDecl);
 
                                 new.push(T::from_stmt(Stmt::For(stmt)))
                             }
@@ -132,6 +138,8 @@ where
         }
 
         new.extend(cur.take().map(Decl::Var).map(Stmt::Decl).map(T::from_stmt));
+
+        drop_invalid_stmts(&mut new);
 
         *stmts = new;
     }

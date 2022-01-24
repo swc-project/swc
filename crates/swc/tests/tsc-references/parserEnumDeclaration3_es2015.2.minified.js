@@ -1,3 +1,4 @@
-var E, E;
-(E = E || (E = {
-}))[E.A = 1] = "A";
+var E;
+!function(E) {
+    E[E.A = 1] = "A";
+}(E || (E = {}));

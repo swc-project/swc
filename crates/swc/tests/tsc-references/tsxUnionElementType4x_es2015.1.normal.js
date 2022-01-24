@@ -13,8 +13,7 @@ class RC2 extends React.Component {
     render() {
         return null;
     }
-    method() {
-    }
+    method() {}
 }
 class RC3 extends React.Component {
     render() {

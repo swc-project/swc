@@ -56,6 +56,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -63,8 +64,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -91,8 +91,7 @@ var A = /*#__PURE__*/ function() {
     _createClass(A, [
         {
             key: "foo",
-            value: function foo() {
-            }
+            value: function foo() {}
         }
     ]);
     return A;
@@ -115,8 +114,7 @@ var AA = /*#__PURE__*/ function() {
     _createClass(AA, [
         {
             key: "foo",
-            value: function foo() {
-            }
+            value: function foo() {}
         }
     ]);
     return AA;
@@ -132,8 +130,7 @@ var BB = /*#__PURE__*/ function(AA) {
     _createClass(BB, [
         {
             key: "bar",
-            value: function bar() {
-            }
+            value: function bar() {}
         }
     ]);
     return BB;
@@ -160,8 +157,7 @@ var DD = /*#__PURE__*/ function(BB) {
     _createClass(DD, [
         {
             key: "foo",
-            value: function foo() {
-            }
+            value: function foo() {}
         }
     ]);
     return DD;

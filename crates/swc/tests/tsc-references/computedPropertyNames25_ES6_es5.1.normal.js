@@ -92,6 +92,7 @@ function _superPropBase(object, property) {
     return object;
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -99,8 +100,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -147,9 +147,7 @@ var C = /*#__PURE__*/ function(Base) {
         {
             key: "foo",
             value: function foo() {
-                var obj = _defineProperty({
-                }, _get(_getPrototypeOf(C.prototype), "bar", this).call(this), function() {
-                });
+                var obj = _defineProperty({}, _get(_getPrototypeOf(C.prototype), "bar", this).call(this), function() {});
                 return 0;
             }
         }

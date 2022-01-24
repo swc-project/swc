@@ -47,11 +47,9 @@ const createTest = ()=>{
 let x1 = f1('a');
 let x2 = f2('a', 'b');
 // Repro from #30442
-const func = ()=>{
-};
+const func = ()=>{};
 const assign = (a, b)=>Object.assign(a, b)
 ;
-const res = assign(()=>{
-}, {
+const res = assign(()=>{}, {
     func
 });

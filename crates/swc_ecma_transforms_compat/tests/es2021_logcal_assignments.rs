@@ -13,16 +13,32 @@ fn syntax() -> Syntax {
     })
 }
 
-test!(syntax(), |_| tr(), logical_ident, "a ||= b", "a || (a = b)");
+test!(
+    syntax(),
+    |_| tr(),
+    logical_ident,
+    "
+    a ||= b
+    a &&= b
+    ",
+    "
+    a || (a = b);
+    a && (a = b);
+    "
+);
 
 test!(
     syntax(),
     |_| tr(),
     logical_member,
-    "a.b ||= b",
+    r#"
+    a.b ||= b
+    a.b &&= b
+    "#,
     "
-    var _a;
+    var _a, _a1;
     (_a = a).b || (_a.b = b);
+    (_a1 = a).b && (_a1.b = b);
     "
 );
 

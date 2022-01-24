@@ -1,18 +1,13 @@
 // @strictNullChecks: true
 // arrow
-((jake)=>{
-})("build");
+((jake)=>{})("build");
 // function expression
-(function(cats) {
-})("lol");
+(function(cats) {})("lol");
 // Lots of Irritating Superfluous Parentheses
-(function(x) {
-})("!");
-(function(y) {
-})("-");
+(function(x) {})("!");
+(function(y) {})("-");
 // multiple arguments
-((a, b, c)=>{
-})("foo", 101, false);
+((a, b, c)=>{})("foo", 101, false);
 // default parameters
 ((m = 10)=>m + 1
 )(12);

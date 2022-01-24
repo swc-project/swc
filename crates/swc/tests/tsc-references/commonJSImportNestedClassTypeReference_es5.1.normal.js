@@ -28,8 +28,7 @@ var K = require("./mod1").K;
     k.values();
 }
 // @filename: mod1.js
-var NS = {
-};
+var NS = {};
 NS.K = /*#__PURE__*/ (function() {
     "use strict";
     function _class() {

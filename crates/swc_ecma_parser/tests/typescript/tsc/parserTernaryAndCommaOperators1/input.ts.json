@@ -54,8 +54,7 @@
                 },
                 "value": "src",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "consequent": {
               "type": "NumericLiteral",

@@ -1,4 +1,3 @@
 var types;
-(types || (types = {
-})).A = class {
+(types || (types = {})).A = class {
 };

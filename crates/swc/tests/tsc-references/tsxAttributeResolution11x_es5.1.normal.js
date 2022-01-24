@@ -26,8 +26,7 @@ var MyComponent = //@filename: file.tsx
     _createClass(MyComponent, [
         {
             key: "render",
-            value: function render() {
-            }
+            value: function render() {}
         }
     ]);
     return MyComponent;

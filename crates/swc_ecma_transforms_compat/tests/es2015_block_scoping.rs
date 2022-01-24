@@ -511,27 +511,28 @@ test!(
         }
         ",
     r#"
-        var regeneratorRuntime = require("regenerator-runtime");
-        function foo() {
-            return _foo.apply(this, arguments);
-        }
-        function _foo() {
-            _foo = _asyncToGenerator(regeneratorRuntime.mark(function _callee1() {
-                return regeneratorRuntime.wrap(function _callee$(_ctx1) {
-                    while(1)switch(_ctx1.prev = _ctx1.next){
-                        case 0:
-                            _ctx1.next = 2;
-                            return Promise.all([
-                                [
-                                    1
-                                ],
-                                [
-                                    2
-                                ],
-                                [
-                                    3
-                                ]
-                            ].map(_asyncToGenerator(regeneratorRuntime.mark(function _callee(param) {
+    var regeneratorRuntime = require("regenerator-runtime");
+    function foo() {
+        return _foo.apply(this, arguments);
+    }
+    function _foo() {
+        _foo = _asyncToGenerator(regeneratorRuntime.mark(function _callee1() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx1) {
+                while(1)switch(_ctx1.prev = _ctx1.next){
+                    case 0:
+                        _ctx1.next = 2;
+                        return Promise.all([
+                            [
+                                1
+                            ],
+                            [
+                                2
+                            ],
+                            [
+                                3
+                            ]
+                        ].map(function() {
+                            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(param) {
                                 var _param, a;
                                 return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                     while(1)switch(_ctx.prev = _ctx.next){
@@ -545,17 +546,20 @@ test!(
                                             return _ctx.stop();
                                     }
                                 }, _callee);
-                            }))));
-                        case 2:
-                        case "end":
-                            return _ctx1.stop();
-                    }
-                }, _callee1);
-            }));
-            return _foo.apply(this, arguments);
-        }
-
-        "#
+                            }));
+                            return function(_) {
+                                return _ref.apply(this, arguments);
+                            };
+                        }()));
+                    case 2:
+                    case "end":
+                        return _ctx1.stop();
+                }
+            }, _callee1);
+        }));
+        return _foo.apply(this, arguments);
+    }
+"#
 );
 
 test_exec!(

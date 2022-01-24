@@ -36,8 +36,7 @@ var C = // @target: es5
             get: function get() {
                 return 1;
             },
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ]);
     return C;

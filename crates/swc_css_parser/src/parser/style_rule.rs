@@ -219,7 +219,7 @@ where
         if !is!(self, EOF) {
             match &*property.value {
                 str if str.starts_with("--") => {
-                    let tokens = Value::Lazy(self.parse_declaration_value()?);
+                    let tokens = Value::Tokens(self.parse_declaration_value()?);
 
                     value.push(tokens);
                 }

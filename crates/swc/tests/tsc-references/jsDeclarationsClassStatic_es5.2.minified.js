@@ -22,13 +22,11 @@ var Handler = function() {
     ], protoProps = [
         {
             key: "process",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties((Constructor = Handler).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Handler;
 }();
-Handler.statische = function() {
-}, module.exports = Handler, module.exports.Strings = {
+Handler.statische = function() {}, module.exports = Handler, module.exports.Strings = {
     a: "A",
     b: "B"
 } /**

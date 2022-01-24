@@ -55,6 +55,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -62,8 +63,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -99,9 +99,7 @@ var C = /*#__PURE__*/ function(Base) {
             var obj = // Ideally, we would capture this. But the reference is
             // illegal, and not capturing this is consistent with
             //treatment of other similar violations.
-            _defineProperty({
-            }, (_this1 = _super.call(_this), "prop"), function() {
-            });
+            _defineProperty({}, (_this1 = _super.call(_this), "prop"), function() {});
         });
         return _this1;
     }

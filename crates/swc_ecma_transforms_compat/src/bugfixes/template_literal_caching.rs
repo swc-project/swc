@@ -29,21 +29,17 @@ struct TemplateLiteralCaching {
 
 impl TemplateLiteralCaching {
     fn create_binding(&mut self, name: Ident, init: Option<Expr>) {
-        let init = if let Some(init) = init {
-            Some(Box::new(init))
-        } else {
-            None
-        };
+        let init = init.map(Box::new);
         self.decls.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(BindingIdent::from(name.clone())),
+            name: name.into(),
             init,
             definite: false,
         })
     }
 
     fn create_var_decl(&mut self) -> Option<Stmt> {
-        if self.decls.len() > 0 {
+        if !self.decls.is_empty() {
             return Some(Stmt::Decl(Decl::Var(VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Let,
@@ -70,11 +66,11 @@ impl Fold for TemplateLiteralCaching {
                     let t = private_ident!("t");
                     self.helper_ident = Some(helper_ident.clone());
                     self.create_binding(
-                        helper_ident.clone(),
+                        helper_ident,
                         Some(Expr::Arrow(ArrowExpr {
                             span: DUMMY_SP,
-                            params: vec![Pat::Ident(BindingIdent::from(t.clone()))],
-                            body: BlockStmtOrExpr::Expr(Box::new(Expr::Ident(t.clone()))),
+                            params: vec![t.clone().into()],
+                            body: BlockStmtOrExpr::Expr(Box::new(Expr::Ident(t))),
                             is_async: false,
                             is_generator: false,
                             type_params: None,
@@ -94,15 +90,7 @@ impl Fold for TemplateLiteralCaching {
                     tpl: Tpl {
                         span: DUMMY_SP,
                         quasis: n.tpl.quasis,
-                        exprs: (&n.tpl.exprs)
-                            .into_iter()
-                            .map(|_| {
-                                Box::new(Expr::Lit(Lit::Num(Number {
-                                    span: DUMMY_SP,
-                                    value: 0.0,
-                                })))
-                            })
-                            .collect(),
+                        exprs: n.tpl.exprs.iter().map(|_| 0.0.into()).collect(),
                     },
                     type_params: None,
                 };
@@ -113,12 +101,12 @@ impl Fold for TemplateLiteralCaching {
                 self.create_binding(t.clone(), None);
                 let inline_cache = Expr::Bin(BinExpr {
                     span: DUMMY_SP,
-                    op: BinaryOp::LogicalOr,
+                    op: op!("||"),
                     left: Box::new(Expr::Ident(t.clone())),
                     right: Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        op: AssignOp::Assign,
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(BindingIdent::from(t.clone())))),
+                        op: op!("="),
+                        left: PatOrExpr::Pat(t.into()),
                         right: Box::new(Expr::TaggedTpl(template)),
                     })),
                 });
@@ -129,7 +117,7 @@ impl Fold for TemplateLiteralCaching {
                 //   tag(_t || (_t = Object`a${0}`), 'hello')
                 Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: ExprOrSuper::Expr(n.tag),
+                    callee: Callee::Expr(n.tag),
                     args: vec![ExprOrSpread {
                         expr: Box::new(inline_cache),
                         spread: None,

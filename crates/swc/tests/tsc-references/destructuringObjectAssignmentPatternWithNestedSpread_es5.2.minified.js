@@ -1,12 +1,9 @@
-var _c;
+var _c, ref, d;
 (function(source, excluded) {
-    if (null == source) return {
-    };
+    if (null == source) return {};
     var key, i, target = function(source, excluded) {
-        if (null == source) return {
-        };
-        var key, i, target = {
-        }, sourceKeys = Object.keys(source);
+        if (null == source) return {};
+        var key, i, target = {}, sourceKeys = Object.keys(source);
         for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
         return target;
     }(source, excluded);
@@ -21,4 +18,4 @@ var _c;
     }
 }).x, [
     "a"
-]), (void 0 === _c.x, _c.x).a;
+]), (void 0 === (ref = _c.x) ? d : ref).a;

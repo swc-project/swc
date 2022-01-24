@@ -27,8 +27,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -45,7 +44,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var EX, EX, C1 = function(_super) {
+var EX, C1 = function(_super) {
     "use strict";
     _inherits(C1, _super);
     var _super1 = _createSuper(C1);
@@ -102,8 +101,9 @@ var EX, EX, C1 = function(_super) {
     }
     return C7;
 }(Constructor());
-(EX = EX || (EX = {
-}))[EX.A = 0] = "A", EX[EX.B = 1] = "B", EX[EX.C = 2] = "C";
+!function(EX) {
+    EX[EX.A = 0] = "A", EX[EX.B = 1] = "B", EX[EX.C = 2] = "C";
+}(EX || (EX = {}));
 var C20 = function(_super) {
     "use strict";
     _inherits(C20, _super);

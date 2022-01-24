@@ -8,17 +8,14 @@ class SomeDerived3 extends SomeBase {
 }
 // Ambiguous call picks the first overload in declaration order
 class fn1 {
-    constructor(){
-    }
+    constructor(){}
 }
 new fn1(undefined);
 // No candidate overloads found
-new fn1({
-}); // Error
+new fn1({}); // Error
 // Generic and non - generic overload where generic overload is the only candidate when called with type arguments
 class fn2 {
-    constructor(){
-    }
+    constructor(){}
 }
 var d = new fn2(0, undefined);
 // Generic and non - generic overload where generic overload is the only candidate when called without type arguments
@@ -29,8 +26,7 @@ new fn2('', 0); // OK
 new fn2('', 0); // OK
 // Generic overloads with differing arity called without type arguments
 class fn3 {
-    constructor(){
-    }
+    constructor(){}
 }
 new fn3(3);
 new fn3('', 3, '');
@@ -43,8 +39,7 @@ new fn3('', '', 3);
 new fn3(); // Error
 // Generic overloads with constraints called with type arguments that satisfy the constraints
 class fn4 {
-    constructor(){
-    }
+    constructor(){}
 }
 new fn4('', 3);
 new fn4(3, ''); // Error

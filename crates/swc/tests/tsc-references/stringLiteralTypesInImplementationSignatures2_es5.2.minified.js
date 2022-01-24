@@ -15,8 +15,7 @@ var C = function() {
     return Constructor = C, protoProps = [
         {
             key: "foo",
-            value: function(x) {
-            }
+            value: function(x) {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();
@@ -28,7 +27,5 @@ var C = function() {
         writable: !0
     }) : obj[key] = value, obj;
 }({
-    foo: function(x) {
-    }
-}, "foo", function(x) {
-});
+    foo: function(x) {}
+}, "foo", function(x) {});

@@ -759,8 +759,7 @@
                       },
                       "value": "START",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "definite": false
                 }
@@ -905,16 +904,23 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "Identifier",
+                    "type": "Computed",
                     "span": {
-                      "start": 1019,
-                      "end": 1020,
+                      "start": 1018,
+                      "end": 1021,
                       "ctxt": 0
                     },
-                    "value": "s",
-                    "optional": false
-                  },
-                  "computed": true
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1019,
+                        "end": 1020,
+                        "ctxt": 0
+                      },
+                      "value": "s",
+                      "optional": false
+                    }
+                  }
                 }
               },
               "consequent": {
@@ -976,16 +982,23 @@
                         "optional": false
                       },
                       "property": {
-                        "type": "Identifier",
+                        "type": "Computed",
                         "span": {
-                          "start": 1084,
-                          "end": 1085,
+                          "start": 1083,
+                          "end": 1086,
                           "ctxt": 0
                         },
-                        "value": "s",
-                        "optional": false
-                      },
-                      "computed": true
+                        "expression": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 1084,
+                            "end": 1085,
+                            "ctxt": 0
+                          },
+                          "value": "s",
+                          "optional": false
+                        }
+                      }
                     }
                   }
                 ]

@@ -98,8 +98,7 @@
           },
           "value": "E",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "isAbstract": false,
       "typeParams": null,
@@ -351,8 +350,7 @@
                   },
                   "value": "D",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "isAbstract": false,
               "typeParams": null,
@@ -492,8 +490,7 @@
                 },
                 "value": "E2",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "isAbstract": false,
             "typeParams": {
@@ -879,8 +876,7 @@
                         },
                         "value": "D2",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "isAbstract": false,
                     "typeParams": {

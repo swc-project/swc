@@ -4,12 +4,10 @@ function createGuid() {
 function createSerialNo() {
     return 12345;
 }
-let map1 = {
-};
+let map1 = {};
 let guid = createGuid();
 map1[guid] = 123; // Can with tagged string
-let map2 = {
-};
+let map2 = {};
 let serialNo = createSerialNo();
 map2[serialNo] = "hello"; // Can index with tagged number
 const s1 = "{" + guid + "}";

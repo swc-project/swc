@@ -172,8 +172,7 @@
                   },
                   "value": "length",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "alternate": {
                 "type": "UpdateExpression",
@@ -2325,8 +2324,7 @@
                           },
                           "value": "length",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   },
@@ -2766,8 +2764,7 @@
                         },
                         "value": "toString",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -3508,8 +3505,7 @@
                           },
                           "value": "toString",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -3523,8 +3519,7 @@
                       },
                       "value": "length",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               },

@@ -1,4 +1,3 @@
 export class Clazz {
-    method(functionDeclaration) {
-    }
+    method(functionDeclaration) {}
 }

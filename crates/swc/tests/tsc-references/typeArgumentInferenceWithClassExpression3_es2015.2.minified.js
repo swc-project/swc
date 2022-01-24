@@ -1,6 +1,5 @@
 (function(x = class {
-}) {
-})(class {
+}) {})(class {
     constructor(){
         this.prop = "hello";
     }

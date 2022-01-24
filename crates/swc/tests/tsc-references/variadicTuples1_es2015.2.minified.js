@@ -12,8 +12,7 @@ function curry2(f, t, u) {
     return f(...t, ...u);
 }
 function callApi(method) {
-    return (...args)=>method(...args, {
-        })
+    return (...args)=>method(...args, {})
     ;
 }
 concat([], []), concat([

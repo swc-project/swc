@@ -1,3 +1,1 @@
-(function() {
-}).prototype = {
-};
+(function() {}).prototype = {};

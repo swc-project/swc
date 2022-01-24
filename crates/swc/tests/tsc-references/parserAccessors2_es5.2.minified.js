@@ -15,8 +15,7 @@ var C = function() {
     return Constructor = C, protoProps = [
         {
             key: "Foo",
-            set: function(a) {
-            }
+            set: function(a) {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

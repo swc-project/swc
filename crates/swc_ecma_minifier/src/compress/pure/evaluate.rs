@@ -35,114 +35,100 @@ where
         }
 
         let callee = match &mut call.callee {
-            ExprOrSuper::Super(_) => return,
-            ExprOrSuper::Expr(e) => &mut **e,
+            Callee::Super(_) | Callee::Import(_) => return,
+            Callee::Expr(e) => &mut **e,
         };
 
-        match callee {
-            Expr::Member(MemberExpr {
-                span,
-                obj: ExprOrSuper::Expr(obj),
-                prop,
-                computed: false,
-            }) => {
-                if obj.may_have_side_effects() {
+        if let Expr::Member(MemberExpr {
+            span,
+            obj,
+            prop: MemberProp::Ident(method_name),
+        }) = callee
+        {
+            if obj.may_have_side_effects() {
+                return;
+            }
+
+            let arr = match &mut **obj {
+                Expr::Array(arr) => arr,
+                _ => return,
+            };
+
+            let has_spread_elem = arr.elems.iter().any(|s| {
+                matches!(
+                    s,
+                    Some(ExprOrSpread {
+                        spread: Some(..),
+                        ..
+                    })
+                )
+            });
+
+            // Ignore array
+
+            if &*method_name.sym == "slice" {
+                if has_spread || has_spread_elem {
                     return;
                 }
 
-                let arr = match &mut **obj {
-                    Expr::Array(arr) => arr,
-                    _ => return,
-                };
+                match call.args.len() {
+                    0 => {
+                        self.changed = true;
+                        tracing::debug!("evaluate: Dropping array.slice call");
+                        *e = *obj.take();
+                    }
+                    1 => {
+                        if let Value::Known(start) = call.args[0].expr.as_number() {
+                            let start = start.floor() as usize;
 
-                let has_spread_elem = arr.elems.iter().any(|s| match s {
-                    Some(ExprOrSpread {
-                        spread: Some(..), ..
-                    }) => true,
-                    _ => false,
-                });
+                            self.changed = true;
+                            tracing::debug!("evaluate: Reducing array.slice({}) call", start);
 
-                // Ignore array
-
-                let method_name = match &**prop {
-                    Expr::Ident(i) => i,
-                    _ => return,
-                };
-
-                match &*method_name.sym {
-                    "slice" => {
-                        if has_spread || has_spread_elem {
-                            return;
-                        }
-
-                        match call.args.len() {
-                            0 => {
-                                self.changed = true;
-                                tracing::debug!("evaluate: Dropping array.slice call");
-                                *e = *obj.take();
+                            if start >= arr.elems.len() {
+                                *e = Expr::Array(ArrayLit {
+                                    span: *span,
+                                    elems: Default::default(),
+                                });
                                 return;
                             }
-                            1 => {
-                                if let Value::Known(start) = call.args[0].expr.as_number() {
-                                    let start = start.floor() as usize;
 
-                                    self.changed = true;
-                                    tracing::debug!(
-                                        "evaluate: Reducing array.slice({}) call",
-                                        start
-                                    );
+                            let elems = arr.elems.drain(start..).collect();
 
-                                    if start >= arr.elems.len() {
-                                        *e = Expr::Array(ArrayLit {
-                                            span: *span,
-                                            elems: Default::default(),
-                                        });
-                                        return;
-                                    }
+                            *e = Expr::Array(ArrayLit { span: *span, elems });
+                        }
+                    }
+                    _ => {
+                        let start = call.args[0].expr.as_number();
+                        let end = call.args[1].expr.as_number();
+                        if let Value::Known(start) = start {
+                            let start = start.floor() as usize;
 
-                                    let elems = arr.elems.drain(start..).collect();
+                            if let Value::Known(end) = end {
+                                let end = end.floor() as usize;
+                                self.changed = true;
+                                tracing::debug!(
+                                    "evaluate: Reducing array.slice({}, {}) call",
+                                    start,
+                                    end
+                                );
+                                let end = end.min(arr.elems.len());
 
-                                    *e = Expr::Array(ArrayLit { span: *span, elems });
+                                if start >= arr.elems.len() {
+                                    *e = Expr::Array(ArrayLit {
+                                        span: *span,
+                                        elems: Default::default(),
+                                    });
                                     return;
                                 }
-                            }
-                            _ => {
-                                let start = call.args[0].expr.as_number();
-                                let end = call.args[1].expr.as_number();
-                                if let Value::Known(start) = start {
-                                    let start = start.floor() as usize;
 
-                                    if let Value::Known(end) = end {
-                                        let end = end.floor() as usize;
-                                        self.changed = true;
-                                        tracing::debug!(
-                                            "evaluate: Reducing array.slice({}, {}) call",
-                                            start,
-                                            end
-                                        );
-                                        let end = end.min(arr.elems.len());
+                                let elems = arr.elems.drain(start..end).collect();
 
-                                        if start >= arr.elems.len() {
-                                            *e = Expr::Array(ArrayLit {
-                                                span: *span,
-                                                elems: Default::default(),
-                                            });
-                                            return;
-                                        }
-
-                                        let elems = arr.elems.drain(start..end).collect();
-
-                                        *e = Expr::Array(ArrayLit { span: *span, elems });
-                                        return;
-                                    }
-                                }
+                                *e = Expr::Array(ArrayLit { span: *span, elems });
                             }
                         }
                     }
-                    _ => {}
                 }
             }
-            _ => {}
         }
     }
 
@@ -169,84 +155,68 @@ where
         }
 
         let callee = match &mut call.callee {
-            ExprOrSuper::Super(_) => return,
-            ExprOrSuper::Expr(e) => &mut **e,
+            Callee::Super(_) | Callee::Import(_) => return,
+            Callee::Expr(e) => &mut **e,
         };
 
-        match callee {
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                prop,
-                computed: false,
-                ..
-            }) => {
-                if obj.may_have_side_effects() {
+        if let Expr::Member(MemberExpr {
+            obj,
+            prop: MemberProp::Ident(method_name),
+            ..
+        }) = callee
+        {
+            if obj.may_have_side_effects() {
+                return;
+            }
+
+            let _f = match &mut **obj {
+                Expr::Fn(v) => v,
+                _ => return,
+            };
+
+            if &*method_name.sym == "valueOf" {
+                if has_spread {
                     return;
                 }
 
-                let _f = match &mut **obj {
-                    Expr::Fn(v) => v,
-                    _ => return,
-                };
+                self.changed = true;
+                tracing::debug!(
+                    "evaludate: Reduced `funtion.valueOf()` into a function expression"
+                );
 
-                let method_name = match &**prop {
-                    Expr::Ident(i) => i,
-                    _ => return,
-                };
-
-                match &*method_name.sym {
-                    "valueOf" => {
-                        if has_spread {
-                            return;
-                        }
-
-                        self.changed = true;
-                        tracing::debug!(
-                            "evaludate: Reduced `funtion.valueOf()` into a function expression"
-                        );
-
-                        *e = *obj.take();
-                        return;
-                    }
-                    _ => {}
-                }
+                *e = *obj.take();
             }
-            _ => {}
         }
     }
 
     /// unsafely evaulate call to `Number`.
     pub(super) fn eval_number_call(&mut self, e: &mut Expr) {
         if self.options.unsafe_passes && self.options.unsafe_math {
-            match e {
-                Expr::Call(CallExpr {
-                    span,
-                    callee: ExprOrSuper::Expr(callee),
-                    args,
-                    ..
-                }) => {
-                    if args.len() == 1 && args[0].spread.is_none() {
-                        match &**callee {
-                            Expr::Ident(Ident {
-                                sym: js_word!("Number"),
-                                ..
-                            }) => {
-                                self.changed = true;
-                                tracing::debug!(
-                                    "evaluate: Reducing a call to `Number` into an unary operation"
-                                );
+            if let Expr::Call(CallExpr {
+                span,
+                callee: Callee::Expr(callee),
+                args,
+                ..
+            }) = e
+            {
+                if args.len() == 1 && args[0].spread.is_none() {
+                    if let Expr::Ident(Ident {
+                        sym: js_word!("Number"),
+                        ..
+                    }) = &**callee
+                    {
+                        self.changed = true;
+                        tracing::debug!(
+                            "evaluate: Reducing a call to `Number` into an unary operation"
+                        );
 
-                                *e = Expr::Unary(UnaryExpr {
-                                    span: *span,
-                                    op: op!(unary, "+"),
-                                    arg: args.take().into_iter().next().unwrap().expr,
-                                });
-                            }
-                            _ => {}
-                        }
+                        *e = Expr::Unary(UnaryExpr {
+                            span: *span,
+                            op: op!(unary, "+"),
+                            arg: args.take().into_iter().next().unwrap().expr,
+                        });
                     }
                 }
-                _ => {}
             }
         }
     }
@@ -260,20 +230,16 @@ where
 
         let (num, method, args) = match e {
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Expr(callee),
                 args,
                 ..
             }) => match &mut **callee {
                 Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Expr(obj),
-                    prop,
-                    computed: false,
+                    obj,
+                    prop: MemberProp::Ident(prop),
                     ..
                 }) => match &mut **obj {
-                    Expr::Lit(Lit::Num(obj)) => match &mut **prop {
-                        Expr::Ident(prop) => (obj, prop, args),
-                        _ => return,
-                    },
+                    Expr::Lit(Lit::Num(obj)) => (obj, prop, args),
                     _ => return,
                 },
                 _ => return,
@@ -285,29 +251,26 @@ where
             return;
         }
 
-        match &*method.sym {
-            "toFixed" => {
-                if let Some(precision) = eval_as_number(&args[0].expr) {
-                    let precision = precision.floor() as usize;
-                    let value = num_to_fixed(num.value, precision + 1);
+        if &*method.sym == "toFixed" {
+            if let Some(precision) = eval_as_number(&args[0].expr) {
+                let precision = precision.floor() as usize;
+                let value = num_to_fixed(num.value, precision + 1);
 
-                    self.changed = true;
-                    tracing::debug!(
-                        "evaluate: Evaluating `{}.toFixed({})` as `{}`",
-                        num,
-                        precision,
-                        value
-                    );
+                self.changed = true;
+                tracing::debug!(
+                    "evaluate: Evaluating `{}.toFixed({})` as `{}`",
+                    num,
+                    precision,
+                    value
+                );
 
-                    *e = Expr::Lit(Lit::Str(Str {
-                        span: e.span(),
-                        value: value.into(),
-                        has_escape: false,
-                        kind: Default::default(),
-                    }))
-                }
+                *e = Expr::Lit(Lit::Str(Str {
+                    span: e.span(),
+                    value: value.into(),
+                    has_escape: false,
+                    kind: Default::default(),
+                }))
             }
-            _ => {}
         }
     }
 
@@ -318,38 +281,32 @@ where
         };
 
         match &mut *opt.expr {
-            Expr::Member(MemberExpr {
-                span,
-                obj: ExprOrSuper::Expr(obj),
-                ..
-            }) => {
+            Expr::Member(MemberExpr { span, obj, .. }) => {
                 //
-                if is_pure_undefined_or_null(&obj) {
+                if is_pure_undefined_or_null(obj) {
                     self.changed = true;
                     tracing::debug!(
-                        "evaluate: Reduced an optioanl chaining operation because object is \
+                        "evaluate: Reduced an optional chaining operation because object is \
                          always null or undefined"
                     );
 
                     *e = *undefined(*span);
-                    return;
                 }
             }
 
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Expr(callee),
                 ..
             }) => {
-                if is_pure_undefined_or_null(&callee) {
+                if is_pure_undefined_or_null(callee) {
                     self.changed = true;
                     tracing::debug!(
-                        "evaluate: Reduced a call expression with optioanl chaining operation \
+                        "evaluate: Reduced a call expression with optional chaining operation \
                          because object is always null or undefined"
                     );
 
                     *e = *undefined(*span);
-                    return;
                 }
             }
 
@@ -379,15 +336,14 @@ where
         };
 
         let (s, method) = match &call.callee {
-            ExprOrSuper::Super(_) => return,
-            ExprOrSuper::Expr(callee) => match &**callee {
+            Callee::Super(_) | Callee::Import(_) => return,
+            Callee::Expr(callee) => match &**callee {
                 Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Expr(obj),
-                    prop,
-                    computed: false,
+                    obj,
+                    prop: MemberProp::Ident(prop),
                     ..
-                }) => match (&**obj, &**prop) {
-                    (Expr::Lit(Lit::Str(s)), Expr::Ident(prop)) => (s.clone(), prop.sym.clone()),
+                }) => match &**obj {
+                    Expr::Lit(Lit::Str(s)) => (s.clone(), prop.sym.clone()),
                     _ => return,
                 },
                 _ => return,

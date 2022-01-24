@@ -587,8 +587,7 @@
                       },
                       "value": "t",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -948,8 +947,7 @@
                       },
                       "value": "t",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]

@@ -94,15 +94,22 @@
                 "optional": false
               },
               "property": {
-                "type": "NumericLiteral",
+                "type": "Computed",
                 "span": {
-                  "start": 46,
-                  "end": 47,
+                  "start": 45,
+                  "end": 48,
                   "ctxt": 0
                 },
-                "value": 0.0
-              },
-              "computed": true
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 46,
+                    "end": 47,
+                    "ctxt": 0
+                  },
+                  "value": 0.0
+                }
+              }
             },
             "property": {
               "type": "Identifier",
@@ -113,19 +120,25 @@
               },
               "value": "prop",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
-            "type": "NumericLiteral",
+            "type": "Computed",
             "span": {
-              "start": 54,
-              "end": 55,
+              "start": 53,
+              "end": 56,
               "ctxt": 0
             },
-            "value": 2.0
-          },
-          "computed": true
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 54,
+                "end": 55,
+                "ctxt": 0
+              },
+              "value": 2.0
+            }
+          }
         },
         "right": {
           "type": "ObjectExpression",

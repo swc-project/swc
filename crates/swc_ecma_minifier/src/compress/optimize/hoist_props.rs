@@ -15,164 +15,143 @@ where
             return;
         }
 
-        match &mut n.name {
-            Pat::Ident(name) => {
-                // If a variable is initialized multiple time, we currently don't do anything
-                // smart.
-                if !self
-                    .data
-                    .as_ref()
-                    .and_then(|data| {
-                        data.vars
-                            .get(&name.to_id())
-                            .map(|v| !v.mutated && !v.reassigned && !v.is_infected())
-                    })
-                    .unwrap_or(false)
-                {
-                    return;
-                }
+        if let Pat::Ident(name) = &mut n.name {
+            // If a variable is initialized multiple time, we currently don't do anything
+            // smart.
+            if !self
+                .data
+                .as_ref()
+                .and_then(|data| {
+                    data.vars
+                        .get(&name.to_id())
+                        .map(|v| !v.mutated && !v.reassigned && !v.is_infected())
+                })
+                .unwrap_or(false)
+            {
+                return;
+            }
 
-                // We should abort if unknown property is used.
-                let mut unknown_used_props = self
-                    .data
-                    .as_ref()
-                    .and_then(|data| {
-                        data.vars
-                            .get(&name.to_id())
-                            .map(|v| v.accessed_props.clone())
-                    })
-                    .unwrap_or_default();
+            // We should abort if unknown property is used.
+            let mut unknown_used_props = self
+                .data
+                .as_ref()
+                .and_then(|data| {
+                    data.vars
+                        .get(&name.to_id())
+                        .map(|v| v.accessed_props.clone())
+                })
+                .unwrap_or_default();
 
-                match n.init.as_deref() {
-                    Some(Expr::Object(init)) => {
-                        for prop in &init.props {
-                            let prop = match prop {
-                                PropOrSpread::Spread(_) => continue,
-                                PropOrSpread::Prop(prop) => prop,
-                            };
+            if let Some(Expr::Object(init)) = n.init.as_deref() {
+                for prop in &init.props {
+                    let prop = match prop {
+                        PropOrSpread::Spread(_) => continue,
+                        PropOrSpread::Prop(prop) => prop,
+                    };
 
-                            match &**prop {
-                                Prop::KeyValue(p) => {
-                                    match &*p.value {
-                                        Expr::Lit(..) => {}
-                                        _ => continue,
-                                    };
+                    if let Prop::KeyValue(p) = &**prop {
+                        match &*p.value {
+                            Expr::Lit(..) => {}
+                            _ => continue,
+                        };
 
-                                    match &p.key {
-                                        PropName::Str(s) => {
-                                            unknown_used_props.remove(&s.value);
-                                        }
-                                        PropName::Ident(i) => {
-                                            unknown_used_props.remove(&i.sym);
-                                        }
-                                        _ => {}
-                                    }
-                                }
-                                _ => {}
+                        match &p.key {
+                            PropName::Str(s) => {
+                                unknown_used_props.remove(&s.value);
                             }
-                        }
-                    }
-                    _ => {}
-                }
-
-                if !unknown_used_props.is_empty() {
-                    return;
-                }
-
-                match n.init.as_deref() {
-                    Some(Expr::Object(init)) => {
-                        for prop in &init.props {
-                            let prop = match prop {
-                                PropOrSpread::Spread(_) => continue,
-                                PropOrSpread::Prop(prop) => prop,
-                            };
-
-                            match &**prop {
-                                Prop::KeyValue(p) => {
-                                    let value = match &*p.value {
-                                        Expr::Lit(..) => p.value.clone(),
-                                        _ => continue,
-                                    };
-
-                                    match &p.key {
-                                        PropName::Str(s) => {
-                                            tracing::trace!(
-                                                "hoist_props: Storing a variable (`{}`) to inline \
-                                                 properties",
-                                                name.id
-                                            );
-                                            self.simple_props
-                                                .insert((name.to_id(), s.value.clone()), value);
-                                        }
-                                        PropName::Ident(i) => {
-                                            tracing::trace!(
-                                                "hoist_props: Storing a variable(`{}`) to inline \
-                                                 properties",
-                                                name.id
-                                            );
-                                            self.simple_props
-                                                .insert((name.to_id(), i.sym.clone()), value);
-                                        }
-                                        _ => {}
-                                    }
-                                }
-                                _ => {}
+                            PropName::Ident(i) => {
+                                unknown_used_props.remove(&i.sym);
                             }
+                            _ => {}
                         }
-                    }
-                    _ => {}
-                }
-
-                // If the variable is used multiple time, just ignore it.
-                if !self
-                    .data
-                    .as_ref()
-                    .and_then(|data| {
-                        data.vars.get(&name.to_id()).map(|v| {
-                            v.ref_count == 1
-                                && v.has_property_access
-                                && v.is_fn_local
-                                && !v.used_in_loop
-                                && !v.used_in_cond
-                        })
-                    })
-                    .unwrap_or(false)
-                {
-                    return;
-                }
-
-                let init = match n.init.take() {
-                    Some(v) => v,
-                    None => return,
-                };
-
-                match &*init {
-                    Expr::This(..) => {
-                        n.init = Some(init);
-                        return;
-                    }
-
-                    _ => {}
-                }
-
-                match self.vars_for_prop_hoisting.insert(name.to_id(), init) {
-                    Some(prev) => {
-                        panic!(
-                            "two variable with same name and same span hygiene is \
-                             invalid\nPrevious value: {:?}",
-                            prev
-                        );
-                    }
-                    None => {
-                        tracing::debug!(
-                            "hoist_props: Stored {}{:?} to inline property access",
-                            name.id.sym,
-                            name.id.span.ctxt
-                        );
                     }
                 }
             }
-            _ => {}
+
+            if !unknown_used_props.is_empty() {
+                return;
+            }
+
+            if let Some(Expr::Object(init)) = n.init.as_deref() {
+                for prop in &init.props {
+                    let prop = match prop {
+                        PropOrSpread::Spread(_) => continue,
+                        PropOrSpread::Prop(prop) => prop,
+                    };
+
+                    if let Prop::KeyValue(p) = &**prop {
+                        let value = match &*p.value {
+                            Expr::Lit(..) => p.value.clone(),
+                            _ => continue,
+                        };
+
+                        match &p.key {
+                            PropName::Str(s) => {
+                                tracing::trace!(
+                                    "hoist_props: Storing a variable (`{}`) to inline properties",
+                                    name.id
+                                );
+                                self.simple_props
+                                    .insert((name.to_id(), s.value.clone()), value);
+                            }
+                            PropName::Ident(i) => {
+                                tracing::trace!(
+                                    "hoist_props: Storing a variable(`{}`) to inline properties",
+                                    name.id
+                                );
+                                self.simple_props
+                                    .insert((name.to_id(), i.sym.clone()), value);
+                            }
+                            _ => {}
+                        }
+                    }
+                }
+            }
+
+            // If the variable is used multiple time, just ignore it.
+            if !self
+                .data
+                .as_ref()
+                .and_then(|data| {
+                    data.vars.get(&name.to_id()).map(|v| {
+                        v.ref_count == 1
+                            && v.has_property_access
+                            && v.is_fn_local
+                            && !v.executed_multiple_time
+                            && !v.used_in_cond
+                    })
+                })
+                .unwrap_or(false)
+            {
+                return;
+            }
+
+            let init = match n.init.take() {
+                Some(v) => v,
+                None => return,
+            };
+
+            if let Expr::This(..) = &*init {
+                n.init = Some(init);
+                return;
+            }
+
+            match self.vars_for_prop_hoisting.insert(name.to_id(), init) {
+                Some(prev) => {
+                    panic!(
+                        "two variable with same name and same span hygiene is invalid\nPrevious \
+                         value: {:?}",
+                        prev
+                    );
+                }
+                None => {
+                    tracing::debug!(
+                        "hoist_props: Stored {}{:?} to inline property access",
+                        name.id.sym,
+                        name.id.span.ctxt
+                    );
+                }
+            }
         }
     }
 
@@ -182,37 +161,21 @@ where
             Expr::Member(m) => m,
             _ => return,
         };
+        if let Expr::Ident(obj) = &*member.obj {
+            if let Some(value) = self.vars_for_prop_hoisting.remove(&obj.to_id()) {
+                member.obj = value;
+                self.changed = true;
+                tracing::debug!("hoist_props: Inlined a property");
+                return;
+            }
 
-        match &member.obj {
-            ExprOrSuper::Super(_) => {}
-            ExprOrSuper::Expr(obj) => match &**obj {
-                Expr::Ident(obj) => {
-                    if let Some(value) = self.vars_for_prop_hoisting.remove(&obj.to_id()) {
-                        member.obj = ExprOrSuper::Expr(value);
-                        self.changed = true;
-                        tracing::debug!("hoist_props: Inlined a property");
-                        return;
-                    }
-
-                    if member.computed {
-                        return;
-                    }
-
-                    match &*member.prop {
-                        Expr::Ident(prop) => {
-                            if let Some(value) =
-                                self.simple_props.get(&(obj.to_id(), prop.sym.clone()))
-                            {
-                                tracing::debug!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
-                                self.changed = true;
-                                *e = *value.clone()
-                            }
-                        }
-                        _ => {}
-                    }
+            if let MemberProp::Ident(prop) = &member.prop {
+                if let Some(value) = self.simple_props.get(&(obj.to_id(), prop.sym.clone())) {
+                    tracing::debug!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
+                    self.changed = true;
+                    *e = *value.clone()
                 }
-                _ => {}
-            },
+            }
         }
     }
 }

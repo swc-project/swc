@@ -27,18 +27,15 @@ var D = // @target:es6
     _createClass(D, [
         {
             key: "foo",
-            value: function foo() {
-            }
+            value: function foo() {}
         },
         {
             key: tmp,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: tmp1,
-            value: function value(a) {
-            }
+            value: function value(a) {}
         },
         {
             key: tmp2,
@@ -61,13 +58,11 @@ var D = // @target:es6
     ], [
         {
             key: tmp3,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: tmp4,
-            value: function value(a) {
-            }
+            value: function value(a) {}
         },
         {
             key: tmp5,
@@ -84,8 +79,7 @@ var D = // @target:es6
         },
         {
             key: "foo",
-            value: function foo(a) {
-            }
+            value: function foo(a) {}
         },
         {
             key: "bar",

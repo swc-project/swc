@@ -5,15 +5,13 @@ var M;
     class D extends C {
     }
     M1.D = D;
-})(M || (M = {
-}));
+})(M || (M = {}));
 var N;
 (function(N1) {
     class E extends M.D {
     }
     N1.E = E;
-})(N || (N = {
-}));
+})(N || (N = {}));
 var O;
 (function(O) {
     class C2 extends Q.E2 {
@@ -23,14 +21,11 @@ var O;
         class D2 extends C2 {
         }
         P.D2 = D2;
-    })(P1 || (P1 = {
-    }));
+    })(P1 || (P1 = {}));
     let Q1;
     (function(Q) {
         class E2 extends P1.D2 {
         }
         Q.E2 = E2;
-    })(Q1 || (Q1 = {
-    }));
-})(O || (O = {
-}));
+    })(Q1 || (Q1 = {}));
+})(O || (O = {}));

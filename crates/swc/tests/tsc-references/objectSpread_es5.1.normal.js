@@ -32,8 +32,7 @@ function _defineProperty(obj, key, value) {
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {
-        };
+        var source = arguments[i] != null ? arguments[i] : {};
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
             ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -60,19 +59,16 @@ var swap = {
     a: 'yes',
     b: -1
 };
-var addAfter = _objectSpread({
-}, o, {
+var addAfter = _objectSpread({}, o, {
     c: false
 });
 var addBefore = _objectSpread({
     c: false
 }, o);
-var override = _objectSpread({
-}, o, {
+var override = _objectSpread({}, o, {
     b: 'override'
 });
-var nested = _objectSpread({
-}, _objectSpread({
+var nested = _objectSpread({}, _objectSpread({
     a: 3
 }, {
     b: false,
@@ -80,14 +76,11 @@ var nested = _objectSpread({
 }), {
     c: 'whatever'
 });
-var combined = _objectSpread({
-}, o, o2);
-var combinedAfter = _objectSpread({
-}, o, o2, {
+var combined = _objectSpread({}, o, o2);
+var combinedAfter = _objectSpread({}, o, o2, {
     b: 'ok'
 });
-var combinedNestedChangeType = _objectSpread({
-}, _objectSpread({
+var combinedNestedChangeType = _objectSpread({}, _objectSpread({
     a: 1
 }, {
     b: false,
@@ -96,8 +89,7 @@ var combinedNestedChangeType = _objectSpread({
     c: -1
 });
 var propertyNested = {
-    a: _objectSpread({
-    }, o)
+    a: _objectSpread({}, o)
 };
 // accessors don't copy the descriptor
 // (which means that readonly getters become read/write properties)
@@ -106,18 +98,14 @@ var op = {
         return 6;
     }
 };
-var getter = _objectSpread({
-}, op, {
+var getter = _objectSpread({}, op, {
     c: 7
 });
 getter.a = 12;
 // functions result in { }
-var spreadFunc = _objectSpread({
-}, function() {
-});
+var spreadFunc = _objectSpread({}, function() {});
 function from16326(header, authToken) {
-    return _objectSpread({
-    }, this.header, header, authToken && {
+    return _objectSpread({}, this.header, header, authToken && {
         authToken: authToken
     });
 }
@@ -127,12 +115,10 @@ function conditionalSpreadBoolean(b) {
         x: 12,
         y: 13
     };
-    o1 = _objectSpread({
-    }, o1, b && {
+    o1 = _objectSpread({}, o1, b && {
         x: 14
     });
-    var o2 = _objectSpread({
-    }, b && {
+    var o2 = _objectSpread({}, b && {
         x: 21
     });
     return o1;
@@ -142,12 +128,10 @@ function conditionalSpreadNumber(nt) {
         x: 15,
         y: 16
     };
-    o3 = _objectSpread({
-    }, o3, nt && {
+    o3 = _objectSpread({}, o3, nt && {
         x: nt
     });
-    var o2 = _objectSpread({
-    }, nt && {
+    var o2 = _objectSpread({}, nt && {
         x: nt
     });
     return o3;
@@ -157,20 +141,17 @@ function conditionalSpreadString(st) {
         x: 'hi',
         y: 17
     };
-    o4 = _objectSpread({
-    }, o4, st && {
+    o4 = _objectSpread({}, o4, st && {
         x: st
     });
-    var o2 = _objectSpread({
-    }, st && {
+    var o2 = _objectSpread({}, st && {
         x: st
     });
     return o4;
 }
 // any results in any
 var anything;
-var spreadAny = _objectSpread({
-}, anything);
+var spreadAny = _objectSpread({}, anything);
 var C = // methods are not enumerable
 /*#__PURE__*/ function() {
     "use strict";
@@ -181,62 +162,48 @@ var C = // methods are not enumerable
     _createClass(C, [
         {
             key: "m",
-            value: function m() {
-            }
+            value: function m() {}
         }
     ]);
     return C;
 }();
 var c = new C();
-var spreadC = _objectSpread({
-}, c);
+var spreadC = _objectSpread({}, c);
 // own methods are enumerable
-var cplus = _objectSpread({
-}, c, {
+var cplus = _objectSpread({}, c, {
     plus: function plus() {
         return this.p + 1;
     }
 });
 cplus.plus();
 // new field's type conflicting with existing field is OK
-var changeTypeAfter = _objectSpread({
-}, o, {
+var changeTypeAfter = _objectSpread({}, o, {
     a: 'wrong type?'
 });
-var changeTypeBoth = _objectSpread({
-}, o, swap);
+var changeTypeBoth = _objectSpread({}, o, swap);
 // optional
 function container(definiteBoolean, definiteString, optionalString, optionalNumber) {
-    var optionalUnionStops = _objectSpread({
-    }, definiteBoolean, definiteString, optionalNumber);
-    var optionalUnionDuplicates = _objectSpread({
-    }, definiteBoolean, definiteString, optionalString, optionalNumber);
-    var allOptional = _objectSpread({
-    }, optionalString, optionalNumber);
+    var optionalUnionStops = _objectSpread({}, definiteBoolean, definiteString, optionalNumber);
+    var optionalUnionDuplicates = _objectSpread({}, definiteBoolean, definiteString, optionalString, optionalNumber);
+    var allOptional = _objectSpread({}, optionalString, optionalNumber);
     // computed property
-    var computedFirst = _objectSpread(_defineProperty({
-    }, 'before everything', 12), o, {
+    var computedFirst = _objectSpread(_defineProperty({}, 'before everything', 12), o, {
         b: 'yes'
     });
-    var computedAfter = _objectSpread({
-    }, o, _defineProperty({
+    var computedAfter = _objectSpread({}, o, _defineProperty({
         b: 'yeah'
     }, 'at the end', 14));
 }
 // shortcut syntax
 var a = 12;
-var shortCutted = _objectSpread({
-}, o, {
+var shortCutted = _objectSpread({}, o, {
     a: a
 });
 // non primitive
-var spreadNonPrimitive = _objectSpread({
-}, {
-});
+var spreadNonPrimitive = _objectSpread({}, {});
 // generic spreads
 function f(t, u) {
-    return _objectSpread({
-    }, t, u, {
+    return _objectSpread({}, t, u, {
         id: 'id'
     });
 }
@@ -266,20 +233,15 @@ var overwriteId = f({
     d: 'no'
 });
 function genericSpread(t, u, v, w, obj) {
-    var x01 = _objectSpread({
-    }, t);
-    var x02 = _objectSpread({
-    }, t, t);
-    var x03 = _objectSpread({
-    }, t, u);
-    var x04 = _objectSpread({
-    }, u, t);
+    var x01 = _objectSpread({}, t);
+    var x02 = _objectSpread({}, t, t);
+    var x03 = _objectSpread({}, t, u);
+    var x04 = _objectSpread({}, u, t);
     var x05 = _objectSpread({
         a: 5,
         b: 'hi'
     }, t);
-    var x06 = _objectSpread({
-    }, t, {
+    var x06 = _objectSpread({}, t, {
         a: 5,
         b: 'hi'
     });
@@ -300,20 +262,12 @@ function genericSpread(t, u, v, w, obj) {
     }, t, {
         b: 'hi'
     }, u, obj);
-    var x11 = _objectSpread({
-    }, v);
-    var x12 = _objectSpread({
-    }, v, obj);
-    var x13 = _objectSpread({
-    }, w);
-    var x14 = _objectSpread({
-    }, w, obj);
-    var x15 = _objectSpread({
-    }, t, v);
-    var x16 = _objectSpread({
-    }, t, w);
-    var x17 = _objectSpread({
-    }, t, w, obj);
-    var x18 = _objectSpread({
-    }, t, v, w);
+    var x11 = _objectSpread({}, v);
+    var x12 = _objectSpread({}, v, obj);
+    var x13 = _objectSpread({}, w);
+    var x14 = _objectSpread({}, w, obj);
+    var x15 = _objectSpread({}, t, v);
+    var x16 = _objectSpread({}, t, w);
+    var x17 = _objectSpread({}, t, w, obj);
+    var x18 = _objectSpread({}, t, v, w);
 }

@@ -1,5 +1,4 @@
-function f() {
-}
+function f() {}
 var o = {
     n: 1
 };

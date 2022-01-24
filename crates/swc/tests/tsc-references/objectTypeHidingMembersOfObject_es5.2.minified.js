@@ -15,12 +15,10 @@ var c, i, b, C = function() {
     return protoProps = [
         {
             key: "valueOf",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties((Constructor = C).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();
 c.valueOf(), i.valueOf(), ({
-    valueOf: function() {
-    }
+    valueOf: function() {}
 }).valueOf(), b.valueOf();

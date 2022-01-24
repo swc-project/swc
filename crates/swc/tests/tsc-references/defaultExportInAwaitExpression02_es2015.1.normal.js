@@ -31,8 +31,7 @@ function _asyncToGenerator(fn) {
 // @module: commonjs
 // @filename: a.ts
 const x = new Promise((resolve, reject)=>{
-    resolve({
-    });
+    resolve({});
 });
 export default x;
 _asyncToGenerator(function*() {

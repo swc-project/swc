@@ -1,5 +1,4 @@
-!function(...[[k1, v1], [k2, v2]]) {
-}(...new Map([
+!function(...[[k1, v1], [k2, v2]]) {}(...new Map([
     [
         "",
         !0

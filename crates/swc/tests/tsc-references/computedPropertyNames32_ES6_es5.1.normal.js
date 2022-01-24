@@ -36,8 +36,7 @@ var C = /*#__PURE__*/ function() {
         },
         {
             key: tmp,
-            value: function value() {
-            }
+            value: function value() {}
         }
     ]);
     return C;

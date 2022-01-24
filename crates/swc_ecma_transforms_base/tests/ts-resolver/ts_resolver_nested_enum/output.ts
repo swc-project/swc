@@ -7,8 +7,6 @@ function foo() {
         name__0,
         string__0
     }
-    const foo__2 = {
-    } as Foo__2;
+    const foo__2 = {} as Foo__2;
 }
-const bar = {
-} as Foo;
+const bar = {} as Foo;

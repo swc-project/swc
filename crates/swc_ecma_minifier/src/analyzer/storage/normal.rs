@@ -53,7 +53,7 @@ impl Storage for ProgramData {
                     // usages.
                     //
                     // e.get_mut().used_above_decl |= var_info.used_above_decl;
-                    e.get_mut().used_in_loop |= var_info.used_in_loop;
+                    e.get_mut().executed_multiple_time |= var_info.executed_multiple_time;
                     e.get_mut().used_in_cond |= var_info.used_in_cond;
                     e.get_mut().assign_count += var_info.assign_count;
                     e.get_mut().mutation_by_call_count += var_info.mutation_by_call_count;
@@ -68,6 +68,7 @@ impl Storage for ProgramData {
                             && var_info.no_side_effect_for_member_access;
 
                     e.get_mut().used_as_callee |= var_info.used_as_callee;
+                    e.get_mut().used_as_arg |= var_info.used_as_arg;
 
                     match kind {
                         ScopeKind::Fn => {
@@ -170,7 +171,7 @@ impl ProgramData {
             return;
         }
 
-        let e = self.vars.entry(i.clone()).or_insert_with(|| {
+        let e = self.vars.entry(i).or_insert_with(|| {
             // tracing::trace!("insert({}{:?})", i.0, i.1);
 
             VarUsageInfo {
@@ -188,7 +189,7 @@ impl ProgramData {
         e.reassigned |= is_first && is_modify && ctx.is_exact_reassignment;
         // Passing object as a argument is possibly modification.
         e.mutated |= is_modify || (ctx.in_call_arg && ctx.is_exact_arg);
-        e.used_in_loop |= ctx.in_loop;
+        e.executed_multiple_time |= ctx.executed_multiple_time;
         e.used_in_cond |= ctx.in_cond;
 
         if is_modify && ctx.is_exact_reassignment {
@@ -228,6 +229,14 @@ impl VarDataLike for VarUsageInfo {
         self.has_property_mutation = true;
     }
 
+    fn mark_used_as_callee(&mut self) {
+        self.used_as_callee = true;
+    }
+
+    fn mark_used_as_arg(&mut self) {
+        self.used_as_arg = true
+    }
+
     fn add_accessed_property(&mut self, name: swc_atoms::JsWord) {
         self.accessed_props.insert(name);
     }
@@ -244,7 +253,7 @@ impl VarDataLike for VarUsageInfo {
         self.infects.push(other);
     }
 
-    fn mark_used_as_callee(&mut self) {
-        self.used_as_callee = true;
+    fn prevent_inline(&mut self) {
+        self.inline_prevented = true;
     }
 }

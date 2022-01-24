@@ -157,8 +157,7 @@
                         "value": "name",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -384,8 +383,7 @@
                               "value": "name",
                               "optional": false
                             }
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       "function": {
@@ -461,8 +459,7 @@
                                       "value": "y",
                                       "optional": false
                                     }
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               }
                             }
@@ -529,43 +526,49 @@
                         "typeArguments": null
                       },
                       "property": {
-                        "type": "MemberExpression",
+                        "type": "Computed",
                         "span": {
-                          "start": 312,
-                          "end": 321,
+                          "start": 311,
+                          "end": 322,
                           "ctxt": 0
                         },
-                        "object": {
-                          "type": "Identifier",
+                        "expression": {
+                          "type": "MemberExpression",
                           "span": {
                             "start": 312,
-                            "end": 315,
-                            "ctxt": 0
-                          },
-                          "value": "obj",
-                          "optional": false
-                        },
-                        "property": {
-                          "type": "PrivateName",
-                          "span": {
-                            "start": 316,
                             "end": 321,
                             "ctxt": 0
                           },
-                          "id": {
+                          "object": {
                             "type": "Identifier",
                             "span": {
-                              "start": 317,
+                              "start": 312,
+                              "end": 315,
+                              "ctxt": 0
+                            },
+                            "value": "obj",
+                            "optional": false
+                          },
+                          "property": {
+                            "type": "PrivateName",
+                            "span": {
+                              "start": 316,
                               "end": 321,
                               "ctxt": 0
                             },
-                            "value": "name",
-                            "optional": false
+                            "id": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 317,
+                                "end": 321,
+                                "ctxt": 0
+                              },
+                              "value": "name",
+                              "optional": false
+                            }
                           }
-                        },
-                        "computed": false
-                      },
-                      "computed": true
+                        }
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -632,8 +635,7 @@
             },
             "value": "log",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -699,8 +701,7 @@
                   },
                   "value": "getValue",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {

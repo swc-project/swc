@@ -983,15 +983,12 @@ fn run(url: &str, exports: &[&str]) {
 
     ::testing::run_test2(false, |cm, _| {
         let fm = cm.load_file(&path).unwrap();
-        let loader = Loader { cm: cm.clone() };
+        let loader = Loader { cm };
         let module = loader.load(&fm.name).unwrap().module;
 
         let mut actual_exports = collect_exports(&module).into_iter().collect::<Vec<_>>();
         actual_exports.sort();
-        let mut expected_exports = exports
-            .into_iter()
-            .map(|s| s.to_string())
-            .collect::<Vec<_>>();
+        let mut expected_exports = exports.iter().map(|s| s.to_string()).collect::<Vec<_>>();
         expected_exports.sort();
 
         assert_eq!(expected_exports, actual_exports);
@@ -1021,7 +1018,7 @@ fn run(url: &str, exports: &[&str]) {
 }
 
 fn bundle(url: &str, minify: bool) -> String {
-    let result = testing::run_test2(false, |cm, _handler| {
+    testing::run_test2(false, |cm, _handler| {
         GLOBALS.with(|globals| {
             let mut bundler = Bundler::new(
                 globals,
@@ -1092,9 +1089,7 @@ fn bundle(url: &str, minify: bool) -> String {
             Ok(String::from_utf8_lossy(&buf).to_string())
         })
     })
-    .unwrap();
-
-    result
+    .unwrap()
 }
 
 struct Hook;
@@ -1120,12 +1115,11 @@ impl swc_bundler::Hook for Hook {
                 value: Box::new(if module_record.is_entry {
                     Expr::Member(MemberExpr {
                         span,
-                        obj: ExprOrSuper::Expr(Box::new(Expr::MetaProp(MetaPropExpr {
-                            meta: Ident::new(js_word!("import"), span),
-                            prop: Ident::new(js_word!("meta"), span),
-                        }))),
-                        prop: Box::new(Expr::Ident(Ident::new(js_word!("main"), span))),
-                        computed: false,
+                        obj: Box::new(Expr::MetaProp(MetaPropExpr {
+                            span,
+                            kind: MetaPropKind::ImportMeta,
+                        })),
+                        prop: MemberProp::Ident(Ident::new(js_word!("main"), span)),
                     })
                 } else {
                     Expr::Lit(Lit::Bool(Bool { span, value: false }))
@@ -1151,17 +1145,34 @@ impl Visit for ExportCollector {
     fn visit_export_specifier(&mut self, s: &ExportSpecifier) {
         match s {
             ExportSpecifier::Namespace(ns) => {
-                self.exports.insert(ns.name.sym.to_string());
+                match &ns.name {
+                    ModuleExportName::Ident(name) => {
+                        self.exports.insert(name.sym.to_string());
+                    }
+                    ModuleExportName::Str(..) => {
+                        unimplemented!("module string names unimplemented")
+                    }
+                };
             }
             ExportSpecifier::Default(_) => {
                 self.exports.insert("default".into());
             }
             ExportSpecifier::Named(named) => {
+                let exported_ident = match &named.exported {
+                    Some(ModuleExportName::Ident(ident)) => Some(ident),
+                    Some(ModuleExportName::Str(..)) => {
+                        unimplemented!("module string names unimplemented")
+                    }
+                    _ => None,
+                };
                 self.exports.insert(
-                    named
-                        .exported
-                        .as_ref()
-                        .unwrap_or(&named.orig)
+                    exported_ident
+                        .unwrap_or(match &named.orig {
+                            ModuleExportName::Ident(ident) => ident,
+                            ModuleExportName::Str(..) => {
+                                unimplemented!("module string names unimplemented")
+                            }
+                        })
                         .sym
                         .to_string(),
                 );

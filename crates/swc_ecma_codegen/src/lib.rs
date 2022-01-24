@@ -361,7 +361,7 @@ where
                 ExportSpecifier::Namespace(spec) => {
                     result.has_namespace_spec = true;
                     // There can only be one namespace export specifier.
-                    if let None = result.namespace_spec {
+                    if result.namespace_spec.is_none() {
                         result.namespace_spec = Some(spec)
                     }
                     result
@@ -391,7 +391,7 @@ where
                 formatting_space!();
             }
         }
-        if has_named_specs || (!has_namespace_spec && !has_named_specs) {
+        if has_named_specs || !has_namespace_spec {
             punct!("{");
             self.emit_list(
                 node.span,
@@ -402,7 +402,7 @@ where
         }
 
         if let Some(ref src) = node.src {
-            if has_named_specs || (!has_namespace_spec && !has_named_specs) {
+            if has_named_specs || !has_namespace_spec {
                 formatting_space!();
             } else if has_namespace_spec {
                 space!();
@@ -470,7 +470,7 @@ where
     }
 
     fn emit_js_word(&mut self, span: Span, value: &JsWord) -> Result {
-        self.wr.write_str_lit(span, &value)?;
+        self.wr.write_str_lit(span, value)?;
 
         Ok(())
     }
@@ -526,23 +526,19 @@ where
                 self.wr.write_str_lit(num.span, "-")?;
             }
             self.wr.write_str_lit(num.span, "Infinity")?;
+        } else if num.value.is_sign_negative() && num.value == 0.0 {
+            self.wr.write_str_lit(num.span, "-0")?;
         } else {
-            if num.value.is_sign_negative() && num.value == 0.0 {
-                self.wr.write_str_lit(num.span, "-0")?;
-            } else {
-                let mut s = num.value.to_string();
-                if self.cfg.minify {
-                    if !s.contains('.') && !s.contains('e') && s.ends_with("0000") {
-                        let cnt = s.as_bytes().iter().rev().filter(|&&v| v == b'0').count() - 1;
+            let mut s = num.value.to_string();
+            if self.cfg.minify && !s.contains('.') && !s.contains('e') && s.ends_with("0000") {
+                let cnt = s.as_bytes().iter().rev().filter(|&&v| v == b'0').count() - 1;
 
-                        s.truncate(s.len() - cnt);
-                        s.push('e');
-                        s.push_str(&cnt.to_string());
-                    }
-                }
-
-                self.wr.write_str_lit(num.span, &s)?;
+                s.truncate(s.len() - cnt);
+                s.push('e');
+                s.push_str(&cnt.to_string());
             }
+
+            self.wr.write_str_lit(num.span, &s)?;
         }
     }
 
@@ -579,15 +575,21 @@ where
     // }
 
     #[emitter]
-    fn emit_expr_or_super(&mut self, node: &ExprOrSuper) -> Result {
+    fn emit_callee(&mut self, node: &Callee) -> Result {
         match *node {
-            ExprOrSuper::Expr(ref e) => emit!(e),
-            ExprOrSuper::Super(ref n) => emit!(n),
+            Callee::Expr(ref e) => emit!(e),
+            Callee::Super(ref n) => emit!(n),
+            Callee::Import(ref n) => emit!(n),
         }
     }
     #[emitter]
     fn emit_super(&mut self, node: &Super) -> Result {
         keyword!(node.span, "super");
+    }
+
+    #[emitter]
+    fn emit_import_callee(&mut self, node: &Import) -> Result {
+        keyword!(node.span, "import");
     }
 
     #[emitter]
@@ -605,6 +607,7 @@ where
             Expr::Ident(ref n) => emit!(n),
             Expr::Lit(ref n) => emit!(n),
             Expr::Member(ref n) => emit!(n),
+            Expr::SuperProp(ref n) => emit!(n),
             Expr::MetaProp(ref n) => emit!(n),
             Expr::New(ref n) => emit!(n),
             Expr::Object(ref n) => emit!(n),
@@ -646,12 +649,10 @@ where
                 emit!(e.obj);
                 punct!("?.");
 
-                if e.computed {
-                    punct!("[");
-                    emit!(e.prop);
-                    punct!("]");
-                } else {
-                    emit!(e.prop);
+                match &e.prop {
+                    MemberProp::Computed(computed) => emit!(computed),
+                    MemberProp::Ident(i) => emit!(i),
+                    MemberProp::PrivateName(p) => emit!(p),
                 }
             }
             Expr::Call(ref e) => {
@@ -719,53 +720,77 @@ where
 
         emit!(node.obj);
 
-        if node.computed {
-            punct!("[");
-            emit!(node.prop);
-            punct!("]");
-        } else {
-            if self.needs_2dots_for_property_access(&node.obj) {
-                if node.prop.span().lo() >= BytePos(2) {
-                    self.emit_leading_comments(node.prop.span().lo() - BytePos(2), false)?;
+        match &node.prop {
+            MemberProp::Computed(computed) => emit!(computed),
+            MemberProp::Ident(ident) => {
+                if self.needs_2dots_for_property_access(&node.obj) {
+                    if node.prop.span().lo() >= BytePos(2) {
+                        self.emit_leading_comments(node.prop.span().lo() - BytePos(2), false)?;
+                    }
+                    punct!(".");
+                }
+                if node.prop.span().lo() >= BytePos(1) {
+                    self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
                 }
                 punct!(".");
+                emit!(ident);
             }
-            if node.prop.span().lo() >= BytePos(1) {
-                self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
+            MemberProp::PrivateName(private) => {
+                if self.needs_2dots_for_property_access(&node.obj) {
+                    if node.prop.span().lo() >= BytePos(2) {
+                        self.emit_leading_comments(node.prop.span().lo() - BytePos(2), false)?;
+                    }
+                    punct!(".");
+                }
+                if node.prop.span().lo() >= BytePos(1) {
+                    self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
+                }
+                punct!(".");
+                emit!(private);
             }
-            punct!(".");
-            emit!(node.prop);
         }
     }
 
     /// `1..toString` is a valid property access, emit a dot after the literal
-    pub fn needs_2dots_for_property_access(&self, expr: &ExprOrSuper) -> bool {
-        match *expr {
-            ExprOrSuper::Expr(ref expr) => {
-                match **expr {
-                    Expr::Lit(Lit::Num(Number { span, value })) => {
-                        if value.fract() == 0.0 {
-                            return true;
-                        }
-                        if span.is_dummy() {
-                            return false;
-                        }
-
-                        // check if numeric literal is a decimal literal that was originally written
-                        // with a dot
-                        if let Ok(text) = self.cm.span_to_snippet(span) {
-                            if text.contains('.') {
-                                return false;
-                            }
-                            text.starts_with('0') || text.ends_with(' ')
-                        } else {
-                            true
-                        }
-                    }
-                    _ => false,
-                }
+    pub fn needs_2dots_for_property_access(&self, expr: &Expr) -> bool {
+        if let Expr::Lit(Lit::Num(Number { span, value })) = expr {
+            if value.fract() == 0.0 {
+                return true;
             }
-            _ => false,
+            if span.is_dummy() {
+                return false;
+            }
+
+            // check if numeric literal is a decimal literal that was originally written
+            // with a dot
+            if let Ok(text) = self.cm.span_to_snippet(*span) {
+                if text.contains('.') {
+                    return false;
+                }
+                text.starts_with('0') || text.ends_with(' ')
+            } else {
+                true
+            }
+        } else {
+            false
+        }
+    }
+
+    #[emitter]
+    fn emit_super_expr(&mut self, node: &SuperPropExpr) -> Result {
+        self.emit_leading_comments_of_span(node.span(), false)?;
+
+        emit!(node.obj);
+
+        match &node.prop {
+            SuperProp::Computed(computed) => emit!(computed),
+            SuperProp::Ident(i) => {
+                if node.prop.span().lo() >= BytePos(1) {
+                    self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
+                }
+                punct!(".");
+                emit!(i);
+            }
         }
     }
 
@@ -818,9 +843,11 @@ where
             self.emit_leading_comments_of_span(node.span(), false)?;
         }
 
-        emit!(node.meta);
-        punct!(".");
-        emit!(node.prop);
+        match node.kind {
+            MetaPropKind::ImportMeta => keyword!(node.span, "import.meta"),
+
+            MetaPropKind::NewTarget => keyword!(node.span, "new.target"),
+        }
     }
 
     #[emitter]
@@ -1594,17 +1621,27 @@ where
             };
             punct!(span, "{");
         }
-        if !self.cfg.minify {
+
+        let emit_new_line = !self.cfg.minify
+            && !(node.props.is_empty() && is_empty_comments(&node.span(), &self.comments));
+
+        if emit_new_line {
             self.wr.write_line()?;
         }
-        self.emit_list(
-            node.span(),
-            Some(&node.props),
-            ListFormat::ObjectLiteralExpressionProperties | ListFormat::CanSkipTrailingComma,
-        )?;
-        if !self.cfg.minify {
+
+        let mut list_format =
+            ListFormat::ObjectLiteralExpressionProperties | ListFormat::CanSkipTrailingComma;
+
+        if !emit_new_line {
+            list_format -= ListFormat::MultiLine | ListFormat::Indented;
+        }
+
+        self.emit_list(node.span(), Some(&node.props), list_format)?;
+
+        if emit_new_line {
             self.wr.write_line()?;
         }
+
         {
             let span = if node.span.is_dummy() {
                 DUMMY_SP
@@ -1612,7 +1649,7 @@ where
                 Span::new(node.span.hi - BytePos(1), node.span.hi, Default::default())
             };
             punct!(span, "}");
-        }
+        };
     }
 
     #[emitter]
@@ -1878,10 +1915,9 @@ where
                     // to newline ,
                     if format.contains(ListFormat::DelimitersMask)
                         && previous_sibling.hi != parent_node.hi()
+                        && self.comments.is_some()
                     {
-                        if self.comments.is_some() {
-                            self.emit_leading_comments(previous_sibling.span().hi(), true)?;
-                        }
+                        self.emit_leading_comments(previous_sibling.span().hi(), true)?;
                     }
 
                     self.write_delim(format)?;
@@ -1950,11 +1986,12 @@ where
                 }
             };
 
-            if has_trailing_comma && format.contains(ListFormat::CommaDelimited) {
-                if !self.cfg.minify || !format.contains(ListFormat::CanSkipTrailingComma) {
-                    punct!(self, ",");
-                    formatting_space!(self);
-                }
+            if has_trailing_comma
+                && format.contains(ListFormat::CommaDelimited)
+                && (!self.cfg.minify || !format.contains(ListFormat::CanSkipTrailingComma))
+            {
+                punct!(self, ",");
+                formatting_space!(self);
             }
 
             {
@@ -1977,10 +2014,9 @@ where
                     if format.contains(ListFormat::DelimitersMask)
                         && previous_sibling.span().hi() != parent_node.hi()
                         && emit_trailing_comments
+                        && self.comments.is_some()
                     {
-                        if self.comments.is_some() {
-                            self.emit_leading_comments(previous_sibling.span().hi(), true)?;
-                        }
+                        self.emit_leading_comments(previous_sibling.span().hi(), true)?;
                     }
                 }
             }
@@ -2273,11 +2309,17 @@ where
             };
             punct!(span, "{");
         }
-        self.emit_list(
-            node.span(),
-            Some(&node.stmts),
-            ListFormat::MultiLineBlockStatements,
-        )?;
+
+        let emit_new_line = !self.cfg.minify
+            && !(node.stmts.is_empty() && is_empty_comments(&node.span(), &self.comments));
+
+        let mut list_format = ListFormat::MultiLineBlockStatements;
+
+        if !emit_new_line {
+            list_format -= ListFormat::MultiLine | ListFormat::Indented;
+        }
+
+        self.emit_list(node.span(), Some(&node.stmts), list_format)?;
 
         self.emit_leading_comments_of_span(node.span(), true)?;
 
@@ -2330,7 +2372,7 @@ where
 
         match arg {
             Expr::Call(c) => match &c.callee {
-                ExprOrSuper::Super(callee) => {
+                Callee::Super(callee) => {
                     if let Some(cmt) = self.comments {
                         let lo = callee.span.lo;
 
@@ -2339,29 +2381,37 @@ where
                         }
                     }
                 }
-                ExprOrSuper::Expr(callee) => {
-                    if self.has_leading_comment(&callee) {
-                        return true;
-                    }
-                }
-            },
-
-            Expr::Member(m) => match &m.obj {
-                ExprOrSuper::Super(obj) => {
+                Callee::Import(callee) => {
                     if let Some(cmt) = self.comments {
-                        let lo = obj.span.lo;
+                        let lo = callee.span.lo;
 
                         if cmt.has_leading(lo) {
                             return true;
                         }
                     }
                 }
-                ExprOrSuper::Expr(obj) => {
-                    if self.has_leading_comment(&obj) {
+                Callee::Expr(callee) => {
+                    if self.has_leading_comment(callee) {
                         return true;
                     }
                 }
             },
+
+            Expr::Member(m) => {
+                if self.has_leading_comment(&m.obj) {
+                    return true;
+                }
+            }
+
+            Expr::SuperProp(m) => {
+                if let Some(cmt) = self.comments {
+                    let lo = m.span.lo;
+
+                    if cmt.has_leading(lo) {
+                        return true;
+                    }
+                }
+            }
 
             _ => {}
         }
@@ -2390,12 +2440,10 @@ where
                     .unwrap_or(false);
             if need_paren {
                 punct!("(");
+            } else if arg.starts_with_alpha_num() {
+                space!();
             } else {
-                if arg.starts_with_alpha_num() {
-                    space!();
-                } else {
-                    formatting_space!();
-                }
+                formatting_space!();
             }
 
             emit!(arg);
@@ -2772,6 +2820,14 @@ where
         punct!(")");
         emit!(n.body);
     }
+
+    #[emitter]
+    pub fn emit_module_export_name(&mut self, node: &ModuleExportName) -> Result {
+        match *node {
+            ModuleExportName::Ident(ref ident) => emit!(ident),
+            ModuleExportName::Str(ref str) => emit!(str),
+        }
+    }
 }
 
 impl<'a, W> Emitter<'a, W>
@@ -2935,14 +2991,14 @@ fn unescape_tpl_lit(s: &str, is_synthesized: bool) -> String {
         if c != '\\' {
             match c {
                 '\r' => {
-                    if chars.peek().map(|&v| v) == Some('\n') {
+                    if chars.peek().copied() == Some('\n') {
                         continue;
                     }
 
-                    result.push_str("\r");
+                    result.push('\r');
                 }
                 '\n' => {
-                    result.push_str("\n");
+                    result.push('\n');
                 }
 
                 '`' if is_synthesized => {
@@ -3011,7 +3067,7 @@ fn escape_without_source(v: &str, target: EsVersion, single_quote: bool) -> Stri
 
             '\\' => {
                 if iter.peek() == Some(&'\0') {
-                    buf.push_str("\\");
+                    buf.push('\\');
                     iter.next();
                 } else {
                     buf.push_str("\\\\")
@@ -3086,10 +3142,8 @@ fn escape_with_source<'s>(
         || (single_quote == Some(false) && orig.starts_with('"'))
     {
         orig = &orig[1..orig.len() - 1];
-    } else {
-        if single_quote.is_some() {
-            return escape_without_source(s, target, single_quote.unwrap_or(false));
-        }
+    } else if single_quote.is_some() {
+        return escape_without_source(s, target, single_quote.unwrap_or(false));
     }
 
     let mut buf = String::with_capacity(s.len());
@@ -3249,8 +3303,12 @@ fn is_space_require_before_rhs(rhs: &Expr) -> bool {
 
         Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..) => true,
 
-        Expr::Bin(BinExpr { left, .. }) => is_space_require_before_rhs(&left),
+        Expr::Bin(BinExpr { left, .. }) => is_space_require_before_rhs(left),
 
         _ => false,
     }
+}
+
+fn is_empty_comments(span: &Span, comments: &Option<&dyn Comments>) -> bool {
+    span.is_dummy() || comments.map_or(true, |c| !c.has_leading(span.hi() - BytePos(1)))
 }

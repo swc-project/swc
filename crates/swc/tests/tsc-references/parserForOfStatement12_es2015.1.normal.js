@@ -1,3 +1,2 @@
 //@target: ES6
-for (const { a , b  } of X){
-}
+for (const { a , b  } of X){}

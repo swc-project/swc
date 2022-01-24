@@ -35,8 +35,7 @@ function f11(a, b) {
     z.f('hello');
 }
 const k = {
-    something () {
-    }
+    something () {}
 };
 function run(options) {
     var _something;

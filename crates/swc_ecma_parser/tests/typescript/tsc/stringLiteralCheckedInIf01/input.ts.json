@@ -443,15 +443,22 @@
                         }
                       },
                       "property": {
-                        "type": "NumericLiteral",
+                        "type": "Computed",
                         "span": {
-                          "start": 204,
-                          "end": 205,
+                          "start": 203,
+                          "end": 206,
                           "ctxt": 0
                         },
-                        "value": 0.0
-                      },
-                      "computed": true
+                        "expression": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 204,
+                            "end": 205,
+                            "ctxt": 0
+                          },
+                          "value": 0.0
+                        }
+                      }
                     }
                   }
                 ]

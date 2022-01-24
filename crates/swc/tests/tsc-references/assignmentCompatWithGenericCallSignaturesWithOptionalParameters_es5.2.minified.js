@@ -46,8 +46,7 @@ function _classCallCheck(instance, Constructor) {
             };
         };
     };
-}(ClassTypeParam || (ClassTypeParam = {
-})), (function(GenericSignaturesInvalid) {
+}(ClassTypeParam || (ClassTypeParam = {})), (function(GenericSignaturesInvalid) {
     var Base2 = function() {
         "use strict";
         _classCallCheck(this, Base2);
@@ -55,8 +54,7 @@ function _classCallCheck(instance, Constructor) {
         "use strict";
         _classCallCheck(this, Target);
     };
-})(GenericSignaturesInvalid || (GenericSignaturesInvalid = {
-})), (function(GenericSignaturesValid) {
+})(GenericSignaturesInvalid || (GenericSignaturesInvalid = {})), (function(GenericSignaturesValid) {
     var Base2 = function() {
         "use strict";
         var _this = this;
@@ -100,5 +98,4 @@ function _classCallCheck(instance, Constructor) {
             };
         };
     };
-})(GenericSignaturesValid || (GenericSignaturesValid = {
-}));
+})(GenericSignaturesValid || (GenericSignaturesValid = {}));

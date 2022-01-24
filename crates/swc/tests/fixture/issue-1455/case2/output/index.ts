@@ -35,7 +35,7 @@ var obj = {
             platform: platform
         };
     },
-    byPlatform: function(platform) {
+    byPlatform: function() {
         var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(platform) {
             var result;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -56,7 +56,7 @@ var obj = {
                 }
             }, _callee, this);
         }));
-        return function() {
+        return function(platform) {
             return _ref.apply(this, arguments);
         };
     }()

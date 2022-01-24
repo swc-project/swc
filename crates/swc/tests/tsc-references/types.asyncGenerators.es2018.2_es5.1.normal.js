@@ -99,8 +99,7 @@ function _inferReturnType1() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield({
-                    }, "t0", 1);
+                    return _ctx.delegateYield({}, "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -159,7 +158,7 @@ var assignability1 = function() {
             }
         }, _callee);
     }));
-    return function() {
+    return function assignability1() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -178,7 +177,7 @@ var assignability2 = function() {
             }
         }, _callee);
     }));
-    return function() {
+    return function assignability2() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -205,7 +204,7 @@ var assignability3 = function() {
             }
         }, _callee1);
     }));
-    return function() {
+    return function assignability3() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -222,7 +221,7 @@ var assignability4 = function() {
             }
         }, _callee);
     }));
-    return function() {
+    return function assignability4() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -241,7 +240,7 @@ var assignability5 = function() {
             }
         }, _callee);
     }));
-    return function() {
+    return function assignability5() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -268,7 +267,7 @@ var assignability6 = function() {
             }
         }, _callee2);
     }));
-    return function() {
+    return function assignability6() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -285,7 +284,7 @@ var assignability7 = function() {
             }
         }, _callee);
     }));
-    return function() {
+    return function assignability7() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -304,7 +303,7 @@ var assignability8 = function() {
             }
         }, _callee);
     }));
-    return function() {
+    return function assignability8() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -331,7 +330,7 @@ var assignability9 = function() {
             }
         }, _callee3);
     }));
-    return function() {
+    return function assignability9() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -595,8 +594,7 @@ function _yieldStar() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield({
-                    }, "t0", 1);
+                    return _ctx.delegateYield({}, "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();

@@ -1,10 +1,7 @@
-var my = my || {
-};
+var my = my || {};
 my.method = function(n) {
     return n + 1;
-}, my.number = 1, my.object = {
-}, my.predicate = my.predicate || {
-}, my.predicate.query = function() {
+}, my.number = 1, my.object = {}, my.predicate = my.predicate || {}, my.predicate.query = function() {
     var me = this;
     me.property = !1;
 }, new my.predicate.query(), my.predicate.query.another = function() {
@@ -16,9 +13,6 @@ my.method = function(n) {
         return 101;
     }
 };
-var min = window.min || {
-};
-min.nest = this.min.nest || function() {
-}, min.nest.other = self.min.nest.other || class {
-}, min.property = global.min.property || {
-};
+var min = window.min || {};
+min.nest = this.min.nest || function() {}, min.nest.other = self.min.nest.other || class {
+}, min.property = global.min.property || {};

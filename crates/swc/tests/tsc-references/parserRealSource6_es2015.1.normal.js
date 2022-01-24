@@ -183,5 +183,4 @@ var TypeScript;
         return context;
     }
     TypeScript1.findEnclosingScopeAt = findEnclosingScopeAt;
-})(TypeScript || (TypeScript = {
-}));
+})(TypeScript || (TypeScript = {}));

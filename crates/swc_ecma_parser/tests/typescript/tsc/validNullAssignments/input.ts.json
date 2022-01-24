@@ -413,8 +413,7 @@
             },
             "value": "A",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NullLiteral",

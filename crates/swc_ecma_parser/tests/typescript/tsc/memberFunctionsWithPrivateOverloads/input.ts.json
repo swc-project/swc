@@ -3041,8 +3041,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -3202,8 +3201,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -3286,8 +3284,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -3370,8 +3367,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {

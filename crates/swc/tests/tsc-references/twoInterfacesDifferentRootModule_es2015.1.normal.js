@@ -6,5 +6,4 @@ var M2;
     var b;
     var r3 = b.foo; // error
     var r4 = b.bar;
-})(M2 || (M2 = {
-}));
+})(M2 || (M2 = {}));

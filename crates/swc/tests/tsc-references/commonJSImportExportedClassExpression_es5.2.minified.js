@@ -15,8 +15,7 @@ require("./mod1").K, exports.K = (function() {
     return protoProps = [
         {
             key: "values",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties((Constructor = K).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), K;
 })();

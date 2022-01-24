@@ -10,8 +10,7 @@
  * y Arg y.
  * @param {number} z
  * Arg z.
- */ function good(x, y, z) {
-}
+ */ function good(x, y, z) {}
 good(1, 2, 3);
 // @Filename: bad.js
 /**
@@ -21,6 +20,5 @@ good(1, 2, 3);
  * * y Arg y.
  * @param {number} * z
  * Arg z.
- */ function bad(x, y, z) {
-}
+ */ function bad(x, y, z) {}
 bad(1, 2, 3);

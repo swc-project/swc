@@ -19,8 +19,7 @@ var NotOptional;
         "use strict";
         _classCallCheck(this, B3);
     };
-})(NotOptional || (NotOptional = {
-}));
+})(NotOptional || (NotOptional = {}));
 // same cases as above but with optional
 var Optional;
 (function(Optional) {
@@ -36,5 +35,4 @@ var Optional;
         "use strict";
         _classCallCheck(this, B3);
     };
-})(Optional || (Optional = {
-}));
+})(Optional || (Optional = {}));

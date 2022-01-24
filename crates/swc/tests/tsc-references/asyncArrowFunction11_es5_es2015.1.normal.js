@@ -33,11 +33,12 @@ function _asyncToGenerator(fn) {
 // https://github.com/Microsoft/TypeScript/issues/24722
 class A {
     constructor(){
-        this.b = _asyncToGenerator((function*(...args) {
+        var _this = this;
+        this.b = _asyncToGenerator(function*(...args) {
             yield Promise.resolve();
             const obj = {
-                ["a"]: ()=>this
+                ["a"]: ()=>_this
             }; // computed property name after `await` triggers case
-        }).bind(this)).bind(this);
+        });
     }
 }

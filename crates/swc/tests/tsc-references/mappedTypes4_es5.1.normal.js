@@ -1,7 +1,6 @@
 function boxify(obj) {
     if (typeof obj === "object") {
-        var result = {
-        };
+        var result = {};
         for(var k in obj){
             result[k] = {
                 value: obj[k]

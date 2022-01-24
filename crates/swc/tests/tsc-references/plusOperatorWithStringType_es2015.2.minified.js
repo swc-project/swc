@@ -10,7 +10,6 @@ class A {
 !function(M1) {
     var n;
     M1.n = n;
-}(M || (M = {
-}));
+}(M || (M = {}));
 var objA = new A();
 objA.a, M.n, foo(), A.foo(), STRING.charAt(0), foo(), objA.a, M.n;

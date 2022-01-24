@@ -1,16 +1,12 @@
 class Base {
-    static staticMethod() {
-    }
+    static staticMethod() {}
 }
 class Derived1 extends Base {
-    static staticMethod1() {
-    }
+    static staticMethod1() {}
 }
 class Derived2 extends Base {
-    static staticMethod2() {
-    }
+    static staticMethod2() {}
 }
 class Derived3 extends Derived1 {
-    static staticMethod3() {
-    }
+    static staticMethod3() {}
 }

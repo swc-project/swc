@@ -1,4 +1,2 @@
 var E;
-(function(E) {
-})(E || (E = {
-}));
+(function(E) {})(E || (E = {}));

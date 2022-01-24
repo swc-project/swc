@@ -5,6 +5,4 @@
         configurable: !0,
         writable: !0
     }) : obj[key] = value, obj;
-}({
-}, e, function() {
-});
+}({}, e, function() {});

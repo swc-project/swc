@@ -88,8 +88,7 @@
             },
             "value": "K",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BinaryExpression",
@@ -125,8 +124,7 @@
               },
               "value": "K",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "FunctionExpression",
@@ -203,8 +201,7 @@
               },
               "value": "K",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -215,8 +212,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -310,8 +306,7 @@
               },
               "value": "K",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [],
           "typeArguments": null
@@ -325,8 +320,7 @@
           },
           "value": "add",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

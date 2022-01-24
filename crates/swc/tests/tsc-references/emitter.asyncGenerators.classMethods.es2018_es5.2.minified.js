@@ -1,9 +1,4 @@
 import regeneratorRuntime from "regenerator-runtime";
-function _arrayLikeToArray(arr, len) {
-    (null == len || len > arr.length) && (len = arr.length);
-    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
-    return arr2;
-}
 function AsyncGenerator(gen) {
     var front, back;
     function resume(key, arg) {
@@ -305,23 +300,23 @@ var C1 = function() {
     return _createClass(C8, [
         {
             key: "g",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "f",
             value: function() {
+                var _this = this;
                 return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
-                                this.g();
+                                _this.g();
                             case 1:
                             case "end":
                                 return _ctx.stop();
                         }
-                    }, _callee, this);
-                }).bind(this))();
+                    }, _callee);
+                }))();
             }
         }
     ]), C8;
@@ -333,8 +328,7 @@ var C1 = function() {
     return _createClass(B9, [
         {
             key: "g",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), B9;
 }(), C9 = function(B9) {
@@ -349,30 +343,26 @@ var C1 = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(C9, B9);
-    var _super = function(Derived) {
-        var hasNativeReflectConstruct = function() {
-            if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-            if (Reflect.construct.sham) return !1;
-            if ("function" == typeof Proxy) return !0;
-            try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
-            } catch (e) {
-                return !1;
-            }
-        }();
-        return function() {
-            var obj, self, call, result, Super = _getPrototypeOf(Derived);
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else result = Super.apply(this, arguments);
-            return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
-                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-                return self;
-            })(self);
-        };
-    }(C9);
+    var Derived, hasNativeReflectConstruct, _super = (Derived = C9, hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+        } catch (e) {
+            return !1;
+        }
+    }(), function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    });
     function C9() {
         return _classCallCheck(this, C9), _super.apply(this, arguments);
     }
@@ -380,30 +370,12 @@ var C1 = function() {
         {
             key: "f",
             value: function() {
-                var _instance, _this = this, _super_g = function() {
-                    for(var arr, _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance = _get(_getPrototypeOf(C9.prototype), "g", _this)).call.apply(_instance, [
-                        _this
-                    ].concat(function(arr) {
-                        if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-                    }(arr = _args) || function(iter) {
-                        if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
-                    }(arr) || function(o, minLen) {
-                        if (o) {
-                            if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
-                            var n = Object.prototype.toString.call(o).slice(8, -1);
-                            if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(n);
-                            if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-                        }
-                    }(arr) || function() {
-                        throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-                    }()));
-                };
+                var _this = this, _this1 = this;
                 return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
-                                _super_g();
+                                _get(_getPrototypeOf(C9.prototype), "g", _this).call(_this1);
                             case 1:
                             case "end":
                                 return _ctx.stop();

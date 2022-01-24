@@ -28,15 +28,14 @@ where
         };
 
         let discriminant = &mut stmt.discriminant;
-        match &**discriminant {
-            Expr::Update(..) => return,
-            _ => {}
+        if let Expr::Update(..) = &**discriminant {
+            return;
         }
 
         let matching_case = stmt.cases.iter_mut().position(|case| {
             case.test
                 .as_ref()
-                .map(|test| discriminant.value_mut().eq_ignore_span(&test))
+                .map(|test| discriminant.value_mut().eq_ignore_span(test))
                 .unwrap_or(false)
         });
 
@@ -163,7 +162,6 @@ where
                 }),
                 None => inner,
             };
-            return;
         }
     }
 
@@ -205,9 +203,8 @@ where
             }
 
             if case.cons.len() == 1 {
-                match case.cons[0] {
-                    Stmt::Break(BreakStmt { label: None, .. }) => return false,
-                    _ => {}
+                if let Stmt::Break(BreakStmt { label: None, .. }) = case.cons[0] {
+                    return false;
                 }
             }
 
@@ -225,13 +222,10 @@ where
         }
 
         if let Some(last) = cases.last_mut() {
-            match last.cons.last() {
-                Some(Stmt::Break(BreakStmt { label: None, .. })) => {
-                    tracing::debug!("switches: Removing `break` at the end");
-                    self.changed = true;
-                    last.cons.pop();
-                }
-                _ => {}
+            if let Some(Stmt::Break(BreakStmt { label: None, .. })) = last.cons.last() {
+                tracing::debug!("switches: Removing `break` at the end");
+                self.changed = true;
+                last.cons.pop();
             }
         }
     }
@@ -239,10 +233,9 @@ where
     /// If a case ends with break but content is same with the consequtive case
     /// except the break statement, we merge them.
     fn merge_cases_with_same_cons(&mut self, cases: &mut Vec<SwitchCase>) {
-        let stop_pos = cases.iter().position(|case| match case.test.as_deref() {
-            Some(Expr::Update(..)) => true,
-            _ => false,
-        });
+        let stop_pos = cases
+            .iter()
+            .position(|case| matches!(case.test.as_deref(), Some(Expr::Update(..))));
 
         let mut found = None;
         'l: for (li, l) in cases.iter().enumerate().rev() {
@@ -270,13 +263,8 @@ where
 
                 let mut r_cons_slice = r.cons.len();
 
-                if let Some(last) = r.cons.last() {
-                    match last {
-                        Stmt::Break(BreakStmt { label: None, .. }) => {
-                            r_cons_slice -= 1;
-                        }
-                        _ => {}
-                    }
+                if let Some(Stmt::Break(BreakStmt { label: None, .. })) = r.cons.last() {
+                    r_cons_slice -= 1;
                 }
 
                 if l.cons[..l.cons.len() - 1].eq_ignore_span(&r.cons[..r_cons_slice]) {
@@ -308,10 +296,7 @@ where
                 s.cases.retain(|case| match case.test.as_deref() {
                     Some(test) => {
                         let tb = test.as_pure_bool();
-                        match tb {
-                            Known(tb) if db != tb => false,
-                            _ => true,
-                        }
+                        !matches!(tb, Known(tb) if db != tb)
                     }
                     None => false,
                 })
@@ -320,9 +305,7 @@ where
     }
 
     pub(super) fn optimize_switches(&mut self, _s: &mut Stmt) {
-        if !self.options.switches || self.ctx.stmt_labelled {
-            return;
-        }
+        if !self.options.switches || self.ctx.stmt_labelled {}
 
         //
     }

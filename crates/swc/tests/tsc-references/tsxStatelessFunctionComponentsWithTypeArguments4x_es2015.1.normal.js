@@ -24,8 +24,7 @@ function Baz(arg1, arg2) {
     let a0 = /*#__PURE__*/ React.createElement(OverloadComponent, {
         a: arg1.b
     });
-    let a2 = /*#__PURE__*/ React.createElement(OverloadComponent, _extends({
-    }, arg1, {
+    let a2 = /*#__PURE__*/ React.createElement(OverloadComponent, _extends({}, arg1, {
         "ignore-prop": true
     })) // missing a
     ;

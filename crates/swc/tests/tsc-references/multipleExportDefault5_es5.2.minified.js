@@ -1,5 +1,4 @@
-export default function bar() {
-};
+export default function bar() {};
 var C = function() {
     "use strict";
     !function(instance, Constructor) {

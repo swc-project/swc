@@ -43,6 +43,8 @@ where
         }
 
         self.changed = true;
+        // Remove the labeled statement.
+        self.label = None;
         tracing::debug!("loops: Removing a for loop with instant break");
         self.prepend_stmts
             .extend(f.init.take().map(|init| match init {
@@ -116,12 +118,11 @@ where
                         }));
                         f.update = None;
                         *stmt = *f.body.take();
-                        return;
                     } else if let Known(true) = val {
                         if purity.is_pure() {
                             self.changed = true;
                             tracing::debug!(
-                                "loops: Remving `test` part of a for stmt as it's always true"
+                                "loops: Removing `test` part of a for stmt as it's always true"
                             );
                             f.test = None;
                         }
@@ -133,9 +134,7 @@ where
     }
 
     pub(super) fn drop_if_break(&mut self, _s: &ForStmt) {
-        if !self.options.loops {
-            return;
-        }
+        if !self.options.loops {}
     }
 
     ///
@@ -152,7 +151,6 @@ where
                     let new = self.ignore_return_value(&mut **init);
                     if let Some(new) = new {
                         *init = Box::new(new);
-                        return;
                     } else {
                         s.init = None;
                         self.changed = true;

@@ -8,8 +8,7 @@ var NotOptional;
     }
     class B3 {
     }
-})(NotOptional || (NotOptional = {
-}));
+})(NotOptional || (NotOptional = {}));
 // same cases as above but with optional
 var Optional;
 (function(Optional) {
@@ -19,5 +18,4 @@ var Optional;
     }
     class B3 {
     }
-})(Optional || (Optional = {
-}));
+})(Optional || (Optional = {}));

@@ -1,7 +1,5 @@
-function test({ method ="z" , nested: { p ="c"  }  }) {
-}
-test({
-}), test({
+function test({ method ="z" , nested: { p ="c"  }  }) {}
+test({}), test({
     method: "x",
     nested: {
         p: "a"

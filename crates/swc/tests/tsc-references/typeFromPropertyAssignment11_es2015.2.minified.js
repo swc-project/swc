@@ -1,8 +1,6 @@
-var Inner = function() {
-};
+var Inner = function() {};
 Inner.prototype = {
-    m () {
-    },
+    m () {},
     i: 1
 }, Inner.prototype.j = 2, Inner.prototype.k;
 var inner = new Inner();

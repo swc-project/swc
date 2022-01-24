@@ -12,8 +12,7 @@
                         const dateValue = source;
                         return new Date(dateValue.getTime());
                     case Object:
-                        void 0 === target && (target = {
-                        });
+                        void 0 === target && (target = {});
                         break;
                     case Array:
                         target = [];
@@ -86,8 +85,7 @@
                     this.service = service, this.serviceName = serviceName, this.errors = errors;
                 }
                 create(code, ...data) {
-                    const customData = data[0] || {
-                    }, fullCode = `${this.service}/${code}`, template = this.errors[code], message = template ? replaceTemplate(template, customData) : "Error", fullMessage = `${this.serviceName}: ${message} (${fullCode}).`, error = new FirebaseError(fullCode, fullMessage, customData);
+                    const customData = data[0] || {}, fullCode = `${this.service}/${code}`, template = this.errors[code], message = template ? replaceTemplate(template, customData) : "Error", fullMessage = `${this.serviceName}: ${message} (${fullCode}).`, error = new FirebaseError(fullCode, fullMessage, customData);
                     return error;
                 }
             }
@@ -149,12 +147,8 @@
                     return getStatEventTarget;
                 }
             });
-            var a2, x, Na, Ab, cc, k, commonjsGlobal = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {
-            }, esm = {
-            }, goog = goog || {
-            }, l = commonjsGlobal || self;
-            function aa() {
-            }
+            var a2, x, Na, Ab, cc, k, commonjsGlobal = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {}, esm = {}, goog = goog || {}, l = commonjsGlobal || self;
+            function aa() {}
             function ba(a) {
                 var b = typeof a;
                 return "array" == (b = "object" != b ? b : a ? Array.isArray(a) ? "array" : b : "null") || "object" == b && "number" == typeof a.length;
@@ -190,8 +184,7 @@
                 };
             }
             function t(a, b) {
-                function c() {
-                }
+                function c() {}
                 c.prototype = b.prototype, a.Z = b.prototype, a.prototype = new c, a.prototype.constructor = a, a.Vb = function(d, e, f) {
                     for(var h = Array(arguments.length - 2), n = 2; n < arguments.length; n++)h[n - 2] = arguments[n];
                     return b.prototype[e].apply(d, h);
@@ -200,7 +193,7 @@
             function v() {
                 this.s = this.s, this.o = this.o;
             }
-            v.prototype.s = !1, v.prototype.na = function() {
+            Math.random(), v.prototype.s = !1, v.prototype.na = function() {
                 this.s || (this.s = !0, this.M());
             }, v.prototype.M = function() {
                 if (this.o) for(; this.o.length;)this.o.shift()();
@@ -258,8 +251,7 @@
                 for(const d in a)b.call(c, a[d], d, a);
             }
             function ya(a) {
-                const b = {
-                };
+                const b = {};
                 for(const c in a)b[c] = a[c];
                 return b;
             }
@@ -291,19 +283,16 @@
                 }
                 Na = Oa;
             }
-            var Ga = {
-            }, Ua = l.document && y ? Ma() || parseInt(Na, 10) || void 0 : void 0, Va = function() {
+            var Ga = {}, Ua = l.document && y ? Ma() || parseInt(Na, 10) || void 0 : void 0, Va = function() {
                 if (!l.addEventListener || !Object.defineProperty) return !1;
-                var a = !1, b = Object.defineProperty({
-                }, "passive", {
+                var a = !1, b = Object.defineProperty({}, "passive", {
                     get: function() {
                         a = !0;
                     }
                 });
                 try {
                     l.addEventListener("test", aa, b), l.removeEventListener("test", aa, b);
-                } catch (c) {
-                }
+                } catch (c) {}
                 return a;
             }();
             function z(a, b) {
@@ -319,8 +308,7 @@
                                     Ca(b.nodeName);
                                     var e = !0;
                                     break a;
-                                } catch (f) {
-                                }
+                                } catch (f) {}
                                 e = !1;
                             }
                             e || (b = null);
@@ -350,8 +338,7 @@
                 a.ca = !0, a.listener = null, a.proxy = null, a.src = null, a.ia = null;
             }
             function $a(a) {
-                this.src = a, this.g = {
-                }, this.h = 0;
+                this.src = a, this.g = {}, this.h = 0;
             }
             function bb(a, b) {
                 var c = b.type;
@@ -373,8 +360,7 @@
                 var h = ab(a, b, d, e);
                 return -1 < h ? (b = a[h], c || (b.fa = !1)) : ((b = new Ya(b, this.src, f, !!d, e)).fa = c, a.push(b)), b;
             };
-            var cb = "closure_lm_" + (1000000 * Math.random() | 0), db = {
-            };
+            var cb = "closure_lm_" + (1000000 * Math.random() | 0), db = {};
             function fb(a, b, c, d, e) {
                 if (d && d.once) return gb(a, b, c, d, e);
                 if (Array.isArray(b)) {
@@ -592,8 +578,7 @@
                 }
             }
             function E(a) {
-                v.call(this), this.h = a, this.g = {
-                };
+                v.call(this), this.h = a, this.g = {};
             }
             t(E, v);
             var Jb = [];
@@ -608,8 +593,7 @@
             function Lb(a) {
                 xa(a.g, function(b, c) {
                     this.g.hasOwnProperty(c) && ob(b);
-                }, a), a.g = {
-                };
+                }, a), a.g = {};
             }
             function Mb() {
                 this.g = !0;
@@ -647,10 +631,8 @@
                 throw Error("EventHandler.handleEvent not implemented");
             }, Mb.prototype.Aa = function() {
                 this.g = !1;
-            }, Mb.prototype.info = function() {
-            };
-            var H = {
-            }, Rb = null;
+            }, Mb.prototype.info = function() {};
+            var H = {}, Rb = null;
             function Sb() {
                 return Rb = Rb || new C;
             }
@@ -702,13 +684,11 @@
                 tb: "downloadprogress",
                 Ub: "uploadprogress"
             };
-            function Yb() {
-            }
+            function Yb() {}
             function Zb(a) {
                 return a.h || (a.h = a.i());
             }
-            function $b() {
-            }
+            function $b() {}
             Yb.prototype.h = null;
             var L = {
                 OPEN: "a",
@@ -722,8 +702,7 @@
             function bc() {
                 z.call(this, "c");
             }
-            function dc() {
-            }
+            function dc() {}
             function M(a, b, c, d) {
                 this.l = a, this.j = b, this.m = c, this.X = d || 1, this.V = new E(this), this.P = ec, a = Ja ? 125 : void 0, this.W = new Eb(a), this.H = null, this.i = !1, this.s = this.A = this.v = this.K = this.F = this.Y = this.B = null, this.D = [], this.g = null, this.C = 0, this.o = this.u = null, this.N = -1, this.I = !1, this.O = 0, this.L = null, this.aa = this.J = this.$ = this.U = !1, this.h = new fc;
             }
@@ -733,12 +712,9 @@
             t(ac, z), t(bc, z), t(dc, Yb), dc.prototype.g = function() {
                 return new XMLHttpRequest;
             }, dc.prototype.i = function() {
-                return {
-                };
+                return {};
             }, cc = new dc;
-            var ec = 45000, gc = {
-            }, hc = {
-            };
+            var ec = 45000, gc = {}, hc = {};
             function ic(a, b, c) {
                 a.K = 1, a.v = jc(N(b)), a.s = c, a.U = !0, kc(a, null);
             }
@@ -747,8 +723,7 @@
                 var c1 = a3.A, d1 = a3.X;
                 Array.isArray(d1) || (d1 = [
                     String(d1)
-                ]), mc(c1.h, "t", d1), a3.C = 0, c1 = a3.l.H, a3.h = new fc, a3.g = nc(a3.l, c1 ? b1 : null, !a3.s), 0 < a3.O && (a3.L = new Ib(q(a3.Ia, a3, a3.g), a3.O)), Kb(a3.V, a3.g, "readystatechange", a3.gb), b1 = a3.H ? ya(a3.H) : {
-                }, a3.s ? (a3.u || (a3.u = "POST"), b1["Content-Type"] = "application/x-www-form-urlencoded", a3.g.ea(a3.A, a3.u, a3.s, b1)) : (a3.u = "GET", a3.g.ea(a3.A, a3.u, null, b1)), I(1), (function(a, b, c, d, e, f) {
+                ]), mc(c1.h, "t", d1), a3.C = 0, c1 = a3.l.H, a3.h = new fc, a3.g = nc(a3.l, c1 ? b1 : null, !a3.s), 0 < a3.O && (a3.L = new Ib(q(a3.Ia, a3, a3.g), a3.O)), Kb(a3.V, a3.g, "readystatechange", a3.gb), b1 = a3.H ? ya(a3.H) : {}, a3.s ? (a3.u || (a3.u = "POST"), b1["Content-Type"] = "application/x-www-form-urlencoded", a3.g.ea(a3.A, a3.u, a3.s, b1)) : (a3.u = "GET", a3.g.ea(a3.A, a3.u, null, b1)), I(1), (function(a, b, c, d, e, f) {
                     a.info(function() {
                         if (a.g) if (f) for(var h = "", n = f.split("&"), u = 0; u < n.length; u++){
                             var m = n[u].split("=");
@@ -823,8 +798,7 @@
                                 if (1 >= Cc(c.i) && c.ka) {
                                     try {
                                         c.ka();
-                                    } catch (m) {
-                                    }
+                                    } catch (m) {}
                                     c.ka = void 0;
                                 }
                             } else Q(c, 11);
@@ -863,8 +837,7 @@
                         }
                     }
                     I(4);
-                } catch (m) {
-                }
+                } catch (m) {}
             }
             function Kc(a4, b2) {
                 if (a4.forEach && "function" == typeof a4.forEach) a4.forEach(b2, void 0);
@@ -890,8 +863,7 @@
                 }
             }
             function S(a, b) {
-                this.h = {
-                }, this.g = [], this.i = 0;
+                this.h = {}, this.g = [], this.i = 0;
                 var c = arguments.length;
                 if (1 < c) {
                     if (c % 2) throw Error("Uneven number of arguments");
@@ -908,8 +880,7 @@
                     a.g.length = c;
                 }
                 if (a.i != a.g.length) {
-                    var e = {
-                    };
+                    var e = {};
                     for(c = b = 0; b < a.g.length;)T(e, d = a.g[b]) || (a.g[c++] = d, e[d] = 1), b++;
                     a.g.length = c;
                 }
@@ -976,9 +947,7 @@
                             } else 400 == c4 && 0 < h.indexOf("Unknown SID") ? (this.o = 3, J(12)) : (this.o = 0, J(13)), P(this), rc(this);
                         }
                     }
-                } catch (r) {
-                } finally{
-                }
+                } catch (r) {} finally{}
             }, k.fb = function() {
                 if (this.g) {
                     var a = O(this.g), b = this.g.ga();
@@ -1171,8 +1140,7 @@
                 }
                 return ra(a.i);
             }
-            function kd() {
-            }
+            function kd() {}
             function ld() {
                 this.g = new kd;
             }
@@ -1190,8 +1158,7 @@
             function od(a, b, c, d, e) {
                 try {
                     b.onload = null, b.onerror = null, b.onabort = null, b.ontimeout = null, e(d);
-                } catch (f) {
-                }
+                } catch (f) {}
             }
             function pd(a) {
                 this.l = a.$b || null, this.j = a.ib || !1;
@@ -1211,8 +1178,7 @@
                 return l.JSON.parse(a, void 0);
             }, t(pd, Yb), pd.prototype.g = function() {
                 return new qd(this.l, this.j);
-            }, a2 = {
-            }, pd.prototype.i = function() {
+            }, a2 = {}, pd.prototype.i = function() {
                 return a2;
             }, t(qd, C);
             var rd = 0;
@@ -1355,8 +1321,7 @@
                     a.g = null, a.C = null, b || D(a, "ready");
                     try {
                         c.onreadystatechange = d;
-                    } catch (e) {
-                    }
+                    } catch (e) {}
                 }
             }
             function Ad(a) {
@@ -1426,8 +1391,7 @@
                 R(d, "SID", a.J), R(d, "RID", c), R(d, "AID", a.U), Kd(a, d), a.o && a.s && Gd(d, a.o, a.s), c = new M(a, a.h, c, a.C + 1), null === a.o && (c.H = a.s), b && (a.l = b.D.concat(a.l)), b = Pd(a, c, 1000), c.setTimeout(Math.round(0.5 * a.ra) + Math.round(0.5 * a.ra * Math.random())), Dc(a.i, c), ic(c, d, b);
             }
             function Kd(a, b) {
-                a.j && Kc({
-                }, function(c, d) {
+                a.j && Kc({}, function(c, d) {
                     R(b, d, c);
                 });
             }
@@ -1552,8 +1516,7 @@
                     ib: !0
                 }) : a.qa)).L = a.H, b;
             }
-            function Sd() {
-            }
+            function Sd() {}
             function Td() {
                 if (y && !(10 <= Number(Ua))) throw Error("Environmental error: no available transport.");
             }
@@ -1677,8 +1640,7 @@
             }, (k = Id.prototype).ma = 8, k.G = 1, k.hb = function(a) {
                 try {
                     this.h.info("Origin Trials invoked: " + a);
-                } catch (b) {
-                }
+                } catch (b) {}
             }, k.Ha = function(a) {
                 if (this.m) if (this.m = null, 1 == this.G) {
                     if (!a) {
@@ -1722,27 +1684,19 @@
                 null != this.v && (this.v = null, Ac(this), Bc(this), J(19));
             }, k.jb = function(a) {
                 a ? (this.h.info("Successfully pinged google.com"), J(2)) : (this.h.info("Failed to ping google.com"), J(1));
-            }, (k = Sd.prototype).xa = function() {
-            }, k.wa = function() {
-            }, k.va = function() {
-            }, k.ua = function() {
-            }, k.Oa = function() {
-            }, Td.prototype.g = function(a, b) {
+            }, (k = Sd.prototype).xa = function() {}, k.wa = function() {}, k.va = function() {}, k.ua = function() {}, k.Oa = function() {}, Td.prototype.g = function(a, b) {
                 return new Y(a, b);
             }, t(Y, C), Y.prototype.m = function() {
                 this.g.j = this.j, this.A && (this.g.H = !0);
                 var a = this.g, b = this.l, c = this.h || void 0;
-                a.Wa && (a.h.info("Origin Trials enabled."), zb(q(a.hb, a, b))), J(0), a.W = b, a.aa = c || {
-                }, a.N = a.X, a.F = Ec(a, null, a.W), Hc(a);
+                a.Wa && (a.h.info("Origin Trials enabled."), zb(q(a.hb, a, b))), J(0), a.W = b, a.aa = c || {}, a.N = a.X, a.F = Ec(a, null, a.W), Hc(a);
             }, Y.prototype.close = function() {
                 Ic(this.g);
             }, Y.prototype.u = function(a) {
                 if ("string" == typeof a) {
-                    var b = {
-                    };
+                    var b = {};
                     b.__data__ = a, Md(this.g, b);
-                } else this.v ? ((b = {
-                }).__data__ = rb(a), Md(this.g, b)) : Md(this.g, a);
+                } else this.v ? ((b = {}).__data__ = rb(a), Md(this.g, b)) : Md(this.g, a);
             }, Y.prototype.M = function() {
                 this.g.j = null, delete this.j, Ic(this.g), delete this.g, Y.Z.M.call(this);
             }, t(Ud, ac), t(Vd, bc), t(Z, Sd), Z.prototype.xa = function() {
@@ -1810,8 +1764,7 @@
             }
             exports.default = function(_param) {
                 var sizerSvg, src2 = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyBoundary = _param.lazyBoundary, lazyBoundary = void 0 === _lazyBoundary ? "200px" : _lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete1 = _param.onLoadingComplete, _loader = _param.loader, loader = void 0 === _loader ? defaultImageLoader : _loader, _placeholder = _param.placeholder, placeholder1 = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = function(source, excluded) {
-                    if (null == source) return {
-                    };
+                    if (null == source) return {};
                     var key, i, target = _objectWithoutPropertiesLoose(source, excluded);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -1912,8 +1865,7 @@
                     backgroundSize: objectFit || "cover",
                     backgroundImage: "url(\"".concat(blurDataURL, "\")"),
                     backgroundPosition: objectPosition || "0% 0%"
-                } : {
-                };
+                } : {};
                 if ("fill" === layout) wrapperStyle.display = "block", wrapperStyle.position = "absolute", wrapperStyle.top = 0, wrapperStyle.left = 0, wrapperStyle.bottom = 0, wrapperStyle.right = 0;
                 else if (void 0 !== widthInt && void 0 !== heightInt) {
                     var quotient = heightInt / widthInt, paddingTop = isNaN(quotient) ? "100%" : "".concat(100 * quotient, "%");
@@ -1953,8 +1905,7 @@
                     alt: "",
                     "aria-hidden": !0,
                     src: "data:image/svg+xml;base64,".concat(_toBase64.toBase64(sizerSvg))
-                }) : null) : null, _react.default.createElement("img", Object.assign({
-                }, rest, imgAttributes, {
+                }) : null) : null, _react.default.createElement("img", Object.assign({}, rest, imgAttributes, {
                     decoding: "async",
                     "data-nimg": layout,
                     className: className,
@@ -1962,8 +1913,7 @@
                         setRef(img1), (function(img, src, layout, placeholder, onLoadingComplete) {
                             if (img) {
                                 var handleLoad = function() {
-                                    img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {
-                                    }).then(function() {
+                                    img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
                                         if ("blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete) {
                                             var naturalWidth = img.naturalWidth, naturalHeight = img.naturalHeight;
                                             onLoadingComplete({
@@ -1977,10 +1927,8 @@
                             }
                         })(img1, srcString, layout, placeholder1, onLoadingComplete1);
                     },
-                    style: _objectSpread({
-                    }, imgStyle, blurStyle)
-                })), _react.default.createElement("noscript", null, _react.default.createElement("img", Object.assign({
-                }, rest, generateImgAttrs({
+                    style: _objectSpread({}, imgStyle, blurStyle)
+                })), _react.default.createElement("noscript", null, _react.default.createElement("img", Object.assign({}, rest, generateImgAttrs({
                     src: src2,
                     unoptimized: unoptimized,
                     layout: layout,
@@ -2010,9 +1958,8 @@
                 };
             }
             function _objectSpread(target) {
-                for(var _arguments = arguments, i = 1; i < arguments.length; i++)!function(i) {
-                    var source = null != _arguments[i] ? _arguments[i] : {
-                    }, ownKeys = Object.keys(source);
+                for(var _arguments = arguments, i1 = 1; i1 < arguments.length; i1++)!function(i) {
+                    var source = null != _arguments[i] ? _arguments[i] : {}, ownKeys = Object.keys(source);
                     "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
@@ -2024,14 +1971,12 @@
                             writable: !0
                         }) : obj[key1] = value;
                     });
-                }(i);
+                }(i1);
                 return target;
             }
             function _objectWithoutPropertiesLoose(source, excluded) {
-                if (null == source) return {
-                };
-                var key, i, target = {
-                }, sourceKeys = Object.keys(source);
+                if (null == source) return {};
+                var key, i, target = {}, sourceKeys = Object.keys(source);
                 for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                 return target;
             }
@@ -2425,8 +2370,7 @@
             }), __webpack_require__(4444);
             class Component {
                 constructor(name, instanceFactory, type){
-                    this.name = name, this.instanceFactory = instanceFactory, this.type = type, this.multipleInstances = !1, this.serviceProps = {
-                    }, this.instantiationMode = "LAZY", this.onInstanceCreated = null;
+                    this.name = name, this.instanceFactory = instanceFactory, this.type = type, this.multipleInstances = !1, this.serviceProps = {}, this.instantiationMode = "LAZY", this.onInstanceCreated = null;
                 }
                 setInstantiationMode(mode) {
                     return this.instantiationMode = mode, this;
@@ -2452,8 +2396,7 @@
                 Yd: function() {
                     return Logger;
                 }
-            }), (LogLevel1 = LogLevel || (LogLevel = {
-            }))[LogLevel1.DEBUG = 0] = "DEBUG", LogLevel1[LogLevel1.VERBOSE = 1] = "VERBOSE", LogLevel1[LogLevel1.INFO = 2] = "INFO", LogLevel1[LogLevel1.WARN = 3] = "WARN", LogLevel1[LogLevel1.ERROR = 4] = "ERROR", LogLevel1[LogLevel1.SILENT = 5] = "SILENT";
+            }), (LogLevel1 = LogLevel || (LogLevel = {}))[LogLevel1.DEBUG = 0] = "DEBUG", LogLevel1[LogLevel1.VERBOSE = 1] = "VERBOSE", LogLevel1[LogLevel1.INFO = 2] = "INFO", LogLevel1[LogLevel1.WARN = 3] = "WARN", LogLevel1[LogLevel1.ERROR = 4] = "ERROR", LogLevel1[LogLevel1.SILENT = 5] = "SILENT";
             const levelStringToEnum = {
                 debug: LogLevel.DEBUG,
                 verbose: LogLevel.VERBOSE,
@@ -2471,11 +2414,10 @@
             class Logger {
                 constructor(name){
                     this.name = name, this._logLevel = defaultLogLevel, this._logHandler = (instance, logType, ...args)=>{
-                        if (!(logType < instance.logLevel)) {
-                            const now = new Date().toISOString(), method = ConsoleMethod[logType];
-                            if (method) console[method](`[${now}]  ${instance.name}:`, ...args);
-                            else throw new Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
-                        }
+                        if (logType < instance.logLevel) return;
+                        const now = new Date().toISOString(), method = ConsoleMethod[logType];
+                        if (method) console[method](`[${now}]  ${instance.name}:`, ...args);
+                        else throw new Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
                     }, this._userLogHandler = null, [].push(this);
                 }
                 get logLevel() {

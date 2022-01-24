@@ -1,5 +1,5 @@
 use super::{ident::MaybeOptionalIdentParser, *};
-use crate::{error::SyntaxError, lexer::TokenContext, Tokens};
+use crate::{error::SyntaxError, lexer::TokenContext, parser::stmt::IsDirective, Tokens};
 use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
@@ -241,9 +241,8 @@ impl<'a, I: Tokens> Parser<I> {
 
                 expr = Box::new(Expr::Member(MemberExpr {
                     span,
-                    obj: ExprOrSuper::Expr(expr),
-                    computed: false,
-                    prop: Box::new(Expr::Ident(ident)),
+                    obj: expr,
+                    prop: MemberProp::Ident(ident),
                 }));
             }
 
@@ -272,7 +271,7 @@ impl<'a, I: Tokens> Parser<I> {
         let args = self.parse_args(false)?;
         Ok(Box::new(Expr::Call(CallExpr {
             span: span!(self, expr.span().lo()),
-            callee: ExprOrSuper::Expr(expr),
+            callee: Callee::Expr(expr),
             args,
             type_args: None,
         })))
@@ -607,11 +606,8 @@ impl<'a, I: Tokens> Parser<I> {
         };
         let is_optional = self.input.syntax().typescript() && eat!(self, '?');
 
-        match &mut key {
-            Either::Right(PropName::Ident(i)) => {
-                i.optional = is_optional;
-            }
-            _ => {}
+        if let Either::Right(PropName::Ident(i)) = &mut key {
+            i.optional = is_optional;
         }
 
         if self.is_class_method() {
@@ -619,9 +615,8 @@ impl<'a, I: Tokens> Parser<I> {
 
             trace_cur!(self, parse_class_member_with_is_static__normal_class_method);
 
-            match declare_token {
-                Some(token) => self.emit_err(token, SyntaxError::TS1031),
-                None => {}
+            if let Some(token) = declare_token {
+                self.emit_err(token, SyntaxError::TS1031)
             }
 
             if readonly.is_some() {
@@ -668,7 +663,8 @@ impl<'a, I: Tokens> Parser<I> {
                     self.emit_err(type_ann.type_ann.span(), SyntaxError::TS1093);
                 }
 
-                let body: Option<_> = self.parse_fn_body(false, false)?;
+                let body: Option<_> =
+                    self.parse_fn_body(false, false, params.is_simple_parameter_list())?;
 
                 if self.syntax().typescript() && body.is_none() {
                     // Declare constructors cannot have assignment pattern in parameters
@@ -806,76 +802,73 @@ impl<'a, I: Tokens> Parser<I> {
             );
         }
 
-        match getter_or_setter_ident {
-            Some(i) => {
-                let key_span = key.span();
+        if let Some(i) = getter_or_setter_ident {
+            let key_span = key.span();
 
-                // handle get foo(){} / set foo(v){}
-                let key = self.parse_class_prop_name()?;
+            // handle get foo(){} / set foo(v){}
+            let key = self.parse_class_prop_name()?;
 
-                if readonly.is_some() {
-                    self.emit_err(key_span, SyntaxError::GetterSetterCannotBeReadonly);
-                }
-
-                return match i.sym {
-                    js_word!("get") => self.make_method(
-                        |p| {
-                            let params = p.parse_formal_params()?;
-
-                            if params.iter().filter(|p| is_not_this(p)).count() != 0 {
-                                p.emit_err(key_span, SyntaxError::TS1094);
-                            }
-
-                            Ok(params)
-                        },
-                        MakeMethodArgs {
-                            decorators,
-                            start,
-                            is_abstract,
-                            is_async: false,
-                            is_generator: false,
-                            is_optional,
-                            is_override,
-                            accessibility,
-                            static_token,
-                            key,
-                            kind: MethodKind::Getter,
-                        },
-                    ),
-                    js_word!("set") => self.make_method(
-                        |p| {
-                            let params = p.parse_formal_params()?;
-
-                            if params.iter().filter(|p| is_not_this(p)).count() != 1 {
-                                p.emit_err(key_span, SyntaxError::TS1094);
-                            }
-
-                            if !params.is_empty() {
-                                if let Pat::Rest(..) = params[0].pat {
-                                    p.emit_err(params[0].pat.span(), SyntaxError::RestPatInSetter);
-                                }
-                            }
-
-                            Ok(params)
-                        },
-                        MakeMethodArgs {
-                            decorators,
-                            start,
-                            is_optional,
-                            is_abstract,
-                            is_override,
-                            is_async: false,
-                            is_generator: false,
-                            accessibility,
-                            static_token,
-                            key,
-                            kind: MethodKind::Setter,
-                        },
-                    ),
-                    _ => unreachable!(),
-                };
+            if readonly.is_some() {
+                self.emit_err(key_span, SyntaxError::GetterSetterCannotBeReadonly);
             }
-            _ => {}
+
+            return match i.sym {
+                js_word!("get") => self.make_method(
+                    |p| {
+                        let params = p.parse_formal_params()?;
+
+                        if params.iter().filter(|p| is_not_this(p)).count() != 0 {
+                            p.emit_err(key_span, SyntaxError::TS1094);
+                        }
+
+                        Ok(params)
+                    },
+                    MakeMethodArgs {
+                        decorators,
+                        start,
+                        is_abstract,
+                        is_async: false,
+                        is_generator: false,
+                        is_optional,
+                        is_override,
+                        accessibility,
+                        static_token,
+                        key,
+                        kind: MethodKind::Getter,
+                    },
+                ),
+                js_word!("set") => self.make_method(
+                    |p| {
+                        let params = p.parse_formal_params()?;
+
+                        if params.iter().filter(|p| is_not_this(p)).count() != 1 {
+                            p.emit_err(key_span, SyntaxError::TS1094);
+                        }
+
+                        if !params.is_empty() {
+                            if let Pat::Rest(..) = params[0].pat {
+                                p.emit_err(params[0].pat.span(), SyntaxError::RestPatInSetter);
+                            }
+                        }
+
+                        Ok(params)
+                    },
+                    MakeMethodArgs {
+                        decorators,
+                        start,
+                        is_optional,
+                        is_abstract,
+                        is_override,
+                        is_async: false,
+                        is_generator: false,
+                        accessibility,
+                        static_token,
+                        key,
+                        kind: MethodKind::Setter,
+                    },
+                ),
+                _ => unreachable!(),
+            };
         }
 
         unexpected!(self, "* for generator, private key, identifier or async")
@@ -984,7 +977,7 @@ impl<'a, I: Tokens> Parser<I> {
         Self: MaybeOptionalIdentParser<T::Ident>,
         T::Ident: Spanned,
     {
-        let start = start_of_async.unwrap_or(cur_pos!(self));
+        let start = start_of_async.unwrap_or_else(|| cur_pos!(self));
         assert_and_bump!(self, "function");
         let is_async = start_of_async.is_some();
 
@@ -1099,7 +1092,7 @@ impl<'a, I: Tokens> Parser<I> {
                 // in_generator: prev_in_generator,
                 ..p.ctx()
             };
-            let params = p.with_ctx(arg_ctx).parse_with(|mut p| parse_args(&mut p))?;
+            let params = p.with_ctx(arg_ctx).parse_with(|p| parse_args(p))?;
 
             expect!(p, ')');
 
@@ -1111,7 +1104,8 @@ impl<'a, I: Tokens> Parser<I> {
                 None
             };
 
-            let body: Option<_> = p.parse_fn_body(is_async, is_generator)?;
+            let body: Option<_> =
+                p.parse_fn_body(is_async, is_generator, params.is_simple_parameter_list())?;
 
             if p.syntax().typescript() && body.is_none() {
                 // Declare functions cannot have assignment pattern in parameters
@@ -1150,7 +1144,12 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
-    pub(super) fn parse_fn_body<T>(&mut self, is_async: bool, is_generator: bool) -> PResult<T>
+    pub(super) fn parse_fn_body<T>(
+        &mut self,
+        is_async: bool,
+        is_generator: bool,
+        is_simple_parameter_list: bool,
+    ) -> PResult<T>
     where
         Self: FnBodyParser<T>,
     {
@@ -1174,7 +1173,9 @@ impl<'a, I: Tokens> Parser<I> {
             labels: vec![],
             ..Default::default()
         };
-        self.with_ctx(ctx).with_state(state).parse_fn_body_inner()
+        self.with_ctx(ctx)
+            .with_state(state)
+            .parse_fn_body_inner(is_simple_parameter_list)
     }
 }
 
@@ -1273,7 +1274,7 @@ impl IsInvalidClassName for Ident {
 }
 impl IsInvalidClassName for Option<Ident> {
     fn invalid_class_name(&self) -> Option<Span> {
-        if let Some(ref i) = self.as_ref() {
+        if let Some(i) = self.as_ref() {
             return i.invalid_class_name();
         }
 
@@ -1374,13 +1375,25 @@ impl OutputType for Decl {
 }
 
 pub(super) trait FnBodyParser<Body> {
-    fn parse_fn_body_inner(&mut self) -> PResult<Body>;
+    fn parse_fn_body_inner(&mut self, is_simple_parameter_list: bool) -> PResult<Body>;
 }
-
+fn has_use_strict(block: &BlockStmt) -> Option<Span> {
+    match block.stmts.iter().find(|stmt| stmt.is_use_strict()) {
+        Some(Stmt::Expr(ExprStmt { span, expr: _ })) => Some(*span),
+        _ => None,
+    }
+}
 impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
-    fn parse_fn_body_inner(&mut self) -> PResult<BlockStmtOrExpr> {
+    fn parse_fn_body_inner(&mut self, is_simple_parameter_list: bool) -> PResult<BlockStmtOrExpr> {
         if is!(self, '{') {
-            self.parse_block(false).map(BlockStmtOrExpr::BlockStmt)
+            self.parse_block(false).map(|block_stmt| {
+                if !self.input.syntax().typescript() && !is_simple_parameter_list {
+                    if let Some(span) = has_use_strict(&block_stmt) {
+                        self.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
+                    }
+                }
+                BlockStmtOrExpr::BlockStmt(block_stmt)
+            })
         } else {
             self.parse_assignment_expr().map(BlockStmtOrExpr::Expr)
         }
@@ -1388,40 +1401,78 @@ impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
 }
 
 impl<I: Tokens> FnBodyParser<Option<BlockStmt>> for Parser<I> {
-    fn parse_fn_body_inner(&mut self) -> PResult<Option<BlockStmt>> {
+    fn parse_fn_body_inner(
+        &mut self,
+        is_simple_parameter_list: bool,
+    ) -> PResult<Option<BlockStmt>> {
         // allow omitting body and allow placing `{` on next line
         if self.input.syntax().typescript() && !is!(self, '{') && eat!(self, ';') {
             return Ok(None);
         }
-        self.include_in_expr(true).parse_block(true).map(Some)
+        let block = self.include_in_expr(true).parse_block(true);
+        block.map(|block_stmt| {
+            if !self.input.syntax().typescript() && !is_simple_parameter_list {
+                if let Some(span) = has_use_strict(&block_stmt) {
+                    self.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
+                }
+            }
+            Some(block_stmt)
+        })
+    }
+}
+
+pub(super) trait IsSimpleParameterList {
+    fn is_simple_parameter_list(&self) -> bool;
+}
+impl IsSimpleParameterList for Vec<Param> {
+    fn is_simple_parameter_list(&self) -> bool {
+        self.iter().all(|param| matches!(param.pat, Pat::Ident(_)))
+    }
+}
+impl IsSimpleParameterList for Vec<Pat> {
+    fn is_simple_parameter_list(&self) -> bool {
+        self.iter().all(|pat| matches!(pat, Pat::Ident(_)))
+    }
+}
+impl IsSimpleParameterList for Vec<ParamOrTsParamProp> {
+    fn is_simple_parameter_list(&self) -> bool {
+        self.iter().all(|param| {
+            matches!(
+                param,
+                ParamOrTsParamProp::TsParamProp(..)
+                    | ParamOrTsParamProp::Param(Param {
+                        pat: Pat::Ident(_),
+                        ..
+                    })
+            )
+        })
     }
 }
 
 fn is_constructor(key: &Either<PrivateName, PropName>) -> bool {
-    match *key {
+    matches!(
+        *key,
         Either::Right(PropName::Ident(Ident {
             sym: js_word!("constructor"),
             ..
-        }))
-        | Either::Right(PropName::Str(Str {
+        })) | Either::Right(PropName::Str(Str {
             value: js_word!("constructor"),
             ..
-        })) => true,
-        _ => false,
-    }
+        }))
+    )
 }
 
 pub(crate) fn is_not_this(p: &Param) -> bool {
-    match p.pat {
+    !matches!(
+        p.pat,
         Pat::Ident(BindingIdent {
             id: Ident {
                 sym: js_word!("this"),
                 ..
             },
             ..
-        }) => false,
-        _ => true,
-    }
+        })
+    )
 }
 
 struct MakeMethodArgs {

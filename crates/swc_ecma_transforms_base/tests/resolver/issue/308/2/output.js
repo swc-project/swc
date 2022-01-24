@@ -1,6 +1,5 @@
 function wrapper() {
-    function bar__2(props__3) {
-    }
+    function bar__2(props__3) {}
     var Foo__2 = function Foo1__4() {
         _classCallCheck(this, Foo1__4);
         super();

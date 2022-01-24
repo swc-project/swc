@@ -16,10 +16,9 @@ var y = function y() {
 };
 module.exports = x;
 module.exports = y;
-(function(x1) {
-    x1.x = 10;
-})(x || (x = {
-}));
+(function(x2) {
+    var x1 = x2.x = 10;
+})(x || (x = {}));
 var y = function y() {
     "use strict";
     _classCallCheck(this, y);
@@ -38,8 +37,7 @@ module.exports = y;
 // @Filename: foo5.ts
 var x = 5;
 var y = "test";
-var z = {
-};
+var z = {};
 module.exports = x;
 module.exports = y;
 module.exports = z;

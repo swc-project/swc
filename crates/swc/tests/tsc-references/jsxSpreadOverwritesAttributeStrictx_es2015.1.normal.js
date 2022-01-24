@@ -26,8 +26,7 @@ const props = {
 const Foo = (props1)=>/*#__PURE__*/ React.createElement("div", null, props1.a)
 ;
 // ok
-const a1 = /*#__PURE__*/ React.createElement(Foo, _extends({
-}, props));
+const a1 = /*#__PURE__*/ React.createElement(Foo, _extends({}, props));
 const a2 = /*#__PURE__*/ React.createElement(Foo, _extends({
     d: 1
 }, props));

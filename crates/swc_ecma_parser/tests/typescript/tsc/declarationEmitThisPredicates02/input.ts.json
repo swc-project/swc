@@ -379,8 +379,7 @@
                                   },
                                   "value": "a",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "right": {
                                 "type": "NullLiteral",
@@ -425,8 +424,7 @@
                                   },
                                   "value": "b",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "right": {
                                 "type": "NullLiteral",
@@ -472,8 +470,7 @@
                                 },
                                 "value": "c",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NullLiteral",

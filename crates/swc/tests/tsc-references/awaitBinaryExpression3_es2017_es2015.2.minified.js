@@ -23,6 +23,6 @@ function _func() {
             });
         };
     })(function*() {
-        before(), (yield p) + a, after();
+        before(), yield p, after();
     })).apply(this, arguments);
 }

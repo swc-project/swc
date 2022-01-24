@@ -1,25 +1,16 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "Base for swc plugins"
+description = "SDK for authoring swc plugin"
 documentation = "https://rustdoc.swc.rs/swc_plugin/"
 edition = "2018"
 license = "Apache-2.0"
 name = "swc_plugin"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.18.0"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+version = "0.25.0"
 
 [dependencies]
-abi_stable = "0.10.3"
-anyhow = "1.0.41"
-rplugin = {version = "0.3.0", path = "../rplugin"}
-serde = {version = "1.0.126", features = ["derive"]}
-serde_json = "1.0.64"
-swc_atoms = {version = "0.2.7", path = "../swc_atoms"}
-swc_common = {version = "0.15.0", path = "../swc_common", features = ["plugin-mode"]}
-swc_ecma_ast = {version = "0.60.0", path = "../swc_ecma_ast"}
-swc_ecma_plugin_ast = {version = "0.7.0", path = "../swc_ecma_plugin_ast"}
-swc_ecma_visit = {version = "0.46.0", path = "../swc_ecma_visit"}
-swc_node_base = {version = "0.5.1", path = "../swc_node_base"}
-swc_plugin_js_api = {version = "0.5.0", path = "../swc_plugin_js_api"}
+swc_common = {version = "0.17.0", path = "../swc_common", features = ["plugin-mode"]}
+swc_ecma_ast = {version = "0.65.0", path = "../swc_ecma_ast", features = ["rkyv-impl"]}
+swc_ecma_visit = {version = "0.51.0", path = "../swc_ecma_visit"}
+swc_atoms = {version = "0.2.0", path = "../swc_atoms"}
+swc_plugin_macro = {version = "0.1.0", path = "../swc_plugin_macro"}

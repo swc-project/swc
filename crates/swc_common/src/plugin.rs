@@ -5,178 +5,94 @@
 #![allow(unused)]
 
 use crate::{syntax_pos::Mark, SyntaxContext};
-use abi_stable::{
-    sabi_trait,
-    std_types::{RBox, RVec},
-    StableAbi,
-};
-use anyhow::{Context, Error};
-use serde::{de::DeserializeOwned, Serialize};
+use anyhow::Error;
 use std::any::type_name;
 
-#[repr(transparent)]
-#[derive(StableAbi)]
-pub struct Runtime {
-    inner: RuntimeImpl_TO<'static, RBox<()>>,
+#[derive(Debug, Clone, PartialEq)]
+#[non_exhaustive]
+#[cfg_attr(
+    feature = "plugin-base",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+/// Enum for possible errors while running transform via plugin.
+/// Mostly this enum is being used to bubble up error occurred inside of plugin
+/// runtime which we can't transparently pass forward Error itself. Host (SWC)
+/// will try to attach context if possible then raise it as Error.
+pub enum PluginError {
+    /// Occurs when failed to convert size passed from host / guest into usize
+    /// or similar for the conversion. This is an internal error rasied via
+    /// plugin_macro, noramlly plugin author should not raise this manually.
+    SizeInteropFailure(String),
+    /// Occurs when failed to reconstruct a struct from `Serialized`.
+    Deserialize((String, Vec<u8>)),
+    /// Occurs when failed to serialize a struct into `Serialized`.
+    /// Unlike deserialize error, this error cannot forward any context for the
+    /// raw bytes: when serialze failed, there's nothing we can pass between
+    /// runtime.
+    Serialize(String),
+    /// When plugin fails to transform for some reason.
+    /// This is incomplete yet as it is unclear what kind of data plugin want to
+    /// forward into host.
+    Transform,
 }
 
-#[cfg(feature = "plugin-mode")]
-scoped_tls::scoped_thread_local!(
-    /// If this variable is configured, many methods of
-    /// `swc_common` will be proxied to this variable.
-    pub(crate) static RT: RuntimeImpl_TO<'static, RBox<()>>
-);
-
-/// **INTERNAL API**
-///
-///
-/// Don't use this. This is for internal use only.
-/// This can be changed without breaking semver version bump.
-#[sabi_trait]
-pub trait RuntimeImpl {
-    /// Emit a structured diagnostic.
-    ///
-    /// - `db`: Serialized version of Diagnostic which is serialized using
-    ///   bincode.
-    fn emit_diagnostic(&self, db: RVec<u8>);
-
-    fn fresh_mark(&self, parent: Mark) -> Mark;
-
-    fn parent_mark(&self, mar: Mark) -> Mark;
-
-    fn is_mark_builtin(&self, mark: Mark) -> bool;
-
-    fn set_mark_is_builtin(&self, mark: Mark, is_builtin: bool);
-
-    fn is_mark_descendant_of(&self, mark: Mark, ancestor: Mark) -> bool;
-
-    fn least_ancestor_of_marks(&self, a: Mark, b: Mark) -> Mark;
-
-    fn apply_mark_to_syntax_context_internal(
-        &self,
-        ctxt: SyntaxContext,
-        mark: Mark,
-    ) -> SyntaxContext;
-
-    fn remove_mark_of_syntax_context(&self, ctxt: &mut SyntaxContext) -> Mark;
-
-    fn outer_mark_of_syntax_context(&self, ctxt: SyntaxContext) -> Mark;
-}
-#[cfg(feature = "plugin-mode")]
-struct PluginEmitter;
-
-#[cfg(feature = "plugin-mode")]
-impl crate::errors::Emitter for PluginEmitter {
-    fn emit(&mut self, db: &crate::errors::DiagnosticBuilder<'_>) {
-        let bytes: RVec<_> = serialize_for_plugin(&db.diagnostic).unwrap().into();
-
-        RT.with(|rt| rt.emit_diagnostic(bytes))
-    }
+/// Wraps internal representation of serialized data. Consumers should not
+/// rely on specific details of byte format struct contains: it is
+/// strictly implementation detail which can change anytime.
+pub struct Serialized {
+    field: rkyv::AlignedVec,
 }
 
-#[cfg_attr(docsrs, doc(cfg(feature = "plugin-mode")))]
-#[cfg(feature = "plugin-mode")]
-pub fn with_runtime<F, Ret>(rt: &Runtime, op: F) -> Ret
-where
-    F: FnOnce() -> Ret,
-{
-    use crate::errors::{Handler, HANDLER};
-
-    let handler = Handler::with_emitter(true, false, Box::new(PluginEmitter));
-    RT.set(&rt.inner, || {
-        // We proxy error reporting to the core runtime.
-        HANDLER.set(&handler, || op())
-    })
-}
-
-pub fn serialize_for_plugin<T>(t: &T) -> Result<Vec<u8>, Error>
-where
-    T: Serialize,
-{
-    bincode::serialize(&t)
-        .with_context(|| format!("failed to serialize `{}` using bincode", type_name::<T>()))
-}
-
-pub fn deserialize_for_plugin<T>(bytes: &[u8]) -> Result<T, Error>
-where
-    T: DeserializeOwned,
-{
-    bincode::deserialize(bytes)
-        .with_context(|| format!("failed to deserialize `{}` using bincode", type_name::<T>()))
-}
-
-#[cfg(feature = "plugin-rt")]
-struct PluginRt {
-    name: String,
-}
-
-#[cfg(feature = "plugin-rt")]
-impl RuntimeImpl for PluginRt {
-    fn emit_diagnostic(&self, db: RVec<u8>) {
-        use crate::errors::{Diagnostic, DiagnosticBuilder, HANDLER};
-
-        let diagnostic: Diagnostic =
-            deserialize_for_plugin(db.as_slice()).expect("plugin send invalid diagnostic");
-
-        HANDLER.with(|handler| {
-            DiagnosticBuilder::new_diagnostic(&handler, diagnostic)
-                .note(&format!(
-                    "this message is generated by plugin `{}`",
-                    &self.name
-                ))
-                .emit();
-        });
+#[cfg(feature = "plugin-base")]
+impl Serialized {
+    pub fn new_for_plugin(bytes: &[u8], len: i32) -> Serialized {
+        let mut vec = rkyv::AlignedVec::with_capacity(
+            len.try_into()
+                .expect("Cannot determine size of the serialized bytes"),
+        );
+        vec.extend_from_slice(bytes);
+        Serialized { field: vec }
     }
 
-    fn fresh_mark(&self, parent: Mark) -> Mark {
-        Mark::fresh(parent)
+    pub fn from(vec: rkyv::AlignedVec) -> Serialized {
+        Serialized { field: vec }
     }
 
-    fn parent_mark(&self, mark: Mark) -> Mark {
-        mark.parent()
+    #[allow(clippy::should_implement_trait)]
+    pub fn as_ref(&self) -> &rkyv::AlignedVec {
+        &self.field
     }
 
-    fn is_mark_builtin(&self, mark: Mark) -> bool {
-        mark.is_builtin()
+    pub fn serialize<W>(t: &W) -> Result<Serialized, Error>
+    where
+        W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
+    {
+        rkyv::to_bytes::<_, 512>(t)
+            .map(Serialized::from)
+            .map_err(|err| match err {
+                rkyv::ser::serializers::CompositeSerializerError::SerializerError(e) => e.into(),
+                rkyv::ser::serializers::CompositeSerializerError::ScratchSpaceError(e) => {
+                    Error::msg("AllocScratchError")
+                }
+                rkyv::ser::serializers::CompositeSerializerError::SharedError(e) => {
+                    Error::msg("SharedSerializeMapError")
+                }
+            })
     }
 
-    fn set_mark_is_builtin(&self, mark: Mark, is_builtin: bool) {
-        mark.set_is_builtin(is_builtin)
+    pub fn deserialize<W>(bytes: &Serialized) -> Result<W, Error>
+    where
+        W: rkyv::Archive,
+        W::Archived: rkyv::Deserialize<W, rkyv::Infallible>,
+    {
+        use anyhow::Context;
+        use rkyv::Deserialize;
+
+        let bytes = &bytes.field;
+        let archived = unsafe { rkyv::archived_root::<W>(&bytes[..]) };
+
+        archived
+            .deserialize(&mut rkyv::Infallible)
+            .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))
     }
-
-    fn is_mark_descendant_of(&self, mark: Mark, ancestor: Mark) -> bool {
-        mark.is_descendant_of(ancestor)
-    }
-
-    fn least_ancestor_of_marks(&self, a: Mark, b: Mark) -> Mark {
-        Mark::least_ancestor(a, b)
-    }
-
-    fn apply_mark_to_syntax_context_internal(
-        &self,
-        ctxt: SyntaxContext,
-        mark: Mark,
-    ) -> SyntaxContext {
-        ctxt.apply_mark(mark)
-    }
-
-    fn remove_mark_of_syntax_context(&self, ctxt: &mut SyntaxContext) -> Mark {
-        ctxt.remove_mark()
-    }
-
-    fn outer_mark_of_syntax_context(&self, ctxt: SyntaxContext) -> Mark {
-        ctxt.outer()
-    }
-}
-
-#[cfg_attr(docsrs, doc(cfg(feature = "plugin-rt")))]
-#[cfg(feature = "plugin-rt")]
-pub fn get_runtime_for_plugin(plugin_name: String) -> Runtime {
-    use abi_stable::erased_types::TD_Opaque;
-
-    let rt = PluginRt { name: plugin_name };
-
-    let rt: RuntimeImpl_TO<'_, RBox<_>> = RuntimeImpl_TO::from_value(rt, TD_Opaque);
-
-    Runtime { inner: rt }
 }

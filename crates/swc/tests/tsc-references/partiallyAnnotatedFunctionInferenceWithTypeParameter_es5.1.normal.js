@@ -42,6 +42,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -49,8 +50,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -91,11 +91,9 @@ test(function(t1, t2) {
     t2.test2;
 });
 // zero arg
-test(function() {
-});
+test(function() {});
 // fewer args
-test(function(t1) {
-});
+test(function(t1) {});
 // rest arg
 test(function() {
     for(var _len = arguments.length, ts = new Array(_len), _key = 0; _key < _len; _key++){
@@ -103,14 +101,10 @@ test(function() {
     }
 });
 // source function has rest arg
-testRest(function(t1) {
-});
-testRest(function(t1, t2, t3) {
-});
-testRest(function(t1, t2, t3) {
-});
-testRest(function(t1, t2, t3) {
-});
+testRest(function(t1) {});
+testRest(function(t1, t2, t3) {});
+testRest(function(t1, t2, t3) {});
+testRest(function(t1, t2, t3) {});
 testRest(function(t2) {
     for(var _len = arguments.length, t3 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         t3[_key - 1] = arguments[_key];

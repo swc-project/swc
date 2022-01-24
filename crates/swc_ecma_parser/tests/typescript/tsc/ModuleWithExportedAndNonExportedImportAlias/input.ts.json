@@ -798,8 +798,7 @@
                         },
                         "value": "Line",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -1154,8 +1153,7 @@
               },
               "value": "Origin",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1513,8 +1511,7 @@
               },
               "value": "Unit",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1581,8 +1578,7 @@
                 },
                 "value": "Lines",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -1593,8 +1589,7 @@
               },
               "value": "Line",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

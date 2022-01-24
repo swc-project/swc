@@ -13,7 +13,7 @@
         "end": 58,
         "ctxt": 0
       },
-      "src": {
+      "href": {
         "type": "Function",
         "span": {
           "start": 8,
@@ -43,54 +43,74 @@
           }
         ]
       },
-      "condition": {
-        "type": "AndMediaQuery",
+      "layerName": null,
+      "supports": null,
+      "media": {
+        "type": "MediaQueryList",
         "span": {
           "start": 23,
           "end": 57,
           "ctxt": 0
         },
-        "left": {
-          "type": "Identifier",
-          "span": {
-            "start": 23,
-            "end": 29,
-            "ctxt": 0
-          },
-          "value": "screen",
-          "raw": "screen"
-        },
-        "right": {
-          "type": "Declaration",
-          "span": {
-            "start": 35,
-            "end": 57,
-            "ctxt": 0
-          },
-          "property": {
-            "type": "Identifier",
+        "queries": [
+          {
+            "type": "MediaQuery",
             "span": {
-              "start": 35,
-              "end": 46,
+              "start": 23,
+              "end": 57,
               "ctxt": 0
             },
-            "value": "orientation",
-            "raw": "orientation"
-          },
-          "value": [
-            {
+            "modifier": null,
+            "mediaType": {
               "type": "Identifier",
               "span": {
-                "start": 47,
-                "end": 56,
+                "start": 23,
+                "end": 29,
                 "ctxt": 0
               },
-              "value": "landscape",
-              "raw": "landscape"
+              "value": "screen",
+              "raw": "screen"
+            },
+            "condition": {
+              "type": "MediaConditionWithoutOr",
+              "span": {
+                "start": 34,
+                "end": 57,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
+                  "span": {
+                    "start": 34,
+                    "end": 57,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 35,
+                      "end": 46,
+                      "ctxt": 0
+                    },
+                    "value": "orientation",
+                    "raw": "orientation"
+                  },
+                  "value": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 47,
+                      "end": 56,
+                      "ctxt": 0
+                    },
+                    "value": "landscape",
+                    "raw": "landscape"
+                  }
+                }
+              ]
             }
-          ],
-          "important": null
-        }
+          }
+        ]
       }
     }
   ]

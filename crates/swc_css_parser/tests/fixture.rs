@@ -1,3 +1,5 @@
+#![allow(clippy::needless_update)]
+
 use std::path::PathBuf;
 use swc_common::{errors::Handler, input::SourceFileInput, Span, Spanned};
 use swc_css_ast::*;
@@ -282,15 +284,13 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(AtTextValue, visit_at_text_value);
     mtd!(AttrSelector, visit_attr_selector);
     mtd!(BinValue, visit_bin_value);
-    mtd!(BraceValue, visit_brace_value);
     mtd!(ClassSelector, visit_class_selector);
     mtd!(SpaceValues, visit_space_values);
     mtd!(ComplexSelector, visit_complex_selector);
     mtd!(Combinator, visit_combinator);
     mtd!(CompoundSelector, visit_compound_selector);
     mtd!(Block, visit_block);
-    mtd!(RoundBracketBlock, visit_round_bracket_block);
-    mtd!(SquareBracketBlock, visit_square_bracket_block);
+    mtd!(SimpleBlock, visit_simple_block);
     mtd!(Function, visit_function);
     mtd!(HashValue, visit_hash_value);
     mtd!(NestingSelector, visit_nesting_selector);
@@ -311,41 +311,67 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(SubclassSelector, visit_subclass_selector);
     mtd!(TagSelector, visit_tag_selector);
     mtd!(Ident, visit_ident);
+    mtd!(CustomIdent, visit_custom_ident);
     mtd!(Tokens, visit_tokens);
     mtd!(Unit, visit_unit);
     mtd!(UnitValue, visit_unit_value);
     mtd!(UrlValue, visit_url_value);
     mtd!(Value, visit_value);
 
-    mtd!(AndMediaQuery, visit_and_media_query);
-    mtd!(AndSupportQuery, visit_and_support_query);
     mtd!(CharsetRule, visit_charset_rule);
-    mtd!(CommaMediaQuery, visit_comma_media_query);
     mtd!(DocumentRule, visit_document_rule);
     mtd!(FontFaceRule, visit_font_face_rule);
-    mtd!(ImportSource, visit_import_source);
     mtd!(ImportRule, visit_import_rule);
+    mtd!(ImportHref, visit_import_href);
+    mtd!(ImportLayerName, visit_import_layer_name);
+    mtd!(ImportSupportsType, visit_import_supports_type);
     mtd!(KeyframeBlock, visit_keyframe_block);
     mtd!(KeyframeBlockRule, visit_keyframe_block_rule);
     mtd!(KeyframeSelector, visit_keyframe_selector);
     mtd!(KeyframesRule, visit_keyframes_rule);
-    mtd!(MediaQuery, visit_media_query);
+    mtd!(LayerName, visit_layer_name);
+    mtd!(LayerNameList, visit_layer_name_list);
+    mtd!(LayerPrelude, visit_layer_prelude);
+    mtd!(LayerRule, visit_layer_rule);
     mtd!(MediaRule, visit_media_rule);
+    mtd!(MediaQueryList, visit_media_query_list);
+    mtd!(MediaQuery, visit_media_query);
+    mtd!(MediaCondition, visit_media_condition);
+    mtd!(MediaConditionWithoutOr, visit_media_condition_without_or);
+    mtd!(MediaConditionAllType, visit_media_condition_all_type);
+    mtd!(
+        MediaConditionWithoutOrType,
+        visit_media_condition_without_or_type
+    );
+    mtd!(MediaNot, visit_media_not);
+    mtd!(MediaAnd, visit_media_and);
+    mtd!(MediaOr, visit_media_or);
+    mtd!(MediaInParens, visit_media_in_parens);
+    mtd!(MediaFeatureName, visit_media_feature_name);
+    mtd!(MediaFeatureValue, visit_media_feature_value);
+    mtd!(MediaFeature, visit_media_feature);
+    mtd!(MediaFeaturePlain, visit_media_feature_plain);
+    mtd!(MediaFeatureBoolean, visit_media_feature_boolean);
+    mtd!(MediaFeatureRange, visit_media_feature_range);
+    mtd!(
+        MediaFeatureRangeInterval,
+        visit_media_feature_range_interval
+    );
+    mtd!(SupportsRule, visit_supports_rule);
+    mtd!(SupportsCondition, visit_supports_condition);
+    mtd!(SupportsConditionType, visit_supports_condition_type);
+    mtd!(SupportsNot, visit_supports_not);
+    mtd!(SupportsAnd, visit_supports_and);
+    mtd!(SupportsOr, visit_supports_or);
+    mtd!(SupportsInParens, visit_supports_in_parens);
+    mtd!(SupportsFeature, visit_supports_feature);
     mtd!(NamespaceUri, visit_namespace_uri);
     mtd!(NamespaceRule, visit_namespace_rule);
     mtd!(NestedPageRule, visit_nested_page_rule);
-    mtd!(NotMediaQuery, visit_not_media_query);
-    mtd!(NotSupportQuery, visit_not_support_query);
-    mtd!(OnlyMediaQuery, visit_only_media_query);
-    mtd!(OrMediaQuery, visit_or_media_query);
-    mtd!(OrSupportQuery, visit_or_support_query);
     mtd!(PageRule, visit_page_rule);
     mtd!(PageRuleBlock, visit_page_rule_block);
     mtd!(PageRuleBlockItem, visit_page_rule_block_item);
     mtd!(PageSelector, visit_page_selector);
-    mtd!(ParenSupportQuery, visit_paren_support_query);
-    mtd!(SupportQuery, visit_support_query);
-    mtd!(SupportsRule, visit_supports_rule);
     mtd!(UnknownAtRule, visit_unknown_at_rule);
     mtd!(ViewportRule, visit_viewport_rule);
 

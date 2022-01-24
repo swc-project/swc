@@ -70,6 +70,7 @@ function _setPrototypeOf(o, p1) {
     return _setPrototypeOf(o, p1);
 }
 var _typeof = function(obj2) {
+    "@swc/helpers - typeof";
     return obj2 && typeof Symbol !== "undefined" && obj2.constructor === Symbol ? "symbol" : typeof obj2;
 };
 function _isNativeReflectConstruct() {
@@ -77,8 +78,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -121,19 +121,15 @@ var Opt = /*#__PURE__*/ function(_Component) {
     ]);
     return Opt;
 }(React.Component);
-var obj = {
-};
+var obj = {};
 var obj1 = {
     x: 2
 };
 // OK
 var p = /*#__PURE__*/ React.createElement(Opt, null);
-var y = /*#__PURE__*/ React.createElement(Opt, _extends({
-}, obj));
-var y1 = /*#__PURE__*/ React.createElement(Opt, _extends({
-}, obj1));
-var y2 = /*#__PURE__*/ React.createElement(Opt, _extends({
-}, obj1, {
+var y = /*#__PURE__*/ React.createElement(Opt, _extends({}, obj));
+var y1 = /*#__PURE__*/ React.createElement(Opt, _extends({}, obj1));
+var y2 = /*#__PURE__*/ React.createElement(Opt, _extends({}, obj1, {
     y: true
 }));
 var y3 = /*#__PURE__*/ React.createElement(Opt, {

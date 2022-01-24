@@ -91,12 +91,12 @@ let TestClass = {
      name: 'John Doe',
      testMethodFailure () {
         var _this = this;
-        return new Promise(function(resolve) {
+        return new Promise(function() {
           var _ref = _asyncToGenerator(function*(resolve) {
             console.log(_this);
             setTimeout(resolve, 1000);
           });
-          return function() {
+          return function(resolve) {
             return _ref.apply(this, arguments);
           };
         }());
@@ -164,14 +164,9 @@ _asyncToGenerator(function*() {
     return notIIFE;
 })();
 
-(function() {
-    var _ref = _asyncToGenerator(function*() {
-        yield 'not iife';
-    });
-    return function() {
-        return _ref.apply(this, arguments);
-    };
-})();
+_asyncToGenerator(function*() {
+    yield 'not iife';
+})
 "#
 );
 
@@ -226,23 +221,23 @@ async function s(x, ...args) {
 }
 function _s() {
     _s = _asyncToGenerator(function*(x) {
-        for(let _len1 = arguments.length, args = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++){
+        for(var _len1 = arguments.length, args = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++){
             args[_key1 - 1] = arguments[_key1];
         }
         var _this = this, _arguments = arguments;
-        let t = function(y, a) {
+        let t = function() {
             var _t = _asyncToGenerator(function*(y, a) {
                 var _this1 = _this, _arguments1 = _arguments;
-                let r = function(z, b) {
+                let r = function() {
                     var _r = _asyncToGenerator(function*(z, b) {
-                        for(let _len = arguments.length, innerArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+                        for(var _len = arguments.length, innerArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
                             innerArgs[_key - 2] = arguments[_key];
                         }
                         yield z;
                         console.log(_this1, innerArgs, _arguments1);
                         return _this1.x;
                     });
-                    function r() {
+                    function r(z, b) {
                         return _r.apply(this, arguments);
                     }
                     return r;
@@ -251,7 +246,7 @@ function _s() {
                 console.log(_this, args, _arguments);
                 return _this.g(r);
             });
-            function t() {
+            function t(y, a) {
                 return _t.apply(this, arguments);
             }
             return t;
@@ -339,15 +334,7 @@ test!(
     r#"
 foo(async function () {
 });"#,
-    r#"
-foo(function() {
-  var _ref = _asyncToGenerator(function*() {
-  });
-  return function() {
-    return _ref.apply(this, arguments);
-  };
-}());
-"#
+    r#"foo(_asyncToGenerator(function*() {}));"#
 );
 
 test!(
@@ -379,17 +366,18 @@ class Class {
     r#"
     class Class {
       method() {
-          return _asyncToGenerator((function*() {
-              var _this2 = this;
-              this;
+          var _this2 = this;
+          return _asyncToGenerator(function*() {
+              var _this1 = _this2;
+              _this2;
               (function() {
-                  return _this2;
+                  return _this1;
               });
               (function() {
-                  var _this1 = _this2;
-                  _this2;
+                  var _this3 = _this1;
+                  _this1;
                   (function() {
-                      return _this1;
+                      return _this3;
                   });
                   function x() {
                       var _this = this;
@@ -397,14 +385,9 @@ class Class {
                       (function() {
                           _this;
                       });
-                      (function() {
-                          var _ref = _asyncToGenerator(function*() {
-                              _this;
-                          });
-                          return function() {
-                              return _ref.apply(this, arguments);
-                          };
-                      })();
+                      _asyncToGenerator(function*() {
+                          _this;
+                    });
                   }
               });
               function x() {
@@ -413,16 +396,11 @@ class Class {
                   (function() {
                       _this;
                   });
-                  (function() {
-                      var _ref = _asyncToGenerator(function*() {
-                          _this;
-                      });
-                      return function() {
-                          return _ref.apply(this, arguments);
-                      };
-                  })();
+                  _asyncToGenerator(function*() {
+                      _this;
+                });
               }
-          }).bind(this))();
+          })();
       }
   }
 "#
@@ -443,11 +421,12 @@ test!(
 class Foo extends class{
 }{
      method() {
-        var _super_method = (..._args)=>super.method(..._args), _super_method1 = (..._args)=>super.method(..._args);
+        var _this = this, _superprop_get_method = ()=>super.method;
         return _asyncToGenerator(function*() {
-            _super_method();
+            var _this1 = _this, _superprop_get_method1 = ()=>_superprop_get_method();
+            _superprop_get_method().call(_this);
             var arrow = function arrow() {
-                return _super_method1();
+                return _superprop_get_method1().call(_this1);
             };
         })();
     }
@@ -989,25 +968,25 @@ class Class {
     }
   }
 }
-
 "#,
     r#"
     class Class {
       method() {
-        var _this = this;
-        return _asyncToGenerator((function*() {
-            this;
-            ()=>_this
+        var _this1 = this;
+        return _asyncToGenerator(function*() {
+            _this1;
+            ()=>_this1
             ;
             ()=>{
-                _this;
-                ()=>_this
+                _this1;
+                ()=>_this1
                 ;
                 function x() {
                     this;
                     ()=>{
-                        _this;
+                        this;
                     };
+                    var _this = this;
                     _asyncToGenerator(function*() {
                         _this;
                     });
@@ -1016,13 +995,14 @@ class Class {
             function x() {
                 this;
                 ()=>{
-                    _this;
+                    this;
                 };
+                var _this = this;
                 _asyncToGenerator(function*() {
                     _this;
                 });
             }
-        }).bind(this))();
+        })();
       }
     }
     "#
@@ -1392,10 +1372,16 @@ let TestClass = {
 let TestClass = {
     name: 'John Doe',
     testMethodFailure () {
-      return new Promise(_asyncToGenerator((function*(resolve) {
-        console.log(this);
-        setTimeout(resolve, 1000);
-      }).bind(this)).bind(this));
+        var _this = this;
+        return new Promise(function() {
+            var _ref = _asyncToGenerator(function*(resolve) {
+                console.log(_this);
+                setTimeout(resolve, 1000);
+            });
+            return function(resolve) {
+                return _ref.apply(this, arguments);
+            };
+        }());
     }
 };
 
@@ -1577,7 +1563,6 @@ function _six() {
 
 // async_to_generator_object_method_with_super
 test!(
-    // TODO: Implement caching
     ignore,
     syntax(),
     |_| async_to_generator(),
@@ -1720,27 +1705,42 @@ async function s(x, ...args) {
 
 "#,
     r#"
-    function s(x) {
-      return _s.apply(this, arguments);
-    }
-    function _s() {
-        _s = _asyncToGenerator(function*(x, ...args) {
-            let t = _asyncToGenerator((function*(y, a) {
-                let r = _asyncToGenerator((function*(z, b, ...innerArgs) {
-                    yield z;
-                    console.log(this, innerArgs, arguments);
-                    return this.x;
-                }).bind(this)).bind(this);
-                yield r();
-                console.log(this, args, arguments);
-                return this.g(r);
-            }).bind(this)).bind(this);
-            yield t();
-            return this.h(t);
-        });
-        return _s.apply(this, arguments);
-    }
-    "#
+function s(x) {
+  return _s.apply(this, arguments);
+}
+function _s() {
+  _s = _asyncToGenerator(function* (x, ...args) {
+      var _this = this, _arguments = arguments;
+      let t = function () {
+          var _ref1 = _asyncToGenerator(
+              function* (y, a) {
+                  let r = function () {
+                      var _ref = _asyncToGenerator(
+                          function* (z, b, ...innerArgs) {
+                              yield z;
+                              console.log(_this, innerArgs, _arguments);
+                              return _this.x;
+                          }
+                      );
+                      return function r(z, b) {
+                          return _ref.apply(this, arguments);
+                      };
+                  }();
+                  yield r();
+                  console.log(_this, args, _arguments);
+                  return _this.g(r);
+              }
+          );
+          return function t(y, a) {
+              return _ref1.apply(this, arguments);
+          };
+      }();
+      yield t();
+      return this.h(t);
+  });
+  return _s.apply(this, arguments);
+}
+"#
 );
 
 // export_async_import_and_export
@@ -1960,7 +1960,7 @@ function () {
     var wat = yield bar();
   });
 
-  return function () {
+  return function foo() {
     return _ref.apply(this, arguments);
   };
 }();
@@ -1972,7 +1972,7 @@ function () {
     var wat = yield bar();
   });
 
-  return function () {
+  return function foo2() {
     return _ref.apply(this, arguments);
   };
 }(),
@@ -1983,7 +1983,7 @@ function () {
     var wat = yield foo();
   });
 
-  return function () {
+  return function bar() {
     return _ref.apply(this, arguments);
   };
 }();
@@ -2123,27 +2123,32 @@ test!(
     ",
     "
     const x = function() {
-      var _ref = _asyncToGenerator(function*() {
-          console.log((yield Promise.all([
-              [
-                  1
-              ],
-              [
-                  2
-              ],
-              [
-                  3
-              ]
-          ].map(_asyncToGenerator(function*([a]) {
-              return Promise.resolve().then(()=>a * 2
-              );
-          })))));
-      });
-      return function() {
-          return _ref.apply(this, arguments);
-      };
+        var _ref1 = _asyncToGenerator(function*() {
+            console.log((yield Promise.all([
+                [
+                    1
+                ],
+                [
+                    2
+                ],
+                [
+                    3
+                ]
+            ].map(function() {
+                var _ref = _asyncToGenerator(function*([a]) {
+                    return Promise.resolve().then(()=>a * 2
+                    );
+                });
+                return function(_) {
+                    return _ref.apply(this, arguments);
+                };
+            }()))));
+        });
+        return function x() {
+            return _ref1.apply(this, arguments);
+        };
     }();
-    "
+"
 );
 
 test_exec!(
@@ -2260,21 +2265,26 @@ test!(
     ",
     "
     class A {
-      val = '1';
-      foo() {
-        var _this = this;
-        return _asyncToGenerator(function*() {
-            try {
-                return yield _asyncToGenerator(function*(x) {
-                    return x + _this.val;
-                })('a');
-            } catch (e) {
-                throw e;
-            }
-        })();
-      }
+        val = '1';
+        foo() {
+            var _this = this;
+            return _asyncToGenerator(function*() {
+                try {
+                    return yield (function() {
+                        var _ref = _asyncToGenerator(function*(x) {
+                            return x + _this.val;
+                        });
+                        return function(x) {
+                            return _ref.apply(this, arguments);
+                        };
+                    })()('a');
+                } catch (e) {
+                    throw e;
+                }
+            })();
+          }
     }
-    "
+"
 );
 
 test_exec!(
@@ -2314,18 +2324,23 @@ test!(
   }
   ",
     "
-  class A {
-    val = '1';
-    foo() {
-        var _this = this;
-        return _asyncToGenerator(function*() {
-            return yield _asyncToGenerator(function*(x) {
-                return x + _this.val;
-            })('a');
-        })();
+    class A {
+        val = '1';
+        foo() {
+            var _this = this;
+            return _asyncToGenerator(function*() {
+                return yield (function() {
+                    var _ref = _asyncToGenerator(function*(x) {
+                        return x + _this.val;
+                    });
+                    return function(x) {
+                        return _ref.apply(this, arguments);
+                    };
+                })()('a');
+            })();
+        }
     }
-  }
-  "
+"
 );
 
 test_exec!(
@@ -2372,7 +2387,7 @@ test!(
               platform
           };
       },
-      byPlatform: function(platform) {
+      byPlatform: function() {
           var _ref = _asyncToGenerator(function*(platform) {
               const result = yield this.find({
                   platform: {
@@ -2381,7 +2396,7 @@ test!(
               });
               return result;
           });
-          return function() {
+          return function(platform) {
               return _ref.apply(this, arguments);
           };
       }()
@@ -2840,7 +2855,7 @@ function MyClass() {
 MyClass.prototype.handle = function() {
     console.log('this is MyClass handle');
 };
-MyClass.prototype.init = (function(param1) {
+MyClass.prototype.init = (function() {
     var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(param1) {
         var a;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -2864,7 +2879,7 @@ MyClass.prototype.init = (function(param1) {
             }
         }, _callee, this);
     }));
-    return function() {
+    return function(param1) {
         return _ref.apply(this, arguments);
     };
 })();
@@ -3030,12 +3045,525 @@ expect(a.doTest()).resolves.toEqual(3);
 "
 );
 
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    function_length_issue_3135_1,
+    r#"
+async function foo(x, y, ...z) {
+    return 42;
+}
+"#,
+    r#"
+function foo(x, y) {
+  return _foo.apply(this, arguments);
+}
+function _foo() {
+    _foo = _asyncToGenerator(function*(x, y, ...z) {
+        return 42;
+    });
+    return _foo.apply(this, arguments);
+}
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    function_length_issue_3135_2,
+    r#"
+async function* foo(x, y, ...z) {
+    return 42;
+}
+"#,
+    r#"
+function foo(x, y) {
+  return _foo.apply(this, arguments);
+}
+function _foo() {
+    _foo = _wrapAsyncGenerator(function*(x, y, ...z) {
+        return 42;
+    });
+    return _foo.apply(this, arguments);
+}
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    function_length_issue_3135_3,
+    r#"
+const foo = async function (x, y, ...z) {
+    return 42;
+}
+"#,
+    r#"
+const foo = /*#__PURE__*/ function () {
+  var _ref = _asyncToGenerator(function* (x, y, ...z) {
+      return 42;
+  });
+  return function foo(x, y) {
+      return _ref.apply(this, arguments);
+  };
+}();
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    function_length_issue_3135_4,
+    r#"
+const foo = async function* (x, y, ...z) {
+    return 42;
+}
+"#,
+    r#"
+const foo = /*#__PURE__*/ function () {
+    var _ref = _wrapAsyncGenerator(function* (x, y, ...z) {
+        return 42;
+    });
+    return function foo(x, y) {
+        return _ref.apply(this, arguments);
+    };
+}();
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    function_length_issue_3135_5,
+    r#"
+const foo = async function foo(x, y, ...z) {
+    if (x) {
+        return foo(0, y);
+    }
+    return 0;
+};
+"#,
+    r#"
+const foo = function () {
+  var _foo = _asyncToGenerator(function* (x, y, ...z) {
+      if (x) {
+          return foo(0, y);
+      }
+      return 0;
+  });
+  function foo(x, y) {
+      return _foo.apply(this, arguments);
+  }
+  return foo;
+}();
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    function_length_issue_3135_6,
+    r#"
+const foo = async function* foo(x, y, ...z) {
+  if (x) {
+      return foo(0, y);
+  }
+  return 0;
+};
+"#,
+    r#"
+const foo = function () {
+  var _foo = _wrapAsyncGenerator(function* (x, y, ...z) {
+      if (x) {
+          return foo(0, y);
+      }
+      return 0;
+  });
+  function foo(x, y) {
+      return _foo.apply(this, arguments);
+  }
+  return foo;
+}();
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    function_length_issue_3135_7,
+    r#"
+const foo = async (x, y, ...z) => {
+    return this;
+};
+"#,
+    r#"
+var _this = this;
+const foo = /*#__PURE__*/ function () {
+    var _ref = _asyncToGenerator(function* (x, y, ...z) {
+        return _this;
+    });
+
+    return function foo(x, y) {
+        return _ref.apply(this, arguments);
+    };
+}();
+"#
+);
+
+test!(
+    // TODO: resolve bind issue
+    ignore,
+    Syntax::default(),
+    |_| async_to_generator(),
+    async_wrap_this,
+    r#"
+const foo = async (x, y, ...z) => {
+    return this;
+};
+"#,
+    r#"
+const foo = /*#__PURE__*/ function () {
+  var _ref = _asyncToGenerator((function* (x, y, ...z) {
+      return this;
+  }).bind(_this)).bind(_this);
+  return function foo(x, y) {
+      return _ref.apply(this, arguments);
+  };
+}();
+var _this = this;
+"#
+);
+
+test!(
+    // TODO: arguments
+    ignore,
+    Syntax::default(),
+    |_| async_to_generator(),
+    async_wrap_arguments,
+    r#"
+function foo() {
+    const bar = async () => {
+        return arguments;
+    };
+}
+"#,
+    r#"
+function foo() {
+  var _arguments = arguments;
+
+  const bar = /*#__PURE__*/ function () {
+      var _ref = _asyncToGenerator(function* () {
+          return _arguments;
+      });
+
+      return function bar() {
+          return _ref.apply(this, arguments);
+      };
+  }();
+}
+"#
+);
+
+test!(
+    // TODO: super and new.target
+    ignore,
+    Syntax::default(),
+    |_| async_to_generator(),
+    async_wrap_super_and_new_target,
+    r#"
+class Foo {
+    constractur() {
+        const foo = async () => {
+            return new.target;
+        };
+    }
+
+    hello() {
+        const world = async () => {
+            return super.hello();
+        };
+    }
+}
+"#,
+    r#"
+class Foo {
+    constractur() {
+        var _newtarget = new.target;
+
+        const foo = /*#__PURE__*/ function () {
+            var _ref = _asyncToGenerator(function* () {
+                return _newtarget;
+            });
+
+            return function foo() {
+                return _ref.apply(this, arguments);
+            };
+        }();
+    }
+
+    hello() {
+        var _superprop_getHello = () => super.hello,
+            _this = this;
+
+        const world = /*#__PURE__*/ function () {
+            var _ref2 = _asyncToGenerator(function* () {
+                return _superprop_getHello().call(_this);
+            });
+
+            return function world() {
+                return _ref2.apply(this, arguments);
+            };
+        }();
+    }
+}
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    export_default_async_nested_1,
+    "
+export default async function foo(x) {
+    async function bar(y){
+        y(x);
+    }
+}
+",
+    "
+export default function foo(x) {
+  return _foo.apply(this, arguments);
+}
+function _foo() {
+  _foo = _asyncToGenerator(function*(x) {
+      function bar(y) {
+          return _bar.apply(this, arguments);
+      }
+      function _bar() {
+          _bar = _asyncToGenerator(function*(y) {
+              y(x);
+          });
+          return _bar.apply(this, arguments);
+      }
+  });
+  return _foo.apply(this, arguments);
+}
+"
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    export_default_async_nested_2,
+    "
+export default async function (x) {
+    async function bar(y) {
+        (async (z) => x(y)(z))();
+    }
+}
+",
+    "
+export default function(x) {
+    return _ref.apply(this, arguments);
+}
+function _ref() {
+    _ref = _asyncToGenerator(function*(x) {
+        function bar(y) {
+            return _bar.apply(this, arguments);
+        }
+        function _bar() {
+            _bar = _asyncToGenerator(function*(y) {
+                (function() {
+                    var _ref1 = _asyncToGenerator(function*(z) {
+                        return x(y)(z);
+                    });
+                    return function(z) {
+                        return _ref1.apply(this, arguments);
+                    };
+                })()();
+            });
+            return _bar.apply(this, arguments);
+        }
+    });
+    return _ref.apply(this, arguments);
+}
+"
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    async_with_optional_params,
+    "
+(async function (a = 10, ...rest) {})();
+(async (a = 10, ...rest) => {})()
+",
+    "
+_asyncToGenerator(function*(a = 10, ...rest) {})();
+_asyncToGenerator(function*(a = 10, ...rest) {})();
+"
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_2895,
+    "
+export class Quirk {
+  async doStuff() {
+    const args = arguments;
+    console.log(args);
+    return { foo: null, ...args[0] };
+  }
+}
+",
+    "
+export class Quirk {
+  doStuff() {
+    var _arguments = arguments;
+    return _asyncToGenerator(function*() {
+      const args = _arguments;
+      console.log(args);
+      return {
+        foo: null,
+        ...args[0]
+      };
+    })();
+  }
+}
+"
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    super_field_update,
+    "
+class Foo {
+  async doStuff() {
+    super.foo += 123;
+    super['abc'] *= 456;
+  }
+}
+",
+    "
+class Foo {
+  doStuff() {
+    var _superprop_get_foo = ()=>super.foo
+    , _superprop_get = (_prop)=>super[_prop]
+    , _superprop_set_foo = (_value)=>super.foo = _value
+    , _superprop_set = (_prop, _value)=>super[_prop] = _value
+    ;
+    return _asyncToGenerator(function*() {
+        var tmp;
+        _superprop_set_foo(_superprop_get_foo() + 123);
+        _superprop_set(tmp = 'abc', _superprop_get(tmp) * 456);
+    })()
+  }
+}
+"
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    microbundle_835,
+    "
+class A extends B {
+  a() {
+    (async () => {
+      super.b();
+    })();
+  }
+}
+",
+    "
+class A extends B {
+  a() {
+    var _this = this, _superprop_get_b = ()=>super.b;
+    _asyncToGenerator(function*() {
+      _superprop_get_b().call(_this);
+    })();
+  }
+}
+"
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    super_update,
+    "
+class A extends B {
+  async foo() {
+    super.foo ++;
+    -- super.bar;
+    super['foo'] ++;
+    -- super['bar'];
+  }
+}
+",
+    "
+class A extends B {
+  foo() {
+    var _superprop_get_foo = () => super.foo,
+      _superprop_get_bar = () => super.bar,
+      _superprop_get = (_prop) => super[_prop],
+      _superprop_set_foo = (_value) => super.foo = _value,
+      _superprop_set_bar = (_value) => super.bar = _value,
+      _superprop_set = (_prop, _value) => super[_prop] = _value;
+
+    return _asyncToGenerator(function* () {
+      var tmp, tmp1, tmp2, prop, tmp3, prop1;
+
+      tmp = _superprop_get_foo(), _superprop_set_foo(tmp + 1), tmp;
+      tmp1 = _superprop_get_bar(), _superprop_set_bar(tmp1 - 1);
+      tmp2 = _superprop_get(prop = 'foo'),
+        _superprop_set(prop, tmp2 + 1),
+        tmp2;
+      tmp3 = _superprop_get(prop1 = 'bar'),
+        _superprop_set(prop1, tmp3 - 1);
+    })();
+  }
+}
+"
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    async_with_optional_params_2,
+    "
+const Z = (f) => ((x) => f((y) => x(x)(y)))((x) => f((y) => x(x)(y)));
+
+const p = Z(
+    (f) =>
+        async (n = 0) =>
+            n <= 1 ? 1 : n * (await f(n - 1))
+)(5);
+",
+    "
+const Z = (f) => ((x) => f((y) => x(x)(y)))((x) => f((y) => x(x)(y)));
+
+const p = Z((f)=>_asyncToGenerator(function*(n = 0) {
+        return n <= 1 ? 1 : n * (yield f(n - 1));
+    })
+)(5);
+"
+);
+
 #[testing::fixture("tests/fixture/async-to-generator/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
     compare_stdout(
         Default::default(),
-        |_| chain!(resolver(), async_to_generator()),
+        |_| {
+            chain!(
+                resolver(),
+                class_properties(Default::default()),
+                async_to_generator()
+            )
+        },
         &input,
     );
 }
@@ -3050,6 +3578,7 @@ fn exec_regenerator(input: PathBuf) {
 
             chain!(
                 resolver(),
+                class_properties(Default::default()),
                 async_to_generator(),
                 es2015::for_of(Default::default()),
                 regenerator(Default::default(), top_level_mark)

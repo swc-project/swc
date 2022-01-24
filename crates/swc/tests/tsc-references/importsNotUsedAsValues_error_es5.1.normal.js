@@ -19,8 +19,7 @@ export var C;
 (function(C) {
     C[C["One"] = 0] = "One";
     C[C["Two"] = 1] = "Two";
-})(C || (C = {
-}));
+})(C || (C = {}));
 var a;
 var b;
 console.log(a, b);
@@ -44,8 +43,7 @@ var H = function H() {
 module.exports = H;
 // @Filename: /i.ts
 var H = require('./h'); // Error
-var h = {
-};
+var h = {};
 console.log(h);
 // @Filename: /j.ts
 var H = require('./h'); // noUnusedLocals error only
@@ -54,8 +52,7 @@ K;
 (function(K) {
     K[K["One"] = 0] = "One";
     K[K["Two"] = 1] = "Two";
-})(K || (K = {
-}));
+})(K || (K = {}));
 module.exports = K;
 // @Filename: /l.ts
 var K = require('./k');

@@ -7,8 +7,7 @@ var A = function A() {
     "use strict";
     _classCallCheck(this, A);
 };
-var d = {
-};
+var d = {};
 // @strict: true
 // @Filename: /a.ts
 export { };

@@ -11,7 +11,7 @@ var ns;
         _classCallCheck(this, Class);
     };
     ns1.Class = Class;
-    ns1.Value = "";
+    var Value = ns1.Value = "";
     var nested1;
     (function(nested) {
         var NestedClass = function NestedClass() {
@@ -19,10 +19,8 @@ var ns;
             _classCallCheck(this, NestedClass);
         };
         nested.NestedClass = NestedClass;
-    })(nested1 = ns1.nested || (ns1.nested = {
-    }));
-})(ns || (ns = {
-}));
+    })(nested1 = ns1.nested || (ns1.nested = {}));
+})(ns || (ns = {}));
 ns.Class; // Error
 ns.Value; // Error
 var c;

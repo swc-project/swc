@@ -80,20 +80,27 @@
             "optional": false
           },
           "property": {
-            "type": "StringLiteral",
+            "type": "Computed",
             "span": {
-              "start": 145,
-              "end": 150,
+              "start": 144,
+              "end": 151,
               "ctxt": 0
             },
-            "value": "baz",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 145,
+                "end": 150,
+                "ctxt": 0
+              },
+              "value": "baz",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
             }
-          },
-          "computed": true
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -146,36 +153,50 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 162,
-                "end": 167,
+                "start": 161,
+                "end": 168,
                 "ctxt": 0
               },
-              "value": "baz",
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 162,
+                  "end": 167,
+                  "ctxt": 0
+                },
+                "value": "baz",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
+              }
+            }
+          },
+          "property": {
+            "type": "Computed",
+            "span": {
+              "start": 168,
+              "end": 176,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 169,
+                "end": 175,
+                "ctxt": 0
+              },
+              "value": "blah",
               "hasEscape": false,
               "kind": {
                 "type": "normal",
                 "containsQuote": true
               }
-            },
-            "computed": true
-          },
-          "property": {
-            "type": "StringLiteral",
-            "span": {
-              "start": 169,
-              "end": 175,
-              "ctxt": 0
-            },
-            "value": "blah",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
             }
-          },
-          "computed": true
+          }
         },
         "right": {
           "type": "NumericLiteral",

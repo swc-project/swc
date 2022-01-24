@@ -1,3 +1,5 @@
+#![allow(clippy::redundant_allocation)]
+
 use self::static_check::should_use_create_element;
 use crate::refresh::options::{deserialize_refresh, RefreshOptions};
 use dashmap::DashMap;
@@ -165,10 +167,7 @@ fn apply_mark(e: &mut Expr, mark: Mark) {
         Expr::Ident(i) => {
             i.span = i.span.apply_mark(mark);
         }
-        Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(obj),
-            ..
-        }) => {
+        Expr::Member(MemberExpr { obj, .. }) => {
             apply_mark(&mut **obj, mark);
         }
         _ => {}
@@ -306,7 +305,7 @@ impl JsxDirectives {
                         Some("@jsxFrag") => match val {
                             Some(src) => {
                                 res.pragma_frag = Some(parse_expr_for_jsx(
-                                    &cm,
+                                    cm,
                                     "module-jsx-pragma-frag",
                                     src.to_string(),
                                     top_level_mark,
@@ -317,7 +316,7 @@ impl JsxDirectives {
                         Some("@jsx") => match val {
                             Some(src) => {
                                 res.pragma = Some(parse_expr_for_jsx(
-                                    &cm,
+                                    cm,
                                     "module-jsx-pragma",
                                     src.to_string(),
                                     top_level_mark,
@@ -503,8 +502,7 @@ where
                                     if !use_create_element && i.sym == js_word!("key") {
                                         key = attr
                                             .value
-                                            .map(jsx_attr_value_to_expr)
-                                            .flatten()
+                                            .and_then(jsx_attr_value_to_expr)
                                             .map(|expr| ExprOrSpread { expr, spread: None });
                                         assert_ne!(
                                             key, None,
@@ -522,8 +520,7 @@ where
                                         }
                                         source_props = attr
                                             .value
-                                            .map(jsx_attr_value_to_expr)
-                                            .flatten()
+                                            .and_then(jsx_attr_value_to_expr)
                                             .map(|expr| ExprOrSpread { expr, spread: None });
                                         assert_ne!(
                                             source_props, None,
@@ -541,8 +538,7 @@ where
                                         }
                                         self_props = attr
                                             .value
-                                            .map(jsx_attr_value_to_expr)
-                                            .flatten()
+                                            .and_then(jsx_attr_value_to_expr)
                                             .map(|expr| ExprOrSpread { expr, spread: None });
                                         assert_ne!(
                                             self_props, None,
@@ -561,7 +557,7 @@ where
                                     };
 
                                     // TODO: Check if `i` is a valid identifier.
-                                    let key = if i.sym.contains("-") {
+                                    let key = if i.sym.contains('-') {
                                         PropName::Str(Str {
                                             span: i.span,
                                             value: i.sym,
@@ -659,7 +655,9 @@ where
                 self.top_level_node = top_level_node;
 
                 let args = once(name.as_arg()).chain(once(props_obj.as_arg()));
-                let args = if self.development {
+                let args = if use_create_element {
+                    args.collect()
+                } else if self.development {
                     // set undefined literal to key if key is None
                     let key = match key {
                         Some(key) => key,
@@ -820,10 +818,9 @@ where
             return self.fold_attrs_for_next_classic(attrs);
         }
 
-        let is_complex = attrs.iter().any(|a| match *a {
-            JSXAttrOrSpread::SpreadElement(..) => true,
-            _ => false,
-        });
+        let is_complex = attrs
+            .iter()
+            .any(|a| matches!(*a, JSXAttrOrSpread::SpreadElement(..)));
 
         if is_complex {
             let mut args = vec![];
@@ -1027,13 +1024,6 @@ where
         self.top_level_node = top_level_node;
     }
 
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
-        if e.computed {
-            e.prop.visit_mut_with(self);
-        }
-    }
-
     fn visit_mut_module(&mut self, module: &mut Module) {
         self.parse_directives(module.span);
 
@@ -1051,7 +1041,10 @@ where
                 let specifier = ImportSpecifier::Named(ImportNamedSpecifier {
                     span: DUMMY_SP,
                     local,
-                    imported: Some(Ident::new("createElement".into(), DUMMY_SP)),
+                    imported: Some(ModuleExportName::Ident(Ident::new(
+                        "createElement".into(),
+                        DUMMY_SP,
+                    ))),
                     is_type_only: false,
                 });
                 prepend(
@@ -1077,7 +1070,7 @@ where
                     .map(|local| ImportNamedSpecifier {
                         span: DUMMY_SP,
                         local,
-                        imported: Some(quote_ident!("jsxDEV")),
+                        imported: Some(ModuleExportName::Ident(quote_ident!("jsxDEV"))),
                         is_type_only: false,
                     })
                     .into_iter()
@@ -1087,7 +1080,7 @@ where
                             .map(|local| ImportNamedSpecifier {
                                 span: DUMMY_SP,
                                 local,
-                                imported: Some(quote_ident!("Fragment")),
+                                imported: Some(ModuleExportName::Ident(quote_ident!("Fragment"))),
                                 is_type_only: false,
                             }),
                     )
@@ -1098,14 +1091,14 @@ where
                     .map(|local| ImportNamedSpecifier {
                         span: DUMMY_SP,
                         local,
-                        imported: Some(quote_ident!("jsx")),
+                        imported: Some(ModuleExportName::Ident(quote_ident!("jsx"))),
                         is_type_only: false,
                     })
                     .into_iter()
                     .chain(self.import_jsxs.take().map(|local| ImportNamedSpecifier {
                         span: DUMMY_SP,
                         local,
-                        imported: Some(quote_ident!("jsxs")),
+                        imported: Some(ModuleExportName::Ident(quote_ident!("jsxs"))),
                         is_type_only: false,
                     }))
                     .chain(
@@ -1114,7 +1107,7 @@ where
                             .map(|local| ImportNamedSpecifier {
                                 span: DUMMY_SP,
                                 local,
-                                imported: Some(quote_ident!("Fragment")),
+                                imported: Some(ModuleExportName::Ident(quote_ident!("Fragment"))),
                                 is_type_only: false,
                             }),
                     )
@@ -1196,33 +1189,29 @@ where
                 })))
             }
             JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop }) => {
-                fn convert_obj(obj: JSXObject) -> ExprOrSuper {
+                fn convert_obj(obj: JSXObject) -> Box<Expr> {
                     let span = obj.span();
 
-                    match obj {
+                    (match obj {
                         JSXObject::Ident(i) => {
                             if i.sym == js_word!("this") {
-                                return ExprOrSuper::Expr(Box::new(Expr::This(ThisExpr { span })));
+                                Expr::This(ThisExpr { span })
+                            } else {
+                                Expr::Ident(i)
                             }
-                            i.as_obj()
                         }
-                        JSXObject::JSXMemberExpr(e) => {
-                            let e = *e;
-                            MemberExpr {
-                                span,
-                                obj: convert_obj(e.obj),
-                                prop: Box::new(Expr::Ident(e.prop)),
-                                computed: false,
-                            }
-                            .as_obj()
-                        }
-                    }
+                        JSXObject::JSXMemberExpr(e) => Expr::Member(MemberExpr {
+                            span,
+                            obj: convert_obj(e.obj),
+                            prop: MemberProp::Ident(e.prop),
+                        }),
+                    })
+                    .into()
                 }
                 Box::new(Expr::Member(MemberExpr {
                     span,
                     obj: convert_obj(obj),
-                    prop: Box::new(Expr::Ident(prop)),
-                    computed: false,
+                    prop: MemberProp::Ident(prop),
                 }))
             }
         }
@@ -1262,9 +1251,9 @@ fn jsx_text_to_str(t: JsWord) -> JsWord {
     static SPACE_END: Lazy<Regex> = Lazy::new(|| Regex::new("[ ]+$").unwrap());
     let mut buf = String::new();
     let replaced = t.replace('\t', " ");
-    let lines: Vec<&str> = replaced.lines().collect();
-    for (is_last, (i, line)) in lines.into_iter().enumerate().identify_last() {
-        if line.len() == 0 {
+
+    for (is_last, (i, line)) in replaced.lines().enumerate().identify_last() {
+        if line.is_empty() {
             continue;
         }
         let line = Cow::from(line);
@@ -1281,8 +1270,8 @@ fn jsx_text_to_str(t: JsWord) -> JsWord {
         if line.len() == 0 {
             continue;
         }
-        if i != 0 && buf.len() != 0 {
-            buf.push_str(" ")
+        if i != 0 && !buf.is_empty() {
+            buf.push(' ')
         }
         buf.push_str(&line);
     }
@@ -1344,7 +1333,7 @@ fn transform_jsx_attr_str(v: &str) -> String {
             '\0' => buf.push_str("\\x00"),
 
             '\'' if single_quote => buf.push_str("\\'"),
-            '"' if !single_quote => buf.push_str("\""),
+            '"' if !single_quote => buf.push('\"'),
 
             '\x01'..='\x0f' | '\x10'..='\x1f' => {
                 buf.push(c);

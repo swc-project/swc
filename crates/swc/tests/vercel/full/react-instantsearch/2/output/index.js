@@ -51,11 +51,8 @@ export default function n(e) {
             return b || c;
         }).sort(m).reduce(function(b, c) {
             var d = i(c) ? c.props.indexContextValue.targetedIndex : c.props.indexId, e = b[d] || [];
-            return a.objectSpread({
-            }, b, a.defineProperty({
-            }, d, e.concat(c)));
-        }, {
-        }), e = Object.keys(d).map(function(a) {
+            return a.objectSpread({}, b, a.defineProperty({}, d, e.concat(c)));
+        }, {}), e = Object.keys(d).map(function(a) {
             return {
                 parameters: d[a].reduce(function(a, b) {
                     return b.getSearchParameters(a);
@@ -84,19 +81,14 @@ export default function n(e) {
     }, u = function(b) {
         var c = b.indexId;
         return function(b) {
-            var d = G.getState(), e = !y.derivedHelpers.length, f = d.results ? d.results : {
-            };
-            f = !e && f.getFacetByName ? {
-            } : f, f = e ? b.results : a.objectSpread({
-            }, f, a.defineProperty({
-            }, c, b.results));
+            var d = G.getState(), e = !y.derivedHelpers.length, f = d.results ? d.results : {};
+            f = !e && f.getFacetByName ? {} : f, f = e ? b.results : a.objectSpread({}, f, a.defineProperty({}, c, b.results));
             var g = G.getState(), h = g.isSearchStalled;
             y.hasPendingRequests() || (clearTimeout(A), A = null, h = !1), g.resultsFacetValues;
             var i = a.objectWithoutProperties(g, [
                 "resultsFacetValues"
             ]);
-            G.setState(a.objectSpread({
-            }, i, {
+            G.setState(a.objectSpread({}, i, {
                 results: f,
                 isSearchStalled: h,
                 searching: !1,
@@ -109,8 +101,7 @@ export default function n(e) {
         var f = a.objectWithoutProperties(d, [
             "resultsFacetValues"
         ]);
-        G.setState(a.objectSpread({
-        }, f, {
+        G.setState(a.objectSpread({}, f, {
             isSearchStalled: e,
             error: c,
             searching: !1
@@ -146,9 +137,7 @@ export default function n(e) {
                 }));
             }, [])
         }));
-        b.cache = a.objectSpread({
-        }, b.cache, a.defineProperty({
-        }, d, JSON.stringify({
+        b.cache = a.objectSpread({}, b.cache, a.defineProperty({}, d, JSON.stringify({
             results: c.reduce(function(a, b) {
                 return a.concat(b.rawResults);
             }, [])
@@ -178,20 +167,16 @@ export default function n(e) {
                 };
             })
         }));
-        b.cache = a.objectSpread({
-        }, b.cache, a.defineProperty({
-        }, d, JSON.stringify({
+        b.cache = a.objectSpread({}, b.cache, a.defineProperty({}, d, JSON.stringify({
             results: c.rawResults
         })));
-    }, y = b(n, f, a.objectSpread({
-    }, d));
+    }, y = b(n, f, a.objectSpread({}, d));
     h(n), y.on("search", function() {
         A || (A = setTimeout(function() {
             var b = G.getState(), c = b.resultsFacetValues, d = a.objectWithoutProperties(b, [
                 "resultsFacetValues"
             ]);
-            G.setState(a.objectSpread({
-            }, d, {
+            G.setState(a.objectSpread({}, d, {
                 isSearchStalled: !0
             }));
         }, q));
@@ -200,8 +185,7 @@ export default function n(e) {
     })).on("error", v);
     var z = !1, A = null, B = y.state, C = c(function() {
         var b = r(G.getState().widgets);
-        G.setState(a.objectSpread({
-        }, G.getState(), {
+        G.setState(a.objectSpread({}, G.getState(), {
             metadata: b,
             searching: !0
         })), t();
@@ -214,21 +198,18 @@ export default function n(e) {
                 b.search = function(c) {
                     for(var e = arguments.length, f = new Array(e > 1 ? e - 1 : 0), g = 1; g < e; g++)f[g - 1] = arguments[g];
                     var h = c.map(function(b) {
-                        return a.objectSpread({
-                        }, b, {
-                            params: function(a) {
-                                var b = function(a) {
-                                    for(var b = arguments.length, c = new Array(b > 1 ? b - 1 : 0), d = 1; d < b; d++)c[d - 1] = arguments[d];
-                                    var e = 0;
-                                    return a.replace(/%s/g, function() {
-                                        return encodeURIComponent(c[e++]);
-                                    });
-                                };
-                                return Object.keys(a).map(function(c) {
-                                    var d;
-                                    return b("%s=%s", c, (d = a[c], "[object Object]" === Object.prototype.toString.call(d) || "[object Array]" === Object.prototype.toString.call(d)) ? JSON.stringify(a[c]) : a[c]);
-                                }).join("&");
-                            }(b.params)
+                        var c, d;
+                        return a.objectSpread({}, b, {
+                            params: (c = b.params, d = function(a) {
+                                for(var b = arguments.length, c = new Array(b > 1 ? b - 1 : 0), d = 1; d < b; d++)c[d - 1] = arguments[d];
+                                var e = 0;
+                                return a.replace(/%s/g, function() {
+                                    return encodeURIComponent(c[e++]);
+                                });
+                            }, Object.keys(c).map(function(a) {
+                                var b;
+                                return d("%s=%s", a, (b = c[a], "[object Object]" === Object.prototype.toString.call(b) || "[object Array]" === Object.prototype.toString.call(b)) ? JSON.stringify(c[a]) : c[a]);
+                            }).join("&"))
                         });
                     });
                     return b.transporter.responsesCache.get({
@@ -251,15 +232,11 @@ export default function n(e) {
         }
     }(n, p);
     var D, E, F, G = (E = {
-        widgets: void 0 === g ? {
-        } : g,
+        widgets: void 0 === g ? {} : g,
         metadata: o(p),
         results: (D = p) ? Array.isArray(D.results) ? D.results.reduce(function(c, d) {
-            return a.objectSpread({
-            }, c, a.defineProperty({
-            }, d._internalIndexId, new b.SearchResults(new b.SearchParameters(d.state), d.rawResults)));
-        }, {
-        }) : new b.SearchResults(new b.SearchParameters(D.state), D.rawResults) : null,
+            return a.objectSpread({}, c, a.defineProperty({}, d._internalIndexId, new b.SearchResults(new b.SearchParameters(d.state), d.rawResults)));
+        }, {}) : new b.SearchResults(new b.SearchParameters(D.state), D.rawResults) : null,
         error: null,
         searching: !1,
         isSearchStalled: !0,
@@ -290,22 +267,17 @@ export default function n(e) {
         getSearchParameters: s,
         onSearchForFacetValues: function(b) {
             var c = b.facetName, d = b.query, e = b.maxFacetHits;
-            G.setState(a.objectSpread({
-            }, G.getState(), {
+            G.setState(a.objectSpread({}, G.getState(), {
                 searchingForFacetValues: !0
             })), y.searchForFacetValues(c, d, Math.max(1, Math.min(void 0 === e ? 10 : e, 100))).then(function(b) {
                 var e;
-                G.setState(a.objectSpread({
-                }, G.getState(), {
+                G.setState(a.objectSpread({}, G.getState(), {
                     error: null,
                     searchingForFacetValues: !1,
-                    resultsFacetValues: a.objectSpread({
-                    }, G.getState().resultsFacetValues, (e = {
-                    }, a.defineProperty(e, c, b.facetHits), a.defineProperty(e, "query", d), e))
+                    resultsFacetValues: a.objectSpread({}, G.getState().resultsFacetValues, (e = {}, a.defineProperty(e, c, b.facetHits), a.defineProperty(e, "query", d), e))
                 }));
             }, function(b) {
-                G.setState(a.objectSpread({
-                }, G.getState(), {
+                G.setState(a.objectSpread({}, G.getState(), {
                     searchingForFacetValues: !1,
                     error: b
                 }));
@@ -317,8 +289,7 @@ export default function n(e) {
         },
         onExternalStateUpdate: function(b) {
             var c = r(b);
-            G.setState(a.objectSpread({
-            }, G.getState(), {
+            G.setState(a.objectSpread({}, G.getState(), {
                 widgets: b,
                 metadata: c,
                 searching: !0
@@ -350,22 +321,19 @@ function o(b) {
     return b ? b.metadata.map(function(b) {
         return a.objectSpread({
             value: function() {
-                return {
-                };
+                return {};
             }
         }, b, {
             items: b.items && b.items.map(function(b) {
                 return a.objectSpread({
                     value: function() {
-                        return {
-                        };
+                        return {};
                     }
                 }, b, {
                     items: b.items && b.items.map(function(b) {
                         return a.objectSpread({
                             value: function() {
-                                return {
-                                };
+                                return {};
                             }
                         }, b);
                     })

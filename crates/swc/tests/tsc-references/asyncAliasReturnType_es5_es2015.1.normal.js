@@ -31,7 +31,6 @@ function f() {
     return _f.apply(this, arguments);
 }
 function _f() {
-    _f = _asyncToGenerator(function*() {
-    });
+    _f = _asyncToGenerator(function*() {});
     return _f.apply(this, arguments);
 }

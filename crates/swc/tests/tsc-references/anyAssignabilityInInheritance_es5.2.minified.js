@@ -11,14 +11,12 @@ var A2 = function() {
     "use strict";
     _classCallCheck(this, A2);
 };
-function f() {
-}
-foo3(a), foo3(a), foo3(a), (E = E || (E = {
-}))[E.A = 0] = "A", foo3(a), (f || (f = {
-})).bar = 1, foo3(a);
-var a, E, E, CC = function() {
+function f() {}
+foo3(a), foo3(a), foo3(a), (function(E) {
+    E[E.A = 0] = "A";
+})(E || (E = {})), foo3(a), (f || (f = {})).bar = 1, foo3(a);
+var a, E, CC = function() {
     "use strict";
     _classCallCheck(this, CC);
 };
-(CC || (CC = {
-})).bar = 1, foo3(a), foo3(a), foo3(a);
+(CC || (CC = {})).bar = 1, foo3(a), foo3(a), foo3(a);

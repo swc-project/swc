@@ -32,5 +32,4 @@ var TwoLevels;
     }
     class B3 extends A31 {
     }
-})(TwoLevels || (TwoLevels = {
-}));
+})(TwoLevels || (TwoLevels = {}));

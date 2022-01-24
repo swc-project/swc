@@ -1,12 +1,4 @@
 import regeneratorRuntime from "regenerator-runtime";
-function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
-    return arr2;
-}
-function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}
 function _assertThisInitialized(self) {
     if (self === void 0) {
         throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -154,12 +146,6 @@ function _inherits(subClass, superClass) {
     });
     if (superClass) _setPrototypeOf(subClass, superClass);
 }
-function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
 function _possibleConstructorReturn(self, call) {
     if (call && (_typeof(call) === "object" || typeof call === "function")) {
         return call;
@@ -180,20 +166,10 @@ function _superPropBase(object, property) {
     }
     return object;
 }
-function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-}
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n = Object.prototype.toString.call(o).slice(8, -1);
-    if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(n);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
 function _wrapAsyncGenerator(fn) {
     return function() {
         return new AsyncGenerator(fn.apply(this, arguments));
@@ -204,8 +180,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -446,23 +421,23 @@ var C8 = // @filename: C8.ts
     _createClass(C8, [
         {
             key: "g",
-            value: function g() {
-            }
+            value: function g() {}
         },
         {
             key: "f",
             value: function f() {
+                var _this = this;
                 return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
-                                this.g();
+                                _this.g();
                             case 1:
                             case "end":
                                 return _ctx.stop();
                         }
-                    }, _callee, this);
-                }).bind(this))();
+                    }, _callee);
+                }))();
             }
         }
     ]);
@@ -477,8 +452,7 @@ var B9 = // @filename: C9.ts
     _createClass(B9, [
         {
             key: "g",
-            value: function g() {
-            }
+            value: function g() {}
         }
     ]);
     return B9;
@@ -496,20 +470,14 @@ var C9 = /*#__PURE__*/ function(B9) {
             key: "f",
             value: function f() {
                 var _this = this;
-                var _instance;
-                var _super_g = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
-                        _args[_key] = arguments[_key];
-                    }
-                    return (_instance = _get(_getPrototypeOf(C9.prototype), "g", _this)).call.apply(_instance, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
+                var _this1 = this, _superprop_get_g = function() {
+                    return _get(_getPrototypeOf(C9.prototype), "g", _this);
                 };
                 return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
-                                _super_g();
+                                _superprop_get_g().call(_this1);
                             case 1:
                             case "end":
                                 return _ctx.stop();

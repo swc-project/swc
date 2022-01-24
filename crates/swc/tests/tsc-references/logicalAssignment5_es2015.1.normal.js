@@ -11,8 +11,8 @@ function foo2(f) {
     f(42);
 }
 function foo3(f) {
-    f &&= (a)=>a
-    ;
+    f && (f = (a)=>a
+    );
     f(42);
 }
 function bar1(f) {
@@ -26,7 +26,7 @@ function bar2(f) {
     f(42);
 }
 function bar3(f) {
-    f &&= (f.toString(), (a)=>a
-    );
+    f && (f = (f.toString(), (a)=>a
+    ));
     f(42);
 }

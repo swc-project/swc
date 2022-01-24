@@ -10,14 +10,12 @@ var A;
             };
         }
         Utils.mirror = mirror;
-    })(Utils1 = A1.Utils || (A1.Utils = {
-    }));
-    A1.Origin = {
+    })(Utils1 = A1.Utils || (A1.Utils = {}));
+    var Origin = A1.Origin = {
         x: 0,
         y: 0
     };
-})(A || (A = {
-}));
+})(A || (A = {}));
 (function(A2) {
     // not a collision, since we don't export
     var Origin = "0,0";
@@ -30,10 +28,8 @@ var A;
             }
         }
         Utils.Plane = Plane;
-    })(Utils2 = A2.Utils || (A2.Utils = {
-    }));
-})(A || (A = {
-}));
+    })(Utils2 = A2.Utils || (A2.Utils = {}));
+})(A || (A = {}));
 //@filename: part3.ts
 // test the merging actually worked
 var o;

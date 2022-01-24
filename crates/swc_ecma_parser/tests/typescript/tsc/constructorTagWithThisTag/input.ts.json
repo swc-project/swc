@@ -73,8 +73,7 @@
                   },
                   "value": "e",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "BinaryExpression",
@@ -108,8 +107,7 @@
                     },
                     "value": "m",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "NumericLiteral",

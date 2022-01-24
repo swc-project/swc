@@ -13,8 +13,7 @@ function _extends() {
     return _extends.apply(this, arguments);
 }
 function _objectWithoutProperties(source, excluded) {
-    if (source == null) return {
-    };
+    if (source == null) return {};
     var target = _objectWithoutPropertiesLoose(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
@@ -29,10 +28,8 @@ function _objectWithoutProperties(source, excluded) {
     return target;
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {
-    };
-    var target = {
-    };
+    if (source == null) return {};
+    var target = {};
     var sourceKeys = Object.keys(source);
     var key, i;
     for(i = 0; i < sourceKeys.length; i++){
@@ -54,8 +51,7 @@ const [, , ...s3] = strArray;
 s3.push(undefined); // Should error, 'undefined' not part of s2's element type
 const { t1  } = strMap;
 t1.toString(); // Should error, t1 possibly undefined
-const t2 = _extends({
-}, strMap);
+const t2 = _extends({}, strMap);
 t2.z.toString(); // Should error
 {
     const { x , y , z  } = numMapPoint;

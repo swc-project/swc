@@ -225,16 +225,23 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "Identifier",
+                    "type": "Computed",
                     "span": {
-                      "start": 118,
-                      "end": 119,
+                      "start": 117,
+                      "end": 120,
                       "ctxt": 0
                     },
-                    "value": "k",
-                    "optional": false
-                  },
-                  "computed": true
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 118,
+                        "end": 119,
+                        "ctxt": 0
+                      },
+                      "value": "k",
+                      "optional": false
+                    }
+                  }
                 }
               }
             }
@@ -283,16 +290,23 @@
                   "optional": false
                 },
                 "property": {
-                  "type": "Identifier",
+                  "type": "Computed",
                   "span": {
-                    "start": 133,
-                    "end": 134,
+                    "start": 132,
+                    "end": 135,
                     "ctxt": 0
                   },
-                  "value": "k",
-                  "optional": false
-                },
-                "computed": true
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 133,
+                      "end": 134,
+                      "ctxt": 0
+                    },
+                    "value": "k",
+                    "optional": false
+                  }
+                }
               }
             }
           }
@@ -701,16 +715,23 @@
                           "optional": false
                         },
                         "property": {
-                          "type": "Identifier",
+                          "type": "Computed",
                           "span": {
-                            "start": 306,
-                            "end": 307,
+                            "start": 305,
+                            "end": 308,
                             "ctxt": 0
                           },
-                          "value": "k",
-                          "optional": false
-                        },
-                        "computed": true
+                          "expression": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 306,
+                              "end": 307,
+                              "ctxt": 0
+                            },
+                            "value": "k",
+                            "optional": false
+                          }
+                        }
                       }
                     }
                   }
@@ -759,16 +780,23 @@
                         "optional": false
                       },
                       "property": {
-                        "type": "Identifier",
+                        "type": "Computed",
                         "span": {
-                          "start": 325,
-                          "end": 326,
+                          "start": 324,
+                          "end": 327,
                           "ctxt": 0
                         },
-                        "value": "k",
-                        "optional": false
-                      },
-                      "computed": true
+                        "expression": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 325,
+                            "end": 326,
+                            "ctxt": 0
+                          },
+                          "value": "k",
+                          "optional": false
+                        }
+                      }
                     }
                   }
                 }

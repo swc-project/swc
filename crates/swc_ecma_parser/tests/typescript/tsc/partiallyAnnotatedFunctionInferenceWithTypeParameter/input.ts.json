@@ -801,8 +801,7 @@
                         },
                         "value": "test2",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]
@@ -942,8 +941,7 @@
                         },
                         "value": "test2",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]

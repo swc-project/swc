@@ -73,8 +73,7 @@
                   },
                   "value": "_map",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "ObjectExpression",
@@ -143,8 +142,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -240,43 +238,49 @@
                           },
                           "value": "_map",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "property": {
-                        "type": "BinaryExpression",
+                        "type": "Computed",
                         "span": {
-                          "start": 289,
-                          "end": 297,
+                          "start": 288,
+                          "end": 298,
                           "ctxt": 0
                         },
-                        "operator": "+",
-                        "left": {
-                          "type": "Identifier",
+                        "expression": {
+                          "type": "BinaryExpression",
                           "span": {
                             "start": 289,
-                            "end": 292,
-                            "ctxt": 0
-                          },
-                          "value": "key",
-                          "optional": false
-                        },
-                        "right": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 295,
                             "end": 297,
                             "ctxt": 0
                           },
-                          "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
+                          "operator": "+",
+                          "left": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 289,
+                              "end": 292,
+                              "ctxt": 0
+                            },
+                            "value": "key",
+                            "optional": false
+                          },
+                          "right": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 295,
+                              "end": 297,
+                              "ctxt": 0
+                            },
+                            "value": "",
+                            "hasEscape": false,
+                            "kind": {
+                              "type": "normal",
+                              "containsQuote": true
+                            }
                           }
                         }
-                      },
-                      "computed": true
+                      }
                     }
                   }
                 ]
@@ -403,8 +407,7 @@
                 },
                 "value": "get",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {

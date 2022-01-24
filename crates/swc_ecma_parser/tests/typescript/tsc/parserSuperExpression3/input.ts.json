@@ -97,8 +97,7 @@
                         },
                         "value": "super",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {

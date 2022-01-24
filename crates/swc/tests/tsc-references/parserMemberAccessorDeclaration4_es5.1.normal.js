@@ -26,8 +26,7 @@ var C = // @target: es5
     _createClass(C, [
         {
             key: "a",
-            set: function set(i) {
-            }
+            set: function set(i) {}
         }
     ]);
     return C;

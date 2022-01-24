@@ -90,12 +90,12 @@ impl VisitMut for NullishCoalescing {
                 right,
             }) => {
                 //
-                let (l, aliased) = alias_if_required(&left, "ref");
+                let (l, aliased) = alias_if_required(left, "ref");
 
                 if aliased {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(l.clone().into()),
+                        name: l.clone().into(),
                         init: None,
                         definite: false,
                     });
@@ -105,7 +105,7 @@ impl VisitMut for NullishCoalescing {
                     Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(l.clone().into()))),
+                        left: PatOrExpr::Pat(l.clone().into()),
                         right: left.take(),
                     })
                 } else {
@@ -113,17 +113,16 @@ impl VisitMut for NullishCoalescing {
                 };
 
                 *e = make_cond(self.c, *span, &l, var_expr, right.take());
-                return;
             }
 
             Expr::Assign(ref mut assign @ AssignExpr { op: op!("??="), .. }) => {
                 match &mut assign.left {
                     PatOrExpr::Expr(left) => {
-                        let (alias, aliased) = alias_if_required(&left, "ref$");
+                        let (alias, aliased) = alias_if_required(left, "ref$");
                         if aliased {
                             self.vars.push(VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(alias.clone().into()),
+                                name: alias.clone().into(),
                                 init: None,
                                 definite: false,
                             });
@@ -145,7 +144,7 @@ impl VisitMut for NullishCoalescing {
                             Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(alias.clone().into()))),
+                                left: PatOrExpr::Pat(alias.clone().into()),
                                 right: left.take(),
                             })
                         } else {
@@ -155,7 +154,7 @@ impl VisitMut for NullishCoalescing {
                         *e = Expr::Assign(AssignExpr {
                             span: assign.span,
                             op: op!("="),
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(alias.clone().into()))),
+                            left: PatOrExpr::Pat(alias.clone().into()),
                             right: Box::new(make_cond(
                                 self.c,
                                 assign.span,
@@ -164,14 +163,13 @@ impl VisitMut for NullishCoalescing {
                                 right_expr,
                             )),
                         });
-                        return;
                     }
-                    PatOrExpr::Pat(left) => match &mut **left {
-                        Pat::Ident(i) => {
+                    PatOrExpr::Pat(left) => {
+                        if let Pat::Ident(i) = &mut **left {
                             *e = Expr::Assign(AssignExpr {
                                 span: assign.span,
                                 op: op!("="),
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone()))),
+                                left: PatOrExpr::Pat(i.clone().into()),
                                 right: Box::new(make_cond(
                                     self.c,
                                     assign.span,
@@ -180,10 +178,8 @@ impl VisitMut for NullishCoalescing {
                                     assign.right.take(),
                                 )),
                             });
-                            return;
                         }
-                        _ => {}
-                    },
+                    }
                 }
             }
 

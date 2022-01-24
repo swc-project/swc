@@ -6,9 +6,8 @@ var Foo;
         return 5;
     };
     Foo1.a = a;
-    Foo1.b = true;
-})(Foo || (Foo = {
-}));
+    var b = Foo1.b = true;
+})(Foo || (Foo = {}));
 (function(Foo2) {
     var c = function c(a) {
         return a;
@@ -16,11 +15,9 @@ var Foo;
     Foo2.c = c;
     var Test1;
     (function(Test) {
-        Test.answer = 42;
-    })(Test1 = Foo2.Test || (Foo2.Test = {
-    }));
-})(Foo || (Foo = {
-}));
+        var answer = Test.answer = 42;
+    })(Test1 = Foo2.Test || (Foo2.Test = {}));
+})(Foo || (Foo = {}));
 module.exports = Foo;
 // @Filename: foo_1.ts
 var foo = require("./foo_0");

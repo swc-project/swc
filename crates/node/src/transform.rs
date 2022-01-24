@@ -5,7 +5,7 @@ use crate::{
 use anyhow::Context as _;
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
-    Env, Task,
+    Env, JsBuffer, JsBufferValue, Ref, Task,
 };
 use path_clean::clean;
 use std::{
@@ -30,7 +30,7 @@ pub enum Input {
 pub struct TransformTask {
     pub c: Arc<Compiler>,
     pub input: Input,
-    pub options: String,
+    pub options: Ref<JsBufferValue>,
 }
 
 #[napi]
@@ -39,7 +39,7 @@ impl Task for TransformTask {
     type JsValue = TransformOutput;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        let mut options: Options = deserialize_json(&self.options)?;
+        let mut options: Options = serde_json::from_slice(self.options.as_ref())?;
         if !options.filename.is_empty() {
             options.config.adjust(Path::new(&options.filename));
         }
@@ -51,14 +51,14 @@ impl Task for TransformTask {
                 self.c.run(|| match &self.input {
                     Input::Program(ref s) => {
                         let program: Program =
-                            deserialize_json(&s).expect("failed to deserialize Program");
+                            deserialize_json(s).expect("failed to deserialize Program");
                         // TODO: Source map
-                        self.c.process_js(&handler, program, &options)
+                        self.c.process_js(handler, program, &options)
                     }
 
                     Input::File(ref path) => {
                         let fm = self.c.cm.load_file(path).context("failed to load file")?;
-                        self.c.process_js_file(fm, &handler, &options)
+                        self.c.process_js_file(fm, handler, &options)
                     }
 
                     Input::Source { src } => {
@@ -71,7 +71,7 @@ impl Task for TransformTask {
                             src.to_string(),
                         );
 
-                        self.c.process_js_file(fm, &handler, &options)
+                        self.c.process_js_file(fm, handler, &options)
                     }
                 })
             },
@@ -82,18 +82,21 @@ impl Task for TransformTask {
     fn resolve(&mut self, _env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
         Ok(result)
     }
+
+    fn finally(&mut self, env: Env) -> napi::Result<()> {
+        self.options.unref(env)?;
+        Ok(())
+    }
 }
 
 #[napi]
 pub fn transform(
     src: String,
     is_module: bool,
-    options: Buffer,
+    options: JsBuffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<TransformTask>> {
     let c = get_compiler();
-
-    let options = String::from_utf8_lossy(options.as_ref()).to_string();
 
     let input = if is_module {
         Input::Program(src)
@@ -102,9 +105,9 @@ pub fn transform(
     };
 
     let task = TransformTask {
-        c: c.clone(),
+        c,
         input,
-        options,
+        options: options.into_ref()?,
     };
     Ok(AsyncTask::with_optional_signal(task, signal))
 }
@@ -124,7 +127,7 @@ pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<
             if is_module {
                 let program: Program =
                     deserialize_json(s.as_str()).context("failed to deserialize Program")?;
-                c.process_js(&handler, program, &options)
+                c.process_js(handler, program, &options)
             } else {
                 let fm = c.cm.new_source_file(
                     if options.filename.is_empty() {
@@ -134,7 +137,7 @@ pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<
                     },
                     s,
                 );
-                c.process_js_file(fm, &handler, &options)
+                c.process_js_file(fm, handler, &options)
             }
         })
     })
@@ -145,17 +148,16 @@ pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<
 pub fn transform_file(
     src: String,
     _is_module: bool,
-    options: Buffer,
+    options: JsBuffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<TransformTask>> {
     let c = get_compiler();
 
-    let options = String::from_utf8_lossy(options.as_ref()).to_string();
     let path = clean(&src);
     let task = TransformTask {
-        c: c.clone(),
+        c,
         input: Input::File(path.into()),
-        options,
+        options: options.into_ref()?,
     };
     Ok(AsyncTask::with_optional_signal(task, signal))
 }
@@ -179,10 +181,10 @@ pub fn transform_file_sync(
             if is_module {
                 let program: Program =
                     deserialize_json(s.as_str()).context("failed to deserialize Program")?;
-                c.process_js(&handler, program, &options)
+                c.process_js(handler, program, &options)
             } else {
                 let fm = c.cm.load_file(Path::new(&s)).expect("failed to load file");
-                c.process_js_file(fm, &handler, &options)
+                c.process_js_file(fm, handler, &options)
             }
         })
     })

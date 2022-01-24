@@ -4,9 +4,8 @@ function foo() {
     return "test";
 }
 (function(foo1) {
-    foo1.answer = 42;
-})(foo || (foo = {
-}));
+    var answer = foo1.answer = 42;
+})(foo || (foo = {}));
 module.exports = foo;
 // @Filename: foo_1.ts
 const foo = require("./foo_0");

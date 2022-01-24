@@ -990,8 +990,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1002,8 +1001,7 @@
             },
             "value": "extension1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -1145,8 +1143,7 @@
                       },
                       "value": "p",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -1199,8 +1196,7 @@
                       },
                       "value": "pp",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -1253,8 +1249,7 @@
                       },
                       "value": "ppp",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -1309,8 +1304,7 @@
                       },
                       "value": "sp",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -1365,8 +1359,7 @@
                       },
                       "value": "spp",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -1421,8 +1414,7 @@
                       },
                       "value": "sppp",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -1493,8 +1485,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1505,8 +1496,7 @@
             },
             "value": "extension2",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -1648,8 +1638,7 @@
                       },
                       "value": "p",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -1702,8 +1691,7 @@
                       },
                       "value": "pp",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -1756,8 +1744,7 @@
                       },
                       "value": "ppp",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -1812,8 +1799,7 @@
                       },
                       "value": "sp",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -1868,8 +1854,7 @@
                       },
                       "value": "spp",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -1924,8 +1909,7 @@
                       },
                       "value": "sppp",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -2145,8 +2129,7 @@
                   },
                   "value": "p",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -2199,8 +2182,7 @@
                   },
                   "value": "pp",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -2253,8 +2235,7 @@
                   },
                   "value": "ppp",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -2309,8 +2290,7 @@
                   },
                   "value": "sp",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -2365,8 +2345,7 @@
                   },
                   "value": "spp",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -2421,8 +2400,7 @@
                   },
                   "value": "sppp",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -2538,8 +2516,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -2550,8 +2527,7 @@
             },
             "value": "extension3",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -2753,8 +2729,7 @@
                   },
                   "value": "p",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -2807,8 +2782,7 @@
                   },
                   "value": "pp",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -2861,8 +2835,7 @@
                   },
                   "value": "ppp",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -2917,8 +2890,7 @@
                   },
                   "value": "sp",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -2973,8 +2945,7 @@
                   },
                   "value": "spp",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -3029,8 +3000,7 @@
                   },
                   "value": "sppp",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",

@@ -33,9 +33,14 @@ concatMaybe([
     3
 ], 4);
 // Repros from #32247
-const g = _asyncToGenerator(function*(com) {
-    throw com;
-});
+const g = function() {
+    var _ref = _asyncToGenerator(function*(com) {
+        throw com;
+    });
+    return function g(com) {
+        return _ref.apply(this, arguments);
+    };
+}();
 f1 = f2;
 f2 = f1;
 g1 = g2;

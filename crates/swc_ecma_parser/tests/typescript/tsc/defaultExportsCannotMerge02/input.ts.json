@@ -545,8 +545,7 @@
                 },
                 "value": "p1",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "MemberExpression",
@@ -574,8 +573,7 @@
                 },
                 "value": "p2",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false

@@ -885,8 +885,7 @@
                                 },
                                 "value": "CAT",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -967,8 +966,7 @@
                                 },
                                 "value": "CAT",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {

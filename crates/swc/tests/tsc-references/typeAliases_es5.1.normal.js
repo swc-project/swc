@@ -37,8 +37,7 @@ var x14;
 var E;
 (function(E) {
     E[E["x"] = 10] = "x";
-})(E || (E = {
-}));
+})(E || (E = {}));
 f15(E.x).toLowerCase();
 var x;
 f16(x);

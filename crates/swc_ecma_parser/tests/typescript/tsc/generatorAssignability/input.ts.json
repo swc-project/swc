@@ -2010,8 +2010,7 @@
                             },
                             "value": "asyncIterator",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       "value": {

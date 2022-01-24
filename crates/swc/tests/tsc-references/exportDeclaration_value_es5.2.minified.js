@@ -1,2 +1,1 @@
-export var AA = {
-};
+export var AA = {};

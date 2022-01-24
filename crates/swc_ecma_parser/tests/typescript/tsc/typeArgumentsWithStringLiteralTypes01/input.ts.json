@@ -969,35 +969,42 @@
                 "optional": false
               },
               "property": {
-                "type": "UnaryExpression",
+                "type": "Computed",
                 "span": {
-                  "start": 442,
-                  "end": 453,
+                  "start": 441,
+                  "end": 454,
                   "ctxt": 0
                 },
-                "operator": "+",
-                "argument": {
-                  "type": "CallExpression",
+                "expression": {
+                  "type": "UnaryExpression",
                   "span": {
-                    "start": 443,
+                    "start": 442,
                     "end": 453,
                     "ctxt": 0
                   },
-                  "callee": {
-                    "type": "Identifier",
+                  "operator": "+",
+                  "argument": {
+                    "type": "CallExpression",
                     "span": {
                       "start": 443,
-                      "end": 451,
+                      "end": 453,
                       "ctxt": 0
                     },
-                    "value": "randBool",
-                    "optional": false
-                  },
-                  "arguments": [],
-                  "typeArguments": null
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 443,
+                        "end": 451,
+                        "ctxt": 0
+                      },
+                      "value": "randBool",
+                      "optional": false
+                    },
+                    "arguments": [],
+                    "typeArguments": null
+                  }
                 }
-              },
-              "computed": true
+              }
             }
           }
         ]

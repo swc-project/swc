@@ -160,6 +160,31 @@ function (Bar) {
 
 test!(
     syntax(),
+    |_| chain!(
+        resolver(),
+        function_name(),
+        class_properties(class_properties::Config { loose: false }),
+    ),
+    private_class_method,
+    r#"
+class Foo {
+    #foo () {}
+}
+"#,
+    r#"
+var _foo = new WeakSet();
+class Foo {
+    constructor(){
+        _foo.add(this);
+    }
+}
+function foo() {
+}
+"#
+);
+
+test!(
+    syntax(),
     |t| tr(t),
     private_foobar,
     r#"
@@ -1492,11 +1517,11 @@ function () {
   _createClass(Foo, [{
     key: "test",
     value: function test(other) {
-      var old, _obj, old1, _obj1;
+      var _this_foo, _obj, _this_foo1, _obj1;
 
-      _classPrivateFieldSet(this, _foo, (old = +_classPrivateFieldGet(this, _foo)) + 1), old;
+      _classPrivateFieldSet(this, _foo, (_this_foo = +_classPrivateFieldGet(this, _foo)) + 1), _this_foo;
       _classPrivateFieldSet(this, _foo, +_classPrivateFieldGet(this, _foo) + 1);
-      _classPrivateFieldSet(_obj = other.obj, _foo, (old1 = +_classPrivateFieldGet(_obj, _foo)) + 1), old1;
+      _classPrivateFieldSet(_obj = other.obj, _foo, (_this_foo1 = +_classPrivateFieldGet(_obj, _foo)) + 1), _this_foo1;
       _classPrivateFieldSet(_obj1 = other.obj, _foo, +_classPrivateFieldGet(_obj1, _foo) + 1);
     }
   }]);
@@ -2756,9 +2781,9 @@ var Foo = function () {
   _createClass(Foo, [{
     key: 'test',
     value: function test() {
-      var old;
+      var _this_x;
 
-      _classPrivateFieldSet(this, _x, (old = +_classPrivateFieldGet(this, _x)) + 1), old;
+      _classPrivateFieldSet(this, _x, (_this_x = +_classPrivateFieldGet(this, _x)) + 1), _this_x;
 
       _classPrivateFieldSet(this, _x, +_classPrivateFieldGet(this, _x) + 1);
     }
@@ -2795,10 +2820,10 @@ var Foo = function () {
   _createClass(Foo, [{
     key: 'test',
     value: function test() {
-      var old;
+      var _this_x;
 
-      _classStaticPrivateFieldSpecSet(Foo, Foo, _x, (old = +_classStaticPrivateFieldSpecGet(Foo, \
-     Foo, _x)) + 1), old;
+      _classStaticPrivateFieldSpecSet(Foo, Foo, _x, (_this_x = \
+     +_classStaticPrivateFieldSpecGet(Foo, Foo, _x)) + 1), _this_x;
 
       _classStaticPrivateFieldSpecSet(Foo, Foo, _x, +_classStaticPrivateFieldSpecGet(Foo, Foo, _x) \
      + 1);
@@ -2933,25 +2958,28 @@ export default class MyClass3 {
     r#"
     class MyClass {
       constructor(){
-          _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
-              console.log(this);
-          }).bind(this)).bind(this));
+          var _this = this;
+          _defineProperty(this, "myAsyncMethod", _asyncToGenerator(function*() {
+              console.log(_this);
+          }));
       }
     }
 
     (class MyClass2 {
         constructor(){
-            _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
-                console.log(this);
-            }).bind(this)).bind(this));
+            var _this = this;
+            _defineProperty(this, "myAsyncMethod", _asyncToGenerator(function*() {
+                console.log(_this);
+            }));
         }
     })
 
     class MyClass3 {
         constructor(){
-            _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
-                console.log(this);
-            }).bind(this)).bind(this));
+            var _this = this;
+            _defineProperty(this, "myAsyncMethod", _asyncToGenerator(function*() {
+                console.log(_this);
+            }));
         }
     }
     export { MyClass3 as default };
@@ -3467,11 +3495,12 @@ export default class MyClass3 {
     r#"
 class MyClass {
     constructor(){
+        var _this = this;
         _myAsyncMethod.set(this, {
             writable: true,
-            value: _asyncToGenerator((function*() {
-                console.log(this);
-            }).bind(this)).bind(this)
+            value: _asyncToGenerator(function*() {
+                console.log(_this);
+            })
         });
     }
 }
@@ -3479,11 +3508,12 @@ var _myAsyncMethod = new WeakMap();
 (function() {
     class MyClass2 {
         constructor(){
+            var _this = this;
             _myAsyncMethod2.set(this, {
                 writable: true,
-                value: _asyncToGenerator((function*() {
-                    console.log(this);
-                }).bind(this)).bind(this)
+                value: _asyncToGenerator(function*() {
+                    console.log(_this);
+                })
             });
         }
     }
@@ -3492,11 +3522,12 @@ var _myAsyncMethod = new WeakMap();
 })();
 class MyClass3 {
     constructor(){
+        var _this = this;
         _myAsyncMethod1.set(this, {
             writable: true,
-            value: _asyncToGenerator((function*() {
-                console.log(this);
-            }).bind(this)).bind(this)
+            value: _asyncToGenerator(function*() {
+                console.log(_this);
+            })
         });
     }
 }

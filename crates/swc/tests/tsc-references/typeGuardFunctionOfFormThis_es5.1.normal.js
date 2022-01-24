@@ -63,6 +63,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -70,8 +71,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -123,8 +123,7 @@ var LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
     _createClass(LeadGuard, [
         {
             key: "lead",
-            value: function lead() {
-            }
+            value: function lead() {}
         }
     ]);
     return LeadGuard;
@@ -140,8 +139,7 @@ var FollowerGuard = /*#__PURE__*/ function(RoyalGuard) {
     _createClass(FollowerGuard, [
         {
             key: "follow",
-            value: function follow() {
-            }
+            value: function follow() {}
         }
     ]);
     return FollowerGuard;
@@ -200,8 +198,7 @@ var ArrowElite = /*#__PURE__*/ function(ArrowGuard) {
     _createClass(ArrowElite, [
         {
             key: "defend",
-            value: function defend() {
-            }
+            value: function defend() {}
         }
     ]);
     return ArrowElite;
@@ -217,8 +214,7 @@ var ArrowMedic = /*#__PURE__*/ function(ArrowGuard) {
     _createClass(ArrowMedic, [
         {
             key: "heal",
-            value: function heal() {
-            }
+            value: function heal() {}
         }
     ]);
     return ArrowMedic;
@@ -270,8 +266,7 @@ var MimicLeader = /*#__PURE__*/ function(MimicGuard) {
     _createClass(MimicLeader, [
         {
             key: "lead",
-            value: function lead() {
-            }
+            value: function lead() {}
         }
     ]);
     return MimicLeader;
@@ -287,8 +282,7 @@ var MimicFollower = /*#__PURE__*/ function(MimicGuard) {
     _createClass(MimicFollower, [
         {
             key: "follow",
-            value: function follow() {
-            }
+            value: function follow() {}
         }
     ]);
     return MimicFollower;

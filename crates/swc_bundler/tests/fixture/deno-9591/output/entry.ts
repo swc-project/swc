@@ -27,22 +27,16 @@ function isNumber(x) {
 function hasKey(obj, keys) {
     let o = obj;
     keys.slice(0, -1).forEach((key)=>{
-        o = get(o, key) ?? {
-        };
+        o = get(o, key) ?? {};
     });
     const key1 = keys[keys.length - 1];
     return key1 in o;
 }
-function parse(args, { "--": doubleDash = false , alias: alias3 = {
-} , boolean: __boolean = false , default: defaults = {
-} , stopEarly =false , string =[] , unknown =(i1)=>i1
-  } = {
-}) {
+function parse(args, { "--": doubleDash = false , alias: alias3 = {} , boolean: __boolean = false , default: defaults = {} , stopEarly =false , string =[] , unknown =(i1)=>i1
+  } = {}) {
     const flags = {
-        bools: {
-        },
-        strings: {
-        },
+        bools: {},
+        strings: {},
         unknownFn: unknown,
         allBools: false
     };
@@ -58,8 +52,7 @@ function parse(args, { "--": doubleDash = false , alias: alias3 = {
             }
         }
     }
-    const aliases = {
-    };
+    const aliases = {};
     if (alias3 !== undefined) {
         for(const key in alias3){
             const val = getForce(alias3, key);
@@ -102,8 +95,7 @@ function parse(args, { "--": doubleDash = false , alias: alias3 = {
         let o = obj;
         keys.slice(0, -1).forEach(function(key) {
             if (get(o, key) === undefined) {
-                o[key] = {
-                };
+                o[key] = {};
             }
             o = get(o, key);
         });
@@ -292,8 +284,7 @@ function normalizeString(path2, allowAboveRoot, separator, isPathSeparator1) {
         else if (isPathSeparator1(code4)) break;
         else code4 = CHAR_FORWARD_SLASH;
         if (isPathSeparator1(code4)) {
-            if (lastSlash === i3 - 1 || dots === 1) {
-            } else if (lastSlash !== i3 - 1 && dots === 2) {
+            if (lastSlash === i3 - 1 || dots === 1) {} else if (lastSlash !== i3 - 1 && dots === 2) {
                 if (res.length < 2 || lastSegmentLength !== 2 || res.charCodeAt(res.length - 1) !== CHAR_DOT || res.charCodeAt(res.length - 2) !== CHAR_DOT) {
                     if (res.length > 2) {
                         const lastSlashIndex = res.lastIndexOf(separator);
@@ -1354,8 +1345,7 @@ const rangeEscapeChars = [
     "\\",
     "]"
 ];
-function globToRegExp(glob, { extended =true , globstar: globstarOption = true , os =NATIVE_OS  } = {
-}) {
+function globToRegExp(glob, { extended =true , globstar: globstarOption = true , os =NATIVE_OS  } = {}) {
     if (glob == "") {
         return /(?!)/;
     }
@@ -1578,8 +1568,7 @@ function isGlob(str) {
     }
     return false;
 }
-function normalizeGlob(glob, { globstar =false  } = {
-}) {
+function normalizeGlob(glob, { globstar =false  } = {}) {
     if (glob.match(/\0/g)) {
         throw new Error(`Glob contains invalid characters: "${glob}"`);
     }
@@ -1590,8 +1579,7 @@ function normalizeGlob(glob, { globstar =false  } = {
     const badParentPattern = new RegExp(`(?<=(${s}|^)\\*\\*${s})\\.\\.(?=${s}|$)`, "g");
     return normalize2(glob.replace(badParentPattern, "\0")).replace(/\0/g, "..");
 }
-function joinGlobs(globs, { extended =false , globstar =false  } = {
-}) {
+function joinGlobs(globs, { extended =false , globstar =false  } = {}) {
     if (!globstar || globs.length == 0) {
         return join2(...globs);
     }
@@ -1644,8 +1632,7 @@ var LogLevels;
     LogLevels1[LogLevels1["WARNING"] = 30] = "WARNING";
     LogLevels1[LogLevels1["ERROR"] = 40] = "ERROR";
     LogLevels1[LogLevels1["CRITICAL"] = 50] = "CRITICAL";
-})(LogLevels || (LogLevels = {
-}));
+})(LogLevels || (LogLevels = {}));
 Object.keys(LogLevels).filter((key)=>isNaN(Number(key))
 );
 const byLevel = {
@@ -1707,8 +1694,7 @@ class Logger {
     #level;
     #handlers;
     #loggerName;
-    constructor(loggerName, levelName, options = {
-    }){
+    constructor(loggerName, levelName, options = {}){
         this.#loggerName = loggerName;
         this.#level = getLevelByName(levelName);
         this.#handlers = options.handlers || [];
@@ -2206,8 +2192,7 @@ class BufWriterSync extends AbstractBufBase {
 }
 const DEFAULT_FORMATTER = "{levelName} {msg}";
 class BaseHandler {
-    constructor(levelName, options = {
-    }){
+    constructor(levelName, options = {}){
         this.level = getLevelByName(levelName);
         this.levelName = levelName;
         this.formatter = options.formatter || DEFAULT_FORMATTER;
@@ -2229,12 +2214,9 @@ class BaseHandler {
             return String(value);
         });
     }
-    log(_msg) {
-    }
-    async setup() {
-    }
-    async destroy() {
-    }
+    log(_msg) {}
+    async setup() {}
+    async destroy() {}
 }
 class ConsoleHandler extends BaseHandler {
     format(logRecord) {
@@ -2457,16 +2439,14 @@ async function setup(config) {
         handler.destroy();
     });
     state.handlers.clear();
-    const handlers1 = state.config.handlers || {
-    };
+    const handlers1 = state.config.handlers || {};
     for(const handlerName1 in handlers1){
         const handler = handlers1[handlerName1];
         await handler.setup();
         state.handlers.set(handlerName1, handler);
     }
     state.loggers.clear();
-    const loggers = state.config.loggers || {
-    };
+    const loggers = state.config.loggers || {};
     for(const loggerName in loggers){
         const loggerConfig = loggers[loggerName];
         const handlerNames = loggerConfig.handlers || [];
@@ -2554,7 +2534,7 @@ function isSubdir(src2, dest, sep6 = sep2) {
     }
     const srcArray = src2.split(sep6);
     const destArray = dest.split(sep6);
-    return srcArray.every((current, i)=>destArray[i] === current
+    return srcArray.every((current, i25)=>destArray[i25] === current
     );
 }
 function getFileInfoType(fileInfo) {
@@ -2725,8 +2705,7 @@ function include(path28, exts, match, skip) {
     }
     return true;
 }
-async function* walk(root, { maxDepth =Infinity , includeFiles =true , includeDirs =true , followSymlinks =false , exts =undefined , match =undefined , skip =undefined  } = {
-}) {
+async function* walk(root, { maxDepth =Infinity , includeFiles =true , includeDirs =true , followSymlinks =false , exts =undefined , match =undefined , skip =undefined  } = {}) {
     if (maxDepth < 0) {
         return;
     }
@@ -2766,8 +2745,7 @@ async function* walk(root, { maxDepth =Infinity , includeFiles =true , includeDi
         }
     }
 }
-function* walkSync(root, { maxDepth =Infinity , includeFiles =true , includeDirs =true , followSymlinks =false , exts =undefined , match =undefined , skip =undefined  } = {
-}) {
+function* walkSync(root, { maxDepth =Infinity , includeFiles =true , includeDirs =true , followSymlinks =false , exts =undefined , match =undefined , skip =undefined  } = {}) {
     if (maxDepth < 0) {
         return;
     }
@@ -2829,8 +2807,7 @@ function comparePath(a, b) {
     if (a.path > b.path) return 1;
     return 0;
 }
-async function* expandGlob(glob, { root =Deno.cwd() , exclude =[] , includeDirs =true , extended =false , globstar =false  } = {
-}) {
+async function* expandGlob(glob, { root =Deno.cwd() , exclude =[] , includeDirs =true , extended =false , globstar =false  } = {}) {
     const globOptions = {
         extended,
         globstar
@@ -2922,8 +2899,7 @@ async function* expandGlob(glob, { root =Deno.cwd() , exclude =[] , includeDirs 
     }
     yield* currentMatches;
 }
-function* expandGlobSync(glob, { root =Deno.cwd() , exclude =[] , includeDirs =true , extended =false , globstar =false  } = {
-}) {
+function* expandGlobSync(glob, { root =Deno.cwd() , exclude =[] , includeDirs =true , extended =false , globstar =false  } = {}) {
     const globOptions = {
         extended,
         globstar
@@ -3015,8 +2991,7 @@ function* expandGlobSync(glob, { root =Deno.cwd() , exclude =[] , includeDirs =t
     }
     yield* currentMatches;
 }
-async function move(src7, dest, { overwrite =false  } = {
-}) {
+async function move(src7, dest, { overwrite =false  } = {}) {
     const srcStat = await Deno.stat(src7);
     if (srcStat.isDirectory && isSubdir(src7, dest)) {
         throw new Error(`Cannot move '${src7}' to a subdirectory of itself, '${dest}'.`);
@@ -3036,8 +3011,7 @@ async function move(src7, dest, { overwrite =false  } = {
     }
     return;
 }
-function moveSync(src8, dest, { overwrite =false  } = {
-}) {
+function moveSync(src8, dest, { overwrite =false  } = {}) {
     const srcStat = Deno.statSync(src8);
     if (srcStat.isDirectory && isSubdir(src8, dest)) {
         throw new Error(`Cannot move '${src8}' to a subdirectory of itself, '${dest}'.`);
@@ -3196,8 +3170,7 @@ function copyDirSync(src16, dest, options) {
         }
     }
 }
-async function copy(src17, dest, options = {
-}) {
+async function copy(src17, dest, options = {}) {
     src17 = resolve2(src17);
     dest = resolve2(dest);
     if (src17 === dest) {
@@ -3215,8 +3188,7 @@ async function copy(src17, dest, options = {
         await copyFile(src17, dest, options);
     }
 }
-function copySync(src18, dest, options = {
-}) {
+function copySync(src18, dest, options = {}) {
     src18 = resolve2(src18);
     dest = resolve2(dest);
     if (src18 === dest) {
@@ -3238,8 +3210,7 @@ var EOL;
 (function(EOL1) {
     EOL1["LF"] = "\n";
     EOL1["CRLF"] = "\r\n";
-})(EOL || (EOL = {
-}));
+})(EOL || (EOL = {}));
 const regDetect = /(?:\r?\n)/g;
 function detect(content) {
     const d = content.match(regDetect);
@@ -3352,23 +3323,23 @@ const base64abc = [
 ];
 function encode(data) {
     const uint8 = typeof data === "string" ? new TextEncoder().encode(data) : data instanceof Uint8Array ? data : new Uint8Array(data);
-    let result = "", i25;
+    let result = "", i26;
     const l = uint8.length;
-    for(i25 = 2; i25 < l; i25 += 3){
-        result += base64abc[uint8[i25 - 2] >> 2];
-        result += base64abc[(uint8[i25 - 2] & 3) << 4 | uint8[i25 - 1] >> 4];
-        result += base64abc[(uint8[i25 - 1] & 15) << 2 | uint8[i25] >> 6];
-        result += base64abc[uint8[i25] & 63];
+    for(i26 = 2; i26 < l; i26 += 3){
+        result += base64abc[uint8[i26 - 2] >> 2];
+        result += base64abc[(uint8[i26 - 2] & 3) << 4 | uint8[i26 - 1] >> 4];
+        result += base64abc[(uint8[i26 - 1] & 15) << 2 | uint8[i26] >> 6];
+        result += base64abc[uint8[i26] & 63];
     }
-    if (i25 === l + 1) {
-        result += base64abc[uint8[i25 - 2] >> 2];
-        result += base64abc[(uint8[i25 - 2] & 3) << 4];
+    if (i26 === l + 1) {
+        result += base64abc[uint8[i26 - 2] >> 2];
+        result += base64abc[(uint8[i26 - 2] & 3) << 4];
         result += "==";
     }
-    if (i25 === l) {
-        result += base64abc[uint8[i25 - 2] >> 2];
-        result += base64abc[(uint8[i25 - 2] & 3) << 4 | uint8[i25 - 1] >> 4];
-        result += base64abc[(uint8[i25 - 1] & 15) << 2];
+    if (i26 === l) {
+        result += base64abc[uint8[i26 - 2] >> 2];
+        result += base64abc[(uint8[i26 - 2] & 3) << 4 | uint8[i26 - 1] >> 4];
+        result += base64abc[(uint8[i26 - 1] & 15) << 2];
         result += "=";
     }
     return result;
@@ -3377,8 +3348,8 @@ function decode(b64) {
     const binString = atob(b64);
     const size = binString.length;
     const bytes = new Uint8Array(size);
-    for(let i26 = 0; i26 < size; i26++){
-        bytes[i26] = binString.charCodeAt(i26);
+    for(let i27 = 0; i27 < size; i27++){
+        bytes[i27] = binString.charCodeAt(i27);
     }
     return bytes;
 }
@@ -3559,10 +3530,8 @@ async function init(input) {
     if (typeof input === 'undefined') {
         input = importMeta.url.replace(/\.js$/, '_bg.wasm');
     }
-    const imports = {
-    };
-    imports.wbg = {
-    };
+    const imports = {};
+    imports.wbg = {};
     imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
         var ret = getStringFromWasm0(arg0, arg1);
         return addHeapObject(ret);
@@ -3587,10 +3556,10 @@ function encodedLen(n) {
 }
 function encode1(src19) {
     const dst = new Uint8Array(encodedLen(src19.length));
-    for(let i27 = 0; i27 < dst.length; i27++){
-        const v = src19[i27];
-        dst[i27 * 2] = hextable[v >> 4];
-        dst[i27 * 2 + 1] = hextable[v & 15];
+    for(let i28 = 0; i28 < dst.length; i28++){
+        const v = src19[i28];
+        dst[i28 * 2] = hextable[v >> 4];
+        dst[i28 * 2 + 1] = hextable[v & 15];
     }
     return dst;
 }
@@ -3859,32 +3828,10 @@ class SemVer {
         } else if (!this.prerelease.length && !other.prerelease.length) {
             return 0;
         }
-        let i28 = 0;
-        do {
-            const a = this.prerelease[i28];
-            const b = other.prerelease[i28];
-            if (a === undefined && b === undefined) {
-                return 0;
-            } else if (b === undefined) {
-                return 1;
-            } else if (a === undefined) {
-                return -1;
-            } else if (a === b) {
-                continue;
-            } else {
-                return compareIdentifiers(a, b);
-            }
-        }while (++i28)
-        return 1;
-    }
-    compareBuild(other) {
-        if (!(other instanceof SemVer)) {
-            other = new SemVer(other, this.options);
-        }
         let i29 = 0;
         do {
-            const a = this.build[i29];
-            const b = other.build[i29];
+            const a = this.prerelease[i29];
+            const b = other.prerelease[i29];
             if (a === undefined && b === undefined) {
                 return 0;
             } else if (b === undefined) {
@@ -3897,6 +3844,28 @@ class SemVer {
                 return compareIdentifiers(a, b);
             }
         }while (++i29)
+        return 1;
+    }
+    compareBuild(other) {
+        if (!(other instanceof SemVer)) {
+            other = new SemVer(other, this.options);
+        }
+        let i30 = 0;
+        do {
+            const a = this.build[i30];
+            const b = other.build[i30];
+            if (a === undefined && b === undefined) {
+                return 0;
+            } else if (b === undefined) {
+                return 1;
+            } else if (a === undefined) {
+                return -1;
+            } else if (a === b) {
+                continue;
+            } else {
+                return compareIdentifiers(a, b);
+            }
+        }while (++i30)
         return 1;
     }
     inc(release, identifier) {
@@ -3952,14 +3921,14 @@ class SemVer {
                         0
                     ];
                 } else {
-                    let i30 = this.prerelease.length;
-                    while(--i30 >= 0){
-                        if (typeof this.prerelease[i30] === "number") {
-                            this.prerelease[i30]++;
-                            i30 = -2;
+                    let i31 = this.prerelease.length;
+                    while(--i31 >= 0){
+                        if (typeof this.prerelease[i31] === "number") {
+                            this.prerelease[i31]++;
+                            i31 = -2;
                         }
                     }
-                    if (i30 === -1) {
+                    if (i31 === -1) {
                         this.prerelease.push(0);
                     }
                 }
@@ -4118,8 +4087,7 @@ function cmp(v1, operator, v2, optionsOrLoose) {
             throw new TypeError("Invalid operator: " + operator);
     }
 }
-const ANY = {
-};
+const ANY = {};
 class Comparator {
     constructor(comp, optionsOrLoose){
         if (!optionsOrLoose || typeof optionsOrLoose !== "object") {
@@ -4272,8 +4240,8 @@ class Range {
         if (typeof version7 === "string") {
             version7 = new SemVer(version7, this.options);
         }
-        for(var i31 = 0; i31 < this.set.length; i31++){
-            if (testSet(this.set[i31], version7, this.options)) {
+        for(var i32 = 0; i32 < this.set.length; i32++){
+            if (testSet(this.set[i32], version7, this.options)) {
                 return true;
             }
         }
@@ -4298,18 +4266,18 @@ class Range {
     }
 }
 function testSet(set, version8, options) {
-    for(let i32 = 0; i32 < set.length; i32++){
-        if (!set[i32].test(version8)) {
+    for(let i33 = 0; i33 < set.length; i33++){
+        if (!set[i33].test(version8)) {
             return false;
         }
     }
     if (version8.prerelease.length && !options.includePrerelease) {
-        for(let i33 = 0; i33 < set.length; i33++){
-            if (set[i33].semver === ANY) {
+        for(let i34 = 0; i34 < set.length; i34++){
+            if (set[i34].semver === ANY) {
                 continue;
             }
-            if (set[i33].semver.prerelease.length > 0) {
-                const allowed = set[i33].semver;
+            if (set[i34].semver.prerelease.length > 0) {
+                const allowed = set[i34].semver;
                 if (allowed.major === version8.major && allowed.minor === version8.minor && allowed.patch === version8.patch) {
                     return true;
                 }
@@ -4545,8 +4513,8 @@ function minVersion(range, optionsOrLoose) {
         return minver;
     }
     minver = null;
-    for(var i34 = 0; i34 < range.set.length; ++i34){
-        var comparators = range.set[i34];
+    for(var i35 = 0; i35 < range.set.length; ++i35){
+        var comparators = range.set[i35];
         comparators.forEach((comparator)=>{
             var compver = new SemVer(comparator.semver.version);
             switch(comparator.operator){
@@ -4619,8 +4587,8 @@ function outside(version12, range, hilo, optionsOrLoose) {
     if (satisfies(version12, range, optionsOrLoose)) {
         return false;
     }
-    for(let i35 = 0; i35 < range.set.length; ++i35){
-        const comparators = range.set[i35];
+    for(let i36 = 0; i36 < range.set.length; ++i36){
+        const comparators = range.set[i36];
         let high = null;
         let low = null;
         comparators.forEach((comparator)=>{
@@ -5200,12 +5168,12 @@ function vectorJsonBinding(dresolver, texpr, boundTypeParams) {
             throw jsonParseException('expected an array');
         }
         let result = [];
-        jarr.forEach((eljson, i36)=>{
+        jarr.forEach((eljson, i37)=>{
             try {
                 result.push(elementBinding().fromJson(eljson));
             } catch (e) {
                 if (isJsonParseException(e)) {
-                    e.pushIndex(i36);
+                    e.pushIndex(i37);
                 }
                 throw e;
             }
@@ -5221,8 +5189,7 @@ function stringMapJsonBinding(dresolver, texpr, boundTypeParams) {
     const elementBinding = once(()=>buildJsonBinding(dresolver, texpr, boundTypeParams)
     );
     function toJson(v) {
-        const result = {
-        };
+        const result = {};
         for(let k in v){
             result[k] = elementBinding().toJson(v[k]);
         }
@@ -5233,8 +5200,7 @@ function stringMapJsonBinding(dresolver, texpr, boundTypeParams) {
         if (!jobj) {
             throw jsonParseException('expected an object');
         }
-        let result = {
-        };
+        let result = {};
         for(let k in jobj){
             try {
                 result[k] = elementBinding().fromJson(jobj[k]);
@@ -5294,8 +5260,7 @@ function structJsonBinding(dresolver, struct, params, boundTypeParams) {
     });
     function toJson(v0) {
         const v = v0;
-        const json = {
-        };
+        const json = {};
         fieldDetails.forEach((fd)=>{
             json[fd.field.serializedName] = fd.jsonBinding().toJson(v && v[fd.field.name]);
         });
@@ -5306,8 +5271,7 @@ function structJsonBinding(dresolver, struct, params, boundTypeParams) {
         if (!jobj) {
             throw jsonParseException("expected an object");
         }
-        const v = {
-        };
+        const v = {};
         fieldDetails.forEach((fd)=>{
             if (jobj[fd.field.serializedName] === undefined) {
                 const defaultv = fd.buildDefault();
@@ -5336,11 +5300,10 @@ function structJsonBinding(dresolver, struct, params, boundTypeParams) {
 }
 function enumJsonBinding(_dresolver, union, _params, _boundTypeParams) {
     const fieldSerializedNames = [];
-    const fieldNumbers = {
-    };
-    union.fields.forEach((field, i37)=>{
+    const fieldNumbers = {};
+    union.fields.forEach((field, i38)=>{
         fieldSerializedNames.push(field.serializedName);
-        fieldNumbers[field.serializedName] = i37;
+        fieldNumbers[field.serializedName] = i38;
     });
     function toJson(v) {
         return fieldSerializedNames[v];
@@ -5362,10 +5325,8 @@ function enumJsonBinding(_dresolver, union, _params, _boundTypeParams) {
 }
 function unionJsonBinding(dresolver, union, params, boundTypeParams) {
     const newBoundTypeParams = createBoundTypeParams(dresolver, union.typeParams, params, boundTypeParams);
-    const detailsByName = {
-    };
-    const detailsBySerializedName = {
-    };
+    const detailsByName = {};
+    const detailsBySerializedName = {};
     union.fields.forEach((field)=>{
         const details = {
             field: field,
@@ -5382,8 +5343,7 @@ function unionJsonBinding(dresolver, union, params, boundTypeParams) {
         if (details.isVoid) {
             return details.field.serializedName;
         } else {
-            const result = {
-            };
+            const result = {};
             result[details.field.serializedName] = details.jsonBinding().toJson(v.value);
             return result;
         }
@@ -5440,10 +5400,9 @@ function typedefJsonBinding(dresolver, typedef, params, boundTypeParams) {
     return buildJsonBinding(dresolver, typedef.typeExpr, newBoundTypeParams);
 }
 function createBoundTypeParams(dresolver, paramNames, paramTypes, boundTypeParams) {
-    let result = {
-    };
-    paramNames.forEach((paramName, i)=>{
-        result[paramName] = buildJsonBinding(dresolver, paramTypes[i], boundTypeParams);
+    let result = {};
+    paramNames.forEach((paramName, i39)=>{
+        result[paramName] = buildJsonBinding(dresolver, paramTypes[i39], boundTypeParams);
     });
     return result;
 }
@@ -5457,8 +5416,7 @@ function once(run1) {
     };
 }
 function declResolver(...astMaps) {
-    const astMap = {
-    };
+    const astMap = {};
     for (let map of astMaps){
         for(let scopedName in map){
             astMap[scopedName] = map[scopedName];

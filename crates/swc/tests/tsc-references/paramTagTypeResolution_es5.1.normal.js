@@ -10,5 +10,4 @@
 };
 // @Filename: main.js
 var f = require('./first');
-f(1, function(n) {
-});
+f(1, function(n) {});

@@ -1,2 +1,4 @@
-var obj, s = Symbol();
-delete Symbol.iterator, (obj = Symbol.toStringTag) && "undefined" != typeof Symbol && obj.constructor === Symbol, ++s, --s, Symbol(), Symbol(), Symbol(), Symbol(), Symbol();
+var s = Symbol();
+delete Symbol.iterator, (function(obj) {
+    obj && "undefined" != typeof Symbol && obj.constructor === Symbol;
+})(Symbol.toStringTag), ++s, --s, Symbol(), Symbol(), Symbol(), Symbol(), Symbol();

@@ -1,5 +1,4 @@
-var Common = {
-};
+var Common = {};
 Common.I = class {
     constructor(){
         this.i = 1;

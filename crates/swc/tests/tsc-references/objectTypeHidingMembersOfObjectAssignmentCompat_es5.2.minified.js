@@ -16,14 +16,12 @@ var i, c, C = function() {
     return protoProps = [
         {
             key: "toString",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties((Constructor = C).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();
 c = c;
 var a = {
-    toString: function() {
-    }
+    toString: function() {}
 };
 a = a; // ok

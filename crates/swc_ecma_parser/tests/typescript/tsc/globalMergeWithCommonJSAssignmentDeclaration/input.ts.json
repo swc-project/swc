@@ -47,8 +47,7 @@
             },
             "value": "name",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -94,8 +93,7 @@
           },
           "value": "console",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -139,8 +137,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",

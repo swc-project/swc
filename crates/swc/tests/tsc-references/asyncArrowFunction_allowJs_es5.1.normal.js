@@ -38,31 +38,40 @@ function _asyncToGenerator(fn) {
     return 0;
 };
 // Error (good)
-/** @type {function(): string} */ var b = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
-            case 0:
-                return _ctx.abrupt("return", 0);
-            case 1:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _callee);
-}));
+/** @type {function(): string} */ var b = function() {
+    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", 0);
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
+    return function b() {
+        return _ref.apply(this, arguments);
+    };
+}();
 // No error (bad)
-/** @type {function(): string} */ var c = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
-            case 0:
-                return _ctx.abrupt("return", 0);
-            case 1:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _callee);
-}));
-/** @type {function(function(): string): void} */ var f = function(p) {
-};
+/** @type {function(): string} */ var c = function() {
+    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", 0);
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
+    return function c() {
+        return _ref.apply(this, arguments);
+    };
+}();
+/** @type {function(function(): string): void} */ var f = function(p) {};
 // Error (good)
 f(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function _callee$(_ctx) {

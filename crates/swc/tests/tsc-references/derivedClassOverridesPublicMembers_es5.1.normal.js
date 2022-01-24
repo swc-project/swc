@@ -56,6 +56,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -63,8 +64,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -93,30 +93,26 @@ var Base = /*#__PURE__*/ function() {
     _createClass(Base, [
         {
             key: "b",
-            value: function b(a) {
-            }
+            value: function b(a) {}
         },
         {
             key: "c",
             get: function get() {
                 return x;
             },
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ], [
         {
             key: "s",
-            value: function s(a) {
-            }
+            value: function s(a) {}
         },
         {
             key: "t",
             get: function get() {
                 return x;
             },
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ]);
     return Base;
@@ -132,30 +128,26 @@ var Derived = /*#__PURE__*/ function(Base) {
     _createClass(Derived, [
         {
             key: "b",
-            value: function b(a) {
-            }
+            value: function b(a) {}
         },
         {
             key: "c",
             get: function get() {
                 return y;
             },
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ], [
         {
             key: "s",
-            value: function s(a) {
-            }
+            value: function s(a) {}
         },
         {
             key: "t",
             get: function get() {
                 return y;
             },
-            set: function set(a) {
-            }
+            set: function set(a) {}
         }
     ]);
     return Derived;

@@ -605,8 +605,7 @@
                                   },
                                   "value": "scopeChain",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             {
@@ -670,8 +669,7 @@
                           },
                           "value": "thisType",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -726,8 +724,7 @@
                           },
                           "value": "classType",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -782,8 +779,7 @@
                           },
                           "value": "fnc",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -838,8 +834,7 @@
                           },
                           "value": "scopeChain",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -984,8 +979,7 @@
                           },
                           "value": "scopeChain",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -1020,8 +1014,7 @@
                             },
                             "value": "scopeChain",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -1032,8 +1025,7 @@
                           },
                           "value": "previous",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   }
@@ -1278,8 +1270,7 @@
                                   },
                                   "value": "isInstanceProperty",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "arguments": [],
                               "typeArguments": null
@@ -1475,8 +1466,7 @@
                           },
                           "value": "isInstanceProperty",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -1919,8 +1909,7 @@
                                 },
                                 "value": "result",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NullLiteral",
@@ -2065,8 +2054,7 @@
                                 },
                                 "value": "result",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "CallExpression",
@@ -2099,8 +2087,7 @@
                                   },
                                   "value": "select",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "arguments": [
                                 {
@@ -2129,8 +2116,7 @@
                                       },
                                       "value": "result",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 },
                                 {
@@ -2182,8 +2168,7 @@
                               },
                               "value": "result",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "consequent": {
                             "type": "BlockStatement",
@@ -2231,8 +2216,7 @@
                                       },
                                       "value": "stop",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "arguments": [
                                     {
@@ -2261,8 +2245,7 @@
                                           },
                                           "value": "result",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       }
                                     }
                                   ],
@@ -2794,8 +2777,7 @@
                           },
                           "value": "name",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -2823,8 +2805,7 @@
                           },
                           "value": "mod",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     },
                     "consequent": {
@@ -2883,8 +2864,7 @@
                                   },
                                   "value": "name",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -2895,8 +2875,7 @@
                                 },
                                 "value": "sym",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "MemberExpression",
@@ -2931,8 +2910,7 @@
                                   },
                                   "value": "mod",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -2943,8 +2921,7 @@
                                 },
                                 "value": "symbol",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         }
@@ -3006,8 +2983,7 @@
                             },
                             "value": "mod",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "definite": false
                       }
@@ -3132,8 +3108,7 @@
                                 },
                                 "value": "members",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -3164,8 +3139,7 @@
                                 },
                                 "value": "ambientMembers",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -3196,8 +3170,7 @@
                                 },
                                 "value": "enclosedTypes",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -3228,8 +3201,7 @@
                                 },
                                 "value": "ambientEnclosedTypes",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -3260,8 +3232,7 @@
                                 },
                                 "value": "symbol",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         ],
@@ -3310,8 +3281,7 @@
                           },
                           "value": "memberScope",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -3372,8 +3342,7 @@
                             },
                             "value": "modDeclChain",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -3384,8 +3353,7 @@
                           },
                           "value": "push",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -3460,8 +3428,7 @@
                               },
                               "value": "typeFlow",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -3472,8 +3439,7 @@
                             },
                             "value": "checker",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -3484,8 +3450,7 @@
                           },
                           "value": "currentModDecl",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -3571,8 +3536,7 @@
                                 },
                                 "value": "symbol",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         ],
@@ -3620,8 +3584,7 @@
                           },
                           "value": "addParentScope",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -3681,8 +3644,7 @@
                           },
                           "value": "addParentScope",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -3720,8 +3682,7 @@
                                 },
                                 "value": "scopeChain",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
                               "type": "Identifier",
@@ -3732,8 +3693,7 @@
                               },
                               "value": "scope",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ],
@@ -3869,8 +3829,7 @@
                           },
                           "value": "containedScope",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -3917,8 +3876,7 @@
                         },
                         "value": "symbol",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "consequent": {
                       "type": "BlockStatement",
@@ -3975,8 +3933,7 @@
                                   },
                                   "value": "typeFlow",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -3987,8 +3944,7 @@
                                 },
                                 "value": "addLocalsFromScope",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [
                               {
@@ -4019,8 +3975,7 @@
                                     },
                                     "value": "containedScope",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               },
                               {
@@ -4051,8 +4006,7 @@
                                     },
                                     "value": "symbol",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               },
                               {
@@ -4083,8 +4037,7 @@
                                     },
                                     "value": "vars",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               },
                               {
@@ -4122,8 +4075,7 @@
                                       },
                                       "value": "members",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
                                     "type": "Identifier",
@@ -4134,8 +4086,7 @@
                                     },
                                     "value": "privateMembers",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               },
                               {
@@ -4536,8 +4487,7 @@
                           },
                           "value": "name",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -4565,8 +4515,7 @@
                           },
                           "value": "type",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     },
                     "consequent": {
@@ -4625,8 +4574,7 @@
                                   },
                                   "value": "name",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -4637,8 +4585,7 @@
                                 },
                                 "value": "sym",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "MemberExpression",
@@ -4673,8 +4620,7 @@
                                   },
                                   "value": "type",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -4685,8 +4631,7 @@
                                 },
                                 "value": "symbol",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         }
@@ -4748,8 +4693,7 @@
                             },
                             "value": "type",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "definite": false
                       }
@@ -4834,8 +4778,7 @@
                                   },
                                   "value": "symbol",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "definite": false
                             }
@@ -4921,8 +4864,7 @@
                                         },
                                         "value": "typeFlow",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "property": {
                                       "type": "Identifier",
@@ -4933,8 +4875,7 @@
                                       },
                                       "value": "checker",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
                                     "type": "Identifier",
@@ -4945,8 +4886,7 @@
                                     },
                                     "value": "scopeOf",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "arguments": [
                                   {
@@ -5059,8 +4999,7 @@
                                       },
                                       "value": "symbol",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 }
                               ],
@@ -5108,8 +5047,7 @@
                                 },
                                 "value": "addParentScope",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [
                               {
@@ -5169,8 +5107,7 @@
                                 },
                                 "value": "addParentScope",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [
                               {
@@ -5208,8 +5145,7 @@
                                       },
                                       "value": "scopeChain",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
                                     "type": "Identifier",
@@ -5220,8 +5156,7 @@
                                     },
                                     "value": "scope",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               }
                             ],
@@ -5269,8 +5204,7 @@
                                 },
                                 "value": "containedScope",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "Identifier",
@@ -5325,8 +5259,7 @@
                                 },
                                 "value": "memberScope",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "Identifier",
@@ -5394,8 +5327,7 @@
                                   },
                                   "value": "instanceType",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "definite": false
                             }
@@ -5481,8 +5413,7 @@
                                         },
                                         "value": "typeFlow",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "property": {
                                       "type": "Identifier",
@@ -5493,8 +5424,7 @@
                                       },
                                       "value": "checker",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
                                     "type": "Identifier",
@@ -5505,8 +5435,7 @@
                                     },
                                     "value": "scopeOf",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "arguments": [
                                   {
@@ -5588,8 +5517,7 @@
                                 },
                                 "value": "memberScope",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "Identifier",
@@ -5675,8 +5603,7 @@
                                       },
                                       "value": "symbol",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 }
                               ],
@@ -5724,8 +5651,7 @@
                                 },
                                 "value": "addParentScope",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [
                               {
@@ -5763,8 +5689,7 @@
                                       },
                                       "value": "scopeChain",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
                                     "type": "Identifier",
@@ -5775,8 +5700,7 @@
                                     },
                                     "value": "scope",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               }
                             ],
@@ -5916,8 +5840,7 @@
                                 },
                                 "value": "containedScope",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "Identifier",
@@ -5982,8 +5905,7 @@
                                 },
                                 "value": "type",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "MemberExpression",
@@ -6018,8 +5940,7 @@
                                   },
                                   "value": "typeFlow",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -6030,8 +5951,7 @@
                                 },
                                 "value": "anyType",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         }
@@ -6416,8 +6336,7 @@
                           },
                           "value": "name",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -6445,8 +6364,7 @@
                           },
                           "value": "type",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     },
                     "consequent": {
@@ -6505,8 +6423,7 @@
                                   },
                                   "value": "name",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -6517,8 +6434,7 @@
                                 },
                                 "value": "sym",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "MemberExpression",
@@ -6553,8 +6469,7 @@
                                   },
                                   "value": "type",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -6565,8 +6480,7 @@
                                 },
                                 "value": "symbol",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         }
@@ -6628,8 +6542,7 @@
                             },
                             "value": "type",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "definite": false
                       }
@@ -6715,8 +6628,7 @@
                                   },
                                   "value": "typeFlow",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -6727,8 +6639,7 @@
                                 },
                                 "value": "checker",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
                               "type": "Identifier",
@@ -6739,8 +6650,7 @@
                               },
                               "value": "scopeOf",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "arguments": [
                             {
@@ -6822,8 +6732,7 @@
                           },
                           "value": "memberScope",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -6909,8 +6818,7 @@
                                 },
                                 "value": "symbol",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         ],
@@ -6958,8 +6866,7 @@
                           },
                           "value": "addParentScope",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -7019,8 +6926,7 @@
                           },
                           "value": "addParentScope",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -7058,8 +6964,7 @@
                                 },
                                 "value": "scopeChain",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
                               "type": "Identifier",
@@ -7070,8 +6975,7 @@
                               },
                               "value": "scope",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ],
@@ -7207,8 +7111,7 @@
                           },
                           "value": "containedScope",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -7481,8 +7384,7 @@
                             },
                             "value": "type",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "definite": false
                       }
@@ -7860,8 +7762,7 @@
                                   },
                                   "value": "minChar",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             {
@@ -7913,8 +7814,7 @@
                                         },
                                         "value": "typeFlow",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "property": {
                                       "type": "Identifier",
@@ -7925,8 +7825,7 @@
                                       },
                                       "value": "checker",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
                                     "type": "Identifier",
@@ -7937,8 +7836,7 @@
                                     },
                                     "value": "locationInfo",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -7949,8 +7847,7 @@
                                   },
                                   "value": "unitIndex",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             {
@@ -8014,8 +7911,7 @@
                           },
                           "value": "members",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -8070,8 +7966,7 @@
                           },
                           "value": "ambientMembers",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -8126,8 +8021,7 @@
                           },
                           "value": "symbol",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -8181,8 +8075,7 @@
                           },
                           "value": "setHasImplementation",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -8229,8 +8122,7 @@
                           },
                           "value": "type",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -8305,8 +8197,7 @@
                               },
                               "value": "SymbolScopeBuilder",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "arguments": [
                             {
@@ -8337,8 +8228,7 @@
                                   },
                                   "value": "members",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             {
@@ -8369,8 +8259,7 @@
                                   },
                                   "value": "ambientMembers",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             {
@@ -8430,8 +8319,7 @@
                                     },
                                     "value": "scopeChain",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -8442,8 +8330,7 @@
                                   },
                                   "value": "scope",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             {
@@ -8474,8 +8361,7 @@
                                   },
                                   "value": "symbol",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             }
                           ],
@@ -8614,8 +8500,7 @@
                           },
                           "value": "containedScope",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -8999,8 +8884,7 @@
                         },
                         "value": "type",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "consequent": {
                       "type": "BlockStatement",
@@ -9069,8 +8953,7 @@
                                   },
                                   "value": "type",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -9081,8 +8964,7 @@
                                 },
                                 "value": "symbol",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         }
@@ -9164,8 +9046,7 @@
                                   },
                                   "value": "fncFlags",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             {
@@ -9196,8 +9077,7 @@
                                   },
                                   "value": "Static",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             }
                           ],
@@ -9294,8 +9174,7 @@
                                   },
                                   "value": "scopeChain",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -9306,8 +9185,7 @@
                                 },
                                 "value": "fnc",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NullLiteral",
@@ -9415,8 +9293,7 @@
                                     },
                                     "value": "scopeChain",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -9427,8 +9304,7 @@
                                   },
                                   "value": "fnc",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -9439,8 +9315,7 @@
                                 },
                                 "value": "type",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
                               "type": "Identifier",
@@ -9451,8 +9326,7 @@
                               },
                               "value": "memberScope",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "alternate": {
                             "type": "MemberExpression",
@@ -9487,8 +9361,7 @@
                                 },
                                 "value": "scopeChain",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
                               "type": "Identifier",
@@ -9499,8 +9372,7 @@
                               },
                               "value": "scope",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         },
                         "definite": false
@@ -9555,8 +9427,7 @@
                             },
                             "value": "scopeChain",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -9567,8 +9438,7 @@
                           },
                           "value": "thisType",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "ParenthesisExpression",
@@ -9619,8 +9489,7 @@
                                 },
                                 "value": "isConstructor",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           "right": {
@@ -9669,8 +9538,7 @@
                                     },
                                     "value": "fncFlags",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               },
                               {
@@ -9701,8 +9569,7 @@
                                     },
                                     "value": "ClassMethod",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               }
                             ],
@@ -9780,8 +9647,7 @@
                                     },
                                     "value": "scopeChain",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -9792,8 +9658,7 @@
                                   },
                                   "value": "thisType",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "definite": false
                             }
@@ -9863,8 +9728,7 @@
                                       },
                                       "value": "typeFlags",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "MemberExpression",
@@ -9892,8 +9756,7 @@
                                       },
                                       "value": "IsClass",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 }
                               }
@@ -9952,8 +9815,7 @@
                                         },
                                         "value": "fncFlags",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     }
                                   },
                                   {
@@ -9984,8 +9846,7 @@
                                         },
                                         "value": "ClassMethod",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     }
                                   }
                                 ],
@@ -10057,8 +9918,7 @@
                                           },
                                           "value": "isMethod",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "arguments": [],
                                       "typeArguments": null
@@ -10135,8 +9995,7 @@
                                             },
                                             "value": "constructorScope",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       }
                                     }
@@ -10202,8 +10061,7 @@
                                             },
                                             "value": "containedScope",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       }
                                     }
@@ -10298,8 +10156,7 @@
                                                 },
                                                 "value": "scopeChain",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "property": {
                                               "type": "Identifier",
@@ -10310,8 +10167,7 @@
                                               },
                                               "value": "previous",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "property": {
                                             "type": "Identifier",
@@ -10322,8 +10178,7 @@
                                             },
                                             "value": "scope",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "property": {
                                           "type": "Identifier",
@@ -10334,8 +10189,7 @@
                                           },
                                           "value": "container",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "right": {
                                         "type": "MemberExpression",
@@ -10391,8 +10245,7 @@
                                                   },
                                                   "value": "scopeChain",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "property": {
                                                 "type": "Identifier",
@@ -10403,8 +10256,7 @@
                                                 },
                                                 "value": "previous",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "property": {
                                               "type": "Identifier",
@@ -10415,8 +10267,7 @@
                                               },
                                               "value": "scope",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "property": {
                                             "type": "Identifier",
@@ -10427,8 +10278,7 @@
                                             },
                                             "value": "container",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "property": {
                                           "type": "Identifier",
@@ -10439,8 +10289,7 @@
                                           },
                                           "value": "declAST",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       }
                                     },
                                     "right": {
@@ -10512,8 +10361,7 @@
                                                     },
                                                     "value": "scopeChain",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "property": {
                                                   "type": "Identifier",
@@ -10524,8 +10372,7 @@
                                                   },
                                                   "value": "previous",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "property": {
                                                 "type": "Identifier",
@@ -10536,8 +10383,7 @@
                                                 },
                                                 "value": "scope",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "property": {
                                               "type": "Identifier",
@@ -10548,8 +10394,7 @@
                                               },
                                               "value": "container",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "property": {
                                             "type": "Identifier",
@@ -10560,8 +10405,7 @@
                                             },
                                             "value": "declAST",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "property": {
                                           "type": "Identifier",
@@ -10572,8 +10416,7 @@
                                           },
                                           "value": "nodeType",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "right": {
                                         "type": "MemberExpression",
@@ -10601,8 +10444,7 @@
                                           },
                                           "value": "FuncDecl",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       }
                                     }
                                   },
@@ -10681,8 +10523,7 @@
                                                     },
                                                     "value": "scopeChain",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "property": {
                                                   "type": "Identifier",
@@ -10693,8 +10534,7 @@
                                                   },
                                                   "value": "previous",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "property": {
                                                 "type": "Identifier",
@@ -10705,8 +10545,7 @@
                                                 },
                                                 "value": "scope",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "property": {
                                               "type": "Identifier",
@@ -10717,8 +10556,7 @@
                                               },
                                               "value": "container",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "property": {
                                             "type": "Identifier",
@@ -10729,8 +10567,7 @@
                                             },
                                             "value": "declAST",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "typeAnnotation": {
                                           "type": "TsTypeReference",
@@ -10762,8 +10599,7 @@
                                       },
                                       "value": "isConstructor",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 },
                                 "consequent": {
@@ -10826,8 +10662,7 @@
                                             },
                                             "value": "constructorScope",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       }
                                     }
@@ -10891,8 +10726,7 @@
                                           },
                                           "value": "scopeChain",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "property": {
                                         "type": "Identifier",
@@ -10903,8 +10737,7 @@
                                         },
                                         "value": "classType",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     }
                                   },
                                   "consequent": {
@@ -10981,8 +10814,7 @@
                                                   },
                                                   "value": "scopeChain",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "property": {
                                                 "type": "Identifier",
@@ -10993,8 +10825,7 @@
                                                 },
                                                 "value": "classType",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "property": {
                                               "type": "Identifier",
@@ -11005,8 +10836,7 @@
                                               },
                                               "value": "containedScope",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           }
                                         }
                                       }
@@ -11072,8 +10902,7 @@
                                               },
                                               "value": "containedScope",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           }
                                         }
                                       }
@@ -11136,8 +10965,7 @@
                                 },
                                 "value": "symbol",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         }
@@ -11184,8 +11012,7 @@
                             },
                             "value": "isConstructor",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "MemberExpression",
@@ -11220,8 +11047,7 @@
                               },
                               "value": "scopeChain",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -11232,8 +11058,7 @@
                             },
                             "value": "thisType",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       "consequent": {
@@ -11310,8 +11135,7 @@
                                       },
                                       "value": "scopeChain",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
                                     "type": "Identifier",
@@ -11322,8 +11146,7 @@
                                     },
                                     "value": "thisType",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -11334,8 +11157,7 @@
                                   },
                                   "value": "symbol",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             }
                           }
@@ -11393,8 +11215,7 @@
                             },
                             "value": "type",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "NullLiteral",
@@ -11465,8 +11286,7 @@
                                     },
                                     "value": "type",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -11477,8 +11297,7 @@
                                   },
                                   "value": "symbol",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -11489,8 +11308,7 @@
                                 },
                                 "value": "flags",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -11521,8 +11339,7 @@
                                 },
                                 "value": "TypeSetDuringScopeAssignment",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         ],
@@ -11585,8 +11402,7 @@
                                   },
                                   "value": "scopeChain",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -11597,8 +11413,7 @@
                                 },
                                 "value": "fnc",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "MemberExpression",
@@ -11640,8 +11455,7 @@
                                     },
                                     "value": "scopeChain",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -11652,8 +11466,7 @@
                                   },
                                   "value": "fnc",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -11664,8 +11477,7 @@
                                 },
                                 "value": "type",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           "consequent": {
@@ -11749,8 +11561,7 @@
                                             },
                                             "value": "scopeChain",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "property": {
                                           "type": "Identifier",
@@ -11761,8 +11572,7 @@
                                           },
                                           "value": "fnc",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "property": {
                                         "type": "Identifier",
@@ -11773,8 +11583,7 @@
                                         },
                                         "value": "type",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "property": {
                                       "type": "Identifier",
@@ -11785,8 +11594,7 @@
                                       },
                                       "value": "symbol",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 }
                               }
@@ -11921,8 +11729,7 @@
                                     },
                                     "value": "scopeChain",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -11933,8 +11740,7 @@
                                   },
                                   "value": "fnc",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "definite": false
                             }
@@ -12001,8 +11807,7 @@
                                     },
                                     "value": "name",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "consequent": {
                                   "type": "MemberExpression",
@@ -12037,8 +11842,7 @@
                                       },
                                       "value": "name",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
                                     "type": "Identifier",
@@ -12049,8 +11853,7 @@
                                     },
                                     "value": "actualText",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "alternate": {
                                   "type": "NullLiteral",
@@ -12212,8 +12015,7 @@
                                           },
                                           "value": "type",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "property": {
                                         "type": "Identifier",
@@ -12224,8 +12026,7 @@
                                         },
                                         "value": "members",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "NullLiteral",
@@ -12276,8 +12077,7 @@
                                           },
                                           "value": "getType",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "arguments": [],
                                       "typeArguments": null
@@ -12291,8 +12091,7 @@
                                       },
                                       "value": "memberScope",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 },
                                 "consequent": {
@@ -12351,8 +12150,7 @@
                                               },
                                               "value": "type",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "property": {
                                             "type": "Identifier",
@@ -12363,8 +12161,7 @@
                                             },
                                             "value": "members",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "right": {
                                           "type": "MemberExpression",
@@ -12455,8 +12252,7 @@
                                                     },
                                                     "value": "type",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "property": {
                                                   "type": "Identifier",
@@ -12467,8 +12263,7 @@
                                                   },
                                                   "value": "memberScope",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "typeAnnotation": {
                                                 "type": "TsTypeReference",
@@ -12500,8 +12295,7 @@
                                             },
                                             "value": "valueMembers",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       }
                                     }
@@ -12582,8 +12376,7 @@
                                             },
                                             "value": "scopeChain",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "property": {
                                           "type": "Identifier",
@@ -12594,8 +12387,7 @@
                                           },
                                           "value": "fnc",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "property": {
                                         "type": "Identifier",
@@ -12606,8 +12398,7 @@
                                         },
                                         "value": "type",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "property": {
                                       "type": "Identifier",
@@ -12618,8 +12409,7 @@
                                       },
                                       "value": "memberScope",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 }
                               },
@@ -12671,58 +12461,62 @@
                                         },
                                         "value": "innerStaticFuncs",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "property": {
-                                      "type": "MemberExpression",
+                                      "type": "Computed",
                                       "span": {
-                                        "start": 10264,
-                                        "end": 10296,
+                                        "start": 10263,
+                                        "end": 10297,
                                         "ctxt": 0
                                       },
-                                      "object": {
+                                      "expression": {
                                         "type": "MemberExpression",
                                         "span": {
                                           "start": 10264,
-                                          "end": 10289,
+                                          "end": 10296,
                                           "ctxt": 0
                                         },
                                         "object": {
-                                          "type": "Identifier",
+                                          "type": "MemberExpression",
                                           "span": {
                                             "start": 10264,
-                                            "end": 10272,
+                                            "end": 10289,
                                             "ctxt": 0
                                           },
-                                          "value": "outerFnc",
-                                          "optional": false
+                                          "object": {
+                                            "type": "Identifier",
+                                            "span": {
+                                              "start": 10264,
+                                              "end": 10272,
+                                              "ctxt": 0
+                                            },
+                                            "value": "outerFnc",
+                                            "optional": false
+                                          },
+                                          "property": {
+                                            "type": "Identifier",
+                                            "span": {
+                                              "start": 10273,
+                                              "end": 10289,
+                                              "ctxt": 0
+                                            },
+                                            "value": "innerStaticFuncs",
+                                            "optional": false
+                                          }
                                         },
                                         "property": {
                                           "type": "Identifier",
                                           "span": {
-                                            "start": 10273,
-                                            "end": 10289,
+                                            "start": 10290,
+                                            "end": 10296,
                                             "ctxt": 0
                                           },
-                                          "value": "innerStaticFuncs",
+                                          "value": "length",
                                           "optional": false
-                                        },
-                                        "computed": false
-                                      },
-                                      "property": {
-                                        "type": "Identifier",
-                                        "span": {
-                                          "start": 10290,
-                                          "end": 10296,
-                                          "ctxt": 0
-                                        },
-                                        "value": "length",
-                                        "optional": false
-                                      },
-                                      "computed": false
-                                    },
-                                    "computed": true
+                                        }
+                                      }
+                                    }
                                   },
                                   "right": {
                                     "type": "Identifier",
@@ -12827,8 +12621,7 @@
                                                 },
                                                 "value": "isConstructor",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             }
                                           },
                                           "right": {
@@ -12868,8 +12661,7 @@
                                             },
                                             "value": "declAST",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       },
                                       "right": {
@@ -12913,8 +12705,7 @@
                                               },
                                               "value": "declAST",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "property": {
                                             "type": "Identifier",
@@ -12925,8 +12716,7 @@
                                             },
                                             "value": "nodeType",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "right": {
                                           "type": "MemberExpression",
@@ -12954,8 +12744,7 @@
                                             },
                                             "value": "FuncDecl",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       }
                                     },
@@ -13006,8 +12795,7 @@
                                               },
                                               "value": "declAST",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "typeAnnotation": {
                                             "type": "TsTypeReference",
@@ -13039,8 +12827,7 @@
                                         },
                                         "value": "isConstructor",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     }
                                   },
                                   "right": {
@@ -13084,8 +12871,7 @@
                                           },
                                           "value": "isMethod",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "arguments": [],
                                       "typeArguments": null
@@ -13166,8 +12952,7 @@
                                                 },
                                                 "value": "scopeChain",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "property": {
                                               "type": "Identifier",
@@ -13178,8 +12963,7 @@
                                               },
                                               "value": "thisType",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "property": {
                                             "type": "Identifier",
@@ -13190,8 +12974,7 @@
                                             },
                                             "value": "constructorScope",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       }
                                     }
@@ -13264,8 +13047,7 @@
                                               },
                                               "value": "scopeChain",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "property": {
                                             "type": "Identifier",
@@ -13276,8 +13058,7 @@
                                             },
                                             "value": "scope",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       }
                                     }
@@ -13395,8 +13176,7 @@
                                     },
                                     "value": "isAccessor",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "arguments": [],
                                 "typeArguments": null
@@ -13495,8 +13275,7 @@
                                               },
                                               "value": "findLocal",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "arguments": [
                                             {
@@ -13610,8 +13389,7 @@
                                               },
                                               "value": "findLocal",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "arguments": [
                                             {
@@ -13717,8 +13495,7 @@
                                     },
                                     "value": "typeFlow",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -13729,8 +13506,7 @@
                                   },
                                   "value": "checker",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -13741,8 +13517,7 @@
                                 },
                                 "value": "createFunctionSignature",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [
                               {
@@ -13904,8 +13679,7 @@
                                         },
                                         "value": "accessorSymbol",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     }
                                   },
                                   "right": {
@@ -13949,8 +13723,7 @@
                                           },
                                           "value": "fncFlags",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "right": {
                                         "type": "MemberExpression",
@@ -13978,8 +13751,7 @@
                                           },
                                           "value": "ClassMethod",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       }
                                     }
                                   }
@@ -14085,8 +13857,7 @@
                                               },
                                               "value": "declAST",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "property": {
                                             "type": "Identifier",
@@ -14097,8 +13868,7 @@
                                             },
                                             "value": "nodeType",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "right": {
                                           "type": "MemberExpression",
@@ -14126,8 +13896,7 @@
                                             },
                                             "value": "FuncDecl",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       }
                                     }
@@ -14165,8 +13934,7 @@
                                         },
                                         "value": "isAccessor",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "arguments": [],
                                     "typeArguments": null
@@ -14232,8 +14000,7 @@
                                       },
                                       "value": "isAccessor",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "arguments": [],
                                   "typeArguments": null
@@ -14290,8 +14057,7 @@
                                       },
                                       "value": "accessorSymbol",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "CallExpression",
@@ -14340,8 +14106,7 @@
                                             },
                                             "value": "typeFlow",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "property": {
                                           "type": "Identifier",
@@ -14352,8 +14117,7 @@
                                           },
                                           "value": "checker",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "property": {
                                         "type": "Identifier",
@@ -14364,8 +14128,7 @@
                                         },
                                         "value": "createAccessorSymbol",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "arguments": [
                                       {
@@ -14429,8 +14192,7 @@
                                               },
                                               "value": "getType",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "arguments": [],
                                           "typeArguments": null
@@ -14486,8 +14248,7 @@
                                                   },
                                                   "value": "isMethod",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "arguments": [],
                                               "typeArguments": null
@@ -14607,8 +14368,7 @@
                                     },
                                     "value": "type",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -14619,8 +14379,7 @@
                                   },
                                   "value": "symbol",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -14631,8 +14390,7 @@
                                 },
                                 "value": "flags",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "MemberExpression",
@@ -14660,8 +14418,7 @@
                                 },
                                 "value": "TypeSetDuringScopeAssignment",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         }
@@ -14710,8 +14467,7 @@
                           },
                           "value": "name",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -14739,8 +14495,7 @@
                           },
                           "value": "type",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     },
                     "consequent": {
@@ -14799,8 +14554,7 @@
                                   },
                                   "value": "name",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -14811,8 +14565,7 @@
                                 },
                                 "value": "sym",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "MemberExpression",
@@ -14847,8 +14600,7 @@
                                   },
                                   "value": "type",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -14859,8 +14611,7 @@
                                 },
                                 "value": "symbol",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         }
@@ -14909,8 +14660,7 @@
                           },
                           "value": "scopeType",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -14938,8 +14688,7 @@
                           },
                           "value": "type",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   },
@@ -14976,8 +14725,7 @@
                         },
                         "value": "isOverload",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "consequent": {
                       "type": "BlockStatement",
@@ -15701,8 +15449,7 @@
                           },
                           "value": "unitIndex",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -15751,8 +15498,7 @@
                                 },
                                 "value": "typeFlow",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
                               "type": "Identifier",
@@ -15763,8 +15509,7 @@
                               },
                               "value": "checker",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -15775,8 +15520,7 @@
                             },
                             "value": "locationInfo",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -15787,8 +15531,7 @@
                           },
                           "value": "unitIndex",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   },
@@ -16085,8 +15828,7 @@
                           },
                           "value": "isConstructor",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -16121,8 +15863,7 @@
                             },
                             "value": "scopeChain",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -16133,8 +15874,7 @@
                           },
                           "value": "thisType",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     },
                     "consequent": {
@@ -16200,8 +15940,7 @@
                                     },
                                     "value": "scopeChain",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -16212,8 +15951,7 @@
                                   },
                                   "value": "thisType",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -16224,8 +15962,7 @@
                                 },
                                 "value": "constructorScope",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "Identifier",
@@ -16284,8 +16021,7 @@
                           },
                           "value": "symbols",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -16347,8 +16083,7 @@
                             },
                             "value": "isSpecialFn",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [],
                         "typeArguments": null
@@ -16416,8 +16151,7 @@
                                   },
                                   "value": "type",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "definite": false
                             }
@@ -16477,8 +16211,7 @@
                                   },
                                   "value": "signature",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "definite": false
                             }
@@ -16525,8 +16258,7 @@
                                 },
                                 "value": "isConstructor",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           "consequent": {
@@ -16578,8 +16310,7 @@
                                       },
                                       "value": "containedScope",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "Identifier",
@@ -16634,8 +16365,7 @@
                                       },
                                       "value": "container",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "MemberExpression",
@@ -16663,8 +16393,7 @@
                                       },
                                       "value": "symbol",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 }
                               },
@@ -16709,8 +16438,7 @@
                                       },
                                       "value": "memberScope",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "Identifier",
@@ -16765,8 +16493,7 @@
                                       },
                                       "value": "container",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "MemberExpression",
@@ -16794,8 +16521,7 @@
                                       },
                                       "value": "symbol",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 }
                               }
@@ -16844,8 +16570,7 @@
                                 },
                                 "value": "enclosingFnc",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "MemberExpression",
@@ -16880,8 +16605,7 @@
                                   },
                                   "value": "scopeChain",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -16892,8 +16616,7 @@
                                 },
                                 "value": "fnc",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         },
@@ -16938,8 +16661,7 @@
                                 },
                                 "value": "enclosingType",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "ConditionalExpression",
@@ -16991,8 +16713,7 @@
                                     },
                                     "value": "scopeChain",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -17003,8 +16724,7 @@
                                   },
                                   "value": "classType",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "alternate": {
                                 "type": "MemberExpression",
@@ -17039,8 +16759,7 @@
                                     },
                                     "value": "scopeChain",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -17051,8 +16770,7 @@
                                   },
                                   "value": "thisType",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             }
                           }
@@ -17125,8 +16843,7 @@
                                       },
                                       "value": "type",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
                                     "type": "Identifier",
@@ -17137,8 +16854,7 @@
                                     },
                                     "value": "symbol",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "typeAnnotation": {
                                   "type": "TsTypeReference",
@@ -17235,8 +16951,7 @@
                                         },
                                         "value": "fncFlags",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "MemberExpression",
@@ -17264,8 +16979,7 @@
                                         },
                                         "value": "Signature",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     }
                                   }
                                 },
@@ -17295,8 +17009,7 @@
                                     },
                                     "value": "None",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               }
                             },
@@ -17326,8 +17039,7 @@
                                 },
                                 "value": "vars",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           "consequent": {
@@ -17385,8 +17097,7 @@
                                         },
                                         "value": "typeFlow",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "property": {
                                       "type": "Identifier",
@@ -17397,8 +17108,7 @@
                                       },
                                       "value": "addLocalsFromScope",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "arguments": [
                                     {
@@ -17455,8 +17165,7 @@
                                           },
                                           "value": "vars",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       }
                                     },
                                     {
@@ -17535,8 +17244,7 @@
                                         },
                                         "value": "typeFlow",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "property": {
                                       "type": "Identifier",
@@ -17547,8 +17255,7 @@
                                       },
                                       "value": "addLocalsFromScope",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "arguments": [
                                     {
@@ -17605,8 +17312,7 @@
                                           },
                                           "value": "statics",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       }
                                     },
                                     {
@@ -17675,8 +17381,7 @@
                               },
                               "value": "parameters",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "consequent": {
                             "type": "BlockStatement",
@@ -17747,8 +17452,7 @@
                                           },
                                           "value": "parameters",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "property": {
                                         "type": "Identifier",
@@ -17759,8 +17463,7 @@
                                         },
                                         "value": "length",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "definite": false
                                   }
@@ -17958,20 +17661,26 @@
                                                 },
                                                 "value": "parameters",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "property": {
-                                              "type": "Identifier",
+                                              "type": "Computed",
                                               "span": {
-                                                "start": 16123,
-                                                "end": 16124,
+                                                "start": 16122,
+                                                "end": 16125,
                                                 "ctxt": 0
                                               },
-                                              "value": "i",
-                                              "optional": false
-                                            },
-                                            "computed": true
+                                              "expression": {
+                                                "type": "Identifier",
+                                                "span": {
+                                                  "start": 16123,
+                                                  "end": 16124,
+                                                  "ctxt": 0
+                                                },
+                                                "value": "i",
+                                                "optional": false
+                                              }
+                                            }
                                           },
                                           "definite": false
                                         }
@@ -18031,8 +17740,7 @@
                                                 },
                                                 "value": "typeFlow",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "property": {
                                               "type": "Identifier",
@@ -18043,8 +17751,7 @@
                                               },
                                               "value": "checker",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "property": {
                                             "type": "Identifier",
@@ -18055,8 +17762,7 @@
                                             },
                                             "value": "resolveTypeLink",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "arguments": [
                                           {
@@ -18107,8 +17813,7 @@
                                                   },
                                                   "value": "parameter",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "property": {
                                                 "type": "Identifier",
@@ -18119,8 +17824,7 @@
                                                 },
                                                 "value": "typeLink",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             }
                                           },
                                           {
@@ -18200,8 +17904,7 @@
                                     },
                                     "value": "typeFlow",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -18212,8 +17915,7 @@
                                   },
                                   "value": "checker",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -18224,8 +17926,7 @@
                                 },
                                 "value": "resolveTypeLink",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [
                               {
@@ -18269,8 +17970,7 @@
                                     },
                                     "value": "returnType",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               },
                               {
@@ -18308,8 +18008,7 @@
                                       },
                                       "value": "isSignature",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "arguments": [],
                                   "typeArguments": null
@@ -18372,8 +18071,7 @@
                             },
                             "value": "isConstructor",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       "right": {
@@ -18422,8 +18120,7 @@
                                 },
                                 "value": "fncFlags",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -18454,8 +18151,7 @@
                                 },
                                 "value": "ClassMethod",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         ],
@@ -18546,8 +18242,7 @@
                                         },
                                         "value": "isConstructor",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "CallExpression",
@@ -18595,8 +18290,7 @@
                                               },
                                               "value": "fncFlags",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           }
                                         },
                                         {
@@ -18627,8 +18321,7 @@
                                               },
                                               "value": "ClassMethod",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           }
                                         }
                                       ],
@@ -18669,8 +18362,7 @@
                                       },
                                       "value": "scopeChain",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
                                     "type": "Identifier",
@@ -18681,8 +18373,7 @@
                                     },
                                     "value": "thisType",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "alternate": {
                                   "type": "NullLiteral",
@@ -19031,8 +18722,7 @@
                         },
                         "value": "param",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "consequent": {
                       "type": "BlockStatement",
@@ -19292,8 +18982,7 @@
                                           },
                                           "value": "scopeChain",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "property": {
                                         "type": "Identifier",
@@ -19304,8 +18993,7 @@
                                         },
                                         "value": "scope",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     }
                                   },
                                   {
@@ -19350,8 +19038,7 @@
                                             },
                                             "value": "scopeChain",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "property": {
                                           "type": "Identifier",
@@ -19362,8 +19049,7 @@
                                           },
                                           "value": "scope",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "property": {
                                         "type": "Identifier",
@@ -19374,8 +19060,7 @@
                                         },
                                         "value": "container",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     }
                                   }
                                 ],
@@ -19426,8 +19111,7 @@
                                 },
                                 "value": "containedScope",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "Identifier",
@@ -19527,8 +19211,7 @@
                                       },
                                       "value": "scopeChain",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
                                     "type": "Identifier",
@@ -19539,8 +19222,7 @@
                                     },
                                     "value": "thisType",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               },
                               {
@@ -19578,8 +19260,7 @@
                                       },
                                       "value": "scopeChain",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
                                     "type": "Identifier",
@@ -19590,8 +19271,7 @@
                                     },
                                     "value": "classType",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               },
                               {
@@ -19629,8 +19309,7 @@
                                       },
                                       "value": "scopeChain",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
                                     "type": "Identifier",
@@ -19641,8 +19320,7 @@
                                     },
                                     "value": "fnc",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               }
                             ],
@@ -19915,8 +19593,7 @@
                             },
                             "value": "state",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "definite": false
                       }
@@ -20029,8 +19706,7 @@
                                 },
                                 "value": "nodeType",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "MemberExpression",
@@ -20058,8 +19734,7 @@
                                 },
                                 "value": "List",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           "consequent": {
@@ -20180,8 +19855,7 @@
                                       },
                                       "value": "enclosingScope",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "MemberExpression",
@@ -20216,8 +19890,7 @@
                                         },
                                         "value": "scopeChain",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "property": {
                                       "type": "Identifier",
@@ -20228,8 +19901,7 @@
                                       },
                                       "value": "scope",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 }
                               }
@@ -20276,8 +19948,7 @@
                                   },
                                   "value": "nodeType",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "right": {
                                 "type": "MemberExpression",
@@ -20305,8 +19976,7 @@
                                   },
                                   "value": "ModuleDeclaration",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             "consequent": {
@@ -20415,8 +20085,7 @@
                                     },
                                     "value": "nodeType",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "right": {
                                   "type": "MemberExpression",
@@ -20444,8 +20113,7 @@
                                     },
                                     "value": "ClassDeclaration",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               },
                               "consequent": {
@@ -20554,8 +20222,7 @@
                                       },
                                       "value": "nodeType",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "MemberExpression",
@@ -20583,8 +20250,7 @@
                                       },
                                       "value": "InterfaceDeclaration",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 },
                                 "consequent": {
@@ -20693,8 +20359,7 @@
                                         },
                                         "value": "nodeType",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "MemberExpression",
@@ -20722,8 +20387,7 @@
                                         },
                                         "value": "With",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     }
                                   },
                                   "consequent": {
@@ -20832,8 +20496,7 @@
                                           },
                                           "value": "nodeType",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "right": {
                                         "type": "MemberExpression",
@@ -20861,8 +20524,7 @@
                                           },
                                           "value": "FuncDecl",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       }
                                     },
                                     "consequent": {
@@ -20971,8 +20633,7 @@
                                             },
                                             "value": "nodeType",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "right": {
                                           "type": "MemberExpression",
@@ -21000,8 +20661,7 @@
                                             },
                                             "value": "Catch",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       },
                                       "consequent": {
@@ -21110,8 +20770,7 @@
                                               },
                                               "value": "nodeType",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "right": {
                                             "type": "MemberExpression",
@@ -21139,8 +20798,7 @@
                                               },
                                               "value": "TypeRef",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           }
                                         },
                                         "consequent": {
@@ -21251,8 +20909,7 @@
                             },
                             "value": "options",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -21263,8 +20920,7 @@
                           },
                           "value": "goChildren",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -21558,8 +21214,7 @@
                             },
                             "value": "state",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "definite": false
                       }
@@ -21672,8 +21327,7 @@
                                 },
                                 "value": "nodeType",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "MemberExpression",
@@ -21701,8 +21355,7 @@
                                 },
                                 "value": "ModuleDeclaration",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           "consequent": {
@@ -21871,8 +21524,7 @@
                                         },
                                         "value": "modDeclChain",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "property": {
                                       "type": "Identifier",
@@ -21883,8 +21535,7 @@
                                       },
                                       "value": "pop",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "arguments": [],
                                   "typeArguments": null
@@ -21938,8 +21589,7 @@
                                         },
                                         "value": "modDeclChain",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "property": {
                                       "type": "Identifier",
@@ -21950,8 +21600,7 @@
                                       },
                                       "value": "length",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "NumericLiteral",
@@ -22026,8 +21675,7 @@
                                                 },
                                                 "value": "typeFlow",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "property": {
                                               "type": "Identifier",
@@ -22038,8 +21686,7 @@
                                               },
                                               "value": "checker",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "property": {
                                             "type": "Identifier",
@@ -22050,8 +21697,7 @@
                                             },
                                             "value": "currentModDecl",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "right": {
                                           "type": "MemberExpression",
@@ -22086,76 +21732,80 @@
                                               },
                                               "value": "modDeclChain",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "property": {
-                                            "type": "BinaryExpression",
+                                            "type": "Computed",
                                             "span": {
-                                              "start": 19393,
-                                              "end": 19424,
+                                              "start": 19392,
+                                              "end": 19425,
                                               "ctxt": 0
                                             },
-                                            "operator": "-",
-                                            "left": {
-                                              "type": "MemberExpression",
+                                            "expression": {
+                                              "type": "BinaryExpression",
                                               "span": {
                                                 "start": 19393,
-                                                "end": 19420,
+                                                "end": 19424,
                                                 "ctxt": 0
                                               },
-                                              "object": {
+                                              "operator": "-",
+                                              "left": {
                                                 "type": "MemberExpression",
                                                 "span": {
                                                   "start": 19393,
-                                                  "end": 19413,
+                                                  "end": 19420,
                                                   "ctxt": 0
                                                 },
                                                 "object": {
-                                                  "type": "Identifier",
+                                                  "type": "MemberExpression",
                                                   "span": {
                                                     "start": 19393,
-                                                    "end": 19400,
+                                                    "end": 19413,
                                                     "ctxt": 0
                                                   },
-                                                  "value": "context",
-                                                  "optional": false
+                                                  "object": {
+                                                    "type": "Identifier",
+                                                    "span": {
+                                                      "start": 19393,
+                                                      "end": 19400,
+                                                      "ctxt": 0
+                                                    },
+                                                    "value": "context",
+                                                    "optional": false
+                                                  },
+                                                  "property": {
+                                                    "type": "Identifier",
+                                                    "span": {
+                                                      "start": 19401,
+                                                      "end": 19413,
+                                                      "ctxt": 0
+                                                    },
+                                                    "value": "modDeclChain",
+                                                    "optional": false
+                                                  }
                                                 },
                                                 "property": {
                                                   "type": "Identifier",
                                                   "span": {
-                                                    "start": 19401,
-                                                    "end": 19413,
+                                                    "start": 19414,
+                                                    "end": 19420,
                                                     "ctxt": 0
                                                   },
-                                                  "value": "modDeclChain",
+                                                  "value": "length",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
-                                              "property": {
-                                                "type": "Identifier",
+                                              "right": {
+                                                "type": "NumericLiteral",
                                                 "span": {
-                                                  "start": 19414,
-                                                  "end": 19420,
+                                                  "start": 19423,
+                                                  "end": 19424,
                                                   "ctxt": 0
                                                 },
-                                                "value": "length",
-                                                "optional": false
-                                              },
-                                              "computed": false
-                                            },
-                                            "right": {
-                                              "type": "NumericLiteral",
-                                              "span": {
-                                                "start": 19423,
-                                                "end": 19424,
-                                                "ctxt": 0
-                                              },
-                                              "value": 1.0
+                                                "value": 1.0
+                                              }
                                             }
-                                          },
-                                          "computed": true
+                                          }
                                         }
                                       }
                                     }
@@ -22206,8 +21856,7 @@
                                   },
                                   "value": "nodeType",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "right": {
                                 "type": "MemberExpression",
@@ -22235,8 +21884,7 @@
                                   },
                                   "value": "ClassDeclaration",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             "consequent": {
@@ -22332,8 +21980,7 @@
                                     },
                                     "value": "nodeType",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "right": {
                                   "type": "MemberExpression",
@@ -22361,8 +22008,7 @@
                                     },
                                     "value": "InterfaceDeclaration",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               },
                               "consequent": {
@@ -22458,8 +22104,7 @@
                                       },
                                       "value": "nodeType",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "MemberExpression",
@@ -22487,8 +22132,7 @@
                                       },
                                       "value": "With",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 },
                                 "consequent": {
@@ -22584,8 +22228,7 @@
                                         },
                                         "value": "nodeType",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "MemberExpression",
@@ -22613,8 +22256,7 @@
                                         },
                                         "value": "FuncDecl",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     }
                                   },
                                   "consequent": {
@@ -22758,8 +22400,7 @@
                                                     },
                                                     "value": "isConstructor",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 }
                                               },
                                               "right": {
@@ -22808,8 +22449,7 @@
                                                         },
                                                         "value": "fncFlags",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     }
                                                   },
                                                   {
@@ -22840,8 +22480,7 @@
                                                         },
                                                         "value": "ClassMethod",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     }
                                                   }
                                                 ],
@@ -22883,8 +22522,7 @@
                                                 },
                                                 "value": "isOverload",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             }
                                           }
                                         },
@@ -22985,8 +22623,7 @@
                                           },
                                           "value": "nodeType",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "right": {
                                         "type": "MemberExpression",
@@ -23014,8 +22651,7 @@
                                           },
                                           "value": "Catch",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       }
                                     },
                                     "consequent": {
@@ -23128,8 +22764,7 @@
                                               },
                                               "value": "param",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "consequent": {
                                             "type": "BlockStatement",
@@ -23292,8 +22927,7 @@
                             },
                             "value": "options",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -23304,8 +22938,7 @@
                           },
                           "value": "goChildren",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",

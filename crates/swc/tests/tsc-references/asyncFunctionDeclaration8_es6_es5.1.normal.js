@@ -13,5 +13,4 @@ function _defineProperty(obj, key, value) {
 }
 // @target: ES6
 // @noEmitHelpers: true
-var v = _defineProperty({
-}, _await, foo);
+var v = _defineProperty({}, _await, foo);

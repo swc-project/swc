@@ -1,8 +1,7 @@
 !function(global, factory) {
     "object" == typeof exports && "undefined" != typeof module ? factory(exports) : "function" == typeof define && define.amd ? define([
         "exports"
-    ], factory) : factory((global = global || self).React = {
-    });
+    ], factory) : factory((global = global || self).React = {});
 }(this, function(exports) {
     "use strict";
     var specialPropKeyWarningShown, specialPropRefWarningShown, didWarnAboutStringRefs, prevLog, prevInfo, prevWarn, prevError, prevGroup, prevGroupCollapsed, prevGroupEnd, prefix, componentFrameCache, propTypesMisspellWarningShown, requestHostCallback, requestHostTimeout, cancelHostTimeout, shouldYieldToHost, requestPaint, getCurrentTime, forceFrameRate, REACT_ELEMENT_TYPE = 60103, REACT_PORTAL_TYPE = 60106;
@@ -35,8 +34,7 @@
         transition: 0
     }, ReactCurrentOwner = {
         current: null
-    }, ReactDebugCurrentFrame = {
-    }, currentExtraStackFrame = null;
+    }, ReactDebugCurrentFrame = {}, currentExtraStackFrame = null;
     function setExtraStackFrame(stack) {
         currentExtraStackFrame = stack;
     }
@@ -76,8 +74,7 @@
         argsWithFormat.unshift("Warning: " + format), Function.prototype.apply.call(console[level], console, argsWithFormat);
     }
     ReactSharedInternals.ReactDebugCurrentFrame = ReactDebugCurrentFrame;
-    var didWarnStateUpdateForUnmountedComponent = {
-    };
+    var didWarnStateUpdateForUnmountedComponent = {};
     function warnNoop(publicInstance, callerName) {
         var _constructor = publicInstance.constructor, componentName = _constructor && (_constructor.displayName || _constructor.name) || "ReactClass", warningKey = componentName + "." + callerName;
         didWarnStateUpdateForUnmountedComponent[warningKey] || (error1("Can't call %s on a component that is not yet mounted. This is a no-op, but it might indicate a bug in your application. Instead, assign to `this.state` directly or define a `state = {};` class property with the desired state in the %s component.", callerName, componentName), didWarnStateUpdateForUnmountedComponent[warningKey] = !0);
@@ -95,13 +92,11 @@
         enqueueSetState: function(publicInstance, partialState, callback, callerName) {
             warnNoop(publicInstance, "setState");
         }
-    }, emptyObject = {
-    };
+    }, emptyObject = {};
     function Component(props, context, updater) {
         this.props = props, this.context = context, this.refs = emptyObject, this.updater = updater || ReactNoopUpdateQueue;
     }
-    Object.freeze(emptyObject), Component.prototype.isReactComponent = {
-    }, Component.prototype.setState = function(partialState, callback) {
+    Object.freeze(emptyObject), Component.prototype.isReactComponent = {}, Component.prototype.setState = function(partialState, callback) {
         if (!("object" == typeof partialState || "function" == typeof partialState || null == partialState)) throw Error("setState(...): takes an object of state variables to update or a function which returns an object of state variables.");
         this.updater.enqueueSetState(this, partialState, callback, "setState");
     }, Component.prototype.forceUpdate = function(callback) {
@@ -116,14 +111,15 @@
             "replaceState",
             "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236)."
         ]
+    }, defineDeprecationWarning = function(methodName, info) {
+        Object.defineProperty(Component.prototype, methodName, {
+            get: function() {
+                warn("%s(...) is deprecated in plain JavaScript React classes. %s", info[0], info[1]);
+            }
+        });
     };
-    for(var fnName in deprecatedAPIs)deprecatedAPIs.hasOwnProperty(fnName) && (methodName = fnName, info1 = deprecatedAPIs[fnName], Object.defineProperty(Component.prototype, methodName, {
-        get: function() {
-            warn("%s(...) is deprecated in plain JavaScript React classes. %s", info1[0], info1[1]);
-        }
-    }));
-    function ComponentDummy() {
-    }
+    for(var fnName in deprecatedAPIs)deprecatedAPIs.hasOwnProperty(fnName) && defineDeprecationWarning(fnName, deprecatedAPIs[fnName]);
+    function ComponentDummy() {}
     function PureComponent(props, context, updater) {
         this.props = props, this.context = context, this.refs = emptyObject, this.updater = updater || ReactNoopUpdateQueue;
     }
@@ -192,8 +188,7 @@
         }
         return void 0 !== config.key;
     }
-    didWarnAboutStringRefs = {
-    };
+    didWarnAboutStringRefs = {};
     var ReactElement = function(type, key, ref, self, source, owner, props) {
         var element = {
             $$typeof: REACT_ELEMENT_TYPE,
@@ -203,8 +198,7 @@
             props: props,
             _owner: owner
         };
-        return element._store = {
-        }, Object.defineProperty(element._store, "validated", {
+        return element._store = {}, Object.defineProperty(element._store, "validated", {
             configurable: !1,
             enumerable: !1,
             writable: !0,
@@ -222,8 +216,7 @@
         }), Object.freeze && (Object.freeze(element.props), Object.freeze(element)), element;
     };
     function createElement(type, config1, children) {
-        var propName, props = {
-        }, key = null, ref = null, self = null, source = null;
+        var propName, props = {}, key = null, ref = null, self = null, source = null;
         if (null != config1) for(propName in hasValidRef(config1) && (ref = config1.ref, (function(config) {
             if ("string" == typeof config.ref && ReactCurrentOwner.current && config.__self && ReactCurrentOwner.current.stateNode !== config.__self) {
                 var componentName = getComponentName(ReactCurrentOwner.current.type);
@@ -258,8 +251,7 @@
     }
     function cloneElement(element, config, children) {
         if (!(null != element)) throw Error("React.cloneElement(...): The argument must be a React element, but you passed " + element + ".");
-        var propName, defaultProps, props = assign({
-        }, element.props), key = element.key, ref = element.ref, self = element._self, source = element._source, owner = element._owner;
+        var propName, defaultProps, props = assign({}, element.props), key = element.key, ref = element.ref, self = element._self, source = element._source, owner = element._owner;
         if (null != config) for(propName in hasValidRef(config) && (ref = config.ref, owner = ReactCurrentOwner.current), hasValidKey(config) && (key = "" + config.key), element.type && element.type.defaultProps && (defaultProps = element.type.defaultProps), config)hasOwnProperty$1.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName) && (void 0 === config[propName] && void 0 !== defaultProps ? props[propName] = defaultProps[propName] : props[propName] = config[propName]);
         var childrenLength = arguments.length - 2;
         if (1 === childrenLength) props.children = children;
@@ -272,7 +264,7 @@
     function isValidElement(object) {
         return "object" == typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
     }
-    var methodName, info1, didWarnAboutMaps = !1, userProvidedKeyEscapeRegex = /\/+/g;
+    var didWarnAboutMaps = !1, userProvidedKeyEscapeRegex = /\/+/g;
     function escapeUserProvidedKey(text) {
         return text.replace(userProvidedKeyEscapeRegex, "$&/");
     }
@@ -366,8 +358,7 @@
         return dispatcher;
     }
     var disabledDepth = 0;
-    function disabledLog() {
-    }
+    function disabledLog() {}
     disabledLog.__reactDisabledLog = !0;
     var ReactCurrentDispatcher$1 = ReactSharedInternals.ReactCurrentDispatcher;
     function describeBuiltInComponentFrame(name, source, ownerFn) {
@@ -460,32 +451,25 @@
                         writable: !0
                     };
                     Object.defineProperties(console, {
-                        log: assign({
-                        }, props, {
+                        log: assign({}, props, {
                             value: prevLog
                         }),
-                        info: assign({
-                        }, props, {
+                        info: assign({}, props, {
                             value: prevInfo
                         }),
-                        warn: assign({
-                        }, props, {
+                        warn: assign({}, props, {
                             value: prevWarn
                         }),
-                        error: assign({
-                        }, props, {
+                        error: assign({}, props, {
                             value: prevError
                         }),
-                        group: assign({
-                        }, props, {
+                        group: assign({}, props, {
                             value: prevGroup
                         }),
-                        groupCollapsed: assign({
-                        }, props, {
+                        groupCollapsed: assign({}, props, {
                             value: prevGroupCollapsed
                         }),
-                        groupEnd: assign({
-                        }, props, {
+                        groupEnd: assign({}, props, {
                             value: prevGroupEnd
                         })
                     });
@@ -523,14 +507,12 @@
                 var lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
                 try {
                     return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
-                } catch (x) {
-                }
+                } catch (x) {}
         }
         return "";
     }
     componentFrameCache = new ("function" == typeof WeakMap ? WeakMap : Map)();
-    var loggedTypeFailures = {
-    }, ReactDebugCurrentFrame$1 = ReactSharedInternals.ReactDebugCurrentFrame;
+    var loggedTypeFailures = {}, ReactDebugCurrentFrame$1 = ReactSharedInternals.ReactDebugCurrentFrame;
     function setCurrentlyValidatingElement(element) {
         if (element) {
             var owner = element._owner, stack = describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null);
@@ -551,8 +533,7 @@
         return "";
     }
     propTypesMisspellWarningShown = !1;
-    var ownerHasKeyUseWarning = {
-    };
+    var ownerHasKeyUseWarning = {};
     function validateExplicitKey(element, parentType1) {
         if (element._store && !element._store.validated && null == element.key) {
             element._store.validated = !0;
@@ -671,8 +652,7 @@
             clearTimeout(_timeoutID);
         }, shouldYieldToHost = function() {
             return !1;
-        }, requestPaint = forceFrameRate = function() {
-        };
+        }, requestPaint = forceFrameRate = function() {};
     } else {
         var _setTimeout = window.setTimeout, _clearTimeout = window.clearTimeout;
         if ("undefined" != typeof console) {
@@ -682,8 +662,7 @@
         var isMessageLoopRunning = !1, scheduledHostCallback = null, taskTimeoutID = -1, yieldInterval = 5, deadline = 0;
         shouldYieldToHost = function() {
             return getCurrentTime() >= deadline;
-        }, requestPaint = function() {
-        }, forceFrameRate = function(fps) {
+        }, requestPaint = function() {}, forceFrameRate = function(fps) {
             if (fps < 0 || fps > 125) {
                 console.error("forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported");
                 return;
@@ -767,10 +746,11 @@
     }
     function flushWork(hasTimeRemaining, initialTime) {
         isHostCallbackScheduled = !1, isHostTimeoutScheduled && (isHostTimeoutScheduled = !1, cancelHostTimeout()), isPerformingWork = !0;
+        var previousPriorityLevel = currentPriorityLevel;
         try {
             return workLoop(hasTimeRemaining, initialTime);
         } finally{
-            currentTask = null, currentPriorityLevel = currentPriorityLevel, isPerformingWork = !1;
+            currentTask = null, currentPriorityLevel = previousPriorityLevel, isPerformingWork = !1;
         }
     }
     function workLoop(hasTimeRemaining, initialTime) {
@@ -789,7 +769,7 @@
         var firstTimer = peek(timerQueue);
         return null !== firstTimer && requestHostTimeout(handleTimeout, firstTimer.startTime - currentTime), !1;
     }
-    var Scheduler = Object.freeze({
+    var unstable_requestPaint = requestPaint, Scheduler = Object.freeze({
         __proto__: null,
         unstable_ImmediatePriority: 1,
         unstable_UserBlockingPriority: 2,
@@ -808,7 +788,7 @@
                     priorityLevel = 3;
             }
             var previousPriorityLevel = currentPriorityLevel;
-            currentPriorityLevel = 3;
+            currentPriorityLevel = priorityLevel;
             try {
                 return eventHandler();
             } finally{
@@ -890,12 +870,11 @@
         get unstable_shouldYield () {
             return shouldYieldToHost;
         },
-        unstable_requestPaint: requestPaint,
+        unstable_requestPaint: unstable_requestPaint,
         unstable_continueExecution: function() {
             isHostCallbackScheduled || isPerformingWork || (isHostCallbackScheduled = !0, requestHostCallback(flushWork));
         },
-        unstable_pauseExecution: function() {
-        },
+        unstable_pauseExecution: function() {},
         unstable_getFirstCallbackNode: function() {
             return peek(taskQueue);
         },
@@ -1087,8 +1066,7 @@
     };
     ReactSharedInternals$1.ReactDebugCurrentFrame = ReactDebugCurrentFrame;
     try {
-        var frozenObject = Object.freeze({
-        });
+        var frozenObject = Object.freeze({});
         new Map([
             [
                 frozenObject,
@@ -1097,8 +1075,7 @@
         ]), new Set([
             frozenObject
         ]);
-    } catch (e) {
-    }
+    } catch (e) {}
     exports.Children = {
         map: mapChildren,
         forEach: function(children, forEachFunc, forEachContext) {
@@ -1125,10 +1102,10 @@
         for(var newElement = cloneElement.apply(this, arguments), i = 2; i < arguments.length; i++)validateChildKeys(arguments[i], newElement.type);
         return validatePropTypes(newElement), newElement;
     }, exports.createContext = function(defaultValue, calculateChangedBits) {
-        void 0 === calculateChangedBits && (calculateChangedBits = null);
+        void 0 === calculateChangedBits ? calculateChangedBits = null : null !== calculateChangedBits && "function" != typeof calculateChangedBits && error1("createContext: Expected the optional second argument to be a function. Instead received: %s", calculateChangedBits);
         var context = {
             $$typeof: REACT_CONTEXT_TYPE,
-            _calculateChangedBits: null,
+            _calculateChangedBits: calculateChangedBits,
             _currentValue: defaultValue,
             _currentValue2: defaultValue,
             _threadCount: 0,

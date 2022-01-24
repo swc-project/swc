@@ -101,7 +101,7 @@ impl CollectIdent for ModuleDecl {
                 }
             }
             ModuleDecl::ExportDecl(ExportDecl { decl, .. }) => decl.collect_ident(collection),
-            // no need to handle thest two as they aren't bindings
+            // no need to handle these two as they aren't bindings
             ModuleDecl::ExportNamed(_) => (),
             ModuleDecl::ExportAll(_) => (),
             ModuleDecl::ExportDefaultDecl(ExportDefaultDecl { decl, .. }) => match decl {
@@ -136,19 +136,19 @@ impl CollectIdent for ModuleDecl {
 }
 
 pub fn is_builtin_hook(name: &Ident) -> bool {
-    match name.sym.as_ref() {
+    matches!(
+        name.sym.as_ref(),
         "useState"
-        | "useReducer"
-        | "useEffect"
-        | "useLayoutEffect"
-        | "useMemo"
-        | "useCallback"
-        | "useRef"
-        | "useContext"
-        | "useImperativeHandle"
-        | "useDebugValue" => true,
-        _ => false,
-    }
+            | "useReducer"
+            | "useEffect"
+            | "useLayoutEffect"
+            | "useMemo"
+            | "useCallback"
+            | "useRef"
+            | "useContext"
+            | "useImperativeHandle"
+            | "useDebugValue"
+    )
 }
 
 pub fn is_body_arrow_fn(body: &BlockStmtOrExpr) -> bool {
@@ -164,13 +164,10 @@ fn assert_hygiene(e: &Expr) {
         return;
     }
 
-    match e {
-        Expr::Ident(i) => {
-            if i.span.ctxt == SyntaxContext::empty() {
-                panic!("`{}` should be resolved", i)
-            }
+    if let Expr::Ident(i) = e {
+        if i.span.ctxt == SyntaxContext::empty() {
+            panic!("`{}` should be resolved", i)
         }
-        _ => {}
     }
 }
 
@@ -180,7 +177,7 @@ pub fn make_assign_stmt(handle: Ident, expr: Box<Expr>) -> Expr {
     Expr::Assign(AssignExpr {
         span: expr.span(),
         op: op!("="),
-        left: PatOrExpr::Pat(Box::new(Pat::Ident(BindingIdent::from(handle.clone())))),
+        left: PatOrExpr::Pat(handle.into()),
         right: expr,
     })
 }
@@ -195,25 +192,30 @@ pub fn make_call_stmt(handle: Ident) -> Stmt {
 pub fn make_call_expr(handle: Ident) -> Expr {
     Expr::Call(CallExpr {
         span: DUMMY_SP,
-        callee: ExprOrSuper::Expr(Box::new(Expr::Ident(handle))),
+        callee: Callee::Expr(Box::new(Expr::Ident(handle))),
         args: Vec::new(),
         type_args: None,
     })
 }
 
 pub fn is_import_or_require(expr: &Expr) -> bool {
-    if let Expr::Call(CallExpr {
-        callee: ExprOrSuper::Expr(expr),
-        ..
-    }) = expr
-    {
-        if let Expr::Ident(ident) = expr.as_ref() {
-            if ident.sym.contains("require") || ident.sym.contains("import") {
-                return true;
+    match expr {
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(expr),
+            ..
+        }) => {
+            if let Expr::Ident(ident) = expr.as_ref() {
+                ident.sym.contains("require")
+            } else {
+                false
             }
         }
+        Expr::Call(CallExpr {
+            callee: Callee::Import(_),
+            ..
+        }) => true,
+        _ => false,
     }
-    false
 }
 
 pub struct UsedInJsx(AHashSet<JsWord>);
@@ -224,16 +226,13 @@ impl Visit for UsedInJsx {
     fn visit_call_expr(&mut self, n: &CallExpr) {
         n.visit_children_with(self);
 
-        if let ExprOrSuper::Expr(expr) = &n.callee {
+        if let Callee::Expr(expr) = &n.callee {
             let ident = match expr.as_ref() {
                 Expr::Ident(ident) => ident,
-                Expr::Member(MemberExpr { prop, .. }) => {
-                    if let Expr::Ident(ident) = prop.as_ref() {
-                        ident
-                    } else {
-                        return;
-                    }
-                }
+                Expr::Member(MemberExpr {
+                    prop: MemberProp::Ident(ident),
+                    ..
+                }) => ident,
                 _ => return,
             };
             if matches!(

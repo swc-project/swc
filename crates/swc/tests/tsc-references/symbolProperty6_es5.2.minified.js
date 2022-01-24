@@ -15,8 +15,7 @@ var _key, tmp = (_key = Symbol.iterator, Symbol.toPrimitive), tmp1 = Symbol.toSt
     return Constructor = C, protoProps = [
         {
             key: tmp,
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: tmp1,

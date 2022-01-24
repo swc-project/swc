@@ -47,8 +47,7 @@
             },
             "value": "default",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -197,8 +196,7 @@
             },
             "value": "bar",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null

@@ -2,11 +2,9 @@
 // @allowJs: true
 // @checkJs: true
 // @Filename: mod.js
-const util = exports = module.exports = {
-};
+const util = exports = module.exports = {};
 if (!!false) {
-    util.existy = function() {
-    };
+    util.existy = function() {};
 }
 // @Filename: use.js
 const util = require('./mod');

@@ -27,8 +27,7 @@ if (typeof window !== "undefined") {
 } else if (typeof self !== "undefined") {
     globalContext = self;
 } else {
-    globalContext = {
-    };
+    globalContext = {};
 }
 if (typeof globalContext.setTimeout === "function") {
     cachedSetTimeout = setTimeout;
@@ -136,14 +135,10 @@ var platform = "browser";
 var browser = true;
 var argv = [];
 var version = "";
-var versions = {
-};
-var release = {
-};
-var config = {
-};
-function noop() {
-}
+var versions = {};
+var release = {};
+var config = {};
+function noop() {}
 var on = noop;
 var addListener = noop;
 var once = noop;
@@ -163,8 +158,7 @@ function chdir(dir) {
 function umask() {
     return 0;
 }
-var performance = globalContext.performance || {
-};
+var performance = globalContext.performance || {};
 var performanceNow = performance.now || performance.mozNow || performance.msNow || performance.oNow || performance.webkitNow || function() {
     return new Date().getTime();
 };
@@ -229,18 +223,15 @@ function getUserAgent() {
 }
 function lowercaseKeys(object) {
     if (!object) {
-        return {
-        };
+        return {};
     }
     return Object.keys(object).reduce((newObj, key)=>{
         newObj[key.toLowerCase()] = object[key];
         return newObj;
-    }, {
-    });
+    }, {});
 }
 function mergeDeep(defaults, options) {
-    const result = Object.assign({
-    }, defaults);
+    const result = Object.assign({}, defaults);
     Object.keys(options).forEach((key)=>{
         if (isPlainObject(options[key])) {
             if (!(key in defaults)) Object.assign(result, {
@@ -273,14 +264,12 @@ function merge(defaults, route, options) {
             url: method
         }, options);
     } else {
-        options = Object.assign({
-        }, route);
+        options = Object.assign({}, route);
     }
     options.headers = lowercaseKeys(options.headers);
     removeUndefinedProperties(options);
     removeUndefinedProperties(options.headers);
-    const mergedOptions = mergeDeep(defaults || {
-    }, options);
+    const mergedOptions = mergeDeep(defaults || {}, options);
     if (defaults && defaults.mediaType.previews.length) {
         mergedOptions.mediaType.previews = defaults.mediaType.previews.filter((preview)=>!mergedOptions.mediaType.previews.includes(preview)
         ).concat(mergedOptions.mediaType.previews);
@@ -319,8 +308,7 @@ function omit(object, keysToOmit) {
     ).reduce((obj, key)=>{
         obj[key] = object[key];
         return obj;
-    }, {
-    });
+    }, {});
 }
 function encodeReserved(str) {
     return str.split(/(%[0-9A-Fa-f]{2})/g).map(function(part) {
@@ -451,8 +439,7 @@ function expand(template, context) {
 function parse(options) {
     let method = options.method.toUpperCase();
     let url = (options.url || "/").replace(/:([a-z]\w+)/g, "{$1}");
-    let headers = Object.assign({
-    }, options.headers);
+    let headers = Object.assign({}, options.headers);
     let body;
     let parameters = omit(options, [
         "method",
@@ -632,13 +619,10 @@ class RequestError extends Error {
                 return statusCode;
             }
         });
-        this.headers = options.headers || {
-        };
-        const requestCopy = Object.assign({
-        }, options.request);
+        this.headers = options.headers || {};
+        const requestCopy = Object.assign({}, options.request);
         if (options.request.headers.authorization) {
-            requestCopy.headers = Object.assign({
-            }, options.request.headers, {
+            requestCopy.headers = Object.assign({}, options.request.headers, {
                 authorization: options.request.headers.authorization.replace(/ .*$/, " [REDACTED]")
             });
         }
@@ -671,8 +655,7 @@ function fetchWrapper(requestOptions) {
     if (isPlainObject(requestOptions.body) || Array.isArray(requestOptions.body)) {
         requestOptions.body = JSON.stringify(requestOptions.body);
     }
-    let headers = {
-    };
+    let headers = {};
     let status;
     let url;
     const fetch = requestOptions.request && requestOptions.request.fetch || nodeFetch;
@@ -716,8 +699,7 @@ function fetchWrapper(requestOptions) {
                     Object.assign(error, responseBody);
                     let errors = responseBody.errors;
                     error.message = error.message + ": " + errors.map(JSON.stringify).join(", ");
-                } catch (e) {
-                }
+                } catch (e) {}
                 throw error;
             });
         }

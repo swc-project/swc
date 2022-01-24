@@ -318,34 +318,27 @@ function _templateObject27() {
 }
 //@target: es6
 // Generic tag with one parameter
-function noParams(n) {
-}
+function noParams(n) {}
 noParams(_templateObject());
 // Generic tag with parameter which does not use type parameter
-function noGenericParams(n) {
-}
+function noGenericParams(n) {}
 noGenericParams(_templateObject1());
 // Generic tag with multiple type parameters and only one used in parameter type annotation
-function someGenerics1a(n, m) {
-}
+function someGenerics1a(n, m) {}
 someGenerics1a(_templateObject2(), 3);
-function someGenerics1b(n, m) {
-}
+function someGenerics1b(n, m) {}
 someGenerics1b(_templateObject3(), 3);
 // Generic tag with argument of function type whose parameter is of type parameter type
-function someGenerics2a(strs, n) {
-}
+function someGenerics2a(strs, n) {}
 someGenerics2a(_templateObject4(), function(n) {
     return n;
 });
-function someGenerics2b(strs, n) {
-}
+function someGenerics2b(strs, n) {}
 someGenerics2b(_templateObject5(), function(n, x) {
     return n;
 });
 // Generic tag with argument of function type whose parameter is not of type parameter type but body/return type uses type parameter
-function someGenerics3(strs, producer) {
-}
+function someGenerics3(strs, producer) {}
 someGenerics3(_templateObject6(), function() {
     return '';
 });
@@ -356,8 +349,7 @@ someGenerics3(_templateObject8(), function() {
     return 3;
 });
 // 2 parameter generic tag with argument 1 of type parameter type and argument 2 of function type whose parameter is of type parameter type
-function someGenerics4(strs, n, f) {
-}
+function someGenerics4(strs, n, f) {}
 someGenerics4(_templateObject9(), 4, function() {
     return null;
 });
@@ -366,8 +358,7 @@ someGenerics4(_templateObject10(), '', function() {
 });
 someGenerics4(_templateObject11(), null, null);
 // 2 parameter generic tag with argument 2 of type parameter type and argument 1 of function type whose parameter is of type parameter type
-function someGenerics5(strs, n, f) {
-}
+function someGenerics5(strs, n, f) {}
 someGenerics5(_templateObject12(), 4, function() {
     return null;
 });
@@ -376,8 +367,7 @@ someGenerics5(_templateObject13(), '', function() {
 });
 someGenerics5(_templateObject14(), null, null);
 // Generic tag with multiple arguments of function types that each have parameters of the same generic type
-function someGenerics6(strs, a, b, c) {
-}
+function someGenerics6(strs, a, b, c) {}
 someGenerics6(_templateObject15(), function(n) {
     return n;
 }, function(n) {
@@ -400,8 +390,7 @@ someGenerics6(_templateObject17(), function(n) {
     return n;
 });
 // Generic tag with multiple arguments of function types that each have parameters of different generic type
-function someGenerics7(strs, a, b, c) {
-}
+function someGenerics7(strs, a, b, c) {}
 someGenerics7(_templateObject18(), function(n) {
     return n;
 }, function(n) {

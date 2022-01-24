@@ -11,13 +11,11 @@ function _extends() {
 !function(M1) {
     var React;
     M1.React = React;
-}(M || (M = {
-})), (function(M) {
+}(M || (M = {})), (function(M) {
     var foo;
     React.createElement("div", _extends({
         x: ""
     }, foo, {
         y: ""
     })), React.createElement("div", null, "This \"quote\" thing");
-})(M || (M = {
-}));
+})(M || (M = {}));

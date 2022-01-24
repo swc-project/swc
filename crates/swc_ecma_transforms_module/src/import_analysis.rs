@@ -53,26 +53,17 @@ impl Visit for ImportAnalyzer {
     fn visit_call_expr(&mut self, n: &CallExpr) {
         n.visit_children_with(self);
         let mut scope = self.scope.borrow_mut();
-        match &n.callee {
-            ExprOrSuper::Expr(callee) => match &**callee {
-                Expr::Ident(callee) => {
-                    if callee.sym == js_word!("import") {
-                        if let Some(ExprOrSpread { spread: None, expr }) = n.args.first() {
-                            match &**expr {
-                                Expr::Lit(Lit::Str(src)) => {
-                                    *scope.import_types.entry(src.value.clone()).or_default() =
-                                        true;
-                                }
-                                _ => {
-                                    scope.unknown_imports.0 = true;
-                                }
-                            }
-                        }
+        if let Callee::Import(..) = &n.callee {
+            if let Some(ExprOrSpread { spread: None, expr }) = n.args.first() {
+                match &**expr {
+                    Expr::Lit(Lit::Str(src)) => {
+                        *scope.import_types.entry(src.value.clone()).or_default() = true;
+                    }
+                    _ => {
+                        scope.unknown_imports.0 = true;
                     }
                 }
-                _ => {}
-            },
-            _ => {}
+            }
         }
     }
 
@@ -91,10 +82,7 @@ impl Visit for ImportAnalyzer {
             // import 'foo';
             //   -> require('foo');
         } else if import.specifiers.len() == 1
-            && match import.specifiers[0] {
-                ImportSpecifier::Namespace(..) => true,
-                _ => false,
-            }
+            && matches!(import.specifiers[0], ImportSpecifier::Namespace(..))
         {
             if &*import.src.value != "@swc/helpers" {
                 scope.import_types.insert(import.src.value.clone(), true);
@@ -121,6 +109,13 @@ impl Visit for ImportAnalyzer {
                             ref imported,
                             ..
                         } = *i;
+                        let imported = match imported {
+                            Some(ModuleExportName::Ident(ident)) => Some(ident),
+                            Some(ModuleExportName::Str(..)) => {
+                                unimplemented!("module string names unimplemented")
+                            }
+                            _ => None,
+                        };
                         let name = imported
                             .as_ref()
                             .map(|i| i.sym.clone())
@@ -151,10 +146,11 @@ impl Visit for ImportAnalyzer {
     }
 
     fn visit_named_export(&mut self, export: &NamedExport) {
-        if export.specifiers.iter().any(|v| match v {
-            ExportSpecifier::Namespace(..) => true,
-            _ => false,
-        }) {
+        if export
+            .specifiers
+            .iter()
+            .any(|v| matches!(v, ExportSpecifier::Namespace(..)))
+        {
             let mut scope = self.scope.borrow_mut();
 
             if let Some(ref src) = export.src {
@@ -170,6 +166,10 @@ impl Visit for ImportAnalyzer {
                 _ => None,
             })
         {
+            let orig = match orig {
+                ModuleExportName::Ident(ident) => ident,
+                _ => unimplemented!("module string names unimplemented"),
+            };
             let is_import_default = orig.sym == js_word!("default");
 
             if let Some(ref src) = export.src {

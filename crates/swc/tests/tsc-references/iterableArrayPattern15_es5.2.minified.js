@@ -22,9 +22,6 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var arr, _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
 function _unsupportedIterableToArray(o, minLen) {
     if (o) {
         if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
@@ -48,30 +45,26 @@ var Bar = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(Foo, Bar1);
-    var _super = function(Derived) {
-        var hasNativeReflectConstruct = function() {
-            if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-            if (Reflect.construct.sham) return !1;
-            if ("function" == typeof Proxy) return !0;
-            try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
-            } catch (e) {
-                return !1;
-            }
-        }();
-        return function() {
-            var self, call, result, Super = _getPrototypeOf(Derived);
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else result = Super.apply(this, arguments);
-            return self = this, (call = result) && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-                return self;
-            })(self);
-        };
-    }(Foo);
+    var Derived, hasNativeReflectConstruct, _super = (Derived = Foo, hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+        } catch (e) {
+            return !1;
+        }
+    }(), function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    });
     function Foo() {
         return _classCallCheck(this, Foo), _super.apply(this, arguments);
     }
@@ -126,9 +119,11 @@ var Bar = function() {
     }());
     __tmp[0], __tmp[1];
 }).apply(void 0, function(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}(arr = new FooIterator) || function(iter) {
-    if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
-}(arr) || _unsupportedIterableToArray(arr) || function() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}());
+    return (function(arr) {
+        if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+    })(arr) || (function(iter) {
+        if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
+    })(arr) || _unsupportedIterableToArray(arr) || (function() {
+        throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    })();
+}(new FooIterator));

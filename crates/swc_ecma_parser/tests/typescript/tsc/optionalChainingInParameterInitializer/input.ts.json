@@ -233,8 +233,7 @@
                       },
                       "value": "d",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 "typeAnnotation": null

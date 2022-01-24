@@ -22,7 +22,7 @@ mod util;
 static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
-    Arc::new(Compiler::new(cm.clone()))
+    Arc::new(Compiler::new(cm))
 });
 
 #[napi::module_init]
@@ -54,6 +54,7 @@ pub struct JsCompiler {
 #[napi]
 impl JsCompiler {
     #[napi(constructor)]
+    #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
         Self {
             _compiler: COMPILER.clone(),

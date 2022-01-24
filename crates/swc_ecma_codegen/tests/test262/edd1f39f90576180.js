@@ -1,4 +1,3 @@
-try {
-} catch (a) {
+try {} catch (a) {
     b(a);
 }

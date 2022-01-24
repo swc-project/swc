@@ -4,12 +4,10 @@ Object.defineProperty(exports, "__esModule", {
 }), exports.default = void 0;
 var a = require("react/jsx-runtime"), b = function(a) {
     if (a && a.__esModule) return a;
-    var b = {
-    };
+    var b = {};
     if (null != a) {
         for(var c in a)if (Object.prototype.hasOwnProperty.call(a, c)) {
-            var d = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(a, c) : {
-            };
+            var d = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(a, c) : {};
             d.get || d.set ? Object.defineProperty(b, c, d) : b[c] = a[c];
         }
     }
@@ -40,8 +38,7 @@ function f(a) {
 }
 function g(a) {
     for(var c = 1; c < arguments.length; c++){
-        var d = null != arguments[c] ? arguments[c] : {
-        }, f = Object.keys(d);
+        var d = null != arguments[c] ? arguments[c] : {}, f = Object.keys(d);
         "function" == typeof Object.getOwnPropertySymbols && (f = f.concat(Object.getOwnPropertySymbols(d).filter(function(a) {
             return Object.getOwnPropertyDescriptor(d, a).enumerable;
         }))), f.forEach(function(c) {
@@ -67,35 +64,31 @@ var i = function(b) {
             }
         }), b && h(a, b);
     }(i, b);
-    var c, e, j, k = function(b) {
-        var c = function() {
-            if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-            if (Reflect.construct.sham) return !1;
-            if ("function" == typeof Proxy) return !0;
-            try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
-            } catch (a) {
-                return !1;
-            }
-        }();
-        return function() {
-            var a, d, e, g, h = f(b);
-            if (c) {
-                var i = f(this).constructor;
-                g = Reflect.construct(h, arguments, i);
-            } else g = h.apply(this, arguments);
-            return d = this, (e = g) && ("object" == ((a = e) && "undefined" != typeof Symbol && a.constructor === Symbol ? "symbol" : typeof a) || "function" == typeof e) ? e : (function(d) {
-                if (void 0 === d) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-                return d;
-            })(d);
-        };
-    }(i);
+    var c, e, j, k, l, m = (k = i, l = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+        } catch (a) {
+            return !1;
+        }
+    }(), function() {
+        var a, b, c, d, e = f(k);
+        if (l) {
+            var g = f(this).constructor;
+            d = Reflect.construct(e, arguments, g);
+        } else d = e.apply(this, arguments);
+        return b = this, (c = d) && ("object" == ((a = c) && "undefined" != typeof Symbol && a.constructor === Symbol ? "symbol" : typeof a) || "function" == typeof c) ? c : (function(b) {
+            if (void 0 === b) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return b;
+        })(b);
+    });
     function i() {
         var a;
         return !function(a, c) {
             if (!(a instanceof c)) throw new TypeError("Cannot call a class as a function");
-        }(this, i), a = k.apply(this, arguments), a.storeHighlightedItemReference = function(b) {
+        }(this, i), a = m.apply(this, arguments), a.storeHighlightedItemReference = function(b) {
             a.props.onHighlightedItemChange(null === b ? null : b.item);
         }, a;
     }
@@ -121,8 +114,7 @@ var i = function(b) {
                             id: k(i, d),
                             "aria-selected": m
                         }, l(p, "item", 0 === d && "itemFirst", m && "itemHighlighted"), q);
-                        return m && (r.ref = b.storeHighlightedItemReference), a.jsx(Item, g({
-                        }, r, {
+                        return m && (r.ref = b.storeHighlightedItemReference), a.jsx(Item, g({}, r, {
                             sectionIndex: i,
                             isHighlighted: m,
                             itemIndex: d,

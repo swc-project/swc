@@ -47,8 +47,7 @@
             },
             "value": "j",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -102,8 +101,7 @@
             },
             "value": "k",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "UnaryExpression",
@@ -207,8 +205,7 @@
             },
             "value": "x",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -262,8 +259,7 @@
             },
             "value": "y",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "UnaryExpression",
@@ -326,8 +322,7 @@
             },
             "value": "x",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -355,8 +350,7 @@
             },
             "value": "y",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -427,8 +421,7 @@
                   },
                   "value": "p",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -480,8 +473,7 @@
                   },
                   "value": "q",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "UnaryExpression",
@@ -603,8 +595,7 @@
             },
             "value": "p",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -632,8 +623,7 @@
             },
             "value": "q",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },

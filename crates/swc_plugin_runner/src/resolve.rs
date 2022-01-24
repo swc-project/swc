@@ -9,6 +9,14 @@ use std::{
     sync::Arc,
 };
 use swc_common::collections::AHashMap;
+use wasmer_cache::FileSystemCache;
+
+/// Type of cache to store compiled bytecodes of plugins.
+/// Currently only supports filesystem, but _may_ supports
+/// other type (in-memory, etcs) for the long-running processes like devserver.
+pub enum PluginCache {
+    File(FileSystemCache),
+}
 
 /// TODO: Cache
 pub fn resolve(name: &str) -> Result<Arc<PathBuf>, Error> {
@@ -26,7 +34,7 @@ pub fn resolve(name: &str) -> Result<Arc<PathBuf>, Error> {
     let mut errors = vec![];
 
     while let Some(base_dir) = dir {
-        let res = check_node_modules(&base_dir, name);
+        let res = check_node_modules(base_dir, name);
         match res {
             Ok(Some(path)) => {
                 return Ok(path);
@@ -44,6 +52,33 @@ pub fn resolve(name: &str) -> Result<Arc<PathBuf>, Error> {
     bail!("failed to resolve plugin `{}`:\n{:?}", name, errors)
 }
 
+/// Build a path to cache location where plugin's bytecode cache will be stored.
+/// This fn does a side effect to create path to cache if given path is not
+/// resolvable. If root is not specified, it'll generate default root for cache
+/// location.
+///
+/// Note SWC's plugin should not fail to load when cache location is not
+/// available. It'll make each invocation to cold start.
+pub fn resolve_plugin_cache_root(root: Option<String>) -> Result<PluginCache, Error> {
+    let root_path = match root {
+        Some(root) => {
+            let mut root = PathBuf::from(root);
+            root.push("plugins");
+            root
+        }
+        None => {
+            let mut cwd = current_dir().context("failed to get current directory")?;
+            cwd.push(".swc");
+            cwd.push("plugins");
+            cwd
+        }
+    };
+
+    FileSystemCache::new(root_path)
+        .map(PluginCache::File)
+        .context("Failed to create cache location for the plugins")
+}
+
 #[derive(Deserialize)]
 struct PkgJson {
     main: String,
@@ -57,8 +92,8 @@ fn read_main_field(dir: &Path, json_path: &Path) -> Result<PathBuf, Error> {
 }
 
 fn pkg_name_without_scope(pkg_name: &str) -> &str {
-    if pkg_name.contains("/") {
-        pkg_name.split("/").nth(1).unwrap()
+    if pkg_name.contains('/') {
+        pkg_name.split('/').nth(1).unwrap()
     } else {
         pkg_name
     }
@@ -95,7 +130,7 @@ fn resolve_using_package_json(dir: &Path, pkg_name: &str) -> Result<PathBuf, Err
                 continue;
             }
 
-            let dep_pkg_dir_name = pkg_name_without_scope(&dep_pkg_name);
+            let dep_pkg_dir_name = pkg_name_without_scope(dep_pkg_name);
 
             let dep_pkg = node_modules.join(dep_pkg_dir_name);
 
@@ -121,7 +156,7 @@ fn check_node_modules(base_dir: &Path, name: &str) -> Result<Option<Arc<PathBuf>
 
         let mut errors = vec![];
 
-        if !name.contains("@") {
+        if !name.contains('@') {
             let swc_plugin_dir = node_modules_dir
                 .join("@swc")
                 .join(format!("plugin-{}", name));
@@ -141,7 +176,7 @@ fn check_node_modules(base_dir: &Path, name: &str) -> Result<Option<Arc<PathBuf>
         {
             let exact = node_modules_dir.join(name);
             if exact.is_dir() {
-                let res = resolve_using_package_json(&exact, pkg_name_without_scope(&name));
+                let res = resolve_using_package_json(&exact, pkg_name_without_scope(name));
 
                 match res {
                     Ok(v) => return Ok(Some(v)),
@@ -160,7 +195,7 @@ fn check_node_modules(base_dir: &Path, name: &str) -> Result<Option<Arc<PathBuf>
     }
 
     static CACHE: Lazy<Mutex<AHashMap<(PathBuf, String), Option<Arc<PathBuf>>>>> =
-        Lazy::new(|| Default::default());
+        Lazy::new(Default::default);
 
     let key = (base_dir.to_path_buf(), name.to_string());
     if let Some(cached) = CACHE.lock().get(&key).cloned() {

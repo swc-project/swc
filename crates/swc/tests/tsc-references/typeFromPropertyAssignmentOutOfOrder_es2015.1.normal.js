@@ -11,9 +11,6 @@ Workspace.Object = class extends Common.Object {
 };
 /** @type {Workspace.Object} */ var am;
 // @filename: roots.js
-var First = {
-};
-var Common = {
-};
-var Workspace = {
-};
+var First = {};
+var Common = {};
+var Workspace = {};

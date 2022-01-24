@@ -15,8 +15,7 @@ var tmp = Symbol.iterator, C = function() {
     return Constructor = C, protoProps = [
         {
             key: tmp,
-            value: function(x) {
-            }
+            value: function(x) {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }(), c = new C;

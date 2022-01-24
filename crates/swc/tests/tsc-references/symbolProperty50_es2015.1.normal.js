@@ -3,8 +3,6 @@ var M;
 (function(M) {
     var tmp = Symbol.iterator;
     class C {
-        [tmp]() {
-        }
+        [tmp]() {}
     }
-})(M || (M = {
-}));
+})(M || (M = {}));

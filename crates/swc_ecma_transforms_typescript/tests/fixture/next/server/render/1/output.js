@@ -105,10 +105,8 @@ function checkRedirectValues(redirect, req, method) {
 }
 export async function renderToHTML(req, res, pathname, query, renderOpts) {
     renderOpts.devOnlyCacheBusterQueryString = renderOpts.dev ? renderOpts.devOnlyCacheBusterQueryString || `?ts=${Date.now()}` : "";
-    query = Object.assign({
-    }, query);
-    const { err , dev =false , ampPath ="" , App , Document , pageConfig ={
-    } , Component , buildManifest , fontManifest , reactLoadableManifest , ErrorDebug , getStaticProps , getStaticPaths , getServerSideProps , isDataReq , params , previewProps , basePath , devOnlyCacheBusterQueryString , supportsDynamicHTML , concurrentFeatures  } = renderOpts;
+    query = Object.assign({}, query);
+    const { err , dev =false , ampPath ="" , App , Document , pageConfig ={} , Component , buildManifest , fontManifest , reactLoadableManifest , ErrorDebug , getStaticProps , getStaticPaths , getServerSideProps , isDataReq , params , previewProps , basePath , devOnlyCacheBusterQueryString , supportsDynamicHTML , concurrentFeatures  } = renderOpts;
     const getFontDefinition = (url)=>{
         if (fontManifest) {
             return getFontDefinitionFromManifest(url, fontManifest);
@@ -116,8 +114,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         return "";
     };
     const callMiddleware = async (method, args, props = false)=>{
-        let results = props ? {
-        } : [];
+        let results = props ? {} : [];
         if (Document[`${method}Middleware`]) {
             let middlewareFunc = await Document[`${method}Middleware`];
             middlewareFunc = middlewareFunc.default || middlewareFunc;
@@ -190,8 +187,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
             query = {
                 ...query.amp ? {
                     amp: query.amp
-                } : {
-                }
+                } : {}
             };
             asPath = `${pathname}${req.url.endsWith("/") && pathname !== "/" && !pageIsDynamic ? "/" : ""}`;
             req.url = pathname;
@@ -257,8 +253,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     const inAmpMode = isInAmpMode(ampState);
     const reactLoadableModules = [];
     let head1 = defaultHead(inAmpMode);
-    let scriptLoader = {
-    };
+    let scriptLoader = {};
     const nextExport = !isSSG && (renderOpts.nextExport || dev && (isAutoExport || isFallback));
     const AppContainer = ({ children  })=><RouterContext.Provider value={router}>
 
@@ -271,8 +266,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
             updateScripts: (scripts)=>{
                 scriptLoader = scripts;
             },
-            scripts: {
-            },
+            scripts: {},
             mountedInstances: new Set()
         }}>
 
@@ -384,8 +378,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         } else {
             data.revalidate = false;
         }
-        props1.pageProps = Object.assign({
-        }, props1.pageProps, "props" in data ? data.props : undefined);
+        props1.pageProps = Object.assign({}, props1.pageProps, "props" in data ? data.props : undefined);
         renderOpts.revalidate = "revalidate" in data ? data.revalidate : undefined;
         renderOpts.pageData = props1;
         if (renderOpts.isNotFound) {
@@ -471,20 +464,17 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         if ((dev || isBuildTimeSSG) && !isSerializableProps(pathname, "getServerSideProps", data.props)) {
             throw new Error("invariant: getServerSideProps did not return valid props. Please report this.");
         }
-        props1.pageProps = Object.assign({
-        }, props1.pageProps, data.props);
+        props1.pageProps = Object.assign({}, props1.pageProps, data.props);
         renderOpts.pageData = props1;
     }
-    if (!isSSG && !getServerSideProps && process.env.NODE_ENV !== "production" && Object.keys(props1?.pageProps || {
-    }).includes("url")) {
+    if (!isSSG && !getServerSideProps && process.env.NODE_ENV !== "production" && Object.keys(props1?.pageProps || {}).includes("url")) {
         console.warn(`The prop \`url\` is a reserved prop in Next.js for legacy reasons and will be overridden on page ${pathname}\n` + `See more info here: https://nextjs.org/docs/messages/reserved-page-prop`);
     }
     if (isDataReq && !isSSG || renderOpts.isRedirect) {
         return RenderResult.fromStatic(JSON.stringify(props1));
     }
     if (isFallback) {
-        props1.pageProps = {
-        };
+        props1.pageProps = {};
     }
     if (isResSent(res) && !isSSG) return null;
     let filteredBuildManifest = buildManifest;
@@ -509,8 +499,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     const generateStaticHTML = supportsDynamicHTML !== true;
     const renderDocument = async ()=>{
         if (Document.getInitialProps) {
-            const renderPage = (options = {
-            })=>{
+            const renderPage = (options = {})=>{
                 if (ctx.err && ErrorDebug) {
                     const html = ReactDOMServer.renderToString(<ErrorDebug error={ctx.err}/>);
                     return {
@@ -587,8 +576,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         }
     }
     const hybridAmp = ampState.hybrid;
-    const docComponentsRendered = {
-    };
+    const docComponentsRendered = {};
     const { assetPrefix , buildId , customServer , defaultLocale , disableOptimizedLoading , domainLocales , locale , locales , runtimeConfig  } = renderOpts;
     const htmlProps1 = {
         __NEXT_DATA__: {

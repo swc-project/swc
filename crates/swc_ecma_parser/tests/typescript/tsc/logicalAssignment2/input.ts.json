@@ -769,8 +769,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -798,8 +797,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -844,8 +842,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -873,8 +870,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -919,8 +915,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -948,8 +943,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -1001,24 +995,30 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
-          },
-          "property": {
-            "type": "StringLiteral",
-            "span": {
-              "start": 388,
-              "end": 393,
-              "ctxt": 0
-            },
-            "value": "baz",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
             }
           },
-          "computed": true
+          "property": {
+            "type": "Computed",
+            "span": {
+              "start": 387,
+              "end": 394,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 388,
+                "end": 393,
+                "ctxt": 0
+              },
+              "value": "baz",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -1053,8 +1053,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1065,8 +1064,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -1118,24 +1116,30 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
-          },
-          "property": {
-            "type": "StringLiteral",
-            "span": {
-              "start": 420,
-              "end": 425,
-              "ctxt": 0
-            },
-            "value": "baz",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
             }
           },
-          "computed": true
+          "property": {
+            "type": "Computed",
+            "span": {
+              "start": 419,
+              "end": 426,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 420,
+                "end": 425,
+                "ctxt": 0
+              },
+              "value": "baz",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -1170,8 +1174,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1182,8 +1185,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -1235,24 +1237,30 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
-          },
-          "property": {
-            "type": "StringLiteral",
-            "span": {
-              "start": 452,
-              "end": 457,
-              "ctxt": 0
-            },
-            "value": "baz",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
             }
           },
-          "computed": true
+          "property": {
+            "type": "Computed",
+            "span": {
+              "start": 451,
+              "end": 458,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 452,
+                "end": 457,
+                "ctxt": 0
+              },
+              "value": "baz",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -1287,8 +1295,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1299,8 +1306,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -1366,8 +1372,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -1378,8 +1383,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1393,8 +1397,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -1443,8 +1446,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -1455,8 +1457,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1470,8 +1471,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -1537,8 +1537,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -1549,8 +1548,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1564,8 +1562,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -1614,8 +1611,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -1626,8 +1622,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1641,8 +1636,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -1708,8 +1702,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -1720,8 +1713,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1735,8 +1727,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -1785,8 +1776,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -1797,8 +1787,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1812,8 +1801,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

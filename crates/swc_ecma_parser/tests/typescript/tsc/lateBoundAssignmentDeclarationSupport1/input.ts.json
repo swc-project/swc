@@ -137,16 +137,23 @@
             "optional": false
           },
           "property": {
-            "type": "Identifier",
+            "type": "Computed",
             "span": {
-              "start": 227,
-              "end": 231,
+              "start": 226,
+              "end": 232,
               "ctxt": 0
             },
-            "value": "_sym",
-            "optional": false
-          },
-          "computed": true
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 227,
+                "end": 231,
+                "ctxt": 0
+              },
+              "value": "_sym",
+              "optional": false
+            }
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -197,16 +204,23 @@
             "optional": false
           },
           "property": {
-            "type": "Identifier",
+            "type": "Computed",
             "span": {
-              "start": 249,
-              "end": 253,
+              "start": 248,
+              "end": 254,
               "ctxt": 0
             },
-            "value": "_str",
-            "optional": false
-          },
-          "computed": true
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 249,
+                "end": 253,
+                "ctxt": 0
+              },
+              "value": "_str",
+              "optional": false
+            }
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -265,8 +279,7 @@
             },
             "value": "S",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -396,20 +409,27 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 382,
-                "end": 395,
+                "start": 381,
+                "end": 396,
                 "ctxt": 0
               },
-              "value": "my-fake-sym",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 382,
+                  "end": 395,
+                  "ctxt": 0
+                },
+                "value": "my-fake-sym",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "definite": false
         }
@@ -461,35 +481,41 @@
               "optional": false
             },
             "property": {
-              "type": "MemberExpression",
+              "type": "Computed",
               "span": {
-                "start": 410,
-                "end": 413,
+                "start": 409,
+                "end": 414,
                 "ctxt": 0
               },
-              "object": {
-                "type": "Identifier",
+              "expression": {
+                "type": "MemberExpression",
                 "span": {
                   "start": 410,
-                  "end": 411,
-                  "ctxt": 0
-                },
-                "value": "x",
-                "optional": false
-              },
-              "property": {
-                "type": "Identifier",
-                "span": {
-                  "start": 412,
                   "end": 413,
                   "ctxt": 0
                 },
-                "value": "S",
-                "optional": false
-              },
-              "computed": false
-            },
-            "computed": true
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 410,
+                    "end": 411,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 412,
+                    "end": 413,
+                    "ctxt": 0
+                  },
+                  "value": "S",
+                  "optional": false
+                }
+              }
+            }
           },
           "definite": false
         }

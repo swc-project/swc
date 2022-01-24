@@ -30,8 +30,7 @@ function _defineProperty(obj, key, value) {
     }
     return obj;
 }
-function foo(x) {
-}
+function foo(x) {}
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -40,15 +39,12 @@ var C = /*#__PURE__*/ function() {
     _createClass(C, [
         {
             key: "foo",
-            value: function foo(x) {
-            }
+            value: function foo(x) {}
         }
     ]);
     return C;
 }();
 var a;
 var b = _defineProperty({
-    foo: function foo(x) {
-    }
-}, "foo", function foo(x) {
-});
+    foo: function foo(x) {}
+}, "foo", function foo(x) {});

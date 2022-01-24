@@ -8,7 +8,8 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{pass::RepeatedJsPass, scope::IdentType};
 use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, Id};
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, visit_obj_and_computed, Visit, VisitMut,
+    VisitMutWith, VisitWith,
 };
 use tracing::{span, Level};
 
@@ -124,18 +125,14 @@ impl VisitMut for Inlining<'_> {
                 match &mut e.left {
                     PatOrExpr::Expr(left) => {
                         //
-                        match &**left {
-                            Expr::Member(ref left) => {
-                                tracing::trace!("Assign to member expression!");
-                                let mut v = IdentListVisitor {
-                                    scope: &mut self.scope,
-                                };
+                        if let Expr::Member(ref left) = &**left {
+                            tracing::trace!("Assign to member expression!");
+                            let mut v = IdentListVisitor {
+                                scope: &mut self.scope,
+                            };
 
-                                left.visit_with(&mut v);
-                                e.right.visit_with(&mut v);
-                            }
-
-                            _ => {}
+                            left.visit_with(&mut v);
+                            e.right.visit_with(&mut v);
                         }
                     }
                     PatOrExpr::Pat(p) => {
@@ -166,26 +163,23 @@ impl VisitMut for Inlining<'_> {
         }
 
         //
-        match e.left.as_ident() {
-            Some(i) => {
-                let id = i.to_id();
-                self.scope.add_write(&id, false);
+        if let Some(i) = e.left.as_ident() {
+            let id = i.to_id();
+            self.scope.add_write(&id, false);
 
-                if let Some(var) = self.scope.find_binding(&id) {
-                    if !var.is_inline_prevented() {
-                        match *e.right {
-                            Expr::Lit(..) | Expr::Ident(..) => {
-                                *var.value.borrow_mut() = Some(*e.right.clone());
-                            }
+            if let Some(var) = self.scope.find_binding(&id) {
+                if !var.is_inline_prevented() {
+                    match *e.right {
+                        Expr::Lit(..) | Expr::Ident(..) => {
+                            *var.value.borrow_mut() = Some(*e.right.clone());
+                        }
 
-                            _ => {
-                                *var.value.borrow_mut() = None;
-                            }
+                        _ => {
+                            *var.value.borrow_mut() = None;
                         }
                     }
                 }
             }
-            _ => {}
         }
     }
 
@@ -197,12 +191,8 @@ impl VisitMut for Inlining<'_> {
         node.callee.visit_mut_with(self);
 
         if self.phase == Phase::Analysis {
-            match node.callee {
-                ExprOrSuper::Expr(ref callee) => {
-                    self.scope.mark_this_sensitive(&callee);
-                }
-
-                _ => {}
+            if let Callee::Expr(ref callee) = node.callee {
+                self.scope.mark_this_sensitive(callee);
             }
         }
 
@@ -262,98 +252,90 @@ impl VisitMut for Inlining<'_> {
         //
         // We cannot know if this is possible while analysis phase
         if self.phase == Phase::Inlining {
-            match node {
-                Expr::Assign(e @ AssignExpr { op: op!("="), .. }) => {
-                    if let Some(i) = e.left.as_ident() {
-                        if let Some(var) = self.scope.find_binding_from_current(&i.to_id()) {
-                            if var.is_undefined.get() && !var.is_inline_prevented() {
-                                if !self.scope.is_inline_prevented(&e.right) {
-                                    *var.value.borrow_mut() = Some(*e.right.clone());
-                                    var.is_undefined.set(false);
-                                    *node = *e.right.take();
-                                    return;
-                                }
-                            }
-                        }
-                    }
-
-                    return;
-                }
-
-                _ => {}
-            }
-        }
-
-        match node {
-            Expr::Ident(ref i) => {
-                let id = i.to_id();
-                if self.is_first_run {
-                    if let Some(expr) = self.scope.find_constant(&id) {
-                        self.changed = true;
-                        let mut expr = expr.clone();
-                        expr.visit_mut_with(self);
-                        *node = expr;
-                        return;
-                    }
-                }
-
-                match self.phase {
-                    Phase::Analysis => {
-                        if self.in_test {
-                            if let Some(var) = self.scope.find_binding(&id) {
-                                match &*var.value.borrow() {
-                                    Some(Expr::Ident(..)) | Some(Expr::Lit(..)) => {}
-                                    _ => {
-                                        self.scope.prevent_inline(&id);
-                                    }
-                                }
-                            }
-                        }
-                        self.scope.add_read(&id);
-                    }
-                    Phase::Inlining => {
-                        tracing::trace!("Trying to inline: {:?}", id);
-                        let expr = if let Some(var) = self.scope.find_binding(&id) {
-                            tracing::trace!("VarInfo: {:?}", var);
-                            if !var.is_inline_prevented() {
-                                let expr = var.value.borrow();
-
-                                if let Some(expr) = &*expr {
-                                    tracing::debug!("Inlining: {:?}", id);
-
-                                    if *node != *expr {
-                                        self.changed = true;
-                                    }
-
-                                    Some(expr.clone())
-                                } else {
-                                    tracing::debug!("Inlining: {:?} as undefined", id);
-
-                                    if var.is_undefined.get() {
-                                        *node = *undefined(i.span);
-                                        return;
-                                    } else {
-                                        tracing::trace!("Not a cheap expression");
-                                        None
-                                    }
-                                }
-                            } else {
-                                tracing::trace!("Inlining is prevented");
-                                None
-                            }
-                        } else {
-                            None
-                        };
-
-                        if let Some(expr) = expr {
-                            *node = expr.clone();
+            if let Expr::Assign(e @ AssignExpr { op: op!("="), .. }) = node {
+                if let Some(i) = e.left.as_ident() {
+                    if let Some(var) = self.scope.find_binding_from_current(&i.to_id()) {
+                        if var.is_undefined.get()
+                            && !var.is_inline_prevented()
+                            && !self.scope.is_inline_prevented(&e.right)
+                        {
+                            *var.value.borrow_mut() = Some(*e.right.clone());
+                            var.is_undefined.set(false);
+                            *node = *e.right.take();
                             return;
                         }
                     }
                 }
+
+                return;
+            }
+        }
+
+        if let Expr::Ident(ref i) = node {
+            let id = i.to_id();
+            if self.is_first_run {
+                if let Some(expr) = self.scope.find_constant(&id) {
+                    self.changed = true;
+                    let mut expr = expr.clone();
+                    expr.visit_mut_with(self);
+                    *node = expr;
+                    return;
+                }
             }
 
-            _ => {}
+            match self.phase {
+                Phase::Analysis => {
+                    if self.in_test {
+                        if let Some(var) = self.scope.find_binding(&id) {
+                            match &*var.value.borrow() {
+                                Some(Expr::Ident(..)) | Some(Expr::Lit(..)) => {}
+                                _ => {
+                                    self.scope.prevent_inline(&id);
+                                }
+                            }
+                        }
+                    }
+                    self.scope.add_read(&id);
+                }
+                Phase::Inlining => {
+                    tracing::trace!("Trying to inline: {:?}", id);
+                    let expr = if let Some(var) = self.scope.find_binding(&id) {
+                        tracing::trace!("VarInfo: {:?}", var);
+                        if !var.is_inline_prevented() {
+                            let expr = var.value.borrow();
+
+                            if let Some(expr) = &*expr {
+                                tracing::debug!("Inlining: {:?}", id);
+
+                                if *node != *expr {
+                                    self.changed = true;
+                                }
+
+                                Some(expr.clone())
+                            } else {
+                                tracing::debug!("Inlining: {:?} as undefined", id);
+
+                                if var.is_undefined.get() {
+                                    *node = *undefined(i.span);
+                                    return;
+                                } else {
+                                    tracing::trace!("Not a cheap expression");
+                                    None
+                                }
+                            }
+                        } else {
+                            tracing::trace!("Inlining is prevented");
+                            None
+                        }
+                    } else {
+                        None
+                    };
+
+                    if let Some(expr) = expr {
+                        *node = expr;
+                    }
+                }
+            }
         }
     }
 
@@ -460,7 +442,10 @@ impl VisitMut for Inlining<'_> {
             node.params.visit_mut_with(child);
             match &mut node.body {
                 None => None,
-                Some(v) => Some(v.visit_mut_children_with(child)),
+                Some(v) => {
+                    v.visit_mut_children_with(child);
+                    Some(())
+                }
             };
         })
     }
@@ -473,13 +458,6 @@ impl VisitMut for Inlining<'_> {
 
         self.visit_with_child(ScopeKind::Cond, &mut stmt.cons);
         self.visit_with_child(ScopeKind::Cond, &mut stmt.alt);
-    }
-
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
-        if e.computed {
-            e.prop.visit_mut_with(self);
-        }
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
@@ -513,12 +491,12 @@ impl VisitMut for Inlining<'_> {
     fn visit_mut_pat(&mut self, node: &mut Pat) {
         node.visit_mut_children_with(self);
 
-        match node {
-            Pat::Ident(ref i) => match self.pat_mode {
+        if let Pat::Ident(ref i) = node {
+            match self.pat_mode {
                 PatFoldingMode::Param => {
                     self.declare(
                         i.to_id(),
-                        Some(Cow::Owned(Expr::Ident(i.id.clone().into()))),
+                        Some(Cow::Owned(Expr::Ident(i.id.clone()))),
                         false,
                         VarType::Param,
                     );
@@ -526,7 +504,7 @@ impl VisitMut for Inlining<'_> {
                 PatFoldingMode::CatchParam => {
                     self.declare(
                         i.to_id(),
-                        Some(Cow::Owned(Expr::Ident(i.id.clone().into()))),
+                        Some(Cow::Owned(Expr::Ident(i.id.clone()))),
                         false,
                         VarType::Var(VarDeclKind::Var),
                     );
@@ -538,9 +516,7 @@ impl VisitMut for Inlining<'_> {
                         self.scope.add_write(&i.to_id(), false);
                     }
                 }
-            },
-
-            _ => {}
+            }
         }
     }
 
@@ -577,17 +553,13 @@ impl VisitMut for Inlining<'_> {
     }
 
     fn visit_mut_unary_expr(&mut self, node: &mut UnaryExpr) {
-        match node.op {
-            op!("delete") => {
-                let mut v = IdentListVisitor {
-                    scope: &mut self.scope,
-                };
+        if let op!("delete") = node.op {
+            let mut v = IdentListVisitor {
+                scope: &mut self.scope,
+            };
 
-                node.arg.visit_with(&mut v);
-                return;
-            }
-
-            _ => {}
+            node.arg.visit_with(&mut v);
+            return;
         }
 
         node.visit_mut_children_with(self)
@@ -614,8 +586,8 @@ impl VisitMut for Inlining<'_> {
         self.pat_mode = PatFoldingMode::VarDecl;
 
         match self.phase {
-            Phase::Analysis => match node.name {
-                Pat::Ident(ref name) => {
+            Phase::Analysis => {
+                if let Pat::Ident(ref name) = node.name {
                     //
                     match &node.init {
                         None => {
@@ -643,15 +615,15 @@ impl VisitMut for Inlining<'_> {
 
                         // Bindings
                         Some(e) | Some(e) if e.is_lit() || e.is_ident() => {
-                            self.declare(name.to_id(), Some(Cow::Borrowed(&e)), false, kind);
+                            self.declare(name.to_id(), Some(Cow::Borrowed(e)), false, kind);
 
-                            if self.scope.is_inline_prevented(&e) {
+                            if self.scope.is_inline_prevented(e) {
                                 self.scope.prevent_inline(&name.to_id());
                             }
                         }
                         Some(ref e) => {
                             if self.var_decl_kind != VarDeclKind::Const {
-                                self.declare(name.to_id(), Some(Cow::Borrowed(&e)), false, kind);
+                                self.declare(name.to_id(), Some(Cow::Borrowed(e)), false, kind);
 
                                 if contains_this_expr(&node.init) {
                                     self.scope.prevent_inline(&name.to_id());
@@ -661,93 +633,84 @@ impl VisitMut for Inlining<'_> {
                         }
                     }
                 }
-                _ => {}
-            },
+            }
             Phase::Inlining => {
-                match node.name {
-                    Pat::Ident(ref name) => {
-                        if self.var_decl_kind != VarDeclKind::Const {
-                            let id = name.to_id();
+                if let Pat::Ident(ref name) = node.name {
+                    if self.var_decl_kind != VarDeclKind::Const {
+                        let id = name.to_id();
 
-                            tracing::trace!("Trying to optimize variable declaration: {:?}", id);
+                        tracing::trace!("Trying to optimize variable declaration: {:?}", id);
 
-                            if self
-                                .scope
-                                .is_inline_prevented(&Expr::Ident(name.id.clone().into()))
-                                || !self
-                                    .scope
-                                    .has_same_this(&id, node.init.as_ref().map(|v| &**v))
-                            {
-                                tracing::trace!("Inline is prevented for {:?}", id);
+                        if self
+                            .scope
+                            .is_inline_prevented(&Expr::Ident(name.id.clone()))
+                            || !self.scope.has_same_this(&id, node.init.as_deref())
+                        {
+                            tracing::trace!("Inline is prevented for {:?}", id);
+                            return;
+                        }
+
+                        let mut init = node.init.take();
+                        init.visit_mut_with(self);
+                        tracing::trace!("\tInit: {:?}", init);
+
+                        if let Some(init) = &init {
+                            if let Expr::Ident(ri) = &**init {
+                                self.declare(
+                                    name.to_id(),
+                                    Some(Cow::Owned(Expr::Ident(ri.clone()))),
+                                    false,
+                                    kind,
+                                );
+                            }
+                        }
+
+                        if let Some(ref e) = init {
+                            if self.scope.is_inline_prevented(e) {
+                                tracing::trace!(
+                                    "Inlining is not possible as inline of the initialization was \
+                                     prevented"
+                                );
+                                node.init = init;
+                                self.scope.prevent_inline(&name.to_id());
                                 return;
                             }
+                        }
 
-                            let mut init = node.init.take();
-                            init.visit_mut_with(self);
-                            tracing::trace!("\tInit: {:?}", init);
-
-                            if let Some(init) = &init {
-                                if let Expr::Ident(ri) = &**init {
-                                    self.declare(
-                                        name.to_id(),
-                                        Some(Cow::Owned(Expr::Ident(ri.clone()))),
-                                        false,
-                                        kind,
-                                    );
+                        let e = match init {
+                            None => None,
+                            Some(e) if e.is_lit() || e.is_ident() => Some(e),
+                            Some(e) => {
+                                let e = *e;
+                                if self
+                                    .scope
+                                    .is_inline_prevented(&Expr::Ident(name.id.clone()))
+                                {
+                                    node.init = Some(Box::new(e));
+                                    return;
                                 }
-                            }
 
-                            match init {
-                                Some(ref e) => {
-                                    if self.scope.is_inline_prevented(&e) {
-                                        tracing::trace!(
-                                            "Inlining is not possible as inline of the \
-                                             initialization was prevented"
-                                        );
-                                        node.init = init;
-                                        self.scope.prevent_inline(&name.to_id());
-                                        return;
-                                    }
-                                }
-                                _ => {}
-                            }
-
-                            let e = match init {
-                                None => None,
-                                Some(e) if e.is_lit() || e.is_ident() => Some(e),
-                                Some(e) => {
-                                    let e = *e;
-                                    if self
-                                        .scope
-                                        .is_inline_prevented(&Expr::Ident(name.id.clone()))
-                                    {
-                                        node.init = Some(Box::new(e));
-                                        return;
-                                    }
-
-                                    if let Some(cnt) = self.scope.read_cnt(&name.to_id()) {
-                                        if cnt == 1 {
-                                            Some(Box::new(e))
-                                        } else {
-                                            node.init = Some(Box::new(e));
-                                            return;
-                                        }
+                                if let Some(cnt) = self.scope.read_cnt(&name.to_id()) {
+                                    if cnt == 1 {
+                                        Some(Box::new(e))
                                     } else {
                                         node.init = Some(Box::new(e));
                                         return;
                                     }
+                                } else {
+                                    node.init = Some(Box::new(e));
+                                    return;
                                 }
-                            };
+                            }
+                        };
 
-                            // tracing::trace!("({}): Inserting {:?}", self.scope.depth(),
-                            // name.to_id());
+                        // tracing::trace!("({}): Inserting {:?}", self.scope.depth(),
+                        // name.to_id());
 
-                            self.declare(name.to_id(), e.map(|e| Cow::Owned(*e)), false, kind);
+                        self.declare(name.to_id(), e.map(|e| Cow::Owned(*e)), false, kind);
 
-                            return;
-                        }
+                        return;
                     }
-                    _ => {}
                 }
             }
         }
@@ -779,13 +742,7 @@ impl Visit for IdentListVisitor<'_, '_> {
         self.scope.add_write(&node.to_id(), true);
     }
 
-    fn visit_member_expr(&mut self, node: &MemberExpr) {
-        node.obj.visit_with(self);
-
-        if node.computed {
-            node.prop.visit_with(self);
-        }
-    }
+    visit_obj_and_computed!();
 }
 
 /// Mark idents as `written`.
@@ -800,11 +757,5 @@ impl Visit for WriteVisitor<'_, '_> {
         self.scope.add_write(&node.to_id(), false);
     }
 
-    fn visit_member_expr(&mut self, node: &MemberExpr) {
-        node.obj.visit_with(self);
-
-        if node.computed {
-            node.prop.visit_with(self);
-        }
-    }
+    visit_obj_and_computed!();
 }

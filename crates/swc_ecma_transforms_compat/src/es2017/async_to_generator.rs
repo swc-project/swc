@@ -1,11 +1,11 @@
-use std::{iter, mem::replace};
-use swc_common::{util::take::Take, Mark, Span, Spanned, DUMMY_SP};
+use std::iter;
+use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    contains_ident_ref, contains_this_expr,
-    function::{FunctionWrapper, WrapperState},
+    contains_this_expr,
+    function::{FnEnvHoister, FnWrapperResult, FunctionWrapper},
     private_ident, quote_ident, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
@@ -40,8 +40,8 @@ pub fn async_to_generator() -> impl Fold + VisitMut {
 struct AsyncToGenerator;
 
 struct Actual {
-    in_prototype_assignment: bool,
     extra_stmts: Vec<Stmt>,
+    hoist_stmts: Vec<Stmt>,
 }
 
 #[fast_path(ShouldWork)]
@@ -67,11 +67,12 @@ impl AsyncToGenerator {
 
         for mut stmt in stmts.drain(..) {
             let mut actual = Actual {
-                in_prototype_assignment: false,
                 extra_stmts: vec![],
+                hoist_stmts: vec![],
             };
 
             stmt.visit_mut_with(&mut actual);
+            stmts_updated.extend(actual.hoist_stmts.into_iter().map(T::from_stmt));
             stmts_updated.push(stmt);
             stmts_updated.extend(actual.extra_stmts.into_iter().map(T::from_stmt));
         }
@@ -85,31 +86,6 @@ impl AsyncToGenerator {
 impl VisitMut for Actual {
     noop_visit_mut_type!();
 
-    /// Removes nested binds like `(function(){}).bind(this).bind(this)`
-    fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
-        n.visit_mut_children_with(self);
-
-        if let Some(callee) = extract_callee_of_bind_this(n) {
-            match callee {
-                Expr::Call(callee_of_callee) => {
-                    if let Some(..) = extract_callee_of_bind_this(callee_of_callee) {
-                        // We found bind(this).bind(this)
-                        *n = replace(
-                            callee_of_callee,
-                            CallExpr {
-                                span: DUMMY_SP,
-                                callee: ExprOrSuper::Super(Super { span: DUMMY_SP }),
-                                args: Default::default(),
-                                type_args: Default::default(),
-                            },
-                        );
-                    }
-                }
-                _ => {}
-            }
-        }
-    }
-
     fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
         if m.function.body.is_none() {
             return;
@@ -119,32 +95,15 @@ impl VisitMut for Actual {
         }
         let params = m.function.params.clone();
 
-        let mut folder = MethodFolder {
-            vars: vec![],
-            scope_ident: WrapperState::default(),
-        };
+        let mut visitor = FnEnvHoister::default();
         m.function.params.clear();
 
-        m.function.visit_mut_children_with(&mut folder);
+        m.function.body.visit_mut_with(&mut visitor);
 
-        let expr = make_fn_ref(
-            FnExpr {
-                ident: None,
-                function: m.function.take(),
-            },
-            false,
-        );
-
-        let hoisted_super = if folder.vars.is_empty() {
-            None
-        } else {
-            Some(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                decls: folder.vars,
-                declare: false,
-            })))
-        };
+        let expr = make_fn_ref(FnExpr {
+            ident: None,
+            function: m.function.take(),
+        });
 
         m.function = Function {
             span: m.span,
@@ -153,9 +112,9 @@ impl VisitMut for Actual {
             params,
             body: Some(BlockStmt {
                 span: DUMMY_SP,
-                stmts: hoisted_super
+                stmts: visitor
+                    .to_stmt()
                     .into_iter()
-                    .chain(folder.scope_ident.to_stmt().into_iter())
                     .chain(iter::once(Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(Box::new(Expr::Call(CallExpr {
@@ -174,184 +133,7 @@ impl VisitMut for Actual {
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        match expr {
-            Expr::Paren(ParenExpr { expr, .. }) => {
-                expr.visit_mut_with(self);
-                return;
-            }
-
-            // Optimization for iife.
-            Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(callee),
-                args,
-                type_args,
-            }) if callee.is_fn_expr() => {
-                *expr = self.handle_iife(
-                    *span,
-                    &mut (*callee).take().expect_fn_expr(),
-                    args,
-                    type_args.take(),
-                );
-                return;
-            }
-
-            Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(callee),
-                args,
-                type_args,
-            }) if match &**callee {
-                Expr::Paren(ParenExpr { expr, .. }) => match &**expr {
-                    Expr::Fn(..) => true,
-                    _ => false,
-                },
-                _ => false,
-            } =>
-            {
-                *expr = self.handle_iife(
-                    *span,
-                    &mut (*callee).take().expect_paren().expr.expect_fn_expr(),
-                    args,
-                    type_args.take(),
-                );
-                return;
-            }
-
-            Expr::Assign(assign_expr) => {
-                // flag if expression is assignment to prototype chain should not try to bind
-                // this context
-                match &assign_expr.left {
-                    PatOrExpr::Pat(pat) => match &**pat {
-                        Pat::Expr(pat_expr) => match &**pat_expr {
-                            Expr::Member(MemberExpr {
-                                obj: ExprOrSuper::Expr(ex),
-                                computed: false,
-                                ..
-                            }) => match &**ex {
-                                Expr::Member(MemberExpr {
-                                    prop,
-                                    computed: false,
-                                    ..
-                                }) => match &**prop {
-                                    Expr::Ident(ident) => {
-                                        self.in_prototype_assignment = *ident.sym == *"prototype";
-                                    }
-                                    _ => {}
-                                },
-                                _ => {}
-                            },
-                            _ => {}
-                        },
-                        _ => {}
-                    },
-                    _ => {}
-                }
-
-                assign_expr.visit_mut_children_with(self);
-                self.in_prototype_assignment = false;
-                return;
-            }
-            _ => {}
-        }
-
-        expr.visit_mut_children_with(self);
-
-        match expr {
-            Expr::Arrow(ArrowExpr {
-                is_async: true,
-                span,
-                params,
-                body,
-                is_generator,
-                type_params,
-                return_type,
-            }) => {
-                // Apply arrow
-                let used_this = contains_this_expr(body);
-
-                let fn_expr = FnExpr {
-                    ident: None,
-                    function: Function {
-                        decorators: vec![],
-                        span: *span,
-                        params: params
-                            .into_iter()
-                            .map(|pat| Param {
-                                span: DUMMY_SP,
-                                decorators: Default::default(),
-                                pat: pat.take(),
-                            })
-                            .collect(),
-                        is_async: true,
-                        is_generator: *is_generator,
-                        body: Some(match body.take() {
-                            BlockStmtOrExpr::BlockStmt(block) => block,
-                            BlockStmtOrExpr::Expr(expr) => BlockStmt {
-                                span: DUMMY_SP,
-                                stmts: vec![Stmt::Return(ReturnStmt {
-                                    span: expr.span(),
-                                    arg: Some(expr),
-                                })],
-                            },
-                        }),
-                        type_params: type_params.take(),
-                        return_type: return_type.take(),
-                    },
-                };
-
-                if !used_this {
-                    *expr = make_fn_ref(fn_expr, false);
-                    return;
-                }
-
-                *expr = Expr::Call(CallExpr {
-                    span: span.take(),
-                    callee: make_fn_ref(fn_expr, false)
-                        .make_member(quote_ident!("bind"))
-                        .as_callee(),
-                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                    type_args: Default::default(),
-                });
-            }
-
-            Expr::Fn(
-                fn_expr @ FnExpr {
-                    function:
-                        Function {
-                            is_async: true,
-                            body: Some(..),
-                            ..
-                        },
-                    ..
-                },
-            ) => {
-                self.visit_fn(fn_expr.ident.clone(), &mut fn_expr.function, false);
-
-                let function = fn_expr.function.take();
-                let body = Some(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: self
-                        .extra_stmts
-                        .drain(..)
-                        .chain(function.body.unwrap().stmts)
-                        .collect(),
-                });
-
-                *expr = Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: Expr::Fn(FnExpr {
-                        ident: None,
-                        function: Function { body, ..function },
-                    })
-                    .as_callee(),
-                    args: vec![],
-                    type_args: Default::default(),
-                });
-            }
-
-            _ => {}
-        }
+        self.visit_mut_expr_with_binding(expr, None);
     }
 
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
@@ -360,7 +142,15 @@ impl VisitMut for Actual {
             return;
         }
 
-        self.visit_fn(Some(f.ident.clone()), &mut f.function, true);
+        let mut wrapper = FunctionWrapper::from(f.take());
+
+        let fn_expr = wrapper.function.fn_expr().unwrap();
+
+        wrapper.function = make_fn_ref(fn_expr);
+
+        let FnWrapperResult { name_fn, ref_fn } = wrapper.into();
+        *f = name_fn;
+        self.extra_stmts.push(Stmt::Decl(ref_fn.into()));
     }
 
     fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
@@ -369,13 +159,22 @@ impl VisitMut for Actual {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export_default)) => {
                 if let DefaultDecl::Fn(expr) = &mut export_default.decl {
                     if expr.function.is_async {
-                        self.visit_fn(expr.ident.clone(), &mut expr.function, true);
-                        *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
+                        let mut wrapper = FunctionWrapper::from(expr.take());
+
+                        let fn_expr = wrapper.function.fn_expr().unwrap();
+
+                        wrapper.function = make_fn_ref(fn_expr);
+
+                        let FnWrapperResult { name_fn, ref_fn } = wrapper.into();
+
+                        *item = ModuleItem::ModuleDecl(
                             ExportDefaultDecl {
-                                decl: DefaultDecl::Fn(expr.take()),
-                                ..*export_default
-                            },
-                        ));
+                                span: export_default.span,
+                                decl: name_fn.into(),
+                            }
+                            .into(),
+                        );
+                        self.extra_stmts.push(Stmt::Decl(ref_fn.into()));
                     };
                 } else {
                     export_default.visit_mut_children_with(self);
@@ -404,16 +203,13 @@ impl VisitMut for Actual {
         };
         prop.function.span = prop_method_body_span;
 
-        let fn_ref = make_fn_ref(
-            FnExpr {
-                ident: None,
-                function: Function {
-                    params: vec![],
-                    ..prop.function.take()
-                },
+        let fn_ref = make_fn_ref(FnExpr {
+            ident: None,
+            function: Function {
+                params: vec![],
+                ..prop.function.take()
             },
-            true,
-        );
+        });
 
         let fn_ref = if is_this_used {
             fn_ref.apply(
@@ -449,499 +245,82 @@ impl VisitMut for Actual {
     }
 
     fn visit_mut_stmts(&mut self, _n: &mut Vec<Stmt>) {}
-}
 
-/// Hoists super access
-///
-/// ## In
-///
-/// ```js
-/// class Foo {
-///     async foo () {
-///         super.getter
-///         super.setter = 1
-///         super.method()
-///     }
-/// }
-/// ```
-///
-/// ## OUt
-///
-/// ```js
-/// class Foo {
-///     var _super_getter = () => super.getter;
-///     var _super_setter = (v) => super.setter = v;
-///     var _super_method = (...args) => super.method(args);
-///     foo () {
-///         super.getter
-///         super.setter = 1
-///         super.method()
-///     }
-/// }
-/// ```
-struct MethodFolder {
-    vars: Vec<VarDeclarator>,
-    scope_ident: WrapperState,
-}
+    fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
+        if let VarDeclarator {
+            name: Pat::Ident(BindingIdent { id, .. }),
+            init: Some(init),
+            ..
+        } = var
+        {
+            match init.as_ref() {
+                Expr::Fn(FnExpr {
+                    ident: None,
+                    ref function,
+                }) if function.is_async || function.is_generator => {
+                    self.visit_mut_expr_with_binding(init, Some(id.clone()));
+                    return;
+                }
 
-impl MethodFolder {
-    fn handle_assign_to_super_prop(
-        &mut self,
-        span: Span,
-        left: MemberExpr,
-        op: AssignOp,
-        right: Box<Expr>,
-    ) -> Expr {
-        let MemberExpr {
-            span: m_span,
-            obj,
-            computed,
-            prop,
-        } = left;
-        let super_token = match obj {
-            ExprOrSuper::Super(super_token) => super_token,
-            _ => unreachable!("handle_assign_to_super_prop does not accept non-super object"),
-        };
+                Expr::Arrow(arrow_expr) if arrow_expr.is_async || arrow_expr.is_generator => {
+                    self.visit_mut_expr_with_binding(init, Some(id.clone()));
+                    return;
+                }
 
-        let (mark, ident) = self.ident_for_super(&prop);
-        let args_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_args");
-
-        self.vars.push(VarDeclarator {
-            span: DUMMY_SP,
-            name: Pat::Ident(ident.clone().into()),
-            init: Some(Box::new(Expr::Arrow(ArrowExpr {
-                span: DUMMY_SP,
-                is_async: false,
-                is_generator: false,
-                params: vec![Pat::Ident(args_ident.clone().into())],
-                body: BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    left: PatOrExpr::Expr(Box::new(
-                        MemberExpr {
-                            span: m_span,
-                            obj: ExprOrSuper::Super(super_token),
-                            computed,
-                            prop,
-                        }
-                        .into(),
-                    )),
-                    op,
-                    right: Box::new(args_ident.into()),
-                }))),
-                type_params: Default::default(),
-                return_type: Default::default(),
-            }))),
-            definite: false,
-        });
-
-        Expr::Call(CallExpr {
-            span,
-            callee: ident.as_callee(),
-            args: vec![right.as_arg()],
-            type_args: Default::default(),
-        })
-    }
-    fn ident_for_super(&mut self, prop: &Expr) -> (Mark, Ident) {
-        let mark = Mark::fresh(Mark::root());
-        let prop_span = prop.span();
-        let mut ident = match *prop {
-            Expr::Ident(ref ident) => quote_ident!(prop_span, format!("_super_{}", ident.sym)),
-            _ => quote_ident!(prop_span, "_super_method"),
-        };
-        ident.span = ident.span.apply_mark(mark);
-        (mark, ident)
-    }
-}
-
-impl VisitMut for MethodFolder {
-    noop_visit_mut_type!();
-
-    fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        match expr {
-            // TODO: handle arrow with this in constructor once we remove all this bind
-            Expr::Arrow(ArrowExpr { body, .. }) => {
-                body.visit_mut_with(&mut FunctionWrapper::new(&mut self.scope_ident));
+                _ => {}
             }
-            Expr::Fn(FnExpr {
-                function: Function {
-                    body: Some(body), ..
-                },
-                ..
-            }) => {
-                body.visit_mut_with(&mut FunctionWrapper::new(&mut self.scope_ident));
-            }
-            _ => {}
-        };
-
-        // TODO(kdy): Cache (Reuse declaration for same property)
-
-        match expr {
-            // super.setter = 1
-            Expr::Assign(AssignExpr {
-                span,
-                left: PatOrExpr::Expr(left),
-                op,
-                right,
-            }) if match **left {
-                Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Super(..),
-                    ..
-                }) => true,
-                _ => false,
-            } =>
-            {
-                *expr = self.handle_assign_to_super_prop(
-                    *span,
-                    left.take().expect_member(),
-                    *op,
-                    right.take(),
-                );
-            }
-
-            // super.setter = 1
-            Expr::Assign(AssignExpr {
-                span,
-                left: PatOrExpr::Pat(left),
-                op,
-                right,
-            }) if match &**left {
-                Pat::Expr(left) => match &**left {
-                    Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Super(..),
-                        ..
-                    }) => true,
-                    _ => false,
-                },
-                _ => false,
-            } =>
-            {
-                *expr = self.handle_assign_to_super_prop(
-                    *span,
-                    left.take().expect_expr().expect_member(),
-                    *op,
-                    right.take(),
-                );
-                return;
-            }
-
-            // super.method()
-            Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(callee),
-                args,
-                type_args,
-            }) if match **callee {
-                Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Super(..),
-                    ..
-                }) => true,
-                _ => false,
-            } =>
-            {
-                let MemberExpr {
-                    obj,
-                    prop,
-                    computed,
-                    ..
-                } = callee.take().member().unwrap();
-                let super_token = match obj {
-                    ExprOrSuper::Super(super_token) => super_token,
-                    _ => unreachable!(),
-                };
-
-                let (mark, ident) = self.ident_for_super(&prop);
-                let args_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_args");
-
-                self.vars.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(ident.clone().into()),
-                    init: Some(Box::new(Expr::Arrow(ArrowExpr {
-                        span: DUMMY_SP,
-                        is_async: false,
-                        is_generator: false,
-                        params: vec![Pat::Rest(RestPat {
-                            span: DUMMY_SP,
-                            dot3_token: DUMMY_SP,
-                            arg: Box::new(Pat::Ident(args_ident.clone().into())),
-                            type_ann: Default::default(),
-                        })],
-                        body: BlockStmtOrExpr::Expr(Box::new(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: MemberExpr {
-                                span: DUMMY_SP,
-                                obj: ExprOrSuper::Super(super_token),
-                                computed,
-                                prop,
-                            }
-                            .as_callee(),
-                            args: vec![ExprOrSpread {
-                                spread: Some(DUMMY_SP),
-                                expr: Box::new(args_ident.into()),
-                            }],
-                            type_args: Default::default(),
-                        }))),
-                        type_params: Default::default(),
-                        return_type: Default::default(),
-                    }))),
-                    definite: false,
-                });
-
-                *expr = Expr::Call(CallExpr {
-                    span: *span,
-                    callee: ident.as_callee(),
-                    args: args.take(),
-                    type_args: type_args.take(),
-                });
-            }
-            // super.getter
-            Expr::Member(MemberExpr {
-                span,
-                obj: ExprOrSuper::Super(super_token),
-                prop,
-                computed,
-            }) => {
-                let (_, ident) = self.ident_for_super(&prop);
-                self.vars.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(ident.clone().into()),
-                    init: Some(Box::new(Expr::Arrow(ArrowExpr {
-                        span: DUMMY_SP,
-                        is_async: false,
-                        is_generator: false,
-                        params: vec![],
-                        body: BlockStmtOrExpr::Expr(Box::new(
-                            MemberExpr {
-                                span: DUMMY_SP,
-                                obj: ExprOrSuper::Super(*super_token),
-                                computed: *computed,
-                                prop: prop.take(),
-                            }
-                            .into(),
-                        )),
-                        type_params: Default::default(),
-                        return_type: Default::default(),
-                    }))),
-                    definite: false,
-                });
-
-                *expr = Expr::Call(CallExpr {
-                    span: *span,
-                    callee: ident.as_callee(),
-                    args: vec![],
-                    type_args: Default::default(),
-                })
-            }
-            _ => expr.visit_mut_children_with(self),
         }
+
+        var.visit_mut_children_with(self);
     }
 }
 
 impl Actual {
-    fn handle_iife(
-        &mut self,
-        span: Span,
-        callee: &mut FnExpr,
-        args: &mut Vec<ExprOrSpread>,
-        type_args: Option<TsTypeParamInstantiation>,
-    ) -> Expr {
-        if !callee.function.is_async || callee.ident.is_some() {
-            let mut callee = Expr::Fn(callee.take());
-            callee.visit_mut_with(self);
+    fn visit_mut_expr_with_binding(&mut self, expr: &mut Expr, binding_ident: Option<Ident>) {
+        expr.visit_mut_children_with(self);
 
-            args.visit_mut_with(self);
-            return Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(Box::new(callee.into())),
-                args: args.take(),
-                type_args,
-            });
-        }
+        match expr {
+            Expr::Arrow(arrow_expr @ ArrowExpr { is_async: true, .. }) => {
+                let mut state = FnEnvHoister::default();
 
-        // https://github.com/babel/babel/issues/8783
-        if callee.ident.is_some()
-            && contains_ident_ref(&callee.function.body, callee.ident.as_ref().unwrap())
-        {
-            let mut callee = Expr::Fn(callee.take());
-            callee.visit_mut_with(self);
+                arrow_expr.body.visit_mut_with(&mut state);
 
-            args.visit_mut_with(self);
-            return Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(Box::new(callee.into())),
-                args: args.take(),
-                type_args,
-            });
-        }
+                self.hoist_stmts.extend(state.to_stmt());
 
-        let callee = make_fn_ref(callee.take(), self.in_prototype_assignment);
+                let mut wrapper = FunctionWrapper::from(arrow_expr.take());
+                wrapper.binding_ident = binding_ident;
 
-        Expr::Call(CallExpr {
-            span,
-            callee: ExprOrSuper::Expr(Box::new(callee.into())),
-            args: args.take(),
-            type_args,
-        })
-    }
+                let fn_expr = wrapper.function.expect_fn_expr();
 
-    fn visit_fn(&mut self, raw_ident: Option<Ident>, f: &mut Function, is_decl: bool) {
-        if f.body.is_none() {
-            return;
-        }
-        let params = {
-            let mut done = false;
-            f.params
-                .iter()
-                .filter_map(|p| {
-                    if done {
-                        None
-                    } else {
-                        match p.pat {
-                            Pat::Ident(..) => Some(p.clone()),
-                            Pat::Array(..) | Pat::Object(..) => Some(Param {
-                                pat: Pat::Ident(private_ident!("_").into()),
-                                ..p.clone()
-                            }),
-                            _ => {
-                                done = true;
-                                None
-                            }
-                        }
-                    }
-                })
-                .collect()
-        };
-        let ident = raw_ident.clone().unwrap_or_else(|| quote_ident!("ref"));
+                wrapper.function = make_fn_ref(fn_expr);
+                *expr = wrapper.into();
+            }
 
-        let real_fn_ident = private_ident!(ident.span, format!("_{}", ident.sym));
-        let right = make_fn_ref(
-            FnExpr {
-                ident: None,
-                function: f.take(),
-            },
-            true,
-        );
-
-        if is_decl {
-            let real_fn = FnDecl {
-                ident: real_fn_ident.clone(),
-                declare: false,
-                function: Function {
-                    span: DUMMY_SP,
-                    body: Some(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![
-                            AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                    real_fn_ident.clone().into(),
-                                ))),
-                                op: op!("="),
-                                right: Box::new(right),
-                            }
-                            .into_stmt(),
-                            Stmt::Return(ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(Box::new(real_fn_ident.clone().apply(
-                                    DUMMY_SP,
-                                    Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                                    vec![quote_ident!("arguments").as_arg()],
-                                ))),
-                            }),
-                        ],
-                    }),
-                    params: vec![],
-                    is_async: false,
-                    is_generator: false,
-                    decorators: Default::default(),
-                    type_params: Default::default(),
-                    return_type: Default::default(),
+            Expr::Fn(
+                fn_expr @ FnExpr {
+                    function: Function { is_async: true, .. },
+                    ..
                 },
-            };
-            self.extra_stmts.push(Stmt::Decl(Decl::Fn(real_fn)));
-        } else {
-            self.extra_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                decls: vec![VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(real_fn_ident.clone().into()),
-                    init: Some(Box::new(right)),
-                    definite: false,
-                }],
-                declare: false,
-            })));
+            ) => {
+                let mut wrapper = FunctionWrapper::from(fn_expr.take());
+                wrapper.binding_ident = binding_ident;
+
+                let fn_expr = wrapper.function.expect_fn_expr();
+
+                wrapper.function = make_fn_ref(fn_expr);
+
+                *expr = wrapper.into();
+            }
+
+            _ => {}
         }
-
-        let apply = Stmt::Return(ReturnStmt {
-            span: DUMMY_SP,
-            arg: Some(Box::new(real_fn_ident.apply(
-                DUMMY_SP,
-                Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                vec![quote_ident!("arguments").as_arg()],
-            ))),
-        });
-
-        *f = Function {
-            span: (*f).span,
-            body: Some(BlockStmt {
-                span: DUMMY_SP,
-                stmts: if is_decl {
-                    vec![apply]
-                } else {
-                    // function foo() {
-                    //      return _foo.apply(this, arguments);
-                    // }
-                    let f = Function {
-                        span: DUMMY_SP,
-                        is_async: false,
-                        is_generator: false,
-                        params: vec![],
-                        body: Some(BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: vec![apply],
-                        }),
-                        decorators: Default::default(),
-                        type_params: Default::default(),
-                        return_type: Default::default(),
-                    };
-
-                    if raw_ident.is_some() {
-                        vec![
-                            Stmt::Decl(Decl::Fn(FnDecl {
-                                ident: raw_ident.clone().unwrap(),
-                                declare: false,
-                                function: f,
-                            })),
-                            Stmt::Return(ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(Box::new(Expr::Ident(raw_ident.clone().unwrap()))),
-                            }),
-                        ]
-                    } else {
-                        vec![Stmt::Return(ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(Box::new(Expr::Fn(FnExpr {
-                                ident: raw_ident,
-                                function: f,
-                            }))),
-                        })]
-                    }
-                },
-            }),
-            params,
-            is_generator: false,
-            is_async: false,
-            decorators: Default::default(),
-            return_type: Default::default(),
-            type_params: Default::default(),
-        };
     }
 }
 
 /// Creates
 ///
 /// `_asyncToGenerator(function*() {})` from `async function() {}`;
-fn make_fn_ref(mut expr: FnExpr, should_not_bind_this: bool) -> Expr {
+fn make_fn_ref(mut expr: FnExpr) -> Expr {
     expr.function.body.visit_mut_with(&mut AsyncFnBodyHandler {
         is_async_generator: expr.function.is_generator,
     });
@@ -959,17 +338,7 @@ fn make_fn_ref(mut expr: FnExpr, should_not_bind_this: bool) -> Expr {
 
     let span = expr.span();
 
-    let should_bind_this = !should_not_bind_this && contains_this_expr(&expr.function.body);
-    let expr = if should_bind_this {
-        Expr::Call(CallExpr {
-            span: DUMMY_SP,
-            callee: expr.make_member(quote_ident!("bind")).as_callee(),
-            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-            type_args: Default::default(),
-        })
-    } else {
-        Expr::Fn(expr)
-    };
+    let expr = Expr::Fn(expr);
 
     Expr::Call(CallExpr {
         span,
@@ -1001,30 +370,27 @@ impl VisitMut for AsyncFnBodyHandler {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
 
-        match expr {
-            Expr::Await(AwaitExpr { span, arg }) => {
-                if self.is_async_generator {
-                    let callee = helper!(await_async_generator, "awaitAsyncGenerator");
-                    let arg = Box::new(Expr::Call(CallExpr {
-                        span: *span,
-                        callee,
-                        args: vec![arg.take().as_arg()],
-                        type_args: Default::default(),
-                    }));
-                    *expr = Expr::Yield(YieldExpr {
-                        span: *span,
-                        delegate: false,
-                        arg: Some(arg),
-                    })
-                } else {
-                    *expr = Expr::Yield(YieldExpr {
-                        span: *span,
-                        delegate: false,
-                        arg: Some(arg.take()),
-                    })
-                }
+        if let Expr::Await(AwaitExpr { span, arg }) = expr {
+            if self.is_async_generator {
+                let callee = helper!(await_async_generator, "awaitAsyncGenerator");
+                let arg = Box::new(Expr::Call(CallExpr {
+                    span: *span,
+                    callee,
+                    args: vec![arg.take().as_arg()],
+                    type_args: Default::default(),
+                }));
+                *expr = Expr::Yield(YieldExpr {
+                    span: *span,
+                    delegate: false,
+                    arg: Some(arg),
+                })
+            } else {
+                *expr = Expr::Yield(YieldExpr {
+                    span: *span,
+                    delegate: false,
+                    arg: Some(arg.take()),
+                })
             }
-            _ => (),
         }
     }
 
@@ -1066,40 +432,6 @@ impl Check for ShouldWork {
     }
 }
 
-fn extract_callee_of_bind_this(n: &mut CallExpr) -> Option<&mut Expr> {
-    if n.args.len() != 1 {
-        return None;
-    }
-
-    match &*n.args[0].expr {
-        Expr::This(..) => {}
-        _ => return None,
-    }
-
-    match &mut n.callee {
-        ExprOrSuper::Super(_) => None,
-        ExprOrSuper::Expr(callee) => match &mut **callee {
-            Expr::Member(MemberExpr {
-                obj,
-                prop,
-                computed: false,
-                ..
-            }) => {
-                match &**prop {
-                    Expr::Ident(Ident { sym, .. }) if *sym == *"bind" => {}
-                    _ => return None,
-                }
-
-                match obj {
-                    ExprOrSuper::Expr(callee) => Some(&mut **callee),
-                    _ => None,
-                }
-            }
-            _ => None,
-        },
-    }
-}
-
 fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
     let s = match stmt {
         Stmt::ForOf(
@@ -1131,7 +463,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             // let value = _step.value;
             let value_var = VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(value.clone().into()),
+                name: value.clone().into(),
                 init: Some(Box::new(step.clone().make_member(quote_ident!("value")))),
                 definite: false,
             };
@@ -1149,7 +481,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 let var_decl = VarDeclarator {
                     span: DUMMY_SP,
                     name: var.name,
-                    init: Some(Box::new(Expr::Ident(value.clone()))),
+                    init: Some(Box::new(Expr::Ident(value))),
                     definite: false,
                 };
                 for_loop_body.push(Stmt::Decl(Decl::Var(VarDecl {
@@ -1166,7 +498,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: PatOrExpr::Pat(Box::new(p)),
-                        right: Box::new(Expr::Ident(value.clone())),
+                        right: Box::new(Expr::Ident(value)),
                     })),
                 }));
             }
@@ -1183,7 +515,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         // _iterator = _asyncIterator(lol())
         init_var_decls.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(iterator.clone().into()),
+            name: iterator.clone().into(),
             init: {
                 let callee = helper!(async_iterator, "asyncIterator");
 
@@ -1198,7 +530,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         });
         init_var_decls.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(step.clone().into()),
+            name: step.clone().into(),
             init: None,
             definite: false,
         });
@@ -1236,7 +568,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 let assign_to_step = Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: PatOrExpr::Pat(Box::new(Pat::Ident(step.clone().into()))),
+                    left: PatOrExpr::Pat(step.into()),
                     right: Box::new(Expr::Yield(YieldExpr {
                         span: DUMMY_SP,
                         arg: Some(yield_arg),
@@ -1250,9 +582,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     arg: Box::new(assign_to_step.make_member(quote_ident!("done"))),
                 }));
 
-                let left = PatOrExpr::Pat(Box::new(Pat::Ident(
-                    iterator_abrupt_completion.clone().into(),
-                )));
+                let left = PatOrExpr::Pat(iterator_abrupt_completion.clone().into());
 
                 Some(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
@@ -1265,9 +595,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             update: Some(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                    iterator_abrupt_completion.clone().into(),
-                ))),
+                left: PatOrExpr::Pat(iterator_abrupt_completion.clone().into()),
                 right: Box::new(Expr::Lit(Lit::Bool(Bool {
                     span: DUMMY_SP,
                     value: false,
@@ -1289,7 +617,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             expr: Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(did_iteration_error.clone().into()))),
+                left: PatOrExpr::Pat(did_iteration_error.clone().into()),
                 right: Box::new(Expr::Lit(Lit::Bool(Bool {
                     span: DUMMY_SP,
                     value: true,
@@ -1302,14 +630,14 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             expr: Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(iterator_error.clone().into()))),
+                left: PatOrExpr::Pat(iterator_error.clone().into()),
                 right: Box::new(Expr::Ident(err_param.clone())),
             })),
         });
 
         CatchClause {
             span: DUMMY_SP,
-            param: Some(Pat::Ident(err_param.clone().into())),
+            param: Some(err_param.into()),
             body: BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![mark_as_errorred, store_error],
@@ -1362,7 +690,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 right: Box::new(Expr::Bin(BinExpr {
                     span: DUMMY_SP,
                     op: op!("!="),
-                    left: Box::new(iterator.clone().make_member(quote_ident!("return"))),
+                    left: Box::new(iterator.make_member(quote_ident!("return"))),
                     right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
                 })),
             })),
@@ -1399,50 +727,44 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         finalizer: Some(finally_block),
     };
 
-    let mut stmts = vec![];
-
-    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-        span: DUMMY_SP,
-        kind: VarDeclKind::Var,
-        declare: false,
-        decls: {
-            let mut decls = vec![];
-
-            // var _iteratorAbruptCompletion = false;
-            decls.push(VarDeclarator {
-                span: DUMMY_SP,
-                name: Pat::Ident(iterator_abrupt_completion.into()),
-                init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
+    let stmts = vec![
+        Stmt::Decl(Decl::Var(VarDecl {
+            span: DUMMY_SP,
+            kind: VarDeclKind::Var,
+            declare: false,
+            decls: vec![
+                // var _iteratorAbruptCompletion = false;
+                VarDeclarator {
                     span: DUMMY_SP,
-                    value: false,
-                })))),
-                definite: false,
-            });
-
-            // var _didIteratorError = false;
-            decls.push(VarDeclarator {
-                span: DUMMY_SP,
-                name: Pat::Ident(did_iteration_error.into()),
-                init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
+                    name: iterator_abrupt_completion.into(),
+                    init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
+                        span: DUMMY_SP,
+                        value: false,
+                    })))),
+                    definite: false,
+                },
+                // var _didIteratorError = false;
+                VarDeclarator {
                     span: DUMMY_SP,
-                    value: false,
-                })))),
-                definite: false,
-            });
+                    name: did_iteration_error.into(),
+                    init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
+                        span: DUMMY_SP,
+                        value: false,
+                    })))),
+                    definite: false,
+                },
+                // var _iteratorError;
+                VarDeclarator {
+                    span: DUMMY_SP,
+                    name: iterator_error.into(),
+                    init: None,
+                    definite: false,
+                },
+            ],
+        })),
+        Stmt::Try(try_stmt),
+    ];
 
-            // var _iteratorError;
-            decls.push(VarDeclarator {
-                span: DUMMY_SP,
-                name: Pat::Ident(iterator_error.clone().into()),
-                init: None,
-                definite: false,
-            });
-
-            decls
-        },
-    })));
-
-    stmts.push(Stmt::Try(try_stmt));
     *stmt = Stmt::Block(BlockStmt {
         span: s.span,
         stmts,

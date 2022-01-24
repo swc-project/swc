@@ -124,17 +124,16 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
-        self.add(n.orig.to_id(), false);
+        if let ModuleExportName::Ident(orig) = &n.orig {
+            self.add(orig.to_id(), false);
+        }
     }
 
     fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
-        match e {
-            Expr::Ident(i) => {
-                self.add(i.to_id(), false);
-            }
-            _ => {}
+        if let Expr::Ident(i) = e {
+            self.add(i.to_id(), false);
         }
     }
 
@@ -163,11 +162,8 @@ impl Visit for Analyzer<'_> {
         p.visit_children_with(self);
 
         if !self.in_var_decl {
-            match p {
-                Pat::Ident(i) => {
-                    self.add(i.id.to_id(), true);
-                }
-                _ => {}
+            if let Pat::Ident(i) = p {
+                self.add(i.id.to_id(), true);
             }
         }
     }
@@ -175,11 +171,8 @@ impl Visit for Analyzer<'_> {
     fn visit_prop(&mut self, p: &Prop) {
         p.visit_children_with(self);
 
-        match p {
-            Prop::Shorthand(i) => {
-                self.add(i.to_id(), false);
-            }
-            _ => {}
+        if let Prop::Shorthand(i) = p {
+            self.add(i.to_id(), false);
         }
     }
 
@@ -283,7 +276,6 @@ impl VisitMut for TreeShaker {
                     debug!("Dropping an assignment to `{}` because it's not used", id);
 
                     n.left.take();
-                    return;
                 }
             }
         }
@@ -299,7 +291,6 @@ impl VisitMut for TreeShaker {
                     self.changed = true;
 
                     n.take();
-                    return;
                 }
             }
             Decl::Class(c) => {
@@ -308,7 +299,6 @@ impl VisitMut for TreeShaker {
                     self.changed = true;
 
                     n.take();
-                    return;
                 }
             }
             _ => {}
@@ -324,71 +314,56 @@ impl VisitMut for TreeShaker {
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         n.visit_mut_children_with(self);
 
-        match n {
-            Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(callee),
-                args,
-                ..
-            }) => {
-                //
-                if args.is_empty() {
-                    match &mut **callee {
-                        Expr::Fn(FnExpr {
-                            ident: None,
-                            function:
-                                Function {
-                                    is_async: false,
-                                    is_generator: false,
-                                    params,
-                                    body: Some(BlockStmt { stmts: body, .. }),
-                                    ..
-                                },
-                        }) => {
-                            if params.is_empty() && body.len() == 1 {
-                                match &mut body[0] {
-                                    Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => match &**arg
-                                    {
-                                        Expr::Object(ObjectLit { props, .. }) => {
-                                            if props.iter().all(|p| match p {
-                                                PropOrSpread::Spread(_) => false,
-                                                PropOrSpread::Prop(p) => match &**p {
-                                                    Prop::Shorthand(_) => true,
-                                                    Prop::KeyValue(p) => p.value.is_ident(),
-                                                    _ => false,
-                                                },
-                                            }) {
-                                                self.changed = true;
-                                                debug!("Dropping a wrapped esm");
-                                                *n = *arg.take();
-                                                return;
-                                            }
-                                        }
-
-                                        _ => {}
+        if let Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            args,
+            ..
+        }) = n
+        {
+            //
+            if args.is_empty() {
+                if let Expr::Fn(FnExpr {
+                    ident: None,
+                    function:
+                        Function {
+                            is_async: false,
+                            is_generator: false,
+                            params,
+                            body: Some(BlockStmt { stmts: body, .. }),
+                            ..
+                        },
+                }) = &mut **callee
+                {
+                    if params.is_empty() && body.len() == 1 {
+                        if let Stmt::Return(ReturnStmt { arg: Some(arg), .. }) = &mut body[0] {
+                            if let Expr::Object(ObjectLit { props, .. }) = &**arg {
+                                if props.iter().all(|p| match p {
+                                    PropOrSpread::Spread(_) => false,
+                                    PropOrSpread::Prop(p) => match &**p {
+                                        Prop::Shorthand(_) => true,
+                                        Prop::KeyValue(p) => p.value.is_ident(),
+                                        _ => false,
                                     },
-                                    _ => {}
+                                }) {
+                                    self.changed = true;
+                                    debug!("Dropping a wrapped esm");
+                                    *n = *arg.take();
+                                    return;
                                 }
                             }
                         }
-                        _ => {}
                     }
                 }
             }
-
-            _ => {}
         }
 
-        match n {
-            Expr::Assign(a) => {
-                if match &a.left {
-                    PatOrExpr::Expr(l) => l.is_invalid(),
-                    PatOrExpr::Pat(l) => l.is_invalid(),
-                } {
-                    *n = *a.right.take();
-                    return;
-                }
+        if let Expr::Assign(a) = n {
+            if match &a.left {
+                PatOrExpr::Expr(l) => l.is_invalid(),
+                PatOrExpr::Pat(l) => l.is_invalid(),
+            } {
+                *n = *a.right.take();
             }
-            _ => {}
         }
     }
 
@@ -447,7 +422,6 @@ impl VisitMut for TreeShaker {
                     debug!("Dropping an import because it's not used");
                     self.changed = true;
                     *n = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
-                    return;
                 }
             }
             _ => {
@@ -463,94 +437,83 @@ impl VisitMut for TreeShaker {
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         s.visit_mut_children_with(self);
 
-        match s {
-            Stmt::Decl(Decl::Var(v)) => {
-                let span = v.span;
-                let cnt = v.decls.len();
+        if let Stmt::Decl(Decl::Var(v)) = s {
+            let span = v.span;
+            let cnt = v.decls.len();
 
-                // If all name is droppable, do so.
-                if cnt != 0
-                    && v.decls.iter().all(|vd| match &vd.name {
-                        Pat::Ident(i) => self.can_drop_binding(i.to_id()),
-                        _ => false,
-                    })
-                {
-                    let exprs = v
-                        .decls
-                        .take()
-                        .into_iter()
-                        .filter_map(|v| v.init)
-                        .collect::<Vec<_>>();
+            // If all name is droppable, do so.
+            if cnt != 0
+                && v.decls.iter().all(|vd| match &vd.name {
+                    Pat::Ident(i) => self.can_drop_binding(i.to_id()),
+                    _ => false,
+                })
+            {
+                let exprs = v
+                    .decls
+                    .take()
+                    .into_iter()
+                    .filter_map(|v| v.init)
+                    .collect::<Vec<_>>();
 
-                    debug!(
-                        count = cnt,
-                        "Dropping names of variables as they are not used",
-                    );
-                    self.changed = true;
+                debug!(
+                    count = cnt,
+                    "Dropping names of variables as they are not used",
+                );
+                self.changed = true;
 
-                    if exprs.is_empty() {
-                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                        return;
-                    } else {
-                        if exprs.len() == 1 {
-                            *s = Stmt::Expr(ExprStmt {
-                                span,
-                                expr: exprs.into_iter().next().unwrap(),
-                            });
-                        } else {
-                            *s = Stmt::Expr(ExprStmt {
-                                span,
-                                expr: Box::new(Expr::Seq(SeqExpr {
-                                    span: DUMMY_SP,
-                                    exprs,
-                                })),
-                            });
-                        }
-                    }
+                if exprs.is_empty() {
+                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    return;
+                } else if exprs.len() == 1 {
+                    *s = Stmt::Expr(ExprStmt {
+                        span,
+                        expr: exprs.into_iter().next().unwrap(),
+                    });
+                } else {
+                    *s = Stmt::Expr(ExprStmt {
+                        span,
+                        expr: Box::new(Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs,
+                        })),
+                    });
                 }
             }
-
-            _ => {}
         }
 
-        match s {
-            Stmt::If(if_stmt) => {
-                if let Value::Known(v) = if_stmt.test.as_pure_bool() {
-                    if v {
-                        if if_stmt.alt.is_some() {
-                            self.changed = true;
-                        }
+        if let Stmt::If(if_stmt) = s {
+            if let Value::Known(v) = if_stmt.test.as_pure_bool() {
+                if v {
+                    if if_stmt.alt.is_some() {
+                        self.changed = true;
+                    }
 
-                        if_stmt.alt = None;
+                    if_stmt.alt = None;
+                    debug!("Dropping `alt` of an if statement because condition is always true");
+                } else {
+                    self.changed = true;
+                    if let Some(alt) = if_stmt.alt.take() {
+                        *s = *alt;
                         debug!(
-                            "Dropping `alt` of an if statement because condition is always true"
+                            "Dropping `cons` of an if statement because condition is always false"
                         );
                     } else {
-                        self.changed = true;
-                        if let Some(alt) = if_stmt.alt.take() {
-                            *s = *alt;
-                            debug!(
-                                "Dropping `cons` of an if statement because condition is always \
-                                 false"
-                            );
-                        } else {
-                            debug!("Dropping an if statement because condition is always false");
-                            *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                        }
-                        return;
-                    }
-                }
-
-                if if_stmt.alt.is_empty() && if_stmt.cons.is_empty() {
-                    if !if_stmt.test.may_have_side_effects() {
-                        debug!("Dropping an if statement");
-                        self.changed = true;
+                        debug!("Dropping an if statement because condition is always false");
                         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                        return;
                     }
+                    return;
                 }
             }
-            _ => {}
+
+            if if_stmt.alt.is_empty()
+                && if_stmt.cons.is_empty()
+                && !if_stmt.test.may_have_side_effects()
+            {
+                debug!("Dropping an if statement");
+                self.changed = true;
+                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                return;
+            }
         }
 
         match s {
@@ -562,14 +525,12 @@ impl VisitMut for TreeShaker {
                     debug!("Dropping an expression without side effect");
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     self.changed = true;
-                    return;
                 }
             }
 
             Stmt::Decl(Decl::Var(v)) => {
                 if v.decls.is_empty() {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    return;
                 }
             }
 
@@ -609,16 +570,12 @@ impl VisitMut for TreeShaker {
         };
 
         if can_drop {
-            match &v.name {
-                Pat::Ident(i) => {
-                    if self.can_drop_binding(i.id.to_id()) {
-                        self.changed = true;
-                        debug!("Dropping {} because it's not used", i.id);
-                        v.name.take();
-                    }
+            if let Pat::Ident(i) = &v.name {
+                if self.can_drop_binding(i.id.to_id()) {
+                    self.changed = true;
+                    debug!("Dropping {} because it's not used", i.id);
+                    v.name.take();
                 }
-
-                _ => {}
             }
         }
     }

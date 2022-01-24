@@ -49,8 +49,7 @@ try {
         a: 0,
         b: 1
     };
-} catch (param1) {
-}
+} catch (param1) {}
 try {
     throw [
         {
@@ -64,7 +63,6 @@ try {
     var ref = _slicedToArray(param2, 1)[0];
     _slicedToArray(ref.x, 1)[0], ref.z;
 }
-try {
-} catch (param3) {
+try {} catch (param3) {
     _slicedToArray(param3, 1)[0];
 }

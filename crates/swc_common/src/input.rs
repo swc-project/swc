@@ -171,7 +171,7 @@ impl<'a> Input for StringInput<'a> {
 
     #[inline]
     fn is_byte(&mut self, c: u8) -> bool {
-        if self.iter.as_str().len() == 0 {
+        if self.iter.as_str().is_empty() {
             false
         } else {
             // Safety: We checked that `self.iter.as_str().len() > 0`
@@ -229,6 +229,7 @@ pub trait Input: Clone {
     ///
     /// `c` must be ASCII.
     #[inline]
+    #[allow(clippy::wrong_self_convention)]
     fn is_byte(&mut self, c: u8) -> bool {
         match self.cur() {
             Some(ch) => ch == c as char,

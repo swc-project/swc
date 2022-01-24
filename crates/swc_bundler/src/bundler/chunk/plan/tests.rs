@@ -20,7 +20,7 @@ fn assert_cycles(map: AHashMap<String, String>, cycle_entries: Vec<&str>) {
 
         let expected: AHashSet<_> = cycle_entries
             .iter()
-            .map(|name| tester.module(&name).id)
+            .map(|name| tester.module(name).id)
             .collect();
 
         assert_eq!(expected, actual);

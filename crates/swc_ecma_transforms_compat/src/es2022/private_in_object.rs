@@ -45,7 +45,7 @@ impl Mode {
             Mode::ClassExpr { vars, init_exprs } => {
                 vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(n.clone().into()),
+                    name: n.clone().into(),
                     init: None,
                     definite: Default::default(),
                 });
@@ -53,7 +53,7 @@ impl Mode {
                     init_exprs.push(Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(n.into()))),
+                        left: PatOrExpr::Pat(n.into()),
                         right: init,
                     })));
                 }
@@ -61,7 +61,7 @@ impl Mode {
             Mode::ClassDecl { vars } => {
                 vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(n.into()),
+                    name: n.into(),
                     init,
                     definite: Default::default(),
                 });
@@ -175,19 +175,16 @@ impl VisitMut for PrivateInObject {
             }
 
             for m in &mut n.body {
-                match m {
-                    ClassMember::Constructor(Constructor {
-                        body: Some(body), ..
-                    }) => {
-                        for expr in take(&mut self.cls.constructor_exprs) {
-                            body.stmts.push(Stmt::Expr(ExprStmt {
-                                span: DUMMY_SP,
-                                expr,
-                            }));
-                        }
+                if let ClassMember::Constructor(Constructor {
+                    body: Some(body), ..
+                }) = m
+                {
+                    for expr in take(&mut self.cls.constructor_exprs) {
+                        body.stmts.push(Stmt::Expr(ExprStmt {
+                            span: DUMMY_SP,
+                            expr,
+                        }));
                     }
-
-                    _ => {}
                 }
             }
         }
@@ -367,18 +364,9 @@ impl VisitMut for PrivateInObject {
                     args: vec![right.take().as_arg()],
                     type_args: Default::default(),
                 });
-                return;
             }
 
             _ => {}
-        }
-    }
-
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
-
-        if e.computed {
-            e.obj.visit_mut_with(self);
         }
     }
 
@@ -415,23 +403,20 @@ impl VisitMut for PrivateInObject {
                     let assign = Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(tmp.clone().into()))),
+                        left: PatOrExpr::Pat(tmp.clone().into()),
                         right: init.take(),
                     }));
 
                     let add_to_checker = Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: var_name
-                            .clone()
-                            .make_member(quote_ident!("add"))
-                            .as_callee(),
+                        callee: var_name.make_member(quote_ident!("add")).as_callee(),
                         args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
                         type_args: Default::default(),
                     }));
 
                     *init = Box::new(Expr::Seq(SeqExpr {
                         span: init_span,
-                        exprs: vec![assign, add_to_checker, Box::new(tmp.clone().into())],
+                        exprs: vec![assign, add_to_checker, Box::new(tmp.into())],
                     }));
                 }
                 None => {
@@ -440,10 +425,7 @@ impl VisitMut for PrivateInObject {
                         op: op!("void"),
                         arg: Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            callee: var_name
-                                .clone()
-                                .make_member(quote_ident!("add"))
-                                .as_callee(),
+                            callee: var_name.make_member(quote_ident!("add")).as_callee(),
                             args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
                             type_args: Default::default(),
                         })),
@@ -454,12 +436,8 @@ impl VisitMut for PrivateInObject {
     }
 
     fn visit_mut_prop_name(&mut self, n: &mut PropName) {
-        match n {
-            PropName::Computed(_) => {
-                n.visit_mut_children_with(self);
-            }
-
-            _ => {}
+        if let PropName::Computed(_) = n {
+            n.visit_mut_children_with(self);
         }
     }
 
@@ -492,12 +470,8 @@ impl Visit for ClassAnalyzer<'_> {
         n.visit_children_with(self);
 
         if n.op == op!("in") {
-            match &*n.left {
-                Expr::PrivateName(left) => {
-                    self.brand_check_names.insert(left.id.sym.clone());
-                }
-
-                _ => {}
+            if let Expr::PrivateName(left) = &*n.left {
+                self.brand_check_names.insert(left.id.sym.clone());
             }
         }
     }

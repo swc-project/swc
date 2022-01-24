@@ -20,14 +20,12 @@ function g() {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
                 _ctx.t0 = _defineProperty;
-                _ctx.t1 = {
-                };
+                _ctx.t1 = {};
                 _ctx.next = 4;
                 return 0;
             case 4:
                 _ctx.t2 = _ctx.sent;
-                _ctx.t3 = function() {
-                };
+                _ctx.t3 = function() {};
                 x = (0, _ctx.t0)(_ctx.t1, _ctx.t2, _ctx.t3);
             case 7:
             case "end":

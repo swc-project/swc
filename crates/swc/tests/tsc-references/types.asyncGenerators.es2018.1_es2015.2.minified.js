@@ -61,8 +61,7 @@ function _wrapAsyncGenerator(fn) {
     };
 }
 function _inferReturnType1() {
-    return (_inferReturnType1 = _wrapAsyncGenerator(function*() {
-    })).apply(this, arguments);
+    return (_inferReturnType1 = _wrapAsyncGenerator(function*() {})).apply(this, arguments);
 }
 function _inferReturnType2() {
     return (_inferReturnType2 = _wrapAsyncGenerator(function*() {

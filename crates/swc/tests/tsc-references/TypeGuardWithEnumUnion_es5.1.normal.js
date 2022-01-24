@@ -3,8 +3,7 @@ var Color;
     Color[Color["R"] = 0] = "R";
     Color[Color["G"] = 1] = "G";
     Color[Color["B"] = 2] = "B";
-})(Color || (Color = {
-}));
+})(Color || (Color = {}));
 function f1(x) {
     if (typeof x === "number") {
         var y = x;

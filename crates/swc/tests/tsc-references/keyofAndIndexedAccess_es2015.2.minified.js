@@ -1,12 +1,10 @@
-var E, E, Flag, Flag;
-(E = E || (E = {
-}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", one(()=>{
+var E, Flag;
+!function(E) {
+    E[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
+}(E || (E = {})), one(()=>{}), on({
+    test: ()=>{}
 }), on({
-    test: ()=>{
-    }
-}), on({
-    test: (x)=>{
-    }
+    test: (x)=>{}
 }), new Component1({
     data: {
         hello: ""
@@ -29,6 +27,6 @@ new class extends SampleClass {
             foo: "bar"
         }));
     }
-}({
-}), (Flag = Flag || (Flag = {
-})).FLAG_1 = "flag_1", Flag.FLAG_2 = "flag_2";
+}({}), (function(Flag) {
+    Flag.FLAG_1 = "flag_1", Flag.FLAG_2 = "flag_2";
+})(Flag || (Flag = {}));

@@ -27,15 +27,13 @@ impl PrivateNameMangler {
         let new_sym = if let Some(cached) = self.renamed_private.get(&id) {
             cached.clone()
         } else {
-            loop {
-                let sym = incr_base54(&mut self.private_n).1;
+            let sym = incr_base54(&mut self.private_n).1;
 
-                let sym: JsWord = sym.into();
+            let sym: JsWord = sym.into();
 
-                self.renamed_private.insert(id.clone(), sym.clone());
+            self.renamed_private.insert(id.clone(), sym.clone());
 
-                break sym;
-            }
+            sym
         };
 
         private_name.id.sym = new_sym;
@@ -48,15 +46,10 @@ impl VisitMut for PrivateNameMangler {
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
         n.obj.visit_mut_with(self);
 
-        if n.computed {
-            n.prop.visit_mut_with(self);
-        } else {
-            match &*n.prop {
-                Expr::PrivateName(..) => {
-                    n.prop.visit_mut_with(self);
-                }
-                _ => {}
-            }
+        match &mut n.prop {
+            MemberProp::Computed(c) => c.visit_mut_with(self),
+            MemberProp::PrivateName(p) => p.visit_mut_with(self),
+            MemberProp::Ident(_) => (),
         }
     }
 

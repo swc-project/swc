@@ -256,8 +256,7 @@
             },
             "value": "answer",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",

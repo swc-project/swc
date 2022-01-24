@@ -117,8 +117,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -146,8 +145,7 @@
             },
             "value": "default",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -199,8 +197,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -211,8 +208,7 @@
             },
             "value": "memberName",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",

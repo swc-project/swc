@@ -22,7 +22,6 @@ while (true)
 while (true)
 while (true)
 EIGHT: do {
-    var fn = function fn() {
-    };
+    var fn = function fn() {};
     continue EIGHT;
 }while (true)

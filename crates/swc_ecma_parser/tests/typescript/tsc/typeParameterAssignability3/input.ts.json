@@ -839,8 +839,7 @@
                         },
                         "value": "t",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -866,8 +865,7 @@
                         },
                         "value": "u",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 },
@@ -910,8 +908,7 @@
                         },
                         "value": "u",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -937,8 +934,7 @@
                         },
                         "value": "t",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 }

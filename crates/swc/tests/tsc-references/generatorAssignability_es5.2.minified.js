@@ -390,11 +390,8 @@ function _asyncfn() {
     }))).apply(this, arguments);
 }
 function _f2() {
-    return (_f2 = (function(fn) {
-        return function() {
-            return new AsyncGenerator(fn.apply(this, arguments));
-        };
-    })(regeneratorRuntime.mark(function _callee() {
+    var fn;
+    return (_f2 = (fn = regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -410,7 +407,9 @@ function _f2() {
                     return _ctx.stop();
             }
         }, _callee);
-    }))).apply(this, arguments);
+    }), function() {
+        return new AsyncGenerator(fn.apply(this, arguments));
+    })).apply(this, arguments);
 }
 function _f3() {
     return (_f3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
@@ -430,8 +429,7 @@ function _f3() {
                                     return _ctx.stop();
                             }
                         }, syncGenerator);
-                    }), o = _defineProperty({
-                    }, Symbol.asyncIterator, syncGenerator), _iteratorAbruptCompletion = !1, _didIteratorError6 = !1, _ctx1.prev = 3, _iterator = _asyncIterator(o);
+                    }), o = _defineProperty({}, Symbol.asyncIterator, syncGenerator), _iteratorAbruptCompletion = !1, _didIteratorError6 = !1, _ctx1.prev = 3, _iterator = _asyncIterator(o);
                 case 5:
                     return _ctx1.next = 7, _iterator.next();
                 case 7:

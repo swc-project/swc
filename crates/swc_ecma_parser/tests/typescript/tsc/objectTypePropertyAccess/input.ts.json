@@ -198,8 +198,7 @@
                 },
                 "value": "toString",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -261,20 +260,27 @@
                 "optional": false
               },
               "property": {
-                "type": "StringLiteral",
+                "type": "Computed",
                 "span": {
-                  "start": 162,
-                  "end": 172,
+                  "start": 161,
+                  "end": 173,
                   "ctxt": 0
                 },
-                "value": "toString",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 162,
+                    "end": 172,
+                    "ctxt": 0
+                  },
+                  "value": "toString",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
-              },
-              "computed": true
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -337,8 +343,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -390,20 +395,27 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 204,
-                "end": 209,
+                "start": 203,
+                "end": 210,
                 "ctxt": 0
               },
-              "value": "foo",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 204,
+                  "end": 209,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "definite": false
         }
@@ -601,8 +613,7 @@
                 },
                 "value": "toString",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -664,20 +675,27 @@
                 "optional": false
               },
               "property": {
-                "type": "StringLiteral",
+                "type": "Computed",
                 "span": {
-                  "start": 290,
-                  "end": 300,
+                  "start": 289,
+                  "end": 301,
                   "ctxt": 0
                 },
-                "value": "toString",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 290,
+                    "end": 300,
+                    "ctxt": 0
+                  },
+                  "value": "toString",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
-              },
-              "computed": true
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -740,8 +758,7 @@
               },
               "value": "bar",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -793,20 +810,27 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 332,
-                "end": 337,
+                "start": 331,
+                "end": 338,
                 "ctxt": 0
               },
-              "value": "bar",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 332,
+                  "end": 337,
+                  "ctxt": 0
+                },
+                "value": "bar",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "definite": false
         }
@@ -942,8 +966,7 @@
                 },
                 "value": "toString",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1005,20 +1028,27 @@
                 "optional": false
               },
               "property": {
-                "type": "StringLiteral",
+                "type": "Computed",
                 "span": {
-                  "start": 400,
-                  "end": 410,
+                  "start": 399,
+                  "end": 411,
                   "ctxt": 0
                 },
-                "value": "toString",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 400,
+                    "end": 410,
+                    "ctxt": 0
+                  },
+                  "value": "toString",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
-              },
-              "computed": true
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1081,8 +1111,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1134,20 +1163,27 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 444,
-                "end": 449,
+                "start": 443,
+                "end": 450,
                 "ctxt": 0
               },
-              "value": "foo",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 444,
+                  "end": 449,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "definite": false
         }

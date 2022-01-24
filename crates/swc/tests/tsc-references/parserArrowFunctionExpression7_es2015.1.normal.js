@@ -31,8 +31,7 @@ function _asyncToGenerator(fn) {
 ({
     m () {
         return _asyncToGenerator(function*() {
-            for(;;){
-            }
+            for(;;){}
         })();
     }
 });

@@ -33,11 +33,7 @@ use swc_ecma_parser::{
     lexer::{input::SourceFileInput, Lexer},
     EsConfig, Parser, Syntax,
 };
-use swc_ecma_transforms::{
-    fixer,
-    hygiene::{self, hygiene_with_config},
-    resolver_with_mark,
-};
+use swc_ecma_transforms::{fixer, hygiene::hygiene, resolver_with_mark};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{FoldWith, Visit, VisitMutWith, VisitWith};
 use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
@@ -67,17 +63,15 @@ fn is_ignored(path: &Path) -> bool {
         return true;
     }
 
-    if env::var("SKIP_GOLDEN").unwrap_or_default() == "1" {
-        if GOLDEN.iter().any(|ignored| s.contains(&**ignored)) {
-            return true;
-        }
+    if env::var("SKIP_GOLDEN").unwrap_or_default() == "1"
+        && GOLDEN.iter().any(|ignored| s.contains(&**ignored))
+    {
+        return true;
     }
 
     if let Ok(one) = env::var("GOLDEN_ONLY") {
-        if one == "1" {
-            if GOLDEN.iter().all(|golden| !s.contains(&**golden)) {
-                return true;
-            }
+        if one == "1" && GOLDEN.iter().all(|golden| !s.contains(&**golden)) {
+            return true;
         }
     }
 
@@ -123,9 +117,9 @@ fn run(
 
     let disable_hygiene = mangle.is_some() || skip_hygiene;
 
-    let (_module, config) = parse_compressor_config(cm.clone(), &config);
+    let (_module, config) = parse_compressor_config(cm.clone(), config);
 
-    let fm = cm.load_file(&input).expect("failed to load input.js");
+    let fm = cm.load_file(input).expect("failed to load input.js");
     let comments = SingleThreadedComments::default();
 
     eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
@@ -168,7 +162,7 @@ fn run(
     let program = parser
         .parse_module()
         .map_err(|err| {
-            err.into_diagnostic(&handler).emit();
+            err.into_diagnostic(handler).emit();
         })
         .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)));
 
@@ -183,7 +177,7 @@ fn run(
     let optimization_start = Instant::now();
     let mut output = optimize(
         program,
-        cm.clone(),
+        cm,
         Some(&comments),
         None,
         &MinifyOptions {
@@ -210,9 +204,7 @@ fn run(
     );
 
     if !disable_hygiene {
-        output.visit_mut_with(&mut hygiene_with_config(hygiene::Config {
-            ..Default::default()
-        }))
+        output.visit_mut_with(&mut hygiene())
     }
 
     let output = output.fold_with(&mut fixer(None));
@@ -261,38 +253,10 @@ fn find_config(dir: &Path) -> String {
     panic!("failed to find config file for {}", dir.display())
 }
 
-#[testing::fixture("tests/diff/**/input.js")]
-fn for_diff(input: PathBuf) {
-    let dir = input.parent().unwrap();
-    let config = find_config(&dir);
-    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
-
-    testing::run_test2(false, |cm, handler| {
-        let output = run(cm.clone(), &handler, &input, &config, None, true);
-        let output_module = match output {
-            Some(v) => v,
-            None => return Ok(()),
-        };
-
-        let output = print(cm.clone(), &[output_module.clone()], true, true);
-
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
-
-        println!("{}", input.display());
-
-        NormalizedOutput::from(output)
-            .compare_to_file(dir.join("output.js"))
-            .unwrap();
-
-        Ok(())
-    })
-    .unwrap()
-}
-
 #[testing::fixture("tests/compress/fixture/**/input.js")]
 fn base_fixture(input: PathBuf) {
     let dir = input.parent().unwrap();
-    let config = find_config(&dir);
+    let config = find_config(dir);
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     testing::run_test2(false, |cm, handler| {
@@ -302,7 +266,7 @@ fn base_fixture(input: PathBuf) {
             None => return Ok(()),
         };
 
-        let output = print(cm.clone(), &[output_module.clone()], false, false);
+        let output = print(cm, &[output_module], false, false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
 
@@ -331,7 +295,7 @@ fn projects(input: PathBuf) {
             None => return Ok(()),
         };
 
-        let output = print(cm.clone(), &[output_module.clone()], false, false);
+        let output = print(cm, &[output_module], false, false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
 
@@ -356,7 +320,7 @@ fn projects(input: PathBuf) {
 fn base_exec(input: PathBuf) {
     let dir = input.parent().unwrap();
 
-    let config = find_config(&dir);
+    let config = find_config(dir);
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     let mangle = dir.join("mangle.json");
@@ -385,7 +349,7 @@ fn base_exec(input: PathBuf) {
 
         let output = run(cm.clone(), &handler, &input, &config, mangle, false);
         let output = output.expect("Parsing in base test should not fail");
-        let output = print(cm.clone(), &[output], false, false);
+        let output = print(cm, &[output], false, false);
 
         eprintln!(
             "---- {} -----\n{}",
@@ -502,12 +466,7 @@ fn fixture(input: PathBuf) {
             }
         }
 
-        let output_str = print(
-            cm.clone(),
-            &[drop_span(output_module.clone())],
-            false,
-            false,
-        );
+        let output_str = print(cm, &[drop_span(output_module)], false, false);
 
         if env::var("UPDATE").map(|s| s == "1").unwrap_or(false) {
             let _ = catch_unwind(|| {
@@ -540,7 +499,7 @@ fn print<N: swc_ecma_codegen::Node>(
 
         let mut emitter = Emitter {
             cfg: swc_ecma_codegen::Config { minify },
-            cm: cm.clone(),
+            cm,
             comments: None,
             wr,
         };
@@ -756,8 +715,8 @@ impl Visit for Shower<'_> {
         self.show("ExprOrSpread", n);
         n.visit_children_with(self)
     }
-    fn visit_expr_or_super(&mut self, n: &ExprOrSuper) {
-        self.show("ExprOrSuper", n);
+    fn visit_callee(&mut self, n: &Callee) {
+        self.show("Callee", n);
         n.visit_children_with(self)
     }
     fn visit_fn_decl(&mut self, n: &FnDecl) {
@@ -918,6 +877,10 @@ impl Visit for Shower<'_> {
     }
     fn visit_member_expr(&mut self, n: &MemberExpr) {
         self.show("MemberExpr", n);
+        n.visit_children_with(self)
+    }
+    fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {
+        self.show("SuperPropExpr", n);
         n.visit_children_with(self)
     }
     fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
@@ -1387,7 +1350,7 @@ impl Visit for Shower<'_> {
 #[testing::fixture("tests/full/**/input.js")]
 fn full(input: PathBuf) {
     let dir = input.parent().unwrap();
-    let config = find_config(&dir);
+    let config = find_config(dir);
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     testing::run_test2(false, |cm, handler| {
@@ -1407,7 +1370,7 @@ fn full(input: PathBuf) {
             None => return Ok(()),
         };
 
-        let output = print(cm.clone(), &[output_module.clone()], true, true);
+        let output = print(cm, &[output_module], true, true);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 

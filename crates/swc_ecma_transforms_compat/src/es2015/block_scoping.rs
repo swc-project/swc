@@ -9,7 +9,8 @@ use swc_ecma_utils::{
     quote_ident, quote_str, undefined, var::VarCollector, ExprFactory, Id, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, Fold, Visit,
+    VisitMut, VisitMutWith, VisitWith,
 };
 
 ///
@@ -19,10 +20,10 @@ use swc_ecma_visit::{
 /// ```js
 /// let functions = [];
 /// for (let i = 0; i < 10; i++) {
-/// 	functions.push(function() {
+///    functions.push(function() {
 ///        let i = 1;
-/// 		console.log(i);
-/// 	});
+///        console.log(i);
+///    });
 /// }
 /// ```
 pub fn block_scoping() -> impl Fold {
@@ -67,10 +68,7 @@ impl BlockScoping {
     {
         let len = self.scope.len();
 
-        let remove = match kind {
-            ScopeKind::ForLetLoop { .. } => false,
-            _ => true,
-        };
+        let remove = !matches!(kind, ScopeKind::ForLetLoop { .. });
         self.scope.push(kind);
 
         self.in_loop_body_scope = true;
@@ -84,19 +82,16 @@ impl BlockScoping {
 
     fn mark_as_used(&mut self, i: Id) {
         for (idx, scope) in self.scope.iter_mut().rev().enumerate() {
-            match scope {
-                ScopeKind::ForLetLoop { all, used, .. } => {
-                    //
-                    if all.contains(&i) {
-                        if idx == 0 {
-                            return;
-                        }
-
-                        used.push(i);
+            if let ScopeKind::ForLetLoop { all, used, .. } = scope {
+                //
+                if all.contains(&i) {
+                    if idx == 0 {
                         return;
                     }
+
+                    used.push(i);
+                    return;
                 }
-                _ => {}
             }
         }
     }
@@ -104,10 +99,7 @@ impl BlockScoping {
     fn in_loop_body(&self) -> bool {
         self.scope
             .last()
-            .map(|scope| match scope {
-                ScopeKind::ForLetLoop { .. } | ScopeKind::Loop => true,
-                _ => false,
-            })
+            .map(|scope| matches!(scope, ScopeKind::ForLetLoop { .. } | ScopeKind::Loop))
             .unwrap_or(false)
     }
 
@@ -137,7 +129,7 @@ impl BlockScoping {
                 let ident = private_ident!("_this");
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(ident.clone().into()),
+                    name: ident.clone().into(),
                     init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                     definite: false,
                 });
@@ -150,7 +142,7 @@ impl BlockScoping {
                 let ident = private_ident!("_arguments");
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(ident.clone().into()),
+                    name: ident.clone().into(),
                     init: Some(Box::new(Expr::Ident(quote_ident!("arguments")))),
                     definite: false,
                 });
@@ -191,18 +183,14 @@ impl BlockScoping {
                 // Modifies identifiers, and add reassignments to break / continue / return
                 body_stmt.visit_mut_with(&mut v);
 
-                if !no_modification {
-                    if body_stmt
+                if !no_modification
+                    && body_stmt
                         .stmts
                         .last()
-                        .map(|s| match s {
-                            Stmt::Return(..) => false,
-                            _ => true,
-                        })
+                        .map(|s| !matches!(s, Stmt::Return(..)))
                         .unwrap_or(true)
-                    {
-                        body_stmt.stmts.push(v.make_reassignment(None).into_stmt());
-                    }
+                {
+                    body_stmt.stmts.push(v.make_reassignment(None).into_stmt());
                 }
             }
 
@@ -210,7 +198,7 @@ impl BlockScoping {
 
             self.vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(var_name.clone().into()),
+                name: var_name.clone().into(),
                 init: Some(Box::new(
                     FnExpr {
                         ident: None,
@@ -224,10 +212,8 @@ impl BlockScoping {
                                     Param {
                                         span: DUMMY_SP,
                                         decorators: Default::default(),
-                                        pat: Pat::Ident(
-                                            Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(ctxt))
-                                                .into(),
-                                        ),
+                                        pat: Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(ctxt))
+                                            .into(),
                                     }
                                 })
                                 .collect(),
@@ -269,7 +255,7 @@ impl BlockScoping {
                         declare: false,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(ret.clone().into()),
+                            name: ret.clone().into(),
                             init: Some(Box::new(call.take().into())),
                             definite: false,
                         }],
@@ -285,7 +271,7 @@ impl BlockScoping {
                             span: DUMMY_SP,
                             test: Box::new(Expr::Bin(BinExpr {
                                 span: DUMMY_SP,
-                                op: BinaryOp::EqEqEq,
+                                op: op!("==="),
                                 left: {
                                     // _typeof(_ret)
                                     let callee = helper!(type_of, "typeof");
@@ -302,13 +288,7 @@ impl BlockScoping {
                                     .into()
                                 },
                                 //"object"
-                                right: Expr::Lit(Lit::Str(Str {
-                                    span: DUMMY_SP,
-                                    value: js_word!("object"),
-                                    has_escape: false,
-                                    kind: Default::default(),
-                                }))
-                                .into(),
+                                right: js_word!("object").into(),
                             })),
                             cons: Box::new(Stmt::Return(ReturnStmt {
                                 span: DUMMY_SP,
@@ -326,33 +306,27 @@ impl BlockScoping {
                     let mut cases = vec![];
 
                     if flow_helper.has_break {
-                        cases.push(
-                            SwitchCase {
+                        cases.push(SwitchCase {
+                            span: DUMMY_SP,
+                            test: Some(Box::new(quote_str!("break").into())),
+                            // TODO: Handle labelled statements
+                            cons: vec![Stmt::Break(BreakStmt {
                                 span: DUMMY_SP,
-                                test: Some(Box::new(quote_str!("break").into())),
-                                // TODO: Handle labelled statements
-                                cons: vec![Stmt::Break(BreakStmt {
-                                    span: DUMMY_SP,
-                                    label: None,
-                                })],
-                            }
-                            .into(),
-                        );
+                                label: None,
+                            })],
+                        });
                     }
 
                     if flow_helper.has_continue {
-                        cases.push(
-                            SwitchCase {
+                        cases.push(SwitchCase {
+                            span: DUMMY_SP,
+                            test: Some(Box::new(quote_str!("continue").into())),
+                            // TODO: Handle labelled statements
+                            cons: vec![Stmt::Continue(ContinueStmt {
                                 span: DUMMY_SP,
-                                test: Some(Box::new(quote_str!("continue").into())),
-                                // TODO: Handle labelled statements
-                                cons: vec![Stmt::Continue(ContinueStmt {
-                                    span: DUMMY_SP,
-                                    label: None,
-                                })],
-                            }
-                            .into(),
-                        );
+                                label: None,
+                            })],
+                        });
                     }
 
                     cases.extend(check_ret.map(|stmt| SwitchCase {
@@ -364,7 +338,7 @@ impl BlockScoping {
                     stmts.push(
                         SwitchStmt {
                             span: DUMMY_SP,
-                            discriminant: Box::new(ret.clone().into()),
+                            discriminant: Box::new(ret.into()),
                             cases,
                         }
                         .into(),
@@ -392,7 +366,7 @@ impl BlockScoping {
                         stmts.push(
                             IfStmt {
                                 span: DUMMY_SP,
-                                test: ret.clone().make_eq(quote_str!("continue")).into(),
+                                test: ret.make_eq(quote_str!("continue")).into(),
                                 // TODO: Handle labelled statements
                                 cons: Stmt::Continue(ContinueStmt {
                                     span: DUMMY_SP,
@@ -692,8 +666,18 @@ impl Visit for InfectionFinder<'_> {
 
         e.obj.visit_with(self);
 
-        if e.computed {
-            e.prop.visit_with(self);
+        if let MemberProp::Computed(c) = &e.prop {
+            c.visit_with(self);
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if self.found {
+            return;
+        }
+
+        if let SuperProp::Computed(c) = &e.prop {
+            c.visit_with(self);
         }
     }
 
@@ -743,12 +727,11 @@ impl VisitMut for FlowHelper<'_> {
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         match &n.left {
-            PatOrExpr::Expr(e) => match &**e {
-                Expr::Ident(i) => {
+            PatOrExpr::Expr(e) => {
+                if let Expr::Ident(i) = &**e {
                     self.check(i.to_id());
                 }
-                _ => {}
-            },
+            }
             PatOrExpr::Pat(p) => {
                 let ids: Vec<Id> = find_ids(p);
 
@@ -847,7 +830,7 @@ impl VisitMut for FlowHelper<'_> {
                             value: s.arg.take().unwrap_or_else(|| {
                                 Box::new(Expr::Unary(UnaryExpr {
                                     span: DUMMY_SP,
-                                    op: UnaryOp::Void,
+                                    op: op!("void"),
                                     arg: undefined(DUMMY_SP),
                                 }))
                             }),
@@ -869,9 +852,8 @@ impl VisitMut for FlowHelper<'_> {
     }
 
     fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
-        match *n.arg {
-            Expr::Ident(ref i) => self.check(i.to_id()),
-            _ => {}
+        if let Expr::Ident(ref i) = *n.arg {
+            self.check(i.to_id())
         }
         n.visit_mut_children_with(self);
     }
@@ -903,9 +885,7 @@ impl MutationHandler<'_> {
         for (id, ctxt) in &*self.map {
             exprs.push(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                    Ident::new(id.0.clone(), DUMMY_SP.with_ctxt(id.1)).into(),
-                ))),
+                left: PatOrExpr::Pat(Ident::new(id.0.clone(), DUMMY_SP.with_ctxt(id.1)).into()),
                 op: op!("="),
                 right: Box::new(Expr::Ident(Ident::new(
                     id.0.clone(),
@@ -913,7 +893,7 @@ impl MutationHandler<'_> {
                 ))),
             })));
         }
-        exprs.push(orig.unwrap_or(undefined(DUMMY_SP)));
+        exprs.push(orig.unwrap_or_else(|| undefined(DUMMY_SP)));
 
         Expr::Seq(SeqExpr {
             span: DUMMY_SP,
@@ -983,14 +963,7 @@ impl VisitMut for MutationHandler<'_> {
         n.arg = Some(Box::new(self.make_reassignment(val)))
     }
 
-    /// Don't recurse into member expression prop if not computed
-    fn visit_mut_member_expr(&mut self, m: &mut MemberExpr) {
-        m.obj.visit_mut_with(self);
-        match &*m.prop {
-            Expr::Ident(_) if !m.computed => {}
-            _ => m.prop.visit_mut_with(self),
-        }
-    }
+    visit_mut_obj_and_computed!();
 }
 
 #[derive(Debug)]

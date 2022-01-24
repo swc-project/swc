@@ -83,8 +83,7 @@
                   },
                   "value": "encode",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {

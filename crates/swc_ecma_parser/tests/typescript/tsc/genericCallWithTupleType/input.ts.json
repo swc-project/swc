@@ -397,8 +397,7 @@
             },
             "value": "tuple1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrayExpression",
@@ -502,19 +501,25 @@
                 },
                 "value": "tuple1",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 146,
-                "end": 147,
+                "start": 145,
+                "end": 148,
                 "ctxt": 0
               },
-              "value": 0.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 146,
+                  "end": 147,
+                  "ctxt": 0
+                },
+                "value": 0.0
+              }
+            }
           },
           "definite": false
         }
@@ -581,19 +586,25 @@
                 },
                 "value": "tuple1",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 180,
-                "end": 181,
+                "start": 179,
+                "end": 182,
                 "ctxt": 0
               },
-              "value": 1.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 180,
+                  "end": 181,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              }
+            }
           },
           "definite": false
         }
@@ -640,8 +651,7 @@
             },
             "value": "tuple1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrayExpression",
@@ -769,19 +779,25 @@
                 },
                 "value": "tuple1",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 251,
-                "end": 252,
+                "start": 250,
+                "end": 253,
                 "ctxt": 0
               },
-              "value": 2.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 251,
+                  "end": 252,
+                  "ctxt": 0
+                },
+                "value": 2.0
+              }
+            }
           },
           "definite": false
         }
@@ -835,19 +851,25 @@
               },
               "value": "tuple1",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
-            "type": "NumericLiteral",
+            "type": "Computed",
             "span": {
-              "start": 272,
-              "end": 273,
+              "start": 271,
+              "end": 274,
               "ctxt": 0
             },
-            "value": 3.0
-          },
-          "computed": true
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 272,
+                "end": 273,
+                "ctxt": 0
+              },
+              "value": 3.0
+            }
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -949,19 +971,25 @@
                 },
                 "value": "tuple1",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 313,
-                "end": 314,
+                "start": 312,
+                "end": 315,
                 "ctxt": 0
               },
-              "value": 3.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 313,
+                  "end": 314,
+                  "ctxt": 0
+                },
+                "value": 3.0
+              }
+            }
           },
           "definite": false
         }
@@ -1008,8 +1036,7 @@
             },
             "value": "tuple1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrayExpression",
@@ -1093,8 +1120,7 @@
             },
             "value": "tuple1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrayExpression",
@@ -1183,8 +1209,7 @@
             },
             "value": "tuple1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrayExpression",
@@ -1268,8 +1293,7 @@
             },
             "value": "tuple1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrayExpression",
@@ -1348,8 +1372,7 @@
             },
             "value": "tuple1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrayExpression",
@@ -1433,8 +1456,7 @@
             },
             "value": "tuple1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrayExpression",
@@ -1513,8 +1535,7 @@
             },
             "value": "tuple1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrayExpression",

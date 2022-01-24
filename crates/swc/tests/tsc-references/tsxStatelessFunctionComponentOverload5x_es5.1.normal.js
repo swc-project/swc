@@ -27,8 +27,7 @@ var obj1 = {
     to: "boo"
 };
 var obj2 = {
-    onClick: function() {
-    }
+    onClick: function() {}
 };
 var obj3;
 export function MainButton(props) {
@@ -41,44 +40,32 @@ export function MainButton(props) {
 // Error
 var b0 = /*#__PURE__*/ React.createElement(MainButton, {
     to: "/some/path",
-    onClick: function(e) {
-    }
+    onClick: function(e) {}
 }, "GO"); // extra property;
 var b1 = /*#__PURE__*/ React.createElement(MainButton, _extends({
-    onClick: function(e) {
-    }
+    onClick: function(e) {}
 }, obj0), "Hello world"); // extra property;
-var b2 = /*#__PURE__*/ React.createElement(MainButton, _extends({
-}, {
+var b2 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
     to: "10000"
 }, obj2)); // extra property
-var b3 = /*#__PURE__*/ React.createElement(MainButton, _extends({
-}, {
+var b3 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
     to: "10000"
 }, {
-    onClick: function(k) {
-    }
+    onClick: function(k) {}
 })); // extra property
-var b4 = /*#__PURE__*/ React.createElement(MainButton, _extends({
-}, obj3, {
+var b4 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, obj3, {
     to: true
 })); // Should error because Incorrect type; but attributes are any so everything is allowed
-var b5 = /*#__PURE__*/ React.createElement(MainButton, _extends({
-}, {
-    onClick: function onClick(e) {
-    }
+var b5 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
+    onClick: function onClick(e) {}
 }, obj0)); // Spread retain method declaration (see GitHub #13365), so now there is an extra attributes
-var b6 = /*#__PURE__*/ React.createElement(MainButton, _extends({
-}, {
-    onClick: function onClick(e) {
-    }
+var b6 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
+    onClick: function onClick(e) {}
 }, {
     children: 10
 })); // incorrect type for optional attribute
-var b7 = /*#__PURE__*/ React.createElement(MainButton, _extends({
-}, {
-    onClick: function onClick(e) {
-    }
+var b7 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
+    onClick: function onClick(e) {}
 }, {
     children: "hello",
     className: true

@@ -29,8 +29,7 @@ var C = // @target: esnext,es2016
         {
             // ? should be removed in emit
             key: "method",
-            value: function method() {
-            }
+            value: function method() {}
         }
     ]);
     return C;

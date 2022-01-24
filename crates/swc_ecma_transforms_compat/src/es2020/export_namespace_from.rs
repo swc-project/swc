@@ -21,9 +21,11 @@ impl VisitMut for ExportNamespaceFrom {
                 ModuleItem::Stmt(ref s) if s.is_use_strict() => items_updated.push(item),
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
                     // Skip if it does not have namespace export
-                    if export.specifiers.iter().all(|s| match *s {
-                        ExportSpecifier::Named(..) | ExportSpecifier::Default(..) => true,
-                        _ => false,
+                    if export.specifiers.iter().all(|s| {
+                        matches!(
+                            *s,
+                            ExportSpecifier::Named(..) | ExportSpecifier::Default(..)
+                        )
                     }) {
                         extra_stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)));
                         continue;
@@ -31,7 +33,13 @@ impl VisitMut for ExportNamespaceFrom {
 
                     match export.specifiers.remove(0) {
                         ExportSpecifier::Namespace(ns) => {
-                            let local = ns.name.prefix("_").private();
+                            let name = match ns.name {
+                                ModuleExportName::Ident(name) => name,
+                                ModuleExportName::Str(..) => {
+                                    unimplemented!("module string names unimplemented")
+                                }
+                            };
+                            let local = name.prefix("_").private();
 
                             items_updated.push(ModuleItem::ModuleDecl(ModuleDecl::Import(
                                 ImportDecl {
@@ -56,8 +64,8 @@ impl VisitMut for ExportNamespaceFrom {
                                     specifiers: vec![ExportSpecifier::Named(
                                         ExportNamedSpecifier {
                                             span: DUMMY_SP,
-                                            orig: local,
-                                            exported: Some(ns.name),
+                                            orig: ModuleExportName::Ident(local),
+                                            exported: Some(ModuleExportName::Ident(name)),
                                             is_type_only: false,
                                         },
                                     )],

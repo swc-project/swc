@@ -468,8 +468,7 @@
                   },
                   "value": "resolve",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -777,8 +776,7 @@
                   },
                   "value": "resolve",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {

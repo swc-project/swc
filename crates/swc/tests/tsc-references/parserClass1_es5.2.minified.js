@@ -45,8 +45,7 @@ export var NullLogger = function() {
         },
         {
             key: "log",
-            value: function(s) {
-            }
+            value: function(s) {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), NullLogger;
 }();

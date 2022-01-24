@@ -8,13 +8,11 @@ var M;
 (function(M1) {
     var X;
     M1.X = X;
-})(M || (M = {
-}));
+})(M || (M = {}));
 (function(M) {
     // Should emit 'M.X' in both opening and closing tags
     var y = /*#__PURE__*/ React.createElement(X, null);
-})(M || (M = {
-}));
+})(M || (M = {}));
 //@module: amd
 //@jsx: preserve
 //@target: ES5

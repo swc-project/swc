@@ -70,7 +70,7 @@ where
                     .windows(2)
                     .any(|stmts| match (stmts[0].as_stmt(), stmts[1].as_stmt()) {
                         (Some(l @ Stmt::Expr(..)), Some(r)) => {
-                            if is_directive(&l) || is_directive(&r) {
+                            if is_directive(l) || is_directive(r) {
                                 return false;
                             }
 
@@ -201,9 +201,11 @@ where
                         ) => {
                             match &mut stmt.init {
                                 Some(VarDeclOrExpr::Expr(e)) => {
-                                    if exprs.iter().all(|expr| match &**expr {
-                                        Expr::Assign(AssignExpr { op: op!("="), .. }) => true,
-                                        _ => false,
+                                    if exprs.iter().all(|expr| {
+                                        matches!(
+                                            &**expr,
+                                            Expr::Assign(AssignExpr { op: op!("="), .. })
+                                        )
                                     }) {
                                         let ids_used_by_exprs =
                                             idents_used_by_ignoring_nested(&exprs);
@@ -226,33 +228,31 @@ where
                                         // seems to be aware of side effects.
                                         //
                                         // Maybe there exists an optimization related to it in v8.
-                                        match e.first_expr_mut() {
-                                            Expr::Assign(AssignExpr {
-                                                op: op!("="),
-                                                left,
-                                                right,
-                                                ..
-                                            }) => {
-                                                if !has_conflict
-                                                    && left.as_ident().is_some()
-                                                    && match &**right {
-                                                        Expr::Lit(Lit::Regex(..)) => false,
-                                                        Expr::Lit(..) => true,
-                                                        _ => false,
-                                                    }
-                                                {
-                                                    let seq = e.force_seq();
-                                                    let extra =
-                                                        seq.exprs.drain(1..).collect::<Vec<_>>();
-                                                    seq.exprs.extend(take(&mut exprs));
-                                                    seq.exprs.extend(extra);
-
-                                                    new_stmts.push(T::from_stmt(Stmt::For(stmt)));
-
-                                                    continue;
+                                        if let Expr::Assign(AssignExpr {
+                                            op: op!("="),
+                                            left,
+                                            right,
+                                            ..
+                                        }) = e.first_expr_mut()
+                                        {
+                                            if !has_conflict
+                                                && left.as_ident().is_some()
+                                                && match &**right {
+                                                    Expr::Lit(Lit::Regex(..)) => false,
+                                                    Expr::Lit(..) => true,
+                                                    _ => false,
                                                 }
+                                            {
+                                                let seq = e.force_seq();
+                                                let extra =
+                                                    seq.exprs.drain(1..).collect::<Vec<_>>();
+                                                seq.exprs.extend(take(&mut exprs));
+                                                seq.exprs.extend(extra);
+
+                                                new_stmts.push(T::from_stmt(Stmt::For(stmt)));
+
+                                                continue;
                                             }
-                                            _ => {}
                                         }
                                     }
                                     e.prepend_exprs(take(&mut exprs));
@@ -355,9 +355,8 @@ where
             Some(Stmt::Expr(e)) => match &*e.expr {
                 Expr::Seq(seq) => {
                     seq.exprs.len() > 1
-                        && seq.exprs.iter().all(|expr| match &**expr {
-                            Expr::Assign(AssignExpr { op: op!("="), .. }) => true,
-                            _ => false,
+                        && seq.exprs.iter().all(|expr| {
+                            matches!(&**expr, Expr::Assign(AssignExpr { op: op!("="), .. }))
                         })
                 }
                 _ => false,
@@ -379,9 +378,11 @@ where
                         if match &*es.expr {
                             Expr::Seq(seq) => {
                                 seq.exprs.len() > 1
-                                    && seq.exprs.iter().all(|expr| match &**expr {
-                                        Expr::Assign(AssignExpr { op: op!("="), .. }) => true,
-                                        _ => false,
+                                    && seq.exprs.iter().all(|expr| {
+                                        matches!(
+                                            &**expr,
+                                            Expr::Assign(AssignExpr { op: op!("="), .. })
+                                        )
                                     })
                             }
                             _ => false,
@@ -424,18 +425,12 @@ where
 
         {
             let can_work = e.exprs.iter().any(|e| {
-                match &**e {
-                    Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) => {
-                        match &*assign.right {
-                            Expr::Seq(right) => {
-                                if right.exprs.len() >= 2 {
-                                    return true;
-                                }
-                            }
-                            _ => {}
+                if let Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) = &**e {
+                    if let Expr::Seq(right) = &*assign.right {
+                        if right.exprs.len() >= 2 {
+                            return true;
                         }
                     }
-                    _ => {}
                 }
 
                 false
@@ -451,8 +446,8 @@ where
         let mut new_exprs = Vec::with_capacity(e.exprs.len() * 12 / 10);
 
         for expr in e.exprs.take() {
-            match *expr {
-                Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) => match *assign.right {
+            if let Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) = *expr {
+                match *assign.right {
                     Expr::Seq(mut right) => {
                         new_exprs.extend(right.exprs.drain(..right.exprs.len() - 1));
                         new_exprs.push(Box::new(Expr::Assign(AssignExpr {
@@ -465,8 +460,7 @@ where
                         new_exprs.push(Box::new(Expr::Assign(assign)));
                         continue;
                     }
-                },
-                _ => {}
+                }
             }
 
             new_exprs.push(expr);
@@ -500,45 +494,48 @@ where
     /// This method actually `hoist`s [VarDecl]s declared with `var`.
     fn extract_vars(&mut self, s: &mut Stmt) {
         let mut found_other = false;
-        match s {
-            Stmt::Block(bs) => {
-                // Extract variables without
-                for stmt in &mut bs.stmts {
-                    match stmt {
-                        Stmt::Decl(Decl::Var(
-                            v @ VarDecl {
-                                kind: VarDeclKind::Var,
-                                ..
-                            },
-                        )) => {
-                            for decl in &mut v.decls {
-                                if decl.init.is_some() {
-                                    continue;
-                                }
-                                self.changed = true;
-                                tracing::debug!("sequences: Hoisting `var` without init");
-                                let s = Stmt::Decl(Decl::Var(VarDecl {
-                                    span: v.span,
-                                    kind: VarDeclKind::Var,
-                                    declare: false,
-                                    decls: vec![decl.take()],
-                                }));
-                                if found_other {
-                                    self.append_stmts.push(s);
-                                } else {
-                                    self.prepend_stmts.push(s);
-                                }
+        if let Stmt::Block(bs) = s {
+            // Extract variables without
+            for stmt in &mut bs.stmts {
+                match stmt {
+                    Stmt::Decl(Decl::Var(
+                        v @ VarDecl {
+                            kind: VarDeclKind::Var,
+                            ..
+                        },
+                    )) => {
+                        for decl in &mut v.decls {
+                            if decl.init.is_some() {
+                                continue;
                             }
+                            self.changed = true;
+                            tracing::debug!("sequences: Hoisting `var` without init");
+                            let s = Stmt::Decl(Decl::Var(VarDecl {
+                                span: v.span,
+                                kind: VarDeclKind::Var,
+                                declare: false,
+                                decls: vec![decl.take()],
+                            }));
+                            if found_other {
+                                self.append_stmts.push(s);
+                            } else {
+                                self.prepend_stmts.push(s);
+                            }
+                        }
 
-                            v.decls.retain(|v| !v.name.is_invalid());
-                        }
-                        _ => {
-                            found_other = true;
-                        }
+                        v.decls.retain(|v| !v.name.is_invalid());
+                    }
+                    _ => {
+                        found_other = true;
                     }
                 }
             }
-            _ => {}
+
+            bs.stmts.retain(|s| match s {
+                Stmt::Empty(..) => false,
+                Stmt::Decl(Decl::Var(v)) => !v.decls.is_empty(),
+                _ => true,
+            });
         }
     }
 
@@ -555,18 +552,16 @@ where
                 _ => return,
             };
 
-            match &*e.exprs[e.exprs.len() - 2] {
-                Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) => {
-                    if let Some(lhs) = assign.left.as_ident() {
-                        if lhs.sym == last_id.sym && lhs.span.ctxt == last_id.span.ctxt {
-                            e.exprs.pop();
-                            self.changed = true;
-                            tracing::debug!("sequences: Shifting assignment");
-                            return;
-                        }
-                    };
-                }
-                _ => {}
+            if let Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) =
+                &*e.exprs[e.exprs.len() - 2]
+            {
+                if let Some(lhs) = assign.left.as_ident() {
+                    if lhs.sym == last_id.sym && lhs.span.ctxt == last_id.span.ctxt {
+                        e.exprs.pop();
+                        self.changed = true;
+                        tracing::debug!("sequences: Shifting assignment");
+                    }
+                };
             }
         }
     }
@@ -576,15 +571,15 @@ where
             return;
         }
 
-        match &*e.exprs[e.exprs.len() - 2] {
-            Expr::Unary(UnaryExpr {
-                op: op!("void"), ..
-            }) => return,
-            _ => {}
+        if let Expr::Unary(UnaryExpr {
+            op: op!("void"), ..
+        }) = &*e.exprs[e.exprs.len() - 2]
+        {
+            return;
         }
 
         if let Some(last) = e.exprs.last() {
-            if is_pure_undefined(&last) {
+            if is_pure_undefined(last) {
                 self.changed = true;
                 tracing::debug!("sequences: Shifting void");
 
@@ -650,10 +645,7 @@ where
         let mut buf = vec![];
 
         for stmt in stmts.iter_mut() {
-            let is_end = match stmt.as_stmt() {
-                Some(Stmt::If(..) | Stmt::Throw(..)) => true,
-                _ => false,
-            };
+            let is_end = matches!(stmt.as_stmt(), Some(Stmt::If(..) | Stmt::Throw(..)));
 
             let items = if let Some(stmt) = stmt.as_stmt_mut() {
                 self.seq_exprs_of(stmt, self.options)
@@ -685,22 +677,16 @@ where
         }
 
         stmts.retain_mut(|stmt| {
-            match stmt.as_stmt_mut() {
-                Some(Stmt::Expr(es)) => match &mut *es.expr {
-                    Expr::Seq(e) => {
-                        e.exprs.retain(|e| !e.is_invalid());
-                    }
-                    _ => {}
-                },
-                _ => {}
+            if let Some(Stmt::Expr(es)) = stmt.as_stmt_mut() {
+                if let Expr::Seq(e) = &mut *es.expr {
+                    e.exprs.retain(|e| !e.is_invalid());
+                }
             }
 
             match stmt.as_stmt_mut() {
                 Some(Stmt::Decl(Decl::Var(v))) => {
-                    v.decls.retain(|decl| match decl.init.as_deref() {
-                        Some(Expr::Invalid(..)) => false,
-                        _ => true,
-                    });
+                    v.decls
+                        .retain(|decl| !matches!(decl.init.as_deref(), Some(Expr::Invalid(..))));
 
                     !v.decls.is_empty()
                 }
@@ -713,11 +699,8 @@ where
 
     pub(super) fn normalize_sequences(&self, seq: &mut SeqExpr) {
         for e in &mut seq.exprs {
-            match &mut **e {
-                Expr::Seq(e) => {
-                    self.normalize_sequences(&mut *e);
-                }
-                _ => {}
+            if let Expr::Seq(e) = &mut **e {
+                self.normalize_sequences(&mut *e);
             }
         }
 
@@ -803,11 +786,7 @@ where
                 match &a2[j - idx] {
                     Mergable::Var(_) => break,
                     Mergable::Expr(e2) => {
-                        if !self.is_skippable_for_seq(Some(a), &*e2) {
-                            if cfg!(feature = "debug") && false {
-                                tracing::trace!("Cannot skip: {}", dump(&**e2, false));
-                            }
-
+                        if !self.is_skippable_for_seq(Some(a), e2) {
                             break;
                         }
 
@@ -858,10 +837,10 @@ where
                 op: op!("!") | op!("void") | op!("typeof"),
                 arg,
                 ..
-            }) => self.is_skippable_for_seq(a, &arg),
+            }) => self.is_skippable_for_seq(a, arg),
 
             Expr::Bin(BinExpr { left, right, .. }) => {
-                self.is_skippable_for_seq(a, &left) && self.is_skippable_for_seq(a, &right)
+                self.is_skippable_for_seq(a, left) && self.is_skippable_for_seq(a, right)
             }
 
             Expr::Assign(e) => {
@@ -886,9 +865,8 @@ where
                     }
                 }
 
-                match &*e.right {
-                    Expr::Lit(..) => return true,
-                    _ => {}
+                if let Expr::Lit(..) = &*e.right {
+                    return true;
                 }
 
                 if contains_this_expr(&*e.right) {
@@ -935,24 +913,22 @@ where
 
         match a {
             Mergable::Var(..) => {}
-            Mergable::Expr(a) => match a {
-                Expr::Seq(a) => {
+            Mergable::Expr(a) => {
+                if let Expr::Seq(a) = a {
                     //
                     for a in a.exprs.iter_mut().rev() {
                         if self.merge_sequential_expr(&mut Mergable::Expr(a), b)? {
                             return Ok(true);
                         }
 
-                        if !self.is_skippable_for_seq(None, &a) {
+                        if !self.is_skippable_for_seq(None, a) {
                             return Ok(false);
                         }
                     }
 
                     return Ok(false);
                 }
-
-                _ => {}
-            },
+            }
         }
 
         match b {
@@ -976,7 +952,7 @@ where
                     return Ok(true);
                 }
 
-                if !self.is_skippable_for_seq(Some(a), &left) {
+                if !self.is_skippable_for_seq(Some(a), left) {
                     return Ok(false);
                 }
 
@@ -989,19 +965,14 @@ where
                 return self.merge_sequential_expr(a, &mut **right);
             }
 
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                computed: false,
-                ..
-            }) => {
+            Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
                 tracing::trace!("seq: Try object of member");
                 return self.merge_sequential_expr(a, &mut **obj);
             }
 
             Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                prop,
-                computed: true,
+                obj,
+                prop: MemberProp::Computed(c),
                 ..
             }) => {
                 tracing::trace!("seq: Try object of member (computed)");
@@ -1014,7 +985,15 @@ where
                 }
 
                 tracing::trace!("seq: Try prop of member (computed)");
-                return self.merge_sequential_expr(a, &mut **prop);
+                return self.merge_sequential_expr(a, &mut c.expr);
+            }
+
+            Expr::SuperProp(SuperPropExpr {
+                prop: SuperProp::Computed(c),
+                ..
+            }) => {
+                tracing::trace!("seq: Try prop of member (computed)");
+                return self.merge_sequential_expr(a, &mut c.expr);
             }
 
             Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
@@ -1096,7 +1075,7 @@ where
             }
 
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(b_callee),
+                callee: Callee::Expr(b_callee),
                 args: b_args,
                 ..
             }) => {
@@ -1104,28 +1083,24 @@ where
                 tracing::trace!("seq: Try callee of call");
                 if self.merge_sequential_expr(a, &mut **b_callee)? {
                     if is_this_undefined {
-                        match &**b_callee {
-                            Expr::Member(..) => {
-                                let zero = Box::new(Expr::Lit(Lit::Num(Number {
-                                    span: DUMMY_SP,
-                                    value: 0.0,
-                                })));
-                                tracing::debug!("injecting zero to preserve `this` in call");
+                        if let Expr::Member(..) = &**b_callee {
+                            let zero = Box::new(Expr::Lit(Lit::Num(Number {
+                                span: DUMMY_SP,
+                                value: 0.0,
+                            })));
+                            tracing::debug!("injecting zero to preserve `this` in call");
 
-                                *b_callee = Box::new(Expr::Seq(SeqExpr {
-                                    span: b_callee.span(),
-                                    exprs: vec![zero, b_callee.take()],
-                                }));
-                            }
-
-                            _ => {}
+                            *b_callee = Box::new(Expr::Seq(SeqExpr {
+                                span: b_callee.span(),
+                                exprs: vec![zero, b_callee.take()],
+                            }));
                         }
                     }
 
                     return Ok(true);
                 }
 
-                if !self.is_skippable_for_seq(Some(a), &b_callee) {
+                if !self.is_skippable_for_seq(Some(a), b_callee) {
                     return Ok(false);
                 }
 
@@ -1162,7 +1137,7 @@ where
                         return Ok(true);
                     }
 
-                    if !self.is_skippable_for_seq(Some(a), &b_expr) {
+                    if !self.is_skippable_for_seq(Some(a), b_expr) {
                         return Ok(false);
                     }
                 }
@@ -1253,57 +1228,51 @@ where
 
             match a {
                 Mergable::Var(_) => {}
-                Mergable::Expr(a) => match *a {
-                    Expr::Update(UpdateExpr {
+                Mergable::Expr(a) => {
+                    if let Expr::Update(UpdateExpr {
                         op,
                         prefix: false,
                         arg,
                         ..
-                    }) => {
-                        match &**arg {
-                            Expr::Ident(a_id) => {
-                                let mut v = UsageCounter {
-                                    expr_usage: Default::default(),
-                                    pat_usage: Default::default(),
-                                    target: &*a_id,
-                                    in_lhs: false,
-                                };
-                                b.visit_with(&mut v);
-                                if v.expr_usage != 1 || v.pat_usage != 0 {
-                                    tracing::trace!(
-                                        "[X] sequences: Aborting merging of an update expression \
-                                         because of usage counts ({}, ref = {}, pat = {})",
-                                        a_id,
-                                        v.expr_usage,
-                                        v.pat_usage
-                                    );
-                                    return Ok(false);
-                                }
-
-                                let mut replaced = false;
-                                replace_expr(b, |e| match e {
-                                    Expr::Update(e @ UpdateExpr { prefix: false, .. }) => {
-                                        if *op == e.op && arg.is_ident_ref_to(a_id.sym.clone()) {
-                                            e.prefix = true;
-                                            replaced = true;
-                                        }
-                                    }
-                                    _ => {}
-                                });
-                                if replaced {
-                                    a.take();
-                                    return Ok(true);
-                                }
+                    }) = *a
+                    {
+                        if let Expr::Ident(a_id) = &**arg {
+                            let mut v = UsageCounter {
+                                expr_usage: Default::default(),
+                                pat_usage: Default::default(),
+                                target: &*a_id,
+                                in_lhs: false,
+                            };
+                            b.visit_with(&mut v);
+                            if v.expr_usage != 1 || v.pat_usage != 0 {
+                                tracing::trace!(
+                                    "[X] sequences: Aborting merging of an update expression \
+                                     because of usage counts ({}, ref = {}, pat = {})",
+                                    a_id,
+                                    v.expr_usage,
+                                    v.pat_usage
+                                );
+                                return Ok(false);
                             }
 
-                            _ => {}
+                            let mut replaced = false;
+                            replace_expr(b, |e| {
+                                if let Expr::Update(e @ UpdateExpr { prefix: false, .. }) = e {
+                                    if *op == e.op && arg.is_ident_ref_to(a_id.sym.clone()) {
+                                        e.prefix = true;
+                                        replaced = true;
+                                    }
+                                }
+                            });
+                            if replaced {
+                                a.take();
+                                return Ok(true);
+                            }
                         }
 
                         return Ok(false);
                     }
-
-                    _ => {}
-                },
+                }
             }
         }
 
@@ -1331,6 +1300,10 @@ where
                             .as_ref()
                             .and_then(|data| data.vars.get(&left_id.to_id()))
                         {
+                            if usage.inline_prevented {
+                                return Ok(false);
+                            }
+
                             if usage.declared_as_fn_expr {
                                 tracing::trace!(
                                     "sequences: [X] Declared as fn expr ({}, {:?})",
@@ -1364,6 +1337,10 @@ where
                     if usage.reassigned || !usage.is_fn_local {
                         return Ok(false);
                     }
+                    if usage.inline_prevented {
+                        return Ok(false);
+                    }
+
                     match &mut a.init {
                         Some(v) => (left, v),
                         None => {
@@ -1486,10 +1463,19 @@ impl Visit for UsageCounter<'_> {
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(self);
 
-        if e.computed {
+        if let MemberProp::Computed(c) = &e.prop {
             let old = self.in_lhs;
             self.in_lhs = false;
-            e.prop.visit_with(self);
+            c.expr.visit_with(self);
+            self.in_lhs = old;
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            let old = self.in_lhs;
+            self.in_lhs = false;
+            c.expr.visit_with(self);
             self.in_lhs = old;
         }
     }

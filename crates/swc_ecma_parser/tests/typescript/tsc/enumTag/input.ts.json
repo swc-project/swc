@@ -777,8 +777,7 @@
                     },
                     "value": "START",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }
@@ -836,8 +835,7 @@
                   },
                   "value": "UNKNOWN",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             }
           },
@@ -893,8 +891,7 @@
                   },
                   "value": "MISTAKE",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             }
           },
@@ -1029,16 +1026,23 @@
                   "optional": false
                 },
                 "property": {
-                  "type": "Identifier",
+                  "type": "Computed",
                   "span": {
-                    "start": 1072,
-                    "end": 1073,
+                    "start": 1071,
+                    "end": 1074,
                     "ctxt": 0
                   },
-                  "value": "s",
-                  "optional": false
-                },
-                "computed": true
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1072,
+                      "end": 1073,
+                      "ctxt": 0
+                    },
+                    "value": "s",
+                    "optional": false
+                  }
+                }
               }
             },
             "consequent": {
@@ -1100,16 +1104,23 @@
                       "optional": false
                     },
                     "property": {
-                      "type": "Identifier",
+                      "type": "Computed",
                       "span": {
-                        "start": 1137,
-                        "end": 1138,
+                        "start": 1136,
+                        "end": 1139,
                         "ctxt": 0
                       },
-                      "value": "s",
-                      "optional": false
-                    },
-                    "computed": true
+                      "expression": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1137,
+                          "end": 1138,
+                          "ctxt": 0
+                        },
+                        "value": "s",
+                        "optional": false
+                      }
+                    }
                   }
                 }
               ]

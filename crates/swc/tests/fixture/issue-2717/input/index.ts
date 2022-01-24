@@ -2,9 +2,9 @@ import { takeLatest, select } from 'redux-saga/effects';
 import { CHANGE_THEME, CHANGE_THEME_CUSTOM_PALETTE, CHANGE_THEME_SWITCH_MODE } from 'core/actions/changeTheme';
 import { ReduxAction, ReduxState } from 'types';
 
-const selectThemeObject = (state: ReduxState) => state.theme;
+export const selectThemeObject = (state: ReduxState) => state.theme;
 
-function* saveTheme({ type }: ReduxAction) {
+export function* saveTheme({ type }: ReduxAction) {
     // @ts-ignore
     const theme = yield select(selectThemeObject);
     window.localStorage.setItem(

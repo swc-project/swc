@@ -13,8 +13,7 @@ function _defineProperty(obj, key, value) {
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {
-        };
+        var source = arguments[i] != null ? arguments[i] : {};
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
             ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -28,19 +27,13 @@ function _objectSpread(target) {
     return target;
 }
 var o1;
-var o1 = _objectSpread({
-}, undefinedUnion);
+var o1 = _objectSpread({}, undefinedUnion);
 var o2;
-var o2 = _objectSpread({
-}, nullUnion);
+var o2 = _objectSpread({}, nullUnion);
 var o3;
-var o3 = _objectSpread({
-}, undefinedUnion, nullUnion);
-var o3 = _objectSpread({
-}, nullUnion, undefinedUnion);
+var o3 = _objectSpread({}, undefinedUnion, nullUnion);
+var o3 = _objectSpread({}, nullUnion, undefinedUnion);
 var o4;
-var o4 = _objectSpread({
-}, undefinedUnion, undefinedUnion);
+var o4 = _objectSpread({}, undefinedUnion, undefinedUnion);
 var o5;
-var o5 = _objectSpread({
-}, nullUnion, nullUnion);
+var o5 = _objectSpread({}, nullUnion, nullUnion);

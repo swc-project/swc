@@ -56,6 +56,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -63,8 +64,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -97,8 +97,7 @@ var B = // @noEmit: true
     _createClass(B, [
         {
             key: "foo",
-            value: function foo() {
-            }
+            value: function foo() {}
         }
     ]);
     return B;
@@ -114,8 +113,7 @@ var C = /*#__PURE__*/ function(B) {
     return C;
 }(B);
 // this override should be fine (even if it's a little odd)
-C.prototype.foo = function() {
-};
+C.prototype.foo = function() {};
 var D = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(D, B);

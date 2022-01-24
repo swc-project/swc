@@ -4,6 +4,5 @@ class C extends B {
     get p() {
         return 1;
     }
-    set p(value) {
-    }
+    set p(value) {}
 }

@@ -10,14 +10,17 @@ use std::{
     rc::Rc,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashMap, FileName, Mark, Span, DUMMY_SP};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    FileName, Mark, Span, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     ident::IdentLike, member_expr, private_ident, quote_ident, quote_str, var::VarCollector,
     DestructuringFinder, ExprFactory, IsDirective,
 };
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
 
 pub fn common_js(
     top_level_mark: Mark,
@@ -55,6 +58,69 @@ where
     }
 }
 
+struct LazyIdentifierVisitor {
+    scope: Rc<RefCell<Scope>>,
+    top_level_idents: AHashSet<JsWord>,
+}
+impl LazyIdentifierVisitor {
+    fn new(scope: Rc<RefCell<Scope>>) -> Self {
+        LazyIdentifierVisitor {
+            scope,
+            top_level_idents: Default::default(),
+        }
+    }
+}
+
+/*
+An import can be performed lazily if it isn't used at the module's top-level.
+This visitor scans only the identifiers at the top level by not traversing nodes
+that introduce nesting. It then looks up identifiers to see if they match an
+imported specifier name.
+ */
+impl Visit for LazyIdentifierVisitor {
+    noop_visit_type!();
+
+    fn visit_import_decl(&mut self, _: &ImportDecl) {}
+    fn visit_export_decl(&mut self, _: &ExportDecl) {}
+    fn visit_named_export(&mut self, _: &NamedExport) {}
+    fn visit_export_default_decl(&mut self, _: &ExportDefaultDecl) {}
+    fn visit_export_default_expr(&mut self, _: &ExportDefaultExpr) {}
+
+    fn visit_export_all(&mut self, export: &ExportAll) {
+        self.top_level_idents.insert(export.src.value.clone());
+    }
+
+    fn visit_labeled_stmt(&mut self, _: &LabeledStmt) {}
+    fn visit_continue_stmt(&mut self, _: &ContinueStmt) {}
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+    fn visit_function(&mut self, _: &Function) {}
+    fn visit_constructor(&mut self, _: &Constructor) {}
+    fn visit_setter_prop(&mut self, _: &SetterProp) {}
+    fn visit_getter_prop(&mut self, _: &GetterProp) {}
+    fn visit_class_prop(&mut self, _: &ClassProp) {}
+
+    fn visit_prop_name(&mut self, prop_name: &PropName) {
+        if let PropName::Computed(n) = prop_name {
+            n.visit_with(self)
+        }
+    }
+
+    fn visit_decl(&mut self, decl: &Decl) {
+        if let Decl::Class(ref c) = decl {
+            c.class.super_class.visit_with(self);
+            c.class.body.visit_with(self);
+        }
+    }
+
+    fn visit_ident(&mut self, ident: &Ident) {
+        let v = self.scope.borrow().idents.get(&ident.to_id()).cloned();
+        if let Some((src, _)) = v {
+            self.top_level_idents.insert(src);
+        }
+    }
+}
+
 struct CommonJs<P>
 where
     P: ImportResolver,
@@ -89,29 +155,54 @@ where
         // Used only if export * exists
         let mut exported_names: Option<Ident> = None;
 
-        // make a preliminary pass through to collect exported names ahead of time
+        // Make a preliminary pass through to collect exported names ahead of time
         for item in &items {
-            match item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                    ref specifiers,
-                    ..
-                })) => {
-                    for ExportNamedSpecifier { orig, exported, .. } in
-                        specifiers.into_iter().filter_map(|e| match e {
-                            ExportSpecifier::Named(e) => Some(e),
-                            _ => None,
-                        })
-                    {
-                        if let Some(exported) = &exported {
-                            exports.push(exported.sym.clone());
-                        } else {
-                            exports.push(orig.sym.clone());
+            if let ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                ref specifiers,
+                ..
+            })) = item
+            {
+                for ExportNamedSpecifier { orig, exported, .. } in
+                    specifiers.iter().filter_map(|e| match e {
+                        ExportSpecifier::Named(e) => Some(e),
+                        _ => None,
+                    })
+                {
+                    let exported = match &exported {
+                        Some(ModuleExportName::Ident(ident)) => Some(ident),
+                        Some(ModuleExportName::Str(..)) => {
+                            unimplemented!("module string names unimplemented")
                         }
+                        _ => None,
+                    };
+                    let orig = match &orig {
+                        ModuleExportName::Ident(ident) => ident,
+                        _ => unimplemented!("module string names unimplemented"),
+                    };
+                    if let Some(exported) = &exported {
+                        exports.push(exported.sym.clone());
+                    } else {
+                        exports.push(orig.sym.clone());
                     }
                 }
-
-                _ => {}
             }
+        }
+
+        // Make another preliminary pass to collect all import sources and their
+        // specifiers.
+        for item in &items {
+            self.in_top_level = true;
+            if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = item {
+                self.scope.borrow_mut().insert_import(import.clone())
+            }
+        }
+
+        // Map all top-level identifiers that match imported specifiers, and blacklist
+        // them from lazy imports.
+        let mut visitor = LazyIdentifierVisitor::new(self.scope.clone());
+        items.visit_with(&mut visitor);
+        for ident in visitor.top_level_idents {
+            self.scope.borrow_mut().lazy_blacklist.insert(ident);
         }
 
         for item in items {
@@ -183,26 +274,20 @@ where
                             ref specifiers,
                             ..
                         })) => {
-                            scope.import_to_export(&src, !specifiers.is_empty());
+                            scope.import_to_export(src, !specifiers.is_empty());
                         }
 
                         _ => {}
                     }
-                    drop(scope);
                     drop(scope_ref_mut);
 
                     match item {
                         ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
-                            self.scope
-                                .borrow_mut()
-                                .lazy_blacklist
-                                .insert(export.src.value.clone());
-
                             let mut scope_ref_mut = self.scope.borrow_mut();
                             let scope = &mut *scope_ref_mut;
 
                             if exported_names.is_none()
-                                && (export_alls.len() >= 1 || !exports.is_empty())
+                                && (!export_alls.is_empty() || !exports.is_empty())
                             {
                                 let exported_names_ident = private_ident!("_exportNames");
                                 stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
@@ -210,7 +295,7 @@ where
                                     kind: VarDeclKind::Var,
                                     decls: vec![VarDeclarator {
                                         span: DUMMY_SP,
-                                        name: Pat::Ident(exported_names_ident.clone().into()),
+                                        name: exported_names_ident.clone().into(),
                                         init: Some(Box::new(Expr::Object(ObjectLit {
                                             span: DUMMY_SP,
                                             props: exports
@@ -245,13 +330,11 @@ where
                                 exported_names = Some(exported_names_ident);
                             }
 
-                            export_alls.entry(export.src.value.clone()).or_insert(
-                                scope
-                                    .import_to_export(&export.src, true)
-                                    .expect("Export should exists"),
-                            );
+                            let data = scope
+                                .import_to_export(&export.src, true)
+                                .expect("Export should exists");
+                            export_alls.entry(export.src.value.clone()).or_insert(data);
 
-                            drop(scope);
                             drop(scope_ref_mut);
                         }
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
@@ -277,8 +360,6 @@ where
                                     .entry((ident.sym.clone(), ident.span.ctxt()))
                                     .or_default()
                                     .push((ident.sym.clone(), ident.span.ctxt()));
-
-                                drop(scope);
                             }
 
                             let append_to: &mut Vec<_> = if is_class {
@@ -439,7 +520,7 @@ where
                                 kind: VarDeclKind::Var,
                                 decls: vec![VarDeclarator {
                                     span: DUMMY_SP,
-                                    name: Pat::Ident(ident.clone().into()),
+                                    name: ident.clone().into(),
                                     init: Some(expr.expr.fold_with(self)),
                                     definite: false,
                                 }],
@@ -480,6 +561,18 @@ where
                                 })
                                 .filter(|e| !e.is_type_only)
                             {
+                                let exported = match &exported {
+                                    Some(ModuleExportName::Ident(ident)) => Some(ident),
+                                    Some(ModuleExportName::Str(..)) => {
+                                        unimplemented!("module string names unimplemented")
+                                    }
+                                    _ => None,
+                                };
+                                let orig = match &orig {
+                                    ModuleExportName::Ident(ident) => ident,
+                                    _ => unimplemented!("module string names unimplemented"),
+                                };
+
                                 let mut scope = self.scope.borrow_mut();
                                 let is_import_default = orig.sym == js_word!("default");
 
@@ -491,7 +584,6 @@ where
                                         .or_default()
                                         .push(
                                             exported
-                                                .clone()
                                                 .map(|i| (i.sym.clone(), i.span.ctxt()))
                                                 .unwrap_or_else(|| {
                                                     (orig.sym.clone(), orig.span.ctxt())
@@ -548,10 +640,7 @@ where
                                 };
 
                                 // True if we are exporting our own stuff.
-                                let is_value_ident = match *value {
-                                    Expr::Ident(..) => true,
-                                    _ => false,
-                                };
+                                let is_value_ident = matches!(*value, Expr::Ident(..));
 
                                 self.in_top_level = old;
 
@@ -566,8 +655,9 @@ where
                                         AssignExpr {
                                             span: DUMMY_SP,
                                             left: PatOrExpr::Expr(Box::new(
-                                                quote_ident!("exports")
-                                                    .make_member(exported.unwrap_or(orig)),
+                                                quote_ident!("exports").make_member(
+                                                    (exported.unwrap_or(orig)).clone(),
+                                                ),
                                             )),
                                             op: op!("="),
                                             right: value,
@@ -585,7 +675,7 @@ where
 
                                                 // export { foo as bar }
                                                 //  -> 'bar'
-                                                let i = exported.unwrap_or_else(|| orig);
+                                                let i = exported.unwrap_or(orig).clone();
                                                 Lit::Str(quote_str!(i.span, i.sym)).as_arg()
                                             },
                                             make_descriptor(value).as_arg(),
@@ -667,7 +757,7 @@ where
                                             kind: VarDeclKind::Const,
                                             decls: vec![VarDeclarator {
                                                 span: DUMMY_SP,
-                                                name: Pat::Ident(quote_ident!("data").into()),
+                                                name: quote_ident!("data").into(),
                                                 init: Some(rhs),
                                                 definite: false,
                                             }],
@@ -676,9 +766,7 @@ where
                                         // foo = function() { return data; };
                                         AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                                ident.into(),
-                                            ))),
+                                            left: PatOrExpr::Pat(ident.into()),
                                             op: op!("="),
                                             right: Box::new(
                                                 FnExpr {
@@ -717,7 +805,7 @@ where
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(ident.into()),
+                                name: ident.into(),
                                 init: Some(rhs),
                                 definite: false,
                             }],
@@ -752,10 +840,7 @@ where
 
     fn fold_prop(&mut self, p: Prop) -> Prop {
         match p {
-            Prop::Shorthand(ident) => {
-                let top_level = self.in_top_level;
-                Scope::fold_shorthand_prop(self, top_level, ident)
-            }
+            Prop::Shorthand(ident) => Scope::fold_shorthand_prop(self, ident),
 
             _ => p.fold_children_with(self),
         }

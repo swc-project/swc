@@ -14,8 +14,7 @@ export const func = null;
 export function useState(initial) {
     return null;
 }
-export function readSegment([length, count]) {
-}
+export function readSegment([length, count]) {}
 // documenting binding pattern behavior (currently does _not_ generate tuple names)
 export const val = null;
 q = r;

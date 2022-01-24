@@ -42,6 +42,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -49,8 +50,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -226,8 +226,7 @@ var D10 = /*#__PURE__*/ function(Base) {
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var D11 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(D11, Base);
@@ -238,12 +237,10 @@ var D11 = /*#__PURE__*/ function(Base) {
     }
     return D11;
 }(Base);
-function f() {
-}
+function f() {}
 (function(f1) {
-    f1.bar = 1;
-})(f || (f = {
-}));
+    var bar = f1.bar = 1;
+})(f || (f = {}));
 var D12 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(D12, Base);
@@ -259,9 +256,8 @@ var c = function c() {
     _classCallCheck(this, c);
 };
 (function(c) {
-    c.bar = 1;
-})(c || (c = {
-}));
+    var bar = c.bar = 1;
+})(c || (c = {}));
 var D13 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(D13, Base);

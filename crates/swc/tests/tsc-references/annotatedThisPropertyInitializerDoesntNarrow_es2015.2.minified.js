@@ -1,8 +1,6 @@
 export class C {
-    m() {
-    }
+    m() {}
     constructor(){
-        this.assets = {
-        };
+        this.assets = {};
     }
 }

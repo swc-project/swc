@@ -25,34 +25,28 @@ var C = /*#__PURE__*/ function() {
     _createClass(C, [
         {
             key: "foo",
-            value: function foo(x, y) {
-            }
+            value: function foo(x, y) {}
         },
         {
             key: "bar",
-            value: function bar(x, y) {
-            }
+            value: function bar(x, y) {}
         },
         {
             key: "baz",
-            value: function baz(x, y) {
-            }
+            value: function baz(x, y) {}
         }
     ], [
         {
             key: "foo",
-            value: function foo(x, y) {
-            }
+            value: function foo(x, y) {}
         },
         {
             key: "bar",
-            value: function bar(x, y) {
-            }
+            value: function bar(x, y) {}
         },
         {
             key: "baz",
-            value: function baz(x, y) {
-            }
+            value: function baz(x, y) {}
         }
     ]);
     return C;
@@ -65,34 +59,28 @@ var D = /*#__PURE__*/ function() {
     _createClass(D, [
         {
             key: "foo",
-            value: function foo(x, y) {
-            }
+            value: function foo(x, y) {}
         },
         {
             key: "bar",
-            value: function bar(x, y) {
-            }
+            value: function bar(x, y) {}
         },
         {
             key: "baz",
-            value: function baz(x, y) {
-            }
+            value: function baz(x, y) {}
         }
     ], [
         {
             key: "foo",
-            value: function foo(x, y) {
-            }
+            value: function foo(x, y) {}
         },
         {
             key: "bar",
-            value: function bar(x, y) {
-            }
+            value: function bar(x, y) {}
         },
         {
             key: "baz",
-            value: function baz(x, y) {
-            }
+            value: function baz(x, y) {}
         }
     ]);
     return D;

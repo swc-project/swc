@@ -56,6 +56,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -63,8 +64,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -122,8 +122,7 @@ var C = /*#__PURE__*/ function() {
     _createClass(C, [
         {
             key: "foo",
-            value: function foo() {
-            }
+            value: function foo() {}
         }
     ]);
     return C;
@@ -136,8 +135,7 @@ var D = /*#__PURE__*/ function() {
     _createClass(D, [
         {
             key: "foo2",
-            value: function foo2() {
-            }
+            value: function foo2() {}
         }
     ]);
     return D;
@@ -153,8 +151,7 @@ var E = /*#__PURE__*/ function(C) {
     _createClass(E, [
         {
             key: "foo3",
-            value: function foo3() {
-            }
+            value: function foo3() {}
         }
     ]);
     return E;
@@ -170,8 +167,7 @@ var F = /*#__PURE__*/ function(C) {
     _createClass(F, [
         {
             key: "foo4",
-            value: function foo4() {
-            }
+            value: function foo4() {}
         }
     ]);
     return F;

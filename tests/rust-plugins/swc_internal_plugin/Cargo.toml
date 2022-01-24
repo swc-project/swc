@@ -5,16 +5,14 @@ edition = "2021"
 name = "swc_internal_plugin"
 publish = false
 version = "0.1.0"
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
-crate-type = ["rlib", "cdylib"]
+crate-type = ["cdylib"]
+
+# swc_atoms -> string_cache -> parking_lot -> https://github.com/Amanieu/parking_lot/issues/269
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+parking_lot_core = "=0.8.0"
 
 [dependencies]
-abi_stable = "0.10.3"
 serde = "1"
-swc_atoms = {path = "../../../crates/swc_atoms/"}
-swc_common = {path = "../../../crates/swc_common/"}
-swc_ecmascript = {path = "../../../crates/swc_ecmascript/", features = ["visit"]}
 swc_plugin = {path = "../../../crates/swc_plugin"}
-swc_plugin_js_api = {path = "../../../crates/swc_plugin_js_api/"}

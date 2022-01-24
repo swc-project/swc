@@ -14,29 +14,20 @@ let obj = {
 }, obj1 = {
     yy: !0
 }, defaultObj;
-React.createElement(OneThing, null), React.createElement(OneThing, _extends({
-}, obj)), React.createElement(OneThing, _extends({
-}, {
-})), React.createElement(OneThing, _extends({
-}, obj1, obj)), React.createElement(OneThing, _extends({
-}, obj1, {
+React.createElement(OneThing, null), React.createElement(OneThing, _extends({}, obj)), React.createElement(OneThing, _extends({}, {})), React.createElement(OneThing, _extends({}, obj1, obj)), React.createElement(OneThing, _extends({}, obj1, {
     yy: 42
 }, {
     yy1: "hi"
-})), React.createElement(OneThing, _extends({
-}, obj1, {
+})), React.createElement(OneThing, _extends({}, obj1, {
     yy: 10000,
     yy1: "true"
-})), React.createElement(OneThing, _extends({
-}, defaultObj, {
+})), React.createElement(OneThing, _extends({}, defaultObj, {
     yy: !0
 }, obj)), React.createElement(OneThing, {
     "ignore-prop": 100
-}), React.createElement(OneThing, _extends({
-}, {
+}), React.createElement(OneThing, _extends({}, {
     "ignore-prop": 200
-})), React.createElement(OneThing, _extends({
-}, {
+})), React.createElement(OneThing, _extends({}, {
     yy: 500,
     "ignore-prop": "hello"
 }, {

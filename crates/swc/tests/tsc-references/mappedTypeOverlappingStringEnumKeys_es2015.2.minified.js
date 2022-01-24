@@ -1,4 +1,6 @@
-var TerrestrialAnimalTypes, AlienAnimalTypes, TerrestrialAnimalTypes, AlienAnimalTypes;
-(TerrestrialAnimalTypes = TerrestrialAnimalTypes || (TerrestrialAnimalTypes = {
-})).CAT = "cat", TerrestrialAnimalTypes.DOG = "dog", (AlienAnimalTypes = AlienAnimalTypes || (AlienAnimalTypes = {
-})).CAT = "cat", TerrestrialAnimalTypes.CAT, AlienAnimalTypes.CAT;
+var TerrestrialAnimalTypes, AlienAnimalTypes;
+!function(TerrestrialAnimalTypes) {
+    TerrestrialAnimalTypes.CAT = "cat", TerrestrialAnimalTypes.DOG = "dog";
+}(TerrestrialAnimalTypes || (TerrestrialAnimalTypes = {})), (function(AlienAnimalTypes) {
+    AlienAnimalTypes.CAT = "cat";
+})(AlienAnimalTypes || (AlienAnimalTypes = {})), TerrestrialAnimalTypes.CAT, AlienAnimalTypes.CAT;

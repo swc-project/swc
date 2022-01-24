@@ -5,5 +5,4 @@ var Foo;
         a: 1,
         b: 2
     }, Foo1.A = ref.a, Foo1.B = ref.b, ref;
-})(Foo || (Foo = {
-}));
+})(Foo || (Foo = {}));

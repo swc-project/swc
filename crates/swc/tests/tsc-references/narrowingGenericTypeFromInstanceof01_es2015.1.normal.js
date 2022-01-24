@@ -5,10 +5,8 @@ class A {
 }
 class B {
 }
-function acceptA(a) {
-}
-function acceptB(b) {
-}
+function acceptA(a) {}
+function acceptB(b) {}
 function test(x) {
     if (x instanceof B) {
         acceptA(x);

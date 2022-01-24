@@ -22,7 +22,7 @@ error: ImportRule
 1 | @import url("foo.css") print;
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: ImportSource
+error: ImportHref
  --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:9
   |
 1 | @import url("foo.css") print;
@@ -51,6 +51,12 @@ error: Str
   |
 1 | @import url("foo.css") print;
   |             ^^^^^^^^^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:24
+  |
+1 | @import url("foo.css") print;
+  |                        ^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:24

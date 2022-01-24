@@ -114,7 +114,5 @@ var TypeScript;
         NodeType[NodeType["Debugger"] = 106] = "Debugger";
         NodeType[NodeType["GeneralNode"] = 71] = "GeneralNode";
         NodeType[NodeType["LastAsg"] = 41] = "LastAsg";
-    })(NodeType = TypeScript1.NodeType || (TypeScript1.NodeType = {
-    }));
-})(TypeScript || (TypeScript = {
-}));
+    })(NodeType = TypeScript1.NodeType || (TypeScript1.NodeType = {}));
+})(TypeScript || (TypeScript = {}));

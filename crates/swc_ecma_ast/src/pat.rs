@@ -8,12 +8,6 @@ use crate::{
 use is_macro::Is;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
-impl From<Ident> for Pat {
-    fn from(i: Ident) -> Self {
-        BindingIdent::from(i).into()
-    }
-}
-
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -46,6 +40,10 @@ impl Take for Pat {
         Pat::Invalid(Invalid { span: DUMMY_SP })
     }
 }
+
+bridge_pat_from!(BindingIdent, Ident);
+bridge_from!(crate::Param, crate::Pat, BindingIdent);
+bridge_from!(Box<crate::Pat>, crate::Pat, BindingIdent);
 
 #[ast_node("ArrayPattern")]
 #[derive(Eq, Hash, EqIgnoreSpan)]

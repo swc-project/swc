@@ -79,6 +79,7 @@ function _superPropBase(object, property) {
     return object;
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -86,8 +87,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -119,8 +119,7 @@ function _createSuper(Derived) {
 /** @param {Wagon[]=} wagons */ Wagon.circle = function(wagons) {
     return wagons ? wagons.length : 3.14;
 };
-/** @param {*[]=} supplies - *[]= is my favourite type */ Wagon.prototype.load = function(supplies) {
-};
+/** @param {*[]=} supplies - *[]= is my favourite type */ Wagon.prototype.load = function(supplies) {};
 /** @param {*[]=} supplies - Yep, still a great type */ Wagon.prototype.weight = function(supplies) {
     return supplies ? supplies.length : -1;
 };

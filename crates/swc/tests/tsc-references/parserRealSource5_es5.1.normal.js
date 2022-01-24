@@ -94,5 +94,4 @@ var TypeScript;
     TypeScript1.PrintContext = PrintContext;
     TypeScript1.prePrintAST = prePrintAST;
     TypeScript1.postPrintAST = postPrintAST;
-})(TypeScript || (TypeScript = {
-}));
+})(TypeScript || (TypeScript = {}));

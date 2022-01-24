@@ -163,8 +163,7 @@
                   },
                   "value": "random",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -210,15 +209,22 @@
                         "optional": false
                       },
                       "property": {
-                        "type": "NumericLiteral",
+                        "type": "Computed",
                         "span": {
-                          "start": 136,
-                          "end": 137,
+                          "start": 135,
+                          "end": 138,
                           "ctxt": 0
                         },
-                        "value": 0.0
-                      },
-                      "computed": true
+                        "expression": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 136,
+                            "end": 137,
+                            "ctxt": 0
+                          },
+                          "value": 0.0
+                        }
+                      }
                     },
                     "async": false,
                     "generator": false,

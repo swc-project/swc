@@ -8,8 +8,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 const b = a(require("./config.json"));
-function c({ config: a = b.default  } = {
-}) {
+function c({ config: a = b.default  } = {}) {
     function c(b) {
         const c = a[b] || null;
         if (!c) {

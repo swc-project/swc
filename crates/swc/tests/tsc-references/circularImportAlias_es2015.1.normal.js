@@ -6,8 +6,7 @@ var B;
     class D extends a.C {
     }
     B1.D = D;
-})(B || (B = {
-}));
+})(B || (B = {}));
 var A;
 (function(A1) {
     class C {
@@ -15,7 +14,6 @@ var A;
     A1.C = C;
     var b = B;
     A1.b = b;
-})(A || (A = {
-}));
+})(A || (A = {}));
 var c;
 var c = new B.a.C();

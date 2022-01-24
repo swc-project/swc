@@ -26,15 +26,13 @@ var C = /*#__PURE__*/ function() {
         {
             key: "foo",
             value: function foo() {
-                C.prototype.foo = function() {
-                };
+                C.prototype.foo = function() {};
             }
         },
         {
             key: "bar",
             value: function bar(x1) {
-                C.prototype.bar = function() {
-                } // error
+                C.prototype.bar = function() {} // error
                 ;
                 C.prototype.bar = function(x) {
                     return x;

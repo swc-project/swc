@@ -2,8 +2,7 @@ class A {
     B() {
         return 42;
     }
-    constructor(){
-    }
+    constructor(){}
 }
 // @target: ES6
 // @sourcemap: false

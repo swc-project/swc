@@ -6,13 +6,12 @@ var A;
             this.y = y;
         }
     }
-    A1.Origin = {
+    var Origin = A1.Origin = {
         x: 0,
         y: 0
     };
-    A1.Unity = {
+    var Unity = A1.Unity = {
         start: new Point(0, 0),
         end: new Point(1, 0)
     };
-})(A || (A = {
-}));
+})(A || (A = {}));

@@ -1,10 +1,10 @@
-use crate::debug::dump;
+use crate::debug::{dump, AssertValid};
 use std::fmt::Debug;
 use swc_common::Mark;
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{fixer, hygiene};
 use swc_ecma_utils::DropSpan;
-use swc_ecma_visit::{as_folder, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, FoldWith, VisitMut, VisitMutWith, VisitWith};
 
 /// Indicates a unit of minifaction.
 pub(crate) trait CompileUnit:
@@ -57,7 +57,10 @@ impl CompileUnit for Module {
     where
         V: VisitMut,
     {
-        self.visit_mut_with(&mut *visitor)
+        self.visit_mut_with(&mut *visitor);
+        if cfg!(debug_assertions) {
+            self.visit_with(&mut AssertValid);
+        }
     }
 
     fn remove_mark(&mut self) -> Mark {
@@ -91,7 +94,10 @@ impl CompileUnit for FnExpr {
     where
         V: VisitMut,
     {
-        self.visit_mut_with(&mut *visitor)
+        self.visit_mut_with(&mut *visitor);
+        if cfg!(debug_assertions) {
+            self.visit_with(&mut AssertValid);
+        }
     }
 
     fn remove_mark(&mut self) -> Mark {

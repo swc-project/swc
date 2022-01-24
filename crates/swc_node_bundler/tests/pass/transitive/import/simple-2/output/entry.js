@@ -6,6 +6,5 @@ console.log('b', common3, common1);
 var common4;
 try {
     common4 = 4;
-} catch (e) {
-}
+} catch (e) {}
 console.log('c', common4, common, common3);

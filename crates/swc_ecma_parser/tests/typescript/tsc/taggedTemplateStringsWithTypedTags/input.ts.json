@@ -840,8 +840,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1027,8 +1026,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1113,20 +1111,27 @@
           }
         },
         "property": {
-          "type": "StringLiteral",
+          "type": "Computed",
           "span": {
-            "start": 269,
-            "end": 277,
+            "start": 268,
+            "end": 278,
             "ctxt": 0
           },
-          "value": "member",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
+          "expression": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 269,
+              "end": 277,
+              "ctxt": 0
+            },
+            "value": "member",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
           }
-        },
-        "computed": true
+        }
       }
     },
     {
@@ -1304,20 +1309,27 @@
           }
         },
         "property": {
-          "type": "StringLiteral",
+          "type": "Computed",
           "span": {
-            "start": 303,
-            "end": 311,
+            "start": 302,
+            "end": 312,
             "ctxt": 0
           },
-          "value": "member",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
+          "expression": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 303,
+              "end": 311,
+              "ctxt": 0
+            },
+            "value": "member",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
           }
-        },
-        "computed": true
+        }
       }
     },
     {
@@ -1416,15 +1428,22 @@
               }
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 323,
-                "end": 324,
+                "start": 322,
+                "end": 325,
                 "ctxt": 0
               },
-              "value": 0.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 323,
+                  "end": 324,
+                  "ctxt": 0
+                },
+                "value": 0.0
+              }
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1435,8 +1454,7 @@
             },
             "value": "member",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "typeParameters": null,
         "template": {
@@ -1771,20 +1789,27 @@
               }
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 377,
-                "end": 385,
+                "start": 376,
+                "end": 386,
                 "ctxt": 0
               },
-              "value": "member",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 377,
+                  "end": 385,
+                  "ctxt": 0
+                },
+                "value": "member",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1795,8 +1820,7 @@
             },
             "value": "member",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "typeParameters": null,
         "template": {
@@ -1982,8 +2006,7 @@
             },
             "value": "thisIsNotATag",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -2081,8 +2104,7 @@
             },
             "value": "thisIsNotATag",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

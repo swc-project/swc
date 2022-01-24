@@ -1,6 +1,5 @@
 function _objectWithoutProperties(source, excluded) {
-    if (null == source) return {
-    };
+    if (null == source) return {};
     var key, i, target = _objectWithoutPropertiesLoose(source, excluded);
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -9,17 +8,13 @@ function _objectWithoutProperties(source, excluded) {
     return target;
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
-    if (null == source) return {
-    };
-    var key, i, target = {
-    }, sourceKeys = Object.keys(source);
+    if (null == source) return {};
+    var key, i, target = {}, sourceKeys = Object.keys(source);
     for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
     return target;
 }
-function foobar(_param = {
-}) {
-    var { bar ={
-    }  } = _param;
+function foobar(_param = {}) {
+    var { bar ={}  } = _param;
     _objectWithoutProperties(_param, [
         "bar"
     ]);

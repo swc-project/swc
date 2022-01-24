@@ -129,6 +129,13 @@ fn jsonify(e: Expr) -> Value {
         Expr::Lit(Lit::Num(Number { value, .. })) => Value::Number((value as i64).into()),
         Expr::Lit(Lit::Null(..)) => Value::Null,
         Expr::Lit(Lit::Bool(v)) => Value::Bool(v.value),
+        Expr::Tpl(Tpl { quasis, .. }) => Value::String(match quasis.get(0) {
+            Some(TplElement {
+                cooked: Some(Str { value, .. }),
+                ..
+            }) => value.to_string(),
+            _ => String::new(),
+        }),
         _ => unreachable!("jsonify: Expr {:?} cannot be converted to json", e),
     }
 }
@@ -308,5 +315,26 @@ mod tests {
         object_numeric_keys,
         r#"const a = { 1: "123", 23: 45, b: "b_val" };"#,
         r#"const a = JSON.parse('{"1":"123","23":45,"b":"b_val"}');"#
+    );
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| json_parse(0),
+        tpl,
+        r#"const a = [`\x22\x21\x224`];"#,
+        r#"const a = JSON.parse('["\\"!\\"4"]');"#
+    );
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| json_parse(0),
+        tpl2,
+        r#"const a = [`1${b}2`];"#,
+        r#"const a = [`1${b}2`];"#
+    );
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| json_parse(0),
+        tpl3,
+        r#"const a = [`1${0}2`];"#,
+        r#"const a = [`1${0}2`];"#
     );
 }

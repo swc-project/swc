@@ -5,8 +5,7 @@ import * as debug from './mod';
 // @noEmit: true
 // @Filename: mod.js
 // Based on a pattern from adonis
-exports.formatters = {
-};
+exports.formatters = {};
 // @Filename: first.js
 exports = require('./mod');
 exports.formatters.j = function(v) {

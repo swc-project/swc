@@ -94,9 +94,8 @@ function _wrapAsyncGenerator(fn) {
 // @lib: esnext
 // @filename: F1.ts
 const f1 = function() {
-    var _ref = _wrapAsyncGenerator(function*() {
-    });
-    return function() {
+    var _ref = _wrapAsyncGenerator(function*() {});
+    return function f1() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -105,7 +104,7 @@ const f2 = function() {
     var _ref = _wrapAsyncGenerator(function*() {
         const x = yield;
     });
-    return function() {
+    return function f2() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -114,7 +113,7 @@ const f3 = function() {
     var _ref = _wrapAsyncGenerator(function*() {
         const x = yield 1;
     });
-    return function() {
+    return function f3() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -125,7 +124,7 @@ const f4 = function() {
             1
         ];
     });
-    return function() {
+    return function f4() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -136,7 +135,7 @@ const f5 = function() {
             yield 1;
         })();
     });
-    return function() {
+    return function f5() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -145,7 +144,7 @@ const f6 = function() {
     var _ref = _wrapAsyncGenerator(function*() {
         const x = yield _awaitAsyncGenerator(1);
     });
-    return function() {
+    return function f6() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -154,7 +153,7 @@ const f7 = function() {
     var _ref = _wrapAsyncGenerator(function*() {
         return 1;
     });
-    return function() {
+    return function f7() {
         return _ref.apply(this, arguments);
     };
 }();

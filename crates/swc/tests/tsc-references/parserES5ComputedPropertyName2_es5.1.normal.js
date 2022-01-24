@@ -12,5 +12,4 @@ function _defineProperty(obj, key, value) {
     return obj;
 }
 //@target: ES5
-var v = _defineProperty({
-}, e, 1);
+var v = _defineProperty({}, e, 1);

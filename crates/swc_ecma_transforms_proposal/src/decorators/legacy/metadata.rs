@@ -75,12 +75,12 @@ impl ParamMetadata {
                         Param {
                             span: DUMMY_SP,
                             decorators: Default::default(),
-                            pat: Pat::Ident(quote_ident!("target").into()),
+                            pat: quote_ident!("target").into(),
                         },
                         Param {
                             span: DUMMY_SP,
                             decorators: Default::default(),
-                            pat: Pat::Ident(quote_ident!("key").into()),
+                            pat: quote_ident!("key").into(),
                         },
                     ],
                     body: Some(BlockStmt {
@@ -228,16 +228,14 @@ impl Fold for Metadata<'_> {
             .type_ann
             .as_ref()
             .map(|ty| &ty.type_ann)
-            .map(|type_ann| match &**type_ann {
+            .and_then(|type_ann| match &**type_ann {
                 TsType::TsTypeRef(r) => Some(r),
                 _ => None,
             })
-            .flatten()
-            .map(|r| match &r.type_name {
+            .and_then(|r| match &r.type_name {
                 TsEntityName::TsQualifiedName(_) => None,
                 TsEntityName::Ident(i) => Some(i),
             })
-            .flatten()
         {
             if let Some(kind) = self.enums.get(&name.to_id()) {
                 let dec = self.create_metadata_design_decorator(
@@ -340,10 +338,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         fn check_object_existed(expr: Box<Expr>) -> Box<Expr> {
             match *expr {
                 Expr::Member(ref member_expr) => {
-                    let obj_expr = match member_expr.obj {
-                        ExprOrSuper::Expr(ref exp) => exp.clone(),
-                        ExprOrSuper::Super(_) => panic!("Unreachable code path"),
-                    };
+                    let obj_expr = member_expr.obj.clone();
                     Box::new(Expr::Bin(BinExpr {
                         span: DUMMY_SP,
                         left: check_object_existed(obj_expr),
@@ -370,7 +365,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                     left: Box::new(Expr::Unary(UnaryExpr {
                         span: DUMMY_SP,
                         op: op!("typeof"),
-                        arg: expr.clone(),
+                        arg: expr,
                     })),
                     op: op!("==="),
                     right: Box::new(Expr::Lit(Lit::Str(Str {
@@ -430,15 +425,15 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 _ => {}
             }
 
-            let item = serialize_type_node(class_name, &ty);
+            let item = serialize_type_node(class_name, ty);
 
             // One of the individual is global object, return immediately
-            match item {
-                Expr::Ident(Ident {
-                    sym: js_word!("Object"),
-                    ..
-                }) => return item,
-                _ => {}
+            if let Expr::Ident(Ident {
+                sym: js_word!("Object"),
+                ..
+            }) = item
+            {
+                return item;
             }
 
             // If there exists union that is not void 0 expression, check if the
@@ -489,7 +484,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             | TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsNeverKeyword,
                 ..
-            }) => return *undefined(span),
+            }) => *undefined(span),
 
             TsType::TsParenthesizedType(ty) => serialize_type_node(class_name, &*ty.type_ann),
 
@@ -586,9 +581,8 @@ fn ts_entity_to_member_expr(type_name: &TsEntityName) -> Expr {
 
             Expr::Member(MemberExpr {
                 span: DUMMY_SP,
-                obj: obj.as_obj(),
-                prop: Box::new(Expr::Ident(q.right.clone())),
-                computed: false,
+                obj: obj.into(),
+                prop: MemberProp::Ident(q.right.clone()),
             })
         }
         TsEntityName::Ident(i) => Expr::Ident(i.clone()),

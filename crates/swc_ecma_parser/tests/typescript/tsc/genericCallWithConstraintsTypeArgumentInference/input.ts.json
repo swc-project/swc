@@ -3510,8 +3510,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -3608,8 +3607,7 @@
                 },
                 "value": "foo2",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -3706,8 +3704,7 @@
                 },
                 "value": "foo3",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -3804,8 +3801,7 @@
                 },
                 "value": "foo4",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -3902,8 +3898,7 @@
                 },
                 "value": "foo5",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -4000,8 +3995,7 @@
                 },
                 "value": "foo5",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -4098,8 +4092,7 @@
                 },
                 "value": "foo6",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -4169,8 +4162,7 @@
                 },
                 "value": "foo7",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -4254,8 +4246,7 @@
                 },
                 "value": "foo8",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -5880,8 +5871,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -5978,8 +5968,7 @@
                 },
                 "value": "foo2",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -6076,8 +6065,7 @@
                 },
                 "value": "foo3",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -6174,8 +6162,7 @@
                 },
                 "value": "foo4",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -6272,8 +6259,7 @@
                 },
                 "value": "foo5",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -6370,8 +6356,7 @@
                 },
                 "value": "foo5",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -6468,8 +6453,7 @@
                 },
                 "value": "foo6",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -6539,8 +6523,7 @@
                 },
                 "value": "foo7",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -6624,8 +6607,7 @@
                 },
                 "value": "foo8",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null

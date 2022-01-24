@@ -32,8 +32,7 @@ function _extends() {
     return _extends.apply(this, arguments);
 }
 function _objectWithoutProperties(source, excluded) {
-    if (source == null) return {
-    };
+    if (source == null) return {};
     var target = _objectWithoutPropertiesLoose(source, excluded);
     var key, i1;
     if (Object.getOwnPropertySymbols) {
@@ -48,10 +47,8 @@ function _objectWithoutProperties(source, excluded) {
     return target;
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {
-    };
-    var target = {
-    };
+    if (source == null) return {};
+    var target = {};
     var sourceKeys = Object.keys(source);
     var key, i1;
     for(i1 = 0; i1 < sourceKeys.length; i1++){
@@ -76,6 +73,7 @@ function _toPropertyKey(arg) {
     return _typeof(key) === "symbol" ? key : String(key);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 // @target: es2015
@@ -83,8 +81,7 @@ var o = {
     a: 1,
     b: 'no'
 };
-var clone = _extends({
-}, o);
+var clone = _extends({}, o);
 var a = o.a, justB = _objectWithoutProperties(o, [
     "a"
 ]);
@@ -109,8 +106,7 @@ var renamed = o2.d, d = _objectWithoutProperties(o2, [
     "d"
 ]);
 var nestedrest;
-var x = nestedrest.x, _n1 = nestedrest.n1, y = _n1.y, z = _n1.n2.z, nr = _extends({
-}, nestedrest.n1.n2.n3), restrest = _objectWithoutProperties(nestedrest, [
+var x = nestedrest.x, _n1 = nestedrest.n1, y = _n1.y, z = _n1.n2.z, nr = _extends({}, nestedrest.n1.n2.n3), restrest = _objectWithoutProperties(nestedrest, [
     "x",
     "n1"
 ]);
@@ -150,21 +146,18 @@ var Removable = /*#__PURE__*/ function() {
     _createClass(Removable, [
         {
             key: "z",
-            set: function set(value) {
-            }
+            set: function set(value) {}
         },
         {
             key: "both",
             get: function get() {
                 return 12;
             },
-            set: function set(value) {
-            }
+            set: function set(value) {}
         },
         {
             key: "m",
-            value: function m() {
-            }
+            value: function m() {}
         }
     ]);
     return Removable;

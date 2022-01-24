@@ -13,13 +13,11 @@ var c = [
     null
 ]; // {}[]
 var d = [
-    {
-    },
+    {},
     1
 ]; // {}[]
 var e = [
-    {
-    },
+    {},
     Object
 ]; // {}[]
 var f = [
@@ -159,8 +157,7 @@ var derived2;
             ()=>derived
         ]
     ]; // {}[]
-})(Derived || (Derived = {
-}));
+})(Derived || (Derived = {}));
 var WithContextualType;
 (function(WithContextualType) {
     // no errors
@@ -177,8 +174,7 @@ var WithContextualType;
         ,
         ()=>derived2
     ];
-})(WithContextualType || (WithContextualType = {
-}));
+})(WithContextualType || (WithContextualType = {}));
 function foo(t, u) {
     var a = [
         t,

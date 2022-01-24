@@ -5,8 +5,7 @@ class C {
         return "";
     }
     // Should take a string
-    set [tmp1](x) {
-    }
+    set [tmp1](x) {}
 }
 (new C)[Symbol.hasInstance] = 0;
 (new C)[Symbol.hasInstance] = "";

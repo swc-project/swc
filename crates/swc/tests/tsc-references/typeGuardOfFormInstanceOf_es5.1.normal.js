@@ -49,6 +49,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -56,8 +57,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -132,7 +132,6 @@ if (_instanceof(ctor5, C1)) {
     ctor5.p2; // C2
 }
 var ctor6;
-if (_instanceof(ctor6, C1) || _instanceof(ctor6, C2)) {
-} else {
+if (_instanceof(ctor6, C1) || _instanceof(ctor6, C2)) {} else {
     ctor6.p4; // C3
 }

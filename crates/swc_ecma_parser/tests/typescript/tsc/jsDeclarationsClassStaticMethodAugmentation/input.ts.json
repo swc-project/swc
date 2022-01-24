@@ -135,8 +135,7 @@
               },
               "value": "method",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -147,8 +146,7 @@
             },
             "value": "prop",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",

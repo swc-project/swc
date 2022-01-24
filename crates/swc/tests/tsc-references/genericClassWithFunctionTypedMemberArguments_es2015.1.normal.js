@@ -24,8 +24,7 @@ var ImmediatelyFix;
     ); // number
     var r3a = c2.foo((x)=>1
     ); // number
-})(ImmediatelyFix || (ImmediatelyFix = {
-}));
+})(ImmediatelyFix || (ImmediatelyFix = {}));
 var WithCandidates;
 (function(WithCandidates) {
     class C {
@@ -71,5 +70,4 @@ var WithCandidates;
             return '';
         }, 1); // error
     }
-})(WithCandidates || (WithCandidates = {
-}));
+})(WithCandidates || (WithCandidates = {}));

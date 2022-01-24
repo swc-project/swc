@@ -20,8 +20,7 @@ exports.ServiceError = ServiceError;
         Code[Code["timedOut"] = 504] = "timedOut";
         Code[Code["badRequest"] = 400] = "badRequest";
         Code[Code["badResponse"] = 422] = "badResponse";
-    })(Code = ServiceError1.Code || (ServiceError1.Code = {
-    }));
+    })(Code = ServiceError1.Code || (ServiceError1.Code = {}));
     class ServiceNotFound extends ServiceError {
         constructor(...args){
             super(...args);
@@ -37,5 +36,4 @@ exports.ServiceError = ServiceError;
         };
     }
     ServiceError1.toMessageBody = toMessageBody;
-})(ServiceError || (ServiceError = {
-}));
+})(ServiceError || (ServiceError = {}));

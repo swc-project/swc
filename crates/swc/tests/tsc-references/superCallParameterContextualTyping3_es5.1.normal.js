@@ -79,6 +79,7 @@ function _superPropBase(object, property) {
     return object;
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -86,8 +87,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -114,8 +114,7 @@ var CBase = /*#__PURE__*/ function() {
     _createClass(CBase, [
         {
             key: "foo",
-            value: function foo(param) {
-            }
+            value: function foo(param) {}
         }
     ]);
     return CBase;

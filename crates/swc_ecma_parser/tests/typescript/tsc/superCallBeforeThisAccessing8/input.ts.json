@@ -276,8 +276,7 @@
                               },
                               "value": "_t",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ]

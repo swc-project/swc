@@ -10,7 +10,7 @@ where
         None => return true,
     };
 
-    while let Some(curr) = items.next() {
+    for curr in items {
         if let Some(Ordering::Greater) | None = compare(&last, &curr) {
             return false;
         }
