@@ -85,8 +85,9 @@ var C = function() {
         return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : _assertThisInitialized(self);
     });
     function D() {
-        var _this;
-        return _classCallCheck(this, D), _this = _super.apply(this, arguments), _this.self1 = _assertThisInitialized(_this), _this.self2 = _this.self, _this.self3 = _this.foo(), _this.d = new D(), _this;
+        _classCallCheck(this, D);
+        var _this = _super.apply(this, arguments);
+        return _this.self1 = _assertThisInitialized(_this), _this.self2 = _this.self, _this.self3 = _this.foo(), _this.d = new D(), _this;
     }
     return _createClass(D, [
         {

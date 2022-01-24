@@ -28,6 +28,8 @@ var MyClass = function() {
     return function(n) {
         return 3 + n;
     };
-})()(4), (function() {
+})()(4), (n = "", function() {
+    return "4";
+})(), (function() {
     return 0;
 })().toExponential();

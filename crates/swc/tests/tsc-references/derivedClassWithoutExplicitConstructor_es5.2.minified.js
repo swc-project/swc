@@ -52,8 +52,9 @@ var Base = function(x) {
     _inherits(Derived, Base1);
     var _super = _createSuper(Derived);
     function Derived() {
-        var _this;
-        return _classCallCheck(this, Derived), _this = _super.apply(this, arguments), _this.x = 1, _this.y = "hello", _this;
+        _classCallCheck(this, Derived);
+        var _this = _super.apply(this, arguments);
+        return _this.x = 1, _this.y = "hello", _this;
     }
     return Derived;
 }(Base);
@@ -66,8 +67,9 @@ var Base2 = function(x) {
     _inherits(D, Base21);
     var _super = _createSuper(D);
     function D() {
-        var _this;
-        return _classCallCheck(this, D), _this = _super.apply(this, arguments), _this.x = 2, _this.y = null, _this;
+        _classCallCheck(this, D);
+        var _this = _super.apply(this, arguments);
+        return _this.x = 2, _this.y = null, _this;
     }
     return D;
 }(Base2);

@@ -1,10 +1,9 @@
-var ref;
 function _arrayLikeToArray(arr, len) {
     (null == len || len > arr.length) && (len = arr.length);
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
     return arr2;
 }
-(ref = (function(arr) {
+var ref = function(arr) {
     return (function(arr) {
         if (Array.isArray(arr)) return arr;
     })(arr) || (function(iter) {
@@ -19,7 +18,8 @@ function _arrayLikeToArray(arr, len) {
     })(arr, i) || (function() {
         throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
     })();
-})({
+}({
     0: "",
     1: !0
-}))[0], ref.slice(1);
+});
+ref[0], ref.slice(1);

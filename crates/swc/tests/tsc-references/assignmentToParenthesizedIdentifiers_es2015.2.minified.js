@@ -1,6 +1,6 @@
-var x, M, M2, E;
+var M, M2, E, x = 3;
 function fn() {}
-x = 3 = "", (function(M1) {
+x = 3, "" = "", (function(M1) {
     var y;
     M1.y = y;
 })(M || (M = {})), M.y = 3, M.y = 3, M.y = 3, M.y = "", M.y = "", M.y = "", M = {

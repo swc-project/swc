@@ -104,8 +104,9 @@ var BaseA = function() {
     _inherits(DerivedA, BaseA1);
     var _super = _createSuper(DerivedA);
     function DerivedA(x) {
-        var _this;
-        return _classCallCheck(this, DerivedA), (_this = _super.call(this, x)).x = x, _this;
+        _classCallCheck(this, DerivedA);
+        var _this = _super.call(this, x);
+        return _this.x = x, _this;
     }
     return _createClass(DerivedA, [
         {
@@ -133,8 +134,9 @@ var BaseA = function() {
     _inherits(DerivedB, BaseB1);
     var _super = _createSuper(DerivedB);
     function DerivedB(x) {
-        var _this;
-        return _classCallCheck(this, DerivedB), (_this = _super.call(this, x)).x = x, _this;
+        _classCallCheck(this, DerivedB);
+        var _this = _super.call(this, x);
+        return _this.x = x, _this;
     }
     return _createClass(DerivedB, [
         {
@@ -162,8 +164,9 @@ var BaseA = function() {
     _inherits(DerivedC, BaseC1);
     var _super = _createSuper(DerivedC);
     function DerivedC(x) {
-        var _this;
-        return _classCallCheck(this, DerivedC), (_this = _super.call(this, x)).x = x, _this;
+        _classCallCheck(this, DerivedC);
+        var _this = _super.call(this, x);
+        return _this.x = x, _this;
     }
     return _createClass(DerivedC, [
         {

@@ -1,7 +1,8 @@
+var STRING, M;
 function foo() {
     return "abc";
 }
-var STRING, M, A = function() {
+var A = function() {
     "use strict";
     var Constructor;
     function A() {

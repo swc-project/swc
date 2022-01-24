@@ -52,7 +52,7 @@ function _unsupportedIterableToArray(o, minLen) {
     }
 }
 _slicedToArray(strArray, 1)[0].toString(), _toArray(strArray).slice(0).push(void 0), _toArray(strArray).slice(2).push(void 0), strMap.t1.toString(), _extends({}, strMap).z.toString();
-var ref, x = numMapPoint.x, y = numMapPoint.y, z = numMapPoint.z;
+var x = numMapPoint.x, y = numMapPoint.y, z = numMapPoint.z;
 x.toFixed(), y.toFixed(), z.toFixed();
 var x1 = numMapPoint.x, q = function(source, excluded) {
     if (null == source) return {};
@@ -70,4 +70,12 @@ var x1 = numMapPoint.x, q = function(source, excluded) {
 }(numMapPoint, [
     "x"
 ]);
-x1.toFixed(), q.y.toFixed(), q.z.toFixed(), target_string = _slicedToArray(strArray, 1)[0], target_string_undef = _slicedToArray(strArray, 1)[0], target_string_arr = _toArray(strArray).slice(3), (ref = numMapPoint).x, ref.y, ref.z;
+x1.toFixed(), q.y.toFixed(), q.z.toFixed();
+var ref = _slicedToArray(strArray, 1);
+target_string = ref[0];
+var ref1 = _slicedToArray(strArray, 1);
+target_string_undef = ref1[0];
+var ref2 = _toArray(strArray);
+target_string_arr = ref2.slice(3);
+var ref3 = numMapPoint;
+ref3.x, ref3.y, ref3.z;

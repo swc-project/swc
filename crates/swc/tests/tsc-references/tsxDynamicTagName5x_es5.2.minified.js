@@ -48,10 +48,11 @@ export var _typeof, Text = function(_Component) {
         })(self);
     });
     function Text() {
-        var _this;
-        return !function(instance, Constructor) {
+        !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, Text), _this = _super.apply(this, arguments), _this._tagName = "div", _this;
+        }(this, Text);
+        var _this = _super.apply(this, arguments);
+        return _this._tagName = "div", _this;
     }
     return Constructor = Text, protoProps = [
         {

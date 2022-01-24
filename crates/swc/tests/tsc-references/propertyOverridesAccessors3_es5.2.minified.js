@@ -75,8 +75,9 @@ var Lion = function(Animal) {
         })(self);
     });
     function Lion() {
-        var _this;
-        return _classCallCheck(this, Lion), _this = _super.apply(this, arguments), _this.sound = "RAWR!", _this;
+        _classCallCheck(this, Lion);
+        var _this = _super.apply(this, arguments);
+        return _this.sound = "RAWR!", _this;
     }
     return Lion;
 }(Animal);

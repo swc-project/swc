@@ -8,11 +8,11 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     }
     info.done ? resolve(value) : Promise.resolve(value).then(_next, _throw);
 }
-var fn, x = new Promise(function(resolve, reject) {
+var x = new Promise(function(resolve, reject) {
     resolve({});
 });
 export default x;
-(fn = regeneratorRuntime.mark(function _callee() {
+var fn = regeneratorRuntime.mark(function _callee() {
     var value;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
@@ -25,7 +25,8 @@ export default x;
                 return _ctx.stop();
         }
     }, _callee);
-}), function() {
+});
+!function() {
     var self = this, args = arguments;
     return new Promise(function(resolve, reject) {
         var gen = fn.apply(self, args);
@@ -37,4 +38,4 @@ export default x;
         }
         _next(void 0);
     });
-})();
+}();

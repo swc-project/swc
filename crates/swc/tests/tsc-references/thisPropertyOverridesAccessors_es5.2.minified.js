@@ -65,8 +65,9 @@ var Foo = function() {
         })(self);
     });
     function Bar() {
-        var _this;
-        return _classCallCheck(this, Bar), (_this = _super.call(this)).p = 2, _this;
+        _classCallCheck(this, Bar);
+        var _this = _super.call(this);
+        return _this.p = 2, _this;
     }
     return Bar;
 }(Foo);

@@ -1,11 +1,10 @@
-var a;
 function _arrayLikeToArray(arr, len) {
     (null == len || len > arr.length) && (len = arr.length);
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
     return arr2;
 }
 !function(arr, i) {
-    return (function(arr) {
+    (function(arr) {
         if (Array.isArray(arr)) return arr;
     })(arr) || (function(arr, i) {
         var _s, _e, _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
@@ -34,4 +33,4 @@ function _arrayLikeToArray(arr, len) {
     })(arr, i) || (function() {
         throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
     })();
-}(a, 0);
+}(void 0, 0);

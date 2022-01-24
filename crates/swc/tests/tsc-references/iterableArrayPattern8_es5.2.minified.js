@@ -22,7 +22,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var ref, Bar = function() {
+var Bar = function() {
     "use strict";
     _classCallCheck(this, Bar);
 }, Foo = function(Bar1) {
@@ -84,8 +84,7 @@ var ref, Bar = function() {
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), FooIterator;
-}();
-(ref = (function(arr) {
+}(), ref = function(arr) {
     return (function(arr) {
         if (Array.isArray(arr)) return arr;
     })(arr) || (function(iter) {
@@ -100,4 +99,5 @@ var ref, Bar = function() {
     })(arr, i) || (function() {
         throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
     })();
-})(new FooIterator))[0], ref.slice(1);
+}(new FooIterator);
+ref[0], ref.slice(1);

@@ -1,5 +1,6 @@
+var M, M2, E, x = 3;
 function fn() {}
-x = 3 = "", (function(M1) {
+x = 3, "" = "", (function(M1) {
     var y;
     M1.y = y;
 })(M || (M = {})), M.y = 3, M.y = 3, M.y = 3, M.y = "", M.y = "", M.y = "", M = {
@@ -26,7 +27,7 @@ x = 3 = "", (function(M1) {
 }, (function(E) {
     E[E.A = 0] = "A";
 })(E || (E = {})), E = void 0 = void 0;
-var x, M, M2, E, C = function() {
+var C = function() {
     "use strict";
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");

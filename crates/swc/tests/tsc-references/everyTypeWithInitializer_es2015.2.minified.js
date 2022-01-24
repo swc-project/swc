@@ -7,4 +7,4 @@ class C {
         return x.toString();
     };
 })(M || (M = {})), new Date(12), new Object(), new C(), new C(), new class {
-}(), new M.A(), M.F2;
+}(), new M.A();

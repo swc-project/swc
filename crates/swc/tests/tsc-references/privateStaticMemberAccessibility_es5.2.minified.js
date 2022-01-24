@@ -47,8 +47,9 @@ var Base = function() {
         })(self);
     });
     function Derived1() {
-        var _this;
-        return _classCallCheck(this, Derived1), _this = _super.apply(this, arguments), _this.bing = function() {
+        _classCallCheck(this, Derived1);
+        var _this = _super.apply(this, arguments);
+        return _this.bing = function() {
             return Base.foo;
         }, _this;
     }

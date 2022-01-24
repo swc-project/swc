@@ -1,2 +1,2 @@
-var i, a;
-i = i, a = a;
+var i, a, f = i;
+i = f, a = f = a;

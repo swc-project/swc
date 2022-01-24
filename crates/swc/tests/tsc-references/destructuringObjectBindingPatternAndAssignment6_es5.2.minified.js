@@ -7,7 +7,7 @@ function _defineProperty(obj, key, value) {
     }) : obj[key] = value, obj;
 }
 var ref = function() {
-    var _obj;
-    return _defineProperty(_obj = {}, "a", 1), _defineProperty(_obj, "b", 1), _obj;
+    var _obj = {};
+    return _defineProperty(_obj, "a", 1), _defineProperty(_obj, "b", 1), _obj;
 }(), aVal = ref.a, bVal = ref.b;
 console.log(aVal, bVal);

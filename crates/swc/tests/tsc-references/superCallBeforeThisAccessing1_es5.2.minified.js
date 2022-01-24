@@ -48,8 +48,8 @@ var Base = function(c) {
     });
     function D() {
         _classCallCheck(this, D);
-        var _this, s = {
-            t: (_this = _super.call(this, i))._t
+        var _this = _super.call(this, i), s = {
+            t: _this._t
         }, i = Factory.create(s);
         return _this;
     }

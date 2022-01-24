@@ -47,8 +47,9 @@ var Base = function() {
         })(self);
     });
     function C() {
-        var _this;
-        return _classCallCheck(this, C), _this = _super.call(this), (function(obj, key, value) {
+        _classCallCheck(this, C);
+        var _this = _super.call(this);
+        return (function(obj, key, value) {
             key in obj ? Object.defineProperty(obj, key, {
                 value: value,
                 enumerable: !0,

@@ -59,8 +59,9 @@ var Derived1 = function(C31) {
         })(self);
     });
     function Derived1(p) {
-        var _this;
-        return _classCallCheck(this, Derived1), (_this = _super.call(this, p)).p, _this;
+        _classCallCheck(this, Derived1);
+        var _this = _super.call(this, p);
+        return _this.p, _this;
     }
     return Derived1;
 }(C3);

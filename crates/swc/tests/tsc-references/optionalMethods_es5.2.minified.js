@@ -76,8 +76,9 @@ var Bar = function() {
         })(self);
     });
     function Derived1() {
-        var _this;
-        return _classCallCheck(this, Derived1), _this = _super.apply(this, arguments), _this.a = 1, _this;
+        _classCallCheck(this, Derived1);
+        var _this = _super.apply(this, arguments);
+        return _this.a = 1, _this;
     }
     return _createClass(Derived1, [
         {

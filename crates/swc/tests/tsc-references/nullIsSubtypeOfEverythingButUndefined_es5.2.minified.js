@@ -2,7 +2,7 @@ function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
 new Date();
-var C1 = function() {
+var E, C1 = function() {
     "use strict";
     _classCallCheck(this, C1);
 }, C2 = function() {
@@ -13,7 +13,7 @@ function f() {}
 !function(E) {
     E[E.A = 0] = "A";
 }(E || (E = {})), E.A, (f || (f = {})).bar = 1;
-var E, c = function() {
+var c = function() {
     "use strict";
     _classCallCheck(this, c);
 };

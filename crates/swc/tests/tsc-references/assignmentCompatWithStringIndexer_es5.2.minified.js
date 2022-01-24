@@ -60,8 +60,8 @@ b = b, b2 = b2, (function(Generics) {
             return _classCallCheck(this, B), _super.apply(this, arguments);
         }
         return B;
-    }(A1);
-    b1 = b1;
+    }(A1), a1 = b1;
+    b1 = a1;
     var B2 = function(A3) {
         "use strict";
         _inherits(B2, A3);
@@ -71,5 +71,5 @@ b = b, b2 = b2, (function(Generics) {
         }
         return B2;
     }(A1);
-    b21 = b21;
+    b21 = a1 = b21;
 })(Generics || (Generics = {}));

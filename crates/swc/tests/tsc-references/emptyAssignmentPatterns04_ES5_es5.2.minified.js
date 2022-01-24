@@ -1,4 +1,3 @@
-var a, ref, ref1;
 function _arrayLikeToArray(arr, len) {
     (null == len || len > arr.length) && (len = arr.length);
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
@@ -36,4 +35,7 @@ function _unsupportedIterableToArray(o, minLen) {
         if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
     }
 }
-(ref = a).x, ref.y, ref.z, (ref1 = _slicedToArray(_slicedToArray(a, 0), 3))[0], ref1[1], ref1[2];
+var a, ref = a;
+ref.x, ref.y, ref.z;
+var ref1 = _slicedToArray(_slicedToArray(a, 0), 3);
+ref1[0], ref1[1], ref1[2];

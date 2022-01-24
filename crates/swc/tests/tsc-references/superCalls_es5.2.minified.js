@@ -52,8 +52,9 @@ var Base = function(n) {
     _inherits(Derived, Base1);
     var _super = _createSuper(Derived);
     function Derived(q) {
-        var _this;
-        return _classCallCheck(this, Derived), (_this = _super.call(this, "")).q = q, (_this = _super.call(this, "")).q = q, _this;
+        _classCallCheck(this, Derived);
+        var _this = _super.call(this, "");
+        return _this.q = q, (_this = _super.call(this, "")).q = q, _this;
     }
     return Derived;
 }(Base), OtherBase = function() {

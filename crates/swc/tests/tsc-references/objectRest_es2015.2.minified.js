@@ -35,7 +35,7 @@ function _toPropertyKey(arg) {
     }(arg, "string");
     return "symbol" === _typeof(key) ? key : String(key);
 }
-var _complex, _tmp, _o, _typeof = function(obj) {
+var _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
 }, o = {
     a: 1,
@@ -78,13 +78,13 @@ _extends({}, nestedrest.n1.n2.n3), _objectWithoutProperties(nestedrest, [
     "n1"
 ]);
 let complex;
-var { x: { ka  } , y: other  } = complex;
-_objectWithoutProperties(complex.x, [
+var { x: { ka  } , y: other  } = complex, nested = _objectWithoutProperties(complex.x, [
     "ka"
-]), _objectWithoutProperties(complex, [
+]), rest = _objectWithoutProperties(complex, [
     "x",
     "y"
-]), _objectWithoutProperties((_complex = complex).x, [
+]), _complex = complex;
+_objectWithoutProperties(_complex.x, [
     "ka"
 ]), _objectWithoutProperties(_complex, [
     "x",
@@ -93,13 +93,13 @@ _objectWithoutProperties(complex.x, [
 var _ref = {
     x: 1,
     y: 2
-}, { x  } = _ref;
-_objectWithoutProperties(_ref, [
+}, { x  } = _ref, fresh = _objectWithoutProperties(_ref, [
     "x"
-]), _objectWithoutProperties(_tmp = {
+]), _tmp = {
     x: 1,
     y: 2
-}, [
+};
+_objectWithoutProperties(_tmp, [
     "x"
 ]), { x  } = _tmp;
 var removable = new class {
@@ -121,8 +121,8 @@ let computed = "b", computed2 = "a";
 var { [computed]: stillNotGreat , [computed2]: soSo  } = o, o = _objectWithoutProperties(o, [
     computed,
     computed2
-].map(_toPropertyKey));
-o = _objectWithoutProperties(_o = o, [
+].map(_toPropertyKey)), _o = o;
+o = _objectWithoutProperties(_o, [
     computed,
     computed2
 ].map(_toPropertyKey)), ({ [computed]: stillNotGreat , [computed2]: soSo  } = _o), (_param)=>{

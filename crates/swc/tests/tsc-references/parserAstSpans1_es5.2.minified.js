@@ -146,8 +146,9 @@ var c2 = function() {
     _inherits(c3, c2);
     var _super = _createSuper(c3);
     function c3() {
-        var _thisSuper, _this;
-        return _classCallCheck(this, c3), (_this = _super.call(this, 10)).p1 = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(c3.prototype)), "c2_p1", _thisSuper), _this;
+        _classCallCheck(this, c3);
+        var _thisSuper, _this = _super.call(this, 10);
+        return _this.p1 = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(c3.prototype)), "c2_p1", _thisSuper), _this;
     }
     return _createClass(c3, [
         {
@@ -191,8 +192,9 @@ var c5 = function() {
     _inherits(c6, c51);
     var _super = _createSuper(c6);
     function c6() {
-        var _thisSuper, _this;
-        return _classCallCheck(this, c6), (_this = _super.call(this)).d = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(c6.prototype)), "b", _thisSuper), _this;
+        _classCallCheck(this, c6);
+        var _thisSuper, _this = _super.call(this);
+        return _this.d = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(c6.prototype)), "b", _thisSuper), _this;
     }
     return c6;
 }(c5);

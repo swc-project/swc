@@ -5,7 +5,7 @@ function fnReturn2() {
     return fnReturn2;
 }
 fnReturn1(), fnReturn2();
-var or3, and3, propAcc1, M2, or3 = or3 || or3, and3 = and3 && and3;
+var or3 = or3 || or3, and3 = and3 && and3;
 function fnCall() {
     return fnCall();
 }
@@ -16,7 +16,7 @@ function fn5() {
     return new (void 0)(fn5);
 }
 fnCall(), fn5();
-var propAcc1 = {
+var or3, and3, propAcc1, M2, propAcc1 = {
     m: propAcc1.m
 };
 (M2 || (M2 = {})).x = M2.x, new class {

@@ -151,8 +151,9 @@ var Component = function() {
     _inherits(Person, Base);
     var _super = _createSuper(Person);
     function Person(parts) {
-        var _this;
-        return _classCallCheck(this, Person), (_this = _super.call(this)).set("parts", parts), _this;
+        _classCallCheck(this, Person);
+        var _this = _super.call(this);
+        return _this.set("parts", parts), _this;
     }
     return _createClass(Person, [
         {

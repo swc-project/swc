@@ -13,4 +13,4 @@ var B, Geometry;
         x: 1,
         y: 0
     });
-})(Geometry || (Geometry = {})), Geometry.Origin, Geometry.Unit, Geometry.Lines.Line;
+})(Geometry || (Geometry = {})), Geometry.Lines.Line;

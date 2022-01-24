@@ -1,4 +1,3 @@
-var _obj;
 function _defineProperty(obj, key, value) {
     return key in obj ? Object.defineProperty(obj, key, {
         value: value,
@@ -7,4 +6,5 @@ function _defineProperty(obj, key, value) {
         writable: !0
     }) : obj[key] = value, obj;
 }
-_defineProperty(_obj = {}, NaN, ""), _defineProperty(_obj, NaN, 0);
+var _obj = {};
+_defineProperty(_obj, NaN, ""), _defineProperty(_obj, NaN, 0);

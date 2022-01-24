@@ -1,4 +1,4 @@
 var x, E, M;
-!function(E) {
+(function(E) {
     E[E.A = 0] = "A";
-}(E || (E = {})), E.A, (M || (M = {})).foo = 1, M = x;
+})(E || (E = {})), E.A, (M || (M = {})).foo = 1, M = x;

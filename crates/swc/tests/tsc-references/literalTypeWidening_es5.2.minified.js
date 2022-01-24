@@ -1,4 +1,5 @@
 var E;
+"FAILURE";
 export function Set() {
     for(var _len = arguments.length, keys1 = new Array(_len), _key = 0; _key < _len; _key++)keys1[_key] = arguments[_key];
     var result = {};

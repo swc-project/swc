@@ -67,8 +67,9 @@ var B = function() {
         })(self);
     });
     function C(ka) {
-        var _this;
-        return _classCallCheck(this, C), (_this = _super.call(this)).ka = ka, _this.z = _this.ka, _this.ki = _this.ka, _this;
+        _classCallCheck(this, C);
+        var _this = _super.call(this);
+        return _this.ka = ka, _this.z = _this.ka, _this.ki = _this.ka, _this;
     }
     return C;
 }(B);

@@ -41,7 +41,7 @@ function _toPropertyKey(arg) {
     }(arg, "string");
     return "symbol" === _typeof(key) ? key : String(key);
 }
-var nestedrest, complex, _complex, ref, _tmp, _o, ref1, _typeof = function(obj) {
+var nestedrest, complex, _complex, ref, _o, ref1, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
 }, o = {
     a: 1,
@@ -86,13 +86,13 @@ _n1.y, _n1.n2.z, _extends({}, nestedrest.n1.n2.n3), _objectWithoutProperties(nes
 var _ref = {
     x: 1,
     y: 2
-};
-_ref.x, _objectWithoutProperties(_ref, [
+}, x = _ref.x, fresh = _objectWithoutProperties(_ref, [
     "x"
-]), _objectWithoutProperties(_tmp = {
+]), _tmp = {
     x: 1,
     y: 2
-}, [
+};
+_objectWithoutProperties(_tmp, [
     "x"
 ]), _tmp.x;
 var Removable = function() {

@@ -1,5 +1,10 @@
-var _c;
 let a, d;
+var _c = {
+    x: {
+        a: 1,
+        y: 2
+    }
+};
 (function(source, excluded) {
     if (null == source) return {};
     var key, i, target = function(source, excluded) {
@@ -12,11 +17,6 @@ let a, d;
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
         for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
     }
-})((_c = {
-    x: {
-        a: 1,
-        y: 2
-    }
-}).x, [
+})(_c.x, [
     "a"
 ]), { x: { a  } = d  } = _c;

@@ -62,8 +62,9 @@ var A = function() {
         })(self);
     });
     function B() {
-        var _this;
-        return _classCallCheck(this, B), _this = _super.apply(this, arguments), _this.m = function() {
+        _classCallCheck(this, B);
+        var _this = _super.apply(this, arguments);
+        return _this.m = function() {
             return 1;
         }, _this;
     }

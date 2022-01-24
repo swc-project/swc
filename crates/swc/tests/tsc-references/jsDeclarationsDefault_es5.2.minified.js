@@ -58,8 +58,9 @@ var Bar = function(Fab1) {
         })(self);
     });
     function Bar() {
-        var _this;
-        return _classCallCheck(this, Bar), _this = _super.apply(this, arguments), _this.x = null, _this;
+        _classCallCheck(this, Bar);
+        var _this = _super.apply(this, arguments);
+        return _this.x = null, _this;
     }
     return Bar;
 }(Fab);

@@ -272,8 +272,8 @@ function _defineProperties(target, props) {
             {
                 key: "GetLineIndentationForOffset",
                 value: function(offset) {
-                    var indentationEdit;
-                    if (null != (indentationEdit = this.indentationBag.FindIndent(offset))) return indentationEdit.Indentation();
+                    var indentationEdit = this.indentationBag.FindIndent(offset);
+                    if (null != indentationEdit) return indentationEdit.Indentation();
                     for(var lineText = this.snapshot.GetLineFromPosition(offset).getText(), index = 0; index < lineText.length && (" " == lineText.charAt(index) || "\t" == lineText.charAt(index));)++index;
                     return lineText.substr(0, index);
                 }

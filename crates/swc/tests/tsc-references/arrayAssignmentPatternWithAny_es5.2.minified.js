@@ -1,4 +1,3 @@
-var a;
 function _arrayLikeToArray(arr, len) {
     (null == len || len > arr.length) && (len = arr.length);
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
@@ -34,4 +33,4 @@ function _arrayLikeToArray(arr, len) {
     })(arr, i) || (function() {
         throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
     })();
-})(a, 1)[0];
+})(void 0, 1)[0];

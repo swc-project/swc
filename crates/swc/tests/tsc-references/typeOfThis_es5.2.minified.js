@@ -28,7 +28,8 @@ var MyTestClass = function() {
                 return this;
             },
             set: function(v) {
-                v = v;
+                var p = this, p = v;
+                v = p;
             }
         }
     ], [
@@ -71,7 +72,8 @@ var MyTestClass = function() {
                 return this;
             },
             set: function(v) {
-                v = v;
+                var p = this, p = v;
+                v = p;
             }
         }
     ], [

@@ -57,8 +57,9 @@ var D0 = function(Base) {
     _inherits(D1, _super);
     var _super1 = _createSuper(D1);
     function D1() {
-        var _this;
-        return _classCallCheck(this, D1), (_this = _super1.call(this, "abc", "def")).x = "x", _this.y = "y", _this;
+        _classCallCheck(this, D1);
+        var _this = _super1.call(this, "abc", "def");
+        return _this.x = "x", _this.y = "y", _this;
     }
     return D1;
 }(getBase()), D2 = function(_super) {
@@ -66,8 +67,9 @@ var D0 = function(Base) {
     _inherits(D2, _super);
     var _super2 = _createSuper(D2);
     function D2() {
-        var _this;
-        return _classCallCheck(this, D2), _this = _super2.call(this, 10), _this = _super2.call(this, 10, 20), _this.x = 1, _this.y = 2, _this;
+        _classCallCheck(this, D2);
+        var _this = _super2.call(this, 10);
+        return (_this = _super2.call(this, 10, 20)).x = 1, _this.y = 2, _this;
     }
     return D2;
 }(getBase()), D3 = function(_super) {
@@ -75,8 +77,9 @@ var D0 = function(Base) {
     _inherits(D3, _super);
     var _super3 = _createSuper(D3);
     function D3() {
-        var _this;
-        return _classCallCheck(this, D3), (_this = _super3.call(this, "abc", 42)).x = "x", _this.y = 2, _this;
+        _classCallCheck(this, D3);
+        var _this = _super3.call(this, "abc", 42);
+        return _this.x = "x", _this.y = 2, _this;
     }
     return D3;
 }(getBase()), D4 = function(_super) {

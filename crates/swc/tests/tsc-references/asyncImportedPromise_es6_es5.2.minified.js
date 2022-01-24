@@ -116,8 +116,7 @@ var Test = function() {
         {
             key: "example",
             value: function() {
-                var fn;
-                return (fn = regeneratorRuntime.mark(function _callee() {
+                var fn = regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
@@ -127,7 +126,8 @@ var Test = function() {
                                 return _ctx.stop();
                         }
                     }, _callee);
-                }), function() {
+                });
+                return (function() {
                     var self = this, args = arguments;
                     return new Promise(function(resolve, reject) {
                         var gen = fn.apply(self, args);

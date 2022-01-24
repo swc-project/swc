@@ -100,8 +100,7 @@ var Base = function() {
         {
             key: "asyncMethod",
             value: function() {
-                var fn, _this = this, _this1 = this;
-                return (fn = regeneratorRuntime.mark(function _callee() {
+                var _this = this, _this1 = this, fn = regeneratorRuntime.mark(function _callee() {
                     var ref;
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
@@ -112,7 +111,8 @@ var Base = function() {
                                 return _ctx.stop();
                         }
                     }, _callee);
-                }), function() {
+                });
+                return (function() {
                     var self = this, args = arguments;
                     return new Promise(function(resolve, reject) {
                         var gen = fn.apply(self, args);

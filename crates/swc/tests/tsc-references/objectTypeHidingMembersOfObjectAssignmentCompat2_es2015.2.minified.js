@@ -1,5 +1,6 @@
-i = i, c = c;
-var i, c, a = {
+var i, c, o = i;
+i = o, c = o = c;
+var a = {
     toString: ()=>{}
 };
-a = a;
+a = o = a;

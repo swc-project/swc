@@ -52,8 +52,9 @@ var A = function(x) {
     _inherits(B, A1);
     var _super = _createSuper(B);
     function B(x) {
-        var _this;
-        return _classCallCheck(this, B), (_this = _super.call(this, x)).x = 1, _this;
+        _classCallCheck(this, B);
+        var _this = _super.call(this, x);
+        return _this.x = 1, _this;
     }
     return B;
 }(A), C = function(A2) {
@@ -61,8 +62,9 @@ var A = function(x) {
     _inherits(C, A2);
     var _super = _createSuper(C);
     function C(x) {
-        var _this;
-        return _classCallCheck(this, C), (_this = _super.call(this, x)).x = x, _this.x = 1, _this;
+        _classCallCheck(this, C);
+        var _this = _super.call(this, x);
+        return _this.x = x, _this.x = 1, _this;
     }
     return C;
 }(A), D = function(x) {
@@ -73,8 +75,9 @@ var A = function(x) {
     _inherits(E, D1);
     var _super = _createSuper(E);
     function E(x) {
-        var _this;
-        return _classCallCheck(this, E), (_this = _super.call(this, x)).x = x, _this.x = 1, _this;
+        _classCallCheck(this, E);
+        var _this = _super.call(this, x);
+        return _this.x = x, _this.x = 1, _this;
     }
     return E;
 }(D);

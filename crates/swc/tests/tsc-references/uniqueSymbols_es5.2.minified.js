@@ -111,7 +111,7 @@ function _wrapAsyncGenerator(fn) {
 }, AsyncGenerator.prototype.return = function(arg) {
     return this._invoke("return", arg);
 };
-var _obj, _marked = regeneratorRuntime.mark(function() {
+var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -313,7 +313,9 @@ var C0 = function() {
         }
     ]), C0;
 }();
-C0.a = s, C0.b = N.s, C0.c = N.s, C0.d = s, C0.e = N.s, C0.f = N.s, o[s], o[N.s], o[N.s], f(s), f(N.s), f(N.s), g(s), g(N.s), g(N.s), _defineProperty(_obj = {}, s, "a"), _defineProperty(_obj, N.s, "b");
+C0.a = s, C0.b = N.s, C0.c = N.s, C0.d = s, C0.e = N.s, C0.f = N.s, o[s], o[N.s], o[N.s], f(s), f(N.s), f(N.s), g(s), g(N.s), g(N.s);
+var _obj = {};
+_defineProperty(_obj, s, "a"), _defineProperty(_obj, N.s, "b");
 var C1 = function() {
     "use strict";
     _classCallCheck(this, C1);

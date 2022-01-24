@@ -1,4 +1,3 @@
-var b, _o;
 function _defineProperty(obj, key, value) {
     return key in obj ? Object.defineProperty(obj, key, {
         value: value,
@@ -23,6 +22,7 @@ const o = function(target) {
     a: "yes",
     b: "no"
 });
+var b, _o = o;
 (function(source, excluded) {
     if (null == source) return {};
     var key, i, target = function(source, excluded) {
@@ -35,6 +35,6 @@ const o = function(target) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
         for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
     }
-})(_o = o, [
+})(_o, [
     "b"
 ]), { b  } = _o;

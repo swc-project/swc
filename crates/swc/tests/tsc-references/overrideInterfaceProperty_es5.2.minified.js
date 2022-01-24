@@ -70,8 +70,9 @@ var Sizz = function(Mup) {
     _inherits(Kasizz, Mup);
     var _super = _createSuper(Kasizz);
     function Kasizz() {
-        var _this;
-        return _classCallCheck(this, Kasizz), _this = _super.apply(this, arguments), _this.size = -1, _this;
+        _classCallCheck(this, Kasizz);
+        var _this = _super.apply(this, arguments);
+        return _this.size = -1, _this;
     }
     return Kasizz;
 }(Mup);

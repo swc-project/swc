@@ -4,7 +4,8 @@ class MyTestClass {
         return this;
     }
     set prop(v) {
-        v = v;
+        var p = this, p = v;
+        v = p;
     }
     static staticFn(t = this) {
         var t, p, t = MyTestClass;
@@ -30,7 +31,8 @@ class MyGenericTestClass {
         return this;
     }
     set prop(v) {
-        v = v;
+        var p = this, p = v;
+        v = p;
     }
     static staticFn(t = this) {
         var t, p, t = MyGenericTestClass;

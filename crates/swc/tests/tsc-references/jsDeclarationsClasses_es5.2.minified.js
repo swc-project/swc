@@ -194,8 +194,9 @@ export var N = function(L) {
     _inherits(N, L);
     var _super = _createSuper(N);
     function N(param) {
-        var _this;
-        return _classCallCheck(this, N), (_this = _super.call(this)).another = param, _this;
+        _classCallCheck(this, N);
+        var _this = _super.call(this);
+        return _this.another = param, _this;
     }
     return N;
 }(L);
@@ -204,8 +205,9 @@ export var O = function(N) {
     _inherits(O, N);
     var _super = _createSuper(O);
     function O(param) {
-        var _this;
-        return _classCallCheck(this, O), (_this = _super.call(this, param)).another2 = param, _this;
+        _classCallCheck(this, O);
+        var _this = _super.call(this, param);
+        return _this.another2 = param, _this;
     }
     return O;
 }(N);

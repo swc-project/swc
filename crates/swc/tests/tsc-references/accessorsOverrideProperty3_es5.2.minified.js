@@ -47,10 +47,11 @@ var Lion = function(Animal) {
         })(self);
     });
     function Lion() {
-        var _this;
-        return !function(instance, Constructor) {
+        !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, Lion), _this = _super.apply(this, arguments), _this._sound = "grrr", _this;
+        }(this, Lion);
+        var _this = _super.apply(this, arguments);
+        return _this._sound = "grrr", _this;
     }
     return Constructor = Lion, protoProps = [
         {

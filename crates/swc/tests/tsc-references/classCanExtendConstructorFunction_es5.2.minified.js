@@ -81,8 +81,9 @@ var Sql = function(Wagon1) {
     _inherits(Sql, Wagon1);
     var _super = _createSuper(Sql);
     function Sql() {
-        var _this;
-        return _classCallCheck(this, Sql), (_this = _super.call(this)).foonly = 12, _this;
+        _classCallCheck(this, Sql);
+        var _this = _super.call(this);
+        return _this.foonly = 12, _this;
     }
     return _createClass(Sql, [
         {
@@ -120,8 +121,9 @@ var Firedrake = function(Dragon2) {
     _inherits(Conestoga, Wagon2);
     var _super = _createSuper(Conestoga);
     function Conestoga(drunkOO) {
-        var _this;
-        return _classCallCheck(this, Conestoga), (_this = _super.call(this, "nope")).drunkOO = drunkOO, _this;
+        _classCallCheck(this, Conestoga);
+        var _this = _super.call(this, "nope");
+        return _this.drunkOO = drunkOO, _this;
     }
     return _createClass(Conestoga, null, [
         {

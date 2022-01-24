@@ -57,8 +57,9 @@ var A = function() {
         return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : _assertThisInitialized(self);
     });
     function B() {
-        var _this;
-        return _classCallCheck(this, B), _this = _super.call(this), _foo1.set(_assertThisInitialized(_this), {
+        _classCallCheck(this, B);
+        var _this = _super.call(this);
+        return _foo1.set(_assertThisInitialized(_this), {
             writable: !0,
             value: void 0
         }), _classPrivateFieldSet(_assertThisInitialized(_this), _foo1, "some string"), _this;

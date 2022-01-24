@@ -79,8 +79,9 @@ var A = function() {
     _inherits(D, C1);
     var _super = _createSuper(D);
     function D() {
-        var _this;
-        return _classCallCheck(this, D), _this = _super.apply(this, arguments), _this._secret = 11, _this;
+        _classCallCheck(this, D);
+        var _this = _super.apply(this, arguments);
+        return _this._secret = 11, _this;
     }
     return _createClass(D, [
         {

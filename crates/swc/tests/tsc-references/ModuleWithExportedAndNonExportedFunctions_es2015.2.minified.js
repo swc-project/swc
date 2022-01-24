@@ -5,4 +5,4 @@ var A;
     }, A1.fng = function(s) {
         return null;
     };
-}(A || (A = {})), A.fn, A.fng, A.fn2, A.fng2;
+}(A || (A = {}));

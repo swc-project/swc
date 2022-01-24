@@ -11,5 +11,5 @@ function _classCallCheck(instance, Constructor) {
         "use strict";
         _classCallCheck(this, NestedClass);
     }, nested.NestedClass = NestedClass;
-}(ns || (ns = {})), ns.Class, ns.Value;
+}(ns || (ns = {}));
 export { };

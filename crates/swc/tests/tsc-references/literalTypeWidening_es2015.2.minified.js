@@ -1,4 +1,5 @@
-var E;
+const FAILURE = "FAILURE";
+if (FAILURE != FAILURE) var E;
 export function Set(...keys1) {
     const result = {};
     return keys1.forEach((key)=>result[key] = !0

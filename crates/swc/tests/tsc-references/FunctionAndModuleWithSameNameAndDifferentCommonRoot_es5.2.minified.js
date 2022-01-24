@@ -9,4 +9,4 @@ var A, B;
         x: 0,
         y: 0
     };
-})(B || (B = {})), A.Point, B.Point.Origin;
+})(B || (B = {})), B.Point.Origin;

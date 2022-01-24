@@ -1,5 +1,6 @@
-x = 1, x = "", x = !0, x = a, x = null;
-var x, a, b, c, M, E, C = function() {
+var a, b, c, M, E, x = 1;
+x = "", x = !0, x = a, x = null;
+var C = function() {
     "use strict";
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
