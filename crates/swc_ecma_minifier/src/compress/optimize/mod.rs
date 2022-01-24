@@ -912,8 +912,10 @@ where
             //      return f.g, 1
             // }
             Expr::Member(MemberExpr { obj, prop, .. })
-                if !prop.is_computed()
-                    && (self.options.top_level() || !self.ctx.in_top_level()) =>
+                if match &*prop {
+                    MemberProp::Computed(prop) => !prop.expr.may_have_side_effects(),
+                    _ => true,
+                } && (self.options.top_level() || !self.ctx.in_top_level()) =>
             {
                 if let Expr::Ident(obj) = &**obj {
                     if let Some(usage) = self
@@ -921,6 +923,10 @@ where
                         .as_ref()
                         .and_then(|data| data.vars.get(&obj.to_id()))
                     {
+                        if !usage.declared {
+                            return Some(e.take());
+                        }
+
                         if !usage.declared_as_fn_param && usage.var_kind.is_none() {
                             return None;
                         }
