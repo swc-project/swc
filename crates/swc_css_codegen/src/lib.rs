@@ -277,7 +277,7 @@ where
             )?;
             punct!(self, "}");
         } else {
-            punct!(self, ";");
+            semi!(self);
         }
     }
 
@@ -792,7 +792,7 @@ where
         if n.block.is_some() {
             emit!(self, n.block)
         } else {
-            punct!(self, ";");
+            semi!(self);
         }
     }
 
@@ -852,7 +852,7 @@ where
                 emit!(self, n);
 
                 // TODO implement ListFormat::DotAtEnd to avoid writting `;` in minify mode
-                punct!(self, ";");
+                semi!(self);
             }
             DeclarationBlockItem::AtRule(n) => emit!(self, n),
             DeclarationBlockItem::Invalid(n) => emit!(self, n),
