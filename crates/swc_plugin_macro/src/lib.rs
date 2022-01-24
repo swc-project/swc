@@ -26,7 +26,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
         #func
 
         /// Internal function plugin_macro uses to create ptr to PluginError.
-        fn construct_error_ptr(plugin_error: PluginError) -> (i32, i32, i32) {
+        fn construct_error_ptr(plugin_error: swc_plugin::PluginError) -> (i32, i32, i32) {
             let ret = swc_plugin::Serialized::serialize(&plugin_error).expect("Should able to serialize PluginError");
             let ret_ref = ret.as_ref();
 
