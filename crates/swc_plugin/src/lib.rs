@@ -10,7 +10,8 @@ pub mod ast {
     pub use swc_ecma_visit::*;
 }
 
-#[cfg(target_arch = "wasm32")]
+// We don't set target cfg as it'll block macro expansions
+// in ide (i.e rust-analyzer) or non-wasm target `cargo check`
 pub use swc_plugin_macro::plugin_module;
 #[cfg(target_arch = "wasm32")]
 mod allocation;
