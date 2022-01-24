@@ -62,7 +62,7 @@ fn pass(input_dir: PathBuf) {
                 compiler.globals(),
                 cm.clone(),
                 &loader,
-                environment_resolver(TargetEnv::Node, Default::default()),
+                environment_resolver(TargetEnv::Node, Default::default(), false),
                 Config {
                     require: true,
                     disable_inliner: true,
