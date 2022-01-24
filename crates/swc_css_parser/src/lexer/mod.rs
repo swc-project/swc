@@ -542,7 +542,29 @@ where
                 }
                 // Otherwise, consume a url token, and return it.
                 _ => {
-                    return self.read_url(name);
+                    return self.read_url().map(|mut token| {
+                        match token {
+                            Token::Url {
+                                name: ref mut url_name,
+                                raw_name: ref mut raw_url_name,
+                                ..
+                            } => {
+                                *url_name = name.0.into();
+                                *raw_url_name = name.1.into();
+                            }
+                            Token::BadUrl {
+                                name: ref mut url_name,
+                                raw_name: ref mut raw_url_name,
+                                ..
+                            } => {
+                                *url_name = name.0.into();
+                                *raw_url_name = name.1.into();
+                            }
+                            _ => {}
+                        }
+
+                        token
+                    });
                 }
             }
         }
@@ -657,7 +679,7 @@ where
 
     // This section describes how to consume a url token from a stream of code
     // points. It returns either a <url-token> or a <bad-url-token>.
-    fn read_url(&mut self, name: (JsWord, JsWord)) -> LexResult<Token> {
+    fn read_url(&mut self) -> LexResult<Token> {
         // Initially create a <url-token> with its value set to the empty string.
         let mut value = String::new();
         let mut raw = String::new();
@@ -680,8 +702,8 @@ where
                 // Return the <url-token>.
                 Some(')') => {
                     return Ok(Token::Url {
-                        name: name.0,
-                        raw_name: name.1,
+                        name: Default::default(),
+                        raw_name: Default::default(),
                         value: value.into(),
                         raw_value: raw.into(),
                     });
@@ -691,8 +713,8 @@ where
                 // This is a parse error. Return the <url-token>.
                 None => {
                     return Ok(Token::Url {
-                        name: name.0,
-                        raw_name: name.1,
+                        name: Default::default(),
+                        raw_name: Default::default(),
                         value: value.into(),
                         raw_value: raw.into(),
                     });
@@ -725,16 +747,16 @@ where
                             self.consume();
 
                             return Ok(Token::Url {
-                                name: name.0,
-                                raw_name: name.1,
+                                name: Default::default(),
+                                raw_name: Default::default(),
                                 value: value.into(),
                                 raw_value: raw.into(),
                             });
                         }
                         None => {
                             return Ok(Token::Url {
-                                name: name.0,
-                                raw_name: name.1,
+                                name: Default::default(),
+                                raw_name: Default::default(),
                                 value: value.into(),
                                 raw_value: raw.into(),
                             });
@@ -751,8 +773,8 @@ where
 
                     // TODO check me
                     return Ok(Token::BadUrl {
-                        name: name.0,
-                        raw_name: name.1,
+                        name: Default::default(),
+                        raw_name: Default::default(),
                         value: value.into(),
                         raw_value: raw.into(),
                     });
@@ -773,8 +795,8 @@ where
                     raw.push_str(&remnants.1);
 
                     return Ok(Token::BadUrl {
-                        name: name.0,
-                        raw_name: name.1,
+                        name: Default::default(),
+                        raw_name: Default::default(),
                         value: value.into(),
                         raw_value: raw.into(),
                     });
@@ -802,8 +824,8 @@ where
                         raw.push_str(&remnants.1);
 
                         return Ok(Token::BadUrl {
-                            name: name.0,
-                            raw_name: name.1,
+                            name: Default::default(),
+                            raw_name: Default::default(),
                             value: value.into(),
                             raw_value: raw.into(),
                         });
