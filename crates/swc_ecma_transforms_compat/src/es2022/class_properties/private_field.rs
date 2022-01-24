@@ -1,4 +1,4 @@
-use std::{iter, mem};
+use std::iter;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -98,7 +98,8 @@ pub(super) struct FieldAccessFolder<'a> {
 macro_rules! take_vars {
     ($name:ident, $T:tt) => {
         fn $name(&mut self, f: &mut $T) {
-            assert!(self.vars.is_empty());
+            let old_var = self.vars.take();
+
             if f.body.is_none() {
                 return;
             }
@@ -111,12 +112,14 @@ macro_rules! take_vars {
                     Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
-                        decls: mem::take(&mut self.vars),
+                        decls: self.vars.take(),
 
                         declare: false,
                     })),
                 )
             }
+
+            self.vars = old_var;
         }
     };
 }
