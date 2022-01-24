@@ -150,13 +150,6 @@ pub struct AtTextValue {
     pub block: Option<SimpleBlock>,
 }
 
-#[ast_node("SimpleBlock")]
-pub struct SimpleBlock {
-    pub span: Span,
-    pub name: char,
-    pub value: Vec<Value>,
-}
-
 #[ast_node("Url")]
 pub struct Url {
     pub span: Span,
