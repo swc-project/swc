@@ -323,7 +323,7 @@ impl Resolve for NodeModulesResolver {
         } else {
             None
         };
-        if let Some(ref path) = abs_path{
+        if let Some(ref path) = abs_path {
             base = path
         }
 
