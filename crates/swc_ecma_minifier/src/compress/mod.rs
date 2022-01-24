@@ -60,7 +60,6 @@ where
         options,
         changed: false,
         pass: 0,
-        data: None,
         left_parallel_depth: 0,
         mode,
         dump_for_infinite_loop: Default::default(),
@@ -82,7 +81,6 @@ where
     options: &'a CompressOptions,
     changed: bool,
     pass: usize,
-    data: Option<ProgramData>,
     /// `0` means we should not create more threads.
     left_parallel_depth: u8,
 
@@ -144,7 +142,6 @@ where
                     options: self.options,
                     changed: false,
                     pass: self.pass,
-                    data: None,
                     left_parallel_depth: 0,
                     mode: self.mode,
                     dump_for_infinite_loop: Default::default(),
@@ -164,7 +161,6 @@ where
                             options: self.options,
                             changed: false,
                             pass: self.pass,
-                            data: None,
                             left_parallel_depth: self.left_parallel_depth - 1,
                             mode: self.mode,
                             dump_for_infinite_loop: Default::default(),
@@ -235,8 +231,6 @@ where
         N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa, M>>,
     {
         let _timer = timer!("optimize", pass = self.pass);
-
-        self.data = Some(analyze(&*n, Some(self.marks)));
 
         if self.options.passes != 0 && self.options.passes < self.pass {
             let done = dump(&*n, false);
@@ -359,10 +353,12 @@ where
             //
             // This is swc version of `node.optimize(this);`.
 
+            let mut data = analyze(&*n, Some(self.marks));
+
             let mut visitor = optimizer(
                 self.marks,
                 self.options,
-                self.data.as_mut().unwrap(),
+                &mut data,
                 self.mode,
                 !self.dump_for_infinite_loop.is_empty(),
             );
