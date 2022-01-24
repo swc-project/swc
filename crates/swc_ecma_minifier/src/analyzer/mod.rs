@@ -210,6 +210,9 @@ where
     }
 
     fn report_usage(&mut self, i: &Ident, is_assign: bool) {
+        if cfg!(feature = "debug") {
+            tracing::debug!("Usage: `{}`, assign = {:?}", i, is_assign);
+        }
         self.data.report_usage(self.ctx, i, is_assign)
     }
 
@@ -723,6 +726,7 @@ where
     fn visit_stmt(&mut self, n: &Stmt) {
         let ctx = Ctx {
             in_update_arg: false,
+            in_assign_lhs: false,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
