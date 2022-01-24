@@ -32,6 +32,8 @@ pub struct ParserConfig {
 
 #[derive(Debug, Default, Clone, Copy)]
 struct Ctx {
+    in_page_at_rule: bool,
+
     allow_operation_in_value: bool,
 
     allow_at_selector: bool,

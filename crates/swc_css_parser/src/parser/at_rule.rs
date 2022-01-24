@@ -165,7 +165,9 @@ where
             | "left-bottom"
             | "right-top"
             | "right-middle"
-            | "right-bottom" => {
+            | "right-bottom"
+                if self.ctx.in_page_at_rule == true =>
+            {
                 let margin_rule_name = Ident {
                     span: Span::new(
                         at_rule_span.lo + BytePos(1),
@@ -1435,8 +1437,11 @@ where
 
         expect!(self, "{");
 
-        // TODO: set context
+        self.ctx.in_page_at_rule = true;
+
         let block = self.parse()?;
+
+        self.ctx.in_page_at_rule = false;
 
         expect!(self, "}");
 
@@ -1555,8 +1560,7 @@ where
 
         expect!(self, ":");
 
-        // TODO validate name
-        // TODO check selectors and maybe drop it `at-rule`
+        // TODO validate name and uppercase
         let value = self.parse()?;
 
         Ok(PageSelectorPseudo {
@@ -1575,7 +1579,11 @@ where
 
         expect!(self, "{");
 
+        self.ctx.in_page_at_rule = false;
+
         let block = self.parse()?;
+
+        self.ctx.in_page_at_rule = true;
 
         expect!(self, "}");
 
