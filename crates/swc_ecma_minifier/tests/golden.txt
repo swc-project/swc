@@ -100,6 +100,7 @@ collapse_vars/anonymous_function/input.js
 collapse_vars/assignment/input.js
 collapse_vars/boolean_binary_1/input.js
 collapse_vars/boolean_binary_2/input.js
+collapse_vars/cascade_call/input.js
 collapse_vars/cascade_if_1/input.js
 collapse_vars/cascade_if_2/input.js
 collapse_vars/cascade_return/input.js
