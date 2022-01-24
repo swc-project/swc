@@ -29,7 +29,7 @@ use swc_common::{
 };
 use swc_ecma_ast::{EsVersion, Expr, Program};
 use swc_ecma_ext_transforms::jest;
-use swc_ecma_lints::rules::lint_to_fold;
+use swc_ecma_lints::{config::LintConfig, rules::lint_to_fold};
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
@@ -276,6 +276,7 @@ impl Options {
             paths,
             minify: mut js_minify,
             experimental,
+            lints,
             ..
         } = config.jsc;
 
@@ -422,7 +423,7 @@ impl Options {
                 ),
                 syntax.typescript()
             ),
-            lint_to_fold(swc_ecma_lints::rules::all(top_level_ctxt)),
+            lint_to_fold(swc_ecma_lints::rules::all(&lints, top_level_ctxt)),
             crate::plugin::plugins(experimental),
             custom_before_pass(&program),
             // handle jsx
@@ -961,6 +962,9 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub experimental: JscExperimental,
+
+    #[serde(default)]
+    pub lints: LintConfig,
 }
 
 /// `jsc.experimental` in `.swcrc`

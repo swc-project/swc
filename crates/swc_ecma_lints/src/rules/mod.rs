@@ -1,4 +1,4 @@
-use crate::rule::Rule;
+use crate::{config::LintConfig, rule::Rule};
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold};
@@ -8,13 +8,18 @@ mod duplicate_bindings;
 mod duplicate_exports;
 mod no_console;
 
-pub fn all(top_level_ctxt: SyntaxContext) -> Vec<Box<dyn Rule>> {
-    vec![
+pub fn all(lint_config: &LintConfig, top_level_ctxt: SyntaxContext) -> Vec<Box<dyn Rule>> {
+    let mut rules = vec![
         const_assign::const_assign(),
         duplicate_bindings::duplicate_bindings(),
         duplicate_exports::duplicate_exports(),
-        no_console::no_console(top_level_ctxt.clone()),
-    ]
+    ];
+
+    if let Some(rule) = no_console::no_console(&lint_config.no_console, top_level_ctxt.clone()) {
+        rules.push(rule)
+    }
+
+    rules
 }
 
 pub fn lint_to_fold<R>(r: R) -> impl Fold
