@@ -895,6 +895,16 @@ where
                 false
             }
 
+            Expr::Array(e) => {
+                for elem in e.elems.iter().flatten() {
+                    if !self.is_skippable_for_seq(a, &elem.expr) {
+                        return false;
+                    }
+                }
+
+                true
+            }
+
             _ => false,
         }
     }
@@ -1059,12 +1069,9 @@ where
                                 return Ok(true);
                             }
 
-                            match &*elem.expr {
-                                Expr::Ident(..) => {}
-                                _ => {
-                                    // To preserve side-effects, we need to abort.
-                                    break;
-                                }
+                            if !self.is_skippable_for_seq(Some(a), &elem.expr) {
+                                // To preserve side-effects, we need to abort.
+                                break;
                             }
                         }
                         None => {}
