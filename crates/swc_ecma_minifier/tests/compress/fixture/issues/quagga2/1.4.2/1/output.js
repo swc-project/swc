@@ -1172,8 +1172,7 @@
             }).call(this, __webpack_require__(46));
         },
         function(module, exports) {
-            var g;
-            g = this;
+            var g = this;
             try {
                 g = g || new Function("return this")();
             } catch (e) {
@@ -3179,8 +3178,8 @@
                     for(i = 0, canvas.width = line.length, ctx.fillColor = "black"; i < line.length; i++)1 === line[i] && ctx.fillRect(i, 0, 1, 100);
                 }
             };
-            var BarcodeDirection1, bresenham = Bresenham, image_debug = __webpack_require__(9), classCallCheck = __webpack_require__(3), classCallCheck_default = __webpack_require__.n(classCallCheck), createClass = __webpack_require__(4), createClass_default = __webpack_require__.n(createClass), assertThisInitialized = __webpack_require__(1), assertThisInitialized_default = __webpack_require__.n(assertThisInitialized), inherits = __webpack_require__(6), inherits_default = __webpack_require__.n(inherits), possibleConstructorReturn = __webpack_require__(5), possibleConstructorReturn_default = __webpack_require__.n(possibleConstructorReturn), getPrototypeOf = __webpack_require__(2), getPrototypeOf_default = __webpack_require__.n(getPrototypeOf), defineProperty = __webpack_require__(0), defineProperty_default = __webpack_require__.n(defineProperty), array_helper = __webpack_require__(10);
-            (BarcodeDirection1 = BarcodeDirection || (BarcodeDirection = {}))[BarcodeDirection1.Forward = 1] = "Forward", BarcodeDirection1[BarcodeDirection1.Reverse = -1] = "Reverse";
+            var bresenham = Bresenham, image_debug = __webpack_require__(9), classCallCheck = __webpack_require__(3), classCallCheck_default = __webpack_require__.n(classCallCheck), createClass = __webpack_require__(4), createClass_default = __webpack_require__.n(createClass), assertThisInitialized = __webpack_require__(1), assertThisInitialized_default = __webpack_require__.n(assertThisInitialized), inherits = __webpack_require__(6), inherits_default = __webpack_require__.n(inherits), possibleConstructorReturn = __webpack_require__(5), possibleConstructorReturn_default = __webpack_require__.n(possibleConstructorReturn), getPrototypeOf = __webpack_require__(2), getPrototypeOf_default = __webpack_require__.n(getPrototypeOf), defineProperty = __webpack_require__(0), defineProperty_default = __webpack_require__.n(defineProperty), array_helper = __webpack_require__(10), BarcodeDirection1 = BarcodeDirection || (BarcodeDirection = {});
+            BarcodeDirection1[BarcodeDirection1.Forward = 1] = "Forward", BarcodeDirection1[BarcodeDirection1.Reverse = -1] = "Reverse";
             var barcode_reader_BarcodeReader = function() {
                 function BarcodeReader(config, supplements) {
                     return classCallCheck_default()(this, BarcodeReader), defineProperty_default()(this, "_row", []), defineProperty_default()(this, "config", {}), defineProperty_default()(this, "supplements", []), defineProperty_default()(this, "SINGLE_CODE_ERROR", 0), defineProperty_default()(this, "FORMAT", "unknown"), defineProperty_default()(this, "CONFIG_KEYS", {}), this._row = [], this.config = config || {}, supplements && (this.supplements = supplements), this;
@@ -4342,8 +4341,8 @@
                     {
                         key: "_verifyTrailingWhitespace",
                         value: function(endInfo) {
-                            var trailingWhitespaceEnd;
-                            return (trailingWhitespaceEnd = endInfo.end + (endInfo.end - endInfo.start) / 2) < this._row.length && this._matchRange(endInfo.end, trailingWhitespaceEnd, 0) ? endInfo : null;
+                            var trailingWhitespaceEnd = endInfo.end + (endInfo.end - endInfo.start) / 2;
+                            return trailingWhitespaceEnd < this._row.length && this._matchRange(endInfo.end, trailingWhitespaceEnd, 0) ? endInfo : null;
                         }
                     },
                     {

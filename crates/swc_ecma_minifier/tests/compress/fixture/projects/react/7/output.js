@@ -1,10 +1,10 @@
 function getElementKey(element, index) {
     if ("object" == typeof element && null !== element && null != element.key) {
-        var escaperLookup;
-        return escaperLookup = {
+        var escaperLookup = {
             "=": "=0",
             ":": "=2"
-        }, "$" + ("" + element.key).replace(/[=:]/g, function(match) {
+        };
+        return "$" + ("" + element.key).replace(/[=:]/g, function(match) {
             return escaperLookup[match];
         });
     }

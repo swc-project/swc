@@ -881,8 +881,8 @@
                     let t20 = e.path.canonicalString();
                     null !== e.collectionGroup && (t20 += "|cg:" + e.collectionGroup), t20 += "|f:", t20 += e.filters.map((t)=>Yt(t)
                     ).join(","), t20 += "|ob:", t20 += e.orderBy.map((t)=>{
-                        var t21;
-                        return (t21 = t).field.canonicalString() + t21.dir;
+                        var t21 = t;
+                        return t21.field.canonicalString() + t21.dir;
                     }).join(","), At(e.limit) || (t20 += "|l:", t20 += e.limit), e.startAt && (t20 += "|lb:", t20 += ce(e.startAt)), e.endAt && (t20 += "|ub:", t20 += ce(e.endAt)), e.A = t20;
                 }
                 return e.A;
@@ -1112,8 +1112,8 @@
                     var e;
                     return `${(e = t).field.canonicalString()} ${e.op} ${Nt(e.value)}`;
                 }).join(", ")}]`), At(t28.limit) || (e14 += ", limit: " + t28.limit), t28.orderBy.length > 0 && (e14 += `, orderBy: [${t28.orderBy.map((t)=>{
-                    var t30;
-                    return t30 = t, `${t30.field.canonicalString()} (${t30.dir})`;
+                    var t30 = t;
+                    return `${t30.field.canonicalString()} (${t30.dir})`;
                 }).join(", ")}]`), t28.startAt && (e14 += ", startAt: " + ce(t28.startAt)), t28.endAt && (e14 += ", endAt: " + ce(t28.endAt)), `Target(${e14})`}; limitType=${t29.limitType})`;
             }
             function Pe(t32, e16) {
@@ -3719,8 +3719,8 @@
                                         n25.where && (r = hs(n25.where));
                                         let o2 = [];
                                         n25.orderBy && (o2 = n25.orderBy.map((t141)=>{
-                                            var t140;
-                                            return t140 = t141, new ae(ms(t140.field), function(t) {
+                                            var t140 = t141;
+                                            return new ae(ms(t140.field), function(t) {
                                                 switch(t){
                                                     case "ASCENDING":
                                                         return "asc";

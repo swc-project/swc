@@ -208,7 +208,7 @@
     function set$1(mom, unit, value) {
         mom.isValid() && !isNaN(value) && ("FullYear" === unit && isLeapYear(mom.year()) && 1 === mom.month() && 29 === mom.date() ? (value = toInt(value), mom._d["set" + (mom._isUTC ? "UTC" : "") + unit](value, mom.month(), daysInMonth(value, mom.month()))) : mom._d["set" + (mom._isUTC ? "UTC" : "") + unit](value));
     }
-    var hookCallback, some, keys, regexes, match1 = /\d/, match2 = /\d\d/, match3 = /\d{3}/, match4 = /\d{4}/, match6 = /[+-]?\d{6}/, match1to2 = /\d\d?/, match3to4 = /\d\d\d\d?/, match5to6 = /\d\d\d\d\d\d?/, match1to3 = /\d{1,3}/, match1to4 = /\d{1,4}/, match1to6 = /[+-]?\d{1,6}/, matchUnsigned = /\d+/, matchSigned = /[+-]?\d+/, matchOffset = /Z|[+-]\d\d:?\d\d/gi, matchShortOffset = /Z|[+-]\d\d(?::?\d\d)?/gi, matchWord = /[0-9]{0,256}['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFF07\uFF10-\uFFEF]{1,256}|[\u0600-\u06FF\/]{1,256}(\s*?[\u0600-\u06FF]{1,256}){1,2}/i;
+    var match1 = /\d/, match2 = /\d\d/, match3 = /\d{3}/, match4 = /\d{4}/, match6 = /[+-]?\d{6}/, match1to2 = /\d\d?/, match3to4 = /\d\d\d\d?/, match5to6 = /\d\d\d\d\d\d?/, match1to3 = /\d{1,3}/, match1to4 = /\d{1,4}/, match1to6 = /[+-]?\d{1,6}/, matchUnsigned = /\d+/, matchSigned = /[+-]?\d+/, matchOffset = /Z|[+-]\d\d:?\d\d/gi, matchShortOffset = /Z|[+-]\d\d(?::?\d\d)?/gi, matchWord = /[0-9]{0,256}['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFF07\uFF10-\uFFEF]{1,256}|[\u0600-\u06FF\/]{1,256}(\s*?[\u0600-\u06FF]{1,256}){1,2}/i, regexes = {};
     function addRegexToken(token, regex, strictRegex) {
         regexes[token] = isFunction(regex) ? regex : function(isStrict, localeData) {
             return isStrict && strictRegex ? strictRegex : regex;
@@ -225,7 +225,6 @@
     function regexEscape(s) {
         return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
     }
-    regexes = {};
     var tokens1 = {};
     function addParseToken(token, callback) {
         var i, func = callback;
@@ -499,7 +498,7 @@
         var pos1 = input.length - 4, pos2 = input.length - 2;
         array[3] = toInt(input.substr(0, pos1)), array[4] = toInt(input.substr(pos1, 2)), array[5] = toInt(input.substr(pos2));
     });
-    var indexOf, globalLocale, getSetHour = makeGetSet("Hours", !0), baseConfig = {
+    var hookCallback, some, keys, indexOf, globalLocale, getSetHour = makeGetSet("Hours", !0), baseConfig = {
         calendar: {
             sameDay: "[Today at] LT",
             nextDay: "[Tomorrow at] LT",

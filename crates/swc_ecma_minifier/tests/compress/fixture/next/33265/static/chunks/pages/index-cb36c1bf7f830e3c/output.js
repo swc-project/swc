@@ -55,9 +55,11 @@
                 BigInt("0x1000000000000"),
                 BigInt("0x100000000000000"),
                 BigInt("0x10000000000000000")
-            ], ENDIANNESS = (a1 = new Uint16Array([
+            ];
+            a1 = new Uint16Array([
                 65484
-            ]), 255 === (b1 = new Uint8Array(a1.buffer, a1.byteOffset, a1.byteLength))[0] ? "big" : 204 === b1[0] ? "little" : "unknown"), bytesToNumber = function(bytes, _temp) {
+            ]), 255 === (b1 = new Uint8Array(a1.buffer, a1.byteOffset, a1.byteLength))[0] || 204 === b1[0];
+            var bytesToNumber = function(bytes, _temp) {
                 var _ref = void 0 === _temp ? {} : _temp, _ref$signed = _ref.signed, _ref$le = _ref.le, le = void 0 !== _ref$le && _ref$le;
                 bytes = toUint8(bytes);
                 var fn = le ? "reduce" : "reduceRight", number = (bytes[fn] ? bytes[fn] : Array.prototype[fn]).call(bytes, function(total, byte, i) {
@@ -464,8 +466,8 @@
                 var dataHeader = getvint(bytes, offset + innerid.length);
                 return getInfinityDataSize(id, bytes, offset + dataHeader.length + dataHeader.value + innerid.length);
             }, findEbml1 = function findEbml(bytes, paths) {
-                var paths1;
-                paths1 = paths, paths = Array.isArray(paths1) ? paths1.map(function(p) {
+                var paths1 = paths;
+                paths = Array.isArray(paths1) ? paths1.map(function(p) {
                     return ebml_helpers_normalizePath(p);
                 }) : [
                     ebml_helpers_normalizePath(paths1)
@@ -2246,8 +2248,8 @@
             "undefined" != typeof document ? doccy = document : (doccy = topLevel["__GLOBAL_DOCUMENT_CACHE@4"]) || (doccy = topLevel["__GLOBAL_DOCUMENT_CACHE@4"] = minDoc), module.exports = doccy;
         },
         8908: function(module, __unused_webpack_exports, __webpack_require__) {
-            var win;
-            win = "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {}, module.exports = win;
+            var win = "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {};
+            module.exports = win;
         },
         7376: function(module) {
             module.exports = function(fn) {
@@ -2387,8 +2389,8 @@
                 }, Stream;
             }(), esm_extends = __webpack_require__(7462), assertThisInitialized = __webpack_require__(7326), decode_b64_to_uint8_array = __webpack_require__(6722), LineStream1 = function(_Stream) {
                 function LineStream() {
-                    var _this;
-                    return (_this = _Stream.call(this) || this).buffer = "", _this;
+                    var _this = _Stream.call(this) || this;
+                    return _this.buffer = "", _this;
                 }
                 return (0, inheritsLoose.Z)(LineStream, _Stream), LineStream.prototype.push = function(data) {
                     var nextNewline;
@@ -2404,8 +2406,8 @@
                 return result;
             }, ParseStream1 = function(_Stream) {
                 function ParseStream() {
-                    var _this;
-                    return (_this = _Stream.call(this) || this).customParsers = [], _this.tagMappers = [], _this;
+                    var _this = _Stream.call(this) || this;
+                    return _this.customParsers = [], _this.tagMappers = [], _this;
                 }
                 (0, inheritsLoose.Z)(ParseStream, _Stream);
                 var _proto = ParseStream.prototype;
@@ -2715,8 +2717,9 @@
                 }
             }, Parser1 = function(_Stream) {
                 function Parser() {
-                    (_this = _Stream.call(this) || this).lineStream = new LineStream1(), _this.parseStream = new ParseStream1(), _this.lineStream.pipe(_this.parseStream);
-                    var _this, currentMap, _key, self = (0, assertThisInitialized.Z)(_this), uris = [], currentUri = {}, hasParts = !1, noop = function() {}, defaultMediaGroups = {
+                    var currentMap, _key, _this = _Stream.call(this) || this;
+                    _this.lineStream = new LineStream1(), _this.parseStream = new ParseStream1(), _this.lineStream.pipe(_this.parseStream);
+                    var self = (0, assertThisInitialized.Z)(_this), uris = [], currentUri = {}, hasParts = !1, noop = function() {}, defaultMediaGroups = {
                         AUDIO: {},
                         VIDEO: {},
                         "CLOSED-CAPTIONS": {},
@@ -3144,9 +3147,8 @@
                 }, {}), Object.keys(o).map(function(k) {
                     return o[k];
                 })).map(function(playlist) {
-                    var key;
-                    return key = "discontinuity", playlist.discontinuityStarts = playlist.segments.reduce(function(a, e, i) {
-                        return e[key] && a.push(i), a;
+                    return playlist.discontinuityStarts = playlist.segments.reduce(function(a, e, i) {
+                        return e.discontinuity && a.push(i), a;
                     }, []), playlist;
                 });
             }, addSidxSegmentsToPlaylist$1 = function(playlist, sidxMapping) {
@@ -3406,8 +3408,8 @@
                     return parseDuration(value);
                 },
                 availabilityStartTime: function(value) {
-                    var str;
-                    return str = value, /^\d+-\d+-\d+T\d+:\d+:\d+(\.\d+)?$/.test(str) && (str += "Z"), Date.parse(str) / 1000;
+                    var str = value;
+                    return /^\d+-\d+-\d+T\d+:\d+:\d+(\.\d+)?$/.test(str) && (str += "Z"), Date.parse(str) / 1000;
                 },
                 minimumUpdatePeriod: function(value) {
                     return parseDuration(value);
@@ -3501,8 +3503,9 @@
                 }), segmentInfo;
             }, parseCaptionServiceMetadata = function(service) {
                 return "urn:scte:dash:cc:cea-608:2015" === service.schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
-                    if (language = value, /^CC\d=/.test(value)) {
-                        var channel, language, _value$split = value.split("=");
+                    var channel, language = value;
+                    if (/^CC\d=/.test(value)) {
+                        var _value$split = value.split("=");
                         channel = _value$split[0], language = _value$split[1];
                     } else /^CC\d$/.test(value) && (channel = value);
                     return {
@@ -4044,8 +4047,8 @@
             function parseContent(window, input) {
                 function nextToken() {
                     if (!input) return null;
-                    var result, m = input.match(/^([^<]*)(<[^>]*>?)?/);
-                    return result = m[1] ? m[1] : m[2], input = input.substr(result.length), result;
+                    var m = input.match(/^([^<]*)(<[^>]*>?)?/), result = m[1] ? m[1] : m[2];
+                    return input = input.substr(result.length), result;
                 }
                 function unescape(s) {
                     return TEXTAREA_ELEMENT.innerHTML = s, s = TEXTAREA_ELEMENT.textContent, TEXTAREA_ELEMENT.textContent = "", s;

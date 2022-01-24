@@ -106,12 +106,12 @@
                 }) : orig2.apply(this, arguments);
             }),
             scrollParent: function() {
-                var scrollParent;
-                return scrollParent = $.ui.ie && /(static|relative)/.test(this.css("position")) || /absolute/.test(this.css("position")) ? this.parents().filter(function() {
+                var scrollParent = $.ui.ie && /(static|relative)/.test(this.css("position")) || /absolute/.test(this.css("position")) ? this.parents().filter(function() {
                     return /(relative|absolute|fixed)/.test($.css(this, "position")) && /(auto|scroll)/.test($.css(this, "overflow") + $.css(this, "overflow-y") + $.css(this, "overflow-x"));
                 }).eq(0) : this.parents().filter(function() {
                     return /(auto|scroll)/.test($.css(this, "overflow") + $.css(this, "overflow-y") + $.css(this, "overflow-x"));
-                }).eq(0), /fixed/.test(this.css("position")) || !scrollParent.length ? $(this[0].ownerDocument || document1) : scrollParent;
+                }).eq(0);
+                return /fixed/.test(this.css("position")) || !scrollParent.length ? $(this[0].ownerDocument || document1) : scrollParent;
             },
             uniqueId: function() {
                 return this.each(function() {
@@ -1632,8 +1632,8 @@
             return ele;
         }
         $.mobile.loadPage = function(url, opts) {
-            var container;
-            return container = (opts = opts || {}).pageContainer || $.mobile.pageContainer, opts.deferred = $.Deferred(), container.pagecontainer("load", url, opts), opts.deferred.promise();
+            var container = (opts = opts || {}).pageContainer || $.mobile.pageContainer;
+            return opts.deferred = $.Deferred(), container.pagecontainer("load", url, opts), opts.deferred.promise();
         }, $.mobile.back = function() {
             var nav = window3.navigator;
             this.phonegapNavigationEnabled && nav && nav.app && nav.app.backHistory ? nav.app.backHistory() : $.mobile.pageContainer.pagecontainer("back");

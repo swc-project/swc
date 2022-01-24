@@ -3106,8 +3106,7 @@
             function($rootScope, $browser, $q, $exceptionHandler) {
                 var deferreds = {};
                 function timeout(fn, delay, invokeApply) {
-                    var timeoutId, deferred = $q.defer(), promise = deferred.promise, skipApply = isDefined(invokeApply) && !invokeApply;
-                    return timeoutId = $browser.defer(function() {
+                    var deferred = $q.defer(), promise = deferred.promise, skipApply = isDefined(invokeApply) && !invokeApply, timeoutId = $browser.defer(function() {
                         try {
                             deferred.resolve(fn());
                         } catch (e) {
@@ -3116,7 +3115,8 @@
                             delete deferreds[promise.$$timeoutId];
                         }
                         skipApply || $rootScope.$apply();
-                    }, delay), promise.$$timeoutId = timeoutId, deferreds[timeoutId] = deferred, promise;
+                    }, delay);
+                    return promise.$$timeoutId = timeoutId, deferreds[timeoutId] = deferred, promise;
                 }
                 return timeout.cancel = function(promise) {
                     return !!promise && promise.$$timeoutId in deferreds && (deferreds[promise.$$timeoutId].reject("canceled"), delete deferreds[promise.$$timeoutId], $browser.defer.cancel(promise.$$timeoutId));

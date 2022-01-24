@@ -14,8 +14,8 @@
                 function StyleSheet(options) {
                     var _this = this;
                     this._insertTag = function(tag) {
-                        var before;
-                        before = 0 === _this.tags.length ? _this.prepend ? _this.container.firstChild : _this.before : _this.tags[_this.tags.length - 1].nextSibling, _this.container.insertBefore(tag, before), _this.tags.push(tag);
+                        var before = 0 === _this.tags.length ? _this.prepend ? _this.container.firstChild : _this.before : _this.tags[_this.tags.length - 1].nextSibling;
+                        _this.container.insertBefore(tag, before), _this.tags.push(tag);
                     }, this.isSpeedy = void 0 === options.speedy || options.speedy, this.tags = [], this.ctr = 0, this.nonce = options.nonce, this.key = options.key, this.container = options.container, this.prepend = options.prepend, this.before = null;
                 }
                 var _proto = StyleSheet.prototype;

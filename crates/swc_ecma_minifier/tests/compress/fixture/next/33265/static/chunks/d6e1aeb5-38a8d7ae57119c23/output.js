@@ -1092,8 +1092,7 @@
                 }(fnName1, rangeIndex, ranges.length - 1), ranges[rangeIndex][valueIndex];
             }
             function createTimeRangesObj(ranges) {
-                var timeRangesObj;
-                return timeRangesObj = void 0 === ranges || 0 === ranges.length ? {
+                var timeRangesObj = void 0 === ranges || 0 === ranges.length ? {
                     length: 0,
                     start: function() {
                         throw new Error("This TimeRanges object is empty");
@@ -1105,7 +1104,8 @@
                     length: ranges.length,
                     start: getRange.bind(null, "start", 0, ranges),
                     end: getRange.bind(null, "end", 1, ranges)
-                }, global_window__WEBPACK_IMPORTED_MODULE_0___default().Symbol && global_window__WEBPACK_IMPORTED_MODULE_0___default().Symbol.iterator && (timeRangesObj[global_window__WEBPACK_IMPORTED_MODULE_0___default().Symbol.iterator] = function() {
+                };
+                return global_window__WEBPACK_IMPORTED_MODULE_0___default().Symbol && global_window__WEBPACK_IMPORTED_MODULE_0___default().Symbol.iterator && (timeRangesObj[global_window__WEBPACK_IMPORTED_MODULE_0___default().Symbol.iterator] = function() {
                     return (ranges || []).values();
                 }), timeRangesObj;
             }
@@ -1193,8 +1193,8 @@
                 trackToJson_: trackToJson_
             }, MODAL_CLASS_NAME = "vjs-modal-dialog", ModalDialog1 = function(_Component) {
                 function ModalDialog(player, options) {
-                    var _this;
-                    return (_this = _Component.call(this, player, options) || this).handleKeyDown_ = function(e) {
+                    var _this = _Component.call(this, player, options) || this;
+                    return _this.handleKeyDown_ = function(e) {
                         return _this.handleKeyDown(e);
                     }, _this.close_ = function(e) {
                         return _this.close(e);
@@ -2137,8 +2137,8 @@
             Component$1.registerComponent("MediaLoader", MediaLoader1);
             var ClickableComponent1 = function(_Component) {
                 function ClickableComponent(player, options) {
-                    var _this;
-                    return (_this = _Component.call(this, player, options) || this).handleMouseOver_ = function(e) {
+                    var _this = _Component.call(this, player, options) || this;
+                    return _this.handleMouseOver_ = function(e) {
                         return _this.handleMouseOver(e);
                     }, _this.handleMouseOut_ = function(e) {
                         return _this.handleMouseOut(e);
@@ -2198,8 +2198,8 @@
             Component$1.registerComponent("ClickableComponent", ClickableComponent1);
             var PosterImage1 = function(_ClickableComponent) {
                 function PosterImage(player, options) {
-                    var _this;
-                    return (_this = _ClickableComponent.call(this, player, options) || this).update(), _this.update_ = function(e) {
+                    var _this = _ClickableComponent.call(this, player, options) || this;
+                    return _this.update(), _this.update_ = function(e) {
                         return _this.update(e);
                     }, player.on("posterchange", _this.update_), _this;
                 }
@@ -2254,9 +2254,7 @@
             }
             var TextTrackDisplay1 = function(_Component) {
                 function TextTrackDisplay(player, options, ready) {
-                    var _this;
-                    _this = _Component.call(this, player, options, ready) || this;
-                    var updateDisplayHandler = function(e) {
+                    var _this = _Component.call(this, player, options, ready) || this, updateDisplayHandler = function(e) {
                         return _this.updateDisplay(e);
                     };
                     return player.on("loadstart", function(e) {
@@ -2399,8 +2397,8 @@
             Component$1.registerComponent("Button", Button1);
             var BigPlayButton1 = function(_Button) {
                 function BigPlayButton(player, options) {
-                    var _this;
-                    return (_this = _Button.call(this, player, options) || this).mouseused_ = !1, _this.on("mousedown", function(e) {
+                    var _this = _Button.call(this, player, options) || this;
+                    return _this.mouseused_ = !1, _this.on("mousedown", function(e) {
                         return _this.handleMouseDown(e);
                     }), _this;
                 }
@@ -2433,8 +2431,8 @@
             BigPlayButton1.prototype.controlText_ = "Play Video", Component$1.registerComponent("BigPlayButton", BigPlayButton1);
             var CloseButton1 = function(_Button) {
                 function CloseButton(player, options) {
-                    var _this;
-                    return (_this = _Button.call(this, player, options) || this).controlText(options && options.controlText || _this.localize("Close")), _this;
+                    var _this = _Button.call(this, player, options) || this;
+                    return _this.controlText(options && options.controlText || _this.localize("Close")), _this;
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(CloseButton, _Button);
                 var _proto = CloseButton.prototype;
@@ -2490,8 +2488,8 @@
             }
             var TimeDisplay1 = function(_Component) {
                 function TimeDisplay(player, options) {
-                    var _this;
-                    return (_this = _Component.call(this, player, options) || this).on(player, [
+                    var _this = _Component.call(this, player, options) || this;
+                    return _this.on(player, [
                         "timeupdate",
                         "ended"
                     ], function(e) {
@@ -2537,16 +2535,14 @@
                 return _proto.buildCSSClass = function() {
                     return "vjs-current-time";
                 }, _proto.updateContent = function(event) {
-                    var time;
-                    time = this.player_.ended() ? this.player_.duration() : this.player_.scrubbing() ? this.player_.getCache().currentTime : this.player_.currentTime(), this.updateTextNode_(time);
+                    var time = this.player_.ended() ? this.player_.duration() : this.player_.scrubbing() ? this.player_.getCache().currentTime : this.player_.currentTime();
+                    this.updateTextNode_(time);
                 }, CurrentTimeDisplay;
             }(TimeDisplay1);
             CurrentTimeDisplay1.prototype.labelText_ = "Current Time", CurrentTimeDisplay1.prototype.controlText_ = "Current Time", Component$1.registerComponent("CurrentTimeDisplay", CurrentTimeDisplay1);
             var DurationDisplay1 = function(_TimeDisplay) {
                 function DurationDisplay(player, options) {
-                    var _this;
-                    _this = _TimeDisplay.call(this, player, options) || this;
-                    var updateContent = function(e) {
+                    var _this = _TimeDisplay.call(this, player, options) || this, updateContent = function(e) {
                         return _this.updateContent(e);
                     };
                     return _this.on(player, "durationchange", updateContent), _this.on(player, "loadstart", updateContent), _this.on(player, "loadedmetadata", updateContent), _this;
@@ -2579,8 +2575,8 @@
             Component$1.registerComponent("TimeDivider", TimeDivider1);
             var RemainingTimeDisplay1 = function(_TimeDisplay) {
                 function RemainingTimeDisplay(player, options) {
-                    var _this;
-                    return (_this = _TimeDisplay.call(this, player, options) || this).on(player, "durationchange", function(e) {
+                    var _this = _TimeDisplay.call(this, player, options) || this;
+                    return _this.on(player, "durationchange", function(e) {
                         return _this.updateContent(e);
                     }), _this;
                 }
@@ -2601,8 +2597,8 @@
             RemainingTimeDisplay1.prototype.labelText_ = "Remaining Time", RemainingTimeDisplay1.prototype.controlText_ = "Remaining Time", Component$1.registerComponent("RemainingTimeDisplay", RemainingTimeDisplay1);
             var LiveDisplay1 = function(_Component) {
                 function LiveDisplay(player, options) {
-                    var _this;
-                    return (_this = _Component.call(this, player, options) || this).updateShowing(), _this.on(_this.player(), "durationchange", function(e) {
+                    var _this = _Component.call(this, player, options) || this;
+                    return _this.updateShowing(), _this.on(_this.player(), "durationchange", function(e) {
                         return _this.updateShowing(e);
                     }), _this;
                 }
@@ -2629,8 +2625,8 @@
             Component$1.registerComponent("LiveDisplay", LiveDisplay1);
             var SeekToLive1 = function(_Button) {
                 function SeekToLive(player, options) {
-                    var _this;
-                    return (_this = _Button.call(this, player, options) || this).updateLiveEdgeStatus(), _this.player_.liveTracker && (_this.updateLiveEdgeStatusHandler_ = function(e) {
+                    var _this = _Button.call(this, player, options) || this;
+                    return _this.updateLiveEdgeStatus(), _this.player_.liveTracker && (_this.updateLiveEdgeStatusHandler_ = function(e) {
                         return _this.updateLiveEdgeStatus(e);
                     }, _this.on(_this.player_.liveTracker, "liveedgechange", _this.updateLiveEdgeStatusHandler_)), _this;
                 }
@@ -2659,8 +2655,8 @@
                 return Math.min(max, Math.max(min, isNaN(number = Number(number)) ? min : number));
             }, Slider1 = function(_Component) {
                 function Slider(player, options) {
-                    var _this;
-                    return (_this = _Component.call(this, player, options) || this).handleMouseDown_ = function(e) {
+                    var _this = _Component.call(this, player, options) || this;
+                    return _this.handleMouseDown_ = function(e) {
                         return _this.handleMouseDown(e);
                     }, _this.handleMouseUp_ = function(e) {
                         return _this.handleMouseUp(e);
@@ -2729,8 +2725,8 @@
                 return clamp(time / end * 100, 0, 100).toFixed(2) + "%";
             }, LoadProgressBar1 = function(_Component) {
                 function LoadProgressBar(player, options) {
-                    var _this;
-                    return (_this = _Component.call(this, player, options) || this).partEls_ = [], _this.on(player, "progress", function(e) {
+                    var _this = _Component.call(this, player, options) || this;
+                    return _this.partEls_ = [], _this.on(player, "progress", function(e) {
                         return _this.update(e);
                     }), _this;
                 }
@@ -2767,8 +2763,8 @@
             Component$1.registerComponent("LoadProgressBar", LoadProgressBar1);
             var TimeTooltip1 = function(_Component) {
                 function TimeTooltip(player, options) {
-                    var _this;
-                    return (_this = _Component.call(this, player, options) || this).update = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.update), 30), _this;
+                    var _this = _Component.call(this, player, options) || this;
+                    return _this.update = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.update), 30), _this;
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TimeTooltip, _Component);
                 var _proto = TimeTooltip.prototype;
@@ -2801,8 +2797,8 @@
             Component$1.registerComponent("TimeTooltip", TimeTooltip1);
             var PlayProgressBar1 = function(_Component) {
                 function PlayProgressBar(player, options) {
-                    var _this;
-                    return (_this = _Component.call(this, player, options) || this).update = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.update), 30), _this;
+                    var _this = _Component.call(this, player, options) || this;
+                    return _this.update = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.update), 30), _this;
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(PlayProgressBar, _Component);
                 var _proto = PlayProgressBar.prototype;
@@ -2825,8 +2821,8 @@
             }, IS_IOS || IS_ANDROID || PlayProgressBar1.prototype.options_.children.push("timeTooltip"), Component$1.registerComponent("PlayProgressBar", PlayProgressBar1);
             var MouseTimeDisplay1 = function(_Component) {
                 function MouseTimeDisplay(player, options) {
-                    var _this;
-                    return (_this = _Component.call(this, player, options) || this).update = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.update), 30), _this;
+                    var _this = _Component.call(this, player, options) || this;
+                    return _this.update = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.update), 30), _this;
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(MouseTimeDisplay, _Component);
                 var _proto = MouseTimeDisplay.prototype;
@@ -2848,8 +2844,8 @@
             }, Component$1.registerComponent("MouseTimeDisplay", MouseTimeDisplay1);
             var SeekBar1 = function(_Slider) {
                 function SeekBar(player, options) {
-                    var _this;
-                    return (_this = _Slider.call(this, player, options) || this).setEventHandlers_(), _this;
+                    var _this = _Slider.call(this, player, options) || this;
+                    return _this.setEventHandlers_(), _this;
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(SeekBar, _Slider);
                 var _proto = SeekBar.prototype;
@@ -2969,8 +2965,8 @@
             }, IS_IOS || IS_ANDROID || SeekBar1.prototype.options_.children.splice(1, 0, "mouseTimeDisplay"), Component$1.registerComponent("SeekBar", SeekBar1);
             var ProgressControl1 = function(_Component) {
                 function ProgressControl(player, options) {
-                    var _this;
-                    return (_this = _Component.call(this, player, options) || this).handleMouseMove = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.handleMouseMove), 30), _this.throttledHandleMouseSeek = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.handleMouseSeek), 30), _this.handleMouseUpHandler_ = function(e) {
+                    var _this = _Component.call(this, player, options) || this;
+                    return _this.handleMouseMove = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.handleMouseMove), 30), _this.throttledHandleMouseSeek = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.handleMouseSeek), 30), _this.handleMouseUpHandler_ = function(e) {
                         return _this.handleMouseUp(e);
                     }, _this.handleMouseDownHandler_ = function(e) {
                         return _this.handleMouseDown(e);
@@ -3031,8 +3027,8 @@
             }, Component$1.registerComponent("ProgressControl", ProgressControl1);
             var PictureInPictureToggle1 = function(_Button) {
                 function PictureInPictureToggle(player, options) {
-                    var _this;
-                    return (_this = _Button.call(this, player, options) || this).on(player, [
+                    var _this = _Button.call(this, player, options) || this;
+                    return _this.on(player, [
                         "enterpictureinpicture",
                         "leavepictureinpicture"
                     ], function(e) {
@@ -3059,8 +3055,8 @@
             PictureInPictureToggle1.prototype.controlText_ = "Picture-in-Picture", Component$1.registerComponent("PictureInPictureToggle", PictureInPictureToggle1);
             var FullscreenToggle1 = function(_Button) {
                 function FullscreenToggle(player, options) {
-                    var _this;
-                    return (_this = _Button.call(this, player, options) || this).on(player, "fullscreenchange", function(e) {
+                    var _this = _Button.call(this, player, options) || this;
+                    return _this.on(player, "fullscreenchange", function(e) {
                         return _this.handleFullscreenChange(e);
                     }), !1 === global_document__WEBPACK_IMPORTED_MODULE_1___default()[player.fsApi_.fullscreenEnabled] && _this.disable(), _this;
                 }
@@ -3095,8 +3091,8 @@
             Component$1.registerComponent("VolumeLevel", VolumeLevel1);
             var VolumeLevelTooltip1 = function(_Component) {
                 function VolumeLevelTooltip(player, options) {
-                    var _this;
-                    return (_this = _Component.call(this, player, options) || this).update = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.update), 30), _this;
+                    var _this = _Component.call(this, player, options) || this;
+                    return _this.update = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.update), 30), _this;
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(VolumeLevelTooltip, _Component);
                 var _proto = VolumeLevelTooltip.prototype;
@@ -3126,8 +3122,8 @@
             Component$1.registerComponent("VolumeLevelTooltip", VolumeLevelTooltip1);
             var MouseVolumeLevelDisplay1 = function(_Component) {
                 function MouseVolumeLevelDisplay(player, options) {
-                    var _this;
-                    return (_this = _Component.call(this, player, options) || this).update = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.update), 30), _this;
+                    var _this = _Component.call(this, player, options) || this;
+                    return _this.update = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.update), 30), _this;
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(MouseVolumeLevelDisplay, _Component);
                 var _proto = MouseVolumeLevelDisplay.prototype;
@@ -3149,8 +3145,8 @@
             }, Component$1.registerComponent("MouseVolumeLevelDisplay", MouseVolumeLevelDisplay1);
             var VolumeBar1 = function(_Slider) {
                 function VolumeBar(player, options) {
-                    var _this;
-                    return (_this = _Slider.call(this, player, options) || this).on("slideractive", function(e) {
+                    var _this = _Slider.call(this, player, options) || this;
+                    return _this.on("slideractive", function(e) {
                         return _this.updateLastVolume_(e);
                     }), _this.on(player, "volumechange", function(e) {
                         return _this.updateARIAAttributes(e);
@@ -3253,8 +3249,8 @@
                 });
             }, MuteToggle1 = function(_Button) {
                 function MuteToggle(player, options) {
-                    var _this;
-                    return _this = _Button.call(this, player, options) || this, checkMuteSupport((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), player), _this.on(player, [
+                    var _this = _Button.call(this, player, options) || this;
+                    return checkMuteSupport((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), player), _this.on(player, [
                         "loadstart",
                         "volumechange"
                     ], function(e) {
@@ -3342,8 +3338,8 @@
             }, Component$1.registerComponent("VolumePanel", VolumePanel1);
             var Menu1 = function(_Component) {
                 function Menu(player, options) {
-                    var _this;
-                    return _this = _Component.call(this, player, options) || this, options && (_this.menuButton_ = options.menuButton), _this.focusedChild_ = -1, _this.on("keydown", function(e) {
+                    var _this = _Component.call(this, player, options) || this;
+                    return options && (_this.menuButton_ = options.menuButton), _this.focusedChild_ = -1, _this.on("keydown", function(e) {
                         return _this.handleKeyDown(e);
                     }), _this.boundHandleBlur_ = function(e) {
                         return _this.handleBlur(e);
@@ -3520,8 +3516,8 @@
                 "Left"
             ], MenuItem1 = function(_ClickableComponent) {
                 function MenuItem(player, options) {
-                    var _this;
-                    return (_this = _ClickableComponent.call(this, player, options) || this).selectable = options.selectable, _this.isSelected_ = options.selected || !1, _this.multiSelectable = options.multiSelectable, _this.selected(_this.isSelected_), _this.selectable ? _this.multiSelectable ? _this.el_.setAttribute("role", "menuitemcheckbox") : _this.el_.setAttribute("role", "menuitemradio") : _this.el_.setAttribute("role", "menuitem"), _this;
+                    var _this = _ClickableComponent.call(this, player, options) || this;
+                    return _this.selectable = options.selectable, _this.isSelected_ = options.selected || !1, _this.multiSelectable = options.multiSelectable, _this.selected(_this.isSelected_), _this.selectable ? _this.multiSelectable ? _this.el_.setAttribute("role", "menuitemcheckbox") : _this.el_.setAttribute("role", "menuitemradio") : _this.el_.setAttribute("role", "menuitem"), _this;
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(MenuItem, _ClickableComponent);
                 var _proto = MenuItem.prototype;
@@ -3740,9 +3736,7 @@
             ChaptersButton1.prototype.kind_ = "chapters", ChaptersButton1.prototype.controlText_ = "Chapters", Component$1.registerComponent("ChaptersButton", ChaptersButton1);
             var DescriptionsButton1 = function(_TextTrackButton) {
                 function DescriptionsButton(player, options, ready) {
-                    var _this;
-                    _this = _TextTrackButton.call(this, player, options, ready) || this;
-                    var tracks = player.textTracks(), changeHandler = bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.handleTracksChange);
+                    var _this = _TextTrackButton.call(this, player, options, ready) || this, tracks = player.textTracks(), changeHandler = bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.handleTracksChange);
                     return tracks.addEventListener("change", changeHandler), _this.on("dispose", function() {
                         tracks.removeEventListener("change", changeHandler);
                     }), _this;
@@ -3930,8 +3924,8 @@
             PlaybackRateMenuItem1.prototype.contentElType = "button", Component$1.registerComponent("PlaybackRateMenuItem", PlaybackRateMenuItem1);
             var PlaybackRateMenuButton1 = function(_MenuButton) {
                 function PlaybackRateMenuButton(player, options) {
-                    var _this;
-                    return (_this = _MenuButton.call(this, player, options) || this).menuButton_.el_.setAttribute("aria-describedby", _this.labelElId_), _this.updateVisibility(), _this.updateLabel(), _this.on(player, "loadstart", function(e) {
+                    var _this = _MenuButton.call(this, player, options) || this;
+                    return _this.menuButton_.el_.setAttribute("aria-describedby", _this.labelElId_), _this.updateVisibility(), _this.updateLabel(), _this.on(player, "loadstart", function(e) {
                         return _this.updateVisibility(e);
                     }), _this.on(player, "ratechange", function(e) {
                         return _this.updateLabel(e);
@@ -4043,8 +4037,8 @@
             }, "exitPictureInPicture" in global_document__WEBPACK_IMPORTED_MODULE_1___default() && ControlBar1.prototype.options_.children.splice(ControlBar1.prototype.options_.children.length - 1, 0, "pictureInPictureToggle"), Component$1.registerComponent("ControlBar", ControlBar1);
             var ErrorDisplay1 = function(_ModalDialog) {
                 function ErrorDisplay(player, options) {
-                    var _this;
-                    return (_this = _ModalDialog.call(this, player, options) || this).on(player, "error", function(e) {
+                    var _this = _ModalDialog.call(this, player, options) || this;
+                    return _this.on(player, "error", function(e) {
                         return _this.open(e);
                     }), _this;
                 }
@@ -4686,9 +4680,7 @@
                 return setter && (options.set = set), Object.defineProperty(obj, key, options);
             }, Html51 = function(_Tech) {
                 function Html5(options, ready) {
-                    var _this;
-                    _this = _Tech.call(this, options, ready) || this;
-                    var source = options.source, crossoriginTracks = !1;
+                    var _this = _Tech.call(this, options, ready) || this, source = options.source, crossoriginTracks = !1;
                     if (source && (_this.el_.currentSrc !== source.src || options.tag && 3 === options.tag.initNetworkState_) ? _this.setSource(source) : _this.handleLateInit_(_this.el_), options.enableSourceset && _this.setupSourcesetHandling_(), _this.isScrubbing_ = !1, _this.el_.hasChildNodes()) {
                         for(var nodes = _this.el_.childNodes, nodesLength = nodes.length, removeNodes = []; nodesLength--;){
                             var node = nodes[nodesLength];
@@ -5809,17 +5801,20 @@
                 }, _proto.exitPictureInPicture = function() {
                     if ("pictureInPictureEnabled" in global_document__WEBPACK_IMPORTED_MODULE_1___default()) return global_document__WEBPACK_IMPORTED_MODULE_1___default().exitPictureInPicture();
                 }, _proto.handleKeyDown = function(event) {
-                    var el, tagName, userActions = this.options_.userActions;
-                    userActions && userActions.hotkeys && (tagName = (el = this.el_.ownerDocument.activeElement).tagName.toLowerCase(), el.isContentEditable || ("input" === tagName ? -1 === [
-                        "button",
-                        "checkbox",
-                        "hidden",
-                        "radio",
-                        "reset",
-                        "submit"
-                    ].indexOf(el.type) : -1 !== [
-                        "textarea"
-                    ].indexOf(tagName)) || ("function" == typeof userActions.hotkeys ? userActions.hotkeys.call(this, event) : this.handleHotkeys(event)));
+                    var userActions = this.options_.userActions;
+                    if (userActions && userActions.hotkeys) {
+                        var el, tagName = (el = this.el_.ownerDocument.activeElement).tagName.toLowerCase();
+                        el.isContentEditable || ("input" === tagName ? -1 === [
+                            "button",
+                            "checkbox",
+                            "hidden",
+                            "radio",
+                            "reset",
+                            "submit"
+                        ].indexOf(el.type) : -1 !== [
+                            "textarea"
+                        ].indexOf(tagName)) || ("function" == typeof userActions.hotkeys ? userActions.hotkeys.call(this, event) : this.handleHotkeys(event));
+                    }
                 }, _proto.handleHotkeys = function(event) {
                     var hotkeys = this.options_.userActions ? this.options_.userActions.hotkeys : {}, _hotkeys$fullscreenKe = hotkeys.fullscreenKey, _hotkeys$muteKey = hotkeys.muteKey, _hotkeys$playPauseKey = hotkeys.playPauseKey;
                     if ((void 0 === _hotkeys$fullscreenKe ? function(keydownEvent) {
@@ -8447,8 +8442,8 @@
                     moof: moof1,
                     moov: moov,
                     initSegment: function(tracks) {
-                        var result, fileType = ftyp(), movie = moov(tracks);
-                        return (result = new Uint8Array(fileType.byteLength + movie.byteLength)).set(fileType), result.set(movie, fileType.byteLength), result;
+                        var fileType = ftyp(), movie = moov(tracks), result = new Uint8Array(fileType.byteLength + movie.byteLength);
+                        return result.set(fileType), result.set(movie, fileType.byteLength), result;
                     }
                 }, sampleForFrame = function(frame, dataOffset) {
                     var sample = {
@@ -10337,12 +10332,12 @@
                     }, offset += 4, sampleDurationPresent && (sample.duration = view.getUint32(offset), offset += 4), sampleSizePresent && (sample.size = view.getUint32(offset), offset += 4), sampleCompositionTimeOffsetPresent && (1 === result.version ? sample.compositionTimeOffset = view.getInt32(offset) : sample.compositionTimeOffset = view.getUint32(offset), offset += 4), result.samples.push(sample), sampleCount--); sampleCount--;)sample = {}, sampleDurationPresent && (sample.duration = view.getUint32(offset), offset += 4), sampleSizePresent && (sample.size = view.getUint32(offset), offset += 4), sampleFlagsPresent && (sample.flags = parseSampleFlags_1(data.subarray(offset, offset + 4)), offset += 4), sampleCompositionTimeOffsetPresent && (1 === result.version ? sample.compositionTimeOffset = view.getInt32(offset) : sample.compositionTimeOffset = view.getUint32(offset), offset += 4), result.samples.push(sample);
                     return result;
                 }, parseTfhd = function(data) {
-                    var i, view = new DataView(data.buffer, data.byteOffset, data.byteLength), result = {
+                    var view = new DataView(data.buffer, data.byteOffset, data.byteLength), result = {
                         version: data[0],
                         flags: new Uint8Array(data.subarray(1, 4)),
                         trackId: view.getUint32(4)
-                    }, baseDataOffsetPresent = 1 & result.flags[2], sampleDescriptionIndexPresent = 2 & result.flags[2], defaultSampleDurationPresent = 8 & result.flags[2], defaultSampleSizePresent = 16 & result.flags[2], defaultSampleFlagsPresent = 32 & result.flags[2], durationIsEmpty = 65536 & result.flags[0], defaultBaseIsMoof = 131072 & result.flags[0];
-                    return i = 8, baseDataOffsetPresent && (i += 4, result.baseDataOffset = view.getUint32(12), i += 4), sampleDescriptionIndexPresent && (result.sampleDescriptionIndex = view.getUint32(i), i += 4), defaultSampleDurationPresent && (result.defaultSampleDuration = view.getUint32(i), i += 4), defaultSampleSizePresent && (result.defaultSampleSize = view.getUint32(i), i += 4), defaultSampleFlagsPresent && (result.defaultSampleFlags = view.getUint32(i)), durationIsEmpty && (result.durationIsEmpty = !0), !baseDataOffsetPresent && defaultBaseIsMoof && (result.baseDataOffsetIsMoof = !0), result;
+                    }, baseDataOffsetPresent = 1 & result.flags[2], sampleDescriptionIndexPresent = 2 & result.flags[2], defaultSampleDurationPresent = 8 & result.flags[2], defaultSampleSizePresent = 16 & result.flags[2], defaultSampleFlagsPresent = 32 & result.flags[2], durationIsEmpty = 65536 & result.flags[0], defaultBaseIsMoof = 131072 & result.flags[0], i = 8;
+                    return baseDataOffsetPresent && (i += 4, result.baseDataOffset = view.getUint32(12), i += 4), sampleDescriptionIndexPresent && (result.sampleDescriptionIndex = view.getUint32(i), i += 4), defaultSampleDurationPresent && (result.defaultSampleDuration = view.getUint32(i), i += 4), defaultSampleSizePresent && (result.defaultSampleSize = view.getUint32(i), i += 4), defaultSampleFlagsPresent && (result.defaultSampleFlags = view.getUint32(i)), durationIsEmpty && (result.durationIsEmpty = !0), !baseDataOffsetPresent && defaultBaseIsMoof && (result.baseDataOffsetIsMoof = !0), result;
                 }, discardEmulationPreventionBytes1 = captionPacketParser.discardEmulationPreventionBytes, CaptionStream1 = captionStream1.CaptionStream, mapToSample = function(offset, samples) {
                     for(var approximateOffset = offset, i = 0; i < samples.length; i++){
                         var sample = samples[i];
@@ -11897,8 +11892,8 @@
                 } : null;
             }, SegmentLoader1 = function(_videojs$EventTarget) {
                 function SegmentLoader(settings, options) {
-                    var _this;
-                    if (_this = _videojs$EventTarget.call(this) || this, !settings) throw new TypeError("Initialization settings are required");
+                    var _this = _videojs$EventTarget.call(this) || this;
+                    if (!settings) throw new TypeError("Initialization settings are required");
                     if ("function" != typeof settings.currentTime) throw new TypeError("No currentTime getter specified");
                     if (!settings.mediaSource) throw new TypeError("No MediaSource specified");
                     return _this.bandwidth = settings.bandwidth, _this.throughput = {
@@ -12762,8 +12757,8 @@
                 };
             }, SourceUpdater1 = function(_videojs$EventTarget) {
                 function SourceUpdater(mediaSource) {
-                    var _this;
-                    return (_this = _videojs$EventTarget.call(this) || this).mediaSource = mediaSource, _this.sourceopenListener_ = function() {
+                    var _this = _videojs$EventTarget.call(this) || this;
+                    return _this.mediaSource = mediaSource, _this.sourceopenListener_ = function() {
                         return shiftQueue1("mediaSource", (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this));
                     }, _this.mediaSource.addEventListener("sourceopen", _this.sourceopenListener_), _this.logger_ = logger("SourceUpdater"), _this.audioTimestampOffset_ = 0, _this.videoTimestampOffset_ = 0, _this.queue = [], _this.queuePending = {
                         audio: null,
@@ -13217,8 +13212,8 @@
                 }
             ], SyncController1 = function(_videojs$EventTarget) {
                 function SyncController(options) {
-                    var _this;
-                    return (_this = _videojs$EventTarget.call(this) || this).timelines = [], _this.discontinuities = [], _this.timelineToDatetimeMappings = {}, _this.logger_ = logger("SyncController"), _this;
+                    var _this = _videojs$EventTarget.call(this) || this;
+                    return _this.timelines = [], _this.discontinuities = [], _this.timelineToDatetimeMappings = {}, _this.logger_ = logger("SyncController"), _this;
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(SyncController, _videojs$EventTarget);
                 var _proto = SyncController.prototype;
@@ -13332,8 +13327,8 @@
                 }, SyncController;
             }(videojs.EventTarget), TimelineChangeController1 = function(_videojs$EventTarget) {
                 function TimelineChangeController() {
-                    var _this;
-                    return (_this = _videojs$EventTarget.call(this) || this).pendingTimelineChanges_ = {}, _this.lastTimelineChanges_ = {}, _this;
+                    var _this = _videojs$EventTarget.call(this) || this;
+                    return _this.pendingTimelineChanges_ = {}, _this.lastTimelineChanges_ = {}, _this;
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TimelineChangeController, _videojs$EventTarget);
                 var _proto = TimelineChangeController.prototype;
@@ -13467,8 +13462,8 @@
                     }, AES;
                 }(), AsyncStream1 = function(_Stream) {
                     function AsyncStream() {
-                        var _this;
-                        return (_this = _Stream.call(this, Stream1) || this).jobs = [], _this.delay = 1, _this.timeout_ = null, _this;
+                        var _this = _Stream.call(this, Stream1) || this;
+                        return _this.jobs = [], _this.delay = 1, _this.timeout_ = null, _this;
                     }
                     inheritsLoose(AsyncStream, _Stream);
                     var _proto = AsyncStream.prototype;
@@ -13846,9 +13841,7 @@
                 return log("not " + sharedLogLine + " as no switching criteria met"), !1;
             }, MasterPlaylistController1 = function(_videojs$EventTarget) {
                 function MasterPlaylistController(options) {
-                    var _this;
-                    _this = _videojs$EventTarget.call(this) || this;
-                    var src = options.src, handleManifestRedirects = options.handleManifestRedirects, withCredentials = options.withCredentials, tech = options.tech, bandwidth = options.bandwidth, externVhs = options.externVhs, useCueTags = options.useCueTags, blacklistDuration = options.blacklistDuration, enableLowInitialPlaylist = options.enableLowInitialPlaylist, sourceType = options.sourceType, cacheEncryptionKeys = options.cacheEncryptionKeys, experimentalBufferBasedABR = options.experimentalBufferBasedABR, experimentalLeastPixelDiffSelector = options.experimentalLeastPixelDiffSelector, captionServices = options.captionServices;
+                    var _this = _videojs$EventTarget.call(this) || this, src = options.src, handleManifestRedirects = options.handleManifestRedirects, withCredentials = options.withCredentials, tech = options.tech, bandwidth = options.bandwidth, externVhs = options.externVhs, useCueTags = options.useCueTags, blacklistDuration = options.blacklistDuration, enableLowInitialPlaylist = options.enableLowInitialPlaylist, sourceType = options.sourceType, cacheEncryptionKeys = options.cacheEncryptionKeys, experimentalBufferBasedABR = options.experimentalBufferBasedABR, experimentalLeastPixelDiffSelector = options.experimentalLeastPixelDiffSelector, captionServices = options.captionServices;
                     if (!src) throw new Error("A non-empty playlist URL or JSON manifest string is required");
                     var maxPlaylistRetries = options.maxPlaylistRetries;
                     null == maxPlaylistRetries && (maxPlaylistRetries = 1 / 0), Vhs$1 = externVhs, _this.experimentalBufferBasedABR = Boolean(experimentalBufferBasedABR), _this.experimentalLeastPixelDiffSelector = Boolean(experimentalLeastPixelDiffSelector), _this.withCredentials = withCredentials, _this.tech_ = tech, _this.vhs_ = tech.vhs, _this.sourceType_ = sourceType, _this.useCueTags_ = useCueTags, _this.blacklistDuration = blacklistDuration, _this.maxPlaylistRetries = maxPlaylistRetries, _this.enableLowInitialPlaylist = enableLowInitialPlaylist, _this.useCueTags_ && (_this.cueTagsTrack_ = _this.tech_.addTextTrack("metadata", "ad-cues"), _this.cueTagsTrack_.inBandMetadataTrackDispatchType = ""), _this.requestOptions_ = {
@@ -14846,8 +14839,8 @@
             };
             var VhsHandler1 = function(_Component) {
                 function VhsHandler(source, tech, options) {
-                    var _this;
-                    if (_this = _Component.call(this, tech, videojs.mergeOptions(options.hls, options.vhs)) || this, options.hls && Object.keys(options.hls).length && videojs.log.warn("Using hls options is deprecated. Use vhs instead."), "number" == typeof options.initialBandwidth && (_this.options_.bandwidth = options.initialBandwidth), _this.logger_ = logger("VhsHandler"), tech.options_ && tech.options_.playerId) {
+                    var _this = _Component.call(this, tech, videojs.mergeOptions(options.hls, options.vhs)) || this;
+                    if (options.hls && Object.keys(options.hls).length && videojs.log.warn("Using hls options is deprecated. Use vhs instead."), "number" == typeof options.initialBandwidth && (_this.options_.bandwidth = options.initialBandwidth), _this.logger_ = logger("VhsHandler"), tech.options_ && tech.options_.playerId) {
                         var _player = videojs(tech.options_.playerId);
                         _player.hasOwnProperty("hls") || Object.defineProperty(_player, "hls", {
                             get: function() {

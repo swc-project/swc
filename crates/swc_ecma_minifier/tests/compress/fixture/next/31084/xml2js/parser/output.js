@@ -59,8 +59,8 @@
             }, _this3 = this, this.saxParser.onclosetag = function() {
                 var cdata, emptyStr, key, node, nodeName, obj, objClone, old, s, xpath;
                 if (nodeName = (obj = stack.pop())["#name"], _this3.options.explicitChildren && _this3.options.preserveChildrenOrder || delete obj["#name"], !0 === obj.cdata && (cdata = obj.cdata, delete obj.cdata), s = stack[stack.length - 1], obj[charkey].match(/^\s*$/) && !cdata ? (emptyStr = obj[charkey], delete obj[charkey]) : (_this3.options.trim && (obj[charkey] = obj[charkey].trim()), _this3.options.normalize && (obj[charkey] = obj[charkey].replace(/\s{2,}/g, " ").trim()), obj[charkey] = _this3.options.valueProcessors ? processItem(_this3.options.valueProcessors, obj[charkey], nodeName) : obj[charkey], 1 === Object.keys(obj).length && charkey in obj && !_this3.EXPLICIT_CHARKEY && (obj = obj[charkey])), isEmpty(obj) && (obj = "" !== _this3.options.emptyTag ? _this3.options.emptyTag : emptyStr), null != _this3.options.validator && (xpath = "/" + (function() {
-                    var i, len, results;
-                    for(i = 0, results = [], len = stack.length; i < len; i++)node = stack[i], results.push(node["#name"]);
+                    var i, len, results = [];
+                    for(i = 0, len = stack.length; i < len; i++)node = stack[i], results.push(node["#name"]);
                     return results;
                 })().concat(nodeName).join("/"), (function() {
                     var err;
@@ -82,8 +82,8 @@
                     "#name": "__text__"
                 })[charkey] = text, _this4.options.normalize && (charChild[charkey] = charChild[charkey].replace(/\s{2,}/g, " ").trim()), s[_this4.options.childkey].push(charChild)), s;
             }, this.saxParser.ontext = ontext, this.saxParser.oncdata = function(text) {
-                var s;
-                if (s = ontext(text)) return s.cdata = !0;
+                var s = ontext(text);
+                if (s) return s.cdata = !0;
             };
         }, Parser.prototype.parseString = function(str, cb) {
             var err1;

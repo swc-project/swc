@@ -4,7 +4,7 @@
     ], factory) : factory((global = global || self).React = {});
 }(this, function(exports) {
     "use strict";
-    var specialPropKeyWarningShown, specialPropRefWarningShown, didWarnAboutStringRefs, prevLog, prevInfo, prevWarn, prevError, prevGroup, prevGroupCollapsed, prevGroupEnd, prefix, componentFrameCache, propTypesMisspellWarningShown, requestHostCallback, requestHostTimeout, cancelHostTimeout, shouldYieldToHost, requestPaint, getCurrentTime, forceFrameRate, REACT_ELEMENT_TYPE = 60103, REACT_PORTAL_TYPE = 60106;
+    var prevLog, prevInfo, prevWarn, prevError, prevGroup, prevGroupCollapsed, prevGroupEnd, prefix, componentFrameCache, requestHostCallback, requestHostTimeout, cancelHostTimeout, shouldYieldToHost, requestPaint, getCurrentTime, forceFrameRate, REACT_ELEMENT_TYPE = 60103, REACT_PORTAL_TYPE = 60106;
     exports.Fragment = 60107, exports.StrictMode = 60108, exports.Profiler = 60114;
     var REACT_PROVIDER_TYPE = 60109, REACT_CONTEXT_TYPE = 60110, REACT_FORWARD_REF_TYPE = 60112;
     exports.Suspense = 60113;
@@ -168,12 +168,12 @@
         return null;
     }
     pureComponentPrototype.constructor = PureComponent, assign(pureComponentPrototype, Component.prototype), pureComponentPrototype.isPureReactComponent = !0;
-    var hasOwnProperty$1 = Object.prototype.hasOwnProperty, RESERVED_PROPS = {
+    var specialPropKeyWarningShown, specialPropRefWarningShown, hasOwnProperty$1 = Object.prototype.hasOwnProperty, RESERVED_PROPS = {
         key: !0,
         ref: !0,
         __self: !0,
         __source: !0
-    };
+    }, didWarnAboutStringRefs = {};
     function hasValidRef(config) {
         if (hasOwnProperty$1.call(config, "ref")) {
             var getter = Object.getOwnPropertyDescriptor(config, "ref").get;
@@ -188,7 +188,6 @@
         }
         return void 0 !== config.key;
     }
-    didWarnAboutStringRefs = {};
     var ReactElement = function(type, key, ref, self, source, owner, props) {
         var element = {
             $$typeof: REACT_ELEMENT_TYPE,
@@ -270,11 +269,11 @@
     }
     function getElementKey(element, index) {
         if ("object" == typeof element && null !== element && null != element.key) {
-            var escaperLookup;
-            return escaperLookup = {
+            var escaperLookup = {
                 "=": "=0",
                 ":": "=2"
-            }, "$" + ("" + element.key).replace(/[=:]/g, function(match) {
+            };
+            return "$" + ("" + element.key).replace(/[=:]/g, function(match) {
                 return escaperLookup[match];
             });
         }
@@ -525,6 +524,7 @@
             setExtraStackFrame(describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null));
         } else setExtraStackFrame(null);
     }
+    var propTypesMisspellWarningShown = !1;
     function getDeclarationErrorAddendum() {
         if (ReactCurrentOwner.current) {
             var name = getComponentName(ReactCurrentOwner.current.type);
@@ -532,7 +532,6 @@
         }
         return "";
     }
-    propTypesMisspellWarningShown = !1;
     var ownerHasKeyUseWarning = {};
     function validateExplicitKey(element, parentType1) {
         if (element._store && !element._store.validated && null == element.key) {
