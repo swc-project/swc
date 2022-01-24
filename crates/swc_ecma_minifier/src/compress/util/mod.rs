@@ -1,4 +1,4 @@
-use crate::debug::dump;
+use crate::{debug::dump, util::ModuleItemExt};
 use std::f64;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
@@ -611,4 +611,14 @@ where
         Some(Stmt::Decl(Decl::Var(v))) => !v.decls.is_empty(),
         _ => true,
     });
+}
+
+pub(super) fn last_var_decl<T>(t: &mut T) -> Option<&mut VarDeclarator>
+where
+    T: ModuleItemExt,
+{
+    match t.as_stmt_mut() {
+        Some(Stmt::Decl(Decl::Var(v))) => v.decls.last_mut(),
+        _ => None,
+    }
 }

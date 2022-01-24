@@ -1,8 +1,8 @@
 use super::Pure;
-use crate::mode::Mode;
+use crate::{compress::util::last_var_decl, mode::Mode, util::ModuleItemExt};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend, StmtLike};
+use swc_ecma_utils::{ident::IdentLike, prepend, StmtLike, UsageFinder};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -11,6 +11,76 @@ impl<M> Pure<'_, M>
 where
     M: Mode,
 {
+    /// Handle variable declaration followed by initialization in next
+    /// statement.
+    pub(super) fn collapse_init_into_var_decls<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: ModuleItemExt,
+    {
+        if !(self.options.collapse_vars && self.options.unused) {
+            return;
+        }
+
+        for idx in 0..stmts.len() {
+            let (s1, s2) = stmts.split_at_mut(idx);
+            let first = s1.last_mut();
+            let first = match first {
+                Some(v) => v,
+                None => continue,
+            };
+
+            let second = s2.get_mut(0);
+
+            let second = match second {
+                Some(v) => v,
+                None => continue,
+            };
+
+            // TODO: last_var_decls, while skipping variable declarators without init
+            let first = last_var_decl(first);
+            let first = match first {
+                Some(v) => v,
+                None => continue,
+            };
+            if first.init.is_some() {
+                continue;
+            }
+
+            let name = match first.name.as_ident() {
+                Some(v) => v.id.to_id(),
+                None => todo!(),
+            };
+            let second_expr = match second.as_stmt_mut() {
+                Some(Stmt::Expr(second)) => &mut *second.expr,
+                _ => continue,
+            };
+
+            if let Expr::Assign(AssignExpr {
+                op: op!("="),
+                left,
+                right,
+                ..
+            }) = second_expr
+            {
+                //
+
+                if let Some(left) = left.as_ident_mut() {
+                    if left.to_id() != name {
+                        continue;
+                    }
+
+                    if UsageFinder::find(left, &**right) {
+                        continue;
+                    }
+
+                    first.init = Some(right.take());
+                    self.changed = true;
+                    *second = T::from_stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
+                }
+            }
+        }
+    }
+
     /// Collapse single-use non-constant variables, side effects permitting.
     ///
     /// This merges all variables to first variable declartion with an
