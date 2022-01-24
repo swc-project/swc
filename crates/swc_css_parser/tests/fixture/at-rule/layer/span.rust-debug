@@ -226,7 +226,7 @@ error: Value
 5 |         from { translate: 0; }
   |                           ^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/at-rule/layer/input.css:5:27
   |
 5 |         from { translate: 0; }
@@ -286,7 +286,7 @@ error: PercentValue
 6 |         to { translate: -100% 0; }
   |                         ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/at-rule/layer/input.css:6:25
   |
 6 |         to { translate: -100% 0; }
@@ -298,7 +298,7 @@ error: Value
 6 |         to { translate: -100% 0; }
   |                               ^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/at-rule/layer/input.css:6:31
   |
 6 |         to { translate: -100% 0; }
@@ -436,7 +436,7 @@ error: Value
 12 |         from { margin-left: 0; }
    |                             ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/layer/input.css:12:29
    |
 12 |         from { margin-left: 0; }
@@ -496,7 +496,7 @@ error: PercentValue
 13 |         to { margin-left: -100%; }
    |                           ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/layer/input.css:13:27
    |
 13 |         to { margin-left: -100%; }
@@ -592,7 +592,7 @@ error: UnitValue
 17 | .sidebar { animation: slide-left 300ms; }
    |                                  ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/layer/input.css:17:34
    |
 17 | .sidebar { animation: slide-left 300ms; }
@@ -886,7 +886,7 @@ error: Value
 27 |     .title { font-weight: 100; }
    |                           ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/layer/input.css:27:27
    |
 27 |     .title { font-weight: 100; }
@@ -1318,7 +1318,7 @@ error: UnitValue
 40 |         p { margin-block: 0.75em; }
    |                           ^^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/layer/input.css:40:27
    |
 40 |         p { margin-block: 0.75em; }

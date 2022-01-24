@@ -25,16 +25,29 @@ fn handle_func(func: ItemFn) -> TokenStream {
     let ret = quote! {
         #func
 
+        extern "C" {
+            fn __set_transform_result(bytes_ptr: i32, bytes_ptr_len: i32);
+            fn __free(bytes_ptr: i32, size: i32) -> i32;
+        }
+
+
+        /// Call hosts's imported fn to set transform results, then free allocated memory in guest side.
+        /// When guest calls __set_transform_result host should've completed read guest's memory and allocates its byte
+        /// into host's enviroment so guest can free its memory later.
+        fn set_transform_result_volatile(bytes_ptr: i32, bytes_ptr_len: i32) {
+            unsafe {
+                __set_transform_result(bytes_ptr, bytes_ptr_len);
+                __free(bytes_ptr, bytes_ptr_len);
+            }
+        }
+
         /// Internal function plugin_macro uses to create ptr to PluginError.
-        fn construct_error_ptr(plugin_error: PluginError) -> (i32, i32, i32) {
+        fn construct_error_ptr(plugin_error: swc_plugin::PluginError) -> i32 {
             let ret = swc_plugin::Serialized::serialize(&plugin_error).expect("Should able to serialize PluginError");
             let ret_ref = ret.as_ref();
 
-            (
-                1,
-                ret_ref.as_ptr() as _,
-                ret_ref.len().try_into().expect("Should able to convert size of PluginError")
-            )
+            set_transform_result_volatile(ret_ref.as_ptr() as _, ret_ref.len().try_into().expect("Should able to convert size of PluginError"));
+            1
         }
 
         // Macro to allow compose plugin's transform function without manual pointer operation.
@@ -42,7 +55,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
         // There are some cases error won't be wrapped up however - for example, we expect
         // serialization of PluginError itself should succeed.
         #[no_mangle]
-        pub fn #process_impl_ident(ast_ptr: *const u8, ast_ptr_len: i32, config_str_ptr: *const u8, config_str_ptr_len: i32) -> (i32, i32, i32) {
+        pub fn #process_impl_ident(ast_ptr: *const u8, ast_ptr_len: i32, config_str_ptr: *const u8, config_str_ptr_len: i32) -> i32 {
             let ast_ptr_len_usize: Result<usize, std::num::TryFromIntError> = ast_ptr_len.try_into();
             let config_str_ptr_len_usize: Result<usize, std::num::TryFromIntError> = config_str_ptr_len.try_into();
 
@@ -116,11 +129,8 @@ fn handle_func(func: ItemFn) -> TokenStream {
                 return construct_error_ptr(err);
             }
 
-            (
-                0,
-                serialized_result.as_ptr() as _,
-                serialized_result_len.expect("Should be an i32"),
-            )
+            set_transform_result_volatile(serialized_result.as_ptr() as _, serialized_result_len.expect("Should be an i32"));
+            0
         }
     };
 

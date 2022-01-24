@@ -167,7 +167,7 @@ error: UnitValue
 4 |     width: 1px!important;
   |            ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/important/basic/input.css:4:12
   |
 4 |     width: 1px!important;
@@ -347,7 +347,7 @@ error: UnitValue
 11 |     margin: 10px      !      important;
    |             ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/important/basic/input.css:11:13
    |
 11 |     margin: 10px      !      important;
@@ -383,7 +383,7 @@ error: UnitValue
 12 |     padding: 20px     !  /* test */   important;
    |              ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/important/basic/input.css:12:14
    |
 12 |     padding: 20px     !  /* test */   important;
@@ -419,7 +419,7 @@ error: UnitValue
 13 |     width: 100px ! /*! test */ important;
    |            ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/important/basic/input.css:13:12
    |
 13 |     width: 100px ! /*! test */ important;
@@ -455,7 +455,7 @@ error: UnitValue
 14 |     height: 100px /*! test */ important;
    |             ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/important/basic/input.css:14:13
    |
 14 |     height: 100px /*! test */ important;
@@ -497,7 +497,7 @@ error: Value
 15 |     z-index: 1 ""! important;
    |              ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/important/basic/input.css:15:14
    |
 15 |     z-index: 1 ""! important;
@@ -539,7 +539,7 @@ error: UnitValue
 16 |     padding: 1px/* sep */!important;
    |              ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/important/basic/input.css:16:14
    |
 16 |     padding: 1px/* sep */!important;

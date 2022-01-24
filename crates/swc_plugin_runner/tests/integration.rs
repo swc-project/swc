@@ -12,18 +12,11 @@ use swc_ecma_visit::{Visit, VisitWith};
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
     {
-        let mut cmd = if cfg!(windows) {
-            let mut c = Command::new("cmd");
-            c.args(&["/C", "build.cmd"]);
-            c
-        } else {
-            let mut c = Command::new("sh");
-            c.args(&["-c", "./build.sh"]);
-            c
-        };
-
+        let mut cmd = Command::new("cargo");
         cmd.current_dir(dir);
-        cmd.stderr(Stdio::inherit()).output()?;
+        cmd.args(["build", "--target=wasm32-wasi"])
+            .stderr(Stdio::inherit());
+        cmd.output()?;
     }
 
     for entry in fs::read_dir(&dir.join("target").join("wasm32-wasi").join("debug"))? {

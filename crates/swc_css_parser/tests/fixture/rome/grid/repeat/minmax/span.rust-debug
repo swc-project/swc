@@ -103,7 +103,7 @@ error: Value
 2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));
   |                                   ^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/grid/repeat/minmax/input.css:2:32
   |
 2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));
@@ -151,7 +151,7 @@ error: UnitValue
 2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));
   |                                                          ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/grid/repeat/minmax/input.css:2:55
   |
 2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));

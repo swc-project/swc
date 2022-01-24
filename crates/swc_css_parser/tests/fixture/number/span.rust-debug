@@ -95,7 +95,7 @@ error: Value
 2 |     property: 10;
   |               ^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/number/input.css:2:15
   |
 2 |     property: 10;
@@ -119,7 +119,7 @@ error: Value
 3 |     property: +10;
   |               ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/number/input.css:3:15
   |
 3 |     property: +10;
@@ -143,7 +143,7 @@ error: Value
 4 |     property: -10;
   |               ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/number/input.css:4:15
   |
 4 |     property: -10;
@@ -167,7 +167,7 @@ error: Value
 5 |     property: 0.1;
   |               ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/number/input.css:5:15
   |
 5 |     property: 0.1;
@@ -191,7 +191,7 @@ error: Value
 6 |     property: +0.1;
   |               ^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/number/input.css:6:15
   |
 6 |     property: +0.1;
@@ -215,7 +215,7 @@ error: Value
 7 |     property: -0.1;
   |               ^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/number/input.css:7:15
   |
 7 |     property: -0.1;
@@ -239,7 +239,7 @@ error: Value
 8 |     property: -.1;
   |               ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/number/input.css:8:15
   |
 8 |     property: -.1;
@@ -263,7 +263,7 @@ error: Value
 9 |     property: +.1;
   |               ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/number/input.css:9:15
   |
 9 |     property: +.1;
@@ -287,7 +287,7 @@ error: Value
 10 |     property: 0;
    |               ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:10:15
    |
 10 |     property: 0;
@@ -311,7 +311,7 @@ error: Value
 11 |     property: 10;
    |               ^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:11:15
    |
 11 |     property: 10;
@@ -335,7 +335,7 @@ error: Value
 12 |     property: .10;
    |               ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:12:15
    |
 12 |     property: .10;
@@ -359,7 +359,7 @@ error: Value
 13 |     property: 12.34;
    |               ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:13:15
    |
 13 |     property: 12.34;
@@ -383,7 +383,7 @@ error: Value
 14 |     property: 0.1;
    |               ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:14:15
    |
 14 |     property: 0.1;
@@ -407,7 +407,7 @@ error: Value
 15 |     property: 1.0;
    |               ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:15:15
    |
 15 |     property: 1.0;
@@ -431,7 +431,7 @@ error: Value
 16 |     property: 0.0;
    |               ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:16:15
    |
 16 |     property: 0.0;
@@ -455,7 +455,7 @@ error: Value
 17 |     property: +0.0;
    |               ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:17:15
    |
 17 |     property: +0.0;
@@ -479,7 +479,7 @@ error: Value
 18 |     property: -0.0;
    |               ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:18:15
    |
 18 |     property: -0.0;
@@ -503,7 +503,7 @@ error: Value
 19 |     property: .0;
    |               ^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:19:15
    |
 19 |     property: .0;
@@ -527,7 +527,7 @@ error: Value
 20 |     property: 1.200000;
    |               ^^^^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:20:15
    |
 20 |     property: 1.200000;
@@ -551,7 +551,7 @@ error: Value
 21 |     property: 1.2e2;
    |               ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:21:15
    |
 21 |     property: 1.2e2;
@@ -575,7 +575,7 @@ error: Value
 22 |     property: 1e2;
    |               ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:22:15
    |
 22 |     property: 1e2;
@@ -599,7 +599,7 @@ error: Value
 23 |     property: .2e2;
    |               ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:23:15
    |
 23 |     property: .2e2;
@@ -623,7 +623,7 @@ error: Value
 24 |     property: 1.2E2;
    |               ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:24:15
    |
 24 |     property: 1.2E2;
@@ -647,7 +647,7 @@ error: Value
 25 |     property: 1.2e+2;
    |               ^^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:25:15
    |
 25 |     property: 1.2e+2;
@@ -671,7 +671,7 @@ error: Value
 26 |     property: 1.2e-2;
    |               ^^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:26:15
    |
 26 |     property: 1.2e-2;
@@ -695,7 +695,7 @@ error: Value
 27 |     property: -1;
    |               ^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:27:15
    |
 27 |     property: -1;
@@ -719,7 +719,7 @@ error: Value
 28 |     property: -1.2;
    |               ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:28:15
    |
 28 |     property: -1.2;
@@ -743,7 +743,7 @@ error: Value
 29 |     property: -.2;
    |               ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:29:15
    |
 29 |     property: -.2;
@@ -767,7 +767,7 @@ error: Value
 30 |     property: -.2;
    |               ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:30:15
    |
 30 |     property: -.2;
@@ -791,7 +791,7 @@ error: Value
 31 |     property: +.2;
    |               ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:31:15
    |
 31 |     property: +.2;
@@ -815,7 +815,7 @@ error: Value
 32 |     property: -1.2e3;
    |               ^^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:32:15
    |
 32 |     property: -1.2e3;
@@ -839,7 +839,7 @@ error: Value
 33 |     property: 1.75;
    |               ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:33:15
    |
 33 |     property: 1.75;
@@ -863,7 +863,7 @@ error: Value
 34 |     property: +1.75;
    |               ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:34:15
    |
 34 |     property: +1.75;
@@ -893,7 +893,7 @@ error: UnitValue
 35 |     property: 1e;
    |               ^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/number/input.css:35:15
    |
 35 |     property: 1e;

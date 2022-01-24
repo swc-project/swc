@@ -101,7 +101,7 @@ error: UnitValue
 2 |     prop: 10px;
   |           ^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/dimension/basic/input.css:2:11
   |
 2 |     prop: 10px;
@@ -137,7 +137,7 @@ error: UnitValue
 3 |     prop: .10px;
   |           ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/dimension/basic/input.css:3:11
   |
 3 |     prop: .10px;
@@ -173,7 +173,7 @@ error: UnitValue
 4 |     prop: 12.34px;
   |           ^^^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/dimension/basic/input.css:4:11
   |
 4 |     prop: 12.34px;
@@ -209,7 +209,7 @@ error: UnitValue
 5 |     prop: 0000.000px;
   |           ^^^^^^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/dimension/basic/input.css:5:11
   |
 5 |     prop: 0000.000px;
@@ -245,7 +245,7 @@ error: UnitValue
 6 |     prop: 1px\\9;
   |           ^^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/dimension/basic/input.css:6:11
   |
 6 |     prop: 1px\\9;
@@ -281,7 +281,7 @@ error: UnitValue
 7 |     prop: 1e;
   |           ^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/dimension/basic/input.css:7:11
   |
 7 |     prop: 1e;
@@ -317,7 +317,7 @@ error: UnitValue
 8 |     prop: 1unknown;
   |           ^^^^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/dimension/basic/input.css:8:11
   |
 8 |     prop: 1unknown;

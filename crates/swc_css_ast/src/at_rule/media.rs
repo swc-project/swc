@@ -1,4 +1,4 @@
-use crate::{BinValue, Ident, Num, Rule, UnitValue};
+use crate::{Ident, Number, Ratio, Rule, UnitValue};
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
@@ -123,7 +123,7 @@ pub enum MediaFeatureName {
 #[ast_node]
 pub enum MediaFeatureValue {
     #[tag("Number")]
-    Number(Num),
+    Number(Number),
 
     #[tag("UnitValue")]
     Dimension(UnitValue),
@@ -131,8 +131,8 @@ pub enum MediaFeatureValue {
     #[tag("Ident")]
     Ident(Ident),
 
-    #[tag("BinValue")]
-    Ratio(BinValue),
+    #[tag("Ratio")]
+    Ratio(Ratio),
 }
 
 #[ast_node("MediaFeaturePlain")]

@@ -120,13 +120,14 @@
             },
             "value": [
               {
-                "type": "RoundBracketBlock",
+                "type": "SimpleBlock",
                 "span": {
                   "start": 33,
                   "end": 40,
                   "ctxt": 0
                 },
-                "children": [
+                "name": "(",
+                "value": [
                   {
                     "type": "Identifier",
                     "span": {
@@ -161,35 +162,38 @@
             },
             "value": [
               {
-                "type": "BraceValue",
+                "type": "SimpleBlock",
                 "span": {
                   "start": 52,
                   "end": 59,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Tokens",
-                  "span": {
-                    "start": 53,
-                    "end": 58,
-                    "ctxt": 0
-                  },
-                  "tokens": [
-                    {
-                      "span": {
-                        "start": 53,
-                        "end": 58,
-                        "ctxt": 0
-                      },
-                      "token": {
-                        "Ident": {
-                          "value": "value",
-                          "raw": "value"
+                "name": "{",
+                "value": [
+                  {
+                    "type": "Tokens",
+                    "span": {
+                      "start": 53,
+                      "end": 58,
+                      "ctxt": 0
+                    },
+                    "tokens": [
+                      {
+                        "span": {
+                          "start": 53,
+                          "end": 58,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "value",
+                            "raw": "value"
+                          }
                         }
                       }
-                    }
-                  ]
-                }
+                    ]
+                  }
+                ]
               }
             ],
             "important": null
@@ -213,13 +217,14 @@
             },
             "value": [
               {
-                "type": "SquareBracketBlock",
+                "type": "SimpleBlock",
                 "span": {
                   "start": 71,
                   "end": 78,
                   "ctxt": 0
                 },
-                "children": [
+                "name": "[",
+                "value": [
                   {
                     "type": "Identifier",
                     "span": {

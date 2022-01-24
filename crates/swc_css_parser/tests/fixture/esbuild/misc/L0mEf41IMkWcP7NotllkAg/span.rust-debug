@@ -40,6 +40,16 @@ error: Ident
 1 | @unknown{
   | ^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:9
+  |
+1 |   @unknown{
+  |  _________^
+2 | | a: b;
+3 | | c: d;
+4 | | }
+  | |_^
+
 error: Value
  --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:10
   |

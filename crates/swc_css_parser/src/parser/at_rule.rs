@@ -1294,13 +1294,12 @@ where
                 if eat!(self, "/") {
                     self.input.skip_ws()?;
 
-                    let right = self.parse()?;
+                    let right = Some(self.parse()?);
 
-                    return Ok(MediaFeatureValue::Ratio(BinValue {
+                    return Ok(MediaFeatureValue::Ratio(Ratio {
                         span: span!(self, span.lo),
-                        op: BinOp::Div,
-                        left: Box::new(Value::Number(left)),
-                        right: Box::new(Value::Number(right)),
+                        left,
+                        right,
                     }));
                 }
 

@@ -114,7 +114,7 @@ error: UnitValue
 3 |         margin-top: 50px !important;
   |                     ^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/keyframe/input.css:3:21
   |
 3 |         margin-top: 50px !important;
@@ -188,7 +188,7 @@ error: UnitValue
 6 |         margin-top: 100px !important;
   |                     ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/keyframe/input.css:6:21
   |
 6 |         margin-top: 100px !important;
@@ -331,7 +331,7 @@ error: PercentValue
 15 |     15% {
    |     ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/rome/keyframe/input.css:15:5
    |
 15 |     15% {
@@ -372,7 +372,7 @@ error: PercentValue
 17 |     0% {
    |     ^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/rome/keyframe/input.css:17:5
    |
 17 |     0% {
@@ -413,7 +413,7 @@ error: PercentValue
 19 |     100% {
    |     ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/rome/keyframe/input.css:19:5
    |
 19 |     100% {

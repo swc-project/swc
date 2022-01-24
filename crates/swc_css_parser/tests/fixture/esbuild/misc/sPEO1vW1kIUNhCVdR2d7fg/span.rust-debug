@@ -76,7 +76,7 @@ error: UnitValue
 1 | a { value: 10x\, }
   |            ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:12
   |
 1 | a { value: 10x\, }

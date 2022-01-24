@@ -154,6 +154,9 @@ pub enum Feature {
 
     /// `bugfix/transform-tagged-template-caching`
     BugfixTaggedTemplateCaching,
+
+    /// `bugfix/transform-safari-id-destructuring-collision-in-function-expression`
+    BugfixSafariIdDestructuringCollisionInFunctionExpression,
 }
 
 pub(crate) static FEATURES: Lazy<AHashMap<Feature, BrowserData<Option<Version>>>> =

@@ -10383,7 +10383,8 @@
                 }(options3), ret = Object.create(null);
                 if ("string" != typeof query) return ret;
                 if (!(query = query.trim().replace(/^[?#&]/, ""))) return ret;
-                for (const param of query.split("&"))if ("" !== param) {
+                for (const param of query.split("&")){
+                    if ("" === param) continue;
                     let [key, value] = splitOnFirst(options3.decode ? param.replace(/\+/g, " ") : param, "=");
                     value = void 0 === value ? null : [
                         "comma",

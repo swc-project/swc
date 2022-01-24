@@ -57,7 +57,7 @@ where
                     }
 
                     let span = span!(self, start_pos);
-                    let v = Value::Lazy(Tokens { span, tokens });
+                    let v = Value::Tokens(Tokens { span, tokens });
 
                     self.errors
                         .push(Error::new(span, ErrorKind::InvalidDeclarationValue));
@@ -276,17 +276,17 @@ where
 
         let span = self.input.cur_span()?;
         match cur!(self) {
-            Token::Str { .. } => return Ok(Value::Str(self.parse()?)),
+            tok!("str") => return Ok(Value::Str(self.parse()?)),
 
-            Token::Num { .. } => return self.parse_numeric_value(),
+            tok!("num") => return self.parse_numeric_value(),
 
-            Token::Function { .. } => return Ok(Value::Function(self.parse()?)),
+            tok!("function") => return Ok(Value::Function(self.parse()?)),
 
-            Token::Percent { .. } => return self.parse_numeric_value(),
+            tok!("percent") => return self.parse_numeric_value(),
 
-            Token::Dimension { .. } => return self.parse_numeric_value(),
+            tok!("dimension") => return self.parse_numeric_value(),
 
-            Token::Ident { .. } => return Ok(Value::Ident(self.parse()?)),
+            tok!("ident") => return Ok(Value::Ident(self.parse()?)),
 
             tok!("[") => return self.parse_square_brackets_value().map(From::from),
 
@@ -331,14 +331,14 @@ where
                 }));
             }
 
-            Token::Url { .. } => return Ok(Value::Url(self.parse()?)),
+            tok!("url") => return Ok(Value::Url(self.parse()?)),
 
             _ => {}
         }
 
         if is_one_of!(self, "<!--", "-->", "!", ";") {
             let token = self.input.bump()?.unwrap();
-            return Ok(Value::Lazy(Tokens {
+            return Ok(Value::Tokens(Tokens {
                 span,
                 tokens: vec![token],
             }));
@@ -397,7 +397,7 @@ where
         Ok(base)
     }
 
-    fn parse_brace_value(&mut self) -> PResult<BraceValue> {
+    fn parse_brace_value(&mut self) -> PResult<SimpleBlock> {
         let span = self.input.cur_span()?;
 
         expect!(self, "{");
@@ -427,60 +427,22 @@ where
         let brace_span = span!(self, brace_start);
         expect!(self, "}");
 
-        Ok(BraceValue {
+        Ok(SimpleBlock {
             span: span!(self, span.lo),
-            value: Box::new(Value::Lazy(Tokens {
+            name: '{',
+            // TODO refactor me
+            value: vec![Value::Tokens(Tokens {
                 span: brace_span,
                 tokens,
-            })),
+            })],
         })
     }
 
     fn parse_basical_numeric_value(&mut self) -> PResult<Value> {
-        let span = self.input.cur_span()?;
-
-        match bump!(self) {
-            Token::Percent { value, raw, .. } => {
-                let value = Num {
-                    span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
-                    value,
-                    raw,
-                };
-
-                Ok(Value::Percent(PercentValue { span, value }))
-            }
-            Token::Dimension {
-                value,
-                raw_value,
-                unit,
-                raw_unit,
-                ..
-            } => {
-                let unit_len = raw_unit.len() as u32;
-
-                Ok(Value::Unit(UnitValue {
-                    span,
-                    value: Num {
-                        value,
-                        raw: raw_value,
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
-                    },
-                    unit: Unit {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
-                        value: unit,
-                        raw: raw_unit,
-                    },
-                }))
-            }
-            Token::Num { value, raw, .. } => Ok(Value::Number(Num { span, value, raw })),
+        match cur!(self) {
+            tok!("percent") => Ok(Value::Percent(self.parse()?)),
+            tok!("dimension") => Ok(Value::Unit(self.parse()?)),
+            tok!("num") => Ok(Value::Number(self.parse()?)),
             _ => {
                 unreachable!()
             }
@@ -508,7 +470,7 @@ where
         Ok(args)
     }
 
-    fn parse_square_brackets_value(&mut self) -> PResult<SquareBracketBlock> {
+    fn parse_square_brackets_value(&mut self) -> PResult<SimpleBlock> {
         let span = self.input.cur_span()?;
 
         expect!(self, "[");
@@ -520,41 +482,43 @@ where
             ..self.ctx
         };
 
-        let children = Some(self.with_ctx(ctx).parse_property_values()?.0);
+        let value = self.with_ctx(ctx).parse_property_values()?.0;
 
         self.input.skip_ws()?;
 
         expect!(self, "]");
 
-        Ok(SquareBracketBlock {
+        Ok(SimpleBlock {
             span: span!(self, span.lo),
-            children,
+            name: '[',
+            value,
         })
     }
 
-    fn parse_round_brackets_value(&mut self) -> PResult<RoundBracketBlock> {
+    fn parse_round_brackets_value(&mut self) -> PResult<SimpleBlock> {
         let span = self.input.cur_span()?;
 
         expect!(self, "(");
 
         self.input.skip_ws()?;
 
-        let children = if is!(self, ")") {
-            None
+        let value = if is!(self, ")") {
+            vec![]
         } else {
             let ctx = Ctx {
                 allow_operation_in_value: true,
                 ..self.ctx
             };
 
-            Some(self.with_ctx(ctx).parse_property_values()?.0)
+            self.with_ctx(ctx).parse_property_values()?.0
         };
 
         expect!(self, ")");
 
-        Ok(RoundBracketBlock {
+        Ok(SimpleBlock {
             span: span!(self, span.lo),
-            children,
+            name: '(',
+            value,
         })
     }
 
@@ -605,7 +569,7 @@ where
                     let span = self.input.cur_span()?;
                     let token = self.input.bump()?.unwrap();
 
-                    simple_block.value.push(Value::Lazy(Tokens {
+                    simple_block.value.push(Value::Tokens(Tokens {
                         span: span!(self, span.lo),
                         tokens: vec![token],
                     }));
@@ -625,7 +589,7 @@ where
                 let token = self.input.bump()?;
 
                 match token {
-                    Some(t) => Ok(Value::Lazy(Tokens {
+                    Some(t) => Ok(Value::Tokens(Tokens {
                         span: span!(self, span.lo),
                         tokens: vec![t],
                     })),
@@ -638,11 +602,11 @@ where
     }
 }
 
-impl<I> Parse<Num> for Parser<I>
+impl<I> Parse<Number> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Num> {
+    fn parse(&mut self) -> PResult<Number> {
         let span = self.input.cur_span()?;
 
         if !is!(self, Num) {
@@ -652,7 +616,7 @@ where
         let value = bump!(self);
 
         match value {
-            Token::Num { value, raw, .. } => Ok(Num { span, value, raw }),
+            Token::Num { value, raw, .. } => Ok(Number { span, value, raw }),
             _ => {
                 unreachable!()
             }
@@ -735,7 +699,7 @@ where
 
                 Ok(UnitValue {
                     span,
-                    value: Num {
+                    value: Number {
                         value,
                         raw: raw_value,
                         span: swc_common::Span::new(
@@ -775,7 +739,7 @@ where
 
         match bump!(self) {
             Token::Percent { value, raw } => {
-                let value = Num {
+                let value = Number {
                     span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
                     value,
                     raw,

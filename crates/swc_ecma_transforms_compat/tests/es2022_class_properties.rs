@@ -5632,6 +5632,57 @@ test!(
     "
 );
 
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config { loose: false }),
+    issue_3229_1,
+    "
+class A {
+  B() {
+    1;
+    C.#D++;
+    E(function() {});
+  }
+}
+  ",
+    "
+class A {
+    B() {
+        var _C, _this_D;
+        1;
+        _classPrivateFieldSet(_C = C, _D, (_this_D = +_classPrivateFieldGet(_C, _D)) + 1), _this_D;
+        E(function() {});
+    }
+}
+  "
+);
+
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config { loose: false }),
+    issue_3229_2,
+    "
+class A {
+    foo() {
+        A.#b += 123
+        class B {
+            foo() {}
+        }
+    }
+}
+",
+    "
+class A {
+    foo() {
+        var _A;
+        _classPrivateFieldSet(_A = A, _b, _classPrivateFieldGet(_A, _b) + 123);
+        class B {
+            foo() {}
+        }
+    }
+}
+"
+);
 #[testing::fixture("tests/fixture/classes/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(&input).unwrap();

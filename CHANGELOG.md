@@ -20,16 +20,58 @@
 - **(es/compat)** Fix regression of `destructuring` (#3326) ([6d1ad36](https://github.com/swc-project/swc/commit/6d1ad368aca53ee64a63ae565cd015909f2f4458))
 
 
+- **(es/compat)** Handle nested functions in `private_field` (#3355) ([29aaac1](https://github.com/swc-project/swc/commit/29aaac1f15f747ea3f938bcab1d536168e9d36a6))
+
+
 - **(es/minifier)** Consider capturing while inlining (#3322) ([4f23d65](https://github.com/swc-project/swc/commit/4f23d651d1a8855f9383c5306d5e417c273c5c22))
 
 
 - **(es/minifier)** Don't inline a var if the initializer is reassigned (#3333) ([d52a1f3](https://github.com/swc-project/swc/commit/d52a1f3899d7d782917ea1c8701e951fcd6c214f))
+
+
+- **(es/minifier)** Respect block scoping while negating if statements (#3344) ([6921ffb](https://github.com/swc-project/swc/commit/6921ffbbda110384524114dc2d3230b8432e34cc))
+
+
+- **(es/module)** Remove `.jsx` file extension (#3334) ([b2bf38d](https://github.com/swc-project/swc/commit/b2bf38d025064a42c398ab321fc2e69401a3f74b))
+
+
+- **(es/typescript)** Handle typescript enums with string values (#3339) ([da709fe](https://github.com/swc-project/swc/commit/da709fe3d351f76b51b526cfd0718d8e6cb8f2a0))
+
+
+- **(swc)** Respect `jsc.experimental.keepImportAssertions` (#3352) ([d9dc2b9](https://github.com/swc-project/swc/commit/d9dc2b99dde69792db4f5a31ffc983f8b04c0bef))
+
+### Features
+
+
+
+- **(css/ast)** Add `Ratio`, which is defined by spec (#3335) ([c7e5fae](https://github.com/swc-project/swc/commit/c7e5faea5c49333a3141111f92e3b36e29f6202c))
+
+
+- **(es/bugfix)** Add `bugfix-safari-id-destructuring-collision-in-function-expression` (#3109) ([d1c90a4](https://github.com/swc-project/swc/commit/d1c90a4e5f2ddfc71c6143ef07e16af352da25fa))
+
+
+- **(es/minifier)** Handle array literals in `sequences` (#3348) ([8007b2d](https://github.com/swc-project/swc/commit/8007b2dc9338e34a1e9780606fd35181890af990))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Update `thread_local` (#3357) ([a635e9f](https://github.com/swc-project/swc/commit/a635e9f35bb2a718abad56286d7b6fcecdfe4e58))
 
 ### Performance
 
 
 
 - **(node)** Avoid cloning options (#3325) ([8a76935](https://github.com/swc-project/swc/commit/8a76935ca261579f23519d1e2c3b7849ba75a6e0))
+
+### Refactor
+
+
+
+- **(css/ast)** Merge several kinds of blocks into a single type (#3336) ([c664eaf](https://github.com/swc-project/swc/commit/c664eafdefe2b8a65d3d745e4538063a33f93346))
+
+
+- **(plugin)** Remove multivalue polyfill (#3346) ([4386498](https://github.com/swc-project/swc/commit/438649818fb7e7b1ef6cddf5ba244f80cf7e69a9))
 
 ## [1.2.133] - 2022-01-20
 

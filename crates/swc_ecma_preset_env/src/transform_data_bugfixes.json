@@ -54,6 +54,16 @@
         "samsung": "5",
         "electron": "0.37"
     },
+    "bugfix/transform-safari-id-destructuring-collision-in-function-expression": {
+        "chrome": "49",
+        "opera": "36",
+        "edge": "14",
+        "firefox": "2",
+        "node": "6",
+        "samsung": "5",
+        "rhino": "1.7.13",
+        "electron": "0.37"
+    },
     "transform-template-literals": {
         "chrome": "41",
         "opera": "28",

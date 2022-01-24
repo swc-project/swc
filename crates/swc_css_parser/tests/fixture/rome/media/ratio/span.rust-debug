@@ -82,31 +82,19 @@ error: MediaFeatureValue
 1 | @media (aspect-ratio: 12/9) {}
   |                       ^^^^
 
-error: BinValue
+error: Ratio
  --> $DIR/tests/fixture/rome/media/ratio/input.css:1:23
   |
 1 | @media (aspect-ratio: 12/9) {}
   |                       ^^^^
 
-error: Value
+error: Number
  --> $DIR/tests/fixture/rome/media/ratio/input.css:1:23
   |
 1 | @media (aspect-ratio: 12/9) {}
   |                       ^^
 
-error: Num
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:23
-  |
-1 | @media (aspect-ratio: 12/9) {}
-  |                       ^^
-
-error: Value
- --> $DIR/tests/fixture/rome/media/ratio/input.css:1:26
-  |
-1 | @media (aspect-ratio: 12/9) {}
-  |                          ^
-
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/media/ratio/input.css:1:26
   |
 1 | @media (aspect-ratio: 12/9) {}

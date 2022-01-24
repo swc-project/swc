@@ -45,7 +45,7 @@ define!({
         pub raw: JsWord,
     }
 
-    pub struct Num {
+    pub struct Number {
         pub span: Span,
         pub value: f64,
         pub raw: JsWord,
@@ -84,15 +84,13 @@ define!({
     pub enum Value {
         SimpleBlock(SimpleBlock),
 
-        SquareBracketBlock(SquareBracketBlock),
-
-        RoundBracketBlock(RoundBracketBlock),
-
         Unit(UnitValue),
 
-        Number(Num),
+        Number(Number),
 
         Percent(PercentValue),
+
+        Ratio(Ratio),
 
         Hash(HashValue),
 
@@ -108,9 +106,7 @@ define!({
 
         Comma(CommaValues),
 
-        Brace(BraceValue),
-
-        Lazy(Tokens),
+        Tokens(Tokens),
 
         AtText(AtTextValue),
 
@@ -143,16 +139,6 @@ define!({
         pub value: Vec<Value>,
     }
 
-    pub struct RoundBracketBlock {
-        pub span: Span,
-        pub children: Option<Vec<Value>>,
-    }
-
-    pub struct SquareBracketBlock {
-        pub span: Span,
-        pub children: Option<Vec<Value>>,
-    }
-
     pub struct HashValue {
         pub span: Span,
         pub value: JsWord,
@@ -161,24 +147,25 @@ define!({
 
     pub struct UnitValue {
         pub span: Span,
-        pub value: Num,
+        pub value: Number,
         pub unit: Unit,
     }
 
     pub struct PercentValue {
         pub span: Span,
-        pub value: Num,
+        pub value: Number,
     }
 
-    pub struct BraceValue {
+    pub struct Ratio {
         pub span: Span,
-        pub value: Box<Value>,
+        pub left: Number,
+        pub right: Option<Number>,
     }
 
     pub struct AtTextValue {
         pub span: Span,
         pub name: Ident,
-        pub block: Option<BraceValue>,
+        pub block: Option<SimpleBlock>,
     }
 
     pub struct UrlValue {
@@ -527,10 +514,10 @@ define!({
     }
 
     pub enum MediaFeatureValue {
-        Number(Num),
+        Number(Number),
         Dimension(UnitValue),
         Ident(Ident),
-        Ratio(BinValue),
+        Ratio(Ratio),
     }
 
     pub struct MediaFeaturePlain {

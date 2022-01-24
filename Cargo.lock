@@ -2652,7 +2652,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.116.18"
+version = "0.116.24"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2792,7 +2792,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.51.0"
+version = "0.53.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2804,7 +2804,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.47.0"
+version = "0.49.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -2815,7 +2815,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.49.0"
+version = "0.51.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2841,7 +2841,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.13.0"
+version = "0.15.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2854,7 +2854,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.51.0"
+version = "0.53.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2869,7 +2869,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.44.0"
+version = "0.46.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2879,7 +2879,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.46.0"
+version = "0.48.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3012,7 +3012,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.70.11"
+version = "0.70.13"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3097,7 +3097,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.113.4"
+version = "0.113.7"
 dependencies = [
  "pretty_assertions 0.7.2",
  "sourcemap",
@@ -3157,7 +3157,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.68.3"
+version = "0.68.5"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -3196,7 +3196,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.74.0"
+version = "0.74.1"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3319,7 +3319,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.78.0"
+version = "0.78.1"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -3366,7 +3366,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.110.17"
+version = "0.110.22"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3549,7 +3549,7 @@ version = "0.24.0"
 
 [[package]]
 name = "swc_stylis"
-version = "0.48.0"
+version = "0.50.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3714,9 +3714,9 @@ dependencies = [
 
 [[package]]
 name = "thread_local"
-version = "1.1.3"
+version = "1.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8018d24e04c95ac8790716a5987d0fec4f8b27249ffa0f7d33f1369bdfb88cbd"
+checksum = "5516c27b78311c50bf42c071425c560ac799b11c30b31f87e3081965fe5e0180"
 dependencies = [
  "once_cell",
 ]
