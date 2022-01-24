@@ -570,6 +570,7 @@ where
             Value::Unit(n) => emit!(self, n),
             Value::Number(n) => emit!(self, n),
             Value::Percent(n) => emit!(self, n),
+            Value::Ratio(n) => emit!(self, n),
             Value::Hash(n) => emit!(self, n),
             Value::Ident(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
@@ -736,8 +737,18 @@ where
     }
 
     #[emitter]
-    fn emit_num(&mut self, n: &Num) -> Result {
+    fn emit_number(&mut self, n: &Number) -> Result {
         self.wr.write_raw(Some(n.span), &n.raw)?;
+    }
+
+    #[emitter]
+    fn emit_ration(&mut self, n: &Ratio) -> Result {
+        emit!(self, n.left);
+        punct!(self, "/");
+
+        if let Some(right) = &n.right {
+            emit!(self, right);
+        }
     }
 
     #[emitter]

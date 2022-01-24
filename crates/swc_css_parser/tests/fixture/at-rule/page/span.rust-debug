@@ -112,7 +112,7 @@ error: UnitValue
 3 | @page{margin: 1cm}
   |               ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/at-rule/page/input.css:3:15
   |
 3 | @page{margin: 1cm}
@@ -178,7 +178,7 @@ error: UnitValue
 4 | @page {margin: 1cm}
   |                ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/at-rule/page/input.css:4:16
   |
 4 | @page {margin: 1cm}
@@ -244,7 +244,7 @@ error: UnitValue
 5 | @page {margin: 1cm;}
   |                ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/at-rule/page/input.css:5:16
   |
 5 | @page {margin: 1cm;}
@@ -322,7 +322,7 @@ error: UnitValue
 6 | @page :first {margin: 2cm}
   |                       ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/at-rule/page/input.css:6:23
   |
 6 | @page :first {margin: 2cm}
@@ -400,7 +400,7 @@ error: UnitValue
 7 | @page :first {margin: 2cm;}
   |                       ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/at-rule/page/input.css:7:23
   |
 7 | @page :first {margin: 2cm;}
@@ -478,7 +478,7 @@ error: UnitValue
 8 | @page :first{margin: 2cm;}
   |                      ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/at-rule/page/input.css:8:22
   |
 8 | @page :first{margin: 2cm;}

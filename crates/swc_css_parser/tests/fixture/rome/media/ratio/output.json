@@ -56,13 +56,12 @@
                     "raw": "aspect-ratio"
                   },
                   "value": {
-                    "type": "BinValue",
+                    "type": "Ratio",
                     "span": {
                       "start": 22,
                       "end": 26,
                       "ctxt": 0
                     },
-                    "op": "/",
                     "left": {
                       "type": "Number",
                       "span": {

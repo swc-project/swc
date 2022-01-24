@@ -45,7 +45,7 @@ define!({
         pub raw: JsWord,
     }
 
-    pub struct Num {
+    pub struct Number {
         pub span: Span,
         pub value: f64,
         pub raw: JsWord,
@@ -86,9 +86,11 @@ define!({
 
         Unit(UnitValue),
 
-        Number(Num),
+        Number(Number),
 
         Percent(PercentValue),
+
+        Ratio(Ratio),
 
         Hash(HashValue),
 
@@ -145,13 +147,19 @@ define!({
 
     pub struct UnitValue {
         pub span: Span,
-        pub value: Num,
+        pub value: Number,
         pub unit: Unit,
     }
 
     pub struct PercentValue {
         pub span: Span,
-        pub value: Num,
+        pub value: Number,
+    }
+
+    pub struct Ratio {
+        pub span: Span,
+        pub left: Number,
+        pub right: Option<Number>,
     }
 
     pub struct AtTextValue {
@@ -506,10 +514,10 @@ define!({
     }
 
     pub enum MediaFeatureValue {
-        Number(Num),
+        Number(Number),
         Dimension(UnitValue),
         Ident(Ident),
-        Ratio(BinValue),
+        Ratio(Ratio),
     }
 
     pub struct MediaFeaturePlain {

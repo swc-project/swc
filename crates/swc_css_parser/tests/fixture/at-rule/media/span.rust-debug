@@ -622,7 +622,7 @@ error: UnitValue
 10 | @media print and (min-resolution: 118dpcm) {}
    |                                   ^^^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:10:35
    |
 10 | @media print and (min-resolution: 118dpcm) {}
@@ -1132,31 +1132,19 @@ error: MediaFeatureValue
 17 | @media not (device-aspect-ratio: 16/9) {}
    |                                  ^^^^
 
-error: BinValue
+error: Ratio
   --> $DIR/tests/fixture/at-rule/media/input.css:17:34
    |
 17 | @media not (device-aspect-ratio: 16/9) {}
    |                                  ^^^^
 
-error: Value
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:17:34
    |
 17 | @media not (device-aspect-ratio: 16/9) {}
    |                                  ^^
 
-error: Num
-  --> $DIR/tests/fixture/at-rule/media/input.css:17:34
-   |
-17 | @media not (device-aspect-ratio: 16/9) {}
-   |                                  ^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:17:37
-   |
-17 | @media not (device-aspect-ratio: 16/9) {}
-   |                                     ^
-
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:17:37
    |
 17 | @media not (device-aspect-ratio: 16/9) {}
@@ -1246,31 +1234,19 @@ error: MediaFeatureValue
 18 | @media not (device-aspect-ratio: 16 / 9) {}
    |                                  ^^^^^^
 
-error: BinValue
+error: Ratio
   --> $DIR/tests/fixture/at-rule/media/input.css:18:34
    |
 18 | @media not (device-aspect-ratio: 16 / 9) {}
    |                                  ^^^^^^
 
-error: Value
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:18:34
    |
 18 | @media not (device-aspect-ratio: 16 / 9) {}
    |                                  ^^
 
-error: Num
-  --> $DIR/tests/fixture/at-rule/media/input.css:18:34
-   |
-18 | @media not (device-aspect-ratio: 16 / 9) {}
-   |                                  ^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:18:39
-   |
-18 | @media not (device-aspect-ratio: 16 / 9) {}
-   |                                       ^
-
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:18:39
    |
 18 | @media not (device-aspect-ratio: 16 / 9) {}
@@ -1612,7 +1588,7 @@ error: UnitValue
 25 | @media (min-width: 20px) {}
    |                    ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:25:20
    |
 25 | @media (min-width: 20px) {}
@@ -1708,7 +1684,7 @@ error: UnitValue
 26 | @media(min-width: 20px){}
    |                   ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:26:19
    |
 26 | @media(min-width: 20px){}
@@ -1804,7 +1780,7 @@ error: UnitValue
 27 | @media   (   min-width   :   20px   )   {}
    |                              ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:27:30
    |
 27 | @media   (   min-width   :   20px   )   {}
@@ -1894,31 +1870,19 @@ error: MediaFeatureValue
 28 | @media (device-aspect-ratio: 16/9) {}
    |                              ^^^^
 
-error: BinValue
+error: Ratio
   --> $DIR/tests/fixture/at-rule/media/input.css:28:30
    |
 28 | @media (device-aspect-ratio: 16/9) {}
    |                              ^^^^
 
-error: Value
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:28:30
    |
 28 | @media (device-aspect-ratio: 16/9) {}
    |                              ^^
 
-error: Num
-  --> $DIR/tests/fixture/at-rule/media/input.css:28:30
-   |
-28 | @media (device-aspect-ratio: 16/9) {}
-   |                              ^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:28:33
-   |
-28 | @media (device-aspect-ratio: 16/9) {}
-   |                                 ^
-
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:28:33
    |
 28 | @media (device-aspect-ratio: 16/9) {}
@@ -2002,31 +1966,19 @@ error: MediaFeatureValue
 29 | @media    (   device-aspect-ratio   :    16   /   9   )   {}
    |                                          ^^^^^^^^^^
 
-error: BinValue
+error: Ratio
   --> $DIR/tests/fixture/at-rule/media/input.css:29:42
    |
 29 | @media    (   device-aspect-ratio   :    16   /   9   )   {}
    |                                          ^^^^^^^^^^
 
-error: Value
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:29:42
    |
 29 | @media    (   device-aspect-ratio   :    16   /   9   )   {}
    |                                          ^^
 
-error: Num
-  --> $DIR/tests/fixture/at-rule/media/input.css:29:42
-   |
-29 | @media    (   device-aspect-ratio   :    16   /   9   )   {}
-   |                                          ^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/media/input.css:29:51
-   |
-29 | @media    (   device-aspect-ratio   :    16   /   9   )   {}
-   |                                                   ^
-
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:29:51
    |
 29 | @media    (   device-aspect-ratio   :    16   /   9   )   {}
@@ -2158,7 +2110,7 @@ error: UnitValue
 30 | @media (grid) and (max-width: 15em) {}
    |                               ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:30:31
    |
 30 | @media (grid) and (max-width: 15em) {}
@@ -2326,7 +2278,7 @@ error: UnitValue
 33 | @media (min-width: 20em) and (min-width: 20em) {}
    |                    ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:33:20
    |
 33 | @media (min-width: 20em) and (min-width: 20em) {}
@@ -2392,7 +2344,7 @@ error: UnitValue
 33 | @media (min-width: 20em) and (min-width: 20em) {}
    |                                          ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:33:42
    |
 33 | @media (min-width: 20em) and (min-width: 20em) {}
@@ -2488,7 +2440,7 @@ error: UnitValue
 34 | @media   (min-width   :   20em   )   and   (   min-width   :   20em   )   {}
    |                           ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:34:27
    |
 34 | @media   (min-width   :   20em   )   and   (   min-width   :   20em   )   {}
@@ -2554,7 +2506,7 @@ error: UnitValue
 34 | @media   (min-width   :   20em   )   and   (   min-width   :   20em   )   {}
    |                                                                ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:34:64
    |
 34 | @media   (min-width   :   20em   )   and   (   min-width   :   20em   )   {}
@@ -2650,7 +2602,7 @@ error: UnitValue
 35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
    |                    ^^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:35:20
    |
 35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
@@ -2716,7 +2668,7 @@ error: UnitValue
 35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
    |                                            ^^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:35:44
    |
 35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
@@ -2782,7 +2734,7 @@ error: UnitValue
 35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
    |                                                                    ^^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:35:68
    |
 35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
@@ -2878,7 +2830,7 @@ error: UnitValue
 36 | @media(min-width:20em)and (min-width: 20em){}
    |                  ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:36:18
    |
 36 | @media(min-width:20em)and (min-width: 20em){}
@@ -2944,7 +2896,7 @@ error: UnitValue
 36 | @media(min-width:20em)and (min-width: 20em){}
    |                                       ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:36:39
    |
 36 | @media(min-width:20em)and (min-width: 20em){}
@@ -3040,7 +2992,7 @@ error: UnitValue
 37 | @media(min-width:20em)and (min-width:20em){}
    |                  ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:37:18
    |
 37 | @media(min-width:20em)and (min-width:20em){}
@@ -3106,7 +3058,7 @@ error: UnitValue
 37 | @media(min-width:20em)and (min-width:20em){}
    |                                      ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:37:38
    |
 37 | @media(min-width:20em)and (min-width:20em){}
@@ -3616,7 +3568,7 @@ error: UnitValue
 43 | @media (height < 600px) {}
    |                  ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:43:18
    |
 43 | @media (height < 600px) {}
@@ -3712,7 +3664,7 @@ error: UnitValue
 44 | @media (height <= 600px) {}
    |                   ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:44:19
    |
 44 | @media (height <= 600px) {}
@@ -3808,7 +3760,7 @@ error: UnitValue
 45 | @media (height > 600px) {}
    |                  ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:45:18
    |
 45 | @media (height > 600px) {}
@@ -3904,7 +3856,7 @@ error: UnitValue
 46 | @media (height >= 600px) {}
    |                   ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:46:19
    |
 46 | @media (height >= 600px) {}
@@ -4000,7 +3952,7 @@ error: UnitValue
 47 | @media (height = 600px) {}
    |                  ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:47:18
    |
 47 | @media (height = 600px) {}
@@ -4096,7 +4048,7 @@ error: UnitValue
 48 | @media   (   height   <   600px   )   {}
    |                           ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:48:27
    |
 48 | @media   (   height   <   600px   )   {}
@@ -4192,7 +4144,7 @@ error: UnitValue
 49 | @media   (   height   <=   600px   )   {}
    |                            ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:49:28
    |
 49 | @media   (   height   <=   600px   )   {}
@@ -4288,7 +4240,7 @@ error: UnitValue
 50 | @media   (   height   >   600px   )   {}
    |                           ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:50:27
    |
 50 | @media   (   height   >   600px   )   {}
@@ -4384,7 +4336,7 @@ error: UnitValue
 51 | @media   (   height   >=   600px   )   {}
    |                            ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:51:28
    |
 51 | @media   (   height   >=   600px   )   {}
@@ -4480,7 +4432,7 @@ error: UnitValue
 52 | @media   (   height   =   600px   )   {}
    |                           ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:52:27
    |
 52 | @media   (   height   =   600px   )   {}
@@ -4576,7 +4528,7 @@ error: UnitValue
 53 | @media(height=600px){}
    |               ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:53:15
    |
 53 | @media(height=600px){}
@@ -4672,7 +4624,7 @@ error: UnitValue
 54 | @media(height>=600px) {}
    |                ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:54:16
    |
 54 | @media(height>=600px) {}
@@ -4756,7 +4708,7 @@ error: UnitValue
 56 | @media (600px < height) {}
    |         ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:56:9
    |
 56 | @media (600px < height) {}
@@ -4852,7 +4804,7 @@ error: UnitValue
 57 | @media (600px <= height) {}
    |         ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:57:9
    |
 57 | @media (600px <= height) {}
@@ -4948,7 +4900,7 @@ error: UnitValue
 58 | @media (600px > height) {}
    |         ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:58:9
    |
 58 | @media (600px > height) {}
@@ -5044,7 +4996,7 @@ error: UnitValue
 59 | @media (600px >= height) {}
    |         ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:59:9
    |
 59 | @media (600px >= height) {}
@@ -5140,7 +5092,7 @@ error: UnitValue
 60 | @media (600px = height) {}
    |         ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:60:9
    |
 60 | @media (600px = height) {}
@@ -5236,7 +5188,7 @@ error: UnitValue
 61 | @media   (   600px   <   height   )   {}
    |              ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:61:14
    |
 61 | @media   (   600px   <   height   )   {}
@@ -5332,7 +5284,7 @@ error: UnitValue
 62 | @media   (   600px   <=   height   )   {}
    |              ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:62:14
    |
 62 | @media   (   600px   <=   height   )   {}
@@ -5428,7 +5380,7 @@ error: UnitValue
 63 | @media   (   600px   >   height   )   {}
    |              ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:63:14
    |
 63 | @media   (   600px   >   height   )   {}
@@ -5524,7 +5476,7 @@ error: UnitValue
 64 | @media   (   600px   >=   height   )   {}
    |              ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:64:14
    |
 64 | @media   (   600px   >=   height   )   {}
@@ -5620,7 +5572,7 @@ error: UnitValue
 65 | @media   (   600px   =   height   )   {}
    |              ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:65:14
    |
 65 | @media   (   600px   =   height   )   {}
@@ -5716,7 +5668,7 @@ error: UnitValue
 66 | @media(600px=height) {}
    |        ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:66:8
    |
 66 | @media(600px=height) {}
@@ -5812,7 +5764,7 @@ error: UnitValue
 67 | @media(600px>=height) {}
    |        ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:67:8
    |
 67 | @media(600px>=height) {}
@@ -5908,7 +5860,7 @@ error: UnitValue
 69 | @media (400px < width < 700px) {}
    |         ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:69:9
    |
 69 | @media (400px < width < 700px) {}
@@ -5944,7 +5896,7 @@ error: UnitValue
 69 | @media (400px < width < 700px) {}
    |                         ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:69:25
    |
 69 | @media (400px < width < 700px) {}
@@ -6028,7 +5980,7 @@ error: UnitValue
 70 | @media (400px <= width < 700px) {}
    |         ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:70:9
    |
 70 | @media (400px <= width < 700px) {}
@@ -6064,7 +6016,7 @@ error: UnitValue
 70 | @media (400px <= width < 700px) {}
    |                          ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:70:26
    |
 70 | @media (400px <= width < 700px) {}
@@ -6148,7 +6100,7 @@ error: UnitValue
 71 | @media (400px < width <= 700px) {}
    |         ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:71:9
    |
 71 | @media (400px < width <= 700px) {}
@@ -6184,7 +6136,7 @@ error: UnitValue
 71 | @media (400px < width <= 700px) {}
    |                          ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:71:26
    |
 71 | @media (400px < width <= 700px) {}
@@ -6268,7 +6220,7 @@ error: UnitValue
 72 | @media (400px <= width <= 700px) {}
    |         ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:72:9
    |
 72 | @media (400px <= width <= 700px) {}
@@ -6304,7 +6256,7 @@ error: UnitValue
 72 | @media (400px <= width <= 700px) {}
    |                           ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:72:27
    |
 72 | @media (400px <= width <= 700px) {}
@@ -6388,7 +6340,7 @@ error: UnitValue
 73 | @media(400px<width<700px){}
    |        ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:73:8
    |
 73 | @media(400px<width<700px){}
@@ -6424,7 +6376,7 @@ error: UnitValue
 73 | @media(400px<width<700px){}
    |                    ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:73:20
    |
 73 | @media(400px<width<700px){}
@@ -6508,7 +6460,7 @@ error: UnitValue
 74 | @media(400px<=width<=700px){}
    |        ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:74:8
    |
 74 | @media(400px<=width<=700px){}
@@ -6544,7 +6496,7 @@ error: UnitValue
 74 | @media(400px<=width<=700px){}
    |                      ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:74:22
    |
 74 | @media(400px<=width<=700px){}
@@ -6628,7 +6580,7 @@ error: UnitValue
 75 | @media   (   400px   <   width   <   700px   )   {}
    |              ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:75:14
    |
 75 | @media   (   400px   <   width   <   700px   )   {}
@@ -6664,7 +6616,7 @@ error: UnitValue
 75 | @media   (   400px   <   width   <   700px   )   {}
    |                                      ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:75:38
    |
 75 | @media   (   400px   <   width   <   700px   )   {}
@@ -6748,7 +6700,7 @@ error: UnitValue
 76 | @media   (   400px   <=   width   <   700px   )   {}
    |              ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:76:14
    |
 76 | @media   (   400px   <=   width   <   700px   )   {}
@@ -6784,7 +6736,7 @@ error: UnitValue
 76 | @media   (   400px   <=   width   <   700px   )   {}
    |                                       ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:76:39
    |
 76 | @media   (   400px   <=   width   <   700px   )   {}
@@ -6868,7 +6820,7 @@ error: UnitValue
 77 | @media   (   400px   <   width   <=   700px   )   {}
    |              ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:77:14
    |
 77 | @media   (   400px   <   width   <=   700px   )   {}
@@ -6904,7 +6856,7 @@ error: UnitValue
 77 | @media   (   400px   <   width   <=   700px   )   {}
    |                                       ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:77:39
    |
 77 | @media   (   400px   <   width   <=   700px   )   {}
@@ -6988,7 +6940,7 @@ error: UnitValue
 78 | @media   (   400px   <=   width   <=   700px   )   {}
    |              ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:78:14
    |
 78 | @media   (   400px   <=   width   <=   700px   )   {}
@@ -7024,7 +6976,7 @@ error: UnitValue
 78 | @media   (   400px   <=   width   <=   700px   )   {}
    |                                        ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:78:40
    |
 78 | @media   (   400px   <=   width   <=   700px   )   {}
@@ -7108,7 +7060,7 @@ error: UnitValue
 79 | @media(400px<width<700px){}
    |        ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:79:8
    |
 79 | @media(400px<width<700px){}
@@ -7144,7 +7096,7 @@ error: UnitValue
 79 | @media(400px<width<700px){}
    |                    ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:79:20
    |
 79 | @media(400px<width<700px){}
@@ -7228,7 +7180,7 @@ error: UnitValue
 80 | @media(400px<=width<=700px){}
    |        ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:80:8
    |
 80 | @media(400px<=width<=700px){}
@@ -7264,7 +7216,7 @@ error: UnitValue
 80 | @media(400px<=width<=700px){}
    |                      ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:80:22
    |
 80 | @media(400px<=width<=700px){}
@@ -7348,7 +7300,7 @@ error: UnitValue
 82 | @media (400px > width > 700px) {}
    |         ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:82:9
    |
 82 | @media (400px > width > 700px) {}
@@ -7384,7 +7336,7 @@ error: UnitValue
 82 | @media (400px > width > 700px) {}
    |                         ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:82:25
    |
 82 | @media (400px > width > 700px) {}
@@ -7468,7 +7420,7 @@ error: UnitValue
 83 | @media (400px >= width > 700px) {}
    |         ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:83:9
    |
 83 | @media (400px >= width > 700px) {}
@@ -7504,7 +7456,7 @@ error: UnitValue
 83 | @media (400px >= width > 700px) {}
    |                          ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:83:26
    |
 83 | @media (400px >= width > 700px) {}
@@ -7588,7 +7540,7 @@ error: UnitValue
 84 | @media (400px > width >= 700px) {}
    |         ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:84:9
    |
 84 | @media (400px > width >= 700px) {}
@@ -7624,7 +7576,7 @@ error: UnitValue
 84 | @media (400px > width >= 700px) {}
    |                          ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:84:26
    |
 84 | @media (400px > width >= 700px) {}
@@ -7708,7 +7660,7 @@ error: UnitValue
 85 | @media (400px >= width >= 700px) {}
    |         ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:85:9
    |
 85 | @media (400px >= width >= 700px) {}
@@ -7744,7 +7696,7 @@ error: UnitValue
 85 | @media (400px >= width >= 700px) {}
    |                           ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:85:27
    |
 85 | @media (400px >= width >= 700px) {}
@@ -7828,7 +7780,7 @@ error: UnitValue
 86 | @media(400px>width>700px){}
    |        ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:86:8
    |
 86 | @media(400px>width>700px){}
@@ -7864,7 +7816,7 @@ error: UnitValue
 86 | @media(400px>width>700px){}
    |                    ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:86:20
    |
 86 | @media(400px>width>700px){}
@@ -7948,7 +7900,7 @@ error: UnitValue
 87 | @media(400px>=width>=700px) {}
    |        ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:87:8
    |
 87 | @media(400px>=width>=700px) {}
@@ -7984,7 +7936,7 @@ error: UnitValue
 87 | @media(400px>=width>=700px) {}
    |                      ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:87:22
    |
 87 | @media(400px>=width>=700px) {}
@@ -8068,7 +8020,7 @@ error: UnitValue
 88 | @media   (   400px   >   width   >   700px   )   {}
    |              ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:88:14
    |
 88 | @media   (   400px   >   width   >   700px   )   {}
@@ -8104,7 +8056,7 @@ error: UnitValue
 88 | @media   (   400px   >   width   >   700px   )   {}
    |                                      ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:88:38
    |
 88 | @media   (   400px   >   width   >   700px   )   {}
@@ -8188,7 +8140,7 @@ error: UnitValue
 89 | @media   (   400px   >=   width   >   700px   )   {}
    |              ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:89:14
    |
 89 | @media   (   400px   >=   width   >   700px   )   {}
@@ -8224,7 +8176,7 @@ error: UnitValue
 89 | @media   (   400px   >=   width   >   700px   )   {}
    |                                       ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:89:39
    |
 89 | @media   (   400px   >=   width   >   700px   )   {}
@@ -8308,7 +8260,7 @@ error: UnitValue
 90 | @media   (   400px   >   width   >=   700px   )   {}
    |              ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:90:14
    |
 90 | @media   (   400px   >   width   >=   700px   )   {}
@@ -8344,7 +8296,7 @@ error: UnitValue
 90 | @media   (   400px   >   width   >=   700px   )   {}
    |                                       ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:90:39
    |
 90 | @media   (   400px   >   width   >=   700px   )   {}
@@ -8428,7 +8380,7 @@ error: UnitValue
 91 | @media   (   400px   >=   width   >=   700px   )   {}
    |              ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:91:14
    |
 91 | @media   (   400px   >=   width   >=   700px   )   {}
@@ -8464,7 +8416,7 @@ error: UnitValue
 91 | @media   (   400px   >=   width   >=   700px   )   {}
    |                                        ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:91:40
    |
 91 | @media   (   400px   >=   width   >=   700px   )   {}
@@ -8548,7 +8500,7 @@ error: UnitValue
 92 | @media(400px>width>700px){}
    |        ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:92:8
    |
 92 | @media(400px>width>700px){}
@@ -8584,7 +8536,7 @@ error: UnitValue
 92 | @media(400px>width>700px){}
    |                    ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:92:20
    |
 92 | @media(400px>width>700px){}
@@ -8668,7 +8620,7 @@ error: UnitValue
 93 | @media(400px>=width>=700px){}
    |        ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:93:8
    |
 93 | @media(400px>=width>=700px){}
@@ -8704,7 +8656,7 @@ error: UnitValue
 93 | @media(400px>=width>=700px){}
    |                      ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:93:22
    |
 93 | @media(400px>=width>=700px){}
@@ -8842,7 +8794,7 @@ error: UnitValue
 95 | @media (--modern) and (min-width: 1024px) {}
    |                                   ^^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:95:35
    |
 95 | @media (--modern) and (min-width: 1024px) {}
@@ -9304,7 +9256,7 @@ error: UnitValue
 99 | @media ((color) or (hover)) and (width > 1024px) {}
    |                                          ^^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:99:42
    |
 99 | @media ((color) or (hover)) and (width > 1024px) {}
@@ -9520,7 +9472,7 @@ error: UnitValue
 100 | @media (((color)) or ((hover))) and (width > 1024px) {}
     |                                              ^^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:100:46
     |
 100 | @media (((color)) or ((hover))) and (width > 1024px) {}
@@ -9772,7 +9724,7 @@ error: UnitValue
 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
     |                                                  ^^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:101:50
     |
 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
@@ -10024,7 +9976,7 @@ error: UnitValue
 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
     |                                                                                                             ^^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:102:109
     |
 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
@@ -10138,7 +10090,7 @@ error: UnitValue
 104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
     |                     ^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:104:21
     |
 104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
@@ -10204,7 +10156,7 @@ error: UnitValue
 104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
     |                                            ^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:104:44
     |
 104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
@@ -10270,7 +10222,7 @@ error: UnitValue
 104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
     |                                                                   ^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:104:67
     |
 104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
@@ -10366,7 +10318,7 @@ error: UnitValue
 105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
     |                    ^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:105:20
     |
 105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
@@ -10450,7 +10402,7 @@ error: UnitValue
 105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
     |                                            ^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:105:44
     |
 105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
@@ -10516,7 +10468,7 @@ error: UnitValue
 105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
     |                                                                  ^^^^^
 
-error: Num
+error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:105:66
     |
 105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}

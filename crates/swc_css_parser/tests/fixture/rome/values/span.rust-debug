@@ -195,7 +195,7 @@ error: Value
 6 |     opacity: 1e-3;
   |              ^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/values/input.css:6:11
   |
 6 |     opacity: 1e-3;
@@ -219,7 +219,7 @@ error: Value
 7 |     line-height: 0.2;
   |                  ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/values/input.css:7:15
   |
 7 |     line-height: 0.2;
@@ -249,7 +249,7 @@ error: PercentValue
 8 |     width: 20%;
   |            ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/values/input.css:8:9
   |
 8 |     width: 20%;
@@ -279,7 +279,7 @@ error: PercentValue
 9 |     margin-top: -5%;
   |                 ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/values/input.css:9:14
   |
 9 |     margin-top: -5%;

@@ -52,7 +52,7 @@ error: UnitValue
 1 | @viewport { width: 100vw }
   |                    ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:20
   |
 1 | @viewport { width: 100vw }

@@ -1,4 +1,4 @@
-use crate::{Ident, Num, SimpleBlock, Str, Tokens};
+use crate::{Ident, SimpleBlock, Str, Tokens};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
@@ -12,10 +12,13 @@ pub enum Value {
     Unit(UnitValue),
 
     #[tag("Number")]
-    Number(Num),
+    Number(Number),
 
     #[tag("PercentValue")]
     Percent(PercentValue),
+
+    #[tag("Ratio")]
+    Ratio(Ratio),
 
     #[tag("HashValue")]
     Hash(HashValue),
@@ -103,14 +106,28 @@ pub struct Unit {
 #[ast_node("UnitValue")]
 pub struct UnitValue {
     pub span: Span,
-    pub value: Num,
+    pub value: Number,
     pub unit: Unit,
 }
 
 #[ast_node("PercentValue")]
 pub struct PercentValue {
     pub span: Span,
-    pub value: Num,
+    pub value: Number,
+}
+
+#[ast_node("Number")]
+pub struct Number {
+    pub span: Span,
+    pub value: f64,
+    pub raw: JsWord,
+}
+
+#[ast_node("Ratio")]
+pub struct Ratio {
+    pub span: Span,
+    pub left: Number,
+    pub right: Option<Number>,
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]

@@ -1011,13 +1011,12 @@
                       "raw": "device-aspect-ratio"
                     },
                     "value": {
-                      "type": "BinValue",
+                      "type": "Ratio",
                       "span": {
                         "start": 513,
                         "end": 517,
                         "ctxt": 0
                       },
-                      "op": "/",
                       "left": {
                         "type": "Number",
                         "span": {
@@ -1105,13 +1104,12 @@
                       "raw": "device-aspect-ratio"
                     },
                     "value": {
-                      "type": "BinValue",
+                      "type": "Ratio",
                       "span": {
                         "start": 555,
                         "end": 561,
                         "ctxt": 0
                       },
-                      "op": "/",
                       "left": {
                         "type": "Number",
                         "span": {
@@ -1690,13 +1688,12 @@
                     "raw": "device-aspect-ratio"
                   },
                   "value": {
-                    "type": "BinValue",
+                    "type": "Ratio",
                     "span": {
                       "start": 821,
                       "end": 825,
                       "ctxt": 0
                     },
-                    "op": "/",
                     "left": {
                       "type": "Number",
                       "span": {
@@ -1776,13 +1773,12 @@
                     "raw": "device-aspect-ratio"
                   },
                   "value": {
-                    "type": "BinValue",
+                    "type": "Ratio",
                     "span": {
                       "start": 871,
                       "end": 881,
                       "ctxt": 0
                     },
-                    "op": "/",
                     "left": {
                       "type": "Number",
                       "span": {
