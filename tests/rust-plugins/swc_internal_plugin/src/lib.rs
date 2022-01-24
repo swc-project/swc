@@ -33,11 +33,11 @@ impl VisitMut for ConsoleOutputReplacer {
 ///     ast_ptr_len: i32,
 ///     config_str_ptr: *const u8,
 ///     config_str_ptr_len: i32) ->
-///     (is_ok: i32 /* 0 means success */,
-///      result_ptr: i32,
-///      result_ptr_length: i32)`
+///     i32 /* 0 means success */
 ///
-/// if plugin need to handle low-level ptr directly.
+/// if plugin need to handle low-level ptr directly. However, there are important steps
+/// manually need to be performed like transformed results back to host. Refer swc_plugin_macro
+/// how does it work internally.
 #[plugin_module]
 pub fn process(program: Program, _plugin_config: String) -> Result<Program, PluginError> {
     let transformed_program = program.fold_with(&mut as_folder(ConsoleOutputReplacer));
