@@ -435,9 +435,8 @@ where
                     {
                         if var.is_fn_local && var.usage_count == 0 && var.declared {
                             tracing::debug!(
-                                "unused: Dropping assignment to var '{}{:?}', which is never used",
-                                i.id.sym,
-                                i.id.span.ctxt
+                                "unused: Dropping assignment to var `{}`, which is never used",
+                                i.id
                             );
                             self.changed = true;
                             *e = *assign.right.take();
