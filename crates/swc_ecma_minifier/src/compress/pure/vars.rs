@@ -1,5 +1,6 @@
 use super::Pure;
 use crate::{compress::util::last_var_decl, mode::Mode, util::ModuleItemExt};
+use std::intrinsics::transmute;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, prepend, StmtLike, UsageFinder};
@@ -19,6 +20,41 @@ where
     {
         if !(self.options.collapse_vars && self.options.unused) {
             return;
+        }
+
+        fn extract_init(e: &mut Expr) -> Option<&mut Expr> {
+            match e {
+                Expr::Assign(AssignExpr { op: op!("="), .. }) => Some(e),
+                Expr::Call(e) => {
+                    match &mut e.callee {
+                        Callee::Super(_) => {}
+                        Callee::Import(_) => {}
+                        Callee::Expr(callee) => {
+                            if let Some(e) = extract_init(&mut **callee) {
+                                // transmute is used because polonius is not implemented yet
+                                return Some(unsafe { transmute(e) });
+                            }
+
+                            if !callee.is_ident() {
+                                return None;
+                            }
+                        }
+                    }
+
+                    if let Some(e) = e.args.first_mut() {
+                        if e.spread.is_some() {
+                            return None;
+                        }
+                        return extract_init(&mut *e.expr);
+                    }
+
+                    None
+                }
+                Expr::Seq(e) => {
+                    return e.exprs.first_mut().and_then(|e| extract_init(&mut **e));
+                }
+                _ => None,
+            }
         }
 
         for idx in 0..stmts.len() {
@@ -50,8 +86,16 @@ where
                 Some(v) => v.id.to_id(),
                 None => todo!(),
             };
-            let second_expr = match second.as_stmt_mut() {
+            let second = match second.as_stmt_mut() {
                 Some(Stmt::Expr(second)) => &mut *second.expr,
+                Some(Stmt::Return(ReturnStmt {
+                    arg: Some(second), ..
+                })) => &mut **second,
+                _ => continue,
+            };
+
+            let second = match extract_init(second) {
+                Some(v) => v,
                 _ => continue,
             };
 
@@ -60,22 +104,32 @@ where
                 left,
                 right,
                 ..
-            }) = second_expr
+            }) = second
             {
+                // This is because `(0, f.g)()` is longer than `a=f.g, a()`.
+                if right.is_member() {
+                    return;
+                }
+
                 //
 
-                if let Some(left) = left.as_ident_mut() {
-                    if left.to_id() != name {
+                if let Some(left_id) = left.as_ident_mut() {
+                    if left_id.to_id() != name {
                         continue;
                     }
 
-                    if UsageFinder::find(left, &**right) {
+                    if UsageFinder::find(left_id, &**right) {
                         continue;
                     }
 
+                    tracing::debug!(
+                        "collapse_vars: Collapsing var(`{}`) without init followed by init",
+                        left_id
+                    );
                     first.init = Some(right.take());
                     self.changed = true;
-                    *second = T::from_stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
+
+                    *second = Expr::Ident(left_id.clone());
                 }
             }
         }
