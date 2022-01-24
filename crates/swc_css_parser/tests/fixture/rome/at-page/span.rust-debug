@@ -73,75 +73,23 @@ error: Ident
 1 | @page MyPage:blank {
   |              ^^^^^
 
-error: PageRuleBlock
- --> $DIR/tests/fixture/rome/at-page/input.css:1:20
-  |
-1 |   @page MyPage:blank {
-  |  ____________________^
-2 | |     @top-center { content: none }
-3 | |     margin-left: 4cm;
-4 | | }
-  | |_^
-
-error: PageRuleBlockItem
+error: AtRule
  --> $DIR/tests/fixture/rome/at-page/input.css:2:2
   |
 2 |     @top-center { content: none }
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
  --> $DIR/tests/fixture/rome/at-page/input.css:2:2
   |
 2 |     @top-center { content: none }
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/rome/at-page/input.css:2:2
-  |
-2 |     @top-center { content: none }
-  |     ^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/rome/at-page/input.css:2:2
-  |
-2 |     @top-center { content: none }
-  |     ^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/rome/at-page/input.css:2:2
-  |
-2 |     @top-center { content: none }
-  |     ^^^^^^^^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/rome/at-page/input.css:2:2
-  |
-2 |     @top-center { content: none }
-  |     ^^^^^^^^^^^
-
-error: AtSelector
- --> $DIR/tests/fixture/rome/at-page/input.css:2:2
-  |
-2 |     @top-center { content: none }
-  |     ^^^^^^^^^^^
 
 error: Ident
- --> $DIR/tests/fixture/rome/at-page/input.css:2:2
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:3
   |
 2 |     @top-center { content: none }
-  |     ^^^^^^^^^^^
-
-error: PageRuleBlock
- --> $DIR/tests/fixture/rome/at-page/input.css:2:14
-  |
-2 |     @top-center { content: none }
-  |                 ^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/rome/at-page/input.css:2:16
-  |
-2 |     @top-center { content: none }
-  |                   ^^^^^^^^^^^^^
+  |      ^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/at-page/input.css:2:16
@@ -172,12 +120,6 @@ error: Ident
   |
 2 |     @top-center { content: none }
   |                            ^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/rome/at-page/input.css:3:2
-  |
-3 |     margin-left: 4cm;
-  |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/at-page/input.css:3:2
@@ -272,75 +214,23 @@ error: Ident
 6 | @page :blank {
   |        ^^^^^
 
-error: PageRuleBlock
- --> $DIR/tests/fixture/rome/at-page/input.css:6:14
-  |
-6 |   @page :blank {
-  |  ______________^
-7 | |     @top-center { content: none }
-8 | |     margin-left: 4cm;
-9 | | }
-  | |_^
-
-error: PageRuleBlockItem
+error: AtRule
  --> $DIR/tests/fixture/rome/at-page/input.css:7:2
   |
 7 |     @top-center { content: none }
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
  --> $DIR/tests/fixture/rome/at-page/input.css:7:2
   |
 7 |     @top-center { content: none }
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/rome/at-page/input.css:7:2
-  |
-7 |     @top-center { content: none }
-  |     ^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/rome/at-page/input.css:7:2
-  |
-7 |     @top-center { content: none }
-  |     ^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/rome/at-page/input.css:7:2
-  |
-7 |     @top-center { content: none }
-  |     ^^^^^^^^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/rome/at-page/input.css:7:2
-  |
-7 |     @top-center { content: none }
-  |     ^^^^^^^^^^^
-
-error: AtSelector
- --> $DIR/tests/fixture/rome/at-page/input.css:7:2
-  |
-7 |     @top-center { content: none }
-  |     ^^^^^^^^^^^
 
 error: Ident
- --> $DIR/tests/fixture/rome/at-page/input.css:7:2
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:3
   |
 7 |     @top-center { content: none }
-  |     ^^^^^^^^^^^
-
-error: PageRuleBlock
- --> $DIR/tests/fixture/rome/at-page/input.css:7:14
-  |
-7 |     @top-center { content: none }
-  |                 ^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/rome/at-page/input.css:7:16
-  |
-7 |     @top-center { content: none }
-  |                   ^^^^^^^^^^^^^
+  |      ^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/at-page/input.css:7:16
@@ -371,12 +261,6 @@ error: Ident
   |
 7 |     @top-center { content: none }
   |                            ^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/rome/at-page/input.css:8:2
-  |
-8 |     margin-left: 4cm;
-  |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/at-page/input.css:8:2
@@ -447,75 +331,23 @@ error: PageRule
 14 | | }
    | |_^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/rome/at-page/input.css:11:7
-   |
-11 |   @page {
-   |  _______^
-12 | |     @top-center { content: none }
-13 | |     margin-left: 4cm;
-14 | | }
-   | |_^
-
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/rome/at-page/input.css:12:2
    |
 12 |     @top-center { content: none }
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/rome/at-page/input.css:12:2
    |
 12 |     @top-center { content: none }
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/rome/at-page/input.css:12:2
-   |
-12 |     @top-center { content: none }
-   |     ^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/rome/at-page/input.css:12:2
-   |
-12 |     @top-center { content: none }
-   |     ^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/rome/at-page/input.css:12:2
-   |
-12 |     @top-center { content: none }
-   |     ^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/rome/at-page/input.css:12:2
-   |
-12 |     @top-center { content: none }
-   |     ^^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/rome/at-page/input.css:12:2
-   |
-12 |     @top-center { content: none }
-   |     ^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/rome/at-page/input.css:12:2
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:3
    |
 12 |     @top-center { content: none }
-   |     ^^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/rome/at-page/input.css:12:14
-   |
-12 |     @top-center { content: none }
-   |                 ^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/rome/at-page/input.css:12:16
-   |
-12 |     @top-center { content: none }
-   |                   ^^^^^^^^^^^^^
+   |      ^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/at-page/input.css:12:16
@@ -546,12 +378,6 @@ error: Ident
    |
 12 |     @top-center { content: none }
    |                            ^^^^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/rome/at-page/input.css:13:2
-   |
-13 |     margin-left: 4cm;
-   |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/at-page/input.css:13:2
@@ -622,75 +448,23 @@ error: PageRule
 19 | | }
    | |_^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/rome/at-page/input.css:16:7
-   |
-16 |   @page {
-   |  _______^
-17 | |     @top-center { CONTENT: none }
-18 | |     MARGIN-LEFT: 4cm;
-19 | | }
-   | |_^
-
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/rome/at-page/input.css:17:2
    |
 17 |     @top-center { CONTENT: none }
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/rome/at-page/input.css:17:2
    |
 17 |     @top-center { CONTENT: none }
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/rome/at-page/input.css:17:2
-   |
-17 |     @top-center { CONTENT: none }
-   |     ^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/rome/at-page/input.css:17:2
-   |
-17 |     @top-center { CONTENT: none }
-   |     ^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/rome/at-page/input.css:17:2
-   |
-17 |     @top-center { CONTENT: none }
-   |     ^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/rome/at-page/input.css:17:2
-   |
-17 |     @top-center { CONTENT: none }
-   |     ^^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/rome/at-page/input.css:17:2
-   |
-17 |     @top-center { CONTENT: none }
-   |     ^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/rome/at-page/input.css:17:2
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:3
    |
 17 |     @top-center { CONTENT: none }
-   |     ^^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/rome/at-page/input.css:17:14
-   |
-17 |     @top-center { CONTENT: none }
-   |                 ^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/rome/at-page/input.css:17:16
-   |
-17 |     @top-center { CONTENT: none }
-   |                   ^^^^^^^^^^^^^
+   |      ^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/at-page/input.css:17:16
@@ -721,12 +495,6 @@ error: Ident
    |
 17 |     @top-center { CONTENT: none }
    |                            ^^^^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/rome/at-page/input.css:18:2
-   |
-18 |     MARGIN-LEFT: 4cm;
-   |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/at-page/input.css:18:2

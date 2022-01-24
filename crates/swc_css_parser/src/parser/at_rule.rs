@@ -1,9 +1,10 @@
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
-    parser::{Ctx, RuleContext},
+    parser::RuleContext,
     Parse,
 };
+use swc_atoms::js_word;
 use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
@@ -146,6 +147,47 @@ where
                     Err(err) => {
                         self.errors.push(err);
                     }
+                }
+            }
+
+            "top-left-corner"
+            | "top-left"
+            | "top-center"
+            | "top-right"
+            | "top-right-corner"
+            | "bottom-left-corner"
+            | "bottom-left"
+            | "bottom-center"
+            | "bottom-right"
+            | "bottom-right-corner"
+            | "left-top"
+            | "left-middle"
+            | "left-bottom"
+            | "right-top"
+            | "right-middle"
+            | "right-bottom" => {
+                let margin_rule_name = Ident {
+                    span: Span::new(
+                        at_rule_span.lo + BytePos(1),
+                        at_rule_span.hi,
+                        Default::default(),
+                    ),
+                    value: name.0.clone(),
+                    raw: name.1.clone(),
+                };
+
+                self.input.skip_ws()?;
+
+                let margin_rule = self.parse();
+
+                if margin_rule.is_ok() {
+                    return margin_rule
+                        .map(|mut r: PageMarginRule| {
+                            r.name = margin_rule_name;
+                            r.span.lo = at_rule_span.lo;
+                            r
+                        })
+                        .map(AtRule::PageMargin);
                 }
             }
 
@@ -1391,7 +1433,12 @@ where
             None
         };
 
+        expect!(self, "{");
+
+        // TODO: set context
         let block = self.parse()?;
+
+        expect!(self, "}");
 
         Ok(PageRule {
             span: span!(self, start),
@@ -1450,7 +1497,7 @@ where
     fn parse(&mut self) -> PResult<PageSelector> {
         self.input.skip_ws()?;
 
-        let start = self.input.cur_span()?.lo;
+        let span = self.input.cur_span()?;
 
         let page_type = if is!(self, Ident) {
             Some(self.parse()?)
@@ -1477,7 +1524,7 @@ where
         };
 
         Ok(PageSelector {
-            span: span!(self, start),
+            span: span!(self, span.lo),
             page_type,
             pseudos,
         })
@@ -1508,6 +1555,8 @@ where
 
         expect!(self, ":");
 
+        // TODO validate name
+        // TODO check selectors and maybe drop it `at-rule`
         let value = self.parse()?;
 
         Ok(PageSelectorPseudo {
@@ -1517,34 +1566,25 @@ where
     }
 }
 
-impl<I> Parse<PageRuleBlock> for Parser<I>
+impl<I> Parse<PageMarginRule> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<PageRuleBlock> {
+    fn parse(&mut self) -> PResult<PageMarginRule> {
         let span = self.input.cur_span()?;
+
         expect!(self, "{");
-        self.input.skip_ws()?;
-        let mut items = vec![];
 
-        if !is!(self, "}") {
-            loop {
-                self.input.skip_ws()?;
-
-                let q = self.parse()?;
-                items.push(q);
-
-                self.input.skip_ws()?;
-
-                if is_one_of!(self, EOF, "}") {
-                    break;
-                }
-            }
-        }
+        let block = self.parse()?;
 
         expect!(self, "}");
 
-        Ok(PageRuleBlock {
+        Ok(PageMarginRule {
+            name: Ident {
+                span: Default::default(),
+                value: Default::default(),
+                raw: Default::default(),
+            },
             span: span!(self, span.lo),
             items,
         })

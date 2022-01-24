@@ -6,8 +6,8 @@ error: Stylesheet
 3  | | @page{margin: 1cm}
 4  | | @page {margin: 1cm}
 ...  |
-46 | |     }
-47 | | }
+59 | |     margin: 20px;
+60 | | }
    | |__^
 
 error: Rule
@@ -28,12 +28,6 @@ error: PageRule
 1 | @page{ }
   | ^^^^^^^^
 
-error: PageRuleBlock
- --> $DIR/tests/fixture/at-rule/page/input.css:1:6
-  |
-1 | @page{ }
-  |      ^^^
-
 error: Rule
  --> $DIR/tests/fixture/at-rule/page/input.css:2:1
   |
@@ -52,12 +46,6 @@ error: PageRule
 2 | @page{}
   | ^^^^^^^
 
-error: PageRuleBlock
- --> $DIR/tests/fixture/at-rule/page/input.css:2:6
-  |
-2 | @page{}
-  |      ^^
-
 error: Rule
  --> $DIR/tests/fixture/at-rule/page/input.css:3:1
   |
@@ -75,18 +63,6 @@ error: PageRule
   |
 3 | @page{margin: 1cm}
   | ^^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlock
- --> $DIR/tests/fixture/at-rule/page/input.css:3:6
-  |
-3 | @page{margin: 1cm}
-  |      ^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/at-rule/page/input.css:3:7
-  |
-3 | @page{margin: 1cm}
-  |       ^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:3:7
@@ -148,18 +124,6 @@ error: PageRule
 4 | @page {margin: 1cm}
   | ^^^^^^^^^^^^^^^^^^^
 
-error: PageRuleBlock
- --> $DIR/tests/fixture/at-rule/page/input.css:4:7
-  |
-4 | @page {margin: 1cm}
-  |       ^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/at-rule/page/input.css:4:8
-  |
-4 | @page {margin: 1cm}
-  |        ^^^^^^^^^^^
-
 error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:4:8
   |
@@ -219,18 +183,6 @@ error: PageRule
   |
 5 | @page {margin: 1cm;}
   | ^^^^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlock
- --> $DIR/tests/fixture/at-rule/page/input.css:5:7
-  |
-5 | @page {margin: 1cm;}
-  |       ^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/at-rule/page/input.css:5:8
-  |
-5 | @page {margin: 1cm;}
-  |        ^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:5:8
@@ -316,18 +268,6 @@ error: Ident
 6 | @page :first {margin: 2cm}
   |        ^^^^^
 
-error: PageRuleBlock
- --> $DIR/tests/fixture/at-rule/page/input.css:6:14
-  |
-6 | @page :first {margin: 2cm}
-  |              ^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/at-rule/page/input.css:6:15
-  |
-6 | @page :first {margin: 2cm}
-  |               ^^^^^^^^^^^
-
 error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:6:15
   |
@@ -411,18 +351,6 @@ error: Ident
   |
 7 | @page :first {margin: 2cm;}
   |        ^^^^^
-
-error: PageRuleBlock
- --> $DIR/tests/fixture/at-rule/page/input.css:7:14
-  |
-7 | @page :first {margin: 2cm;}
-  |              ^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/at-rule/page/input.css:7:15
-  |
-7 | @page :first {margin: 2cm;}
-  |               ^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:7:15
@@ -508,18 +436,6 @@ error: Ident
 8 | @page :first{margin: 2cm;}
   |        ^^^^^
 
-error: PageRuleBlock
- --> $DIR/tests/fixture/at-rule/page/input.css:8:13
-  |
-8 | @page :first{margin: 2cm;}
-  |             ^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/at-rule/page/input.css:8:14
-  |
-8 | @page :first{margin: 2cm;}
-  |              ^^^^^^^^^^^
-
 error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:8:14
   |
@@ -580,12 +496,6 @@ error: PageRule
 9 | @page {}
   | ^^^^^^^^
 
-error: PageRuleBlock
- --> $DIR/tests/fixture/at-rule/page/input.css:9:7
-  |
-9 | @page {}
-  |       ^^
-
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:10:1
    |
@@ -627,12 +537,6 @@ error: Ident
    |
 10 | @page :left {}
    |        ^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:10:13
-   |
-10 | @page :left {}
-   |             ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:11:1
@@ -676,12 +580,6 @@ error: Ident
 11 | @page :right {}
    |        ^^^^^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:11:14
-   |
-11 | @page :right {}
-   |              ^^
-
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:12:1
    |
@@ -723,12 +621,6 @@ error: Ident
    |
 12 | @page LandscapeTable {}
    |       ^^^^^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:12:22
-   |
-12 | @page LandscapeTable {}
-   |                      ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:13:1
@@ -784,12 +676,6 @@ error: Ident
 13 | @page CompanyLetterHead:first {} /*  identifier and pseudo page. */
    |                         ^^^^^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:13:31
-   |
-13 | @page CompanyLetterHead:first {} /*  identifier and pseudo page. */
-   |                               ^^
-
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:14:1
    |
@@ -831,12 +717,6 @@ error: Ident
    |
 14 | @page:first {}
    |       ^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:14:13
-   |
-14 | @page:first {}
-   |             ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:15:1
@@ -897,12 +777,6 @@ error: Ident
    |
 15 | @page toc, index {}
    |            ^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:15:18
-   |
-15 | @page toc, index {}
-   |                  ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:16:1
@@ -958,12 +832,6 @@ error: Ident
 16 | @page :blank:first { }
    |              ^^^^^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:16:20
-   |
-16 | @page :blank:first { }
-   |                    ^^^
-
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:17:1
    |
@@ -991,123 +859,41 @@ error: PageRule
 20 | | }
    | |_^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:17:7
-   |
-17 |   @page {
-   |  _______^
-18 | |     @top-left {}
-19 | |     @bottom-center {}
-20 | | }
-   | |_^
-
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:18:5
    |
 18 |     @top-left {}
    |     ^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/at-rule/page/input.css:18:5
    |
 18 |     @top-left {}
    |     ^^^^^^^^^^^^
 
-error: SelectorList
-  --> $DIR/tests/fixture/at-rule/page/input.css:18:5
-   |
-18 |     @top-left {}
-   |     ^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:18:5
-   |
-18 |     @top-left {}
-   |     ^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:18:5
-   |
-18 |     @top-left {}
-   |     ^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:18:5
-   |
-18 |     @top-left {}
-   |     ^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:18:5
-   |
-18 |     @top-left {}
-   |     ^^^^^^^^^
-
 error: Ident
-  --> $DIR/tests/fixture/at-rule/page/input.css:18:5
+  --> $DIR/tests/fixture/at-rule/page/input.css:18:6
    |
 18 |     @top-left {}
-   |     ^^^^^^^^^
+   |      ^^^^^^^^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:18:15
-   |
-18 |     @top-left {}
-   |               ^^
-
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:19:5
    |
 19 |     @bottom-center {}
    |     ^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/at-rule/page/input.css:19:5
    |
 19 |     @bottom-center {}
    |     ^^^^^^^^^^^^^^^^^
 
-error: SelectorList
-  --> $DIR/tests/fixture/at-rule/page/input.css:19:5
-   |
-19 |     @bottom-center {}
-   |     ^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:19:5
-   |
-19 |     @bottom-center {}
-   |     ^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:19:5
-   |
-19 |     @bottom-center {}
-   |     ^^^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:19:5
-   |
-19 |     @bottom-center {}
-   |     ^^^^^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:19:5
-   |
-19 |     @bottom-center {}
-   |     ^^^^^^^^^^^^^^
-
 error: Ident
-  --> $DIR/tests/fixture/at-rule/page/input.css:19:5
+  --> $DIR/tests/fixture/at-rule/page/input.css:19:6
    |
 19 |     @bottom-center {}
-   |     ^^^^^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:19:20
-   |
-19 |     @bottom-center {}
-   |                    ^^
+   |      ^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:21:1
@@ -1151,65 +937,23 @@ error: Ident
 21 | @page :left { @left-middle {}}
    |        ^^^^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:21:13
-   |
-21 | @page :left { @left-middle {}}
-   |             ^^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:21:15
    |
 21 | @page :left { @left-middle {}}
    |               ^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/at-rule/page/input.css:21:15
    |
 21 | @page :left { @left-middle {}}
    |               ^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/at-rule/page/input.css:21:15
-   |
-21 | @page :left { @left-middle {}}
-   |               ^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:21:15
-   |
-21 | @page :left { @left-middle {}}
-   |               ^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:21:15
-   |
-21 | @page :left { @left-middle {}}
-   |               ^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:21:15
-   |
-21 | @page :left { @left-middle {}}
-   |               ^^^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:21:15
-   |
-21 | @page :left { @left-middle {}}
-   |               ^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/at-rule/page/input.css:21:15
+  --> $DIR/tests/fixture/at-rule/page/input.css:21:16
    |
 21 | @page :left { @left-middle {}}
-   |               ^^^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:21:28
-   |
-21 | @page :left { @left-middle {}}
-   |                            ^^
+   |                ^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:22:1
@@ -1253,65 +997,23 @@ error: Ident
 22 | @page :right{ @right-middle {}}
    |        ^^^^^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:22:13
-   |
-22 | @page :right{ @right-middle {}}
-   |             ^^^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:22:15
    |
 22 | @page :right{ @right-middle {}}
    |               ^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/at-rule/page/input.css:22:15
    |
 22 | @page :right{ @right-middle {}}
    |               ^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/at-rule/page/input.css:22:15
-   |
-22 | @page :right{ @right-middle {}}
-   |               ^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:22:15
-   |
-22 | @page :right{ @right-middle {}}
-   |               ^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:22:15
-   |
-22 | @page :right{ @right-middle {}}
-   |               ^^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:22:15
-   |
-22 | @page :right{ @right-middle {}}
-   |               ^^^^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:22:15
-   |
-22 | @page :right{ @right-middle {}}
-   |               ^^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/at-rule/page/input.css:22:15
+  --> $DIR/tests/fixture/at-rule/page/input.css:22:16
    |
 22 | @page :right{ @right-middle {}}
-   |               ^^^^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:22:29
-   |
-22 | @page :right{ @right-middle {}}
-   |                             ^^
+   |                ^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:24:1
@@ -1355,65 +1057,23 @@ error: Ident
 24 | @page :left { @bottom-left-corner {}}
    |        ^^^^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:24:13
-   |
-24 | @page :left { @bottom-left-corner {}}
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:24:15
    |
 24 | @page :left { @bottom-left-corner {}}
    |               ^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/at-rule/page/input.css:24:15
    |
 24 | @page :left { @bottom-left-corner {}}
    |               ^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/at-rule/page/input.css:24:15
-   |
-24 | @page :left { @bottom-left-corner {}}
-   |               ^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:24:15
-   |
-24 | @page :left { @bottom-left-corner {}}
-   |               ^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:24:15
-   |
-24 | @page :left { @bottom-left-corner {}}
-   |               ^^^^^^^^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:24:15
-   |
-24 | @page :left { @bottom-left-corner {}}
-   |               ^^^^^^^^^^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:24:15
-   |
-24 | @page :left { @bottom-left-corner {}}
-   |               ^^^^^^^^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/at-rule/page/input.css:24:15
+  --> $DIR/tests/fixture/at-rule/page/input.css:24:16
    |
 24 | @page :left { @bottom-left-corner {}}
-   |               ^^^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:24:35
-   |
-24 | @page :left { @bottom-left-corner {}}
-   |                                   ^^
+   |                ^^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:25:1
@@ -1457,65 +1117,23 @@ error: Ident
 25 | @page :right { @bottom-right-corner {}}
    |        ^^^^^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:25:14
-   |
-25 | @page :right { @bottom-right-corner {}}
-   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:25:16
    |
 25 | @page :right { @bottom-right-corner {}}
    |                ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/at-rule/page/input.css:25:16
    |
 25 | @page :right { @bottom-right-corner {}}
    |                ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/at-rule/page/input.css:25:16
-   |
-25 | @page :right { @bottom-right-corner {}}
-   |                ^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:25:16
-   |
-25 | @page :right { @bottom-right-corner {}}
-   |                ^^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:25:16
-   |
-25 | @page :right { @bottom-right-corner {}}
-   |                ^^^^^^^^^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:25:16
-   |
-25 | @page :right { @bottom-right-corner {}}
-   |                ^^^^^^^^^^^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:25:16
-   |
-25 | @page :right { @bottom-right-corner {}}
-   |                ^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/at-rule/page/input.css:25:16
+  --> $DIR/tests/fixture/at-rule/page/input.css:25:17
    |
 25 | @page :right { @bottom-right-corner {}}
-   |                ^^^^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:25:37
-   |
-25 | @page :right { @bottom-right-corner {}}
-   |                                     ^^
+   |                 ^^^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:26:1
@@ -1568,123 +1186,41 @@ error: Ident
 26 | @page :first {
    |        ^^^^^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:26:14
-   |
-26 |   @page :first {
-   |  ______________^
-27 | |     @bottom-left-corner {}
-28 | |     @bottom-right-corner {}
-29 | | }
-   | |_^
-
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:27:5
    |
 27 |     @bottom-left-corner {}
    |     ^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/at-rule/page/input.css:27:5
    |
 27 |     @bottom-left-corner {}
    |     ^^^^^^^^^^^^^^^^^^^^^^
 
-error: SelectorList
-  --> $DIR/tests/fixture/at-rule/page/input.css:27:5
-   |
-27 |     @bottom-left-corner {}
-   |     ^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:27:5
-   |
-27 |     @bottom-left-corner {}
-   |     ^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:27:5
-   |
-27 |     @bottom-left-corner {}
-   |     ^^^^^^^^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:27:5
-   |
-27 |     @bottom-left-corner {}
-   |     ^^^^^^^^^^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:27:5
-   |
-27 |     @bottom-left-corner {}
-   |     ^^^^^^^^^^^^^^^^^^^
-
 error: Ident
-  --> $DIR/tests/fixture/at-rule/page/input.css:27:5
+  --> $DIR/tests/fixture/at-rule/page/input.css:27:6
    |
 27 |     @bottom-left-corner {}
-   |     ^^^^^^^^^^^^^^^^^^^
+   |      ^^^^^^^^^^^^^^^^^^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:27:25
-   |
-27 |     @bottom-left-corner {}
-   |                         ^^
-
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:28:5
    |
 28 |     @bottom-right-corner {}
    |     ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/at-rule/page/input.css:28:5
    |
 28 |     @bottom-right-corner {}
    |     ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: SelectorList
-  --> $DIR/tests/fixture/at-rule/page/input.css:28:5
-   |
-28 |     @bottom-right-corner {}
-   |     ^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:28:5
-   |
-28 |     @bottom-right-corner {}
-   |     ^^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:28:5
-   |
-28 |     @bottom-right-corner {}
-   |     ^^^^^^^^^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:28:5
-   |
-28 |     @bottom-right-corner {}
-   |     ^^^^^^^^^^^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:28:5
-   |
-28 |     @bottom-right-corner {}
-   |     ^^^^^^^^^^^^^^^^^^^^
-
 error: Ident
-  --> $DIR/tests/fixture/at-rule/page/input.css:28:5
+  --> $DIR/tests/fixture/at-rule/page/input.css:28:6
    |
 28 |     @bottom-right-corner {}
-   |     ^^^^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:28:26
-   |
-28 |     @bottom-right-corner {}
-   |                          ^^
+   |      ^^^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:30:1
@@ -1703,12 +1239,6 @@ error: PageRule
    |
 30 | @page {}
    | ^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:30:7
-   |
-30 | @page {}
-   |       ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:31:1
@@ -1752,12 +1282,6 @@ error: Ident
 31 | @page :left {}
    |        ^^^^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:31:13
-   |
-31 | @page :left {}
-   |             ^^
-
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:32:1
    |
@@ -1799,12 +1323,6 @@ error: Ident
    |
 32 | @page :first {}
    |        ^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:32:14
-   |
-32 | @page :first {}
-   |              ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:33:1
@@ -1860,12 +1378,6 @@ error: Ident
 33 | @page :blank:left {}
    |              ^^^^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:33:19
-   |
-33 | @page :blank:left {}
-   |                   ^^
-
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:34:1
    |
@@ -1907,12 +1419,6 @@ error: Ident
    |
 34 | @page artsy {}
    |       ^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:34:13
-   |
-34 | @page artsy {}
-   |             ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:35:1
@@ -1968,12 +1474,6 @@ error: Ident
 35 | @page artsy:left {}
    |             ^^^^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:35:18
-   |
-35 | @page artsy:left {}
-   |                  ^^
-
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:36:1
    |
@@ -2027,12 +1527,6 @@ error: Ident
    |
 36 | @page artsy:first {}
    |             ^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:36:19
-   |
-36 | @page artsy:first {}
-   |                   ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:37:1
@@ -2094,25 +1588,6 @@ error: Ident
 37 | @page :first {
    |        ^^^^^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:37:14
-   |
-37 |   @page :first {
-   |  ______________^
-38 | |     color: green;
-39 | |
-40 | |     @top-left {
-...  |
-46 | |     }
-47 | | }
-   | |_^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/at-rule/page/input.css:38:5
-   |
-38 |     color: green;
-   |     ^^^^^^^^^^^^
-
 error: Declaration
   --> $DIR/tests/fixture/at-rule/page/input.css:38:5
    |
@@ -2137,7 +1612,7 @@ error: Ident
 38 |     color: green;
    |            ^^^^^
 
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:40:5
    |
 40 | /     @top-left {
@@ -2146,7 +1621,7 @@ error: PageRuleBlockItem
 43 | |     }
    | |_____^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/at-rule/page/input.css:40:5
    |
 40 | /     @top-left {
@@ -2154,58 +1629,12 @@ error: NestedPageRule
 42 | |         color: blue;
 43 | |     }
    | |_____^
-
-error: SelectorList
-  --> $DIR/tests/fixture/at-rule/page/input.css:40:5
-   |
-40 |     @top-left {
-   |     ^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:40:5
-   |
-40 |     @top-left {
-   |     ^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:40:5
-   |
-40 |     @top-left {
-   |     ^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:40:5
-   |
-40 |     @top-left {
-   |     ^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:40:5
-   |
-40 |     @top-left {
-   |     ^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/at-rule/page/input.css:40:5
+  --> $DIR/tests/fixture/at-rule/page/input.css:40:6
    |
 40 |     @top-left {
-   |     ^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:40:15
-   |
-40 |       @top-left {
-   |  _______________^
-41 | |         content: "foo";
-42 | |         color: blue;
-43 | |     }
-   | |_____^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/at-rule/page/input.css:41:9
-   |
-41 |         content: "foo";
-   |         ^^^^^^^^^^^^^^
+   |      ^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/page/input.css:41:9
@@ -2230,12 +1659,6 @@ error: Str
    |
 41 |         content: "foo";
    |                  ^^^^^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/at-rule/page/input.css:42:9
-   |
-42 |         color: blue;
-   |         ^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/page/input.css:42:9
@@ -2261,7 +1684,7 @@ error: Ident
 42 |         color: blue;
    |                ^^^^
 
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:44:5
    |
 44 | /     @top-right {
@@ -2269,64 +1692,19 @@ error: PageRuleBlockItem
 46 | |     }
    | |_____^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/at-rule/page/input.css:44:5
    |
 44 | /     @top-right {
 45 | |         content: "bar";
 46 | |     }
    | |_____^
-
-error: SelectorList
-  --> $DIR/tests/fixture/at-rule/page/input.css:44:5
-   |
-44 |     @top-right {
-   |     ^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:44:5
-   |
-44 |     @top-right {
-   |     ^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:44:5
-   |
-44 |     @top-right {
-   |     ^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:44:5
-   |
-44 |     @top-right {
-   |     ^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/at-rule/page/input.css:44:5
-   |
-44 |     @top-right {
-   |     ^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/at-rule/page/input.css:44:5
+  --> $DIR/tests/fixture/at-rule/page/input.css:44:6
    |
 44 |     @top-right {
-   |     ^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/at-rule/page/input.css:44:16
-   |
-44 |       @top-right {
-   |  ________________^
-45 | |         content: "bar";
-46 | |     }
-   | |_____^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/at-rule/page/input.css:45:9
-   |
-45 |         content: "bar";
-   |         ^^^^^^^^^^^^^^
+   |      ^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/page/input.css:45:9
@@ -2351,4 +1729,242 @@ error: Str
    |
 45 |         content: "bar";
    |                  ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/page/input.css:48:1
+   |
+48 | / @page :first {
+49 | |     color: green;
+50 | |
+51 | |     @top-left {
+...  |
+59 | |     margin: 20px;
+60 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/page/input.css:48:1
+   |
+48 | / @page :first {
+49 | |     color: green;
+50 | |
+51 | |     @top-left {
+...  |
+59 | |     margin: 20px;
+60 | | }
+   | |_^
+
+error: PageRule
+  --> $DIR/tests/fixture/at-rule/page/input.css:48:1
+   |
+48 | / @page :first {
+49 | |     color: green;
+50 | |
+51 | |     @top-left {
+...  |
+59 | |     margin: 20px;
+60 | | }
+   | |_^
+
+error: PageSelectorList
+  --> $DIR/tests/fixture/at-rule/page/input.css:48:7
+   |
+48 | @page :first {
+   |       ^^^^^^
+
+error: PageSelector
+  --> $DIR/tests/fixture/at-rule/page/input.css:48:7
+   |
+48 | @page :first {
+   |       ^^^^^^
+
+error: PageSelectorPseudo
+  --> $DIR/tests/fixture/at-rule/page/input.css:48:7
+   |
+48 | @page :first {
+   |       ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/page/input.css:48:8
+   |
+48 | @page :first {
+   |        ^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/page/input.css:49:5
+   |
+49 |     color: green;
+   |     ^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/page/input.css:49:5
+   |
+49 |     color: green;
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/page/input.css:49:12
+   |
+49 |     color: green;
+   |            ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/page/input.css:49:12
+   |
+49 |     color: green;
+   |            ^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/page/input.css:51:5
+   |
+51 | /     @top-left {
+52 | |         content: "foo";
+53 | |         color: blue;
+54 | |     }
+   | |_____^
+
+error: PageMarginRule
+  --> $DIR/tests/fixture/at-rule/page/input.css:51:5
+   |
+51 | /     @top-left {
+52 | |         content: "foo";
+53 | |         color: blue;
+54 | |     }
+   | |_____^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/page/input.css:51:6
+   |
+51 |     @top-left {
+   |      ^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/page/input.css:52:9
+   |
+52 |         content: "foo";
+   |         ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/page/input.css:52:9
+   |
+52 |         content: "foo";
+   |         ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/page/input.css:52:18
+   |
+52 |         content: "foo";
+   |                  ^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/page/input.css:52:18
+   |
+52 |         content: "foo";
+   |                  ^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/page/input.css:53:9
+   |
+53 |         color: blue;
+   |         ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/page/input.css:53:9
+   |
+53 |         color: blue;
+   |         ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/page/input.css:53:16
+   |
+53 |         color: blue;
+   |                ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/page/input.css:53:16
+   |
+53 |         color: blue;
+   |                ^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/page/input.css:55:5
+   |
+55 | /     @top-right {
+56 | |         content: "bar";
+57 | |     }
+   | |_____^
+
+error: PageMarginRule
+  --> $DIR/tests/fixture/at-rule/page/input.css:55:5
+   |
+55 | /     @top-right {
+56 | |         content: "bar";
+57 | |     }
+   | |_____^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/page/input.css:55:6
+   |
+55 |     @top-right {
+   |      ^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/page/input.css:56:9
+   |
+56 |         content: "bar";
+   |         ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/page/input.css:56:9
+   |
+56 |         content: "bar";
+   |         ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/page/input.css:56:18
+   |
+56 |         content: "bar";
+   |                  ^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/page/input.css:56:18
+   |
+56 |         content: "bar";
+   |                  ^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/page/input.css:59:5
+   |
+59 |     margin: 20px;
+   |     ^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/page/input.css:59:5
+   |
+59 |     margin: 20px;
+   |     ^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/page/input.css:59:13
+   |
+59 |     margin: 20px;
+   |             ^^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:59:13
+   |
+59 |     margin: 20px;
+   |             ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/at-rule/page/input.css:59:13
+   |
+59 |     margin: 20px;
+   |             ^^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/page/input.css:59:15
+   |
+59 |     margin: 20px;
+   |               ^^
 

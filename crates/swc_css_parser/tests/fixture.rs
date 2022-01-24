@@ -387,6 +387,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(PageSelector, visit_page_selector);
     mtd!(AtRuleName, visit_at_rule_name);
     mtd!(NestedPageRule, visit_nested_page_rule);
+    mtd!(PageMarginRule, visit_page_margin_rule);
     mtd!(UnknownAtRule, visit_unknown_at_rule);
     mtd!(ViewportRule, visit_viewport_rule);
     mtd!(ColorProfileName, visit_color_profile_name);

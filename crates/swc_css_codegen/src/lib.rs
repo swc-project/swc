@@ -81,6 +81,7 @@ where
             AtRule::Media(n) => emit!(self, n),
             AtRule::Supports(n) => emit!(self, n),
             AtRule::Page(n) => emit!(self, n),
+            AtRule::PageMargin(n) => emit!(self, n),
             AtRule::Namespace(n) => emit!(self, n),
             AtRule::Viewport(n) => emit!(self, n),
             AtRule::Document(n) => emit!(self, n),
@@ -579,7 +580,10 @@ where
             space!(self);
         }
 
-        emit!(self, n.block);
+        punct!(self, "{");
+        // TODO avoid using `SemiDelimited`
+        self.emit_list(&n.block, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
+        punct!(self, "}");
     }
 
     #[emitter]
@@ -610,33 +614,14 @@ where
     }
 
     #[emitter]
-    fn emit_page_rule_block(&mut self, n: &PageRuleBlock) -> Result {
+    fn emit_page_margin_rule(&mut self, n: &PageMarginRule) -> Result {
+        punct!(self, "@");
+        emit!(self, n.name);
+        space!(self);
         punct!(self, "{");
-
-        self.wr.write_newline()?;
-
-        self.wr.increase_indent();
-
-        let ctx = Ctx {
-            semi_after_property: true,
-            ..self.ctx
-        };
-        self.with_ctx(ctx)
-            .emit_list(&n.items, ListFormat::MultiLine | ListFormat::NotDelimited)?;
-
-        self.wr.write_newline()?;
-
-        self.wr.decrease_indent();
-
+        // TODO avoid using `SemiDelimited`
+        self.emit_list(&n.block, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
         punct!(self, "}");
-    }
-
-    #[emitter]
-    fn emit_page_rule_block_item(&mut self, n: &PageRuleBlockItem) -> Result {
-        match n {
-            PageRuleBlockItem::Declaration(n) => emit!(self, n),
-            PageRuleBlockItem::Nested(n) => emit!(self, n),
-        }
     }
 
     #[emitter]
@@ -1263,12 +1248,6 @@ where
             UrlModifier::Ident(n) => emit!(self, n),
             UrlModifier::Function(n) => emit!(self, n),
         }
-    }
-
-    #[emitter]
-    fn emit_nested_page_rule(&mut self, n: &NestedPageRule) -> Result {
-        emit!(self, n.prelude);
-        emit!(self, n.block);
     }
 
     #[emitter]

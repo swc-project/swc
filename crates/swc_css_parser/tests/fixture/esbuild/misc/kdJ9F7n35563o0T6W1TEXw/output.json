@@ -14,81 +14,27 @@
         "ctxt": 0
       },
       "prelude": null,
-      "block": {
-        "span": {
-          "start": 6,
-          "end": 22,
-          "ctxt": 0
-        },
-        "items": [
-          {
-            "type": "NestedPageRule",
+      "block": [
+        {
+          "type": "PageMarginRule",
+          "span": {
+            "start": 8,
+            "end": 20,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Identifier",
             "span": {
-              "start": 8,
-              "end": 20,
+              "start": 9,
+              "end": 17,
               "ctxt": 0
             },
-            "prelude": {
-              "type": "SelectorList",
-              "span": {
-                "start": 8,
-                "end": 17,
-                "ctxt": 0
-              },
-              "children": [
-                {
-                  "type": "ComplexSelector",
-                  "span": {
-                    "start": 8,
-                    "end": 17,
-                    "ctxt": 0
-                  },
-                  "children": [
-                    {
-                      "type": "CompoundSelector",
-                      "span": {
-                        "start": 8,
-                        "end": 17,
-                        "ctxt": 0
-                      },
-                      "nestingSelector": null,
-                      "typeSelector": null,
-                      "subclassSelectors": [
-                        {
-                          "type": "AtSelector",
-                          "span": {
-                            "start": 8,
-                            "end": 17,
-                            "ctxt": 0
-                          },
-                          "text": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 8,
-                              "end": 17,
-                              "ctxt": 0
-                            },
-                            "value": "top-left",
-                            "raw": "top-left"
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "block": {
-              "span": {
-                "start": 18,
-                "end": 20,
-                "ctxt": 0
-              },
-              "items": []
-            }
-          }
-        ]
-      }
+            "value": "top-left",
+            "raw": "top-left"
+          },
+          "block": []
+        }
+      ]
     }
   ]
 }

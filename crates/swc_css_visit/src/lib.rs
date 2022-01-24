@@ -363,6 +363,7 @@ define!({
         Media(MediaRule),
         Supports(SupportsRule),
         Page(PageRule),
+        PageMargin(PageMarginRule),
         Namespace(NamespaceRule),
         Viewport(ViewportRule),
         Document(DocumentRule),
@@ -594,7 +595,7 @@ define!({
     pub struct PageRule {
         pub span: Span,
         pub prelude: Option<PageSelectorList>,
-        pub block: PageRuleBlock,
+        pub block: Vec<DeclarationBlockItem>,
     }
 
     pub struct PageSelectorList {
@@ -618,20 +619,10 @@ define!({
         pub value: Ident,
     }
 
-    pub struct PageRuleBlock {
+    pub struct PageMarginRule {
         pub span: Span,
-        pub items: Vec<PageRuleBlockItem>,
-    }
-
-    pub enum PageRuleBlockItem {
-        Declaration(Box<Declaration>),
-        Nested(Box<NestedPageRule>),
-    }
-
-    pub struct NestedPageRule {
-        pub span: Span,
-        pub prelude: SelectorList,
-        pub block: PageRuleBlock,
+        pub name: Ident,
+        pub block: Vec<DeclarationBlockItem>,
     }
 
     pub struct SupportsRule {

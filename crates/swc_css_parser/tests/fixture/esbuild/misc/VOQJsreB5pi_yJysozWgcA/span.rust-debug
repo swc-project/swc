@@ -52,18 +52,6 @@ error: Ident
 2 |         @page :first { margin: 0 }
   |                ^^^^^
 
-error: PageRuleBlock
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:16
-  |
-2 |         @page :first { margin: 0 }
-  |                      ^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:18
-  |
-2 |         @page :first { margin: 0 }
-  |                        ^^^^^^^^^
-
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:18
   |
@@ -133,78 +121,23 @@ error: PageRule
 20 | |         }
    | |_________^
 
-error: PageRuleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9
-   |
-3  |           @page {
-   |  _______________^
-4  | |             @top-left-corner { content: 'tlc' }
-5  | |             @top-left { content: 'tl' }
-6  | |             @top-center { content: 'tc' }
-...  |
-19 | |             @right-bottom { content: 'rb' }
-20 | |         }
-   | |_________^
-
-error: PageRuleBlockItem
+error: AtRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
   |
 4 |             @top-left-corner { content: 'tlc' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
   |
 4 |             @top-left-corner { content: 'tlc' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |             ^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |             ^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |             ^^^^^^^^^^^^^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |             ^^^^^^^^^^^^^^^^
-
-error: AtSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |             ^^^^^^^^^^^^^^^^
 
 error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:5
   |
 4 |             @top-left-corner { content: 'tlc' }
-  |             ^^^^^^^^^^^^^^^^
-
-error: PageRuleBlock
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:21
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |                              ^^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:23
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |                                ^^^^^^^^^^^^^^
+  |              ^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:23
@@ -236,65 +169,23 @@ error: Str
 4 |             @top-left-corner { content: 'tlc' }
   |                                         ^^^^^
 
-error: PageRuleBlockItem
+error: AtRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
   |
 5 |             @top-left { content: 'tl' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
   |
 5 |             @top-left { content: 'tl' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
-  |
-5 |             @top-left { content: 'tl' }
-  |             ^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
-  |
-5 |             @top-left { content: 'tl' }
-  |             ^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
-  |
-5 |             @top-left { content: 'tl' }
-  |             ^^^^^^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
-  |
-5 |             @top-left { content: 'tl' }
-  |             ^^^^^^^^^
-
-error: AtSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
-  |
-5 |             @top-left { content: 'tl' }
-  |             ^^^^^^^^^
 
 error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:5
   |
 5 |             @top-left { content: 'tl' }
-  |             ^^^^^^^^^
-
-error: PageRuleBlock
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:14
-  |
-5 |             @top-left { content: 'tl' }
-  |                       ^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:16
-  |
-5 |             @top-left { content: 'tl' }
-  |                         ^^^^^^^^^^^^^
+  |              ^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:16
@@ -326,65 +217,23 @@ error: Str
 5 |             @top-left { content: 'tl' }
   |                                  ^^^^
 
-error: PageRuleBlockItem
+error: AtRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
   |
 6 |             @top-center { content: 'tc' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
   |
 6 |             @top-center { content: 'tc' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
-  |
-6 |             @top-center { content: 'tc' }
-  |             ^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
-  |
-6 |             @top-center { content: 'tc' }
-  |             ^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
-  |
-6 |             @top-center { content: 'tc' }
-  |             ^^^^^^^^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
-  |
-6 |             @top-center { content: 'tc' }
-  |             ^^^^^^^^^^^
-
-error: AtSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
-  |
-6 |             @top-center { content: 'tc' }
-  |             ^^^^^^^^^^^
 
 error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:5
   |
 6 |             @top-center { content: 'tc' }
-  |             ^^^^^^^^^^^
-
-error: PageRuleBlock
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:16
-  |
-6 |             @top-center { content: 'tc' }
-  |                         ^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:18
-  |
-6 |             @top-center { content: 'tc' }
-  |                           ^^^^^^^^^^^^^
+  |              ^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:18
@@ -416,65 +265,23 @@ error: Str
 6 |             @top-center { content: 'tc' }
   |                                    ^^^^
 
-error: PageRuleBlockItem
+error: AtRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
   |
 7 |             @top-right { content: 'tr' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
   |
 7 |             @top-right { content: 'tr' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
-  |
-7 |             @top-right { content: 'tr' }
-  |             ^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
-  |
-7 |             @top-right { content: 'tr' }
-  |             ^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
-  |
-7 |             @top-right { content: 'tr' }
-  |             ^^^^^^^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
-  |
-7 |             @top-right { content: 'tr' }
-  |             ^^^^^^^^^^
-
-error: AtSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
-  |
-7 |             @top-right { content: 'tr' }
-  |             ^^^^^^^^^^
 
 error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:5
   |
 7 |             @top-right { content: 'tr' }
-  |             ^^^^^^^^^^
-
-error: PageRuleBlock
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:15
-  |
-7 |             @top-right { content: 'tr' }
-  |                        ^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:17
-  |
-7 |             @top-right { content: 'tr' }
-  |                          ^^^^^^^^^^^^^
+  |              ^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:17
@@ -506,65 +313,23 @@ error: Str
 7 |             @top-right { content: 'tr' }
   |                                   ^^^^
 
-error: PageRuleBlockItem
+error: AtRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
   |
 8 |             @top-right-corner { content: 'trc' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
   |
 8 |             @top-right-corner { content: 'trc' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |             ^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |             ^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |             ^^^^^^^^^^^^^^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |             ^^^^^^^^^^^^^^^^^
-
-error: AtSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |             ^^^^^^^^^^^^^^^^^
 
 error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:5
   |
 8 |             @top-right-corner { content: 'trc' }
-  |             ^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlock
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:22
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |                               ^^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:24
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |                                 ^^^^^^^^^^^^^^
+  |              ^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:24
@@ -596,65 +361,23 @@ error: Str
 8 |             @top-right-corner { content: 'trc' }
   |                                          ^^^^^
 
-error: PageRuleBlockItem
+error: AtRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
   |
 9 |             @bottom-left-corner { content: 'blc' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
   |
 9 |             @bottom-left-corner { content: 'blc' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |             ^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |             ^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |             ^^^^^^^^^^^^^^^^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |             ^^^^^^^^^^^^^^^^^^^
-
-error: AtSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |             ^^^^^^^^^^^^^^^^^^^
 
 error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:5
   |
 9 |             @bottom-left-corner { content: 'blc' }
-  |             ^^^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlock
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:24
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |                                 ^^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:26
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |                                   ^^^^^^^^^^^^^^
+  |              ^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:26
@@ -686,65 +409,23 @@ error: Str
 9 |             @bottom-left-corner { content: 'blc' }
   |                                            ^^^^^
 
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
    |
 10 |             @bottom-left { content: 'bl' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
    |
 10 |             @bottom-left { content: 'bl' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
-   |
-10 |             @bottom-left { content: 'bl' }
-   |             ^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
-   |
-10 |             @bottom-left { content: 'bl' }
-   |             ^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
-   |
-10 |             @bottom-left { content: 'bl' }
-   |             ^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
-   |
-10 |             @bottom-left { content: 'bl' }
-   |             ^^^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
-   |
-10 |             @bottom-left { content: 'bl' }
-   |             ^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:5
    |
 10 |             @bottom-left { content: 'bl' }
-   |             ^^^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:17
-   |
-10 |             @bottom-left { content: 'bl' }
-   |                          ^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:19
-   |
-10 |             @bottom-left { content: 'bl' }
-   |                            ^^^^^^^^^^^^^
+   |              ^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:19
@@ -776,65 +457,23 @@ error: Str
 10 |             @bottom-left { content: 'bl' }
    |                                     ^^^^
 
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
    |
 11 |             @bottom-center { content: 'bc' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
    |
 11 |             @bottom-center { content: 'bc' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
-   |
-11 |             @bottom-center { content: 'bc' }
-   |             ^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
-   |
-11 |             @bottom-center { content: 'bc' }
-   |             ^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
-   |
-11 |             @bottom-center { content: 'bc' }
-   |             ^^^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
-   |
-11 |             @bottom-center { content: 'bc' }
-   |             ^^^^^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
-   |
-11 |             @bottom-center { content: 'bc' }
-   |             ^^^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:5
    |
 11 |             @bottom-center { content: 'bc' }
-   |             ^^^^^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:19
-   |
-11 |             @bottom-center { content: 'bc' }
-   |                            ^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:21
-   |
-11 |             @bottom-center { content: 'bc' }
-   |                              ^^^^^^^^^^^^^
+   |              ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:21
@@ -866,65 +505,23 @@ error: Str
 11 |             @bottom-center { content: 'bc' }
    |                                       ^^^^
 
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
    |
 12 |             @bottom-right { content: 'br' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
    |
 12 |             @bottom-right { content: 'br' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
-   |
-12 |             @bottom-right { content: 'br' }
-   |             ^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
-   |
-12 |             @bottom-right { content: 'br' }
-   |             ^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
-   |
-12 |             @bottom-right { content: 'br' }
-   |             ^^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
-   |
-12 |             @bottom-right { content: 'br' }
-   |             ^^^^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
-   |
-12 |             @bottom-right { content: 'br' }
-   |             ^^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:5
    |
 12 |             @bottom-right { content: 'br' }
-   |             ^^^^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:18
-   |
-12 |             @bottom-right { content: 'br' }
-   |                           ^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:20
-   |
-12 |             @bottom-right { content: 'br' }
-   |                             ^^^^^^^^^^^^^
+   |              ^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:20
@@ -956,65 +553,23 @@ error: Str
 12 |             @bottom-right { content: 'br' }
    |                                      ^^^^
 
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
    |
 13 |             @bottom-right-corner { content: 'brc' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
    |
 13 |             @bottom-right-corner { content: 'brc' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |             ^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |             ^^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |             ^^^^^^^^^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |             ^^^^^^^^^^^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |             ^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:5
    |
 13 |             @bottom-right-corner { content: 'brc' }
-   |             ^^^^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:25
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |                                  ^^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:27
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |                                    ^^^^^^^^^^^^^^
+   |              ^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:27
@@ -1046,65 +601,23 @@ error: Str
 13 |             @bottom-right-corner { content: 'brc' }
    |                                             ^^^^^
 
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
    |
 14 |             @left-top { content: 'lt' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
    |
 14 |             @left-top { content: 'lt' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
-   |
-14 |             @left-top { content: 'lt' }
-   |             ^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
-   |
-14 |             @left-top { content: 'lt' }
-   |             ^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
-   |
-14 |             @left-top { content: 'lt' }
-   |             ^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
-   |
-14 |             @left-top { content: 'lt' }
-   |             ^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
-   |
-14 |             @left-top { content: 'lt' }
-   |             ^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:5
    |
 14 |             @left-top { content: 'lt' }
-   |             ^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:14
-   |
-14 |             @left-top { content: 'lt' }
-   |                       ^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:16
-   |
-14 |             @left-top { content: 'lt' }
-   |                         ^^^^^^^^^^^^^
+   |              ^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:16
@@ -1136,65 +649,23 @@ error: Str
 14 |             @left-top { content: 'lt' }
    |                                  ^^^^
 
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
    |
 15 |             @left-middle { content: 'lm' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
    |
 15 |             @left-middle { content: 'lm' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
-   |
-15 |             @left-middle { content: 'lm' }
-   |             ^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
-   |
-15 |             @left-middle { content: 'lm' }
-   |             ^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
-   |
-15 |             @left-middle { content: 'lm' }
-   |             ^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
-   |
-15 |             @left-middle { content: 'lm' }
-   |             ^^^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
-   |
-15 |             @left-middle { content: 'lm' }
-   |             ^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:5
    |
 15 |             @left-middle { content: 'lm' }
-   |             ^^^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:17
-   |
-15 |             @left-middle { content: 'lm' }
-   |                          ^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:19
-   |
-15 |             @left-middle { content: 'lm' }
-   |                            ^^^^^^^^^^^^^
+   |              ^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:19
@@ -1226,65 +697,23 @@ error: Str
 15 |             @left-middle { content: 'lm' }
    |                                     ^^^^
 
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
    |
 16 |             @left-bottom { content: 'lb' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
    |
 16 |             @left-bottom { content: 'lb' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
-   |
-16 |             @left-bottom { content: 'lb' }
-   |             ^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
-   |
-16 |             @left-bottom { content: 'lb' }
-   |             ^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
-   |
-16 |             @left-bottom { content: 'lb' }
-   |             ^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
-   |
-16 |             @left-bottom { content: 'lb' }
-   |             ^^^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
-   |
-16 |             @left-bottom { content: 'lb' }
-   |             ^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:5
    |
 16 |             @left-bottom { content: 'lb' }
-   |             ^^^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:17
-   |
-16 |             @left-bottom { content: 'lb' }
-   |                          ^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:19
-   |
-16 |             @left-bottom { content: 'lb' }
-   |                            ^^^^^^^^^^^^^
+   |              ^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:19
@@ -1316,65 +745,23 @@ error: Str
 16 |             @left-bottom { content: 'lb' }
    |                                     ^^^^
 
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
    |
 17 |             @right-top { content: 'rt' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
    |
 17 |             @right-top { content: 'rt' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
-   |
-17 |             @right-top { content: 'rt' }
-   |             ^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
-   |
-17 |             @right-top { content: 'rt' }
-   |             ^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
-   |
-17 |             @right-top { content: 'rt' }
-   |             ^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
-   |
-17 |             @right-top { content: 'rt' }
-   |             ^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
-   |
-17 |             @right-top { content: 'rt' }
-   |             ^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:5
    |
 17 |             @right-top { content: 'rt' }
-   |             ^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:15
-   |
-17 |             @right-top { content: 'rt' }
-   |                        ^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:17
-   |
-17 |             @right-top { content: 'rt' }
-   |                          ^^^^^^^^^^^^^
+   |              ^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:17
@@ -1406,65 +793,23 @@ error: Str
 17 |             @right-top { content: 'rt' }
    |                                   ^^^^
 
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
    |
 18 |             @right-middle { content: 'rm' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
    |
 18 |             @right-middle { content: 'rm' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
-   |
-18 |             @right-middle { content: 'rm' }
-   |             ^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
-   |
-18 |             @right-middle { content: 'rm' }
-   |             ^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
-   |
-18 |             @right-middle { content: 'rm' }
-   |             ^^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
-   |
-18 |             @right-middle { content: 'rm' }
-   |             ^^^^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
-   |
-18 |             @right-middle { content: 'rm' }
-   |             ^^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:5
    |
 18 |             @right-middle { content: 'rm' }
-   |             ^^^^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:18
-   |
-18 |             @right-middle { content: 'rm' }
-   |                           ^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:20
-   |
-18 |             @right-middle { content: 'rm' }
-   |                             ^^^^^^^^^^^^^
+   |              ^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:20
@@ -1496,65 +841,23 @@ error: Str
 18 |             @right-middle { content: 'rm' }
    |                                      ^^^^
 
-error: PageRuleBlockItem
+error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
    |
 19 |             @right-bottom { content: 'rb' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
    |
 19 |             @right-bottom { content: 'rb' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
-   |
-19 |             @right-bottom { content: 'rb' }
-   |             ^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
-   |
-19 |             @right-bottom { content: 'rb' }
-   |             ^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
-   |
-19 |             @right-bottom { content: 'rb' }
-   |             ^^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
-   |
-19 |             @right-bottom { content: 'rb' }
-   |             ^^^^^^^^^^^^^
-
-error: AtSelector
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
-   |
-19 |             @right-bottom { content: 'rb' }
-   |             ^^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:5
    |
 19 |             @right-bottom { content: 'rb' }
-   |             ^^^^^^^^^^^^^
-
-error: PageRuleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:18
-   |
-19 |             @right-bottom { content: 'rb' }
-   |                           ^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:20
-   |
-19 |             @right-bottom { content: 'rb' }
-   |                             ^^^^^^^^^^^^^
+   |              ^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:20

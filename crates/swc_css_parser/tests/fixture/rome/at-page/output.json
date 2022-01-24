@@ -14,6 +14,7 @@
         "ctxt": 0
       },
       "prelude": {
+        "type": "PageSelectorList",
         "span": {
           "start": 6,
           "end": 18,
@@ -21,12 +22,14 @@
         },
         "selectors": [
           {
+            "type": "PageSelector",
             "span": {
               "start": 6,
               "end": 18,
               "ctxt": 0
             },
-            "type": {
+            "pageType": {
+              "type": "PageSelectorType",
               "span": {
                 "start": 6,
                 "end": 12,
@@ -45,6 +48,7 @@
             },
             "pseudos": [
               {
+                "type": "PageSelectorPseudo",
                 "span": {
                   "start": 12,
                   "end": 18,
@@ -65,81 +69,47 @@
           }
         ]
       },
-      "block": {
-        "span": {
-          "start": 19,
-          "end": 72,
-          "ctxt": 0
-        },
-        "items": [
-          {
-            "type": "NestedPageRule",
+      "block": [
+        {
+          "type": "PageMarginRule",
+          "span": {
+            "start": 22,
+            "end": 51,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Identifier",
             "span": {
-              "start": 22,
-              "end": 51,
+              "start": 23,
+              "end": 33,
               "ctxt": 0
             },
-            "prelude": {
-              "type": "SelectorList",
+            "value": "top-center",
+            "raw": "top-center"
+          },
+          "block": [
+            {
+              "type": "Declaration",
               "span": {
-                "start": 22,
-                "end": 33,
+                "start": 36,
+                "end": 49,
                 "ctxt": 0
               },
-              "children": [
-                {
-                  "type": "ComplexSelector",
-                  "span": {
-                    "start": 22,
-                    "end": 33,
-                    "ctxt": 0
-                  },
-                  "children": [
-                    {
-                      "type": "CompoundSelector",
-                      "span": {
-                        "start": 22,
-                        "end": 33,
-                        "ctxt": 0
-                      },
-                      "nestingSelector": null,
-                      "typeSelector": null,
-                      "subclassSelectors": [
-                        {
-                          "type": "AtSelector",
-                          "span": {
-                            "start": 22,
-                            "end": 33,
-                            "ctxt": 0
-                          },
-                          "text": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 22,
-                              "end": 33,
-                              "ctxt": 0
-                            },
-                            "value": "top-center",
-                            "raw": "top-center"
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "block": {
-              "span": {
-                "start": 34,
-                "end": 51,
-                "ctxt": 0
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 36,
+                  "end": 43,
+                  "ctxt": 0
+                },
+                "value": "content",
+                "raw": "content"
               },
-              "items": [
+              "value": [
                 {
-                  "type": "Declaration",
+                  "type": "Identifier",
                   "span": {
-                    "start": 36,
+                    "start": 45,
                     "end": 49,
                     "ctxt": 0
                   },
@@ -166,22 +136,39 @@
                     }
                   ],
                   "important": null
+                  "value": "none",
+                  "raw": "none"
                 }
-              ]
+              ],
+              "important": null
             }
+          ]
+        },
+        {
+          "type": "Declaration",
+          "span": {
+            "start": 53,
+            "end": 69,
+            "ctxt": 0
           },
-          {
-            "type": "Declaration",
+          "property": {
+            "type": "Identifier",
             "span": {
               "start": 53,
-              "end": 69,
+              "end": 64,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
+            "value": "margin-left",
+            "raw": "margin-left"
+          },
+          "value": [
+            {
+              "type": "UnitValue",
               "span": {
-                "start": 53,
-                "end": 64,
+                "start": 66,
+                "end": 69,
                 "ctxt": 0
               },
               "value": "margin-left",
@@ -190,20 +177,21 @@
             "value": [
               {
                 "type": "Dimension",
+              "value": {
+                "type": "Number",
                 "span": {
                   "start": 66,
-                  "end": 69,
+                  "end": 67,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 66,
-                    "end": 67,
-                    "ctxt": 0
-                  },
-                  "value": 4.0,
-                  "raw": "4"
+                "value": 4.0,
+                "raw": "4"
+              },
+              "unit": {
+                "span": {
+                  "start": 67,
+                  "end": 69,
+                  "ctxt": 0
                 },
                 "unit": {
                   "type": "Identifier",
@@ -215,12 +203,14 @@
                   "value": "cm",
                   "raw": "cm"
                 }
+                "value": "cm",
+                "raw": "cm"
               }
-            ],
-            "important": null
-          }
-        ]
-      }
+            }
+          ],
+          "important": null
+        }
+      ]
     },
     {
       "type": "PageRule",
@@ -230,6 +220,7 @@
         "ctxt": 0
       },
       "prelude": {
+        "type": "PageSelectorList",
         "span": {
           "start": 80,
           "end": 86,
@@ -237,14 +228,16 @@
         },
         "selectors": [
           {
+            "type": "PageSelector",
             "span": {
               "start": 80,
               "end": 86,
               "ctxt": 0
             },
-            "type": null,
+            "pageType": null,
             "pseudos": [
               {
+                "type": "PageSelectorPseudo",
                 "span": {
                   "start": 80,
                   "end": 86,
@@ -265,81 +258,47 @@
           }
         ]
       },
-      "block": {
-        "span": {
-          "start": 87,
-          "end": 140,
-          "ctxt": 0
-        },
-        "items": [
-          {
-            "type": "NestedPageRule",
+      "block": [
+        {
+          "type": "PageMarginRule",
+          "span": {
+            "start": 90,
+            "end": 119,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Identifier",
             "span": {
-              "start": 90,
-              "end": 119,
+              "start": 91,
+              "end": 101,
               "ctxt": 0
             },
-            "prelude": {
-              "type": "SelectorList",
+            "value": "top-center",
+            "raw": "top-center"
+          },
+          "block": [
+            {
+              "type": "Declaration",
               "span": {
-                "start": 90,
-                "end": 101,
+                "start": 104,
+                "end": 117,
                 "ctxt": 0
               },
-              "children": [
-                {
-                  "type": "ComplexSelector",
-                  "span": {
-                    "start": 90,
-                    "end": 101,
-                    "ctxt": 0
-                  },
-                  "children": [
-                    {
-                      "type": "CompoundSelector",
-                      "span": {
-                        "start": 90,
-                        "end": 101,
-                        "ctxt": 0
-                      },
-                      "nestingSelector": null,
-                      "typeSelector": null,
-                      "subclassSelectors": [
-                        {
-                          "type": "AtSelector",
-                          "span": {
-                            "start": 90,
-                            "end": 101,
-                            "ctxt": 0
-                          },
-                          "text": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 90,
-                              "end": 101,
-                              "ctxt": 0
-                            },
-                            "value": "top-center",
-                            "raw": "top-center"
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "block": {
-              "span": {
-                "start": 102,
-                "end": 119,
-                "ctxt": 0
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 104,
+                  "end": 111,
+                  "ctxt": 0
+                },
+                "value": "content",
+                "raw": "content"
               },
-              "items": [
+              "value": [
                 {
-                  "type": "Declaration",
+                  "type": "Identifier",
                   "span": {
-                    "start": 104,
+                    "start": 113,
                     "end": 117,
                     "ctxt": 0
                   },
@@ -366,22 +325,39 @@
                     }
                   ],
                   "important": null
+                  "value": "none",
+                  "raw": "none"
                 }
-              ]
+              ],
+              "important": null
             }
+          ]
+        },
+        {
+          "type": "Declaration",
+          "span": {
+            "start": 121,
+            "end": 137,
+            "ctxt": 0
           },
-          {
-            "type": "Declaration",
+          "property": {
+            "type": "Identifier",
             "span": {
               "start": 121,
-              "end": 137,
+              "end": 132,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
+            "value": "margin-left",
+            "raw": "margin-left"
+          },
+          "value": [
+            {
+              "type": "UnitValue",
               "span": {
-                "start": 121,
-                "end": 132,
+                "start": 134,
+                "end": 137,
                 "ctxt": 0
               },
               "value": "margin-left",
@@ -390,20 +366,21 @@
             "value": [
               {
                 "type": "Dimension",
+              "value": {
+                "type": "Number",
                 "span": {
                   "start": 134,
-                  "end": 137,
+                  "end": 135,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 134,
-                    "end": 135,
-                    "ctxt": 0
-                  },
-                  "value": 4.0,
-                  "raw": "4"
+                "value": 4.0,
+                "raw": "4"
+              },
+              "unit": {
+                "span": {
+                  "start": 135,
+                  "end": 137,
+                  "ctxt": 0
                 },
                 "unit": {
                   "type": "Identifier",
@@ -415,12 +392,14 @@
                   "value": "cm",
                   "raw": "cm"
                 }
+                "value": "cm",
+                "raw": "cm"
               }
-            ],
-            "important": null
-          }
-        ]
-      }
+            }
+          ],
+          "important": null
+        }
+      ]
     },
     {
       "type": "PageRule",
@@ -430,81 +409,47 @@
         "ctxt": 0
       },
       "prelude": null,
-      "block": {
-        "span": {
-          "start": 148,
-          "end": 201,
-          "ctxt": 0
-        },
-        "items": [
-          {
-            "type": "NestedPageRule",
+      "block": [
+        {
+          "type": "PageMarginRule",
+          "span": {
+            "start": 151,
+            "end": 180,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Identifier",
             "span": {
-              "start": 151,
-              "end": 180,
+              "start": 152,
+              "end": 162,
               "ctxt": 0
             },
-            "prelude": {
-              "type": "SelectorList",
+            "value": "top-center",
+            "raw": "top-center"
+          },
+          "block": [
+            {
+              "type": "Declaration",
               "span": {
-                "start": 151,
-                "end": 162,
+                "start": 165,
+                "end": 178,
                 "ctxt": 0
               },
-              "children": [
-                {
-                  "type": "ComplexSelector",
-                  "span": {
-                    "start": 151,
-                    "end": 162,
-                    "ctxt": 0
-                  },
-                  "children": [
-                    {
-                      "type": "CompoundSelector",
-                      "span": {
-                        "start": 151,
-                        "end": 162,
-                        "ctxt": 0
-                      },
-                      "nestingSelector": null,
-                      "typeSelector": null,
-                      "subclassSelectors": [
-                        {
-                          "type": "AtSelector",
-                          "span": {
-                            "start": 151,
-                            "end": 162,
-                            "ctxt": 0
-                          },
-                          "text": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 151,
-                              "end": 162,
-                              "ctxt": 0
-                            },
-                            "value": "top-center",
-                            "raw": "top-center"
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "block": {
-              "span": {
-                "start": 163,
-                "end": 180,
-                "ctxt": 0
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 165,
+                  "end": 172,
+                  "ctxt": 0
+                },
+                "value": "content",
+                "raw": "content"
               },
-              "items": [
+              "value": [
                 {
-                  "type": "Declaration",
+                  "type": "Identifier",
                   "span": {
-                    "start": 165,
+                    "start": 174,
                     "end": 178,
                     "ctxt": 0
                   },
@@ -531,22 +476,39 @@
                     }
                   ],
                   "important": null
+                  "value": "none",
+                  "raw": "none"
                 }
-              ]
+              ],
+              "important": null
             }
+          ]
+        },
+        {
+          "type": "Declaration",
+          "span": {
+            "start": 182,
+            "end": 198,
+            "ctxt": 0
           },
-          {
-            "type": "Declaration",
+          "property": {
+            "type": "Identifier",
             "span": {
               "start": 182,
-              "end": 198,
+              "end": 193,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
+            "value": "margin-left",
+            "raw": "margin-left"
+          },
+          "value": [
+            {
+              "type": "UnitValue",
               "span": {
-                "start": 182,
-                "end": 193,
+                "start": 195,
+                "end": 198,
                 "ctxt": 0
               },
               "value": "margin-left",
@@ -555,20 +517,21 @@
             "value": [
               {
                 "type": "Dimension",
+              "value": {
+                "type": "Number",
                 "span": {
                   "start": 195,
-                  "end": 198,
+                  "end": 196,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 195,
-                    "end": 196,
-                    "ctxt": 0
-                  },
-                  "value": 4.0,
-                  "raw": "4"
+                "value": 4.0,
+                "raw": "4"
+              },
+              "unit": {
+                "span": {
+                  "start": 196,
+                  "end": 198,
+                  "ctxt": 0
                 },
                 "unit": {
                   "type": "Identifier",
@@ -580,12 +543,14 @@
                   "value": "cm",
                   "raw": "cm"
                 }
+                "value": "cm",
+                "raw": "cm"
               }
-            ],
-            "important": null
-          }
-        ]
-      }
+            }
+          ],
+          "important": null
+        }
+      ]
     },
     {
       "type": "PageRule",
@@ -595,81 +560,47 @@
         "ctxt": 0
       },
       "prelude": null,
-      "block": {
-        "span": {
-          "start": 209,
-          "end": 262,
-          "ctxt": 0
-        },
-        "items": [
-          {
-            "type": "NestedPageRule",
+      "block": [
+        {
+          "type": "PageMarginRule",
+          "span": {
+            "start": 212,
+            "end": 241,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Identifier",
             "span": {
-              "start": 212,
-              "end": 241,
+              "start": 213,
+              "end": 223,
               "ctxt": 0
             },
-            "prelude": {
-              "type": "SelectorList",
+            "value": "top-center",
+            "raw": "top-center"
+          },
+          "block": [
+            {
+              "type": "Declaration",
               "span": {
-                "start": 212,
-                "end": 223,
+                "start": 226,
+                "end": 239,
                 "ctxt": 0
               },
-              "children": [
-                {
-                  "type": "ComplexSelector",
-                  "span": {
-                    "start": 212,
-                    "end": 223,
-                    "ctxt": 0
-                  },
-                  "children": [
-                    {
-                      "type": "CompoundSelector",
-                      "span": {
-                        "start": 212,
-                        "end": 223,
-                        "ctxt": 0
-                      },
-                      "nestingSelector": null,
-                      "typeSelector": null,
-                      "subclassSelectors": [
-                        {
-                          "type": "AtSelector",
-                          "span": {
-                            "start": 212,
-                            "end": 223,
-                            "ctxt": 0
-                          },
-                          "text": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 212,
-                              "end": 223,
-                              "ctxt": 0
-                            },
-                            "value": "top-center",
-                            "raw": "top-center"
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "block": {
-              "span": {
-                "start": 224,
-                "end": 241,
-                "ctxt": 0
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 226,
+                  "end": 233,
+                  "ctxt": 0
+                },
+                "value": "CONTENT",
+                "raw": "CONTENT"
               },
-              "items": [
+              "value": [
                 {
-                  "type": "Declaration",
+                  "type": "Identifier",
                   "span": {
-                    "start": 226,
+                    "start": 235,
                     "end": 239,
                     "ctxt": 0
                   },
@@ -696,22 +627,39 @@
                     }
                   ],
                   "important": null
+                  "value": "none",
+                  "raw": "none"
                 }
-              ]
+              ],
+              "important": null
             }
+          ]
+        },
+        {
+          "type": "Declaration",
+          "span": {
+            "start": 243,
+            "end": 259,
+            "ctxt": 0
           },
-          {
-            "type": "Declaration",
+          "property": {
+            "type": "Identifier",
             "span": {
               "start": 243,
-              "end": 259,
+              "end": 254,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
+            "value": "MARGIN-LEFT",
+            "raw": "MARGIN-LEFT"
+          },
+          "value": [
+            {
+              "type": "UnitValue",
               "span": {
-                "start": 243,
-                "end": 254,
+                "start": 256,
+                "end": 259,
                 "ctxt": 0
               },
               "value": "MARGIN-LEFT",
@@ -720,20 +668,21 @@
             "value": [
               {
                 "type": "Dimension",
+              "value": {
+                "type": "Number",
                 "span": {
                   "start": 256,
-                  "end": 259,
+                  "end": 257,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 256,
-                    "end": 257,
-                    "ctxt": 0
-                  },
-                  "value": 4.0,
-                  "raw": "4"
+                "value": 4.0,
+                "raw": "4"
+              },
+              "unit": {
+                "span": {
+                  "start": 257,
+                  "end": 259,
+                  "ctxt": 0
                 },
                 "unit": {
                   "type": "Identifier",
@@ -745,12 +694,14 @@
                   "value": "cm",
                   "raw": "cm"
                 }
+                "value": "cm",
+                "raw": "cm"
               }
-            ],
-            "important": null
-          }
-        ]
-      }
+            }
+          ],
+          "important": null
+        }
+      ]
     }
   ]
 }
