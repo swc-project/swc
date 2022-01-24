@@ -6,6 +6,7 @@ pub mod fixer;
 #[macro_use]
 pub mod hygiene;
 pub mod assumptions;
+pub mod dropped_comments_preserver;
 pub mod helpers;
 #[doc(hidden)]
 pub mod native;

@@ -24,6 +24,7 @@ pub use swc_common::chain;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     comments::SingleThreadedComments,
+    comments::Comments,
     errors::Handler,
     FileName, Mark, SourceMap, SyntaxContext,
 };
@@ -45,6 +46,7 @@ use swc_ecma_minifier::option::{
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};
 use swc_ecma_transforms::{
+    dropped_comments_preserver::dropped_comments_preserver,
     hygiene, modules,
     modules::{
         hoist::module_hoister, path::NodeImportResolver, rewriter::import_rewriter, util::Scope,
@@ -296,6 +298,7 @@ impl Options {
             minify: mut js_minify,
             experimental,
             lints,
+            preserve_dropped_comments,
             ..
         } = config.jsc;
 
@@ -496,7 +499,11 @@ impl Options {
                 syntax.jsx()
             ),
             pass,
-            Optional::new(jest::jest(), transform.hidden.jest)
+            Optional::new(jest::jest(), transform.hidden.jest),
+            Optional::new(
+                dropped_comments_preserver(comments.map(|v| v as &dyn Comments)),
+                preserve_dropped_comments
+            ),
         );
 
         Ok(BuiltInput {
@@ -1029,6 +1036,9 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub lints: LintConfig,
+
+    #[serde(default)]
+    pub preserve_dropped_comments: bool,
 }
 
 /// `jsc.experimental` in `.swcrc`
