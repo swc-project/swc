@@ -987,6 +987,11 @@ impl Merge for JscExperimental {
         if self.plugins.is_none() {
             *self = from.clone();
         }
+        if self.cache_root.is_none() {
+            *self = cache_root.clone();
+        }
+
+        self.keep_import_assertions |= from.keep_import_assertions;
     }
 }
 
