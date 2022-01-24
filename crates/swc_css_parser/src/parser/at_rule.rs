@@ -1560,8 +1560,22 @@ where
 
         expect!(self, ":");
 
-        // TODO validate name and uppercase
-        let value = self.parse()?;
+        let value = match cur!(self) {
+            Token::Ident { value, .. }
+                if &*value.to_ascii_lowercase() == "left"
+                    || &*value.to_ascii_lowercase() == "right"
+                    || &*value.to_ascii_lowercase() == "first"
+                    || &*value.to_ascii_lowercase() == "blank" =>
+            {
+                self.parse()?
+            }
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("'left', 'right', 'first' or 'blank' ident"),
+                ))
+            }
+        };
 
         Ok(PageSelectorPseudo {
             span: span!(self, span.lo),
