@@ -985,10 +985,10 @@ pub struct JscExperimental {
 impl Merge for JscExperimental {
     fn merge(&mut self, from: &Self) {
         if self.plugins.is_none() {
-            *self = from.clone();
+            self.plugins = from.plugins.clone();
         }
         if self.cache_root.is_none() {
-            *self = cache_root.clone();
+            self.cache_root = from.cache_root.clone();
         }
 
         self.keep_import_assertions |= from.keep_import_assertions;
