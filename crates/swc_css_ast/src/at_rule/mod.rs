@@ -1,7 +1,7 @@
 pub use self::{
     charset::*, document::*, import::*, keyframe::*, layer::*, media::*, page::*, support::*,
 };
-use crate::{Block, Ident, SimpleBlock, Str, Url, Value};
+use crate::{Block, DashedIdent, Ident, SimpleBlock, Str, Url, Value};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
@@ -82,10 +82,19 @@ pub struct ViewportRule {
     pub block: Block,
 }
 
+#[ast_node]
+pub enum AtRuleName {
+    #[tag("DashedIdent")]
+    DashedIdent(DashedIdent),
+
+    #[tag("Ident")]
+    Ident(Ident),
+}
+
 #[ast_node("UnknownAtRule")]
 pub struct UnknownAtRule {
     pub span: Span,
-    pub name: Ident,
+    pub name: AtRuleName,
     pub prelude: Vec<Value>,
     pub block: Option<SimpleBlock>,
 }

@@ -661,6 +661,35 @@ where
     }
 }
 
+impl<I> Parse<DashedIdent> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<DashedIdent> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Ident) {
+            return Err(Error::new(span, ErrorKind::Expected("Ident")));
+        }
+
+        match bump!(self) {
+            Token::Ident { value, raw } => {
+                if !value.starts_with("--") {
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected("'--' at the start of dashed-ident"),
+                    ));
+                }
+
+                Ok(DashedIdent { span, value, raw })
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
 impl<I> Parse<Ident> for Parser<I>
 where
     I: ParserInput,

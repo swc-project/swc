@@ -39,6 +39,12 @@ define!({
         pub raw: JsWord,
     }
 
+    pub struct DashedIdent {
+        pub span: Span,
+        pub value: JsWord,
+        pub raw: JsWord,
+    }
+
     pub struct Str {
         pub span: Span,
         pub value: JsWord,
@@ -95,6 +101,8 @@ define!({
         Hash(HashValue),
 
         Ident(Ident),
+
+        DashedIdent(DashedIdent),
 
         Str(Str),
 
@@ -391,9 +399,14 @@ define!({
         pub block: Block,
     }
 
+    pub enum AtRuleName {
+        DashedIdent(DashedIdent),
+        Ident(Ident),
+    }
+
     pub struct UnknownAtRule {
         pub span: Span,
-        pub name: Ident,
+        pub name: AtRuleName,
         pub prelude: Vec<Value>,
         pub block: Option<SimpleBlock>,
     }

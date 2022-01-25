@@ -16,7 +16,7 @@
       "name": {
         "type": "Identifier",
         "span": {
-          "start": 0,
+          "start": 1,
           "end": 11,
           "ctxt": 0
         },

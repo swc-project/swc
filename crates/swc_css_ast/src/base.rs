@@ -15,6 +15,13 @@ pub struct CustomIdent {
     pub raw: JsWord,
 }
 
+#[ast_node("DashedIdentifier")]
+pub struct DashedIdent {
+    pub span: Span,
+    pub value: JsWord,
+    pub raw: JsWord,
+}
+
 /// Quoted string.
 #[ast_node("String")]
 pub struct Str {

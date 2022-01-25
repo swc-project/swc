@@ -572,6 +572,7 @@ where
             Value::Ratio(n) => emit!(self, n),
             Value::Hash(n) => emit!(self, n),
             Value::Ident(n) => emit!(self, n),
+            Value::DashedIdent(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
             Value::Space(n) => emit!(self, n),
@@ -579,6 +580,14 @@ where
             Value::AtText(n) => emit!(self, n),
             Value::Url(n) => emit!(self, n),
             Value::Comma(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_at_rule_name(&mut self, n: &AtRuleName) -> Result {
+        match n {
+            AtRuleName::Ident(n) => emit!(self, n),
+            AtRuleName::DashedIdent(n) => emit!(self, n),
         }
     }
 
@@ -682,6 +691,11 @@ where
 
     #[emitter]
     fn emit_custom_ident(&mut self, n: &CustomIdent) -> Result {
+        self.wr.write_raw(Some(n.span), &n.raw)?;
+    }
+
+    #[emitter]
+    fn emit_dashed_ident(&mut self, n: &DashedIdent) -> Result {
         self.wr.write_raw(Some(n.span), &n.raw)?;
     }
 
