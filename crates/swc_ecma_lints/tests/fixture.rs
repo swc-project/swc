@@ -2,10 +2,7 @@ use std::path::PathBuf;
 
 use swc_common::{input::SourceFileInput, Mark, SyntaxContext};
 use swc_ecma_ast::EsVersion;
-use swc_ecma_lints::{
-    config::{LintConfig, LintRuleReaction},
-    rules::all,
-};
+use swc_ecma_lints::{config::LintConfig, rules::all};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_utils::HANDLER;
@@ -47,7 +44,6 @@ fn pass(input: PathBuf) {
         let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 
         let mut config = LintConfig::default();
-        config.no_console = LintRuleReaction::Warning;
 
         let rules = all(&config, top_level_ctxt);
 
