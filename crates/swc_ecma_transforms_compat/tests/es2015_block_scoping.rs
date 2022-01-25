@@ -1,5 +1,6 @@
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
+use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::{
     es2015,
     es2015::{block_scoping, for_of::for_of},
@@ -1009,7 +1010,7 @@ expect(expected).toEqual([0,1,2,3,4]);
 "
 );
 
-#[testing::fixture("tests/block-scoping/**/exec.js")]
+#[testing::fixture("tests/fixture/block-scoping/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
     compare_stdout(
