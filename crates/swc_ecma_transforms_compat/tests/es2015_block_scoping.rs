@@ -1008,3 +1008,13 @@ for (let b = 0; b < a; b++) {
 expect(expected).toEqual([0,1,2,3,4]);
 "
 );
+
+#[testing::fixture("tests/fixture/block-scoping/**/exec.js")]
+fn exec(input: PathBuf) {
+    let input = read_to_string(&input).unwrap();
+    compare_stdout(
+        Default::default(),
+        |_| chain!(resolver(), block_scoping()),
+        &input,
+    );
+}
