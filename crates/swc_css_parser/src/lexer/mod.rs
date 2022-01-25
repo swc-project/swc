@@ -749,7 +749,6 @@ where
                     value.push_str(&remnants.0);
                     raw.push_str(&remnants.1);
 
-                    // TODO check me
                     return Ok(Token::BadUrl {
                         name: name.0,
                         raw_name: name.1,
