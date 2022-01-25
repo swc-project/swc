@@ -42,7 +42,7 @@ fn pass(input: PathBuf) {
         let mut m = parser.parse_module().unwrap();
         let top_level_mark = Mark::fresh(Mark::root());
 
-        m.visit_mut_with(&mut resolver_with_mark(top_level_mark.clone()));
+        m.visit_mut_with(&mut resolver_with_mark(top_level_mark));
 
         let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 

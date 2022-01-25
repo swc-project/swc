@@ -33,7 +33,7 @@ impl NoConsole {
     }
 
     fn check(&mut self, id: &Ident) {
-        if id.sym.eq("console") {
+        if &*id.sym == "console" {
             if id.span.ctxt == self.top_level_ctxt {
                 HANDLER.with(|handler| match self.expected_reaction {
                     LintRuleReaction::Error => {

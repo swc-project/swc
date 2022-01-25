@@ -15,9 +15,10 @@ pub fn all(lint_config: &LintConfig, top_level_ctxt: SyntaxContext) -> Vec<Box<d
         duplicate_exports::duplicate_exports(),
     ];
 
-    if let Some(rule) = no_console::no_console(&lint_config.no_console, top_level_ctxt.clone()) {
-        rules.push(rule)
-    }
+    rules.extend(no_console::no_console(
+        &lint_config.no_console,
+        top_level_ctxt,
+    ));
 
     rules
 }
