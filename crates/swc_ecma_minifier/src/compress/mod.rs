@@ -316,39 +316,23 @@ where
         }
 
         {
-            tracing::info!(
-                "compress/pure: Running pure optimizer (pass = {})",
-                self.pass
-            );
-
-            let start_time = now();
+            let _timer = timer!("apply pure optimize");
 
             let mut visitor = pure_optimizer(self.options, self.marks, self.mode, self.pass >= 20);
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
 
-            if let Some(start_time) = start_time {
-                let end_time = Instant::now();
+            if cfg!(feature = "debug") && visitor.changed() {
+                n.invoke();
 
-                tracing::info!(
-                    "compress/pure: Pure optimizer took {:?} (pass = {})",
-                    end_time - start_time,
-                    self.pass
-                );
-
-                if cfg!(feature = "debug") && visitor.changed() {
-                    n.invoke();
-
-                    let start = n.dump();
-                    tracing::debug!("===== After pure =====\n{}", start);
-                }
+                let start = n.dump();
+                tracing::debug!("===== After pure =====\n{}", start);
             }
         }
 
         {
-            tracing::info!("compress: Running optimizer (pass = {})", self.pass);
+            let _timer = timer!("apply full optimizer");
 
-            let start_time = now();
             // TODO: reset_opt_flags
             //
             // This is swc version of `node.optimize(this);`.
@@ -365,15 +349,6 @@ where
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
 
-            if let Some(start_time) = start_time {
-                let end_time = Instant::now();
-
-                tracing::info!(
-                    "compress: Optimizer took {:?} (pass = {})",
-                    end_time - start_time,
-                    self.pass
-                );
-            }
             // let done = dump(&*n);
             // tracing::debug!("===== Result =====\n{}", done);
         }
