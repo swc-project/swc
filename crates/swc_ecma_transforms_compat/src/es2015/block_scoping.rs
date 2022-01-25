@@ -110,6 +110,7 @@ impl BlockScoping {
             let mut v = FunctionFinder { found: false };
             body_stmt.visit_with(&mut v);
             if !v.found {
+                self.scope.pop();
                 return;
             }
         }
