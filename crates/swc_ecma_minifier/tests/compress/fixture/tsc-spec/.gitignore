@@ -1,0 +1,4 @@
+# Instead of adding output to git, just delete input directory as 
+# these tests are tested by the swc crate.
+output.js
+
