@@ -51,11 +51,11 @@ impl Prefixer {
 
                     self.added.push(Declaration {
                         span: DUMMY_SP,
-                        property: Ident {
+                        property: DeclarationProperty::Ident(Ident {
                             span: DUMMY_SP,
                             value: "cursor".into(),
                             raw: "cursor".into(),
-                        },
+                        }),
                         value: {
                             let val = Value::Comma(CommaValues {
                                 span: DUMMY_SP,
@@ -96,13 +96,14 @@ impl VisitMut for Prefixer {
                     value: $val.into(),
                     raw: $val.into(),
                 });
+                let property = DeclarationProperty::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: $property.into(),
+                    raw: $property.into(),
+                });
                 self.added.push(Declaration {
                     span: n.span,
-                    property: Ident {
-                        span: n.property.span,
-                        value: $property.into(),
-                        raw: $property.into(),
-                    },
+                    property,
                     value: vec![val],
                     important: n.important.clone(),
                 });
@@ -111,13 +112,15 @@ impl VisitMut for Prefixer {
 
         macro_rules! same_content {
             ($property:expr) => {{
+                let property = DeclarationProperty::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: $property.into(),
+                    raw: $property.into(),
+                });
+
                 self.added.push(Declaration {
                     span: n.span,
-                    property: Ident {
-                        span: n.property.span,
-                        value: $property.into(),
-                        raw: $property.into(),
-                    },
+                    property,
                     value: n.value.clone(),
                     important: n.important.clone(),
                 });
@@ -141,7 +144,23 @@ impl VisitMut for Prefixer {
             }};
         }
 
-        match &*n.property.value {
+        let is_dashed_ident = match n.property {
+            DeclarationProperty::Ident(_) => false,
+            DeclarationProperty::DashedIdent(_) => true,
+        };
+
+        if is_dashed_ident {
+            return;
+        }
+
+        let name = match &n.property {
+            DeclarationProperty::Ident(i) => &*i.value,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        match name {
             "appearance" => {
                 same_content!("-webkit-appearance");
                 same_content!("-moz-appearance");
@@ -488,13 +507,14 @@ impl VisitMut for Prefixer {
             "transition" => {
                 let mut value = n.value.clone();
                 replace_ident(&mut value, "transform", "-webkit-transform");
+                let property = DeclarationProperty::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-webkit-transition".into(),
+                    raw: "-webkit-transition".into(),
+                });
                 self.added.push(Declaration {
                     span: n.span,
-                    property: Ident {
-                        span: n.property.span,
-                        value: "-webkit-transition".into(),
-                        raw: "-webkit-transition".into(),
-                    },
+                    property,
                     value,
                     important: n.important,
                 });
