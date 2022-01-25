@@ -206,6 +206,7 @@ function _wrapAsyncGenerator(fn) {
     };
 }
 var _marked = regeneratorRuntime.mark(f1);
+// spread iterable
 _toConsumableArray(g1); // error
 _toConsumableArray(g2); // ok
 // binding pattern over iterable
@@ -215,10 +216,12 @@ var _g2 = _slicedToArray(g2, 1), x2 = _g2[0]; // ok
 var _g11 = _toArray(g1), y1 = _g11.slice(0); // error
 var _g21 = _toArray(g2), y2 = _g21.slice(0); // ok
 var ref;
+// assignment pattern over iterable
 ref = _slicedToArray(g1, 1), _ = ref[0], ref; // error
 var ref1;
 ref1 = _slicedToArray(g2, 1), _ = ref1[0], ref1; // ok
 var ref2;
+// assignment rest pattern over iterable
 ref2 = _toArray(g1), _ = ref2.slice(0), ref2; // error
 var ref3;
 ref3 = _toArray(g2), _ = ref3.slice(0), ref3; // ok
