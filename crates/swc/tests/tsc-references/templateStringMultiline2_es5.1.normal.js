@@ -1,1 +1,2 @@
+// newlines are <LF>
 "\n";

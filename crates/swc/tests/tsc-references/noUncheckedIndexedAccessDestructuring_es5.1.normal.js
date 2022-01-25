@@ -118,6 +118,7 @@ t2.z.toString(); // Should error
     q.y.toFixed(); // Should OK
     q.z.toFixed(); // Should error
 }var ref;
+// Assignment forms
 ref = _slicedToArray(strArray, 1), target_string = ref[0], ref; // Should error
 var ref1;
 ref1 = _slicedToArray(strArray, 1), target_string_undef = ref1[0], ref1; // Should OK

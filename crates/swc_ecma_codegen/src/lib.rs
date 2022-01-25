@@ -93,6 +93,7 @@ where
 
     #[emitter]
     pub fn emit_script(&mut self, node: &Script) -> Result {
+        self.emit_leading_comments_of_span(node.span(), false)?;
         if let Some(ref shebang) = node.shebang {
             punct!("#!");
             self.wr.write_str_lit(DUMMY_SP, &*shebang)?;
@@ -101,14 +102,17 @@ where
         for stmt in &node.body {
             emit!(stmt);
         }
+        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
     }
 
     #[emitter]
     pub fn emit_module_item(&mut self, node: &ModuleItem) -> Result {
+        self.emit_leading_comments_of_span(node.span(), false)?;
         match *node {
             ModuleItem::Stmt(ref stmt) => emit!(stmt),
             ModuleItem::ModuleDecl(ref decl) => emit!(decl),
         }
+        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
     }
 
     #[emitter]
