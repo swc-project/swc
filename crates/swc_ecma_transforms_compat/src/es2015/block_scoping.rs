@@ -127,9 +127,7 @@ impl BlockScoping {
             ..
         }) = self.scope.pop()
         {
-            let captured_ids = idents_captured_by(&*body_stmt);
-
-            if used.is_empty() && captured_ids.is_empty() {
+            if used.is_empty() {
                 return;
             }
             let this = if contains_this_expr(body_stmt) {
@@ -1013,68 +1011,4 @@ impl Visit for FunctionFinder {
     ///
     /// https://github.com/swc-project/swc/issues/2622
     fn visit_while_stmt(&mut self, _: &WhileStmt) {}
-}
-
-#[derive(Default)]
-pub(crate) struct CapturedIdCollector {
-    ids: AHashSet<Id>,
-    is_nested: bool,
-}
-
-impl Visit for CapturedIdCollector {
-    noop_visit_type!();
-
-    fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
-        let old = self.is_nested;
-        self.is_nested = true;
-        n.visit_children_with(self);
-        self.is_nested = old;
-    }
-
-    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
-        let old = self.is_nested;
-        self.is_nested = true;
-        n.visit_children_with(self);
-        self.is_nested = old;
-    }
-
-    fn visit_constructor(&mut self, n: &Constructor) {
-        let old = self.is_nested;
-        self.is_nested = true;
-        n.visit_children_with(self);
-        self.is_nested = old;
-    }
-
-    fn visit_function(&mut self, n: &Function) {
-        let old = self.is_nested;
-        self.is_nested = true;
-        n.visit_children_with(self);
-        self.is_nested = old;
-    }
-
-    fn visit_ident(&mut self, n: &Ident) {
-        if self.is_nested {
-            self.ids.insert(n.to_id());
-        }
-    }
-
-    visit_obj_and_computed!();
-
-    fn visit_prop_name(&mut self, n: &PropName) {
-        if let PropName::Computed(..) = n {
-            n.visit_children_with(self);
-        }
-    }
-}
-
-fn idents_captured_by<N>(n: &N) -> AHashSet<Id>
-where
-    N: VisitWith<CapturedIdCollector>,
-{
-    let mut v = CapturedIdCollector {
-        is_nested: false,
-        ..Default::default()
-    };
-    n.visit_with(&mut v);
-    v.ids
 }
