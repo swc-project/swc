@@ -46,7 +46,9 @@ var ref = [
     void 0,
     void 0,
     void 0
-], tmp1 = ref[0], tmp2 = ref[1], tmp3 = ref[2], ref1 = _slicedToArray([
+];
+ref[0], ref[1], ref[2];
+var ref1 = _slicedToArray([
     1,
     "string"
 ].concat(function(arr) {
@@ -70,7 +72,7 @@ var _e = _slicedToArray([
         b1: 4,
         b4: 0
     }
-], 3), e1 = _e[0], e2 = _e[1], tmp4 = _e[2], _f = _slicedToArray([
+], 3), e1 = _e[0], e2 = _e[1], tmp1 = _e[2], _f = _slicedToArray([
     1,
     2,
     {

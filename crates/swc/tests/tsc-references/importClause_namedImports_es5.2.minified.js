@@ -5,4 +5,4 @@ export var A = function() {
     }(this, A);
 };
 export var C = "";
-new A();
+new A(), b.b;
