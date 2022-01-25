@@ -17,6 +17,9 @@
 - **(css/parser)** Fix parsing of at rules (#3328) ([506a310](https://github.com/swc-project/swc/commit/506a31078aaebf50129658f096bbd5929995205f))
 
 
+- **(es/block-scoping)** Pop scope correctly on early returns (#3360) ([b1a8db6](https://github.com/swc-project/swc/commit/b1a8db61943d022bcbed583eb3562510d1ed727c))
+
+
 - **(es/compat)** Fix regression of `destructuring` (#3326) ([6d1ad36](https://github.com/swc-project/swc/commit/6d1ad368aca53ee64a63ae565cd015909f2f4458))
 
 
@@ -57,6 +60,9 @@
 
 
 - **(es/minifier)** Handle array literals in `sequences` (#3348) ([8007b2d](https://github.com/swc-project/swc/commit/8007b2dc9338e34a1e9780606fd35181890af990))
+
+
+- **(plugin)** Pass host context to plugins for diagnostics emission (#3359) ([a8debc1](https://github.com/swc-project/swc/commit/a8debc17f6082c033d3734a8e2c0cccc598c1d08))
 
 ### Miscellaneous Tasks
 
