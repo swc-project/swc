@@ -743,6 +743,8 @@ where
                         _ => {}
                     }
 
+                    value.push_str(&whitespaces);
+
                     // otherwise, consume the remnants of a bad url, create a <bad-url-token>, and
                     // return it.
                     let remnants = self.read_bad_url_remnants()?;

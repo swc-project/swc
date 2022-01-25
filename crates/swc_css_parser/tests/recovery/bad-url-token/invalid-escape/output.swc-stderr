@@ -1,0 +1,8 @@
+error: Expected Declaration value
+ --> $DIR/tests/recovery/bad-url-token/invalid-escape/input.css:2:17
+  |
+2 |       background: url(image.png\
+  |  _________________^
+3 | |     );
+  | |_____^
+

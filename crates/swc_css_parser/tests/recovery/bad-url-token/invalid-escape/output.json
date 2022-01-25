@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 61,
+    "end": 46,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 0,
-        "end": 60,
+        "end": 45,
         "ctxt": 0
       },
       "prelude": {
@@ -66,7 +66,7 @@
         "type": "Block",
         "span": {
           "start": 4,
-          "end": 60,
+          "end": 45,
           "ctxt": 0
         },
         "value": [
@@ -74,7 +74,7 @@
             "type": "Tokens",
             "span": {
               "start": 10,
-              "end": 41,
+              "end": 42,
               "ctxt": 0
             },
             "tokens": [
@@ -114,50 +114,19 @@
               {
                 "span": {
                   "start": 22,
-                  "end": 41,
+                  "end": 42,
                   "ctxt": 0
                 },
                 "token": {
                   "BadUrl": {
                     "name": "url",
                     "raw_name": "url",
-                    "value": "image.\n    png",
-                    "raw_value": "image.\n    png"
+                    "value": "image.png\\\n    ",
+                    "raw_value": "image.png\\\n    "
                   }
                 }
               }
             ]
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 47,
-              "end": 57,
-              "ctxt": 0
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 47,
-                "end": 52,
-                "ctxt": 0
-              },
-              "value": "color",
-              "raw": "color"
-            },
-            "value": [
-              {
-                "type": "Identifier",
-                "span": {
-                  "start": 54,
-                  "end": 57,
-                  "ctxt": 0
-                },
-                "value": "red",
-                "raw": "red"
-              }
-            ],
-            "important": null
           }
         ]
       }
