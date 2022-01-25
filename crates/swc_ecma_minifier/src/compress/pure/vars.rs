@@ -46,7 +46,7 @@ where
 
                             found_vars_without_init = true;
                         } else {
-                            if found_vars_without_init {
+                            if found_vars_without_init && self.options.join_vars {
                                 need_work = true;
                             }
                             found_other = true;
