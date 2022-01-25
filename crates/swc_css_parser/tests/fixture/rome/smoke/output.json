@@ -173,7 +173,7 @@
                       }
                     },
                     "right": {
-                      "type": "PercentValue",
+                      "type": "Percent",
                       "span": {
                         "start": 72,
                         "end": 74,

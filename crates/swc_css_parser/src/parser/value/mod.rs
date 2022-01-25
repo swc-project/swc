@@ -731,11 +731,11 @@ where
     }
 }
 
-impl<I> Parse<PercentValue> for Parser<I>
+impl<I> Parse<Percent> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<PercentValue> {
+    fn parse(&mut self) -> PResult<Percent> {
         let span = self.input.cur_span()?;
 
         if !is!(self, Percent) {
@@ -750,7 +750,7 @@ where
                     raw,
                 };
 
-                Ok(PercentValue { span, value })
+                Ok(Percent { span, value })
             }
             _ => {
                 unreachable!()

@@ -243,7 +243,7 @@ error: Value
 8 |     width: 20%;
   |            ^^^
 
-error: PercentValue
+error: Percent
  --> $DIR/tests/fixture/rome/values/input.css:8:9
   |
 8 |     width: 20%;
@@ -273,7 +273,7 @@ error: Value
 9 |     margin-top: -5%;
   |                 ^^^
 
-error: PercentValue
+error: Percent
  --> $DIR/tests/fixture/rome/values/input.css:9:14
   |
 9 |     margin-top: -5%;
