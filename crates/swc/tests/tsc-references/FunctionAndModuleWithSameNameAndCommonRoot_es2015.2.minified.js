@@ -9,7 +9,7 @@ var A, B;
         x: 0,
         y: 0
     };
-})(A || (A = {})), A.Point, A.Point(), A.Point.Origin, (function(B1) {
+})(A || (A = {})), A.Point(), A.Point.Origin, (function(B1) {
     function Point() {
         return {
             x: 0,
