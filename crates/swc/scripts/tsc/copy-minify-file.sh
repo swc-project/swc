@@ -11,7 +11,8 @@ echo "Copying $name"
 normal_file_path="tests/tsc-references/$(sed 's/2\.minified/1\.normal/' <<< $name)"
 echo "Normal file: $normal_file_path"
 
-cp $normal_file_path "$SCRIPT_DIR/../swc_ecma_minifier/tests/compress/fixture/tsc-spec/$name/input.js"
+mkdir -p "$SCRIPT_DIR/../../../swc_ecma_minifier/tests/compress/fixture/tsc-spec/$name"
+cp $normal_file_path "$SCRIPT_DIR/../../../swc_ecma_minifier/tests/compress/fixture/tsc-spec/$name/input.js"
 
 echo
 
