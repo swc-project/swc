@@ -5,7 +5,7 @@ function _defineProperties(target, props) {
     }
 }
 Outer.Inner.Message = function() {}, new Outer.Inner().name;
-var x, Outer = {};
+var Outer = {};
 Outer.Inner = (function() {
     "use strict";
     var Constructor, protoProps, staticProps;
