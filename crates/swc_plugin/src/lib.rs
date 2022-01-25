@@ -10,6 +10,14 @@ pub mod ast {
     pub use swc_ecma_visit::*;
 }
 
+pub mod errors {
+    pub use swc_common::errors::{Diagnostic, Level};
+}
+
+mod context;
+pub mod environment {
+    pub use crate::context::*;
+}
 // We don't set target cfg as it'll block macro expansions
 // in ide (i.e rust-analyzer) or non-wasm target `cargo check`
 pub use swc_plugin_macro::plugin_module;
