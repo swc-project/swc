@@ -15,9 +15,10 @@ use std::any::type_name;
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 /// Enum for possible errors while running transform via plugin.
-/// Mostly this enum is being used to bubble up error occurred inside of plugin
-/// runtime which we can't transparently pass forward Error itself. Host (SWC)
-/// will try to attach context if possible then raise it as Error.
+/// This error indicates internal operation failure either in plugin_runner
+/// or plugin_macro. Plugin's transform fn itself does not allow to return
+/// error - instead it should use provided `handler` to emit corresponding error
+/// to the host.
 pub enum PluginError {
     /// Occurs when failed to convert size passed from host / guest into usize
     /// or similar for the conversion. This is an internal error rasied via
@@ -30,10 +31,6 @@ pub enum PluginError {
     /// raw bytes: when serialze failed, there's nothing we can pass between
     /// runtime.
     Serialize(String),
-    /// When plugin fails to transform for some reason.
-    /// This is incomplete yet as it is unclear what kind of data plugin want to
-    /// forward into host.
-    Transform,
 }
 
 /// Wraps internal representation of serialized data. Consumers should not

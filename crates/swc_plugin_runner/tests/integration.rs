@@ -4,7 +4,7 @@ use std::{
     path::{Path, PathBuf},
     process::{Command, Stdio},
 };
-use swc_common::{plugin::Serialized, FileName};
+use swc_common::{errors::HANDLER, plugin::Serialized, FileName};
 use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 use swc_ecma_visit::{Visit, VisitWith};
@@ -99,6 +99,34 @@ fn internal() -> Result<(), Error> {
             .ok_or(())
     })
     .expect("Should able to run single plugin transform");
+
+    // run single plugin with handler
+    testing::run_test2(false, |cm, handler| {
+        let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
+
+        let lexer = Lexer::new(
+            Syntax::Es(EsConfig {
+                ..Default::default()
+            }),
+            EsVersion::latest(),
+            StringInput::from(&*fm),
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        let program = parser.parse_program().unwrap();
+
+        let program = Serialized::serialize(&program).expect("Should serializable");
+        let config = Serialized::serialize(&"{}".to_string()).expect("Should serializable");
+
+        let _res = HANDLER.set(&handler, || {
+            swc_plugin_runner::apply_js_plugin("internal-test", &path, &mut None, config, program)
+                .expect("Plugin should apply transform")
+        });
+
+        Ok(())
+    })
+    .expect("Should able to run single plugin transform with handler");
 
     // Run multiple plugins.
     testing::run_test(false, |cm, _handler| {

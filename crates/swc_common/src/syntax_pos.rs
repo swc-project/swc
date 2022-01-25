@@ -188,6 +188,10 @@ impl FileName {
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
 )]
+#[cfg_attr(
+    feature = "plugin-base",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct MultiSpan {
     primary_spans: Vec<Span>,
     span_labels: Vec<(Span, String)>,

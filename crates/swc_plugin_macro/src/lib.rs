@@ -102,14 +102,9 @@ fn handle_func(func: ItemFn) -> TokenStream {
             }
             let config = config.expect("Should be a string");
 
+            let host_context = swc_plugin::environment::HostContext::new();
             // Take original plugin fn ident, then call it with interop'ed args
-            let transformed_program = #ident(program, config);
-            if transformed_program.is_err() {
-                let err = transformed_program.expect_err("Should be an error");
-                return construct_error_ptr(err);
-            }
-
-            let transformed_program = transformed_program.expect("Should be a transformed program");
+            let transformed_program = #ident(program, config, &host_context);
 
             // Serialize transformed result, return back to the host.
             let serialized_result = swc_plugin::Serialized::serialize(&transformed_program);

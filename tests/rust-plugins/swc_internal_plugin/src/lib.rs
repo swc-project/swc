@@ -1,4 +1,4 @@
-use swc_plugin::{ast::*, plugin_module, PluginError, DUMMY_SP};
+use swc_plugin::{ast::*, plugin_module, DUMMY_SP, errors::{Diagnostic, Level}, environment::{HostContext}};
 
 struct ConsoleOutputReplacer;
 
@@ -36,10 +36,11 @@ impl VisitMut for ConsoleOutputReplacer {
 ///     i32 /* 0 means success */
 ///
 /// if plugin need to handle low-level ptr directly. However, there are important steps
-/// manually need to be performed like transformed results back to host. Refer swc_plugin_macro
+/// manually need to be performed like sending transformed results back to host. Refer swc_plugin_macro
 /// how does it work internally.
 #[plugin_module]
-pub fn process(program: Program, _plugin_config: String) -> Result<Program, PluginError> {
-    let transformed_program = program.fold_with(&mut as_folder(ConsoleOutputReplacer));
-    Ok(transformed_program)
+pub fn process(program: Program, _plugin_config: String, ctx: &HostContext) -> Program {
+    let test_diag = Diagnostic::new(Level::Error, "test_diag_error_from_plugin");
+    ctx.diagnostics.emit(test_diag);
+    program.fold_with(&mut as_folder(ConsoleOutputReplacer))
 }

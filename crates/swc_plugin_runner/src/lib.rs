@@ -9,6 +9,7 @@ use parking_lot::Mutex;
 use resolve::PluginCache;
 use swc_common::{
     collections::AHashMap,
+    errors::{Diagnostic, HANDLER},
     plugin::{PluginError, Serialized},
 };
 use wasmer::{
@@ -19,27 +20,46 @@ use wasmer_wasi::{is_wasi_module, WasiState};
 
 pub mod resolve;
 
+fn copy_bytes_into_host(memory: &Memory, bytes_ptr: i32, bytes_ptr_len: i32) -> Vec<u8> {
+    let ptr: WasmPtr<u8, Array> = WasmPtr::new(bytes_ptr as _);
+
+    // Deref & read through plugin's wasm memory space via returned ptr
+    let derefed_ptr = ptr
+        .deref(memory, 0, bytes_ptr_len as u32)
+        .expect("Should able to deref from given ptr");
+
+    derefed_ptr
+        .iter()
+        .enumerate()
+        .take(bytes_ptr_len as usize)
+        .map(|(_size, cell)| cell.get())
+        .collect::<Vec<u8>>()
+}
+
 /// Set plugin's transformed result into host's enviroment.
 /// This is an `imported` fn - when we instantiate plugin module, we inject this
 /// fn into pluging's export space. Once transform completes, plugin will call
 /// this to set its result back to host.
 fn set_transform_result(env: &HostEnvironment, bytes_ptr: i32, bytes_ptr_len: i32) {
     if let Some(memory) = env.memory_ref() {
-        let ptr: WasmPtr<u8, Array> = WasmPtr::new(bytes_ptr as _);
+        (*env.transform_result.lock()) = copy_bytes_into_host(memory, bytes_ptr, bytes_ptr_len);
+    }
+}
 
-        // Deref & read through plugin's wasm memory space via returned ptr
-        let derefed_ptr = ptr
-            .deref(memory, 0, bytes_ptr_len as u32)
-            .expect("Should able to deref from given ptr");
+fn emit_diagnostics(env: &HostEnvironment, bytes_ptr: i32, bytes_ptr_len: i32) {
+    if let Some(memory) = env.memory_ref() {
+        if HANDLER.is_set() {
+            HANDLER.with(|handler| {
+                let diagnostics_bytes = copy_bytes_into_host(memory, bytes_ptr, bytes_ptr_len);
+                let serialized = Serialized::new_for_plugin(&diagnostics_bytes[..], bytes_ptr_len);
+                let diagnostic = Serialized::deserialize::<Diagnostic>(&serialized)
+                    .expect("Should able to be deserialized into diagnsotic");
 
-        let transformed_raw_bytes = derefed_ptr
-            .iter()
-            .enumerate()
-            .take(bytes_ptr_len as usize)
-            .map(|(_size, cell)| cell.get())
-            .collect::<Vec<u8>>();
-
-        (*env.transform_result.lock()) = transformed_raw_bytes;
+                let mut builder =
+                    swc_common::errors::DiagnosticBuilder::new_diagnostic(handler, diagnostic);
+                builder.emit();
+            })
+        }
     }
 }
 
@@ -143,10 +163,19 @@ fn load_plugin(
             let set_transform_result_fn_decl = Function::new_native_with_env(
                 &wasmer_store,
                 HostEnvironment {
-                    memory: LazyInit::new(),
+                    memory: LazyInit::default(),
                     transform_result: transform_result.clone(),
                 },
                 set_transform_result,
+            );
+
+            let emit_diagnostics_fn_decl = Function::new_native_with_env(
+                &wasmer_store,
+                HostEnvironment {
+                    memory: LazyInit::default(),
+                    transform_result: transform_result.clone(),
+                },
+                emit_diagnostics,
             );
 
             // Plugin binary can be either wasm32-wasi or wasm32-unknown-unknown
@@ -167,6 +196,7 @@ fn load_plugin(
                 // communicate with host
                 let mut env = Exports::new();
                 env.insert("__set_transform_result", set_transform_result_fn_decl);
+                env.insert("__emit_diagnostics", emit_diagnostics_fn_decl);
                 import_object.register("env", env);
                 import_object
             }
@@ -175,7 +205,8 @@ fn load_plugin(
             else {
                 imports! {
                     "env" => {
-                        "__set_transform_result" => set_transform_result_fn_decl
+                        "__set_transform_result" => set_transform_result_fn_decl,
+                        "__emit_diagnostics" => emit_diagnostics_fn_decl
                     }
                 }
             };
@@ -280,7 +311,6 @@ impl PluginTransformTracker {
                 PluginError::Deserialize((msg, ..)) | PluginError::Serialize(msg) => {
                     Err(anyhow!("{}", msg))
                 }
-                PluginError::Transform => Err(anyhow!("Failed to apply transform via plugin")),
                 _ => Err(anyhow!(
                     "Unexpected error occurred while running plugin transform"
                 )),
