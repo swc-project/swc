@@ -1,0 +1,6 @@
+error: Unexpected console statement
+ 
+  |
+8 | console.log("message");
+  | ^^^^^^^
+

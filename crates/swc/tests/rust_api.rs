@@ -144,6 +144,7 @@ fn shopify_2_same_opt() {
                     paths: Default::default(),
                     minify: None,
                     experimental: Default::default(),
+                    lints: Default::default(),
                 },
                 module: None,
                 minify: false,

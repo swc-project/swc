@@ -4,5 +4,4 @@ object.console.log("message");
     console.log("message");
 };
 
-// TODO: need to check in the future
-// console.log("message")
+console.log("message");
