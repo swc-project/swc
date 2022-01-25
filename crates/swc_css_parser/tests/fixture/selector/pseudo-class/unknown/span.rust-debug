@@ -1210,7 +1210,7 @@ error: Tokens
 15 | :unknown(url(foo.png)) {}
    |          ^^^^^^^^^^^^
 
-error: Url { value: Atom('foo.png' type=inline), raw: Atom('foo.png' type=inline) }
+error: Url { name: Atom('url' type=static), raw_name: Atom('url' type=static), value: Atom('foo.png' type=inline), raw_value: Atom('foo.png' type=inline) }
   --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:10
    |
 15 | :unknown(url(foo.png)) {}

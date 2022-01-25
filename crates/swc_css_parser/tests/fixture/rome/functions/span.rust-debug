@@ -269,7 +269,7 @@ error: Value
 5 |     background: url("");
   |                 ^^^^^^^
 
-error: Function
+error: Url
  --> $DIR/tests/fixture/rome/functions/input.css:5:14
   |
 5 |     background: url("");
@@ -281,7 +281,7 @@ error: Ident
 5 |     background: url("");
   |                 ^^^
 
-error: Value
+error: UrlValue
  --> $DIR/tests/fixture/rome/functions/input.css:5:18
   |
 5 |     background: url("");
@@ -311,7 +311,7 @@ error: Value
 6 |     background: url("something");
   |                 ^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
  --> $DIR/tests/fixture/rome/functions/input.css:6:14
   |
 6 |     background: url("something");
@@ -323,7 +323,7 @@ error: Ident
 6 |     background: url("something");
   |                 ^^^
 
-error: Value
+error: UrlValue
  --> $DIR/tests/fixture/rome/functions/input.css:6:18
   |
 6 |     background: url("something");
@@ -353,7 +353,7 @@ error: Value
 7 |     background: url("./something");
   |                 ^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
  --> $DIR/tests/fixture/rome/functions/input.css:7:14
   |
 7 |     background: url("./something");
@@ -365,7 +365,7 @@ error: Ident
 7 |     background: url("./something");
   |                 ^^^
 
-error: Value
+error: UrlValue
  --> $DIR/tests/fixture/rome/functions/input.css:7:18
   |
 7 |     background: url("./something");

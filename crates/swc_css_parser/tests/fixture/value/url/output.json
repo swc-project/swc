@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 1043,
+    "end": 1022,
     "ctxt": 0
   },
   "rules": [
@@ -10,14 +10,14 @@
       "type": "QualifiedRule",
       "span": {
         "start": 0,
-        "end": 1042,
+        "end": 1021,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 0,
-          "end": 1,
+          "end": 3,
           "ctxt": 0
         },
         "children": [
@@ -25,7 +25,7 @@
             "type": "ComplexSelector",
             "span": {
               "start": 0,
-              "end": 1,
+              "end": 3,
               "ctxt": 0
             },
             "children": [
@@ -33,7 +33,7 @@
                 "type": "CompoundSelector",
                 "span": {
                   "start": 0,
-                  "end": 1,
+                  "end": 3,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -41,7 +41,7 @@
                   "type": "TypeSelector",
                   "span": {
                     "start": 0,
-                    "end": 1,
+                    "end": 3,
                     "ctxt": 0
                   },
                   "prefix": null,
@@ -49,11 +49,11 @@
                     "type": "Identifier",
                     "span": {
                       "start": 0,
-                      "end": 1,
+                      "end": 3,
                       "ctxt": 0
                     },
-                    "value": "a",
-                    "raw": "a"
+                    "value": "div",
+                    "raw": "div"
                   }
                 },
                 "subclassSelectors": []
@@ -65,41 +65,41 @@
       "block": {
         "type": "Block",
         "span": {
-          "start": 2,
-          "end": 1042,
+          "start": 4,
+          "end": 1021,
           "ctxt": 0
         },
         "value": [
           {
             "type": "Declaration",
             "span": {
-              "start": 8,
-              "end": 109,
+              "start": 10,
+              "end": 56,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 8,
-                "end": 24,
+                "start": 10,
+                "end": 20,
                 "ctxt": 0
               },
-              "value": "background-image",
-              "raw": "background-image"
+              "value": "background",
+              "raw": "background"
             },
             "value": [
               {
                 "type": "Url",
                 "span": {
-                  "start": 26,
-                  "end": 109,
+                  "start": 22,
+                  "end": 56,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 26,
-                    "end": 29,
+                    "start": 22,
+                    "end": 25,
                     "ctxt": 0
                   },
                   "value": "url",
@@ -108,12 +108,12 @@
                 "value": {
                   "type": "UrlValueRaw",
                   "span": {
-                    "start": 30,
-                    "end": 108,
+                    "start": 26,
+                    "end": 55,
                     "ctxt": 0
                   },
-                  "value": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
-                  "raw": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                  "value": "https://example.com/image.png",
+                  "raw": "https://example.com/image.png"
                 },
                 "modifiers": null
               }
@@ -123,49 +123,49 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 115,
-              "end": 155,
+              "start": 62,
+              "end": 108,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 115,
-                "end": 131,
+                "start": 62,
+                "end": 72,
                 "ctxt": 0
               },
-              "value": "background-image",
-              "raw": "background-image"
+              "value": "background",
+              "raw": "background"
             },
             "value": [
               {
                 "type": "Url",
                 "span": {
-                  "start": 133,
-                  "end": 155,
+                  "start": 74,
+                  "end": 108,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 133,
-                    "end": 136,
+                    "start": 74,
+                    "end": 77,
                     "ctxt": 0
                   },
-                  "value": "url",
-                  "raw": "url"
+                  "value": "URL",
+                  "raw": "URL"
                 },
                 "value": {
-                  "type": "String",
+                  "type": "UrlValueRaw",
                   "span": {
-                    "start": 137,
-                    "end": 154,
+                    "start": 78,
+                    "end": 107,
                     "ctxt": 0
                   },
-                  "value": "./image (1).jpg",
-                  "raw": "\"./image (1).jpg\""
+                  "value": "https://example.com/image.png",
+                  "raw": "https://example.com/image.png"
                 },
-                "modifiers": []
+                "modifiers": null
               }
             ],
             "important": null
@@ -173,26 +173,76 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 161,
-              "end": 201,
+              "start": 114,
+              "end": 161,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 161,
+                "start": 114,
+                "end": 124,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Url",
+                "span": {
+                  "start": 126,
+                  "end": 161,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 126,
+                    "end": 129,
+                    "ctxt": 0
+                  },
+                  "value": "URL",
+                  "raw": "\\URL"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 130,
+                    "end": 160,
+                    "ctxt": 0
+                  },
+                  "value": "https://example.com/image.png",
+                  "raw": "https://example.com/image.png"
+                },
+                "modifiers": null
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 167,
+              "end": 215,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 167,
                 "end": 177,
                 "ctxt": 0
               },
-              "value": "background-image",
-              "raw": "background-image"
+              "value": "background",
+              "raw": "background"
             },
             "value": [
               {
                 "type": "Url",
                 "span": {
                   "start": 179,
-                  "end": 201,
+                  "end": 215,
                   "ctxt": 0
                 },
                 "name": {
@@ -209,11 +259,11 @@
                   "type": "String",
                   "span": {
                     "start": 183,
-                    "end": 200,
+                    "end": 214,
                     "ctxt": 0
                   },
-                  "value": "./image (1).jpg",
-                  "raw": "'./image (1).jpg'"
+                  "value": "https://example.com/image.png",
+                  "raw": "\"https://example.com/image.png\""
                 },
                 "modifiers": []
               }
@@ -223,33 +273,83 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 207,
-              "end": 247,
+              "start": 221,
+              "end": 269,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 207,
-                "end": 223,
+                "start": 221,
+                "end": 231,
                 "ctxt": 0
               },
-              "value": "background-image",
-              "raw": "background-image"
+              "value": "background",
+              "raw": "background"
             },
             "value": [
               {
                 "type": "Url",
                 "span": {
-                  "start": 225,
-                  "end": 247,
+                  "start": 233,
+                  "end": 269,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 225,
-                    "end": 228,
+                    "start": 233,
+                    "end": 236,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 237,
+                    "end": 268,
+                    "ctxt": 0
+                  },
+                  "value": "https://example.com/image.png",
+                  "raw": "'https://example.com/image.png'"
+                },
+                "modifiers": []
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 275,
+              "end": 323,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 275,
+                "end": 285,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Url",
+                "span": {
+                  "start": 287,
+                  "end": 323,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 287,
+                    "end": 290,
                     "ctxt": 0
                   },
                   "value": "URL",
@@ -258,12 +358,12 @@
                 "value": {
                   "type": "String",
                   "span": {
-                    "start": 229,
-                    "end": 246,
+                    "start": 291,
+                    "end": 322,
                     "ctxt": 0
                   },
-                  "value": "./image (1).jpg",
-                  "raw": "'./image (1).jpg'"
+                  "value": "https://example.com/image.png",
+                  "raw": "'https://example.com/image.png'"
                 },
                 "modifiers": []
               }
@@ -273,47 +373,47 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 253,
-              "end": 296,
+              "start": 329,
+              "end": 378,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 253,
-                "end": 269,
+                "start": 329,
+                "end": 339,
                 "ctxt": 0
               },
-              "value": "background-image",
-              "raw": "background-image"
+              "value": "background",
+              "raw": "background"
             },
             "value": [
               {
                 "type": "Url",
                 "span": {
-                  "start": 271,
-                  "end": 296,
+                  "start": 341,
+                  "end": 378,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 271,
-                    "end": 274,
+                    "start": 341,
+                    "end": 345,
                     "ctxt": 0
                   },
-                  "value": "url",
-                  "raw": "url"
+                  "value": "URL",
+                  "raw": "\\URL"
                 },
                 "value": {
                   "type": "String",
                   "span": {
-                    "start": 278,
-                    "end": 295,
+                    "start": 346,
+                    "end": 377,
                     "ctxt": 0
                   },
-                  "value": "./image (1).jpg",
-                  "raw": "'./image (1).jpg'"
+                  "value": "https://example.com/image.png",
+                  "raw": "'https://example.com/image.png'"
                 },
                 "modifiers": []
               }
@@ -323,49 +423,49 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 302,
-              "end": 345,
+              "start": 384,
+              "end": 429,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 302,
-                "end": 318,
+                "start": 384,
+                "end": 394,
                 "ctxt": 0
               },
-              "value": "background-image",
-              "raw": "background-image"
+              "value": "background",
+              "raw": "background"
             },
             "value": [
               {
                 "type": "Url",
                 "span": {
-                  "start": 320,
-                  "end": 345,
+                  "start": 396,
+                  "end": 429,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 320,
-                    "end": 323,
+                    "start": 396,
+                    "end": 399,
                     "ctxt": 0
                   },
                   "value": "url",
                   "raw": "url"
                 },
                 "value": {
-                  "type": "String",
+                  "type": "UrlValueRaw",
                   "span": {
-                    "start": 324,
-                    "end": 341,
+                    "start": 400,
+                    "end": 428,
                     "ctxt": 0
                   },
-                  "value": "./image (1).jpg",
-                  "raw": "'./image (1).jpg'"
+                  "value": "data:image/png;base64,iRxVB0",
+                  "raw": "data:image/png;base64,iRxVB0"
                 },
-                "modifiers": []
+                "modifiers": null
               }
             ],
             "important": null
@@ -373,99 +473,49 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 351,
-              "end": 397,
+              "start": 435,
+              "end": 464,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 351,
-                "end": 367,
+                "start": 435,
+                "end": 445,
                 "ctxt": 0
               },
-              "value": "background-image",
-              "raw": "background-image"
+              "value": "background",
+              "raw": "background"
             },
             "value": [
               {
                 "type": "Url",
                 "span": {
-                  "start": 369,
-                  "end": 397,
+                  "start": 447,
+                  "end": 464,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 369,
-                    "end": 372,
-                    "ctxt": 0
-                  },
-                  "value": "url",
-                  "raw": "url"
-                },
-                "value": {
-                  "type": "String",
-                  "span": {
-                    "start": 376,
-                    "end": 393,
-                    "ctxt": 0
-                  },
-                  "value": "./image (1).jpg",
-                  "raw": "'./image (1).jpg'"
-                },
-                "modifiers": []
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 403,
-              "end": 459,
-              "ctxt": 0
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 403,
-                "end": 419,
-                "ctxt": 0
-              },
-              "value": "background-image",
-              "raw": "background-image"
-            },
-            "value": [
-              {
-                "type": "Url",
-                "span": {
-                  "start": 421,
-                  "end": 459,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 421,
-                    "end": 424,
-                    "ctxt": 0
-                  },
-                  "value": "url",
-                  "raw": "url"
-                },
-                "value": {
-                  "type": "String",
-                  "span": {
-                    "start": 433,
+                    "start": 447,
                     "end": 450,
                     "ctxt": 0
                   },
-                  "value": "./image (1).jpg",
-                  "raw": "'./image (1).jpg'"
+                  "value": "url",
+                  "raw": "url"
                 },
-                "modifiers": []
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 451,
+                    "end": 463,
+                    "ctxt": 0
+                  },
+                  "value": "#IDofSVGpath",
+                  "raw": "#IDofSVGpath"
+                },
+                "modifiers": null
               }
             ],
             "important": null
@@ -473,33 +523,326 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 465,
-              "end": 488,
+              "start": 545,
+              "end": 589,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 465,
-                "end": 481,
+                "start": 545,
+                "end": 555,
                 "ctxt": 0
               },
-              "value": "background-image",
-              "raw": "background-image"
+              "value": "background",
+              "raw": "background"
             },
             "value": [
               {
                 "type": "Url",
                 "span": {
-                  "start": 483,
-                  "end": 488,
+                  "start": 557,
+                  "end": 589,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 483,
-                    "end": 486,
+                    "start": 557,
+                    "end": 560,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 561,
+                    "end": 579,
+                    "ctxt": 0
+                  },
+                  "value": "//aa.com/img.svg",
+                  "raw": "\"//aa.com/img.svg\""
+                },
+                "modifiers": [
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 580,
+                      "end": 588,
+                      "ctxt": 0
+                    },
+                    "value": "prefetch",
+                    "raw": "prefetch"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 595,
+              "end": 653,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 595,
+                "end": 605,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Url",
+                "span": {
+                  "start": 607,
+                  "end": 653,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 607,
+                    "end": 610,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 611,
+                    "end": 629,
+                    "ctxt": 0
+                  },
+                  "value": "//aa.com/img.svg",
+                  "raw": "\"//aa.com/img.svg\""
+                },
+                "modifiers": [
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 630,
+                      "end": 633,
+                      "ctxt": 0
+                    },
+                    "value": "foo",
+                    "raw": "foo"
+                  },
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 634,
+                      "end": 637,
+                      "ctxt": 0
+                    },
+                    "value": "bar",
+                    "raw": "bar"
+                  },
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 638,
+                      "end": 641,
+                      "ctxt": 0
+                    },
+                    "value": "baz",
+                    "raw": "baz"
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 642,
+                      "end": 652,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 642,
+                        "end": 646,
+                        "ctxt": 0
+                      },
+                      "value": "func",
+                      "raw": "func"
+                    },
+                    "value": [
+                      {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 647,
+                          "end": 651,
+                          "ctxt": 0
+                        },
+                        "value": "test",
+                        "raw": "test"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 659,
+              "end": 742,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 659,
+                "end": 669,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Url",
+                "span": {
+                  "start": 671,
+                  "end": 742,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 671,
+                    "end": 674,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 675,
+                    "end": 705,
+                    "ctxt": 0
+                  },
+                  "value": "http://example.com/image.svg",
+                  "raw": "\"http://example.com/image.svg\""
+                },
+                "modifiers": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 706,
+                      "end": 741,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 706,
+                        "end": 711,
+                        "ctxt": 0
+                      },
+                      "value": "param",
+                      "raw": "param"
+                    },
+                    "value": [
+                      {
+                        "type": "SpaceValues",
+                        "span": {
+                          "start": 712,
+                          "end": 740,
+                          "ctxt": 0
+                        },
+                        "values": [
+                          {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 712,
+                              "end": 719,
+                              "ctxt": 0
+                            },
+                            "value": "--color",
+                            "raw": "--color"
+                          },
+                          {
+                            "type": "Function",
+                            "span": {
+                              "start": 720,
+                              "end": 740,
+                              "ctxt": 0
+                            },
+                            "name": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 720,
+                                "end": 723,
+                                "ctxt": 0
+                              },
+                              "value": "var",
+                              "raw": "var"
+                            },
+                            "value": [
+                              {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 724,
+                                  "end": 739,
+                                  "ctxt": 0
+                                },
+                                "value": "--primary-color",
+                                "raw": "--primary-color"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 749,
+              "end": 766,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 749,
+                "end": 759,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Url",
+                "span": {
+                  "start": 761,
+                  "end": 766,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 761,
+                    "end": 764,
                     "ctxt": 0
                   },
                   "value": "url",
@@ -508,8 +851,8 @@
                 "value": {
                   "type": "UrlValueRaw",
                   "span": {
-                    "start": 487,
-                    "end": 487,
+                    "start": 765,
+                    "end": 765,
                     "ctxt": 0
                   },
                   "value": "",
@@ -523,83 +866,33 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 494,
-              "end": 520,
+              "start": 772,
+              "end": 791,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 494,
-                "end": 510,
+                "start": 772,
+                "end": 782,
                 "ctxt": 0
               },
-              "value": "background-image",
-              "raw": "background-image"
+              "value": "background",
+              "raw": "background"
             },
             "value": [
               {
                 "type": "Url",
                 "span": {
-                  "start": 512,
-                  "end": 520,
+                  "start": 784,
+                  "end": 791,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 512,
-                    "end": 515,
-                    "ctxt": 0
-                  },
-                  "value": "url",
-                  "raw": "url"
-                },
-                "value": {
-                  "type": "UrlValueRaw",
-                  "span": {
-                    "start": 516,
-                    "end": 519,
-                    "ctxt": 0
-                  },
-                  "value": "",
-                  "raw": ""
-                },
-                "modifiers": null
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 526,
-              "end": 551,
-              "ctxt": 0
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 526,
-                "end": 542,
-                "ctxt": 0
-              },
-              "value": "background-image",
-              "raw": "background-image"
-            },
-            "value": [
-              {
-                "type": "Url",
-                "span": {
-                  "start": 544,
-                  "end": 551,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 544,
-                    "end": 547,
+                    "start": 784,
+                    "end": 787,
                     "ctxt": 0
                   },
                   "value": "url",
@@ -608,8 +901,8 @@
                 "value": {
                   "type": "String",
                   "span": {
-                    "start": 548,
-                    "end": 550,
+                    "start": 788,
+                    "end": 790,
                     "ctxt": 0
                   },
                   "value": "",
@@ -623,33 +916,33 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 557,
-              "end": 588,
+              "start": 797,
+              "end": 816,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 557,
-                "end": 573,
+                "start": 797,
+                "end": 807,
                 "ctxt": 0
               },
-              "value": "background-image",
-              "raw": "background-image"
+              "value": "background",
+              "raw": "background"
             },
             "value": [
               {
                 "type": "Url",
                 "span": {
-                  "start": 575,
-                  "end": 588,
+                  "start": 809,
+                  "end": 816,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 575,
-                    "end": 578,
+                    "start": 809,
+                    "end": 812,
                     "ctxt": 0
                   },
                   "value": "url",
@@ -658,58 +951,8 @@
                 "value": {
                   "type": "String",
                   "span": {
-                    "start": 582,
-                    "end": 584,
-                    "ctxt": 0
-                  },
-                  "value": "",
-                  "raw": "\"\""
-                },
-                "modifiers": []
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 594,
-              "end": 619,
-              "ctxt": 0
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 594,
-                "end": 610,
-                "ctxt": 0
-              },
-              "value": "background-image",
-              "raw": "background-image"
-            },
-            "value": [
-              {
-                "type": "Url",
-                "span": {
-                  "start": 612,
-                  "end": 619,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 612,
-                    "end": 615,
-                    "ctxt": 0
-                  },
-                  "value": "url",
-                  "raw": "url"
-                },
-                "value": {
-                  "type": "String",
-                  "span": {
-                    "start": 616,
-                    "end": 618,
+                    "start": 813,
+                    "end": 815,
                     "ctxt": 0
                   },
                   "value": "",
@@ -723,47 +966,103 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 625,
-              "end": 656,
+              "start": 823,
+              "end": 830,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 625,
-                "end": 641,
+                "start": 823,
+                "end": 828,
                 "ctxt": 0
               },
-              "value": "background-image",
-              "raw": "background-image"
+              "value": "--foo",
+              "raw": "--foo"
+            },
+            "value": [
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 829,
+                  "end": 866,
+                  "ctxt": 0
+                },
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 829,
+                      "end": 830,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 830,
+                      "end": 866,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Str": {
+                        "value": "http://www.example.com/pinkish.gif",
+                        "raw": "\"http://www.example.com/pinkish.gif\""
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 873,
+              "end": 926,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 873,
+                "end": 883,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
             },
             "value": [
               {
                 "type": "Url",
                 "span": {
-                  "start": 643,
-                  "end": 656,
+                  "start": 885,
+                  "end": 926,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 643,
-                    "end": 646,
+                    "start": 885,
+                    "end": 888,
                     "ctxt": 0
                   },
-                  "value": "url",
-                  "raw": "url"
+                  "value": "src",
+                  "raw": "src"
                 },
                 "value": {
                   "type": "String",
                   "span": {
-                    "start": 650,
-                    "end": 652,
+                    "start": 889,
+                    "end": 925,
                     "ctxt": 0
                   },
-                  "value": "",
-                  "raw": "''"
+                  "value": "http://www.example.com/pinkish.gif",
+                  "raw": "\"http://www.example.com/pinkish.gif\""
                 },
                 "modifiers": []
               }
@@ -773,47 +1072,47 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 662,
-              "end": 694,
+              "start": 932,
+              "end": 985,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 662,
-                "end": 678,
+                "start": 932,
+                "end": 942,
                 "ctxt": 0
               },
-              "value": "background-image",
-              "raw": "background-image"
+              "value": "background",
+              "raw": "background"
             },
             "value": [
               {
                 "type": "Url",
                 "span": {
-                  "start": 680,
-                  "end": 694,
+                  "start": 944,
+                  "end": 985,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 680,
-                    "end": 683,
+                    "start": 944,
+                    "end": 947,
                     "ctxt": 0
                   },
-                  "value": "url",
-                  "raw": "url"
+                  "value": "SRC",
+                  "raw": "SRC"
                 },
                 "value": {
                   "type": "String",
                   "span": {
-                    "start": 687,
-                    "end": 690,
+                    "start": 948,
+                    "end": 984,
                     "ctxt": 0
                   },
-                  "value": " ",
-                  "raw": "' '"
+                  "value": "http://www.example.com/pinkish.gif",
+                  "raw": "\"http://www.example.com/pinkish.gif\""
                 },
                 "modifiers": []
               }
@@ -823,299 +1122,71 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 700,
-              "end": 734,
+              "start": 991,
+              "end": 1018,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 700,
-                "end": 716,
+                "start": 991,
+                "end": 1001,
                 "ctxt": 0
               },
-              "value": "background-image",
-              "raw": "background-image"
+              "value": "background",
+              "raw": "background"
             },
             "value": [
               {
                 "type": "Url",
                 "span": {
-                  "start": 718,
-                  "end": 734,
+                  "start": 1003,
+                  "end": 1018,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 718,
-                    "end": 721,
+                    "start": 1003,
+                    "end": 1006,
                     "ctxt": 0
                   },
-                  "value": "url",
-                  "raw": "url"
+                  "value": "src",
+                  "raw": "src"
                 },
-                "value": {
-                  "type": "UrlValueRaw",
-                  "span": {
-                    "start": 722,
-                    "end": 733,
-                    "ctxt": 0
-                  },
-                  "value": "./image.png",
-                  "raw": "./image.png"
-                },
-                "modifiers": null
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 740,
-              "end": 780,
-              "ctxt": 0
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 740,
-                "end": 756,
-                "ctxt": 0
-              },
-              "value": "background-image",
-              "raw": "background-image"
-            },
-            "value": [
-              {
-                "type": "Url",
-                "span": {
-                  "start": 758,
-                  "end": 780,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 758,
-                    "end": 761,
-                    "ctxt": 0
-                  },
-                  "value": "url",
-                  "raw": "url"
-                },
-                "value": {
-                  "type": "UrlValueRaw",
-                  "span": {
-                    "start": 762,
-                    "end": 779,
-                    "ctxt": 0
-                  },
-                  "value": "./image.png",
-                  "raw": "./image.png   "
-                },
-                "modifiers": null
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 786,
-              "end": 829,
-              "ctxt": 0
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 786,
-                "end": 802,
-                "ctxt": 0
-              },
-              "value": "background-image",
-              "raw": "background-image"
-            },
-            "value": [
-              {
-                "type": "Url",
-                "span": {
-                  "start": 804,
-                  "end": 829,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 804,
-                    "end": 807,
-                    "ctxt": 0
-                  },
-                  "value": "url",
-                  "raw": "url"
-                },
-                "value": {
-                  "type": "UrlValueRaw",
-                  "span": {
-                    "start": 808,
-                    "end": 828,
-                    "ctxt": 0
-                  },
-                  "value": "./image2.png",
-                  "raw": "./image\\32.png   "
-                },
-                "modifiers": null
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 835,
-              "end": 888,
-              "ctxt": 0
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 835,
-                "end": 851,
-                "ctxt": 0
-              },
-              "value": "background-image",
-              "raw": "background-image"
-            },
-            "value": [
-              {
-                "type": "Url",
-                "span": {
-                  "start": 853,
-                  "end": 888,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 853,
-                    "end": 856,
-                    "ctxt": 0
-                  },
-                  "value": "url",
-                  "raw": "url"
-                },
-                "value": {
-                  "type": "UrlValueRaw",
-                  "span": {
-                    "start": 857,
-                    "end": 887,
-                    "ctxt": 0
-                  },
-                  "value": "./image2.png",
-                  "raw": "./image\\32.png   \n    "
-                },
-                "modifiers": null
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 894,
-              "end": 974,
-              "ctxt": 0
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 894,
-                "end": 910,
-                "ctxt": 0
-              },
-              "value": "background-image",
-              "raw": "background-image"
-            },
-            "value": [
-              {
-                "type": "Url",
-                "span": {
-                  "start": 912,
-                  "end": 974,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 912,
-                    "end": 915,
-                    "ctxt": 0
-                  },
-                  "value": "url",
-                  "raw": "url"
-                },
-                "value": {
-                  "type": "UrlValueRaw",
-                  "span": {
-                    "start": 916,
-                    "end": 973,
-                    "ctxt": 0
-                  },
-                  "value": "./image2.png",
-                  "raw": "./image\\32.png\n    \n    \n    \n    "
-                },
-                "modifiers": null
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 980,
-              "end": 1039,
-              "ctxt": 0
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 980,
-                "end": 996,
-                "ctxt": 0
-              },
-              "value": "background-image",
-              "raw": "background-image"
-            },
-            "value": [
-              {
-                "type": "Url",
-                "span": {
-                  "start": 998,
-                  "end": 1039,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 998,
-                    "end": 1001,
-                    "ctxt": 0
-                  },
-                  "value": "url",
-                  "raw": "url"
-                },
-                "value": {
-                  "type": "UrlValueRaw",
-                  "span": {
-                    "start": 1002,
-                    "end": 1038,
-                    "ctxt": 0
-                  },
-                  "value": "./image2.png",
-                  "raw": "./image\\32.png\n\n\n\n       "
-                },
-                "modifiers": null
+                "value": null,
+                "modifiers": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 1007,
+                      "end": 1017,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1007,
+                        "end": 1010,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1011,
+                          "end": 1016,
+                          "ctxt": 0
+                        },
+                        "value": "--foo",
+                        "raw": "--foo"
+                      }
+                    ]
+                  }
+                ]
               }
             ],
             "important": null

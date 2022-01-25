@@ -60,13 +60,17 @@ pub enum Token {
 
     /// `url(value)`
     Url {
+        name: JsWord,
+        raw_name: JsWord,
         value: JsWord,
-        raw: JsWord,
+        raw_value: JsWord,
     },
 
     BadUrl {
+        name: JsWord,
+        raw_name: JsWord,
         value: JsWord,
-        raw: JsWord,
+        raw_value: JsWord,
     },
 
     Delim {

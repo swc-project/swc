@@ -28,9 +28,27 @@ error: ImportHref
 1 | @import url(foo.css);
   |         ^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
  --> $DIR/tests/fixture/esbuild/misc/eqYc139qNzkqXqBaJaQm6A/input.css:1:9
   |
 1 | @import url(foo.css);
   |         ^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/esbuild/misc/eqYc139qNzkqXqBaJaQm6A/input.css:1:9
+  |
+1 | @import url(foo.css);
+  |         ^^^
+
+error: UrlValue
+ --> $DIR/tests/fixture/esbuild/misc/eqYc139qNzkqXqBaJaQm6A/input.css:1:13
+  |
+1 | @import url(foo.css);
+  |             ^^^^^^^
+
+error: UrlValueRaw
+ --> $DIR/tests/fixture/esbuild/misc/eqYc139qNzkqXqBaJaQm6A/input.css:1:13
+  |
+1 | @import url(foo.css);
+  |             ^^^^^^^
 

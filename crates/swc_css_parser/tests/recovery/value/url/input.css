@@ -1,0 +1,4 @@
+div {
+    --foo: "http://www.example.com/pinkish.gif";
+    background: url(var(--foo));
+}
