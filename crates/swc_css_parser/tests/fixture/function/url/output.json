@@ -1139,14 +1139,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 1057,
                   "end": 1076,
                   "ctxt": 0
                 },
-                "url": "image.png\u0001",
-                "raw": "image.png\\0001"
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1057,
+                    "end": 1060,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 1061,
+                    "end": 1075,
+                    "ctxt": 0
+                  },
+                  "value": "image.png\u0001",
+                  "raw": "image.png\\0001"
+                },
+                "modifiers": null
               }
             ],
             "important": null
@@ -1170,14 +1189,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 1094,
                   "end": 1110,
                   "ctxt": 0
                 },
-                "url": "image.png\u0001",
-                "raw": "image.png\\1"
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1094,
+                    "end": 1097,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 1098,
+                    "end": 1109,
+                    "ctxt": 0
+                  },
+                  "value": "image.png\u0001",
+                  "raw": "image.png\\1"
+                },
+                "modifiers": null
               }
             ],
             "important": null
@@ -1201,14 +1239,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 1128,
                   "end": 1147,
                   "ctxt": 0
                 },
-                "url": "image.png힙",
-                "raw": "image.png\\D799"
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1128,
+                    "end": 1131,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 1132,
+                    "end": 1146,
+                    "ctxt": 0
+                  },
+                  "value": "image.png힙",
+                  "raw": "image.png\\D799"
+                },
+                "modifiers": null
               }
             ],
             "important": null
@@ -1232,14 +1289,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 1165,
                   "end": 1184,
                   "ctxt": 0
                 },
-                "url": "image.png",
-                "raw": "image.png\\E000"
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1165,
+                    "end": 1168,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 1169,
+                    "end": 1183,
+                    "ctxt": 0
+                  },
+                  "value": "image.png",
+                  "raw": "image.png\\E000"
+                },
+                "modifiers": null
               }
             ],
             "important": null
@@ -1263,14 +1339,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 1202,
                   "end": 1223,
                   "ctxt": 0
                 },
-                "url": "image.png􏿿",
-                "raw": "image.png\\10FFFF"
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1202,
+                    "end": 1205,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 1206,
+                    "end": 1222,
+                    "ctxt": 0
+                  },
+                  "value": "image.png􏿿",
+                  "raw": "image.png\\10FFFF"
+                },
+                "modifiers": null
               }
             ],
             "important": null
