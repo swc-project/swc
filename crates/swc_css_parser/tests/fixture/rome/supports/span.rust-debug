@@ -67,6 +67,12 @@ error: Declaration
 1 | @supports not (display: flex) {
   |                ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/supports/input.css:1:16
+  |
+1 | @supports not (display: flex) {
+  |                ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/supports/input.css:1:16
   |
@@ -145,6 +151,12 @@ error: Declaration
   |
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/supports/input.css:4:13
+  |
+4 | @supports ( box-shadow: 0 0 2px black inset ) or
+  |             ^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/supports/input.css:4:13
@@ -258,6 +270,12 @@ error: Declaration
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/supports/input.css:5:13
+  |
+5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+  |             ^^^^^^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/supports/input.css:5:13
   |
@@ -370,6 +388,12 @@ error: Declaration
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/supports/input.css:6:13
+  |
+6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+  |             ^^^^^^^^^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/supports/input.css:6:13
   |
@@ -481,6 +505,12 @@ error: Declaration
   |
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/supports/input.css:7:13
+  |
+7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+  |             ^^^^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/supports/input.css:7:13
@@ -641,6 +671,12 @@ error: Declaration
 10 | @supports ((transition-property: color) or
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/rome/supports/input.css:10:13
+   |
+10 | @supports ((transition-property: color) or
+   |             ^^^^^^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/rome/supports/input.css:10:13
    |
@@ -693,6 +729,12 @@ error: Declaration
 11 |            (animation-name: foo)) and
    |             ^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/rome/supports/input.css:11:13
+   |
+11 |            (animation-name: foo)) and
+   |             ^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/rome/supports/input.css:11:13
    |
@@ -744,6 +786,12 @@ error: Declaration
    |
 12 |           (transform: rotate(10deg)) {}
    |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/rome/supports/input.css:12:12
+   |
+12 |           (transform: rotate(10deg)) {}
+   |            ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/rome/supports/input.css:12:12

@@ -58,6 +58,12 @@ error: Declaration
 1 | a { value: 'a\62 c' }
   |     ^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/CqrYlHva8qUNgSPb8EwWjg/input.css:1:5
+  |
+1 | a { value: 'a\62 c' }
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/CqrYlHva8qUNgSPb8EwWjg/input.css:1:5
   |

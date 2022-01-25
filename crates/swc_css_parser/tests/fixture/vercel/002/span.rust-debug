@@ -73,6 +73,12 @@ error: Declaration
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/vercel/002/input.css:2:5
+  |
+2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+  |     ^^^^^^^^^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/vercel/002/input.css:2:5
   |

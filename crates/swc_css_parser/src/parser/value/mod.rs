@@ -293,7 +293,13 @@ where
 
             tok!("dimension") => return self.parse_numeric_value(),
 
-            tok!("ident") => return Ok(Value::Ident(self.parse()?)),
+            Token::Ident { value, .. } => {
+                if value.starts_with("--") {
+                    return Ok(Value::DashedIdent(self.parse()?));
+                };
+
+                return Ok(Value::Ident(self.parse()?));
+            }
 
             tok!("[") => return self.parse_square_brackets_value().map(From::from),
 

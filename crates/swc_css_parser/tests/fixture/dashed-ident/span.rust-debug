@@ -80,7 +80,13 @@ error: Declaration
 2 |     --main-color: #06c;
   |     ^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+ --> $DIR/tests/fixture/dashed-ident/input.css:2:5
+  |
+2 |     --main-color: #06c;
+  |     ^^^^^^^^^^^^
+
+error: DashedIdent
  --> $DIR/tests/fixture/dashed-ident/input.css:2:5
   |
 2 |     --main-color: #06c;
@@ -116,7 +122,13 @@ error: Declaration
 3 |     --accent-color: #006;
   |     ^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+ --> $DIR/tests/fixture/dashed-ident/input.css:3:5
+  |
+3 |     --accent-color: #006;
+  |     ^^^^^^^^^^^^^^
+
+error: DashedIdent
  --> $DIR/tests/fixture/dashed-ident/input.css:3:5
   |
 3 |     --accent-color: #006;
@@ -213,7 +225,13 @@ error: Declaration
 7 |     --fg-color: blue;
   |     ^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+ --> $DIR/tests/fixture/dashed-ident/input.css:7:5
+  |
+7 |     --fg-color: blue;
+  |     ^^^^^^^^^^
+
+error: DashedIdent
  --> $DIR/tests/fixture/dashed-ident/input.css:7:5
   |
 7 |     --fg-color: blue;
@@ -334,6 +352,12 @@ error: Declaration
 11 |     color: var(--main-color);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/dashed-ident/input.css:11:5
+   |
+11 |     color: var(--main-color);
+   |     ^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/dashed-ident/input.css:11:5
    |
@@ -364,7 +388,7 @@ error: Value
 11 |     color: var(--main-color);
    |                ^^^^^^^^^^^^
 
-error: Ident
+error: DashedIdent
   --> $DIR/tests/fixture/dashed-ident/input.css:11:16
    |
 11 |     color: var(--main-color);

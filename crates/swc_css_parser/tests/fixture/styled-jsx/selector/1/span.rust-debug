@@ -115,6 +115,12 @@ error: Declaration
 2 |     color: red;
   |     ^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5
+  |
+2 |     color: red;
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5
   |

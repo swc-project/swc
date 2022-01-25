@@ -58,6 +58,12 @@ error: Declaration
 1 | a { padding: 0 1 0 1 }
   |     ^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:5
+  |
+1 | a { padding: 0 1 0 1 }
+  |     ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:5
   |

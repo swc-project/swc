@@ -64,6 +64,12 @@ error: Declaration
 1 | .selector { property: value\9; }
   |             ^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:13
+  |
+1 | .selector { property: value\9; }
+  |             ^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:13
   |

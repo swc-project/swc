@@ -58,6 +58,12 @@ error: Declaration
 1 | a { value: #h\61sh }
   |     ^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/HDNE73X9waUrBkTAzz-20g/input.css:1:5
+  |
+1 | a { value: #h\61sh }
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/HDNE73X9waUrBkTAzz-20g/input.css:1:5
   |

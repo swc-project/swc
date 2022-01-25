@@ -75,6 +75,12 @@ error: Declaration
 3 |     background: red;
   |     ^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/smoke/input.css:3:5
+  |
+3 |     background: red;
+  |     ^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/smoke/input.css:3:5
   |
@@ -98,6 +104,12 @@ error: Declaration
   |
 4 |     width: calc(1px + 2%);
   |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:5
+  |
+4 |     width: calc(1px + 2%);
+  |     ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/smoke/input.css:4:5

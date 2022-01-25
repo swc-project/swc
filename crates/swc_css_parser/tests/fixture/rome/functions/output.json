@@ -79,7 +79,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 10,
                 "end": 17,
@@ -167,7 +167,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "DashedIdentifier",
                     "span": {
                       "start": 37,
                       "end": 44,

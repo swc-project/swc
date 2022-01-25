@@ -82,6 +82,12 @@ error: Declaration
 1 | & > .bar { color: red; }
   |            ^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:12
+  |
+1 | & > .bar { color: red; }
+  |            ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/nesting/input.css:1:12
   |

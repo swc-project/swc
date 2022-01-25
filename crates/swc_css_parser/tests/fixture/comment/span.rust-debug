@@ -75,6 +75,12 @@ error: Declaration
 3 | /* comment */color/* comment */:/* comment */red/* comment */;
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/comment/input.css:3:14
+  |
+3 | /* comment */color/* comment */:/* comment */red/* comment */;
+  |              ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/comment/input.css:3:14
   |
@@ -166,6 +172,12 @@ error: Declaration
 11 |     color: black;
    |     ^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/comment/input.css:11:5
+   |
+11 |     color: black;
+   |     ^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/comment/input.css:11:5
    |
@@ -189,6 +201,12 @@ error: Declaration
    |
 13 |     background: red;
    |     ^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/comment/input.css:13:5
+   |
+13 |     background: red;
+   |     ^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/comment/input.css:13:5
@@ -271,6 +289,12 @@ error: Declaration
    |
 19 |     color: black;
    |     ^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/comment/input.css:19:5
+   |
+19 |     color: black;
+   |     ^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/comment/input.css:19:5

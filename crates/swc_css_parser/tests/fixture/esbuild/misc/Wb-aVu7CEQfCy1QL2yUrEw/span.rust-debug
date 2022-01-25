@@ -58,6 +58,12 @@ error: Declaration
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
   |     ^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:5
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |     ^^^^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:5
   |
@@ -117,6 +123,12 @@ error: Declaration
   |
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
   |                             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:29
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |                             ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:29

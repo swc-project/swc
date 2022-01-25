@@ -57,9 +57,14 @@ define!({
         pub raw: JsWord,
     }
 
+    pub enum DeclarationProperty {
+        Ident(Ident),
+        DashedIdent(DashedIdent),
+    }
+
     pub struct Declaration {
         pub span: Span,
-        pub property: Ident,
+        pub property: DeclarationProperty,
         pub value: Vec<Value>,
         pub important: Option<Span>,
     }

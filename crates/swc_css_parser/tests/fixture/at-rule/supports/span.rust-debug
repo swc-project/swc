@@ -70,6 +70,12 @@ error: Declaration
 1 | @supports (display: grid) {
   |            ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/at-rule/supports/input.css:1:12
+  |
+1 | @supports (display: grid) {
+  |            ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/at-rule/supports/input.css:1:12
   |
@@ -148,6 +154,12 @@ error: Declaration
   |
 3 |         display: grid;
   |         ^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/at-rule/supports/input.css:3:9
+  |
+3 |         display: grid;
+  |         ^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/at-rule/supports/input.css:3:9
@@ -233,6 +245,12 @@ error: Declaration
 7 | @supports (display: flex) {
   |            ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/at-rule/supports/input.css:7:12
+  |
+7 | @supports (display: flex) {
+  |            ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/at-rule/supports/input.css:7:12
   |
@@ -311,6 +329,12 @@ error: Declaration
   |
 9 |         color: blue;
   |         ^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/at-rule/supports/input.css:9:9
+  |
+9 |         color: blue;
+  |         ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/at-rule/supports/input.css:9:9
@@ -505,6 +529,12 @@ error: Declaration
 14 |             display: flex;
    |             ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:14:13
+   |
+14 |             display: flex;
+   |             ^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:14:13
    |
@@ -570,6 +600,12 @@ error: Declaration
    |
 18 | @supports   (   display   :   flex   )   {}
    |                 ^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:18:17
+   |
+18 | @supports   (   display   :   flex   )   {}
+   |                 ^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:18:17
@@ -643,6 +679,12 @@ error: Declaration
 19 | @supports not (display: flex) {}
    |                ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:19:16
+   |
+19 | @supports not (display: flex) {}
+   |                ^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:19:16
    |
@@ -715,6 +757,12 @@ error: Declaration
 20 | @SUPPORTS not (display: flex) {}
    |                ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:20:16
+   |
+20 | @SUPPORTS not (display: flex) {}
+   |                ^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:20:16
    |
@@ -780,6 +828,12 @@ error: Declaration
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:12
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |            ^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:12
@@ -889,6 +943,12 @@ error: Declaration
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:50
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                  ^^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:50
    |
@@ -997,6 +1057,12 @@ error: Declaration
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:93
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                             ^^^^^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:93
    |
@@ -1104,6 +1170,12 @@ error: Declaration
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:139
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                           ^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:139
@@ -1250,6 +1322,12 @@ error: Declaration
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:13
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |             ^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:22:13
    |
@@ -1361,6 +1439,12 @@ error: Declaration
    |
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:5
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |     ^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:23:5
@@ -1474,6 +1558,12 @@ error: Declaration
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:5
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |     ^^^^^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:24:5
    |
@@ -1585,6 +1675,12 @@ error: Declaration
    |
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:5
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |     ^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:25:5
@@ -1730,6 +1826,12 @@ error: Declaration
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:13
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |             ^^^^^^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:28:13
    |
@@ -1778,6 +1880,12 @@ error: Declaration
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
    |                                             ^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:45
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                             ^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:28:45
    |
@@ -1825,6 +1933,12 @@ error: Declaration
    |
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
    |                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:72
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                                        ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:28:72
@@ -1922,6 +2036,12 @@ error: Declaration
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:12
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |            ^^^^^^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:29:12
    |
@@ -1988,6 +2108,12 @@ error: Declaration
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
    |                                             ^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:45
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                             ^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:29:45
    |
@@ -2035,6 +2161,12 @@ error: Declaration
    |
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
    |                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:71
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                                       ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:29:71
@@ -2132,6 +2264,12 @@ error: Declaration
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:17
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                 ^^^^^^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:30:17
    |
@@ -2198,6 +2336,12 @@ error: Declaration
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
    |                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:68
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                    ^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:30:68
    |
@@ -2245,6 +2389,12 @@ error: Declaration
    |
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
    |                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:109
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                                             ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:30:109
@@ -2342,6 +2492,12 @@ error: Declaration
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
    |           ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:11
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |           ^^^^^^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:31:11
    |
@@ -2408,6 +2564,12 @@ error: Declaration
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
    |                                          ^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:42
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                          ^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:31:42
    |
@@ -2455,6 +2617,12 @@ error: Declaration
    |
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
    |                                                                  ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:66
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                                  ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:31:66
@@ -2570,6 +2738,12 @@ error: Declaration
 32 | @supports ((display: flex)) {}
    |             ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:32:13
+   |
+32 | @supports ((display: flex)) {}
+   |             ^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:32:13
    |
@@ -2635,6 +2809,12 @@ error: Declaration
    |
 33 | @supports (display: flex !important) {}
    |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:33:12
+   |
+33 | @supports (display: flex !important) {}
+   |            ^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:33:12

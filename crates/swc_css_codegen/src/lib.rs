@@ -652,11 +652,22 @@ where
     }
 
     #[emitter]
+    fn emit_declaration_property(&mut self, n: &DeclarationProperty) -> Result {
+        match n {
+            DeclarationProperty::Ident(n) => emit!(self, n),
+            DeclarationProperty::DashedIdent(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
     fn emit_declaration(&mut self, n: &Declaration) -> Result {
         emit!(self, n.property);
         punct!(self, ":");
 
-        let is_custom_property = n.property.value.starts_with("--");
+        let is_custom_property = match n.property {
+            DeclarationProperty::DashedIdent(_) => true,
+            DeclarationProperty::Ident(_) => false,
+        };
 
         if !is_custom_property {
             formatting_space!(self);

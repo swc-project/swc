@@ -70,6 +70,12 @@ error: Declaration
 1 | @keyframes name { 100% { color: red } }
   |                          ^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:26
+  |
+1 | @keyframes name { 100% { color: red } }
+  |                          ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:26
   |

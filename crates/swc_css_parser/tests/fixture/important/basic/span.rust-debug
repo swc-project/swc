@@ -89,6 +89,12 @@ error: Declaration
 2 |     prop: important;
   |     ^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/important/basic/input.css:2:5
+  |
+2 |     prop: important;
+  |     ^^^^
+
 error: Ident
  --> $DIR/tests/fixture/important/basic/input.css:2:5
   |
@@ -112,6 +118,12 @@ error: Declaration
   |
 3 |     color: red important;
   |     ^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/important/basic/input.css:3:5
+  |
+3 |     color: red important;
+  |     ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/important/basic/input.css:3:5
@@ -148,6 +160,12 @@ error: Declaration
   |
 4 |     width: 1px!important;
   |     ^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/important/basic/input.css:4:5
+  |
+4 |     width: 1px!important;
+  |     ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/important/basic/input.css:4:5
@@ -185,6 +203,12 @@ error: Declaration
 5 |     color: red!important;
   |     ^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/important/basic/input.css:5:5
+  |
+5 |     color: red!important;
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/important/basic/input.css:5:5
   |
@@ -209,6 +233,12 @@ error: Declaration
 6 |     color: red !important;
   |     ^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/important/basic/input.css:6:5
+  |
+6 |     color: red !important;
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/important/basic/input.css:6:5
   |
@@ -232,6 +262,12 @@ error: Declaration
   |
 7 |     color: red  !important;
   |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/important/basic/input.css:7:5
+  |
+7 |     color: red  !important;
+  |     ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/important/basic/input.css:7:5
@@ -257,6 +293,12 @@ error: Declaration
 8 |     color: red !   important   ;
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/important/basic/input.css:8:5
+  |
+8 |     color: red !   important   ;
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/important/basic/input.css:8:5
   |
@@ -280,6 +322,12 @@ error: Declaration
   |
 9 |     color: blue !IMPORTANT;
   |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/important/basic/input.css:9:5
+  |
+9 |     color: blue !IMPORTANT;
+  |     ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/important/basic/input.css:9:5
@@ -305,6 +353,12 @@ error: Declaration
 10 |     color: white !   IMPORTANT   ;
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/important/basic/input.css:10:5
+   |
+10 |     color: white !   IMPORTANT   ;
+   |     ^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/important/basic/input.css:10:5
    |
@@ -328,6 +382,12 @@ error: Declaration
    |
 11 |     margin: 10px      !      important;
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/important/basic/input.css:11:5
+   |
+11 |     margin: 10px      !      important;
+   |     ^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/important/basic/input.css:11:5
@@ -365,6 +425,12 @@ error: Declaration
 12 |     padding: 20px     !  /* test */   important;
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/important/basic/input.css:12:5
+   |
+12 |     padding: 20px     !  /* test */   important;
+   |     ^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/important/basic/input.css:12:5
    |
@@ -401,6 +467,12 @@ error: Declaration
 13 |     width: 100px ! /*! test */ important;
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/important/basic/input.css:13:5
+   |
+13 |     width: 100px ! /*! test */ important;
+   |     ^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/important/basic/input.css:13:5
    |
@@ -436,6 +508,12 @@ error: Declaration
    |
 14 |     height: 100px /*! test */ important;
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/important/basic/input.css:14:5
+   |
+14 |     height: 100px /*! test */ important;
+   |     ^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/important/basic/input.css:14:5
@@ -485,6 +563,12 @@ error: Declaration
 15 |     z-index: 1 ""! important;
    |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/important/basic/input.css:15:5
+   |
+15 |     z-index: 1 ""! important;
+   |     ^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/important/basic/input.css:15:5
    |
@@ -520,6 +604,12 @@ error: Declaration
    |
 16 |     padding: 1px/* sep */!important;
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/important/basic/input.css:16:5
+   |
+16 |     padding: 1px/* sep */!important;
+   |     ^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/important/basic/input.css:16:5

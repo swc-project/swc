@@ -168,6 +168,12 @@ error: Declaration
 7 |         transform: translateX(0%);
   |         ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:9
+  |
+7 |         transform: translateX(0%);
+  |         ^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:9
   |
@@ -253,6 +259,12 @@ error: Declaration
    |
 11 |         transform: translateX(100%);
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:9
+   |
+11 |         transform: translateX(100%);
+   |         ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:9
@@ -377,6 +389,12 @@ error: Declaration
 16 |     0% { top: 0; left: 0; }
    |          ^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:10
+   |
+16 |     0% { top: 0; left: 0; }
+   |          ^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:10
    |
@@ -400,6 +418,12 @@ error: Declaration
    |
 16 |     0% { top: 0; left: 0; }
    |                  ^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:18
+   |
+16 |     0% { top: 0; left: 0; }
+   |                  ^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:18
@@ -460,6 +484,12 @@ error: Declaration
    |
 17 |     30% { top: 50px; }
    |           ^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:11
+   |
+17 |     30% { top: 50px; }
+   |           ^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:11
@@ -551,6 +581,12 @@ error: Declaration
 18 |     68%, 72% { left: 50px; }
    |                ^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:16
+   |
+18 |     68%, 72% { left: 50px; }
+   |                ^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:16
    |
@@ -623,6 +659,12 @@ error: Declaration
 19 |     100% { top: 100px; left: 100%; }
    |            ^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:12
+   |
+19 |     100% { top: 100px; left: 100%; }
+   |            ^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:12
    |
@@ -658,6 +700,12 @@ error: Declaration
    |
 19 |     100% { top: 100px; left: 100%; }
    |                        ^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:24
+   |
+19 |     100% { top: 100px; left: 100%; }
+   |                        ^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:24

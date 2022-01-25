@@ -58,6 +58,12 @@ error: Declaration
 1 | a { color: red; color: green; color: red }
   |     ^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:5
+  |
+1 | a { color: red; color: green; color: red }
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:5
   |
@@ -82,6 +88,12 @@ error: Declaration
 1 | a { color: red; color: green; color: red }
   |                 ^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:17
+  |
+1 | a { color: red; color: green; color: red }
+  |                 ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:17
   |
@@ -105,6 +117,12 @@ error: Declaration
   |
 1 | a { color: red; color: green; color: red }
   |                               ^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:31
+  |
+1 | a { color: red; color: green; color: red }
+  |                               ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:31

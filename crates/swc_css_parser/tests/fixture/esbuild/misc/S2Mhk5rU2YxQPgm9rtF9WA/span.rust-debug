@@ -100,6 +100,12 @@ error: Declaration
 1 | @document url("https://www.example.com/") { h1 { color: green } }
   |                                                  ^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:50
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                                  ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:50
   |

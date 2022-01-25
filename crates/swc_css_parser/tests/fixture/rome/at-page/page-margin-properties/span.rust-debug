@@ -125,6 +125,12 @@ error: Declaration
 3 |         display: none;
   |         ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:3
+  |
+3 |         display: none;
+  |         ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:3
   |

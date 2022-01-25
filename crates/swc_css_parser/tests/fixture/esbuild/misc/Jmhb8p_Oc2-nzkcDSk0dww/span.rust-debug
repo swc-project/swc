@@ -64,6 +64,12 @@ error: Declaration
 1 | @keyframes name { from { color: red } }
   |                          ^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:26
+  |
+1 | @keyframes name { from { color: red } }
+  |                          ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:26
   |

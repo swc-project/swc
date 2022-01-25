@@ -89,7 +89,13 @@ error: Declaration
 2 |     --:value;
   |     ^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+ --> $DIR/tests/fixture/value/custom-property/input.css:2:5
+  |
+2 |     --:value;
+  |     ^^
+
+error: DashedIdent
  --> $DIR/tests/fixture/value/custom-property/input.css:2:5
   |
 2 |     --:value;
@@ -119,7 +125,13 @@ error: Declaration
 4 |     --important:value!important;
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+ --> $DIR/tests/fixture/value/custom-property/input.css:4:5
+  |
+4 |     --important:value!important;
+  |     ^^^^^^^^^^^
+
+error: DashedIdent
  --> $DIR/tests/fixture/value/custom-property/input.css:4:5
   |
 4 |     --important:value!important;
@@ -149,7 +161,13 @@ error: Declaration
 5 |     --important1: value!important;
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+ --> $DIR/tests/fixture/value/custom-property/input.css:5:5
+  |
+5 |     --important1: value!important;
+  |     ^^^^^^^^^^^^
+
+error: DashedIdent
  --> $DIR/tests/fixture/value/custom-property/input.css:5:5
   |
 5 |     --important1: value!important;
@@ -185,7 +203,13 @@ error: Declaration
 6 |     --important2: value !important;
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+ --> $DIR/tests/fixture/value/custom-property/input.css:6:5
+  |
+6 |     --important2: value !important;
+  |     ^^^^^^^^^^^^
+
+error: DashedIdent
  --> $DIR/tests/fixture/value/custom-property/input.css:6:5
   |
 6 |     --important2: value !important;
@@ -227,7 +251,13 @@ error: Declaration
 7 |     --important3:value !important;
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+ --> $DIR/tests/fixture/value/custom-property/input.css:7:5
+  |
+7 |     --important3:value !important;
+  |     ^^^^^^^^^^^^
+
+error: DashedIdent
  --> $DIR/tests/fixture/value/custom-property/input.css:7:5
   |
 7 |     --important3:value !important;
@@ -263,7 +293,13 @@ error: Declaration
 8 |     --important4: calc(1)!important;
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+ --> $DIR/tests/fixture/value/custom-property/input.css:8:5
+  |
+8 |     --important4: calc(1)!important;
+  |     ^^^^^^^^^^^^
+
+error: DashedIdent
  --> $DIR/tests/fixture/value/custom-property/input.css:8:5
   |
 8 |     --important4: calc(1)!important;
@@ -311,7 +347,13 @@ error: Declaration
 10 |     --empty: ;
    |     ^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:10:5
+   |
+10 |     --empty: ;
+   |     ^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:10:5
    |
 10 |     --empty: ;
@@ -341,7 +383,13 @@ error: Declaration
 11 |     --empty2: /**/;
    |     ^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:11:5
+   |
+11 |     --empty2: /**/;
+   |     ^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:11:5
    |
 11 |     --empty2: /**/;
@@ -371,7 +419,13 @@ error: Declaration
 12 |     --empty3: !important;
    |     ^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:12:5
+   |
+12 |     --empty3: !important;
+   |     ^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:12:5
    |
 12 |     --empty3: !important;
@@ -401,7 +455,13 @@ error: Declaration
 13 |     --empty4:/**/ !important;
    |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:13:5
+   |
+13 |     --empty4:/**/ !important;
+   |     ^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:13:5
    |
 13 |     --empty4:/**/ !important;
@@ -431,7 +491,13 @@ error: Declaration
 14 |     --empty5:/* 1 */ /* 2 */;
    |     ^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:14:5
+   |
+14 |     --empty5:/* 1 */ /* 2 */;
+   |     ^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:14:5
    |
 14 |     --empty5:/* 1 */ /* 2 */;
@@ -461,7 +527,13 @@ error: Declaration
 16 |     --no-whitespace:ident;
    |     ^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:16:5
+   |
+16 |     --no-whitespace:ident;
+   |     ^^^^^^^^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:16:5
    |
 16 |     --no-whitespace:ident;
@@ -491,7 +563,13 @@ error: Declaration
 17 |     --number: 1;
    |     ^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:17:5
+   |
+17 |     --number: 1;
+   |     ^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:17:5
    |
 17 |     --number: 1;
@@ -527,7 +605,13 @@ error: Declaration
 18 |     --unit: 100vw;
    |     ^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:18:5
+   |
+18 |     --unit: 100vw;
+   |     ^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:18:5
    |
 18 |     --unit: 100vw;
@@ -563,7 +647,13 @@ error: Declaration
 19 |     --color: #06c;
    |     ^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:19:5
+   |
+19 |     --color: #06c;
+   |     ^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:19:5
    |
 19 |     --color: #06c;
@@ -599,7 +689,13 @@ error: Declaration
 21 |     --function: calc(1 + 1);
    |     ^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:21:5
+   |
+21 |     --function: calc(1 + 1);
+   |     ^^^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:21:5
    |
 21 |     --function: calc(1 + 1);
@@ -671,7 +767,13 @@ error: Declaration
 22 |     --variable: var(--unit);
    |     ^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:22:5
+   |
+22 |     --variable: var(--unit);
+   |     ^^^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:22:5
    |
 22 |     --variable: var(--unit);
@@ -719,7 +821,13 @@ error: Declaration
 24 |     --string: 'single quoted string';
    |     ^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:24:5
+   |
+24 |     --string: 'single quoted string';
+   |     ^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:24:5
    |
 24 |     --string: 'single quoted string';
@@ -755,7 +863,13 @@ error: Declaration
 25 |     --string: "double quoted string";
    |     ^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:25:5
+   |
+25 |     --string: "double quoted string";
+   |     ^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:25:5
    |
 25 |     --string: "double quoted string";
@@ -791,7 +905,13 @@ error: Declaration
 27 |     --square-block: [1, 2, 3];
    |     ^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:27:5
+   |
+27 |     --square-block: [1, 2, 3];
+   |     ^^^^^^^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:27:5
    |
 27 |     --square-block: [1, 2, 3];
@@ -875,7 +995,13 @@ error: Declaration
 28 |     --square-block1: [];
    |     ^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:28:5
+   |
+28 |     --square-block1: [];
+   |     ^^^^^^^^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:28:5
    |
 28 |     --square-block1: [];
@@ -917,7 +1043,13 @@ error: Declaration
 29 |     --square-block2:[];
    |     ^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:29:5
+   |
+29 |     --square-block2:[];
+   |     ^^^^^^^^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:29:5
    |
 29 |     --square-block2:[];
@@ -953,7 +1085,13 @@ error: Declaration
 30 |     --round-block: (1, 2, 3);
    |     ^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:30:5
+   |
+30 |     --round-block: (1, 2, 3);
+   |     ^^^^^^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:30:5
    |
 30 |     --round-block: (1, 2, 3);
@@ -1037,7 +1175,13 @@ error: Declaration
 31 |     --round-block1: ();
    |     ^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:31:5
+   |
+31 |     --round-block1: ();
+   |     ^^^^^^^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:31:5
    |
 31 |     --round-block1: ();
@@ -1079,7 +1223,13 @@ error: Declaration
 32 |     --round-block2:();
    |     ^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:32:5
+   |
+32 |     --round-block2:();
+   |     ^^^^^^^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:32:5
    |
 32 |     --round-block2:();
@@ -1115,7 +1265,13 @@ error: Declaration
 33 |     --bracket-block: {1, 2, 3};
    |     ^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:33:5
+   |
+33 |     --bracket-block: {1, 2, 3};
+   |     ^^^^^^^^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:33:5
    |
 33 |     --bracket-block: {1, 2, 3};
@@ -1199,7 +1355,13 @@ error: Declaration
 34 |     --bracket-block1: {};
    |     ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:34:5
+   |
+34 |     --bracket-block1: {};
+   |     ^^^^^^^^^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:34:5
    |
 34 |     --bracket-block1: {};
@@ -1241,7 +1403,13 @@ error: Declaration
 35 |     --bracket-block2:{};
    |     ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:35:5
+   |
+35 |     --bracket-block2:{};
+   |     ^^^^^^^^^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:35:5
    |
 35 |     --bracket-block2:{};
@@ -1277,7 +1445,13 @@ error: Declaration
 38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
    |     ^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:38:5
+   |
+38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
+   |     ^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:38:5
    |
 38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -1445,7 +1619,13 @@ error: Declaration
 39 |     --javascript: function(rule) { console.log(rule) };
    |     ^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:39:5
+   |
+39 |     --javascript: function(rule) { console.log(rule) };
+   |     ^^^^^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:39:5
    |
 39 |     --javascript: function(rule) { console.log(rule) };
@@ -1553,7 +1733,13 @@ error: Declaration
 41 |     --CDO: <!--;
    |     ^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:41:5
+   |
+41 |     --CDO: <!--;
+   |     ^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:41:5
    |
 41 |     --CDO: <!--;
@@ -1589,7 +1775,13 @@ error: Declaration
 42 |     --CDC: -->;
    |     ^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:42:5
+   |
+42 |     --CDC: -->;
+   |     ^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:42:5
    |
 42 |     --CDC: -->;
@@ -1625,7 +1817,13 @@ error: Declaration
 44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
    |     ^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:44:5
+   |
+44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
+   |     ^^^^^^^^^^^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:44:5
    |
 44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
@@ -1829,7 +2027,13 @@ error: Declaration
 45 |     --fake-important:{!important};
    |     ^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:45:5
+   |
+45 |     --fake-important:{!important};
+   |     ^^^^^^^^^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:45:5
    |
 45 |     --fake-important:{!important};
@@ -1877,7 +2081,13 @@ error: Declaration
 46 |     --semicolon-not-top-level: (;);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:46:5
+   |
+46 |     --semicolon-not-top-level: (;);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:46:5
    |
 46 |     --semicolon-not-top-level: (;);
@@ -1925,7 +2135,13 @@ error: Declaration
 47 |     --delim-not-top-level: (!);
    |     ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:47:5
+   |
+47 |     --delim-not-top-level: (!);
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:47:5
    |
 47 |     --delim-not-top-level: (!);
@@ -2027,7 +2243,13 @@ error: Declaration
 50 | :root{--a:1}
    |       ^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:50:7
+   |
+50 | :root{--a:1}
+   |       ^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:50:7
    |
 50 | :root{--a:1}
@@ -2111,7 +2333,13 @@ error: Declaration
 51 | :root {--foo: }
    |        ^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:51:8
+   |
+51 | :root {--foo: }
+   |        ^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:51:8
    |
 51 | :root {--foo: }
@@ -2203,7 +2431,13 @@ error: Declaration
 54 | | }
    | |_
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/custom-property/input.css:53:5
+   |
+53 |     --foo: 
+   |     ^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/custom-property/input.css:53:5
    |
 53 |     --foo: 
