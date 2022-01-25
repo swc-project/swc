@@ -694,7 +694,7 @@ where
     }
 
     #[emitter]
-    fn emit_percent_value(&mut self, n: &PercentValue) -> Result {
+    fn emit_percent(&mut self, n: &Percent) -> Result {
         emit!(self, n.value);
         punct!(self, "%");
     }

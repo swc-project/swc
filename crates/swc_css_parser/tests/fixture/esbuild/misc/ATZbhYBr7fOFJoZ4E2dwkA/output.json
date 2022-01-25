@@ -32,7 +32,7 @@
           },
           "selector": [
             {
-              "type": "PercentValue",
+              "type": "Percent",
               "span": {
                 "start": 18,
                 "end": 20,
@@ -50,7 +50,7 @@
               }
             },
             {
-              "type": "PercentValue",
+              "type": "Percent",
               "span": {
                 "start": 22,
                 "end": 25,
@@ -118,7 +118,7 @@
           },
           "selector": [
             {
-              "type": "PercentValue",
+              "type": "Percent",
               "span": {
                 "start": 41,
                 "end": 44,
@@ -136,7 +136,7 @@
               }
             },
             {
-              "type": "PercentValue",
+              "type": "Percent",
               "span": {
                 "start": 46,
                 "end": 49,
