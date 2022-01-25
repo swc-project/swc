@@ -193,7 +193,7 @@
             function v() {
                 this.s = this.s, this.o = this.o;
             }
-            Math.random(), v.prototype.s = !1, v.prototype.na = function() {
+            v.prototype.s = !1, v.prototype.na = function() {
                 this.s || (this.s = !0, this.M());
             }, v.prototype.M = function() {
                 if (this.o) for(; this.o.length;)this.o.shift()();
