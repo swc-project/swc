@@ -1867,6 +1867,8 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
+        let was_directive = matches!(&*n.expr, Expr::Lit(Lit::Str(..)));
+
         n.visit_mut_children_with(self);
 
         let mut need_ignore_return_value = false;
@@ -1886,6 +1888,12 @@ where
         let is_directive = matches!(&*n.expr, Expr::Lit(Lit::Str(..)));
 
         if is_directive {
+            if !was_directive {
+                *n = ExprStmt {
+                    span: DUMMY_SP,
+                    expr: Take::dummy(),
+                };
+            }
             return;
         }
 
