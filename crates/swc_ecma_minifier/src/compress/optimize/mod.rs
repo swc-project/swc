@@ -912,10 +912,8 @@ where
             //      return f.g, 1
             // }
             Expr::Member(MemberExpr { obj, prop, .. })
-                if match &*prop {
-                    MemberProp::Computed(prop) => !prop.expr.may_have_side_effects(),
-                    _ => true,
-                } && (self.options.top_level() || !self.ctx.in_top_level()) =>
+                if !prop.is_computed()
+                    && (self.options.top_level() || !self.ctx.in_top_level()) =>
             {
                 if let Expr::Ident(obj) = &**obj {
                     if let Some(usage) = self
