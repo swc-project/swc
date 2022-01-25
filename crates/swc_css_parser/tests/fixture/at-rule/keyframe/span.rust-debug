@@ -198,7 +198,7 @@ error: Value
 7 |         transform: translateX(0%);
   |                               ^^
 
-error: PercentValue
+error: Percent
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:31
   |
 7 |         transform: translateX(0%);
@@ -284,7 +284,7 @@ error: Value
 11 |         transform: translateX(100%);
    |                               ^^^^
 
-error: PercentValue
+error: Percent
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:31
    |
 11 |         transform: translateX(100%);
@@ -347,7 +347,7 @@ error: KeyframeSelector
 16 |     0% { top: 0; left: 0; }
    |     ^^
 
-error: PercentValue
+error: Percent
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:5
    |
 16 |     0% { top: 0; left: 0; }
@@ -431,7 +431,7 @@ error: KeyframeSelector
 17 |     30% { top: 50px; }
    |     ^^^
 
-error: PercentValue
+error: Percent
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:5
    |
 17 |     30% { top: 50px; }
@@ -503,7 +503,7 @@ error: KeyframeSelector
 18 |     68%, 72% { left: 50px; }
    |     ^^^
 
-error: PercentValue
+error: Percent
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:5
    |
 18 |     68%, 72% { left: 50px; }
@@ -521,7 +521,7 @@ error: KeyframeSelector
 18 |     68%, 72% { left: 50px; }
    |          ^^^
 
-error: PercentValue
+error: Percent
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:10
    |
 18 |     68%, 72% { left: 50px; }
@@ -593,7 +593,7 @@ error: KeyframeSelector
 19 |     100% { top: 100px; left: 100%; }
    |     ^^^^
 
-error: PercentValue
+error: Percent
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:5
    |
 19 |     100% { top: 100px; left: 100%; }
@@ -671,7 +671,7 @@ error: Value
 19 |     100% { top: 100px; left: 100%; }
    |                              ^^^^
 
-error: PercentValue
+error: Percent
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:30
    |
 19 |     100% { top: 100px; left: 100%; }

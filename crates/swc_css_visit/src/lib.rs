@@ -88,7 +88,7 @@ define!({
 
         Number(Number),
 
-        Percent(PercentValue),
+        Percent(Percent),
 
         Ratio(Ratio),
 
@@ -151,7 +151,7 @@ define!({
         pub unit: Unit,
     }
 
-    pub struct PercentValue {
+    pub struct Percent {
         pub span: Span,
         pub value: Number,
     }
@@ -423,7 +423,7 @@ define!({
 
     pub enum KeyframeSelector {
         Ident(Ident),
-        Percent(PercentValue),
+        Percent(Percent),
     }
 
     pub enum KeyframeBlockRule {

@@ -32,7 +32,7 @@
           },
           "selector": [
             {
-              "type": "PercentValue",
+              "type": "Percent",
               "span": {
                 "start": 18,
                 "end": 22,

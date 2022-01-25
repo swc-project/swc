@@ -14,8 +14,8 @@ pub enum Value {
     #[tag("Number")]
     Number(Number),
 
-    #[tag("PercentValue")]
-    Percent(PercentValue),
+    #[tag("Percent")]
+    Percent(Percent),
 
     #[tag("Ratio")]
     Ratio(Ratio),
@@ -110,8 +110,8 @@ pub struct UnitValue {
     pub unit: Unit,
 }
 
-#[ast_node("PercentValue")]
-pub struct PercentValue {
+#[ast_node("Percent")]
+pub struct Percent {
     pub span: Span,
     pub value: Number,
 }
