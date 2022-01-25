@@ -369,7 +369,7 @@ impl Options {
             .global_mark
             .unwrap_or_else(|| Mark::fresh(Mark::root()));
 
-        let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark.clone());
+        let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 
         let pass = chain!(
             const_modules,

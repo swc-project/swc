@@ -6,7 +6,7 @@ use swc_ecma_visit::{noop_fold_type, Fold};
 mod const_assign;
 mod duplicate_bindings;
 mod duplicate_exports;
-mod no_console;
+pub mod no_console;
 
 pub fn all(lint_config: &LintConfig, top_level_ctxt: SyntaxContext) -> Vec<Box<dyn Rule>> {
     let mut rules = vec![

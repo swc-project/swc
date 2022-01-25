@@ -1,20 +1,33 @@
 use crate::{
-    config::LintRuleReaction,
+    config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
 };
+use serde::{Deserialize, Serialize};
+use std::collections::HashSet;
 use swc_common::{errors::HANDLER, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit};
 
-const MESSAGE: &'static str = "Unexpected console statement";
+const MESSAGE: &str = "Unexpected console statement";
+
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct NoConsoleConfig {
+    // not used for now
+    allow: Option<HashSet<String>>,
+}
 
 pub fn no_console(
-    config: &LintRuleReaction,
+    config: &RuleConfig<NoConsoleConfig>,
     top_level_ctxt: SyntaxContext,
 ) -> Option<Box<dyn Rule>> {
-    match config {
+    let rule_reaction = config.get_rule_reaction();
+
+    match rule_reaction {
         LintRuleReaction::Off => None,
-        _ => Some(visitor_rule(NoConsole::new(config.clone(), top_level_ctxt))),
+        _ => Some(visitor_rule(NoConsole::new(
+            rule_reaction.clone(),
+            top_level_ctxt,
+        ))),
     }
 }
 
@@ -33,18 +46,16 @@ impl NoConsole {
     }
 
     fn check(&mut self, id: &Ident) {
-        if &*id.sym == "console" {
-            if id.span.ctxt == self.top_level_ctxt {
-                HANDLER.with(|handler| match self.expected_reaction {
-                    LintRuleReaction::Error => {
-                        handler.struct_span_err(id.span, MESSAGE).emit();
-                    }
-                    LintRuleReaction::Warning => {
-                        handler.struct_span_warn(id.span, MESSAGE).emit();
-                    }
-                    _ => {}
-                });
-            }
+        if &*id.sym == "console" && id.span.ctxt == self.top_level_ctxt {
+            HANDLER.with(|handler| match self.expected_reaction {
+                LintRuleReaction::Error => {
+                    handler.struct_span_err(id.span, MESSAGE).emit();
+                }
+                LintRuleReaction::Warning => {
+                    handler.struct_span_warn(id.span, MESSAGE).emit();
+                }
+                _ => {}
+            });
         }
     }
 }
