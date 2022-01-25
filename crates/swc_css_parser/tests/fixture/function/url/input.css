@@ -40,4 +40,9 @@ a {
 
 
        );
+    background: url(image.png\0001);
+    background: url(image.png\1);
+    background: url(image.png\D799);
+    background: url(image.png\E000);
+    background: url(image.png\10FFFF);
 }

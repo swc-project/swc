@@ -2,6 +2,7 @@ use crate::{
     error::{Error, ErrorKind},
     parser::{input::ParserInput, PResult, ParserConfig},
 };
+use std::char::REPLACEMENT_CHARACTER;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{input::Input, BytePos, Span};
 use swc_css_ast::{NumberType, Token, TokenAndSpan};
@@ -864,8 +865,15 @@ where
                 // Interpret the hex digits as a hexadecimal number. If this number is zero, or
                 // is for a surrogate, or is greater than the maximum allowed code point, return
                 // U+FFFD REPLACEMENT CHARACTER (�).
-                // TODO: fix me
-                let hex = char::from_u32(hex).ok_or(ErrorKind::InvalidEscape)?;
+                let hex = match hex {
+                    // If this number is zero
+                    0 => REPLACEMENT_CHARACTER,
+                    // or is for a surrogate
+                    55296..=57343 => REPLACEMENT_CHARACTER,
+                    // or is greater than the maximum allowed code point
+                    1114112.. => REPLACEMENT_CHARACTER,
+                    _ => char::from_u32(hex).unwrap_or_else(|| REPLACEMENT_CHARACTER),
+                };
 
                 // Otherwise, return the code point with that value.
                 Ok((hex, raw))
@@ -873,7 +881,7 @@ where
             // EOF
             // This is a parse error. Return U+FFFD REPLACEMENT CHARACTER (�).
             None => {
-                let value = '\u{FFFD}';
+                let value = REPLACEMENT_CHARACTER;
 
                 raw.push(value);
 
