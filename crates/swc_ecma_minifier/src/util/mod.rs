@@ -405,13 +405,6 @@ pub(crate) struct CapturedIdCollector {
 impl Visit for CapturedIdCollector {
     noop_visit_type!();
 
-    fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
-        let old = self.is_nested;
-        self.is_nested = true;
-        n.visit_children_with(self);
-        self.is_nested = old;
-    }
-
     fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
         let old = self.is_nested;
         self.is_nested = true;
