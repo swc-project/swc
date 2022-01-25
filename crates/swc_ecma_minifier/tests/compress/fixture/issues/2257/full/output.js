@@ -9818,11 +9818,11 @@
                         var action = "PUSH", location = createLocation(path4, void 0, void 0, history.location);
                         transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function(ok) {
                             if (ok) {
-                                var path, path3 = createPath(location), encodedPath = encodePath(basename + path3);
+                                var path = createPath(location), encodedPath = encodePath(basename + path);
                                 if (getHashPath() !== encodedPath) {
-                                    ignorePath = path3, path = encodedPath, window.location.hash = path;
-                                    var prevIndex = allPaths.lastIndexOf(createPath(history.location)), nextPaths = allPaths.slice(0, prevIndex + 1);
-                                    nextPaths.push(path3), allPaths = nextPaths, setState({
+                                    ignorePath = path, path3 = encodedPath, window.location.hash = path3;
+                                    var path3, prevIndex = allPaths.lastIndexOf(createPath(history.location)), nextPaths = allPaths.slice(0, prevIndex + 1);
+                                    nextPaths.push(path), allPaths = nextPaths, setState({
                                         action: action,
                                         location: location
                                     });
@@ -16152,7 +16152,7 @@
                 }
             });
             var inheritsLoose = __webpack_require__(48861), _react_17_0_2_react = __webpack_require__(59301), _prop_types_15_7_2_prop_types = __webpack_require__(68712), _prop_types_15_7_2_prop_types_default = __webpack_require__.n(_prop_types_15_7_2_prop_types), esm_history = __webpack_require__(91520), commonjsGlobal = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : {}, esm = _react_17_0_2_react.createContext || function(defaultValue, calculateChangedBits) {
-                var _Provider$childContex, _Consumer$contextType, key, contextProp = "__create-react-context-" + (commonjsGlobal[key = "__global_unique_id__"] = (commonjsGlobal[key] || 0) + 1) + "__", Provider1 = function(_Component) {
+                var key, _Provider$childContex, _Consumer$contextType, contextProp = "__create-react-context-" + (commonjsGlobal[key = "__global_unique_id__"] = (commonjsGlobal[key] || 0) + 1) + "__", Provider1 = function(_Component) {
                     function Provider() {
                         var _this, value, handlers;
                         return _this = _Component.apply(this, arguments) || this, value = _this.props.value, handlers = [], _this.emitter = {
@@ -17098,9 +17098,8 @@
         },
         74284: function(__unused_webpack_module, exports) {
             "use strict";
-            var f, g, h, k;
             if ("object" == typeof performance && "function" == typeof performance.now) {
-                var l = performance;
+                var f, g, h, k, l = performance;
                 exports.unstable_now = function() {
                     return l.now();
                 };
