@@ -352,6 +352,7 @@ define!({
         Namespace(NamespaceRule),
         Viewport(ViewportRule),
         Document(DocumentRule),
+        ColorProfile(ColorProfileRule),
         Unknown(UnknownAtRule),
     }
 
@@ -651,5 +652,16 @@ define!({
 
     pub enum SupportsFeature {
         Declaration(Declaration),
+    }
+
+    pub enum ColorProfileName {
+        DashedIdent(DashedIdent),
+        Ident(Ident),
+    }
+
+    pub struct ColorProfileRule {
+        pub span: Span,
+        pub name: ColorProfileName,
+        pub block: Vec<DeclarationBlockItem>,
     }
 });

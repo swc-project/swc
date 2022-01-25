@@ -1,11 +1,13 @@
 pub use self::{
-    charset::*, document::*, import::*, keyframe::*, layer::*, media::*, page::*, support::*,
+    charset::*, color_profile::*, document::*, import::*, keyframe::*, layer::*, media::*, page::*,
+    support::*,
 };
 use crate::{Block, DashedIdent, Ident, SimpleBlock, Str, Url, Value};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 mod charset;
+mod color_profile;
 mod document;
 mod import;
 mod keyframe;
@@ -49,6 +51,9 @@ pub enum AtRule {
 
     #[tag("DocumentRule")]
     Document(DocumentRule),
+
+    #[tag("ColorProfileRule")]
+    ColorProfile(ColorProfileRule),
 
     #[tag("UnknownAtRule")]
     Unknown(UnknownAtRule),

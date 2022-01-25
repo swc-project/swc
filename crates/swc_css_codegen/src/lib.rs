@@ -79,6 +79,7 @@ where
             AtRule::Namespace(n) => emit!(self, n),
             AtRule::Viewport(n) => emit!(self, n),
             AtRule::Document(n) => emit!(self, n),
+            AtRule::ColorProfile(n) => emit!(self, n),
             AtRule::Unknown(n) => emit!(self, n),
         }
     }
@@ -589,6 +590,25 @@ where
             AtRuleName::Ident(n) => emit!(self, n),
             AtRuleName::DashedIdent(n) => emit!(self, n),
         }
+    }
+
+    #[emitter]
+    fn emit_color_profile_name(&mut self, n: &ColorProfileName) -> Result {
+        match n {
+            ColorProfileName::Ident(n) => emit!(self, n),
+            ColorProfileName::DashedIdent(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_color_profile_rule(&mut self, n: &ColorProfileRule) -> Result {
+        punct!(self, "@");
+        keyword!(self, "color-profile");
+        space!(self);
+        emit!(self, n.name);
+        punct!(self, "{");
+        self.emit_list(&n.block, ListFormat::NotDelimited)?;
+        punct!(self, "}");
     }
 
     #[emitter]

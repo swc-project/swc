@@ -382,6 +382,8 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(AtRuleName, visit_at_rule_name);
     mtd!(UnknownAtRule, visit_unknown_at_rule);
     mtd!(ViewportRule, visit_viewport_rule);
+    mtd!(ColorProfileName, visit_color_profile_name);
+    mtd!(ColorProfileRule, visit_color_profile_rule);
 
     fn visit_token_and_span(&mut self, n: &TokenAndSpan) {
         self.handler
