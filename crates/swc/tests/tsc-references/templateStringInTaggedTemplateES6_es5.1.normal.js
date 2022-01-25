@@ -18,4 +18,5 @@ function _templateObject() {
     };
     return data;
 }
+// @target: ES6
 ("I AM THE TAG  PORTION")(_templateObject(), "AM");
