@@ -1,8 +1,0 @@
-div {
-    background: url(image.png\999999);
-    background: url(image.png\0);
-    background: url(image.png\D800);
-    background: url(image.png\DFFF);
-    background: url(image.png\11FFFF);
-    color: red;
-}
