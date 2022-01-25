@@ -328,8 +328,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "typeAnnotation": null
             }

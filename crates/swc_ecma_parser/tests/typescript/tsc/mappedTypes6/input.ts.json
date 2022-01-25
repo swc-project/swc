@@ -5754,8 +5754,7 @@
           },
           "value": "a",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -5791,8 +5790,7 @@
           },
           "value": "b",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -5828,8 +5826,7 @@
           },
           "value": "c",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -5865,8 +5862,7 @@
           },
           "value": "d",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -6361,8 +6357,7 @@
           },
           "value": "a",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -6398,8 +6393,7 @@
           },
           "value": "b",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -6435,8 +6429,7 @@
           },
           "value": "c",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -6472,8 +6465,7 @@
           },
           "value": "d",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -7060,8 +7052,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -7115,8 +7106,7 @@
             },
             "value": "b",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -7257,8 +7247,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -7312,8 +7301,7 @@
             },
             "value": "b",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -7454,8 +7442,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -7509,8 +7496,7 @@
             },
             "value": "b",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",

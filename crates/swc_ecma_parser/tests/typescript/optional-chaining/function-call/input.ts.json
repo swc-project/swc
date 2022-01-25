@@ -179,8 +179,7 @@
                 },
                 "value": "func",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "arguments": [],
@@ -252,8 +251,7 @@
                 },
                 "value": "func",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "arguments": [
@@ -340,8 +338,7 @@
               },
               "value": "func",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [],
           "typeArguments": null

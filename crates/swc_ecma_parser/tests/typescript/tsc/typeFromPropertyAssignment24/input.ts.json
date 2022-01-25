@@ -54,8 +54,7 @@
               },
               "value": "Inner",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -66,8 +65,7 @@
             },
             "value": "Message",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -156,8 +154,7 @@
                 },
                 "value": "Inner",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -199,8 +196,7 @@
           },
           "value": "name",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -269,8 +265,7 @@
           },
           "value": "name",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -355,8 +350,7 @@
             },
             "value": "Inner",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",

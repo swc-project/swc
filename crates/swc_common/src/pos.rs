@@ -82,7 +82,7 @@ where
     S: ?Sized + Spanned,
 {
     fn span(&self) -> Span {
-        <S as Spanned>::span(&*self)
+        <S as Spanned>::span(*self)
     }
 }
 

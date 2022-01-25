@@ -117,10 +117,10 @@ where
             });
         }
 
-        return Ok(Combinator {
+        Ok(Combinator {
             span,
             value: CombinatorValue::Descendant,
-        });
+        })
     }
 
     fn parse_ns_prefix(&mut self) -> PResult<Option<Ident>> {
@@ -384,7 +384,7 @@ where
                         raw: str.1,
                     }))
                 }
-                _ => Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcherValue))?,
+                _ => return Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcherValue)),
             };
 
             self.input.skip_ws()?;
@@ -398,7 +398,7 @@ where
 
                         bump!(self);
                     }
-                    _ => Err(Error::new(span, ErrorKind::InvalidAttrSelectorModifier))?,
+                    _ => return Err(Error::new(span, ErrorKind::InvalidAttrSelectorModifier)),
                 }
             }
 
@@ -437,8 +437,8 @@ where
 
                 NthValue::Ident(Ident {
                     span: span!(self, span.lo),
-                    value: names.0.into(),
-                    raw: names.1.into(),
+                    value: names.0,
+                    raw: names.1,
                 })
             }
             // <integer>
@@ -520,7 +520,7 @@ where
                         a = Some(if has_minus_sign { -1 } else {1 });
                         a_raw = Some((if has_plus_sign { "+" } else if has_minus_sign { "-" } else { "" }).into());
 
-                        n_value = if has_minus_sign { ident_value.clone()[1..].to_string() } else { ident_value.clone().to_string() };
+                        n_value = if has_minus_sign { ident_value[1..].to_string() } else { ident_value.to_string() };
                     }
                     Token::Dimension { .. } => {
                         let dimension = match bump!(self) {

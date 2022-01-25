@@ -5,7 +5,7 @@
 var list = [];
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
-    for(var _iterator = list[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
+    var _loop = function(_iterator, _step) {
         var comp = _step.value;
         comp.sp.y = comp.sp.r.find(function(k) {
             return k.c == (comp.xp ? '1' : '0');
@@ -31,7 +31,8 @@ try {
                 }
             }
         }
-    }
+    };
+    for(var _iterator = list[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true)_loop(_iterator, _step);
 } catch (err) {
     _didIteratorError = true;
     _iteratorError = err;

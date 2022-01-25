@@ -97,7 +97,7 @@ warning: CallExpr
 2 |     await bar()
   |           ^^^^^
 
-warning: ExprOrSuper
+warning: Callee
  --> $DIR/tests/span/js/expr/await.js:2:11
   |
 2 |     await bar()

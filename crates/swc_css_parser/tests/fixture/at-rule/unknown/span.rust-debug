@@ -430,6 +430,12 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
 10 | @unknown {}
    |         ^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:10:10
+   |
+10 | @unknown {}
+   |          ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/unknown/input.css:11:1
    |
@@ -471,6 +477,12 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
    |
 11 | @\unknown {}
    |          ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:11:11
+   |
+11 | @\unknown {}
+   |           ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/unknown/input.css:12:1
@@ -586,6 +598,12 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
 12 | @unknown a b {}
    |             ^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:12:14
+   |
+12 | @unknown a b {}
+   |              ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/unknown/input.css:13:1
    |
@@ -627,6 +645,12 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
    |
 13 | @unknown {p:v}
    |         ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:13:10
+   |
+13 | @unknown {p:v}
+   |          ^^^^^
 
 error: Value
   --> $DIR/tests/fixture/at-rule/unknown/input.css:13:11
@@ -796,6 +820,12 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
 14 | @unknown x y {p:v}
    |             ^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:14:14
+   |
+14 | @unknown x y {p:v}
+   |              ^^^^^
+
 error: Value
   --> $DIR/tests/fixture/at-rule/unknown/input.css:14:15
    |
@@ -873,6 +903,12 @@ error: Ident
    |
 17 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
    | ^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:17
+   |
+17 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Value
   --> $DIR/tests/fixture/at-rule/unknown/input.css:17:26
@@ -969,6 +1005,12 @@ error: WhiteSpace { value: Atom('  ' type=inline) }
    |
 20 | @unknown  {  p  :  v  }
    |         ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:20:11
+   |
+20 | @unknown  {  p  :  v  }
+   |           ^^^^^^^^^^^^^
 
 error: Value
   --> $DIR/tests/fixture/at-rule/unknown/input.css:20:12
@@ -1210,6 +1252,12 @@ error: WhiteSpace { value: Atom('  ' type=inline) }
 21 | @unknown  x  y  {  p  :  v  }
    |               ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:21:17
+   |
+21 | @unknown  x  y  {  p  :  v  }
+   |                 ^^^^^^^^^^^^^
+
 error: Value
   --> $DIR/tests/fixture/at-rule/unknown/input.css:21:18
    |
@@ -1377,6 +1425,12 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
    |
 24 | @unknown {s{p:v}}
    |         ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:24:10
+   |
+24 | @unknown {s{p:v}}
+   |          ^^^^^^^
 
 error: Value
   --> $DIR/tests/fixture/at-rule/unknown/input.css:24:11

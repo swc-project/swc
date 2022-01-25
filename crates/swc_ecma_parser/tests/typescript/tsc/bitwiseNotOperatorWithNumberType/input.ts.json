@@ -952,8 +952,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -1022,8 +1021,7 @@
                 },
                 "value": "n",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -1084,15 +1082,22 @@
                 "optional": false
               },
               "property": {
-                "type": "NumericLiteral",
+                "type": "Computed",
                 "span": {
-                  "start": 632,
-                  "end": 633,
+                  "start": 631,
+                  "end": 634,
                   "ctxt": 0
                 },
-                "value": 0.0
-              },
-              "computed": true
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 632,
+                    "end": 633,
+                    "ctxt": 0
+                  },
+                  "value": 0.0
+                }
+              }
             }
           },
           "definite": false
@@ -1229,8 +1234,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -1606,8 +1610,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -1652,8 +1655,7 @@
             },
             "value": "n",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -1706,8 +1708,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -1736,8 +1737,7 @@
               },
               "value": "n",
               "optional": false
-            },
-            "computed": false
+            }
           }
         ]
       }

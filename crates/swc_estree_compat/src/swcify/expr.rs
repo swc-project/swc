@@ -3,23 +3,24 @@ use swc_atoms::js_word;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::{
     op, ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BinaryOp, BindingIdent,
-    BlockStmtOrExpr, CallExpr, ClassExpr, ComputedPropName, CondExpr, Expr, ExprOrSpread,
-    ExprOrSuper, FnExpr, Function, Ident, JSXAttr, JSXAttrOrSpread, JSXAttrValue, JSXEmptyExpr,
-    JSXExpr, JSXExprContainer, JSXMemberExpr, JSXObject, KeyValueProp, Lit, MemberExpr,
-    MetaPropExpr, MethodProp, NewExpr, ObjectLit, OptChainExpr, ParenExpr, PatOrExpr, Prop,
-    PropName, PropOrSpread, SeqExpr, SpreadElement, TaggedTpl, ThisExpr, TsAsExpr, TsNonNullExpr,
-    TsTypeAssertion, TsTypeParamInstantiation, UnaryExpr, UnaryOp, UpdateExpr, YieldExpr,
+    BlockStmtOrExpr, CallExpr, Callee, ClassExpr, ComputedPropName, CondExpr, Expr, ExprOrSpread,
+    FnExpr, Function, Ident, Import, JSXAttr, JSXAttrOrSpread, JSXAttrValue, JSXEmptyExpr, JSXExpr,
+    JSXExprContainer, JSXMemberExpr, JSXObject, KeyValueProp, Lit, MemberExpr, MemberProp,
+    MetaPropExpr, MetaPropKind, MethodProp, NewExpr, ObjectLit, OptChainExpr, ParenExpr, PatOrExpr,
+    Prop, PropName, PropOrSpread, SeqExpr, SpreadElement, SuperProp, SuperPropExpr, TaggedTpl,
+    ThisExpr, TsAsExpr, TsNonNullExpr, TsTypeAssertion, TsTypeParamInstantiation, UnaryExpr,
+    UnaryOp, UpdateExpr, YieldExpr,
 };
 use swc_estree_ast::{
     Arg, ArrayExprEl, ArrayExpression, ArrowFuncExprBody, ArrowFunctionExpression,
     AssignmentExpression, AwaitExpression, BinaryExprLeft, BinaryExprOp, BinaryExpression,
-    BindExpression, CallExpression, Callee, ClassExpression, ConditionalExpression, DoExpression,
-    Expression, FunctionExpression, Identifier, Import, JSXAttrVal, JSXAttribute,
-    JSXEmptyExpression, JSXExprContainerExpr, JSXExpressionContainer, JSXMemberExprObject,
-    JSXMemberExpression, JSXSpreadAttribute, Literal, LogicalExprOp, LogicalExpression,
-    MemberExprProp, MemberExpression, MetaProperty, ModuleExpression, NewExpression,
-    ObjectExprProp, ObjectExpression, ObjectKey, ObjectMethod, ObjectPropVal, ObjectProperty,
-    OptionalCallExpression, OptionalMemberExprProp, OptionalMemberExpression,
+    BindExpression, CallExpression, Callee as BabelCallee, ClassExpression, ConditionalExpression,
+    DoExpression, Expression, FunctionExpression, Identifier, Import as BabelImport, JSXAttrVal,
+    JSXAttribute, JSXEmptyExpression, JSXExprContainerExpr, JSXExpressionContainer,
+    JSXMemberExprObject, JSXMemberExpression, JSXSpreadAttribute, Literal, LogicalExprOp,
+    LogicalExpression, MemberExprProp, MemberExpression, MetaProperty, ModuleExpression,
+    NewExpression, ObjectExprProp, ObjectExpression, ObjectKey, ObjectMethod, ObjectPropVal,
+    ObjectProperty, OptionalCallExpression, OptionalMemberExprProp, OptionalMemberExpression,
     ParenthesizedExpression, PatternLike, PipelinePrimaryTopicReference, RecordExpression,
     SequenceExpression, TSAsExpression, TSNonNullExpression, TSTypeAssertion,
     TaggedTemplateExprTypeParams, TaggedTemplateExpression, ThisExpression, TupleExpression,
@@ -47,7 +48,7 @@ impl Swcify for Expression {
             Expression::Literal(Literal::Boolean(e)) => Lit::from(e.swcify(ctx)).into(),
             Expression::Literal(Literal::RegExp(e)) => Lit::from(e.swcify(ctx)).into(),
             Expression::Logical(e) => e.swcify(ctx).into(),
-            Expression::Member(e) => e.swcify(ctx).into(),
+            Expression::Member(e) => e.swcify(ctx),
             Expression::New(e) => e.swcify(ctx).into(),
             Expression::Object(e) => e.swcify(ctx).into(),
             Expression::Sequence(e) => e.swcify(ctx).into(),
@@ -219,17 +220,18 @@ impl Swcify for BinaryExprOp {
     }
 }
 
-impl Swcify for Callee {
-    type Output = ExprOrSuper;
+impl Swcify for BabelCallee {
+    type Output = Callee;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            Callee::V8Id(_) => {
+            BabelCallee::V8Id(_) => {
                 unreachable!("what is v8 id?")
             }
-            Callee::Expr(e) => match *e {
-                Expression::Super(s) => ExprOrSuper::Super(s.swcify(ctx)),
-                _ => ExprOrSuper::Expr(e.swcify(ctx)),
+            BabelCallee::Expr(e) => match *e {
+                Expression::Super(s) => Callee::Super(s.swcify(ctx)),
+                Expression::Import(s) => Callee::Import(s.swcify(ctx)),
+                _ => Callee::Expr(e.swcify(ctx)),
             },
         }
     }
@@ -355,29 +357,43 @@ impl Swcify for LogicalExpression {
 }
 
 impl Swcify for MemberExpression {
-    type Output = MemberExpr;
+    type Output = Expr;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        MemberExpr {
-            span: ctx.span(&self.base),
-            obj: match *self.object {
-                Expression::Super(s) => ExprOrSuper::Super(s.swcify(ctx)),
-                _ => ExprOrSuper::Expr(self.object.swcify(ctx)),
-            },
-            prop: self.property.swcify(ctx),
-            computed: self.computed,
-        }
-    }
-}
-
-impl Swcify for MemberExprProp {
-    type Output = Box<Expr>;
-
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        match self {
-            MemberExprProp::Id(i) => Box::new(Expr::Ident(i.swcify(ctx).id)),
-            MemberExprProp::PrivateName(e) => Box::new(Expr::PrivateName(e.swcify(ctx))),
-            MemberExprProp::Expr(e) => e.swcify(ctx),
+        match *self.object {
+            Expression::Super(s) => Expr::SuperProp(SuperPropExpr {
+                span: ctx.span(&self.base),
+                obj: s.swcify(ctx),
+                prop: match (*self.property, self.computed) {
+                    (MemberExprProp::Id(i), false) => SuperProp::Ident(i.swcify(ctx).id),
+                    (MemberExprProp::Expr(e), true) => {
+                        let expr = e.swcify(ctx);
+                        SuperProp::Computed(ComputedPropName {
+                            span: expr.span(),
+                            expr,
+                        })
+                    }
+                    _ => unreachable!(),
+                },
+            }),
+            _ => Expr::Member(MemberExpr {
+                span: ctx.span(&self.base),
+                obj: self.object.swcify(ctx),
+                prop: match (*self.property, self.computed) {
+                    (MemberExprProp::Id(i), false) => MemberProp::Ident(i.swcify(ctx).id),
+                    (MemberExprProp::PrivateName(e), false) => {
+                        MemberProp::PrivateName(e.swcify(ctx))
+                    }
+                    (MemberExprProp::Expr(e), true) => {
+                        let expr = e.swcify(ctx);
+                        MemberProp::Computed(ComputedPropName {
+                            span: expr.span(),
+                            expr,
+                        })
+                    }
+                    _ => unreachable!(),
+                },
+            }),
         }
     }
 }
@@ -389,10 +405,10 @@ impl Swcify for NewExpression {
         NewExpr {
             span: ctx.span(&self.base),
             callee: match self.callee {
-                Callee::V8Id(..) => {
+                BabelCallee::V8Id(..) => {
                     unreachable!()
                 }
-                Callee::Expr(e) => e.swcify(ctx),
+                BabelCallee::Expr(e) => e.swcify(ctx),
             },
             args: Some(
                 self.arguments
@@ -650,9 +666,36 @@ impl Swcify for MetaProperty {
     type Output = MetaPropExpr;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        MetaPropExpr {
-            meta: self.meta.swcify(ctx).id,
-            prop: self.property.swcify(ctx).id,
+        let meta = self.meta.swcify(ctx).id;
+        let prop = self.property.swcify(ctx).id;
+        match (meta, prop) {
+            (
+                Ident {
+                    sym: js_word!("new"),
+                    ..
+                },
+                Ident {
+                    sym: js_word!("target"),
+                    ..
+                },
+            ) => MetaPropExpr {
+                kind: MetaPropKind::NewTarget,
+                span: ctx.span(&self.base),
+            },
+            (
+                Ident {
+                    sym: js_word!("import"),
+                    ..
+                },
+                Ident {
+                    sym: js_word!("meta"),
+                    ..
+                },
+            ) => MetaPropExpr {
+                kind: MetaPropKind::NewTarget,
+                span: ctx.span(&self.base),
+            },
+            _ => unreachable!("there are only two kind of meta prop"),
         }
     }
 }
@@ -714,11 +757,13 @@ impl Swcify for AwaitExpression {
     }
 }
 
-impl Swcify for Import {
-    type Output = !;
+impl Swcify for BabelImport {
+    type Output = Import;
 
-    fn swcify(self, _: &Context) -> Self::Output {
-        unimplemented!("import expression")
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        Import {
+            span: ctx.span(&self.base),
+        }
     }
 }
 
@@ -732,12 +777,18 @@ impl Swcify for OptionalMemberExpression {
             question_dot_token: DUMMY_SP,
             expr: Box::new(Expr::Member(MemberExpr {
                 span: ctx.span(&self.base),
-                obj: match *self.object {
-                    Expression::Super(s) => ExprOrSuper::Super(s.swcify(ctx)),
-                    _ => ExprOrSuper::Expr(self.object.swcify(ctx)),
+                obj: self.object.swcify(ctx),
+                prop: match (self.property, self.computed) {
+                    (OptionalMemberExprProp::Id(i), false) => MemberProp::Ident(i.swcify(ctx).id),
+                    (OptionalMemberExprProp::Expr(e), true) => {
+                        let expr = e.swcify(ctx);
+                        MemberProp::Computed(ComputedPropName {
+                            span: expr.span(),
+                            expr,
+                        })
+                    }
+                    _ => unreachable!(),
                 },
-                prop: self.property.swcify(ctx),
-                computed: self.computed,
             })),
         }
     }
@@ -764,10 +815,7 @@ impl Swcify for OptionalCallExpression {
             question_dot_token: DUMMY_SP,
             expr: Box::new(Expr::Call(CallExpr {
                 span: ctx.span(&self.base),
-                callee: match *self.callee {
-                    Expression::Super(s) => ExprOrSuper::Super(s.swcify(ctx)),
-                    _ => ExprOrSuper::Expr(self.callee.swcify(ctx)),
-                },
+                callee: Callee::Expr(self.callee.swcify(ctx)),
                 args: self.arguments.swcify(ctx).into_iter().flatten().collect(),
                 type_args: self.type_parameters.swcify(ctx),
             })),

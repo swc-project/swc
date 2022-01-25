@@ -90,7 +90,7 @@ impl NormalizedOutput {
         debug!("Comparing output to {}", path.display());
         create_dir_all(path.parent().unwrap()).expect("failed to run `mkdir -p`");
 
-        if std::env::var("UPDATE").unwrap_or(String::from("0")) == "1" {
+        if std::env::var("UPDATE").unwrap_or_default() == "1" {
             crate::write_to_file(&path, &self.0);
 
             error!(
@@ -124,10 +124,10 @@ impl From<String> for NormalizedOutput {
         let manifest_dirs = vec![
             adjust_canonicalization(paths::manifest_dir()),
             paths::manifest_dir().to_string_lossy().to_string(),
-            adjust_canonicalization(paths::manifest_dir()).replace("\\", "\\\\"),
+            adjust_canonicalization(paths::manifest_dir()).replace('\\', "\\\\"),
             paths::manifest_dir()
                 .to_string_lossy()
-                .replace("\\", "\\\\"),
+                .replace('\\', "\\\\"),
         ];
 
         let s = s.replace("\r\n", "\n");
@@ -140,7 +140,7 @@ impl From<String> for NormalizedOutput {
                 for dir in &manifest_dirs {
                     s = s.replace(&**dir, "$DIR");
                 }
-                s = s.replace("\\\\", "\\").replace("\\", "/");
+                s = s.replace("\\\\", "\\").replace('\\', "/");
                 let s = if cfg!(target_os = "windows") {
                     s.replace("//?/$DIR", "$DIR").replace("/?/$DIR", "$DIR")
                 } else {
@@ -148,7 +148,7 @@ impl From<String> for NormalizedOutput {
                 };
                 buf.push_str(&s)
             } else {
-                buf.push_str(&line);
+                buf.push_str(line);
             }
             buf.push('\n')
         }
@@ -182,8 +182,8 @@ fn adjust_canonicalization<P: AsRef<Path>>(p: P) -> String {
 fn adjust_canonicalization<P: AsRef<Path>>(p: P) -> String {
     const VERBATIM_PREFIX: &str = r#"\\?\"#;
     let p = p.as_ref().display().to_string();
-    if p.starts_with(VERBATIM_PREFIX) {
-        p[VERBATIM_PREFIX.len()..].to_string()
+    if let Some(stripped) = p.strip_prefix(VERBATIM_PREFIX) {
+        stripped.to_string()
     } else {
         p
     }

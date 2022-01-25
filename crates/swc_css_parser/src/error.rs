@@ -47,9 +47,18 @@ impl Error {
             ErrorKind::InvalidSupportQuery => "Invalid support query".into(),
             ErrorKind::InvalidKeyframeSelector => "Invalid keyframe selector".into(),
             ErrorKind::InvalidMediaQuery => "Invalid media query".into(),
+            ErrorKind::InvalidLayerBlockAtRule => "Invalid @layer block at-rule".into(),
             ErrorKind::UnknownAtRuleNotTerminated => "Unknown @rule is not terminated".into(),
             ErrorKind::InvalidDeclarationValue => "Expected a property value".into(),
             ErrorKind::InvalidAnPlusBMicrosyntax => "Invalid An+B microsyntax".into(),
+            ErrorKind::InvalidCustomIdent(s) => format!(
+                "The CSS-wide keywords are not valid custom-ident, found '{}'",
+                s
+            )
+            .into(),
+            ErrorKind::InvalidKeyframesName(s) => {
+                format!("{} is not valid name for keyframes", s).into()
+            }
         };
         handler.struct_span_err(self.inner.0, &msg)
     }
@@ -80,8 +89,11 @@ pub enum ErrorKind {
     ExpectedNumber,
     InvalidSupportQuery,
     InvalidKeyframeSelector,
+    InvalidLayerBlockAtRule,
     InvalidMediaQuery,
     InvalidAnPlusBMicrosyntax,
+    InvalidCustomIdent(&'static str),
+    InvalidKeyframesName(&'static str),
 
     UnknownAtRuleNotTerminated,
 }

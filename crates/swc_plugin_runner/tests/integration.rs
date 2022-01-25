@@ -4,26 +4,26 @@ use std::{
     path::{Path, PathBuf},
     process::{Command, Stdio},
 };
-use swc_common::FileName;
-use swc_ecma_ast::EsVersion;
+use swc_common::{errors::HANDLER, plugin::Serialized, FileName};
+use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
+use swc_ecma_visit::{Visit, VisitWith};
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
     {
         let mut cmd = Command::new("cargo");
         cmd.current_dir(dir);
-        cmd.arg("build").stderr(Stdio::inherit());
+        cmd.args(["build", "--target=wasm32-wasi"])
+            .stderr(Stdio::inherit());
         cmd.output()?;
     }
 
-    for entry in fs::read_dir(&dir.join("target").join("debug"))? {
+    for entry in fs::read_dir(&dir.join("target").join("wasm32-wasi").join("debug"))? {
         let entry = entry?;
 
         let s = entry.file_name().to_string_lossy().into_owned();
-        if (s.starts_with("libswc_internal") && (s.ends_with(".so") || s.ends_with(".dylib")))
-            || (s.starts_with("swc_internal") && s.ends_with(".dll"))
-        {
+        if s.eq_ignore_ascii_case("swc_internal_plugin.wasm") {
             return Ok(entry.path());
         }
     }
@@ -31,8 +31,27 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
     Err(anyhow!("Could not find built plugin"))
 }
 
-//TODO: https://github.com/swc-project/swc/issues/3167
-#[ignore]
+struct TestVisitor {
+    pub plugin_transform_found: bool,
+}
+
+impl Visit for TestVisitor {
+    fn visit_call_expr(&mut self, call: &CallExpr) {
+        if let Callee::Expr(expr) = &call.callee {
+            if let Expr::Member(MemberExpr { obj, .. }) = &**expr {
+                if let Expr::Ident(ident) = &**obj {
+                    if ident.sym == *"console" {
+                        let args = &*(call.args[0].expr);
+                        if let Expr::Lit(Lit::Str(Str { value, .. })) = args {
+                            self.plugin_transform_found = value == "changed_via_plugin";
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 #[test]
 fn internal() -> Result<(), Error> {
     let path = build_plugin(
@@ -44,6 +63,7 @@ fn internal() -> Result<(), Error> {
             .join("swc_internal_plugin"),
     )?;
 
+    // run single plugin
     testing::run_test(false, |cm, _handler| {
         let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
@@ -59,13 +79,105 @@ fn internal() -> Result<(), Error> {
 
         let program = parser.parse_program().unwrap();
 
-        let _program =
-            swc_plugin_runner::apply_js_plugin("internal-test", &path, &mut None, "{}", program)
-                .unwrap();
+        let program = Serialized::serialize(&program).expect("Should serializable");
+        let config = Serialized::serialize(&"{}".to_string()).expect("Should serializable");
+
+        let program_bytes =
+            swc_plugin_runner::apply_js_plugin("internal-test", &path, &mut None, config, program)
+                .expect("Plugin should apply transform");
+
+        let program: Program =
+            Serialized::deserialize(&program_bytes).expect("Should able to deserialize");
+        let mut visitor = TestVisitor {
+            plugin_transform_found: false,
+        };
+        program.visit_with(&mut visitor);
+
+        visitor
+            .plugin_transform_found
+            .then(|| visitor.plugin_transform_found)
+            .ok_or(())
+    })
+    .expect("Should able to run single plugin transform");
+
+    // run single plugin with handler
+    testing::run_test2(false, |cm, handler| {
+        let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
+
+        let lexer = Lexer::new(
+            Syntax::Es(EsConfig {
+                ..Default::default()
+            }),
+            EsVersion::latest(),
+            StringInput::from(&*fm),
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        let program = parser.parse_program().unwrap();
+
+        let program = Serialized::serialize(&program).expect("Should serializable");
+        let config = Serialized::serialize(&"{}".to_string()).expect("Should serializable");
+
+        let _res = HANDLER.set(&handler, || {
+            swc_plugin_runner::apply_js_plugin("internal-test", &path, &mut None, config, program)
+                .expect("Plugin should apply transform")
+        });
 
         Ok(())
     })
-    .unwrap();
+    .expect("Should able to run single plugin transform with handler");
+
+    // Run multiple plugins.
+    testing::run_test(false, |cm, _handler| {
+        let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
+
+        let lexer = Lexer::new(
+            Syntax::Es(EsConfig {
+                ..Default::default()
+            }),
+            EsVersion::latest(),
+            StringInput::from(&*fm),
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        let program = parser.parse_program().unwrap();
+
+        let mut serialized_program = Serialized::serialize(&program).expect("Should serializable");
+
+        serialized_program = swc_plugin_runner::apply_js_plugin(
+            "internal-test",
+            &path,
+            &mut None,
+            Serialized::serialize(&"{}".to_string()).expect("Should serializable"),
+            serialized_program,
+        )
+        .expect("Plugin should apply transform");
+
+        // TODO: we'll need to apply 2 different plugins
+        serialized_program = swc_plugin_runner::apply_js_plugin(
+            "internal-test",
+            &path,
+            &mut None,
+            Serialized::serialize(&"{}".to_string()).expect("Should serializable"),
+            serialized_program,
+        )
+        .expect("Plugin should apply transform");
+
+        let program: Program =
+            Serialized::deserialize(&serialized_program).expect("Should able to deserialize");
+        let mut visitor = TestVisitor {
+            plugin_transform_found: false,
+        };
+        program.visit_with(&mut visitor);
+
+        visitor
+            .plugin_transform_found
+            .then(|| visitor.plugin_transform_found)
+            .ok_or(())
+    })
+    .expect("Should able to run multiple plugins transform");
 
     Ok(())
 }

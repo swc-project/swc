@@ -84,7 +84,7 @@ warning: CallExpr
 2 |     foo()
   |     ^^^^^
 
-warning: ExprOrSuper
+warning: Callee
  --> $DIR/tests/span/js/stmt/do-while.js:2:5
   |
 2 |     foo()

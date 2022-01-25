@@ -116,54 +116,61 @@
           ]
         },
         "property": {
-          "type": "TemplateLiteral",
+          "type": "Computed",
           "span": {
-            "start": 29,
-            "end": 32,
+            "start": 28,
+            "end": 33,
             "ctxt": 0
           },
-          "expressions": [],
-          "quasis": [
-            {
-              "type": "TemplateElement",
-              "span": {
-                "start": 30,
-                "end": 31,
-                "ctxt": 0
-              },
-              "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
+          "expression": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 29,
+              "end": 32,
+              "ctxt": 0
+            },
+            "expressions": [],
+            "quasis": [
+              {
+                "type": "TemplateElement",
                 "span": {
                   "start": 30,
                   "end": 31,
                   "ctxt": 0
                 },
-                "value": "0",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 30,
-                  "end": 31,
-                  "ctxt": 0
+                "tail": true,
+                "cooked": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 30,
+                    "end": 31,
+                    "ctxt": 0
+                  },
+                  "value": "0",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": false
+                  }
                 },
-                "value": "0",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
+                "raw": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 30,
+                    "end": 31,
+                    "ctxt": 0
+                  },
+                  "value": "0",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": false
+                  }
                 }
               }
-            }
-          ]
-        },
-        "computed": true
+            ]
+          }
+        }
       }
     }
   ],

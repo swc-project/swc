@@ -101,8 +101,7 @@
                     },
                     "value": "storage",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "NewExpression",
@@ -189,8 +188,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -296,8 +294,7 @@
                             },
                             "value": "storage",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -308,8 +305,7 @@
                           },
                           "value": "length",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -342,8 +338,7 @@
                             },
                             "value": "storage",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -354,8 +349,7 @@
                           },
                           "value": "length",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     },
                     "consequent": {
@@ -588,8 +582,7 @@
                             },
                             "value": "storage",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -600,8 +593,7 @@
                           },
                           "value": "length",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     },
                     "update": {
@@ -704,20 +696,26 @@
                                       },
                                       "value": "storage",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
-                                    "type": "Identifier",
+                                    "type": "Computed",
                                     "span": {
-                                      "start": 598,
-                                      "end": 599,
+                                      "start": 597,
+                                      "end": 600,
                                       "ctxt": 0
                                     },
-                                    "value": "i",
-                                    "optional": false
-                                  },
-                                  "computed": true
+                                    "expression": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 598,
+                                        "end": 599,
+                                        "ctxt": 0
+                                      },
+                                      "value": "i",
+                                      "optional": false
+                                    }
+                                  }
                                 },
                                 "right": {
                                   "type": "MemberExpression",
@@ -752,20 +750,26 @@
                                       },
                                       "value": "storage",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
-                                    "type": "Identifier",
+                                    "type": "Computed",
                                     "span": {
-                                      "start": 617,
-                                      "end": 618,
+                                      "start": 616,
+                                      "end": 619,
                                       "ctxt": 0
                                     },
-                                    "value": "i",
-                                    "optional": false
-                                  },
-                                  "computed": true
+                                    "expression": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 617,
+                                        "end": 618,
+                                        "ctxt": 0
+                                      },
+                                      "value": "i",
+                                      "optional": false
+                                    }
+                                  }
                                 }
                               }
                             }
@@ -964,8 +968,7 @@
                             },
                             "value": "storage",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -976,8 +979,7 @@
                           },
                           "value": "length",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     },
                     "update": {
@@ -1080,20 +1082,26 @@
                                       },
                                       "value": "storage",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
-                                    "type": "Identifier",
+                                    "type": "Computed",
                                     "span": {
-                                      "start": 787,
-                                      "end": 788,
+                                      "start": 786,
+                                      "end": 789,
                                       "ctxt": 0
                                     },
-                                    "value": "i",
-                                    "optional": false
-                                  },
-                                  "computed": true
+                                    "expression": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 787,
+                                        "end": 788,
+                                        "ctxt": 0
+                                      },
+                                      "value": "i",
+                                      "optional": false
+                                    }
+                                  }
                                 },
                                 "right": {
                                   "type": "NumericLiteral",
@@ -1151,8 +1159,7 @@
                           },
                           "value": "sqrt",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -1417,8 +1424,7 @@
                     },
                     "value": "call",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -1487,8 +1493,7 @@
                     },
                     "value": "x",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "Identifier",
@@ -1541,8 +1546,7 @@
                     },
                     "value": "y",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "Identifier",
@@ -1605,8 +1609,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -1703,19 +1706,25 @@
                           },
                           "value": "storage",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "property": {
-                        "type": "NumericLiteral",
+                        "type": "Computed",
                         "span": {
-                          "start": 1149,
-                          "end": 1150,
+                          "start": 1148,
+                          "end": 1151,
                           "ctxt": 0
                         },
-                        "value": 0.0
-                      },
-                      "computed": true
+                        "expression": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 1149,
+                            "end": 1150,
+                            "ctxt": 0
+                          },
+                          "value": 0.0
+                        }
+                      }
                     }
                   }
                 ]
@@ -1803,19 +1812,25 @@
                             },
                             "value": "storage",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
-                          "type": "NumericLiteral",
+                          "type": "Computed",
                           "span": {
-                            "start": 1237,
-                            "end": 1238,
+                            "start": 1236,
+                            "end": 1239,
                             "ctxt": 0
                           },
-                          "value": 0.0
-                        },
-                        "computed": true
+                          "expression": {
+                            "type": "NumericLiteral",
+                            "span": {
+                              "start": 1237,
+                              "end": 1238,
+                              "ctxt": 0
+                            },
+                            "value": 0.0
+                          }
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -1896,19 +1911,25 @@
                           },
                           "value": "storage",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "property": {
-                        "type": "NumericLiteral",
+                        "type": "Computed",
                         "span": {
-                          "start": 1294,
-                          "end": 1295,
+                          "start": 1293,
+                          "end": 1296,
                           "ctxt": 0
                         },
-                        "value": 1.0
-                      },
-                      "computed": true
+                        "expression": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 1294,
+                            "end": 1295,
+                            "ctxt": 0
+                          },
+                          "value": 1.0
+                        }
+                      }
                     }
                   }
                 ]
@@ -1996,19 +2017,25 @@
                             },
                             "value": "storage",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
-                          "type": "NumericLiteral",
+                          "type": "Computed",
                           "span": {
-                            "start": 1382,
-                            "end": 1383,
+                            "start": 1381,
+                            "end": 1384,
                             "ctxt": 0
                           },
-                          "value": 1.0
-                        },
-                        "computed": true
+                          "expression": {
+                            "type": "NumericLiteral",
+                            "span": {
+                              "start": 1382,
+                              "end": 1383,
+                              "ctxt": 0
+                            },
+                            "value": 1.0
+                          }
+                        }
                       },
                       "right": {
                         "type": "Identifier",

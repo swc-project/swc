@@ -23,9 +23,11 @@ impl VisitMut for ExportDefaultFrom {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
                     // Skip if it does not have default export
-                    if export.specifiers.iter().all(|s| match *s {
-                        ExportSpecifier::Named(..) | ExportSpecifier::Namespace(..) => true,
-                        _ => false,
+                    if export.specifiers.iter().all(|s| {
+                        matches!(
+                            *s,
+                            ExportSpecifier::Named(..) | ExportSpecifier::Namespace(..)
+                        )
                     }) {
                         extra_stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)));
                         continue;

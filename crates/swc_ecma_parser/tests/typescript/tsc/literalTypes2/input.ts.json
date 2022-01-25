@@ -319,8 +319,7 @@
                 },
                 "value": "A",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "typeAnnotation": null
           }
@@ -746,8 +745,7 @@
                     },
                     "value": "A",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }
@@ -1159,8 +1157,7 @@
                     },
                     "value": "A",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }
@@ -1572,8 +1569,7 @@
                     },
                     "value": "A",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }
@@ -1887,8 +1883,7 @@
                 },
                 "value": "A",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "typeAnnotation": null
           }
@@ -2280,8 +2275,7 @@
                     },
                     "value": "A",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }
@@ -2659,8 +2653,7 @@
                     },
                     "value": "A",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }
@@ -2913,8 +2906,7 @@
                       },
                       "value": "A",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "alternate": {
                     "type": "ConditionalExpression",
@@ -4264,8 +4256,7 @@
               },
               "value": "A",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -4645,8 +4636,7 @@
               },
               "value": "A",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -7303,8 +7293,7 @@
                       },
                       "value": "C",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "async": false,
                   "generator": false,
@@ -10469,8 +10458,7 @@
                       },
                       "value": "slice",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [],
                   "typeArguments": null
@@ -10519,8 +10507,7 @@
                   },
                   "value": "push",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {

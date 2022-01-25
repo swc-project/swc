@@ -61,7 +61,6 @@ impl VisitMut for TsRemover {
                 ..
             })) => {
                 s.take();
-                return;
             }
             _ => {}
         }
@@ -95,12 +94,8 @@ impl VisitMut for TsRemover {
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         s.visit_mut_children_with(self);
 
-        match s {
-            Stmt::Decl(Decl::TsTypeAlias(..) | Decl::TsInterface(..)) => {
-                s.take();
-            }
-
-            _ => {}
+        if let Stmt::Decl(Decl::TsTypeAlias(..) | Decl::TsInterface(..)) = s {
+            s.take();
         }
     }
 }

@@ -4416,8 +4416,7 @@
                     },
                     "value": "map",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -4706,8 +4705,7 @@
                     },
                     "value": "filter",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -4941,8 +4939,7 @@
                       },
                       "value": "length",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "async": false,
                   "generator": false,
@@ -5833,8 +5830,7 @@
                         },
                         "value": "length",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -6124,8 +6120,7 @@
                         },
                         "value": "value",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",

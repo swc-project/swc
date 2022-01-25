@@ -1,23 +1,25 @@
 use crate::babelify::{Babelify, Context};
 use copyless::BoxHelper;
 use serde::{Deserialize, Serialize};
-use swc_common::Spanned;
+use swc_atoms::js_word;
+use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
     ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BinaryOp, BlockStmtOrExpr, CallExpr,
-    ClassExpr, CondExpr, Expr, ExprOrSpread, ExprOrSuper, FnExpr, Lit, MemberExpr, MetaPropExpr,
-    NewExpr, ObjectLit, ParenExpr, PatOrExpr, PropOrSpread, SeqExpr, SpreadElement, Super,
-    TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
+    Callee, ClassExpr, CondExpr, Expr, ExprOrSpread, FnExpr, Ident, Import, Lit, MemberExpr,
+    MemberProp, MetaPropExpr, MetaPropKind, NewExpr, ObjectLit, ParenExpr, PatOrExpr, PropOrSpread,
+    SeqExpr, SpreadElement, Super, SuperProp, SuperPropExpr, TaggedTpl, ThisExpr, Tpl, TplElement,
+    UnaryExpr, UpdateExpr, YieldExpr,
 };
 use swc_estree_ast::{
     flavor::Flavor, ArrayExprEl, ArrayExpression, ArrowFuncExprBody, ArrowFunctionExpression,
     AssignmentExpression, AwaitExpression, BinaryExprLeft, BinaryExpression, CallExpression,
-    Callee, ClassExpression, ConditionalExpression, Expression, FunctionExpression, LVal, Literal,
-    LogicalExpression, MemberExprProp, MemberExpression, MetaProperty, NewExpression,
-    ObjectExprProp, ObjectExpression, ObjectKey, ObjectMember, ParenthesizedExpression,
-    PrivateName, SequenceExpression, SpreadElement as BabelSpreadElement, Super as BabelSuper,
-    TaggedTemplateExprTypeParams, TaggedTemplateExpression, TemplateElVal, TemplateElement,
-    TemplateLiteral, TemplateLiteralExpr, ThisExpression, UnaryExpression, UpdateExpression,
-    YieldExpression,
+    Callee as BabelCallee, ClassExpression, ConditionalExpression, Expression, FunctionExpression,
+    Import as BabelImport, LVal, Literal, LogicalExpression, MemberExprProp, MemberExpression,
+    MetaProperty, NewExpression, ObjectExprProp, ObjectExpression, ObjectKey, ObjectMember,
+    ParenthesizedExpression, PrivateName, SequenceExpression, SpreadElement as BabelSpreadElement,
+    Super as BabelSuper, TaggedTemplateExprTypeParams, TaggedTemplateExpression, TemplateElVal,
+    TemplateElement, TemplateLiteral, TemplateLiteralExpr, ThisExpression, UnaryExpression,
+    UpdateExpression, YieldExpression,
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -57,6 +59,9 @@ impl Babelify for Expr {
                 ExprOutput::Expr(Box::alloc().init(Expression::Assignment(a.babelify(ctx))))
             }
             Expr::Member(m) => {
+                ExprOutput::Expr(Box::alloc().init(Expression::Member(m.babelify(ctx))))
+            }
+            Expr::SuperProp(m) => {
                 ExprOutput::Expr(Box::alloc().init(Expression::Member(m.babelify(ctx))))
             }
             Expr::Cond(c) => {
@@ -135,27 +140,27 @@ impl Babelify for Expr {
 
             // TODO(dwoznicki): how does babel handle these?
             Expr::JSXMember(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent",
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),
             Expr::JSXNamespacedName(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent",
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),
             Expr::JSXEmpty(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent",
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),
             Expr::TsConstAssertion(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent",
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),
             Expr::OptChain(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent",
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),
             Expr::Invalid(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivilent",
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),
         }
@@ -167,7 +172,7 @@ impl From<ExprOutput> for Expression {
         match o {
             ExprOutput::Expr(expr) => *expr,
             ExprOutput::Private(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to Expression - babel has no equivilent",
+                "illegal conversion: Cannot convert {:?} to Expression - babel has no equivalent",
                 &o
             ),
         }
@@ -193,7 +198,7 @@ impl From<ExprOutput> for ObjectKey {
                 _ => ObjectKey::Expr(e),
             },
             ExprOutput::Private(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to ObjectKey - babel has no equivilent",
+                "illegal conversion: Cannot convert {:?} to ObjectKey - babel has no equivalent",
                 &o
             ),
         }
@@ -251,8 +256,8 @@ impl Babelify for PropOrSpread {
         match self {
             PropOrSpread::Spread(s) => ObjectExprProp::Spread(s.babelify(ctx)),
             PropOrSpread::Prop(prop) => {
-                let memb = prop.babelify(ctx);
-                match memb {
+                let member = prop.babelify(ctx);
+                match member {
                     ObjectMember::Method(m) => ObjectExprProp::Method(m),
                     ObjectMember::Prop(p) => ObjectExprProp::Prop(p),
                 }
@@ -373,12 +378,53 @@ impl Babelify for MemberExpr {
     type Output = MemberExpression;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let computed = self.prop.is_computed();
+
         MemberExpression {
             base: ctx.base(self.span),
-            object: Box::alloc().init(self.obj.babelify(ctx)),
-            property: Box::alloc().init(self.prop.babelify(ctx).into()),
-            computed: self.computed,
+            object: Box::alloc().init(self.obj.babelify(ctx).into()),
+            property: Box::alloc().init(self.prop.babelify(ctx)),
+            computed,
             optional: Default::default(),
+        }
+    }
+}
+
+impl Babelify for MemberProp {
+    type Output = MemberExprProp;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            Self::Computed(c) => MemberExprProp::Expr(c.babelify(ctx).into()),
+            Self::Ident(i) => MemberExprProp::Id(i.babelify(ctx)),
+            Self::PrivateName(p) => MemberExprProp::PrivateName(p.babelify(ctx)),
+        }
+    }
+}
+
+impl Babelify for SuperPropExpr {
+    type Output = MemberExpression;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        let computed = self.prop.is_computed();
+
+        MemberExpression {
+            base: ctx.base(self.span),
+            object: Box::alloc().init(Expression::Super(self.obj.babelify(ctx))),
+            property: Box::alloc().init(self.prop.babelify(ctx)),
+            computed,
+            optional: Default::default(),
+        }
+    }
+}
+
+impl Babelify for SuperProp {
+    type Output = MemberExprProp;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            Self::Computed(c) => MemberExprProp::Expr(c.babelify(ctx).into()),
+            Self::Ident(i) => MemberExprProp::Id(i.babelify(ctx)),
         }
     }
 }
@@ -421,7 +467,7 @@ impl Babelify for NewExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         NewExpression {
             base: ctx.base(self.span),
-            callee: Callee::Expr(Box::alloc().init(self.callee.babelify(ctx).into())),
+            callee: BabelCallee::Expr(Box::alloc().init(self.callee.babelify(ctx).into())),
             arguments: match self.args {
                 Some(args) => args
                     .into_iter()
@@ -493,10 +539,52 @@ impl Babelify for MetaPropExpr {
     type Output = MetaProperty;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let (meta, property) = match self.kind {
+            MetaPropKind::ImportMeta => (
+                Ident {
+                    span: Span {
+                        hi: self.span.hi - BytePos(5),
+                        ..self.span
+                    },
+                    sym: js_word!("import"),
+                    optional: false,
+                }
+                .babelify(ctx),
+                Ident {
+                    span: Span {
+                        lo: self.span.lo + BytePos(7),
+                        ..self.span
+                    },
+                    sym: js_word!("meta"),
+                    optional: false,
+                }
+                .babelify(ctx),
+            ),
+            MetaPropKind::NewTarget => (
+                Ident {
+                    span: Span {
+                        hi: self.span.hi - BytePos(7),
+                        ..self.span
+                    },
+                    sym: js_word!("new"),
+                    optional: false,
+                }
+                .babelify(ctx),
+                Ident {
+                    span: Span {
+                        hi: self.span.hi + BytePos(4),
+                        ..self.span
+                    },
+                    sym: js_word!("target"),
+                    optional: false,
+                }
+                .babelify(ctx),
+            ),
+        };
         MetaProperty {
             base: ctx.base(self.span()),
-            meta: self.meta.babelify(ctx),
-            property: self.prop.babelify(ctx),
+            meta,
+            property,
         }
     }
 }
@@ -569,13 +657,14 @@ impl Babelify for ParenExpr {
     }
 }
 
-impl Babelify for ExprOrSuper {
+impl Babelify for Callee {
     type Output = Expression;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
-            ExprOrSuper::Expr(e) => e.babelify(ctx).into(),
-            ExprOrSuper::Super(s) => Expression::Super(s.babelify(ctx)),
+            Callee::Expr(e) => e.babelify(ctx).into(),
+            Callee::Super(s) => Expression::Super(s.babelify(ctx)),
+            Callee::Import(i) => Expression::Import(i.babelify(ctx)),
         }
     }
 }
@@ -585,6 +674,16 @@ impl Babelify for Super {
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         BabelSuper {
+            base: ctx.base(self.span),
+        }
+    }
+}
+
+impl Babelify for Import {
+    type Output = BabelImport;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        BabelImport {
             base: ctx.base(self.span),
         }
     }

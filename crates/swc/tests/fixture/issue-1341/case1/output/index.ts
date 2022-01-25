@@ -33,9 +33,14 @@ class A {
         var _this = this;
         return _asyncToGenerator(function*() {
             try {
-                return yield _asyncToGenerator(function*(x) {
-                    return x + _this.val;
-                })('a'); // this is undefined
+                return yield (function() {
+                    var _ref = _asyncToGenerator(function*(x) {
+                        return x + _this.val;
+                    });
+                    return function(x) {
+                        return _ref.apply(this, arguments);
+                    };
+                })()('a'); // this is undefined
             // return await Promise.all(['a', 'b'].map(async (x) => x + this.val)); // this is undefined
             } catch (e) {
                 throw e;

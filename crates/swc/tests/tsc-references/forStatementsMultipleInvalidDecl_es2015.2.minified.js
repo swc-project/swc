@@ -1,15 +1,16 @@
-var M, M1;
 class C {
 }
 class C2 extends C {
 }
 class D {
 }
-for((M = M1 || (M1 = {})).A = class {
-}, M.F2 = function(x) {
-    return x.toString();
-};;);
-for(;;);
+for(!function(M1) {
+    M1.A = class {
+    }, M1.F2 = function(x) {
+        return x.toString();
+    };
+}(M || (M = {}));;);
+for(var M;;);
 for(;;);
 for(new C();;);
 for(new D();;);

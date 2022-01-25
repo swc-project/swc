@@ -371,8 +371,7 @@
             },
             "value": "M2",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -383,8 +382,7 @@
           },
           "value": "x",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "consequent": {
         "type": "BlockStatement",
@@ -456,8 +454,7 @@
                       },
                       "value": "foo",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "CallExpression",
@@ -492,8 +489,7 @@
                         },
                         "value": "f",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null

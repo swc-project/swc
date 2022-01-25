@@ -48,7 +48,7 @@ use swc_ecma_transforms::{
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{decorators, export_default_from, import_assertions},
-    react, resolver_with_mark, typescript,
+    react, resolver_with_mark, typescript, Assumptions,
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
@@ -100,7 +100,7 @@ impl<'de> Deserialize<'de> for IsModule {
             where
                 E: serde::de::Error,
             {
-                return Ok(IsModule::Bool(b));
+                Ok(IsModule::Bool(b))
             }
 
             fn visit_str<E>(self, s: &str) -> Result<Self::Value, E>
@@ -259,13 +259,14 @@ impl Options {
     where
         P: 'a + swc_ecma_visit::Fold,
     {
-        let mut config = config.unwrap_or_else(Default::default);
+        let mut config = config.unwrap_or_default();
         config.merge(&self.config);
 
         let mut source_maps = self.source_maps.clone();
         source_maps.merge(&config.source_maps);
 
         let JscConfig {
+            assumptions,
             transform,
             syntax,
             external_helpers,
@@ -279,6 +280,14 @@ impl Options {
             lints,
             ..
         } = config.jsc;
+
+        let assumptions = assumptions.unwrap_or_else(|| {
+            if loose {
+                Assumptions::all()
+            } else {
+                Assumptions::default()
+            }
+        });
 
         let target = target.unwrap_or_default();
 
@@ -349,13 +358,11 @@ impl Options {
         let enable_simplifier = optimizer.as_ref().map(|v| v.simplify).unwrap_or_default();
 
         let optimization = {
-            let pass = if let Some(opts) = optimizer.and_then(|o| o.globals) {
+            if let Some(opts) = optimizer.and_then(|o| o.globals) {
                 Either::Left(opts.build(cm, handler))
             } else {
                 Either::Right(noop())
-            };
-
-            pass
+            }
         };
 
         let top_level_mark = self
@@ -372,7 +379,7 @@ impl Options {
             json_parse_pass
         );
 
-        let pass = PassBuilder::new(&cm, &handler, loose, top_level_mark, pass)
+        let pass = PassBuilder::new(cm, handler, loose, assumptions, top_level_mark, pass)
             .target(target)
             .skip_helper_injection(self.skip_helper_injection)
             .minify(js_minify)
@@ -418,7 +425,7 @@ impl Options {
                         pragma_frag: Some(transform.react.pragma_frag.clone()),
                         ..Default::default()
                     },
-                    comments.clone(),
+                    comments,
                     top_level_mark
                 ),
                 syntax.typescript()
@@ -428,12 +435,7 @@ impl Options {
             custom_before_pass(&program),
             // handle jsx
             Optional::new(
-                react::react(
-                    cm.clone(),
-                    comments.clone(),
-                    transform.react,
-                    top_level_mark
-                ),
+                react::react(cm.clone(), comments, transform.react, top_level_mark),
                 syntax.jsx()
             ),
             pass,
@@ -823,14 +825,11 @@ impl Config {
     ///
     /// - typescript: `tsx` will be modified if file extension is `ts`.
     pub fn adjust(&mut self, file: &Path) {
-        match &mut self.jsc.syntax {
-            Some(Syntax::Typescript(TsConfig { tsx, .. })) => {
-                let is_ts = file.extension().map(|v| v == "ts").unwrap_or(false);
-                if is_ts {
-                    *tsx = false;
-                }
+        if let Some(Syntax::Typescript(TsConfig { tsx, .. })) = &mut self.jsc.syntax {
+            let is_ts = file.extension().map(|v| v == "ts").unwrap_or(false);
+            if is_ts {
+                *tsx = false;
             }
-            _ => {}
         }
     }
 }
@@ -860,14 +859,14 @@ impl FileMatcher {
                 }
 
                 if !CACHE.contains_key(&*s) {
-                    let re = Regex::new(&s).with_context(|| format!("invalid regex: {}", s))?;
+                    let re = Regex::new(s).with_context(|| format!("invalid regex: {}", s))?;
                     CACHE.insert(s.clone(), re);
                 }
 
                 let re = CACHE.get(&*s).unwrap();
 
                 let filename = if cfg!(target_os = "windows") {
-                    filename.to_string_lossy().replace("\\", "/")
+                    filename.to_string_lossy().replace('\\', "/")
                 } else {
                     filename.to_string_lossy().to_string()
                 };
@@ -933,6 +932,9 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JscConfig {
+    #[serde(default)]
+    pub assumptions: Option<Assumptions>,
+
     #[serde(rename = "parser", default)]
     pub syntax: Option<Syntax>,
 
@@ -989,8 +991,13 @@ pub struct JscExperimental {
 impl Merge for JscExperimental {
     fn merge(&mut self, from: &Self) {
         if self.plugins.is_none() {
-            *self = from.clone();
+            self.plugins = from.plugins.clone();
         }
+        if self.cache_root.is_none() {
+            self.cache_root = from.cache_root.clone();
+        }
+
+        self.keep_import_assertions |= from.keep_import_assertions;
     }
 }
 
@@ -1238,7 +1245,7 @@ impl GlobalPassOption {
             match &self.envs {
                 GlobalInliningPassEnvs::List(env_list) => {
                     static CACHE: Lazy<DashMap<Vec<String>, ValuesMap, ahash::RandomState>> =
-                        Lazy::new(|| Default::default());
+                        Lazy::new(Default::default);
 
                     let cache_key = env_list.iter().cloned().collect::<Vec<_>>();
                     if let Some(v) = CACHE.get(&cache_key).as_deref().cloned() {
@@ -1260,7 +1267,7 @@ impl GlobalPassOption {
                 GlobalInliningPassEnvs::Map(map) => {
                     static CACHE: Lazy<
                         DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ahash::RandomState>,
-                    > = Lazy::new(|| Default::default());
+                    > = Lazy::new(Default::default);
 
                     let cache_key = self
                         .vars
@@ -1273,7 +1280,7 @@ impl GlobalPassOption {
                         let map = mk_map(
                             cm,
                             handler,
-                            map.into_iter().map(|(k, v)| (k.clone(), v.clone())),
+                            map.iter().map(|(k, v)| (k.clone(), v.clone())),
                             false,
                         );
                         CACHE.insert(cache_key, map.clone());
@@ -1285,7 +1292,7 @@ impl GlobalPassOption {
 
         let global_exprs = {
             static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, GlobalExprMap, ahash::RandomState>> =
-                Lazy::new(|| Default::default());
+                Lazy::new(Default::default);
 
             let cache_key = self
                 .vars
@@ -1316,7 +1323,7 @@ impl GlobalPassOption {
 
         let global_map = {
             static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ahash::RandomState>> =
-                Lazy::new(|| Default::default());
+                Lazy::new(Default::default);
 
             let cache_key = self
                 .vars
@@ -1343,9 +1350,8 @@ impl GlobalPassOption {
 }
 
 fn default_env_name() -> String {
-    match env::var("SWC_ENV") {
-        Ok(v) => return v,
-        Err(_) => {}
+    if let Ok(v) = env::var("SWC_ENV") {
+        return v;
     }
 
     match env::var("NODE_ENV") {
@@ -1364,13 +1370,11 @@ where
     T: Merge,
 {
     fn merge(&mut self, from: &Option<T>) {
-        match *from {
-            Some(ref from) => match *self {
+        if let Some(ref from) = *from {
+            match *self {
                 Some(ref mut v) => v.merge(from),
                 None => *self = Some(from.clone()),
-            },
-            // no-op
-            None => {}
+            }
         }
     }
 }
@@ -1485,7 +1489,7 @@ where
             *self = (*from).clone();
         } else {
             for (k, v) in from {
-                self.entry(k.clone()).or_insert(v.clone());
+                self.entry(k.clone()).or_insert_with(|| v.clone());
             }
         }
     }
@@ -1501,9 +1505,8 @@ impl Merge for EsVersion {
 
 impl Merge for Option<ModuleConfig> {
     fn merge(&mut self, from: &Self) {
-        match *from {
-            Some(ref c2) => *self = Some(c2.clone()),
-            None => {}
+        if let Some(ref c2) = *from {
+            *self = Some(c2.clone())
         }
     }
 }
@@ -1593,7 +1596,7 @@ impl Merge for HiddenTransformConfig {
 
 fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver {
     static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver, ahash::RandomState>> =
-        Lazy::new(|| Default::default());
+        Lazy::new(Default::default);
 
     if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {
         return (*cached).clone();
@@ -1602,7 +1605,7 @@ fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver 
     let r = {
         let r = TsConfigResolver::new(
             NodeModulesResolver::default(),
-            base_url.clone().into(),
+            base_url.clone(),
             paths.clone(),
         );
         let r = CachingResolver::new(40, r);

@@ -406,8 +406,7 @@
                 },
                 "value": "p",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "StringLiteral",
@@ -497,8 +496,7 @@
                   },
                   "value": "m",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -607,8 +605,7 @@
                       },
                       "value": "m",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [],
                   "typeArguments": null
@@ -639,8 +636,7 @@
                     },
                     "value": "p",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               "right": {
@@ -676,8 +672,7 @@
                     },
                     "value": "m",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [],
                 "typeArguments": null

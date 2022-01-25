@@ -20,7 +20,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var obj, key, Base = function() {
+var Base = function() {
     "use strict";
     function Base() {
         _classCallCheck(this, Base);
@@ -33,12 +33,14 @@ var obj, key, Base = function() {
             }
         }
     ]), Base;
-}(), tmp = ((key = super.bar()) in (obj = {}) ? Object.defineProperty(obj, key, {
-    value: 1,
-    enumerable: !0,
-    configurable: !0,
-    writable: !0
-}) : obj[key] = 1, obj)[0], C = function(Base) {
+}(), tmp = function(obj, key, value) {
+    return key in obj ? Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: !0,
+        configurable: !0,
+        writable: !0
+    }) : obj[key] = value, obj;
+}({}, super.bar(), 1)[0], C = function(Base) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -50,29 +52,26 @@ var obj, key, Base = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(C, Base);
-    var _super = function(Derived) {
-        var hasNativeReflectConstruct = function() {
-            if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-            if (Reflect.construct.sham) return !1;
-            if ("function" == typeof Proxy) return !0;
-            try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
-            } catch (e) {
-                return !1;
-            }
-        }();
-        return function() {
-            var obj, self, call, result, Super = _getPrototypeOf(Derived);
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else result = Super.apply(this, arguments);
-            return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
-                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-                return self;
-            })(self);
-        };
-    }(C);
+    var Derived, hasNativeReflectConstruct, _super = (Derived = C, hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+        } catch (e) {
+            return !1;
+        }
+    }(), function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    });
     function C() {
         return _classCallCheck(this, C), _super.apply(this, arguments);
     }

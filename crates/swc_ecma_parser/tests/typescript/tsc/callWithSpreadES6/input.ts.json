@@ -837,8 +837,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -926,8 +925,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1015,8 +1013,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1128,8 +1125,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "arguments": [
@@ -1225,8 +1221,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "arguments": [
@@ -1322,8 +1317,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "arguments": [
@@ -1428,15 +1422,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 410,
-                "end": 411,
+                "start": 409,
+                "end": 412,
                 "ctxt": 0
               },
-              "value": 1.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 410,
+                  "end": 411,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              }
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1447,8 +1448,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1535,15 +1535,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 434,
-                "end": 435,
+                "start": 433,
+                "end": 436,
                 "ctxt": 0
               },
-              "value": 1.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 434,
+                  "end": 435,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              }
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1554,8 +1561,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1642,15 +1648,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 457,
-                "end": 458,
+                "start": 456,
+                "end": 459,
                 "ctxt": 0
               },
-              "value": 1.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 457,
+                  "end": 458,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              }
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1661,8 +1674,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1780,15 +1792,22 @@
                   "optional": false
                 },
                 "property": {
-                  "type": "NumericLiteral",
+                  "type": "Computed",
                   "span": {
-                    "start": 499,
-                    "end": 500,
+                    "start": 498,
+                    "end": 501,
                     "ctxt": 0
                   },
-                  "value": 1.0
-                },
-                "computed": true
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 499,
+                      "end": 500,
+                      "ctxt": 0
+                    },
+                    "value": 1.0
+                  }
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -1799,8 +1818,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "typeAnnotation": {
               "type": "TsTypeReference",
@@ -2101,8 +2119,7 @@
                       },
                       "value": "foo",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -2173,8 +2190,7 @@
                       },
                       "value": "foo",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -2631,13 +2647,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 824,
                         "end": 833,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 824,
@@ -2654,8 +2670,7 @@
                         },
                         "value": "foo",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -2701,13 +2716,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 849,
                         "end": 858,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 849,
@@ -2724,8 +2739,7 @@
                         },
                         "value": "foo",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {

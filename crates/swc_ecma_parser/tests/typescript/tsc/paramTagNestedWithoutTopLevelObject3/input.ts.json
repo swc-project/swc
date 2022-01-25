@@ -95,8 +95,7 @@
                   },
                   "value": "bar",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -107,8 +106,7 @@
                 },
                 "value": "p",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]

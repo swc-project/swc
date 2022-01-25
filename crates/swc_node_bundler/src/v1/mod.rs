@@ -51,14 +51,16 @@ pub struct Config {
 
     #[serde(default)]
     pub alias: AHashMap<TargetEnv, AHashMap<String, String>>,
+
+    #[serde(default)]
+    pub preserve_symlinks: bool,
 }
 
 impl Config {
     pub fn codegen_target(&self) -> Option<EsVersion> {
         self.options
             .as_ref()
-            .map(|options| options.codegen_target())
-            .flatten()
+            .and_then(|options| options.codegen_target())
     }
 }
 

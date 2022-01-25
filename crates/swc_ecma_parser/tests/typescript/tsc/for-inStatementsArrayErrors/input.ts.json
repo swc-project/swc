@@ -177,34 +177,41 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "BinaryExpression",
+                    "type": "Computed",
                     "span": {
-                      "start": 75,
-                      "end": 80,
+                      "start": 74,
+                      "end": 81,
                       "ctxt": 0
                     },
-                    "operator": "+",
-                    "left": {
-                      "type": "Identifier",
+                    "expression": {
+                      "type": "BinaryExpression",
                       "span": {
                         "start": 75,
-                        "end": 76,
-                        "ctxt": 0
-                      },
-                      "value": "x",
-                      "optional": false
-                    },
-                    "right": {
-                      "type": "NumericLiteral",
-                      "span": {
-                        "start": 79,
                         "end": 80,
                         "ctxt": 0
                       },
-                      "value": 1.0
+                      "operator": "+",
+                      "left": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 75,
+                          "end": 76,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "optional": false
+                      },
+                      "right": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 79,
+                          "end": 80,
+                          "ctxt": 0
+                        },
+                        "value": 1.0
+                      }
                     }
-                  },
-                  "computed": true
+                  }
                 },
                 "definite": false
               }
@@ -256,34 +263,41 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "BinaryExpression",
+                    "type": "Computed",
                     "span": {
-                      "start": 98,
-                      "end": 103,
+                      "start": 97,
+                      "end": 104,
                       "ctxt": 0
                     },
-                    "operator": "-",
-                    "left": {
-                      "type": "Identifier",
+                    "expression": {
+                      "type": "BinaryExpression",
                       "span": {
                         "start": 98,
-                        "end": 99,
-                        "ctxt": 0
-                      },
-                      "value": "x",
-                      "optional": false
-                    },
-                    "right": {
-                      "type": "NumericLiteral",
-                      "span": {
-                        "start": 102,
                         "end": 103,
                         "ctxt": 0
                       },
-                      "value": 1.0
+                      "operator": "-",
+                      "left": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 98,
+                          "end": 99,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "optional": false
+                      },
+                      "right": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 102,
+                          "end": 103,
+                          "ctxt": 0
+                        },
+                        "value": 1.0
+                      }
                     }
-                  },
-                  "computed": true
+                  }
                 },
                 "definite": false
               }
@@ -389,8 +403,7 @@
                     },
                     "value": "unknownProperty",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }

@@ -22,7 +22,7 @@ error: KeyframesRule
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: CustomIdent
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:12
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
@@ -46,7 +46,7 @@ error: PercentValue
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                   ^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:19
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
@@ -64,7 +64,7 @@ error: PercentValue
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                       ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:23
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
@@ -124,7 +124,7 @@ error: PercentValue
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                                          ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:42
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
@@ -142,7 +142,7 @@ error: PercentValue
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                                               ^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:47
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }

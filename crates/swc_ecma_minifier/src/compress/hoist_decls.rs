@@ -1,3 +1,4 @@
+use super::util::drop_invalid_stmts;
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
     util::{is_hoisted_var_decl_without_init, sort::is_sorted_by_key, IsModuleItem},
@@ -127,17 +128,14 @@ impl Hoister<'_> {
                                     }
                                 }
 
-                                match decl.init {
-                                    Some(init) => {
-                                        //
-                                        exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                            span: decl.span,
-                                            left: PatOrExpr::Pat(Box::new(decl.name)),
-                                            op: op!("="),
-                                            right: init,
-                                        })));
-                                    }
-                                    None => {}
+                                if let Some(init) = decl.init {
+                                    //
+                                    exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                        span: decl.span,
+                                        left: PatOrExpr::Pat(Box::new(decl.name)),
+                                        op: op!("="),
+                                        right: init,
+                                    })));
                                 }
                             }
 
@@ -203,16 +201,13 @@ impl Hoister<'_> {
 
                         Stmt::Decl(Decl::Var(..)) => new_stmts.push(T::from_stmt(stmt)),
                         _ => {
-                            match stmt {
-                                Stmt::Throw(..) => {
-                                    fn_decls.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                        span: DUMMY_SP,
-                                        kind: VarDeclKind::Var,
-                                        declare: false,
-                                        decls: var_decls.take(),
-                                    }))));
-                                }
-                                _ => {}
+                            if let Stmt::Throw(..) = stmt {
+                                fn_decls.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Var,
+                                    declare: false,
+                                    decls: var_decls.take(),
+                                }))));
                             }
                             found_non_var_decl = true;
                             new_stmts.push(T::from_stmt(stmt))
@@ -230,6 +225,8 @@ impl Hoister<'_> {
             decls: var_decls,
         }))));
         fn_decls.extend(new_stmts);
+
+        drop_invalid_stmts(&mut fn_decls);
 
         *stmts = fn_decls;
     }

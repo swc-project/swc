@@ -5702,8 +5702,7 @@
                 },
                 "value": "kind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "cases": [
               {
@@ -5756,8 +5755,7 @@
                         },
                         "value": "a",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]
@@ -5812,8 +5810,7 @@
                         },
                         "value": "b",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]
@@ -5868,8 +5865,7 @@
                         },
                         "value": "c",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]
@@ -5991,8 +5987,7 @@
                 },
                 "value": "kind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "cases": [
               {
@@ -6045,8 +6040,7 @@
                         },
                         "value": "a",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]
@@ -6101,8 +6095,7 @@
                         },
                         "value": "b",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]
@@ -6157,8 +6150,7 @@
                         },
                         "value": "c",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]

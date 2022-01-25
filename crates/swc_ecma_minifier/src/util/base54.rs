@@ -24,7 +24,7 @@ pub(crate) fn incr_base54(init: &mut usize) -> (usize, String) {
 
         ret.push(c);
 
-        n = n / base;
+        n /= base;
         base = 64;
     }
 

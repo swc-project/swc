@@ -49,10 +49,10 @@ where
     /// string literal should be done before calling this pass.
     pub(super) fn compress_tpl(&mut self, tpl: &mut Tpl) {
         debug_assert_eq!(tpl.exprs.len() + 1, tpl.quasis.len());
-        let has_str_lit = tpl.exprs.iter().any(|expr| match &**expr {
-            Expr::Lit(Lit::Str(..)) => true,
-            _ => false,
-        });
+        let has_str_lit = tpl
+            .exprs
+            .iter()
+            .any(|expr| matches!(&**expr, Expr::Lit(Lit::Str(..))));
         if !has_str_lit {
             return;
         }
@@ -131,12 +131,11 @@ where
                     let l_str = &mut l_last.raw;
 
                     let new: JsWord =
-                        format!("{}{}", l_str.value, rs.value.replace("\\", "\\\\")).into();
+                        format!("{}{}", l_str.value, rs.value.replace('\\', "\\\\")).into();
                     l_str.value = new.clone();
                     l_last.raw.value = new;
 
                     r.take();
-                    return;
                 }
             }
 
@@ -152,12 +151,11 @@ where
                     let r_str = &mut r_first.raw;
 
                     let new: JsWord =
-                        format!("{}{}", ls.value.replace("\\", "\\\\"), r_str.value).into();
+                        format!("{}{}", ls.value.replace('\\', "\\\\"), r_str.value).into();
                     r_str.value = new.clone();
                     r_first.raw.value = new;
 
                     l.take();
-                    return;
                 }
             }
 
@@ -193,107 +191,97 @@ where
     ///
     /// - `a + 'foo' + 'bar'` => `a + 'foobar'`
     pub(super) fn concat_str(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Bin(
-                bin @ BinExpr {
+        if let Expr::Bin(
+            bin @ BinExpr {
+                op: op!(bin, "+"), ..
+            },
+        ) = e
+        {
+            if let Expr::Bin(
+                left @ BinExpr {
                     op: op!(bin, "+"), ..
                 },
-            ) => match &mut *bin.left {
-                Expr::Bin(
-                    left @ BinExpr {
-                        op: op!(bin, "+"), ..
-                    },
-                ) => {
-                    let type_of_second = left.right.get_type();
-                    let type_of_third = bin.right.get_type();
+            ) = &mut *bin.left
+            {
+                let type_of_second = left.right.get_type();
+                let type_of_third = bin.right.get_type();
 
-                    if let Value::Known(Type::Str) = type_of_second {
-                        if let Value::Known(Type::Str) = type_of_third {
-                            if let Value::Known(second_str) = left.right.as_string() {
-                                if let Value::Known(third_str) = bin.right.as_string() {
-                                    let new_str = format!("{}{}", second_str, third_str);
-                                    let left_span = left.span;
+                if let Value::Known(Type::Str) = type_of_second {
+                    if let Value::Known(Type::Str) = type_of_third {
+                        if let Value::Known(second_str) = left.right.as_string() {
+                            if let Value::Known(third_str) = bin.right.as_string() {
+                                let new_str = format!("{}{}", second_str, third_str);
+                                let left_span = left.span;
 
-                                    self.changed = true;
-                                    tracing::debug!(
-                                        "strings: Concatting `{} + {}` to `{}`",
-                                        second_str,
-                                        third_str,
-                                        new_str
-                                    );
-
-                                    *e = Expr::Bin(BinExpr {
-                                        span: bin.span,
-                                        op: op!(bin, "+"),
-                                        left: left.left.take(),
-                                        right: Box::new(Expr::Lit(Lit::Str(Str {
-                                            span: left_span,
-                                            value: new_str.into(),
-                                            has_escape: false,
-                                            kind: Default::default(),
-                                        }))),
-                                    });
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                }
-                _ => {}
-            },
-            _ => {}
-        }
-    }
-
-    pub(super) fn drop_useless_addition_of_str(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Bin(BinExpr {
-                op: op!(bin, "+"),
-                left,
-                right,
-                ..
-            }) => {
-                let lt = left.get_type();
-                let rt = right.get_type();
-                if let Value::Known(Type::Str) = lt {
-                    if let Value::Known(Type::Str) = rt {
-                        match &**left {
-                            Expr::Lit(Lit::Str(Str {
-                                value: js_word!(""),
-                                ..
-                            })) => {
                                 self.changed = true;
                                 tracing::debug!(
-                                    "string: Dropping empty string literal (in lhs) because it \
-                                     does not changes type"
+                                    "strings: Concatting `{} + {}` to `{}`",
+                                    second_str,
+                                    third_str,
+                                    new_str
                                 );
 
-                                *e = *right.take();
-                                return;
+                                *e = Expr::Bin(BinExpr {
+                                    span: bin.span,
+                                    op: op!(bin, "+"),
+                                    left: left.left.take(),
+                                    right: Box::new(Expr::Lit(Lit::Str(Str {
+                                        span: left_span,
+                                        value: new_str.into(),
+                                        has_escape: false,
+                                        kind: Default::default(),
+                                    }))),
+                                });
                             }
-                            _ => {}
-                        }
-
-                        match &**right {
-                            Expr::Lit(Lit::Str(Str {
-                                value: js_word!(""),
-                                ..
-                            })) => {
-                                self.changed = true;
-                                tracing::debug!(
-                                    "string: Dropping empty string literal (in rhs) because it \
-                                     does not changes type"
-                                );
-
-                                *e = *left.take();
-                                return;
-                            }
-                            _ => {}
                         }
                     }
                 }
             }
-            _ => {}
+        }
+    }
+
+    pub(super) fn drop_useless_addition_of_str(&mut self, e: &mut Expr) {
+        if let Expr::Bin(BinExpr {
+            op: op!(bin, "+"),
+            left,
+            right,
+            ..
+        }) = e
+        {
+            let lt = left.get_type();
+            let rt = right.get_type();
+            if let Value::Known(Type::Str) = lt {
+                if let Value::Known(Type::Str) = rt {
+                    if let Expr::Lit(Lit::Str(Str {
+                        value: js_word!(""),
+                        ..
+                    })) = &**left
+                    {
+                        self.changed = true;
+                        tracing::debug!(
+                            "string: Dropping empty string literal (in lhs) because it does not \
+                             changes type"
+                        );
+
+                        *e = *right.take();
+                        return;
+                    }
+
+                    if let Expr::Lit(Lit::Str(Str {
+                        value: js_word!(""),
+                        ..
+                    })) = &**right
+                    {
+                        self.changed = true;
+                        tracing::debug!(
+                            "string: Dropping empty string literal (in rhs) because it does not \
+                             changes type"
+                        );
+
+                        *e = *left.take();
+                    }
+                }
+            }
         }
     }
 }

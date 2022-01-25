@@ -41,16 +41,15 @@ impl UsageVisitor {
         // "web.dom.iterable"]);        }
         //        v
 
-        let v = Self {
-            is_any_target: target.is_any_target(),
-            target,
-            required: Default::default(),
-        };
         //if target.is_any_target() || target.node.is_none() {
         //    v.add(&["web.timers", "web.immediate", "web.dom.iterable"]);
         //}
 
-        v
+        Self {
+            is_any_target: target.is_any_target(),
+            target,
+            required: Default::default(),
+        }
     }
 
     /// Add imports
@@ -61,30 +60,30 @@ impl UsageVisitor {
             ..
         } = self;
 
-        self.required.extend(features.iter().filter_map(|f| {
+        self.required.extend(features.iter().filter(|f| {
             if !*is_any_target {
-                if let Some(v) = BUILTINS.get(&**f) {
+                if let Some(v) = BUILTINS.get(&***f) {
                     // Skip
                     if !should_enable(*target, *v, true) {
-                        return None;
+                        return false;
                     }
                 }
             }
 
-            Some(f)
+            true
         }));
     }
 
     fn add_property_deps_inner(&mut self, obj: Option<&JsWord>, prop: &JsWord) {
         if let Some(obj) = obj {
-            if let Some(map) = STATIC_PROPERTIES.get_data(&obj) {
-                if let Some(features) = map.get_data(&prop) {
+            if let Some(map) = STATIC_PROPERTIES.get_data(obj) {
+                if let Some(features) = map.get_data(prop) {
                     self.add(features);
                 }
             }
         }
 
-        if let Some(features) = INSTANCE_PROPERTIES.get_data(&prop) {
+        if let Some(features) = INSTANCE_PROPERTIES.get_data(prop) {
             self.add(features);
         }
     }
@@ -139,33 +138,21 @@ impl Visit for UsageVisitor {
         d.visit_children_with(self);
 
         if let Some(ref init) = d.init {
-            match d.name {
-                // const { keys, values } = Object
-                Pat::Object(ref o) => self.visit_object_pat_props(&init, &o.props),
-                _ => {}
+            if let Pat::Object(ref o) = d.name {
+                self.visit_object_pat_props(init, &o.props)
             }
-        } else {
-            match d.name {
-                // const { keys, values } = Object
-                Pat::Object(ref o) => self.visit_object_pat_props(
-                    &Expr::Ident(Ident::new(js_word!(""), DUMMY_SP)),
-                    &o.props,
-                ),
-                _ => {}
-            }
+        } else if let Pat::Object(ref o) = d.name {
+            self.visit_object_pat_props(&Expr::Ident(Ident::new(js_word!(""), DUMMY_SP)), &o.props)
         }
     }
 
     fn visit_assign_expr(&mut self, e: &AssignExpr) {
         e.visit_children_with(self);
 
-        match &e.left {
-            // ({ keys, values } = Object)
-            PatOrExpr::Pat(pat) => match &**pat {
-                Pat::Object(ref o) => self.visit_object_pat_props(&e.right, &o.props),
-                _ => {}
-            },
-            _ => {}
+        if let PatOrExpr::Pat(pat) = &e.left {
+            if let Pat::Object(ref o) = &**pat {
+                self.visit_object_pat_props(&e.right, &o.props)
+            }
         }
     }
 
@@ -174,8 +161,8 @@ impl Visit for UsageVisitor {
     ///  - `Array.from`
     fn visit_member_expr(&mut self, node: &MemberExpr) {
         node.obj.visit_with(self);
-        if node.computed {
-            node.prop.visit_with(self);
+        if let MemberProp::Computed(c) = &node.prop {
+            c.visit_with(self);
         }
         //enter(path: NodePath) {
         //    const { node } = path;
@@ -240,8 +227,8 @@ impl Visit for UsageVisitor {
         //    this.addUnsupported(BuiltInDependencies);
         //},
 
-        match *node.prop {
-            Expr::Ident(ref i) if !node.computed => {
+        match &node.prop {
+            MemberProp::Ident(i) => {
                 //
                 for (name, imports) in INSTANCE_PROPERTIES {
                     if i.sym == **name {
@@ -249,46 +236,50 @@ impl Visit for UsageVisitor {
                     }
                 }
             }
-            Expr::Lit(Lit::Str(Str { ref value, .. })) if node.computed => {
-                for (name, imports) in INSTANCE_PROPERTIES {
-                    if *value == **name {
-                        self.add(imports);
+            MemberProp::Computed(ComputedPropName { expr, .. }) => {
+                if let Expr::Lit(Lit::Str(Str { value, .. })) = &**expr {
+                    for (name, imports) in INSTANCE_PROPERTIES {
+                        if *value == **name {
+                            self.add(imports);
+                        }
                     }
                 }
             }
             _ => {}
         }
-
-        match node.obj {
-            ExprOrSuper::Expr(ref e) => match &**e {
-                Expr::Ident(obj) => {
-                    for (ty, props) in STATIC_PROPERTIES {
-                        if obj.sym == **ty {
-                            match *node.prop {
-                                Expr::Lit(Lit::Str(Str { ref value, .. })) if node.computed => {
-                                    for (name, imports) in INSTANCE_PROPERTIES {
-                                        if *value == **name {
-                                            self.add(imports);
-                                        }
+        if let Expr::Ident(obj) = &*node.obj {
+            for (ty, props) in STATIC_PROPERTIES {
+                if obj.sym == **ty {
+                    match &node.prop {
+                        MemberProp::Computed(ComputedPropName { expr, .. }) => {
+                            if let Expr::Lit(Lit::Str(Str { value, .. })) = &**expr {
+                                for (name, imports) in INSTANCE_PROPERTIES {
+                                    if *value == **name {
+                                        self.add(imports);
                                     }
                                 }
-
-                                Expr::Ident(ref p) if !node.computed => {
-                                    for (prop, imports) in *props {
-                                        if p.sym == **prop {
-                                            self.add(imports);
-                                        }
-                                    }
-                                }
-
-                                _ => {}
                             }
                         }
+
+                        MemberProp::Ident(ref p) => {
+                            for (prop, imports) in *props {
+                                if p.sym == **prop {
+                                    self.add(imports);
+                                }
+                            }
+                        }
+
+                        _ => {}
                     }
                 }
-                _ => {}
-            },
-            _ => {}
+            }
+        }
+    }
+
+    // maybe not needed?
+    fn visit_super_prop_expr(&mut self, node: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &node.prop {
+            c.visit_with(self);
         }
     }
 
@@ -298,14 +289,10 @@ impl Visit for UsageVisitor {
         e.visit_children_with(self);
 
         if match &e.callee {
-            ExprOrSuper::Expr(callee) => match &**callee {
-                Expr::Member(MemberExpr {
-                    computed: true,
-                    prop,
+            Callee::Expr(callee) => matches!(&**callee, Expr::Member(MemberExpr {
+                    prop: MemberProp::Computed(ComputedPropName { expr, .. }),
                     ..
-                }) if is_symbol_iterator(&prop) => true,
-                _ => false,
-            },
+                }) if is_symbol_iterator(expr)),
             _ => false,
         } {
             self.add(&["web.dom.iterable"])
@@ -339,23 +326,20 @@ impl Visit for UsageVisitor {
 fn is_symbol_iterator(e: &Expr) -> bool {
     match e {
         Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(obj),
-            prop,
-            computed: false,
+            obj,
+            prop:
+                MemberProp::Ident(Ident {
+                    sym: js_word!("iterator"),
+                    ..
+                }),
             ..
-        }) => match &**obj {
+        }) => matches!(
+            &**obj,
             Expr::Ident(Ident {
                 sym: js_word!("Symbol"),
                 ..
-            }) => match &**prop {
-                Expr::Ident(Ident {
-                    sym: js_word!("iterator"),
-                    ..
-                }) => true,
-                _ => false,
-            },
-            _ => false,
-        },
+            })
+        ),
         _ => false,
     }
 }

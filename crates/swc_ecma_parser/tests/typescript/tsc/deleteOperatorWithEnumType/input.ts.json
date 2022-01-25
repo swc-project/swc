@@ -282,20 +282,27 @@
                 "optional": false
               },
               "property": {
-                "type": "StringLiteral",
+                "type": "Computed",
                 "span": {
-                  "start": 227,
-                  "end": 230,
+                  "start": 226,
+                  "end": 231,
                   "ctxt": 0
                 },
-                "value": "A",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 227,
+                    "end": 230,
+                    "ctxt": 0
+                  },
+                  "value": "A",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
-              },
-              "computed": true
+              }
             }
           },
           "definite": false
@@ -371,15 +378,22 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "NumericLiteral",
+                    "type": "Computed",
                     "span": {
-                      "start": 269,
-                      "end": 270,
+                      "start": 268,
+                      "end": 271,
                       "ctxt": 0
                     },
-                    "value": 0.0
-                  },
-                  "computed": true
+                    "expression": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 269,
+                        "end": 270,
+                        "ctxt": 0
+                      },
+                      "value": 0.0
+                    }
+                  }
                 },
                 "right": {
                   "type": "MemberExpression",
@@ -399,20 +413,27 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "StringLiteral",
+                    "type": "Computed",
                     "span": {
-                      "start": 280,
-                      "end": 283,
+                      "start": 279,
+                      "end": 284,
                       "ctxt": 0
                     },
-                    "value": "B",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 280,
+                        "end": 283,
+                        "ctxt": 0
+                      },
+                      "value": "B",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
                     }
-                  },
-                  "computed": true
+                  }
                 }
               }
             }
@@ -566,15 +587,22 @@
                         "optional": false
                       },
                       "property": {
-                        "type": "NumericLiteral",
+                        "type": "Computed",
                         "span": {
-                          "start": 411,
-                          "end": 412,
+                          "start": 410,
+                          "end": 413,
                           "ctxt": 0
                         },
-                        "value": 0.0
-                      },
-                      "computed": true
+                        "expression": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 411,
+                            "end": 412,
+                            "ctxt": 0
+                          },
+                          "value": 0.0
+                        }
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -594,20 +622,27 @@
                         "optional": false
                       },
                       "property": {
-                        "type": "StringLiteral",
+                        "type": "Computed",
                         "span": {
-                          "start": 422,
-                          "end": 425,
+                          "start": 421,
+                          "end": 426,
                           "ctxt": 0
                         },
-                        "value": "B",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 422,
+                            "end": 425,
+                            "ctxt": 0
+                          },
+                          "value": "B",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": true
+                          }
                         }
-                      },
-                      "computed": true
+                      }
                     }
                   }
                 }
@@ -713,8 +748,7 @@
             },
             "value": "B",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },

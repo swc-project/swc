@@ -27,24 +27,26 @@ impl VisitMut for DisplayName {
             return;
         }
 
-        if let Some(Expr::Member(MemberExpr {
-            prop,
-            computed: false,
-            ..
-        })) = expr.left.as_expr()
+        if let Some(
+            Expr::Member(MemberExpr {
+                prop: MemberProp::Ident(prop),
+                ..
+            })
+            | Expr::SuperProp(SuperPropExpr {
+                prop: SuperProp::Ident(prop),
+                ..
+            }),
+        ) = expr.left.as_expr()
         {
-            if let Expr::Ident(ref prop) = &**prop {
-                expr.right.visit_mut_with(&mut Folder {
-                    name: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                        span: prop.span,
-                        value: prop.sym.clone(),
-                        has_escape: false,
-                        kind: Default::default(),
-                    })))),
-                });
-                return;
-            }
-        }
+            return expr.right.visit_mut_with(&mut Folder {
+                name: Some(Box::new(Expr::Lit(Lit::Str(Str {
+                    span: prop.span,
+                    value: prop.sym.clone(),
+                    has_escape: false,
+                    kind: Default::default(),
+                })))),
+            });
+        };
 
         if let Some(ident) = expr.left.as_ident() {
             expr.right.visit_mut_with(&mut Folder {
@@ -61,62 +63,53 @@ impl VisitMut for DisplayName {
     fn visit_mut_module_decl(&mut self, decl: &mut ModuleDecl) {
         decl.visit_mut_children_with(self);
 
-        match decl {
-            ModuleDecl::ExportDefaultExpr(e) => {
-                e.visit_mut_with(&mut Folder {
-                    name: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                        span: DUMMY_SP,
-                        value: "input".into(),
-                        has_escape: false,
-                        kind: Default::default(),
-                    })))),
-                });
-            }
-            _ => {}
+        if let ModuleDecl::ExportDefaultExpr(e) = decl {
+            e.visit_mut_with(&mut Folder {
+                name: Some(Box::new(Expr::Lit(Lit::Str(Str {
+                    span: DUMMY_SP,
+                    value: "input".into(),
+                    has_escape: false,
+                    kind: Default::default(),
+                })))),
+            });
         }
     }
 
     fn visit_mut_prop(&mut self, prop: &mut Prop) {
         prop.visit_mut_children_with(self);
 
-        match prop {
-            Prop::KeyValue(KeyValueProp { key, value }) => {
-                value.visit_mut_with(&mut Folder {
-                    name: Some(match key {
-                        PropName::Ident(ref i) => Box::new(Expr::Lit(Lit::Str(Str {
-                            span: i.span,
-                            value: i.sym.clone(),
-                            has_escape: false,
-                            kind: StrKind::Normal {
-                                contains_quote: false,
-                            },
-                        }))),
-                        PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
-                        PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(*n))),
-                        PropName::BigInt(ref b) => Box::new(Expr::Lit(Lit::BigInt(b.clone()))),
-                        PropName::Computed(ref c) => c.expr.clone(),
-                    }),
-                });
-            }
-            _ => {}
-        }
-    }
-
-    fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
-        match decl.name {
-            Pat::Ident(ref ident) => {
-                decl.init.visit_mut_with(&mut Folder {
-                    name: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                        span: ident.id.span,
-                        value: ident.id.sym.clone(),
+        if let Prop::KeyValue(KeyValueProp { key, value }) = prop {
+            value.visit_mut_with(&mut Folder {
+                name: Some(match key {
+                    PropName::Ident(ref i) => Box::new(Expr::Lit(Lit::Str(Str {
+                        span: i.span,
+                        value: i.sym.clone(),
                         has_escape: false,
                         kind: StrKind::Normal {
                             contains_quote: false,
                         },
-                    })))),
-                });
-            }
-            _ => {}
+                    }))),
+                    PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
+                    PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(*n))),
+                    PropName::BigInt(ref b) => Box::new(Expr::Lit(Lit::BigInt(b.clone()))),
+                    PropName::Computed(ref c) => c.expr.clone(),
+                }),
+            });
+        }
+    }
+
+    fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
+        if let Pat::Ident(ref ident) = decl.name {
+            decl.init.visit_mut_with(&mut Folder {
+                name: Some(Box::new(Expr::Lit(Lit::Str(Str {
+                    span: ident.id.span,
+                    value: ident.id.sym.clone(),
+                    has_escape: false,
+                    kind: StrKind::Normal {
+                        contains_quote: false,
+                    },
+                })))),
+            });
         }
     }
 }
@@ -134,7 +127,7 @@ impl VisitMut for Folder {
     fn visit_mut_call_expr(&mut self, expr: &mut CallExpr) {
         expr.visit_mut_children_with(self);
 
-        if is_create_class_call(&expr) {
+        if is_create_class_call(expr) {
             let name = match self.name.take() {
                 Some(name) => name,
                 None => return,
@@ -148,29 +141,29 @@ impl VisitMut for Folder {
 
 fn is_create_class_call(call: &CallExpr) -> bool {
     let callee = match &call.callee {
-        ExprOrSuper::Super(_) => return false,
-        ExprOrSuper::Expr(callee) => &**callee,
+        Callee::Super(_) | Callee::Import(_) => return false,
+        Callee::Expr(callee) => &**callee,
     };
 
     match callee {
         Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(obj),
-            prop,
-            computed: false,
-            ..
-        }) => match &**obj {
-            Expr::Ident(Ident {
-                sym: js_word!("React"),
-                ..
-            }) => match &**prop {
-                Expr::Ident(Ident {
+            obj,
+            prop:
+                MemberProp::Ident(Ident {
                     sym: js_word!("createClass"),
                     ..
-                }) => return true,
-                _ => {}
-            },
-            _ => {}
-        },
+                }),
+            ..
+        }) => {
+            if let Expr::Ident(Ident {
+                sym: js_word!("React"),
+                ..
+            }) = &**obj
+            {
+                return true;
+            }
+        }
+
         Expr::Ident(Ident {
             sym: js_word!("createReactClass"),
             ..

@@ -1121,8 +1121,7 @@
                   },
                   "value": "propertyX1",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "async": false,
               "generator": false,
@@ -1175,8 +1174,7 @@
                   },
                   "value": "propertyX2",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "async": false,
               "generator": false,
@@ -1350,8 +1348,7 @@
                   },
                   "value": "propertyX1",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "async": false,
               "generator": false,
@@ -1404,8 +1401,7 @@
                   },
                   "value": "propertyX2",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "async": false,
               "generator": false,
@@ -1579,8 +1575,7 @@
                   },
                   "value": "propertyX1",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "async": false,
               "generator": false,
@@ -1633,8 +1628,7 @@
                   },
                   "value": "propertyX2",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "async": false,
               "generator": false,
@@ -1827,8 +1821,7 @@
                   },
                   "value": "propertyX1",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "async": false,
               "generator": false,
@@ -1881,8 +1874,7 @@
                   },
                   "value": "propertyX2",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "async": false,
               "generator": false,

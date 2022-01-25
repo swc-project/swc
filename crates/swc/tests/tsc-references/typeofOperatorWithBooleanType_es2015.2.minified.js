@@ -13,7 +13,7 @@ class A {
 var M, objA = new A();
 objA.a, foo(), A.foo(), foo(), objA.a;
 z: ;
-r: "function";
+r: ;
 z: ;
 z: objA.a;
 z: ;

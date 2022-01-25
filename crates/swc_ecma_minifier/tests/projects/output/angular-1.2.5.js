@@ -2,7 +2,7 @@
     "use strict";
     function minErr(module) {
         return function() {
-            var message, i, obj, code = arguments[0], template = arguments[1], templateArgs = arguments;
+            var obj, message, i, code = arguments[0], template = arguments[1], templateArgs = arguments;
             for(i = 2, message = (message = "[" + (module ? module + ":" : "") + code + "] " + template.replace(/\{\d+\}/g, function(match) {
                 var arg, index = +match.slice(1, -1);
                 return index + 2 < templateArgs.length ? "function" == typeof (arg = templateArgs[index + 2]) ? arg.toString().replace(/ ?\{[\s\S]*$/, "") : void 0 === arg ? "undefined" : "string" != typeof arg ? toJson(arg) : arg : match;
@@ -138,9 +138,9 @@
                 for(var i = 0; i < source.length; i++)destination.push(copy(source[i]));
             } else {
                 var h = destination.$$hashKey;
-                for(var key in forEach(destination, function(value, key) {
+                for(var key1 in forEach(destination, function(value, key) {
                     delete destination[key];
-                }), source)destination[key] = copy(source[key]);
+                }), source)destination[key1] = copy(source[key1]);
                 setHashKey(destination, h);
             }
         } else destination = source, source && (isArray(source) ? destination = copy(source, []) : isDate(source) ? destination = new Date(source.getTime()) : isRegExp(source) ? destination = new RegExp(source.source) : isObject(source) && (destination = copy(source, {})));
@@ -832,7 +832,7 @@
             function($window, $location, $rootScope) {
                 var document = $window.document;
                 function scroll() {
-                    var elm, result, hash = $location.hash();
+                    var result, elm, hash = $location.hash();
                     hash ? (elm = document.getElementById(hash)) ? elm.scrollIntoView() : (elm = (result = null, forEach(document.getElementsByName(hash), function(element) {
                         result || "a" !== lowercase(element.nodeName) || (result = element);
                     }), result)) ? elm.scrollIntoView() : "top" === hash && $window.scrollTo(0, 0) : $window.scrollTo(0, 0);
@@ -1862,9 +1862,9 @@
     function LocationHashbangUrl(appBase, hashPrefix) {
         var appBaseNoFile = stripFile(appBase);
         parseAbsoluteUrl(appBase, this, appBase), this.$$parse = function(url) {
-            var path, url1, base, firstPathSegmentMatch, withoutBaseUrl = beginsWith(appBase, url) || beginsWith(appBaseNoFile, url), withoutHashUrl = "#" == withoutBaseUrl.charAt(0) ? beginsWith(hashPrefix, withoutBaseUrl) : this.$$html5 ? withoutBaseUrl : "";
+            var path, url1, base, firstPathSegmentMatch, windowsFilePathExp, withoutBaseUrl = beginsWith(appBase, url) || beginsWith(appBaseNoFile, url), withoutHashUrl = "#" == withoutBaseUrl.charAt(0) ? beginsWith(hashPrefix, withoutBaseUrl) : this.$$html5 ? withoutBaseUrl : "";
             if (!isString(withoutHashUrl)) throw $locationMinErr("ihshprfx", "Invalid url \"{0}\", missing hash prefix \"{1}\".", url, hashPrefix);
-            parseAppUrl(withoutHashUrl, this, appBase), path = this.$$path, url1 = withoutHashUrl, base = appBase, 0 === url1.indexOf(base) && (url1 = url1.replace(base, "")), this.$$path = /^\/?.*?:(\/.*)/.exec(url1) ? path : (firstPathSegmentMatch = /^\/?.*?:(\/.*)/.exec(path)) ? firstPathSegmentMatch[1] : path, this.$$compose();
+            parseAppUrl(withoutHashUrl, this, appBase), path = this.$$path, url1 = withoutHashUrl, base = appBase, windowsFilePathExp = /^\/?.*?:(\/.*)/, 0 === url1.indexOf(base) && (url1 = url1.replace(base, "")), this.$$path = windowsFilePathExp.exec(url1) ? path : (firstPathSegmentMatch = windowsFilePathExp.exec(path)) ? firstPathSegmentMatch[1] : path, this.$$compose();
         }, this.$$compose = function() {
             var search = toKeyValue(this.$$search), hash = this.$$hash ? "#" + encodeUriSegment(this.$$hash) : "";
             this.$$url = encodePath(this.$$path) + (search ? "?" + search : "") + hash, this.$$absUrl = appBase + (this.$$url ? hashPrefix + this.$$url : "");
@@ -1941,17 +1941,15 @@
         }, this.$get = [
             "$window",
             function($window) {
+                var fn;
                 return {
                     log: consoleLog("log"),
                     info: consoleLog("info"),
                     warn: consoleLog("warn"),
                     error: consoleLog("error"),
-                    debug: (function() {
-                        var fn = consoleLog("debug");
-                        return function() {
-                            debug && fn.apply(self, arguments);
-                        };
-                    })()
+                    debug: (fn = consoleLog("debug"), function() {
+                        debug && fn.apply(self, arguments);
+                    })
                 };
                 function consoleLog(type) {
                     var console = $window.console || {}, logFn = console[type] || console.log || noop;

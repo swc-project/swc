@@ -16,8 +16,9 @@ function _defineProperty(obj, key, value) {
     }) : obj[key] = value, obj;
 }
 !function(name) {
+    var _ref;
     return {
-        resolve: (function(fn) {
+        resolve: (_ref = (function(fn) {
             return function() {
                 var self = this, args = arguments;
                 return new Promise(function(resolve, reject) {
@@ -46,6 +47,8 @@ function _defineProperty(obj, key, value) {
                 }
                 return target;
             })({}, connectionFromArray(objects, args));
+        }), function(context, args) {
+            return _ref.apply(this, arguments);
         })
     };
 }("test");

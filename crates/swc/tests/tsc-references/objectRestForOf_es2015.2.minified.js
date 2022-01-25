@@ -22,13 +22,19 @@ function _objectWithoutPropertiesLoose(source, excluded) {
     return target;
 }
 let array;
-for (let _ref of array)var { x  } = _ref;
-for (var _ref1 of (_objectWithoutProperties(_ref, [
-    "x"
-]), array))var { x: xx  } = _ref1;
-for (const norest of (_objectWithoutProperties(_ref1, [
-    "x"
-]), array.map((a)=>(function(target) {
+for (let _ref of array){
+    var { x  } = _ref;
+    _objectWithoutProperties(_ref, [
+        "x"
+    ]);
+}
+for (var _ref1 of array){
+    var { x: xx  } = _ref1;
+    _objectWithoutProperties(_ref1, [
+        "x"
+    ]);
+}
+for (const norest of array.map((a)=>(function(target) {
         for(var i = 1; i < arguments.length; i++){
             var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
             "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -41,4 +47,4 @@ for (const norest of (_objectWithoutProperties(_ref1, [
     })({}, a, {
         x: "a string"
     })
-)))norest.x, norest.y;
+))norest.x, norest.y;

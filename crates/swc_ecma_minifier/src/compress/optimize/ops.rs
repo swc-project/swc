@@ -122,13 +122,15 @@ where
     /// - `!!(a in b)` => `a in b`
     /// - `!!(function() {})()` => `!(function() {})()`
     pub(super) fn optimize_bangbang(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Unary(UnaryExpr {
+        if let Expr::Unary(UnaryExpr {
+            op: op!("!"), arg, ..
+        }) = e
+        {
+            if let Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
-            }) => match &mut **arg {
-                Expr::Unary(UnaryExpr {
-                    op: op!("!"), arg, ..
-                }) => match &**arg {
+            }) = &mut **arg
+            {
+                match &**arg {
                     Expr::Unary(UnaryExpr { op: op!("!"), .. })
                     | Expr::Bin(BinExpr { op: op!("in"), .. })
                     | Expr::Bin(BinExpr {
@@ -148,27 +150,22 @@ where
                             tracing::debug!("Optimizing: `!!expr` => `expr`");
                             *e = *arg.take();
                         }
-
-                        return;
                     }
 
                     _ => {}
-                },
-                _ => {}
-            },
-            _ => {}
+                }
+            }
         }
     }
 
     /// TODO: Optimize based on the type.
-    pub(super) fn negate_twice(&mut self, e: &mut Expr) {
-        self.negate(e);
-        self.negate(e);
+    pub(super) fn negate_twice(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
+        self.negate(e, is_ret_val_ignored);
+        self.negate(e, is_ret_val_ignored);
     }
 
-    pub(super) fn negate(&mut self, e: &mut Expr) {
-        self.changed = true;
-        negate(e, self.ctx.in_bool_ctx)
+    pub(super) fn negate(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
+        negate(e, self.ctx.in_bool_ctx, is_ret_val_ignored)
     }
 
     /// This method does
@@ -178,6 +175,10 @@ where
     /// - `x = 3 & x` => `x &= 3;`
     /// - `x ^= 3` => `x = 3 ^ x`
     pub(super) fn compress_bin_assignment_to_right(&mut self, e: &mut AssignExpr) {
+        if e.op != op!("=") {
+            return;
+        }
+
         // TODO: Handle pure properties.
         let lhs = match &e.left {
             PatOrExpr::Expr(e) => match &**e {
@@ -290,7 +291,7 @@ where
                     self.changed = true;
                     tracing::debug!("Optimizing: e && true => !!e");
 
-                    self.negate_twice(&mut bin.left);
+                    self.negate_twice(&mut bin.left, false);
                     *e = *bin.left.take();
                 } else {
                     self.changed = true;
@@ -310,7 +311,7 @@ where
                     self.changed = true;
                     tracing::debug!("Optimizing: e || false => !!e");
 
-                    self.negate_twice(&mut bin.left);
+                    self.negate_twice(&mut bin.left, false);
                     *e = *bin.left.take();
                 }
             }
@@ -371,7 +372,6 @@ where
                 tracing::debug!("Removing null from lhs of ??");
                 self.changed = true;
                 *e = r.take();
-                return;
             }
             Expr::Lit(Lit::Num(..))
             | Expr::Lit(Lit::Str(..))
@@ -381,7 +381,6 @@ where
                 tracing::debug!("Removing rhs of ?? as lhs cannot be null nor undefined");
                 self.changed = true;
                 *e = l.take();
-                return;
             }
             _ => {}
         }
@@ -393,13 +392,14 @@ where
             return;
         }
 
-        match e {
-            Expr::Unary(UnaryExpr {
-                span,
-                op: op!("typeof"),
-                arg,
-                ..
-            }) => match &**arg {
+        if let Expr::Unary(UnaryExpr {
+            span,
+            op: op!("typeof"),
+            arg,
+            ..
+        }) = e
+        {
+            match &**arg {
                 Expr::Ident(arg) => {
                     if let Some(value) = self.typeofs.get(&arg.to_id()).cloned() {
                         tracing::debug!(
@@ -412,7 +412,6 @@ where
                             has_escape: false,
                             kind: Default::default(),
                         }));
-                        return;
                     }
                 }
 
@@ -425,7 +424,6 @@ where
                         has_escape: false,
                         kind: Default::default(),
                     }));
-                    return;
                 }
 
                 Expr::Array(..) | Expr::Object(..) => {
@@ -437,11 +435,9 @@ where
                         has_escape: false,
                         kind: Default::default(),
                     }));
-                    return;
                 }
                 _ => {}
-            },
-            _ => {}
+            }
         }
     }
 }

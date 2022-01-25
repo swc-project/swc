@@ -203,8 +203,7 @@
               },
               "value": "constructor",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -531,8 +530,7 @@
               },
               "value": "constructor",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

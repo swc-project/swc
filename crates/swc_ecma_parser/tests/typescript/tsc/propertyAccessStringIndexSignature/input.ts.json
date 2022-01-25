@@ -193,8 +193,7 @@
           },
           "value": "b",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -230,8 +229,7 @@
           },
           "value": "f",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -267,8 +265,7 @@
           },
           "value": "isNotNecessarilyNeverFalse",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -296,20 +293,27 @@
           "optional": false
         },
         "property": {
-          "type": "StringLiteral",
+          "type": "Computed",
           "span": {
-            "start": 121,
-            "end": 135,
+            "start": 120,
+            "end": 136,
             "ctxt": 0
           },
-          "value": "this is fine",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
+          "expression": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 121,
+              "end": 135,
+              "ctxt": 0
+            },
+            "value": "this is fine",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
           }
-        },
-        "computed": true
+        }
       }
     },
     {
@@ -434,8 +438,7 @@
           },
           "value": "nope",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -463,20 +466,27 @@
           "optional": false
         },
         "property": {
-          "type": "StringLiteral",
+          "type": "Computed",
           "span": {
-            "start": 195,
-            "end": 206,
+            "start": 194,
+            "end": 207,
             "ctxt": 0
           },
-          "value": "that's ok",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
+          "expression": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 195,
+              "end": 206,
+              "ctxt": 0
+            },
+            "value": "that's ok",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
           }
-        },
-        "computed": true
+        }
       }
     }
   ],

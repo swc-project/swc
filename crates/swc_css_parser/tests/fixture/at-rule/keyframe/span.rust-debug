@@ -6,9 +6,9 @@ error: Stylesheet
 3  | | @keyframes    foo    { /* ... */ }
 4  | |
 ...  |
-19 | |     100% { top: 100px; left: 100%; }
-20 | | }
-   | |__^
+23 | | @keyframes "initial" {}
+24 | | @keyframes "None" {}
+   | |_____________________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:1:1
@@ -28,7 +28,7 @@ error: KeyframesRule
 1 | @keyframes foo { /* ... */ }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: CustomIdent
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:1:12
   |
 1 | @keyframes foo { /* ... */ }
@@ -76,7 +76,7 @@ error: KeyframesRule
 3 | @keyframes    foo    { /* ... */ }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: CustomIdent
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:3:15
   |
 3 | @keyframes    foo    { /* ... */ }
@@ -118,7 +118,7 @@ error: KeyframesRule
 13 | | }
    | |_^
 
-error: Ident
+error: CustomIdent
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:5:12
   |
 5 | @keyframes slidein {
@@ -204,7 +204,7 @@ error: PercentValue
 7 |         transform: translateX(0%);
   |                               ^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:31
   |
 7 |         transform: translateX(0%);
@@ -290,7 +290,7 @@ error: PercentValue
 11 |         transform: translateX(100%);
    |                               ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:31
    |
 11 |         transform: translateX(100%);
@@ -329,7 +329,7 @@ error: KeyframesRule
 20 | | }
    | |_^
 
-error: Ident
+error: CustomIdent
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:15:12
    |
 15 | @keyframes identifier {
@@ -353,7 +353,7 @@ error: PercentValue
 16 |     0% { top: 0; left: 0; }
    |     ^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:5
    |
 16 |     0% { top: 0; left: 0; }
@@ -389,7 +389,7 @@ error: Value
 16 |     0% { top: 0; left: 0; }
    |               ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:15
    |
 16 |     0% { top: 0; left: 0; }
@@ -413,7 +413,7 @@ error: Value
 16 |     0% { top: 0; left: 0; }
    |                        ^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:24
    |
 16 |     0% { top: 0; left: 0; }
@@ -437,7 +437,7 @@ error: PercentValue
 17 |     30% { top: 50px; }
    |     ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:5
    |
 17 |     30% { top: 50px; }
@@ -479,7 +479,7 @@ error: UnitValue
 17 |     30% { top: 50px; }
    |                ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:16
    |
 17 |     30% { top: 50px; }
@@ -509,7 +509,7 @@ error: PercentValue
 18 |     68%, 72% { left: 50px; }
    |     ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:5
    |
 18 |     68%, 72% { left: 50px; }
@@ -527,7 +527,7 @@ error: PercentValue
 18 |     68%, 72% { left: 50px; }
    |          ^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:10
    |
 18 |     68%, 72% { left: 50px; }
@@ -569,7 +569,7 @@ error: UnitValue
 18 |     68%, 72% { left: 50px; }
    |                      ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:22
    |
 18 |     68%, 72% { left: 50px; }
@@ -599,7 +599,7 @@ error: PercentValue
 19 |     100% { top: 100px; left: 100%; }
    |     ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:5
    |
 19 |     100% { top: 100px; left: 100%; }
@@ -641,7 +641,7 @@ error: UnitValue
 19 |     100% { top: 100px; left: 100%; }
    |                 ^^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:17
    |
 19 |     100% { top: 100px; left: 100%; }
@@ -677,9 +677,81 @@ error: PercentValue
 19 |     100% { top: 100px; left: 100%; }
    |                              ^^^^
 
-error: Num
+error: Number
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:30
    |
 19 |     100% { top: 100px; left: 100%; }
    |                              ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:22:1
+   |
+22 | @keyframes FOO {}
+   | ^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:22:1
+   |
+22 | @keyframes FOO {}
+   | ^^^^^^^^^^^^^^^^^
+
+error: KeyframesRule
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:22:1
+   |
+22 | @keyframes FOO {}
+   | ^^^^^^^^^^^^^^^^^
+
+error: CustomIdent
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:22:12
+   |
+22 | @keyframes FOO {}
+   |            ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:23:1
+   |
+23 | @keyframes "initial" {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:23:1
+   |
+23 | @keyframes "initial" {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: KeyframesRule
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:23:1
+   |
+23 | @keyframes "initial" {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:23:12
+   |
+23 | @keyframes "initial" {}
+   |            ^^^^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:24:1
+   |
+24 | @keyframes "None" {}
+   | ^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:24:1
+   |
+24 | @keyframes "None" {}
+   | ^^^^^^^^^^^^^^^^^^^^
+
+error: KeyframesRule
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:24:1
+   |
+24 | @keyframes "None" {}
+   | ^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:24:12
+   |
+24 | @keyframes "None" {}
+   |            ^^^^^^
 

@@ -371,8 +371,7 @@
                                 },
                                 "value": "sqrt",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [
                               {
@@ -417,8 +416,7 @@
                                         },
                                         "value": "x",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "MemberExpression",
@@ -444,8 +442,7 @@
                                         },
                                         "value": "x",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     }
                                   },
                                   "right": {
@@ -480,8 +477,7 @@
                                         },
                                         "value": "y",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "MemberExpression",
@@ -507,8 +503,7 @@
                                         },
                                         "value": "y",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     }
                                   }
                                 }
@@ -722,8 +717,7 @@
                 },
                 "value": "Point",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -818,8 +812,7 @@
                 },
                 "value": "getDist",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null

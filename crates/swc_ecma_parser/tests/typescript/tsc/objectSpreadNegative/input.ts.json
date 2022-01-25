@@ -507,8 +507,7 @@
               },
               "value": "x",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -3569,8 +3568,7 @@
             },
             "value": "toFixed",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -3675,8 +3673,7 @@
             },
             "value": "valueOf",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -3779,8 +3776,7 @@
           },
           "value": "length",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -3823,8 +3819,7 @@
             },
             "value": "charAt",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -4100,8 +4095,7 @@
             },
             "value": "b",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -4402,8 +4396,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -4582,8 +4575,7 @@
           },
           "value": "a",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

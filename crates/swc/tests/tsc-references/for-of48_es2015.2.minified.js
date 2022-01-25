@@ -1,5 +1,7 @@
-var x, y, E, E;
-for ({ x , y =E.x  } of ((E = E || (E = {}))[E.x = 0] = "x", [
+var x, y, E;
+for ({ x , y =E.x  } of (!function(E) {
+    E[E.x = 0] = "x";
+}(E || (E = {})), [
     {
         x: "",
         y: !0

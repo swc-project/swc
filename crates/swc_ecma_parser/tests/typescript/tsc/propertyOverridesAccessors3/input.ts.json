@@ -132,8 +132,7 @@
                       },
                       "value": "_sound",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -243,8 +242,7 @@
                         },
                         "value": "_sound",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "Identifier",
@@ -345,8 +343,7 @@
                         },
                         "value": "log",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -375,8 +372,7 @@
                             },
                             "value": "_sound",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     ],
@@ -496,8 +492,7 @@
             },
             "value": "makeSound",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -673,8 +668,7 @@
             },
             "value": "makeSound",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null

@@ -515,16 +515,23 @@
                           "optional": false
                         },
                         "property": {
-                          "type": "Identifier",
+                          "type": "Computed",
                           "span": {
-                            "start": 215,
-                            "end": 218,
+                            "start": 214,
+                            "end": 219,
                             "ctxt": 0
                           },
-                          "value": "key",
-                          "optional": false
-                        },
-                        "computed": true
+                          "expression": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 215,
+                              "end": 218,
+                              "ctxt": 0
+                            },
+                            "value": "key",
+                            "optional": false
+                          }
+                        }
                       }
                     }
                   ],
@@ -633,8 +640,7 @@
                     },
                     "value": "x",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }

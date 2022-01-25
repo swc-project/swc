@@ -518,7 +518,7 @@ fn mark(item: &mut ModuleItem, ctxt: SyntaxContext) {
             }
         },
         ModuleItem::Stmt(stmt) => match stmt {
-            Stmt::Empty(_) => return,
+            Stmt::Empty(_) => {}
             Stmt::Block(BlockStmt { span, .. })
             | Stmt::Debugger(DebuggerStmt { span, .. })
             | Stmt::With(WithStmt { span, .. })

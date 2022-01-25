@@ -91,12 +91,7 @@ f1(function*() {
     const a = yield 0;
     return 0;
 });
-f2(function() {
-    var _ref = _wrapAsyncGenerator(function*() {
-        const a = yield 0;
-        return 0;
-    });
-    return function() {
-        return _ref.apply(this, arguments);
-    };
-}());
+f2(_wrapAsyncGenerator(function*() {
+    const a = yield 0;
+    return 0;
+}));

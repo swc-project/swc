@@ -27,11 +27,8 @@ fn fixture(path: PathBuf) {
         );
         let mut p = Parser::new_from(lexer);
 
-        match p.parse_module() {
-            Err(err) => {
-                err.into_diagnostic(&handler).emit();
-            }
-            _ => {}
+        if let Err(err) = p.parse_module() {
+            err.into_diagnostic(&handler).emit();
         }
         for err in p.take_errors() {
             err.into_diagnostic(&handler).emit();
@@ -49,7 +46,7 @@ fn fixture(path: PathBuf) {
                     continue;
                 }
 
-                if !cmt.text.starts_with("*") {
+                if !cmt.text.starts_with('*') {
                     continue;
                 }
 

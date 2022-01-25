@@ -1,4 +1,3 @@
-use crate::ext::AsOptExpr;
 use swc_common::{collections::AHashMap, comments::Comments, util::take::Take, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -9,7 +8,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 /// The pass will insert parenthesis as needed. In other words, it's
 /// okay to store `a * (b + c)` as `Bin { a * Bin { b + c } }`.
 
-pub fn fixer<'a>(comments: Option<&'a dyn Comments>) -> impl 'a + Fold + VisitMut {
+pub fn fixer(comments: Option<&dyn Comments>) -> impl '_ + Fold + VisitMut {
     as_folder(Fixer {
         comments,
         ctx: Default::default(),
@@ -84,18 +83,19 @@ impl VisitMut for Fixer<'_> {
                 self.wrap(&mut **e);
             }
 
-            BlockStmtOrExpr::Expr(ref mut e) if e.is_assign() => match &**e {
-                Expr::Assign(assign) => match &assign.left {
-                    PatOrExpr::Pat(l) => match &**l {
-                        Pat::Ident(..) | Pat::Expr(..) => {}
-                        _ => {
-                            self.wrap(&mut **e);
-                        }
-                    },
-                    PatOrExpr::Expr(..) => {}
-                },
-                _ => {}
-            },
+            BlockStmtOrExpr::Expr(ref mut e) if e.is_assign() => {
+                if let Expr::Assign(assign) = &**e {
+                    match &assign.left {
+                        PatOrExpr::Pat(l) => match &**l {
+                            Pat::Ident(..) | Pat::Expr(..) => {}
+                            _ => {
+                                self.wrap(&mut **e);
+                            }
+                        },
+                        PatOrExpr::Expr(..) => {}
+                    }
+                }
+            }
 
             _ => {}
         };
@@ -121,11 +121,8 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_assign_pat(&mut self, node: &mut AssignPat) {
         node.visit_mut_children_with(self);
 
-        match &*node.right {
-            Expr::Seq(..) => {
-                self.wrap(&mut *node.right);
-            }
-            _ => {}
+        if let Expr::Seq(..) = &*node.right {
+            self.wrap(&mut *node.right);
         }
     }
 
@@ -171,13 +168,13 @@ impl VisitMut for Fixer<'_> {
                 _ => {}
             },
 
-            op!(">") | op!(">=") | op!("<") | op!("<=") => match (&*expr.left, &*expr.right) {
-                (Expr::Update(..) | Expr::Lit(..), Expr::Update(..) | Expr::Lit(..)) => {
+            op!(">") | op!(">=") | op!("<") | op!("<=") => {
+                if let (Expr::Update(..) | Expr::Lit(..), Expr::Update(..) | Expr::Lit(..)) =
+                    (&*expr.left, &*expr.right)
+                {
                     return;
                 }
-
-                _ => {}
-            },
+            }
 
             op!("**") => match &*expr.left {
                 Expr::Unary(..) => {
@@ -265,14 +262,10 @@ impl VisitMut for Fixer<'_> {
             _ => {}
         }
 
-        match expr.op {
-            op!("??") => match &mut *expr.left {
-                Expr::Bin(..) => {
-                    self.wrap(&mut expr.left);
-                }
-                _ => {}
-            },
-            _ => {}
+        if let op!("??") = expr.op {
+            if let Expr::Bin(..) = &mut *expr.left {
+                self.wrap(&mut expr.left);
+            }
         }
     }
 
@@ -298,7 +291,7 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Callee { is_new: false };
         node.callee.visit_mut_with(self);
         match &mut node.callee {
-            ExprOrSuper::Expr(e) if e.is_cond() || e.is_bin() || e.is_lit() || e.is_unary() => {
+            Callee::Expr(e) if e.is_cond() || e.is_bin() || e.is_lit() || e.is_unary() => {
                 self.wrap(&mut **e);
             }
             _ => {}
@@ -317,10 +310,7 @@ impl VisitMut for Fixer<'_> {
         };
         self.ctx = old;
 
-        node.body.retain(|m| match m {
-            ClassMember::Empty(..) => false,
-            _ => true,
-        });
+        node.body.retain(|m| !matches!(m, ClassMember::Empty(..)));
     }
 
     fn visit_mut_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {
@@ -347,11 +337,8 @@ impl VisitMut for Fixer<'_> {
         e.visit_mut_children_with(self);
 
         if e.spread.is_none() {
-            match *e.expr {
-                Expr::Yield(..) => {
-                    self.wrap(&mut e.expr);
-                }
-                _ => {}
+            if let Expr::Yield(..) = *e.expr {
+                self.wrap(&mut e.expr);
             }
         }
     }
@@ -368,9 +355,8 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_for_of_stmt(&mut self, s: &mut ForOfStmt) {
         s.visit_mut_children_with(self);
 
-        match &*s.right {
-            Expr::Seq(..) | Expr::Await(..) => self.wrap(&mut s.right),
-            _ => {}
+        if let Expr::Seq(..) | Expr::Await(..) = &*s.right {
+            self.wrap(&mut s.right)
         }
     }
 
@@ -408,9 +394,8 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_key_value_prop(&mut self, prop: &mut KeyValueProp) {
         prop.visit_mut_children_with(self);
 
-        match *prop.value {
-            Expr::Seq(..) => self.wrap(&mut prop.value),
-            _ => {}
+        if let Expr::Seq(..) = *prop.value {
+            self.wrap(&mut prop.value)
         }
     }
 
@@ -420,39 +405,25 @@ impl VisitMut for Fixer<'_> {
 
         match n {
             MemberExpr { obj, .. }
-                if obj.as_expr().map(|e| e.is_object()).unwrap_or(false)
-                    && match self.ctx {
-                        Context::ForcedExpr { .. } => true,
-                        _ => false,
-                    } => {}
+                if obj.is_object() && matches!(self.ctx, Context::ForcedExpr { .. }) => {}
 
-            MemberExpr {
-                obj: ExprOrSuper::Expr(ref mut obj),
-                ..
-            } if obj.is_fn_expr()
-                || obj.is_cond()
-                || obj.is_unary()
-                || obj.is_seq()
-                || obj.is_update()
-                || obj.is_bin()
-                || obj.is_object()
-                || obj.is_assign()
-                || obj.is_arrow()
-                || obj.is_class()
-                || obj.is_yield_expr()
-                || obj.is_await_expr()
-                || (obj.is_call()
-                    && match self.ctx {
-                        Context::Callee { is_new: true } => true,
-                        _ => false,
-                    })
-                || match **obj {
-                    Expr::New(NewExpr { args: None, .. }) => true,
-                    _ => false,
-                } =>
+            MemberExpr { obj, .. }
+                if obj.is_fn_expr()
+                    || obj.is_cond()
+                    || obj.is_unary()
+                    || obj.is_seq()
+                    || obj.is_update()
+                    || obj.is_bin()
+                    || obj.is_object()
+                    || obj.is_assign()
+                    || obj.is_arrow()
+                    || obj.is_class()
+                    || obj.is_yield_expr()
+                    || obj.is_await_expr()
+                    || (obj.is_call() && matches!(self.ctx, Context::Callee { is_new: true }))
+                    || matches!(**obj, Expr::New(NewExpr { args: None, .. })) =>
             {
                 self.wrap(&mut **obj);
-                return;
             }
 
             _ => {}
@@ -566,10 +537,10 @@ impl VisitMut for Fixer<'_> {
                 right,
                 ..
             }) if n.op == op!(unary, "-")
-                && match (&**left, &**right) {
-                    (Expr::Lit(Lit::Num(..)), Expr::Lit(Lit::Num(..))) => true,
-                    _ => false,
-                } => {}
+                && matches!(
+                    (&**left, &**right),
+                    (Expr::Lit(Lit::Num(..)), Expr::Lit(Lit::Num(..)))
+                ) => {}
 
             Expr::Assign(..)
             | Expr::Bin(..)
@@ -621,7 +592,7 @@ impl Fixer<'_> {
                 // don't has child seq
                 let expr = if len == exprs_len {
                     let mut exprs = exprs
-                        .into_iter()
+                        .iter_mut()
                         .enumerate()
                         .filter_map(|(i, e)| {
                             let is_last = i + 1 == exprs_len;
@@ -640,7 +611,7 @@ impl Fixer<'_> {
                     Expr::Seq(SeqExpr { span: *span, exprs })
                 } else {
                     let mut buf = Vec::with_capacity(len);
-                    for (i, expr) in exprs.into_iter().enumerate() {
+                    for (i, expr) in exprs.iter_mut().enumerate() {
                         let is_last = i + 1 == exprs_len;
 
                         match **expr {
@@ -715,24 +686,21 @@ impl Fixer<'_> {
                     _ => {}
                 };
 
-                match *expr.cons {
-                    Expr::Seq(..) => self.wrap(&mut expr.cons),
-                    _ => {}
+                if let Expr::Seq(..) = *expr.cons {
+                    self.wrap(&mut expr.cons)
                 };
 
-                match *expr.alt {
-                    Expr::Seq(..) => self.wrap(&mut expr.alt),
-                    _ => {}
+                if let Expr::Seq(..) = *expr.alt {
+                    self.wrap(&mut expr.alt)
                 };
 
-                match self.ctx {
-                    Context::Callee { is_new: true } => self.wrap(e),
-                    _ => {}
+                if let Context::Callee { is_new: true } = self.ctx {
+                    self.wrap(e)
                 }
             }
 
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(ref mut callee),
+                callee: Callee::Expr(ref mut callee),
                 ..
             }) if callee.is_seq() => {
                 *callee = Box::new(Expr::Paren(ParenExpr {
@@ -742,7 +710,7 @@ impl Fixer<'_> {
             }
 
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(ref mut callee),
+                callee: Callee::Expr(ref mut callee),
                 ..
             }) if callee.is_arrow() || callee.is_await_expr() => {
                 self.wrap(&mut **callee);
@@ -750,7 +718,7 @@ impl Fixer<'_> {
 
             // Function expression cannot start with `function`
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(ref mut callee),
+                callee: Callee::Expr(ref mut callee),
                 ..
             }) if callee.is_fn_expr() => match self.ctx {
                 Context::ForcedExpr { .. } | Context::FreeExpr => {}
@@ -760,7 +728,7 @@ impl Fixer<'_> {
                 _ => self.wrap(&mut **callee),
             },
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(ref mut callee),
+                callee: Callee::Expr(ref mut callee),
                 ..
             }) if callee.is_assign() => self.wrap(&mut **callee),
             _ => {}
@@ -783,8 +751,8 @@ impl Fixer<'_> {
 
     /// Removes paren
     fn unwrap_expr(&mut self, e: &mut Expr) {
-        match &*e {
-            Expr::Paren(paren) => match &*paren.expr {
+        if let Expr::Paren(paren) = &*e {
+            match &*paren.expr {
                 Expr::Call(..) | Expr::Fn(..) => {}
                 _ => {
                     let inner_span = paren.span;
@@ -794,8 +762,7 @@ impl Fixer<'_> {
                         }
                     }
                 }
-            },
-            _ => {}
+            }
         }
 
         match e {
@@ -845,11 +812,11 @@ impl Fixer<'_> {
                 );
 
                 let len = exprs.len();
-                exprs.into_iter().enumerate().for_each(|(i, mut expr)| {
+                exprs.iter_mut().enumerate().for_each(|(i, expr)| {
                     let is_last = len == i + 1;
 
                     if !is_last {
-                        self.handle_expr_stmt(&mut expr);
+                        self.handle_expr_stmt(expr);
                     }
                 });
             }
@@ -899,6 +866,7 @@ fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<
 
 // at least 3 element in seq, which means we can safely
 // remove that padding, if not at last position
+#[allow(clippy::vec_box)]
 fn ignore_padding_value(exprs: Vec<Box<Expr>>) -> Vec<Box<Expr>> {
     let len = exprs.len();
 
@@ -919,7 +887,7 @@ fn ignore_padding_value(exprs: Vec<Box<Expr>>) -> Vec<Box<Expr>> {
 fn will_eat_else_token(s: &Stmt) -> bool {
     match s {
         Stmt::If(s) => match &s.alt {
-            Some(alt) => will_eat_else_token(&alt),
+            Some(alt) => will_eat_else_token(alt),
             None => true,
         },
         // Ends with `}`.

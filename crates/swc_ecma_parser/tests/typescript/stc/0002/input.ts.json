@@ -31,15 +31,22 @@
           "optional": false
         },
         "property": {
-          "type": "NumericLiteral",
+          "type": "Computed",
           "span": {
-            "start": 5,
-            "end": 26,
+            "start": 4,
+            "end": 27,
             "ctxt": 0
           },
-          "value": 9.671406556917009e24
-        },
-        "computed": true
+          "expression": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 5,
+              "end": 26,
+              "ctxt": 0
+            },
+            "value": 9.671406556917009e24
+          }
+        }
       }
     }
   ],

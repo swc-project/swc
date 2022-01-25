@@ -11,6 +11,11 @@
 //! Note: Passes should be visited only with [Module] and it's an error to feed
 //! them something other. Don't call methods like `visit_mut_script` nor
 //! `visit_mut_module_items`.
+#![deny(clippy::all)]
+#![allow(clippy::blocks_in_if_conditions)]
+#![allow(clippy::collapsible_else_if)]
+#![allow(clippy::collapsible_if)]
+#![allow(clippy::vec_box)]
 
 pub use crate::pass::unique_scope::unique_scope;
 use crate::{
@@ -115,7 +120,7 @@ pub fn optimize(
             let _timer = timer!("compress ast");
 
             m = GLOBALS.with(|globals| {
-                m.fold_with(&mut compressor(globals, marks, &options, &Minification))
+                m.fold_with(&mut compressor(globals, marks, options, &Minification))
             });
         }
 

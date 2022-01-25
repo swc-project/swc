@@ -89,7 +89,7 @@ var Sql = function(Wagon1) {
             key: "load",
             value: function(files, format) {
                 if ("xmlolololol" === format) throw new Error("please do not use XML. It was a joke.");
-                _get(_getPrototypeOf(Sql.prototype), "speed", this).call(this), 0 > _get(_getPrototypeOf(Sql.prototype), "weight", this).call(this);
+                _get(_getPrototypeOf(Sql.prototype), "speed", this).call(this), _get(_getPrototypeOf(Sql.prototype), "weight", this).call(this);
             }
         }
     ]), Sql;

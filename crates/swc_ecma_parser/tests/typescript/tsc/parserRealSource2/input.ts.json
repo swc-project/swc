@@ -8976,8 +8976,7 @@
                       },
                       "value": "ES3",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "definite": false
                 }
@@ -9071,8 +9070,7 @@
                       },
                       "value": "Synchronous",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "definite": false
                 }
@@ -9585,16 +9583,23 @@
                                             "optional": false
                                           },
                                           "property": {
-                                            "type": "Identifier",
+                                            "type": "Computed",
                                             "span": {
-                                              "start": 8521,
-                                              "end": 8522,
+                                              "start": 8520,
+                                              "end": 8523,
                                               "ctxt": 0
                                             },
-                                            "value": "k",
-                                            "optional": false
-                                          },
-                                          "computed": true
+                                            "expression": {
+                                              "type": "Identifier",
+                                              "span": {
+                                                "start": 8521,
+                                                "end": 8522,
+                                                "ctxt": 0
+                                              },
+                                              "value": "k",
+                                              "optional": false
+                                            }
+                                          }
                                         },
                                         "right": {
                                           "type": "Identifier",
@@ -9656,8 +9661,7 @@
                                                   },
                                                   "value": "length",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "right": {
                                                 "type": "NumericLiteral",

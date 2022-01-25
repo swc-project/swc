@@ -2,7 +2,7 @@ var _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = voi
 try {
     for(var _step, _iterator = [
         0
-    ][Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0);
+    ][Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)_step.value;
 } catch (err) {
     _didIteratorError = !0, _iteratorError = err;
 } finally{

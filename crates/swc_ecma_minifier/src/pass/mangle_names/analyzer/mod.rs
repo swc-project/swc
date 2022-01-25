@@ -139,9 +139,8 @@ impl Visit for Analyzer {
         self.is_pat_decl = false;
         e.visit_children_with(self);
 
-        match e {
-            Expr::Ident(i) => self.add_usage(i.to_id()),
-            _ => {}
+        if let Expr::Ident(i) = e {
+            self.add_usage(i.to_id())
         }
 
         self.is_pat_decl = old_is_pat_decl;
@@ -180,8 +179,8 @@ impl Visit for Analyzer {
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(self);
 
-        if e.computed {
-            e.prop.visit_with(self);
+        if let MemberProp::Computed(c) = &e.prop {
+            c.visit_with(self);
         }
     }
 
@@ -216,24 +215,26 @@ impl Visit for Analyzer {
     fn visit_pat(&mut self, e: &Pat) {
         e.visit_children_with(self);
 
-        match e {
-            Pat::Ident(i) => {
-                if self.is_pat_decl {
-                    self.add_decl(i.to_id())
-                } else {
-                    self.add_usage(i.to_id())
-                }
+        if let Pat::Ident(i) = e {
+            if self.is_pat_decl {
+                self.add_decl(i.to_id())
+            } else {
+                self.add_usage(i.to_id())
             }
-            _ => {}
         }
     }
 
     fn visit_prop(&mut self, p: &Prop) {
         p.visit_children_with(self);
 
-        match p {
-            Prop::Shorthand(i) => self.add_usage(i.to_id()),
-            _ => {}
+        if let Prop::Shorthand(i) = p {
+            self.add_usage(i.to_id())
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            c.visit_with(self);
         }
     }
 

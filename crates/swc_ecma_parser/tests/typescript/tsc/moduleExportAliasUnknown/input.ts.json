@@ -47,8 +47,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -76,8 +75,7 @@
             },
             "value": "nonprop",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -122,8 +120,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",

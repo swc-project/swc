@@ -50,11 +50,8 @@ pub(crate) trait ExprExt: Into<Expr> {
         let lhs = lhs.into_id();
 
         if cfg!(debug_assertions) {
-            match &init {
-                Expr::Ident(rhs) => {
-                    debug_assert_ne!(lhs, rhs.to_id());
-                }
-                _ => {}
+            if let Expr::Ident(rhs) = &init {
+                debug_assert_ne!(lhs, rhs.to_id());
             }
         }
 
@@ -128,11 +125,7 @@ where
 {
     #[cfg(feature = "concurrent")]
     pub fn get(&self, k: &K) -> Option<V> {
-        if let Some(v) = self.inner.get(k) {
-            Some(v.value().clone())
-        } else {
-            None
-        }
+        self.inner.get(k).map(|v| v.value().clone())
     }
 
     #[cfg(not(feature = "concurrent"))]

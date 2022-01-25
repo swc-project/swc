@@ -88,8 +88,7 @@
             },
             "value": "Inner",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -166,8 +165,7 @@
                           },
                           "value": "y",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "NumericLiteral",
@@ -260,8 +258,7 @@
           },
           "value": "y",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -325,8 +322,7 @@
                 },
                 "value": "Inner",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -368,8 +364,7 @@
           },
           "value": "y",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -438,8 +433,7 @@
           },
           "value": "y",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -503,8 +497,7 @@
                 },
                 "value": "Inner",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -546,8 +539,7 @@
           },
           "value": "y",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

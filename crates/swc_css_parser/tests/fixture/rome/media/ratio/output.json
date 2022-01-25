@@ -13,55 +13,81 @@
         "end": 30,
         "ctxt": 0
       },
-      "query": {
-        "type": "Declaration",
+      "media": {
+        "type": "MediaQueryList",
         "span": {
-          "start": 8,
+          "start": 7,
           "end": 27,
           "ctxt": 0
         },
-        "property": {
-          "type": "Identifier",
-          "span": {
-            "start": 8,
-            "end": 20,
-            "ctxt": 0
-          },
-          "value": "aspect-ratio",
-          "raw": "aspect-ratio"
-        },
-        "value": [
+        "queries": [
           {
-            "type": "BinValue",
+            "type": "MediaQuery",
             "span": {
-              "start": 22,
-              "end": 26,
+              "start": 7,
+              "end": 27,
               "ctxt": 0
             },
-            "op": "/",
-            "left": {
-              "type": "Number",
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
               "span": {
-                "start": 22,
-                "end": 24,
+                "start": 7,
+                "end": 27,
                 "ctxt": 0
               },
-              "value": 12.0,
-              "raw": "12"
-            },
-            "right": {
-              "type": "Number",
-              "span": {
-                "start": 25,
-                "end": 26,
-                "ctxt": 0
-              },
-              "value": 9.0,
-              "raw": "9"
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
+                  "span": {
+                    "start": 7,
+                    "end": 27,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 8,
+                      "end": 20,
+                      "ctxt": 0
+                    },
+                    "value": "aspect-ratio",
+                    "raw": "aspect-ratio"
+                  },
+                  "value": {
+                    "type": "Ratio",
+                    "span": {
+                      "start": 22,
+                      "end": 26,
+                      "ctxt": 0
+                    },
+                    "left": {
+                      "type": "Number",
+                      "span": {
+                        "start": 22,
+                        "end": 24,
+                        "ctxt": 0
+                      },
+                      "value": 12.0,
+                      "raw": "12"
+                    },
+                    "right": {
+                      "type": "Number",
+                      "span": {
+                        "start": 25,
+                        "end": 26,
+                        "ctxt": 0
+                      },
+                      "value": 9.0,
+                      "raw": "9"
+                    }
+                  }
+                }
+              ]
             }
           }
-        ],
-        "important": null
+        ]
       },
       "rules": []
     }

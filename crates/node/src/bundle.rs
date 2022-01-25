@@ -21,7 +21,8 @@ use swc_atoms::{js_word, JsWord};
 use swc_bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve};
 use swc_common::{collections::AHashMap, Span};
 use swc_ecma_ast::{
-    Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
+    Bool, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr, MetaPropKind,
+    PropName, Str,
 };
 use swc_ecma_loader::{TargetEnv, NODE_BUILTINS};
 
@@ -53,8 +54,8 @@ impl Task for BundleTask {
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let builtins = if let TargetEnv::Node = self.config.static_items.config.target {
             NODE_BUILTINS
-                .to_vec()
-                .into_iter()
+                .iter()
+                .copied()
                 .map(JsWord::from)
                 .collect::<Vec<_>>()
         } else {
@@ -154,7 +155,7 @@ impl Task for BundleTask {
 
         Err(napi::Error::new(
             Status::GenericFailure,
-            format!("panic detected"),
+            "panic detected".to_string(),
         ))
     }
 
@@ -216,18 +217,28 @@ pub(crate) fn bundle(
         .config
         .alias
         .get(&target_env)
-        .map(|a| a.clone())
-        .unwrap_or_else(|| Default::default());
+        .cloned()
+        .unwrap_or_default();
 
     let resolver: Box<dyn Resolve> = if let Some((base_url, paths)) = paths {
-        Box::new(paths_resolver(target_env, alias, base_url, paths))
+        Box::new(paths_resolver(
+            target_env,
+            alias,
+            base_url,
+            paths,
+            static_items.config.preserve_symlinks,
+        ))
     } else {
-        Box::new(environment_resolver(target_env, alias))
+        Box::new(environment_resolver(
+            target_env,
+            alias,
+            static_items.config.preserve_symlinks,
+        ))
     };
 
     Ok(AsyncTask::with_optional_signal(
         BundleTask {
-            swc: c.clone(),
+            swc: c,
             config: ConfigItem {
                 loader,
                 resolver,
@@ -267,12 +278,11 @@ impl swc_bundler::Hook for Hook {
                 value: Box::new(if module_record.is_entry {
                     Expr::Member(MemberExpr {
                         span,
-                        obj: ExprOrSuper::Expr(Box::new(Expr::MetaProp(MetaPropExpr {
-                            meta: Ident::new(js_word!("import"), span),
-                            prop: Ident::new(js_word!("meta"), span),
-                        }))),
-                        prop: Box::new(Expr::Ident(Ident::new(js_word!("main"), span))),
-                        computed: false,
+                        obj: Box::new(Expr::MetaProp(MetaPropExpr {
+                            span,
+                            kind: MetaPropKind::ImportMeta,
+                        })),
+                        prop: MemberProp::Ident(Ident::new(js_word!("main"), span)),
                     })
                 } else {
                     Expr::Lit(Lit::Bool(Bool { span, value: false }))

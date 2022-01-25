@@ -213,8 +213,7 @@
                   },
                   "value": "boo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "consequent": {
                 "type": "MemberExpression",
@@ -242,8 +241,7 @@
                   },
                   "value": "num",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "alternate": {
                 "type": "MemberExpression",
@@ -271,8 +269,7 @@
                   },
                   "value": "str",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             }
           }
@@ -740,8 +737,7 @@
                   },
                   "value": "boo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "consequent": {
                 "type": "MemberExpression",
@@ -769,8 +765,7 @@
                   },
                   "value": "num",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "alternate": {
                 "type": "MemberExpression",
@@ -798,8 +793,7 @@
                   },
                   "value": "str",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             }
           }
@@ -892,8 +886,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]

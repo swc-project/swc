@@ -1,8 +1,8 @@
-use crate::{Function, MediaQuery, Str, UrlValue};
+use crate::{Declaration, Function, Ident, MediaQueryList, Str, SupportsCondition, UrlValue};
 use swc_common::{ast_node, Span};
 
 #[ast_node]
-pub enum ImportSource {
+pub enum ImportHref {
     #[tag("Function")]
     Function(Function),
 
@@ -13,9 +13,28 @@ pub enum ImportSource {
     Str(Str),
 }
 
+#[ast_node]
+pub enum ImportLayerName {
+    #[tag("Ident")]
+    Ident(Ident),
+
+    #[tag("Function")]
+    Function(Function),
+}
+
+#[ast_node]
+pub enum ImportSupportsType {
+    #[tag("SupportsCondition")]
+    SupportsCondition(SupportsCondition),
+    #[tag("Declaration")]
+    Declaration(Declaration),
+}
+
 #[ast_node("ImportRule")]
 pub struct ImportRule {
     pub span: Span,
-    pub src: ImportSource,
-    pub condition: Option<MediaQuery>,
+    pub href: ImportHref,
+    pub layer_name: Option<ImportLayerName>,
+    pub supports: Option<ImportSupportsType>,
+    pub media: Option<MediaQueryList>,
 }

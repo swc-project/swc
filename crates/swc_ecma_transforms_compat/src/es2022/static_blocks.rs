@@ -24,7 +24,7 @@ impl ClassStaticBlock {
                     let mut id_value: JsWord = "_".into();
                     let mut count = 0;
                     while private_names.contains(&id_value) {
-                        count = count + 1;
+                        count += 1;
                         id_value = format!("_{}", count).into();
                     }
                     private_names.insert(id_value.clone());
@@ -64,7 +64,7 @@ impl ClassStaticBlock {
             },
             value: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: ExprOrSuper::Expr(Box::new(Expr::Arrow(ArrowExpr {
+                callee: Callee::Expr(Box::new(Expr::Arrow(ArrowExpr {
                     span: DUMMY_SP,
                     params: Vec::new(),
                     is_async: false,

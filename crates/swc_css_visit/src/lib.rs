@@ -1,3 +1,5 @@
+#![deny(clippy::all)]
+
 use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_css_ast::*;
@@ -31,13 +33,19 @@ define!({
         pub raw: JsWord,
     }
 
+    pub struct CustomIdent {
+        pub span: Span,
+        pub value: JsWord,
+        pub raw: JsWord,
+    }
+
     pub struct Str {
         pub span: Span,
         pub value: JsWord,
         pub raw: JsWord,
     }
 
-    pub struct Num {
+    pub struct Number {
         pub span: Span,
         pub value: f64,
         pub raw: JsWord,
@@ -76,15 +84,13 @@ define!({
     pub enum Value {
         SimpleBlock(SimpleBlock),
 
-        SquareBracketBlock(SquareBracketBlock),
-
-        RoundBracketBlock(RoundBracketBlock),
-
         Unit(UnitValue),
 
-        Number(Num),
+        Number(Number),
 
         Percent(PercentValue),
+
+        Ratio(Ratio),
 
         Hash(HashValue),
 
@@ -100,9 +106,7 @@ define!({
 
         Comma(CommaValues),
 
-        Brace(BraceValue),
-
-        Lazy(Tokens),
+        Tokens(Tokens),
 
         AtText(AtTextValue),
 
@@ -135,16 +139,6 @@ define!({
         pub value: Vec<Value>,
     }
 
-    pub struct RoundBracketBlock {
-        pub span: Span,
-        pub children: Option<Vec<Value>>,
-    }
-
-    pub struct SquareBracketBlock {
-        pub span: Span,
-        pub children: Option<Vec<Value>>,
-    }
-
     pub struct HashValue {
         pub span: Span,
         pub value: JsWord,
@@ -153,24 +147,25 @@ define!({
 
     pub struct UnitValue {
         pub span: Span,
-        pub value: Num,
+        pub value: Number,
         pub unit: Unit,
     }
 
     pub struct PercentValue {
         pub span: Span,
-        pub value: Num,
+        pub value: Number,
     }
 
-    pub struct BraceValue {
+    pub struct Ratio {
         pub span: Span,
-        pub value: Box<Value>,
+        pub left: Number,
+        pub right: Option<Number>,
     }
 
     pub struct AtTextValue {
         pub span: Span,
         pub name: Ident,
-        pub block: Option<BraceValue>,
+        pub block: Option<SimpleBlock>,
     }
 
     pub struct UrlValue {
@@ -320,6 +315,7 @@ define!({
         Import(ImportRule),
         FontFace(FontFaceRule),
         Keyframes(KeyframesRule),
+        Layer(LayerRule),
         Media(MediaRule),
         Supports(SupportsRule),
         Page(PageRule),
@@ -334,16 +330,28 @@ define!({
         pub charset: Str,
     }
 
-    pub enum ImportSource {
+    pub enum ImportHref {
         Function(Function),
         Url(UrlValue),
         Str(Str),
     }
 
+    pub enum ImportLayerName {
+        Ident(Ident),
+        Function(Function),
+    }
+
+    pub enum ImportSupportsType {
+        SupportsCondition(SupportsCondition),
+        Declaration(Declaration),
+    }
+
     pub struct ImportRule {
         pub span: Span,
-        pub src: ImportSource,
-        pub condition: Option<MediaQuery>,
+        pub href: ImportHref,
+        pub layer_name: Option<ImportLayerName>,
+        pub supports: Option<ImportSupportsType>,
+        pub media: Option<MediaQueryList>,
     }
 
     pub struct FontFaceRule {
@@ -381,7 +389,7 @@ define!({
     }
 
     pub enum KeyframesName {
-        Ident(Ident),
+        CustomIdent(CustomIdent),
         Str(Str),
     }
 
@@ -407,49 +415,136 @@ define!({
         AtRule(Box<AtRule>),
     }
 
+    pub struct LayerName {
+        pub span: Span,
+        pub name: Vec<Ident>,
+    }
+
+    pub struct LayerNameList {
+        pub span: Span,
+        pub name_list: Vec<LayerName>,
+    }
+
+    pub enum LayerPrelude {
+        Name(LayerName),
+        NameList(LayerNameList),
+    }
+
+    pub struct LayerRule {
+        pub span: Span,
+        pub prelude: Option<LayerPrelude>,
+        pub rules: Option<Vec<Rule>>,
+    }
+
     pub struct MediaRule {
         pub span: Span,
-
-        pub query: Box<MediaQuery>,
-
+        pub media: MediaQueryList,
         pub rules: Vec<Rule>,
     }
 
-    pub enum MediaQuery {
-        Ident(Ident),
-        And(AndMediaQuery),
-        Or(OrMediaQuery),
-        Not(NotMediaQuery),
-        Only(OnlyMediaQuery),
-        Declaration(Declaration),
-        Comma(CommaMediaQuery),
-    }
-
-    pub struct AndMediaQuery {
-        pub span: Span,
-        pub left: Box<MediaQuery>,
-        pub right: Box<MediaQuery>,
-    }
-
-    pub struct OrMediaQuery {
-        pub span: Span,
-        pub left: Box<MediaQuery>,
-        pub right: Box<MediaQuery>,
-    }
-
-    pub struct NotMediaQuery {
-        pub span: Span,
-        pub query: Box<MediaQuery>,
-    }
-
-    pub struct OnlyMediaQuery {
-        pub span: Span,
-        pub query: Box<MediaQuery>,
-    }
-
-    pub struct CommaMediaQuery {
+    pub struct MediaQueryList {
         pub span: Span,
         pub queries: Vec<MediaQuery>,
+    }
+
+    pub struct MediaQuery {
+        pub span: Span,
+        pub modifier: Option<Ident>,
+        pub media_type: Option<Ident>,
+        pub condition: Option<MediaConditionType>,
+    }
+
+    pub enum MediaConditionType {
+        All(MediaCondition),
+        WithoutOr(MediaConditionWithoutOr),
+    }
+
+    pub struct MediaCondition {
+        pub span: Span,
+        pub conditions: Vec<MediaConditionAllType>,
+    }
+
+    pub struct MediaConditionWithoutOr {
+        pub span: Span,
+        pub conditions: Vec<MediaConditionWithoutOrType>,
+    }
+
+    pub enum MediaConditionAllType {
+        Not(MediaNot),
+        And(MediaAnd),
+        Or(MediaOr),
+        MediaInParens(MediaInParens),
+    }
+
+    pub enum MediaConditionWithoutOrType {
+        Not(MediaNot),
+        And(MediaAnd),
+        MediaInParens(MediaInParens),
+    }
+
+    pub struct MediaNot {
+        pub span: Span,
+        pub condition: MediaInParens,
+    }
+
+    pub struct MediaAnd {
+        pub span: Span,
+        pub condition: MediaInParens,
+    }
+
+    pub struct MediaOr {
+        pub span: Span,
+        pub condition: MediaInParens,
+    }
+
+    pub enum MediaInParens {
+        MediaCondition(MediaCondition),
+        Feature(MediaFeature),
+    }
+
+    pub enum MediaFeature {
+        Plain(MediaFeaturePlain),
+        Boolean(MediaFeatureBoolean),
+        Range(MediaFeatureRange),
+        RangeInterval(MediaFeatureRangeInterval),
+    }
+
+    pub enum MediaFeatureName {
+        Ident(Ident),
+    }
+
+    pub enum MediaFeatureValue {
+        Number(Number),
+        Dimension(UnitValue),
+        Ident(Ident),
+        Ratio(Ratio),
+    }
+
+    pub struct MediaFeaturePlain {
+        pub span: Span,
+        pub name: MediaFeatureName,
+        pub value: MediaFeatureValue,
+    }
+
+    pub struct MediaFeatureBoolean {
+        pub span: Span,
+        pub name: MediaFeatureName,
+    }
+
+    pub struct MediaFeatureRange {
+        pub span: Span,
+        pub left: MediaFeatureValue,
+        pub comparison: MediaFeatureRangeComparison,
+        pub right: MediaFeatureValue,
+    }
+
+    pub struct MediaFeatureRangeInterval {
+        pub span: Span,
+        pub left: MediaFeatureValue,
+        pub left_comparison: MediaFeatureRangeComparison,
+        pub name: MediaFeatureName,
+        pub right_comparison: MediaFeatureRangeComparison,
+        pub right: MediaFeatureValue,
     }
 
     pub struct PageRule {
@@ -484,39 +579,43 @@ define!({
 
     pub struct SupportsRule {
         pub span: Span,
-
-        pub query: SupportQuery,
-
+        pub condition: SupportsCondition,
         pub rules: Vec<Rule>,
     }
 
-    pub enum SupportQuery {
-        Not(NotSupportQuery),
-        And(AndSupportQuery),
-        Or(OrSupportQuery),
+    pub struct SupportsCondition {
+        pub span: Span,
+        pub conditions: Vec<SupportsConditionType>,
+    }
+
+    pub enum SupportsConditionType {
+        Not(SupportsNot),
+        And(SupportsAnd),
+        Or(SupportsOr),
+        SupportsInParens(SupportsInParens),
+    }
+
+    pub struct SupportsNot {
+        pub span: Span,
+        pub condition: SupportsInParens,
+    }
+
+    pub struct SupportsAnd {
+        pub span: Span,
+        pub condition: SupportsInParens,
+    }
+
+    pub struct SupportsOr {
+        pub span: Span,
+        pub condition: SupportsInParens,
+    }
+
+    pub enum SupportsInParens {
+        SupportsCondition(SupportsCondition),
+        Feature(SupportsFeature),
+    }
+
+    pub enum SupportsFeature {
         Declaration(Declaration),
-        Paren(ParenSupportQuery),
-    }
-
-    pub struct NotSupportQuery {
-        pub span: Span,
-        pub query: Box<SupportQuery>,
-    }
-
-    pub struct AndSupportQuery {
-        pub span: Span,
-        pub left: Box<SupportQuery>,
-        pub right: Box<SupportQuery>,
-    }
-
-    pub struct OrSupportQuery {
-        pub span: Span,
-        pub left: Box<SupportQuery>,
-        pub right: Box<SupportQuery>,
-    }
-
-    pub struct ParenSupportQuery {
-        pub span: Span,
-        pub query: Box<SupportQuery>,
     }
 });

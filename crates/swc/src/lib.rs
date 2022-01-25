@@ -179,16 +179,25 @@ pub mod resolver {
         alias: AHashMap<String, String>,
         base_url: PathBuf,
         paths: CompiledPaths,
+        preserve_symlinks: bool,
     ) -> CachingResolver<TsConfigResolver<NodeModulesResolver>> {
-        let r = TsConfigResolver::new(NodeModulesResolver::new(target_env, alias), base_url, paths);
+        let r = TsConfigResolver::new(
+            NodeModulesResolver::new(target_env, alias, preserve_symlinks),
+            base_url,
+            paths,
+        );
         CachingResolver::new(40, r)
     }
 
     pub fn environment_resolver(
         target_env: TargetEnv,
         alias: AHashMap<String, String>,
+        preserve_symlinks: bool,
     ) -> NodeResolver {
-        CachingResolver::new(40, NodeModulesResolver::new(target_env, alias))
+        CachingResolver::new(
+            40,
+            NodeModulesResolver::new(target_env, alias, preserve_symlinks),
+        )
     }
 }
 
@@ -224,8 +233,7 @@ where
 {
     let wr = Box::new(LockedWriter::default());
 
-    let e_wr =
-        EmitterWriter::new(wr.clone(), Some(cm.clone()), false, true).skip_filename(skip_filename);
+    let e_wr = EmitterWriter::new(wr.clone(), Some(cm), false, true).skip_filename(skip_filename);
     let handler = Handler::with_emitter(true, false, Box::new(e_wr));
 
     let ret = HANDLER.set(&handler, || op(&handler));
@@ -298,7 +306,7 @@ impl Compiler {
     where
         F: FnOnce() -> R,
     {
-        GLOBALS.set(&self.globals, || op())
+        GLOBALS.set(&self.globals, op)
     }
 
     fn get_orig_src_map(
@@ -316,10 +324,7 @@ impl Compiler {
                 InputSourceMap::Bool(true) => {
                     let s = "sourceMappingURL=";
                     let idx = fm.src.rfind(s);
-                    let src_mapping_url = match idx {
-                        None => None,
-                        Some(idx) => Some(&fm.src[idx + s.len()..]),
-                    };
+                    let src_mapping_url = idx.map(|idx| &fm.src[idx + s.len()..]);
 
                     // Load original source map if possible
                     match &name {
@@ -367,7 +372,7 @@ impl Compiler {
                         }
                         _ => {
                             tracing::error!("Failed to load source map for non-file input");
-                            return Ok(None);
+                            Ok(None)
                         }
                     }
                 }
@@ -476,7 +481,7 @@ impl Compiler {
         T: Node + VisitWith<IdentCollector>,
     {
         self.run(|| {
-            let preserve_comments = preserve_comments.unwrap_or_else(|| {
+            let preserve_comments = preserve_comments.unwrap_or({
                 if minify {
                     BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments)
                 } else {
@@ -501,7 +506,7 @@ impl Compiler {
                             return true;
                         }
 
-                        vc.retain(|c: &Comment| c.text.starts_with("!"));
+                        vc.retain(|c: &Comment| c.text.starts_with('!'));
                         !vc.is_empty()
                     };
                     self.comments.leading.retain(preserve_excl);
@@ -644,7 +649,7 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
             Some(v) => {
                 let s = v.to_string_lossy().to_string();
                 if cfg!(target_os = "windows") {
-                    s.replace("\\", "/")
+                    s.replace('\\', "/")
                 } else {
                     s
                 }
@@ -690,76 +695,71 @@ impl Compiler {
                 ..
             } = opts;
 
-            let root = root.as_ref().unwrap_or_else(|| &CUR_DIR);
+            let root = root.as_ref().unwrap_or(&CUR_DIR);
 
             let config_file = match config_file {
                 Some(ConfigFile::Str(ref s)) => Some(load_swcrc(Path::new(&s))?),
                 _ => None,
             };
 
-            match name {
-                FileName::Real(ref path) => {
-                    if *swcrc {
-                        let mut parent = path.parent();
-                        while let Some(dir) = parent {
-                            let swcrc = dir.join(".swcrc");
+            if let FileName::Real(ref path) = name {
+                if *swcrc {
+                    let mut parent = path.parent();
+                    while let Some(dir) = parent {
+                        let swcrc = dir.join(".swcrc");
 
-                            if swcrc.exists() {
-                                let config = load_swcrc(&swcrc)?;
+                        if swcrc.exists() {
+                            let config = load_swcrc(&swcrc)?;
 
-                                let mut config = config
-                                    .into_config(Some(path))
-                                    .context("failed to process config file")?;
+                            let mut config = config
+                                .into_config(Some(path))
+                                .context("failed to process config file")?;
 
-                                if let Some(config_file) = config_file {
-                                    config.merge(&config_file.into_config(Some(path))?)
-                                }
-
-                                if let Some(c) = &mut config {
-                                    if c.jsc.base_url != PathBuf::new() {
-                                        let joined = dir.join(&c.jsc.base_url);
-                                        c.jsc.base_url = if cfg!(target_os = "windows")
-                                            && c.jsc.base_url.as_os_str() == "."
-                                        {
-                                            dir.canonicalize().with_context(|| {
-                                                format!(
-                                                    "failed to canonicalize base url using the \
-                                                     path of .swcrc\nDir: {}\n(Used logic for \
-                                                     windows)",
-                                                    dir.display(),
-                                                )
-                                            })?
-                                        } else {
-                                            joined.canonicalize().with_context(|| {
-                                                format!(
-                                                    "failed to canonicalize base url using the \
-                                                     path of .swcrc\nPath: {}\nDir: {}\nbaseUrl: \
-                                                     {}",
-                                                    joined.display(),
-                                                    dir.display(),
-                                                    c.jsc.base_url.display()
-                                                )
-                                            })?
-                                        };
-                                    }
-                                }
-
-                                return Ok(config);
+                            if let Some(config_file) = config_file {
+                                config.merge(&config_file.into_config(Some(path))?)
                             }
 
-                            if dir == root && *root_mode == RootMode::Root {
-                                break;
+                            if let Some(c) = &mut config {
+                                if c.jsc.base_url != PathBuf::new() {
+                                    let joined = dir.join(&c.jsc.base_url);
+                                    c.jsc.base_url = if cfg!(target_os = "windows")
+                                        && c.jsc.base_url.as_os_str() == "."
+                                    {
+                                        dir.canonicalize().with_context(|| {
+                                            format!(
+                                                "failed to canonicalize base url using the path \
+                                                 of .swcrc\nDir: {}\n(Used logic for windows)",
+                                                dir.display(),
+                                            )
+                                        })?
+                                    } else {
+                                        joined.canonicalize().with_context(|| {
+                                            format!(
+                                                "failed to canonicalize base url using the path \
+                                                 of .swcrc\nPath: {}\nDir: {}\nbaseUrl: {}",
+                                                joined.display(),
+                                                dir.display(),
+                                                c.jsc.base_url.display()
+                                            )
+                                        })?
+                                    };
+                                }
                             }
-                            parent = dir.parent();
+
+                            return Ok(config);
                         }
+
+                        if dir == root && *root_mode == RootMode::Root {
+                            break;
+                        }
+                        parent = dir.parent();
                     }
-
-                    let config_file = config_file.unwrap_or_else(|| Rc::default());
-                    let config = config_file.into_config(Some(path))?;
-
-                    return Ok(config);
                 }
-                _ => {}
+
+                let config_file = config_file.unwrap_or_default();
+                let config = config_file.into_config(Some(path))?;
+
+                return Ok(config);
             }
 
             let config = match config_file {
@@ -810,7 +810,7 @@ impl Compiler {
                 },
                 opts.output_path.as_deref(),
                 opts.source_file_name.clone(),
-                &handler,
+                handler,
                 opts.is_module,
                 Some(config),
                 Some(&self.comments),
@@ -825,9 +825,7 @@ impl Compiler {
         F: FnOnce() -> Ret,
     {
         self.run(|| {
-            helpers::HELPERS.set(&Helpers::new(external_helpers), || {
-                HANDLER.set(handler, || op())
-            })
+            helpers::HELPERS.set(&Helpers::new(external_helpers), || HANDLER.set(handler, op))
         })
     }
 
@@ -847,6 +845,17 @@ impl Compiler {
     /// `custom_after_pass` is applied after swc transforms are applied.
     ///
     /// `program`: If you already parsed `Program`, you can pass it.
+    ///
+    /// # Guarantee
+    ///
+    /// `swc` invokes `custom_before_pass` after
+    ///
+    ///  - Handling decorators, if configured
+    ///  - Applying `resolver`
+    ///  - Stripping typescript nodes
+    ///
+    /// This means, you can use `noop_visit_type`, `noop_fold_type` and
+    /// `noop_visit_mut_type` in your visitor to reduce the binary size.
     pub fn process_js_with_custom_pass<P1, P2>(
         &self,
         fm: Arc<SourceFile>,
@@ -1110,9 +1119,8 @@ fn load_swcrc(path: &Path) -> Result<Rc, Error> {
 
     let content = read_to_string(path).context("failed to read config (.swcrc) file")?;
 
-    match serde_json::from_str(&content) {
-        Ok(v) => return Ok(v),
-        Err(..) => {}
+    if let Ok(v) = serde_json::from_str(&content) {
+        return Ok(v);
     }
 
     serde_json::from_str::<Config>(&content)

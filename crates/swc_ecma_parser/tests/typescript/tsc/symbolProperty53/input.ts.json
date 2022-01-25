@@ -77,8 +77,7 @@
                       },
                       "value": "for",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 "value": {
@@ -122,35 +121,41 @@
           "optional": false
         },
         "property": {
-          "type": "MemberExpression",
+          "type": "Computed",
           "span": {
-            "start": 55,
-            "end": 65,
+            "start": 54,
+            "end": 66,
             "ctxt": 0
           },
-          "object": {
-            "type": "Identifier",
+          "expression": {
+            "type": "MemberExpression",
             "span": {
               "start": 55,
-              "end": 61,
-              "ctxt": 0
-            },
-            "value": "Symbol",
-            "optional": false
-          },
-          "property": {
-            "type": "Identifier",
-            "span": {
-              "start": 62,
               "end": 65,
               "ctxt": 0
             },
-            "value": "for",
-            "optional": false
-          },
-          "computed": false
-        },
-        "computed": true
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 55,
+                "end": 61,
+                "ctxt": 0
+              },
+              "value": "Symbol",
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 62,
+                "end": 65,
+                "ctxt": 0
+              },
+              "value": "for",
+              "optional": false
+            }
+          }
+        }
       }
     }
   ],

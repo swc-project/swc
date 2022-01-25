@@ -1,0 +1,53 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 10,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "UnknownAtRule",
+      "span": {
+        "start": 0,
+        "end": 9,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Identifier",
+        "span": {
+          "start": 0,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "import",
+        "raw": "import"
+      },
+      "prelude": [
+        {
+          "type": "Tokens",
+          "span": {
+            "start": 7,
+            "end": 8,
+            "ctxt": 0
+          },
+          "tokens": [
+            {
+              "span": {
+                "start": 7,
+                "end": 8,
+                "ctxt": 0
+              },
+              "token": {
+                "WhiteSpace": {
+                  "value": " "
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "block": null
+    }
+  ]
+}

@@ -410,8 +410,7 @@
           },
           "value": "name",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -447,8 +446,7 @@
           },
           "value": "not",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -484,8 +482,7 @@
           },
           "value": "nested",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

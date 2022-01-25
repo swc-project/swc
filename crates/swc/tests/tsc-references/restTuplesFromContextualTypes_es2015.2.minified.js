@@ -11,5 +11,7 @@ f1((a, b, c)=>{}), f1((...x)=>{}), f1((a, ...x)=>{}), f1((a, b, ...x)=>{}), f1((
 , (x)=>"" + x
 ), pipe((x, y)=>42
 , (x)=>"" + x
-), take(function(...rest) {}), (num, strOrErr)=>num
-;
+), take(function(...rest) {}), (...params)=>{
+    const [num, strOrErr] = params;
+    return num;
+};

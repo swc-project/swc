@@ -17,12 +17,13 @@ where
     /// **This negates bool**.
     ///
     /// Returns true if it's negated.
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, expr)))]
     pub(super) fn optimize_bang_within_logical_ops(
         &mut self,
         expr: &mut Expr,
         is_ret_val_ignored: bool,
     ) -> bool {
-        let cost = negate_cost(&expr, is_ret_val_ignored, is_ret_val_ignored).unwrap_or(isize::MAX);
+        let cost = negate_cost(expr, is_ret_val_ignored, is_ret_val_ignored);
         if cost >= 0 {
             return false;
         }
@@ -75,9 +76,8 @@ where
             ..self.ctx
         };
 
-        self.changed = true;
-        self.with_ctx(ctx).negate(&mut e.left);
-        self.with_ctx(ctx).negate(&mut e.right);
+        self.with_ctx(ctx).negate(&mut e.left, false);
+        self.with_ctx(ctx).negate(&mut e.right, is_ret_val_ignored);
 
         if cfg!(feature = "debug") {
             tracing::debug!("[Change] {} => {}", start, dump(&*e, false));
@@ -96,25 +96,20 @@ where
             _ => return,
         };
 
-        match &stmt.alt {
-            Some(..) => {}
-            None => match &mut *stmt.cons {
-                Stmt::Expr(cons) => {
-                    self.changed = true;
-                    tracing::debug!("conditionals: `if (foo) bar;` => `foo && bar`");
-                    *s = Stmt::Expr(ExprStmt {
-                        span: stmt.span,
-                        expr: Box::new(Expr::Bin(BinExpr {
-                            span: stmt.test.span(),
-                            op: op!("&&"),
-                            left: stmt.test.take(),
-                            right: cons.expr.take(),
-                        })),
-                    });
-                    return;
-                }
-                _ => {}
-            },
+        if stmt.alt == None {
+            if let Stmt::Expr(cons) = &mut *stmt.cons {
+                self.changed = true;
+                tracing::debug!("conditionals: `if (foo) bar;` => `foo && bar`");
+                *s = Stmt::Expr(ExprStmt {
+                    span: stmt.span,
+                    expr: Box::new(Expr::Bin(BinExpr {
+                        span: stmt.test.span(),
+                        op: op!("&&"),
+                        left: stmt.test.take(),
+                        right: cons.expr.take(),
+                    })),
+                });
+            }
         }
     }
 
@@ -135,17 +130,14 @@ where
                     }),
                 ) => {
                     // TODO?
-                    match &**arg {
-                        Expr::Ident(arg) => {
-                            if let Some(usage) =
-                                o.data.as_ref().and_then(|data| data.vars.get(&arg.to_id()))
-                            {
-                                if !usage.declared {
-                                    return false;
-                                }
+                    if let Expr::Ident(arg) = &**arg {
+                        if let Some(usage) =
+                            o.data.as_ref().and_then(|data| data.vars.get(&arg.to_id()))
+                        {
+                            if !usage.declared {
+                                return false;
                             }
                         }
-                        _ => {}
                     }
 
                     *l = *undefined(l.span());

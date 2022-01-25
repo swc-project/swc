@@ -18,6 +18,10 @@ use std::fmt;
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
 )]
+#[cfg_attr(
+    feature = "plugin-base",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct Diagnostic {
     pub level: Level,
     pub message: Vec<(String, Style)>,
@@ -32,6 +36,10 @@ pub struct Diagnostic {
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
 )]
+#[cfg_attr(
+    feature = "plugin-base",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub enum DiagnosticId {
     Error(String),
     Lint(String),
@@ -42,6 +50,10 @@ pub enum DiagnosticId {
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
+)]
+#[cfg_attr(
+    feature = "plugin-base",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub struct SubDiagnostic {
     pub level: Level,

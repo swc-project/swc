@@ -4,6 +4,9 @@
 #![deny(trivial_casts)]
 #![deny(trivial_numeric_casts)]
 #![deny(unreachable_pub)]
+#![deny(clippy::all)]
+#![allow(clippy::enum_variant_names)]
+
 // #![deny(variant_size_differences)]
 
 pub use self::{
@@ -13,10 +16,11 @@ pub use self::{
     },
     decl::{ClassDecl, Decl, FnDecl, VarDecl, VarDeclKind, VarDeclarator},
     expr::{
-        ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BlockStmtOrExpr, CallExpr, ClassExpr,
-        CondExpr, Expr, ExprOrSpread, ExprOrSuper, FnExpr, MemberExpr, MetaPropExpr, NewExpr,
-        ObjectLit, OptChainExpr, ParenExpr, PatOrExpr, PropOrSpread, SeqExpr, SpreadElement, Super,
-        TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
+        ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BlockStmtOrExpr, CallExpr, Callee,
+        ClassExpr, CondExpr, Expr, ExprOrSpread, FnExpr, Import, MemberExpr, MemberProp,
+        MetaPropExpr, MetaPropKind, NewExpr, ObjectLit, OptChainExpr, ParenExpr, PatOrExpr,
+        PropOrSpread, SeqExpr, SpreadElement, Super, SuperProp, SuperPropExpr, TaggedTpl, ThisExpr,
+        Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
     },
     function::{Function, Param, ParamOrTsParamProp},
     ident::{BindingIdent, Id, Ident, IdentExt, PrivateName},
@@ -117,10 +121,10 @@ pub enum EsVersion {
 }
 
 impl EsVersion {
-    /// Get the latest version. This is `es2021` for now, but it will be changed
+    /// Get the latest version. This is `es2022` for now, but it will be changed
     /// if a new version of specification is released.
     pub const fn latest() -> Self {
-        EsVersion::Es2021
+        EsVersion::Es2022
     }
 }
 
@@ -213,7 +217,7 @@ where
     ) -> Result<Self::Resolver, S::Error> {
         value
             .as_ref()
-            .map(|value| rkyv::string::ArchivedString::serialize_from_str(&value, serializer))
+            .map(|value| rkyv::string::ArchivedString::serialize_from_str(value, serializer))
             .transpose()
     }
 }

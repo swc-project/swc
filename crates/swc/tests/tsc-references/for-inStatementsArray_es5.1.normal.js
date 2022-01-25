@@ -17,8 +17,8 @@ for(var x1 in a){
         }
     }
 }
-var i = void 0;
-var j = void 0;
+var i;
+var j;
 for(i in a){
     for(j in b){
         var a12 = a[i];

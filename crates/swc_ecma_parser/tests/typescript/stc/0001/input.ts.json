@@ -94,20 +94,27 @@
           "optional": false
         },
         "property": {
-          "type": "StringLiteral",
+          "type": "Computed",
           "span": {
-            "start": 118,
-            "end": 141,
+            "start": 117,
+            "end": 142,
             "ctxt": 0
           },
-          "value": "9.671406556917009e+24",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
+          "expression": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 118,
+              "end": 141,
+              "ctxt": 0
+            },
+            "value": "9.671406556917009e+24",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
           }
-        },
-        "computed": true
+        }
       }
     }
   ],

@@ -66,8 +66,7 @@
                 },
                 "value": "iterator",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -226,8 +225,7 @@
                 },
                 "value": "iterator",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -440,8 +438,7 @@
                 },
                 "value": "iterator",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -620,35 +617,41 @@
             "optional": false
           },
           "property": {
-            "type": "MemberExpression",
+            "type": "Computed",
             "span": {
-              "start": 223,
-              "end": 238,
+              "start": 222,
+              "end": 239,
               "ctxt": 0
             },
-            "object": {
-              "type": "Identifier",
+            "expression": {
+              "type": "MemberExpression",
               "span": {
                 "start": 223,
-                "end": 229,
-                "ctxt": 0
-              },
-              "value": "Symbol",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 230,
                 "end": 238,
                 "ctxt": 0
               },
-              "value": "iterator",
-              "optional": false
-            },
-            "computed": false
-          },
-          "computed": true
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 223,
+                  "end": 229,
+                  "ctxt": 0
+                },
+                "value": "Symbol",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 230,
+                  "end": 238,
+                  "ctxt": 0
+                },
+                "value": "iterator",
+                "optional": false
+              }
+            }
+          }
         },
         "arguments": [
           {
@@ -704,35 +707,41 @@
             "optional": false
           },
           "property": {
-            "type": "MemberExpression",
+            "type": "Computed",
             "span": {
-              "start": 247,
-              "end": 262,
+              "start": 246,
+              "end": 263,
               "ctxt": 0
             },
-            "object": {
-              "type": "Identifier",
+            "expression": {
+              "type": "MemberExpression",
               "span": {
                 "start": 247,
-                "end": 253,
-                "ctxt": 0
-              },
-              "value": "Symbol",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 254,
                 "end": 262,
                 "ctxt": 0
               },
-              "value": "iterator",
-              "optional": false
-            },
-            "computed": false
-          },
-          "computed": true
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 247,
+                  "end": 253,
+                  "ctxt": 0
+                },
+                "value": "Symbol",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 254,
+                  "end": 262,
+                  "ctxt": 0
+                },
+                "value": "iterator",
+                "optional": false
+              }
+            }
+          }
         },
         "arguments": [
           {

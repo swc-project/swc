@@ -5,11 +5,11 @@ var B, Geometry;
     }
 }, (function(Geometry1) {
     Geometry1.Points = A;
-    var Origin = Geometry1.Origin = {
+    var Lines = B, Origin = Geometry1.Origin = {
         x: 0,
         y: 0
     };
-    Geometry1.Unit = new B.Line(Origin, {
+    Geometry1.Unit = new Lines.Line(Origin, {
         x: 1,
         y: 0
     });

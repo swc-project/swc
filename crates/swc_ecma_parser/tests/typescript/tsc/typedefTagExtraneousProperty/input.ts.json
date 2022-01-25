@@ -134,8 +134,7 @@
             },
             "value": "ignoreMe",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -186,20 +185,27 @@
             "optional": false
           },
           "property": {
-            "type": "StringLiteral",
+            "type": "Computed",
             "span": {
-              "start": 317,
-              "end": 321,
+              "start": 316,
+              "end": 322,
               "ctxt": 0
             },
-            "value": "hi",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 317,
+                "end": 321,
+                "ctxt": 0
+              },
+              "value": "hi",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
             }
-          },
-          "computed": true
+          }
         },
         "right": {
           "type": "StringLiteral",

@@ -34,7 +34,7 @@ warning: CallExpr
 1 | foo<string, boolean>();
   | ^^^^^^^^^^^^^^^^^^^^^^
 
-warning: ExprOrSuper
+warning: Callee
  --> $DIR/tests/span/ts/expr/type-args.ts:1:1
   |
 1 | foo<string, boolean>();

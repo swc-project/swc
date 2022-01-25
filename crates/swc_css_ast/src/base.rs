@@ -8,17 +8,17 @@ pub struct Ident {
     pub raw: JsWord,
 }
 
-/// Quoted string.
-#[ast_node("String")]
-pub struct Str {
+#[ast_node("CustomIdentifier")]
+pub struct CustomIdent {
     pub span: Span,
     pub value: JsWord,
     pub raw: JsWord,
 }
 
-#[ast_node("Number")]
-pub struct Num {
+/// Quoted string.
+#[ast_node("String")]
+pub struct Str {
     pub span: Span,
-    pub value: f64,
+    pub value: JsWord,
     pub raw: JsWord,
 }

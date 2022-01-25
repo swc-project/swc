@@ -1,5 +1,4 @@
 use std::borrow::Cow;
-use swc_atoms::js_word;
 use swc_common::{pass::CompilerPass, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{should_work, Check};
@@ -37,13 +36,13 @@ impl VisitMut for NewTarget {
         let old = self.in_arrow_expr;
         if self.var.is_none() {
             let mut v = Expr::MetaProp(MetaPropExpr {
-                meta: Ident::new("new".into(), DUMMY_SP),
-                prop: Ident::new("target".into(), DUMMY_SP),
+                span: DUMMY_SP,
+                kind: MetaPropKind::NewTarget,
             });
             v.visit_mut_with(self);
             self.var.get_or_insert_with(|| VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(private_ident!("_newtarget").into()),
+                name: private_ident!("_newtarget").into(),
                 init: Some(Box::new(v)),
                 definite: Default::default(),
             });
@@ -107,52 +106,38 @@ impl VisitMut for NewTarget {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
-        match e {
-            Expr::MetaProp(MetaPropExpr {
-                meta:
-                    Ident {
-                        sym: js_word!("new"),
-                        ..
-                    },
-                prop:
-                    Ident {
-                        sym: js_word!("target"),
-                        ..
-                    },
-            }) => {
-                if self.in_arrow_expr {
-                    *e = Expr::Ident(self.var.as_ref().unwrap().name.clone().ident().unwrap().id);
-                } else if self.in_method || self.in_class_prop {
-                    *e = *undefined(DUMMY_SP)
-                } else {
-                    if let Some(cur) = self.cur.clone() {
-                        let c =
-                            ThisExpr { span: DUMMY_SP }.make_member(quote_ident!("constructor"));
+        if let Expr::MetaProp(MetaPropExpr {
+            kind: MetaPropKind::NewTarget,
+            ..
+        }) = e
+        {
+            if self.in_arrow_expr {
+                *e = Expr::Ident(self.var.as_ref().unwrap().name.clone().ident().unwrap().id);
+            } else if self.in_method || self.in_class_prop {
+                *e = *undefined(DUMMY_SP)
+            } else if let Some(cur) = self.cur.clone() {
+                let c = ThisExpr { span: DUMMY_SP }.make_member(quote_ident!("constructor"));
 
-                        if self.in_constructor {
-                            *e = c;
-                        } else {
-                            // (this instanceof Foo ? this.constructor : void 0)
-                            *e = Expr::Cond(CondExpr {
-                                span: DUMMY_SP,
-                                // this instanceof Foo
-                                test: Box::new(Expr::Bin(BinExpr {
-                                    span: DUMMY_SP,
-                                    op: op!("instanceof"),
-                                    left: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                                    right: Box::new(Expr::Ident(cur)),
-                                })),
-                                // this.constructor
-                                cons: Box::new(c),
-                                // void 0
-                                alt: undefined(DUMMY_SP),
-                            });
-                        }
-                    }
+                if self.in_constructor {
+                    *e = c;
+                } else {
+                    // (this instanceof Foo ? this.constructor : void 0)
+                    *e = Expr::Cond(CondExpr {
+                        span: DUMMY_SP,
+                        // this instanceof Foo
+                        test: Box::new(Expr::Bin(BinExpr {
+                            span: DUMMY_SP,
+                            op: op!("instanceof"),
+                            left: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                            right: Box::new(Expr::Ident(cur)),
+                        })),
+                        // this.constructor
+                        cons: Box::new(c),
+                        // void 0
+                        alt: undefined(DUMMY_SP),
+                    });
                 }
             }
-
-            _ => {}
         }
     }
 
@@ -182,7 +167,7 @@ impl VisitMut for NewTarget {
             .clone();
 
         let old = self.cur.take();
-        self.cur = Some(i.clone());
+        self.cur = Some(i);
 
         f.visit_mut_children_with(self);
 
@@ -249,23 +234,12 @@ impl Visit for ShouldWork {
     noop_visit_type!();
 
     fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
-        match n {
-            MetaPropExpr {
-                meta:
-                    Ident {
-                        sym: js_word!("new"),
-                        ..
-                    },
-                prop:
-                    Ident {
-                        sym: js_word!("target"),
-                        ..
-                    },
-            } => {
-                self.found = true;
-            }
-
-            _ => {}
+        if let MetaPropExpr {
+            kind: MetaPropKind::NewTarget,
+            ..
+        } = n
+        {
+            self.found = true;
         }
     }
 }

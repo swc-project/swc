@@ -45,7 +45,7 @@ pub(crate) struct Ctx {
 
     pub(super) in_left_of_for_loop: bool,
 
-    pub(super) in_loop: bool,
+    pub(super) executed_multiple_time: bool,
     /// Are we handling argument of an update expression.
     pub(super) in_update_arg: bool,
     pub(super) in_assign_lhs: bool,
@@ -71,7 +71,7 @@ where
     type Target = UsageAnalyzer<S>;
 
     fn deref(&self) -> &Self::Target {
-        &self.analyzer
+        self.analyzer
     }
 }
 
@@ -80,7 +80,7 @@ where
     S: Storage,
 {
     fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.analyzer
+        self.analyzer
     }
 }
 

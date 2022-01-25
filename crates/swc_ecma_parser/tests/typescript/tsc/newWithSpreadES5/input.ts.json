@@ -2095,8 +2095,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -2184,8 +2183,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -2273,8 +2271,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -2386,8 +2383,7 @@
               },
               "value": "f",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "arguments": [
@@ -2483,8 +2479,7 @@
               },
               "value": "f",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "arguments": [
@@ -2580,8 +2575,7 @@
               },
               "value": "f",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "arguments": [
@@ -2686,15 +2680,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 984,
-                "end": 985,
+                "start": 983,
+                "end": 986,
                 "ctxt": 0
               },
-              "value": 1.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 984,
+                  "end": 985,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              }
+            }
           },
           "property": {
             "type": "Identifier",
@@ -2705,8 +2706,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -2793,15 +2793,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1012,
-                "end": 1013,
+                "start": 1011,
+                "end": 1014,
                 "ctxt": 0
               },
-              "value": 1.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 1012,
+                  "end": 1013,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              }
+            }
           },
           "property": {
             "type": "Identifier",
@@ -2812,8 +2819,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -2900,15 +2906,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1036,
-                "end": 1037,
+                "start": 1035,
+                "end": 1038,
                 "ctxt": 0
               },
-              "value": 1.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 1036,
+                  "end": 1037,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              }
+            }
           },
           "property": {
             "type": "Identifier",
@@ -2919,8 +2932,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -3024,20 +3036,27 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1122,
-                "end": 1127,
+                "start": 1121,
+                "end": 1128,
                 "ctxt": 0
               },
-              "value": "a-b",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 1122,
+                  "end": 1127,
+                  "ctxt": 0
+                },
+                "value": "a-b",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "property": {
             "type": "Identifier",
@@ -3048,8 +3067,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -3136,20 +3154,27 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1154,
-                "end": 1159,
+                "start": 1153,
+                "end": 1160,
                 "ctxt": 0
               },
-              "value": "a-b",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 1154,
+                  "end": 1159,
+                  "ctxt": 0
+                },
+                "value": "a-b",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "property": {
             "type": "Identifier",
@@ -3160,8 +3185,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -3248,20 +3272,27 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1182,
-                "end": 1187,
+                "start": 1181,
+                "end": 1188,
                 "ctxt": 0
               },
-              "value": "a-b",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 1182,
+                  "end": 1187,
+                  "ctxt": 0
+                },
+                "value": "a-b",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "property": {
             "type": "Identifier",
@@ -3272,8 +3303,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -3597,20 +3627,27 @@
             "optional": false
           },
           "property": {
-            "type": "StringLiteral",
+            "type": "Computed",
             "span": {
-              "start": 1343,
-              "end": 1348,
+              "start": 1342,
+              "end": 1349,
               "ctxt": 0
             },
-            "value": "a-b",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 1343,
+                "end": 1348,
+                "ctxt": 0
+              },
+              "value": "a-b",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
             }
-          },
-          "computed": true
+          }
         },
         "arguments": [
           {
@@ -3690,20 +3727,27 @@
             "optional": false
           },
           "property": {
-            "type": "StringLiteral",
+            "type": "Computed",
             "span": {
-              "start": 1373,
-              "end": 1378,
+              "start": 1372,
+              "end": 1379,
               "ctxt": 0
             },
-            "value": "a-b",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 1373,
+                "end": 1378,
+                "ctxt": 0
+              },
+              "value": "a-b",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
             }
-          },
-          "computed": true
+          }
         },
         "arguments": [
           {
@@ -3783,20 +3827,27 @@
             "optional": false
           },
           "property": {
-            "type": "StringLiteral",
+            "type": "Computed",
             "span": {
-              "start": 1399,
-              "end": 1404,
+              "start": 1398,
+              "end": 1405,
               "ctxt": 0
             },
-            "value": "a-b",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 1399,
+                "end": 1404,
+                "ctxt": 0
+              },
+              "value": "a-b",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
             }
-          },
-          "computed": true
+          }
         },
         "arguments": [
           {
@@ -3900,20 +3951,27 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1465,
-                "end": 1470,
+                "start": 1464,
+                "end": 1471,
                 "ctxt": 0
               },
-              "value": "a-b",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 1465,
+                  "end": 1470,
+                  "ctxt": 0
+                },
+                "value": "a-b",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           }
         },
         "arguments": [
@@ -4001,20 +4059,27 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1497,
-                "end": 1502,
+                "start": 1496,
+                "end": 1503,
                 "ctxt": 0
               },
-              "value": "a-b",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 1497,
+                  "end": 1502,
+                  "ctxt": 0
+                },
+                "value": "a-b",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           }
         },
         "arguments": [
@@ -4102,20 +4167,27 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1525,
-                "end": 1530,
+                "start": 1524,
+                "end": 1531,
                 "ctxt": 0
               },
-              "value": "a-b",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 1525,
+                  "end": 1530,
+                  "ctxt": 0
+                },
+                "value": "a-b",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           }
         },
         "arguments": [
@@ -4220,31 +4292,45 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1592,
-                "end": 1593,
+                "start": 1591,
+                "end": 1594,
                 "ctxt": 0
               },
-              "value": 1.0
-            },
-            "computed": true
-          },
-          "property": {
-            "type": "StringLiteral",
-            "span": {
-              "start": 1595,
-              "end": 1600,
-              "ctxt": 0
-            },
-            "value": "a-b",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 1592,
+                  "end": 1593,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              }
             }
           },
-          "computed": true
+          "property": {
+            "type": "Computed",
+            "span": {
+              "start": 1594,
+              "end": 1601,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 1595,
+                "end": 1600,
+                "ctxt": 0
+              },
+              "value": "a-b",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
         },
         "arguments": [
           {
@@ -4331,31 +4417,45 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1625,
-                "end": 1626,
+                "start": 1624,
+                "end": 1627,
                 "ctxt": 0
               },
-              "value": 1.0
-            },
-            "computed": true
-          },
-          "property": {
-            "type": "StringLiteral",
-            "span": {
-              "start": 1628,
-              "end": 1633,
-              "ctxt": 0
-            },
-            "value": "a-b",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 1625,
+                  "end": 1626,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              }
             }
           },
-          "computed": true
+          "property": {
+            "type": "Computed",
+            "span": {
+              "start": 1627,
+              "end": 1634,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 1628,
+                "end": 1633,
+                "ctxt": 0
+              },
+              "value": "a-b",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
         },
         "arguments": [
           {
@@ -4442,31 +4542,45 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1654,
-                "end": 1655,
+                "start": 1653,
+                "end": 1656,
                 "ctxt": 0
               },
-              "value": 1.0
-            },
-            "computed": true
-          },
-          "property": {
-            "type": "StringLiteral",
-            "span": {
-              "start": 1657,
-              "end": 1662,
-              "ctxt": 0
-            },
-            "value": "a-b",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 1654,
+                  "end": 1655,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              }
             }
           },
-          "computed": true
+          "property": {
+            "type": "Computed",
+            "span": {
+              "start": 1656,
+              "end": 1663,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 1657,
+                "end": 1662,
+                "ctxt": 0
+              },
+              "value": "a-b",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
         },
         "arguments": [
           {
@@ -4570,10 +4684,40 @@
               "optional": false
             },
             "property": {
+              "type": "Computed",
+              "span": {
+                "start": 1744,
+                "end": 1751,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 1745,
+                  "end": 1750,
+                  "ctxt": 0
+                },
+                "value": "a-b",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
+              }
+            }
+          },
+          "property": {
+            "type": "Computed",
+            "span": {
+              "start": 1751,
+              "end": 1758,
+              "ctxt": 0
+            },
+            "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 1745,
-                "end": 1750,
+                "start": 1752,
+                "end": 1757,
                 "ctxt": 0
               },
               "value": "a-b",
@@ -4582,24 +4726,8 @@
                 "type": "normal",
                 "containsQuote": true
               }
-            },
-            "computed": true
-          },
-          "property": {
-            "type": "StringLiteral",
-            "span": {
-              "start": 1752,
-              "end": 1757,
-              "ctxt": 0
-            },
-            "value": "a-b",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
             }
-          },
-          "computed": true
+          }
         },
         "arguments": [
           {
@@ -4686,10 +4814,40 @@
               "optional": false
             },
             "property": {
+              "type": "Computed",
+              "span": {
+                "start": 1781,
+                "end": 1788,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 1782,
+                  "end": 1787,
+                  "ctxt": 0
+                },
+                "value": "a-b",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
+              }
+            }
+          },
+          "property": {
+            "type": "Computed",
+            "span": {
+              "start": 1788,
+              "end": 1795,
+              "ctxt": 0
+            },
+            "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 1782,
-                "end": 1787,
+                "start": 1789,
+                "end": 1794,
                 "ctxt": 0
               },
               "value": "a-b",
@@ -4698,24 +4856,8 @@
                 "type": "normal",
                 "containsQuote": true
               }
-            },
-            "computed": true
-          },
-          "property": {
-            "type": "StringLiteral",
-            "span": {
-              "start": 1789,
-              "end": 1794,
-              "ctxt": 0
-            },
-            "value": "a-b",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
             }
-          },
-          "computed": true
+          }
         },
         "arguments": [
           {
@@ -4802,10 +4944,40 @@
               "optional": false
             },
             "property": {
+              "type": "Computed",
+              "span": {
+                "start": 1814,
+                "end": 1821,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 1815,
+                  "end": 1820,
+                  "ctxt": 0
+                },
+                "value": "a-b",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
+              }
+            }
+          },
+          "property": {
+            "type": "Computed",
+            "span": {
+              "start": 1821,
+              "end": 1828,
+              "ctxt": 0
+            },
+            "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 1815,
-                "end": 1820,
+                "start": 1822,
+                "end": 1827,
                 "ctxt": 0
               },
               "value": "a-b",
@@ -4814,24 +4986,8 @@
                 "type": "normal",
                 "containsQuote": true
               }
-            },
-            "computed": true
-          },
-          "property": {
-            "type": "StringLiteral",
-            "span": {
-              "start": 1822,
-              "end": 1827,
-              "ctxt": 0
-            },
-            "value": "a-b",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
             }
-          },
-          "computed": true
+          }
         },
         "arguments": [
           {
@@ -4935,31 +5091,45 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1902,
-                "end": 1907,
+                "start": 1901,
+                "end": 1908,
                 "ctxt": 0
               },
-              "value": "a-b",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 1902,
+                  "end": 1907,
+                  "ctxt": 0
+                },
+                "value": "a-b",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "property": {
-            "type": "NumericLiteral",
+            "type": "Computed",
             "span": {
-              "start": 1909,
-              "end": 1910,
+              "start": 1908,
+              "end": 1911,
               "ctxt": 0
             },
-            "value": 1.0
-          },
-          "computed": true
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 1909,
+                "end": 1910,
+                "ctxt": 0
+              },
+              "value": 1.0
+            }
+          }
         },
         "arguments": [
           {
@@ -5046,31 +5216,45 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1935,
-                "end": 1940,
+                "start": 1934,
+                "end": 1941,
                 "ctxt": 0
               },
-              "value": "a-b",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 1935,
+                  "end": 1940,
+                  "ctxt": 0
+                },
+                "value": "a-b",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "property": {
-            "type": "NumericLiteral",
+            "type": "Computed",
             "span": {
-              "start": 1942,
-              "end": 1943,
+              "start": 1941,
+              "end": 1944,
               "ctxt": 0
             },
-            "value": 1.0
-          },
-          "computed": true
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 1942,
+                "end": 1943,
+                "ctxt": 0
+              },
+              "value": 1.0
+            }
+          }
         },
         "arguments": [
           {
@@ -5157,31 +5341,45 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1964,
-                "end": 1969,
+                "start": 1963,
+                "end": 1970,
                 "ctxt": 0
               },
-              "value": "a-b",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 1964,
+                  "end": 1969,
+                  "ctxt": 0
+                },
+                "value": "a-b",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "property": {
-            "type": "NumericLiteral",
+            "type": "Computed",
             "span": {
-              "start": 1971,
-              "end": 1972,
+              "start": 1970,
+              "end": 1973,
               "ctxt": 0
             },
-            "value": 1.0
-          },
-          "computed": true
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 1971,
+                "end": 1972,
+                "ctxt": 0
+              },
+              "value": 1.0
+            }
+          }
         },
         "arguments": [
           {

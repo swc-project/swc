@@ -694,8 +694,7 @@
               },
               "value": "s",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -793,8 +792,7 @@
                           },
                           "value": "n",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }

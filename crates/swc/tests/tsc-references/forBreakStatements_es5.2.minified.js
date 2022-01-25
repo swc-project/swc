@@ -1,6 +1,4 @@
-ONE: ;
-TWO: THREE: ;
+TWO: ;
 FOUR: for(;;)FIVE: for(;;)break FOUR;
-for(;;)SIX: ;
-SEVEN: for(;;)for(;;);
-EIGHT: ;
+for(;;);
+for(;;)for(;;);

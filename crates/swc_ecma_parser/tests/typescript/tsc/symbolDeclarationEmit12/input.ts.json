@@ -130,8 +130,7 @@
                         },
                         "value": "iterator",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   },
                   "value": null,
@@ -212,8 +211,7 @@
                         },
                         "value": "toPrimitive",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   },
                   "function": {
@@ -332,8 +330,7 @@
                         },
                         "value": "isConcatSpreadable",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   },
                   "function": {
@@ -450,8 +447,7 @@
                         },
                         "value": "toPrimitive",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   },
                   "function": {
@@ -542,8 +538,7 @@
                         },
                         "value": "toPrimitive",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   },
                   "function": {

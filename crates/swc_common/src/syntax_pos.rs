@@ -183,10 +183,14 @@ impl FileName {
 ///   and would be rendered with `^^^`.
 /// - they can have a *label*. In this case, the label is written next to the
 ///   mark in the snippet when we render.
-#[derive(Clone, Debug, Hash, PartialEq, Eq)]
+#[derive(Clone, Debug, Default, Hash, PartialEq, Eq)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
+)]
+#[cfg_attr(
+    feature = "plugin-base",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub struct MultiSpan {
     primary_spans: Vec<Span>,
@@ -441,10 +445,7 @@ impl Default for Span {
 impl MultiSpan {
     #[inline]
     pub fn new() -> MultiSpan {
-        MultiSpan {
-            primary_spans: vec![],
-            span_labels: vec![],
-        }
+        Self::default()
     }
 
     pub fn from_span(primary_span: Span) -> MultiSpan {
@@ -726,11 +727,7 @@ impl SourceFile {
         }
 
         let begin = {
-            let line = if let Some(line) = self.lines.get(line_number) {
-                line
-            } else {
-                return None;
-            };
+            let line = self.lines.get(line_number)?;
             let begin: BytePos = *line - self.start_pos;
             begin.to_usize()
         };
@@ -788,7 +785,7 @@ impl SourceFile {
 
 /// Remove utf-8 BOM if any.
 fn remove_bom(src: &mut String) {
-    if src.starts_with("\u{feff}") {
+    if src.starts_with('\u{feff}') {
         src.drain(..3);
     }
 }

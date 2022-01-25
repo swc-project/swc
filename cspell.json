@@ -21,6 +21,7 @@
         "canonicalization",
         "canonicalize",
         "chpos",
+        "clippy",
         "cmpeq",
         "cmplt",
         "cmts",
@@ -30,6 +31,7 @@
         "compiliation",
         "cond",
         "Cond",
+        "conds",
         "constness",
         "consts",
         "corejs",
@@ -65,6 +67,7 @@
         "fargs",
         "finalizer",
         "fnames",
+        "fract",
         "gnueabihf",
         "hasher",
         "idents",
@@ -140,8 +143,10 @@
         "Unexported",
         "Unexporter",
         "unimpl",
+        "unsafes",
         "untrusted",
-        "variadic"
+        "variadic",
+        "vercel"
     ],
     "flagWords": [
         "actally"

@@ -132,10 +132,9 @@ impl<I: Tokens> Parser<I> {
 
         let body: Vec<ModuleItem> = self.with_ctx(ctx).parse_block_body(true, true, None)?;
         let has_module_item = self.state.found_module_item
-            || body.iter().any(|item| match item {
-                ModuleItem::ModuleDecl(..) => true,
-                _ => false,
-            });
+            || body
+                .iter()
+                .any(|item| matches!(item, ModuleItem::ModuleDecl(..)));
         if has_module_item && !self.ctx().module {
             let ctx = Context {
                 module: true,

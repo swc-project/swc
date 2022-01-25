@@ -1257,8 +1257,7 @@
               },
               "value": "doSomeThing",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [],
           "typeArguments": null
@@ -1550,8 +1549,7 @@
               },
               "value": "doSomeThing",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [],
           "typeArguments": null
@@ -1625,8 +1623,7 @@
               },
               "value": "doSomeThing",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [],
           "typeArguments": null
@@ -2767,8 +2764,7 @@
                   },
                   "value": "doSomeThing",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -3156,8 +3152,7 @@
                   },
                   "value": "doSomeThing",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -3255,8 +3250,7 @@
                   },
                   "value": "doSomeThing",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null

@@ -806,8 +806,7 @@
             },
             "value": "baseMethod",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -853,8 +852,7 @@
             },
             "value": "mixinMethod",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1058,8 +1056,7 @@
             },
             "value": "abstractBaseMethod",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1105,8 +1102,7 @@
             },
             "value": "mixinMethod",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null

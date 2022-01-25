@@ -885,8 +885,7 @@
                       },
                       "value": "value",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]

@@ -939,20 +939,27 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "StringLiteral",
+                    "type": "Computed",
                     "span": {
-                      "start": 366,
-                      "end": 370,
+                      "start": 365,
+                      "end": 371,
                       "ctxt": 0
                     },
-                    "value": "hm",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 366,
+                        "end": 370,
+                        "ctxt": 0
+                      },
+                      "value": "hm",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
                     }
-                  },
-                  "computed": true
+                  }
                 },
                 "definite": false
               }
@@ -1341,20 +1348,27 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "StringLiteral",
+                    "type": "Computed",
                     "span": {
-                      "start": 513,
-                      "end": 517,
+                      "start": 512,
+                      "end": 518,
                       "ctxt": 0
                     },
-                    "value": "hm",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 513,
+                        "end": 517,
+                        "ctxt": 0
+                      },
+                      "value": "hm",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
                     }
-                  },
-                  "computed": true
+                  }
                 },
                 "definite": false
               }

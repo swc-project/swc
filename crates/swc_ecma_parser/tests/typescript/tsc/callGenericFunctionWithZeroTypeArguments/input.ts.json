@@ -943,8 +943,7 @@
                 },
                 "value": "f",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -1234,8 +1233,7 @@
                 },
                 "value": "f",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -1528,8 +1526,7 @@
                 },
                 "value": "f",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -1837,8 +1834,7 @@
                 },
                 "value": "f",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {

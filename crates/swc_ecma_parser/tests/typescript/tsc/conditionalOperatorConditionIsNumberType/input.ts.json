@@ -1428,8 +1428,7 @@
             },
             "value": "length",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "consequent": {
           "type": "Identifier",
@@ -1569,15 +1568,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1159,
-                "end": 1160,
+                "start": 1158,
+                "end": 1161,
                 "ctxt": 0
               },
-              "value": 1.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 1159,
+                  "end": 1160,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              }
+            }
           }
         },
         "consequent": {
@@ -2740,8 +2746,7 @@
                 },
                 "value": "length",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "consequent": {
               "type": "Identifier",
@@ -2929,15 +2934,22 @@
                   "optional": false
                 },
                 "property": {
-                  "type": "NumericLiteral",
+                  "type": "Computed",
                   "span": {
-                    "start": 2319,
-                    "end": 2320,
+                    "start": 2318,
+                    "end": 2321,
                     "ctxt": 0
                   },
-                  "value": 1.0
-                },
-                "computed": true
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 2319,
+                      "end": 2320,
+                      "ctxt": 0
+                    },
+                    "value": 1.0
+                  }
+                }
               }
             },
             "consequent": {
@@ -3046,15 +3058,22 @@
                   "optional": false
                 },
                 "property": {
-                  "type": "NumericLiteral",
+                  "type": "Computed",
                   "span": {
-                    "start": 2400,
-                    "end": 2401,
+                    "start": 2399,
+                    "end": 2402,
                     "ctxt": 0
                   },
-                  "value": 1.0
-                },
-                "computed": true
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 2400,
+                      "end": 2401,
+                      "ctxt": 0
+                    },
+                    "value": 1.0
+                  }
+                }
               }
             },
             "consequent": {

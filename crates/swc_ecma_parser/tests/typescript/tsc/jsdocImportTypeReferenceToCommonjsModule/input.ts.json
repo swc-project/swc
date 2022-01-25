@@ -197,8 +197,7 @@
                 },
                 "value": "fix",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]

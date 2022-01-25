@@ -94,7 +94,7 @@ where
         let mut first = true;
         let old = self.in_strict;
 
-        for stmt in stmts.into_iter() {
+        for stmt in stmts.iter_mut() {
             match T::try_into_stmt(stmt.take()) {
                 Err(node) => match node.try_into_module_decl() {
                     Ok(mut decl) => {
@@ -200,11 +200,8 @@ where
     }
 
     fn visit_mut_decl(&mut self, n: &mut Decl) {
-        match n {
-            Decl::Class(decl) => {
-                *n = Decl::Var(self.fold_class_as_var_decl(decl.ident.take(), decl.class.take()))
-            }
-            _ => {}
+        if let Decl::Class(decl) = n {
+            *n = Decl::Var(self.fold_class_as_var_decl(decl.ident.take(), decl.class.take()))
         };
 
         n.visit_mut_children_with(self);
@@ -270,7 +267,7 @@ where
             let params = vec![Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(super_param.clone().into()),
+                pat: super_param.clone().into(),
             }];
 
             let super_class = class.super_class.clone().unwrap();
@@ -302,10 +299,7 @@ where
         let cnt_of_non_directive = stmts
             .iter()
             .filter(|stmt| match stmt {
-                Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
-                    Expr::Lit(Lit::Str(..)) => false,
-                    _ => true,
-                },
+                Stmt::Expr(ExprStmt { expr, .. }) => !matches!(&**expr, Expr::Lit(Lit::Str(..))),
                 _ => true,
             })
             .count();
@@ -422,14 +416,19 @@ where
         if let Some(ref super_class_ident) = super_class_ident {
             // inject helper methods
 
+            let mut class_name_sym = class_name.clone();
+            class_name_sym.span = DUMMY_SP;
+            class_name_sym.span.ctxt = class_name.span.ctxt;
+
+            let mut super_class_name_sym = super_class_ident.clone();
+            super_class_name_sym.span = DUMMY_SP;
+            super_class_name_sym.span.ctxt = super_class_ident.span.ctxt;
+
             stmts.push(
                 CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(inherits, "inherits"),
-                    args: vec![
-                        class_name.clone().as_arg(),
-                        super_class_ident.clone().as_arg(),
-                    ],
+                    args: vec![class_name_sym.as_arg(), super_class_name_sym.as_arg()],
                     type_args: Default::default(),
                 }
                 .into_stmt(),
@@ -438,6 +437,9 @@ where
 
         let super_var = super_class_ident.as_ref().map(|_| {
             let var = private_ident!("_super");
+            let mut class_name_sym = class_name.clone();
+            class_name_sym.span = DUMMY_SP;
+            class_name_sym.span.ctxt = class_name.span.ctxt;
 
             stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                 span: DUMMY_SP,
@@ -445,11 +447,11 @@ where
                 declare: Default::default(),
                 decls: vec![VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(var.clone().into()),
+                    name: var.clone().into(),
                     init: Some(Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(create_super, "createSuper"),
-                        args: vec![class_name.clone().as_arg()],
+                        args: vec![class_name_sym.as_arg()],
                         type_args: Default::default(),
                     }))),
                     definite: Default::default(),
@@ -541,7 +543,7 @@ where
                 if insert_this {
                     vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(this.clone().into()),
+                        name: this.clone().into(),
                         init: None,
                         definite: false,
                     });
@@ -558,10 +560,7 @@ where
                     );
                 }
 
-                let is_last_return = match body.last() {
-                    Some(Stmt::Return(..)) => true,
-                    _ => false,
-                };
+                let is_last_return = matches!(body.last(), Some(Stmt::Return(..)));
                 if !is_last_return {
                     if is_always_initialized {
                         body.push(Stmt::Return(ReturnStmt {
@@ -637,10 +636,9 @@ where
             && stmts
                 .iter()
                 .filter(|stmt| match stmt {
-                    Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
-                        Expr::Lit(Lit::Str(..)) => false,
-                        _ => true,
-                    },
+                    Stmt::Expr(ExprStmt { expr, .. }) => {
+                        !matches!(&**expr, Expr::Lit(Lit::Str(..)))
+                    }
                     _ => true,
                 })
                 .count()
@@ -649,10 +647,14 @@ where
             return stmts;
         }
 
+        let mut class_name_sym = class_name.clone();
+        class_name_sym.span = DUMMY_SP;
+        class_name_sym.span.ctxt = class_name.span.ctxt;
+
         // `return Foo`
         stmts.push(Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
-            arg: Some(Box::new(Expr::Ident(class_name))),
+            arg: Some(Box::new(Expr::Ident(class_name_sym))),
         }));
 
         stmts
@@ -691,7 +693,7 @@ where
                     kind: VarDeclKind::Var,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into()),
+                        name: quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into(),
                         init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                         definite: false,
                     }],
@@ -790,10 +792,14 @@ where
             methods: ExprOrSpread,
             static_methods: Option<ExprOrSpread>,
         ) -> Stmt {
+            let mut class_name_sym = class_name.clone();
+            class_name_sym.span = DUMMY_SP;
+            class_name_sym.span.ctxt = class_name.span.ctxt;
+
             CallExpr {
                 span: DUMMY_SP,
                 callee: helper!(create_class, "createClass"),
-                args: iter::once(class_name.as_arg())
+                args: iter::once(class_name_sym.as_arg())
                     .chain(iter::once(methods))
                     .chain(static_methods)
                     .collect(),
@@ -807,10 +813,7 @@ where
         for mut m in methods {
             let key = HashKey::from(&m.key);
             let key_prop = Box::new(mk_key_prop(&m.key));
-            let computed = match m.key {
-                PropName::Computed(..) => true,
-                _ => false,
-            };
+            let computed = matches!(m.key, PropName::Computed(..));
             let prop_name = prop_name_to_expr(m.key);
 
             let append_to: &mut IndexMap<_, _> = if m.is_static {
@@ -841,9 +844,7 @@ where
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(
-                                quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into(),
-                            ),
+                            name: quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into(),
                             init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                             definite: false,
                         }],
@@ -907,12 +908,16 @@ where
 }
 
 fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
+    let mut class_name_sym = name.clone();
+    class_name_sym.span = DUMMY_SP;
+    class_name_sym.span.ctxt = name.span.ctxt;
+
     let class_call_check = CallExpr {
         span: DUMMY_SP,
         callee: helper!(class_call_check, "classCallCheck"),
         args: vec![
             Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
-            Expr::Ident(name).as_arg(),
+            class_name_sym.as_arg(),
         ],
         type_args: Default::default(),
     }
@@ -930,23 +935,26 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     impl Visit for SuperFinder {
         noop_visit_type!();
 
-        fn visit_expr_or_super(&mut self, node: &ExprOrSuper) {
+        fn visit_callee(&mut self, node: &Callee) {
             match *node {
-                ExprOrSuper::Super(..) => self.found = true,
+                Callee::Super(..) => self.found = true,
                 _ => node.visit_children_with(self),
             }
+        }
+
+        fn visit_super_prop_expr(&mut self, _: &SuperPropExpr) {
+            self.found = true
         }
     }
 
     let pos = match body.iter().position(|s| match s {
-        Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
+        Stmt::Expr(ExprStmt { expr, .. }) => matches!(
+            &**expr,
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Super(..),
+                callee: Callee::Super(..),
                 ..
-            }) => true,
-
-            _ => false,
-        },
+            })
+        ),
         _ => false,
     }) {
         Some(pos) => pos,
@@ -955,28 +963,20 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
 
     let mut v = SuperFinder { found: false };
     let body = &body[..pos];
-
     v.visit_stmts(body);
 
-    if v.found {
-        return false;
-    }
-
-    true
+    !v.found
 }
 
 fn escape_keywords(mut e: Box<Expr>) -> Box<Expr> {
-    match &mut *e {
-        Expr::Fn(f) => {
-            if let Some(i) = &mut f.ident {
-                let sym = Ident::verify_symbol(&i.sym);
+    if let Expr::Fn(f) = &mut *e {
+        if let Some(i) = &mut f.ident {
+            let sym = Ident::verify_symbol(&i.sym);
 
-                if let Err(new) = sym {
-                    i.sym = new.into();
-                }
+            if let Err(new) = sym {
+                i.sym = new.into();
             }
         }
-        _ => {}
     }
 
     e

@@ -40,6 +40,9 @@ pub enum SyntaxError {
 
     InvalidSuperCall,
     InvalidSuper,
+    InvalidSuperPrivateName,
+
+    InvalidImport,
 
     ArrowNotAllowed,
     ExportNotAllowed,
@@ -85,6 +88,7 @@ pub enum SyntaxError {
     InvalidIdentInStrict,
     /// 'eval' and 'arguments' are invalid identifier in strict mode.
     EvalAndArgumentsInStrict,
+    IllegalLanguageModeDirective,
     UnaryInExp {
         left: String,
         left_span: Span,
@@ -171,6 +175,9 @@ pub enum SyntaxError {
 
     NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
 
+    ImportBindingIsString(JsWord),
+    ExportBindingIsString,
+
     TS1003,
     TS1005,
     TS1009,
@@ -229,6 +236,7 @@ pub enum SyntaxError {
     TS2703,
     TS4112,
     TSTypeAnnotationAfterAssign,
+    TsNonNullAssertionNotAllowed(JsWord),
 }
 
 impl SyntaxError {
@@ -293,6 +301,9 @@ impl SyntaxError {
             SyntaxError::EvalAndArgumentsInStrict => "'eval' and 'arguments' cannot be used as a \
                                                       binding identifier in strict mode"
                 .into(),
+            SyntaxError::IllegalLanguageModeDirective => {
+                "Illegal 'use strict' directive in function with non-simple parameter list.".into()
+            }
             SyntaxError::UnaryInExp { .. } => "** cannot be applied to unary expression".into(),
             SyntaxError::Hash => "Unexpected token '#'".into(),
             SyntaxError::LineBreakInThrow => "LineBreak cannot follow 'throw'".into(),
@@ -444,6 +455,10 @@ impl SyntaxError {
             SyntaxError::DeclNotAllowed => "Declaration is now allowed".into(),
             SyntaxError::InvalidSuperCall => "Invalid `super()`".into(),
             SyntaxError::InvalidSuper => "Invalid access to super".into(),
+            SyntaxError::InvalidSuperPrivateName => {
+                "Index super with private name is not allowed".into()
+            }
+            SyntaxError::InvalidImport => "Import is not allowed here".into(),
             SyntaxError::ArrowNotAllowed => "An arrow function is not allowed here".into(),
             SyntaxError::ExportNotAllowed => "`export` is not allowed here".into(),
             SyntaxError::GetterSetterCannotBeReadonly => {
@@ -452,6 +467,17 @@ impl SyntaxError {
             SyntaxError::RestPatInSetter => "Rest pattern is not allowed in setter".into(),
 
             SyntaxError::GeneratorConstructor => "A constructor cannot be generator".into(),
+
+            SyntaxError::ImportBindingIsString(str) => format!(
+                "A string literal cannot be used as an imported binding.\n- Did you mean `import \
+                 {{ \"{}\" as foo }}`?",
+                str
+            )
+            .into(),
+
+            SyntaxError::ExportBindingIsString => {
+                "A string literal cannot be used as an exported binding without `from`.".into()
+            }
 
             SyntaxError::TS1003 => "Expected an identifier".into(),
             SyntaxError::TS1005 => "Expected a semicolon".into(),
@@ -561,6 +587,11 @@ impl SyntaxError {
             SyntaxError::TSTypeAnnotationAfterAssign => {
                 "Type annotations must come before default assignments".into()
             }
+            SyntaxError::TsNonNullAssertionNotAllowed(word) => format!(
+                "Typescript non-null assertion operator is not allowed with '{}'",
+                word
+            )
+            .into(),
             SyntaxError::SetterParamRequired => "Setter should have exactly one parameter".into(),
         }
     }

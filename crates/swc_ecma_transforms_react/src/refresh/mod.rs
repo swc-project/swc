@@ -29,7 +29,7 @@ struct Hoc {
     hook: Option<HocHook>,
 }
 struct HocHook {
-    callee: ExprOrSuper,
+    callee: Callee,
     rest_arg: Vec<ExprOrSpread>,
 }
 enum Persist {
@@ -39,10 +39,8 @@ enum Persist {
 }
 fn get_persistent_id(ident: &Ident) -> Persist {
     if ident.sym.starts_with(|c: char| c.is_ascii_uppercase()) {
-        if cfg!(debug_assertions) {
-            if ident.span.ctxt == SyntaxContext::empty() {
-                panic!("`{}` should be resolved", ident)
-            }
+        if cfg!(debug_assertions) && ident.span.ctxt == SyntaxContext::empty() {
+            panic!("`{}` should be resolved", ident)
         }
         Persist::Component(ident.clone())
     } else {
@@ -63,7 +61,7 @@ pub fn refresh<C: Comments>(
         cm,
         comments,
         should_reset: false,
-        options: options.unwrap_or(Default::default()),
+        options: options.unwrap_or_default(),
         scope_binding: IndexSet::new(),
     })
 }
@@ -154,7 +152,7 @@ impl<C: Comments> Refresh<C> {
             [first, ..] => &mut first.expr,
             _ => return Persist::None,
         };
-        let callee = if let ExprOrSuper::Expr(expr) = &call_expr.callee {
+        let callee = if let Callee::Expr(expr) = &call_expr.callee {
             expr
         } else {
             return Persist::None;
@@ -191,11 +189,11 @@ impl<C: Comments> Refresh<C> {
                             type_args: None,
                         }))
                     }
-                    *first_arg = Box::new(make_assign_stmt(reg_ident.clone(), first));
+                    *first_arg = Box::new(make_assign_stmt(reg_ident, first));
 
                     Persist::Hoc(hoc)
                 } else {
-                    return Persist::None;
+                    Persist::None
                 }
             }
             Expr::Fn(_) | Expr::Arrow(_) => {
@@ -364,7 +362,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                             item = ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
                                 ExportDefaultExpr {
                                     expr: Box::new(make_assign_stmt(reg[0].0.clone(), expr.take())),
-                                    span: span.clone(),
+                                    span: *span,
                                 },
                             ));
                             Persist::Hoc(Hoc {
@@ -437,7 +435,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
             }
         }
 
-        if hook_visitor.ident.len() > 0 {
+        if !hook_visitor.ident.is_empty() {
             items.insert(0, ModuleItem::Stmt(hook_visitor.gen_hook_handle()));
         }
 
@@ -445,7 +443,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
         // ```
         // var _c, _c1;
         // ```
-        if refresh_regs.len() > 0 {
+        if !refresh_regs.is_empty() {
             items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
@@ -454,7 +452,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                     .iter()
                     .map(|(handle, _)| VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(BindingIdent::from(handle.clone())),
+                        name: handle.clone().into(),
                         init: None,
                         definite: false,
                     })
@@ -473,7 +471,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                 span: DUMMY_SP,
                 expr: Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: ExprOrSuper::Expr(Box::new(Expr::Ident(quote_ident!(refresh_reg)))),
+                    callee: Callee::Expr(Box::new(Expr::Ident(quote_ident!(refresh_reg)))),
                     args: vec![
                         ExprOrSpread {
                             spread: None,

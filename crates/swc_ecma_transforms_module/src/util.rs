@@ -72,7 +72,7 @@ impl Lazy {
         match *self {
             Lazy::Bool(false) => false,
             Lazy::Bool(true) => !src.starts_with('.'),
-            Lazy::List(ref srcs) => srcs.contains(&src),
+            Lazy::List(ref srcs) => srcs.contains(src),
         }
     }
 }
@@ -169,7 +169,7 @@ impl Scope {
             params: vec![Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(key_ident.clone().into()),
+                pat: key_ident.clone().into(),
             }],
             body: Some(BlockStmt {
                 span: DUMMY_SP,
@@ -195,10 +195,8 @@ impl Scope {
                 }))
                 .chain({
                     // We should skip if the file explicitly exports
-                    if let Some(exported_names) = exported_names {
-                        // `if (Object.prototype.hasOwnProperty.call(_exportNames, key))
-                        //      return;`
-                        Some(Stmt::If(IfStmt {
+                    exported_names.map(|exported_names| {
+                        Stmt::If(IfStmt {
                             span: DUMMY_SP,
                             test: Box::new(
                                 CallExpr {
@@ -218,10 +216,8 @@ impl Scope {
                                 arg: None,
                             })),
                             alt: None,
-                        }))
-                    } else {
-                        None
-                    }
+                        })
+                    })
                 })
                 .chain({
                     Some(Stmt::If(IfStmt {
@@ -317,10 +313,7 @@ impl Scope {
             //   -> require('foo');
             self.imports.entry(import.src.value.clone()).or_insert(None);
         } else if import.specifiers.len() == 1
-            && match import.specifiers[0] {
-                ImportSpecifier::Namespace(..) => true,
-                _ => false,
-            }
+            && matches!(import.specifiers[0], ImportSpecifier::Namespace(..))
         {
             // import * as foo from 'src';
             let specifier = match import.specifiers.pop().unwrap() {
@@ -424,13 +417,9 @@ impl Scope {
         }
     }
 
-    pub(super) fn fold_shorthand_prop(
-        folder: &mut impl ModulePass,
-        top_level: bool,
-        prop: Ident,
-    ) -> Prop {
+    pub(super) fn fold_shorthand_prop(folder: &mut impl ModulePass, prop: Ident) -> Prop {
         let key = prop.clone();
-        let value = Scope::fold_ident(folder, top_level, prop);
+        let value = Scope::fold_ident(folder, prop);
         match value {
             Ok(value) => Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(key),
@@ -440,15 +429,11 @@ impl Scope {
         }
     }
 
-    fn fold_ident(folder: &mut impl ModulePass, top_level: bool, i: Ident) -> Result<Expr, Ident> {
+    fn fold_ident(folder: &mut impl ModulePass, i: Ident) -> Result<Expr, Ident> {
         let v = folder.scope().idents.get(&i.to_id()).cloned();
         match v {
             None => Err(i),
             Some((src, prop)) => {
-                if top_level {
-                    folder.scope_mut().lazy_blacklist.insert(src.clone());
-                }
-
                 let lazy = if folder.scope().lazy_blacklist.contains(&src) {
                     false
                 } else {
@@ -511,7 +496,7 @@ impl Scope {
         match expr {
             // In a JavaScript module, this is undefined at the top level (i.e., outside functions).
             Expr::This(ThisExpr { span }) if top_level => *undefined(span),
-            Expr::Ident(i) => match Self::fold_ident(folder, top_level, i) {
+            Expr::Ident(i) => match Self::fold_ident(folder, i) {
                 Ok(expr) => expr,
                 Err(ident) => Expr::Ident(ident),
             },
@@ -520,18 +505,12 @@ impl Scope {
             // See https://github.com/swc-project/swc/issues/1018
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Import(_),
                 args,
                 ..
             }) if !folder.config().ignore_dynamic
-                && args.len() == 1
-                && match *callee {
-                    Expr::Ident(Ident {
-                        sym: js_word!("import"),
-                        ..
-                    }) => true,
-                    _ => false,
-                } =>
+                // TODO: import assertion
+                && args.len() == 1 =>
             {
                 folder.make_dynamic_import(span, args)
             }
@@ -542,26 +521,22 @@ impl Scope {
                 args,
                 type_args,
             }) => {
-                let callee = if let ExprOrSuper::Expr(expr) = callee {
+                let callee = if let Callee::Expr(expr) = callee {
                     let callee = if let Expr::Ident(ident) = *expr {
-                        match Self::fold_ident(folder, top_level, ident) {
+                        match Self::fold_ident(folder, ident) {
                             Ok(mut expr) => {
                                 if let Expr::Member(member) = &mut expr {
-                                    if let ExprOrSuper::Expr(expr) = &mut member.obj {
-                                        if let Expr::Ident(ident) = expr.as_mut() {
-                                            member.obj = ExprOrSuper::Expr(Box::new(Expr::Paren(
-                                                ParenExpr {
-                                                    expr: Box::new(Expr::Seq(SeqExpr {
-                                                        span,
-                                                        exprs: vec![
-                                                            Box::new(0_f64.into()),
-                                                            Box::new(ident.take().into()),
-                                                        ],
-                                                    })),
-                                                    span,
-                                                },
-                                            )))
-                                        }
+                                    if let Expr::Ident(ident) = member.obj.as_mut() {
+                                        member.obj = Box::new(Expr::Paren(ParenExpr {
+                                            expr: Box::new(Expr::Seq(SeqExpr {
+                                                span,
+                                                exprs: vec![
+                                                    Box::new(0_f64.into()),
+                                                    Box::new(ident.take().into()),
+                                                ],
+                                            })),
+                                            span,
+                                        }))
                                     }
                                 };
                                 expr
@@ -571,7 +546,7 @@ impl Scope {
                     } else {
                         *expr.fold_with(folder)
                     };
-                    ExprOrSuper::Expr(Box::new(callee))
+                    Callee::Expr(Box::new(callee))
                 } else {
                     callee.fold_with(folder)
                 };
@@ -583,20 +558,24 @@ impl Scope {
                 })
             }
 
-            Expr::Member(e) => {
-                if e.computed {
-                    Expr::Member(MemberExpr {
-                        obj: e.obj.fold_with(folder),
-                        prop: e.prop.fold_with(folder),
-                        ..e
-                    })
+            Expr::Member(e) => Expr::Member(MemberExpr {
+                obj: e.obj.fold_with(folder),
+                prop: if let MemberProp::Computed(c) = e.prop {
+                    MemberProp::Computed(c.fold_with(folder))
                 } else {
-                    Expr::Member(MemberExpr {
-                        obj: e.obj.fold_with(folder),
-                        ..e
-                    })
-                }
-            }
+                    e.prop
+                },
+                ..e
+            }),
+
+            Expr::SuperProp(e) => Expr::SuperProp(SuperPropExpr {
+                prop: if let SuperProp::Computed(c) = e.prop {
+                    SuperProp::Computed(c.fold_with(folder))
+                } else {
+                    e.prop
+                },
+                ..e
+            }),
 
             Expr::Update(UpdateExpr {
                 span,
@@ -616,7 +595,7 @@ impl Scope {
                             entry,
                             Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(arg.clone().into()))),
+                                left: PatOrExpr::Pat(arg.clone().into()),
                                 op: op!("="),
                                 right: Box::new(Expr::Bin(BinExpr {
                                     span: DUMMY_SP,
@@ -718,7 +697,7 @@ impl Scope {
 
                         let left = if let PatOrExpr::Pat(ref left_pat) = expr.left {
                             if let Pat::Ident(BindingIdent { ref id, .. }) = **left_pat {
-                                let expr = match Self::fold_ident(folder, top_level, id.clone()) {
+                                let expr = match Self::fold_ident(folder, id.clone()) {
                                     Ok(expr) => expr,
                                     Err(ident) => Expr::Ident(ident),
                                 };
@@ -743,7 +722,7 @@ impl Scope {
 
                 match expr.left {
                     PatOrExpr::Pat(pat) if pat.is_ident() => {
-                        let i = pat.ident().unwrap();
+                        let i = pat.expect_ident();
                         let mut scope = folder.scope_mut();
                         let entry = scope
                             .exported_bindings
@@ -752,7 +731,7 @@ impl Scope {
                         match entry {
                             Entry::Occupied(entry) => {
                                 let expr = Expr::Assign(AssignExpr {
-                                    left: PatOrExpr::Pat(Box::new(Pat::Ident(i))),
+                                    left: PatOrExpr::Pat(i.into()),
                                     ..expr
                                 });
                                 let e = chain_assign!(entry, Box::new(expr));
@@ -760,7 +739,7 @@ impl Scope {
                                 *e
                             }
                             _ => Expr::Assign(AssignExpr {
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(i))),
+                                left: PatOrExpr::Pat(i.into()),
                                 ..expr
                             }),
                         }
@@ -815,7 +794,7 @@ where
 {
     let src = match resolver {
         Some((resolver, base)) => resolver
-            .resolve_import(&base, &src)
+            .resolve_import(base, &src)
             .with_context(|| format!("failed to resolve import `{}`", src))
             .unwrap(),
         None => src,
@@ -889,12 +868,10 @@ pub(super) fn has_use_strict(stmts: &[ModuleItem]) -> bool {
         return false;
     }
 
-    match &*stmts.first().unwrap() {
-        ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) => match &**expr {
-            Expr::Lit(Lit::Str(Str { ref value, .. })) => return &*value == "use strict",
-            _ => {}
-        },
-        _ => {}
+    if let ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) = &*stmts.first().unwrap() {
+        if let Expr::Lit(Lit::Str(Str { ref value, .. })) = &**expr {
+            return &*value == "use strict";
+        }
     }
 
     false

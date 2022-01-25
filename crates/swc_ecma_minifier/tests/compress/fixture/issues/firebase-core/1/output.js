@@ -193,7 +193,7 @@
             function v() {
                 this.s = this.s, this.o = this.o;
             }
-            v.prototype.s = !1, v.prototype.na = function() {
+            Math.random(), v.prototype.s = !1, v.prototype.na = function() {
                 this.s || (this.s = !0, this.M());
             }, v.prototype.M = function() {
                 if (this.o) for(; this.o.length;)this.o.shift()();
@@ -1958,7 +1958,7 @@
                 };
             }
             function _objectSpread(target) {
-                for(var _arguments = arguments, i = 1; i < arguments.length; i++)!function(i) {
+                for(var _arguments = arguments, i1 = 1; i1 < arguments.length; i1++)!function(i) {
                     var source = null != _arguments[i] ? _arguments[i] : {}, ownKeys = Object.keys(source);
                     "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
@@ -1971,7 +1971,7 @@
                             writable: !0
                         }) : obj[key1] = value;
                     });
-                }(i);
+                }(i1);
                 return target;
             }
             function _objectWithoutPropertiesLoose(source, excluded) {
@@ -2414,11 +2414,10 @@
             class Logger {
                 constructor(name){
                     this.name = name, this._logLevel = defaultLogLevel, this._logHandler = (instance, logType, ...args)=>{
-                        if (!(logType < instance.logLevel)) {
-                            const now = new Date().toISOString(), method = ConsoleMethod[logType];
-                            if (method) console[method](`[${now}]  ${instance.name}:`, ...args);
-                            else throw new Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
-                        }
+                        if (logType < instance.logLevel) return;
+                        const now = new Date().toISOString(), method = ConsoleMethod[logType];
+                        if (method) console[method](`[${now}]  ${instance.name}:`, ...args);
+                        else throw new Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
                     }, this._userLogHandler = null, [].push(this);
                 }
                 get logLevel() {

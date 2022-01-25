@@ -1,1 +1,1 @@
-target1: target2: ;
+target1: ;

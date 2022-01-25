@@ -105,13 +105,10 @@ where
         if self.cur.is_none() {
             let res = self.input.next();
 
-            match &res {
-                Err(err) => {
-                    if let ErrorKind::Eof = err.kind() {
-                        return Ok(());
-                    }
+            if let Err(err) = &res {
+                if let ErrorKind::Eof = err.kind() {
+                    return Ok(());
                 }
-                _ => {}
             }
 
             self.cur = res.map(Some)?;

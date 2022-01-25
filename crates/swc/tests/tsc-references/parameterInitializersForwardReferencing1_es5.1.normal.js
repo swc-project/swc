@@ -35,7 +35,7 @@ function f6() {
 }
 function f7(param) {
     var bar = param[foo];
-    var foo = 2;
+    var foo5 = 2;
 }
 var Foo = function Foo() {
     "use strict";

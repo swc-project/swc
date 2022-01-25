@@ -1,1 +1,1 @@
-require("vs/foo").x + 10;
+require("vs/foo").x;

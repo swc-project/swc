@@ -1671,8 +1671,7 @@
                         },
                         "value": "x",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   },
                   {
@@ -1718,8 +1717,7 @@
                         },
                         "value": "y",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   },
                   {
@@ -1773,8 +1771,7 @@
                           },
                           "value": "x",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -1802,8 +1799,7 @@
                           },
                           "value": "y",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   },
@@ -1845,8 +1841,7 @@
                           },
                           "value": "props",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "property": {
                         "type": "Identifier",
@@ -1857,8 +1852,7 @@
                         },
                         "value": "children",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ],
@@ -2318,8 +2312,7 @@
                                 },
                                 "value": "props",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
                               "type": "Identifier",
@@ -2330,8 +2323,7 @@
                               },
                               "value": "x",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         },
                         {
@@ -2382,8 +2374,7 @@
                                 },
                                 "value": "props",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
                               "type": "Identifier",
@@ -2394,8 +2385,7 @@
                               },
                               "value": "y",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         },
                         {
@@ -2454,8 +2444,7 @@
                                   },
                                   "value": "props",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -2466,8 +2455,7 @@
                                 },
                                 "value": "x",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "MemberExpression",
@@ -2500,8 +2488,7 @@
                                   },
                                   "value": "props",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -2512,8 +2499,7 @@
                                 },
                                 "value": "y",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         },
@@ -2565,8 +2551,7 @@
                                 },
                                 "value": "props",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
                               "type": "Identifier",
@@ -2577,8 +2562,7 @@
                               },
                               "value": "children",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         },
                         {
@@ -3662,8 +3646,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 {
@@ -3709,8 +3692,7 @@
                       },
                       "value": "y",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 {
@@ -3764,8 +3746,7 @@
                         },
                         "value": "x",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -3793,8 +3774,7 @@
                         },
                         "value": "y",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 },
@@ -3831,8 +3811,7 @@
                       },
                       "value": "children",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ],
@@ -4274,8 +4253,7 @@
                               },
                               "value": "props",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -4286,8 +4264,7 @@
                             },
                             "value": "x",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       {
@@ -4338,8 +4315,7 @@
                               },
                               "value": "props",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -4350,8 +4326,7 @@
                             },
                             "value": "y",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       {
@@ -4410,8 +4385,7 @@
                                 },
                                 "value": "props",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
                               "type": "Identifier",
@@ -4422,8 +4396,7 @@
                               },
                               "value": "x",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "MemberExpression",
@@ -4456,8 +4429,7 @@
                                 },
                                 "value": "props",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
                               "type": "Identifier",
@@ -4468,8 +4440,7 @@
                               },
                               "value": "y",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       },
@@ -4511,8 +4482,7 @@
                               },
                               "value": "props",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -4523,8 +4493,7 @@
                             },
                             "value": "children",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     ],

@@ -22,7 +22,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var ref, arr, Bar = function() {
+var ref, Bar = function() {
     "use strict";
     _classCallCheck(this, Bar);
 }, Foo = function(Bar1) {
@@ -37,29 +37,26 @@ var ref, arr, Bar = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(Foo, Bar1);
-    var _super = function(Derived) {
-        var hasNativeReflectConstruct = function() {
-            if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-            if (Reflect.construct.sham) return !1;
-            if ("function" == typeof Proxy) return !0;
-            try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
-            } catch (e) {
-                return !1;
-            }
-        }();
-        return function() {
-            var obj, self, call, result, Super = _getPrototypeOf(Derived);
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else result = Super.apply(this, arguments);
-            return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
-                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-                return self;
-            })(self);
-        };
-    }(Foo);
+    var Derived, hasNativeReflectConstruct, _super = (Derived = Foo, hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+        } catch (e) {
+            return !1;
+        }
+    }(), function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    });
     function Foo() {
         return _classCallCheck(this, Foo), _super.apply(this, arguments);
     }
@@ -89,16 +86,18 @@ var ref, arr, Bar = function() {
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), FooIterator;
 }();
 (ref = (function(arr) {
-    if (Array.isArray(arr)) return arr;
-})(arr = new FooIterator) || (function(iter) {
-    if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
-})(arr) || (function(o, minLen) {
-    if (o) {
-        if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
-        var n = Object.prototype.toString.call(o).slice(8, -1);
-        if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(n);
-        if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-    }
-})(arr, i) || (function() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-})())[0], ref.slice(1);
+    return (function(arr) {
+        if (Array.isArray(arr)) return arr;
+    })(arr) || (function(iter) {
+        if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
+    })(arr) || (function(o, minLen) {
+        if (o) {
+            if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
+            var n = Object.prototype.toString.call(o).slice(8, -1);
+            if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(n);
+            if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+        }
+    })(arr, i) || (function() {
+        throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    })();
+})(new FooIterator))[0], ref.slice(1);

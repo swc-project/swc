@@ -37,56 +37,50 @@ class A {
 class B extends A {
     // async method with only call/get on 'super' does not require a binding
     simple() {
-        var _super_x = (..._args)=>super.x(..._args)
-        , _super_y = (..._args)=>super.y(..._args)
-        , _super_method = (..._args)=>super["x"](..._args)
-        , _super_x1 = ()=>super.x
-        , _super_method1 = ()=>super["x"]
+        var _this = this, // call with property access
+        _superprop_get_x = ()=>super.x
+        , // call additional property.
+        _superprop_get_y = ()=>super.y
+        , // call with element access
+        _superprop_get = (_prop)=>super[_prop]
         ;
         return _asyncToGenerator(function*() {
-            // call with property access
-            _super_x();
-            // call additional property.
-            _super_y();
-            // call with element access
-            _super_method();
+            _superprop_get_x().call(_this);
+            _superprop_get_y().call(_this);
+            _superprop_get("x").call(_this);
             // property access (read)
-            const a = _super_x1();
+            const a = _superprop_get_x();
             // element access (read)
-            const b = _super_method1();
+            const b = _superprop_get("x");
         })();
     }
     // async method with assignment/destructuring on 'super' requires a binding
     advanced() {
-        var _super_x = (..._args)=>super.x(..._args)
-        , _super_method = (..._args)=>super["x"](..._args)
-        , _super_x2 = ()=>super.x
-        , _super_method2 = ()=>super["x"]
-        , _super_x3 = (_args)=>// property access (assign)
-            super.x = _args
-        , _super_method3 = (_args)=>// element access (assign)
-            super["x"] = _args
-        , _super_x4 = ()=>super.x
-        , _super_method4 = ()=>super["x"]
+        var _this = this, // call with property access
+        _superprop_get_x = ()=>super.x
+        , // call with element access
+        _superprop_get = (_prop)=>super[_prop]
+        , // property access (assign)
+        _superprop_set_x = (_value)=>super.x = _value
+        , // element access (assign)
+        _superprop_set = (_prop, _value)=>super[_prop] = _value
         ;
         return _asyncToGenerator(function*() {
             const f = ()=>{};
-            // call with property access
-            _super_x();
-            // call with element access
-            _super_method();
+            _superprop_get_x().call(_this);
+            _superprop_get("x").call(_this);
             // property access (read)
-            const a = _super_x2();
+            const a = _superprop_get_x();
             // element access (read)
-            const b = _super_method2();
-            _super_x3(f);
-            _super_method3(f);
+            const b = _superprop_get("x");
+            _superprop_set_x(f);
+            _superprop_set("x", f);
             // destructuring assign with property access
-            ({ f: _super_x4()  } = {
+            ({ f: _superprop_get_x()  } = {
                 f
             });
             // destructuring assign with element access
-            ({ f: _super_method4()  } = {
+            ({ f: _superprop_get("x")  } = {
                 f
             });
         })();

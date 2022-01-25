@@ -145,8 +145,7 @@
             },
             "value": "Order",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -207,8 +206,7 @@
               },
               "value": "Order",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -219,8 +217,7 @@
             },
             "value": "DESC",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -281,8 +278,7 @@
               },
               "value": "Order",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -293,8 +289,7 @@
             },
             "value": "ASC",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",

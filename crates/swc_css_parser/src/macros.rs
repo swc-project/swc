@@ -8,12 +8,36 @@ macro_rules! ident_tok {
 }
 
 macro_rules! tok {
+    ("num") => {
+        swc_css_ast::Token::Num { .. }
+    };
+
+    ("dimension") => {
+        swc_css_ast::Token::Dimension { .. }
+    };
+
+    ("percent") => {
+        swc_css_ast::Token::Percent { .. }
+    };
+
     ("function") => {
         swc_css_ast::Token::Function { .. }
     };
 
+    ("ident") => {
+        swc_css_ast::Token::Ident { .. }
+    };
+
+    ("str") => {
+        swc_css_ast::Token::Str { .. }
+    };
+
     ("bad-string") => {
         swc_css_ast::Token::BadStr { .. }
+    };
+
+    ("url") => {
+        swc_css_ast::Token::Url { .. }
     };
 
     ("bad-url") => {
@@ -134,6 +158,10 @@ macro_rules! tok {
 
     ("/") => {
        swc_css_ast::Token::Delim { value: '/', .. }
+    };
+
+    ("<") => {
+        swc_css_ast::Token::Delim { value: '<', .. }
     };
 
     (">") => {

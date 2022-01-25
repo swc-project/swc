@@ -92,8 +92,7 @@
                       },
                       "value": "log",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -170,8 +169,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -370,8 +368,7 @@
                       },
                       "value": "objects",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "ArrayExpression",
@@ -519,8 +516,7 @@
                           },
                           "value": "objects",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "property": {
                         "type": "Identifier",
@@ -531,8 +527,7 @@
                         },
                         "value": "push",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -632,8 +627,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -839,8 +833,7 @@
             },
             "value": "addRectangle",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -886,8 +879,7 @@
             },
             "value": "log",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -935,8 +927,7 @@
                 },
                 "value": "objects",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ],

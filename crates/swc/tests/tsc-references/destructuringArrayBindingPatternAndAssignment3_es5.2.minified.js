@@ -37,9 +37,7 @@ function _unsupportedIterableToArray(o, minLen) {
 }
 var ref = [
     1
-];
-ref[0], ref[1];
-var ref1 = [
+], a = ref[0], tmp = ref[1], ref1 = [
     1
 ];
 ref1[0], ref1[1], ref1[2];

@@ -192,8 +192,7 @@
             },
             "value": "Inner",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -376,8 +375,7 @@
           },
           "value": "m",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -446,8 +444,7 @@
           },
           "value": "n",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

@@ -13,7 +13,7 @@
         "end": 14,
         "ctxt": 0
       },
-      "src": {
+      "href": {
         "type": "UrlValue",
         "span": {
           "start": 8,
@@ -23,7 +23,9 @@
         "url": "",
         "raw": ""
       },
-      "condition": null
+      "layerName": null,
+      "supports": null,
+      "media": null
     }
   ]
 }

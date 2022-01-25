@@ -217,8 +217,7 @@
                                 },
                                 "value": "x",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "Identifier",
@@ -271,8 +270,7 @@
                                 },
                                 "value": "y",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "Identifier",
@@ -634,8 +632,7 @@
                   },
                   "value": "Y",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -646,8 +643,7 @@
                 },
                 "value": "Point",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -749,8 +745,7 @@
                   },
                   "value": "Y",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -761,8 +756,7 @@
                 },
                 "value": "Point",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -773,8 +767,7 @@
               },
               "value": "Origin",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -996,8 +989,7 @@
               },
               "value": "Instance",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

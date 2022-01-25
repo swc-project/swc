@@ -16,8 +16,8 @@ use rayon::iter::ParallelIterator;
 use swc_atoms::js_word;
 use swc_common::{sync::Lrc, FileName, SourceFile, SyntaxContext};
 use swc_ecma_ast::{
-    CallExpr, Expr, ExprOrSuper, Ident, ImportDecl, ImportSpecifier, MemberExpr, Module,
-    ModuleDecl, ModuleExportName, Str,
+    CallExpr, Callee, Expr, Ident, ImportDecl, ImportSpecifier, MemberExpr, MemberProp, Module,
+    ModuleDecl, ModuleExportName, Str, SuperProp, SuperPropExpr,
 };
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_visit::{
@@ -73,14 +73,14 @@ where
             tracing::trace!("load_transformed: ({})", file_name);
 
             // In case of common module
-            if let Some(cached) = self.scope.get_module_by_path(&file_name) {
+            if let Some(cached) = self.scope.get_module_by_path(file_name) {
                 tracing::debug!("Cached: {}", file_name);
                 return Ok(Some(cached));
             }
 
-            let (_, data) = self.load(&file_name).context("Bundler.load() failed")?;
+            let (_, data) = self.load(file_name).context("Bundler.load() failed")?;
             let (v, mut files) = self
-                .analyze(&file_name, data)
+                .analyze(file_name, data)
                 .context("failed to analyze module")?;
             files.dedup_by_key(|v| v.1.clone());
 
@@ -117,7 +117,7 @@ where
 
             let data = self
                 .loader
-                .load(&file_name)
+                .load(file_name)
                 .with_context(|| format!("Bundler.loader.load({}) failed", file_name))?;
             self.scope.mark_as_loaded(module_id);
             Ok((module_id, data))
@@ -428,47 +428,42 @@ impl Visit for Es6ModuleDetector {
         e.visit_children_with(self);
 
         match &e.callee {
-            ExprOrSuper::Expr(e) => match &**e {
-                Expr::Ident(Ident {
+            Callee::Expr(e) => {
+                if let Expr::Ident(Ident {
                     sym: js_word!("require"),
                     ..
-                }) => {
+                }) = &**e
+                {
                     self.found_other = true;
                 }
-                _ => {}
-            },
-            ExprOrSuper::Super(_) => {}
+            }
+            Callee::Super(_) | Callee::Import(_) => {}
         }
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(self);
 
-        if e.computed {
-            e.prop.visit_with(self);
+        if let MemberProp::Computed(c) = &e.prop {
+            c.visit_with(self);
         }
 
-        match &e.obj {
-            ExprOrSuper::Expr(e) => {
-                match &**e {
-                    Expr::Ident(i) => {
-                        // TODO: Check syntax context (Check if marker is the global mark)
-                        if i.sym == *"module" {
-                            self.found_other = true;
-                        }
-
-                        if i.sym == *"exports" {
-                            self.found_other = true;
-                        }
-                    }
-
-                    _ => {}
-                }
+        if let Expr::Ident(i) = &*e.obj {
+            // TODO: Check syntax context (Check if marker is the global mark)
+            if i.sym == *"module" {
+                self.found_other = true;
             }
-            _ => {}
-        }
 
-        //
+            if i.sym == *"exports" {
+                self.found_other = true;
+            }
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            c.visit_with(self);
+        }
     }
 
     fn visit_module_decl(&mut self, decl: &ModuleDecl) {

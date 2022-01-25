@@ -103,7 +103,7 @@ error: Value
 2 |     grid-template-columns: repeat(4, fit-content(300px));
   |                                   ^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:32
   |
 2 |     grid-template-columns: repeat(4, fit-content(300px));
@@ -139,7 +139,7 @@ error: UnitValue
 2 |     grid-template-columns: repeat(4, fit-content(300px));
   |                                                  ^^^^^
 
-error: Num
+error: Number
  --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:47
   |
 2 |     grid-template-columns: repeat(4, fit-content(300px));

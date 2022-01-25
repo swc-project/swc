@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     comments::{Comment, Comments},
     Span,
@@ -94,7 +94,7 @@ struct DependencyCollector<'a> {
 
 impl<'a> DependencyCollector<'a> {
     fn get_leading_comments(&self, span: Span) -> Vec<Comment> {
-        self.comments.get_leading(span.lo).unwrap_or_else(Vec::new)
+        self.comments.get_leading(span.lo).unwrap_or_default()
     }
 }
 
@@ -182,25 +182,27 @@ impl<'a> Visit for DependencyCollector<'a> {
     }
 
     fn visit_call_expr(&mut self, node: &ast::CallExpr) {
-        use ast::{Expr::*, ExprOrSuper::*};
+        use ast::{Callee, Expr, Ident};
 
         swc_ecma_visit::visit_call_expr(self, node);
-        let call_expr = match node.callee.clone() {
-            Super(_) => return,
-            Expr(boxed) => boxed,
-        };
-
-        let kind = match &*call_expr {
-            Ident(ident) => match ident.sym.to_string().as_str() {
-                "import" => DependencyKind::Import,
-                "require" => DependencyKind::Require,
-                _ => return,
-            },
-            _ => return,
+        let kind = match &node.callee {
+            Callee::Super(_) => return,
+            Callee::Import(_) => DependencyKind::Import,
+            Callee::Expr(expr) => {
+                if let Expr::Ident(Ident {
+                    sym: js_word!("require"),
+                    ..
+                }) = &**expr
+                {
+                    DependencyKind::Require
+                } else {
+                    return;
+                }
+            }
         };
 
         if let Some(arg) = node.args.get(0) {
-            if let Lit(ast::Lit::Str(str_)) = &*arg.expr {
+            if let Expr::Lit(ast::Lit::Str(str_)) = &*arg.expr {
                 // import() are always dynamic, even if at top level
                 let is_dynamic = !self.is_top_level || kind == DependencyKind::Import;
                 let dynamic_import_assertions = if kind == DependencyKind::Import {
@@ -346,7 +348,7 @@ mod tests {
         file_name: &str,
         source: &str,
     ) -> Result<(ast::Module, SingleThreadedComments), testing::StdErr> {
-        let output = ::testing::run_test(false, |cm, handler| {
+        ::testing::run_test(false, |cm, handler| {
             let fm =
                 cm.new_source_file(FileName::Custom(file_name.to_string()), source.to_string());
 
@@ -357,7 +359,6 @@ mod tests {
                     tsx: file_name.contains("tsx"),
                     decorators: true,
                     no_early_errors: true,
-                    ..Default::default()
                 }),
                 EsVersion::Es2015,
                 (&*fm).into(),
@@ -368,10 +369,10 @@ mod tests {
 
             let res = p
                 .parse_module()
-                .map_err(|e| e.into_diagnostic(&handler).emit());
+                .map_err(|e| e.into_diagnostic(handler).emit());
 
             for err in p.take_errors() {
-                err.into_diagnostic(&handler).emit();
+                err.into_diagnostic(handler).emit();
             }
 
             if handler.has_errors() {
@@ -379,9 +380,7 @@ mod tests {
             }
 
             Ok((res.unwrap(), comments))
-        });
-
-        output
+        })
     }
 
     #[test]
@@ -413,7 +412,7 @@ try {
     // pass
 }
       "#;
-        let (module, comments) = helper("test.ts", &source).unwrap();
+        let (module, comments) = helper("test.ts", source).unwrap();
         let dependencies = analyze_dependencies(&module, &comments);
         assert_eq!(dependencies.len(), 8);
         assert_eq!(
@@ -533,7 +532,7 @@ const d8 = await import("./d8.json", { assert: { type: bar } });
 const d9 = await import("./d9.json", { assert: { type: "json", ...bar } });
 const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad" } });
       "#;
-        let (module, comments) = helper("test.ts", &source).unwrap();
+        let (module, comments) = helper("test.ts", source).unwrap();
         let expected_assertions1 = ImportAssertions::Known({
             let mut map = HashMap::new();
             map.insert(
@@ -597,7 +596,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(186), BytePos(239), Default::default()),
                     specifier: JsWord::from("./foo.json"),
                     specifier_span: Span::new(BytePos(202), BytePos(214), Default::default()),
-                    import_assertions: expected_assertions2.clone(),
+                    import_assertions: expected_assertions2,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -615,7 +614,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(333), BytePos(386), Default::default()),
                     specifier: JsWord::from("./buzz.json"),
                     specifier_span: Span::new(BytePos(340), BytePos(353), Default::default()),
-                    import_assertions: dynamic_expected_assertions2.clone(),
+                    import_assertions: dynamic_expected_assertions2,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,

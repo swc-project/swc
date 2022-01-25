@@ -7349,8 +7349,7 @@
                 },
                 "value": "prop",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -7407,20 +7406,27 @@
                         "optional": false
                       },
                       "property": {
-                        "type": "StringLiteral",
+                        "type": "Computed",
                         "span": {
-                          "start": 2098,
-                          "end": 2105,
+                          "start": 2097,
+                          "end": 2106,
                           "ctxt": 0
                         },
-                        "value": "other",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 2098,
+                            "end": 2105,
+                            "ctxt": 0
+                          },
+                          "value": "other",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": true
+                          }
                         }
-                      },
-                      "computed": true
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -7442,8 +7448,7 @@
                   },
                   "value": "toFixed",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -7592,8 +7597,7 @@
                 },
                 "value": "prop",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -7635,20 +7639,27 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "StringLiteral",
+                    "type": "Computed",
                     "span": {
-                      "start": 2183,
-                      "end": 2190,
+                      "start": 2182,
+                      "end": 2191,
                       "ctxt": 0
                     },
-                    "value": "other",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 2183,
+                        "end": 2190,
+                        "ctxt": 0
+                      },
+                      "value": "other",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
                     }
-                  },
-                  "computed": true
+                  }
                 },
                 "property": {
                   "type": "Identifier",
@@ -7659,8 +7670,7 @@
                   },
                   "value": "toFixed",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -7809,8 +7819,7 @@
                 },
                 "value": "prop",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -7859,20 +7868,27 @@
                       "optional": false
                     },
                     "property": {
-                      "type": "StringLiteral",
+                      "type": "Computed",
                       "span": {
-                        "start": 2262,
-                        "end": 2269,
+                        "start": 2261,
+                        "end": 2270,
                         "ctxt": 0
                       },
-                      "value": "other",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
+                      "expression": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 2262,
+                          "end": 2269,
+                          "ctxt": 0
+                        },
+                        "value": "other",
+                        "hasEscape": false,
+                        "kind": {
+                          "type": "normal",
+                          "containsQuote": true
+                        }
                       }
-                    },
-                    "computed": true
+                    }
                   },
                   "property": {
                     "type": "Identifier",
@@ -7883,8 +7899,7 @@
                     },
                     "value": "x",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "property": {
                   "type": "Identifier",
@@ -7895,8 +7910,7 @@
                   },
                   "value": "toFixed",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -8103,8 +8117,7 @@
                 },
                 "value": "prop",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -8146,20 +8159,27 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "StringLiteral",
+                    "type": "Computed",
                     "span": {
-                      "start": 2358,
-                      "end": 2365,
+                      "start": 2357,
+                      "end": 2366,
                       "ctxt": 0
                     },
-                    "value": "other",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 2358,
+                        "end": 2365,
+                        "ctxt": 0
+                      },
+                      "value": "other",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
                     }
-                  },
-                  "computed": true
+                  }
                 },
                 "property": {
                   "type": "Identifier",
@@ -8170,8 +8190,7 @@
                   },
                   "value": "toFixed",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null

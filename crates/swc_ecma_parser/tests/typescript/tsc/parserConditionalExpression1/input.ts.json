@@ -77,20 +77,26 @@
                   },
                   "value": "R",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
-                "type": "Identifier",
+                "type": "Computed",
                 "span": {
-                  "start": 10,
-                  "end": 11,
+                  "start": 9,
+                  "end": 12,
                   "ctxt": 0
                 },
-                "value": "c",
-                "optional": false
-              },
-              "computed": true
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 10,
+                    "end": 11,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "optional": false
+                }
+              }
             }
           }
         },
@@ -128,8 +134,7 @@
               },
               "value": "JW",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "ParenthesisExpression",
@@ -179,8 +184,7 @@
                       },
                       "value": "e5",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -244,8 +248,7 @@
                       },
                       "value": "JW",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "MemberExpression",
@@ -273,8 +276,7 @@
                       },
                       "value": "l",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -305,8 +307,7 @@
             },
             "value": "A",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

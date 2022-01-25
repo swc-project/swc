@@ -1,9 +1,4 @@
 import regeneratorRuntime from "regenerator-runtime";
-function _arrayLikeToArray(arr, len) {
-    (null == len || len > arr.length) && (len = arr.length);
-    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
-    return arr2;
-}
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg), value = info.value;
@@ -86,23 +81,6 @@ function _superPropBase(object, property) {
     for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = _getPrototypeOf(object)););
     return object;
 }
-function _toConsumableArray(arr) {
-    return (function(arr) {
-        if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-    })(arr) || (function(iter) {
-        if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
-    })(arr) || _unsupportedIterableToArray(arr) || (function() {
-        throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-    })();
-}
-function _unsupportedIterableToArray(o, minLen) {
-    if (o) {
-        if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
-        var n = Object.prototype.toString.call(o).slice(8, -1);
-        if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(n);
-        if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-    }
-}
 var A = function() {
     "use strict";
     function A() {
@@ -130,29 +108,26 @@ var A = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(B, A);
-    var _super1 = function(Derived) {
-        var hasNativeReflectConstruct = function() {
-            if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-            if (Reflect.construct.sham) return !1;
-            if ("function" == typeof Proxy) return !0;
-            try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
-            } catch (e) {
-                return !1;
-            }
-        }();
-        return function() {
-            var obj, self, call, result, Super = _getPrototypeOf(Derived);
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else result = Super.apply(this, arguments);
-            return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
-                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-                return self;
-            })(self);
-        };
-    }(B);
+    var Derived, hasNativeReflectConstruct, _super1 = (Derived = B, hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+        } catch (e) {
+            return !1;
+        }
+    }(), function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    });
     function B() {
         return _classCallCheck(this, B), _super1.apply(this, arguments);
     }
@@ -160,28 +135,17 @@ var A = function() {
         {
             key: "simple",
             value: function() {
-                var _instance, _instance1, _instance2, _this = this, _super_x = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_y = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance1 = _get(_getPrototypeOf(B.prototype), "y", _this)).call.apply(_instance1, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_method = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance2 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance2, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
+                var _this = this, _this1 = this, _superprop_get_x = function() {
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
+                }, _superprop_get = function(_prop) {
+                    return _get(_getPrototypeOf(B.prototype), _prop, _this);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                     var _super, _superIndex, a, b;
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
-                                _super = null, _superIndex = null, _super_x(), _super_y(), _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this), b = _get(_getPrototypeOf(B.prototype), "x", _this);
+                                _super = null, _superIndex = null, _superprop_get_x().call(_this1), _get(_getPrototypeOf(B.prototype), "y", _this).call(_this1), _superprop_get("x").call(_this1), a = _superprop_get_x(), b = _superprop_get("x");
                             case 7:
                             case "end":
                                 return _ctx.stop();
@@ -193,32 +157,22 @@ var A = function() {
         {
             key: "advanced",
             value: function() {
-                var _instance, _instance3, _this = this, _super_x = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_method = function() {
-                    for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance3 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance3, [
-                        _this
-                    ].concat(_toConsumableArray(_args)));
-                }, _super_x1 = function() {
+                var _this = this, _this2 = this, _superprop_get_x = function() {
                     return _get(_getPrototypeOf(B.prototype), "x", _this);
-                }, _super_method1 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this);
+                }, _superprop_get = function(_prop) {
+                    return _get(_getPrototypeOf(B.prototype), _prop, _this);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                     var _super, _superIndex, f, a, b, ref, ref1;
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
-                                var _args, _args1;
-                                _super = null, _superIndex = null, f = function() {}, _super_x(), _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this), b = _get(_getPrototypeOf(B.prototype), "x", _this), _args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this, !0), _args1 = f, _set(_getPrototypeOf(B.prototype), "x", _args1, _this, !0), ref = {
+                                var _value, _value1;
+                                _super = null, _superIndex = null, f = function() {}, _superprop_get_x().call(_this2), _superprop_get("x").call(_this2), a = _superprop_get_x(), b = _superprop_get("x"), _value = f, _set(_getPrototypeOf(B.prototype), "x", _value, _this, !0), _value1 = f, _set(_getPrototypeOf(B.prototype), "x", _value1, _this, !0), ref = {
                                     f: f
-                                }, _super_x1() = ref.f, ref1 = {
+                                }, _superprop_get_x() = ref.f, ref1 = {
                                     f: f
-                                }, _super_method1() = ref1.f;
+                                }, _superprop_get("x") = ref1.f;
                             case 13:
                             case "end":
                                 return _ctx.stop();

@@ -111,12 +111,14 @@
             "replaceState",
             "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236)."
         ]
+    }, defineDeprecationWarning = function(methodName, info) {
+        Object.defineProperty(Component.prototype, methodName, {
+            get: function() {
+                warn("%s(...) is deprecated in plain JavaScript React classes. %s", info[0], info[1]);
+            }
+        });
     };
-    for(var fnName in deprecatedAPIs)deprecatedAPIs.hasOwnProperty(fnName) && (methodName = fnName, info1 = deprecatedAPIs[fnName], Object.defineProperty(Component.prototype, methodName, {
-        get: function() {
-            warn("%s(...) is deprecated in plain JavaScript React classes. %s", info1[0], info1[1]);
-        }
-    }));
+    for(var fnName in deprecatedAPIs)deprecatedAPIs.hasOwnProperty(fnName) && defineDeprecationWarning(fnName, deprecatedAPIs[fnName]);
     function ComponentDummy() {}
     function PureComponent(props, context, updater) {
         this.props = props, this.context = context, this.refs = emptyObject, this.updater = updater || ReactNoopUpdateQueue;
@@ -368,7 +370,7 @@
         }
         return "\n" + prefix + name;
     }
-    var methodName, info1, reentry = !1;
+    var reentry = !1;
     function describeNativeComponentFrame(fn, construct) {
         if (!fn || reentry) return "";
         var control, previousDispatcher, frame = componentFrameCache.get(fn);
@@ -744,10 +746,11 @@
     }
     function flushWork(hasTimeRemaining, initialTime) {
         isHostCallbackScheduled = !1, isHostTimeoutScheduled && (isHostTimeoutScheduled = !1, cancelHostTimeout()), isPerformingWork = !0;
+        var previousPriorityLevel = currentPriorityLevel;
         try {
             return workLoop(hasTimeRemaining, initialTime);
         } finally{
-            currentTask = null, currentPriorityLevel = currentPriorityLevel, isPerformingWork = !1;
+            currentTask = null, currentPriorityLevel = previousPriorityLevel, isPerformingWork = !1;
         }
     }
     function workLoop(hasTimeRemaining, initialTime) {
@@ -766,7 +769,7 @@
         var firstTimer = peek(timerQueue);
         return null !== firstTimer && requestHostTimeout(handleTimeout, firstTimer.startTime - currentTime), !1;
     }
-    var Scheduler = Object.freeze({
+    var unstable_requestPaint = requestPaint, Scheduler = Object.freeze({
         __proto__: null,
         unstable_ImmediatePriority: 1,
         unstable_UserBlockingPriority: 2,
@@ -785,7 +788,7 @@
                     priorityLevel = 3;
             }
             var previousPriorityLevel = currentPriorityLevel;
-            currentPriorityLevel = 3;
+            currentPriorityLevel = priorityLevel;
             try {
                 return eventHandler();
             } finally{
@@ -867,7 +870,7 @@
         get unstable_shouldYield () {
             return shouldYieldToHost;
         },
-        unstable_requestPaint: requestPaint,
+        unstable_requestPaint: unstable_requestPaint,
         unstable_continueExecution: function() {
             isHostCallbackScheduled || isPerformingWork || (isHostCallbackScheduled = !0, requestHostCallback(flushWork));
         },
@@ -1099,10 +1102,10 @@
         for(var newElement = cloneElement.apply(this, arguments), i = 2; i < arguments.length; i++)validateChildKeys(arguments[i], newElement.type);
         return validatePropTypes(newElement), newElement;
     }, exports.createContext = function(defaultValue, calculateChangedBits) {
-        void 0 === calculateChangedBits && (calculateChangedBits = null);
+        void 0 === calculateChangedBits ? calculateChangedBits = null : null !== calculateChangedBits && "function" != typeof calculateChangedBits && error1("createContext: Expected the optional second argument to be a function. Instead received: %s", calculateChangedBits);
         var context = {
             $$typeof: REACT_CONTEXT_TYPE,
-            _calculateChangedBits: null,
+            _calculateChangedBits: calculateChangedBits,
             _currentValue: defaultValue,
             _currentValue2: defaultValue,
             _threadCount: 0,

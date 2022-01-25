@@ -81,8 +81,7 @@
             },
             "value": "staticProp",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -178,8 +177,7 @@
             },
             "value": "staticProp",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -289,8 +287,7 @@
             },
             "value": "staticProp",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -408,8 +405,7 @@
             },
             "value": "staticProp",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -489,8 +485,7 @@
             },
             "value": "staticProp",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -578,8 +573,7 @@
             },
             "value": "staticProp",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -681,8 +675,7 @@
             },
             "value": "staticProp",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -792,8 +785,7 @@
             },
             "value": "staticProp",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -960,8 +952,7 @@
                 },
                 "value": "C1",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -972,8 +963,7 @@
               },
               "value": "staticProp",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1040,8 +1030,7 @@
                 },
                 "value": "C2",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -1052,8 +1041,7 @@
               },
               "value": "staticProp",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1120,8 +1108,7 @@
                 },
                 "value": "F1",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -1132,8 +1119,7 @@
               },
               "value": "staticProp",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1200,8 +1186,7 @@
                 },
                 "value": "F2",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -1212,8 +1197,7 @@
               },
               "value": "staticProp",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1273,8 +1257,7 @@
               },
               "value": "staticProp",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1334,8 +1317,7 @@
               },
               "value": "staticProp",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1395,8 +1377,7 @@
               },
               "value": "staticProp",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1456,8 +1437,7 @@
               },
               "value": "staticProp",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

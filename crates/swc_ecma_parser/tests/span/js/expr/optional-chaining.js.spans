@@ -41,12 +41,6 @@ warning: MemberExpr
 1 | a?.b?.c
   | ^^^^^^^
 
-warning: ExprOrSuper
- --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
-  |
-1 | a?.b?.c
-  | ^^^^
-
 warning: Expr
  --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
   |
@@ -65,12 +59,6 @@ warning: MemberExpr
 1 | a?.b?.c
   | ^^^^
 
-warning: ExprOrSuper
- --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
-  |
-1 | a?.b?.c
-  | ^
-
 warning: Expr
  --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
   |
@@ -83,23 +71,11 @@ warning: Ident
 1 | a?.b?.c
   | ^
 
-warning: Expr
- --> $DIR/tests/span/js/expr/optional-chaining.js:1:4
-  |
-1 | a?.b?.c
-  |    ^
-
 warning: Ident
  --> $DIR/tests/span/js/expr/optional-chaining.js:1:4
   |
 1 | a?.b?.c
   |    ^
-
-warning: Expr
- --> $DIR/tests/span/js/expr/optional-chaining.js:1:7
-  |
-1 | a?.b?.c
-  |       ^
 
 warning: Ident
  --> $DIR/tests/span/js/expr/optional-chaining.js:1:7
@@ -143,7 +119,7 @@ warning: CallExpr
 2 | A?.['B']?.()
   | ^^^^^^^^^^^^
 
-warning: ExprOrSuper
+warning: Callee
  --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
   |
 2 | A?.['B']?.()
@@ -167,12 +143,6 @@ warning: MemberExpr
 2 | A?.['B']?.()
   | ^^^^^^^^
 
-warning: ExprOrSuper
- --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
-  |
-2 | A?.['B']?.()
-  | ^
-
 warning: Expr
  --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
   |
@@ -184,6 +154,12 @@ warning: Ident
   |
 2 | A?.['B']?.()
   | ^
+
+warning: ComputedPropName
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:4
+  |
+2 | A?.['B']?.()
+  |    ^^^^^
 
 warning: Expr
  --> $DIR/tests/span/js/expr/optional-chaining.js:2:5

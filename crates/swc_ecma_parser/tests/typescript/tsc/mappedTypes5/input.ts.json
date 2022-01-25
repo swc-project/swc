@@ -3031,8 +3031,7 @@
                       },
                       "value": "create",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -3168,8 +3167,7 @@
                       },
                       "value": "create",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -4219,8 +4217,7 @@
                       },
                       "value": "create",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -4356,8 +4353,7 @@
                       },
                       "value": "create",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {

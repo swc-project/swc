@@ -113,8 +113,7 @@
                 },
                 "value": "charAt",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -197,8 +196,7 @@
                 },
                 "value": "hasOwnProperty",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -278,20 +276,27 @@
                 "optional": false
               },
               "property": {
-                "type": "StringLiteral",
+                "type": "Computed",
                 "span": {
-                  "start": 80,
-                  "end": 88,
+                  "start": 79,
+                  "end": 89,
                   "ctxt": 0
                 },
-                "value": "charAt",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 80,
+                    "end": 88,
+                    "ctxt": 0
+                  },
+                  "value": "charAt",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
-              },
-              "computed": true
+              }
             },
             "arguments": [
               {
@@ -366,20 +371,27 @@
                 "optional": false
               },
               "property": {
-                "type": "StringLiteral",
+                "type": "Computed",
                 "span": {
-                  "start": 104,
-                  "end": 120,
+                  "start": 103,
+                  "end": 121,
                   "ctxt": 0
                 },
-                "value": "hasOwnProperty",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 104,
+                    "end": 120,
+                    "ctxt": 0
+                  },
+                  "value": "hasOwnProperty",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
-              },
-              "computed": true
+              }
             },
             "arguments": [
               {

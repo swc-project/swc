@@ -47,8 +47,7 @@
             },
             "value": "apply",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -137,8 +136,7 @@
             },
             "value": "apply",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",

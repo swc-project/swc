@@ -72,7 +72,7 @@ macro_rules! cur {
             None => {
                 let last_pos = $parser.input.last_pos()?;
                 let span = swc_common::Span::new(last_pos, last_pos, Default::default());
-                Err(crate::error::Error::new(span, crate::error::ErrorKind::Eof))?
+                return Err(crate::error::Error::new(span, crate::error::ErrorKind::Eof));
             }
         }
     };
@@ -100,11 +100,8 @@ macro_rules! is {
 macro_rules! peeked_is {
     ($parser:expr, $tt:tt) => {{
         match $parser.input.peek()? {
-            Some(peeked) => match peeked {
-                tok_pat!($tt) => true,
-                _ => false,
-            },
-            None => false,
+            Some(tok_pat!($tt)) => true,
+            _ => false,
         }
     }};
 }
@@ -136,10 +133,10 @@ macro_rules! expect {
 
         if !eat!($parser, $tt) {
             let span = $parser.input.cur_span()?;
-            Err(crate::error::Error::new(
+            return Err(crate::error::Error::new(
                 span,
                 crate::error::ErrorKind::ExpectedButGot(stringify!($tt)),
-            ))?
+            ));
         }
     };
 }

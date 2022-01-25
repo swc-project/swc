@@ -321,8 +321,7 @@
               },
               "value": "b",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "arguments": [],
@@ -566,8 +565,7 @@
                 },
                 "value": "b",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -582,8 +580,7 @@
           },
           "value": "c",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

@@ -50,7 +50,7 @@ pub trait Comments {
         let cmts = self.take_leading(pos);
 
         let ret = if let Some(cmts) = &cmts {
-            f(&cmts)
+            f(cmts)
         } else {
             f(&[])
         };
@@ -70,7 +70,7 @@ pub trait Comments {
         let cmts = self.take_trailing(pos);
 
         let ret = if let Some(cmts) = &cmts {
-            f(&cmts)
+            f(cmts)
         } else {
             f(&[])
         };
@@ -453,13 +453,11 @@ impl Comments for SingleThreadedComments {
         let b = self.leading.borrow();
         let cmts = b.get(&pos);
 
-        let ret = if let Some(cmts) = &cmts {
-            f(&cmts)
+        if let Some(cmts) = &cmts {
+            f(cmts)
         } else {
             f(&[])
-        };
-
-        ret
+        }
     }
 
     fn with_trailing<F, Ret>(&self, pos: BytePos, f: F) -> Ret
@@ -470,13 +468,11 @@ impl Comments for SingleThreadedComments {
         let b = self.trailing.borrow();
         let cmts = b.get(&pos);
 
-        let ret = if let Some(cmts) = &cmts {
-            f(&cmts)
+        if let Some(cmts) = &cmts {
+            f(cmts)
         } else {
             f(&[])
-        };
-
-        ret
+        }
     }
 }
 
@@ -496,11 +492,11 @@ impl SingleThreadedComments {
     }
 
     /// Borrows all the comments as (leading, trailing).
-    pub fn borrow_all<'a>(
-        &'a self,
+    pub fn borrow_all(
+        &self,
     ) -> (
-        Ref<'a, SingleThreadedCommentsMapInner>,
-        Ref<'a, SingleThreadedCommentsMapInner>,
+        Ref<SingleThreadedCommentsMapInner>,
+        Ref<SingleThreadedCommentsMapInner>,
     ) {
         (self.leading.borrow(), self.trailing.borrow())
     }

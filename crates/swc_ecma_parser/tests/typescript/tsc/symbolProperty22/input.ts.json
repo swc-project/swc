@@ -117,8 +117,7 @@
                 },
                 "value": "unscopables",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "computed": true,
             "optional": false,
@@ -521,8 +520,7 @@
                         },
                         "value": "unscopables",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   },
                   "value": {
@@ -571,8 +569,7 @@
                         },
                         "value": "length",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "async": false,
                     "generator": false,

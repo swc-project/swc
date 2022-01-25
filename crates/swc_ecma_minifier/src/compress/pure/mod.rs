@@ -1,4 +1,4 @@
-use self::ctx::Ctx;
+use self::{ctx::Ctx, misc::DropOpts};
 use crate::{
     debug::{dump, AssertValid},
     marks::Marks,
@@ -88,10 +88,7 @@ where
 
         self.collapse_vars_without_init(stmts);
 
-        stmts.retain(|s| match s.as_stmt() {
-            Some(Stmt::Empty(..)) => false,
-            _ => true,
-        });
+        stmts.retain(|s| !matches!(s.as_stmt(), Some(Stmt::Empty(..))));
     }
 
     fn optimize_fn_stmts(&mut self, stmts: &mut Vec<Stmt>) {
@@ -126,7 +123,7 @@ where
                 self.changed |= v.changed;
             }
         } else {
-            let results = nodes
+            let changed = nodes
                 .par_iter_mut()
                 .map(|node| {
                     let mut v = Pure {
@@ -144,11 +141,9 @@ where
 
                     v.changed
                 })
-                .collect::<Vec<_>>();
+                .reduce(|| false, |a, b| a || b);
 
-            for res in results {
-                self.changed |= res;
-            }
+            self.changed |= changed;
         }
     }
 }
@@ -227,18 +222,15 @@ where
 
         self.remove_invalid(e);
 
-        match e {
-            Expr::Seq(seq) => {
-                if seq.exprs.is_empty() {
-                    *e = Expr::Invalid(Invalid { span: DUMMY_SP });
-                    return;
-                }
-                if seq.exprs.len() == 1 {
-                    self.changed = true;
-                    *e = *seq.exprs.take().into_iter().next().unwrap();
-                }
+        if let Expr::Seq(seq) = e {
+            if seq.exprs.is_empty() {
+                *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                return;
             }
-            _ => {}
+            if seq.exprs.len() == 1 {
+                self.changed = true;
+                *e = *seq.exprs.take().into_iter().next().unwrap();
+            }
         }
 
         self.eval_opt_chain(e);
@@ -287,7 +279,13 @@ where
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
         s.visit_mut_children_with(self);
 
-        self.ignore_return_value(&mut s.expr);
+        self.ignore_return_value(
+            &mut s.expr,
+            DropOpts {
+                drop_zero: true,
+                drop_str_lit: false,
+            },
+        );
     }
 
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {
@@ -301,11 +299,8 @@ where
 
         n.body.visit_mut_with(self);
 
-        match &mut *n.body {
-            Stmt::Block(body) => {
-                self.negate_if_terminate(&mut body.stmts, false, true);
-            }
-            _ => {}
+        if let Stmt::Block(body) = &mut *n.body {
+            self.negate_if_terminate(&mut body.stmts, false, true);
         }
     }
 
@@ -316,11 +311,8 @@ where
 
         n.body.visit_mut_with(self);
 
-        match &mut *n.body {
-            Stmt::Block(body) => {
-                self.negate_if_terminate(&mut body.stmts, false, true);
-            }
-            _ => {}
+        if let Stmt::Block(body) = &mut *n.body {
+            self.negate_if_terminate(&mut body.stmts, false, true);
         }
     }
 
@@ -333,11 +325,8 @@ where
             self.optimize_expr_in_bool_ctx(&mut **test);
         }
 
-        match &mut *s.body {
-            Stmt::Block(body) => {
-                self.negate_if_terminate(&mut body.stmts, false, true);
-            }
-            _ => {}
+        if let Stmt::Block(body) = &mut *s.body {
+            self.negate_if_terminate(&mut body.stmts, false, true);
         }
     }
 
@@ -363,13 +352,19 @@ where
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.obj.visit_mut_with(self);
-        if e.computed {
-            e.prop.visit_mut_with(self);
+        if let MemberProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
+
+            // TODO: unify these two
+            if let Some(ident) = self.optimize_property_of_member_expr(Some(&e.obj), c) {
+                e.prop = MemberProp::Ident(ident);
+                return;
+            };
+
+            if let Some(ident) = self.handle_known_computed_member_expr(c) {
+                e.prop = MemberProp::Ident(ident)
+            };
         }
-
-        self.optimize_property_of_member_expr(e);
-
-        self.handle_known_computed_member_expr(e);
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
@@ -390,12 +385,26 @@ where
         e.args.visit_mut_with(self);
     }
 
+    fn visit_mut_pat_or_expr(&mut self, n: &mut PatOrExpr) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            PatOrExpr::Expr(e) => {
+                //
+                if let Expr::Ident(i) = &mut **e {
+                    *n = PatOrExpr::Pat(i.clone().into());
+                }
+            }
+            PatOrExpr::Pat(_) => {}
+        }
+    }
+
     fn visit_mut_prop(&mut self, p: &mut Prop) {
         p.visit_mut_children_with(self);
 
         self.optimize_arrow_method_prop(p);
 
-        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+        if cfg!(debug_assertions) {
             p.visit_with(&mut AssertValid);
         }
     }
@@ -430,7 +439,7 @@ where
             true
         });
 
-        if e.exprs.len() == 0 {
+        if e.exprs.is_empty() {
             return;
         }
 
@@ -441,11 +450,21 @@ where
             let is_last = idx == len - 1;
 
             if !is_last {
-                self.ignore_return_value(&mut **e);
+                self.ignore_return_value(
+                    &mut **e,
+                    DropOpts {
+                        drop_zero: false,
+                        drop_str_lit: true,
+                    },
+                );
             }
         }
 
         e.exprs.retain(|e| !e.is_invalid());
+
+        if cfg!(debug_assertions) {
+            e.visit_with(&mut AssertValid);
+        }
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
@@ -481,26 +500,21 @@ where
         }
 
         if self.options.drop_debugger {
-            match s {
-                Stmt::Debugger(..) => {
-                    self.changed = true;
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    tracing::debug!("drop_debugger: Dropped a debugger statement");
-                    return;
-                }
-                _ => {}
+            if let Stmt::Debugger(..) = s {
+                self.changed = true;
+                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                tracing::debug!("drop_debugger: Dropped a debugger statement");
+                return;
             }
         }
 
         self.loop_to_for_stmt(s);
 
-        match s {
-            Stmt::Expr(es) => {
-                if es.expr.is_invalid() {
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                }
+        if let Stmt::Expr(es) = s {
+            if es.expr.is_invalid() {
+                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                return;
             }
-            _ => {}
         }
 
         if cfg!(feature = "debug") && self.debug_infinite_loop {
@@ -511,7 +525,7 @@ where
             }
         }
 
-        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+        if cfg!(debug_assertions) {
             s.visit_with(&mut AssertValid);
         }
     }
@@ -521,13 +535,25 @@ where
 
         self.handle_stmt_likes(items);
 
-        items.retain(|s| match s {
-            Stmt::Empty(..) => false,
-            _ => true,
-        });
+        items.retain(|s| !matches!(s, Stmt::Empty(..)));
 
-        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+        if cfg!(debug_assertions) {
             items.visit_with(&mut AssertValid);
+        }
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
+
+            if let Some(ident) = self.optimize_property_of_member_expr(None, c) {
+                e.prop = SuperProp::Ident(ident);
+                return;
+            };
+
+            if let Some(ident) = self.handle_known_computed_member_expr(c) {
+                e.prop = SuperProp::Ident(ident)
+            };
         }
     }
 

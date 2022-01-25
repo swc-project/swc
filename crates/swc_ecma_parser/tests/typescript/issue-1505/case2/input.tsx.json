@@ -453,8 +453,7 @@
                                 },
                                 "value": "fetchTeams",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [],
                             "typeArguments": null
@@ -545,8 +544,7 @@
                                 },
                                 "value": "setState",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [
                               {
@@ -643,8 +641,7 @@
                                       },
                                       "value": "mark",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "arguments": [
                                     {
@@ -805,8 +802,7 @@
                                                 },
                                                 "value": "props",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "property": {
                                               "type": "Identifier",
@@ -817,8 +813,7 @@
                                               },
                                               "value": "api",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "property": {
                                             "type": "Identifier",
@@ -829,8 +824,7 @@
                                             },
                                             "value": "requestPromise",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "arguments": [
                                           {
@@ -866,8 +860,7 @@
                                                   },
                                                   "value": "getUsersTeamsEndpoint",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "arguments": [],
                                               "typeArguments": null
@@ -919,8 +912,7 @@
                                       },
                                       "value": "setState",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "arguments": [
                                     {
@@ -1039,8 +1031,7 @@
                                                     },
                                                     "value": "measure",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "arguments": [
                                                   {
@@ -1251,8 +1242,7 @@
                                                                               },
                                                                               "value": "props",
                                                                               "optional": false
-                                                                            },
-                                                                            "computed": false
+                                                                            }
                                                                           },
                                                                           "property": {
                                                                             "type": "Identifier",
@@ -1263,8 +1253,7 @@
                                                                             },
                                                                             "value": "organization",
                                                                             "optional": false
-                                                                          },
-                                                                          "computed": false
+                                                                          }
                                                                         },
                                                                         "property": {
                                                                           "type": "Identifier",
@@ -1275,8 +1264,7 @@
                                                                           },
                                                                           "value": "id",
                                                                           "optional": false
-                                                                        },
-                                                                        "computed": false
+                                                                        }
                                                                       }
                                                                     },
                                                                     {
@@ -1383,8 +1371,7 @@
                                         },
                                         "value": "setState",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "arguments": [
                                       {
@@ -1678,8 +1665,7 @@
                                     },
                                     "value": "get",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "arguments": [
                                   {
@@ -1913,8 +1899,7 @@
                                     },
                                     "value": "map",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "arguments": [
                                   {
@@ -2001,35 +1986,41 @@
                                                       "optional": false
                                                     },
                                                     "property": {
-                                                      "type": "MemberExpression",
+                                                      "type": "Computed",
                                                       "span": {
-                                                        "start": 1766,
-                                                        "end": 1775,
+                                                        "start": 1765,
+                                                        "end": 1776,
                                                         "ctxt": 0
                                                       },
-                                                      "object": {
-                                                        "type": "Identifier",
+                                                      "expression": {
+                                                        "type": "MemberExpression",
                                                         "span": {
                                                           "start": 1766,
-                                                          "end": 1770,
-                                                          "ctxt": 0
-                                                        },
-                                                        "value": "team",
-                                                        "optional": false
-                                                      },
-                                                      "property": {
-                                                        "type": "Identifier",
-                                                        "span": {
-                                                          "start": 1771,
                                                           "end": 1775,
                                                           "ctxt": 0
                                                         },
-                                                        "value": "slug",
-                                                        "optional": false
-                                                      },
-                                                      "computed": false
-                                                    },
-                                                    "computed": true
+                                                        "object": {
+                                                          "type": "Identifier",
+                                                          "span": {
+                                                            "start": 1766,
+                                                            "end": 1770,
+                                                            "ctxt": 0
+                                                          },
+                                                          "value": "team",
+                                                          "optional": false
+                                                        },
+                                                        "property": {
+                                                          "type": "Identifier",
+                                                          "span": {
+                                                            "start": 1771,
+                                                            "end": 1775,
+                                                            "ctxt": 0
+                                                          },
+                                                          "value": "slug",
+                                                          "optional": false
+                                                        }
+                                                      }
+                                                    }
                                                   },
                                                   "right": {
                                                     "type": "ArrayExpression",
@@ -2157,8 +2148,7 @@
                                 },
                                 "value": "setState",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [
                               {
@@ -2323,8 +2313,7 @@
                                       },
                                       "value": "props",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
                                     "type": "Identifier",
@@ -2335,8 +2324,7 @@
                                     },
                                     "value": "organization",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -2347,8 +2335,7 @@
                                   },
                                   "value": "slug",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             ],
                             "quasis": [
@@ -2560,8 +2547,7 @@
                                             },
                                             "value": "props",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "typeAnnotation": {
                                           "type": "TsIntersectionType",
@@ -2645,8 +2631,7 @@
                                         },
                                         "value": "state",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     }
                                   }
                                 ],
@@ -2699,8 +2684,7 @@
                   },
                   "value": "Component",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "isAbstract": false,
               "typeParams": null,

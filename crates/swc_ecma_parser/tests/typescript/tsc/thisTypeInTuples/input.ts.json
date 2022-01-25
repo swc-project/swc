@@ -290,8 +290,7 @@
                 },
                 "value": "slice",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -361,8 +360,7 @@
                 },
                 "value": "slice",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -445,8 +443,7 @@
                 },
                 "value": "slice",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {

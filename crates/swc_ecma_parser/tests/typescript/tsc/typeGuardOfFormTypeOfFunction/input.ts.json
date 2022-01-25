@@ -2014,16 +2014,23 @@
                           "optional": false
                         },
                         "property": {
-                          "type": "Identifier",
+                          "type": "Computed",
                           "span": {
-                            "start": 1201,
-                            "end": 1202,
+                            "start": 1200,
+                            "end": 1203,
                             "ctxt": 0
                           },
-                          "value": "k",
-                          "optional": false
-                        },
-                        "computed": true
+                          "expression": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 1201,
+                              "end": 1202,
+                              "ctxt": 0
+                            },
+                            "value": "k",
+                            "optional": false
+                          }
+                        }
                       },
                       "definite": false
                     }
@@ -2118,8 +2125,7 @@
                           },
                           "value": "call",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {

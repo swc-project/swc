@@ -131,8 +131,7 @@
                 },
                 "value": "NullLogger",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null

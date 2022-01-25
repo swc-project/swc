@@ -16,7 +16,7 @@ use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat, compat::es2022::private_in_object, fixer, helpers, hygiene,
     hygiene::hygiene_with_config, modules, modules::util::Scope, optimization::const_modules,
-    pass::Optional,
+    pass::Optional, Assumptions,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
@@ -30,6 +30,7 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     top_level_mark: Mark,
     target: EsVersion,
     loose: bool,
+    assumptions: Assumptions,
     hygiene: Option<hygiene::Config>,
     fixer: bool,
     inject_helpers: bool,
@@ -42,6 +43,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         cm: &'a Arc<SourceMap>,
         handler: &'b Handler,
         loose: bool,
+        assumptions: Assumptions,
         top_level_mark: Mark,
         pass: P,
     ) -> Self {
@@ -53,6 +55,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             top_level_mark,
             target: EsVersion::Es5,
             loose,
+            assumptions,
             hygiene: Some(Default::default()),
             fixer: true,
             inject_helpers: true,
@@ -74,6 +77,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             top_level_mark: self.top_level_mark,
             target: self.target,
             loose: self.loose,
+            assumptions: self.assumptions,
             hygiene: self.hygiene,
             fixer: self.fixer,
             inject_helpers: self.inject_helpers,
@@ -118,7 +122,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         self,
         c: GlobalPassOption,
     ) -> PassBuilder<'a, 'b, impl swc_ecma_visit::Fold> {
-        let pass = c.build(&self.cm, &self.handler);
+        let pass = c.build(self.cm, self.handler);
         self.then(pass)
     }
 
@@ -172,7 +176,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         let compat_pass = if let Some(env) = self.env {
             Either::Left(swc_ecma_preset_env::preset_env(
                 self.top_level_mark,
-                comments.clone(),
+                comments,
                 env,
             ))
         } else {
@@ -221,7 +225,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 Optional::new(
                     compat::es2015(
                         self.top_level_mark,
-                        comments.clone(),
+                        comments,
                         compat::es2015::Config {
                             computed_props: compat::es2015::computed_props::Config {
                                 loose: self.loose
@@ -240,7 +244,8 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                             },
                             parameters: compat::es2015::parameters::Config {
                                 ignore_function_length: self.loose,
-                            }
+                            },
+                            typescript: syntax.typescript()
                         }
                     ),
                     should_enable(self.target, EsVersion::Es2015)
@@ -255,10 +260,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         let is_mangler_enabled = self
             .minify
             .as_ref()
-            .map(|v| match v.mangle {
-                BoolOrObject::Bool(true) | BoolOrObject::Obj(_) => true,
-                _ => false,
-            })
+            .map(|v| matches!(v.mangle, BoolOrObject::Bool(true) | BoolOrObject::Obj(_)))
             .unwrap_or(false);
 
         let module_scope = Rc::new(RefCell::new(Scope::default()));
@@ -337,9 +339,5 @@ impl VisitMut for MinifierPass {
 }
 
 fn should_enable(target: EsVersion, feature: EsVersion) -> bool {
-    if cfg!(feature = "wrong-target") {
-        target <= feature
-    } else {
-        target < feature
-    }
+    target < feature
 }

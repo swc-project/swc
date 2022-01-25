@@ -1,7 +1,5 @@
 extern crate proc_macro;
 
-use syn;
-
 use swc_macros_common::prelude::*;
 
 mod expand;

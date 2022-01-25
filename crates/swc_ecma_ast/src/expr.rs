@@ -4,7 +4,7 @@ use crate::{
     function::Function,
     ident::{Ident, PrivateName},
     jsx::{JSXElement, JSXEmptyExpr, JSXFragment, JSXMemberExpr, JSXNamespacedName},
-    lit::{Bool, Lit, Number, Str},
+    lit::{Lit, Str},
     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
     pat::Pat,
     prop::Prop,
@@ -13,10 +13,11 @@ use crate::{
         TsAsExpr, TsConstAssertion, TsNonNullExpr, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
         TsTypeParamInstantiation,
     },
-    BigInt, Invalid,
+    ComputedPropName, Invalid,
 };
 use is_macro::Is;
 use serde::{self, Deserialize, Serialize};
+use string_enum::StringEnum;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 
 #[ast_node]
@@ -62,6 +63,9 @@ pub enum Expr {
     /// expression and property is an Identifier.
     #[tag("MemberExpression")]
     Member(MemberExpr),
+
+    #[tag("SuperPropExpression")]
+    SuperProp(SuperPropExpr),
 
     /// true ? 'a' : 'b'
     #[tag("ConditionalExpression")]
@@ -388,12 +392,44 @@ pub struct MemberExpr {
     pub span: Span,
 
     #[serde(rename = "object")]
-    pub obj: ExprOrSuper,
+    pub obj: Box<Expr>,
 
     #[serde(rename = "property")]
-    pub prop: Box<Expr>,
+    pub prop: MemberProp,
+}
 
-    pub computed: bool,
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub enum MemberProp {
+    #[tag("Identifier")]
+    Ident(Ident),
+    #[tag("PrivateName")]
+    PrivateName(PrivateName),
+    #[tag("Computed")]
+    Computed(ComputedPropName),
+}
+
+#[ast_node("SuperPropExpression")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct SuperPropExpr {
+    pub span: Span,
+
+    pub obj: Super,
+
+    #[serde(rename = "property")]
+    pub prop: SuperProp,
+}
+
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub enum SuperProp {
+    #[tag("Identifier")]
+    Ident(Ident),
+    #[tag("Computed")]
+    Computed(ComputedPropName),
 }
 
 impl Take for MemberExpr {
@@ -402,8 +438,19 @@ impl Take for MemberExpr {
             span: DUMMY_SP,
             obj: Take::dummy(),
             prop: Take::dummy(),
-            computed: false,
         }
+    }
+}
+
+impl Take for MemberProp {
+    fn dummy() -> Self {
+        MemberProp::Ident(Ident::dummy())
+    }
+}
+
+impl Take for SuperProp {
+    fn dummy() -> Self {
+        SuperProp::Ident(Ident::dummy())
     }
 }
 
@@ -439,7 +486,7 @@ impl Take for CondExpr {
 pub struct CallExpr {
     pub span: Span,
 
-    pub callee: ExprOrSuper,
+    pub callee: Callee,
 
     #[serde(default, rename = "arguments")]
     pub args: Vec<ExprOrSpread>,
@@ -567,15 +614,24 @@ impl Take for YieldExpr {
 }
 
 #[ast_node("MetaProperty")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Copy)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct MetaPropExpr {
-    #[span(lo)]
-    pub meta: Ident,
+    pub span: Span,
+    pub kind: MetaPropKind,
+}
 
-    #[serde(rename = "property")]
-    #[span(hi)]
-    pub prop: Ident,
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+pub enum MetaPropKind {
+    /// `new.target`
+    NewTarget,
+    /// `import.meta`
+    ImportMeta,
 }
 
 #[ast_node("AwaitExpression")]
@@ -685,18 +741,21 @@ impl Take for ParenExpr {
 #[allow(variant_size_differences)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub enum ExprOrSuper {
+pub enum Callee {
     #[tag("Super")]
     #[is(name = "super_")]
     Super(Super),
+
+    #[tag("Import")]
+    Import(Import),
 
     #[tag("*")]
     Expr(Box<Expr>),
 }
 
-impl Take for ExprOrSuper {
+impl Take for Callee {
     fn dummy() -> Self {
-        ExprOrSuper::Super(Take::dummy())
+        Callee::Super(Take::dummy())
     }
 }
 
@@ -710,6 +769,19 @@ pub struct Super {
 impl Take for Super {
     fn dummy() -> Self {
         Super { span: DUMMY_SP }
+    }
+}
+
+#[ast_node("Import")]
+#[derive(Eq, Hash, Copy, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct Import {
+    pub span: Span,
+}
+
+impl Take for Import {
+    fn dummy() -> Self {
+        Import { span: DUMMY_SP }
     }
 }
 
@@ -773,6 +845,7 @@ pub enum PatOrExpr {
     #[tag("BinaryExpression")]
     #[tag("AssignmentExpression")]
     #[tag("MemberExpression")]
+    #[tag("SuperPropExpression")]
     #[tag("ConditionalExpression")]
     #[tag("CallExpression")]
     #[tag("NewExpression")]
@@ -902,7 +975,7 @@ impl PatOrExpr {
         match self {
             PatOrExpr::Pat(pat) => match *pat {
                 Pat::Expr(expr) => PatOrExpr::Expr(expr),
-                _ => return PatOrExpr::Pat(pat),
+                _ => PatOrExpr::Pat(pat),
             },
             _ => self,
         }
@@ -928,48 +1001,6 @@ impl PatOrExpr {
 impl Take for PatOrExpr {
     fn dummy() -> Self {
         PatOrExpr::Pat(Take::dummy())
-    }
-}
-
-impl From<bool> for Expr {
-    fn from(value: bool) -> Self {
-        Expr::Lit(Lit::Bool(Bool {
-            span: DUMMY_SP,
-            value,
-        }))
-    }
-}
-
-impl From<f64> for Expr {
-    fn from(value: f64) -> Self {
-        Expr::Lit(Lit::Num(Number {
-            span: DUMMY_SP,
-            value,
-        }))
-    }
-}
-
-impl From<Bool> for Expr {
-    fn from(v: Bool) -> Self {
-        Expr::Lit(Lit::Bool(v))
-    }
-}
-
-impl From<Number> for Expr {
-    fn from(v: Number) -> Self {
-        Expr::Lit(Lit::Num(v))
-    }
-}
-
-impl From<Str> for Expr {
-    fn from(v: Str) -> Self {
-        Expr::Lit(Lit::Str(v))
-    }
-}
-
-impl From<BigInt> for Expr {
-    fn from(v: BigInt) -> Self {
-        Expr::Lit(Lit::BigInt(v))
     }
 }
 

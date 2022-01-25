@@ -77,8 +77,7 @@
                       },
                       "value": "iterator",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 "value": {
@@ -198,39 +197,53 @@
                 "optional": false
               },
               "property": {
-                "type": "MemberExpression",
+                "type": "Computed",
                 "span": {
-                  "start": 330,
-                  "end": 348,
+                  "start": 329,
+                  "end": 349,
                   "ctxt": 0
                 },
-                "object": {
-                  "type": "Identifier",
+                "expression": {
+                  "type": "MemberExpression",
                   "span": {
                     "start": 330,
-                    "end": 336,
+                    "end": 348,
                     "ctxt": 0
                   },
-                  "value": "Symbol",
-                  "optional": false
-                },
-                "property": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 337,
-                    "end": 347,
-                    "ctxt": 0
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 330,
+                      "end": 336,
+                      "ctxt": 0
+                    },
+                    "value": "Symbol",
+                    "optional": false
                   },
-                  "value": "iterator",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
+                  "property": {
+                    "type": "Computed",
+                    "span": {
+                      "start": 336,
+                      "end": 348,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 337,
+                        "end": 347,
+                        "ctxt": 0
+                      },
+                      "value": "iterator",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
                   }
-                },
-                "computed": true
-              },
-              "computed": true
+                }
+              }
             }
           }
         ]

@@ -81,8 +81,7 @@
             },
             "value": "x",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -136,8 +135,7 @@
             },
             "value": "y",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -191,8 +189,7 @@
             },
             "value": "break",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -246,8 +243,7 @@
             },
             "value": "case",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -301,8 +297,7 @@
             },
             "value": "catch",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -356,8 +351,7 @@
             },
             "value": "class",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -411,8 +405,7 @@
             },
             "value": "const",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -466,8 +459,7 @@
             },
             "value": "continue",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -521,8 +513,7 @@
             },
             "value": "debugger",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -576,8 +567,7 @@
             },
             "value": "default",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -631,8 +621,7 @@
             },
             "value": "delete",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -686,8 +675,7 @@
             },
             "value": "do",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -741,8 +729,7 @@
             },
             "value": "else",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -796,8 +783,7 @@
             },
             "value": "enum",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -851,8 +837,7 @@
             },
             "value": "export",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -906,8 +891,7 @@
             },
             "value": "extends",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -961,8 +945,7 @@
             },
             "value": "false",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1016,8 +999,7 @@
             },
             "value": "finally",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1071,8 +1053,7 @@
             },
             "value": "for",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1126,8 +1107,7 @@
             },
             "value": "function",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1181,8 +1161,7 @@
             },
             "value": "if",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1236,8 +1215,7 @@
             },
             "value": "import",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1291,8 +1269,7 @@
             },
             "value": "in",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1346,8 +1323,7 @@
             },
             "value": "instanceof",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1401,8 +1377,7 @@
             },
             "value": "new",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1456,8 +1431,7 @@
             },
             "value": "null",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1511,8 +1485,7 @@
             },
             "value": "return",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1566,8 +1539,7 @@
             },
             "value": "super",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1621,8 +1593,7 @@
             },
             "value": "switch",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1676,8 +1647,7 @@
             },
             "value": "this",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1731,8 +1701,7 @@
             },
             "value": "throw",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1786,8 +1755,7 @@
             },
             "value": "true",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1841,8 +1809,7 @@
             },
             "value": "try",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1896,8 +1863,7 @@
             },
             "value": "typeof",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1951,8 +1917,7 @@
             },
             "value": "var",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2006,8 +1971,7 @@
             },
             "value": "void",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2061,8 +2025,7 @@
             },
             "value": "while",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2116,8 +2079,7 @@
             },
             "value": "with",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2171,8 +2133,7 @@
             },
             "value": "implements",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2226,8 +2187,7 @@
             },
             "value": "interface",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2281,8 +2241,7 @@
             },
             "value": "let",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2336,8 +2295,7 @@
             },
             "value": "package",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2391,8 +2349,7 @@
             },
             "value": "private",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2446,8 +2403,7 @@
             },
             "value": "protected",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2501,8 +2457,7 @@
             },
             "value": "public",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2556,8 +2511,7 @@
             },
             "value": "static",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2611,8 +2565,7 @@
             },
             "value": "yield",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2666,8 +2619,7 @@
             },
             "value": "abstract",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2721,8 +2673,7 @@
             },
             "value": "as",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2776,8 +2727,7 @@
             },
             "value": "asserts",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2831,8 +2781,7 @@
             },
             "value": "any",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2886,8 +2835,7 @@
             },
             "value": "async",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2941,8 +2889,7 @@
             },
             "value": "await",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2996,8 +2943,7 @@
             },
             "value": "boolean",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3051,8 +2997,7 @@
             },
             "value": "constructor",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3106,8 +3051,7 @@
             },
             "value": "declare",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3161,8 +3105,7 @@
             },
             "value": "get",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3216,8 +3159,7 @@
             },
             "value": "infer",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3271,8 +3213,7 @@
             },
             "value": "is",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3326,8 +3267,7 @@
             },
             "value": "keyof",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3381,8 +3321,7 @@
             },
             "value": "module",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3436,8 +3375,7 @@
             },
             "value": "namespace",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3491,8 +3429,7 @@
             },
             "value": "never",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3546,8 +3483,7 @@
             },
             "value": "readonly",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3601,8 +3537,7 @@
             },
             "value": "require",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3656,8 +3591,7 @@
             },
             "value": "number",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3711,8 +3645,7 @@
             },
             "value": "object",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3766,8 +3699,7 @@
             },
             "value": "set",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3821,8 +3753,7 @@
             },
             "value": "string",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3876,8 +3807,7 @@
             },
             "value": "symbol",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3931,8 +3861,7 @@
             },
             "value": "type",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3986,8 +3915,7 @@
             },
             "value": "undefined",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -4041,8 +3969,7 @@
             },
             "value": "unique",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -4096,8 +4023,7 @@
             },
             "value": "unknown",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -4151,8 +4077,7 @@
             },
             "value": "from",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -4206,8 +4131,7 @@
             },
             "value": "global",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -4261,8 +4185,7 @@
             },
             "value": "bigint",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -4316,8 +4239,7 @@
             },
             "value": "of",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",

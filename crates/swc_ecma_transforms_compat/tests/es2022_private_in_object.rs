@@ -27,7 +27,7 @@ enum PluginConfig {
 fn fixture(input: PathBuf) {
     let parent = input.parent().unwrap();
 
-    let options: TestOptions = parse_options(&parent);
+    let options: TestOptions = parse_options(parent);
 
     let output = parent.join("output.js");
     test_fixture(

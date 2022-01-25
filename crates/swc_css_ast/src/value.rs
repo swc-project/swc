@@ -1,4 +1,4 @@
-use crate::{Ident, Num, Str, Tokens};
+use crate::{Ident, SimpleBlock, Str, Tokens};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
@@ -8,20 +8,17 @@ pub enum Value {
     #[tag("SimpleBlock")]
     SimpleBlock(SimpleBlock),
 
-    #[tag("SquareBracketBlock")]
-    SquareBracketBlock(SquareBracketBlock),
-
-    #[tag("RoundBracketBlock")]
-    RoundBracketBlock(RoundBracketBlock),
-
     #[tag("UnitValue")]
     Unit(UnitValue),
 
     #[tag("Number")]
-    Number(Num),
+    Number(Number),
 
     #[tag("PercentValue")]
     Percent(PercentValue),
+
+    #[tag("Ratio")]
+    Ratio(Ratio),
 
     #[tag("HashValue")]
     Hash(HashValue),
@@ -44,11 +41,8 @@ pub enum Value {
     #[tag("CommaValues")]
     Comma(CommaValues),
 
-    #[tag("BraceValue")]
-    Brace(BraceValue),
-
     #[tag("Tokens")]
-    Lazy(Tokens),
+    Tokens(Tokens),
 
     #[tag("AtTextValue")]
     AtText(AtTextValue),
@@ -92,20 +86,6 @@ pub struct Function {
     pub value: Vec<Value>,
 }
 
-#[ast_node("RoundBracketBlock")]
-pub struct RoundBracketBlock {
-    /// Includes `(` and `)`.
-    pub span: Span,
-    pub children: Option<Vec<Value>>,
-}
-
-#[ast_node("SquareBracketBlock")]
-pub struct SquareBracketBlock {
-    /// Includes `[` and `]`.
-    pub span: Span,
-    pub children: Option<Vec<Value>>,
-}
-
 #[ast_node("HashValue")]
 pub struct HashValue {
     /// Includes `#`
@@ -126,14 +106,28 @@ pub struct Unit {
 #[ast_node("UnitValue")]
 pub struct UnitValue {
     pub span: Span,
-    pub value: Num,
+    pub value: Number,
     pub unit: Unit,
 }
 
 #[ast_node("PercentValue")]
 pub struct PercentValue {
     pub span: Span,
-    pub value: Num,
+    pub value: Number,
+}
+
+#[ast_node("Number")]
+pub struct Number {
+    pub span: Span,
+    pub value: f64,
+    pub raw: JsWord,
+}
+
+#[ast_node("Ratio")]
+pub struct Ratio {
+    pub span: Span,
+    pub left: Number,
+    pub right: Option<Number>,
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
@@ -148,19 +142,12 @@ pub enum BinOp {
     Div,
 }
 
-/// Values starting with `{` and ending with `}`.
-#[ast_node("BraceValue")]
-pub struct BraceValue {
-    pub span: Span,
-    pub value: Box<Value>,
-}
-
 #[ast_node("AtTextValue")]
 pub struct AtTextValue {
     pub span: Span,
     /// Includes `@`.
     pub name: Ident,
-    pub block: Option<BraceValue>,
+    pub block: Option<SimpleBlock>,
 }
 
 #[ast_node("UrlValue")]
@@ -168,11 +155,4 @@ pub struct UrlValue {
     pub span: Span,
     pub url: JsWord,
     pub raw: JsWord,
-}
-
-#[ast_node("SimpleBlock")]
-pub struct SimpleBlock {
-    pub span: Span,
-    pub name: char,
-    pub value: Vec<Value>,
 }

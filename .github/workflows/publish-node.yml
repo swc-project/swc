@@ -37,34 +37,30 @@ jobs:
             target: x86_64-pc-windows-msvc
           - host: windows-latest
             build: |
-              export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=32;
-              export CARGO_PROFILE_RELEASE_LTO=false
               cargo build -p swc_cli --release --target i686-pc-windows-msvc
               cp target/i686-pc-windows-msvc/release/swc .
               yarn build --target i686-pc-windows-msvc
               yarn test
             target: i686-pc-windows-msvc
-            setup: |
-              choco install nodejs-lts --x86 -y --force
-              echo "C:\Program Files (x86)\nodejs" >> $GITHUB_PATH
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
-            docker: |
-              docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY_URL
-              docker pull $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-debian
-              docker tag $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-debian builder
-            build: |
-              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder sh -c "RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release; rm -rf target/release/.cargo-lock" && cp target/release/swc .
-              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder env RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' yarn build && strip swc.linux-x64-gnu.node
+            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine-zig
+            build: >-
+              rustup target add x86_64-unknown-linux-gnu &&
+              RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release &&
+              rm -rf target/release/.cargo-lock &&
+              cp target/release/swc . &&
+              yarn build --target x86_64-unknown-linux-gnu --zig --zig-abi-suffix 2.12 &&
+              llvm-strip -x swc.linux-x64-gnu.node
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
-            docker: |
-              docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY_URL
-              docker pull $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-alpine
-              docker tag $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-alpine builder
-            build: |
-              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder sh -c "RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release; rm -rf target/release/.cargo-lock" && cp target/release/swc .
-              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder env RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static -Z new-llvm-pass-manager=no' yarn build && strip swc.linux-x64-musl.node
+            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+            build: >-
+              RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release &&
+              rm -rf target/release/.cargo-lock &&
+              cp target/release/swc . &&
+              RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static -Z new-llvm-pass-manager=no' yarn build &&
+              llvm-strip -x swc.linux-x64-musl.node
           - host: macos-latest
             target: aarch64-apple-darwin
             build: |
@@ -79,15 +75,15 @@ jobs:
               strip -x *.node
           - host: ubuntu-latest
             target: aarch64-unknown-linux-gnu
-            setup: |
-              sudo apt-get update
-              sudo apt-get install g++-aarch64-linux-gnu gcc-aarch64-linux-gnu -y
-            build: |
-              cargo build -p swc_cli --release --target=aarch64-unknown-linux-gnu
-              cp ./target/aarch64-unknown-linux-gnu/release/swc .
-              yarn build --target=aarch64-unknown-linux-gnu
-              aarch64-linux-gnu-strip swc.linux-arm64-gnu.node
-          - host: ubuntu-latest
+            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine-zig
+            build: >-
+              set -e &&
+              rustup target add aarch64-unknown-linux-gnu aarch64-unknown-linux-musl &&
+              RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release --target aarch64-unknown-linux-musl &&
+              cp ./target/aarch64-unknown-linux-musl/release/swc . &&
+              yarn build --target aarch64-unknown-linux-gnu --zig --zig-abi-suffix 2.17 &&
+              llvm-strip -x swc.linux-arm64-gnu.node
+          - host: ubuntu-18.04
             target: armv7-unknown-linux-gnueabihf
             setup: |
               sudo apt-get update
@@ -122,16 +118,21 @@ jobs:
           - host: ubuntu-latest
             target: aarch64-unknown-linux-musl
             downloadTarget: aarch64-unknown-linux-musl
-            docker: |
-              docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY_URL
-              docker pull ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-              docker tag ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine builder
-            build: |
-              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder sh -c "rustup toolchain install $(cat ./rust-toolchain) && rustup target add aarch64-unknown-linux-musl && env RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release --target=aarch64-unknown-linux-musl && rm -rf target/release/.cargo-lock" && cp target/aarch64-unknown-linux-musl/release/swc .
-              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder sh -c "rustup toolchain install $(cat ./rust-toolchain) && rustup target add aarch64-unknown-linux-musl && env RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static -Z new-llvm-pass-manager=no' yarn build --target=aarch64-unknown-linux-musl && /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip swc.linux-arm64-musl.node"
+            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+            build: >-
+              rustup toolchain install $(cat ./rust-toolchain) &&
+              rustup target add aarch64-unknown-linux-musl &&
+              RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release --target aarch64-unknown-linux-musl &&
+              rm -rf target/release/.cargo-lock &&
+              cp target/aarch64-unknown-linux-musl/release/swc . &&
+              env RUSTFLAGS='-C target-feature=-crt-static -Z new-llvm-pass-manager=no' yarn build --target=aarch64-unknown-linux-musl &&
+              /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip swc.linux-arm64-musl.node
           - host: windows-latest
             target: aarch64-pc-windows-msvc
+            # Disable `LTO` and increase `codegen-units` to avoid llvm `OOM` on GitHub Actions.
             build: |
+              export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=256
+              export CARGO_PROFILE_RELEASE_LTO=false
               cargo build -p swc_cli --release --target aarch64-pc-windows-msvc
               cp target/aarch64-pc-windows-msvc/release/swc.exe .
               yarn build --target aarch64-pc-windows-msvc --cargo-flags='--no-default-features --features swc_v1'
@@ -139,42 +140,45 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v2
-      - name: Setup node
+      - name: Setup node x64
         uses: actions/setup-node@v2
+        if: matrix.settings.target != 'i686-pc-windows-msvc'
         with:
-          node-version: 14
+          node-version: 16
           check-latest: true
+          cache: yarn
+          architecture: x64
+      - name: Setup node x86
+        uses: actions/setup-node@v2
+        if: matrix.settings.target == 'i686-pc-windows-msvc'
+        with:
+          node-version: 16
+          check-latest: true
+          cache: yarn
+          architecture: x86
       - name: Install
         uses: actions-rs/toolchain@v1
+        if: ${{ !matrix.settings.docker }}
         with:
           profile: minimal
           override: true
           target: ${{ matrix.settings.target }}
-      - name: Generate Cargo.lock
-        uses: actions-rs/cargo@v1
-        with:
-          command: generate-lockfile
       - name: Cache cargo registry
         uses: actions/cache@v2
         with:
           path: ~/.cargo/registry
-          key: ${{ matrix.settings.target }}-node@14-cargo-registry-trimmed-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ matrix.settings.target }}-node@14-cargo-registry-trimmed
       - name: Cache cargo index
         uses: actions/cache@v2
         with:
           path: ~/.cargo/git
-          key: ${{ matrix.settings.target }}-node@14-cargo-index-trimmed-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ matrix.settings.target }}-node@14-cargo-index-trimmed
       - name: Cache NPM dependencies
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: npm-cache-${{ matrix.settings.target }}-node@14-${{ hashFiles('yarn.lock') }}
-      - name: Pull latest image
-        run: ${{ matrix.settings.docker }}
-        env:
-          DOCKER_REGISTRY_URL: ghcr.io
-          DOCKER_USERNAME: ${{ github.actor }}
-          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          key: npm-cache-${{ matrix.settings.target }}-node@16-${{ hashFiles('yarn.lock') }}
+
         if: ${{ matrix.settings.docker }}
       - name: Setup toolchain
         run: ${{ matrix.settings.setup }}
@@ -182,7 +186,15 @@ jobs:
         shell: bash
       - name: Install dependencies
         run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
+      - name: Build in docker
+        uses: addnab/docker-run-action@v3
+        if: ${{ matrix.settings.docker }}
+        with:
+          image: ${{ matrix.settings.docker }}
+          options: -v ${{ env.HOME }}/.cargo/git:/root/.cargo/git -v ${{ env.HOME }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
+          run: ${{ matrix.settings.build }}
       - name: Build
+        if: ${{ !matrix.settings.docker }}
         run: ${{ matrix.settings.build }}
         shell: bash
       - name: Upload artifact

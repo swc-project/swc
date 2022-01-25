@@ -3,7 +3,6 @@ use swc_common::{
     Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 use swc_node_comments::SwcComments;
 
@@ -27,23 +26,16 @@ impl VisitMut for AddTypes {
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.visit_mut_children_with(self);
 
-        match &e.obj {
-            ExprOrSuper::Expr(obj) => match &**obj {
-                Expr::This(..) => {
-                    e.obj = Expr::Paren(ParenExpr {
-                        span: DUMMY_SP,
-                        expr: Box::new(Expr::TsAs(TsAsExpr {
-                            span: DUMMY_SP,
-                            expr: obj.clone(),
-                            type_ann: any_type(),
-                        })),
-                    })
-                    .as_obj();
-                }
-                _ => {}
-            },
-
-            _ => {}
+        if let Expr::This(..) = &*e.obj {
+            e.obj = Expr::Paren(ParenExpr {
+                span: DUMMY_SP,
+                expr: Box::new(Expr::TsAs(TsAsExpr {
+                    span: DUMMY_SP,
+                    expr: e.obj.clone(),
+                    type_ann: any_type(),
+                })),
+            })
+            .into();
         }
     }
 
@@ -78,15 +70,11 @@ impl VisitMut for AddTypes {
         v.visit_mut_children_with(self);
 
         if !self.should_not_annotate_type {
-            match &mut v.name {
-                Pat::Ident(id) => {
-                    id.type_ann = Some(TsTypeAnn {
-                        span: DUMMY_SP,
-                        type_ann: any_type(),
-                    });
-                }
-
-                _ => {}
+            if let Pat::Ident(id) = &mut v.name {
+                id.type_ann = Some(TsTypeAnn {
+                    span: DUMMY_SP,
+                    type_ann: any_type(),
+                });
             }
         }
     }

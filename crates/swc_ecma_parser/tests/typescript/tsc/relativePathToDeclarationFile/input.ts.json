@@ -469,8 +469,7 @@
             },
             "value": "M2",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -481,8 +480,7 @@
           },
           "value": "x",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "consequent": {
         "type": "BlockStatement",
@@ -587,8 +585,7 @@
                                 },
                                 "value": "M2",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
                               "type": "Identifier",
@@ -599,8 +596,7 @@
                               },
                               "value": "x",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -611,8 +607,7 @@
                             },
                             "value": "charCodeAt",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [
                           {

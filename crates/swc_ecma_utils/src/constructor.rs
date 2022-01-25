@@ -56,17 +56,15 @@ impl<'a> Fold for Injector<'a> {
 
         stmts.into_iter().for_each(|stmt| {
             if let Stmt::Expr(ExprStmt { ref expr, .. }) = stmt {
-                match &**expr {
-                    Expr::Call(CallExpr {
-                        callee: ExprOrSuper::Super(..),
-                        ..
-                    }) => {
-                        self.injected = true;
-                        buf.push(stmt);
-                        buf.extend(self.exprs.clone().into_iter().map(|v| v.into_stmt()));
-                        return;
-                    }
-                    _ => {}
+                if let Expr::Call(CallExpr {
+                    callee: Callee::Super(..),
+                    ..
+                }) = &**expr
+                {
+                    self.injected = true;
+                    buf.push(stmt);
+                    buf.extend(self.exprs.clone().into_iter().map(|v| v.into_stmt()));
+                    return;
                 }
             }
 
@@ -128,37 +126,35 @@ impl VisitMut for ExprInjector<'_> {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
 
-        match expr {
-            Expr::Call(CallExpr {
-                callee: ExprOrSuper::Super(..),
-                ..
-            }) => {
-                self.injected_tmp = Some(
-                    self.injected_tmp
-                        .take()
-                        .unwrap_or_else(|| private_ident!("_temp")),
-                );
-                self.injected = true;
-                let e = expr.take();
+        if let Expr::Call(CallExpr {
+            callee: Callee::Super(..),
+            ..
+        }) = expr
+        {
+            self.injected_tmp = Some(
+                self.injected_tmp
+                    .take()
+                    .unwrap_or_else(|| private_ident!("_temp")),
+            );
+            self.injected = true;
+            let e = expr.take();
 
-                *expr = Expr::Seq(SeqExpr {
+            *expr = Expr::Seq(SeqExpr {
+                span: DUMMY_SP,
+                exprs: iter::once(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    exprs: iter::once(Box::new(Expr::Assign(AssignExpr {
-                        span: DUMMY_SP,
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                            self.injected_tmp.as_ref().cloned().unwrap().into(),
-                        ))),
-                        op: op!("="),
-                        right: Box::new(e),
-                    })))
-                    .chain(self.exprs.clone())
-                    .chain(iter::once(Box::new(Expr::Ident(
-                        self.injected_tmp.as_ref().cloned().unwrap(),
-                    ))))
-                    .collect(),
-                })
-            }
-            _ => {}
+                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                        self.injected_tmp.as_ref().cloned().unwrap().into(),
+                    ))),
+                    op: op!("="),
+                    right: Box::new(e),
+                })))
+                .chain(self.exprs.clone())
+                .chain(iter::once(Box::new(Expr::Ident(
+                    self.injected_tmp.as_ref().cloned().unwrap(),
+                ))))
+                .collect(),
+            })
         }
     }
 

@@ -4,7 +4,7 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::fixer;
-use swc_ecma_utils::{ExprExt, Id, UsageFinder, Value};
+use swc_ecma_utils::{ExprExt, Id, StmtLike, UsageFinder, Value};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith, VisitWith};
 use unicode_xid::UnicodeXID;
 
@@ -13,12 +13,18 @@ mod tests;
 
 /// Creates `!e` where e is the expression passed as an argument.
 ///
+/// Returns true if this modified ast.
+///
 /// # Note
 ///
 /// This method returns `!e` if `!!e` is given as a argument.
 ///
 /// TODO: Handle special cases like !1 or !0
-pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
+pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) {
+    negate_inner(e, in_bool_ctx, is_ret_val_ignored);
+}
+
+fn negate_inner(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bool {
     let start_str = dump(&*e, false);
 
     match e {
@@ -44,7 +50,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
                 }
             };
             tracing::debug!("negate: binary");
-            return;
+            return true;
         }
 
         Expr::Bin(BinExpr {
@@ -52,13 +58,13 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
             right,
             op: op @ op!("&&"),
             ..
-        }) if is_ok_to_negate_rhs(&right) => {
+        }) if is_ok_to_negate_rhs(right) => {
             tracing::debug!("negate: a && b => !a || !b");
 
-            negate(&mut **left, in_bool_ctx);
-            negate(&mut **right, in_bool_ctx);
+            let a = negate_inner(&mut **left, in_bool_ctx, false);
+            let b = negate_inner(&mut **right, in_bool_ctx, is_ret_val_ignored);
             *op = op!("||");
-            return;
+            return a || b;
         }
 
         Expr::Bin(BinExpr {
@@ -66,31 +72,30 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
             right,
             op: op @ op!("||"),
             ..
-        }) if is_ok_to_negate_rhs(&right) => {
+        }) if is_ok_to_negate_rhs(right) => {
             tracing::debug!("negate: a || b => !a && !b");
 
-            negate(&mut **left, in_bool_ctx);
-            negate(&mut **right, in_bool_ctx);
+            let a = negate_inner(&mut **left, in_bool_ctx, false);
+            let b = negate_inner(&mut **right, in_bool_ctx, is_ret_val_ignored);
             *op = op!("&&");
-            return;
+            return a || b;
         }
 
         Expr::Cond(CondExpr { cons, alt, .. })
-            if is_ok_to_negate_for_cond(&cons) && is_ok_to_negate_for_cond(&alt) =>
+            if is_ok_to_negate_for_cond(cons) && is_ok_to_negate_for_cond(alt) =>
         {
             tracing::debug!("negate: cond");
 
-            negate(&mut **cons, in_bool_ctx);
-            negate(&mut **alt, in_bool_ctx);
-            return;
+            let a = negate_inner(&mut **cons, in_bool_ctx, false);
+            let b = negate_inner(&mut **alt, in_bool_ctx, is_ret_val_ignored);
+            return a || b;
         }
 
         Expr::Seq(SeqExpr { exprs, .. }) => {
             if let Some(last) = exprs.last_mut() {
                 tracing::debug!("negate: seq");
 
-                negate(&mut **last, in_bool_ctx);
-                return;
+                return negate_inner(&mut **last, in_bool_ctx, is_ret_val_ignored);
             }
         }
 
@@ -99,14 +104,15 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
 
     let mut arg = Box::new(e.take());
 
-    match &mut *arg {
-        Expr::Unary(UnaryExpr {
-            op: op!("!"), arg, ..
-        }) => match &mut **arg {
+    if let Expr::Unary(UnaryExpr {
+        op: op!("!"), arg, ..
+    }) = &mut *arg
+    {
+        match &mut **arg {
             Expr::Unary(UnaryExpr { op: op!("!"), .. }) => {
                 tracing::debug!("negate: !!bool => !bool");
                 *e = *arg.take();
-                return;
+                return true;
             }
             Expr::Bin(BinExpr { op: op!("in"), .. })
             | Expr::Bin(BinExpr {
@@ -115,38 +121,48 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
             }) => {
                 tracing::debug!("negate: !bool => bool");
                 *e = *arg.take();
-                return;
+                return true;
             }
             _ => {
                 if in_bool_ctx {
                     tracing::debug!("negate: !expr => expr (in bool context)");
                     *e = *arg.take();
-                    return;
+                    return true;
+                }
+
+                if is_ret_val_ignored {
+                    tracing::debug!("negate: !expr => expr (return value ignored)");
+                    *e = *arg.take();
+                    return true;
                 }
             }
-        },
-
-        _ => {}
+        }
     }
 
-    tracing::debug!("negate: e => !e");
+    if is_ret_val_ignored {
+        tracing::debug!("negate: noop because it's ignored");
+        *e = *arg;
 
-    *e = Expr::Unary(UnaryExpr {
-        span: DUMMY_SP,
-        op: op!("!"),
-        arg,
-    });
+        false
+    } else {
+        tracing::debug!("negate: e => !e");
 
-    if cfg!(feature = "debug") {
-        tracing::trace!("[Change] Negated `{}` as `{}`", start_str, dump(&*e, false));
+        *e = Expr::Unary(UnaryExpr {
+            span: DUMMY_SP,
+            op: op!("!"),
+            arg,
+        });
+
+        if cfg!(feature = "debug") {
+            tracing::trace!("[Change] Negated `{}` as `{}`", start_str, dump(&*e, false));
+        }
+
+        true
     }
 }
 
 pub(crate) fn is_ok_to_negate_for_cond(e: &Expr) -> bool {
-    match e {
-        Expr::Update(..) => false,
-        _ => true,
-    }
+    !matches!(e, Expr::Update(..))
 }
 
 pub(crate) fn is_ok_to_negate_rhs(rhs: &Expr) -> bool {
@@ -166,10 +182,10 @@ pub(crate) fn is_ok_to_negate_rhs(rhs: &Expr) -> bool {
             left,
             right,
             ..
-        }) => is_ok_to_negate_rhs(&left) && is_ok_to_negate_rhs(&right),
+        }) => is_ok_to_negate_rhs(left) && is_ok_to_negate_rhs(right),
 
         Expr::Bin(BinExpr { left, right, .. }) => {
-            is_ok_to_negate_rhs(&left) && is_ok_to_negate_rhs(&right)
+            is_ok_to_negate_rhs(left) && is_ok_to_negate_rhs(right)
         }
 
         Expr::Assign(e) => is_ok_to_negate_rhs(&e.right),
@@ -181,7 +197,7 @@ pub(crate) fn is_ok_to_negate_rhs(rhs: &Expr) -> bool {
 
         Expr::Seq(e) => {
             if let Some(last) = e.exprs.last() {
-                is_ok_to_negate_rhs(&last)
+                is_ok_to_negate_rhs(last)
             } else {
                 true
             }
@@ -207,7 +223,9 @@ pub(crate) fn is_ok_to_negate_rhs(rhs: &Expr) -> bool {
 }
 
 /// A negative value means that it's efficient to negate the expression.
-pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> Option<isize> {
+#[cfg_attr(feature = "debug", tracing::instrument(skip(e)))]
+pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> isize {
+    #[cfg_attr(test, tracing::instrument(skip(e)))]
     fn cost(
         e: &Expr,
         in_bool_ctx: bool,
@@ -220,15 +238,14 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
                     op: op!("!"), arg, ..
                 }) => {
                     // TODO: Check if this argument is actually start of line.
-                    match &**arg {
-                        Expr::Call(CallExpr {
-                            callee: ExprOrSuper::Expr(callee),
-                            ..
-                        }) => match &**callee {
-                            Expr::Fn(..) => return 0,
-                            _ => {}
-                        },
-                        _ => {}
+                    if let Expr::Call(CallExpr {
+                        callee: Callee::Expr(callee),
+                        ..
+                    }) = &**arg
+                    {
+                        if let Expr::Fn(..) = &**callee {
+                            return 0;
+                        }
                     }
 
                     match &**arg {
@@ -267,19 +284,19 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
                     right,
                     ..
                 }) => {
-                    let l_cost = cost(&left, in_bool_ctx, Some(*op), false);
+                    let l_cost = cost(left, in_bool_ctx, Some(*op), false);
 
-                    if !is_ret_val_ignored && !is_ok_to_negate_rhs(&right) {
+                    if !is_ret_val_ignored && !is_ok_to_negate_rhs(right) {
                         return l_cost + 3;
                     }
-                    l_cost + cost(&right, in_bool_ctx, Some(*op), is_ret_val_ignored)
+                    l_cost + cost(right, in_bool_ctx, Some(*op), is_ret_val_ignored)
                 }
 
                 Expr::Cond(CondExpr { cons, alt, .. })
-                    if is_ok_to_negate_for_cond(&cons) && is_ok_to_negate_for_cond(&alt) =>
+                    if is_ok_to_negate_for_cond(cons) && is_ok_to_negate_for_cond(alt) =>
                 {
-                    cost(&cons, in_bool_ctx, bin_op, is_ret_val_ignored)
-                        + cost(&alt, in_bool_ctx, bin_op, is_ret_val_ignored)
+                    cost(cons, in_bool_ctx, bin_op, is_ret_val_ignored)
+                        + cost(alt, in_bool_ctx, bin_op, is_ret_val_ignored)
                 }
 
                 Expr::Cond(..)
@@ -299,7 +316,7 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
 
                 Expr::Seq(e) => {
                     if let Some(last) = e.exprs.last() {
-                        return cost(&last, in_bool_ctx, bin_op, is_ret_val_ignored);
+                        return cost(last, in_bool_ctx, bin_op, is_ret_val_ignored);
                     }
 
                     if is_ret_val_ignored {
@@ -319,13 +336,12 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
             }
         })();
 
+        // Print more info while testing negate_cost
         if cfg!(test) {
-            tracing::trace!(
-                "negation cost of `{}` = {}\nin_book_ctx={:?}\nis_ret_val_ignored={:?}",
-                dump(&e.clone().fold_with(&mut as_folder(fixer(None))), false),
+            tracing::debug!(
+                "negation cost of `{}` = {}",
+                dump(&e.clone().fold_with(&mut as_folder(fixer(None))), true),
                 cost,
-                in_bool_ctx,
-                is_ret_val_ignored
             );
         }
 
@@ -344,7 +360,7 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
         );
     }
 
-    Some(cost)
+    cost
 }
 
 pub(crate) fn is_pure_undefined(e: &Expr) -> bool {
@@ -373,7 +389,7 @@ pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
 
     s.starts_with(|c: char| c.is_xid_start())
         && s.chars().all(|c: char| c.is_xid_continue())
-        && !s.contains("𝒶")
+        && !s.contains('𝒶')
         && !s.is_reserved()
 }
 
@@ -388,11 +404,7 @@ pub(crate) fn is_directive(e: &Stmt) -> bool {
 }
 
 pub(crate) fn is_pure_undefined_or_null(e: &Expr) -> bool {
-    is_pure_undefined(e)
-        || match e {
-            Expr::Lit(Lit::Null(..)) => true,
-            _ => false,
-        }
+    is_pure_undefined(e) || matches!(e, Expr::Lit(Lit::Null(..)))
 }
 
 /// This method does **not** modifies `e`.
@@ -407,14 +419,14 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
             right,
             ..
         }) => {
-            let l = eval_as_number(&left)?;
-            let r = eval_as_number(&right)?;
+            let l = eval_as_number(left)?;
+            let r = eval_as_number(right)?;
 
             return Some(l - r);
         }
 
         Expr::Call(CallExpr {
-            callee: ExprOrSuper::Expr(callee),
+            callee: Callee::Expr(callee),
             args,
             ..
         }) => {
@@ -424,107 +436,91 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
                 }
             }
 
-            match &**callee {
-                Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Expr(obj),
-                    prop,
-                    computed: false,
-                    ..
-                }) => {
-                    let prop = match &**prop {
-                        Expr::Ident(i) => i,
-                        _ => return None,
-                    };
+            if let Expr::Member(MemberExpr {
+                obj,
+                prop: MemberProp::Ident(prop),
+                ..
+            }) = &**callee
+            {
+                match &**obj {
+                    Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
+                        "cos" => {
+                            let v = eval_as_number(&args.first()?.expr)?;
 
-                    match &**obj {
-                        Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
-                            "cos" => {
-                                let v = eval_as_number(&args.first()?.expr)?;
+                            return Some(v.cos());
+                        }
+                        "sin" => {
+                            let v = eval_as_number(&args.first()?.expr)?;
 
-                                return Some(v.cos());
-                            }
-                            "sin" => {
-                                let v = eval_as_number(&args.first()?.expr)?;
+                            return Some(v.sin());
+                        }
 
-                                return Some(v.sin());
-                            }
-
-                            "max" => {
-                                let mut numbers = vec![];
-                                for arg in args {
-                                    let v = eval_as_number(&arg.expr)?;
-                                    if v.is_infinite() || v.is_nan() {
-                                        return None;
-                                    }
-                                    numbers.push(v);
-                                }
-
-                                return Some(
-                                    numbers
-                                        .into_iter()
-                                        .max_by(|a, b| a.partial_cmp(b).unwrap())
-                                        .unwrap_or(f64::NEG_INFINITY),
-                                );
-                            }
-
-                            "min" => {
-                                let mut numbers = vec![];
-                                for arg in args {
-                                    let v = eval_as_number(&arg.expr)?;
-                                    if v.is_infinite() || v.is_nan() {
-                                        return None;
-                                    }
-                                    numbers.push(v);
-                                }
-
-                                return Some(
-                                    numbers
-                                        .into_iter()
-                                        .min_by(|a, b| a.partial_cmp(b).unwrap())
-                                        .unwrap_or(f64::INFINITY),
-                                );
-                            }
-
-                            "pow" => {
-                                if args.len() != 2 {
+                        "max" => {
+                            let mut numbers = vec![];
+                            for arg in args {
+                                let v = eval_as_number(&arg.expr)?;
+                                if v.is_infinite() || v.is_nan() {
                                     return None;
                                 }
-                                let first = eval_as_number(&args[0].expr)?;
-                                let second = eval_as_number(&args[1].expr)?;
-
-                                return Some(first.powf(second));
+                                numbers.push(v);
                             }
 
-                            _ => {}
-                        },
+                            return Some(
+                                numbers
+                                    .into_iter()
+                                    .max_by(|a, b| a.partial_cmp(b).unwrap())
+                                    .unwrap_or(f64::NEG_INFINITY),
+                            );
+                        }
+
+                        "min" => {
+                            let mut numbers = vec![];
+                            for arg in args {
+                                let v = eval_as_number(&arg.expr)?;
+                                if v.is_infinite() || v.is_nan() {
+                                    return None;
+                                }
+                                numbers.push(v);
+                            }
+
+                            return Some(
+                                numbers
+                                    .into_iter()
+                                    .min_by(|a, b| a.partial_cmp(b).unwrap())
+                                    .unwrap_or(f64::INFINITY),
+                            );
+                        }
+
+                        "pow" => {
+                            if args.len() != 2 {
+                                return None;
+                            }
+                            let first = eval_as_number(&args[0].expr)?;
+                            let second = eval_as_number(&args[1].expr)?;
+
+                            return Some(first.powf(second));
+                        }
+
                         _ => {}
-                    }
+                    },
+                    _ => {}
                 }
-                _ => {}
             }
         }
 
         Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(obj),
-            prop,
-            computed: false,
+            obj,
+            prop: MemberProp::Ident(prop),
             ..
-        }) => {
-            let prop = match &**prop {
-                Expr::Ident(i) => i,
-                _ => return None,
-            };
-
-            match &**obj {
-                Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
-                    "PI" => return Some(f64::consts::PI),
-                    "E" => return Some(f64::consts::E),
-                    "LN10" => return Some(f64::consts::LN_10),
-                    _ => {}
-                },
+        }) => match &**obj {
+            Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
+                "PI" => return Some(f64::consts::PI),
+                "E" => return Some(f64::consts::E),
+                "LN10" => return Some(f64::consts::LN_10),
                 _ => {}
-            }
-        }
+            },
+            _ => {}
+        },
 
         _ => {
             if let Value::Known(v) = e.as_number() {
@@ -540,7 +536,7 @@ pub(crate) fn always_terminates(s: &Stmt) -> bool {
     match s {
         Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => true,
         Stmt::If(IfStmt { cons, alt, .. }) => {
-            always_terminates(&cons) && alt.as_deref().map(always_terminates).unwrap_or(false)
+            always_terminates(cons) && alt.as_deref().map(always_terminates).unwrap_or(false)
         }
         Stmt::Block(s) => s.stmts.iter().any(always_terminates),
 
@@ -573,14 +569,6 @@ where
 
         (self.op)(e);
     }
-
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
-
-        if e.computed {
-            e.prop.visit_mut_with(self);
-        }
-    }
 }
 
 pub fn replace_expr<N, F>(node: &mut N, op: F)
@@ -612,4 +600,15 @@ pub(super) fn is_fine_for_if_cons(s: &Stmt) -> bool {
         Stmt::Decl(..) => false,
         _ => true,
     }
+}
+
+pub(super) fn drop_invalid_stmts<T>(stmts: &mut Vec<T>)
+where
+    T: StmtLike,
+{
+    stmts.retain(|s| match s.as_stmt() {
+        Some(Stmt::Empty(..)) => false,
+        Some(Stmt::Decl(Decl::Var(v))) => !v.decls.is_empty(),
+        _ => true,
+    });
 }

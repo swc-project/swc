@@ -2270,7 +2270,7 @@ Elements.prototype = {
         this.empty().adopt(target.childNodes), supportsHTML5Elements || fragment1.removeChild(wrapper), wrapper = null;
     }));
     var testForm = document.createElement("form");
-    null.innerHTML = "<select><option>s</option></select>", "s" != null.firstChild.value && (Element.Properties.value = {
+    testForm.innerHTML = "<select><option>s</option></select>", "s" != testForm.firstChild.value && (Element.Properties.value = {
         set: function(value) {
             if ("select" != this.get("tag")) return this.setProperty("value", value);
             for(var options = this.getElements("option"), i = 0; i < options.length; i++){
@@ -2298,8 +2298,8 @@ Elements.prototype = {
     });
 })(), (function() {
     var html = document.html, el = document.createElement("div");
-    null.style.color = "red", null.style.color = null;
-    var doesNotRemoveStyles = "red" == null.style.color;
+    el.style.color = "red", el.style.color = null;
+    var doesNotRemoveStyles = "red" == el.style.color;
     el = null, Element.Properties.styles = {
         set: function(styles) {
             this.setStyles(styles);
@@ -3701,17 +3701,15 @@ Cookie.write = function(key, value, options) {
         },
         initialize: function(path, options) {
             this.instance = "Swiff_" + String.uniqueID(), this.setOptions(options), options = this.options;
-            var id = this.id = options.id || this.instance, container = document.id(options.container);
+            var option, id = this.id = options.id || this.instance, container = document.id(options.container);
             Swiff.CallBacks[this.instance] = {};
             var params = options.params, vars = options.vars, callBacks = options.callBacks, properties = Object.append({
                 height: options.height,
                 width: options.width
             }, options.properties), self = this;
-            for(var callBack in callBacks)Swiff.CallBacks[this.instance][callBack] = (function(option) {
-                return function() {
-                    return option.apply(self.object, arguments);
-                };
-            })(callBacks[callBack]), vars[callBack] = "Swiff.CallBacks." + this.instance + "." + callBack;
+            for(var callBack in callBacks)option = callBacks[callBack], Swiff.CallBacks[this.instance][callBack] = function() {
+                return option.apply(self.object, arguments);
+            }, vars[callBack] = "Swiff.CallBacks." + this.instance + "." + callBack;
             params.flashVars = Object.toQueryString(vars), Browser.ie ? (properties.classid = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000", params.movie = path) : properties.type = "application/x-shockwave-flash", properties.data = path;
             var build = "<object id=\"" + id + "\"";
             for(var property in properties)build += " " + property + "=\"" + properties[property] + "\"";

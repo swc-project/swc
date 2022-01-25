@@ -1645,8 +1645,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1682,8 +1681,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1719,8 +1717,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1756,8 +1753,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1793,8 +1789,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1830,8 +1825,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1867,8 +1861,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1904,8 +1897,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1941,8 +1933,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1978,8 +1969,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2015,8 +2005,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2052,8 +2041,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2089,8 +2077,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2126,8 +2113,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2163,8 +2149,7 @@
           },
           "value": "member",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

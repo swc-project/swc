@@ -93,7 +93,7 @@ impl<'a> DiagnosticBuilder<'a> {
             return;
         }
 
-        self.handler.emit_db(&self);
+        self.handler.emit_db(self);
         self.cancel();
     }
 

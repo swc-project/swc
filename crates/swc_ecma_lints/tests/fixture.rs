@@ -51,7 +51,7 @@ fn pass(input: PathBuf) {
 
         let rules = all(&config, top_level_ctxt);
 
-        HANDLER.set(&handler, || {
+        HANDLER.set(handler, || {
             for mut rule in rules {
                 rule.lint_module(&m);
             }

@@ -444,8 +444,7 @@
                                 },
                                 "value": "indentAmt",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         }
@@ -536,8 +535,7 @@
                                 },
                                 "value": "indentAmt",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         }
@@ -634,8 +632,7 @@
                                   },
                                   "value": "builder",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -646,8 +643,7 @@
                                 },
                                 "value": "length",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NumericLiteral",
@@ -707,8 +703,7 @@
                                       },
                                       "value": "Alert",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "arguments": [
                                     {
@@ -737,8 +732,7 @@
                                           },
                                           "value": "builder",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       }
                                     }
                                   ],
@@ -808,37 +802,42 @@
                                     },
                                     "value": "indentStrings",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
-                                  "type": "MemberExpression",
+                                  "type": "Computed",
                                   "span": {
-                                    "start": 879,
-                                    "end": 893,
+                                    "start": 878,
+                                    "end": 894,
                                     "ctxt": 0
                                   },
-                                  "object": {
-                                    "type": "ThisExpression",
+                                  "expression": {
+                                    "type": "MemberExpression",
                                     "span": {
                                       "start": 879,
-                                      "end": 883,
-                                      "ctxt": 0
-                                    }
-                                  },
-                                  "property": {
-                                    "type": "Identifier",
-                                    "span": {
-                                      "start": 884,
                                       "end": 893,
                                       "ctxt": 0
                                     },
-                                    "value": "indentAmt",
-                                    "optional": false
-                                  },
-                                  "computed": false
-                                },
-                                "computed": true
+                                    "object": {
+                                      "type": "ThisExpression",
+                                      "span": {
+                                        "start": 879,
+                                        "end": 883,
+                                        "ctxt": 0
+                                      }
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 884,
+                                        "end": 893,
+                                        "ctxt": 0
+                                      },
+                                      "value": "indentAmt",
+                                      "optional": false
+                                    }
+                                  }
+                                }
                               },
                               "definite": false
                             }
@@ -1020,8 +1019,7 @@
                                       },
                                       "value": "indentAmt",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 },
                                 "update": {
@@ -1102,8 +1100,7 @@
                                             },
                                             "value": "indent1",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       }
                                     }
@@ -1156,37 +1153,42 @@
                                         },
                                         "value": "indentStrings",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "property": {
-                                      "type": "MemberExpression",
+                                      "type": "Computed",
                                       "span": {
-                                        "start": 1139,
-                                        "end": 1153,
+                                        "start": 1138,
+                                        "end": 1154,
                                         "ctxt": 0
                                       },
-                                      "object": {
-                                        "type": "ThisExpression",
+                                      "expression": {
+                                        "type": "MemberExpression",
                                         "span": {
                                           "start": 1139,
-                                          "end": 1143,
-                                          "ctxt": 0
-                                        }
-                                      },
-                                      "property": {
-                                        "type": "Identifier",
-                                        "span": {
-                                          "start": 1144,
                                           "end": 1153,
                                           "ctxt": 0
                                         },
-                                        "value": "indentAmt",
-                                        "optional": false
-                                      },
-                                      "computed": false
-                                    },
-                                    "computed": true
+                                        "object": {
+                                          "type": "ThisExpression",
+                                          "span": {
+                                            "start": 1139,
+                                            "end": 1143,
+                                            "ctxt": 0
+                                          }
+                                        },
+                                        "property": {
+                                          "type": "Identifier",
+                                          "span": {
+                                            "start": 1144,
+                                            "end": 1153,
+                                            "ctxt": 0
+                                          },
+                                          "value": "indentAmt",
+                                          "optional": false
+                                        }
+                                      }
+                                    }
                                   },
                                   "right": {
                                     "type": "Identifier",
@@ -1243,8 +1245,7 @@
                                 },
                                 "value": "builder",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "Identifier",
@@ -1365,8 +1366,7 @@
                                 },
                                 "value": "builder",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "Identifier",
@@ -1487,8 +1487,7 @@
                                 },
                                 "value": "builder",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "Identifier",
@@ -1547,8 +1546,7 @@
                                   },
                                   "value": "outfile",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -1559,8 +1557,7 @@
                                 },
                                 "value": "WriteLine",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [
                               {
@@ -1589,8 +1586,7 @@
                                     },
                                     "value": "builder",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               }
                             ],
@@ -1636,8 +1632,7 @@
                                 },
                                 "value": "builder",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "StringLiteral",
@@ -1938,8 +1933,7 @@
                               },
                               "value": "state",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "typeAnnotation": {
                             "type": "TsTypeReference",
@@ -2005,8 +1999,7 @@
                           },
                           "value": "print",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -2066,8 +2059,7 @@
                           },
                           "value": "increaseIndent",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -2360,8 +2352,7 @@
                               },
                               "value": "state",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "typeAnnotation": {
                             "type": "TsTypeReference",
@@ -2427,8 +2418,7 @@
                           },
                           "value": "decreaseIndent",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null

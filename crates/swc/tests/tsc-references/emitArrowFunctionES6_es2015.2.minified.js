@@ -1,4 +1,4 @@
 function foo(func) {}
 foo(()=>!0
 ), foo(()=>!1
-), ([a])=>{};
+), ([{ value , done  }])=>{};

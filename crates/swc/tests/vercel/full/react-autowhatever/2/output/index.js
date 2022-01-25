@@ -60,34 +60,31 @@ var h = function(b) {
             }
         }), b && g(a, b);
     }(h, b);
-    var d, i, j, k = function(b) {
-        var c = function() {
-            if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-            if (Reflect.construct.sham) return !1;
-            if ("function" == typeof Proxy) return !0;
-            try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
-            } catch (a) {
-                return !1;
-            }
-        }();
-        return function() {
-            var a, d, f, g, h = e(b);
-            if (c) {
-                var i = e(this).constructor;
-                g = Reflect.construct(h, arguments, i);
-            } else g = h.apply(this, arguments);
-            return d = this, (f = g) && ("object" == ((a = f) && "undefined" != typeof Symbol && a.constructor === Symbol ? "symbol" : typeof a) || "function" == typeof f) ? f : (function(d) {
-                if (void 0 === d) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-                return d;
-            })(d);
-        };
-    }(h);
+    var d, i, j, k, l, m = (k = h, l = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+        } catch (a) {
+            return !1;
+        }
+    }(), function() {
+        var a, b, c, d, f = e(k);
+        if (l) {
+            var g = e(this).constructor;
+            d = Reflect.construct(f, arguments, g);
+        } else d = f.apply(this, arguments);
+        return b = this, (c = d) && ("object" == ((a = c) && "undefined" != typeof Symbol && a.constructor === Symbol ? "symbol" : typeof a) || "function" == typeof c) ? c : (function(b) {
+            if (void 0 === b) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return b;
+        })(b);
+    });
     function h() {
         var a;
         return !function(a, d) {
             if (!(a instanceof d)) throw new TypeError("Cannot call a class as a function");
-        }(this, h), a = k.apply(this, arguments), a.storeHighlightedItemReference = function(b) {
+        }(this, h), a = m.apply(this, arguments), a.storeHighlightedItemReference = function(b) {
             a.props.onHighlightedItemChange(null === b ? null : b.item);
         }, a;
     }

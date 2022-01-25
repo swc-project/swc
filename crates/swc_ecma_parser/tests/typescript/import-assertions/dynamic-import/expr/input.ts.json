@@ -41,14 +41,12 @@
                 "ctxt": 0
               },
               "callee": {
-                "type": "Identifier",
+                "type": "Import",
                 "span": {
                   "start": 4,
                   "end": 10,
                   "ctxt": 0
-                },
-                "value": "import",
-                "optional": false
+                }
               },
               "arguments": [
                 {

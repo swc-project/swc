@@ -100,8 +100,7 @@
                         },
                         "value": "flags",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "StringLiteral",
@@ -178,8 +177,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -190,8 +188,7 @@
             },
             "value": "num",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -304,8 +301,7 @@
                       },
                       "value": "flags",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]

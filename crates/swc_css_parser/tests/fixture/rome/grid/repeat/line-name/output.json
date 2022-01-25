@@ -118,13 +118,14 @@
                     "raw": "4"
                   },
                   {
-                    "type": "SquareBracketBlock",
+                    "type": "SimpleBlock",
                     "span": {
                       "start": 43,
                       "end": 54,
                       "ctxt": 0
                     },
-                    "children": [
+                    "name": "[",
+                    "value": [
                       {
                         "type": "Identifier",
                         "span": {

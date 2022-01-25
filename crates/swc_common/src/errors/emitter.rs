@@ -87,11 +87,11 @@ impl Emitter for EmitterWriter {
 
         self.emit_messages_default(
             db.level,
-            &db.styled_message(),
+            db.styled_message(),
             &db.code,
             &primary_span,
             &children,
-            &suggestions,
+            suggestions,
         );
     }
 
@@ -381,7 +381,7 @@ impl EmitterWriter {
         // 4 | | }
         //   | |_^ test
         if line.annotations.len() == 1 {
-            if let Some(ref ann) = line.annotations.get(0) {
+            if let Some(ann) = line.annotations.get(0) {
                 if let AnnotationType::MultilineStart(depth) = ann.annotation_type {
                     if source_string
                         .chars()
@@ -693,7 +693,7 @@ impl EmitterWriter {
                 (pos + 2, annotation.start_col)
             };
             if let Some(ref label) = annotation.label {
-                buffer.puts(line_offset + pos, code_offset + col, &label, style);
+                buffer.puts(line_offset + pos, code_offset + col, label, style);
             }
         }
 
@@ -932,7 +932,7 @@ impl EmitterWriter {
         }
     }
 
-    #[allow(clippy::cognitive_complexity)]
+    #[allow(clippy::cognitive_complexity, clippy::comparison_chain)]
     fn emit_message_default(
         &mut self,
         msp: &MultiSpan,
@@ -973,7 +973,7 @@ impl EmitterWriter {
             // only render error codes, not lint codes
             if let Some(DiagnosticId::Error(ref code)) = *code {
                 buffer.append(0, "[", Style::Level(level));
-                buffer.append(0, &code, Style::Level(level));
+                buffer.append(0, code, Style::Level(level));
                 buffer.append(0, "]", Style::Level(level));
             }
             if !level_str.is_empty() {
@@ -990,7 +990,7 @@ impl EmitterWriter {
         let mut annotated_files = self.preprocess_annotations(msp);
 
         // Make sure our primary file comes first
-        let (primary_lo, sm) = if let (Some(sm), Some(ref primary_span)) =
+        let (primary_lo, sm) = if let (Some(sm), Some(primary_span)) =
             (self.sm.as_ref(), msp.primary_span().as_ref())
         {
             if !primary_span.is_dummy() {
@@ -1369,8 +1369,8 @@ impl EmitterWriter {
                     for child in children {
                         let span = child.render_span.as_ref().unwrap_or(&child.span);
                         if let Err(e) = self.emit_message_default(
-                            &span,
-                            &child.styled_message(),
+                            span,
+                            child.styled_message(),
                             &None,
                             child.level,
                             max_line_num_len,

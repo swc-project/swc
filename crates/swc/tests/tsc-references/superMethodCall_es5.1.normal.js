@@ -109,6 +109,7 @@ function _superPropBase(object, property) {
     return object;
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
@@ -170,7 +171,7 @@ var Derived = /*#__PURE__*/ function(Base) {
             key: "asyncMethod",
             value: function asyncMethod() {
                 var _this = this;
-                var _super_method = function() {
+                var _this1 = this, _superprop_get_method = function() {
                     return _get(_getPrototypeOf(Derived.prototype), "method", _this);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
@@ -179,13 +180,13 @@ var Derived = /*#__PURE__*/ function(Base) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
                                 ;
-                                return _ctx.abrupt("return", (ref = _super_method()) === null || ref === void 0 ? void 0 : ref.call(this));
+                                return _ctx.abrupt("return", (ref = _superprop_get_method()) === null || ref === void 0 ? void 0 : ref.call(_this1));
                             case 2:
                             case "end":
                                 return _ctx.stop();
                         }
-                    }, _callee, this);
-                }).bind(this))();
+                    }, _callee);
+                }))();
             }
         }
     ]);

@@ -46,7 +46,7 @@ warning: CallExpr
 3 | | })
   | |__^
 
-warning: ExprOrSuper
+warning: Callee
  --> $DIR/tests/span/js/expr/arrow-with-block.js:1:1
   |
 1 | use((a) => {

@@ -285,6 +285,7 @@ impl<T> RwLock<T> {
         self.0.try_borrow_mut().map_err(|_| ())
     }
 
+    #[allow(clippy::result_unit_err)]
     #[cfg(feature = "concurrent")]
     #[inline(always)]
     pub fn try_write(&self) -> Result<WriteGuard<'_, T>, ()> {

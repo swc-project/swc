@@ -159,13 +159,13 @@
                         "ctxt": 0
                       },
                       "callee": {
-                        "type": "MemberExpression",
+                        "type": "SuperPropExpression",
                         "span": {
                           "start": 157,
                           "end": 169,
                           "ctxt": 0
                         },
-                        "object": {
+                        "obj": {
                           "type": "Super",
                           "span": {
                             "start": 157,
@@ -182,8 +182,7 @@
                           },
                           "value": "method",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -264,13 +263,13 @@
                         "ctxt": 0
                       },
                       "callee": {
-                        "type": "MemberExpression",
+                        "type": "SuperPropExpression",
                         "span": {
                           "start": 200,
                           "end": 215,
                           "ctxt": 0
                         },
-                        "object": {
+                        "obj": {
                           "type": "Super",
                           "span": {
                             "start": 200,
@@ -279,20 +278,27 @@
                           }
                         },
                         "property": {
-                          "type": "StringLiteral",
+                          "type": "Computed",
                           "span": {
-                            "start": 206,
-                            "end": 214,
+                            "start": 205,
+                            "end": 215,
                             "ctxt": 0
                           },
-                          "value": "method",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
+                          "expression": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 206,
+                              "end": 214,
+                              "ctxt": 0
+                            },
+                            "value": "method",
+                            "hasEscape": false,
+                            "kind": {
+                              "type": "normal",
+                              "containsQuote": true
+                            }
                           }
-                        },
-                        "computed": true
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null

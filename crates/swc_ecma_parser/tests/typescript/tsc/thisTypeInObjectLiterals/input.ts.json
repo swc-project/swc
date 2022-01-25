@@ -134,8 +134,7 @@
                             },
                             "value": "d",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -146,8 +145,7 @@
                           },
                           "value": "length",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   ]
@@ -225,8 +223,7 @@
                               },
                               "value": "d",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -237,8 +234,7 @@
                             },
                             "value": "length",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     ]
@@ -378,8 +374,7 @@
                             },
                             "value": "passthrough",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [
                           {
@@ -408,8 +403,7 @@
                                 },
                                 "value": "a",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         ],
@@ -525,8 +519,7 @@
                             },
                             "value": "sub1",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [
                           {
@@ -698,8 +691,7 @@
                                   },
                                   "value": "passthrough",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "arguments": [
                                 {
@@ -865,8 +857,7 @@
                 },
                 "value": "start",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null

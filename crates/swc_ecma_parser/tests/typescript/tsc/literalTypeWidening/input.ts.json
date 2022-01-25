@@ -5155,8 +5155,7 @@
                     },
                     "value": "forEach",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -5207,16 +5206,23 @@
                             "optional": false
                           },
                           "property": {
-                            "type": "Identifier",
+                            "type": "Computed",
                             "span": {
-                              "start": 3026,
-                              "end": 3029,
+                              "start": 3025,
+                              "end": 3030,
                               "ctxt": 0
                             },
-                            "value": "key",
-                            "optional": false
-                          },
-                          "computed": true
+                            "expression": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 3026,
+                                "end": 3029,
+                                "ctxt": 0
+                              },
+                              "value": "key",
+                              "optional": false
+                            }
+                          }
                         },
                         "right": {
                           "type": "BooleanLiteral",
@@ -5567,8 +5573,7 @@
                       },
                       "value": "keys",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -6158,8 +6163,7 @@
                 },
                 "value": "map",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -6920,8 +6924,7 @@
                     },
                     "value": "A",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ],

@@ -47,8 +47,7 @@
             },
             "value": "n",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -109,8 +108,7 @@
               },
               "value": "n",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -121,8 +119,7 @@
             },
             "value": "K",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -181,8 +178,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -245,8 +241,7 @@
             },
             "value": "Classic",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -323,8 +318,7 @@
                           },
                           "value": "p",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "NumericLiteral",
@@ -463,8 +457,7 @@
                   },
                   "value": "n",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -475,8 +468,7 @@
                 },
                 "value": "K",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -518,8 +510,7 @@
           },
           "value": "x",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -583,8 +574,7 @@
                 },
                 "value": "Classic",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -695,8 +685,7 @@
                 },
                 "value": "x",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -732,8 +721,7 @@
                 },
                 "value": "p",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]

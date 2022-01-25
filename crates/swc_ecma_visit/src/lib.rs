@@ -1,4 +1,6 @@
 // This is not a public api.
+#![deny(clippy::all)]
+
 #[doc(hidden)]
 pub extern crate swc_ecma_ast;
 
@@ -624,6 +626,7 @@ define!({
         Bin(BinExpr),
         Assign(AssignExpr),
         Member(MemberExpr),
+        SuperProp(SuperPropExpr),
         Cond(CondExpr),
         Call(CallExpr),
         New(NewExpr),
@@ -703,9 +706,22 @@ define!({
     }
     pub struct MemberExpr {
         pub span: Span,
-        pub obj: ExprOrSuper,
-        pub prop: Box<Expr>,
-        pub computed: bool,
+        pub obj: Box<Expr>,
+        pub prop: MemberProp,
+    }
+    pub enum MemberProp {
+        Ident(Ident),
+        PrivateName(PrivateName),
+        Computed(ComputedPropName),
+    }
+    pub struct SuperPropExpr {
+        pub span: Span,
+        pub obj: Super,
+        pub prop: SuperProp,
+    }
+    pub enum SuperProp {
+        Ident(Ident),
+        Computed(ComputedPropName),
     }
     pub struct CondExpr {
         pub span: Span,
@@ -715,7 +731,7 @@ define!({
     }
     pub struct CallExpr {
         pub span: Span,
-        pub callee: ExprOrSuper,
+        pub callee: Callee,
         pub args: Vec<ExprOrSpread>,
         pub type_args: Option<TsTypeParamInstantiation>,
     }
@@ -744,8 +760,12 @@ define!({
         pub delegate: bool,
     }
     pub struct MetaPropExpr {
-        pub meta: Ident,
-        pub prop: Ident,
+        pub span: Span,
+        pub kind: MetaPropKind,
+    }
+    pub enum MetaPropKind {
+        NewTarget,
+        ImportMeta,
     }
     pub struct AwaitExpr {
         pub span: Span,
@@ -772,11 +792,15 @@ define!({
         pub span: Span,
         pub expr: Box<Expr>,
     }
-    pub enum ExprOrSuper {
+    pub enum Callee {
         Super(Super),
+        Import(Import),
         Expr(Box<Expr>),
     }
     pub struct Super {
+        pub span: Span,
+    }
+    pub struct Import {
         pub span: Span,
     }
     pub struct ExprOrSpread {
@@ -1758,3 +1782,39 @@ define!({
         pub expr: Box<Expr>,
     }
 });
+
+#[macro_export]
+macro_rules! visit_obj_and_computed {
+    () => {
+        fn visit_member_expr(&mut self, n: &$crate::swc_ecma_ast::MemberExpr) {
+            n.obj.visit_with(self);
+            if let $crate::swc_ecma_ast::MemberProp::Computed(c) = &n.prop {
+                c.visit_with(self);
+            }
+        }
+
+        fn visit_super_prop_expr(&mut self, n: &$crate::swc_ecma_ast::SuperPropExpr) {
+            if let $crate::swc_ecma_ast::SuperProp::Computed(c) = &n.prop {
+                c.visit_with(self);
+            }
+        }
+    };
+}
+
+#[macro_export]
+macro_rules! visit_mut_obj_and_computed {
+    () => {
+        fn visit_mut_member_expr(&mut self, n: &mut $crate::swc_ecma_ast::MemberExpr) {
+            n.obj.visit_mut_with(self);
+            if let $crate::swc_ecma_ast::MemberProp::Computed(c) = &mut n.prop {
+                c.visit_mut_with(self);
+            }
+        }
+
+        fn visit_mut_super_prop_expr(&mut self, n: &mut $crate::swc_ecma_ast::SuperPropExpr) {
+            if let $crate::swc_ecma_ast::SuperProp::Computed(c) = &mut n.prop {
+                c.visit_mut_with(self);
+            }
+        }
+    };
+}

@@ -12,7 +12,7 @@ impl<M> Pure<'_, M> {
         let idx = stmts
             .iter()
             .enumerate()
-            .find(|(_, stmt)| always_terminates(&stmt));
+            .find(|(_, stmt)| always_terminates(stmt));
 
         if let Some((idx, _)) = idx {
             stmts.iter_mut().skip(idx + 1).for_each(|stmt| match stmt {
@@ -54,6 +54,7 @@ impl<M> Pure<'_, M> {
     ///         console.log(b);
     /// }
     /// ```
+    #[allow(clippy::unnecessary_filter_map)]
     pub(super) fn negate_if_terminate(
         &mut self,
         stmts: &mut Vec<Stmt>,
@@ -67,14 +68,10 @@ impl<M> Pure<'_, M> {
 
             if stmts.len() == 1 {
                 for s in stmts.iter_mut() {
-                    match s {
-                        Stmt::If(s) => match &mut *s.cons {
-                            Stmt::Block(cons) => {
-                                self.negate_if_terminate(&mut cons.stmts, true, false);
-                            }
-                            _ => {}
-                        },
-                        _ => {}
+                    if let Stmt::If(s) = s {
+                        if let Stmt::Block(cons) = &mut *s.cons {
+                            self.negate_if_terminate(&mut cons.stmts, true, false);
+                        }
                     }
                 }
             }
@@ -102,6 +99,19 @@ impl<M> Pure<'_, M> {
             _ => return,
         };
 
+        // If we negate a block, these variables will have narrower scope.
+        if stmts[pos_of_if..].iter().any(|s| {
+            matches!(
+                s,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    kind: VarDeclKind::Const | VarDeclKind::Let,
+                    ..
+                }))
+            )
+        }) {
+            return;
+        }
+
         self.changed = true;
         tracing::debug!(
             "if_return: Negating `foo` in `if (foo) return; bar()` to make it `if (!foo) bar()`"
@@ -126,8 +136,7 @@ impl<M> Pure<'_, M> {
         match if_stmt {
             Stmt::If(mut s) => {
                 assert_eq!(s.alt, None);
-                self.changed = true;
-                negate(&mut s.test, false);
+                negate(&mut s.test, false, false);
 
                 s.cons = if cons.len() == 1 && is_fine_for_if_cons(&cons[0]) {
                     Box::new(cons.into_iter().next().unwrap())

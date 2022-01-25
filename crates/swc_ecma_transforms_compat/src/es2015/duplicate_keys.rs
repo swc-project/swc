@@ -27,12 +27,9 @@ impl VisitMut for DuplicateKeys {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
 
-        match expr {
-            Expr::Object(ObjectLit { props, .. }) => {
-                let mut folder = PropFolder::default();
-                props.visit_mut_with(&mut folder);
-            }
-            _ => {}
+        if let Expr::Object(ObjectLit { props, .. }) = expr {
+            let mut folder = PropFolder::default();
+            props.visit_mut_with(&mut folder);
         }
     }
 }
@@ -59,7 +56,7 @@ impl VisitMut for PropFolder {
                     *prop = Prop::KeyValue(KeyValueProp {
                         key: PropName::Computed(ComputedPropName {
                             span: ident.span,
-                            expr: Box::new(Expr::Lit(Lit::Str(quote_str!(ident.sym.clone())))),
+                            expr: quote_str!(ident.sym.clone()).into(),
                         }),
                         value: Box::new(Expr::Ident(ident.clone())),
                     })
@@ -116,17 +113,14 @@ impl<'a> VisitMut for PropNameFolder<'a> {
                 if !self.props.insert(s.value.clone()) {
                     *name = PropName::Computed(ComputedPropName {
                         span: s.span,
-                        expr: Box::new(Expr::Lit(Lit::Str(s.clone()))),
+                        expr: s.clone().into(),
                     })
                 }
             }
             PropName::Computed(ComputedPropName { expr, .. }) => {
                 // Computed property might collide
-                match &**expr {
-                    Expr::Lit(Lit::Str(Str { ref value, .. })) => {
-                        self.props.insert(value.clone());
-                    }
-                    _ => {}
+                if let Expr::Lit(Lit::Str(Str { ref value, .. })) = &**expr {
+                    self.props.insert(value.clone());
                 }
             }
             _ => {}

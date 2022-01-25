@@ -145,6 +145,7 @@ fn shopify_2_same_opt() {
                     minify: None,
                     experimental: Default::default(),
                     lints: Default::default(),
+                    assumptions: Default::default(),
                 },
                 module: None,
                 minify: false,

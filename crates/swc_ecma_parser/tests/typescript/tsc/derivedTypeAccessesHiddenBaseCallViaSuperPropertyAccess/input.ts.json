@@ -604,13 +604,13 @@
                           "ctxt": 0
                         },
                         "callee": {
-                          "type": "MemberExpression",
+                          "type": "SuperPropExpression",
                           "span": {
                             "start": 236,
                             "end": 245,
                             "ctxt": 0
                           },
-                          "object": {
+                          "obj": {
                             "type": "Super",
                             "span": {
                               "start": 236,
@@ -627,8 +627,7 @@
                             },
                             "value": "foo",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [
                           {
@@ -709,13 +708,13 @@
                           "ctxt": 0
                         },
                         "callee": {
-                          "type": "MemberExpression",
+                          "type": "SuperPropExpression",
                           "span": {
                             "start": 291,
                             "end": 300,
                             "ctxt": 0
                           },
-                          "object": {
+                          "obj": {
                             "type": "Super",
                             "span": {
                               "start": 291,
@@ -732,8 +731,7 @@
                             },
                             "value": "foo",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [
                           {
@@ -859,8 +857,7 @@
                             },
                             "value": "foo",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [
                           {

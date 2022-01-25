@@ -721,7 +721,7 @@
             var type = props.type;
             if (("submit" === type || "reset" === type) && (void 0 === props.value || null === props.value)) return;
             var initialValue = toString(node._wrapperState.initialValue);
-            isHydrating || initialValue !== node.value && (node.value = initialValue), node.defaultValue = initialValue;
+            isHydrating || initialValue === node.value || (node.value = initialValue), node.defaultValue = initialValue;
         }
         var name = node.name;
         "" !== name && (node.name = ""), node.defaultChecked = !node.defaultChecked, node.defaultChecked = !!node._wrapperState.initialChecked, "" !== name && (node.name = name);
@@ -3453,8 +3453,8 @@
                     }
                 }
             }(dispatchQueue1, domEventName4, targetInst2, nativeEvent3, nativeEventTarget1, eventSystemFlags3), function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
-                var node, state, getTargetInstFunc, handleEventFunc, elem, nodeName, elem1, nodeName1, targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
-                if ("select" === (nodeName = (elem = targetNode).nodeName && elem.nodeName.toLowerCase()) || "input" === nodeName && "file" === elem.type ? getTargetInstFunc = getTargetInstForChangeEvent : isTextInputElement(targetNode) ? isInputEventSupported ? getTargetInstFunc = getTargetInstForInputOrChangeEvent : (getTargetInstFunc = getTargetInstForInputEventPolyfill, handleEventFunc = handleEventsForInputEventPolyfill) : (nodeName1 = (elem1 = targetNode).nodeName) && "input" === nodeName1.toLowerCase() && ("checkbox" === elem1.type || "radio" === elem1.type) && (getTargetInstFunc = getTargetInstForClickEvent), getTargetInstFunc) {
+                var node, state, elem, nodeName, getTargetInstFunc, handleEventFunc, elem1, nodeName1, targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
+                if ("select" === (nodeName1 = (elem1 = targetNode).nodeName && elem1.nodeName.toLowerCase()) || "input" === nodeName1 && "file" === elem1.type ? getTargetInstFunc = getTargetInstForChangeEvent : isTextInputElement(targetNode) ? isInputEventSupported ? getTargetInstFunc = getTargetInstForInputOrChangeEvent : (getTargetInstFunc = getTargetInstForInputEventPolyfill, handleEventFunc = handleEventsForInputEventPolyfill) : (nodeName = (elem = targetNode).nodeName) && "input" === nodeName.toLowerCase() && ("checkbox" === elem.type || "radio" === elem.type) && (getTargetInstFunc = getTargetInstForClickEvent), getTargetInstFunc) {
                     var inst = getTargetInstFunc(domEventName, targetInst);
                     if (inst) {
                         createAndAccumulateChangeEvent(dispatchQueue, inst, nativeEvent, nativeEventTarget);
@@ -6704,14 +6704,14 @@
         didReceiveUpdate = !0;
     }
     function bailoutOnAlreadyFinishedWork(current5, workInProgress7, renderLanes) {
-        return (null !== current5 && (workInProgress7.dependencies = current5.dependencies), stopProfilerTimerIfRunning(), markSkippedUpdateLanes(workInProgress7.lanes), includesSomeLane(renderLanes, workInProgress7.childLanes)) ? ((function(current, workInProgress) {
+        return (null !== current5 && (workInProgress7.dependencies = current5.dependencies), stopProfilerTimerIfRunning(), markSkippedUpdateLanes(workInProgress7.lanes), includesSomeLane(renderLanes, workInProgress7.childLanes)) ? (!function(current, workInProgress) {
             if (!(null === current || workInProgress.child === current.child)) throw Error("Resuming work not yet implemented.");
             if (null !== workInProgress.child) {
                 var currentChild = workInProgress.child, newChild = createWorkInProgress(currentChild, currentChild.pendingProps);
                 for(workInProgress.child = newChild, newChild.return = workInProgress; null !== currentChild.sibling;)currentChild = currentChild.sibling, (newChild = newChild.sibling = createWorkInProgress(currentChild, currentChild.pendingProps)).return = workInProgress;
                 newChild.sibling = null;
             }
-        })(current5, workInProgress7), workInProgress7.child) : null;
+        }(current5, workInProgress7), workInProgress7.child) : null;
     }
     function beginWork(current13, workInProgress16, renderLanes12) {
         var updateLanes1 = workInProgress16.lanes;
@@ -6863,22 +6863,22 @@
                     return workInProgress.child;
                 })(current13, workInProgress16, renderLanes12);
             case 5:
-                return current6 = current13, workInProgress8 = workInProgress16, renderLanes5 = renderLanes12, pushHostContext(workInProgress8), null === current6 && tryToClaimNextHydratableInstance(workInProgress8), type7 = workInProgress8.type, nextProps2 = workInProgress8.pendingProps, prevProps = null !== current6 ? current6.memoizedProps : null, shouldSetTextContent(type7, nextProps2) || null !== prevProps && shouldSetTextContent(type7, prevProps) && (workInProgress8.flags |= 16), markRef(current6, workInProgress8), reconcileChildren(current6, workInProgress8, null, renderLanes5), workInProgress8.child;
+                return current6 = current13, workInProgress8 = workInProgress16, renderLanes5 = renderLanes12, pushHostContext(workInProgress8), null === current6 && tryToClaimNextHydratableInstance(workInProgress8), type7 = workInProgress8.type, nextProps2 = workInProgress8.pendingProps, prevProps = null !== current6 ? current6.memoizedProps : null, nextChildren6 = nextProps2.children, shouldSetTextContent(type7, nextProps2) ? nextChildren6 = null : null !== prevProps && shouldSetTextContent(type7, prevProps) && (workInProgress8.flags |= 16), markRef(current6, workInProgress8), reconcileChildren(current6, workInProgress8, nextChildren6, renderLanes5), workInProgress8.child;
             case 6:
                 return current7 = current13, workInProgress9 = workInProgress16, null === current7 && tryToClaimNextHydratableInstance(workInProgress9), null;
             case 13:
                 return updateSuspenseComponent(current13, workInProgress16, renderLanes12);
             case 4:
-                return current8 = current13, workInProgress10 = workInProgress16, renderLanes6 = renderLanes12, pushHostContainer(workInProgress10, workInProgress10.stateNode.containerInfo), nextChildren5 = workInProgress10.pendingProps, null === current8 ? workInProgress10.child = reconcileChildFibers(workInProgress10, null, nextChildren5, renderLanes6) : reconcileChildren(current8, workInProgress10, nextChildren5, renderLanes6), workInProgress10.child;
+                return current8 = current13, workInProgress10 = workInProgress16, renderLanes6 = renderLanes12, pushHostContainer(workInProgress10, workInProgress10.stateNode.containerInfo), nextChildren2 = workInProgress10.pendingProps, null === current8 ? workInProgress10.child = reconcileChildFibers(workInProgress10, null, nextChildren2, renderLanes6) : reconcileChildren(current8, workInProgress10, nextChildren2, renderLanes6), workInProgress10.child;
             case 11:
                 var type = workInProgress16.type, _unresolvedProps2 = workInProgress16.pendingProps, _resolvedProps2 = workInProgress16.elementType === type ? _unresolvedProps2 : resolveDefaultProps(type, _unresolvedProps2);
                 return updateForwardRef(current13, workInProgress16, type, _resolvedProps2, renderLanes12);
             case 7:
-                return current9 = current13, workInProgress11 = workInProgress16, renderLanes7 = renderLanes12, nextChildren2 = workInProgress11.pendingProps, reconcileChildren(current9, workInProgress11, nextChildren2, renderLanes7), workInProgress11.child;
+                return current9 = current13, workInProgress11 = workInProgress16, renderLanes7 = renderLanes12, nextChildren3 = workInProgress11.pendingProps, reconcileChildren(current9, workInProgress11, nextChildren3, renderLanes7), workInProgress11.child;
             case 8:
-                return current10 = current13, workInProgress12 = workInProgress16, renderLanes8 = renderLanes12, nextChildren3 = workInProgress12.pendingProps.children, reconcileChildren(current10, workInProgress12, nextChildren3, renderLanes8), workInProgress12.child;
+                return current10 = current13, workInProgress12 = workInProgress16, renderLanes8 = renderLanes12, nextChildren4 = workInProgress12.pendingProps.children, reconcileChildren(current10, workInProgress12, nextChildren4, renderLanes8), workInProgress12.child;
             case 12:
-                return current11 = current13, workInProgress13 = workInProgress16, renderLanes9 = renderLanes12, workInProgress13.flags |= Update, (stateNode1 = workInProgress13.stateNode).effectDuration = 0, stateNode1.passiveEffectDuration = 0, nextChildren4 = workInProgress13.pendingProps.children, reconcileChildren(current11, workInProgress13, nextChildren4, renderLanes9), workInProgress13.child;
+                return current11 = current13, workInProgress13 = workInProgress16, renderLanes9 = renderLanes12, workInProgress13.flags |= Update, (stateNode1 = workInProgress13.stateNode).effectDuration = 0, stateNode1.passiveEffectDuration = 0, nextChildren5 = workInProgress13.pendingProps.children, reconcileChildren(current11, workInProgress13, nextChildren5, renderLanes9), workInProgress13.child;
             case 10:
                 return (function(current, workInProgress17, renderLanes13) {
                     var context2 = workInProgress17.type._context, newProps = workInProgress17.pendingProps, oldProps = workInProgress17.memoizedProps, newValue2 = newProps.value;
@@ -6934,7 +6934,7 @@
             case 9:
                 return current12 = current13, workInProgress14 = workInProgress16, renderLanes10 = renderLanes12, void 0 === (context1 = workInProgress14.type)._context ? context1 === context1.Consumer || hasWarnedAboutUsingContextAsConsumer || (hasWarnedAboutUsingContextAsConsumer = !0, error1("Rendering <Context> directly is not supported and will be removed in a future major release. Did you mean to render <Context.Consumer> instead?")) : context1 = context1._context, "function" != typeof (render = (newProps2 = workInProgress14.pendingProps).children) && error1("A context consumer was rendered with multiple children, or a child that isn't a function. A context consumer expects a single child that is a function. If you did pass a function, make sure there is no trailing or leading whitespace around it."), prepareToReadContext(workInProgress14, renderLanes10), newValue1 = readContext(context1, newProps2.unstable_observedBits), ReactCurrentOwner$1.current = workInProgress14, setIsRendering(!0), newChildren = render(newValue1), setIsRendering(!1), workInProgress14.flags |= 1, reconcileChildren(current12, workInProgress14, newChildren, renderLanes10), workInProgress14.child;
             case 14:
-                var current6, workInProgress8, renderLanes5, type7, nextProps2, prevProps, current7, workInProgress9, current8, workInProgress10, renderLanes6, nextChildren5, current9, workInProgress11, renderLanes7, nextChildren2, current10, workInProgress12, renderLanes8, nextChildren3, current11, workInProgress13, renderLanes9, stateNode1, nextChildren4, current12, workInProgress14, renderLanes10, newChildren, context1, newProps2, render, newValue1, _type2 = workInProgress16.type, _resolvedProps3 = resolveDefaultProps(_type2, workInProgress16.pendingProps);
+                var current6, workInProgress8, renderLanes5, type7, nextProps2, prevProps, nextChildren6, current7, workInProgress9, current8, workInProgress10, renderLanes6, nextChildren2, current9, workInProgress11, renderLanes7, nextChildren3, current10, workInProgress12, renderLanes8, nextChildren4, current11, workInProgress13, renderLanes9, stateNode1, nextChildren5, current12, workInProgress14, renderLanes10, newChildren, context1, newProps2, render, newValue1, _type2 = workInProgress16.type, _resolvedProps3 = resolveDefaultProps(_type2, workInProgress16.pendingProps);
                 if (workInProgress16.type !== workInProgress16.elementType) {
                     var outerPropTypes1 = _type2.propTypes;
                     outerPropTypes1 && checkPropTypes(outerPropTypes1, _resolvedProps3, "prop", getComponentName(_type2));
@@ -8505,6 +8505,7 @@
             while (null !== nextEffect)
             nextEffect = null, requestPaint(), popInteractions(prevInteractions), executionContext = prevExecutionContext;
         } else root6.current = finishedWork, recordCommitTime();
+        var rootDidHavePassiveEffects = rootDoesHavePassiveEffects;
         if (rootDoesHavePassiveEffects) rootDoesHavePassiveEffects = !1, rootWithPendingPassiveEffects = root6, pendingPassiveEffectsLanes = lanes5, pendingPassiveEffectsRenderPriority = renderPriorityLevel;
         else for(nextEffect = firstEffect; null !== nextEffect;){
             var nextNextEffect = nextEffect.nextEffect;
@@ -8518,7 +8519,7 @@
             }
             schedulePendingInteractions(root6, remainingLanes1);
         } else legacyErrorBoundariesThatAlreadyFailed = null;
-        if (rootDoesHavePassiveEffects || finishPendingInteractions(root6, lanes5), remainingLanes1 === SyncLane ? root6 === rootWithNestedUpdates ? nestedUpdateCount++ : (nestedUpdateCount = 0, rootWithNestedUpdates = root6) : nestedUpdateCount = 0, !function(root, priorityLevel) {
+        if (rootDidHavePassiveEffects || finishPendingInteractions(root6, lanes5), remainingLanes1 === SyncLane ? root6 === rootWithNestedUpdates ? nestedUpdateCount++ : (nestedUpdateCount = 0, rootWithNestedUpdates = root6) : nestedUpdateCount = 0, !function(root, priorityLevel) {
             if (injectedHook && "function" == typeof injectedHook.onCommitFiberRoot) try {
                 var didError = (root.current.flags & DidCapture) === DidCapture;
                 enableProfilerTimer ? injectedHook.onCommitFiberRoot(rendererID, root, priorityLevel, didError) : injectedHook.onCommitFiberRoot(rendererID, root, void 0, didError);
@@ -8718,10 +8719,11 @@
                 } else didWarnStateUpdateForNotYetMountedComponent = new Set([
                     componentName
                 ]);
+                var previousFiber = current1;
                 try {
                     setCurrentFiber(fiber), error1("Can't perform a React state update on a component that hasn't mounted yet. This indicates that you have a side-effect in your render function that asynchronously later calls tries to update the component. Move this work to useEffect instead.");
                 } finally{
-                    current1 ? setCurrentFiber(fiber) : resetCurrentFiber();
+                    previousFiber ? setCurrentFiber(fiber) : resetCurrentFiber();
                 }
             }
         }
@@ -9325,7 +9327,9 @@
         var hydrate = null != options && !0 === options.hydrate;
         null != options && options.hydrationOptions;
         var containerInfo, tag2, hydrate1, containerInfo1, tag3, hydrate2, root, tag4, mode, uninitializedFiber, hostRoot, mutableSources = null != options && null != options.hydrationOptions && options.hydrationOptions.mutableSources || null, root7 = (containerInfo = container, tag2 = tag, hydrate1 = hydrate, containerInfo1 = containerInfo, tag3 = tag2, hydrate2 = hydrate1, root = new FiberRootNode(containerInfo1, tag3, hydrate2), mode = 2 === (tag4 = tag3) ? 7 : 1 === tag4 ? 3 : 0, isDevToolsPresent && (mode |= 8), uninitializedFiber = createFiber(3, null, null, mode), root.current = uninitializedFiber, uninitializedFiber.stateNode = root, initializeUpdateQueue(uninitializedFiber), root);
-        if (hostRoot = root7.current, container[internalContainerInstanceKey] = hostRoot, container.nodeType, listenToAllSupportedEvents(8 === container.nodeType ? container.parentNode : container), mutableSources) for(var i = 0; i < mutableSources.length; i++)registerMutableSourceForHydration(root7, mutableSources[i]);
+        hostRoot = root7.current, container[internalContainerInstanceKey] = hostRoot, container.nodeType;
+        var rootContainerElement = 8 === container.nodeType ? container.parentNode : container;
+        if (listenToAllSupportedEvents(rootContainerElement), mutableSources) for(var i = 0; i < mutableSources.length; i++)registerMutableSourceForHydration(root7, mutableSources[i]);
         return root7;
     }
     function isValidContainer(node) {
@@ -9456,9 +9460,9 @@
             };
         })(children1, container, null, key1);
     }
-    if (("function" != typeof Map || null == Map.prototype || "function" != typeof Map.prototype.forEach || "function" != typeof Set || null == Set.prototype || "function" != typeof Set.prototype.clear || "function" != typeof Set.prototype.forEach) && error1("React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"), (function(impl) {
+    if (("function" != typeof Map || null == Map.prototype || "function" != typeof Map.prototype.forEach || "function" != typeof Set || null == Set.prototype || "function" != typeof Set.prototype.clear || "function" != typeof Set.prototype.forEach) && error1("React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"), !function(impl) {
         restoreImpl = impl;
-    })(function(domElement, tag, props16) {
+    }(function(domElement, tag, props16) {
         var element, props14, node, element2, props15, value;
         switch(tag){
             case "input":
@@ -9484,9 +9488,9 @@
                 element2 = domElement, null != (value = (props15 = props16).value) && updateOptions(element2, !!props15.multiple, value, !1);
                 return;
         }
-    }), (function(_batchedUpdatesImpl, _discreteUpdatesImpl, _flushDiscreteUpdatesImpl, _batchedEventUpdatesImpl) {
+    }), !function(_batchedUpdatesImpl, _discreteUpdatesImpl, _flushDiscreteUpdatesImpl, _batchedEventUpdatesImpl) {
         batchedUpdatesImpl = _batchedUpdatesImpl, discreteUpdatesImpl = _discreteUpdatesImpl, flushDiscreteUpdatesImpl = _flushDiscreteUpdatesImpl, batchedEventUpdatesImpl = _batchedEventUpdatesImpl;
-    })(batchedUpdates$1, function(fn, a, b, c, d) {
+    }(batchedUpdates$1, function(fn, a, b, c, d) {
         var prevExecutionContext = executionContext;
         executionContext |= 4;
         try {

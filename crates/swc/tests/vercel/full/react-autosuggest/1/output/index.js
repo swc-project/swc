@@ -1,13 +1,10 @@
 "use strict";
-var _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), exports.default = void 0;
 var _react = function(obj) {
     if (obj && obj.__esModule) return obj;
-    if (null === obj || "object" !== _typeof1(obj) && "function" != typeof obj) return {
+    if (null === obj || "object" !== _typeof(obj) && "function" != typeof obj) return {
         "default": obj
     };
     var cache = _getRequireWildcardCache();
@@ -31,11 +28,11 @@ function _getRequireWildcardCache() {
         return cache;
     }, cache;
 }
-function _typeof1(obj1) {
-    return (_typeof1 = "function" == typeof Symbol && "symbol" === _typeof(Symbol.iterator) ? function(obj) {
-        return void 0 === obj ? "undefined" : _typeof(obj);
+function _typeof(obj1) {
+    return (_typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
     } : function(obj) {
-        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : void 0 === obj ? "undefined" : _typeof(obj);
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
     })(obj1);
 }
 function _extends() {
@@ -96,25 +93,23 @@ var ItemsList = function(_Component) {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(ItemsList1, _Component);
-    var Constructor1, protoProps, staticProps, _super = function(Derived) {
-        return function() {
-            var self, call, result, Super = _getPrototypeOf(Derived);
-            if ((function() {
-                if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                if (Reflect.construct.sham) return !1;
-                if ("function" == typeof Proxy) return !0;
-                try {
-                    return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;
-                } catch (e) {
-                    return !1;
-                }
-            })()) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else result = Super.apply(this, arguments);
-            return self = this, (call = result) && ("object" === _typeof1(call) || "function" == typeof call) ? call : _assertThisInitialized(self);
-        };
-    }(ItemsList1);
+    var Constructor1, protoProps, staticProps, Derived, _super = (Derived = ItemsList1, function() {
+        var self, call, result, Super = _getPrototypeOf(Derived);
+        if ((function() {
+            if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+            if (Reflect.construct.sham) return !1;
+            if ("function" == typeof Proxy) return !0;
+            try {
+                return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;
+            } catch (e) {
+                return !1;
+            }
+        })()) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" === _typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(self);
+    });
     function ItemsList1() {
         var _this;
         !function(instance, Constructor) {

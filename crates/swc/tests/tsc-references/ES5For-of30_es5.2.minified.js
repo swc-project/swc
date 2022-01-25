@@ -37,10 +37,10 @@ function _unsupportedIterableToArray(o, minLen) {
 }
 var _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
 try {
-    for(var ref, ref1, ref2, _step, _iterator = [
+    for(var ref, _step, _iterator = [
         2,
         "3"
-    ][Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)ref1 = (ref = _slicedToArray(_step.value, 2))[0], void 0 === ref1, ref2 = ref[1], void 0 === ref2;
+    ][Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)(ref = _slicedToArray(_step.value, 2))[0], ref[1];
 } catch (err) {
     _didIteratorError = !0, _iteratorError = err;
 } finally{

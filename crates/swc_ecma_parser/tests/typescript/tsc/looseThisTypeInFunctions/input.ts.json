@@ -480,8 +480,7 @@
                         },
                         "value": "n",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "Identifier",
@@ -634,8 +633,7 @@
                         },
                         "value": "n",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "Identifier",
@@ -971,8 +969,7 @@
             },
             "value": "explicitVoid",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -1000,8 +997,7 @@
             },
             "value": "explicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -1186,8 +1182,7 @@
                                 },
                                 "value": "n",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
                               "type": "Identifier",
@@ -1198,8 +1193,7 @@
                               },
                               "value": "length",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       }
@@ -1581,8 +1575,7 @@
                                 },
                                 "value": "n",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
                               "type": "Identifier",
@@ -1593,8 +1586,7 @@
                               },
                               "value": "length",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       }
@@ -1666,8 +1658,7 @@
               },
               "value": "explicitThis",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1851,8 +1842,7 @@
               },
               "value": "implicitNoThis",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1960,8 +1950,7 @@
             },
             "value": "explicitVoid",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -1989,8 +1978,7 @@
             },
             "value": "implicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -2035,8 +2023,7 @@
             },
             "value": "implicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -2064,8 +2051,7 @@
             },
             "value": "implicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -2110,8 +2096,7 @@
             },
             "value": "implicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -2139,8 +2124,7 @@
             },
             "value": "explicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -2185,8 +2169,7 @@
             },
             "value": "implicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -2214,8 +2197,7 @@
             },
             "value": "explicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -2260,8 +2242,7 @@
             },
             "value": "explicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -2340,8 +2321,7 @@
                       },
                       "value": "n",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "property": {
                     "type": "Identifier",
@@ -2352,8 +2332,7 @@
                     },
                     "value": "length",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ]

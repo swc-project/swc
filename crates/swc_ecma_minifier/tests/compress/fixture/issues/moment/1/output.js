@@ -245,7 +245,7 @@
     }
     function daysInMonth(year, month) {
         if (isNaN(year) || isNaN(month)) return NaN;
-        var modMonth = (month % 12 + 12) % 12;
+        var x, modMonth = (month % (x = 12) + x) % x;
         return year += (month - modMonth) / 12, 1 === modMonth ? isLeapYear(year) ? 29 : 28 : 31 - modMonth % 7 % 2;
     }
     indexOf = Array.prototype.indexOf ? Array.prototype.indexOf : function(o) {
@@ -1186,9 +1186,9 @@
         return string;
     }
     proto.add = add, proto.calendar = function(time, formats) {
-        if (1 === arguments.length) {
+        if (1 === arguments.length) if (arguments[0]) {
             var input2, input1, arrayTest, dataTypeTest;
-            arguments[0] ? (input2 = arguments[0], isMoment(input2) || isDate(input2) || isString(input2) || isNumber(input2) || (dataTypeTest = !1, (arrayTest = isArray(input1 = input2)) && (dataTypeTest = 0 === input1.filter(function(item) {
+            (input2 = arguments[0], isMoment(input2) || isDate(input2) || isString(input2) || isNumber(input2) || (dataTypeTest = !1, (arrayTest = isArray(input1 = input2)) && (dataTypeTest = 0 === input1.filter(function(item) {
                 return !isNumber(item) && isString(input1);
             }).length), arrayTest && dataTypeTest) || (function(input) {
                 var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
@@ -1230,8 +1230,8 @@
                 ];
                 for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
                 return objectTest && propertyTest;
-            })(arguments[0]) && (formats = arguments[0], time = void 0) : (time = void 0, formats = void 0);
-        }
+            })(arguments[0]) && (formats = arguments[0], time = void 0);
+        } else time = void 0, formats = void 0;
         var now = time || createLocal(), sod = cloneWithOffset(now, this).startOf("day"), format = hooks.calendarFormat(this, sod) || "sameElse", output = formats && (isFunction(formats[format]) ? formats[format].call(this, now) : formats[format]);
         return this.format(output || this.localeData().calendar(format, this, createLocal(now)));
     }, proto.clone = function() {

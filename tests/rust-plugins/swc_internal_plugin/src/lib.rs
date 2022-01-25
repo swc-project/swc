@@ -1,16 +1,46 @@
-use serde::Deserialize;
-use swc_ecmascript::visit::Fold;
-use swc_plugin::define_js_plugin;
+use swc_plugin::{ast::*, plugin_module, DUMMY_SP, errors::{Diagnostic, Level}, environment::{HostContext}};
 
-define_js_plugin!(internal_test);
+struct ConsoleOutputReplacer;
 
-fn internal_test(_: Config) -> impl Fold {
-    InternalTest
+/// An example plugin replaces any `console.log(${text})` into
+/// `console.log('changed_via_plugin')`.
+impl VisitMut for ConsoleOutputReplacer {
+    fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
+        if let Callee::Expr(expr) = &call.callee {
+            if let Expr::Member(MemberExpr { obj, .. }) = &**expr {
+                if let Expr::Ident(ident) = &**obj {
+                    if ident.sym == *"console" {
+                        call.args[0].expr = Box::new(Expr::Lit(Lit::Str(Str {
+                            span: DUMMY_SP,
+                            has_escape: false,
+                            kind: StrKind::default(),
+                            value: JsWord::from("changed_via_plugin"),
+                        })));
+                    }
+                }
+            }
+        }
+    }
 }
 
-#[derive(Debug, Deserialize)]
-struct Config {}
-
-struct InternalTest;
-
-impl Fold for InternalTest {}
+/// An example plugin function with macro support.
+/// `plugin_module` macro interop pointers into deserialized structs, as well as
+/// returning ptr back to host.
+///
+/// It is possible to opt out from macro by writing transform fn manually via
+/// `__plugin_process_impl(
+///     ast_ptr: *const u8,
+///     ast_ptr_len: i32,
+///     config_str_ptr: *const u8,
+///     config_str_ptr_len: i32) ->
+///     i32 /* 0 means success */
+///
+/// if plugin need to handle low-level ptr directly. However, there are important steps
+/// manually need to be performed like sending transformed results back to host. Refer swc_plugin_macro
+/// how does it work internally.
+#[plugin_module]
+pub fn process(program: Program, _plugin_config: String, ctx: &HostContext) -> Program {
+    let test_diag = Diagnostic::new(Level::Error, "test_diag_error_from_plugin");
+    ctx.diagnostics.emit(test_diag);
+    program.fold_with(&mut as_folder(ConsoleOutputReplacer))
+}
