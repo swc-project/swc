@@ -232,6 +232,7 @@ where
 {
     noop_visit_type!();
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         self.with_child(n.span.ctxt, ScopeKind::Fn, |child| {
             {
@@ -255,6 +256,7 @@ where
         })
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
         let ctx = Ctx {
             in_assign_lhs: true,
@@ -272,6 +274,7 @@ where
         n.right.visit_with(&mut *self.with_ctx(ctx));
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_await_expr(&mut self, n: &AwaitExpr) {
         let ctx = Ctx {
             in_await_arg: true,
@@ -280,12 +283,14 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
         self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             n.visit_children_with(child);
         })
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_call_expr(&mut self, n: &CallExpr) {
         let inline_prevented = self.ctx.inline_prevented
             || self
@@ -336,6 +341,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_catch_clause(&mut self, n: &CatchClause) {
         {
             let ctx = Ctx {
@@ -355,6 +361,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_class(&mut self, n: &Class) {
         n.decorators.visit_with(self);
 
@@ -369,12 +376,14 @@ where
         n.body.visit_with(self);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_class_decl(&mut self, n: &ClassDecl) {
         self.declare_decl(&n.ident, true, None, false);
 
         n.visit_children_with(self);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_cond_expr(&mut self, n: &CondExpr) {
         n.test.visit_with(self);
 
@@ -406,6 +415,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
         let ctx = Ctx {
             executed_multiple_time: true,
@@ -415,6 +425,7 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_export_decl(&mut self, n: &ExportDecl) {
         n.visit_children_with(self);
 
@@ -446,6 +457,7 @@ where
         };
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
@@ -454,17 +466,27 @@ where
                 self.report_usage(i, true);
                 self.report_usage(i, false);
             } else {
+                if cfg!(feature = "debug") {
+                    tracing::debug!(
+                        "Usage: `{}``; update = {:?}, assign_lhs = {:?} ",
+                        i,
+                        self.ctx.in_update_arg,
+                        self.ctx.in_assign_lhs
+                    );
+                }
                 self.report_usage(i, self.ctx.in_update_arg || self.ctx.in_assign_lhs);
             }
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_fn_decl(&mut self, n: &FnDecl) {
         self.declare_decl(&n.ident, true, None, true);
 
         n.visit_children_with(self);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_fn_expr(&mut self, n: &FnExpr) {
         n.visit_children_with(self);
 
@@ -475,6 +497,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
         n.right.visit_with(self);
 
@@ -497,6 +520,7 @@ where
         });
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
         n.right.visit_with(self);
 
@@ -517,6 +541,7 @@ where
         });
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_for_stmt(&mut self, n: &ForStmt) {
         n.init.visit_with(self);
 
@@ -532,6 +557,7 @@ where
         n.body.visit_with(&mut *self.with_ctx(ctx));
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_function(&mut self, n: &Function) {
         n.decorators.visit_with(self);
 
@@ -566,6 +592,7 @@ where
             })
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_if_stmt(&mut self, n: &IfStmt) {
         let ctx = Ctx {
             in_cond: true,
@@ -588,6 +615,7 @@ where
         self.declare_decl(&n.local, true, None, false);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         {
             let ctx = Ctx {
@@ -635,6 +663,7 @@ where
         n.visit_children_with(self);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_new_expr(&mut self, n: &NewExpr) {
         {
             n.callee.visit_with(self);
@@ -647,6 +676,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_object_pat_prop(&mut self, n: &ObjectPatProp) {
         n.visit_children_with(self);
 
@@ -655,6 +685,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_param(&mut self, n: &Param) {
         let ctx = Ctx {
             in_pat_of_param: false,
@@ -670,6 +701,7 @@ where
         n.pat.visit_with(&mut *self.with_ctx(ctx));
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_pat(&mut self, n: &Pat) {
         n.visit_children_with(self);
 
@@ -678,6 +710,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_pat_or_expr(&mut self, n: &PatOrExpr) {
         match n {
             PatOrExpr::Expr(e) => {
@@ -693,6 +726,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_prop(&mut self, n: &Prop) {
         let ctx = Ctx {
             in_update_arg: false,
@@ -705,6 +739,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_setter_prop(&mut self, n: &SetterProp) {
         self.with_child(n.span.ctxt, ScopeKind::Fn, |a| {
             n.key.visit_with(a);
@@ -720,6 +755,7 @@ where
         });
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_stmt(&mut self, n: &Stmt) {
         let ctx = Ctx {
             in_update_arg: false,
@@ -743,6 +779,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
         if let SuperProp::Computed(c) = &e.prop {
             let ctx = Ctx {
@@ -754,6 +791,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_switch_case(&mut self, n: &SwitchCase) {
         n.test.visit_with(self);
 
@@ -766,6 +804,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_try_stmt(&mut self, n: &TryStmt) {
         let ctx = Ctx {
             in_cond: true,
@@ -775,6 +814,7 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
         let ctx = Ctx {
             in_update_arg: true,
@@ -784,6 +824,7 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_var_decl(&mut self, n: &VarDecl) {
         let ctx = Ctx {
             var_decl_kind_of_pat: Some(n.kind),
@@ -806,6 +847,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     fn visit_var_declarator(&mut self, e: &VarDeclarator) {
         let prevent_inline = matches!(
             &e.name,
@@ -842,6 +884,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_while_stmt(&mut self, n: &WhileStmt) {
         let ctx = Ctx {
             executed_multiple_time: true,
@@ -851,6 +894,7 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_with_stmt(&mut self, n: &WithStmt) {
         self.scope.mark_with_stmt();
         n.visit_children_with(self);
