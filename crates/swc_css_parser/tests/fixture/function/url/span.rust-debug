@@ -1181,6 +1181,12 @@ error: Declaration
 43 |     background: url(image.png\0001);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/function/url/input.css:43:5
+   |
+43 |     background: url(image.png\0001);
+   |     ^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/function/url/input.css:43:5
    |
@@ -1223,6 +1229,12 @@ error: Declaration
 44 |     background: url(image.png\1);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/function/url/input.css:44:5
+   |
+44 |     background: url(image.png\1);
+   |     ^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/function/url/input.css:44:5
    |
@@ -1265,6 +1277,12 @@ error: Declaration
 45 |     background: url(image.png\D799);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/function/url/input.css:45:5
+   |
+45 |     background: url(image.png\D799);
+   |     ^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/function/url/input.css:45:5
    |
@@ -1307,6 +1325,12 @@ error: Declaration
 46 |     background: url(image.png\E000);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/function/url/input.css:46:5
+   |
+46 |     background: url(image.png\E000);
+   |     ^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/function/url/input.css:46:5
    |
@@ -1348,6 +1372,12 @@ error: Declaration
    |
 47 |     background: url(image.png\10FFFF);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/function/url/input.css:47:5
+   |
+47 |     background: url(image.png\10FFFF);
+   |     ^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/function/url/input.css:47:5
