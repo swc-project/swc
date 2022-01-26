@@ -74,7 +74,8 @@ pub(crate) struct VarUsageInfo {
     pub usage_count: usize,
 
     /// The variable itself is modified.
-    pub reassigned: bool,
+    pub reassigned_with_assignment: bool,
+    pub reassigned_with_var_decl: bool,
     /// The variable itself or a property of it is modified.
     pub mutated: bool,
 
@@ -117,6 +118,10 @@ impl VarUsageInfo {
 
     pub fn is_infected(&self) -> bool {
         !self.infects.is_empty()
+    }
+
+    pub fn reassigned(&self) -> bool {
+        self.reassigned_with_assignment || self.reassigned_with_var_decl
     }
 }
 
@@ -201,7 +206,7 @@ where
             }
 
             if in_left_of_for_loop {
-                v.mark_reassigned();
+                v.mark_reassigned_with_assign();
                 v.mark_mutated();
             }
         } else {

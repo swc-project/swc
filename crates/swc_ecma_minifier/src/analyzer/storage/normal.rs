@@ -38,7 +38,8 @@ impl Storage for ProgramData {
                     e.get_mut().ref_count += var_info.ref_count;
                     e.get_mut().cond_init |= var_info.cond_init;
 
-                    e.get_mut().reassigned |= var_info.reassigned;
+                    e.get_mut().reassigned_with_assignment |= var_info.reassigned_with_assignment;
+                    e.get_mut().reassigned_with_var_decl |= var_info.reassigned_with_var_decl;
                     e.get_mut().mutated |= var_info.mutated;
 
                     e.get_mut().has_property_access |= var_info.has_property_access;
@@ -121,7 +122,7 @@ impl Storage for ProgramData {
                     }
 
                     v.mutated = true;
-                    v.reassigned = true;
+                    v.reassigned_with_var_decl = true;
                     v.assign_count += 1;
                 }
 
@@ -192,7 +193,7 @@ impl ProgramData {
         if is_first {
             e.ref_count += 1;
         }
-        e.reassigned |= is_first && is_modify && ctx.is_exact_reassignment;
+        e.reassigned_with_assignment |= is_first && is_modify && ctx.is_exact_reassignment;
         // Passing object as a argument is possibly modification.
         e.mutated |= is_modify || (ctx.in_call_arg && ctx.is_exact_arg);
         e.executed_multiple_time |= ctx.executed_multiple_time;
@@ -251,8 +252,8 @@ impl VarDataLike for VarUsageInfo {
         self.mutated = true;
     }
 
-    fn mark_reassigned(&mut self) {
-        self.reassigned = true;
+    fn mark_reassigned_with_assign(&mut self) {
+        self.reassigned_with_assignment = true;
     }
 
     fn add_infects(&mut self, other: Id) {

@@ -214,7 +214,7 @@ where
                 {
                     if v.ref_count == 0
                         && v.usage_count == 0
-                        && !v.reassigned
+                        && !v.reassigned_with_assignment
                         && !v.has_property_mutation
                     {
                         self.changed = true;

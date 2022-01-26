@@ -56,7 +56,7 @@ pub(crate) trait VarDataLike: Sized {
     fn add_accessed_property(&mut self, name: JsWord);
 
     fn mark_mutated(&mut self);
-    fn mark_reassigned(&mut self);
+    fn mark_reassigned_with_assign(&mut self);
 
     fn add_infects(&mut self, other: Id);
 

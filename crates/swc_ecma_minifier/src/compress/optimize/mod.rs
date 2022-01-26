@@ -928,7 +928,7 @@ where
                         }
 
                         if !usage.mutated
-                            && !usage.reassigned
+                            && !usage.reassigned()
                             && usage.no_side_effect_for_member_access
                         {
                             return None;
