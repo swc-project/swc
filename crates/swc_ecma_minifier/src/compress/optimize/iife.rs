@@ -617,7 +617,7 @@ where
 
             if !vars.is_empty() {
                 if cfg!(feature = "debug") {
-                    tracing::debug!("iife: Creating variables");
+                    tracing::debug!("iife: Creating variables: {:?}", vars);
                 }
                 self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP.apply_mark(self.marks.non_top_level),
