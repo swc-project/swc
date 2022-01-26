@@ -3,8 +3,7 @@ use crate::{
     rule::{visitor_rule, Rule},
 };
 use serde::{Deserialize, Serialize};
-use std::collections::HashSet;
-use swc_common::{errors::HANDLER, SyntaxContext};
+use swc_common::{collections::AHashSet, errors::HANDLER, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit};
 
@@ -13,7 +12,7 @@ const MESSAGE: &str = "Unexpected console statement";
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct NoConsoleConfig {
     // not used for now
-    allow: Option<HashSet<String>>,
+    allow: Option<AHashSet<String>>,
 }
 
 pub fn no_console(

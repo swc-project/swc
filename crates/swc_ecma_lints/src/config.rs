@@ -23,11 +23,11 @@ pub struct RuleConfig<T: Debug + Clone + Serialize + Default>(
 );
 
 impl<T: Debug + Clone + Serialize + Default> RuleConfig<T> {
-    pub fn get_rule_reaction(&self) -> &LintRuleReaction {
+    pub(crate) fn get_rule_reaction(&self) -> &LintRuleReaction {
         &self.0
     }
 
-    pub fn get_rule_config(&self) -> &T {
+    pub(crate) fn get_rule_config(&self) -> &T {
         &self.1
     }
 }
