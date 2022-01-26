@@ -68,6 +68,9 @@
 - **(es/codegen)** Emit comments of `Module` and `Script` (#3358) ([fcb7288](https://github.com/swc-project/swc/commit/fcb7288eb66e027fa7278b8f028e4486059241cd))
 
 
+- **(es/lints)** Implement "no-console" rule (#3269) ([9872137](https://github.com/swc-project/swc/commit/987213797f71f9b5e0a0ac19edfbd18fe96a7ce5))
+
+
 - **(es/minifier)** Handle array literals in `sequences` (#3348) ([8007b2d](https://github.com/swc-project/swc/commit/8007b2dc9338e34a1e9780606fd35181890af990))
 
 
