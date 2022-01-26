@@ -1,4 +1,3 @@
-var M;
 class A {
     static foo() {
         return 1;
@@ -8,5 +7,5 @@ class A {
     var n;
     M1.n = n;
 }(M || (M = {}));
-var objA = new A();
-objA.a, M.n, A.foo(), objA.a, M.n, objA.a, M.n;
+var M, objA = new A();
+objA.a, A.foo(), objA.a, objA.a;

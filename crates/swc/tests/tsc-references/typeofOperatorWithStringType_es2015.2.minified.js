@@ -1,4 +1,3 @@
-var STRING, M;
 function foo() {
     return "abc";
 }
@@ -11,12 +10,12 @@ class A {
     var n;
     M1.n = n;
 }(M || (M = {}));
-var objA = new A();
-objA.a, M.n, foo(), A.foo(), STRING.charAt(0), foo(), objA.a, M.n;
+var STRING, M, objA = new A();
+objA.a, foo(), A.foo(), STRING.charAt(0), foo(), objA.a;
 z: ;
 x: ;
 r: ;
 z: "";
 z: objA.a;
 z: ;
-z: M.n;
+z: ;
