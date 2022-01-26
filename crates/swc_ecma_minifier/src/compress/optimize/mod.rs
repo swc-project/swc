@@ -2114,6 +2114,9 @@ where
         });
 
         drop_invalid_stmts(stmts);
+
+        debug_assert_eq!(self.prepend_stmts, vec![]);
+        debug_assert_eq!(self.append_stmts, vec![]);
     }
 
     fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
