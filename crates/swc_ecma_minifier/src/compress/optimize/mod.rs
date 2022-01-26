@@ -239,6 +239,7 @@ impl<M> Optimizer<'_, M>
 where
     M: Mode,
 {
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, stmts)))]
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self>,
