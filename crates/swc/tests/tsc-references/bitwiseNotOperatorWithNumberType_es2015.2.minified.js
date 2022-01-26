@@ -8,4 +8,4 @@ class A {
     M1.n = n;
 }(M || (M = {}));
 var M, objA = new A();
-objA.a, A.foo(), objA.a, objA.a;
+objA.a, M.n, A.foo(), objA.a, M.n, objA.a, M.n;

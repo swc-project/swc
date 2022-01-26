@@ -15,6 +15,6 @@ C.g = ()=>""
 class D extends C {
     method() {
         var d = new D();
-        d.x, d.a, d.b, d.c(), d.d(), C.f(), C.g();
+        d.x, d.a, d.b, d.c(), d.d(), C.e, C.f(), C.g();
     }
 }
