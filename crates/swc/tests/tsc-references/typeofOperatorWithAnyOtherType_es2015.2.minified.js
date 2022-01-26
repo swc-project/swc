@@ -15,6 +15,6 @@ z: ;
 x: ;
 r: ;
 z: objA.a;
-z: ;
+z: A.foo;
 z: M.n;
 z: ;
