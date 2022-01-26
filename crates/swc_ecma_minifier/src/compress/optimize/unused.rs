@@ -34,10 +34,6 @@ where
                 _ => {
                     self.drop_unused_vars(var.span, &mut var.name, Some(init));
 
-                    if init.is_invalid() {
-                        var.init = None;
-                    }
-
                     if var.name.is_invalid() {
                         tracing::debug!("unused: Removing an unused variable declarator");
                         let side_effects = self.ignore_return_value(init);
@@ -57,6 +53,10 @@ where
                                 )
                             }
                         }
+                    }
+
+                    if init.is_invalid() {
+                        var.init = None;
                     }
                 }
             },
