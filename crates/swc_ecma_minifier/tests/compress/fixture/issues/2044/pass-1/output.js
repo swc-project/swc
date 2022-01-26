@@ -10,6 +10,7 @@ createCommonjsModule(function(module, exports) {
 }), createCommonjsModule(function(module) {
     module.exports = {
         findConfig: function(from) {
+            var resolved;
             return function(dir) {
                 throw new Error("");
             };
@@ -32,14 +33,16 @@ createCommonjsModule(function(module, exports) {
     exports.default = void 0;
 });
 var namespace$1 = createCommonjsModule(function(module, exports) {
-    exports.default = void 0, module.exports = exports.default;
+    exports.default = void 0;
+    module.exports = exports.default;
 });
 createCommonjsModule(function(module, exports) {
     exports.default = void 0, module.exports = exports.default;
 }), createCommonjsModule(function(module, exports) {
     exports.default = void 0, exports.default = String;
 }), createCommonjsModule(function(module, exports) {
-    exports.default = void 0, exports.default = String;
+    exports.default = void 0;
+    exports.default = String;
 }), createCommonjsModule(function(module, exports) {
     exports.__esModule = !0;
 }), createCommonjsModule(function(module, exports) {
