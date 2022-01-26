@@ -12,4 +12,4 @@ var X;
 })(X || (X = {})), new X.Y.Point(1, 1), X.Y.Point.Origin;
 class A {
 }
-(A || (A = {})).Instance = new A(), new A();
+(A || (A = {})).Instance = new A(), A.Instance, new A();
