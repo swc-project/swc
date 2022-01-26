@@ -270,7 +270,7 @@
             },
             "value": [
               {
-                "type": "PercentValue",
+                "type": "Percent",
                 "span": {
                   "start": 91,
                   "end": 94,
@@ -309,7 +309,7 @@
             },
             "value": [
               {
-                "type": "PercentValue",
+                "type": "Percent",
                 "span": {
                   "start": 109,
                   "end": 112,

@@ -5,7 +5,6 @@ use crate::{
     error::{Error, ErrorKind},
     Parse,
 };
-use swc_atoms::js_word;
 use swc_common::{BytePos, Spanned};
 use swc_css_ast::*;
 
@@ -280,7 +279,15 @@ where
 
             tok!("num") => return self.parse_numeric_value(),
 
-            tok!("function") => return Ok(Value::Function(self.parse()?)),
+            tok!("url") => return Ok(Value::Url(self.parse()?)),
+
+            Token::Function { value, .. } => {
+                if &*value.to_ascii_lowercase() == "url" || &*value.to_ascii_lowercase() == "src" {
+                    return Ok(Value::Url(self.parse()?));
+                }
+
+                return Ok(Value::Function(self.parse()?));
+            }
 
             tok!("percent") => return self.parse_numeric_value(),
 
@@ -330,8 +337,6 @@ where
                     block,
                 }));
             }
-
-            tok!("url") => return Ok(Value::Url(self.parse()?)),
 
             _ => {}
         }
@@ -726,11 +731,11 @@ where
     }
 }
 
-impl<I> Parse<PercentValue> for Parser<I>
+impl<I> Parse<Percent> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<PercentValue> {
+    fn parse(&mut self) -> PResult<Percent> {
         let span = self.input.cur_span()?;
 
         if !is!(self, Percent) {
@@ -745,7 +750,7 @@ where
                     raw,
                 };
 
-                Ok(PercentValue { span, value })
+                Ok(Percent { span, value })
             }
             _ => {
                 unreachable!()
@@ -774,23 +779,104 @@ where
     }
 }
 
-impl<I> Parse<UrlValue> for Parser<I>
+impl<I> Parse<Url> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<UrlValue> {
+    fn parse(&mut self) -> PResult<Url> {
         let span = self.input.cur_span()?;
 
-        if !is!(self, Url) {
-            return Err(Error::new(span, ErrorKind::Expected("Url")));
+        if !is_one_of!(self, Url, Function) {
+            return Err(Error::new(span, ErrorKind::Expected("url or function")));
         }
 
         match bump!(self) {
-            Token::Url { value, raw } => Ok(UrlValue {
-                span,
-                url: value,
-                raw,
-            }),
+            Token::Url {
+                name,
+                raw_name,
+                value,
+                raw_value,
+            } => {
+                let name = Ident {
+                    // TODO add additional fields in lexer to keep original spaces and fix span
+                    span: swc_common::Span::new(span.lo, span.lo + BytePos(3), Default::default()),
+                    value: name,
+                    raw: raw_name,
+                };
+
+                let value = Some(UrlValue::Raw(UrlValueRaw {
+                    span: swc_common::Span::new(
+                        span.lo + BytePos(4),
+                        span.hi - BytePos(1),
+                        Default::default(),
+                    ),
+                    value,
+                    raw: raw_value,
+                }));
+
+                Ok(Url {
+                    span: span!(self, span.lo),
+                    name,
+                    value,
+                    modifiers: None,
+                })
+            }
+            Token::Function {
+                value: function_name,
+                raw: raw_function_name,
+            } => {
+                if &*function_name.to_ascii_lowercase() != "url"
+                    && &*function_name.to_ascii_lowercase() != "src"
+                {
+                    return Err(Error::new(span, ErrorKind::Expected("'url' or 'src' name")));
+                }
+
+                let name = Ident {
+                    span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+                    value: function_name,
+                    raw: raw_function_name,
+                };
+
+                self.input.skip_ws()?;
+
+                let value = match cur!(self) {
+                    tok!("str") => Some(UrlValue::Str(self.parse()?)),
+                    _ => None,
+                };
+
+                self.input.skip_ws()?;
+
+                let mut modifiers = vec![];
+
+                loop {
+                    if is!(self, ")") {
+                        break;
+                    }
+
+                    match cur!(self) {
+                        tok!("ident") => {
+                            modifiers.push(UrlModifier::Ident(self.parse()?));
+                        }
+                        tok!("function") => {
+                            modifiers.push(UrlModifier::Function(self.parse()?));
+                        }
+                        _ => {
+                            return Err(Error::new(span, ErrorKind::Expected("ident or function")));
+                        }
+                    }
+
+                    self.input.skip_ws()?;
+                }
+
+                expect!(self, ")");
+
+                Ok(Url {
+                    span: span!(self, span.lo),
+                    name,
+                    value,
+                    modifiers: Some(modifiers),
+                })
+            }
             _ => {
                 unreachable!()
             }
@@ -817,10 +903,9 @@ where
             value: name.0,
             raw: name.1,
         };
-        let is_url = name.value.to_ascii_lowercase() == js_word!("url");
         let ctx = Ctx {
-            allow_operation_in_value: !is_url,
-            allow_separating_value_with_space: !is_url,
+            allow_operation_in_value: true,
+            allow_separating_value_with_space: true,
             allow_separating_value_with_comma: false,
             ..self.ctx
         };

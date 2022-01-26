@@ -304,7 +304,7 @@
             },
             "value": [
               {
-                "type": "Function",
+                "type": "Url",
                 "span": {
                   "start": 91,
                   "end": 98,
@@ -320,18 +320,17 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "value": [
-                  {
-                    "type": "String",
-                    "span": {
-                      "start": 95,
-                      "end": 97,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": "\"\""
-                  }
-                ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 95,
+                    "end": 97,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "raw": "\"\""
+                },
+                "modifiers": []
               }
             ],
             "important": null
@@ -355,7 +354,7 @@
             },
             "value": [
               {
-                "type": "Function",
+                "type": "Url",
                 "span": {
                   "start": 113,
                   "end": 129,
@@ -371,18 +370,17 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "value": [
-                  {
-                    "type": "String",
-                    "span": {
-                      "start": 117,
-                      "end": 128,
-                      "ctxt": 0
-                    },
-                    "value": "something",
-                    "raw": "\"something\""
-                  }
-                ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 117,
+                    "end": 128,
+                    "ctxt": 0
+                  },
+                  "value": "something",
+                  "raw": "\"something\""
+                },
+                "modifiers": []
               }
             ],
             "important": null
@@ -406,7 +404,7 @@
             },
             "value": [
               {
-                "type": "Function",
+                "type": "Url",
                 "span": {
                   "start": 144,
                   "end": 162,
@@ -422,18 +420,17 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "value": [
-                  {
-                    "type": "String",
-                    "span": {
-                      "start": 148,
-                      "end": 161,
-                      "ctxt": 0
-                    },
-                    "value": "./something",
-                    "raw": "\"./something\""
-                  }
-                ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 148,
+                    "end": 161,
+                    "ctxt": 0
+                  },
+                  "value": "./something",
+                  "raw": "\"./something\""
+                },
+                "modifiers": []
               }
             ],
             "important": null

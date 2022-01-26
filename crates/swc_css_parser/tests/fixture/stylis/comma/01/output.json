@@ -123,14 +123,33 @@
                         },
                         "values": [
                           {
-                            "type": "UrlValue",
+                            "type": "Url",
                             "span": {
                               "start": 26,
                               "end": 38,
                               "ctxt": 0
                             },
-                            "url": "foo.jpg",
-                            "raw": "foo.jpg"
+                            "name": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 26,
+                                "end": 29,
+                                "ctxt": 0
+                              },
+                              "value": "url",
+                              "raw": "url"
+                            },
+                            "value": {
+                              "type": "UrlValueRaw",
+                              "span": {
+                                "start": 30,
+                                "end": 37,
+                                "ctxt": 0
+                              },
+                              "value": "foo.jpg",
+                              "raw": "foo.jpg"
+                            },
+                            "modifiers": null
                           },
                           {
                             "type": "UnitValue",

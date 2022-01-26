@@ -28,7 +28,7 @@ error: ImportHref
 1 | @import url("foo.css") print;
   |         ^^^^^^^^^^^^^^
 
-error: Function
+error: Url
  --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:9
   |
 1 | @import url("foo.css") print;
@@ -40,7 +40,7 @@ error: Ident
 1 | @import url("foo.css") print;
   |         ^^^
 
-error: Value
+error: UrlValue
  --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:13
   |
 1 | @import url("foo.css") print;

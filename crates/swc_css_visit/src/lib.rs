@@ -88,7 +88,7 @@ define!({
 
         Number(Number),
 
-        Percent(PercentValue),
+        Percent(Percent),
 
         Ratio(Ratio),
 
@@ -110,7 +110,7 @@ define!({
 
         AtText(AtTextValue),
 
-        Url(UrlValue),
+        Url(Url),
     }
 
     pub struct SpaceValues {
@@ -151,7 +151,7 @@ define!({
         pub unit: Unit,
     }
 
-    pub struct PercentValue {
+    pub struct Percent {
         pub span: Span,
         pub value: Number,
     }
@@ -168,10 +168,27 @@ define!({
         pub block: Option<SimpleBlock>,
     }
 
-    pub struct UrlValue {
+    pub struct Url {
         pub span: Span,
-        pub url: JsWord,
+        pub name: Ident,
+        pub value: Option<UrlValue>,
+        pub modifiers: Option<Vec<UrlModifier>>,
+    }
+
+    pub enum UrlValue {
+        Str(Str),
+        Raw(UrlValueRaw),
+    }
+
+    pub struct UrlValueRaw {
+        pub span: Span,
+        pub value: JsWord,
         pub raw: JsWord,
+    }
+
+    pub enum UrlModifier {
+        Ident(Ident),
+        Function(Function),
     }
 
     pub struct SelectorList {
@@ -331,8 +348,7 @@ define!({
     }
 
     pub enum ImportHref {
-        Function(Function),
-        Url(UrlValue),
+        Url(Url),
         Str(Str),
     }
 
@@ -360,7 +376,7 @@ define!({
     }
 
     pub enum NamespaceUri {
-        Url(UrlValue),
+        Url(Url),
         Str(Str),
     }
 
@@ -407,7 +423,7 @@ define!({
 
     pub enum KeyframeSelector {
         Ident(Ident),
-        Percent(PercentValue),
+        Percent(Percent),
     }
 
     pub enum KeyframeBlockRule {

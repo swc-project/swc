@@ -28,7 +28,7 @@ error: ImportHref
 1 | @import url("foo.css") screen and (orientation:landscape);
   |         ^^^^^^^^^^^^^^
 
-error: Function
+error: Url
  --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:9
   |
 1 | @import url("foo.css") screen and (orientation:landscape);
@@ -40,7 +40,7 @@ error: Ident
 1 | @import url("foo.css") screen and (orientation:landscape);
   |         ^^^
 
-error: Value
+error: UrlValue
  --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:13
   |
 1 | @import url("foo.css") screen and (orientation:landscape);

@@ -4,7 +4,6 @@ use crate::{
     parser::{Ctx, RuleContext},
     Parse,
 };
-use swc_atoms::js_word;
 use swc_common::Span;
 use swc_css_ast::*;
 
@@ -282,15 +281,13 @@ where
     fn parse(&mut self) -> PResult<ImportRule> {
         let span = self.input.cur_span()?;
         let href = match cur!(self) {
-            Token::Str { .. } => ImportHref::Str(self.parse()?),
-            Token::Function { value, .. } if *value.to_ascii_lowercase() == js_word!("url") => {
-                ImportHref::Function(self.parse()?)
-            }
-            Token::Url { .. } => ImportHref::Url(self.parse()?),
+            tok!("str") => ImportHref::Str(self.parse()?),
+            tok!("url") => ImportHref::Url(self.parse()?),
+            tok!("function") => ImportHref::Url(self.parse()?),
             _ => {
                 return Err(Error::new(
                     span,
-                    ErrorKind::Expected("url('https://example.com') or 'https://example.com'"),
+                    ErrorKind::Expected("string, url or function"),
                 ))
             }
         };
@@ -422,12 +419,8 @@ where
         let mut prefix = None;
 
         if is!(self, Ident) {
-            prefix = match bump!(self) {
-                Token::Ident { value, raw } => Some(Ident {
-                    span: span!(self, span.lo),
-                    value,
-                    raw,
-                }),
+            prefix = match cur!(self) {
+                tok!("ident") => Some(self.parse()?),
                 _ => {
                     unreachable!()
                 }
@@ -436,20 +429,16 @@ where
             self.input.skip_ws()?;
         }
 
-        let start_value_span = self.input.cur_span()?;
-
-        let uri = match bump!(self) {
-            Token::Str { value, raw } => NamespaceUri::Str(Str {
-                span: span!(self, start_value_span.lo),
-                value,
-                raw,
-            }),
-            Token::Url { value, raw } => NamespaceUri::Url(UrlValue {
-                span: span!(self, start_value_span.lo),
-                url: value,
-                raw,
-            }),
-            _ => return Err(Error::new(span, ErrorKind::Expected("Str or Url"))),
+        let uri = match cur!(self) {
+            tok!("str") => NamespaceUri::Str(self.parse()?),
+            tok!("url") => NamespaceUri::Url(self.parse()?),
+            tok!("function") => NamespaceUri::Url(self.parse()?),
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("string, url or function"),
+                ))
+            }
         };
 
         eat!(self, ";");
@@ -1271,9 +1260,7 @@ where
                     right,
                 }))
             }
-            _ => {
-                return Err(Error::new(span, ErrorKind::Expected("identifier value")));
-            }
+            _ => Err(Error::new(span, ErrorKind::Expected("identifier value"))),
         }
     }
 }
@@ -1303,16 +1290,14 @@ where
                     }));
                 }
 
-                return Ok(MediaFeatureValue::Number(left));
+                Ok(MediaFeatureValue::Number(left))
             }
             Token::Ident { .. } => Ok(MediaFeatureValue::Ident(self.parse()?)),
             Token::Dimension { .. } => Ok(MediaFeatureValue::Dimension(self.parse()?)),
-            _ => {
-                return Err(Error::new(
-                    span,
-                    ErrorKind::Expected("number, dimension, identifier or ration value"),
-                ));
-            }
+            _ => Err(Error::new(
+                span,
+                ErrorKind::Expected("number, dimension, identifier or ration value"),
+            )),
         }
     }
 }

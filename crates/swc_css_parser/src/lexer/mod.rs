@@ -2,6 +2,7 @@ use crate::{
     error::{Error, ErrorKind},
     parser::{input::ParserInput, PResult, ParserConfig},
 };
+use std::char::REPLACEMENT_CHARACTER;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{input::Input, BytePos, Span};
 use swc_css_ast::{NumberType, Token, TokenAndSpan};
@@ -542,7 +543,7 @@ where
                 }
                 // Otherwise, consume a url token, and return it.
                 _ => {
-                    return self.read_url();
+                    return self.read_url(name);
                 }
             }
         }
@@ -657,7 +658,7 @@ where
 
     // This section describes how to consume a url token from a stream of code
     // points. It returns either a <url-token> or a <bad-url-token>.
-    fn read_url(&mut self) -> LexResult<Token> {
+    fn read_url(&mut self, name: (JsWord, JsWord)) -> LexResult<Token> {
         // Initially create a <url-token> with its value set to the empty string.
         let mut value = String::new();
         let mut raw = String::new();
@@ -680,8 +681,10 @@ where
                 // Return the <url-token>.
                 Some(')') => {
                     return Ok(Token::Url {
+                        name: name.0,
+                        raw_name: name.1,
                         value: value.into(),
-                        raw: raw.into(),
+                        raw_value: raw.into(),
                     });
                 }
 
@@ -689,29 +692,31 @@ where
                 // This is a parse error. Return the <url-token>.
                 None => {
                     return Ok(Token::Url {
+                        name: name.0,
+                        raw_name: name.1,
                         value: value.into(),
-                        raw: raw.into(),
+                        raw_value: raw.into(),
                     });
                 }
 
                 // whitespace
                 Some(c) if is_whitespace(c) => {
-                    let start_pos = self.input.cur_pos();
+                    let mut whitespaces = String::new();
+
+                    whitespaces.push(c);
 
                     // Consume as much whitespace as possible.
                     while let Some(c) = self.next() {
                         if is_whitespace(c) {
                             self.consume();
+
+                            whitespaces.push(c);
                         } else {
                             break;
                         }
                     }
 
-                    let end_pos = self.input.cur_pos();
-
-                    raw.push(c);
-                    // TODO: fix me
-                    raw.push_str(self.input.slice(start_pos, end_pos));
+                    raw.push_str(&whitespaces);
 
                     // if the next input code point is U+0029 RIGHT PARENTHESIS ()) or EOF, consume
                     // it and return the <url-token> (if EOF was encountered, this is a parse
@@ -721,18 +726,24 @@ where
                             self.consume();
 
                             return Ok(Token::Url {
+                                name: name.0,
+                                raw_name: name.1,
                                 value: value.into(),
-                                raw: raw.into(),
+                                raw_value: raw.into(),
                             });
                         }
                         None => {
                             return Ok(Token::Url {
+                                name: name.0,
+                                raw_name: name.1,
                                 value: value.into(),
-                                raw: raw.into(),
+                                raw_value: raw.into(),
                             });
                         }
                         _ => {}
                     }
+
+                    value.push_str(&whitespaces);
 
                     // otherwise, consume the remnants of a bad url, create a <bad-url-token>, and
                     // return it.
@@ -741,10 +752,11 @@ where
                     value.push_str(&remnants.0);
                     raw.push_str(&remnants.1);
 
-                    // TODO check me
                     return Ok(Token::BadUrl {
+                        name: name.0,
+                        raw_name: name.1,
                         value: value.into(),
-                        raw: raw.into(),
+                        raw_value: raw.into(),
                     });
                 }
 
@@ -763,8 +775,10 @@ where
                     raw.push_str(&remnants.1);
 
                     return Ok(Token::BadUrl {
+                        name: name.0,
+                        raw_name: name.1,
                         value: value.into(),
-                        raw: raw.into(),
+                        raw_value: raw.into(),
                     });
                 }
 
@@ -790,8 +804,10 @@ where
                         raw.push_str(&remnants.1);
 
                         return Ok(Token::BadUrl {
+                            name: name.0,
+                            raw_name: name.1,
                             value: value.into(),
-                            raw: raw.into(),
+                            raw_value: raw.into(),
                         });
                     }
                 }
@@ -851,8 +867,15 @@ where
                 // Interpret the hex digits as a hexadecimal number. If this number is zero, or
                 // is for a surrogate, or is greater than the maximum allowed code point, return
                 // U+FFFD REPLACEMENT CHARACTER (�).
-                // TODO: fix me
-                let hex = char::from_u32(hex).ok_or(ErrorKind::InvalidEscape)?;
+                let hex = match hex {
+                    // If this number is zero
+                    0 => REPLACEMENT_CHARACTER,
+                    // or is for a surrogate
+                    55296..=57343 => REPLACEMENT_CHARACTER,
+                    // or is greater than the maximum allowed code point
+                    1114112.. => REPLACEMENT_CHARACTER,
+                    _ => char::from_u32(hex).unwrap_or_else(|| REPLACEMENT_CHARACTER),
+                };
 
                 // Otherwise, return the code point with that value.
                 Ok((hex, raw))
@@ -860,7 +883,7 @@ where
             // EOF
             // This is a parse error. Return U+FFFD REPLACEMENT CHARACTER (�).
             None => {
-                let value = '\u{FFFD}';
+                let value = REPLACEMENT_CHARACTER;
 
                 raw.push(value);
 
@@ -1207,7 +1230,7 @@ where
             }
         }
 
-        return Ok((value, raw));
+        Ok((value, raw))
     }
 }
 

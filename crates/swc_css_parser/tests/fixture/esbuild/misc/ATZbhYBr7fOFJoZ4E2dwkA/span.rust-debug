@@ -40,7 +40,7 @@ error: KeyframeSelector
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                   ^^
 
-error: PercentValue
+error: Percent
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:19
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
@@ -58,7 +58,7 @@ error: KeyframeSelector
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                       ^^^
 
-error: PercentValue
+error: Percent
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:23
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
@@ -118,7 +118,7 @@ error: KeyframeSelector
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                                          ^^^
 
-error: PercentValue
+error: Percent
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:42
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
@@ -136,7 +136,7 @@ error: KeyframeSelector
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                                               ^^^
 
-error: PercentValue
+error: Percent
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:47
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }

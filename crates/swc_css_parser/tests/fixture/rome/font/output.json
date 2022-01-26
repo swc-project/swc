@@ -40,7 +40,7 @@
             },
             "value": [
               {
-                "type": "Function",
+                "type": "Url",
                 "span": {
                   "start": 19,
                   "end": 26,
@@ -56,18 +56,17 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "value": [
-                  {
-                    "type": "String",
-                    "span": {
-                      "start": 23,
-                      "end": 25,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": "\"\""
-                  }
-                ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 23,
+                    "end": 25,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "raw": "\"\""
+                },
+                "modifiers": []
               }
             ],
             "important": null

@@ -34,7 +34,7 @@ error: ImportHref
 1 | @import url("./style.css");
   |         ^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
  --> $DIR/tests/fixture/at-rule/import/input.css:1:9
   |
 1 | @import url("./style.css");
@@ -45,96 +45,114 @@ error: Ident
   |
 1 | @import url("./style.css");
   |         ^^^
-
-error: Value
- --> $DIR/tests/fixture/at-rule/import/input.css:1:13
-  |
-1 | @import url("./style.css");
-  |             ^^^^^^^^^^^^^
-
-error: Str
- --> $DIR/tests/fixture/at-rule/import/input.css:1:13
-  |
-1 | @import url("./style.css");
-  |             ^^^^^^^^^^^^^
-
-error: Rule
- --> $DIR/tests/fixture/at-rule/import/input.css:2:1
-  |
-2 | @import url('./style.css');
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/at-rule/import/input.css:2:1
-  |
-2 | @import url('./style.css');
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: ImportRule
- --> $DIR/tests/fixture/at-rule/import/input.css:2:1
-  |
-2 | @import url('./style.css');
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: ImportHref
- --> $DIR/tests/fixture/at-rule/import/input.css:2:9
-  |
-2 | @import url('./style.css');
-  |         ^^^^^^^^^^^^^^^^^^
-
-error: Function
- --> $DIR/tests/fixture/at-rule/import/input.css:2:9
-  |
-2 | @import url('./style.css');
-  |         ^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/at-rule/import/input.css:2:9
-  |
-2 | @import url('./style.css');
-  |         ^^^
-
-error: Value
- --> $DIR/tests/fixture/at-rule/import/input.css:2:13
-  |
-2 | @import url('./style.css');
-  |             ^^^^^^^^^^^^^
-
-error: Str
- --> $DIR/tests/fixture/at-rule/import/input.css:2:13
-  |
-2 | @import url('./style.css');
-  |             ^^^^^^^^^^^^^
-
-error: Rule
- --> $DIR/tests/fixture/at-rule/import/input.css:3:1
-  |
-3 | @import url(./style.css);
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/at-rule/import/input.css:3:1
-  |
-3 | @import url(./style.css);
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: ImportRule
- --> $DIR/tests/fixture/at-rule/import/input.css:3:1
-  |
-3 | @import url(./style.css);
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: ImportHref
- --> $DIR/tests/fixture/at-rule/import/input.css:3:9
-  |
-3 | @import url(./style.css);
-  |         ^^^^^^^^^^^^^^^^
 
 error: UrlValue
+ --> $DIR/tests/fixture/at-rule/import/input.css:1:13
+  |
+1 | @import url("./style.css");
+  |             ^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/import/input.css:1:13
+  |
+1 | @import url("./style.css");
+  |             ^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/import/input.css:2:1
+  |
+2 | @import url('./style.css');
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/import/input.css:2:1
+  |
+2 | @import url('./style.css');
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+ --> $DIR/tests/fixture/at-rule/import/input.css:2:1
+  |
+2 | @import url('./style.css');
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportHref
+ --> $DIR/tests/fixture/at-rule/import/input.css:2:9
+  |
+2 | @import url('./style.css');
+  |         ^^^^^^^^^^^^^^^^^^
+
+error: Url
+ --> $DIR/tests/fixture/at-rule/import/input.css:2:9
+  |
+2 | @import url('./style.css');
+  |         ^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/import/input.css:2:9
+  |
+2 | @import url('./style.css');
+  |         ^^^
+
+error: UrlValue
+ --> $DIR/tests/fixture/at-rule/import/input.css:2:13
+  |
+2 | @import url('./style.css');
+  |             ^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/import/input.css:2:13
+  |
+2 | @import url('./style.css');
+  |             ^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/import/input.css:3:1
+  |
+3 | @import url(./style.css);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/import/input.css:3:1
+  |
+3 | @import url(./style.css);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+ --> $DIR/tests/fixture/at-rule/import/input.css:3:1
+  |
+3 | @import url(./style.css);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportHref
  --> $DIR/tests/fixture/at-rule/import/input.css:3:9
   |
 3 | @import url(./style.css);
   |         ^^^^^^^^^^^^^^^^
+
+error: Url
+ --> $DIR/tests/fixture/at-rule/import/input.css:3:9
+  |
+3 | @import url(./style.css);
+  |         ^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/import/input.css:3:9
+  |
+3 | @import url(./style.css);
+  |         ^^^
+
+error: UrlValue
+ --> $DIR/tests/fixture/at-rule/import/input.css:3:13
+  |
+3 | @import url(./style.css);
+  |             ^^^^^^^^^^^
+
+error: UrlValueRaw
+ --> $DIR/tests/fixture/at-rule/import/input.css:3:13
+  |
+3 | @import url(./style.css);
+  |             ^^^^^^^^^^^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/import/input.css:4:1
@@ -220,7 +238,7 @@ error: ImportHref
 6 | @IMPORT url("./style.css");
   |         ^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
  --> $DIR/tests/fixture/at-rule/import/input.css:6:9
   |
 6 | @IMPORT url("./style.css");
@@ -232,7 +250,7 @@ error: Ident
 6 | @IMPORT url("./style.css");
   |         ^^^
 
-error: Value
+error: UrlValue
  --> $DIR/tests/fixture/at-rule/import/input.css:6:13
   |
 6 | @IMPORT url("./style.css");
@@ -268,11 +286,29 @@ error: ImportHref
 7 | @import URL(./style.css);
   |         ^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
  --> $DIR/tests/fixture/at-rule/import/input.css:7:9
   |
 7 | @import URL(./style.css);
   |         ^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/import/input.css:7:9
+  |
+7 | @import URL(./style.css);
+  |         ^^^
+
+error: UrlValue
+ --> $DIR/tests/fixture/at-rule/import/input.css:7:13
+  |
+7 | @import URL(./style.css);
+  |             ^^^^^^^^^^^
+
+error: UrlValueRaw
+ --> $DIR/tests/fixture/at-rule/import/input.css:7:13
+  |
+7 | @import URL(./style.css);
+  |             ^^^^^^^^^^^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/import/input.css:8:1
@@ -298,7 +334,7 @@ error: ImportHref
 8 | @import URL("./style.css");
   |         ^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
  --> $DIR/tests/fixture/at-rule/import/input.css:8:9
   |
 8 | @import URL("./style.css");
@@ -310,7 +346,7 @@ error: Ident
 8 | @import URL("./style.css");
   |         ^^^
 
-error: Value
+error: UrlValue
  --> $DIR/tests/fixture/at-rule/import/input.css:8:13
   |
 8 | @import URL("./style.css");
@@ -424,7 +460,7 @@ error: ImportHref
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |         ^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:11:9
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);
@@ -436,7 +472,7 @@ error: Ident
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:11:13
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);
@@ -544,7 +580,7 @@ error: ImportHref
 12 | @import url("theme.css") layer;
    |         ^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:12:9
    |
 12 | @import url("theme.css") layer;
@@ -556,7 +592,7 @@ error: Ident
 12 | @import url("theme.css") layer;
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:12:13
    |
 12 | @import url("theme.css") layer;
@@ -604,7 +640,7 @@ error: ImportHref
 13 | @import url("theme.css") layer   ;
    |         ^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:13:9
    |
 13 | @import url("theme.css") layer   ;
@@ -616,7 +652,7 @@ error: Ident
 13 | @import url("theme.css") layer   ;
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:13:13
    |
 13 | @import url("theme.css") layer   ;
@@ -664,7 +700,7 @@ error: ImportHref
 14 | @import url("theme.css") LAYER;
    |         ^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:14:9
    |
 14 | @import url("theme.css") LAYER;
@@ -676,7 +712,7 @@ error: Ident
 14 | @import url("theme.css") LAYER;
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:14:13
    |
 14 | @import url("theme.css") LAYER;
@@ -724,7 +760,7 @@ error: ImportHref
 15 | @import url("theme.css") layer(default);
    |         ^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:15:9
    |
 15 | @import url("theme.css") layer(default);
@@ -736,7 +772,7 @@ error: Ident
 15 | @import url("theme.css") layer(default);
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:15:13
    |
 15 | @import url("theme.css") layer(default);
@@ -802,7 +838,7 @@ error: ImportHref
 16 | @import url("theme.css") LAYER(default);
    |         ^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:16:9
    |
 16 | @import url("theme.css") LAYER(default);
@@ -814,7 +850,7 @@ error: Ident
 16 | @import url("theme.css") LAYER(default);
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:16:13
    |
 16 | @import url("theme.css") LAYER(default);
@@ -880,7 +916,7 @@ error: ImportHref
 18 | @import url("override.css") layer();
    |         ^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:18:9
    |
 18 | @import url("override.css") layer();
@@ -892,7 +928,7 @@ error: Ident
 18 | @import url("override.css") layer();
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:18:13
    |
 18 | @import url("override.css") layer();
@@ -946,7 +982,7 @@ error: ImportHref
 19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
    |         ^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:19:9
    |
 19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
@@ -958,7 +994,7 @@ error: Ident
 19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:19:13
    |
 19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
@@ -1108,7 +1144,7 @@ error: ImportHref
 20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
    |         ^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:20:9
    |
 20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
@@ -1120,7 +1156,7 @@ error: Ident
 20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:20:13
    |
 20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
@@ -1270,7 +1306,7 @@ error: ImportHref
 21 | @import url("fallback-layout.css") supports(not (display: flex));
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:21:9
    |
 21 | @import url("fallback-layout.css") supports(not (display: flex));
@@ -1282,7 +1318,7 @@ error: Ident
 21 | @import url("fallback-layout.css") supports(not (display: flex));
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:21:13
    |
 21 | @import url("fallback-layout.css") supports(not (display: flex));
@@ -1378,12 +1414,30 @@ error: ImportHref
 22 | @import url(test.css);
    |         ^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:22:9
    |
 22 | @import url(test.css);
    |         ^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:22:9
+   |
+22 | @import url(test.css);
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:22:13
+   |
+22 | @import url(test.css);
+   |             ^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:22:13
+   |
+22 | @import url(test.css);
+   |             ^^^^^^^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/import/input.css:23:1
    |
@@ -1408,7 +1462,7 @@ error: ImportHref
 23 | @import url('test.css');
    |         ^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:23:9
    |
 23 | @import url('test.css');
@@ -1420,7 +1474,7 @@ error: Ident
 23 | @import url('test.css');
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:23:13
    |
 23 | @import url('test.css');
@@ -1456,7 +1510,7 @@ error: ImportHref
 24 | @import url("test.css");
    |         ^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:24:9
    |
 24 | @import url("test.css");
@@ -1468,7 +1522,7 @@ error: Ident
 24 | @import url("test.css");
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:24:13
    |
 24 | @import url("test.css");
@@ -1504,12 +1558,30 @@ error: ImportHref
 25 | @IMPORT url(test.css);
    |         ^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:25:9
    |
 25 | @IMPORT url(test.css);
    |         ^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:25:9
+   |
+25 | @IMPORT url(test.css);
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:25:13
+   |
+25 | @IMPORT url(test.css);
+   |             ^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:25:13
+   |
+25 | @IMPORT url(test.css);
+   |             ^^^^^^^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/import/input.css:26:1
    |
@@ -1534,11 +1606,29 @@ error: ImportHref
 26 | @import URL(test.css);
    |         ^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:26:9
    |
 26 | @import URL(test.css);
    |         ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:26:9
+   |
+26 | @import URL(test.css);
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:26:13
+   |
+26 | @import URL(test.css);
+   |             ^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:26:13
+   |
+26 | @import URL(test.css);
+   |             ^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/import/input.css:27:1
@@ -1564,12 +1654,30 @@ error: ImportHref
 27 | @import url(test.css );
    |         ^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:27:9
    |
 27 | @import url(test.css );
    |         ^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:27:9
+   |
+27 | @import url(test.css );
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:27:13
+   |
+27 | @import url(test.css );
+   |             ^^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:27:13
+   |
+27 | @import url(test.css );
+   |             ^^^^^^^^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/import/input.css:28:1
    |
@@ -1594,11 +1702,29 @@ error: ImportHref
 28 | @import url( test.css);
    |         ^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:28:9
    |
 28 | @import url( test.css);
    |         ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:28:9
+   |
+28 | @import url( test.css);
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:28:13
+   |
+28 | @import url( test.css);
+   |             ^^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:28:13
+   |
+28 | @import url( test.css);
+   |             ^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/import/input.css:29:1
@@ -1624,11 +1750,29 @@ error: ImportHref
 29 | @import url( test.css );
    |         ^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:29:9
    |
 29 | @import url( test.css );
    |         ^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:29:9
+   |
+29 | @import url( test.css );
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:29:13
+   |
+29 | @import url( test.css );
+   |             ^^^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:29:13
+   |
+29 | @import url( test.css );
+   |             ^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/import/input.css:30:1
@@ -1663,7 +1807,7 @@ error: ImportHref
 32 | | );
    | |_^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:30:9
    |
 30 |   @import url(
@@ -1671,6 +1815,30 @@ error: UrlValue
 31 | | test.css
 32 | | );
    | |_^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:30:9
+   |
+30 | @import url(
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:30:13
+   |
+30 |   @import url(
+   |  _____________^
+31 | | test.css
+32 | | );
+   | |_
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:30:13
+   |
+30 |   @import url(
+   |  _____________^
+31 | | test.css
+32 | | );
+   | |_
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/import/input.css:33:1
@@ -1696,11 +1864,29 @@ error: ImportHref
 33 | @import url();
    |         ^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:33:9
    |
 33 | @import url();
    |         ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:33:9
+   |
+33 | @import url();
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:33:13
+   |
+33 | @import url();
+   |             ^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:33:13
+   |
+33 | @import url();
+   |             ^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/import/input.css:34:1
@@ -1726,7 +1912,7 @@ error: ImportHref
 34 | @import url('');
    |         ^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:34:9
    |
 34 | @import url('');
@@ -1738,7 +1924,7 @@ error: Ident
 34 | @import url('');
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:34:13
    |
 34 | @import url('');
@@ -1774,7 +1960,7 @@ error: ImportHref
 35 | @import url("");
    |         ^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:35:9
    |
 35 | @import url("");
@@ -1786,7 +1972,7 @@ error: Ident
 35 | @import url("");
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:35:13
    |
 35 | @import url("");
@@ -2009,137 +2195,173 @@ error: ImportHref
 43 | @import url();
    |         ^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:43:9
    |
 43 | @import url();
    |         ^^^^^
 
-error: Rule
-  --> $DIR/tests/fixture/at-rule/import/input.css:44:1
-   |
-44 | @import url('');
-   | ^^^^^^^^^^^^^^^^
-
-error: AtRule
-  --> $DIR/tests/fixture/at-rule/import/input.css:44:1
-   |
-44 | @import url('');
-   | ^^^^^^^^^^^^^^^^
-
-error: ImportRule
-  --> $DIR/tests/fixture/at-rule/import/input.css:44:1
-   |
-44 | @import url('');
-   | ^^^^^^^^^^^^^^^^
-
-error: ImportHref
-  --> $DIR/tests/fixture/at-rule/import/input.css:44:9
-   |
-44 | @import url('');
-   |         ^^^^^^^
-
-error: Function
-  --> $DIR/tests/fixture/at-rule/import/input.css:44:9
-   |
-44 | @import url('');
-   |         ^^^^^^^
-
 error: Ident
-  --> $DIR/tests/fixture/at-rule/import/input.css:44:9
+  --> $DIR/tests/fixture/at-rule/import/input.css:43:9
    |
-44 | @import url('');
+43 | @import url();
    |         ^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/import/input.css:44:13
-   |
-44 | @import url('');
-   |             ^^
-
-error: Str
-  --> $DIR/tests/fixture/at-rule/import/input.css:44:13
-   |
-44 | @import url('');
-   |             ^^
-
-error: Rule
-  --> $DIR/tests/fixture/at-rule/import/input.css:45:1
-   |
-45 | @import url("");
-   | ^^^^^^^^^^^^^^^^
-
-error: AtRule
-  --> $DIR/tests/fixture/at-rule/import/input.css:45:1
-   |
-45 | @import url("");
-   | ^^^^^^^^^^^^^^^^
-
-error: ImportRule
-  --> $DIR/tests/fixture/at-rule/import/input.css:45:1
-   |
-45 | @import url("");
-   | ^^^^^^^^^^^^^^^^
-
-error: ImportHref
-  --> $DIR/tests/fixture/at-rule/import/input.css:45:9
-   |
-45 | @import url("");
-   |         ^^^^^^^
-
-error: Function
-  --> $DIR/tests/fixture/at-rule/import/input.css:45:9
-   |
-45 | @import url("");
-   |         ^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/import/input.css:45:9
-   |
-45 | @import url("");
-   |         ^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/import/input.css:45:13
-   |
-45 | @import url("");
-   |             ^^
-
-error: Str
-  --> $DIR/tests/fixture/at-rule/import/input.css:45:13
-   |
-45 | @import url("");
-   |             ^^
-
-error: Rule
-  --> $DIR/tests/fixture/at-rule/import/input.css:46:1
-   |
-46 | @import url(test.css) screen and (orientation:landscape);
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
-  --> $DIR/tests/fixture/at-rule/import/input.css:46:1
-   |
-46 | @import url(test.css) screen and (orientation:landscape);
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: ImportRule
-  --> $DIR/tests/fixture/at-rule/import/input.css:46:1
-   |
-46 | @import url(test.css) screen and (orientation:landscape);
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: ImportHref
-  --> $DIR/tests/fixture/at-rule/import/input.css:46:9
-   |
-46 | @import url(test.css) screen and (orientation:landscape);
-   |         ^^^^^^^^^^^^^
 
 error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:43:13
+   |
+43 | @import url();
+   |             ^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:43:13
+   |
+43 | @import url();
+   |             ^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/import/input.css:44:1
+   |
+44 | @import url('');
+   | ^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:44:1
+   |
+44 | @import url('');
+   | ^^^^^^^^^^^^^^^^
+
+error: ImportRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:44:1
+   |
+44 | @import url('');
+   | ^^^^^^^^^^^^^^^^
+
+error: ImportHref
+  --> $DIR/tests/fixture/at-rule/import/input.css:44:9
+   |
+44 | @import url('');
+   |         ^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/at-rule/import/input.css:44:9
+   |
+44 | @import url('');
+   |         ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:44:9
+   |
+44 | @import url('');
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:44:13
+   |
+44 | @import url('');
+   |             ^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/import/input.css:44:13
+   |
+44 | @import url('');
+   |             ^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/import/input.css:45:1
+   |
+45 | @import url("");
+   | ^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:45:1
+   |
+45 | @import url("");
+   | ^^^^^^^^^^^^^^^^
+
+error: ImportRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:45:1
+   |
+45 | @import url("");
+   | ^^^^^^^^^^^^^^^^
+
+error: ImportHref
+  --> $DIR/tests/fixture/at-rule/import/input.css:45:9
+   |
+45 | @import url("");
+   |         ^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/at-rule/import/input.css:45:9
+   |
+45 | @import url("");
+   |         ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:45:9
+   |
+45 | @import url("");
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:45:13
+   |
+45 | @import url("");
+   |             ^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/import/input.css:45:13
+   |
+45 | @import url("");
+   |             ^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/import/input.css:46:1
+   |
+46 | @import url(test.css) screen and (orientation:landscape);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:46:1
+   |
+46 | @import url(test.css) screen and (orientation:landscape);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:46:1
+   |
+46 | @import url(test.css) screen and (orientation:landscape);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportHref
   --> $DIR/tests/fixture/at-rule/import/input.css:46:9
    |
 46 | @import url(test.css) screen and (orientation:landscape);
    |         ^^^^^^^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/at-rule/import/input.css:46:9
+   |
+46 | @import url(test.css) screen and (orientation:landscape);
+   |         ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:46:9
+   |
+46 | @import url(test.css) screen and (orientation:landscape);
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:46:13
+   |
+46 | @import url(test.css) screen and (orientation:landscape);
+   |             ^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:46:13
+   |
+46 | @import url(test.css) screen and (orientation:landscape);
+   |             ^^^^^^^^
 
 error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/import/input.css:46:23
@@ -2237,11 +2459,29 @@ error: ImportHref
 48 | @import url(test.css)screen and (orientation:landscape);
    |         ^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:48:9
    |
 48 | @import url(test.css)screen and (orientation:landscape);
    |         ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:48:9
+   |
+48 | @import url(test.css)screen and (orientation:landscape);
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:48:13
+   |
+48 | @import url(test.css)screen and (orientation:landscape);
+   |             ^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:48:13
+   |
+48 | @import url(test.css)screen and (orientation:landscape);
+   |             ^^^^^^^^
 
 error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/import/input.css:48:22
@@ -2339,11 +2579,29 @@ error: ImportHref
 49 | @import url(test.css)   screen   and   (   orientation   :   landscape   )   ;
    |         ^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:49:9
    |
 49 | @import url(test.css)   screen   and   (   orientation   :   landscape   )   ;
    |         ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:49:9
+   |
+49 | @import url(test.css)   screen   and   (   orientation   :   landscape   )   ;
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:49:13
+   |
+49 | @import url(test.css)   screen   and   (   orientation   :   landscape   )   ;
+   |             ^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:49:13
+   |
+49 | @import url(test.css)   screen   and   (   orientation   :   landscape   )   ;
+   |             ^^^^^^^^
 
 error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/import/input.css:49:25
@@ -2441,11 +2699,29 @@ error: ImportHref
 50 | @import url(test.css) screen and (orientation:landscape);
    |         ^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:50:9
    |
 50 | @import url(test.css) screen and (orientation:landscape);
    |         ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:50:9
+   |
+50 | @import url(test.css) screen and (orientation:landscape);
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:50:13
+   |
+50 | @import url(test.css) screen and (orientation:landscape);
+   |             ^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:50:13
+   |
+50 | @import url(test.css) screen and (orientation:landscape);
+   |             ^^^^^^^^
 
 error: MediaQueryList
   --> $DIR/tests/fixture/at-rule/import/input.css:50:23
@@ -2543,7 +2819,7 @@ error: ImportHref
 51 | @import url("//example.com/style.css");
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:51:9
    |
 51 | @import url("//example.com/style.css");
@@ -2555,7 +2831,7 @@ error: Ident
 51 | @import url("//example.com/style.css");
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:51:13
    |
 51 | @import url("//example.com/style.css");
@@ -2591,12 +2867,30 @@ error: ImportHref
 52 | @import url(~package/test.css);
    |         ^^^^^^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:52:9
    |
 52 | @import url(~package/test.css);
    |         ^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:52:9
+   |
+52 | @import url(~package/test.css);
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:52:13
+   |
+52 | @import url(~package/test.css);
+   |             ^^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:52:13
+   |
+52 | @import url(~package/test.css);
+   |             ^^^^^^^^^^^^^^^^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/import/input.css:53:1
    |
@@ -2621,7 +2915,7 @@ error: ImportHref
 53 | @import url('https://fonts.googleapis.com/css?family=Roboto');
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:53:9
    |
 53 | @import url('https://fonts.googleapis.com/css?family=Roboto');
@@ -2633,7 +2927,7 @@ error: Ident
 53 | @import url('https://fonts.googleapis.com/css?family=Roboto');
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:53:13
    |
 53 | @import url('https://fonts.googleapis.com/css?family=Roboto');
@@ -2669,7 +2963,7 @@ error: ImportHref
 54 | @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC');
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:54:9
    |
 54 | @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC');
@@ -2681,7 +2975,7 @@ error: Ident
 54 | @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC');
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:54:13
    |
 54 | @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC');
@@ -2717,7 +3011,7 @@ error: ImportHref
 55 | @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC|Roboto');
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:55:9
    |
 55 | @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC|Roboto');
@@ -2729,7 +3023,7 @@ error: Ident
 55 | @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC|Roboto');
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:55:13
    |
 55 | @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC|Roboto');
@@ -2765,7 +3059,7 @@ error: ImportHref
 56 | @import url('./relative.css');
    |         ^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:56:9
    |
 56 | @import url('./relative.css');
@@ -2777,7 +3071,7 @@ error: Ident
 56 | @import url('./relative.css');
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:56:13
    |
 56 | @import url('./relative.css');
@@ -2813,7 +3107,7 @@ error: ImportHref
 57 | @import url('../import/top-relative.css');
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:57:9
    |
 57 | @import url('../import/top-relative.css');
@@ -2825,7 +3119,7 @@ error: Ident
 57 | @import url('../import/top-relative.css');
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:57:13
    |
 57 | @import url('../import/top-relative.css');
@@ -2861,11 +3155,29 @@ error: ImportHref
 58 | @import url(~package/tilde.css);
    |         ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:58:9
    |
 58 | @import url(~package/tilde.css);
    |         ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:58:9
+   |
+58 | @import url(~package/tilde.css);
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:58:13
+   |
+58 | @import url(~package/tilde.css);
+   |             ^^^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:58:13
+   |
+58 | @import url(~package/tilde.css);
+   |             ^^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/import/input.css:59:1
@@ -2891,11 +3203,29 @@ error: ImportHref
 59 | @import url(~aliasesImport/alias.css);
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:59:9
    |
 59 | @import url(~aliasesImport/alias.css);
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:59:9
+   |
+59 | @import url(~aliasesImport/alias.css);
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:59:13
+   |
+59 | @import url(~aliasesImport/alias.css);
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:59:13
+   |
+59 | @import url(~aliasesImport/alias.css);
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/import/input.css:60:1
@@ -2921,7 +3251,7 @@ error: ImportHref
 60 | @import url('./url.css');
    |         ^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:60:9
    |
 60 | @import url('./url.css');
@@ -2933,7 +3263,7 @@ error: Ident
 60 | @import url('./url.css');
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:60:13
    |
 60 | @import url('./url.css');
@@ -2969,11 +3299,29 @@ error: ImportHref
 62 | @import url(./test.css);
    |         ^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:62:9
    |
 62 | @import url(./test.css);
    |         ^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:62:9
+   |
+62 | @import url(./test.css);
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:62:13
+   |
+62 | @import url(./test.css);
+   |             ^^^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:62:13
+   |
+62 | @import url(./test.css);
+   |             ^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/import/input.css:64:1
@@ -3088,7 +3436,7 @@ error: ImportHref
 71 | | st.css');
    | |________^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:70:9
    |
 70 |   @import url('./te\
@@ -3102,7 +3450,7 @@ error: Ident
 70 | @import url('./te\
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:70:13
    |
 70 |   @import url('./te\
@@ -3155,7 +3503,7 @@ error: ImportHref
 75 | | st.css');
    | |________^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:72:9
    |
 72 |   @import url('./te\
@@ -3171,7 +3519,7 @@ error: Ident
 72 | @import url('./te\
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:72:13
    |
 72 |   @import url('./te\
@@ -3245,7 +3593,7 @@ error: ImportHref
 78 | @import url("./te'st.css");
    |         ^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:78:9
    |
 78 | @import url("./te'st.css");
@@ -3257,7 +3605,7 @@ error: Ident
 78 | @import url("./te'st.css");
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:78:13
    |
 78 | @import url("./te'st.css");
@@ -3323,7 +3671,7 @@ error: ImportHref
 80 | @import url('./te\'st.css');
    |         ^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:80:9
    |
 80 | @import url('./te\'st.css');
@@ -3335,7 +3683,7 @@ error: Ident
 80 | @import url('./te\'st.css');
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:80:13
    |
 80 | @import url('./te\'st.css');
@@ -3401,7 +3749,7 @@ error: ImportHref
 82 | @import url('./test test.css');
    |         ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:82:9
    |
 82 | @import url('./test test.css');
@@ -3413,7 +3761,7 @@ error: Ident
 82 | @import url('./test test.css');
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:82:13
    |
 82 | @import url('./test test.css');
@@ -3479,7 +3827,7 @@ error: ImportHref
 84 | @import url('./test\ test.css');
    |         ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:84:9
    |
 84 | @import url('./test\ test.css');
@@ -3491,7 +3839,7 @@ error: Ident
 84 | @import url('./test\ test.css');
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:84:13
    |
 84 | @import url('./test\ test.css');
@@ -3557,7 +3905,7 @@ error: ImportHref
 86 | @import url('./test%20test.css');
    |         ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:86:9
    |
 86 | @import url('./test%20test.css');
@@ -3569,7 +3917,7 @@ error: Ident
 86 | @import url('./test%20test.css');
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:86:13
    |
 86 | @import url('./test%20test.css');
@@ -3635,7 +3983,7 @@ error: ImportHref
 88 | @import url('./\74\65\73\74.css');
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:88:9
    |
 88 | @import url('./\74\65\73\74.css');
@@ -3647,7 +3995,7 @@ error: Ident
 88 | @import url('./\74\65\73\74.css');
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:88:13
    |
 88 | @import url('./\74\65\73\74.css');
@@ -3713,7 +4061,7 @@ error: ImportHref
 90 | @import url('./t\65\73\74.css');
    |         ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:90:9
    |
 90 | @import url('./t\65\73\74.css');
@@ -3725,7 +4073,7 @@ error: Ident
 90 | @import url('./t\65\73\74.css');
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:90:13
    |
 90 | @import url('./t\65\73\74.css');
@@ -3761,11 +4109,29 @@ error: ImportHref
 91 | @import url(./test\ test.css);
    |         ^^^^^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:91:9
    |
 91 | @import url(./test\ test.css);
    |         ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:91:9
+   |
+91 | @import url(./test\ test.css);
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:91:13
+   |
+91 | @import url(./test\ test.css);
+   |             ^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:91:13
+   |
+91 | @import url(./test\ test.css);
+   |             ^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/import/input.css:92:1
@@ -3791,11 +4157,29 @@ error: ImportHref
 92 | @import url(./t\65st%20test.css);
    |         ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:92:9
    |
 92 | @import url(./t\65st%20test.css);
    |         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:92:9
+   |
+92 | @import url(./t\65st%20test.css);
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:92:13
+   |
+92 | @import url(./t\65st%20test.css);
+   |             ^^^^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:92:13
+   |
+92 | @import url(./t\65st%20test.css);
+   |             ^^^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/import/input.css:93:1
@@ -3821,7 +4205,7 @@ error: ImportHref
 93 | @import url('./t\65st%20test.css');
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:93:9
    |
 93 | @import url('./t\65st%20test.css');
@@ -3833,7 +4217,7 @@ error: Ident
 93 | @import url('./t\65st%20test.css');
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:93:13
    |
 93 | @import url('./t\65st%20test.css');
@@ -3869,7 +4253,7 @@ error: ImportHref
 94 | @import url("./t\65st%20test.css");
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:94:9
    |
 94 | @import url("./t\65st%20test.css");
@@ -3881,7 +4265,7 @@ error: Ident
 94 | @import url("./t\65st%20test.css");
    |         ^^^
 
-error: Value
+error: UrlValue
   --> $DIR/tests/fixture/at-rule/import/input.css:94:13
    |
 94 | @import url("./t\65st%20test.css");
@@ -3977,11 +4361,29 @@ error: ImportHref
 97 | @import url(                 test.css                      );
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
   --> $DIR/tests/fixture/at-rule/import/input.css:97:9
    |
 97 | @import url(                 test.css                      );
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:97:9
+   |
+97 | @import url(                 test.css                      );
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:97:13
+   |
+97 | @import url(                 test.css                      );
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:97:13
+   |
+97 | @import url(                 test.css                      );
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Rule
    --> $DIR/tests/fixture/at-rule/import/input.css:98:1
@@ -4054,7 +4456,7 @@ error: ImportHref
 102 | @import url('!!../../helpers/string-loader.js?esModule=false!~package/tilde.css');
     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:102:9
     |
 102 | @import url('!!../../helpers/string-loader.js?esModule=false!~package/tilde.css');
@@ -4066,7 +4468,7 @@ error: Ident
 102 | @import url('!!../../helpers/string-loader.js?esModule=false!~package/tilde.css');
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:102:13
     |
 102 | @import url('!!../../helpers/string-loader.js?esModule=false!~package/tilde.css');
@@ -4102,12 +4504,30 @@ error: ImportHref
 104 | @import url(test.css?foo=bar);
     |         ^^^^^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:104:9
     |
 104 | @import url(test.css?foo=bar);
     |         ^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:104:9
+    |
+104 | @import url(test.css?foo=bar);
+    |         ^^^
+
+error: UrlValue
+   --> $DIR/tests/fixture/at-rule/import/input.css:104:13
+    |
+104 | @import url(test.css?foo=bar);
+    |             ^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+   --> $DIR/tests/fixture/at-rule/import/input.css:104:13
+    |
+104 | @import url(test.css?foo=bar);
+    |             ^^^^^^^^^^^^^^^^
+
 error: Rule
    --> $DIR/tests/fixture/at-rule/import/input.css:105:1
     |
@@ -4132,11 +4552,29 @@ error: ImportHref
 105 | @import url(test.css?foo=bar#hash);
     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:105:9
     |
 105 | @import url(test.css?foo=bar#hash);
     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:105:9
+    |
+105 | @import url(test.css?foo=bar#hash);
+    |         ^^^
+
+error: UrlValue
+   --> $DIR/tests/fixture/at-rule/import/input.css:105:13
+    |
+105 | @import url(test.css?foo=bar#hash);
+    |             ^^^^^^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+   --> $DIR/tests/fixture/at-rule/import/input.css:105:13
+    |
+105 | @import url(test.css?foo=bar#hash);
+    |             ^^^^^^^^^^^^^^^^^^^^^
 
 error: Rule
    --> $DIR/tests/fixture/at-rule/import/input.css:106:1
@@ -4162,11 +4600,29 @@ error: ImportHref
 106 | @import url(test.css?#hash);
     |         ^^^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:106:9
     |
 106 | @import url(test.css?#hash);
     |         ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:106:9
+    |
+106 | @import url(test.css?#hash);
+    |         ^^^
+
+error: UrlValue
+   --> $DIR/tests/fixture/at-rule/import/input.css:106:13
+    |
+106 | @import url(test.css?#hash);
+    |             ^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+   --> $DIR/tests/fixture/at-rule/import/input.css:106:13
+    |
+106 | @import url(test.css?#hash);
+    |             ^^^^^^^^^^^^^^
 
 error: Rule
    --> $DIR/tests/fixture/at-rule/import/input.css:108:1
@@ -4546,7 +5002,7 @@ error: ImportHref
 113 | @import url('   ./test.css   ');
     |         ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:113:9
     |
 113 | @import url('   ./test.css   ');
@@ -4558,7 +5014,7 @@ error: Ident
 113 | @import url('   ./test.css   ');
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:113:13
     |
 113 | @import url('   ./test.css   ');
@@ -4594,11 +5050,29 @@ error: ImportHref
 114 | @import url(   ./test.css   );
     |         ^^^^^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:114:9
     |
 114 | @import url(   ./test.css   );
     |         ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:114:9
+    |
+114 | @import url(   ./test.css   );
+    |         ^^^
+
+error: UrlValue
+   --> $DIR/tests/fixture/at-rule/import/input.css:114:13
+    |
+114 | @import url(   ./test.css   );
+    |             ^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+   --> $DIR/tests/fixture/at-rule/import/input.css:114:13
+    |
+114 | @import url(   ./test.css   );
+    |             ^^^^^^^^^^^^^^^^
 
 error: Rule
    --> $DIR/tests/fixture/at-rule/import/input.css:116:1
@@ -4654,7 +5128,7 @@ error: ImportHref
 118 | @import url('   https://fonts.googleapis.com/css?family=Roboto   ');
     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:118:9
     |
 118 | @import url('   https://fonts.googleapis.com/css?family=Roboto   ');
@@ -4666,7 +5140,7 @@ error: Ident
 118 | @import url('   https://fonts.googleapis.com/css?family=Roboto   ');
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:118:13
     |
 118 | @import url('   https://fonts.googleapis.com/css?family=Roboto   ');
@@ -4702,7 +5176,7 @@ error: ImportHref
 119 | @import url('!!../../helpers/string-loader.js?esModule=false!');
     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:119:9
     |
 119 | @import url('!!../../helpers/string-loader.js?esModule=false!');
@@ -4714,7 +5188,7 @@ error: Ident
 119 | @import url('!!../../helpers/string-loader.js?esModule=false!');
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:119:13
     |
 119 | @import url('!!../../helpers/string-loader.js?esModule=false!');
@@ -4750,7 +5224,7 @@ error: ImportHref
 120 | @import url('   !!../../helpers/string-loader.js?esModule=false!~package/tilde.css   ');
     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:120:9
     |
 120 | @import url('   !!../../helpers/string-loader.js?esModule=false!~package/tilde.css   ');
@@ -4762,7 +5236,7 @@ error: Ident
 120 | @import url('   !!../../helpers/string-loader.js?esModule=false!~package/tilde.css   ');
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:120:13
     |
 120 | @import url('   !!../../helpers/string-loader.js?esModule=false!~package/tilde.css   ');
@@ -4798,12 +5272,30 @@ error: ImportHref
 121 | @import url(data:text/css;charset=utf-8,a%20%7B%0D%0A%20%20color%3A%20red%3B%0D%0A%7D);
     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:121:9
     |
 121 | @import url(data:text/css;charset=utf-8,a%20%7B%0D%0A%20%20color%3A%20red%3B%0D%0A%7D);
     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:121:9
+    |
+121 | @import url(data:text/css;charset=utf-8,a%20%7B%0D%0A%20%20color%3A%20red%3B%0D%0A%7D);
+    |         ^^^
+
+error: UrlValue
+   --> $DIR/tests/fixture/at-rule/import/input.css:121:13
+    |
+121 | @import url(data:text/css;charset=utf-8,a%20%7B%0D%0A%20%20color%3A%20red%3B%0D%0A%7D);
+    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+   --> $DIR/tests/fixture/at-rule/import/input.css:121:13
+    |
+121 | @import url(data:text/css;charset=utf-8,a%20%7B%0D%0A%20%20color%3A%20red%3B%0D%0A%7D);
+    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Rule
    --> $DIR/tests/fixture/at-rule/import/input.css:123:1
     |
@@ -4828,11 +5320,29 @@ error: ImportHref
 123 | @import url(package/first.css);
     |         ^^^^^^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:123:9
     |
 123 | @import url(package/first.css);
     |         ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:123:9
+    |
+123 | @import url(package/first.css);
+    |         ^^^
+
+error: UrlValue
+   --> $DIR/tests/fixture/at-rule/import/input.css:123:13
+    |
+123 | @import url(package/first.css);
+    |             ^^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+   --> $DIR/tests/fixture/at-rule/import/input.css:123:13
+    |
+123 | @import url(package/first.css);
+    |             ^^^^^^^^^^^^^^^^^
 
 error: Rule
    --> $DIR/tests/fixture/at-rule/import/input.css:124:1
@@ -4858,11 +5368,29 @@ error: ImportHref
 124 | @import url(package/second.css);
     |         ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:124:9
     |
 124 | @import url(package/second.css);
     |         ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:124:9
+    |
+124 | @import url(package/second.css);
+    |         ^^^
+
+error: UrlValue
+   --> $DIR/tests/fixture/at-rule/import/input.css:124:13
+    |
+124 | @import url(package/second.css);
+    |             ^^^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+   --> $DIR/tests/fixture/at-rule/import/input.css:124:13
+    |
+124 | @import url(package/second.css);
+    |             ^^^^^^^^^^^^^^^^^^
 
 error: Rule
    --> $DIR/tests/fixture/at-rule/import/input.css:128:1
@@ -4888,7 +5416,7 @@ error: ImportHref
 128 | @import url("./test.css") supports(display: flex);
     |         ^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:128:9
     |
 128 | @import url("./test.css") supports(display: flex);
@@ -4900,7 +5428,7 @@ error: Ident
 128 | @import url("./test.css") supports(display: flex);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:128:13
     |
 128 | @import url("./test.css") supports(display: flex);
@@ -4966,7 +5494,7 @@ error: ImportHref
 129 | @import url("./test.css") supports(display: flex !important);
     |         ^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:129:9
     |
 129 | @import url("./test.css") supports(display: flex !important);
@@ -4978,7 +5506,7 @@ error: Ident
 129 | @import url("./test.css") supports(display: flex !important);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:129:13
     |
 129 | @import url("./test.css") supports(display: flex !important);
@@ -5044,7 +5572,7 @@ error: ImportHref
 130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
     |         ^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:130:9
     |
 130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
@@ -5056,7 +5584,7 @@ error: Ident
 130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:130:13
     |
 130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
@@ -5206,7 +5734,7 @@ error: ImportHref
 131 | @import url("./test.css") layer;
     |         ^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:131:9
     |
 131 | @import url("./test.css") layer;
@@ -5218,7 +5746,7 @@ error: Ident
 131 | @import url("./test.css") layer;
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:131:13
     |
 131 | @import url("./test.css") layer;
@@ -5266,7 +5794,7 @@ error: ImportHref
 132 | @import url("./test.css") layer(default);
     |         ^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:132:9
     |
 132 | @import url("./test.css") layer(default);
@@ -5278,7 +5806,7 @@ error: Ident
 132 | @import url("./test.css") layer(default);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:132:13
     |
 132 | @import url("./test.css") layer(default);
@@ -5344,7 +5872,7 @@ error: ImportHref
 133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
     |         ^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:133:9
     |
 133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
@@ -5356,7 +5884,7 @@ error: Ident
 133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:133:13
     |
 133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
@@ -5536,7 +6064,7 @@ error: ImportHref
 134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
     |         ^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:134:9
     |
 134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
@@ -5548,7 +6076,7 @@ error: Ident
 134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:134:13
     |
 134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
@@ -5710,7 +6238,7 @@ error: ImportHref
 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
     |         ^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:135:9
     |
 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
@@ -5722,7 +6250,7 @@ error: Ident
 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:135:13
     |
 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
@@ -5890,7 +6418,7 @@ error: ImportHref
 136 | @import url("./test.css") layer();
     |         ^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:136:9
     |
 136 | @import url("./test.css") layer();
@@ -5902,7 +6430,7 @@ error: Ident
 136 | @import url("./test.css") layer();
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:136:13
     |
 136 | @import url("./test.css") layer();
@@ -5956,7 +6484,7 @@ error: ImportHref
 137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:137:9
     |
 137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
@@ -5968,7 +6496,7 @@ error: Ident
 137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:137:13
     |
 137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
@@ -6118,7 +6646,7 @@ error: ImportHref
 138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
     |         ^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:138:9
     |
 138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
@@ -6130,7 +6658,7 @@ error: Ident
 138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:138:13
     |
 138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
@@ -6310,7 +6838,7 @@ error: ImportHref
 139 | @import url("./test.css")screen and (min-width: 400px);
     |         ^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:139:9
     |
 139 | @import url("./test.css")screen and (min-width: 400px);
@@ -6322,7 +6850,7 @@ error: Ident
 139 | @import url("./test.css")screen and (min-width: 400px);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:139:13
     |
 139 | @import url("./test.css")screen and (min-width: 400px);
@@ -6442,7 +6970,7 @@ error: ImportHref
 142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
     |         ^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:142:9
     |
 142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
@@ -6454,7 +6982,7 @@ error: Ident
 142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:142:13
     |
 142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
@@ -6634,12 +7162,30 @@ error: ImportHref
 143 | @import url(test.css) /* Comment */;
     |         ^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:143:9
     |
 143 | @import url(test.css) /* Comment */;
     |         ^^^^^^^^^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:143:9
+    |
+143 | @import url(test.css) /* Comment */;
+    |         ^^^
+
+error: UrlValue
+   --> $DIR/tests/fixture/at-rule/import/input.css:143:13
+    |
+143 | @import url(test.css) /* Comment */;
+    |             ^^^^^^^^
+
+error: UrlValueRaw
+   --> $DIR/tests/fixture/at-rule/import/input.css:143:13
+    |
+143 | @import url(test.css) /* Comment */;
+    |             ^^^^^^^^
+
 error: Rule
    --> $DIR/tests/fixture/at-rule/import/input.css:144:1
     |
@@ -6664,11 +7210,29 @@ error: ImportHref
 144 | @import /* Comment */ url(test.css) /* Comment */;
     |                       ^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:144:23
     |
 144 | @import /* Comment */ url(test.css) /* Comment */;
     |                       ^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:144:23
+    |
+144 | @import /* Comment */ url(test.css) /* Comment */;
+    |                       ^^^
+
+error: UrlValue
+   --> $DIR/tests/fixture/at-rule/import/input.css:144:27
+    |
+144 | @import /* Comment */ url(test.css) /* Comment */;
+    |                           ^^^^^^^^
+
+error: UrlValueRaw
+   --> $DIR/tests/fixture/at-rule/import/input.css:144:27
+    |
+144 | @import /* Comment */ url(test.css) /* Comment */;
+    |                           ^^^^^^^^
 
 error: Rule
    --> $DIR/tests/fixture/at-rule/import/input.css:145:1
@@ -6694,11 +7258,29 @@ error: ImportHref
 145 | @import url(test.css) /* Comment */ print and (orientation:landscape);
     |         ^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:145:9
     |
 145 | @import url(test.css) /* Comment */ print and (orientation:landscape);
     |         ^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:145:9
+    |
+145 | @import url(test.css) /* Comment */ print and (orientation:landscape);
+    |         ^^^
+
+error: UrlValue
+   --> $DIR/tests/fixture/at-rule/import/input.css:145:13
+    |
+145 | @import url(test.css) /* Comment */ print and (orientation:landscape);
+    |             ^^^^^^^^
+
+error: UrlValueRaw
+   --> $DIR/tests/fixture/at-rule/import/input.css:145:13
+    |
+145 | @import url(test.css) /* Comment */ print and (orientation:landscape);
+    |             ^^^^^^^^
 
 error: MediaQueryList
    --> $DIR/tests/fixture/at-rule/import/input.css:145:37
@@ -6796,11 +7378,29 @@ error: ImportHref
 146 | @import /* Comment */ url(test.css) /* Comment */ print and (orientation:landscape);
     |                       ^^^^^^^^^^^^^
 
-error: UrlValue
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:146:23
     |
 146 | @import /* Comment */ url(test.css) /* Comment */ print and (orientation:landscape);
     |                       ^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:146:23
+    |
+146 | @import /* Comment */ url(test.css) /* Comment */ print and (orientation:landscape);
+    |                       ^^^
+
+error: UrlValue
+   --> $DIR/tests/fixture/at-rule/import/input.css:146:27
+    |
+146 | @import /* Comment */ url(test.css) /* Comment */ print and (orientation:landscape);
+    |                           ^^^^^^^^
+
+error: UrlValueRaw
+   --> $DIR/tests/fixture/at-rule/import/input.css:146:27
+    |
+146 | @import /* Comment */ url(test.css) /* Comment */ print and (orientation:landscape);
+    |                           ^^^^^^^^
 
 error: MediaQueryList
    --> $DIR/tests/fixture/at-rule/import/input.css:146:51
@@ -6898,7 +7498,7 @@ error: ImportHref
 148 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:148:9
     |
 148 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
@@ -6910,7 +7510,7 @@ error: Ident
 148 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:148:13
     |
 148 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
@@ -7012,7 +7612,7 @@ error: ImportHref
 149 | @import url("./import-with-supports.css") supports(display: flex);
     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:149:9
     |
 149 | @import url("./import-with-supports.css") supports(display: flex);
@@ -7024,7 +7624,7 @@ error: Ident
 149 | @import url("./import-with-supports.css") supports(display: flex);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:149:13
     |
 149 | @import url("./import-with-supports.css") supports(display: flex);
@@ -7090,7 +7690,7 @@ error: ImportHref
 150 | @import url("./import-with-supports.css") supports(((display: flex)));
     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:150:9
     |
 150 | @import url("./import-with-supports.css") supports(((display: flex)));
@@ -7102,7 +7702,7 @@ error: Ident
 150 | @import url("./import-with-supports.css") supports(((display: flex)));
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:150:13
     |
 150 | @import url("./import-with-supports.css") supports(((display: flex)));
@@ -7210,7 +7810,7 @@ error: ImportHref
 151 | @import url("./deep-import-with-supports.css") supports(display: flex);
     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:151:9
     |
 151 | @import url("./deep-import-with-supports.css") supports(display: flex);
@@ -7222,7 +7822,7 @@ error: Ident
 151 | @import url("./deep-import-with-supports.css") supports(display: flex);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:151:13
     |
 151 | @import url("./deep-import-with-supports.css") supports(display: flex);
@@ -7288,7 +7888,7 @@ error: ImportHref
 152 | @import url('./test.css') supports(display: grid);
     |         ^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:152:9
     |
 152 | @import url('./test.css') supports(display: grid);
@@ -7300,7 +7900,7 @@ error: Ident
 152 | @import url('./test.css') supports(display: grid);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:152:13
     |
 152 | @import url('./test.css') supports(display: grid);
@@ -7366,7 +7966,7 @@ error: ImportHref
 153 | @import url('./test.css') supports(   display   :    grid   );
     |         ^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:153:9
     |
 153 | @import url('./test.css') supports(   display   :    grid   );
@@ -7378,7 +7978,7 @@ error: Ident
 153 | @import url('./test.css') supports(   display   :    grid   );
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:153:13
     |
 153 | @import url('./test.css') supports(   display   :    grid   );
@@ -7444,7 +8044,7 @@ error: ImportHref
 154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:154:9
     |
 154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
@@ -7456,7 +8056,7 @@ error: Ident
 154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:154:13
     |
 154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
@@ -7606,7 +8206,7 @@ error: ImportHref
 155 | @import url("./test.css") layer(framework);
     |         ^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:155:9
     |
 155 | @import url("./test.css") layer(framework);
@@ -7618,7 +8218,7 @@ error: Ident
 155 | @import url("./test.css") layer(framework);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:155:13
     |
 155 | @import url("./test.css") layer(framework);
@@ -7684,7 +8284,7 @@ error: ImportHref
 156 | @import url("./import-multiple-with-layer.css") layer(default);
     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:156:9
     |
 156 | @import url("./import-multiple-with-layer.css") layer(default);
@@ -7696,7 +8296,7 @@ error: Ident
 156 | @import url("./import-multiple-with-layer.css") layer(default);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:156:13
     |
 156 | @import url("./import-multiple-with-layer.css") layer(default);
@@ -7762,7 +8362,7 @@ error: ImportHref
 157 | @import url("./import-unnamed-layer.css") layer(base);
     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:157:9
     |
 157 | @import url("./import-unnamed-layer.css") layer(base);
@@ -7774,7 +8374,7 @@ error: Ident
 157 | @import url("./import-unnamed-layer.css") layer(base);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:157:13
     |
 157 | @import url("./import-unnamed-layer.css") layer(base);
@@ -7840,7 +8440,7 @@ error: ImportHref
 158 | @import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);
     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
    --> $DIR/tests/fixture/at-rule/import/input.css:158:9
     |
 158 | @import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);
@@ -7852,7 +8452,7 @@ error: Ident
 158 | @import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);
     |         ^^^
 
-error: Value
+error: UrlValue
    --> $DIR/tests/fixture/at-rule/import/input.css:158:13
     |
 158 | @import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);

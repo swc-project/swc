@@ -299,7 +299,7 @@ error: Value
 4 |     width: calc(2em + 1%);
   |                       ^^
 
-error: PercentValue
+error: Percent
  --> $DIR/tests/fixture/rome/calc/input.css:4:20
   |
 4 |     width: calc(2em + 1%);
@@ -407,7 +407,7 @@ error: Value
 5 |     width: calc(2em * 2% * 3px);
   |                       ^^
 
-error: PercentValue
+error: Percent
  --> $DIR/tests/fixture/rome/calc/input.css:5:20
   |
 5 |     width: calc(2em * 2% * 3px);

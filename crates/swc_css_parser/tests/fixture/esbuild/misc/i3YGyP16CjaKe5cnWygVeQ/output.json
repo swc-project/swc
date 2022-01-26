@@ -14,14 +14,33 @@
         "ctxt": 0
       },
       "href": {
-        "type": "UrlValue",
+        "type": "Url",
         "span": {
           "start": 8,
           "end": 13,
           "ctxt": 0
         },
-        "url": "",
-        "raw": ""
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 8,
+            "end": 11,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "value": {
+          "type": "UrlValueRaw",
+          "span": {
+            "start": 12,
+            "end": 12,
+            "ctxt": 0
+          },
+          "value": "",
+          "raw": ""
+        },
+        "modifiers": null
       },
       "layerName": null,
       "supports": null,

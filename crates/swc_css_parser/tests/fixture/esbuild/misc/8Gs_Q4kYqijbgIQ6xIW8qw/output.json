@@ -89,14 +89,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 11,
                   "end": 21,
                   "ctxt": 0
                 },
-                "url": "aج",
-                "raw": "a\\62c"
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 11,
+                    "end": 14,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 15,
+                    "end": 20,
+                    "ctxt": 0
+                  },
+                  "value": "aج",
+                  "raw": "a\\62c"
+                },
+                "modifiers": null
               }
             ],
             "important": null

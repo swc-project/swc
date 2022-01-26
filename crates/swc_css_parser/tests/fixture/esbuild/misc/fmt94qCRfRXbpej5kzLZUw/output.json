@@ -89,14 +89,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 11,
                   "end": 19,
                   "ctxt": 0
                 },
-                "url": ",",
-                "raw": "\\2c"
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 11,
+                    "end": 14,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 15,
+                    "end": 18,
+                    "ctxt": 0
+                  },
+                  "value": ",",
+                  "raw": "\\2c"
+                },
+                "modifiers": null
               }
             ],
             "important": null
