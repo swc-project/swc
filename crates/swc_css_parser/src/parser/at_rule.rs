@@ -4,7 +4,7 @@ use crate::{
     parser::{Ctx, RuleContext},
     Parse,
 };
-use swc_common::Span;
+use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
 #[derive(Debug, Default)]
@@ -195,21 +195,54 @@ where
                 }
             }
 
+            "color-profile" => {
+                self.input.skip_ws()?;
+
+                let at_rule_color_profile = self.parse();
+
+                if at_rule_color_profile.is_ok() {
+                    return at_rule_color_profile
+                        .map(|mut r: ColorProfileRule| {
+                            r.span.lo = at_rule_span.lo;
+                            r
+                        })
+                        .map(AtRule::ColorProfile);
+                }
+            }
+
             _ => {}
         }
 
         self.input.reset(&state);
+
+        let name = if name.0.starts_with("--") {
+            AtRuleName::DashedIdent(DashedIdent {
+                span: Span::new(
+                    at_rule_span.lo + BytePos(1),
+                    at_rule_span.hi,
+                    Default::default(),
+                ),
+                value: name.0,
+                raw: name.1,
+            })
+        } else {
+            AtRuleName::Ident(Ident {
+                span: Span::new(
+                    at_rule_span.lo + BytePos(1),
+                    at_rule_span.hi,
+                    Default::default(),
+                ),
+                value: name.0,
+                raw: name.1,
+            })
+        };
 
         // Consume the next input token. Create a new at-rule with its name set to the
         // value of the current input token, its prelude initially set to an empty list,
         // and its value initially set to nothing.
         let mut at_rule = UnknownAtRule {
             span: span!(self, at_rule_span.lo),
-            name: Ident {
-                span: span!(self, at_rule_span.lo),
-                value: name.0,
-                raw: name.1,
-            },
+            name,
             prelude: vec![],
             block: None,
         };
@@ -1540,6 +1573,40 @@ where
             span: span!(self, span.lo),
             prelude,
             rules,
+        })
+    }
+}
+
+impl<I> Parse<ColorProfileRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ColorProfileRule> {
+        let span = self.input.cur_span()?;
+
+        let name = match cur!(self) {
+            Token::Ident { value, .. } => {
+                if value.starts_with("--") {
+                    ColorProfileName::DashedIdent(self.parse()?)
+                } else {
+                    ColorProfileName::Ident(self.parse()?)
+                }
+            }
+            _ => {
+                return Err(Error::new(span, ErrorKind::Expected("ident")));
+            }
+        };
+
+        expect!(self, "{");
+
+        let block = self.parse()?;
+
+        expect!(self, "}");
+
+        Ok(ColorProfileRule {
+            span: span!(self, span.lo),
+            name,
+            block,
         })
     }
 }

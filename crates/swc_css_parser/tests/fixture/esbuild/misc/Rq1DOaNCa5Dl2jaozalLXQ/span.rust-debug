@@ -58,6 +58,12 @@ error: Declaration
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:5
+  |
+1 | a { box-shadow: inset 0px 0px 0px 0px black }
+  |     ^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:5
   |

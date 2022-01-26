@@ -299,6 +299,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Number, visit_number);
     mtd!(Ratio, visit_ratio);
     mtd!(Percent, visit_percent);
+    mtd!(DeclarationProperty, visit_declaration_property);
     mtd!(Declaration, visit_declaration);
     mtd!(Nth, visit_nth);
     mtd!(AnPlusB, visit_an_plus_b);
@@ -313,6 +314,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(TagSelector, visit_tag_selector);
     mtd!(Ident, visit_ident);
     mtd!(CustomIdent, visit_custom_ident);
+    mtd!(DashedIdent, visit_dashed_ident);
     mtd!(Tokens, visit_tokens);
     mtd!(Unit, visit_unit);
     mtd!(UnitValue, visit_unit_value);
@@ -376,8 +378,11 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(PageRuleBlock, visit_page_rule_block);
     mtd!(PageRuleBlockItem, visit_page_rule_block_item);
     mtd!(PageSelector, visit_page_selector);
+    mtd!(AtRuleName, visit_at_rule_name);
     mtd!(UnknownAtRule, visit_unknown_at_rule);
     mtd!(ViewportRule, visit_viewport_rule);
+    mtd!(ColorProfileName, visit_color_profile_name);
+    mtd!(ColorProfileRule, visit_color_profile_rule);
 
     fn visit_token_and_span(&mut self, n: &TokenAndSpan) {
         self.handler

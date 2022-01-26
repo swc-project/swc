@@ -55,6 +55,12 @@ error: Declaration
 2 |     font-family: "Open Sans";
   |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:2:5
+  |
+2 |     font-family: "Open Sans";
+  |     ^^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/at-rule/font-face/input.css:2:5
   |
@@ -79,6 +85,12 @@ error: Declaration
 3 | /     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
 4 | |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
   | |______________________________________________________________^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:3:5
+  |
+3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+  |     ^^^
 
 error: Ident
  --> $DIR/tests/fixture/at-rule/font-face/input.css:3:5

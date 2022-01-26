@@ -71,6 +71,12 @@ error: Declaration
 2 |     prop1: value;
   |     ^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/declaration-list/input.css:2:5
+  |
+2 |     prop1: value;
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/declaration-list/input.css:2:5
   |
@@ -94,6 +100,12 @@ error: Declaration
   |
 3 |     prop2: value;
   |     ^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/declaration-list/input.css:3:5
+  |
+3 |     prop2: value;
+  |     ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/declaration-list/input.css:3:5

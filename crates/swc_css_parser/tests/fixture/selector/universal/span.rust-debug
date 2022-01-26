@@ -67,6 +67,12 @@ error: Declaration
 2 |     display: block;
   |     ^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/selector/universal/input.css:2:5
+  |
+2 |     display: block;
+  |     ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/universal/input.css:2:5
   |

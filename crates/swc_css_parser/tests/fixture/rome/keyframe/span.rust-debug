@@ -96,6 +96,12 @@ error: Declaration
 3 |         margin-top: 50px !important;
   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/keyframe/input.css:3:9
+  |
+3 |         margin-top: 50px !important;
+  |         ^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/keyframe/input.css:3:9
   |
@@ -169,6 +175,12 @@ error: Declaration
   |
 6 |         margin-top: 100px !important;
   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/keyframe/input.css:6:9
+  |
+6 |         margin-top: 100px !important;
+  |         ^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/keyframe/input.css:6:9

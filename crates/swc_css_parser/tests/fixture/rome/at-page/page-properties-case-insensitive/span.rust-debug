@@ -51,6 +51,12 @@ error: Declaration
 2 |     DISPLAY: none;
   |     ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:2
+  |
+2 |     DISPLAY: none;
+  |     ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:2
   |

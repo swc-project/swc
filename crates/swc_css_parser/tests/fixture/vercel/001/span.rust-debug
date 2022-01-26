@@ -85,6 +85,12 @@ error: Declaration
 2 |     margin-right: 0;
   |     ^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/vercel/001/input.css:2:5
+  |
+2 |     margin-right: 0;
+  |     ^^^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/vercel/001/input.css:2:5
   |

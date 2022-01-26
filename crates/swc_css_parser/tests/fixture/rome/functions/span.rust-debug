@@ -89,7 +89,13 @@ error: Declaration
 2 |     --fancy: 2px;
   |     ^^^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/functions/input.css:2:2
+  |
+2 |     --fancy: 2px;
+  |     ^^^^^^^
+
+error: DashedIdent
  --> $DIR/tests/fixture/rome/functions/input.css:2:2
   |
 2 |     --fancy: 2px;
@@ -125,6 +131,12 @@ error: Declaration
 3 |     border: var(--fancy);
   |     ^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/functions/input.css:3:2
+  |
+3 |     border: var(--fancy);
+  |     ^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:3:2
   |
@@ -155,7 +167,7 @@ error: Value
 3 |     border: var(--fancy);
   |                 ^^^^^^^
 
-error: Ident
+error: DashedIdent
  --> $DIR/tests/fixture/rome/functions/input.css:3:14
   |
 3 |     border: var(--fancy);
@@ -166,6 +178,12 @@ error: Declaration
   |
 4 |     font-size: calc(10px + 5rem);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/functions/input.css:4:2
+  |
+4 |     font-size: calc(10px + 5rem);
+  |     ^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:4:2
@@ -257,6 +275,12 @@ error: Declaration
 5 |     background: url("");
   |     ^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/functions/input.css:5:2
+  |
+5 |     background: url("");
+  |     ^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:5:2
   |
@@ -299,6 +323,12 @@ error: Declaration
 6 |     background: url("something");
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/functions/input.css:6:2
+  |
+6 |     background: url("something");
+  |     ^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:6:2
   |
@@ -340,6 +370,12 @@ error: Declaration
   |
 7 |     background: url("./something");
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/functions/input.css:7:2
+  |
+7 |     background: url("./something");
+  |     ^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:7:2

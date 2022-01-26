@@ -765,7 +765,7 @@
                         },
                         "values": [
                           {
-                            "type": "Identifier",
+                            "type": "DashedIdentifier",
                             "span": {
                               "start": 712,
                               "end": 719,
@@ -793,7 +793,7 @@
                             },
                             "value": [
                               {
-                                "type": "Identifier",
+                                "type": "DashedIdentifier",
                                 "span": {
                                   "start": 724,
                                   "end": 739,
@@ -971,7 +971,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 823,
                 "end": 828,
@@ -1175,7 +1175,7 @@
                     },
                     "value": [
                       {
-                        "type": "Identifier",
+                        "type": "DashedIdentifier",
                         "span": {
                           "start": 1011,
                           "end": 1016,

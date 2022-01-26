@@ -76,6 +76,12 @@ error: Declaration
 1 | a:after { content: 'a\b' }
   |           ^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/2nNBhRWO2cNcBJf09zDxjw/input.css:1:11
+  |
+1 | a:after { content: 'a\b' }
+  |           ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/2nNBhRWO2cNcBJf09zDxjw/input.css:1:11
   |

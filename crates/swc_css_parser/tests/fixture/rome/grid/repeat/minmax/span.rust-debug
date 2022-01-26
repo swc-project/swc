@@ -73,6 +73,12 @@ error: Declaration
 2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/grid/repeat/minmax/input.css:2:2
+  |
+2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/grid/repeat/minmax/input.css:2:2
   |

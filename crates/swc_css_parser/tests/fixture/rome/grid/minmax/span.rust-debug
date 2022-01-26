@@ -73,6 +73,12 @@ error: Declaration
 2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/grid/minmax/input.css:2:2
+  |
+2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/grid/minmax/input.css:2:2
   |

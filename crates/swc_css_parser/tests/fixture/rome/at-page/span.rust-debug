@@ -131,6 +131,12 @@ error: Declaration
 2 |     @top-center { content: none }
   |                   ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:16
+  |
+2 |     @top-center { content: none }
+  |                   ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/at-page/input.css:2:16
   |
@@ -160,6 +166,12 @@ error: Declaration
   |
 3 |     margin-left: 4cm;
   |     ^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/at-page/input.css:3:2
+  |
+3 |     margin-left: 4cm;
+  |     ^^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/at-page/input.css:3:2
@@ -306,6 +318,12 @@ error: Declaration
 7 |     @top-center { content: none }
   |                   ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:16
+  |
+7 |     @top-center { content: none }
+  |                   ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/at-page/input.css:7:16
   |
@@ -335,6 +353,12 @@ error: Declaration
   |
 8 |     margin-left: 4cm;
   |     ^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/at-page/input.css:8:2
+  |
+8 |     margin-left: 4cm;
+  |     ^^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/at-page/input.css:8:2
@@ -469,6 +493,12 @@ error: Declaration
 12 |     @top-center { content: none }
    |                   ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:16
+   |
+12 |     @top-center { content: none }
+   |                   ^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/rome/at-page/input.css:12:16
    |
@@ -498,6 +528,12 @@ error: Declaration
    |
 13 |     margin-left: 4cm;
    |     ^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/rome/at-page/input.css:13:2
+   |
+13 |     margin-left: 4cm;
+   |     ^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/rome/at-page/input.css:13:2
@@ -632,6 +668,12 @@ error: Declaration
 17 |     @top-center { CONTENT: none }
    |                   ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:16
+   |
+17 |     @top-center { CONTENT: none }
+   |                   ^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/rome/at-page/input.css:17:16
    |
@@ -661,6 +703,12 @@ error: Declaration
    |
 18 |     MARGIN-LEFT: 4cm;
    |     ^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/rome/at-page/input.css:18:2
+   |
+18 |     MARGIN-LEFT: 4cm;
+   |     ^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/rome/at-page/input.css:18:2

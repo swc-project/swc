@@ -214,6 +214,12 @@ error: Declaration
 5 |         from { translate: 0; }
   |                ^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/at-rule/layer/input.css:5:16
+  |
+5 |         from { translate: 0; }
+  |                ^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/at-rule/layer/input.css:5:16
   |
@@ -267,6 +273,12 @@ error: Declaration
   |
 6 |         to { translate: -100% 0; }
   |              ^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/at-rule/layer/input.css:6:14
+  |
+6 |         to { translate: -100% 0; }
+  |              ^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/at-rule/layer/input.css:6:14
@@ -424,6 +436,12 @@ error: Declaration
 12 |         from { margin-left: 0; }
    |                ^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/layer/input.css:12:16
+   |
+12 |         from { margin-left: 0; }
+   |                ^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/layer/input.css:12:16
    |
@@ -477,6 +495,12 @@ error: Declaration
    |
 13 |         to { margin-left: -100%; }
    |              ^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/layer/input.css:13:14
+   |
+13 |         to { margin-left: -100%; }
+   |              ^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/layer/input.css:13:14
@@ -561,6 +585,12 @@ error: Declaration
    |
 17 | .sidebar { animation: slide-left 300ms; }
    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/layer/input.css:17:12
+   |
+17 | .sidebar { animation: slide-left 300ms; }
+   |            ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/layer/input.css:17:12
@@ -742,6 +772,12 @@ error: Declaration
 23 |     strong { font-weight: bold; }
    |              ^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/layer/input.css:23:14
+   |
+23 |     strong { font-weight: bold; }
+   |              ^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/layer/input.css:23:14
    |
@@ -873,6 +909,12 @@ error: Declaration
    |
 27 |     .title { font-weight: 100; }
    |              ^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/layer/input.css:27:14
+   |
+27 |     .title { font-weight: 100; }
+   |              ^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/layer/input.css:27:14
@@ -1012,6 +1054,12 @@ error: Declaration
 30 |         h1, h2 { color: maroon; }
    |                  ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/layer/input.css:30:18
+   |
+30 |         h1, h2 { color: maroon; }
+   |                  ^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/layer/input.css:30:18
    |
@@ -1131,6 +1179,12 @@ error: Declaration
    |
 35 |     [hidden] { display: none; }
    |                ^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/layer/input.css:35:16
+   |
+35 |     [hidden] { display: none; }
+   |                ^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/layer/input.css:35:16
@@ -1300,6 +1354,12 @@ error: Declaration
 40 |         p { margin-block: 0.75em; }
    |             ^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/layer/input.css:40:13
+   |
+40 |         p { margin-block: 0.75em; }
+   |             ^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/layer/input.css:40:13
    |
@@ -1426,6 +1486,12 @@ error: Declaration
 44 |         p { color: #222; }
    |             ^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/layer/input.css:44:13
+   |
+44 |         p { color: #222; }
+   |             ^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/layer/input.css:44:13
    |
@@ -1548,6 +1614,12 @@ error: Declaration
    |
 50 |     blockquote { color: rebeccapurple; }
    |                  ^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/layer/input.css:50:18
+   |
+50 |     blockquote { color: rebeccapurple; }
+   |                  ^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/layer/input.css:50:18

@@ -83,6 +83,12 @@ error: Declaration
 2 |   color: #000000;
   |   ^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/hex-colors/input.css:2:3
+  |
+2 |   color: #000000;
+  |   ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/hex-colors/input.css:2:3
   |
@@ -107,6 +113,12 @@ error: Declaration
 3 |   color: #ffffff;
   |   ^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/hex-colors/input.css:3:3
+  |
+3 |   color: #ffffff;
+  |   ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/hex-colors/input.css:3:3
   |
@@ -131,6 +143,12 @@ error: Declaration
 4 |   color: #FFFFFF;
   |   ^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/hex-colors/input.css:4:3
+  |
+4 |   color: #FFFFFF;
+  |   ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/hex-colors/input.css:4:3
   |
@@ -155,6 +173,12 @@ error: Declaration
 5 |   color: #0000ffcc;
   |   ^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/hex-colors/input.css:5:3
+  |
+5 |   color: #0000ffcc;
+  |   ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/hex-colors/input.css:5:3
   |
@@ -179,6 +203,12 @@ error: Declaration
 6 |   color: #0000FFCC;
   |   ^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/hex-colors/input.css:6:3
+  |
+6 |   color: #0000FFCC;
+  |   ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/hex-colors/input.css:6:3
   |
@@ -203,6 +233,12 @@ error: Declaration
 7 |   color: #000;
   |   ^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/hex-colors/input.css:7:3
+  |
+7 |   color: #000;
+  |   ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/hex-colors/input.css:7:3
   |
@@ -227,6 +263,12 @@ error: Declaration
 8 |   color: #fff;
   |   ^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/hex-colors/input.css:8:3
+  |
+8 |   color: #fff;
+  |   ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/hex-colors/input.css:8:3
   |
@@ -251,6 +293,12 @@ error: Declaration
 9 |   color: #FFF;
   |   ^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/hex-colors/input.css:9:3
+  |
+9 |   color: #FFF;
+  |   ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/hex-colors/input.css:9:3
   |
@@ -275,6 +323,12 @@ error: Declaration
 10 |   color: #0000;
    |   ^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/hex-colors/input.css:10:3
+   |
+10 |   color: #0000;
+   |   ^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/hex-colors/input.css:10:3
    |
@@ -299,6 +353,12 @@ error: Declaration
 11 |   color: #ffff;
    |   ^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/hex-colors/input.css:11:3
+   |
+11 |   color: #ffff;
+   |   ^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/hex-colors/input.css:11:3
    |
@@ -322,6 +382,12 @@ error: Declaration
    |
 12 |   color: #FFFF;
    |   ^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/hex-colors/input.css:12:3
+   |
+12 |   color: #FFFF;
+   |   ^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/hex-colors/input.css:12:3

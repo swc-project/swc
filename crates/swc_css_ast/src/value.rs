@@ -1,4 +1,4 @@
-use crate::{Ident, SimpleBlock, Str, Tokens};
+use crate::{DashedIdent, Ident, SimpleBlock, Str, Tokens};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
@@ -25,6 +25,9 @@ pub enum Value {
 
     #[tag("Ident")]
     Ident(Ident),
+
+    #[tag("DashedIdent")]
+    DashedIdent(DashedIdent),
 
     #[tag("String")]
     Str(Str),

@@ -89,6 +89,12 @@ error: Declaration
 2 |     width: max(500px);
   |     ^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:2:2
+  |
+2 |     width: max(500px);
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/min-and-max/input.css:2:2
   |
@@ -142,6 +148,12 @@ error: Declaration
   |
 3 |     width: max(500px, 6 / 4);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:3:2
+  |
+3 |     width: max(500px, 6 / 4);
+  |     ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/min-and-max/input.css:3:2
@@ -232,6 +244,12 @@ error: Declaration
   |
 4 |     width: max(500px, 40px + 5%);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:4:2
+  |
+4 |     width: max(500px, 40px + 5%);
+  |     ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/min-and-max/input.css:4:2
@@ -340,6 +358,12 @@ error: Declaration
   |
 5 |     width: max(500px, 5% * 400px + 2px);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:5:2
+  |
+5 |     width: max(500px, 5% * 400px + 2px);
+  |     ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/min-and-max/input.css:5:2
@@ -496,6 +520,12 @@ error: Declaration
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:6:2
+  |
+6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+  |     ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:2
@@ -857,6 +887,12 @@ error: Declaration
 7 |     width: min(500px);
   |     ^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:7:2
+  |
+7 |     width: min(500px);
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/min-and-max/input.css:7:2
   |
@@ -910,6 +946,12 @@ error: Declaration
   |
 8 |     width: min(500px, 6 / 4);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:8:2
+  |
+8 |     width: min(500px, 6 / 4);
+  |     ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/min-and-max/input.css:8:2
@@ -1000,6 +1042,12 @@ error: Declaration
   |
 9 |     width: min(500px, 40px + 5%);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:9:2
+  |
+9 |     width: min(500px, 40px + 5%);
+  |     ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/min-and-max/input.css:9:2
@@ -1108,6 +1156,12 @@ error: Declaration
    |
 10 |     width: min(500px, 5% * 400px + 2px);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:10:2
+   |
+10 |     width: min(500px, 5% * 400px + 2px);
+   |     ^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/rome/min-and-max/input.css:10:2
@@ -1264,6 +1318,12 @@ error: Declaration
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:11:2
+   |
+11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   |     ^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:2
