@@ -56,6 +56,7 @@ where
                     }
 
                     if init.is_invalid() {
+                        self.changed = true;
                         var.init = None;
                     }
                 }
