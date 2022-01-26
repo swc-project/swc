@@ -56,6 +56,9 @@
 - **(css/ast)** Add `Ratio`, which is defined by spec (#3335) ([c7e5fae](https://github.com/swc-project/swc/commit/c7e5faea5c49333a3141111f92e3b36e29f6202c))
 
 
+- **(css/parser)** Improve parsing of urls (#3362) ([50521d8](https://github.com/swc-project/swc/commit/50521d8ffa3425ad26eb4630698f06b69c41ef2b))
+
+
 - **(es/bugfix)** Add `bugfix-safari-id-destructuring-collision-in-function-expression` (#3109) ([d1c90a4](https://github.com/swc-project/swc/commit/d1c90a4e5f2ddfc71c6143ef07e16af352da25fa))
 
 
