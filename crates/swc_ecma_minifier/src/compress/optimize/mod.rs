@@ -2361,6 +2361,8 @@ where
         self.prepend_stmts = old_prepend;
         self.append_stmts = old_append;
 
+        let len = self.prepend_stmts.len();
+
         if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s, false);
 
@@ -2368,6 +2370,8 @@ where
                 tracing::debug!("after: visit_mut_children_with: {}", text);
             }
         }
+
+        debug_assert_eq!(self.prepend_stmts.len(), len);
 
         if let Stmt::Expr(ExprStmt { expr, .. }) = s {
             if is_pure_undefined(expr) {
@@ -2405,6 +2409,8 @@ where
             }
         }
 
+        debug_assert_eq!(self.prepend_stmts.len(), len);
+
         match s {
             // We use var decl with no declarator to indicate we dropped an decl.
             Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => {
@@ -2414,19 +2420,33 @@ where
             _ => {}
         }
 
+        debug_assert_eq!(self.prepend_stmts.len(), len);
+
         if cfg!(debug_assertions) {
             s.visit_with(&mut AssertValid);
         }
 
+        debug_assert_eq!(self.prepend_stmts.len(), len);
+
         self.compress_if_without_alt(s);
+
+        debug_assert_eq!(self.prepend_stmts.len(), len);
 
         self.compress_if_stmt_as_cond(s);
 
+        debug_assert_eq!(self.prepend_stmts.len(), len);
+
         self.compress_if_stmt_as_expr(s);
+
+        debug_assert_eq!(self.prepend_stmts.len(), len);
 
         self.optimize_const_switches(s);
 
+        debug_assert_eq!(self.prepend_stmts.len(), len);
+
         self.optimize_switches(s);
+
+        debug_assert_eq!(self.prepend_stmts.len(), len);
 
         if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s, false);
@@ -2436,9 +2456,13 @@ where
             }
         }
 
+        debug_assert_eq!(self.prepend_stmts.len(), len);
+
         if cfg!(debug_assertions) {
             s.visit_with(&mut AssertValid);
         }
+
+        debug_assert_eq!(self.prepend_stmts.len(), len);
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
