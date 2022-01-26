@@ -3510,7 +3510,6 @@
                     }
                 }
             }(dispatchQueue2 = dispatchQueue1, domEventName5 = domEventName4, targetInst3 = targetInst2, nativeEvent4 = nativeEvent3, nativeEventTarget2 = nativeEventTarget1), function(dispatchQueue, domEventName10, targetInst, nativeEvent8, nativeEventTarget) {
-                var chars1;
                 if (!(chars1 = canUseTextInputEvent ? function(domEventName, nativeEvent) {
                     switch(domEventName){
                         case "compositionend":
@@ -3543,7 +3542,7 @@
                             return null;
                     }
                 }(domEventName10, nativeEvent8))) return null;
-                var listeners = accumulateTwoPhaseListeners(targetInst, "onBeforeInput");
+                var chars1, listeners = accumulateTwoPhaseListeners(targetInst, "onBeforeInput");
                 if (listeners.length > 0) {
                     var event = new SyntheticInputEvent("onBeforeInput", "beforeinput", null, nativeEvent8, nativeEventTarget);
                     dispatchQueue.push({
@@ -4387,9 +4386,8 @@
         if (isDisallowedContextReadInDEV && error1("Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function components, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo()."), lastContextWithAllBitsObserved === context) ;
         else if (!1 === observedBits || 0 === observedBits) ;
         else {
-            var resolvedObservedBits;
             "number" != typeof observedBits || 1073741823 === observedBits ? (lastContextWithAllBitsObserved = context, resolvedObservedBits = 1073741823) : resolvedObservedBits = observedBits;
-            var contextItem = {
+            var resolvedObservedBits, contextItem = {
                 context: context,
                 observedBits: resolvedObservedBits,
                 next: null
@@ -6387,7 +6385,7 @@
     function updateOffscreenComponent(current, workInProgress, renderLanes) {
         var _subtreeRenderLanes, nextProps = workInProgress.pendingProps, nextChildren = nextProps.children, prevState = null !== current ? current.memoizedState : null;
         if ("hidden" === nextProps.mode || "unstable-defer-without-hiding" === nextProps.mode) if ((4 & workInProgress.mode) == 0) {
-            var nextBaseLanes, nextState = {
+            var nextState = {
                 baseLanes: NoLanes
             };
             workInProgress.memoizedState = nextState, pushRenderLanes(workInProgress, renderLanes);
@@ -6398,7 +6396,7 @@
             workInProgress.memoizedState = _nextState2, pushRenderLanes(workInProgress, null !== prevState ? prevState.baseLanes : renderLanes);
         } else {
             nextBaseLanes = null !== prevState ? mergeLanes(prevState.baseLanes, renderLanes) : renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824;
-            var _nextState = {
+            var nextBaseLanes, _nextState = {
                 baseLanes: nextBaseLanes
             };
             return workInProgress.memoizedState = _nextState, pushRenderLanes(workInProgress, nextBaseLanes), null;
@@ -9384,9 +9382,8 @@
         return container ? 9 === container.nodeType ? container.documentElement : container.firstChild : null;
     }
     function legacyRenderSubtreeIntoContainer(parentComponent, children, container3, forceHydrate1, callback) {
-        var callback1, callerName;
         topLevelUpdateWarnings(container3), callerName = "render", null !== (callback1 = void 0 === callback ? null : callback) && "function" != typeof callback1 && error1("%s(...): Expected the last optional `callback` argument to be a function. Instead received: %s.", callerName, callback1);
-        var fiberRoot, root = container3._reactRootContainer;
+        var callback1, callerName, fiberRoot, root = container3._reactRootContainer;
         if (root) {
             if (fiberRoot = root._internalRoot, "function" == typeof callback) {
                 var _originalCallback = callback;
