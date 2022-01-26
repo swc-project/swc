@@ -1547,7 +1547,7 @@ where
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         if !self.prepend_stmts.is_empty() {
-            let mut stmts = self.prepend_stmts.take();
+            let mut stmts = self.prepend_stmts.take().into_stmts();
             match &mut n.body {
                 BlockStmtOrExpr::BlockStmt(v) => {
                     prepend_stmts(&mut v.stmts, stmts.into_iter());
@@ -1563,7 +1563,7 @@ where
                     }));
                     n.body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                         span: DUMMY_SP,
-                        stmts: stmts.0,
+                        stmts,
                     });
                 }
             }
@@ -2352,10 +2352,10 @@ where
                 span: span.apply_mark(self.marks.fake_block),
                 stmts: self
                     .prepend_stmts
-                    .take()
+                    .into_stmts()
                     .into_iter()
                     .chain(once(s.take()))
-                    .chain(self.append_stmts.take().into_iter())
+                    .chain(self.append_stmts.into_stmts().into_iter())
                     .filter(|s| match s {
                         Stmt::Empty(..) => false,
                         Stmt::Decl(Decl::Var(v)) => !v.decls.is_empty(),
@@ -2784,6 +2784,12 @@ fn is_left_access_to_arguments(l: &PatOrExpr) -> bool {
 
 #[derive(Debug, Default, PartialEq)]
 struct SynthesizedStmts(Vec<Stmt>);
+
+impl SynthesizedStmts {
+    fn into_stmts(&mut self) -> Vec<Stmt> {
+        take(&mut self.0)
+    }
+}
 
 impl std::ops::Deref for SynthesizedStmts {
     type Target = Vec<Stmt>;
