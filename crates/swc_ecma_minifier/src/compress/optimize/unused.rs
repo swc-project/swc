@@ -365,7 +365,12 @@ where
                     .data
                     .as_ref()
                     .and_then(|data| data.vars.get(&ident.to_id()))
-                    .map(|v| v.usage_count == 0)
+                    .map(|v| {
+                        v.ref_count == 0
+                            && v.usage_count == 0
+                            && !v.reassigned_with_assignment
+                            && !v.has_property_mutation
+                    })
                     .unwrap_or(false)
                 {
                     self.changed = true;
