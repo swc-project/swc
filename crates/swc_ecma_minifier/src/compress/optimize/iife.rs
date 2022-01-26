@@ -137,6 +137,7 @@ where
     ///     })(x);
     /// })(7);
     /// ```
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     pub(super) fn inline_args_of_iife(&mut self, e: &mut CallExpr) {
         if self.options.inline == 0 {
             return;
@@ -250,6 +251,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n, vars)))]
     pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: AHashMap<Id, Box<Expr>>)
     where
         N: VisitMutWith<Self>,
