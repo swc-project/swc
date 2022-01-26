@@ -116,7 +116,16 @@ where
     fn emit_import_rule(&mut self, n: &ImportRule) -> Result {
         punct!(self, "@");
         keyword!(self, "import");
-        space!(self);
+
+        match n.href {
+            ImportHref::Url(_) => {
+                space!(self);
+            }
+            ImportHref::Str(_) => {
+                formatting_space!(self);
+            }
+        }
+
         emit!(self, n.href);
 
         if let Some(layer_name) = &n.layer_name {
@@ -161,7 +170,6 @@ where
         punct!(self, "@");
         keyword!(self, "font-face");
         formatting_space!(self);
-
         emit!(self, n.block);
     }
 
