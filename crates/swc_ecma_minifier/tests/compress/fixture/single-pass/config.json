@@ -1,5 +1,5 @@
 {
     "defaults": true,
     "toplevel": true,
-    "pass": 1
+    "passes": 1
 }
