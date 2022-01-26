@@ -108,7 +108,7 @@ impl Storage for ProgramData {
         kind: Option<VarDeclKind>,
     ) -> &mut VarUsageInfo {
         if cfg!(feature = "debug") {
-            tracing::debug!("declare_decl(`{}`)", i);
+            tracing::debug!(has_init = has_init, "declare_decl(`{}`)", i);
         }
 
         let v = self
