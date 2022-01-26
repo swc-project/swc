@@ -200,24 +200,33 @@ where
                     return;
                 }
 
-                if self
+                if let Some(v) = self
                     .data
                     .as_ref()
-                    .and_then(|data| data.vars.get(&i.to_id()))
-                    .map(|v| {
-                        v.ref_count == 0 && v.usage_count == 0 && v.assign_count == 0 && !v.mutated
-                    })
-                    .unwrap_or(false)
+                    .and_then(|data| data.vars.get(&i.to_id()).cloned())
                 {
-                    self.changed = true;
-                    tracing::debug!(
-                        "unused: Dropping a variable '{}{:?}' because it is not used",
-                        i.id.sym,
-                        i.id.span.ctxt
-                    );
-                    // This will remove variable.
-                    name.take();
-                } else {
+                    if v.ref_count == 0 && v.usage_count == 0 && v.assign_count == 0 && !v.mutated {
+                        self.changed = true;
+                        tracing::debug!(
+                            "unused: Dropping a variable '{}{:?}' because it is not used",
+                            i.id.sym,
+                            i.id.span.ctxt
+                        );
+                        // This will remove variable.
+                        name.take();
+                        return;
+                    }
+
+                    if v.ref_count == 0 && v.usage_count == 0 {
+                        if let Some(e) = init {
+                            let ret = self.ignore_return_value(e);
+                            if let Some(ret) = ret {
+                                *e = ret;
+                            }
+                        }
+                        return;
+                    }
+
                     if cfg!(feature = "debug") {
                         tracing::trace!(
                             "unused: Cannot drop ({}) because it's used",

@@ -50,7 +50,7 @@ where
     v.data
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Clone)]
 pub(crate) struct VarUsageInfo {
     pub inline_prevented: bool,
 
