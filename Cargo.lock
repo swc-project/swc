@@ -2652,7 +2652,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.117.3"
+version = "0.118.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2976,7 +2976,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.9.0"
+version = "0.10.0"
 dependencies = [
  "auto_impl",
  "parking_lot",
@@ -3402,7 +3402,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.35.0"
+version = "0.36.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3591,7 +3591,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.33.0"
+version = "0.34.0"
 dependencies = [
  "anyhow",
  "rayon",
