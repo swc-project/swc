@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 17,
+    "end": 54,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 0,
-        "end": 17,
+        "end": 53,
         "ctxt": 0
       },
       "prelude": {
@@ -66,40 +66,67 @@
         "type": "Block",
         "span": {
           "start": 2,
-          "end": 17,
+          "end": 53,
           "ctxt": 0
         },
         "value": [
           {
-            "type": "Declaration",
+            "type": "Tokens",
             "span": {
-              "start": 4,
-              "end": 15,
+              "start": 8,
+              "end": 50,
               "ctxt": 0
             },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 4,
-                "end": 9,
-                "ctxt": 0
-              },
-              "value": "value",
-              "raw": "value"
-            },
-            "value": [
+            "tokens": [
               {
-                "type": "String",
                 "span": {
-                  "start": 11,
-                  "end": 15,
+                  "start": 8,
+                  "end": 24,
                   "ctxt": 0
                 },
-                "value": "�",
-                "raw": "'\\0'"
+                "token": {
+                  "Ident": {
+                    "value": "background-image",
+                    "raw": "background-image"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 24,
+                  "end": 25,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 25,
+                  "end": 26,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 26,
+                  "end": 50,
+                  "ctxt": 0
+                },
+                "token": {
+                  "BadUrl": {
+                    "name": "url",
+                    "raw_name": "url",
+                    "value": "./image.jpg  a  ",
+                    "raw_value": "./image.jpg  a  "
+                  }
+                }
               }
-            ],
-            "important": null
+            ]
           }
         ]
       }
