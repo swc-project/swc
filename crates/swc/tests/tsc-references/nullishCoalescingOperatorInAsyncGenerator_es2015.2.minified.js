@@ -52,17 +52,6 @@ function AsyncGenerator(gen) {
 function _AwaitValue(value) {
     this.wrapped = value;
 }
-function _f() {
-    return (_f = (function(fn) {
-        return function() {
-            return new AsyncGenerator(fn.apply(this, arguments));
-        };
-    })(function*(a) {
-        var _b;
-        let c = null !== (_b = a.b) && void 0 !== _b ? _b : 10;
-        for(; c;)yield c--;
-    })).apply(this, arguments);
-}
 "function" == typeof Symbol && Symbol.asyncIterator && (AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
     return this;
 }), AsyncGenerator.prototype.next = function(arg) {

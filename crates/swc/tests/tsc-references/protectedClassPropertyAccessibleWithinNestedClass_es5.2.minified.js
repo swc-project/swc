@@ -42,9 +42,8 @@ var C = function() {
                         {
                             key: "foo",
                             value: function() {
-                                var x;
                                 x.foo, x.bar, x.x, x.y, C.x, C.y, C.bar, C.foo;
-                                var y = new C();
+                                var x, y = new C();
                                 y.foo, y.bar, y.x, y.y;
                             }
                         }
