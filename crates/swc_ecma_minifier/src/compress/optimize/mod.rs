@@ -1777,6 +1777,7 @@ where
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         let ctx = Ctx {
             is_exported: false,
@@ -1848,6 +1849,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
         n.visit_mut_children_with(self);
 
@@ -1977,6 +1979,7 @@ where
         self.with_ctx(ctx).drop_if_break(s);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_mut_function(&mut self, n: &mut Function) {
         {
             let ctx = Ctx {
@@ -2270,6 +2273,7 @@ where
         self.lift_seqs_of_assign(n);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, s)))]
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         let old_prepend = self.prepend_stmts.take();
         let old_append = self.append_stmts.take();
