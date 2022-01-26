@@ -70,9 +70,27 @@ error: Value
 1 | a { value: url(\61bc) }
   |            ^^^^^^^^^^
 
-error: UrlValue
+error: Url
  --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:12
   |
 1 | a { value: url(\61bc) }
   |            ^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:12
+  |
+1 | a { value: url(\61bc) }
+  |            ^^^
+
+error: UrlValue
+ --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:16
+  |
+1 | a { value: url(\61bc) }
+  |                ^^^^^
+
+error: UrlValueRaw
+ --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:16
+  |
+1 | a { value: url(\61bc) }
+  |                ^^^^^
 

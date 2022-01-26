@@ -2652,7 +2652,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.117.2"
+version = "0.117.3"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2792,7 +2792,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.53.0"
+version = "0.55.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2804,7 +2804,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.49.0"
+version = "0.51.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -2815,7 +2815,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.51.0"
+version = "0.53.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2841,7 +2841,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.15.0"
+version = "0.17.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2854,7 +2854,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.53.0"
+version = "0.55.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2869,7 +2869,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.46.0"
+version = "0.48.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2879,7 +2879,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.48.0"
+version = "0.50.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3012,7 +3012,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.71.0"
+version = "0.71.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3366,7 +3366,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.111.2"
+version = "0.111.3"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3549,7 +3549,7 @@ version = "0.24.0"
 
 [[package]]
 name = "swc_stylis"
-version = "0.50.0"
+version = "0.52.0"
 dependencies = [
  "swc_atoms",
  "swc_common",

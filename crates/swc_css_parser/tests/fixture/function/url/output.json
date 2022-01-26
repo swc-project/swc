@@ -89,14 +89,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 26,
                   "end": 109,
                   "ctxt": 0
                 },
-                "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
-                "raw": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 26,
+                    "end": 29,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 30,
+                    "end": 108,
+                    "ctxt": 0
+                  },
+                  "value": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+                  "raw": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                },
+                "modifiers": null
               }
             ],
             "important": null
@@ -120,7 +139,7 @@
             },
             "value": [
               {
-                "type": "Function",
+                "type": "Url",
                 "span": {
                   "start": 133,
                   "end": 155,
@@ -136,18 +155,17 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "value": [
-                  {
-                    "type": "String",
-                    "span": {
-                      "start": 137,
-                      "end": 154,
-                      "ctxt": 0
-                    },
-                    "value": "./image (1).jpg",
-                    "raw": "\"./image (1).jpg\""
-                  }
-                ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 137,
+                    "end": 154,
+                    "ctxt": 0
+                  },
+                  "value": "./image (1).jpg",
+                  "raw": "\"./image (1).jpg\""
+                },
+                "modifiers": []
               }
             ],
             "important": null
@@ -171,7 +189,7 @@
             },
             "value": [
               {
-                "type": "Function",
+                "type": "Url",
                 "span": {
                   "start": 179,
                   "end": 201,
@@ -187,18 +205,17 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "value": [
-                  {
-                    "type": "String",
-                    "span": {
-                      "start": 183,
-                      "end": 200,
-                      "ctxt": 0
-                    },
-                    "value": "./image (1).jpg",
-                    "raw": "'./image (1).jpg'"
-                  }
-                ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 183,
+                    "end": 200,
+                    "ctxt": 0
+                  },
+                  "value": "./image (1).jpg",
+                  "raw": "'./image (1).jpg'"
+                },
+                "modifiers": []
               }
             ],
             "important": null
@@ -222,7 +239,7 @@
             },
             "value": [
               {
-                "type": "Function",
+                "type": "Url",
                 "span": {
                   "start": 225,
                   "end": 247,
@@ -238,18 +255,17 @@
                   "value": "URL",
                   "raw": "URL"
                 },
-                "value": [
-                  {
-                    "type": "String",
-                    "span": {
-                      "start": 229,
-                      "end": 246,
-                      "ctxt": 0
-                    },
-                    "value": "./image (1).jpg",
-                    "raw": "'./image (1).jpg'"
-                  }
-                ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 229,
+                    "end": 246,
+                    "ctxt": 0
+                  },
+                  "value": "./image (1).jpg",
+                  "raw": "'./image (1).jpg'"
+                },
+                "modifiers": []
               }
             ],
             "important": null
@@ -273,7 +289,7 @@
             },
             "value": [
               {
-                "type": "Function",
+                "type": "Url",
                 "span": {
                   "start": 271,
                   "end": 296,
@@ -289,18 +305,17 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "value": [
-                  {
-                    "type": "String",
-                    "span": {
-                      "start": 278,
-                      "end": 295,
-                      "ctxt": 0
-                    },
-                    "value": "./image (1).jpg",
-                    "raw": "'./image (1).jpg'"
-                  }
-                ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 278,
+                    "end": 295,
+                    "ctxt": 0
+                  },
+                  "value": "./image (1).jpg",
+                  "raw": "'./image (1).jpg'"
+                },
+                "modifiers": []
               }
             ],
             "important": null
@@ -324,7 +339,7 @@
             },
             "value": [
               {
-                "type": "Function",
+                "type": "Url",
                 "span": {
                   "start": 320,
                   "end": 345,
@@ -340,18 +355,17 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "value": [
-                  {
-                    "type": "String",
-                    "span": {
-                      "start": 324,
-                      "end": 341,
-                      "ctxt": 0
-                    },
-                    "value": "./image (1).jpg",
-                    "raw": "'./image (1).jpg'"
-                  }
-                ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 324,
+                    "end": 341,
+                    "ctxt": 0
+                  },
+                  "value": "./image (1).jpg",
+                  "raw": "'./image (1).jpg'"
+                },
+                "modifiers": []
               }
             ],
             "important": null
@@ -375,7 +389,7 @@
             },
             "value": [
               {
-                "type": "Function",
+                "type": "Url",
                 "span": {
                   "start": 369,
                   "end": 397,
@@ -391,18 +405,17 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "value": [
-                  {
-                    "type": "String",
-                    "span": {
-                      "start": 376,
-                      "end": 393,
-                      "ctxt": 0
-                    },
-                    "value": "./image (1).jpg",
-                    "raw": "'./image (1).jpg'"
-                  }
-                ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 376,
+                    "end": 393,
+                    "ctxt": 0
+                  },
+                  "value": "./image (1).jpg",
+                  "raw": "'./image (1).jpg'"
+                },
+                "modifiers": []
               }
             ],
             "important": null
@@ -426,7 +439,7 @@
             },
             "value": [
               {
-                "type": "Function",
+                "type": "Url",
                 "span": {
                   "start": 421,
                   "end": 459,
@@ -442,18 +455,17 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "value": [
-                  {
-                    "type": "String",
-                    "span": {
-                      "start": 433,
-                      "end": 450,
-                      "ctxt": 0
-                    },
-                    "value": "./image (1).jpg",
-                    "raw": "'./image (1).jpg'"
-                  }
-                ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 433,
+                    "end": 450,
+                    "ctxt": 0
+                  },
+                  "value": "./image (1).jpg",
+                  "raw": "'./image (1).jpg'"
+                },
+                "modifiers": []
               }
             ],
             "important": null
@@ -477,14 +489,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 483,
                   "end": 488,
                   "ctxt": 0
                 },
-                "url": "",
-                "raw": ""
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 483,
+                    "end": 486,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 487,
+                    "end": 487,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "raw": ""
+                },
+                "modifiers": null
               }
             ],
             "important": null
@@ -508,14 +539,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 512,
                   "end": 520,
                   "ctxt": 0
                 },
-                "url": "",
-                "raw": ""
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 512,
+                    "end": 515,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 516,
+                    "end": 519,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "raw": ""
+                },
+                "modifiers": null
               }
             ],
             "important": null
@@ -539,7 +589,7 @@
             },
             "value": [
               {
-                "type": "Function",
+                "type": "Url",
                 "span": {
                   "start": 544,
                   "end": 551,
@@ -555,18 +605,17 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "value": [
-                  {
-                    "type": "String",
-                    "span": {
-                      "start": 548,
-                      "end": 550,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": "\"\""
-                  }
-                ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 548,
+                    "end": 550,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "raw": "\"\""
+                },
+                "modifiers": []
               }
             ],
             "important": null
@@ -590,7 +639,7 @@
             },
             "value": [
               {
-                "type": "Function",
+                "type": "Url",
                 "span": {
                   "start": 575,
                   "end": 588,
@@ -606,18 +655,17 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "value": [
-                  {
-                    "type": "String",
-                    "span": {
-                      "start": 582,
-                      "end": 584,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": "\"\""
-                  }
-                ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 582,
+                    "end": 584,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "raw": "\"\""
+                },
+                "modifiers": []
               }
             ],
             "important": null
@@ -641,7 +689,7 @@
             },
             "value": [
               {
-                "type": "Function",
+                "type": "Url",
                 "span": {
                   "start": 612,
                   "end": 619,
@@ -657,18 +705,17 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "value": [
-                  {
-                    "type": "String",
-                    "span": {
-                      "start": 616,
-                      "end": 618,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": "''"
-                  }
-                ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 616,
+                    "end": 618,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "raw": "''"
+                },
+                "modifiers": []
               }
             ],
             "important": null
@@ -692,7 +739,7 @@
             },
             "value": [
               {
-                "type": "Function",
+                "type": "Url",
                 "span": {
                   "start": 643,
                   "end": 656,
@@ -708,18 +755,17 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "value": [
-                  {
-                    "type": "String",
-                    "span": {
-                      "start": 650,
-                      "end": 652,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": "''"
-                  }
-                ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 650,
+                    "end": 652,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "raw": "''"
+                },
+                "modifiers": []
               }
             ],
             "important": null
@@ -743,7 +789,7 @@
             },
             "value": [
               {
-                "type": "Function",
+                "type": "Url",
                 "span": {
                   "start": 680,
                   "end": 694,
@@ -759,18 +805,17 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "value": [
-                  {
-                    "type": "String",
-                    "span": {
-                      "start": 687,
-                      "end": 690,
-                      "ctxt": 0
-                    },
-                    "value": " ",
-                    "raw": "' '"
-                  }
-                ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 687,
+                    "end": 690,
+                    "ctxt": 0
+                  },
+                  "value": " ",
+                  "raw": "' '"
+                },
+                "modifiers": []
               }
             ],
             "important": null
@@ -794,14 +839,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 718,
                   "end": 734,
                   "ctxt": 0
                 },
-                "url": "./image.png",
-                "raw": "./image.png"
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 718,
+                    "end": 721,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 722,
+                    "end": 733,
+                    "ctxt": 0
+                  },
+                  "value": "./image.png",
+                  "raw": "./image.png"
+                },
+                "modifiers": null
               }
             ],
             "important": null
@@ -825,14 +889,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 758,
                   "end": 780,
                   "ctxt": 0
                 },
-                "url": "./image.png",
-                "raw": "./image.png   "
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 758,
+                    "end": 761,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 762,
+                    "end": 779,
+                    "ctxt": 0
+                  },
+                  "value": "./image.png",
+                  "raw": "./image.png   "
+                },
+                "modifiers": null
               }
             ],
             "important": null
@@ -856,14 +939,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 804,
                   "end": 829,
                   "ctxt": 0
                 },
-                "url": "./image2.png",
-                "raw": "./image\\32.png   "
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 804,
+                    "end": 807,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 808,
+                    "end": 828,
+                    "ctxt": 0
+                  },
+                  "value": "./image2.png",
+                  "raw": "./image\\32.png   "
+                },
+                "modifiers": null
               }
             ],
             "important": null
@@ -887,14 +989,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 853,
                   "end": 888,
                   "ctxt": 0
                 },
-                "url": "./image2.png",
-                "raw": "./image\\32.png   \n    "
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 853,
+                    "end": 856,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 857,
+                    "end": 887,
+                    "ctxt": 0
+                  },
+                  "value": "./image2.png",
+                  "raw": "./image\\32.png   \n    "
+                },
+                "modifiers": null
               }
             ],
             "important": null
@@ -918,14 +1039,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 912,
                   "end": 974,
                   "ctxt": 0
                 },
-                "url": "./image2.png",
-                "raw": "./image\\32.png\n    \n    \n    \n    "
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 912,
+                    "end": 915,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 916,
+                    "end": 973,
+                    "ctxt": 0
+                  },
+                  "value": "./image2.png",
+                  "raw": "./image\\32.png\n    \n    \n    \n    "
+                },
+                "modifiers": null
               }
             ],
             "important": null
@@ -949,14 +1089,33 @@
             },
             "value": [
               {
-                "type": "UrlValue",
+                "type": "Url",
                 "span": {
                   "start": 998,
                   "end": 1039,
                   "ctxt": 0
                 },
-                "url": "./image2.png",
-                "raw": "./image\\32.png\n\n\n\n       "
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 998,
+                    "end": 1001,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 1002,
+                    "end": 1038,
+                    "ctxt": 0
+                  },
+                  "value": "./image2.png",
+                  "raw": "./image\\32.png\n\n\n\n       "
+                },
+                "modifiers": null
               }
             ],
             "important": null

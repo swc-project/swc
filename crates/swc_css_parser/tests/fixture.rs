@@ -298,7 +298,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(TypeSelector, visit_type_selector);
     mtd!(Number, visit_number);
     mtd!(Ratio, visit_ratio);
-    mtd!(PercentValue, visit_percent_value);
+    mtd!(Percent, visit_percent);
     mtd!(Declaration, visit_declaration);
     mtd!(Nth, visit_nth);
     mtd!(AnPlusB, visit_an_plus_b);
@@ -316,7 +316,10 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Tokens, visit_tokens);
     mtd!(Unit, visit_unit);
     mtd!(UnitValue, visit_unit_value);
+    mtd!(Url, visit_url);
     mtd!(UrlValue, visit_url_value);
+    mtd!(UrlValueRaw, visit_url_value_raw);
+    mtd!(UrlModifier, visit_url_modifier);
     mtd!(Value, visit_value);
 
     mtd!(CharsetRule, visit_charset_rule);

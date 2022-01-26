@@ -280,7 +280,7 @@ error: Value
 6 |         to { translate: -100% 0; }
   |                         ^^^^^
 
-error: PercentValue
+error: Percent
  --> $DIR/tests/fixture/at-rule/layer/input.css:6:25
   |
 6 |         to { translate: -100% 0; }
@@ -490,7 +490,7 @@ error: Value
 13 |         to { margin-left: -100%; }
    |                           ^^^^^
 
-error: PercentValue
+error: Percent
   --> $DIR/tests/fixture/at-rule/layer/input.css:13:27
    |
 13 |         to { margin-left: -100%; }

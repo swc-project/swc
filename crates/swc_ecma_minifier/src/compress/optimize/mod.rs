@@ -188,9 +188,9 @@ struct Optimizer<'a, M> {
     options: &'a CompressOptions,
 
     /// Statements prepended to the current statement.
-    prepend_stmts: Vec<Stmt>,
+    prepend_stmts: SynthesizedStmts,
     /// Statements appended to the current statement.
-    append_stmts: Vec<Stmt>,
+    append_stmts: SynthesizedStmts,
 
     /// Cheap to clone.
     ///
@@ -239,6 +239,7 @@ impl<M> Optimizer<'_, M>
 where
     M: Mode,
 {
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, stmts)))]
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self>,
@@ -251,8 +252,8 @@ where
             }
         }
         let mut use_asm = false;
-        // let prepend_stmts = self.prepend_stmts.take();
-        // let append_stmts = self.append_stmts.take();
+        let prepend_stmts = self.prepend_stmts.take();
+        let append_stmts = self.append_stmts.take();
 
         {
             let mut child_ctx = Ctx { ..self.ctx };
@@ -289,6 +290,8 @@ where
                     stmt.visit_mut_with(&mut *self.with_ctx(child_ctx));
                 }
 
+                new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
+
                 match stmt.try_into_stmt() {
                     Ok(Stmt::Block(s)) if s.span.has_mark(self.marks.fake_block) => {
                         new.extend(s.stmts.into_iter().map(T::from_stmt));
@@ -301,8 +304,7 @@ where
                     }
                 }
 
-                // new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
-                // new.extend(self.append_stmts.drain(..).map(T::from_stmt));
+                new.extend(self.append_stmts.drain(..).map(T::from_stmt));
             }
             *stmts = new;
         }
@@ -360,8 +362,8 @@ where
         drop_invalid_stmts(stmts);
 
         // debug_assert_eq!(self.prepend_stmts, vec![]);
-        // self.prepend_stmts = prepend_stmts;
-        // self.append_stmts = append_stmts;
+        self.prepend_stmts = prepend_stmts;
+        self.append_stmts = append_stmts;
     }
 
     /// `a = a + 1` => `a += 1`.
@@ -1539,6 +1541,7 @@ where
 {
     noop_visit_mut_type!();
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n,)))]
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
         let prepend = self.prepend_stmts.take();
 
@@ -1550,7 +1553,7 @@ where
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         if !self.prepend_stmts.is_empty() {
-            let mut stmts = self.prepend_stmts.take();
+            let mut stmts = self.prepend_stmts.take().take_stmts();
             match &mut n.body {
                 BlockStmtOrExpr::BlockStmt(v) => {
                     prepend_stmts(&mut v.stmts, stmts.into_iter());
@@ -1579,6 +1582,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
         {
             let ctx = Ctx {
@@ -1598,6 +1602,7 @@ where
         self.compress_bin_assignment_to_right(e);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
         n.visit_mut_children_with(self);
 
@@ -1608,6 +1613,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_mut_bin_expr(&mut self, n: &mut BinExpr) {
         {
             let ctx = Ctx {
@@ -1635,6 +1641,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         let ctx = Ctx {
             stmt_labelled: false,
@@ -1658,6 +1665,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         let is_this_undefined = match &e.callee {
             Callee::Super(_) | Callee::Import(_) => false,
@@ -1707,6 +1715,7 @@ where
         self.inline_args_of_iife(e);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_mut_class(&mut self, n: &mut Class) {
         n.decorators.visit_mut_with(self);
 
@@ -1735,6 +1744,7 @@ where
         e.visit_mut_children_with(self);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, decl)))]
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
         decl.visit_mut_children_with(self);
 
@@ -1743,6 +1753,7 @@ where
         self.store_decl_for_inlining(decl);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_mut_default_decl(&mut self, n: &mut DefaultDecl) {
         match n {
             DefaultDecl::Class(_) => {}
@@ -1757,6 +1768,7 @@ where
         n.visit_mut_children_with(self);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
         if let Decl::Fn(f) = &mut n.decl {
             // I don't know why, but terser removes parameters from an exported function if
@@ -1781,6 +1793,7 @@ where
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         let ctx = Ctx {
             is_exported: false,
@@ -1852,6 +1865,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
         n.visit_mut_children_with(self);
 
@@ -1981,6 +1995,7 @@ where
         self.with_ctx(ctx).drop_if_break(s);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_mut_function(&mut self, n: &mut Function) {
         {
             let ctx = Ctx {
@@ -2271,6 +2286,7 @@ where
         self.lift_seqs_of_assign(n);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, s)))]
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         let old_prepend = self.prepend_stmts.take();
         let old_append = self.append_stmts.take();
@@ -2342,10 +2358,10 @@ where
                 span: span.apply_mark(self.marks.fake_block),
                 stmts: self
                     .prepend_stmts
-                    .take()
+                    .take_stmts()
                     .into_iter()
                     .chain(once(s.take()))
-                    .chain(self.append_stmts.take().into_iter())
+                    .chain(self.append_stmts.take_stmts().into_iter())
                     .filter(|s| match s {
                         Stmt::Empty(..) => false,
                         Stmt::Decl(Decl::Var(v)) => !v.decls.is_empty(),
@@ -2362,6 +2378,8 @@ where
         self.prepend_stmts = old_prepend;
         self.append_stmts = old_append;
 
+        let len = self.prepend_stmts.len();
+
         if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s, false);
 
@@ -2369,6 +2387,8 @@ where
                 tracing::debug!("after: visit_mut_children_with: {}", text);
             }
         }
+
+        debug_assert_eq!(self.prepend_stmts.len(), len);
 
         if let Stmt::Expr(ExprStmt { expr, .. }) = s {
             if is_pure_undefined(expr) {
@@ -2406,6 +2426,8 @@ where
             }
         }
 
+        debug_assert_eq!(self.prepend_stmts.len(), len);
+
         match s {
             // We use var decl with no declarator to indicate we dropped an decl.
             Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => {
@@ -2415,19 +2437,33 @@ where
             _ => {}
         }
 
+        debug_assert_eq!(self.prepend_stmts.len(), len);
+
         if cfg!(debug_assertions) {
             s.visit_with(&mut AssertValid);
         }
 
+        debug_assert_eq!(self.prepend_stmts.len(), len);
+
         self.compress_if_without_alt(s);
+
+        debug_assert_eq!(self.prepend_stmts.len(), len);
 
         self.compress_if_stmt_as_cond(s);
 
+        debug_assert_eq!(self.prepend_stmts.len(), len);
+
         self.compress_if_stmt_as_expr(s);
+
+        debug_assert_eq!(self.prepend_stmts.len(), len);
 
         self.optimize_const_switches(s);
 
+        debug_assert_eq!(self.prepend_stmts.len(), len);
+
         self.optimize_switches(s);
+
+        debug_assert_eq!(self.prepend_stmts.len(), len);
 
         if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s, false);
@@ -2437,9 +2473,13 @@ where
             }
         }
 
+        debug_assert_eq!(self.prepend_stmts.len(), len);
+
         if cfg!(debug_assertions) {
             s.visit_with(&mut AssertValid);
         }
+
+        debug_assert_eq!(self.prepend_stmts.len(), len);
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
@@ -2745,5 +2785,42 @@ fn is_left_access_to_arguments(l: &PatOrExpr) -> bool {
             Pat::Expr(e) => is_expr_access_to_arguments(e),
             _ => false,
         },
+    }
+}
+
+#[derive(Debug, Default, PartialEq)]
+struct SynthesizedStmts(Vec<Stmt>);
+
+impl SynthesizedStmts {
+    fn take_stmts(&mut self) -> Vec<Stmt> {
+        take(&mut self.0)
+    }
+}
+
+impl std::ops::Deref for SynthesizedStmts {
+    type Target = Vec<Stmt>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for SynthesizedStmts {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+impl Take for SynthesizedStmts {
+    fn dummy() -> Self {
+        Self(Take::dummy())
+    }
+}
+
+impl Drop for SynthesizedStmts {
+    fn drop(&mut self) {
+        if !self.0.is_empty() {
+            panic!("We should not drop synthesized stmts");
+        }
     }
 }

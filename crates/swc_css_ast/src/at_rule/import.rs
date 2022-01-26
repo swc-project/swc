@@ -1,13 +1,10 @@
-use crate::{Declaration, Function, Ident, MediaQueryList, Str, SupportsCondition, UrlValue};
+use crate::{Declaration, Function, Ident, MediaQueryList, Str, SupportsCondition, Url};
 use swc_common::{ast_node, Span};
 
 #[ast_node]
 pub enum ImportHref {
-    #[tag("Function")]
-    Function(Function),
-
-    #[tag("UrlValue")]
-    Url(UrlValue),
+    #[tag("Url")]
+    Url(Url),
 
     #[tag("Str")]
     Str(Str),

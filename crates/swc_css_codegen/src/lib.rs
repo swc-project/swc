@@ -134,7 +134,6 @@ where
     #[emitter]
     fn emit_import_href(&mut self, n: &ImportHref) -> Result {
         match n {
-            ImportHref::Function(n) => emit!(self, n),
             ImportHref::Url(n) => emit!(self, n),
             ImportHref::Str(n) => emit!(self, n),
         }
@@ -695,7 +694,7 @@ where
     }
 
     #[emitter]
-    fn emit_percent_value(&mut self, n: &PercentValue) -> Result {
+    fn emit_percent(&mut self, n: &Percent) -> Result {
         emit!(self, n.value);
         punct!(self, "%");
     }
@@ -829,16 +828,24 @@ where
                 Token::Str { raw, .. } => {
                     self.wr.write_raw(Some(span), raw)?;
                 }
-                Token::Url { raw, .. } => {
-                    self.wr.write_raw(Some(span), "url")?;
+                Token::Url {
+                    raw_name,
+                    raw_value,
+                    ..
+                } => {
+                    self.wr.write_raw(None, raw_name)?;
                     punct!(self, "(");
-                    self.wr.write_raw(None, raw)?;
+                    self.wr.write_raw(None, raw_value)?;
                     punct!(self, ")");
                 }
-                Token::BadUrl { raw, .. } => {
-                    self.wr.write_raw(Some(span), "url")?;
+                Token::BadUrl {
+                    raw_name,
+                    raw_value,
+                    ..
+                } => {
+                    self.wr.write_raw(Some(span), raw_name)?;
                     punct!(self, "(");
-                    self.wr.write_raw(None, raw)?;
+                    self.wr.write_raw(None, raw_value)?;
                     punct!(self, ")");
                 }
                 Token::Comma => {
@@ -883,11 +890,40 @@ where
     }
 
     #[emitter]
-    fn emit_url_value(&mut self, n: &UrlValue) -> Result {
-        keyword!(self, "url");
+    fn emit_url(&mut self, n: &Url) -> Result {
+        emit!(self, n.name);
         punct!(self, "(");
-        self.wr.write_raw(Some(n.span), &n.raw)?;
+
+        if let Some(value) = &n.value {
+            emit!(self, value);
+        }
+
+        if let Some(modifiers) = &n.modifiers {
+            self.emit_list(modifiers, ListFormat::SpaceDelimited)?;
+        }
+
         punct!(self, ")");
+    }
+
+    #[emitter]
+    fn emit_url_value(&mut self, n: &UrlValue) -> Result {
+        match n {
+            UrlValue::Raw(n) => emit!(self, n),
+            UrlValue::Str(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_url_value_raw(&mut self, n: &UrlValueRaw) -> Result {
+        self.wr.write_raw(Some(n.span), &n.raw)?;
+    }
+
+    #[emitter]
+    fn emit_url_modifier(&mut self, n: &UrlModifier) -> Result {
+        match n {
+            UrlModifier::Ident(n) => emit!(self, n),
+            UrlModifier::Function(n) => emit!(self, n),
+        }
     }
 
     #[emitter]

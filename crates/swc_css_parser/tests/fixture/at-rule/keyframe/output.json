@@ -144,7 +144,7 @@
                     },
                     "value": [
                       {
-                        "type": "PercentValue",
+                        "type": "Percent",
                         "span": {
                           "start": 158,
                           "end": 160,
@@ -232,7 +232,7 @@
                     },
                     "value": [
                       {
-                        "type": "PercentValue",
+                        "type": "Percent",
                         "span": {
                           "start": 209,
                           "end": 213,
@@ -285,7 +285,7 @@
           },
           "selector": [
             {
-              "type": "PercentValue",
+              "type": "Percent",
               "span": {
                 "start": 253,
                 "end": 255,
@@ -384,7 +384,7 @@
           },
           "selector": [
             {
-              "type": "PercentValue",
+              "type": "Percent",
               "span": {
                 "start": 281,
                 "end": 284,
@@ -469,7 +469,7 @@
           },
           "selector": [
             {
-              "type": "PercentValue",
+              "type": "Percent",
               "span": {
                 "start": 304,
                 "end": 307,
@@ -487,7 +487,7 @@
               }
             },
             {
-              "type": "PercentValue",
+              "type": "Percent",
               "span": {
                 "start": 309,
                 "end": 312,
@@ -572,7 +572,7 @@
           },
           "selector": [
             {
-              "type": "PercentValue",
+              "type": "Percent",
               "span": {
                 "start": 333,
                 "end": 337,
@@ -665,7 +665,7 @@
                 },
                 "value": [
                   {
-                    "type": "PercentValue",
+                    "type": "Percent",
                     "span": {
                       "start": 358,
                       "end": 362,

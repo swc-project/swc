@@ -59,7 +59,7 @@ error: ImportHref
 2 | @import url("something.css");
   |         ^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: Url
  --> $DIR/tests/fixture/rome/import/input.css:2:9
   |
 2 | @import url("something.css");
@@ -71,7 +71,7 @@ error: Ident
 2 | @import url("something.css");
   |         ^^^
 
-error: Value
+error: UrlValue
  --> $DIR/tests/fixture/rome/import/input.css:2:13
   |
 2 | @import url("something.css");

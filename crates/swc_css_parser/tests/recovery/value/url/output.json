@@ -1,0 +1,199 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 90,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 0,
+        "end": 89,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 3,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 3,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 3,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TypeSelector",
+                  "span": {
+                    "start": 0,
+                    "end": 3,
+                    "ctxt": 0
+                  },
+                  "prefix": null,
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 0,
+                      "end": 3,
+                      "ctxt": 0
+                    },
+                    "value": "div",
+                    "raw": "div"
+                  }
+                },
+                "subclassSelectors": []
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 4,
+          "end": 89,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 10,
+              "end": 17,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 10,
+                "end": 15,
+                "ctxt": 0
+              },
+              "value": "--foo",
+              "raw": "--foo"
+            },
+            "value": [
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 16,
+                  "end": 53,
+                  "ctxt": 0
+                },
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 16,
+                      "end": 17,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 17,
+                      "end": 53,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Str": {
+                        "value": "http://www.example.com/pinkish.gif",
+                        "raw": "\"http://www.example.com/pinkish.gif\""
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 59,
+              "end": 86,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 59,
+                  "end": 69,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "background",
+                    "raw": "background"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 69,
+                  "end": 70,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 70,
+                  "end": 71,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 71,
+                  "end": 85,
+                  "ctxt": 0
+                },
+                "token": {
+                  "BadUrl": {
+                    "name": "url",
+                    "raw_name": "url",
+                    "value": "var(--foo",
+                    "raw_value": "var(--foo"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 85,
+                  "end": 86,
+                  "ctxt": 0
+                },
+                "token": "RParen"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
