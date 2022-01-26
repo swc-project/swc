@@ -188,9 +188,9 @@ struct Optimizer<'a, M> {
     options: &'a CompressOptions,
 
     /// Statements prepended to the current statement.
-    prepend_stmts: Vec<Stmt>,
+    prepend_stmts: SynthesizedStmts,
     /// Statements appended to the current statement.
-    append_stmts: Vec<Stmt>,
+    append_stmts: SynthesizedStmts,
 
     /// Cheap to clone.
     ///
@@ -1563,7 +1563,7 @@ where
                     }));
                     n.body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                         span: DUMMY_SP,
-                        stmts,
+                        stmts: stmts.0,
                     });
                 }
             }
@@ -2127,9 +2127,6 @@ where
         });
 
         drop_invalid_stmts(stmts);
-
-        debug_assert_eq!(self.prepend_stmts, vec![]);
-        debug_assert_eq!(self.append_stmts, vec![]);
     }
 
     fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
@@ -2782,5 +2779,36 @@ fn is_left_access_to_arguments(l: &PatOrExpr) -> bool {
             Pat::Expr(e) => is_expr_access_to_arguments(e),
             _ => false,
         },
+    }
+}
+
+#[derive(Debug, Default, PartialEq)]
+struct SynthesizedStmts(Vec<Stmt>);
+
+impl std::ops::Deref for SynthesizedStmts {
+    type Target = Vec<Stmt>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for SynthesizedStmts {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+impl Take for SynthesizedStmts {
+    fn dummy() -> Self {
+        Self(Take::dummy())
+    }
+}
+
+impl Drop for SynthesizedStmts {
+    fn drop(&mut self) {
+        if !self.0.is_empty() {
+            panic!("We should not drop synthesized stmts");
+        }
     }
 }
