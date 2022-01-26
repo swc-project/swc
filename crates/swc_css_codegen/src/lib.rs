@@ -101,6 +101,10 @@ where
         punct!(self, "@");
         keyword!(self, "charset");
 
+        // https://drafts.csswg.org/css2/#charset%E2%91%A0
+        // @charset must be written literally, i.e., the 10 characters '@charset "'
+        // (lowercase, no backslash escapes), followed by the encoding name, followed by
+        // ";.
         space!(self);
 
         emit!(self, n.charset);
@@ -224,15 +228,24 @@ where
     fn emit_layer_rule(&mut self, n: &LayerRule) -> Result {
         punct!(self, "@");
         keyword!(self, "layer");
-        space!(self);
 
         if n.prelude.is_some() {
+            space!(self);
             emit!(self, n.prelude);
+        } else {
+            formatting_space!(self);
         }
 
         if let Some(rules) = &n.rules {
             punct!(self, "{");
-            self.emit_list(rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
+            self.emit_list(
+                rules,
+                if self.config.minify {
+                    ListFormat::NotDelimited
+                } else {
+                    ListFormat::NotDelimited | ListFormat::MultiLine
+                },
+            )?;
             punct!(self, "}");
         } else {
             punct!(self, ";");
@@ -243,7 +256,7 @@ where
     fn emit_keyframe_block(&mut self, n: &KeyframeBlock) -> Result {
         self.emit_list(&n.selector, ListFormat::CommaDelimited)?;
 
-        space!(self);
+        formatting_space!(self);
 
         emit!(self, n.rule);
     }
@@ -556,7 +569,7 @@ where
     fn emit_viewport_rule(&mut self, n: &ViewportRule) -> Result {
         punct!(self, "@");
         keyword!(self, "viewport");
-        space!(self);
+        formatting_space!(self);
 
         emit!(self, n.block);
     }
@@ -928,6 +941,7 @@ where
         }
 
         if let Some(modifiers) = &n.modifiers {
+            formatting_space!(self);
             self.emit_list(modifiers, ListFormat::SpaceDelimited)?;
         }
 
@@ -1177,7 +1191,7 @@ where
                 self.write_delim(format)?;
 
                 if format & ListFormat::LinesMask == ListFormat::MultiLine {
-                    self.wr.write_newline()?;
+                    formatting_newline!(self);
                 }
             }
             emit!(self, node)
