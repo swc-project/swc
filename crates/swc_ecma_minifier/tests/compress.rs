@@ -254,6 +254,7 @@ fn find_config(dir: &Path) -> String {
 }
 
 #[testing::fixture("tests/compress/fixture/**/input.js")]
+#[testing::fixture("tests/single-pass/**/input.js")]
 fn base_fixture(input: PathBuf) {
     let dir = input.parent().unwrap();
     let config = find_config(dir);
