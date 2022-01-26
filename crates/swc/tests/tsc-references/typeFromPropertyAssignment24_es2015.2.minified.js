@@ -1,5 +1,4 @@
-var x;
-Outer.Inner.Message = function() {}, new Outer.Inner().name, x.name;
+Outer.Inner.Message = function() {}, new Outer.Inner().name;
 var Outer = {};
 Outer.Inner = class {
     name() {
