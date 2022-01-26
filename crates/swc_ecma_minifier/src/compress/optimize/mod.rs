@@ -1547,7 +1547,7 @@ where
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         if !self.prepend_stmts.is_empty() {
-            let mut stmts = self.prepend_stmts.take().into_stmts();
+            let mut stmts = self.prepend_stmts.take().take_stmts();
             match &mut n.body {
                 BlockStmtOrExpr::BlockStmt(v) => {
                     prepend_stmts(&mut v.stmts, stmts.into_iter());
@@ -2352,10 +2352,10 @@ where
                 span: span.apply_mark(self.marks.fake_block),
                 stmts: self
                     .prepend_stmts
-                    .into_stmts()
+                    .take_stmts()
                     .into_iter()
                     .chain(once(s.take()))
-                    .chain(self.append_stmts.into_stmts().into_iter())
+                    .chain(self.append_stmts.take_stmts().into_iter())
                     .filter(|s| match s {
                         Stmt::Empty(..) => false,
                         Stmt::Decl(Decl::Var(v)) => !v.decls.is_empty(),
@@ -2786,7 +2786,7 @@ fn is_left_access_to_arguments(l: &PatOrExpr) -> bool {
 struct SynthesizedStmts(Vec<Stmt>);
 
 impl SynthesizedStmts {
-    fn into_stmts(&mut self) -> Vec<Stmt> {
+    fn take_stmts(&mut self) -> Vec<Stmt> {
         take(&mut self.0)
     }
 }
