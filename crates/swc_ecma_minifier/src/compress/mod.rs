@@ -59,7 +59,7 @@ where
         marks,
         options,
         changed: false,
-        pass: 0,
+        pass: 1,
         left_parallel_depth: 0,
         mode,
         dump_for_infinite_loop: Default::default(),
