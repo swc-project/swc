@@ -186,7 +186,6 @@ where
         emit!(self, n.name);
 
         formatting_space!(self);
-
         punct!(self, "{");
         formatting_newline!(self);
 
@@ -570,7 +569,7 @@ where
 
         self.emit_list(&n.selectors, ListFormat::CommaDelimited)?;
 
-        space!(self);
+        formatting_space!(self);
 
         punct!(self, "{");
         self.emit_list(&n.block, ListFormat::NotDelimited)?;
@@ -734,8 +733,7 @@ where
     #[emitter]
     fn emit_page_rule_block(&mut self, n: &PageRuleBlock) -> Result {
         punct!(self, "{");
-
-        self.wr.write_newline()?;
+        formatting_newline!(self);
 
         self.wr.increase_indent();
 
@@ -745,8 +743,7 @@ where
         };
         self.with_ctx(ctx)
             .emit_list(&n.items, ListFormat::MultiLine | ListFormat::NotDelimited)?;
-
-        self.wr.write_newline()?;
+        formatting_newline!(self);
 
         self.wr.decrease_indent();
 
@@ -1084,7 +1081,15 @@ where
         emit!(self, n.value);
 
         if let Some(m) = &n.modifier {
-            space!(self);
+            match n.value {
+                Some(AttrSelectorValue::Str(_)) => {
+                    formatting_space!(self);
+                }
+                Some(AttrSelectorValue::Ident(_)) => {
+                    space!(self);
+                }
+                _ => {}
+            }
 
             self.wr.write_raw_char(None, *m)?;
         }
