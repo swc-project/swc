@@ -44,7 +44,14 @@ where
 
     #[emitter]
     fn emit_stylesheet(&mut self, n: &Stylesheet) -> Result {
-        self.emit_list(&n.rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
+        self.emit_list(
+            &n.rules,
+            if self.config.minify {
+                ListFormat::NotDelimited
+            } else {
+                ListFormat::NotDelimited | ListFormat::MultiLine
+            },
+        )?;
     }
 
     #[emitter]
@@ -59,9 +66,7 @@ where
     #[emitter]
     fn emit_qualified_rule(&mut self, n: &QualifiedRule) -> Result {
         emit!(self, n.prelude);
-        if !self.config.minify {
-            space!(self);
-        }
+        formatting_space!(self);
         emit!(self, n.block);
     }
 
@@ -151,7 +156,7 @@ where
     fn emit_font_face_rule(&mut self, n: &FontFaceRule) -> Result {
         punct!(self, "@");
         keyword!(self, "font-face");
-        space!(self);
+        formatting_space!(self);
 
         emit!(self, n.block);
     }
@@ -168,13 +173,33 @@ where
     fn emit_keyframes_rule(&mut self, n: &KeyframesRule) -> Result {
         punct!(self, "@");
         keyword!(self, "keyframes");
-        space!(self);
+
+        match n.name {
+            KeyframesName::Str(_) => {
+                formatting_space!(self);
+            }
+            KeyframesName::CustomIdent(_) => {
+                space!(self);
+            }
+        }
 
         emit!(self, n.name);
-        space!(self);
+
+        formatting_space!(self);
 
         punct!(self, "{");
-        self.emit_list(&n.blocks, ListFormat::NotDelimited)?;
+        formatting_newline!(self);
+
+        self.emit_list(
+            &n.blocks,
+            if self.config.minify {
+                ListFormat::NotDelimited
+            } else {
+                ListFormat::MultiLine
+            },
+        )?;
+
+        formatting_newline!(self);
         punct!(self, "}");
     }
 
@@ -240,7 +265,7 @@ where
 
         emit!(self, n.media);
 
-        space!(self);
+        formatting_space!(self);
 
         punct!(self, "{");
         self.emit_list(&n.rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
@@ -382,7 +407,7 @@ where
     fn emit_media_feature_plain(&mut self, n: &MediaFeaturePlain) -> Result {
         emit!(self, n.name);
         punct!(self, ":");
-        space!(self);
+        formatting_space!(self);
         emit!(self, n.value);
     }
 
@@ -421,7 +446,7 @@ where
 
         emit!(self, n.condition);
 
-        space!(self);
+        formatting_space!(self);
 
         punct!(self, "{");
         self.emit_list(&n.rules, ListFormat::NotDelimited)?;
@@ -628,7 +653,14 @@ where
     fn emit_block(&mut self, n: &Block) -> Result {
         punct!(self, "{");
 
-        self.emit_list(&n.value, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
+        self.emit_list(
+            &n.value,
+            if self.config.minify {
+                ListFormat::SemiDelimited
+            } else {
+                ListFormat::SemiDelimited | ListFormat::MultiLine
+            },
+        )?;
 
         punct!(self, "}");
     }
@@ -1154,7 +1186,7 @@ where
             ListFormat::None => {}
             ListFormat::CommaDelimited => {
                 punct!(self, ",");
-                space!(self);
+                formatting_space!(self);
             }
             ListFormat::SpaceDelimited => {
                 space!(self)

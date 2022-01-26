@@ -13,6 +13,7 @@ use testing::{assert_eq, NormalizedOutput};
 fn fixture(input: PathBuf) {
     let dir = input.parent().unwrap();
     let output_file = dir.join("output.css");
+    let output_min_file = dir.join("output.min.css");
     eprintln!("{}", input.display());
 
     testing::run_test2(false, |cm, handler| {
@@ -45,6 +46,18 @@ fn fixture(input: PathBuf) {
 
         NormalizedOutput::from(css_str)
             .compare_to_file(output_file)
+            .unwrap();
+
+        let mut min_css_str = String::new();
+        {
+            let wr = BasicCssWriter::new(&mut min_css_str, BasicCssWriterConfig { indent: "" });
+            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: true });
+
+            gen.emit(&stylesheet).unwrap();
+        }
+
+        NormalizedOutput::from(min_css_str)
+            .compare_to_file(output_min_file)
             .unwrap();
 
         Ok(())
