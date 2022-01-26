@@ -24,10 +24,6 @@ var MyClass = function() {
         }
     ], _defineProperties((Constructor = MyClass).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), MyClass;
 }();
-(m = 3, function() {
-    return function(n) {
-        return 3 + n;
-    };
-})()(4), (function() {
+(function() {
     return 0;
 })().toExponential();
