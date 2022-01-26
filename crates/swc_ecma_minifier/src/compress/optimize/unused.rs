@@ -212,7 +212,11 @@ where
                     .as_ref()
                     .and_then(|data| data.vars.get(&i.to_id()).cloned())
                 {
-                    if v.ref_count == 0 && v.usage_count == 0 && !v.mutated {
+                    if v.ref_count == 0
+                        && v.usage_count == 0
+                        && !v.reassigned
+                        && !v.has_property_mutation
+                    {
                         self.changed = true;
                         tracing::debug!(
                             "unused: Dropping a variable '{}{:?}' because it is not used",
