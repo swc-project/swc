@@ -927,11 +927,10 @@ where
                             return Some(e.take());
                         }
 
-                        if !usage.declared_as_fn_param && usage.var_kind.is_none() {
-                            return None;
-                        }
-
-                        if !usage.reassigned && usage.no_side_effect_for_member_access {
+                        if !usage.mutated
+                            && !usage.reassigned
+                            && usage.no_side_effect_for_member_access
+                        {
                             return None;
                         }
                     }
