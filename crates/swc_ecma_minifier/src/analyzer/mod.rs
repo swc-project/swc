@@ -462,18 +462,19 @@ where
         e.visit_children_with(self);
 
         if let Expr::Ident(i) = e {
+            if cfg!(feature = "debug") {
+                tracing::debug!(
+                    "Usage: `{}``; update = {:?}, assign_lhs = {:?} ",
+                    i,
+                    self.ctx.in_update_arg,
+                    self.ctx.in_assign_lhs
+                );
+            }
+
             if self.ctx.in_update_arg {
                 self.report_usage(i, true);
                 self.report_usage(i, false);
             } else {
-                if cfg!(feature = "debug") {
-                    tracing::debug!(
-                        "Usage: `{}``; update = {:?}, assign_lhs = {:?} ",
-                        i,
-                        self.ctx.in_update_arg,
-                        self.ctx.in_assign_lhs
-                    );
-                }
                 self.report_usage(i, self.ctx.in_update_arg || self.ctx.in_assign_lhs);
             }
         }
