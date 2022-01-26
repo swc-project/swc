@@ -1659,6 +1659,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         let is_this_undefined = match &e.callee {
             Callee::Super(_) | Callee::Import(_) => false,
@@ -1708,6 +1709,7 @@ where
         self.inline_args_of_iife(e);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_mut_class(&mut self, n: &mut Class) {
         n.decorators.visit_mut_with(self);
 
@@ -1736,6 +1738,7 @@ where
         e.visit_mut_children_with(self);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, decl)))]
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
         decl.visit_mut_children_with(self);
 
@@ -1744,6 +1747,7 @@ where
         self.store_decl_for_inlining(decl);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_mut_default_decl(&mut self, n: &mut DefaultDecl) {
         match n {
             DefaultDecl::Class(_) => {}
@@ -1758,6 +1762,7 @@ where
         n.visit_mut_children_with(self);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
         if let Decl::Fn(f) = &mut n.decl {
             // I don't know why, but terser removes parameters from an exported function if
