@@ -252,8 +252,8 @@ where
             }
         }
         let mut use_asm = false;
-        // let prepend_stmts = self.prepend_stmts.take();
-        // let append_stmts = self.append_stmts.take();
+        let prepend_stmts = self.prepend_stmts.take();
+        let append_stmts = self.append_stmts.take();
 
         {
             let mut child_ctx = Ctx { ..self.ctx };
@@ -290,6 +290,8 @@ where
                     stmt.visit_mut_with(&mut *self.with_ctx(child_ctx));
                 }
 
+                new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
+
                 match stmt.try_into_stmt() {
                     Ok(Stmt::Block(s)) if s.span.has_mark(self.marks.fake_block) => {
                         new.extend(s.stmts.into_iter().map(T::from_stmt));
@@ -302,8 +304,7 @@ where
                     }
                 }
 
-                // new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
-                // new.extend(self.append_stmts.drain(..).map(T::from_stmt));
+                new.extend(self.append_stmts.drain(..).map(T::from_stmt));
             }
             *stmts = new;
         }
@@ -361,8 +362,8 @@ where
         drop_invalid_stmts(stmts);
 
         // debug_assert_eq!(self.prepend_stmts, vec![]);
-        // self.prepend_stmts = prepend_stmts;
-        // self.append_stmts = append_stmts;
+        self.prepend_stmts = prepend_stmts;
+        self.append_stmts = append_stmts;
     }
 
     /// `a = a + 1` => `a += 1`.
