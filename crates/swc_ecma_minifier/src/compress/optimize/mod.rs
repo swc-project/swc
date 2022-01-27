@@ -242,7 +242,7 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, stmts)))]
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self>,
+        T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
         Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer> + VisitWith<AssertValid>,
     {
         match self.data {
@@ -288,6 +288,10 @@ where
                     stmt.visit_mut_with(self);
                 } else {
                     stmt.visit_mut_with(&mut *self.with_ctx(child_ctx));
+                }
+
+                if cfg!(debug_assertions) {
+                    stmt.visit_with(&mut AssertValid);
                 }
 
                 new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
