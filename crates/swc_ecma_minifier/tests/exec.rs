@@ -17,7 +17,10 @@ use swc_ecma_codegen::{
 };
 use swc_ecma_minifier::{
     optimize,
-    option::{terser::TerserCompressorOptions, CompressOptions, ExtraOptions, MinifyOptions},
+    option::{
+        terser::TerserCompressorOptions, CompressOptions, ExtraOptions, MangleOptions,
+        MinifyOptions,
+    },
 };
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
 use swc_ecma_transforms::{fixer, hygiene, resolver_with_mark};
@@ -88,12 +91,18 @@ fn print<N: swc_ecma_codegen::Node>(
     String::from_utf8(buf).unwrap()
 }
 
-fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &str, config: &str) -> Option<Module> {
+fn run(
+    cm: Lrc<SourceMap>,
+    handler: &Handler,
+    input: &str,
+    config: Option<&str>,
+    mangle: Option<MangleOptions>,
+) -> Option<Module> {
     let _ = rayon::ThreadPoolBuilder::new()
         .thread_name(|i| format!("rayon-{}", i + 1))
         .build_global();
 
-    let (_module, config) = parse_compressor_config(cm.clone(), config);
+    let compress_config = config.map(|config| parse_compressor_config(cm.clone(), config).1);
 
     let fm = cm.new_source_file(FileName::Anon, input.into());
     let comments = SingleThreadedComments::default();
@@ -134,8 +143,8 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &str, config: &str) -> Opti
         Some(&comments),
         None,
         &MinifyOptions {
-            compress: Some(config),
-            mangle: None,
+            compress: compress_config,
+            mangle,
             ..Default::default()
         },
         &ExtraOptions { top_level_mark },
@@ -160,7 +169,7 @@ fn run_exec_test(input_src: &str, config: &str) {
             expected_output
         );
 
-        let output = run(cm.clone(), &handler, input_src, config);
+        let output = run(cm.clone(), &handler, input_src, Some(config), None);
         let output = output.expect("Parsing in base test should not fail");
         let output = print(cm, &[output], false, false);
 
@@ -180,7 +189,41 @@ fn run_exec_test(input_src: &str, config: &str) {
 
         Ok(())
     })
-    .unwrap()
+    .unwrap();
+
+    testing::run_test2(false, |cm, handler| {
+        let output = run(
+            cm.clone(),
+            &handler,
+            input_src,
+            None,
+            Some(MangleOptions {
+                keep_fn_names: true,
+                ..Default::default()
+            }),
+        );
+
+        let output = output.expect("Parsing in base test should not fail");
+        let output = print(cm, &[&output], true, false);
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Optimized code"),
+            output
+        );
+
+        let expected_output = stdout_of(input_src).unwrap();
+        let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
+        assert_ne!(actual_output, "");
+
+        assert_eq!(
+            DebugUsingDisplay(&actual_output),
+            DebugUsingDisplay(&*expected_output)
+        );
+
+        Ok(())
+    })
+    .unwrap();
 }
 
 #[test]

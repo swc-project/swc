@@ -1,3 +1,5 @@
+#![deny(warnings)]
+
 use ansi_term::Color;
 use anyhow::{bail, Context, Error};
 use std::{
@@ -224,55 +226,4 @@ fn fixture(input: PathBuf) {
         Ok(())
     })
     .unwrap();
-}
-
-/// Tests used to prevent regressions.
-#[testing::fixture("tests/exec/**/input.js")]
-fn exec(input: PathBuf) {
-    {
-        let s = input.to_string_lossy().replace("_", "-");
-        if s.contains("issue-1709")
-            || s.contains("issue-3146-1")
-            || s.contains("eval-collapse-vars")
-        {
-            return;
-        }
-    }
-
-    testing::run_test2(false, |cm, handler| {
-        let input_src = read_to_string(&input).expect("failed to read input.js as a string");
-
-        let output = run(
-            cm.clone(),
-            &handler,
-            &input,
-            MangleOptions {
-                keep_fn_names: true,
-                ..Default::default()
-            },
-        );
-
-        let output = output.expect("Parsing in base test should not fail");
-        let output = print(cm, &output, false);
-
-        eprintln!(
-            "---- {} -----\n{}",
-            Color::Green.paint("Optimized code"),
-            output
-        );
-
-        println!("{}", input.display());
-
-        let expected_output = stdout_of(&input_src).unwrap();
-        let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
-        assert_ne!(actual_output, "");
-
-        assert_eq!(
-            DebugUsingDisplay(&actual_output),
-            DebugUsingDisplay(&*expected_output)
-        );
-
-        Ok(())
-    })
-    .unwrap()
 }
