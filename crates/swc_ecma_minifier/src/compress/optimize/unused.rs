@@ -25,8 +25,6 @@ where
             Some(init) => match &**init {
                 Expr::Invalid(..) => {
                     self.drop_unused_vars(var.span, &mut var.name, None);
-
-                    var.init = None;
                 }
                 // I don't know why, but terser preserves this
                 Expr::Fn(FnExpr {
@@ -56,11 +54,6 @@ where
                             }
                         }
                     }
-
-                    if init.is_invalid() {
-                        self.changed = true;
-                        var.init = None;
-                    }
                 }
             },
             None => {
@@ -72,9 +65,11 @@ where
             return;
         }
 
-        if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
-            if had_init && var.init.is_none() {
-                unreachable!("const/let variable without initializer: {:#?}", var);
+        if cfg!(debug_assertions) {
+            if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
+                if had_init && var.init.is_none() {
+                    unreachable!("const/let variable without initializer: {:#?}", var);
+                }
             }
         }
     }
