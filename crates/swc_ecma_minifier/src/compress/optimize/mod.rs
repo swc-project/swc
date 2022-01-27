@@ -2208,9 +2208,14 @@ where
     }
 
     fn visit_mut_param(&mut self, n: &mut Param) {
-        n.visit_mut_children_with(self);
+        let ctx = Ctx {
+            var_kind: None,
+            ..self.ctx
+        };
+        let mut o = self.with_ctx(ctx);
+        n.visit_mut_children_with(&mut *o);
 
-        self.drop_unused_param(&mut n.pat, false);
+        o.drop_unused_param(&mut n.pat, false);
     }
 
     fn visit_mut_params(&mut self, n: &mut Vec<Param>) {
