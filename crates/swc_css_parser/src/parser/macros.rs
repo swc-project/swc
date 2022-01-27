@@ -112,6 +112,14 @@ macro_rules! expect_case_insensitive_ident {
     };
 }
 
+macro_rules! is_one_of_case_insensitive_ident {
+    ($parser:expr, $($tt:tt),+) => {
+        $(
+            is_case_insensitive_ident!($parser, $tt)
+        )||*
+    };
+}
+
 macro_rules! is {
     ($parser:expr, EOF) => {{
         $parser.input.cur()?.is_none()
