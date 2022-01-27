@@ -52,32 +52,6 @@ function AsyncGenerator(gen) {
 function _AwaitValue(value) {
     this.wrapped = value;
 }
-function _wrapAsyncGenerator(fn) {
-    return function() {
-        return new AsyncGenerator(fn.apply(this, arguments));
-    };
-}
-function _f2() {
-    return (_f2 = _wrapAsyncGenerator(function*() {
-        return {
-            x: "x"
-        };
-    })).apply(this, arguments);
-}
-function _f3() {
-    return (_f3 = _wrapAsyncGenerator(function*() {
-        return Promise.resolve({
-            x: "x"
-        });
-    })).apply(this, arguments);
-}
-function _f4() {
-    return (_f4 = _wrapAsyncGenerator(function*() {
-        return Promise.resolve({
-            x: "x"
-        });
-    })).apply(this, arguments);
-}
 "function" == typeof Symbol && Symbol.asyncIterator && (AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
     return this;
 }), AsyncGenerator.prototype.next = function(arg) {

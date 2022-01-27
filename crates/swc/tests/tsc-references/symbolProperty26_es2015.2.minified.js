@@ -1,0 +1,1 @@
+Symbol.toStringTag, Symbol.toStringTag;

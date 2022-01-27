@@ -49,9 +49,8 @@ var _a, util = require("@firebase/util"), tslib = require("tslib"), component = 
             return _this.firebase.INTERNAL.removeApp(_this.name), modularAPIs.deleteApp(_this._delegate);
         });
     }, FirebaseAppImpl1.prototype._getService = function(name, instanceIdentifier) {
-        var _a1;
         void 0 === instanceIdentifier && (instanceIdentifier = modularAPIs._DEFAULT_ENTRY_NAME), this._delegate.checkDestroyed();
-        var provider = this._delegate.container.getProvider(name);
+        var _a1, provider = this._delegate.container.getProvider(name);
         return provider.isInitialized() || (null === (_a1 = provider.getComponent()) || void 0 === _a1 ? void 0 : _a1.instantiationMode) !== "EXPLICIT" || provider.initialize(), provider.getImmediate({
             identifier: instanceIdentifier
         });

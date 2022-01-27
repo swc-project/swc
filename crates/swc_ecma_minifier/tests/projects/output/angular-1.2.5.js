@@ -3612,7 +3612,7 @@
         };
         if ($sniffer.hasEvent("input")) element.on("input", listener);
         else {
-            var deferListener = function() {
+            var timeout, deferListener = function() {
                 timeout || (timeout = $browser.defer(function() {
                     listener(), timeout = null;
                 }));
@@ -3625,7 +3625,7 @@
         element.on("change", listener), ctrl.$render = function() {
             element.val(ctrl.$isEmpty(ctrl.$viewValue) ? "" : ctrl.$viewValue);
         };
-        var timeout, patternValidator, match, pattern = attr.ngPattern, validate = function(regexp, value) {
+        var patternValidator, match, pattern = attr.ngPattern, validate = function(regexp, value) {
             if (ctrl.$isEmpty(value) || regexp.test(value)) return ctrl.$setValidity("pattern", !0), value;
             ctrl.$setValidity("pattern", !1);
         };

@@ -1,6 +1,6 @@
 (M || (M = {})).a = 1;
 var M, m, M2, M3, m = M;
-m.a, (function(M21) {
+M.a, m.a, (function(M21) {
     (M21.Point || (M21.Point = {})).Origin = function() {
         return {
             x: 0,

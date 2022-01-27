@@ -120,7 +120,7 @@ where
                     }
                 }
 
-                if !usage.reassigned {
+                if !usage.reassigned_with_assignment && !usage.reassigned_with_var_decl {
                     match &**init {
                         Expr::Fn(..) | Expr::Arrow(..) => {
                             self.typeofs.insert(i.to_id(), js_word!("function"));
@@ -155,7 +155,7 @@ where
                 if is_inline_enabled
                     && (!usage.mutated
                         || (usage.assign_count == 0
-                            && !usage.reassigned
+                            && !usage.reassigned()
                             && !usage.has_property_mutation))
                     && match &**init {
                         Expr::Lit(lit) => match lit {
@@ -208,7 +208,7 @@ where
                 // Single use => inlined
                 if is_inline_enabled
                     && !should_preserve
-                    && !usage.reassigned
+                    && !usage.reassigned()
                     && (!usage.mutated || usage.is_mutated_only_by_one_call())
                     && usage.ref_count == 1
                 {
@@ -254,7 +254,7 @@ where
                             .as_ref()
                             .and_then(|data| data.vars.get(&v.to_id()))
                         {
-                            if v_usage.reassigned {
+                            if v_usage.reassigned() {
                                 return;
                             }
                         }
@@ -350,7 +350,7 @@ where
             .as_ref()
             .and_then(|data| data.vars.get(&i.to_id()))
         {
-            if !usage.reassigned {
+            if !usage.reassigned() {
                 tracing::trace!("typeofs: Storing typeof `{}{:?}`", i.sym, i.span.ctxt);
                 match &*decl {
                     Decl::Fn(..) => {
@@ -443,11 +443,11 @@ where
                 return;
             }
 
-            if usage.reassigned || usage.inline_prevented {
+            if usage.reassigned() || usage.inline_prevented {
                 if cfg!(feature = "debug") {
                     tracing::trace!(
                         "inline: [x] reassigned = {}, inline_prevented = {}",
-                        usage.reassigned,
+                        usage.reassigned(),
                         usage.inline_prevented
                     );
                 }
