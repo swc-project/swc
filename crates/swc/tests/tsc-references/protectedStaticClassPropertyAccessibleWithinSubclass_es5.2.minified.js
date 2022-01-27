@@ -62,7 +62,7 @@ var Base = function() {
         {
             key: "staticMethod",
             value: function() {
-                Base.x;
+                Base.x, Derived1.x, Derived2.x, Derived3.x;
             }
         }
     ]), Base;
@@ -77,7 +77,7 @@ var Base = function() {
         {
             key: "staticMethod1",
             value: function() {
-                Base.x;
+                Base.x, Derived1.x, Derived2.x, Derived3.x;
             }
         }
     ]), Derived1;
@@ -92,13 +92,13 @@ var Base = function() {
         {
             key: "staticMethod2",
             value: function() {
-                Base.x;
+                Base.x, Derived1.x, Derived2.x, Derived3.x;
             }
         }
     ]), Derived2;
-}(Base), Derived3 = function(Derived1) {
+}(Base), Derived3 = function(Derived11) {
     "use strict";
-    _inherits(Derived3, Derived1);
+    _inherits(Derived3, Derived11);
     var _super = _createSuper(Derived3);
     function Derived3() {
         return _classCallCheck(this, Derived3), _super.apply(this, arguments);
@@ -107,9 +107,9 @@ var Base = function() {
         {
             key: "staticMethod3",
             value: function() {
-                Base.x;
+                Base.x, Derived1.x, Derived2.x, Derived3.x;
             }
         }
     ]), Derived3;
 }(Derived1);
-Base.x;
+Base.x, Derived1.x, Derived2.x, Derived3.x;

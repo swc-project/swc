@@ -16,7 +16,7 @@ export const Fs = {
     SUB1: (n)=>n - 1
 };
 export function consume() {
-    "something else";
+    Target.START;
 }
 export function ff(s) {
     return Target[s] ? Target[s] : null;

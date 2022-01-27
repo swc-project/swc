@@ -1,5 +1,4 @@
 var x, M, M2, E;
-function fn() {}
 x = 3 = "", (function(M1) {
     var y;
     M1.y = y;
@@ -25,7 +24,4 @@ x = 3 = "", (function(M1) {
 }, fn = ()=>3
 , (function(E) {
     E[E.A = 0] = "A";
-})(E || (E = {})), E = void 0 = void 0;
-class C {
-}
-C = void 0;
+})(E || (E = {})), E = void 0 = void 0, C = void 0;

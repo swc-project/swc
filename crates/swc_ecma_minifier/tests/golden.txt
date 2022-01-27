@@ -285,6 +285,7 @@ destructuring/destructuring_objects_trailing_elision/input.js
 destructuring/destructuring_remove_unused_1/input.js
 destructuring/destructuring_remove_unused_2/input.js
 destructuring/destructuring_vardef_in_loops/input.js
+destructuring/destructuring_with_undefined_as_default_assignment/input.js
 destructuring/empty_object_destructuring_1/input.js
 destructuring/empty_object_destructuring_2/input.js
 destructuring/export_function_containing_destructuring_decl/input.js

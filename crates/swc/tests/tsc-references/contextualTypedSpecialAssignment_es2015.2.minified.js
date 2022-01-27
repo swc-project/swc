@@ -23,7 +23,7 @@ class Thing {
 exports.x = {
     status: "done",
     m (n) {}
-}, module.exports.y = {
+}, exports.x, module.exports.y = {
     status: "done",
     m (n) {}
 }, module.exports.y, Thing.prototype.x = {

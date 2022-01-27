@@ -1,2 +1,1 @@
-window.name = 1;
-module.exports = "anything";
+window.name = 1, window.console, module.exports = "anything";

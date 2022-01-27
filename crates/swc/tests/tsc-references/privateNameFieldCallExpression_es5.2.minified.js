@@ -103,9 +103,8 @@ var A = function() {
         {
             key: "test",
             value: function() {
-                var _instance, _ref;
                 _classPrivateFieldGet(this, _fieldFunc).call(this), _classPrivateFieldGet(this, _fieldFunc)(), new (_classPrivateFieldGet(this, _fieldFunc))();
-                var arr = [
+                var _instance, _ref, arr = [
                     1,
                     2
                 ];

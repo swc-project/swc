@@ -1,6 +1,6 @@
 (M || (M = {})).Point = 1;
 var M, m, M2, m2, a2, M3, m3, a3, m = M;
-m.Point, (function(M21) {
+M.Point, m.Point, (function(M21) {
     var Point = function() {
         "use strict";
         var Constructor;

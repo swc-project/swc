@@ -16,4 +16,4 @@ class Derived extends Base {
     }
     static set a(v) {}
 }
-Base.fn(), Derived.fn(), Base.a = 2, Derived.a = 2;
+Base.x, Derived.x, Base.fn(), Derived.fn(), Base.a, Base.a = 2, Derived.a, Derived.a = 2;
