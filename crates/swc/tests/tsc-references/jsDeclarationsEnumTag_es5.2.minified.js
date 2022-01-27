@@ -19,7 +19,9 @@ export var Fs = {
         return n - 1;
     }
 };
-export function consume() {}
+export function consume() {
+    Target.START;
+}
 export function ff(s) {
     return Target[s] ? Target[s] : null;
 }
