@@ -316,63 +316,6 @@ fn projects(input: PathBuf) {
     .unwrap()
 }
 
-/// Tests used to prevent regressions.
-#[testing::fixture("tests/exec/**/input.js")]
-fn base_exec(input: PathBuf) {
-    let dir = input.parent().unwrap();
-
-    let config = find_config(dir);
-    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
-
-    let mangle = dir.join("mangle.json");
-    let mangle = read_to_string(&mangle).ok();
-    if let Some(mangle) = &mangle {
-        eprintln!(
-            "---- {} -----\n{}",
-            Color::Green.paint("Mangle config"),
-            mangle
-        );
-    }
-
-    let mangle: Option<TestMangleOptions> =
-        mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
-
-    testing::run_test2(false, |cm, handler| {
-        let input_src = read_to_string(&input).expect("failed to read input.js as a string");
-
-        let expected_output = stdout_of(&input_src).unwrap();
-
-        eprintln!(
-            "---- {} -----\n{}",
-            Color::Green.paint("Expected"),
-            expected_output
-        );
-
-        let output = run(cm.clone(), &handler, &input, &config, mangle, false);
-        let output = output.expect("Parsing in base test should not fail");
-        let output = print(cm, &[output], false, false);
-
-        eprintln!(
-            "---- {} -----\n{}",
-            Color::Green.paint("Optimized code"),
-            output
-        );
-
-        println!("{}", input.display());
-
-        let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
-        assert_ne!(actual_output, "");
-
-        assert_eq!(
-            DebugUsingDisplay(&actual_output),
-            DebugUsingDisplay(&*expected_output)
-        );
-
-        Ok(())
-    })
-    .unwrap()
-}
-
 /// Tests ported from terser.
 #[testing::fixture("tests/terser/compress/**/input.js")]
 fn fixture(input: PathBuf) {

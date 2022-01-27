@@ -1,3 +1,188 @@
+#![deny(clippy::all)]
+
+use ansi_term::Color;
+use anyhow::{bail, Context, Error};
+use serde::Deserialize;
+use std::{process::Command, time::Instant};
+use swc_common::{
+    comments::SingleThreadedComments, errors::Handler, input::SourceFileInput, sync::Lrc, FileName,
+    Mark, SourceMap,
+};
+use swc_ecma_ast::Module;
+use swc_ecma_codegen::{
+    text_writer::{omit_trailing_semi, JsWriter, WriteJs},
+    Emitter,
+};
+use swc_ecma_minifier::{
+    optimize,
+    option::{terser::TerserCompressorOptions, CompressOptions, ExtraOptions, MinifyOptions},
+};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
+use swc_ecma_transforms::{fixer, hygiene, resolver_with_mark};
+use swc_ecma_visit::{FoldWith, VisitMutWith};
+use testing::DebugUsingDisplay;
+
+#[derive(Debug, Clone, Deserialize)]
+struct TestOptions {
+    #[serde(default)]
+    defaults: bool,
+}
+
+fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> (bool, CompressOptions) {
+    let opts: TestOptions =
+        serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
+    let mut c: TerserCompressorOptions =
+        serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
+
+    c.defaults = opts.defaults;
+
+    (c.module, c.into_config(cm))
+}
+
+fn stdout_of(code: &str) -> Result<String, Error> {
+    let actual_output = Command::new("node")
+        .arg("-e")
+        .arg(&code)
+        .output()
+        .context("failed to execute output of minifier")?;
+
+    if !actual_output.status.success() {
+        bail!(
+            "failed to execute:\n{}\n{}",
+            String::from_utf8_lossy(&actual_output.stdout),
+            String::from_utf8_lossy(&actual_output.stderr)
+        )
+    }
+
+    Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
+}
+
+fn print<N: swc_ecma_codegen::Node>(
+    cm: Lrc<SourceMap>,
+    nodes: &[N],
+    minify: bool,
+    skip_semi: bool,
+) -> String {
+    let mut buf = vec![];
+
+    {
+        let mut wr: Box<dyn WriteJs> = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None));
+        if minify || skip_semi {
+            wr = Box::new(omit_trailing_semi(wr));
+        }
+
+        let mut emitter = Emitter {
+            cfg: swc_ecma_codegen::Config { minify },
+            cm,
+            comments: None,
+            wr,
+        };
+
+        for n in nodes {
+            n.emit_with(&mut emitter).unwrap();
+        }
+    }
+
+    String::from_utf8(buf).unwrap()
+}
+
+fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &str, config: &str) -> Option<Module> {
+    let _ = rayon::ThreadPoolBuilder::new()
+        .thread_name(|i| format!("rayon-{}", i + 1))
+        .build_global();
+
+    let (_module, config) = parse_compressor_config(cm.clone(), config);
+
+    let fm = cm.new_source_file(FileName::Anon, input.into());
+    let comments = SingleThreadedComments::default();
+
+    eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
+
+    let top_level_mark = Mark::fresh(Mark::root());
+
+    let lexer = Lexer::new(
+        Syntax::Es(EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
+        Default::default(),
+        SourceFileInput::from(&*fm),
+        Some(&comments),
+    );
+
+    let mut parser = Parser::new_from(lexer);
+    let program = parser
+        .parse_module()
+        .map_err(|err| {
+            err.into_diagnostic(handler).emit();
+        })
+        .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)));
+
+    // Ignore parser errors.
+    //
+    // This is typically related to strict mode caused by module context.
+    let program = match program {
+        Ok(v) => v,
+        _ => return None,
+    };
+
+    let optimization_start = Instant::now();
+    let mut output = optimize(
+        program,
+        cm,
+        Some(&comments),
+        None,
+        &MinifyOptions {
+            compress: Some(config),
+            mangle: None,
+            ..Default::default()
+        },
+        &ExtraOptions { top_level_mark },
+    );
+    let end = Instant::now();
+
+    output.visit_mut_with(&mut hygiene());
+
+    let output = output.fold_with(&mut fixer(None));
+
+    Some(output)
+}
+
+fn run_exec_test(input_src: &str, config: &str) {
+    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
+
+    testing::run_test2(false, |cm, handler| {
+        let expected_output = stdout_of(input_src).unwrap();
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Expected"),
+            expected_output
+        );
+
+        let output = run(cm.clone(), &handler, input_src, config);
+        let output = output.expect("Parsing in base test should not fail");
+        let output = print(cm, &[output], false, false);
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Optimized code"),
+            output
+        );
+
+        let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
+        assert_ne!(actual_output, "");
+
+        assert_eq!(
+            DebugUsingDisplay(&actual_output),
+            DebugUsingDisplay(&*expected_output)
+        );
+
+        Ok(())
+    })
+    .unwrap()
+}
+
 #[test]
 fn tests_exec_next_feedback_1_capture_1() {
     let src = r###"
