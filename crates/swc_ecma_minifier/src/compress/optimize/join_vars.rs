@@ -6,7 +6,6 @@ use crate::{
 };
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
-use swc_ecma_utils::StmtLike;
 
 /// Methods related to option `join_vars`.
 impl<M> Optimizer<'_, M>
