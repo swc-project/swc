@@ -885,9 +885,7 @@ where
         let start_pos = self.input.cur_span()?.lo;
         let state = self.input.state();
 
-        let mut modifier = if is_case_insensitive_ident!(self, "not")
-            || is_case_insensitive_ident!(self, "only")
-        {
+        let mut modifier = if is_one_of_case_insensitive_ident!(self, "not", "only") {
             let modifier = Some(self.parse()?);
 
             self.input.skip_ws()?;
