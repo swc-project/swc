@@ -1,3 +1,5 @@
+#![deny(warnings)]
+
 extern crate swc_node_base;
 
 use ansi_term::Color;
@@ -57,7 +59,7 @@ fn is_ignored(path: &Path) -> bool {
 
     static GOLDEN: Lazy<Vec<String>> = Lazy::new(|| load_txt("tests/golden.txt"));
 
-    let s = path.to_string_lossy().replace("-", "_").replace("\\", "/");
+    let s = path.to_string_lossy().replace('-', "_").replace('\\', "/");
 
     if IGNORED.iter().any(|ignored| s.contains(&**ignored)) {
         return true;
@@ -374,10 +376,9 @@ fn fixture(input: PathBuf) {
                 return Ok(());
             }
 
-            expected.body.retain(|s| match s {
-                ModuleItem::Stmt(Stmt::Empty(..)) => false,
-                _ => true,
-            });
+            expected
+                .body
+                .retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
             print(cm.clone(), &[expected], false, false)
         };
 

@@ -1,9 +1,11 @@
-#![deny(clippy::all)]
+#![deny(warnings)]
+
+extern crate swc_node_base;
 
 use ansi_term::Color;
 use anyhow::{bail, Context, Error};
 use serde::Deserialize;
-use std::{process::Command, time::Instant};
+use std::process::Command;
 use swc_common::{
     comments::SingleThreadedComments, errors::Handler, input::SourceFileInput, sync::Lrc, FileName,
     Mark, SourceMap,
@@ -126,7 +128,6 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &str, config: &str) -> Opti
         _ => return None,
     };
 
-    let optimization_start = Instant::now();
     let mut output = optimize(
         program,
         cm,
@@ -139,7 +140,6 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &str, config: &str) -> Opti
         },
         &ExtraOptions { top_level_mark },
     );
-    let end = Instant::now();
 
     output.visit_mut_with(&mut hygiene());
 
@@ -184,7 +184,7 @@ fn run_exec_test(input_src: &str, config: &str) {
 }
 
 #[test]
-fn tests_exec_next_feedback_1_capture_1() {
+fn next_feedback_1_capture_1() {
     let src = r###"
 const arr = [];
 const fns = [];
@@ -208,7 +208,7 @@ console.log(arr);"###;
 }
 
 #[test]
-fn tests_exec_conditionals_reduce_6() {
+fn conditionals_reduce_6() {
     let src = r###"function x() {
 }
 function y() {
@@ -226,7 +226,7 @@ console.log((y() || false) && x());"###;
 }
 
 #[test]
-fn tests_exec_conditionals_reduce_1() {
+fn conditionals_reduce_1() {
     let src = r###"function x() {
 }
 function y() {
@@ -244,7 +244,7 @@ console.log(x() && true && y());"###;
 }
 
 #[test]
-fn tests_exec_conditionals_reduce_4() {
+fn conditionals_reduce_4() {
     let src = r###"function x() {
 }
 function y() {
@@ -262,7 +262,7 @@ console.log(y() || false || x());"###;
 }
 
 #[test]
-fn tests_exec_conditionals_reduce_3() {
+fn conditionals_reduce_3() {
     let src = r###"function x() {
 }
 function y() {
@@ -280,7 +280,7 @@ console.log(x() || false || y());"###;
 }
 
 #[test]
-fn tests_exec_conditionals_reduce_2() {
+fn conditionals_reduce_2() {
     let src = r###"function x() {
 }
 function y() {
@@ -298,7 +298,7 @@ console.log(y() && true && x());"###;
 }
 
 #[test]
-fn tests_exec_conditionals_reduce_5() {
+fn conditionals_reduce_5() {
     let src = r###"function x() {
 }
 function y() {
@@ -316,7 +316,7 @@ console.log((x() || false) && y());"###;
 }
 
 #[test]
-fn tests_exec_vercel_001() {
+fn vercel_001() {
     let src = r###"function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -354,7 +354,7 @@ console.log('PASS')"###;
 }
 
 #[test]
-fn tests_exec_vercel_002() {
+fn vercel_002() {
     let src = r###"function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -407,7 +407,7 @@ console.log("PASS");"###;
 }
 
 #[test]
-fn tests_exec_regexp_1() {
+fn regexp_1() {
     let src = r###"
 
 function compile(attributePattern, flags) {
@@ -425,7 +425,7 @@ console.log(compile("baz", "g"));"###;
 }
 
 #[test]
-fn tests_exec_update_object_1() {
+fn update_object_1() {
     let src = r###"console.log(function () {
     console.log({
         q: {
@@ -440,7 +440,7 @@ fn tests_exec_update_object_1() {
 }
 
 #[test]
-fn tests_exec_update_object_3() {
+fn update_object_3() {
     let src = r###"console.log(function () {
     var o = {
         p: 7
@@ -456,7 +456,7 @@ fn tests_exec_update_object_3() {
 }
 
 #[test]
-fn tests_exec_update_object_2() {
+fn update_object_2() {
     let src = r###"function inc() {
     this.p++;
 }
@@ -473,7 +473,7 @@ console.log(function () {
 }
 
 #[test]
-fn tests_exec_iife_reassign_1() {
+fn iife_reassign_1() {
     let src = r###"console.log(function c() {
     c = 6;
     return c;
@@ -491,7 +491,7 @@ fn tests_exec_iife_reassign_1() {
 }
 
 #[test]
-fn tests_exec_emotion_react_1() {
+fn emotion_react_1() {
     let src = r###"
 /* harmony default export */
 var emotion_memoize_browser_esm = (memoize);
@@ -877,7 +877,7 @@ console.log(serializeStyles(`:root {
 }
 
 #[test]
-fn tests_exec_simple_1() {
+fn simple_1() {
     let src = r###"console.log('PASS')"###;
     let config = r###"{}"###;
 
@@ -885,7 +885,7 @@ fn tests_exec_simple_1() {
 }
 
 #[test]
-fn tests_exec_terser_issue_1588_unsafe_undefined() {
+fn terser_issue_1588_unsafe_undefined() {
     let src = r###"var a, c;
 console.log(
     (function (undefined) {
@@ -905,7 +905,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_issue_1588_safe_undefined() {
+fn terser_issue_1588_safe_undefined() {
     let src = r###"var a, c;
 console.log(
     (function (undefined) {
@@ -925,7 +925,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_drop_toplevel_retain() {
+fn terser_drop_unused_drop_toplevel_retain() {
     let src = r###"var a,
     b = 1,
     c = g;
@@ -947,7 +947,7 @@ console.log((b = 3));"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_t161_top_retain_15() {
+fn terser_drop_unused_issue_t161_top_retain_15() {
     let src = r###"class Alpha {
     num() {
         return x;
@@ -996,7 +996,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_t161_top_retain_4() {
+fn terser_drop_unused_issue_t161_top_retain_4() {
     let src = r###"function f() {
     return 2;
 }
@@ -1015,7 +1015,7 @@ console.log(f(), f(), g(), g());"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_t161_top_retain_3() {
+fn terser_drop_unused_issue_t161_top_retain_3() {
     let src = r###"function f() {
     return 2;
 }
@@ -1034,7 +1034,7 @@ console.log(f(), g());"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_double_assign_1() {
+fn terser_drop_unused_double_assign_1() {
     let src = r###"function f1() {
     var a = {};
     var a = [];
@@ -1077,7 +1077,7 @@ console.log(f1(), f2(), f3(), f4(), f5(), f6());"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_2846() {
+fn terser_drop_unused_issue_2846() {
     let src = r###"function f(a, b) {
     var a = 0;
     b && b(a);
@@ -1096,7 +1096,7 @@ console.log(c);"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_2660_2() {
+fn terser_drop_unused_issue_2660_2() {
     let src = r###"var a = 1;
 function f(b) {
     b && f();
@@ -1117,7 +1117,7 @@ console.log(a);"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_drop_toplevel_retain_array() {
+fn terser_drop_unused_drop_toplevel_retain_array() {
     let src = r###"var a,
     b = 1,
     c = g;
@@ -1139,7 +1139,7 @@ console.log((b = 3));"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_chained_3() {
+fn terser_drop_unused_chained_3() {
     let src = r###"console.log(
     (function (a, b) {
         var c = a,
@@ -1157,7 +1157,7 @@ fn tests_exec_terser_drop_unused_chained_3() {
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_2665() {
+fn terser_drop_unused_issue_2665() {
     let src = r###"var a = 1;
 function g() {
     a-- && g();
@@ -1184,7 +1184,7 @@ console.log(a);"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_2516_2() {
+fn terser_drop_unused_issue_2516_2() {
     let src = r###"function foo() {
     function qux(x) {
         bar.call(null, x);
@@ -1212,7 +1212,7 @@ Baz(2);"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_drop_toplevel_funcs_retain() {
+fn terser_drop_unused_drop_toplevel_funcs_retain() {
     let src = r###"var a,
     b = 1,
     c = g;
@@ -1235,7 +1235,7 @@ console.log((b = 3));"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_1709() {
+fn terser_drop_unused_issue_1709() {
     let src = r###"console.log(
     (function x() {
         var x = 1;
@@ -1258,7 +1258,7 @@ fn tests_exec_terser_drop_unused_issue_1709() {
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_drop_var() {
+fn terser_drop_unused_drop_var() {
     let src = r###"var a;
 console.log(a, b);
 var a = 1,
@@ -1275,7 +1275,7 @@ console.log(a, b);"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_drop_toplevel_funcs() {
+fn terser_drop_unused_drop_toplevel_funcs() {
     let src = r###"var a,
     b = 1,
     c = g;
@@ -1297,7 +1297,7 @@ console.log((b = 3));"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_delete_assign_1() {
+fn terser_drop_unused_delete_assign_1() {
     let src = r###"var a;
 console.log(delete (a = undefined));
 console.log(delete (a = void 0));
@@ -1316,7 +1316,7 @@ console.log(delete (a = 0 / 0));"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_2226_3() {
+fn terser_drop_unused_issue_2226_3() {
     let src = r###"console.log(
     (function (a, b) {
         a += b;
@@ -1334,7 +1334,7 @@ fn tests_exec_terser_drop_unused_issue_2226_3() {
 
 #[test]
 #[ignore]
-fn tests_exec_terser_drop_unused_issue_3146_3() {
+fn terser_drop_unused_issue_3146_3() {
     let src = r###"var g = "PASS";
 (function (f) {
     var g = "FAIL";
@@ -1352,7 +1352,7 @@ fn tests_exec_terser_drop_unused_issue_3146_3() {
 
 #[test]
 #[ignore]
-fn tests_exec_terser_drop_unused_issue_3146_4() {
+fn terser_drop_unused_issue_3146_4() {
     let src = r###"var g = "PASS";
 (function (f) {
     var g = "FAIL";
@@ -1369,7 +1369,7 @@ fn tests_exec_terser_drop_unused_issue_3146_4() {
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_drop_toplevel_vars_retain() {
+fn terser_drop_unused_drop_toplevel_vars_retain() {
     let src = r###"var a,
     b = 1,
     c = g;
@@ -1392,7 +1392,7 @@ console.log((b = 3));"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_2226_2() {
+fn terser_drop_unused_issue_2226_2() {
     let src = r###"console.log(
     (function (a, b) {
         a += b;
@@ -1410,7 +1410,7 @@ fn tests_exec_terser_drop_unused_issue_2226_2() {
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_drop_fargs() {
+fn terser_drop_unused_drop_fargs() {
     let src = r###"function f(a) {
     var b = a;
 }
@@ -1425,7 +1425,7 @@ console.log(f())"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_2136_3() {
+fn terser_drop_unused_issue_2136_3() {
     let src = r###"function f(x) {
     console.log(x);
 }
@@ -1449,7 +1449,7 @@ fn tests_exec_terser_drop_unused_issue_2136_3() {
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_2660_1() {
+fn terser_drop_unused_issue_2660_1() {
     let src = r###"var a = 2;
 function f(b) {
     return (b && f()) || a--;
@@ -1467,7 +1467,7 @@ console.log(a);"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_double_assign_2() {
+fn terser_drop_unused_double_assign_2() {
     let src = r###"for (var i = 0; i < 2; i++) (a = void 0), (a = {}), console.log(a);
 var a;"###;
     let config = r###"{
@@ -1480,7 +1480,7 @@ var a;"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_2136_2() {
+fn terser_drop_unused_issue_2136_2() {
     let src = r###"function f(x) {
     console.log(x);
 }
@@ -1498,7 +1498,7 @@ fn tests_exec_terser_drop_unused_issue_2136_2() {
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_t183() {
+fn terser_drop_unused_issue_t183() {
     let src = r###"function foo(val) {
     function bar(x) {
         if (x) return x;
@@ -1516,7 +1516,7 @@ console.log(foo("PASS"));"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_drop_toplevel_vars() {
+fn terser_drop_unused_drop_toplevel_vars() {
     let src = r###"var a,
     b = 1,
     c = g;
@@ -1538,7 +1538,7 @@ console.log((b = 3));"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_2516_1() {
+fn terser_drop_unused_issue_2516_1() {
     let src = r###"function foo() {
     function qux(x) {
         bar.call(null, x);
@@ -1564,7 +1564,7 @@ Baz(2);"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_defun_lambda_same_name() {
+fn terser_drop_unused_defun_lambda_same_name() {
     let src = r###"function f(n) {
     return n ? n * f(n - 1) : 1;
 }
@@ -1582,7 +1582,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_drop_toplevel_vars_fargs() {
+fn terser_drop_unused_drop_toplevel_vars_fargs() {
     let src = r###"var a,
     b = 1,
     c = g;
@@ -1605,7 +1605,7 @@ console.log((b = 3));"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_1968() {
+fn terser_drop_unused_issue_1968() {
     let src = r###"function f(c) {
     var a;
     if (c) {
@@ -1622,7 +1622,7 @@ console.log(f(1));"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_1715_4() {
+fn terser_drop_unused_issue_1715_4() {
     let src = r###"var a = 1;
 !(function a() {
     a++;
@@ -1641,7 +1641,7 @@ console.log(a);"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_drop_assign() {
+fn terser_drop_unused_drop_assign() {
     let src = r###"function f1() {
     var a;
     a = 1;
@@ -1677,7 +1677,7 @@ console.log(f5())"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_issue_3146_1() {
+fn terser_drop_unused_issue_3146_1() {
     let src = r###"(function (f) {
     f("g()");
 })(function (a) {
@@ -1696,7 +1696,7 @@ fn tests_exec_terser_drop_unused_issue_3146_1() {
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_delete_assign_2() {
+fn terser_drop_unused_delete_assign_2() {
     let src = r###"var a;
 console.log(delete (a = undefined));
 console.log(delete (a = void 0));
@@ -1716,7 +1716,7 @@ console.log(delete (a = 0 / 0));"###;
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_drop_toplevel_all_retain() {
+fn terser_drop_unused_drop_toplevel_all_retain() {
     let src = r###"var a,
     b = 1,
     c = g;
@@ -1739,7 +1739,7 @@ console.log((b = 3));"###;
 }
 
 #[test]
-fn tests_exec_terser_comparing_issue_2857_6() {
+fn terser_comparing_issue_2857_6() {
     let src = r###"function f(a) {
     if ({}.b === undefined || {}.b === null)
         return a.b !== undefined && a.b !== null;
@@ -1762,7 +1762,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_pure_getters_impure_getter_2() {
+fn terser_pure_getters_impure_getter_2() {
     let src = r###"({
     get a() {
         console.log(1);
@@ -1784,7 +1784,7 @@ fn tests_exec_terser_pure_getters_impure_getter_2() {
 }
 
 #[test]
-fn tests_exec_terser_pure_getters_issue_2838() {
+fn terser_pure_getters_issue_2838() {
     let src = r###"function f(a, b) {
     (a || b).c = "PASS";
     (function () {
@@ -1803,7 +1803,7 @@ console.log(o.c);"###;
 }
 
 #[test]
-fn tests_exec_terser_pure_getters_issue_2938_4() {
+fn terser_pure_getters_issue_2938_4() {
     let src = r###"var Parser = function Parser() {};
 var p = Parser.prototype;
 var unused = p.x;
@@ -1824,7 +1824,7 @@ new Parser().initialContext();"###;
 }
 
 #[test]
-fn tests_exec_terser_pure_getters_set_mutable_1() {
+fn terser_pure_getters_set_mutable_1() {
     let src = r###"!(function a() {
     a.foo += "";
     if (a.foo) console.log("PASS");
@@ -1843,7 +1843,7 @@ fn tests_exec_terser_pure_getters_set_mutable_1() {
 }
 
 #[test]
-fn tests_exec_terser_pure_getters_issue_2938_3() {
+fn terser_pure_getters_issue_2938_3() {
     let src = r###"function f(a) {
     var unused = a.a;
     a.b = "PASS";
@@ -1863,7 +1863,7 @@ console.log(o.b);"###;
 }
 
 #[test]
-fn tests_exec_terser_pure_getters_set_immutable_6() {
+fn terser_pure_getters_set_immutable_6() {
     let src = r###"var a = 1;
 a.foo += "";
 if (a.foo) console.log("FAIL");
@@ -1884,7 +1884,7 @@ else console.log("PASS");"###;
 }
 
 #[test]
-fn tests_exec_terser_pure_getters_set_immutable_1() {
+fn terser_pure_getters_set_immutable_1() {
     let src = r###"var a = 1;
 a.foo += "";
 if (a.foo) console.log("FAIL");
@@ -1903,7 +1903,7 @@ else console.log("PASS");"###;
 }
 
 #[test]
-fn tests_exec_terser_pure_getters_set_mutable_2() {
+fn terser_pure_getters_set_mutable_2() {
     let src = r###"!(function a() {
     a.foo += "";
     if (a.foo) console.log("PASS");
@@ -1923,7 +1923,7 @@ fn tests_exec_terser_pure_getters_set_mutable_2() {
 }
 
 #[test]
-fn tests_exec_terser_dead_code_issue_2860_1() {
+fn terser_dead_code_issue_2860_1() {
     let src = r###"console.log(
     (function (a) {
         return (a ^= 1);
@@ -1939,7 +1939,7 @@ fn tests_exec_terser_dead_code_issue_2860_1() {
 }
 
 #[test]
-fn tests_exec_terser_dead_code_global_fns() {
+fn terser_dead_code_global_fns() {
     let src = r###"Boolean(1, 2);
 decodeURI(1, 2);
 decodeURIComponent(1, 2);
@@ -1986,7 +1986,7 @@ try {
 }
 
 #[test]
-fn tests_exec_terser_block_scope_issue_334() {
+fn terser_block_scope_issue_334() {
     let src = r###"(function (A) {
     (function () {
         doPrint();
@@ -2009,7 +2009,7 @@ function print(A) {
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_issue_3021() {
+fn terser_hoist_props_issue_3021() {
     let src = r###"var a = 1,
     b = 2;
 (function () {
@@ -2028,7 +2028,7 @@ console.log(a, b);"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_contains_this_2() {
+fn terser_hoist_props_contains_this_2() {
     let src = r###"var o = {
     u: function () {
         return this === this;
@@ -2052,7 +2052,7 @@ console.log(o.p, o.p, o.u);"###;
 
 #[test]
 #[ignore]
-fn tests_exec_terser_hoist_props_issue_851_hoist_to_conflicting_name() {
+fn terser_hoist_props_issue_851_hoist_to_conflicting_name() {
     let src = r###"const BBB = { CCC: "PASS" };
 if (id(true)) {
     const BBB_CCC = BBB.CCC;
@@ -2068,7 +2068,7 @@ if (id(true)) {
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_name_collision_1() {
+fn terser_hoist_props_name_collision_1() {
     let src = r###"var obj_foo = 1;
 var obj_bar = 2;
 function f() {
@@ -2087,7 +2087,7 @@ f();"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_new_this() {
+fn terser_hoist_props_new_this() {
     let src = r###"var o = {
     a: 1,
     b: 2,
@@ -2111,7 +2111,7 @@ console.log(new o.f(o.a).b, o.b);"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_toplevel_let() {
+fn terser_hoist_props_toplevel_let() {
     let src = r###"let a = { b: 1, c: 2 };
 console.log(a.b + a.c);"###;
     let config = r###"{
@@ -2124,7 +2124,7 @@ console.log(a.b + a.c);"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_undefined_key() {
+fn terser_hoist_props_undefined_key() {
     let src = r###"var a,
     o = {};
 o[a] = 1;
@@ -2144,7 +2144,7 @@ console.log(o[a] + o.b);"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_direct_access_1() {
+fn terser_hoist_props_direct_access_1() {
     let src = r###"var a = 0;
 var obj = { a: 1, b: 2 };
 for (var k in obj) a++;
@@ -2161,7 +2161,7 @@ console.log(a, obj.a);"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_issue_2473_3() {
+fn terser_hoist_props_issue_2473_3() {
     let src = r###"var o = { a: 1, b: 2 };
 console.log(o.a, o.b);"###;
     let config = r###"{
@@ -2176,7 +2176,7 @@ console.log(o.a, o.b);"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_issue_2473_4() {
+fn terser_hoist_props_issue_2473_4() {
     let src = r###"(function () {
     var o = { a: 1, b: 2 };
     console.log(o.a, o.b);
@@ -2193,7 +2193,7 @@ fn tests_exec_terser_hoist_props_issue_2473_4() {
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_toplevel_const() {
+fn terser_hoist_props_toplevel_const() {
     let src = r###"const a = { b: 1, c: 2 };
 console.log(a.b + a.c);"###;
     let config = r###"{
@@ -2206,7 +2206,7 @@ console.log(a.b + a.c);"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_issue_2377_3() {
+fn terser_hoist_props_issue_2377_3() {
     let src = r###"var obj = {
     foo: 1,
     bar: 2,
@@ -2234,7 +2234,7 @@ console.log(obj.foo, obj.cube(3));"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_issue_2508_2() {
+fn terser_hoist_props_issue_2508_2() {
     let src = r###"var o = {
     a: { b: 2 },
     f: function (x) {
@@ -2254,7 +2254,7 @@ o.f(o.a);"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_issue_2508_5() {
+fn terser_hoist_props_issue_2508_5() {
     let src = r###"var o = {
     f: function (x) {
         console.log(x);
@@ -2273,7 +2273,7 @@ o.f(o.f);"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_issue_2377_2() {
+fn terser_hoist_props_issue_2377_2() {
     let src = r###"var obj = {
     foo: 1,
     bar: 2,
@@ -2300,7 +2300,7 @@ console.log(obj.foo, obj.cube(3));"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_toplevel_var() {
+fn terser_hoist_props_toplevel_var() {
     let src = r###"var a = { b: 1, c: 2 };
 console.log(a.b + a.c);"###;
     let config = r###"{
@@ -2313,7 +2313,7 @@ console.log(a.b + a.c);"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_issue_3046() {
+fn terser_hoist_props_issue_3046() {
     let src = r###"console.log(
     (function (a) {
         do {
@@ -2331,7 +2331,7 @@ fn tests_exec_terser_hoist_props_issue_3046() {
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_name_collision_3() {
+fn terser_hoist_props_name_collision_3() {
     let src = r###"var o = {
         p: 1,
         "+": function (x) {
@@ -2355,7 +2355,7 @@ console.log(o.p === o.p, o["+"](4), o["-"](5));"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_hoist_class_with_new() {
+fn terser_hoist_props_hoist_class_with_new() {
     let src = r###"var o = {
     p: class Foo {
         constructor(value) {
@@ -2384,7 +2384,7 @@ console.log(o.p.name, o.p === o.p, new o.p(o.x).value, new o.p(o.y).value);"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_hoist_function_with_call() {
+fn terser_hoist_props_hoist_function_with_call() {
     let src = r###"var o = {
     p: function Foo(value) {
         return 10 * value;
@@ -2410,7 +2410,7 @@ console.log(o.p.name, o.p === o.p, o.p(o.x), o.p(o.y));"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_name_collision_2() {
+fn terser_hoist_props_name_collision_2() {
     let src = r###"var o = {
         p: 1,
         "+": function (x) {
@@ -2434,7 +2434,7 @@ console.log(o.p === o.p, o["+"](4), o["-"](5), o__$0, o__$1);"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_direct_access_2() {
+fn terser_hoist_props_direct_access_2() {
     let src = r###"var o = { a: 1 };
 var f = function (k) {
     if (o[k]) return "PASS";
@@ -2452,7 +2452,7 @@ console.log(f("a"));"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_hoist_class() {
+fn terser_hoist_props_hoist_class() {
     let src = r###"function run(c, v) {
     return new c(v).value;
 }
@@ -2484,7 +2484,7 @@ console.log(o.p.name, o.p === o.p, run(o.p, o.x), run(o.p, o.y));"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_issue_2519() {
+fn terser_hoist_props_issue_2519() {
     let src = r###"function testFunc() {
     var dimensions = { minX: 5, maxX: 6 };
     var scale = 1;
@@ -2504,7 +2504,7 @@ console.log(testFunc());"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_issue_2377_1() {
+fn terser_hoist_props_issue_2377_1() {
     let src = r###"var obj = {
     foo: 1,
     bar: 2,
@@ -2530,7 +2530,7 @@ console.log(obj.foo, obj.cube(3));"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_issue_2508_6() {
+fn terser_hoist_props_issue_2508_6() {
     let src = r###"var o = {
     f: (x) => {
         console.log(x);
@@ -2549,7 +2549,7 @@ o.f(o.f);"###;
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_issue_2508_1() {
+fn terser_hoist_props_issue_2508_1() {
     let src = r###"var o = {
     a: [1],
     f: function (x) {
@@ -2569,7 +2569,7 @@ o.f(o.a);"###;
 }
 
 #[test]
-fn tests_exec_terser_identity_inline_identity_extra_params() {
+fn terser_identity_inline_identity_extra_params() {
     let src = r###"const id = (x) => x;
 console.log(id(1, console.log(2)), id(3, 4));"###;
     let config = r###"{
@@ -2583,7 +2583,7 @@ console.log(id(1, console.log(2)), id(3, 4));"###;
 }
 
 #[test]
-fn tests_exec_terser_identity_inline_identity_function() {
+fn terser_identity_inline_identity_function() {
     let src = r###"function id(x) {
     return x;
 }
@@ -2599,7 +2599,7 @@ console.log(id(1), id(2));"###;
 }
 
 #[test]
-fn tests_exec_terser_identity_inline_identity_duplicate_arg_var() {
+fn terser_identity_inline_identity_duplicate_arg_var() {
     let src = r###"const id = (x) => {
     return x;
     var x;
@@ -2616,7 +2616,7 @@ console.log(id(1), id(2));"###;
 }
 
 #[test]
-fn tests_exec_terser_template_string_regex_2() {
+fn terser_template_string_regex_2() {
     let src = r###"console.log(`${/a/} ${6 / 2} ${/b/.test("b")} ${1 ? /c/ : /d/}`);"###;
     let config = r###"{
     "evaluate": true,
@@ -2627,7 +2627,7 @@ fn tests_exec_terser_template_string_regex_2() {
 }
 
 #[test]
-fn tests_exec_terser_template_string_evaluate_nested_templates() {
+fn terser_template_string_evaluate_nested_templates() {
     let src = r###"/*#__NOINLINE__*/ const any = 'any string, but should not be inlined';
 
 var foo = `${`${`${`foo`}`}`}`;
@@ -2645,7 +2645,7 @@ console.log(baz);"###;
 }
 
 #[test]
-fn tests_exec_terser_destructuring_destructuring_assign_of_computed_key() {
+fn terser_destructuring_destructuring_assign_of_computed_key() {
     let src = r###"let x;
 let four = 4;
 ({ [5 + 2 - four]: x } = { [1 + 2]: 42 });
@@ -2659,7 +2659,7 @@ console.log(x);"###;
 }
 
 #[test]
-fn tests_exec_terser_destructuring_unused_destructuring_getter_side_effect_2() {
+fn terser_destructuring_unused_destructuring_getter_side_effect_2() {
     let src = r###"function extract(obj) {
     const { a: a, b: b } = obj;
     console.log(b);
@@ -2682,7 +2682,7 @@ extract({
 }
 
 #[test]
-fn tests_exec_terser_destructuring_mangle_destructuring_decl_array() {
+fn terser_destructuring_mangle_destructuring_decl_array() {
     let src = r###"var [, t, e, n, s, o = 2, r = [1 + 2]] = [9, 8, 7, 6];
 console.log(t, e, n, s, o, r);"###;
     let config = r###"{
@@ -2695,7 +2695,7 @@ console.log(t, e, n, s, o, r);"###;
 }
 
 #[test]
-fn tests_exec_terser_destructuring_issue_3205_4() {
+fn terser_destructuring_issue_3205_4() {
     let src = r###"(function () {
     function f(o) {
         var { a: x } = o;
@@ -2713,7 +2713,7 @@ fn tests_exec_terser_destructuring_issue_3205_4() {
 }
 
 #[test]
-fn tests_exec_terser_destructuring_issue_3205_3() {
+fn terser_destructuring_issue_3205_3() {
     let src = r###"(function () {
     function f(o, { a: x } = o) {
         console.log(x);
@@ -2730,7 +2730,7 @@ fn tests_exec_terser_destructuring_issue_3205_3() {
 }
 
 #[test]
-fn tests_exec_terser_destructuring_unused_destructuring_multipass() {
+fn terser_destructuring_unused_destructuring_multipass() {
     let src = r###"let { w: w, x: y, z: z } = { x: 1, y: 2, z: 3 };
 console.log(y);
 if (0) {
@@ -2750,7 +2750,7 @@ if (0) {
 }
 
 #[test]
-fn tests_exec_terser_destructuring_arrow_func_with_destructuring_args() {
+fn terser_destructuring_arrow_func_with_destructuring_args() {
     let src = r###"(({ foo: foo = 1 + 0, bar: bar = 2 }, [car = 3, far = 4]) => {
     console.log(foo, bar, car, far);
 })({ bar: 5 - 0 }, [, 6]);"###;
@@ -2764,7 +2764,7 @@ fn tests_exec_terser_destructuring_arrow_func_with_destructuring_args() {
 }
 
 #[test]
-fn tests_exec_terser_destructuring_issue_3205_2() {
+fn terser_destructuring_issue_3205_2() {
     let src = r###"(function () {
     function f() {
         var o = { a: "PASS" },
@@ -2783,7 +2783,7 @@ fn tests_exec_terser_destructuring_issue_3205_2() {
 }
 
 #[test]
-fn tests_exec_terser_destructuring_empty_object_destructuring_3() {
+fn terser_destructuring_empty_object_destructuring_3() {
     let src = r###"var {} = Object;
 let { L: L } = Object,
     L2 = "foo";
@@ -2799,7 +2799,7 @@ const bar = "bar",
 }
 
 #[test]
-fn tests_exec_terser_destructuring_empty_object_destructuring_4() {
+fn terser_destructuring_empty_object_destructuring_4() {
     let src = r###"var {} = Object;
 let { L: L } = Object,
     L2 = "foo";
@@ -2816,7 +2816,7 @@ const bar = "bar",
 }
 
 #[test]
-fn tests_exec_terser_destructuring_issue_3205_5() {
+fn terser_destructuring_issue_3205_5() {
     let src = r###"(function () {
     function f(g) {
         var o = g,
@@ -2837,7 +2837,7 @@ fn tests_exec_terser_destructuring_issue_3205_5() {
 }
 
 #[test]
-fn tests_exec_terser_destructuring_unused_destructuring_decl_1() {
+fn terser_destructuring_unused_destructuring_decl_1() {
     let src = r###"let { x: L, y: y } = { x: 2 };
 var { U: u, V: V } = { V: 3 };
 const { C: C, D: D } = { C: 1, D: 4 };
@@ -2852,7 +2852,7 @@ console.log(L, V);"###;
 }
 
 #[test]
-fn tests_exec_terser_destructuring_mangle_destructuring_decl() {
+fn terser_destructuring_mangle_destructuring_decl() {
     let src = r###"function test(opts) {
     let a = opts.a || { e: 7, n: 8 };
     let { t: t, e: e, n: n, s: s = 5 + 4, o: o, r: r } = a;
@@ -2869,7 +2869,7 @@ test({});"###;
 }
 
 #[test]
-fn tests_exec_terser_destructuring_unused_destructuring_arrow_param() {
+fn terser_destructuring_unused_destructuring_arrow_param() {
     let src = r###"let bar = ({ w: w = console.log("side effect"), x: x, y: z }) => {
     console.log(x);
 };
@@ -2883,7 +2883,7 @@ bar({ x: 4, y: 5, z: 6 });"###;
 }
 
 #[test]
-fn tests_exec_terser_destructuring_anon_func_with_destructuring_args() {
+fn terser_destructuring_anon_func_with_destructuring_args() {
     let src = r###"(function ({ foo: foo = 1 + 0, bar: bar = 2 }, [car = 3, far = 4]) {
     console.log(foo, bar, car, far);
 })({ bar: 5 - 0 }, [, 6]);"###;
@@ -2897,7 +2897,7 @@ fn tests_exec_terser_destructuring_anon_func_with_destructuring_args() {
 }
 
 #[test]
-fn tests_exec_terser_destructuring_mangle_destructuring_assign_toplevel_true() {
+fn terser_destructuring_mangle_destructuring_assign_toplevel_true() {
     let src = r###"function test(opts) {
     let s, o, r;
     let a = opts.a || { e: 7, n: 8 };
@@ -2917,7 +2917,7 @@ test({});"###;
 }
 
 #[test]
-fn tests_exec_terser_destructuring_mangle_destructuring_decl_collapse_vars() {
+fn terser_destructuring_mangle_destructuring_decl_collapse_vars() {
     let src = r###"function test(opts) {
     let a = opts.a || { e: 7, n: 8 };
     let { t: t, e: e, n: n, s: s = 5 + 4, o: o, r: r } = a;
@@ -2935,7 +2935,7 @@ test({});"###;
 }
 
 #[test]
-fn tests_exec_terser_destructuring_unused_destructuring_decl_5() {
+fn terser_destructuring_unused_destructuring_decl_5() {
     let src = r###"const { a: a, b: c, d: d = new Object(1) } = { b: 7 };
 let { e: e, f: g, h: h = new Object(2) } = { e: 8 };
 var { w: w, x: y, z: z = new Object(3) } = { w: 4, x: 5, y: 6 };
@@ -2951,7 +2951,7 @@ console.log(c, e, z + 0);"###;
 }
 
 #[test]
-fn tests_exec_terser_destructuring_mangle_destructuring_assign_toplevel_false() {
+fn terser_destructuring_mangle_destructuring_assign_toplevel_false() {
     let src = r###"function test(opts) {
     let s, o, r;
     let a = opts.a || { e: 7, n: 8 };
@@ -2971,7 +2971,7 @@ test({});"###;
 }
 
 #[test]
-fn tests_exec_terser_arrow_issue_2105_2() {
+fn terser_arrow_issue_2105_2() {
     let src = r###"((factory) => {
     factory();
 })(() =>
@@ -3005,7 +3005,7 @@ fn tests_exec_terser_arrow_issue_2105_2() {
 }
 
 #[test]
-fn tests_exec_terser_arrow_issue_2105_1() {
+fn terser_arrow_issue_2105_1() {
     let src = r###"!(function (factory) {
     factory();
 })(function () {
@@ -3042,7 +3042,7 @@ fn tests_exec_terser_arrow_issue_2105_1() {
 }
 
 #[test]
-fn tests_exec_terser_arrow_issue_2084() {
+fn terser_arrow_issue_2084() {
     let src = r###"var c = 0;
 !(function () {
     !(function (c) {
@@ -3075,7 +3075,7 @@ console.log(c);"###;
 }
 
 #[test]
-fn tests_exec_terser_issue_t120_issue_t120_4() {
+fn terser_issue_t120_issue_t120_4() {
     let src = r###"for (
     var x = 1,
         t = (o) => {
@@ -3095,7 +3095,7 @@ fn tests_exec_terser_issue_t120_issue_t120_4() {
 }
 
 #[test]
-fn tests_exec_terser_issue_t120_issue_t120_5() {
+fn terser_issue_t120_issue_t120_5() {
     let src = r###"for (
     var x = 1,
         t = (o) => {
@@ -3116,7 +3116,7 @@ fn tests_exec_terser_issue_t120_issue_t120_5() {
 }
 
 #[test]
-fn tests_exec_terser_class_properties_mangle_keep_quoted() {
+fn terser_class_properties_mangle_keep_quoted() {
     let src = r###"class Foo {
     bar = "bar";
     static zzz = "zzz";
@@ -3132,7 +3132,7 @@ console.log(new Foo().toString())"###;
 }
 
 #[test]
-fn tests_exec_terser_class_properties_static_means_execution() {
+fn terser_class_properties_static_means_execution() {
     let src = r###"let x = 0;
 class NoProps {}
 class WithProps {
@@ -3155,7 +3155,7 @@ console.log(x);"###;
 }
 
 #[test]
-fn tests_exec_terser_issue_1447_conditional_false_stray_else_in_loop() {
+fn terser_issue_1447_conditional_false_stray_else_in_loop() {
     let src = r###"for (var i = 1; i <= 4; ++i) {
     if (i <= 2) continue;
     console.log(i);
@@ -3178,7 +3178,7 @@ fn tests_exec_terser_issue_1447_conditional_false_stray_else_in_loop() {
 }
 
 #[test]
-fn tests_exec_terser_harmony_object_spread_unsafe() {
+fn terser_harmony_object_spread_unsafe() {
     let src = r###"var o1 = { x: 1, y: 2 };
 var o2 = { x: 3, z: 4 };
 var cloned = { ...o1 };
@@ -3201,7 +3201,7 @@ console.log(cloned, merged);"###;
 }
 
 #[test]
-fn tests_exec_terser_harmony_issue_2794_4() {
+fn terser_harmony_issue_2794_4() {
     let src = r###"for (var x of ([1, 2], [3, 4])) {
     console.log(x);
 }"###;
@@ -3211,7 +3211,7 @@ fn tests_exec_terser_harmony_issue_2794_4() {
 }
 
 #[test]
-fn tests_exec_terser_harmony_issue_2794_3() {
+fn terser_harmony_issue_2794_3() {
     let src = r###"function foo() {
     for (const a of func(value)) {
         console.log(a);
@@ -3242,7 +3242,7 @@ foo();"###;
 }
 
 #[test]
-fn tests_exec_terser_harmony_array_spread_of_sequence() {
+fn terser_harmony_array_spread_of_sequence() {
     let src = r###"var a = [1];
 console.log([...(a, a)]);
 console.log([...a, a]);
@@ -3254,7 +3254,7 @@ console.log([...(a || a)]);"###;
 }
 
 #[test]
-fn tests_exec_terser_harmony_issue_2794_2() {
+fn terser_harmony_issue_2794_2() {
     let src = r###"function foo() {
     for (const a of func(value)) {
         console.log(a);
@@ -3285,7 +3285,7 @@ foo();"###;
 }
 
 #[test]
-fn tests_exec_terser_harmony_issue_2874_1() {
+fn terser_harmony_issue_2874_1() {
     let src = r###"(function () {
     function foo() {
         let letters = ["A", "B", "C"];
@@ -3312,7 +3312,7 @@ fn tests_exec_terser_harmony_issue_2874_1() {
 }
 
 #[test]
-fn tests_exec_terser_harmony_issue_2762() {
+fn terser_harmony_issue_2762() {
     let src = r###"var bar = 1,
     T = true;
 (function () {
@@ -3332,7 +3332,7 @@ fn tests_exec_terser_harmony_issue_2762() {
 }
 
 #[test]
-fn tests_exec_terser_harmony_issue_1898() {
+fn terser_harmony_issue_1898() {
     let src = r###"class Foo {
     bar() {
         for (const x of [6, 5]) {
@@ -3351,7 +3351,7 @@ new Foo().bar();"###;
 }
 
 #[test]
-fn tests_exec_terser_harmony_issue_2794_6() {
+fn terser_harmony_issue_2794_6() {
     let src = r###"for (let e of ([1, 2], [3, 4, 5])) {
     console.log(e);
 }"###;
@@ -3361,7 +3361,7 @@ fn tests_exec_terser_harmony_issue_2794_6() {
 }
 
 #[test]
-fn tests_exec_terser_harmony_issue_2794_1() {
+fn terser_harmony_issue_2794_1() {
     let src = r###"function foo() {
     for (const a of func(value)) {
         console.log(a);
@@ -3392,7 +3392,7 @@ foo();"###;
 }
 
 #[test]
-fn tests_exec_terser_harmony_issue_2874_2() {
+fn terser_harmony_issue_2874_2() {
     let src = r###"(function () {
     let keys = [];
     function foo() {
@@ -3424,7 +3424,7 @@ fn tests_exec_terser_harmony_issue_2874_2() {
 }
 
 #[test]
-fn tests_exec_terser_harmony_issue_t80() {
+fn terser_harmony_issue_t80() {
     let src = r###"function foo(data = []) {
     var u,
         v = "unused";
@@ -3442,7 +3442,7 @@ console.log(JSON.stringify([foo(), foo(null), foo(5, 6)]));"###;
 }
 
 #[test]
-fn tests_exec_terser_harmony_issue_2349() {
+fn terser_harmony_issue_2349() {
     let src = r###"function foo(boo, key) {
     const value = boo.get();
     return value.map(({ [key]: bar }) => bar);
@@ -3454,7 +3454,7 @@ console.log(foo({ get: () => [{ blah: 42 }] }, "blah"));"###;
 }
 
 #[test]
-fn tests_exec_terser_harmony_issue_2874_3() {
+fn terser_harmony_issue_2874_3() {
     let src = r###"function f() {
     return x + y;
 }
@@ -3482,7 +3482,7 @@ a(2);"###;
 }
 
 #[test]
-fn tests_exec_terser_harmony_issue_2349b() {
+fn terser_harmony_issue_2349b() {
     let src = r###"function foo(boo, key) {
     const value = boo.get();
     return value.map(function ({ [key]: bar }) {
@@ -3519,7 +3519,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_issue_1275_string_plus_optimization() {
+fn terser_issue_1275_string_plus_optimization() {
     let src = r###"function foo(anything) {
     function throwing_function() {
         throw "nope";
@@ -3552,7 +3552,7 @@ foo();"###;
 }
 
 #[test]
-fn tests_exec_terser_async_async_inline() {
+fn terser_async_async_inline() {
     let src = r###"(async function () {
     return await 3;
 })();
@@ -3594,7 +3594,7 @@ async_top();"###;
 
 #[test]
 #[ignore]
-fn tests_exec_terser_logical_assignments_assign_in_conditional_part() {
+fn terser_logical_assignments_assign_in_conditional_part() {
     let src = r###"var status = "PASS";
 var nil = null;
 var nil_prop = { prop: null };
@@ -3613,7 +3613,7 @@ console.log(status);"###;
 
 #[test]
 #[ignore]
-fn tests_exec_terser_logical_assignments_assignment_in_left_part() {
+fn terser_logical_assignments_assignment_in_left_part() {
     let src = r###"var status = "FAIL";
 var x = {};
 x[(status = "PASS")] ||= 1;
@@ -3629,7 +3629,7 @@ console.log(status);"###;
 }
 
 #[test]
-fn tests_exec_terser_labels_labels_4() {
+fn terser_labels_labels_4() {
     let src = r###"out: for (var i = 0; i < 5; ++i) {
     if (i < 3) continue out;
     console.log(i);
@@ -3644,7 +3644,7 @@ fn tests_exec_terser_labels_labels_4() {
 }
 
 #[test]
-fn tests_exec_terser_labels_labels_3() {
+fn terser_labels_labels_3() {
     let src = r###"for (var i = 0; i < 5; ++i) {
     if (i < 3) continue;
     console.log(i);
@@ -3659,7 +3659,7 @@ fn tests_exec_terser_labels_labels_3() {
 }
 
 #[test]
-fn tests_exec_terser_labels_labels_6() {
+fn terser_labels_labels_6() {
     let src = r###"out: break out;
 
 console.log('PASS')"###;
@@ -3669,7 +3669,7 @@ console.log('PASS')"###;
 }
 
 #[test]
-fn tests_exec_terser_issue_t292_no_flatten_with_var_colliding_with_arg_value_inner_scope() {
+fn terser_issue_t292_no_flatten_with_var_colliding_with_arg_value_inner_scope() {
     let src = r###"var g = ["a"];
 function problem(arg) {
     return g.indexOf(arg);
@@ -3703,7 +3703,7 @@ console.log(c("a"));"###;
 }
 
 #[test]
-fn tests_exec_terser_issue_t292_no_flatten_with_arg_colliding_with_arg_value_inner_scope() {
+fn terser_issue_t292_no_flatten_with_arg_colliding_with_arg_value_inner_scope() {
     let src = r###"var g = ["a"];
 function problem(arg) {
     return g.indexOf(arg);
@@ -3735,7 +3735,7 @@ console.log(c("a"));"###;
 }
 
 #[test]
-fn tests_exec_terser_issue_1770_numeric_literal() {
+fn terser_issue_1770_numeric_literal() {
     let src = r###"var obj = {
     0: 0,
     "-0": 1,
@@ -3761,7 +3761,7 @@ console.log(obj[1e42], obj["j"], obj["1e+42"]);"###;
 }
 
 #[test]
-fn tests_exec_terser_issue_1770_mangle_props() {
+fn terser_issue_1770_mangle_props() {
     let src = r###"var obj = { undefined: 1, NaN: 2, Infinity: 3, "-Infinity": 4, null: 5 };
 console.log(
     obj[void 0],
@@ -3785,7 +3785,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_issue_1105_Infinity_not_in_with_scope() {
+fn terser_issue_1105_infinity_not_in_with_scope() {
     let src = r###"var o = { Infinity: "oInfinity" };
 var vInfinity = "Infinity";
 vInfinity = Infinity;
@@ -3800,7 +3800,7 @@ console.log(vInfinity)"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_3113_1() {
+fn terser_reduce_vars_issue_3113_1() {
     let src = r###"var c = 0;
 (function () {
     function f() {
@@ -3822,7 +3822,7 @@ console.log(c);"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2799_2() {
+fn terser_reduce_vars_issue_2799_2() {
     let src = r###"(function () {
     function foo() {
         Function.prototype.call.apply(console.log, [null, "PASS"]);
@@ -3839,7 +3839,7 @@ fn tests_exec_terser_reduce_vars_issue_2799_2() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_recursive_inlining_1() {
+fn terser_reduce_vars_recursive_inlining_1() {
     let src = r###"!(function () {
     function foo() {
         bar();
@@ -3859,7 +3859,7 @@ fn tests_exec_terser_reduce_vars_recursive_inlining_1() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_var_assign_2() {
+fn terser_reduce_vars_var_assign_2() {
     let src = r###"!(function () {
     var a;
     if ((a = 2)) console.log(a);
@@ -3877,7 +3877,7 @@ fn tests_exec_terser_reduce_vars_var_assign_2() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2757_1() {
+fn terser_reduce_vars_issue_2757_1() {
     let src = r###"let u;
 (function () {
     let v;
@@ -3895,7 +3895,7 @@ fn tests_exec_terser_reduce_vars_issue_2757_1() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_inverted_var() {
+fn terser_reduce_vars_inverted_var() {
     let src = r###"console.log(
     (function () {
         var a = 1;
@@ -3948,7 +3948,7 @@ fn tests_exec_terser_reduce_vars_inverted_var() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_pure_getters_3() {
+fn terser_reduce_vars_pure_getters_3() {
     let src = r###"var a;
 var a = a && a.b;
 console.log(a && a.b)"###;
@@ -3964,7 +3964,7 @@ console.log(a && a.b)"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_unsafe_evaluate_side_effect_free_1() {
+fn terser_reduce_vars_unsafe_evaluate_side_effect_free_1() {
     let src = r###"console.log(
     (function () {
         var o = { p: 1 };
@@ -3998,7 +3998,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2420_2() {
+fn terser_reduce_vars_issue_2420_2() {
     let src = r###"function f() {
     var that = this;
     if (that.bar) that.foo();
@@ -4024,7 +4024,7 @@ f.call({});"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_escape_expansion() {
+fn terser_reduce_vars_escape_expansion() {
     let src = r###"function main() {
     var thing = baz();
     if (thing !== (thing = baz())) console.log("FAIL");
@@ -4049,7 +4049,7 @@ main();"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_obj_arg_1() {
+fn terser_reduce_vars_obj_arg_1() {
     let src = r###"var C = 1;
 function f(obj) {
     return obj.bar();
@@ -4076,7 +4076,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2420_3() {
+fn terser_reduce_vars_issue_2420_3() {
     let src = r###"function f() {
     var that = this;
     if (that.bar) that.foo();
@@ -4103,7 +4103,7 @@ f.call({});"###;
 
 #[test]
 #[ignore]
-fn tests_exec_terser_reduce_vars_iife_eval_2() {
+fn terser_reduce_vars_iife_eval_2() {
     let src = r###"(function () {
     var x = function f() {
         return f;
@@ -4120,7 +4120,7 @@ fn tests_exec_terser_reduce_vars_iife_eval_2() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_pure_getters_2() {
+fn terser_reduce_vars_pure_getters_2() {
     let src = r###"var a;
 var a = a && a.b;
 console.log(a && a.b)"###;
@@ -4136,7 +4136,7 @@ console.log(a && a.b)"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_func_modified() {
+fn terser_reduce_vars_func_modified() {
     let src = r###"function f(a) {
     function a() {
         return 1;
@@ -4166,7 +4166,7 @@ console.log(f(1423796))"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2860_1() {
+fn terser_reduce_vars_issue_2860_1() {
     let src = r###"console.log(
     (function (a) {
         return (a ^= 1);
@@ -4183,7 +4183,7 @@ fn tests_exec_terser_reduce_vars_issue_2860_1() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2836() {
+fn terser_reduce_vars_issue_2836() {
     let src = r###"function f() {
     return "FAIL";
 }
@@ -4201,7 +4201,7 @@ function f() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_chained_assignments() {
+fn terser_reduce_vars_chained_assignments() {
     let src = r###"function f() {
     var a = [94, 173, 190, 239];
     var b = 0;
@@ -4230,7 +4230,7 @@ console.log(f().toString(16));"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_obj_for_1() {
+fn terser_reduce_vars_obj_for_1() {
     let src = r###"var o = { a: 1 };
 for (var i = o.a--; i; i--) console.log(i);"###;
     let config = r###"{
@@ -4244,7 +4244,7 @@ for (var i = o.a--; i; i--) console.log(i);"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_iife() {
+fn terser_reduce_vars_iife() {
     let src = r###"!(function (a, b, c) {
     b++;
     console.log(a - 1, b * 1, c + 2);
@@ -4259,7 +4259,7 @@ fn tests_exec_terser_reduce_vars_iife() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_inner_var_label() {
+fn terser_reduce_vars_inner_var_label() {
     let src = r###"function f(a) {
     l: {
         if (a) break l;
@@ -4280,7 +4280,7 @@ f(0)"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_side_effects_assign() {
+fn terser_reduce_vars_side_effects_assign() {
     let src = r###"var a = typeof void (a && a.in == 1, 0);
 console.log(a);"###;
     let config = r###"{
@@ -4296,7 +4296,7 @@ console.log(a);"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_defun_catch_6() {
+fn terser_reduce_vars_defun_catch_6() {
     let src = r###"try {
     throw 42;
 } catch (a) {
@@ -4313,7 +4313,7 @@ function a() {}"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_passes() {
+fn terser_reduce_vars_passes() {
     let src = r###"function f() {
     var a = 1,
         b = 2,
@@ -4343,7 +4343,7 @@ f()"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_defun_catch_1() {
+fn terser_reduce_vars_defun_catch_1() {
     let src = r###"function a() {}
 try {
     throw 42;
@@ -4360,7 +4360,7 @@ try {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_unsafe_evaluate_array_2() {
+fn terser_reduce_vars_unsafe_evaluate_array_2() {
     let src = r###"var arr = [
     1,
     2,
@@ -4384,7 +4384,7 @@ console.log(arr[0], arr[1], arr[2](2), arr[3]);"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_1670_6() {
+fn terser_reduce_vars_issue_1670_6() {
     let src = r###"(function (a) {
     switch (1) {
         case (a = 1):
@@ -4410,7 +4410,7 @@ fn tests_exec_terser_reduce_vars_issue_1670_6() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_redefine_farg_1() {
+fn terser_reduce_vars_redefine_farg_1() {
     let src = r###"function f(a) {
     var a;
     return typeof a;
@@ -4436,7 +4436,7 @@ console.log(f([]), g([]), h([]));"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_1670_1() {
+fn terser_reduce_vars_issue_1670_1() {
     let src = r###"(function f() {
     switch (1) {
         case 0:
@@ -4464,7 +4464,7 @@ fn tests_exec_terser_reduce_vars_issue_1670_1() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_perf_3() {
+fn terser_reduce_vars_perf_3() {
     let src = r###"var foo = function (x, y, z) {
     return x < y ? x * y + z : x * z - y;
 };
@@ -4485,7 +4485,7 @@ console.log(sum);"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_defun_var_3() {
+fn terser_reduce_vars_defun_var_3() {
     let src = r###"function a() {}
 function b() {}
 console.log(typeof a, typeof b);
@@ -4503,7 +4503,7 @@ var a = 42,
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_accessor_2() {
+fn terser_reduce_vars_accessor_2() {
     let src = r###"var A = 1;
 var B = {
     get c() {
@@ -4524,7 +4524,7 @@ B.c;"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_unused_modified() {
+fn terser_reduce_vars_unused_modified() {
     let src = r###"console.log(
     (function () {
         var b = 1,
@@ -4543,7 +4543,7 @@ fn tests_exec_terser_reduce_vars_unused_modified() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_unsafe_evaluate_object_1() {
+fn terser_reduce_vars_unsafe_evaluate_object_1() {
     let src = r###"function f0() {
     var a = 1;
     var b = {};
@@ -4569,7 +4569,7 @@ f1()"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_duplicate_lambda_defun_name_1() {
+fn terser_reduce_vars_duplicate_lambda_defun_name_1() {
     let src = r###"console.log(
     (function f(a) {
         function f() {}
@@ -4584,7 +4584,7 @@ fn tests_exec_terser_reduce_vars_duplicate_lambda_defun_name_1() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2423_5() {
+fn terser_reduce_vars_issue_2423_5() {
     let src = r###"function x() {
     y();
 }
@@ -4613,7 +4613,7 @@ z();"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_unsafe_evaluate_array_4() {
+fn terser_reduce_vars_unsafe_evaluate_array_4() {
     let src = r###"var arr = [
     1,
     2,
@@ -4634,7 +4634,7 @@ console.log(arr[0], arr[1], arr[2], arr[0]);"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2774() {
+fn terser_reduce_vars_issue_2774() {
     let src = r###"console.log(
     {
         get a() {
@@ -4653,7 +4653,7 @@ fn tests_exec_terser_reduce_vars_issue_2774() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_lvalues_def_2() {
+fn terser_reduce_vars_lvalues_def_2() {
     let src = r###"var b = 1;
 var a = (b += 1),
     b = NaN;
@@ -4668,7 +4668,7 @@ console.log(a, b);"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_func_arg_2() {
+fn terser_reduce_vars_func_arg_2() {
     let src = r###"var a = 42;
 !(function (a) {
     console.log(a());
@@ -4690,7 +4690,7 @@ fn tests_exec_terser_reduce_vars_func_arg_2() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_unsafe_evaluate() {
+fn terser_reduce_vars_unsafe_evaluate() {
     let src = r###"function f0() {
     var a = { b: 1 };
     console.log(a.b + 3);
@@ -4715,7 +4715,7 @@ console.log(f1())"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2423_3() {
+fn terser_reduce_vars_issue_2423_3() {
     let src = r###"function c() {
     return 1;
 }
@@ -4734,7 +4734,7 @@ p();"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_defun_inline_3() {
+fn terser_reduce_vars_defun_inline_3() {
     let src = r###"function f() {
     return g(2);
     function g(b) {
@@ -4757,7 +4757,7 @@ console.log(f())"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_3113_2() {
+fn terser_reduce_vars_issue_3113_2() {
     let src = r###"var c = 0;
 (function () {
     function f() {
@@ -4780,7 +4780,7 @@ console.log(c);"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2799_1() {
+fn terser_reduce_vars_issue_2799_1() {
     let src = r###"console.log(
     (function () {
         return f;
@@ -4805,7 +4805,7 @@ fn tests_exec_terser_reduce_vars_issue_2799_1() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_iife_new() {
+fn terser_reduce_vars_iife_new() {
     let src = r###"var A = new (function (a, b, c) {
     b++;
     console.log(a - 1, b * 1, c + 2);
@@ -4820,7 +4820,7 @@ fn tests_exec_terser_reduce_vars_iife_new() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_recursive_inlining_3() {
+fn terser_reduce_vars_recursive_inlining_3() {
     let src = r###"!(function () {
     function foo(x) {
         console.log("foo", x);
@@ -4847,7 +4847,7 @@ fn tests_exec_terser_reduce_vars_recursive_inlining_3() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_recursive_inlining_4() {
+fn terser_reduce_vars_recursive_inlining_4() {
     let src = r###"!(function () {
     function foo(x) {
         console.log("foo", x);
@@ -4874,7 +4874,7 @@ fn tests_exec_terser_reduce_vars_recursive_inlining_4() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2757_2() {
+fn terser_reduce_vars_issue_2757_2() {
     let src = r###"(function () {
     let bar;
     const unused = function () {
@@ -4900,7 +4900,7 @@ fn tests_exec_terser_reduce_vars_issue_2757_2() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_recursive_inlining_2() {
+fn terser_reduce_vars_recursive_inlining_2() {
     let src = r###"!(function () {
     function foo() {
         qux();
@@ -4923,7 +4923,7 @@ fn tests_exec_terser_reduce_vars_recursive_inlining_2() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_var_assign_1() {
+fn terser_reduce_vars_var_assign_1() {
     let src = r###"!(function () {
     var a;
     a = 2;
@@ -4942,7 +4942,7 @@ fn tests_exec_terser_reduce_vars_var_assign_1() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_1865() {
+fn terser_reduce_vars_issue_1865() {
     let src = r###"function f(some) {
     some.thing = false;
 }
@@ -4964,7 +4964,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2449() {
+fn terser_reduce_vars_issue_2449() {
     let src = r###"var a = "PASS";
 function f() {
     return a;
@@ -4988,7 +4988,7 @@ function g() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2420_1() {
+fn terser_reduce_vars_issue_2420_1() {
     let src = r###"function run() {
     var self = this;
     if (self.count++) self.foo();
@@ -5015,7 +5015,7 @@ run.call(o);"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2485() {
+fn terser_reduce_vars_issue_2485() {
     let src = r###"var foo = function (bar) {
     var n = function (a, b) {
         return a + b;
@@ -5044,7 +5044,7 @@ console.log(bar.baz([1, 2, 3]));"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_inner_var_for_2() {
+fn terser_reduce_vars_inner_var_for_2() {
     let src = r###"!(function () {
     var a = 1;
     for (var b = 1; --b; ) var a = 2;
@@ -5061,7 +5061,7 @@ fn tests_exec_terser_reduce_vars_inner_var_for_2() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_obj_arg_2() {
+fn terser_reduce_vars_obj_arg_2() {
     let src = r###"var C = 1;
 function f(obj) {
     return obj.bar();
@@ -5091,7 +5091,7 @@ console.log(
 
 #[test]
 #[ignore]
-fn tests_exec_terser_reduce_vars_reduce_vars() {
+fn terser_reduce_vars_reduce_vars() {
     let src = r###"var A = 1;
 (function f0() {
     var a = 2;
@@ -5135,7 +5135,7 @@ console.log(A + 1);"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_modified() {
+fn terser_reduce_vars_modified() {
     let src = r###"function f0() {
     var a = 1,
         b = 2;
@@ -5202,7 +5202,7 @@ f0(), f1(), f2(), f3(), f4(), f5();"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_unsafe_evaluate_escaped() {
+fn terser_reduce_vars_unsafe_evaluate_escaped() {
     let src = r###"console.log(
     (function () {
         var o = { p: 1 };
@@ -5237,7 +5237,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2669() {
+fn terser_reduce_vars_issue_2669() {
     let src = r###"let foo;
 console.log(([foo] = ["PASS"]) && foo);"###;
     let config = r###"{
@@ -5251,7 +5251,7 @@ console.log(([foo] = ["PASS"]) && foo);"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_defun_catch_3() {
+fn terser_reduce_vars_defun_catch_3() {
     let src = r###"try {
     throw 42;
     function a() {}
@@ -5268,7 +5268,7 @@ fn tests_exec_terser_reduce_vars_defun_catch_3() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2860_2() {
+fn terser_reduce_vars_issue_2860_2() {
     let src = r###"console.log(
     (function (a) {
         return (a ^= 1);
@@ -5287,7 +5287,7 @@ fn tests_exec_terser_reduce_vars_issue_2860_2() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_delay_def() {
+fn terser_reduce_vars_delay_def() {
     let src = r###"function f() {
     return a;
     var a;
@@ -5308,7 +5308,7 @@ console.log(f(), g());"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2496() {
+fn terser_reduce_vars_issue_2496() {
     let src = r###"function execute(callback) {
     callback();
 }
@@ -5339,7 +5339,7 @@ new Foo("FAIL").run();"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_defun_catch_2() {
+fn terser_reduce_vars_defun_catch_2() {
     let src = r###"try {
     function a() {}
     throw 42;
@@ -5356,7 +5356,7 @@ fn tests_exec_terser_reduce_vars_defun_catch_2() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2450_5() {
+fn terser_reduce_vars_issue_2450_5() {
     let src = r###"var a;
 function f(b) {
     console.log(a === b);
@@ -5377,7 +5377,7 @@ function g() {}
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_1850_2() {
+fn terser_reduce_vars_issue_1850_2() {
     let src = r###"function f() {
     console.log(a, a, a);
 }
@@ -5394,7 +5394,7 @@ f();"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_3110_3() {
+fn terser_reduce_vars_issue_3110_3() {
     let src = r###"(function () {
     function foo() {
         return isDev ? "foo" : "bar";
@@ -5419,7 +5419,7 @@ fn tests_exec_terser_reduce_vars_issue_3110_3() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_defun_redefine() {
+fn terser_reduce_vars_defun_redefine() {
     let src = r###"function f() {
     function g() {
         return 1;
@@ -5445,7 +5445,7 @@ console.log(f())"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2423_6() {
+fn terser_reduce_vars_issue_2423_6() {
     let src = r###"function x() {
     y();
 }
@@ -5475,7 +5475,7 @@ z();"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_unsafe_evaluate_object_2() {
+fn terser_reduce_vars_unsafe_evaluate_object_2() {
     let src = r###"var obj = {
     foo: 1,
     bar: 2,
@@ -5499,7 +5499,7 @@ console.log(obj.foo, obj.bar, obj.square(2), obj.cube);"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_2423_1() {
+fn terser_reduce_vars_issue_2423_1() {
     let src = r###"function c() {
     return 1;
 }
@@ -5519,7 +5519,7 @@ p();"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_redefine_farg_2() {
+fn terser_reduce_vars_redefine_farg_2() {
     let src = r###"function f(a) {
     var a;
     return typeof a;
@@ -5548,7 +5548,7 @@ console.log(f([]), g([]), h([]));"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_1670_2() {
+fn terser_reduce_vars_issue_1670_2() {
     let src = r###"(function f() {
     switch (1) {
         case 0:
@@ -5575,7 +5575,7 @@ fn tests_exec_terser_reduce_vars_issue_1670_2() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_unsafe_evaluate_array_1() {
+fn terser_reduce_vars_unsafe_evaluate_array_1() {
     let src = r###"function f0() {
     var a = 1;
     var b = [];
@@ -5607,7 +5607,7 @@ console.log(f2())"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_perf_7() {
+fn terser_reduce_vars_perf_7() {
     let src = r###"var indirect_foo = function (x, y, z) {
     var foo = function (x, y, z) {
         return x < y ? x * y + z : x * z - y;
@@ -5628,7 +5628,7 @@ console.log(sum);"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_1670_5() {
+fn terser_reduce_vars_issue_1670_5() {
     let src = r###"(function (a) {
     switch (1) {
         case a:
@@ -5654,7 +5654,7 @@ fn tests_exec_terser_reduce_vars_issue_1670_5() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_escaped_prop_3() {
+fn terser_reduce_vars_escaped_prop_3() {
     let src = r###"var a;
 function f(b) {
     if (a) console.log(a === b.c);
@@ -5677,7 +5677,7 @@ h();"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_defun_call() {
+fn terser_reduce_vars_defun_call() {
     let src = r###"function f() {
     return g() + h(1) - h(g(), 2, 3);
     function g() {
@@ -5702,7 +5702,7 @@ console.log(f())"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_defun_label() {
+fn terser_reduce_vars_defun_label() {
     let src = r###"!(function () {
     function f(a) {
         L: {
@@ -5724,7 +5724,7 @@ fn tests_exec_terser_reduce_vars_defun_label() {
 
 #[test]
 #[ignore]
-fn tests_exec_terser_reduce_vars_unsafe_evaluate_modified() {
+fn terser_reduce_vars_unsafe_evaluate_modified() {
     let src = r###"console.log(
     (function () {
         var o = { p: 1 };
@@ -5802,7 +5802,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_lvalues_def_1() {
+fn terser_reduce_vars_lvalues_def_1() {
     let src = r###"var b = 1;
 var a = b++,
     b = NaN;
@@ -5817,7 +5817,7 @@ console.log(a, b);"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_func_arg_1() {
+fn terser_reduce_vars_func_arg_1() {
     let src = r###"var a = 42;
 !(function (a) {
     console.log(a());
@@ -5839,7 +5839,7 @@ fn tests_exec_terser_reduce_vars_func_arg_1() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_escape_local_sequence() {
+fn terser_reduce_vars_escape_local_sequence() {
     let src = r###"function main() {
     var thing = baz();
     if (thing !== (thing = baz())) console.log("PASS");
@@ -5862,7 +5862,7 @@ main();"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_regex_loop() {
+fn terser_reduce_vars_regex_loop() {
     let src = r###"function f(x) {
     for (var r, s = "acdabcdeabbb"; (r = x().exec(s)); ) console.log(r[0]);
 }
@@ -5881,7 +5881,7 @@ f(function () {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_3140_4() {
+fn terser_reduce_vars_issue_3140_4() {
     let src = r###"(function () {
     var a;
     function f() {}
@@ -5909,7 +5909,7 @@ fn tests_exec_terser_reduce_vars_issue_3140_4() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_1670_4() {
+fn terser_reduce_vars_issue_1670_4() {
     let src = r###"(function f() {
     switch (1) {
         case 0:
@@ -5936,7 +5936,7 @@ fn tests_exec_terser_reduce_vars_issue_1670_4() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_redefine_farg_3() {
+fn terser_reduce_vars_redefine_farg_3() {
     let src = r###"function f(a) {
     var a;
     return typeof a;
@@ -5968,7 +5968,7 @@ console.log(f([]), g([]), h([]));"###;
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_3140_3() {
+fn terser_reduce_vars_issue_3140_3() {
     let src = r###"(function () {
     var a;
     function f() {}
@@ -5998,7 +5998,7 @@ fn tests_exec_terser_reduce_vars_issue_3140_3() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_issue_1670_3() {
+fn terser_reduce_vars_issue_1670_3() {
     let src = r###"(function f() {
     switch (1) {
         case 0:
@@ -6026,7 +6026,7 @@ fn tests_exec_terser_reduce_vars_issue_1670_3() {
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_perf_1() {
+fn terser_reduce_vars_perf_1() {
     let src = r###"function foo(x, y, z) {
     return x < y ? x * y + z : x * z - y;
 }
@@ -6049,7 +6049,7 @@ console.log(sum);"###;
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_issue_2187_2() {
+fn terser_collapse_vars_issue_2187_2() {
     let src = r###"var b = 1;
 console.log(
     (function (a) {
@@ -6065,7 +6065,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_issue_2436_14() {
+fn terser_collapse_vars_issue_2436_14() {
     let src = r###"var a = "PASS";
 var b = {};
 (function () {
@@ -6085,7 +6085,7 @@ var b = {};
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_issue_2506() {
+fn terser_collapse_vars_issue_2506() {
     let src = r###"var c = 0;
 function f0(bar) {
     function f1(Infinity_2) {
@@ -6111,7 +6111,7 @@ console.log(c);"###;
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_issue_2436_13() {
+fn terser_collapse_vars_issue_2436_13() {
     let src = r###"var a = "PASS";
 (function () {
     function f(b) {
@@ -6133,7 +6133,7 @@ console.log(a);"###;
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_issue_2187_3() {
+fn terser_collapse_vars_issue_2187_3() {
     let src = r###"var b = 1;
 console.log(
     (function (a) {
@@ -6150,7 +6150,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_issue_2203_1() {
+fn terser_collapse_vars_issue_2203_1() {
     let src = r###"a = "FAIL";
 console.log(
     {
@@ -6171,7 +6171,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_issue_2914_2() {
+fn terser_collapse_vars_issue_2914_2() {
     let src = r###"function read(input) {
     var i = 0;
     var e = 0;
@@ -6192,7 +6192,7 @@ console.log(read([129]));"###;
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_issue_2319_1() {
+fn terser_collapse_vars_issue_2319_1() {
     let src = r###"console.log(
     (function (a) {
         return a;
@@ -6211,7 +6211,7 @@ fn tests_exec_terser_collapse_vars_issue_2319_1() {
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_cascade_forin() {
+fn terser_collapse_vars_cascade_forin() {
     let src = r###"var a;
 function f(b) {
     return [b, b, b];
@@ -6225,7 +6225,7 @@ for (var c in ((a = console), f(a))) console.log(c);"###;
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_inner_lvalues() {
+fn terser_collapse_vars_inner_lvalues() {
     let src = r###"var a,
     b = 10;
 var a = (--b || a || 3).toString(),
@@ -6240,7 +6240,7 @@ console.log(null, a, b);"###;
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_issue_2298() {
+fn terser_collapse_vars_issue_2298() {
     let src = r###"!(function () {
     function f() {
         var a = undefined;
@@ -6268,7 +6268,7 @@ fn tests_exec_terser_collapse_vars_issue_2298() {
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_chained_3() {
+fn terser_collapse_vars_chained_3() {
     let src = r###"console.log(
     (function (a, b) {
         var c = a,
@@ -6286,7 +6286,7 @@ fn tests_exec_terser_collapse_vars_chained_3() {
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_collapse_vars_self_reference() {
+fn terser_collapse_vars_collapse_vars_self_reference() {
     let src = r###"function f1() {
     var self = {
         inner: function () {
@@ -6324,7 +6324,7 @@ f2()"###;
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_chained_2() {
+fn terser_collapse_vars_chained_2() {
     let src = r###"var a;
 var a = 2;
 a = 3 / a;
@@ -6338,7 +6338,7 @@ console.log(a);"###;
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_cond_branch_1() {
+fn terser_collapse_vars_cond_branch_1() {
     let src = r###"function f1(b, c) {
     var log = console.log;
     var a = ++c;
@@ -6370,7 +6370,7 @@ f3(5, 6);"###;
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_var_side_effects_2() {
+fn terser_collapse_vars_var_side_effects_2() {
     let src = r###"var print = console.log.bind(console);
 function foo(x) {
     var twice = x.y * 2;
@@ -6386,7 +6386,7 @@ foo({ y: 10 });"###;
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_issue_3032() {
+fn terser_collapse_vars_issue_3032() {
     let src = r###"console.log(
     {
         f: function () {
@@ -6404,7 +6404,7 @@ fn tests_exec_terser_collapse_vars_issue_3032() {
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_var_side_effects_3() {
+fn terser_collapse_vars_var_side_effects_3() {
     let src = r###"var print = console.log.bind(console);
 function foo(x) {
     var twice = x.y * 2;
@@ -6422,7 +6422,7 @@ foo({ y: 10 });"###;
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_collapse_vars_throw() {
+fn terser_collapse_vars_collapse_vars_throw() {
     let src = r###"var f1 = function (x, y) {
     var a,
         b,
@@ -6459,7 +6459,7 @@ try {
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_issue_2203_4() {
+fn terser_collapse_vars_issue_2203_4() {
     let src = r###"a = "FAIL";
 console.log(
     {
@@ -6478,7 +6478,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_issue_2203_3() {
+fn terser_collapse_vars_issue_2203_3() {
     let src = r###"a = "FAIL";
 console.log(
     {
@@ -6499,7 +6499,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_issue_2187_1() {
+fn terser_collapse_vars_issue_2187_1() {
     let src = r###"var a = 1;
 !(function (foo) {
     foo();
@@ -6517,7 +6517,7 @@ fn tests_exec_terser_collapse_vars_issue_2187_1() {
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_var_defs() {
+fn terser_collapse_vars_var_defs() {
     let src = r###"var f1 = function (x, y) {
     var a,
         b,
@@ -6551,7 +6551,7 @@ f1("1", 0);"###;
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_issue_2203_2() {
+fn terser_collapse_vars_issue_2203_2() {
     let src = r###"a = "PASS";
 console.log(
     {
@@ -6578,7 +6578,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_collapse_vars_seq() {
+fn terser_collapse_vars_collapse_vars_seq() {
     let src = r###"var f1 = function (x, y) {
     var a,
         b,
@@ -6611,7 +6611,7 @@ console.log(f1(1, 2));"###;
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_issue_2319_3() {
+fn terser_collapse_vars_issue_2319_3() {
     let src = r###""use strict";
 console.log(
     (function (a) {
@@ -6631,7 +6631,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_may_throw_2() {
+fn terser_collapse_vars_may_throw_2() {
     let src = r###"function f(b) {
     try {
         var a = x();
@@ -6650,7 +6650,7 @@ f(0);"###;
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_issue_2453() {
+fn terser_collapse_vars_issue_2453() {
     let src = r###"function log(n) {
     console.log(n);
 }
@@ -6673,7 +6673,7 @@ log(a);"###;
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_cond_branch_2() {
+fn terser_collapse_vars_cond_branch_2() {
     let src = r###"function f1(b, c) {
     var log = console.log;
     var a = ++c;
@@ -6705,7 +6705,7 @@ f3(5, 6);"###;
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_chained_1() {
+fn terser_collapse_vars_chained_1() {
     let src = r###"var a = 2;
 var a = 3 / a;
 console.log(a);"###;
@@ -6718,7 +6718,7 @@ console.log(a);"###;
 }
 
 #[test]
-fn tests_exec_terser_collapse_vars_reduce_vars_assign() {
+fn terser_collapse_vars_reduce_vars_assign() {
     let src = r###"!(function () {
     var a = 1;
     (a = [].length), console.log(a);
@@ -6733,7 +6733,7 @@ fn tests_exec_terser_collapse_vars_reduce_vars_assign() {
 }
 
 #[test]
-fn tests_exec_terser_inline_inline_within_extends_2() {
+fn terser_inline_inline_within_extends_2() {
     let src = r###"class Baz extends foo(bar(Array)) {
     constructor() {
         super(...arguments);
@@ -6774,7 +6774,7 @@ console.log(new Baz(1, "PASS", 3).second());"###;
 }
 
 #[test]
-fn tests_exec_terser_evaluate_unsafe_float_key() {
+fn terser_evaluate_unsafe_float_key() {
     let src = r###"console.log(
     { 2.72: 1 } + 1,
     { 2.72: 1 }[2.72] + 1,
@@ -6792,7 +6792,7 @@ fn tests_exec_terser_evaluate_unsafe_float_key() {
 }
 
 #[test]
-fn tests_exec_terser_evaluate_unsafe_float_key_complex() {
+fn terser_evaluate_unsafe_float_key_complex() {
     let src = r###"console.log(
     { 2.72: { 3.14: 1 }, 3.14: 1 } + 1,
     { 2.72: { 3.14: 1 }, 3.14: 1 }[2.72] + 1,
@@ -6810,7 +6810,7 @@ fn tests_exec_terser_evaluate_unsafe_float_key_complex() {
 }
 
 #[test]
-fn tests_exec_terser_issue_892_dont_mangle_arguments() {
+fn terser_issue_892_dont_mangle_arguments() {
     let src = r###"(function () {
     var arguments = arguments,
         not_arguments = 9;
@@ -6841,7 +6841,7 @@ fn tests_exec_terser_issue_892_dont_mangle_arguments() {
 }
 
 #[test]
-fn tests_exec_terser_properties_issue_t64() {
+fn terser_properties_issue_t64() {
     let src = r###"var obj = {};
 obj.Base = class {
     constructor() {
@@ -6868,7 +6868,7 @@ new obj.Derived();"###;
 }
 
 #[test]
-fn tests_exec_terser_properties_computed_property() {
+fn terser_properties_computed_property() {
     let src = r###"console.log({ a: "bar", [console.log("foo")]: 42 }.a);"###;
     let config = r###"{
     "properties": true,
@@ -6879,7 +6879,7 @@ fn tests_exec_terser_properties_computed_property() {
 }
 
 #[test]
-fn tests_exec_terser_properties_sub_properties() {
+fn terser_properties_sub_properties() {
     let src = r###"const a = {};
 
 a[0] = 0;
@@ -6902,7 +6902,7 @@ console.log(a)"###;
 }
 
 #[test]
-fn tests_exec_terser_properties_dont_mangle_computed_property_2() {
+fn terser_properties_dont_mangle_computed_property_2() {
     let src = r###"const prop = Symbol("foo");
 const obj = {
     [prop]: "bar",
@@ -6940,7 +6940,7 @@ console.log(obj.null, obj.undefined, obj.Infinity, obj.NaN);"###;
 }
 
 #[test]
-fn tests_exec_terser_properties_prop_side_effects_2() {
+fn terser_properties_prop_side_effects_2() {
     let src = r###"var C = 1;
 console.log(C);
 var obj = {
@@ -6965,7 +6965,7 @@ console.log(obj[""]());"###;
 }
 
 #[test]
-fn tests_exec_terser_properties_join_object_assignments_negative() {
+fn terser_properties_join_object_assignments_negative() {
     let src = r###"var o = {};
 o[0] = 0;
 o[-0] = 1;
@@ -6981,7 +6981,7 @@ console.log(o[0], o[-0], o[-1]);"###;
 }
 
 #[test]
-fn tests_exec_terser_properties_issue_2208_4() {
+fn terser_properties_issue_2208_4() {
     let src = r###"function foo() {}
 console.log(
     {
@@ -7001,7 +7001,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_properties_issue_869_1() {
+fn terser_properties_issue_869_1() {
     let src = r###"var o = { p: "FAIL" };
 Object.defineProperty(o, "p", {
     get: function () {
@@ -7015,7 +7015,7 @@ console.log(o.p);"###;
 }
 
 #[test]
-fn tests_exec_terser_properties_join_object_assignments_undefined_2() {
+fn terser_properties_join_object_assignments_undefined_2() {
     let src = r###"var o = {};
 o[undefined] = 1;
 console.log(o[undefined]);"###;
@@ -7029,7 +7029,7 @@ console.log(o[undefined]);"###;
 }
 
 #[test]
-fn tests_exec_terser_properties_issue_2208_5() {
+fn terser_properties_issue_2208_5() {
     let src = r###"console.log(
     {
         p: "FAIL",
@@ -7048,7 +7048,7 @@ fn tests_exec_terser_properties_issue_2208_5() {
 }
 
 #[test]
-fn tests_exec_terser_properties_issue_2513() {
+fn terser_properties_issue_2513() {
     let src = r###"!(function (Infinity, NaN, undefined) {
     console.log("a"[1 / 0], "b"["Infinity"]);
     console.log("c"[0 / 0], "d"["NaN"]);
@@ -7063,7 +7063,7 @@ fn tests_exec_terser_properties_issue_2513() {
 }
 
 #[test]
-fn tests_exec_terser_properties_join_object_assignments_return_1() {
+fn terser_properties_join_object_assignments_return_1() {
     let src = r###"console.log(
     (function () {
         var o = { p: 3 };
@@ -7078,7 +7078,7 @@ fn tests_exec_terser_properties_join_object_assignments_return_1() {
 }
 
 #[test]
-fn tests_exec_terser_properties_issue_2816_ecma6() {
+fn terser_properties_issue_2816_ecma6() {
     let src = r###""use strict";
 var o = { a: 1 };
 o.b = 2;
@@ -7094,7 +7094,7 @@ console.log(o.a, o.b, o.c);"###;
 }
 
 #[test]
-fn tests_exec_terser_properties_join_object_assignments_1() {
+fn terser_properties_join_object_assignments_1() {
     let src = r###"console.log(
     (function () {
         var x = { a: 1, c: (console.log("c"), "C") };
@@ -7116,7 +7116,7 @@ fn tests_exec_terser_properties_join_object_assignments_1() {
 }
 
 #[test]
-fn tests_exec_terser_properties_dont_mangle_computed_property_1() {
+fn terser_properties_dont_mangle_computed_property_1() {
     let src = r###""AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
 "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC";
@@ -7154,7 +7154,7 @@ console.log(obj.null, obj.undefined, obj.Infinity, obj.NaN);"###;
 }
 
 #[test]
-fn tests_exec_terser_properties_join_object_assignments_if() {
+fn terser_properties_join_object_assignments_if() {
     let src = r###"console.log(
     (function () {
         var o = {};
@@ -7169,7 +7169,7 @@ fn tests_exec_terser_properties_join_object_assignments_if() {
 }
 
 #[test]
-fn tests_exec_terser_properties_join_object_assignments_NaN_2() {
+fn terser_properties_join_object_assignments_nan_2() {
     let src = r###"var o = {};
 o[NaN] = 1;
 o[0 / 0] = 2;
@@ -7184,7 +7184,7 @@ console.log(o[NaN], o[NaN]);"###;
 }
 
 #[test]
-fn tests_exec_terser_properties_prop_side_effects_1() {
+fn terser_properties_prop_side_effects_1() {
     let src = r###"var C = 1;
 console.log(C);
 var obj = {
@@ -7208,7 +7208,7 @@ console.log(obj.bar());"###;
 }
 
 #[test]
-fn tests_exec_terser_properties_join_object_assignments_null_1() {
+fn terser_properties_join_object_assignments_null_1() {
     let src = r###"var o = {};
 o[null] = 1;
 console.log(o[null]);"###;
@@ -7222,7 +7222,7 @@ console.log(o[null]);"###;
 }
 
 #[test]
-fn tests_exec_terser_properties_issue_2208_7() {
+fn terser_properties_issue_2208_7() {
     let src = r###"console.log(
     {
         p() {
@@ -7242,7 +7242,7 @@ fn tests_exec_terser_properties_issue_2208_7() {
 }
 
 #[test]
-fn tests_exec_terser_properties_issue_869_2() {
+fn terser_properties_issue_869_2() {
     let src = r###"var o = { p: "FAIL" };
 Object.defineProperties(o, {
     p: {
@@ -7258,7 +7258,7 @@ console.log(o.p);"###;
 }
 
 #[test]
-fn tests_exec_terser_properties_issue_2208_9() {
+fn terser_properties_issue_2208_9() {
     let src = r###"a = 42;
 console.log(
     {
@@ -7278,7 +7278,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_properties_join_object_assignments_undefined_1() {
+fn terser_properties_join_object_assignments_undefined_1() {
     let src = r###"var o = {};
 o[undefined] = 1;
 console.log(o[undefined]);"###;
@@ -7290,7 +7290,7 @@ console.log(o[undefined]);"###;
 }
 
 #[test]
-fn tests_exec_terser_properties_join_object_assignments_forin() {
+fn terser_properties_join_object_assignments_forin() {
     let src = r###"console.log(
     (function () {
         var o = {};
@@ -7305,7 +7305,7 @@ fn tests_exec_terser_properties_join_object_assignments_forin() {
 }
 
 #[test]
-fn tests_exec_terser_properties_join_object_assignments_void_0() {
+fn terser_properties_join_object_assignments_void_0() {
     let src = r###"var o = {};
 o[void 0] = 1;
 console.log(o[void 0]);"###;
@@ -7318,7 +7318,7 @@ console.log(o[void 0]);"###;
 }
 
 #[test]
-fn tests_exec_terser_properties_join_object_assignments_return_2() {
+fn terser_properties_join_object_assignments_return_2() {
     let src = r###"console.log(
     (function () {
         var o = { p: 3 };
@@ -7333,7 +7333,7 @@ fn tests_exec_terser_properties_join_object_assignments_return_2() {
 }
 
 #[test]
-fn tests_exec_terser_properties_join_object_assignments_regex() {
+fn terser_properties_join_object_assignments_regex() {
     let src = r###"var o = {};
 o[/rx/] = 1;
 console.log(o[/rx/]);"###;
@@ -7347,7 +7347,7 @@ console.log(o[/rx/]);"###;
 }
 
 #[test]
-fn tests_exec_terser_properties_join_object_assignments_2() {
+fn terser_properties_join_object_assignments_2() {
     let src = r###"var o = { foo: 1 };
 o.bar = 2;
 o.baz = 3;
@@ -7366,7 +7366,7 @@ console.log(o.foo, o.bar + o.bar, o.foo * o.bar * o.baz);"###;
 }
 
 #[test]
-fn tests_exec_terser_properties_join_object_assignments_return_3() {
+fn terser_properties_join_object_assignments_return_3() {
     let src = r###"console.log(
     (function () {
         var o = { p: 3 };
@@ -7381,7 +7381,7 @@ fn tests_exec_terser_properties_join_object_assignments_return_3() {
 }
 
 #[test]
-fn tests_exec_terser_issue_1321_issue_1321_no_debug() {
+fn terser_issue_1321_issue_1321_no_debug() {
     let src = r###"var x = {};
 x.foo = 1;
 x["a"] = 2 * x.foo;
@@ -7392,7 +7392,7 @@ console.log(x.foo, x["a"]);"###;
 }
 
 #[test]
-fn tests_exec_terser_issue_1321_issue_1321_with_quoted() {
+fn terser_issue_1321_issue_1321_with_quoted() {
     let src = r###"var x = {};
 x.foo = 1;
 x["a"] = 2 * x.foo;
@@ -7403,7 +7403,7 @@ console.log(x.foo, x["a"]);"###;
 }
 
 #[test]
-fn tests_exec_terser_issue_1321_issue_1321_debug() {
+fn terser_issue_1321_issue_1321_debug() {
     let src = r###"var x = {};
 x.foo = 1;
 x["_$foo$_"] = 2 * x.foo;
@@ -7414,7 +7414,7 @@ console.log(x.foo, x["_$foo$_"]);"###;
 }
 
 #[test]
-fn tests_exec_terser_issue_976_eval_collapse_vars() {
+fn terser_issue_976_eval_collapse_vars() {
     let src = r###"function f1() {
     var e = 7;
     var s = "abcdef";
@@ -7464,7 +7464,7 @@ function p2() {
 }
 
 #[test]
-fn tests_exec_terser_array_constructor_unsafe() {
+fn terser_array_constructor_unsafe() {
     let src = r###"const foo = 'string'
 
 console.log(new Array());
@@ -7486,7 +7486,7 @@ console.log(Array("foo"));"###;
 }
 
 #[test]
-fn tests_exec_terser_sequences_forin() {
+fn terser_sequences_forin() {
     let src = r###"var o = [];
 o.push("PASS");
 for (var a in o) console.log(o[a]);"###;
@@ -7498,7 +7498,7 @@ for (var a in o) console.log(o[a]);"###;
 }
 
 #[test]
-fn tests_exec_terser_sequences_for_init_var() {
+fn terser_sequences_for_init_var() {
     let src = r###"var a = "PASS";
 (function () {
     var b = 42;
@@ -7516,7 +7516,7 @@ console.log(a);"###;
 }
 
 #[test]
-fn tests_exec_terser_sequences_func_def_1() {
+fn terser_sequences_func_def_1() {
     let src = r###"function f() {
     return (f = 0), !!f;
 }
@@ -7530,7 +7530,7 @@ console.log(f());"###;
 }
 
 #[test]
-fn tests_exec_terser_issue_1639_issue_1639_1() {
+fn terser_issue_1639_issue_1639_1() {
     let src = r###"var a = 100,
     b = 10;
 var L1 = 5;
@@ -7557,7 +7557,7 @@ console.log(a, b);"###;
 }
 
 #[test]
-fn tests_exec_terser_issue_1639_issue_1639_2() {
+fn terser_issue_1639_issue_1639_2() {
     let src = r###"var a = 100,
     b = 10;
 function f19() {
@@ -7579,7 +7579,7 @@ console.log(a, b);"###;
 }
 
 #[test]
-fn tests_exec_terser_arrays_for_loop() {
+fn terser_arrays_for_loop() {
     let src = r###"function f0() {
     var a = [1, 2, 3];
     var b = 0;
@@ -7610,7 +7610,7 @@ console.log(f0(), f1(), f2());"###;
 }
 
 #[test]
-fn tests_exec_terser_keep_quoted_strict_keep_quoted_strict() {
+fn terser_keep_quoted_strict_keep_quoted_strict() {
     let src = r###"var propa = 1;
 var a = {
     propa,
@@ -7647,7 +7647,7 @@ console.log(c.propa, c["propc"]);"###;
 }
 
 #[test]
-fn tests_exec_terser_switch_issue_1663() {
+fn terser_switch_issue_1663() {
     let src = r###"var a = 100,
     b = 10;
 function f() {
@@ -7672,7 +7672,7 @@ console.log(a, b);"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_2107() {
+fn terser_functions_issue_2107() {
     let src = r###"var c = 0;
 !(function () {
     c++;
@@ -7698,7 +7698,7 @@ console.log(c);"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_2630_5() {
+fn terser_functions_issue_2630_5() {
     let src = r###"var c = 1;
 !(function () {
     do {
@@ -7722,7 +7722,7 @@ console.log(c);"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_2630_2() {
+fn terser_functions_issue_2630_2() {
     let src = r###"var c = 0;
 !(function () {
     while (f()) {}
@@ -7747,7 +7747,7 @@ console.log(c);"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_2101() {
+fn terser_functions_issue_2101() {
     let src = r###"a = {};
 console.log(
     (function () {
@@ -7767,7 +7767,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_2630_3() {
+fn terser_functions_issue_2630_3() {
     let src = r###"var x = 2,
     a = 1;
 (function () {
@@ -7791,7 +7791,7 @@ console.log(a);"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_2630_4() {
+fn terser_functions_issue_2630_4() {
     let src = r###"var x = 3,
     a = 1,
     b = 2;
@@ -7816,7 +7816,7 @@ console.log(a);"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_1841_2() {
+fn terser_functions_issue_1841_2() {
     let src = r###"var b = 10;
 !(function (arg) {
     for (var key in "hi") var n = arg.baz, n = [(b = 42)];
@@ -7834,7 +7834,7 @@ console.log(b);"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_t131a() {
+fn terser_functions_issue_t131a() {
     let src = r###"(function () {
     function thing() {
         return { a: 1 };
@@ -7863,7 +7863,7 @@ fn tests_exec_terser_functions_issue_t131a() {
 }
 
 #[test]
-fn tests_exec_terser_functions_unsafe_apply_1() {
+fn terser_functions_unsafe_apply_1() {
     let src = r###"(function (a, b) {
     console.log(a, b);
 }.apply("foo", ["bar"]));
@@ -7886,7 +7886,7 @@ fn tests_exec_terser_functions_unsafe_apply_1() {
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_2898() {
+fn terser_functions_issue_2898() {
     let src = r###"var c = 0;
 (function () {
     while (f());
@@ -7908,7 +7908,7 @@ console.log(c);"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_inline_1() {
+fn terser_functions_inline_1() {
     let src = r###"(function () {
     console.log(1);
 })();
@@ -7929,7 +7929,7 @@ fn tests_exec_terser_functions_inline_1() {
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_3125() {
+fn terser_functions_issue_3125() {
     let src = r###"console.log(
     function () {
         return "PASS";
@@ -7944,7 +7944,7 @@ fn tests_exec_terser_functions_issue_3125() {
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_3016_2() {
+fn terser_functions_issue_3016_2() {
     let src = r###"var b = 1;
 do {
     (function (a) {
@@ -7967,7 +7967,7 @@ console.log(b);"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_2531_1() {
+fn terser_functions_issue_2531_1() {
     let src = r###"function outer() {
     function inner(value) {
         function closure() {
@@ -7992,7 +7992,7 @@ console.log("Greeting:", outer()());"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_use_before_init_in_loop() {
+fn terser_functions_use_before_init_in_loop() {
     let src = r###"var a = "PASS";
 for (var b = 2; --b >= 0; )
     (function () {
@@ -8011,7 +8011,7 @@ console.log(a);"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_unsafe_apply_expansion_2() {
+fn terser_functions_unsafe_apply_expansion_2() {
     let src = r###"var values = [2, 3];
 console.log.apply(console, [1, ...values, 4]);"###;
     let config = r###"{
@@ -8022,7 +8022,7 @@ console.log.apply(console, [1, ...values, 4]);"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_2663_2() {
+fn terser_functions_issue_2663_2() {
     let src = r###"(function () {
     var i;
     function fn(j) {
@@ -8043,7 +8043,7 @@ fn tests_exec_terser_functions_issue_2663_2() {
 }
 
 #[test]
-fn tests_exec_terser_functions_unsafe_call_3() {
+fn terser_functions_unsafe_call_3() {
     let src = r###"console.log(
     function () {
         return arguments[0] + eval("arguments")[1];
@@ -8058,7 +8058,7 @@ fn tests_exec_terser_functions_unsafe_call_3() {
 }
 
 #[test]
-fn tests_exec_terser_functions_unsafe_call_expansion_1() {
+fn terser_functions_unsafe_call_expansion_1() {
     let src = r###"(function (...a) {
     console.log(...a);
 }.call(console, 1, ...[2, 3], 4));"###;
@@ -8070,7 +8070,7 @@ fn tests_exec_terser_functions_unsafe_call_expansion_1() {
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_2630_1() {
+fn terser_functions_issue_2630_1() {
     let src = r###"var c = 0;
 (function () {
     while (f());
@@ -8097,7 +8097,7 @@ console.log(c);"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_203() {
+fn terser_functions_issue_203() {
     let src = r###"var m = {};
 var fn = Function("require", "module", "exports", "module.exports = 42;");
 fn(null, m, m.exports);
@@ -8113,7 +8113,7 @@ console.log(m.exports);"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_2842() {
+fn terser_functions_issue_2842() {
     let src = r###"(function () {
     function inlinedFunction(data) {
         return data[data[0]];
@@ -8136,7 +8136,7 @@ fn tests_exec_terser_functions_issue_2842() {
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_1841_1() {
+fn terser_functions_issue_1841_1() {
     let src = r###"var b = 10;
 !(function (arg) {
     for (var key in "hi") var n = arg.baz, n = [(b = 42)];
@@ -8154,7 +8154,7 @@ console.log(b);"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_2476() {
+fn terser_functions_issue_2476() {
     let src = r###"function foo(x, y, z) {
     return x < y ? x * y + z : x * z - y;
 }
@@ -8171,7 +8171,7 @@ console.log(sum);"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_t131b() {
+fn terser_functions_issue_t131b() {
     let src = r###"(function () {
     function thing() {
         return { a: 1 };
@@ -8196,7 +8196,7 @@ fn tests_exec_terser_functions_issue_t131b() {
 }
 
 #[test]
-fn tests_exec_terser_functions_inline_2() {
+fn terser_functions_inline_2() {
     let src = r###"(function () {
     console.log(1);
 })();
@@ -8217,7 +8217,7 @@ fn tests_exec_terser_functions_inline_2() {
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_2531_3() {
+fn terser_functions_issue_2531_3() {
     let src = r###"function outer() {
     function inner(value) {
         function closure() {
@@ -8245,7 +8245,7 @@ console.log("Greeting:", outer()());"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_inline_3() {
+fn terser_functions_inline_3() {
     let src = r###"(function () {
     console.log(1);
 })();
@@ -8266,7 +8266,7 @@ fn tests_exec_terser_functions_inline_3() {
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_2657() {
+fn terser_functions_issue_2657() {
     let src = r###""use strict";
 console.log(
     (function f() {
@@ -8292,7 +8292,7 @@ console.log(
 }
 
 #[test]
-fn tests_exec_terser_functions_unsafe_apply_expansion_1() {
+fn terser_functions_unsafe_apply_expansion_1() {
     let src = r###"console.log.apply(console, [1, ...[2, 3], 4]);"###;
     let config = r###"{
     "unsafe": true
@@ -8302,7 +8302,7 @@ fn tests_exec_terser_functions_unsafe_apply_expansion_1() {
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_3016_1() {
+fn terser_functions_issue_3016_1() {
     let src = r###"var b = 1;
 do {
     (function (a) {
@@ -8320,7 +8320,7 @@ console.log(b);"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_2531_2() {
+fn terser_functions_issue_2531_2() {
     let src = r###"function outer() {
     function inner(value) {
         function closure() {
@@ -8347,7 +8347,7 @@ console.log("Greeting:", outer()());"###;
 }
 
 #[test]
-fn tests_exec_terser_functions_unsafe_call_expansion_2() {
+fn terser_functions_unsafe_call_expansion_2() {
     let src = r###"var values = [2, 3];
 (function (...a) {
     console.log(...a);
@@ -8360,7 +8360,7 @@ fn tests_exec_terser_functions_unsafe_call_expansion_2() {
 }
 
 #[test]
-fn tests_exec_terser_functions_issue_2783() {
+fn terser_functions_issue_2783() {
     let src = r###"(function () {
     return g;
     function f(a) {
@@ -8387,7 +8387,7 @@ fn tests_exec_terser_functions_issue_2783() {
 }
 
 #[test]
-fn tests_exec_terser_functions_unsafe_call_1() {
+fn terser_functions_unsafe_call_1() {
     let src = r###"(function (a, b) {
     console.log(a, b);
 }.call("foo", "bar"));
@@ -8407,7 +8407,7 @@ fn tests_exec_terser_functions_unsafe_call_1() {
 }
 
 #[test]
-fn tests_exec_terser_issue_1466_different_variable_in_multiple_forOf() {
+fn terser_issue_1466_different_variable_in_multiple_for_of() {
     let src = r###"var test = ["a", "b", "c"];
 for (let tmp of test) {
     console.log(tmp);
@@ -8437,7 +8437,7 @@ for (let tmp of test) {
 }
 
 #[test]
-fn tests_exec_terser_issue_1466_same_variable_in_multiple_forOf() {
+fn terser_issue_1466_same_variable_in_multiple_for_of() {
     let src = r###"var test = ["a", "b", "c"];
 for (let tmp of test) {
     console.log(tmp);
@@ -8467,7 +8467,7 @@ for (let tmp of test) {
 }
 
 #[test]
-fn tests_exec_terser_issue_1466_same_variable_in_multiple_forOf_sequences_let() {
+fn terser_issue_1466_same_variable_in_multiple_for_of_sequences_let() {
     let src = r###"var test = ["a", "b", "c"];
 for (let tmp of test) {
     console.log(tmp);
@@ -8498,7 +8498,7 @@ for (let tmp of test) {
 }
 
 #[test]
-fn tests_exec_terser_issue_1466_same_variable_in_multiple_forIn_sequences_const() {
+fn terser_issue_1466_same_variable_in_multiple_for_in_sequences_const() {
     let src = r###"var test = ["a", "b", "c"];
 for (const tmp in test) {
     console.log(tmp);
@@ -8529,7 +8529,7 @@ for (const tmp in test) {
 }
 
 #[test]
-fn tests_exec_terser_issue_1466_more_variable_in_multiple_for() {
+fn terser_issue_1466_more_variable_in_multiple_for() {
     let src = r###"for (let a = 9, i = 0; i < 20; i += a) {
     let b = a++ + i;
     console.log(a, b, i);
@@ -8557,7 +8557,7 @@ fn tests_exec_terser_issue_1466_more_variable_in_multiple_for() {
 }
 
 #[test]
-fn tests_exec_terser_issue_1466_different_variable_in_multiple_forIn() {
+fn terser_issue_1466_different_variable_in_multiple_for_in() {
     let src = r###"var test = ["a", "b", "c"];
 for (let tmp in test) {
     console.log(tmp);
@@ -8587,7 +8587,7 @@ for (let tmp in test) {
 }
 
 #[test]
-fn tests_exec_terser_issue_1466_same_variable_in_multiple_forIn() {
+fn terser_issue_1466_same_variable_in_multiple_for_in() {
     let src = r###"var test = ["a", "b", "c"];
 for (let tmp in test) {
     console.log(tmp);
@@ -8617,7 +8617,7 @@ for (let tmp in test) {
 }
 
 #[test]
-fn tests_exec_terser_issue_1466_same_variable_in_multiple_forIn_sequences_let() {
+fn terser_issue_1466_same_variable_in_multiple_for_in_sequences_let() {
     let src = r###"var test = ["a", "b", "c"];
 for (let tmp in test) {
     console.log(tmp);
@@ -8648,7 +8648,7 @@ for (let tmp in test) {
 }
 
 #[test]
-fn tests_exec_terser_issue_1466_same_variable_in_multiple_forOf_sequences_const() {
+fn terser_issue_1466_same_variable_in_multiple_for_of_sequences_const() {
     let src = r###"var test = ["a", "b", "c"];
 for (const tmp of test) {
     console.log(tmp);
@@ -8679,7 +8679,7 @@ for (const tmp of test) {
 }
 
 #[test]
-fn tests_exec_terser_issue_747_dont_reuse_prop() {
+fn terser_issue_747_dont_reuse_prop() {
     let src = r###""aaaaaaaaaabbbbb";
 var obj = {};
 obj.a = 123;
@@ -8691,7 +8691,7 @@ console.log(obj.a);"###;
 }
 
 #[test]
-fn tests_exec_terser_issue_747_unmangleable_props_should_always_be_reserved() {
+fn terser_issue_747_unmangleable_props_should_always_be_reserved() {
     let src = r###""aaaaaaaaaabbbbb";
 var obj = {};
 obj.asd = 256;
@@ -8703,7 +8703,7 @@ console.log(obj.a);"###;
 }
 
 #[test]
-fn tests_exec_terser_loops_issue_2740_7() {
+fn terser_loops_issue_2740_7() {
     let src = r###"let a = 9,
     b = 0;
 for (const a = 1; a < 3; ++b) break;
@@ -8717,7 +8717,7 @@ console.log(a, b);"###;
 }
 
 #[test]
-fn tests_exec_terser_loops_issue_2740_8() {
+fn terser_loops_issue_2740_8() {
     let src = r###"var a = 9,
     b = 0;
 for (const a = 1; a < 3; ++b) break;
@@ -8731,7 +8731,7 @@ console.log(a, b);"###;
 }
 
 #[test]
-fn tests_exec_terser_loops_issue_2740_6() {
+fn terser_loops_issue_2740_6() {
     let src = r###"const a = 9,
     b = 0;
 for (const a = 1; a < 3; ++b) break;
@@ -8745,7 +8745,7 @@ console.log(a, b);"###;
 }
 
 #[test]
-fn tests_exec_terser_loops_issue_2740_3() {
+fn terser_loops_issue_2740_3() {
     let src = r###"L1: for (var x = 0; x < 3; x++) {
     L2: for (var y = 0; y < 2; y++) {
         break L1;
@@ -8761,7 +8761,7 @@ console.log(x, y);"###;
 }
 
 #[test]
-fn tests_exec_terser_loops_issue_2740_4() {
+fn terser_loops_issue_2740_4() {
     let src = r###"L1: for (var x = 0; x < 3; x++) {
     L2: for (var y = 0; y < 2; y++) {
         break L2;
@@ -8778,7 +8778,7 @@ console.log(x, y);"###;
 }
 
 #[test]
-fn tests_exec_terser_loops_issue_2740_5() {
+fn terser_loops_issue_2740_5() {
     let src = r###"L1: for (var x = 0; x < 3; x++) {
     break L1;
     L2: for (var y = 0; y < 2; y++) {
@@ -8796,7 +8796,7 @@ console.log(x, y);"###;
 }
 
 #[test]
-fn tests_exec_terser_rename_function_iife_catch() {
+fn terser_rename_function_iife_catch() {
     let src = r###"function f(n) {
     !(function () {
         try {
@@ -8814,7 +8814,7 @@ f();"###;
 }
 
 #[test]
-fn tests_exec_terser_rename_mangle_catch_var() {
+fn terser_rename_mangle_catch_var() {
     let src = r###"var a = "FAIL";
 try {
     throw 1;
@@ -8831,7 +8831,7 @@ console.log(a);"###;
 }
 
 #[test]
-fn tests_exec_terser_negate_iife_issue_1254_negate_iife_true() {
+fn terser_negate_iife_issue_1254_negate_iife_true() {
     let src = r###"(function () {
     return function () {
         console.log("test");
@@ -8845,7 +8845,7 @@ fn tests_exec_terser_negate_iife_issue_1254_negate_iife_true() {
 }
 
 #[test]
-fn tests_exec_terser_try_catch_catch_destructuring_with_sequence() {
+fn terser_try_catch_catch_destructuring_with_sequence() {
     let src = r###"try {
     throw {};
 } catch ({ xCover = (0, function () { }) }) {
@@ -8857,7 +8857,7 @@ fn tests_exec_terser_try_catch_catch_destructuring_with_sequence() {
 }
 
 #[test]
-fn tests_exec_terser_issue_281_pure_annotation_1() {
+fn terser_issue_281_pure_annotation_1() {
     let src = r###"(function () {
     console.log("hello");
 })();"###;
@@ -8870,7 +8870,7 @@ fn tests_exec_terser_issue_281_pure_annotation_1() {
 }
 
 #[test]
-fn tests_exec_terser_issue_281_keep_fargs() {
+fn terser_issue_281_keep_fargs() {
     let src = r###"var a = 1;
 !(function (a_1) {
     a++;
@@ -8888,7 +8888,7 @@ console.log(a);"###;
 }
 
 #[test]
-fn tests_exec_terser_issue_281_drop_fargs() {
+fn terser_issue_281_drop_fargs() {
     let src = r###"var a = 1;
 !(function (a_1) {
     a++;
@@ -8906,7 +8906,7 @@ console.log(a);"###;
 }
 
 #[test]
-fn tests_exec_terser_issue_281_pure_annotation_2() {
+fn terser_issue_281_pure_annotation_2() {
     let src = r###"(function (n) {
     console.log("hello", n);
 })(42);"###;
@@ -8920,7 +8920,7 @@ fn tests_exec_terser_issue_281_pure_annotation_2() {
 }
 
 #[test]
-fn tests_exec_terser_arguments_duplicate_parameter_with_arguments() {
+fn terser_arguments_duplicate_parameter_with_arguments() {
     let src = r###"(function (a, a) {
     console.log((a = "foo"), arguments[0]);
 })("baz", "Bar");"###;
@@ -8933,7 +8933,7 @@ fn tests_exec_terser_arguments_duplicate_parameter_with_arguments() {
 }
 
 #[test]
-fn tests_exec_terser_arguments_destructuring_1() {
+fn terser_arguments_destructuring_1() {
     let src = r###"(function (a, { d: d }) {
     console.log((a = "foo"), arguments[0]);
 })("baz", { d: "Bar" });"###;
@@ -8946,7 +8946,7 @@ fn tests_exec_terser_arguments_destructuring_1() {
 }
 
 #[test]
-fn tests_exec_terser_arguments_destructuring_2() {
+fn terser_arguments_destructuring_2() {
     let src = r###"(function ({ d: d }, a) {
     console.log((a = "foo"), arguments[0].d);
 })({ d: "Bar" }, "baz");"###;
@@ -8959,7 +8959,7 @@ fn tests_exec_terser_arguments_destructuring_2() {
 }
 
 #[test]
-fn tests_exec_terser_arguments_modified_strict() {
+fn terser_arguments_modified_strict() {
     let src = r###""use strict";
 (function (a, b) {
     var c = arguments[0];
@@ -8979,7 +8979,7 @@ fn tests_exec_terser_arguments_modified_strict() {
 }
 
 #[test]
-fn tests_exec_terser_arguments_replace_index() {
+fn terser_arguments_replace_index() {
     let src = r###"var arguments = [];
 console.log(arguments[0]);
 (function () {
@@ -9005,7 +9005,7 @@ console.log(arguments[0]);
 }
 
 #[test]
-fn tests_exec_terser_arguments_modified() {
+fn terser_arguments_modified() {
     let src = r###"(function (a, b) {
     var c = arguments[0];
     var d = arguments[1];
@@ -9023,7 +9023,7 @@ fn tests_exec_terser_arguments_modified() {
 }
 
 #[test]
-fn tests_exec_terser_arguments_replace_index_strict() {
+fn terser_arguments_replace_index_strict() {
     let src = r###""use strict";
 (function () {
     console.log(arguments[1], arguments["1"], arguments["foo"]);
@@ -9042,7 +9042,7 @@ fn tests_exec_terser_arguments_replace_index_strict() {
 }
 
 #[test]
-fn tests_exec_terser_arguments_issue_687() {
+fn terser_arguments_issue_687() {
     let src = r###"function shouldBePure() {
     return arguments.length;
 }
@@ -9056,7 +9056,7 @@ console.log(shouldBePure())"###;
 }
 
 #[test]
-fn tests_exec_terser_arguments_replace_index_keep_fargs() {
+fn terser_arguments_replace_index_keep_fargs() {
     let src = r###"var arguments = [];
 console.log(arguments[0]);
 (function () {
@@ -9083,7 +9083,7 @@ console.log(arguments[0]);
 }
 
 #[test]
-fn tests_exec_terser_typeof_issue_2728_3() {
+fn terser_typeof_issue_2728_3() {
     let src = r###"(function () {
     function arguments() {}
     console.log(typeof arguments);
@@ -9098,7 +9098,7 @@ fn tests_exec_terser_typeof_issue_2728_3() {
 }
 
 #[test]
-fn tests_exec_terser_typeof_issue_2728_4() {
+fn terser_typeof_issue_2728_4() {
     let src = r###"function arguments() {}
 console.log(typeof arguments);"###;
     let config = r###"{
@@ -9112,7 +9112,7 @@ console.log(typeof arguments);"###;
 }
 
 #[test]
-fn tests_exec_terser_typeof_typeof_defun_1() {
+fn terser_typeof_typeof_defun_1() {
     let src = r###"function f() {
     console.log("YES");
 }
@@ -9142,7 +9142,7 @@ g = 42;
 }
 
 #[test]
-fn tests_exec_terser_pure_funcs_issue_3065_4() {
+fn terser_pure_funcs_issue_3065_4() {
     let src = r###"var debug = function (msg) {
     console.log(msg);
 };
@@ -9164,7 +9164,7 @@ debug(
 }
 
 #[test]
-fn tests_exec_terser_pure_funcs_issue_3065_3() {
+fn terser_pure_funcs_issue_3065_3() {
     let src = r###"function debug(msg) {
     console.log(msg);
 }
@@ -9186,7 +9186,7 @@ debug(
 }
 
 #[test]
-fn tests_exec_issues_vercel_ms_1() {
+fn issues_vercel_ms_1() {
     let src = r###"const s = 1000;
 const m = s * 60;
 const h = m * 60;
@@ -9319,7 +9319,7 @@ console.log(ms(12321341234217))"###;
 }
 
 #[test]
-fn tests_exec_issues_2011_1() {
+fn issues_2011_1() {
     let src = r###"class ClassA {
     constructor() {
         console.log('Class A');
@@ -9352,7 +9352,7 @@ new cls().it();"###;
 }
 
 #[test]
-fn tests_exec_issues_2011_2() {
+fn issues_2011_2() {
     let src = r###"function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -9421,7 +9421,7 @@ new cls().it();"###;
 }
 
 #[test]
-fn tests_exec_murmur2_1() {
+fn murmur2_1() {
     let src = r###"function murmur2(str) {
     // 'm' and 'r' are mixing constants generated offline.
     // They're not really 'magic', they just happen to work well.
@@ -9485,7 +9485,7 @@ console.log(murmur2("1va1ns`klj"))"###;
 }
 
 #[test]
-fn tests_exec_murmur2_reduced() {
+fn murmur2_reduced() {
     let src = r###"function murmur2(str) {
     var h = 0;
     var k, i = 0, len = str.length;
