@@ -73,7 +73,7 @@ where
         }
 
         if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
-            if !had_init && var.init.is_none() {
+            if had_init && var.init.is_none() {
                 unreachable!("const/let variable without initializer: {:#?}", var);
             }
         }
