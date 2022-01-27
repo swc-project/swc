@@ -2135,7 +2135,6 @@ where
         {
             if v.decls.is_empty() {
                 s.take();
-                return;
             }
         }
     }
