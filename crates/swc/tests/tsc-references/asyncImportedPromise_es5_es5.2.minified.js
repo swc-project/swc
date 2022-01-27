@@ -69,7 +69,7 @@ function _wrapNativeSuper(Class) {
         }), _setPrototypeOf(Wrapper, Class);
     }, _wrapNativeSuper(Class);
 }
-export var _typeof, Task = function(Promise) {
+export var Task = function(Promise) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");

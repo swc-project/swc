@@ -1,5 +1,5 @@
 try {} catch (_param) {
-    !function(source, excluded) {
+    _param.a, (function(source, excluded) {
         if (null == source) return {};
         var key, i, target = function(source, excluded) {
             if (null == source) return {};
@@ -11,8 +11,7 @@ try {} catch (_param) {
             var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
             for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
         }
-        return target;
-    }(_param, [
+    })(_param, [
         "a"
     ]);
 }

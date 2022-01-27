@@ -507,9 +507,8 @@
         "\u2029": "u2029"
     }, escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
     _.template = function(text, data1, settings) {
-        var render;
         settings = _.defaults({}, settings, _.templateSettings);
-        var matcher = new RegExp([
+        var render, matcher = new RegExp([
             (settings.escape || noMatch).source,
             (settings.interpolate || noMatch).source,
             (settings.evaluate || noMatch).source

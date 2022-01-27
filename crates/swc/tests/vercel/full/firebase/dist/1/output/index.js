@@ -49,9 +49,8 @@ var a, b = require("@firebase/util"), c = require("tslib"), d = require("@fireba
             return a.firebase.INTERNAL.removeApp(a.name), e.deleteApp(a._delegate);
         });
     }, a.prototype._getService = function(a, b) {
-        var c;
         void 0 === b && (b = e._DEFAULT_ENTRY_NAME), this._delegate.checkDestroyed();
-        var d = this._delegate.container.getProvider(a);
+        var c, d = this._delegate.container.getProvider(a);
         return d.isInitialized() || (null === (c = d.getComponent()) || void 0 === c ? void 0 : c.instantiationMode) !== "EXPLICIT" || d.initialize(), d.getImmediate({
             identifier: b
         });

@@ -13,4 +13,4 @@ class C {
 C.g = ()=>""
 ;
 var c = new C();
-c.x, c.a, c.b, c.c(), c.d(), C.f(), C.g();
+c.x, c.a, c.b, c.c(), c.d(), C.e, C.f(), C.g();

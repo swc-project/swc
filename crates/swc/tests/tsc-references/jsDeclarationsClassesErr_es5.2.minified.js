@@ -44,7 +44,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-export var _typeof, M = function() {
+export var M = function() {
     "use strict";
     _classCallCheck(this, M);
 };

@@ -11,4 +11,4 @@ class A {
     M1.n = n;
 }(M || (M = {}));
 var M, objA = new A();
-objA.a, foo(), A.foo(), foo(), objA.a;
+objA.a, M.n, foo(), A.foo(), foo(), objA.a, M.n;
