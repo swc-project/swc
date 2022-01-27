@@ -22,9 +22,15 @@ error: UnknownAtRule
 1 | @\,unknown;
   | ^^^^^^^^^^^
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/eP2iXsnOY42u7Q_IcchPZA/input.css:1:1
+error: AtRuleName
+ --> $DIR/tests/fixture/esbuild/misc/eP2iXsnOY42u7Q_IcchPZA/input.css:1:2
   |
 1 | @\,unknown;
-  | ^^^^^^^^^^
+  |  ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/esbuild/misc/eP2iXsnOY42u7Q_IcchPZA/input.css:1:2
+  |
+1 | @\,unknown;
+  |  ^^^^^^^^^
 

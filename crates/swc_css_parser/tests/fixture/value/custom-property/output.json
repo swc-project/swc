@@ -80,7 +80,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 12,
                 "end": 14,
@@ -124,7 +124,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 27,
                 "end": 38,
@@ -172,7 +172,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 60,
                 "end": 72,
@@ -232,7 +232,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 95,
                 "end": 107,
@@ -304,7 +304,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 131,
                 "end": 143,
@@ -364,7 +364,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 166,
                 "end": 178,
@@ -446,7 +446,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 204,
                 "end": 211,
@@ -489,7 +489,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 219,
                 "end": 227,
@@ -532,7 +532,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 239,
                 "end": 247,
@@ -579,7 +579,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 265,
                 "end": 273,
@@ -626,7 +626,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 295,
                 "end": 303,
@@ -669,7 +669,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 326,
                 "end": 341,
@@ -713,7 +713,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 353,
                 "end": 361,
@@ -770,7 +770,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 370,
                 "end": 376,
@@ -829,7 +829,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 389,
                 "end": 396,
@@ -886,7 +886,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 409,
                 "end": 419,
@@ -1014,7 +1014,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 438,
                 "end": 448,
@@ -1091,7 +1091,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 468,
                 "end": 476,
@@ -1147,7 +1147,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 506,
                 "end": 514,
@@ -1203,7 +1203,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 545,
                 "end": 559,
@@ -1344,7 +1344,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 576,
                 "end": 591,
@@ -1403,7 +1403,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 601,
                 "end": 616,
@@ -1450,7 +1450,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 625,
                 "end": 638,
@@ -1591,7 +1591,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 655,
                 "end": 669,
@@ -1650,7 +1650,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 679,
                 "end": 693,
@@ -1697,7 +1697,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 702,
                 "end": 717,
@@ -1838,7 +1838,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 734,
                 "end": 750,
@@ -1897,7 +1897,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 760,
                 "end": 776,
@@ -1944,7 +1944,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 787,
                 "end": 793,
@@ -2220,7 +2220,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 834,
                 "end": 846,
@@ -2408,7 +2408,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 891,
                 "end": 896,
@@ -2459,7 +2459,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 908,
                 "end": 913,
@@ -2510,7 +2510,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 925,
                 "end": 943,
@@ -2781,7 +2781,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 980,
                 "end": 996,
@@ -2853,7 +2853,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 1015,
                 "end": 1040,
@@ -2920,7 +2920,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 1051,
                 "end": 1072,
@@ -3060,7 +3060,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 1088,
                 "end": 1091,
@@ -3174,7 +3174,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 1102,
                 "end": 1107,
@@ -3286,7 +3286,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Identifier",
+              "type": "DashedIdentifier",
               "span": {
                 "start": 1123,
                 "end": 1128,

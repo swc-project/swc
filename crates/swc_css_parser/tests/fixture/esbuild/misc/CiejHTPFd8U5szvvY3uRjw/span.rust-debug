@@ -58,6 +58,12 @@ error: Declaration
 1 | a { value: @\6beyword }
   |     ^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:5
+  |
+1 | a { value: @\6beyword }
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:5
   |

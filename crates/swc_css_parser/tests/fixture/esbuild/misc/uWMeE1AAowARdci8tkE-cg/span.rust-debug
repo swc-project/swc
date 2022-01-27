@@ -88,6 +88,12 @@ error: Declaration
 1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
   |                        ^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:24
+  |
+1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
+  |                        ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:24
   |
@@ -165,6 +171,12 @@ error: Declaration
   |
 1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
   |                                          ^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:42
+  |
+1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
+  |                                          ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:42

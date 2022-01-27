@@ -25,11 +25,11 @@ pub use swc_common::chain;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     errors::Handler,
-    FileName, Mark, SourceMap,
+    FileName, Mark, SourceMap, SyntaxContext,
 };
 use swc_ecma_ast::{EsVersion, Expr, Program};
 use swc_ecma_ext_transforms::jest;
-use swc_ecma_lints::rules::lint_to_fold;
+use swc_ecma_lints::{config::LintConfig, rules::lint_to_fold};
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
@@ -277,6 +277,7 @@ impl Options {
             paths,
             minify: mut js_minify,
             experimental,
+            lints,
             ..
         } = config.jsc;
 
@@ -368,6 +369,8 @@ impl Options {
             .global_mark
             .unwrap_or_else(|| Mark::fresh(Mark::root()));
 
+        let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
+
         let pass = chain!(
             const_modules,
             optimization,
@@ -427,7 +430,7 @@ impl Options {
                 ),
                 syntax.typescript()
             ),
-            lint_to_fold(swc_ecma_lints::rules::all()),
+            lint_to_fold(swc_ecma_lints::rules::all(&lints, top_level_ctxt)),
             crate::plugin::plugins(experimental),
             custom_before_pass(&program),
             // handle jsx
@@ -961,6 +964,9 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub experimental: JscExperimental,
+
+    #[serde(default)]
+    pub lints: LintConfig,
 }
 
 /// `jsc.experimental` in `.swcrc`

@@ -58,6 +58,12 @@ error: Declaration
 1 | a { color: #ABCF }
   |     ^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/SFBgyV9jnFbMzWZoo9VbSQ/input.css:1:5
+  |
+1 | a { color: #ABCF }
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/SFBgyV9jnFbMzWZoo9VbSQ/input.css:1:5
   |

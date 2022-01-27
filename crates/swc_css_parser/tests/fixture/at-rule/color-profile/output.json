@@ -1,0 +1,150 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 222,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "ColorProfileRule",
+      "span": {
+        "start": 0,
+        "end": 94,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "DashedIdentifier",
+        "span": {
+          "start": 15,
+          "end": 24,
+          "ctxt": 0
+        },
+        "value": "--fogra39",
+        "raw": "--fogra39"
+      },
+      "block": [
+        {
+          "type": "Declaration",
+          "span": {
+            "start": 31,
+            "end": 91,
+            "ctxt": 0
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 31,
+              "end": 34,
+              "ctxt": 0
+            },
+            "value": "src",
+            "raw": "src"
+          },
+          "value": [
+            {
+              "type": "Url",
+              "span": {
+                "start": 36,
+                "end": 91,
+                "ctxt": 0
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 36,
+                  "end": 39,
+                  "ctxt": 0
+                },
+                "value": "url",
+                "raw": "url"
+              },
+              "value": {
+                "type": "String",
+                "span": {
+                  "start": 40,
+                  "end": 90,
+                  "ctxt": 0
+                },
+                "value": "https://example.org/Coated_Fogra39L_VIGC_300.icc",
+                "raw": "'https://example.org/Coated_Fogra39L_VIGC_300.icc'"
+              },
+              "modifiers": []
+            }
+          ],
+          "important": null
+        }
+      ]
+    },
+    {
+      "type": "ColorProfileRule",
+      "span": {
+        "start": 96,
+        "end": 221,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Identifier",
+        "span": {
+          "start": 111,
+          "end": 122,
+          "ctxt": 0
+        },
+        "value": "device-cmyk",
+        "raw": "device-cmyk"
+      },
+      "block": [
+        {
+          "type": "Declaration",
+          "span": {
+            "start": 129,
+            "end": 218,
+            "ctxt": 0
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 129,
+              "end": 132,
+              "ctxt": 0
+            },
+            "value": "src",
+            "raw": "src"
+          },
+          "value": [
+            {
+              "type": "Url",
+              "span": {
+                "start": 134,
+                "end": 218,
+                "ctxt": 0
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 134,
+                  "end": 137,
+                  "ctxt": 0
+                },
+                "value": "url",
+                "raw": "url"
+              },
+              "value": {
+                "type": "String",
+                "span": {
+                  "start": 138,
+                  "end": 217,
+                  "ctxt": 0
+                },
+                "value": "https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc",
+                "raw": "'https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc'"
+              },
+              "modifiers": []
+            }
+          ],
+          "important": null
+        }
+      ]
+    }
+  ]
+}

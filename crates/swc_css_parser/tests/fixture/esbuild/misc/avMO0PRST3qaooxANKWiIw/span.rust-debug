@@ -64,6 +64,12 @@ error: Declaration
 1 | .decl { a: b; c: d; }
   |         ^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:9
+  |
+1 | .decl { a: b; c: d; }
+  |         ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:9
   |
@@ -87,6 +93,12 @@ error: Declaration
   |
 1 | .decl { a: b; c: d; }
   |               ^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:15
+  |
+1 | .decl { a: b; c: d; }
+  |               ^
 
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:15

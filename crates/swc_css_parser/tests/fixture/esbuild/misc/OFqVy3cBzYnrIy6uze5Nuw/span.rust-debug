@@ -94,6 +94,12 @@ error: Declaration
 1 | @keyframes test { from {} to { color: red } }
   |                                ^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/OFqVy3cBzYnrIy6uze5Nuw/input.css:1:32
+  |
+1 | @keyframes test { from {} to { color: red } }
+  |                                ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/OFqVy3cBzYnrIy6uze5Nuw/input.css:1:32
   |

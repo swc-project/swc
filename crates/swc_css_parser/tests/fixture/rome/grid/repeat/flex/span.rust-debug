@@ -73,6 +73,12 @@ error: Declaration
 2 |     grid-template-columns: repeat(4, 1fr);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:2
+  |
+2 |     grid-template-columns: repeat(4, 1fr);
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:2
   |

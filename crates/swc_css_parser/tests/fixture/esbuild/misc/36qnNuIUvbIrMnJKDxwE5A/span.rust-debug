@@ -58,6 +58,12 @@ error: Declaration
 1 | a { value: \66n() }
   |     ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/36qnNuIUvbIrMnJKDxwE5A/input.css:1:5
+  |
+1 | a { value: \66n() }
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/36qnNuIUvbIrMnJKDxwE5A/input.css:1:5
   |

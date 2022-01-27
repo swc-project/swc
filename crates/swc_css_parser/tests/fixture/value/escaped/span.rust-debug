@@ -67,6 +67,12 @@ error: Declaration
 2 |     color: \red;
   |     ^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/value/escaped/input.css:2:5
+  |
+2 |     color: \red;
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/value/escaped/input.css:2:5
   |

@@ -58,6 +58,12 @@ error: Declaration
 1 | a { width: -.0%; }
   |     ^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/ptR_ezJzwIRsP3geOEZI5A/input.css:1:5
+  |
+1 | a { width: -.0%; }
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/ptR_ezJzwIRsP3geOEZI5A/input.css:1:5
   |

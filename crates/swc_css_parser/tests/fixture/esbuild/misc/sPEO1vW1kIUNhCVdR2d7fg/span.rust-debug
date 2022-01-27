@@ -58,6 +58,12 @@ error: Declaration
 1 | a { value: 10x\, }
   |     ^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:5
+  |
+1 | a { value: 10x\, }
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:5
   |

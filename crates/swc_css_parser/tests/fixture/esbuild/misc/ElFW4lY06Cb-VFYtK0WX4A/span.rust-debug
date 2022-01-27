@@ -88,6 +88,12 @@ error: Declaration
 1 | @-moz-document url-prefix() { h1 { color: green } }
   |                                    ^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:36
+  |
+1 | @-moz-document url-prefix() { h1 { color: green } }
+  |                                    ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:36
   |

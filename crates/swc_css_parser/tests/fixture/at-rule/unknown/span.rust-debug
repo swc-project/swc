@@ -28,11 +28,17 @@ error: UnknownAtRule
 1 | @unknown;
   | ^^^^^^^^^
 
-error: Ident
- --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
+error: AtRuleName
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:1:2
   |
 1 | @unknown;
-  | ^^^^^^^^
+  |  ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:1:2
+  |
+1 | @unknown;
+  |  ^^^^^^^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/unknown/input.css:2:1
@@ -52,11 +58,17 @@ error: UnknownAtRule
 2 | @unknown x y;
   | ^^^^^^^^^^^^^
 
-error: Ident
- --> $DIR/tests/fixture/at-rule/unknown/input.css:2:1
+error: AtRuleName
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:2:2
   |
 2 | @unknown x y;
-  | ^^^^^^^^
+  |  ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:2:2
+  |
+2 | @unknown x y;
+  |  ^^^^^^^
 
 error: Value
  --> $DIR/tests/fixture/at-rule/unknown/input.css:2:9
@@ -148,11 +160,17 @@ error: UnknownAtRule
 3 | @unknown "blah";
   | ^^^^^^^^^^^^^^^^
 
-error: Ident
- --> $DIR/tests/fixture/at-rule/unknown/input.css:3:1
+error: AtRuleName
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:3:2
   |
 3 | @unknown "blah";
-  | ^^^^^^^^
+  |  ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:3:2
+  |
+3 | @unknown "blah";
+  |  ^^^^^^^
 
 error: Value
  --> $DIR/tests/fixture/at-rule/unknown/input.css:3:9
@@ -208,11 +226,17 @@ error: UnknownAtRule
 4 | @unknown \"blah\";
   | ^^^^^^^^^^^^^^^^^^
 
-error: Ident
- --> $DIR/tests/fixture/at-rule/unknown/input.css:4:1
+error: AtRuleName
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:4:2
   |
 4 | @unknown \"blah\";
-  | ^^^^^^^^
+  |  ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:4:2
+  |
+4 | @unknown \"blah\";
+  |  ^^^^^^^
 
 error: Value
  --> $DIR/tests/fixture/at-rule/unknown/input.css:4:9
@@ -268,11 +292,17 @@ error: UnknownAtRule
 7 | @unknown  ;
   | ^^^^^^^^^^^
 
-error: Ident
- --> $DIR/tests/fixture/at-rule/unknown/input.css:7:1
+error: AtRuleName
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:7:2
   |
 7 | @unknown  ;
-  | ^^^^^^^^
+  |  ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:7:2
+  |
+7 | @unknown  ;
+  |  ^^^^^^^
 
 error: Value
  --> $DIR/tests/fixture/at-rule/unknown/input.css:7:9
@@ -310,11 +340,17 @@ error: UnknownAtRule
 8 | @unknown  x  y;
   | ^^^^^^^^^^^^^^^
 
-error: Ident
- --> $DIR/tests/fixture/at-rule/unknown/input.css:8:1
+error: AtRuleName
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:8:2
   |
 8 | @unknown  x  y;
-  | ^^^^^^^^
+  |  ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:8:2
+  |
+8 | @unknown  x  y;
+  |  ^^^^^^^
 
 error: Value
  --> $DIR/tests/fixture/at-rule/unknown/input.css:8:9
@@ -406,11 +442,17 @@ error: UnknownAtRule
 10 | @unknown {}
    | ^^^^^^^^^^^
 
-error: Ident
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:10:1
+error: AtRuleName
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:10:2
    |
 10 | @unknown {}
-   | ^^^^^^^^
+   |  ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:10:2
+   |
+10 | @unknown {}
+   |  ^^^^^^^
 
 error: Value
   --> $DIR/tests/fixture/at-rule/unknown/input.css:10:9
@@ -454,11 +496,17 @@ error: UnknownAtRule
 11 | @\unknown {}
    | ^^^^^^^^^^^^
 
-error: Ident
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:11:1
+error: AtRuleName
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:11:2
    |
 11 | @\unknown {}
-   | ^^^^^^^^^
+   |  ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:11:2
+   |
+11 | @\unknown {}
+   |  ^^^^^^^^
 
 error: Value
   --> $DIR/tests/fixture/at-rule/unknown/input.css:11:10
@@ -502,11 +550,17 @@ error: UnknownAtRule
 12 | @unknown a b {}
    | ^^^^^^^^^^^^^^^
 
-error: Ident
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:12:1
+error: AtRuleName
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:12:2
    |
 12 | @unknown a b {}
-   | ^^^^^^^^
+   |  ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:12:2
+   |
+12 | @unknown a b {}
+   |  ^^^^^^^
 
 error: Value
   --> $DIR/tests/fixture/at-rule/unknown/input.css:12:9
@@ -622,11 +676,17 @@ error: UnknownAtRule
 13 | @unknown {p:v}
    | ^^^^^^^^^^^^^^
 
-error: Ident
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:13:1
+error: AtRuleName
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:13:2
    |
 13 | @unknown {p:v}
-   | ^^^^^^^^
+   |  ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:13:2
+   |
+13 | @unknown {p:v}
+   |  ^^^^^^^
 
 error: Value
   --> $DIR/tests/fixture/at-rule/unknown/input.css:13:9
@@ -724,11 +784,17 @@ error: UnknownAtRule
 14 | @unknown x y {p:v}
    | ^^^^^^^^^^^^^^^^^^
 
-error: Ident
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:14:1
+error: AtRuleName
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:14:2
    |
 14 | @unknown x y {p:v}
-   | ^^^^^^^^
+   |  ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:14:2
+   |
+14 | @unknown x y {p:v}
+   |  ^^^^^^^
 
 error: Value
   --> $DIR/tests/fixture/at-rule/unknown/input.css:14:9
@@ -898,11 +964,17 @@ error: UnknownAtRule
 17 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:1
+error: AtRuleName
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:2
    |
 17 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   | ^^^^^^^^
+   |  ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:2
+   |
+17 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+   |  ^^^^^^^
 
 error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/unknown/input.css:17:17
@@ -982,11 +1054,17 @@ error: UnknownAtRule
 20 | @unknown  {  p  :  v  }
    | ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:20:1
+error: AtRuleName
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:20:2
    |
 20 | @unknown  {  p  :  v  }
-   | ^^^^^^^^
+   |  ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:20:2
+   |
+20 | @unknown  {  p  :  v  }
+   |  ^^^^^^^
 
 error: Value
   --> $DIR/tests/fixture/at-rule/unknown/input.css:20:9
@@ -1156,11 +1234,17 @@ error: UnknownAtRule
 21 | @unknown  x  y  {  p  :  v  }
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:21:1
+error: AtRuleName
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:21:2
    |
 21 | @unknown  x  y  {  p  :  v  }
-   | ^^^^^^^^
+   |  ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:21:2
+   |
+21 | @unknown  x  y  {  p  :  v  }
+   |  ^^^^^^^
 
 error: Value
   --> $DIR/tests/fixture/at-rule/unknown/input.css:21:9
@@ -1402,11 +1486,17 @@ error: UnknownAtRule
 24 | @unknown {s{p:v}}
    | ^^^^^^^^^^^^^^^^
 
-error: Ident
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:24:1
+error: AtRuleName
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:24:2
    |
 24 | @unknown {s{p:v}}
-   | ^^^^^^^^
+   |  ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:24:2
+   |
+24 | @unknown {s{p:v}}
+   |  ^^^^^^^
 
 error: Value
   --> $DIR/tests/fixture/at-rule/unknown/input.css:24:9

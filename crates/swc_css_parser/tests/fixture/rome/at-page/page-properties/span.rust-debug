@@ -51,6 +51,12 @@ error: Declaration
 2 |     display: none;
   |     ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:2:2
+  |
+2 |     display: none;
+  |     ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:2:2
   |

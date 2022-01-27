@@ -39,6 +39,12 @@ define!({
         pub raw: JsWord,
     }
 
+    pub struct DashedIdent {
+        pub span: Span,
+        pub value: JsWord,
+        pub raw: JsWord,
+    }
+
     pub struct Str {
         pub span: Span,
         pub value: JsWord,
@@ -51,9 +57,14 @@ define!({
         pub raw: JsWord,
     }
 
+    pub enum DeclarationProperty {
+        Ident(Ident),
+        DashedIdent(DashedIdent),
+    }
+
     pub struct Declaration {
         pub span: Span,
-        pub property: Ident,
+        pub property: DeclarationProperty,
         pub value: Vec<Value>,
         pub important: Option<Span>,
     }
@@ -95,6 +106,8 @@ define!({
         Hash(HashValue),
 
         Ident(Ident),
+
+        DashedIdent(DashedIdent),
 
         Str(Str),
 
@@ -339,6 +352,7 @@ define!({
         Namespace(NamespaceRule),
         Viewport(ViewportRule),
         Document(DocumentRule),
+        ColorProfile(ColorProfileRule),
         Unknown(UnknownAtRule),
     }
 
@@ -391,9 +405,14 @@ define!({
         pub block: Block,
     }
 
+    pub enum AtRuleName {
+        DashedIdent(DashedIdent),
+        Ident(Ident),
+    }
+
     pub struct UnknownAtRule {
         pub span: Span,
-        pub name: Ident,
+        pub name: AtRuleName,
         pub prelude: Vec<Value>,
         pub block: Option<SimpleBlock>,
     }
@@ -633,5 +652,16 @@ define!({
 
     pub enum SupportsFeature {
         Declaration(Declaration),
+    }
+
+    pub enum ColorProfileName {
+        DashedIdent(DashedIdent),
+        Ident(Ident),
+    }
+
+    pub struct ColorProfileRule {
+        pub span: Span,
+        pub name: ColorProfileName,
+        pub block: Vec<DeclarationBlockItem>,
     }
 });
