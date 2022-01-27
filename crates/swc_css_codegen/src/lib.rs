@@ -129,12 +129,21 @@ where
         emit!(self, n.href);
 
         if let Some(layer_name) = &n.layer_name {
-            space!(self);
+            formatting_space!(self);
             emit!(self, layer_name);
+
+            if self.config.minify && (n.supports.is_some() || n.media.is_some()) {
+                match layer_name {
+                    ImportLayerName::Ident(_) => {
+                        space!(self);
+                    }
+                    _ => {}
+                }
+            }
         }
 
         if let Some(supports) = &n.supports {
-            space!(self);
+            formatting_space!(self);
             keyword!(self, "supports");
             punct!(self, "(");
             emit!(self, supports);
@@ -142,7 +151,7 @@ where
         }
 
         if let Some(media) = &n.media {
-            space!(self);
+            formatting_space!(self);
             emit!(self, media);
         }
 
@@ -949,8 +958,10 @@ where
         }
 
         if let Some(modifiers) = &n.modifiers {
-            formatting_space!(self);
-            self.emit_list(modifiers, ListFormat::SpaceDelimited)?;
+            if !modifiers.is_empty() {
+                formatting_space!(self);
+                self.emit_list(modifiers, ListFormat::SpaceDelimited)?;
+            }
         }
 
         punct!(self, ")");
