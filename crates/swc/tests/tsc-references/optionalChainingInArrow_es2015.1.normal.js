@@ -2,7 +2,7 @@
 // @noTypesAndSymbols: true
 // https://github.com/microsoft/TypeScript/issues/41814
 const test = (names)=>{
-    return // single-line comment
-    names === null || names === void 0 ? void 0 : names.filter((x)=>x
+    // single-line comment
+    return names === null || names === void 0 ? void 0 : names.filter((x)=>x
     );
 };
