@@ -41,6 +41,9 @@
 - **(es/minifier)** Prepend/append correctly (#3367) ([703972d](https://github.com/swc-project/swc/commit/703972dc296fbdfc319d48d43ef3841ebfa56eb3))
 
 
+- **(es/minifier)** Improve minifier (#3350) ([68e9017](https://github.com/swc-project/swc/commit/68e90173762feb2aa6744ca46f5d1185a89da271))
+
+
 - **(es/module)** Remove `.jsx` file extension (#3334) ([b2bf38d](https://github.com/swc-project/swc/commit/b2bf38d025064a42c398ab321fc2e69401a3f74b))
 
 
@@ -48,6 +51,12 @@
 
 
 - **(swc)** Respect `jsc.experimental.keepImportAssertions` (#3352) ([d9dc2b9](https://github.com/swc-project/swc/commit/d9dc2b99dde69792db4f5a31ffc983f8b04c0bef))
+
+### Documentation
+
+
+
+- **(contributing)** Fix formatting (#3376) ([90cf073](https://github.com/swc-project/swc/commit/90cf073ab91d44718235d8e0bc38953f7a4c1970))
 
 ### Features
 
