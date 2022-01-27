@@ -189,6 +189,10 @@ where
         name: &mut Pat,
         mut init: Option<&mut Expr>,
     ) {
+        if self.ctx.is_exported {
+            return;
+        }
+
         let had_value = init.is_some();
         let can_drop_children = had_value;
 

@@ -14,6 +14,9 @@ where
         if !self.options.hoist_props && !self.options.reduce_vars {
             return;
         }
+        if self.ctx.is_exported {
+            return;
+        }
 
         if let Pat::Ident(name) = &mut n.name {
             // If a variable is initialized multiple time, we currently don't do anything
