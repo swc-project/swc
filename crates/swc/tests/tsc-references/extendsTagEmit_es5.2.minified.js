@@ -11,7 +11,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-export var _typeof, B = function() {
+export var B = function() {
     "use strict";
     _classCallCheck(this, B);
 };
