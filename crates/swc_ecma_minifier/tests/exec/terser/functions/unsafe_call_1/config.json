@@ -1,8 +1,0 @@
-{
-    "inline": true,
-    "passes": 2,
-    "reduce_vars": true,
-    "side_effects": true,
-    "unsafe": true,
-    "unused": true
-}

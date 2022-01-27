@@ -1,8 +1,0 @@
-{
-    "collapse_vars": true,
-    "join_vars": true,
-    "properties": true,
-    "reduce_vars": true,
-    "side_effects": true,
-    "unused": true
-}

@@ -1,9 +1,0 @@
-{
-    "collapse_vars": true,
-    "conditionals": true,
-    "pure_getters": "strict",
-    "reduce_funcs": true,
-    "reduce_vars": true,
-    "sequences": true,
-    "side_effects": true
-}

@@ -1,4 +1,3 @@
-
 #[test]
 fn tests_exec_next_feedback_1_capture_1() {
     let src = r###"
@@ -20,7 +19,6 @@ console.log(arr);"###;
     "toplevel": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -38,7 +36,6 @@ console.log((y() || false) && x());"###;
     "evaluate": true,
     "side_effects": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -58,7 +55,6 @@ console.log(x() && true && y());"###;
     "side_effects": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -76,7 +72,6 @@ console.log(y() || false || x());"###;
     "evaluate": true,
     "side_effects": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -96,7 +91,6 @@ console.log(x() || false || y());"###;
     "side_effects": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -115,7 +109,6 @@ console.log(y() && true && x());"###;
     "side_effects": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -133,7 +126,6 @@ console.log((x() || false) && y());"###;
     "evaluate": true,
     "side_effects": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -172,7 +164,6 @@ console.log('PASS')"###;
     "defaults": true,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -227,7 +218,6 @@ console.log("PASS");"###;
     "toplevel": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -246,7 +236,6 @@ console.log(compile("baz", "g"));"###;
     "defaults": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -261,7 +250,6 @@ fn tests_exec_update_object_1() {
     return 8;
 }());"###;
     let config = r###"{}"###;
-
 
     run_exec_test(src, config);
 }
@@ -278,7 +266,6 @@ fn tests_exec_update_object_3() {
     return o.p;
 }());"###;
     let config = r###"{}"###;
-
 
     run_exec_test(src, config);
 }
@@ -297,7 +284,6 @@ console.log(function () {
 }());"###;
     let config = r###"{}"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -315,7 +301,6 @@ fn tests_exec_iife_reassign_1() {
     "side_effects": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -703,7 +688,6 @@ console.log(serializeStyles(`:root {
     "toplevel": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -711,7 +695,6 @@ console.log(serializeStyles(`:root {
 fn tests_exec_simple_1() {
     let src = r###"console.log('PASS')"###;
     let config = r###"{}"###;
-
 
     run_exec_test(src, config);
 }
@@ -733,7 +716,6 @@ console.log(
     "unsafe_undefined": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -753,7 +735,6 @@ console.log(
     "if_return": true,
     "unsafe": false
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -776,7 +757,6 @@ console.log((b = 3));"###;
     "top_retain": "f,a,o",
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -827,7 +807,6 @@ console.log(
     "top_retain": "Alpha,z"
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -847,7 +826,6 @@ console.log(f(), f(), g(), g());"###;
     "top_retain": "f"
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -866,7 +844,6 @@ console.log(f(), g());"###;
     "passes": 3,
     "top_retain": "f"
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -911,7 +888,6 @@ console.log(f1(), f2(), f3(), f4(), f5(), f6());"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -930,7 +906,6 @@ console.log(c);"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -952,7 +927,6 @@ console.log(a);"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -976,7 +950,6 @@ console.log((b = 3));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -994,7 +967,6 @@ fn tests_exec_terser_drop_unused_chained_3() {
     "reduce_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1022,7 +994,6 @@ console.log(a);"###;
     "typeofs": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1052,7 +1023,6 @@ Baz(2);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1075,7 +1045,6 @@ console.log((b = 3));"###;
     "toplevel": "funcs",
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1100,7 +1069,6 @@ fn tests_exec_terser_drop_unused_issue_1709() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1117,7 +1085,6 @@ console.log(a, b);"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1141,7 +1108,6 @@ console.log((b = 3));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1161,7 +1127,6 @@ console.log(delete (a = 0 / 0));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1179,12 +1144,12 @@ fn tests_exec_terser_drop_unused_issue_2226_3() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_.issue_3146_3() {
+#[ignore]
+fn tests_exec_terser_drop_unused_issue_3146_3() {
     let src = r###"var g = "PASS";
 (function (f) {
     var g = "FAIL";
@@ -1197,12 +1162,12 @@ fn tests_exec_terser_drop_unused_.issue_3146_3() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
 #[test]
-fn tests_exec_terser_drop_unused_.issue_3146_4() {
+#[ignore]
+fn tests_exec_terser_drop_unused_issue_3146_4() {
     let src = r###"var g = "PASS";
 (function (f) {
     var g = "FAIL";
@@ -1214,7 +1179,6 @@ fn tests_exec_terser_drop_unused_.issue_3146_4() {
     "reduce_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1239,7 +1203,6 @@ console.log((b = 3));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1258,7 +1221,6 @@ fn tests_exec_terser_drop_unused_issue_2226_2() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1273,7 +1235,6 @@ console.log(f())"###;
     "keep_fargs": false,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1299,7 +1260,6 @@ fn tests_exec_terser_drop_unused_issue_2136_3() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1318,7 +1278,6 @@ console.log(a);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1331,7 +1290,6 @@ var a;"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1351,7 +1309,6 @@ fn tests_exec_terser_drop_unused_issue_2136_2() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1369,7 +1326,6 @@ console.log(foo("PASS"));"###;
     "defaults": true,
     "top_retain": []
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1392,7 +1348,6 @@ console.log((b = 3));"###;
     "toplevel": "vars",
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1420,7 +1375,6 @@ Baz(2);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1438,7 +1392,6 @@ console.log(
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1463,7 +1416,6 @@ console.log((b = 3));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1480,7 +1432,6 @@ console.log(f(1));"###;
     let config = r###"{
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1500,7 +1451,6 @@ console.log(a);"###;
     let config = r###"{
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1538,7 +1488,6 @@ console.log(f5())"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1557,7 +1506,6 @@ fn tests_exec_terser_drop_unused_issue_3146_1() {
     "collapse_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1578,7 +1526,6 @@ console.log(delete (a = 0 / 0));"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1603,7 +1550,6 @@ console.log((b = 3));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1627,7 +1573,6 @@ console.log(
     "reduce_vars": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1650,7 +1595,6 @@ fn tests_exec_terser_pure_getters_impure_getter_2() {
     "side_effects": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1669,7 +1613,6 @@ console.log(o.c);"###;
     "pure_getters": true,
     "side_effects": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1692,7 +1635,6 @@ new Parser().initialContext();"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1711,7 +1653,6 @@ fn tests_exec_terser_pure_getters_set_mutable_1() {
     "reduce_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1732,7 +1673,6 @@ console.log(o.b);"###;
     "side_effects": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1755,7 +1695,6 @@ else console.log("PASS");"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1774,7 +1713,6 @@ else console.log("PASS");"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1796,7 +1734,6 @@ fn tests_exec_terser_pure_getters_set_mutable_2() {
     "side_effects": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1812,7 +1749,6 @@ fn tests_exec_terser_dead_code_issue_2860_1() {
     "evaluate": true,
     "reduce_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1861,7 +1797,6 @@ try {
     "unsafe": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1885,7 +1820,6 @@ function print(A) {
     "toplevel": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -1904,7 +1838,6 @@ console.log(a, b);"###;
     "hoist_props": true,
     "reduce_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1929,12 +1862,12 @@ console.log(o.p, o.p, o.u);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
 #[test]
-fn tests_exec_terser_hoist_props_.issue_851_hoist_to_conflicting_name() {
+#[ignore]
+fn tests_exec_terser_hoist_props_issue_851_hoist_to_conflicting_name() {
     let src = r###"const BBB = { CCC: "PASS" };
 if (id(true)) {
     const BBB_CCC = BBB.CCC;
@@ -1945,7 +1878,6 @@ if (id(true)) {
     "reduce_vars": true,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1965,7 +1897,6 @@ f();"###;
     "reduce_vars": true,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -1991,7 +1922,6 @@ console.log(new o.f(o.a).b, o.b);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2004,7 +1934,6 @@ console.log(a.b + a.c);"###;
     "reduce_vars": true,
     "toplevel": false
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2026,7 +1955,6 @@ console.log(o[a] + o.b);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2044,7 +1972,6 @@ console.log(a, obj.a);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2059,7 +1986,6 @@ console.log(o.a, o.b);"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2078,7 +2004,6 @@ fn tests_exec_terser_hoist_props_issue_2473_4() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2091,7 +2016,6 @@ console.log(a.b + a.c);"###;
     "reduce_vars": true,
     "toplevel": false
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2121,7 +2045,6 @@ console.log(obj.foo, obj.cube(3));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2142,7 +2065,6 @@ o.f(o.a);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2161,7 +2083,6 @@ o.f(o.f);"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2190,7 +2111,6 @@ console.log(obj.foo, obj.cube(3));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2203,7 +2123,6 @@ console.log(a.b + a.c);"###;
     "reduce_vars": true,
     "toplevel": false
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2222,7 +2141,6 @@ fn tests_exec_terser_hoist_props_issue_3046() {
     "hoist_props": true,
     "reduce_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2247,7 +2165,6 @@ console.log(o.p === o.p, o["+"](4), o["-"](5));"###;
     "reduce_vars": true,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2278,7 +2195,6 @@ console.log(o.p.name, o.p === o.p, new o.p(o.x).value, new o.p(o.y).value);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2305,7 +2221,6 @@ console.log(o.p.name, o.p === o.p, o.p(o.x), o.p(o.y));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2330,7 +2245,6 @@ console.log(o.p === o.p, o["+"](4), o["-"](5), o__$0, o__$1);"###;
     "toplevel": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2348,7 +2262,6 @@ console.log(f("a"));"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2382,7 +2295,6 @@ console.log(o.p.name, o.p === o.p, run(o.p, o.x), run(o.p, o.y));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2402,7 +2314,6 @@ console.log(testFunc());"###;
     "reduce_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2430,7 +2341,6 @@ console.log(obj.foo, obj.cube(3));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2449,7 +2359,6 @@ o.f(o.f);"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2471,7 +2380,6 @@ o.f(o.a);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2485,7 +2393,6 @@ console.log(id(1, console.log(2)), id(3, 4));"###;
     "unused": true,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2502,7 +2409,6 @@ console.log(id(1), id(2));"###;
     "unused": true,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2521,7 +2427,6 @@ console.log(id(1), id(2));"###;
     "toplevel": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2532,7 +2437,6 @@ fn tests_exec_terser_template_string_regex_2() {
     "evaluate": true,
     "unsafe": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2552,7 +2456,6 @@ console.log(baz);"###;
     "evaluate": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2566,7 +2469,6 @@ console.log(x);"###;
     "evaluate": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2591,7 +2493,6 @@ extract({
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2604,7 +2505,6 @@ console.log(t, e, n, s, o, r);"###;
     "unused": true,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2624,7 +2524,6 @@ fn tests_exec_terser_destructuring_issue_3205_4() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2641,7 +2540,6 @@ fn tests_exec_terser_destructuring_issue_3205_3() {
     "side_effects": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2663,7 +2561,6 @@ if (0) {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2677,7 +2574,6 @@ fn tests_exec_terser_destructuring_arrow_func_with_destructuring_args() {
     "unused": true,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2698,7 +2594,6 @@ fn tests_exec_terser_destructuring_issue_3205_2() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2714,7 +2609,6 @@ const bar = "bar",
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2732,7 +2626,6 @@ const bar = "bar",
     "unsafe": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2755,7 +2648,6 @@ fn tests_exec_terser_destructuring_issue_3205_5() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2770,7 +2662,6 @@ console.log(L, V);"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2789,7 +2680,6 @@ test({});"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2804,7 +2694,6 @@ bar({ x: 4, y: 5, z: 6 });"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2818,7 +2707,6 @@ fn tests_exec_terser_destructuring_anon_func_with_destructuring_args() {
     "unused": true,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2840,7 +2728,6 @@ test({});"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2859,7 +2746,6 @@ test({});"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -2875,7 +2761,6 @@ console.log(c, e, z + 0);"###;
     "top_retain": ["a", "e", "w"],
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2896,7 +2781,6 @@ test({});"###;
     "evaluate": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2931,7 +2815,6 @@ fn tests_exec_terser_arrow_issue_2105_2() {
     "side_effects": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -2970,7 +2853,6 @@ fn tests_exec_terser_arrow_issue_2105_1() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3004,7 +2886,6 @@ console.log(c);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3024,7 +2905,6 @@ fn tests_exec_terser_issue_t120_issue_t120_4() {
     "inline": 3,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -3047,7 +2927,6 @@ fn tests_exec_terser_issue_t120_issue_t120_5() {
     "toplevel": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3063,7 +2942,6 @@ fn tests_exec_terser_class_properties_mangle_keep_quoted() {
 
 console.log(new Foo().toString())"###;
     let config = r###"{}"###;
-
 
     run_exec_test(src, config);
 }
@@ -3088,7 +2966,6 @@ console.log(x);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3111,7 +2988,6 @@ fn tests_exec_terser_issue_1447_conditional_false_stray_else_in_loop() {
     "side_effects": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -3136,7 +3012,6 @@ console.log(cloned, merged);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3146,7 +3021,6 @@ fn tests_exec_terser_harmony_issue_2794_4() {
     console.log(x);
 }"###;
     let config = r###"{}"###;
-
 
     run_exec_test(src, config);
 }
@@ -3179,7 +3053,6 @@ foo();"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3191,7 +3064,6 @@ console.log([...a, a]);
 console.log([...(a || a)]);
 console.log([...(a || a)]);"###;
     let config = r###"{}"###;
-
 
     run_exec_test(src, config);
 }
@@ -3224,7 +3096,6 @@ foo();"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3252,7 +3123,6 @@ fn tests_exec_terser_harmony_issue_2874_1() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3273,7 +3143,6 @@ fn tests_exec_terser_harmony_issue_2762() {
 })();"###;
     let config = r###"{}"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3293,7 +3162,6 @@ fn tests_exec_terser_harmony_issue_1898() {
 new Foo().bar();"###;
     let config = r###"{}"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3303,7 +3171,6 @@ fn tests_exec_terser_harmony_issue_2794_6() {
     console.log(e);
 }"###;
     let config = r###"{}"###;
-
 
     run_exec_test(src, config);
 }
@@ -3335,7 +3202,6 @@ foo();"###;
     "side_effects": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -3369,7 +3235,6 @@ fn tests_exec_terser_harmony_issue_2874_2() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3388,7 +3253,6 @@ console.log(JSON.stringify([foo(), foo(null), foo(5, 6)]));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3400,7 +3264,6 @@ fn tests_exec_terser_harmony_issue_2349() {
 }
 console.log(foo({ get: () => [{ blah: 42 }] }, "blah"));"###;
     let config = r###"{}"###;
-
 
     run_exec_test(src, config);
 }
@@ -3429,7 +3292,6 @@ a(2);"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -3468,7 +3330,6 @@ console.log(
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3501,7 +3362,6 @@ foo();"###;
     "side_effects": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -3544,12 +3404,12 @@ async_top();"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
 #[test]
-fn tests_exec_terser_logical_assignments_.assign_in_conditional_part() {
+#[ignore]
+fn tests_exec_terser_logical_assignments_assign_in_conditional_part() {
     let src = r###"var status = "PASS";
 var nil = null;
 var nil_prop = { prop: null };
@@ -3563,12 +3423,12 @@ console.log(status);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
 #[test]
-fn tests_exec_terser_logical_assignments_.assignment_in_left_part() {
+#[ignore]
+fn tests_exec_terser_logical_assignments_assignment_in_left_part() {
     let src = r###"var status = "FAIL";
 var x = {};
 x[(status = "PASS")] ||= 1;
@@ -3579,7 +3439,6 @@ console.log(status);"###;
     "reduce_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -3596,7 +3455,6 @@ fn tests_exec_terser_labels_labels_4() {
     "if_return": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3612,7 +3470,6 @@ fn tests_exec_terser_labels_labels_3() {
     "if_return": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3622,7 +3479,6 @@ fn tests_exec_terser_labels_labels_6() {
 
 console.log('PASS')"###;
     let config = r###"{}"###;
-
 
     run_exec_test(src, config);
 }
@@ -3658,7 +3514,6 @@ console.log(c("a"));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3691,7 +3546,6 @@ console.log(c("a"));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3718,7 +3572,6 @@ console.log(obj[37], obj["o"], obj[37], obj["37"]);
 console.log(obj[1e42], obj["j"], obj["1e+42"]);"###;
     let config = r###"{}"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3743,7 +3596,6 @@ console.log(
 );"###;
     let config = r###"{}"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3758,7 +3610,6 @@ console.log(vInfinity)"###;
     let config = r###"{
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -3782,7 +3633,6 @@ console.log(c);"###;
     "reduce_vars": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3799,7 +3649,6 @@ fn tests_exec_terser_reduce_vars_issue_2799_2() {
     "unsafe_proto": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -3821,7 +3670,6 @@ fn tests_exec_terser_reduce_vars_recursive_inlining_1() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3840,7 +3688,6 @@ fn tests_exec_terser_reduce_vars_var_assign_2() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3858,7 +3705,6 @@ fn tests_exec_terser_reduce_vars_issue_2757_1() {
     "side_effects": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -3913,7 +3759,6 @@ fn tests_exec_terser_reduce_vars_inverted_var() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3929,7 +3774,6 @@ console.log(a && a.b)"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -3965,7 +3809,6 @@ console.log(
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -3992,7 +3835,6 @@ f.call({});"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4017,7 +3859,6 @@ main();"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4046,7 +3887,6 @@ console.log(
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4073,12 +3913,12 @@ f.call({});"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_.iife_eval_2() {
+#[ignore]
+fn tests_exec_terser_reduce_vars_iife_eval_2() {
     let src = r###"(function () {
     var x = function f() {
         return f;
@@ -4090,7 +3930,6 @@ fn tests_exec_terser_reduce_vars_.iife_eval_2() {
     "reduce_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4107,7 +3946,6 @@ console.log(a && a.b)"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4139,7 +3977,6 @@ console.log(f(1423796))"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4156,7 +3993,6 @@ fn tests_exec_terser_reduce_vars_issue_2860_1() {
     "evaluate": true,
     "reduce_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4175,7 +4011,6 @@ function f() {
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4206,7 +4041,6 @@ console.log(f().toString(16));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4220,7 +4054,6 @@ for (var i = o.a--; i; i--) console.log(i);"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4236,7 +4069,6 @@ fn tests_exec_terser_reduce_vars_iife() {
     "reduce_funcs": true,
     "reduce_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4259,7 +4091,6 @@ f(0)"###;
     "reduce_vars": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4275,7 +4106,6 @@ console.log(a);"###;
     "side_effects": true,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4293,7 +4123,6 @@ function a() {}"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4325,7 +4154,6 @@ f()"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4342,7 +4170,6 @@ try {
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4367,7 +4194,6 @@ console.log(arr[0], arr[1], arr[2](2), arr[3]);"###;
     "toplevel": true,
     "unsafe": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4395,7 +4221,6 @@ fn tests_exec_terser_reduce_vars_issue_1670_6() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4421,7 +4246,6 @@ console.log(f([]), g([]), h([]));"###;
     "reduce_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4451,7 +4275,6 @@ fn tests_exec_terser_reduce_vars_issue_1670_1() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4473,7 +4296,6 @@ console.log(sum);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4491,7 +4313,6 @@ var a = 42,
     "typeofs": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4514,7 +4335,6 @@ B.c;"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4533,7 +4353,6 @@ fn tests_exec_terser_reduce_vars_unused_modified() {
     "reduce_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4561,7 +4380,6 @@ f1()"###;
     "unsafe": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4576,7 +4394,6 @@ fn tests_exec_terser_reduce_vars_duplicate_lambda_defun_name_1() {
     let config = r###"{
     "reduce_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4607,7 +4424,6 @@ z();"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4629,7 +4445,6 @@ console.log(arr[0], arr[1], arr[2], arr[0]);"###;
     "unsafe": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4649,7 +4464,6 @@ fn tests_exec_terser_reduce_vars_issue_2774() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4664,7 +4478,6 @@ console.log(a, b);"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4687,7 +4500,6 @@ fn tests_exec_terser_reduce_vars_func_arg_2() {
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4714,7 +4526,6 @@ console.log(f1())"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4733,7 +4544,6 @@ p();"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4758,7 +4568,6 @@ console.log(f())"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4781,7 +4590,6 @@ console.log(c);"###;
     "evaluate": true,
     "reduce_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4808,7 +4616,6 @@ fn tests_exec_terser_reduce_vars_issue_2799_1() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4823,7 +4630,6 @@ fn tests_exec_terser_reduce_vars_iife_new() {
     "reduce_funcs": true,
     "reduce_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4852,7 +4658,6 @@ fn tests_exec_terser_reduce_vars_recursive_inlining_3() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4880,7 +4685,6 @@ fn tests_exec_terser_reduce_vars_recursive_inlining_4() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4907,7 +4711,6 @@ fn tests_exec_terser_reduce_vars_issue_2757_2() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4931,7 +4734,6 @@ fn tests_exec_terser_reduce_vars_recursive_inlining_2() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -4950,7 +4752,6 @@ fn tests_exec_terser_reduce_vars_var_assign_1() {
     "side_effects": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4973,7 +4774,6 @@ console.log(
     "reduce_vars": true,
     "unsafe": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -4998,7 +4798,6 @@ function g() {
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5026,7 +4825,6 @@ run.call(o);"###;
     "reduce_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5057,7 +4855,6 @@ console.log(bar.baz([1, 2, 3]));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -5074,7 +4871,6 @@ fn tests_exec_terser_reduce_vars_inner_var_for_2() {
     "reduce_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5105,12 +4901,12 @@ console.log(
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_.reduce_vars() {
+#[ignore]
+fn tests_exec_terser_reduce_vars_reduce_vars() {
     let src = r###"var A = 1;
 (function f0() {
     var a = 2;
@@ -5149,7 +4945,6 @@ console.log(A + 1);"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5218,7 +5013,6 @@ f0(), f1(), f2(), f3(), f4(), f5();"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -5254,7 +5048,6 @@ console.log(
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -5268,7 +5061,6 @@ console.log(([foo] = ["PASS"]) && foo);"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5286,7 +5078,6 @@ fn tests_exec_terser_reduce_vars_defun_catch_3() {
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5306,7 +5097,6 @@ fn tests_exec_terser_reduce_vars_issue_2860_2() {
     "passes": 2,
     "reduce_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5328,7 +5118,6 @@ console.log(f(), g());"###;
     "reduce_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5361,7 +5150,6 @@ new Foo("FAIL").run();"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -5378,7 +5166,6 @@ fn tests_exec_terser_reduce_vars_defun_catch_2() {
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5401,7 +5188,6 @@ function g() {}
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -5418,7 +5204,6 @@ f();"###;
     "toplevel": "funcs",
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5445,7 +5230,6 @@ fn tests_exec_terser_reduce_vars_issue_3110_3() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -5471,7 +5255,6 @@ console.log(f())"###;
     "reduce_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5503,7 +5286,6 @@ z();"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -5528,7 +5310,6 @@ console.log(obj.foo, obj.bar, obj.square(2), obj.cube);"###;
     "unsafe": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -5548,7 +5329,6 @@ p();"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5579,7 +5359,6 @@ console.log(f([]), g([]), h([]));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -5606,7 +5385,6 @@ fn tests_exec_terser_reduce_vars_issue_1670_2() {
     "switches": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5640,7 +5418,6 @@ console.log(f2())"###;
     "unsafe": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -5661,7 +5438,6 @@ console.log(sum);"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5689,7 +5465,6 @@ fn tests_exec_terser_reduce_vars_issue_1670_5() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -5712,7 +5487,6 @@ h();"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5739,7 +5513,6 @@ console.log(f())"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -5761,12 +5534,12 @@ fn tests_exec_terser_reduce_vars_defun_label() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
 #[test]
-fn tests_exec_terser_reduce_vars_.unsafe_evaluate_modified() {
+#[ignore]
+fn tests_exec_terser_reduce_vars_unsafe_evaluate_modified() {
     let src = r###"console.log(
     (function () {
         var o = { p: 1 };
@@ -5840,7 +5613,6 @@ console.log(
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -5855,7 +5627,6 @@ console.log(a, b);"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5878,7 +5649,6 @@ fn tests_exec_terser_reduce_vars_func_arg_1() {
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5903,7 +5673,6 @@ main();"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -5922,7 +5691,6 @@ f(function () {
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -5952,7 +5720,6 @@ fn tests_exec_terser_reduce_vars_issue_3140_4() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -5979,7 +5746,6 @@ fn tests_exec_terser_reduce_vars_issue_1670_4() {
     "switches": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6013,7 +5779,6 @@ console.log(f([]), g([]), h([]));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6044,7 +5809,6 @@ fn tests_exec_terser_reduce_vars_issue_3140_3() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6073,7 +5837,6 @@ fn tests_exec_terser_reduce_vars_issue_1670_3() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6097,7 +5860,6 @@ console.log(sum);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6113,7 +5875,6 @@ console.log(
     "collapse_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6134,7 +5895,6 @@ var b = {};
     "reduce_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6162,7 +5922,6 @@ console.log(c);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6185,7 +5944,6 @@ console.log(a);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6202,7 +5960,6 @@ console.log(
     "inline": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6225,7 +5982,6 @@ console.log(
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6247,7 +6003,6 @@ console.log(read([129]));"###;
     "collapse_vars": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6267,7 +6022,6 @@ fn tests_exec_terser_collapse_vars_issue_2319_1() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6281,7 +6035,6 @@ for (var c in ((a = console), f(a))) console.log(c);"###;
     let config = r###"{
     "collapse_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6297,7 +6050,6 @@ console.log(null, a, b);"###;
     "collapse_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6327,7 +6079,6 @@ fn tests_exec_terser_collapse_vars_issue_2298() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6345,7 +6096,6 @@ fn tests_exec_terser_collapse_vars_chained_3() {
     "collapse_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6385,7 +6135,6 @@ f2()"###;
     "unused": false
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6399,7 +6148,6 @@ console.log(a);"###;
     "collapse_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6433,7 +6181,6 @@ f3(5, 6);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6449,7 +6196,6 @@ foo({ y: 10 });"###;
     "collapse_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6469,7 +6215,6 @@ fn tests_exec_terser_collapse_vars_issue_3032() {
     "pure_getters": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6487,7 +6232,6 @@ foo({ y: 10 });"###;
     "unsafe": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6526,7 +6270,6 @@ try {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6545,7 +6288,6 @@ console.log(
     "collapse_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6568,7 +6310,6 @@ console.log(
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6586,7 +6327,6 @@ fn tests_exec_terser_collapse_vars_issue_2187_1() {
     "collapse_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6622,7 +6362,6 @@ f1("1", 0);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6649,7 +6388,6 @@ console.log(
     "collapse_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6684,7 +6422,6 @@ console.log(f1(1, 2));"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6705,7 +6442,6 @@ console.log(
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6724,7 +6460,6 @@ f(0);"###;
     "collapse_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6748,7 +6483,6 @@ log(a);"###;
     "side_effects": true,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6782,7 +6516,6 @@ f3(5, 6);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6795,7 +6528,6 @@ console.log(a);"###;
     "collapse_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6811,7 +6543,6 @@ fn tests_exec_terser_collapse_vars_reduce_vars_assign() {
     "reduce_funcs": true,
     "reduce_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6854,7 +6585,6 @@ console.log(new Baz(1, "PASS", 3).second());"###;
     "toplevel": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6873,7 +6603,6 @@ fn tests_exec_terser_evaluate_unsafe_float_key() {
     "unsafe": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6891,7 +6620,6 @@ fn tests_exec_terser_evaluate_unsafe_float_key_complex() {
     "evaluate": true,
     "unsafe": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6924,7 +6652,6 @@ fn tests_exec_terser_issue_892_dont_mangle_arguments() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6952,7 +6679,6 @@ new obj.Derived();"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -6963,7 +6689,6 @@ fn tests_exec_terser_properties_computed_property() {
     "properties": true,
     "side_effects": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -6987,7 +6712,6 @@ console.log(a)"###;
     "evaluate": true,
     "properties": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7027,7 +6751,6 @@ console.log(obj.null, obj.undefined, obj.Infinity, obj.NaN);"###;
     "toplevel": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7053,7 +6776,6 @@ console.log(obj[""]());"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7069,7 +6791,6 @@ console.log(o[0], o[-0], o[-1]);"###;
     "join_vars": true,
     "properties": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7091,7 +6812,6 @@ console.log(
     "side_effects": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7106,7 +6826,6 @@ Object.defineProperty(o, "p", {
 console.log(o.p);"###;
     let config = r###"{}"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7120,7 +6839,6 @@ console.log(o[undefined]);"###;
     "join_vars": true,
     "properties": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7141,7 +6859,6 @@ fn tests_exec_terser_properties_issue_2208_5() {
     "side_effects": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7156,7 +6873,6 @@ fn tests_exec_terser_properties_issue_2513() {
     "evaluate": true,
     "properties": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7173,7 +6889,6 @@ fn tests_exec_terser_properties_join_object_assignments_return_1() {
     "join_vars": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7189,7 +6904,6 @@ console.log(o.a, o.b, o.c);"###;
     "ecma": "6",
     "join_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7212,7 +6926,6 @@ fn tests_exec_terser_properties_join_object_assignments_1() {
     "evaluate": true,
     "join_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7252,7 +6965,6 @@ console.log(
 console.log(obj.null, obj.undefined, obj.Infinity, obj.NaN);"###;
     let config = r###"{}"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7268,7 +6980,6 @@ fn tests_exec_terser_properties_join_object_assignments_if() {
     "join_vars": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7283,7 +6994,6 @@ console.log(o[NaN], o[NaN]);"###;
     "join_vars": true,
     "properties": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7309,7 +7019,6 @@ console.log(obj.bar());"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7323,7 +7032,6 @@ console.log(o[null]);"###;
     "join_vars": true,
     "properties": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7345,7 +7053,6 @@ fn tests_exec_terser_properties_issue_2208_7() {
     "unsafe_arrows": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7361,7 +7068,6 @@ Object.defineProperties(o, {
 });
 console.log(o.p);"###;
     let config = r###"{}"###;
-
 
     run_exec_test(src, config);
 }
@@ -7383,7 +7089,6 @@ console.log(
     "side_effects": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7395,7 +7100,6 @@ console.log(o[undefined]);"###;
     let config = r###"{
     "join_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7412,7 +7116,6 @@ fn tests_exec_terser_properties_join_object_assignments_forin() {
     "join_vars": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7425,7 +7128,6 @@ console.log(o[void 0]);"###;
     "evaluate": true,
     "join_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7442,7 +7144,6 @@ fn tests_exec_terser_properties_join_object_assignments_return_2() {
     "join_vars": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7456,7 +7157,6 @@ console.log(o[/rx/]);"###;
     "join_vars": true,
     "properties": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7477,7 +7177,6 @@ console.log(o.foo, o.bar + o.bar, o.foo * o.bar * o.baz);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7493,7 +7192,6 @@ fn tests_exec_terser_properties_join_object_assignments_return_3() {
     "join_vars": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7504,7 +7202,6 @@ x.foo = 1;
 x["a"] = 2 * x.foo;
 console.log(x.foo, x["a"]);"###;
     let config = r###"{}"###;
-
 
     run_exec_test(src, config);
 }
@@ -7517,7 +7214,6 @@ x["a"] = 2 * x.foo;
 console.log(x.foo, x["a"]);"###;
     let config = r###"{}"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7528,7 +7224,6 @@ x.foo = 1;
 x["_$foo$_"] = 2 * x.foo;
 console.log(x.foo, x["_$foo$_"]);"###;
     let config = r###"{}"###;
-
 
     run_exec_test(src, config);
 }
@@ -7580,7 +7275,6 @@ function p2() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7603,7 +7297,6 @@ console.log(Array("foo"));"###;
     "unsafe": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7615,7 +7308,6 @@ for (var a in o) console.log(o[a]);"###;
     let config = r###"{
     "sequences": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7635,7 +7327,6 @@ console.log(a);"###;
     "unused": false
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7649,7 +7340,6 @@ console.log(f());"###;
     "collapse_vars": true,
     "side_effects": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7678,7 +7368,6 @@ console.log(a, b);"###;
     "side_effects": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7700,7 +7389,6 @@ console.log(a, b);"###;
     "sequences": true,
     "side_effects": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7732,7 +7420,6 @@ console.log(f0(), f1(), f2());"###;
     "unsafe": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7771,7 +7458,6 @@ console.log(c.propa, c["propc"]);"###;
     "properties": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7796,7 +7482,6 @@ console.log(a, b);"###;
     "side_effects": true,
     "switches": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7824,7 +7509,6 @@ console.log(c);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7848,7 +7532,6 @@ console.log(c);"###;
     "reduce_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7875,7 +7558,6 @@ console.log(c);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7895,7 +7577,6 @@ console.log(
     let config = r###"{
     "inline": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7920,7 +7601,6 @@ console.log(a);"###;
     "reduce_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7947,7 +7627,6 @@ console.log(a);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -7965,7 +7644,6 @@ console.log(b);"###;
     "reduce_vars": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -7996,7 +7674,6 @@ fn tests_exec_terser_functions_issue_t131a() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8020,7 +7697,6 @@ fn tests_exec_terser_functions_unsafe_apply_1() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8043,7 +7719,6 @@ console.log(c);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8065,7 +7740,6 @@ fn tests_exec_terser_functions_inline_1() {
     "toplevel": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8080,7 +7754,6 @@ fn tests_exec_terser_functions_issue_3125() {
     "inline": true,
     "unsafe": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -8104,7 +7777,6 @@ console.log(b);"###;
     "inline": true,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -8131,7 +7803,6 @@ console.log("Greeting:", outer()());"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8151,7 +7822,6 @@ console.log(a);"###;
     "toplevel": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8162,7 +7832,6 @@ console.log.apply(console, [1, ...values, 4]);"###;
     let config = r###"{
     "unsafe": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -8185,7 +7854,6 @@ fn tests_exec_terser_functions_issue_2663_2() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8201,7 +7869,6 @@ fn tests_exec_terser_functions_unsafe_call_3() {
     "unsafe": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8213,7 +7880,6 @@ fn tests_exec_terser_functions_unsafe_call_expansion_1() {
     let config = r###"{
     "unsafe": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -8242,7 +7908,6 @@ console.log(c);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8258,7 +7923,6 @@ console.log(m.exports);"###;
     "unsafe_Function": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -8283,7 +7947,6 @@ fn tests_exec_terser_functions_issue_2842() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8302,7 +7965,6 @@ console.log(b);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8319,7 +7981,6 @@ console.log(sum);"###;
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -8346,7 +8007,6 @@ fn tests_exec_terser_functions_issue_t131b() {
     "passes": 2
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8367,7 +8027,6 @@ fn tests_exec_terser_functions_inline_2() {
     "side_effects": true,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -8397,7 +8056,6 @@ console.log("Greeting:", outer()());"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8418,7 +8076,6 @@ fn tests_exec_terser_functions_inline_3() {
     "side_effects": true,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -8446,7 +8103,6 @@ console.log(
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8456,7 +8112,6 @@ fn tests_exec_terser_functions_unsafe_apply_expansion_1() {
     let config = r###"{
     "unsafe": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -8475,7 +8130,6 @@ console.log(b);"###;
     "inline": true,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -8504,7 +8158,6 @@ console.log("Greeting:", outer()());"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8517,7 +8170,6 @@ fn tests_exec_terser_functions_unsafe_call_expansion_2() {
     let config = r###"{
     "unsafe": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -8546,7 +8198,6 @@ fn tests_exec_terser_functions_issue_2783() {
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8566,7 +8217,6 @@ fn tests_exec_terser_functions_unsafe_call_1() {
     "unsafe": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -8598,7 +8248,6 @@ for (let tmp of test) {
     "collapse_vars": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8628,7 +8277,6 @@ for (let tmp of test) {
     "side_effects": true,
     "collapse_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -8661,7 +8309,6 @@ for (let tmp of test) {
     "collapse_vars": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8693,7 +8340,6 @@ for (const tmp in test) {
     "collapse_vars": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8721,7 +8367,6 @@ fn tests_exec_terser_issue_1466_more_variable_in_multiple_for() {
     "side_effects": true,
     "collapse_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -8753,7 +8398,6 @@ for (let tmp in test) {
     "collapse_vars": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8783,7 +8427,6 @@ for (let tmp in test) {
     "side_effects": true,
     "collapse_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -8816,7 +8459,6 @@ for (let tmp in test) {
     "collapse_vars": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8848,7 +8490,6 @@ for (const tmp of test) {
     "collapse_vars": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8861,7 +8502,6 @@ obj.asd = 256;
 console.log(obj.a);"###;
     let config = r###"{}"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8873,7 +8513,6 @@ obj.asd = 256;
 obj.a = 123;
 console.log(obj.a);"###;
     let config = r###"{}"###;
-
 
     run_exec_test(src, config);
 }
@@ -8889,7 +8528,6 @@ console.log(a, b);"###;
     "loops": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8904,7 +8542,6 @@ console.log(a, b);"###;
     "loops": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8918,7 +8555,6 @@ console.log(a, b);"###;
     "dead_code": true,
     "loops": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -8936,7 +8572,6 @@ console.log(x, y);"###;
     "loops": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8953,7 +8588,6 @@ console.log(x, y);"###;
     "loops": true,
     "passes": 2
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -8973,7 +8607,6 @@ console.log(x, y);"###;
     "passes": 2
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -8992,7 +8625,6 @@ fn tests_exec_terser_rename_function_iife_catch() {
 f();"###;
     let config = r###"{}"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -9010,7 +8642,6 @@ console.log(a);"###;
     "toplevel": false
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -9025,7 +8656,6 @@ fn tests_exec_terser_negate_iife_issue_1254_negate_iife_true() {
     "negate_iife": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -9037,7 +8667,6 @@ fn tests_exec_terser_try_catch_catch_destructuring_with_sequence() {
     console.log(typeof xCover)
 }"###;
     let config = r###"{}"###;
-
 
     run_exec_test(src, config);
 }
@@ -9051,7 +8680,6 @@ fn tests_exec_terser_issue_281_pure_annotation_1() {
     "inline": true,
     "side_effects": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -9071,7 +8699,6 @@ console.log(a);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -9090,7 +8717,6 @@ console.log(a);"###;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -9105,7 +8731,6 @@ fn tests_exec_terser_issue_281_pure_annotation_2() {
     "side_effects": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -9118,7 +8743,6 @@ fn tests_exec_terser_arguments_duplicate_parameter_with_arguments() {
     "arguments": true,
     "defaults": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -9133,7 +8757,6 @@ fn tests_exec_terser_arguments_destructuring_1() {
     "defaults": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -9146,7 +8769,6 @@ fn tests_exec_terser_arguments_destructuring_2() {
     "arguments": true,
     "defaults": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -9167,7 +8789,6 @@ fn tests_exec_terser_arguments_modified_strict() {
     "arguments": true,
     "reduce_vars": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -9195,7 +8816,6 @@ console.log(arguments[0]);
     "properties": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -9213,7 +8833,6 @@ fn tests_exec_terser_arguments_modified() {
     let config = r###"{
     "arguments": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -9234,7 +8853,6 @@ fn tests_exec_terser_arguments_replace_index_strict() {
     "reduce_vars": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -9248,7 +8866,6 @@ console.log(shouldBePure())"###;
     "defaults": true,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -9277,7 +8894,6 @@ console.log(arguments[0]);
     "properties": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -9293,7 +8909,6 @@ fn tests_exec_terser_typeof_issue_2728_3() {
     "typeofs": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -9307,7 +8922,6 @@ console.log(typeof arguments);"###;
     "toplevel": true,
     "typeofs": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -9339,7 +8953,6 @@ g = 42;
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -9362,7 +8975,6 @@ debug(
     "unused": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -9384,7 +8996,6 @@ debug(
     "toplevel": true,
     "unused": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -9519,7 +9130,6 @@ console.log(ms(12321341234217))"###;
     "toplevel": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -9552,7 +9162,6 @@ new cls().it();"###;
     let config = r###"{
     "defaults": true
 }"###;
-
 
     run_exec_test(src, config);
 }
@@ -9623,7 +9232,6 @@ new cls().it();"###;
     "defaults": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -9688,7 +9296,6 @@ console.log(murmur2("1va1ns`klj"))"###;
     "toplevel": true
 }"###;
 
-
     run_exec_test(src, config);
 }
 
@@ -9723,7 +9330,6 @@ console.log(murmur2("1va1ns`klj"));"###;
     "defaults": true,
     "toplevel": true
 }"###;
-
 
     run_exec_test(src, config);
 }

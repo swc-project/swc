@@ -1,7 +1,0 @@
-{
-    "pure_getters": true,
-    "reduce_funcs": true,
-    "reduce_vars": true,
-    "toplevel": true,
-    "unused": true
-}
