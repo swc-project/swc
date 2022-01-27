@@ -133,11 +133,8 @@ where
             emit!(self, layer_name);
 
             if self.config.minify && (n.supports.is_some() || n.media.is_some()) {
-                match layer_name {
-                    ImportLayerName::Ident(_) => {
-                        space!(self);
-                    }
-                    _ => {}
+                if let ImportLayerName::Ident(_) = layer_name {
+                    space!(self);
                 }
             }
         }
