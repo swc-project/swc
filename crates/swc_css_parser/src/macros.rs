@@ -104,8 +104,12 @@ macro_rules! tok {
        swc_css_ast::Token::Delim { value: '*', .. }
     };
 
+    ("@") => {
+        swc_css_ast::Token::AtKeyword { .. }
+    };
+    
     ("#") => {
-        swc_css_ast::Token::Hash
+        swc_css_ast::Token::Hash { .. }
     };
 
     ("&") => {
