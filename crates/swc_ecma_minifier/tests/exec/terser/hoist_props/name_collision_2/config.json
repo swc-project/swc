@@ -1,6 +1,0 @@
-{
-    "hoist_props": true,
-    "reduce_funcs": true,
-    "reduce_vars": true,
-    "toplevel": true
-}

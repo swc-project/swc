@@ -1,6 +1,0 @@
-{
-    "defaults": true,
-    "inline": 3,
-    "passes": 2,
-    "top_retain": "Alpha,z"
-}
