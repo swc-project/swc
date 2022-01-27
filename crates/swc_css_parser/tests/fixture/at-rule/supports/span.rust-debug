@@ -2888,6 +2888,12 @@ error: Declaration
 34 | @supports NOT (display: flex) {}
    |                ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:34:16
+   |
+34 | @supports NOT (display: flex) {}
+   |                ^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:34:16
    |
@@ -2972,6 +2978,12 @@ error: Declaration
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:35:13
+   |
+35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
+   |             ^^^^^^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:35:13
    |
@@ -3020,6 +3032,12 @@ error: Declaration
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
    |                                             ^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:35:45
+   |
+35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
+   |                                             ^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:35:45
    |
@@ -3067,6 +3085,12 @@ error: Declaration
    |
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
    |                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:35:72
+   |
+35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
+   |                                                                        ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:35:72
@@ -3164,6 +3188,12 @@ error: Declaration
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:36:12
+   |
+36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
+   |            ^^^^^^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:36:12
    |
@@ -3230,6 +3260,12 @@ error: Declaration
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
    |                                             ^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:36:45
+   |
+36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
+   |                                             ^^^^^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:36:45
    |
@@ -3277,6 +3313,12 @@ error: Declaration
    |
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
    |                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:36:71
+   |
+36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
+   |                                                                       ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:36:71
@@ -3391,6 +3433,12 @@ error: Declaration
    |
 37 | @supports (NOT (display: flex)) {}
    |                 ^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/at-rule/supports/input.css:37:17
+   |
+37 | @supports (NOT (display: flex)) {}
+   |                 ^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:37:17
