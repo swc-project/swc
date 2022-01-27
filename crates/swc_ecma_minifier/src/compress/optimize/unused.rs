@@ -68,9 +68,13 @@ where
             }
         }
 
+        if var.name.is_invalid() {
+            return;
+        }
+
         if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
             if !had_init && var.init.is_none() {
-                unreachable!("const/let variable without initializer");
+                unreachable!("const/let variable without initializer: {:#?}", var);
             }
         }
     }
@@ -245,9 +249,21 @@ where
 
                     if v.ref_count == 0 && v.usage_count == 0 {
                         if let Some(e) = init {
+                            if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
+                                if let Expr::Lit(Lit::Null(..)) = e {
+                                    return;
+                                }
+                            }
+
                             let ret = self.ignore_return_value(e);
                             if let Some(ret) = ret {
                                 *e = ret;
+                            } else {
+                                if let Some(VarDeclKind::Const | VarDeclKind::Let) =
+                                    self.ctx.var_kind
+                                {
+                                    *e = Null { span: DUMMY_SP }.into();
+                                }
                             }
                         }
                     }
