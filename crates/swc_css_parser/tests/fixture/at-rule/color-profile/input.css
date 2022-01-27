@@ -1,0 +1,7 @@
+@color-profile --fogra39 {
+    src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+}
+
+@color-profile device-cmyk {
+    src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+}

@@ -49,7 +49,9 @@ try {
         a: 0,
         b: 1
     };
-} catch (param1) {}
+} catch (param1) {
+    param1.a, param1.b;
+}
 try {
     throw [
         {

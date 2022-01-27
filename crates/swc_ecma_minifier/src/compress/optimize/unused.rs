@@ -19,10 +19,12 @@ where
             return;
         }
 
+        let had_init = var.init.is_some();
+
         match &mut var.init {
             Some(init) => match &**init {
                 Expr::Invalid(..) => {
-                    var.init = None;
+                    self.drop_unused_vars(var.span, &mut var.name, None);
                 }
                 // I don't know why, but terser preserves this
                 Expr::Fn(FnExpr {
@@ -58,6 +60,18 @@ where
                 self.drop_unused_vars(var.span, &mut var.name, var.init.as_deref_mut());
             }
         }
+
+        if var.name.is_invalid() {
+            return;
+        }
+
+        if cfg!(debug_assertions) {
+            if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
+                if had_init && var.init.is_none() {
+                    unreachable!("const/let variable without initializer: {:#?}", var);
+                }
+            }
+        }
     }
 
     pub(super) fn drop_unused_param(&mut self, pat: &mut Pat, ignore_fn_length: bool) {
@@ -91,12 +105,15 @@ where
         name: &mut Pat,
         init: Option<&mut Expr>,
     ) {
+        if self.ctx.is_exported {
+            return;
+        }
+
         let has_mark = var_declarator_span.has_mark(self.marks.non_top_level);
 
         if !has_mark {
             if (!self.options.unused && !self.options.side_effects)
                 || self.ctx.in_var_decl_of_for_in_or_of_loop
-                || self.ctx.is_exported
             {
                 return;
             }
@@ -179,6 +196,10 @@ where
         name: &mut Pat,
         mut init: Option<&mut Expr>,
     ) {
+        if self.ctx.is_exported {
+            return;
+        }
+
         let had_value = init.is_some();
         let can_drop_children = had_value;
 
@@ -200,22 +221,48 @@ where
                     return;
                 }
 
-                if self
+                if let Some(v) = self
                     .data
                     .as_ref()
-                    .and_then(|data| data.vars.get(&i.to_id()))
-                    .map(|v| v.ref_count == 0)
-                    .unwrap_or(false)
+                    .and_then(|data| data.vars.get(&i.to_id()).cloned())
                 {
-                    self.changed = true;
-                    tracing::debug!(
-                        "unused: Dropping a variable '{}{:?}' because it is not used",
-                        i.id.sym,
-                        i.id.span.ctxt
-                    );
-                    // This will remove variable.
-                    name.take();
-                } else {
+                    if v.ref_count == 0
+                        && v.usage_count == 0
+                        && !v.reassigned_with_assignment
+                        && !v.has_property_mutation
+                    {
+                        self.changed = true;
+                        tracing::debug!(
+                            "unused: Dropping a variable '{}{:?}' because it is not used",
+                            i.id.sym,
+                            i.id.span.ctxt
+                        );
+                        // This will remove variable.
+                        name.take();
+                        return;
+                    }
+
+                    if v.ref_count == 0 && v.usage_count == 0 {
+                        if let Some(e) = init {
+                            if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
+                                if let Expr::Lit(Lit::Null(..)) = e {
+                                    return;
+                                }
+                            }
+
+                            let ret = self.ignore_return_value(e);
+                            if let Some(ret) = ret {
+                                *e = ret;
+                            } else {
+                                if let Some(VarDeclKind::Const | VarDeclKind::Let) =
+                                    self.ctx.var_kind
+                                {
+                                    *e = Null { span: DUMMY_SP }.into();
+                                }
+                            }
+                        }
+                    }
+
                     if cfg!(feature = "debug") {
                         tracing::trace!(
                             "unused: Cannot drop ({}) because it's used",
@@ -344,7 +391,7 @@ where
                     .data
                     .as_ref()
                     .and_then(|data| data.vars.get(&ident.to_id()))
-                    .map(|v| v.ref_count == 0)
+                    .map(|v| v.usage_count == 0 && !v.has_property_mutation)
                     .unwrap_or(false)
                 {
                     self.changed = true;
@@ -471,7 +518,7 @@ where
                 let can_remove_ident = data
                     .vars
                     .get(&i.to_id())
-                    .map(|v| v.ref_count == 0 || v.var_kind.is_some())
+                    .map(|v| (v.ref_count == 0 && v.usage_count == 0) || v.var_kind.is_some())
                     .unwrap_or(true);
 
                 if can_remove_ident {

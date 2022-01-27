@@ -293,7 +293,13 @@ where
 
             tok!("dimension") => return self.parse_numeric_value(),
 
-            tok!("ident") => return Ok(Value::Ident(self.parse()?)),
+            Token::Ident { value, .. } => {
+                if value.starts_with("--") {
+                    return Ok(Value::DashedIdent(self.parse()?));
+                };
+
+                return Ok(Value::Ident(self.parse()?));
+            }
 
             tok!("[") => return self.parse_square_brackets_value().map(From::from),
 
@@ -653,6 +659,35 @@ where
                 }
 
                 Ok(CustomIdent { span, value, raw })
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+impl<I> Parse<DashedIdent> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<DashedIdent> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Ident) {
+            return Err(Error::new(span, ErrorKind::Expected("Ident")));
+        }
+
+        match bump!(self) {
+            Token::Ident { value, raw } => {
+                if !value.starts_with("--") {
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected("'--' at the start of dashed-ident"),
+                    ));
+                }
+
+                Ok(DashedIdent { span, value, raw })
             }
             _ => {
                 unreachable!()

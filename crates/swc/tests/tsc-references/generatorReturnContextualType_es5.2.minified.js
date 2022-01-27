@@ -53,11 +53,6 @@ function AsyncGenerator(gen) {
 function _AwaitValue(value) {
     this.wrapped = value;
 }
-function _wrapAsyncGenerator(fn) {
-    return function() {
-        return new AsyncGenerator(fn.apply(this, arguments));
-    };
-}
 "function" == typeof Symbol && Symbol.asyncIterator && (AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
     return this;
 }), AsyncGenerator.prototype.next = function(arg) {
@@ -80,49 +75,3 @@ var _marked = regeneratorRuntime.mark(function() {
         }
     }, _marked);
 });
-function _f2() {
-    return (_f2 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    return _ctx.abrupt("return", {
-                        x: "x"
-                    });
-                case 1:
-                case "end":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }))).apply(this, arguments);
-}
-function _f3() {
-    return (_f3 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    return _ctx.abrupt("return", Promise.resolve({
-                        x: "x"
-                    }));
-                case 1:
-                case "end":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }))).apply(this, arguments);
-}
-function _f4() {
-    return (_f4 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
-        var ret;
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    return ret = {
-                        x: "x"
-                    }, _ctx.abrupt("return", Promise.resolve(ret));
-                case 2:
-                case "end":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }))).apply(this, arguments);
-}

@@ -84,6 +84,7 @@ where
             AtRule::Namespace(n) => emit!(self, n),
             AtRule::Viewport(n) => emit!(self, n),
             AtRule::Document(n) => emit!(self, n),
+            AtRule::ColorProfile(n) => emit!(self, n),
             AtRule::Unknown(n) => emit!(self, n),
         }
     }
@@ -623,6 +624,7 @@ where
             Value::Ratio(n) => emit!(self, n),
             Value::Hash(n) => emit!(self, n),
             Value::Ident(n) => emit!(self, n),
+            Value::DashedIdent(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
             Value::Space(n) => emit!(self, n),
@@ -631,6 +633,33 @@ where
             Value::Url(n) => emit!(self, n),
             Value::Comma(n) => emit!(self, n),
         }
+    }
+
+    #[emitter]
+    fn emit_at_rule_name(&mut self, n: &AtRuleName) -> Result {
+        match n {
+            AtRuleName::Ident(n) => emit!(self, n),
+            AtRuleName::DashedIdent(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_color_profile_name(&mut self, n: &ColorProfileName) -> Result {
+        match n {
+            ColorProfileName::Ident(n) => emit!(self, n),
+            ColorProfileName::DashedIdent(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_color_profile_rule(&mut self, n: &ColorProfileRule) -> Result {
+        punct!(self, "@");
+        keyword!(self, "color-profile");
+        space!(self);
+        emit!(self, n.name);
+        punct!(self, "{");
+        self.emit_list(&n.block, ListFormat::NotDelimited)?;
+        punct!(self, "}");
     }
 
     #[emitter]
@@ -701,11 +730,22 @@ where
     }
 
     #[emitter]
+    fn emit_declaration_property(&mut self, n: &DeclarationProperty) -> Result {
+        match n {
+            DeclarationProperty::Ident(n) => emit!(self, n),
+            DeclarationProperty::DashedIdent(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
     fn emit_declaration(&mut self, n: &Declaration) -> Result {
         emit!(self, n.property);
         punct!(self, ":");
 
-        let is_custom_property = n.property.value.starts_with("--");
+        let is_custom_property = match n.property {
+            DeclarationProperty::DashedIdent(_) => true,
+            DeclarationProperty::Ident(_) => false,
+        };
 
         if !is_custom_property {
             formatting_space!(self);
@@ -740,6 +780,11 @@ where
 
     #[emitter]
     fn emit_custom_ident(&mut self, n: &CustomIdent) -> Result {
+        self.wr.write_raw(Some(n.span), &n.raw)?;
+    }
+
+    #[emitter]
+    fn emit_dashed_ident(&mut self, n: &DashedIdent) -> Result {
         self.wr.write_raw(Some(n.span), &n.raw)?;
     }
 

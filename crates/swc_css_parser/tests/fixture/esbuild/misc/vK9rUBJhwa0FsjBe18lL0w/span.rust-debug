@@ -58,6 +58,12 @@ error: Declaration
 1 | a { value: @k\65yword }
   |     ^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/vK9rUBJhwa0FsjBe18lL0w/input.css:1:5
+  |
+1 | a { value: @k\65yword }
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/vK9rUBJhwa0FsjBe18lL0w/input.css:1:5
   |

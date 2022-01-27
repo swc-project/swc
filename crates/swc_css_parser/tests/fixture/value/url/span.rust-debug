@@ -83,6 +83,12 @@ error: Declaration
 2 |     background: url(https://example.com/image.png);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/value/url/input.css:2:5
+  |
+2 |     background: url(https://example.com/image.png);
+  |     ^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/value/url/input.css:2:5
   |
@@ -124,6 +130,12 @@ error: Declaration
   |
 3 |     background: URL(https://example.com/image.png);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/value/url/input.css:3:5
+  |
+3 |     background: URL(https://example.com/image.png);
+  |     ^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/value/url/input.css:3:5
@@ -167,6 +179,12 @@ error: Declaration
 4 |     background: \URL(https://example.com/image.png);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/value/url/input.css:4:5
+  |
+4 |     background: \URL(https://example.com/image.png);
+  |     ^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/value/url/input.css:4:5
   |
@@ -209,6 +227,12 @@ error: Declaration
 5 |     background: url("https://example.com/image.png");
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/value/url/input.css:5:5
+  |
+5 |     background: url("https://example.com/image.png");
+  |     ^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/value/url/input.css:5:5
   |
@@ -251,6 +275,12 @@ error: Declaration
 6 |     background: url('https://example.com/image.png');
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/value/url/input.css:6:5
+  |
+6 |     background: url('https://example.com/image.png');
+  |     ^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/value/url/input.css:6:5
   |
@@ -292,6 +322,12 @@ error: Declaration
   |
 7 |     background: URL('https://example.com/image.png');
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/value/url/input.css:7:5
+  |
+7 |     background: URL('https://example.com/image.png');
+  |     ^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/value/url/input.css:7:5
@@ -335,6 +371,12 @@ error: Declaration
 8 |     background: \URL('https://example.com/image.png');
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/value/url/input.css:8:5
+  |
+8 |     background: \URL('https://example.com/image.png');
+  |     ^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/value/url/input.css:8:5
   |
@@ -376,6 +418,12 @@ error: Declaration
   |
 9 |     background: url(data:image/png;base64,iRxVB0);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/value/url/input.css:9:5
+  |
+9 |     background: url(data:image/png;base64,iRxVB0);
+  |     ^^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/value/url/input.css:9:5
@@ -419,6 +467,12 @@ error: Declaration
 10 |     background: url(#IDofSVGpath);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/url/input.css:10:5
+   |
+10 |     background: url(#IDofSVGpath);
+   |     ^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/value/url/input.css:10:5
    |
@@ -460,6 +514,12 @@ error: Declaration
    |
 13 |     background: url("//aa.com/img.svg" prefetch);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/url/input.css:13:5
+   |
+13 |     background: url("//aa.com/img.svg" prefetch);
+   |     ^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/value/url/input.css:13:5
@@ -514,6 +574,12 @@ error: Declaration
    |
 14 |     background: url("//aa.com/img.svg" foo bar baz func(test));
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/url/input.css:14:5
+   |
+14 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |     ^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/value/url/input.css:14:5
@@ -623,6 +689,12 @@ error: Declaration
 15 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/url/input.css:15:5
+   |
+15 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |     ^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/value/url/input.css:15:5
    |
@@ -695,7 +767,7 @@ error: Value
 15 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
    |                                                          ^^^^^^^
 
-error: Ident
+error: DashedIdent
   --> $DIR/tests/fixture/value/url/input.css:15:58
    |
 15 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
@@ -725,7 +797,7 @@ error: Value
 15 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
    |                                                                      ^^^^^^^^^^^^^^^
 
-error: Ident
+error: DashedIdent
   --> $DIR/tests/fixture/value/url/input.css:15:70
    |
 15 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
@@ -736,6 +808,12 @@ error: Declaration
    |
 17 |     background: url();
    |     ^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/url/input.css:17:5
+   |
+17 |     background: url();
+   |     ^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/value/url/input.css:17:5
@@ -779,6 +857,12 @@ error: Declaration
 18 |     background: url("");
    |     ^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/url/input.css:18:5
+   |
+18 |     background: url("");
+   |     ^^^^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/value/url/input.css:18:5
    |
@@ -820,6 +904,12 @@ error: Declaration
    |
 19 |     background: url('');
    |     ^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/url/input.css:19:5
+   |
+19 |     background: url('');
+   |     ^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/value/url/input.css:19:5
@@ -863,7 +953,13 @@ error: Declaration
 21 |     --foo: "http://www.example.com/pinkish.gif";
    |     ^^^^^^^
 
-error: Ident
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/url/input.css:21:5
+   |
+21 |     --foo: "http://www.example.com/pinkish.gif";
+   |     ^^^^^
+
+error: DashedIdent
   --> $DIR/tests/fixture/value/url/input.css:21:5
    |
 21 |     --foo: "http://www.example.com/pinkish.gif";
@@ -898,6 +994,12 @@ error: Declaration
    |
 23 |     background: src("http://www.example.com/pinkish.gif");
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/url/input.css:23:5
+   |
+23 |     background: src("http://www.example.com/pinkish.gif");
+   |     ^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/value/url/input.css:23:5
@@ -940,6 +1042,12 @@ error: Declaration
    |
 24 |     background: SRC("http://www.example.com/pinkish.gif");
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/url/input.css:24:5
+   |
+24 |     background: SRC("http://www.example.com/pinkish.gif");
+   |     ^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/value/url/input.css:24:5
@@ -982,6 +1090,12 @@ error: Declaration
    |
 25 |     background: src(var(--foo));
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/value/url/input.css:25:5
+   |
+25 |     background: src(var(--foo));
+   |     ^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/value/url/input.css:25:5
@@ -1031,7 +1145,7 @@ error: Value
 25 |     background: src(var(--foo));
    |                         ^^^^^
 
-error: Ident
+error: DashedIdent
   --> $DIR/tests/fixture/value/url/input.css:25:25
    |
 25 |     background: src(var(--foo));

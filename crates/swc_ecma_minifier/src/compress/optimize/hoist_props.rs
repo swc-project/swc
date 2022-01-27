@@ -14,6 +14,9 @@ where
         if !self.options.hoist_props && !self.options.reduce_vars {
             return;
         }
+        if self.ctx.is_exported {
+            return;
+        }
 
         if let Pat::Ident(name) = &mut n.name {
             // If a variable is initialized multiple time, we currently don't do anything
@@ -22,9 +25,12 @@ where
                 .data
                 .as_ref()
                 .and_then(|data| {
-                    data.vars
-                        .get(&name.to_id())
-                        .map(|v| !v.mutated && !v.reassigned && !v.is_infected())
+                    data.vars.get(&name.to_id()).map(|v| {
+                        !v.mutated
+                            && !v.reassigned_with_assignment
+                            && !v.reassigned_with_var_decl
+                            && !v.is_infected()
+                    })
                 })
                 .unwrap_or(false)
             {

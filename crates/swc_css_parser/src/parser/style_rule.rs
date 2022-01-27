@@ -203,11 +203,28 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Declaration> {
-        let start = self.input.cur_span()?.lo;
+        let span = self.input.cur_span()?;
 
         self.input.skip_ws()?;
 
-        let property: Ident = self.parse()?;
+        let is_dashed_ident = match cur!(self) {
+            Token::Ident { value, .. } => {
+                if value.starts_with("--") {
+                    true
+                } else {
+                    false
+                }
+            }
+            _ => {
+                return Err(Error::new(span, ErrorKind::Expected("Ident")));
+            }
+        };
+
+        let property = if is_dashed_ident {
+            DeclarationProperty::DashedIdent(self.parse()?)
+        } else {
+            DeclarationProperty::Ident(self.parse()?)
+        };
 
         self.input.skip_ws()?;
 
@@ -217,13 +234,13 @@ where
         let mut value = vec![];
 
         if !is!(self, EOF) {
-            match &*property.value {
-                str if str.starts_with("--") => {
+            match is_dashed_ident {
+                true => {
                     let tokens = Value::Tokens(self.parse_declaration_value()?);
 
                     value.push(tokens);
                 }
-                _ => {
+                false => {
                     let ctx = Ctx {
                         allow_operation_in_value: false,
                         recover_from_property_value: true,
@@ -273,7 +290,7 @@ where
         self.input.skip_ws()?;
 
         Ok(Declaration {
-            span: Span::new(start, end, Default::default()),
+            span: Span::new(span.lo, end, Default::default()),
             property,
             value,
             important,

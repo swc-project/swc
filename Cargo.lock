@@ -196,9 +196,9 @@ dependencies = [
 
 [[package]]
 name = "browserslist-rs"
-version = "0.6.0"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "31071741816efb54c473a6480724b2d31ed44eb460382d37f60cf4655fbe80a6"
+checksum = "38854056e7d44ad7af1214b7de30ceb71fff036ed67f3d1b48cc1200bb722cba"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2652,7 +2652,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.117.3"
+version = "0.119.3"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2792,7 +2792,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.55.1"
+version = "0.56.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2804,7 +2804,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.51.0"
+version = "0.52.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -2815,7 +2815,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.53.0"
+version = "0.54.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2841,7 +2841,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.17.0"
+version = "0.18.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2854,7 +2854,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.55.1"
+version = "0.56.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2869,7 +2869,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.48.0"
+version = "0.49.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2879,7 +2879,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.50.0"
+version = "0.51.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2976,11 +2976,12 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.9.0"
+version = "0.11.0"
 dependencies = [
  "auto_impl",
  "parking_lot",
  "rayon",
+ "serde",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -3012,7 +3013,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.71.1"
+version = "0.71.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3069,7 +3070,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.87.0"
+version = "0.87.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3366,7 +3367,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.111.3"
+version = "0.111.5"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3402,7 +3403,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.35.0"
+version = "0.37.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3549,7 +3550,7 @@ version = "0.24.0"
 
 [[package]]
 name = "swc_stylis"
-version = "0.52.0"
+version = "0.53.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3591,7 +3592,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.33.0"
+version = "0.35.0"
 dependencies = [
  "anyhow",
  "rayon",
@@ -4040,7 +4041,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.134"
+version = "1.2.135"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

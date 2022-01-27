@@ -350,9 +350,7 @@
                     return _formatRoutes.default(appConfigRouter.routes || _routes.default, "");
                 }), modifyRoutesComponent(function() {
                     return _router.Routes;
-                });
-                var wrapperPageFn = process.env.__IS_SERVER__ ? _formatRoutes.wrapperPageWithSSR(context) : _formatRoutes.wrapperPageWithCSR();
-                wrapperPageComponent(wrapperPageFn), wrapperPageComponent(function(PageComponent) {
+                }), wrapperPageComponent(process.env.__IS_SERVER__ ? _formatRoutes.wrapperPageWithSSR(context) : _formatRoutes.wrapperPageWithCSR()), wrapperPageComponent(function(PageComponent) {
                     var _pageConfig = PageComponent.pageConfig, pageConfig = void 0 === _pageConfig ? {} : _pageConfig;
                     return function(props) {
                         return pageConfig.errorBoundary ? _jsxRuntime.jsx(_errorBoundary.default, {
@@ -7452,15 +7450,7 @@
         },
         54878: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var fixRegExpWellKnownSymbolLogic = __webpack_require__(29045), fails = __webpack_require__(60232), anObject = __webpack_require__(83941), isCallable = __webpack_require__(67106), toInteger = __webpack_require__(86361), toLength = __webpack_require__(31998), toString = __webpack_require__(72729), requireObjectCoercible = __webpack_require__(79602), advanceStringIndex = __webpack_require__(88770), getMethod = __webpack_require__(84316), getSubstitution = __webpack_require__(33371), regExpExec = __webpack_require__(21135), wellKnownSymbol = __webpack_require__(81019), REPLACE = wellKnownSymbol("replace"), max = Math.max, min = Math.min, REPLACE_KEEPS_$0 = "$0" === "a".replace(/./, "$0"), REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = !!/./[REPLACE] && "" === /./[REPLACE]("a", "$0"), REPLACE_SUPPORTS_NAMED_GROUPS = !fails(function() {
-                var re = /./;
-                return re.exec = function() {
-                    var result = [];
-                    return result.groups = {
-                        a: "7"
-                    }, result;
-                }, "7" !== "".replace(re, "$<a>");
-            });
+            var fixRegExpWellKnownSymbolLogic = __webpack_require__(29045), fails = __webpack_require__(60232), anObject = __webpack_require__(83941), isCallable = __webpack_require__(67106), toInteger = __webpack_require__(86361), toLength = __webpack_require__(31998), toString = __webpack_require__(72729), requireObjectCoercible = __webpack_require__(79602), advanceStringIndex = __webpack_require__(88770), getMethod = __webpack_require__(84316), getSubstitution = __webpack_require__(33371), regExpExec = __webpack_require__(21135), wellKnownSymbol = __webpack_require__(81019), REPLACE = wellKnownSymbol("replace"), max = Math.max, min = Math.min, REPLACE_KEEPS_$0 = "$0" === "a".replace(/./, "$0"), REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = !!/./[REPLACE] && "" === /./[REPLACE]("a", "$0");
             fixRegExpWellKnownSymbolLogic("replace", function(_, nativeReplace, maybeCallNative) {
                 var UNSAFE_SUBSTITUTE = REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE ? "$" : "$0";
                 return [
@@ -7502,7 +7492,15 @@
                         return accumulatedResult + S.slice(nextSourcePosition);
                     }
                 ];
-            }, !REPLACE_SUPPORTS_NAMED_GROUPS || !REPLACE_KEEPS_$0 || REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE);
+            }, !!fails(function() {
+                var re = /./;
+                return re.exec = function() {
+                    var result = [];
+                    return result.groups = {
+                        a: "7"
+                    }, result;
+                }, "7" !== "".replace(re, "$<a>");
+            }) || !REPLACE_KEEPS_$0 || REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE);
         },
         49000: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
@@ -9818,11 +9816,11 @@
                         var action = "PUSH", location = createLocation(path4, void 0, void 0, history.location);
                         transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function(ok) {
                             if (ok) {
-                                var path, path3 = createPath(location), encodedPath = encodePath(basename + path3);
+                                var path = createPath(location), encodedPath = encodePath(basename + path);
                                 if (getHashPath() !== encodedPath) {
-                                    ignorePath = path3, path = encodedPath, window.location.hash = path;
-                                    var prevIndex = allPaths.lastIndexOf(createPath(history.location)), nextPaths = allPaths.slice(0, prevIndex + 1);
-                                    nextPaths.push(path3), allPaths = nextPaths, setState({
+                                    ignorePath = path, path3 = encodedPath, window.location.hash = path3;
+                                    var path3, prevIndex = allPaths.lastIndexOf(createPath(history.location)), nextPaths = allPaths.slice(0, prevIndex + 1);
+                                    nextPaths.push(path), allPaths = nextPaths, setState({
                                         action: action,
                                         location: location
                                     });
@@ -16152,7 +16150,7 @@
                 }
             });
             var inheritsLoose = __webpack_require__(48861), _react_17_0_2_react = __webpack_require__(59301), _prop_types_15_7_2_prop_types = __webpack_require__(68712), _prop_types_15_7_2_prop_types_default = __webpack_require__.n(_prop_types_15_7_2_prop_types), esm_history = __webpack_require__(91520), commonjsGlobal = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : {}, esm = _react_17_0_2_react.createContext || function(defaultValue, calculateChangedBits) {
-                var _Provider$childContex, _Consumer$contextType, key, contextProp = "__create-react-context-" + (commonjsGlobal[key = "__global_unique_id__"] = (commonjsGlobal[key] || 0) + 1) + "__", Provider1 = function(_Component) {
+                var key, _Provider$childContex, _Consumer$contextType, contextProp = "__create-react-context-" + (commonjsGlobal[key = "__global_unique_id__"] = (commonjsGlobal[key] || 0) + 1) + "__", Provider1 = function(_Component) {
                     function Provider() {
                         var _this, value, handlers;
                         return _this = _Component.apply(this, arguments) || this, value = _this.props.value, handlers = [], _this.emitter = {
@@ -17098,9 +17096,8 @@
         },
         74284: function(__unused_webpack_module, exports) {
             "use strict";
-            var f, g, h, k;
             if ("object" == typeof performance && "function" == typeof performance.now) {
-                var l = performance;
+                var f, g, h, k, l = performance;
                 exports.unstable_now = function() {
                     return l.now();
                 };

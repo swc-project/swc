@@ -1,4 +1,4 @@
-use crate::{AtRule, Ident, SelectorList, Tokens, Value};
+use crate::{AtRule, DashedIdent, Ident, SelectorList, Tokens, Value};
 use swc_common::{ast_node, Span};
 
 #[ast_node("SimpleBlock")]
@@ -33,10 +33,18 @@ pub enum DeclarationBlockItem {
     AtRule(AtRule),
 }
 
+#[ast_node]
+pub enum DeclarationProperty {
+    #[tag("Ident")]
+    Ident(Ident),
+    #[tag("DashedIdent")]
+    DashedIdent(DashedIdent),
+}
+
 #[ast_node("Declaration")]
 pub struct Declaration {
     pub span: Span,
-    pub property: Ident,
+    pub property: DeclarationProperty,
     pub value: Vec<Value>,
     /// The span includes `!`
     pub important: Option<Span>,

@@ -52,49 +52,6 @@ function AsyncGenerator(gen) {
 function _AwaitValue(value) {
     this.wrapped = value;
 }
-function _wrapAsyncGenerator(fn) {
-    return function() {
-        return new AsyncGenerator(fn.apply(this, arguments));
-    };
-}
-function _f1() {
-    return (_f1 = _wrapAsyncGenerator(function*() {})).apply(this, arguments);
-}
-function _f2() {
-    return (_f2 = _wrapAsyncGenerator(function*() {
-        yield;
-    })).apply(this, arguments);
-}
-function _f3() {
-    return (_f3 = _wrapAsyncGenerator(function*() {
-        yield 1;
-    })).apply(this, arguments);
-}
-function _f4() {
-    return (_f4 = _wrapAsyncGenerator(function*() {
-        yield* [
-            1
-        ];
-    })).apply(this, arguments);
-}
-function _f5() {
-    return (_f5 = _wrapAsyncGenerator(function*() {
-        yield* _wrapAsyncGenerator(function*() {
-            yield 1;
-        })();
-    })).apply(this, arguments);
-}
-function _f6() {
-    return (_f6 = _wrapAsyncGenerator(function*() {
-        var value;
-        yield value = 1, new _AwaitValue(value);
-    })).apply(this, arguments);
-}
-function _f7() {
-    return (_f7 = _wrapAsyncGenerator(function*() {
-        return 1;
-    })).apply(this, arguments);
-}
 "function" == typeof Symbol && Symbol.asyncIterator && (AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
     return this;
 }), AsyncGenerator.prototype.next = function(arg) {

@@ -89,6 +89,12 @@ error: Declaration
 2 |     width: calc(2px);
   |     ^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/calc/input.css:2:2
+  |
+2 |     width: calc(2px);
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:2:2
   |
@@ -142,6 +148,12 @@ error: Declaration
   |
 3 |     width: calc(2px + 1px);
   |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/calc/input.css:3:2
+  |
+3 |     width: calc(2px + 1px);
+  |     ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:3:2
@@ -233,6 +245,12 @@ error: Declaration
 4 |     width: calc(2em + 1%);
   |     ^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/calc/input.css:4:2
+  |
+4 |     width: calc(2em + 1%);
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:4:2
   |
@@ -316,6 +334,12 @@ error: Declaration
   |
 5 |     width: calc(2em * 2% * 3px);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/calc/input.css:5:2
+  |
+5 |     width: calc(2em * 2% * 3px);
+  |     ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:5:2
@@ -449,6 +473,12 @@ error: Declaration
 6 |     width: calc(2em / 2 / 3);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/calc/input.css:6:2
+  |
+6 |     width: calc(2em / 2 / 3);
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:6:2
   |
@@ -562,6 +592,12 @@ error: Declaration
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/calc/input.css:7:2
+  |
+7 |     width: calc(2em / (2 - 3) / (2 - 6));
+  |     ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:7:2
@@ -749,6 +785,12 @@ error: Declaration
 8 |     width: calc(2em * 2 + 3);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/calc/input.css:8:2
+  |
+8 |     width: calc(2em * 2 + 3);
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:8:2
   |
@@ -862,6 +904,12 @@ error: Declaration
   |
 9 |     width: calc(2em * 2 - 3 + 3em / 5);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/rome/calc/input.css:9:2
+  |
+9 |     width: calc(2em * 2 - 3 + 3em / 5);
+  |     ^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:9:2

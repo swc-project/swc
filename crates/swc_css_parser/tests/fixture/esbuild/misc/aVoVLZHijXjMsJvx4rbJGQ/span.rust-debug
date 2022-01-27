@@ -34,6 +34,12 @@ error: Declaration
 1 | @viewport { width: 100vw }
   |             ^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:13
+  |
+1 | @viewport { width: 100vw }
+  |             ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:13
   |

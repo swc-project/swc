@@ -1,0 +1,578 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 171,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 0,
+        "end": 59,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 5,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 5,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 5,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoClassSelector",
+                    "span": {
+                      "start": 0,
+                      "end": 5,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1,
+                        "end": 5,
+                        "ctxt": 0
+                      },
+                      "value": "root",
+                      "raw": "root"
+                    },
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 6,
+          "end": 59,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 12,
+              "end": 26,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "DashedIdentifier",
+              "span": {
+                "start": 12,
+                "end": 24,
+                "ctxt": 0
+              },
+              "value": "--main-color",
+              "raw": "--main-color"
+            },
+            "value": [
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 25,
+                  "end": 30,
+                  "ctxt": 0
+                },
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 25,
+                      "end": 26,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 26,
+                      "end": 30,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Hash": {
+                        "is_id": false,
+                        "value": "06c",
+                        "raw": "06c"
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 36,
+              "end": 52,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "DashedIdentifier",
+              "span": {
+                "start": 36,
+                "end": 50,
+                "ctxt": 0
+              },
+              "value": "--accent-color",
+              "raw": "--accent-color"
+            },
+            "value": [
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 51,
+                  "end": 56,
+                  "ctxt": 0
+                },
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 51,
+                      "end": 52,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 52,
+                      "end": 56,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Hash": {
+                        "is_id": false,
+                        "value": "006",
+                        "raw": "006"
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 61,
+        "end": 91,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 61,
+          "end": 65,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 61,
+              "end": 65,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 61,
+                  "end": 65,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 61,
+                      "end": 65,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 62,
+                        "end": 65,
+                        "ctxt": 0
+                      },
+                      "value": "foo",
+                      "raw": "foo"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 66,
+          "end": 91,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 72,
+              "end": 84,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "DashedIdentifier",
+              "span": {
+                "start": 72,
+                "end": 82,
+                "ctxt": 0
+              },
+              "value": "--fg-color",
+              "raw": "--fg-color"
+            },
+            "value": [
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 83,
+                  "end": 88,
+                  "ctxt": 0
+                },
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 83,
+                      "end": 84,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 84,
+                      "end": 88,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Ident": {
+                        "value": "blue",
+                        "raw": "blue"
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 93,
+        "end": 134,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 93,
+          "end": 100,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 93,
+              "end": 100,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 93,
+                  "end": 97,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "IdSelector",
+                    "span": {
+                      "start": 93,
+                      "end": 97,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 93,
+                        "end": 97,
+                        "ctxt": 0
+                      },
+                      "value": "foo",
+                      "raw": "foo"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "Combinator",
+                "span": {
+                  "start": 97,
+                  "end": 98,
+                  "ctxt": 0
+                },
+                "value": " "
+              },
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 98,
+                  "end": 100,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TypeSelector",
+                  "span": {
+                    "start": 98,
+                    "end": 100,
+                    "ctxt": 0
+                  },
+                  "prefix": null,
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 98,
+                      "end": 100,
+                      "ctxt": 0
+                    },
+                    "value": "h1",
+                    "raw": "h1"
+                  }
+                },
+                "subclassSelectors": []
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 101,
+          "end": 134,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 107,
+              "end": 131,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 107,
+                "end": 112,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 114,
+                  "end": 131,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 114,
+                    "end": 117,
+                    "ctxt": 0
+                  },
+                  "value": "var",
+                  "raw": "var"
+                },
+                "value": [
+                  {
+                    "type": "DashedIdentifier",
+                    "span": {
+                      "start": 118,
+                      "end": 130,
+                      "ctxt": 0
+                    },
+                    "value": "--main-color",
+                    "raw": "--main-color"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "UnknownAtRule",
+      "span": {
+        "start": 136,
+        "end": 148,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "DashedIdentifier",
+        "span": {
+          "start": 137,
+          "end": 145,
+          "ctxt": 0
+        },
+        "value": "--custom",
+        "raw": "--custom"
+      },
+      "prelude": [
+        {
+          "type": "Tokens",
+          "span": {
+            "start": 145,
+            "end": 146,
+            "ctxt": 0
+          },
+          "tokens": [
+            {
+              "span": {
+                "start": 145,
+                "end": 146,
+                "ctxt": 0
+              },
+              "token": {
+                "WhiteSpace": {
+                  "value": " "
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 146,
+          "end": 148,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
+    },
+    {
+      "type": "UnknownAtRule",
+      "span": {
+        "start": 149,
+        "end": 170,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "DashedIdentifier",
+        "span": {
+          "start": 150,
+          "end": 167,
+          "ctxt": 0
+        },
+        "value": "--library1-custom",
+        "raw": "--library1-custom"
+      },
+      "prelude": [
+        {
+          "type": "Tokens",
+          "span": {
+            "start": 167,
+            "end": 168,
+            "ctxt": 0
+          },
+          "tokens": [
+            {
+              "span": {
+                "start": 167,
+                "end": 168,
+                "ctxt": 0
+              },
+              "token": {
+                "WhiteSpace": {
+                  "value": " "
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 168,
+          "end": 170,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
+    }
+  ]
+}

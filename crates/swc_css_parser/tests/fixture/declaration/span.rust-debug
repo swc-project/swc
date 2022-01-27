@@ -83,6 +83,12 @@ error: Declaration
 2 |     prop: value;
   |     ^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/declaration/input.css:2:5
+  |
+2 |     prop: value;
+  |     ^^^^
+
 error: Ident
  --> $DIR/tests/fixture/declaration/input.css:2:5
   |
@@ -106,6 +112,12 @@ error: Declaration
   |
 3 |     prop: (value);
   |     ^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/declaration/input.css:3:5
+  |
+3 |     prop: (value);
+  |     ^^^^
 
 error: Ident
  --> $DIR/tests/fixture/declaration/input.css:3:5
@@ -142,6 +154,12 @@ error: Declaration
   |
 4 |     prop: {value};
   |     ^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/declaration/input.css:4:5
+  |
+4 |     prop: {value};
+  |     ^^^^
 
 error: Ident
  --> $DIR/tests/fixture/declaration/input.css:4:5
@@ -185,6 +203,12 @@ error: Declaration
 5 |     prop: [value];
   |     ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/declaration/input.css:5:5
+  |
+5 |     prop: [value];
+  |     ^^^^
+
 error: Ident
  --> $DIR/tests/fixture/declaration/input.css:5:5
   |
@@ -220,6 +244,12 @@ error: Declaration
   |
 6 |     prop: fn(value);
   |     ^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/declaration/input.css:6:5
+  |
+6 |     prop: fn(value);
+  |     ^^^^
 
 error: Ident
  --> $DIR/tests/fixture/declaration/input.css:6:5

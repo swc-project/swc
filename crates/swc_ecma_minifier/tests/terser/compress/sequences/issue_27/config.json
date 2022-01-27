@@ -1,6 +1,6 @@
 {
     "collapse_vars": true,
-    "passes": 2,
+    "passes": 3,
     "sequences": true,
     "side_effects": true,
     "unused": true

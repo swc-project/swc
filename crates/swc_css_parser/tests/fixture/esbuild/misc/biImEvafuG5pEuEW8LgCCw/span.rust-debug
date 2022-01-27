@@ -58,6 +58,12 @@ error: Declaration
 1 | a { value: f\6e() }
   |     ^^^^^^^^^^^^^
 
+error: DeclarationProperty
+ --> $DIR/tests/fixture/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:5
+  |
+1 | a { value: f\6e() }
+  |     ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:5
   |

@@ -22,11 +22,17 @@ error: UnknownAtRule
 1 | @unknown{}
   | ^^^^^^^^^^
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:1
+error: AtRuleName
+ --> $DIR/tests/fixture/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:2
   |
 1 | @unknown{}
-  | ^^^^^^^^
+  |  ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:2
+  |
+1 | @unknown{}
+  |  ^^^^^^^
 
 error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:9

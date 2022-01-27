@@ -1,4 +1,4 @@
-f10(a1), f10(a2);
+ab.kind, f10(a1), f10(a2);
 var x1 = {
     a: "foo",
     b: 42

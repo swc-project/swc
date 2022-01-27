@@ -1,7 +1,7 @@
 pub(crate) use self::pure::pure_optimizer;
 use self::{drop_console::drop_console, hoist_decls::DeclHoisterConfig, optimize::optimizer};
 use crate::{
-    analyzer::{analyze, ProgramData, UsageAnalyzer},
+    analyzer::{analyze, UsageAnalyzer},
     compress::hoist_decls::decl_hoister,
     debug::dump,
     marks::Marks,
@@ -59,8 +59,7 @@ where
         marks,
         options,
         changed: false,
-        pass: 0,
-        data: None,
+        pass: 1,
         left_parallel_depth: 0,
         mode,
         dump_for_infinite_loop: Default::default(),
@@ -82,7 +81,6 @@ where
     options: &'a CompressOptions,
     changed: bool,
     pass: usize,
-    data: Option<ProgramData>,
     /// `0` means we should not create more threads.
     left_parallel_depth: u8,
 
@@ -144,7 +142,6 @@ where
                     options: self.options,
                     changed: false,
                     pass: self.pass,
-                    data: None,
                     left_parallel_depth: 0,
                     mode: self.mode,
                     dump_for_infinite_loop: Default::default(),
@@ -164,7 +161,6 @@ where
                             options: self.options,
                             changed: false,
                             pass: self.pass,
-                            data: None,
                             left_parallel_depth: self.left_parallel_depth - 1,
                             mode: self.mode,
                             dump_for_infinite_loop: Default::default(),
@@ -235,8 +231,6 @@ where
         N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa, M>>,
     {
         let _timer = timer!("optimize", pass = self.pass);
-
-        self.data = Some(analyze(&*n, Some(self.marks)));
 
         if self.options.passes != 0 && self.options.passes < self.pass {
             let done = dump(&*n, false);
@@ -322,62 +316,39 @@ where
         }
 
         {
-            tracing::info!(
-                "compress/pure: Running pure optimizer (pass = {})",
-                self.pass
-            );
-
-            let start_time = now();
+            let _timer = timer!("apply pure optimize");
 
             let mut visitor = pure_optimizer(self.options, self.marks, self.mode, self.pass >= 20);
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
 
-            if let Some(start_time) = start_time {
-                let end_time = Instant::now();
+            if cfg!(feature = "debug") && visitor.changed() {
+                n.invoke();
 
-                tracing::info!(
-                    "compress/pure: Pure optimizer took {:?} (pass = {})",
-                    end_time - start_time,
-                    self.pass
-                );
-
-                if cfg!(feature = "debug") && visitor.changed() {
-                    n.invoke();
-
-                    let start = n.dump();
-                    tracing::debug!("===== After pure =====\n{}", start);
-                }
+                let start = n.dump();
+                tracing::debug!("===== After pure =====\n{}", start);
             }
         }
 
         {
-            tracing::info!("compress: Running optimizer (pass = {})", self.pass);
+            let _timer = timer!("apply full optimizer");
 
-            let start_time = now();
             // TODO: reset_opt_flags
             //
             // This is swc version of `node.optimize(this);`.
 
+            let mut data = analyze(&*n, Some(self.marks));
+
             let mut visitor = optimizer(
                 self.marks,
                 self.options,
-                self.data.as_mut().unwrap(),
+                &mut data,
                 self.mode,
                 !self.dump_for_infinite_loop.is_empty(),
             );
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
 
-            if let Some(start_time) = start_time {
-                let end_time = Instant::now();
-
-                tracing::info!(
-                    "compress: Optimizer took {:?} (pass = {})",
-                    end_time - start_time,
-                    self.pass
-                );
-            }
             // let done = dump(&*n);
             // tracing::debug!("===== Result =====\n{}", done);
         }

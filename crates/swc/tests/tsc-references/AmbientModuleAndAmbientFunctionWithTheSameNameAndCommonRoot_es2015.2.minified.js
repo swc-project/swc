@@ -1,1 +1,1 @@
-Point();
+Point(), Point.Origin;
