@@ -1,7 +1,7 @@
 use super::util::drop_invalid_stmts;
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
-    util::{is_hoisted_var_decl_without_init, sort::is_sorted_by_key, IsModuleItem},
+    util::{is_hoisted_var_decl_without_init, sort::is_sorted_by_key, IsModuleItem, ModuleItemExt},
 };
 use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -41,7 +41,7 @@ impl Repeated for Hoister<'_> {
 impl Hoister<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + IsModuleItem,
+        T: StmtLike + IsModuleItem + ModuleItemExt,
         Vec<T>: for<'aa> VisitMutWith<Hoister<'aa>> + VisitWith<UsageAnalyzer>,
     {
         stmts.visit_mut_children_with(self);

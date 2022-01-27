@@ -2,6 +2,7 @@ use super::Optimizer;
 use crate::{
     compress::util::{drop_invalid_stmts, is_directive},
     mode::Mode,
+    util::ModuleItemExt,
 };
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
@@ -19,7 +20,7 @@ where
     /// `var a; for(var b;;);` => `for(var a, b;;);`
     pub(super) fn join_vars<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike,
+        T: ModuleItemExt,
     {
         if !self.options.join_vars {
             return;
