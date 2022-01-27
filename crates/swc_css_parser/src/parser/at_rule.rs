@@ -534,7 +534,7 @@ where
         let mut last_pos;
         let mut conditions = vec![];
 
-        if is!(self, "not") {
+        if is_case_insensitive_ident!(self, "not") {
             let not = self.parse()?;
 
             last_pos = self.input.last_pos()?;
@@ -549,8 +549,8 @@ where
 
             self.input.skip_ws()?;
 
-            if is!(self, "and") {
-                while is!(self, "and") {
+            if is_case_insensitive_ident!(self, "and") {
+                while is_case_insensitive_ident!(self, "and") {
                     let and = self.parse()?;
 
                     last_pos = self.input.last_pos()?;
@@ -559,8 +559,8 @@ where
 
                     self.input.skip_ws()?;
                 }
-            } else if is!(self, "or") {
-                while is!(self, "or") {
+            } else if is_case_insensitive_ident!(self, "or") {
+                while is_case_insensitive_ident!(self, "or") {
                     let or = self.parse()?;
 
                     last_pos = self.input.last_pos()?;
@@ -586,7 +586,7 @@ where
     fn parse(&mut self) -> PResult<SupportsNot> {
         let span = self.input.cur_span()?;
 
-        expect!(self, "not");
+        expect_case_insensitive_ident!(self, "not");
 
         self.input.skip_ws()?;
 
@@ -606,7 +606,7 @@ where
     fn parse(&mut self) -> PResult<SupportsAnd> {
         let span = self.input.cur_span()?;
 
-        expect!(self, "and");
+        expect_case_insensitive_ident!(self, "and");
 
         self.input.skip_ws()?;
 
@@ -626,7 +626,7 @@ where
     fn parse(&mut self) -> PResult<SupportsOr> {
         let span = self.input.cur_span()?;
 
-        expect!(self, "or");
+        expect_case_insensitive_ident!(self, "or");
 
         self.input.skip_ws()?;
 
@@ -650,7 +650,7 @@ where
 
         self.input.skip_ws()?;
 
-        if !is!(self, "(") && !is!(self, "not") {
+        if !is!(self, "(") && !is_case_insensitive_ident!(self, "not") {
             self.input.reset(&state);
 
             return Ok(SupportsInParens::Feature(self.parse()?));
