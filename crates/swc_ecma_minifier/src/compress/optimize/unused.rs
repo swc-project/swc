@@ -19,6 +19,8 @@ where
             return;
         }
 
+        let had_init = var.init.is_some();
+
         match &mut var.init {
             Some(init) => match &**init {
                 Expr::Invalid(..) => {
@@ -63,6 +65,12 @@ where
             },
             None => {
                 self.drop_unused_vars(var.span, &mut var.name, var.init.as_deref_mut());
+            }
+        }
+
+        if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
+            if !had_init && var.init.is_none() {
+                unreachable!("const/let variable without initializer");
             }
         }
     }
