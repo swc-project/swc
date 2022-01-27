@@ -13,7 +13,6 @@ use std::{
 };
 use swc::{config::ParseOptions, Compiler};
 use swc_common::FileName;
-use swc_ecma_ast::Program;
 
 // ----- Parsing -----
 
@@ -32,7 +31,7 @@ pub struct ParseFileTask {
 
 #[napi]
 impl Task for ParseTask {
-    type Output = Program;
+    type Output = String;
     type JsValue = String;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
@@ -54,21 +53,23 @@ impl Task for ParseTask {
         })
         .convert_err()?;
 
-        Ok(program)
+        let ast_json = serde_json::to_string(&program)?;
+
+        Ok(ast_json)
     }
 
     fn resolve(&mut self, _env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
-        Ok(serde_json::to_string(&result)?)
+        Ok(result)
     }
 }
 
 #[napi]
 impl Task for ParseFileTask {
-    type Output = Program;
+    type Output = String;
     type JsValue = String;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        try_with(self.c.cm.clone(), false, |handler| {
+        let program = try_with(self.c.cm.clone(), false, |handler| {
             self.c.run(|| {
                 let options: ParseOptions = deserialize_json(&self.options)?;
 
@@ -88,11 +89,15 @@ impl Task for ParseFileTask {
                 )
             })
         })
-        .convert_err()
+        .convert_err()?;
+
+        let ast_json = serde_json::to_string(&program)?;
+
+        Ok(ast_json)
     }
 
     fn resolve(&mut self, _env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
-        Ok(serde_json::to_string(&result)?)
+        Ok(result)
     }
 }
 
