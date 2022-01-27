@@ -1,4 +1,18 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(css/codegen)** Implement `minify: true` (#3369) ([0537ef1](https://github.com/swc-project/swc/commit/0537ef1a1170da5c693a36cd20fd2b089a8a3618))
+
+### Performance
+
+
+
+- **(node-swc)** Speed up `parse` and `parseFile` (#3380) ([0359deb](https://github.com/swc-project/swc/commit/0359deb4841be743d73db4536d4a22ac797d7f65))
+
 ## [1.2.135] - 2022-01-27
 
 ### Bug Fixes
