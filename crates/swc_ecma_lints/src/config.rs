@@ -2,7 +2,7 @@ use crate::rules::no_console::NoConsoleConfig;
 use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum LintRuleReaction {
     Off,
@@ -38,4 +38,7 @@ impl<T: Debug + Clone + Serialize + Default> RuleConfig<T> {
 pub struct LintConfig {
     #[serde(default)]
     pub no_console: RuleConfig<NoConsoleConfig>,
+
+    #[serde(default)]
+    pub no_debugger: RuleConfig<()>,
 }
