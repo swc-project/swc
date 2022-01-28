@@ -10,6 +10,9 @@
 
 - **(es/minifier)** Fix evaluator (#3391) ([38c2499](https://github.com/swc-project/swc/commit/38c2499358e2dc4df5b6acee25da54fe411f6e8a))
 
+
+- **(es/modules)** Allow using dynamic import with a name from another import (#3390) ([1dcc188](https://github.com/swc-project/swc/commit/1dcc188dd8230954e2801f7c6e3034b0c0215bc4))
+
 ### Features
 
 
