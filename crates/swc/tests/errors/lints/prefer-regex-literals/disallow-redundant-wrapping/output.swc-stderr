@@ -1,0 +1,6 @@
+error: Unexpected console statement
+ 
+  |
+1 | new RegExp(/redundant/);
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+

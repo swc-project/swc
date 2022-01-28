@@ -1,0 +1,7 @@
+{
+    "jsc": {
+        "lints": {
+            "preferRegexLiterals": ["error"]
+        }
+    }
+}

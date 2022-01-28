@@ -1,0 +1,42 @@
+error: Unexpected console statement
+ 
+  |
+1 | new RegExp("abc");
+  | ^^^^^^^^^^^^^^^^^
+
+error: Unexpected console statement
+ 
+  |
+2 | new RegExp("abc", "u");
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected console statement
+ 
+  |
+3 | RegExp("abc");
+  | ^^^^^^^^^^^^^
+
+error: Unexpected console statement
+ 
+  |
+4 | RegExp("abc", "u");
+  | ^^^^^^^^^^^^^^^^^^
+
+error: Unexpected console statement
+ 
+  |
+5 | new RegExp("\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d");
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected console statement
+ 
+  |
+6 | RegExp(`^\\d\\.$`);
+  | ^^^^^^^^^^^^^^^^^^
+
+error: Unexpected console statement
+ 
+  |
+7 | new RegExp(String.raw`^\d\.$`);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+

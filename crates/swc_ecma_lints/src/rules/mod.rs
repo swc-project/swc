@@ -7,6 +7,7 @@ mod const_assign;
 mod duplicate_bindings;
 mod duplicate_exports;
 pub mod no_console;
+pub mod prefer_regex_literals;
 
 pub fn all(lint_config: &LintConfig, top_level_ctxt: SyntaxContext) -> Vec<Box<dyn Rule>> {
     let mut rules = vec![
@@ -17,6 +18,11 @@ pub fn all(lint_config: &LintConfig, top_level_ctxt: SyntaxContext) -> Vec<Box<d
 
     rules.extend(no_console::no_console(
         &lint_config.no_console,
+        top_level_ctxt,
+    ));
+
+    rules.extend(prefer_regex_literals::prefer_regex_literals(
+        &lint_config.prefer_regex_literals,
         top_level_ctxt,
     ));
 
