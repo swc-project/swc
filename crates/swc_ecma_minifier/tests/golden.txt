@@ -317,6 +317,8 @@ destructuring/unused_destructuring_object_method_param/input.js
 directives/class_directives_compression/input.js
 directives/simple_statement_is_not_a_directive/input.js
 drop_console/drop_console_1/input.js
+drop_console/drop_console_2/input.js
+drop_console/unexpected_side_effects_dropping_console/input.js
 drop_unused/assign_binding/input.js
 drop_unused/assign_chain/input.js
 drop_unused/cascade_drop_assign/input.js

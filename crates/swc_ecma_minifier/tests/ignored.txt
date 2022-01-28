@@ -87,8 +87,6 @@ destructuring/issue_t111_2a/input.js
 destructuring/issue_t111_2b/input.js
 destructuring/issue_t111_2c/input.js
 destructuring/issue_t111_3/input.js
-drop_console/drop_console_2/input.js
-drop_console/unexpected_side_effects_dropping_console/input.js
 drop_unused/drop_toplevel_keep_assign/input.js
 drop_unused/global_var/input.js
 drop_unused/issue_1583/input.js
