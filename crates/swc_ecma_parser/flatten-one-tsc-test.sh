@@ -8,4 +8,4 @@ TO="./tests/typescript/tsc/"
 
 echo $TEST_DIR
 echo $TO
-mv $TEST_DIR $TO
+# mv $TEST_DIR $TO
