@@ -16,7 +16,7 @@ impl<M> Pure<'_, M> {
 
         if let Some((idx, _)) = idx {
             stmts.iter_mut().skip(idx + 1).for_each(|stmt| {
-                UnreachableHandler::preserve_vars(stmt);
+                self.changed |= UnreachableHandler::preserve_vars(stmt);
 
                 match stmt {
                     Stmt::Decl(
