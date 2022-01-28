@@ -25,35 +25,35 @@ fn identity(entry: PathBuf) {
         // Stack size
         "stack-size",
         "issue-716",
-        "parenthesizedTypes/input.ts",
+        "parenthesizedTypes.ts",
         // TODO: Unignore unicode escape test
         "unicodeExtendedEscapes",
         // Trolling with yield
-        "generatorTypeCheck40/input.ts",
-        "generatorTypeCheck55/input.ts",
-        "generatorTypeCheck60/input.ts",
-        "FunctionDeclaration6_es6/input.ts",
-        "FunctionDeclaration7_es6/input.ts",
+        "generatorTypeCheck40.ts",
+        "generatorTypeCheck55.ts",
+        "generatorTypeCheck60.ts",
+        "FunctionDeclaration6_es6.ts",
+        "FunctionDeclaration7_es6.ts",
         // Trolling with pattern
-        "restPropertyWithBindingPattern/input.ts",
+        "restPropertyWithBindingPattern.ts",
         "elementAccessChain.3",
         "propertyAccessChain.3",
         // TODO: Unignore
         // These tests are hard to debug because file is large
-        "emitCompoundExponentiationAssignmentWithIndexingOnLHS3/input.ts",
-        "emitExponentiationOperator1/input.ts",
-        "emitExponentiationOperator3/input.ts",
-        "emitExponentiationOperator4/input.ts",
-        "emitExponentiationOperatorInTempalteString4/input.ts",
-        "emitExponentiationOperatorInTempalteString4ES6/input.ts",
-        "exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands/input.ts",
+        "emitCompoundExponentiationAssignmentWithIndexingOnLHS3.ts",
+        "emitExponentiationOperator1.ts",
+        "emitExponentiationOperator3.ts",
+        "emitExponentiationOperator4.ts",
+        "emitExponentiationOperatorInTempalteString4.ts",
+        "emitExponentiationOperatorInTempalteString4ES6.ts",
+        "exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.ts",
         // `let[0] = 'foo'` is useless
-        "letIdentifierInElementAccess01/input.ts",
+        "letIdentifierInElementAccess01.ts",
         // Parser issue
-        "errorSuperCalls/input.ts",
+        "errorSuperCalls.ts",
         // TypeScript parser issue
-        "objectLiteralGettersAndSetters/input.ts",
-        "parserSuperExpression2/input.ts",
+        "objectLiteralGettersAndSetters.ts",
+        "parserSuperExpression2.ts",
         // TODO: Unignore
         "inlineJsxFactoryDeclarationsx",
         "tsxAttributeResolution5x",
@@ -63,19 +63,19 @@ fn identity(entry: PathBuf) {
         "tsxReactEmitNestingx",
         "tsxTypeArgumentsJsxPreserveOutputx",
         "unicodeEscapesInJsxtagsx",
-        "tsc/contextuallyTypedStringLiteralsInJsxAttributes01x/input.tsx",
-        "tsc/contextuallyTypedStringLiteralsInJsxAttributes02x/input.tsx",
+        "tsc/contextuallyTypedStringLiteralsInJsxAttributes01x.tsx",
+        "tsc/contextuallyTypedStringLiteralsInJsxAttributes02x.tsx",
         // TODO: Unignore
         // Tests require ast change
-        "tsc/thisTypeInAccessors/input.ts",
-        "tsc/thisTypeInAccessorsNegative/input.ts",
+        "tsc/thisTypeInAccessors.ts",
+        "tsc/thisTypeInAccessorsNegative.ts",
         // Invalid syntax
-        "tsc/objectRestNegative/input.ts",
-        "tsc/jsdocDisallowedInTypescript/input.ts",
-        "tsc/restElementMustBeLast/input.ts",
-        "tsc/objectRestPropertyMustBeLast/input.ts",
-        "tsc/propertyNamesOfReservedWords/input.ts",
-        "tsc/callSignaturesWithParameterInitializers/input.ts",
+        "tsc/objectRestNegative.ts",
+        "tsc/jsdocDisallowedInTypescript.ts",
+        "tsc/restElementMustBeLast.ts",
+        "tsc/objectRestPropertyMustBeLast.ts",
+        "tsc/propertyNamesOfReservedWords.ts",
+        "tsc/callSignaturesWithParameterInitializers.ts",
     ];
 
     // TODO: Unignore const enum test
