@@ -1,0 +1,11 @@
+{
+    "dead_code": true,
+    "evaluate": true,
+    "reduce_funcs": true,
+    "reduce_vars": true,
+    "sequences": true,
+    "side_effects": true,
+    "switches": true,
+    "toplevel": true,
+    "unused": true
+}

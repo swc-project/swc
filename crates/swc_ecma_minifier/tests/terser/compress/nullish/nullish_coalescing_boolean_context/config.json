@@ -1,0 +1,9 @@
+{
+    "ecma": 2020,
+    "toplevel": true,
+    "conditionals": true,
+    "evaluate": true,
+    "booleans": true,
+    "side_effects": true,
+    "reduce_vars": true
+}

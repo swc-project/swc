@@ -1,0 +1,5 @@
+{
+    "pure_getters": "strict",
+    "toplevel": true,
+    "unused": true
+}

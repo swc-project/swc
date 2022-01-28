@@ -1,0 +1,4 @@
+{
+    "pure_funcs": ["foo"],
+    "side_effects": true
+}

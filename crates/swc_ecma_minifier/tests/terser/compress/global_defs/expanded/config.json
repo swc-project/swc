@@ -1,0 +1,6 @@
+{
+    "global_defs": {
+        "CONFIG.DEBUG": [0],
+        "CONFIG.VALUE": 42
+    }
+}

@@ -1,0 +1,1 @@
+new RegExp("^/(?!_next).*$");

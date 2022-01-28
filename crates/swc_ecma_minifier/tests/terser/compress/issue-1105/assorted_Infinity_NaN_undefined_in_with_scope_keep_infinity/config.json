@@ -1,0 +1,15 @@
+{
+    "booleans": true,
+    "comparisons": true,
+    "conditionals": true,
+    "dead_code": true,
+    "evaluate": true,
+    "hoist_funs": true,
+    "if_return": true,
+    "join_vars": true,
+    "keep_fargs": true,
+    "keep_infinity": true,
+    "sequences": false,
+    "side_effects": true,
+    "unused": true
+}

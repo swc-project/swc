@@ -1,0 +1,9 @@
+{
+    "collapse_vars": true,
+    "evaluate": true,
+    "properties": true,
+    "pure_getters": true,
+    "reduce_funcs": true,
+    "reduce_vars": true,
+    "unused": true
+}

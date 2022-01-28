@@ -1,0 +1,12 @@
+bar();
+bar();
+delete a[foo()];
+delete a[bar()];
+delete a["bar"];
+a[foo()]++;
+a[bar()]++;
+a["bar"]++;
+--a[foo()];
+--a[bar()];
+--a["bar"];
+bar();

@@ -1,0 +1,10 @@
+{
+    "collapse_vars": true,
+    "hoist_props": true,
+    "inline": true,
+    "passes": 3,
+    "pure_getters": "strict",
+    "reduce_vars": true,
+    "toplevel": true,
+    "unused": true
+}

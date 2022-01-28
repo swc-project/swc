@@ -1,0 +1,13 @@
+{
+    "booleans": true,
+    "comparisons": true,
+    "conditionals": false,
+    "dead_code": true,
+    "evaluate": true,
+    "hoist_vars": true,
+    "if_return": true,
+    "join_vars": true,
+    "loops": true,
+    "side_effects": true,
+    "unused": true
+}

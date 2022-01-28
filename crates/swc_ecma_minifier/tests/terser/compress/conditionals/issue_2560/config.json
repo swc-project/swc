@@ -1,0 +1,8 @@
+{
+    "conditionals": true,
+    "inline": true,
+    "reduce_funcs": true,
+    "reduce_vars": true,
+    "toplevel": true,
+    "unused": true
+}

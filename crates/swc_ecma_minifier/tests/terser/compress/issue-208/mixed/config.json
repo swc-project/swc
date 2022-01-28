@@ -1,0 +1,8 @@
+{
+    "evaluate": true,
+    "global_defs": {
+        "DEBUG": 0,
+        "ENV": 1,
+        "FOO": 2
+    }
+}

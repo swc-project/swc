@@ -1,0 +1,6 @@
+{
+    "evaluate": true,
+    "side_effects": true,
+    "unsafe": true,
+    "unused": true
+}

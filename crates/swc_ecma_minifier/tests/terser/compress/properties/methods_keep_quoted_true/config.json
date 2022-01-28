@@ -1,0 +1,5 @@
+{
+    "arrows": true,
+    "ecma": 2015,
+    "unsafe_methods": true
+}

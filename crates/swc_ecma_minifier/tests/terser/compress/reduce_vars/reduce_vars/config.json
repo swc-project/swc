@@ -1,0 +1,12 @@
+{
+    "conditionals": true,
+    "evaluate": true,
+    "global_defs": {
+        "C": 0
+    },
+    "inline": true,
+    "reduce_funcs": true,
+    "reduce_vars": true,
+    "toplevel": true,
+    "unused": true
+}

@@ -1,0 +1,7 @@
+{
+    "keep_fargs": false,
+    "pure_getters": false,
+    "reduce_funcs": true,
+    "reduce_vars": true,
+    "unused": true
+}

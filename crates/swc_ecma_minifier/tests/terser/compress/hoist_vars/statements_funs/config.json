@@ -1,0 +1,4 @@
+{
+    "hoist_funs": true,
+    "hoist_vars": true
+}

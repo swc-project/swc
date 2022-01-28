@@ -1,0 +1,12 @@
+{
+    "comparisons": true,
+    "evaluate": true,
+    "hoist_props": true,
+    "inline": true,
+    "keep_fnames": true,
+    "passes": 2,
+    "reduce_funcs": true,
+    "reduce_vars": true,
+    "toplevel": true,
+    "unused": true
+}

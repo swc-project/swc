@@ -1,0 +1,11 @@
+{
+    "evaluate": true,
+    "global_defs": {
+        "CONFIG": {
+            "DEBUG": [0],
+            "VALUE": 42
+        }
+    },
+    "side_effects": true,
+    "unsafe": true
+}

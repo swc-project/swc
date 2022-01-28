@@ -1,0 +1,20 @@
+{
+    "booleans": true,
+    "comparisons": true,
+    "conditionals": true,
+    "dead_code": true,
+    "drop_debugger": true,
+    "evaluate": true,
+    "hoist_funs": true,
+    "hoist_vars": true,
+    "if_return": true,
+    "join_vars": true,
+    "keep_fargs": true,
+    "keep_fnames": false,
+    "loops": true,
+    "negate_iife": true,
+    "properties": true,
+    "sequences": true,
+    "side_effects": true,
+    "unused": true
+}

@@ -1,0 +1,5 @@
+{
+    "conditionals": true,
+    "dead_code": true,
+    "if_return": true
+}

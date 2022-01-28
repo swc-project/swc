@@ -1,0 +1,13 @@
+var a = NaN;
+var b = 1;
+var c = 1;
+var d = NaN;
+var e = 1 / 0;
+var f = 0;
+var g = NaN;
+var h = 1 / 0;
+var i = -1 / 0;
+var j = 0.125;
+var k = 0.125;
+var l = 0.25;
+var m = 3 ** -10;

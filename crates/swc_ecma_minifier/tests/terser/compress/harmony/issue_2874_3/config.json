@@ -1,0 +1,11 @@
+{
+    "collapse_vars": true,
+    "evaluate": true,
+    "inline": 3,
+    "reduce_funcs": false,
+    "reduce_vars": true,
+    "sequences": true,
+    "side_effects": true,
+    "toplevel": true,
+    "unused": true
+}

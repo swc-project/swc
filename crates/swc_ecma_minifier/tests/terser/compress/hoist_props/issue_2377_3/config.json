@@ -1,0 +1,11 @@
+{
+    "evaluate": true,
+    "hoist_props": true,
+    "inline": true,
+    "passes": 4,
+    "reduce_funcs": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "toplevel": true,
+    "unused": true
+}

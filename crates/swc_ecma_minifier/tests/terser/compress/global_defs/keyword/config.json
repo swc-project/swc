@@ -1,0 +1,7 @@
+{
+    "global_defs": {
+        "undefined": 0,
+        "NaN": 1,
+        "Infinity": 2
+    }
+}

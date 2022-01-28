@@ -1,0 +1,8 @@
+{
+    "collapse_vars": true,
+    "reduce_vars": true,
+    "sequences": true,
+    "side_effects": true,
+    "toplevel": true,
+    "unused": true
+}

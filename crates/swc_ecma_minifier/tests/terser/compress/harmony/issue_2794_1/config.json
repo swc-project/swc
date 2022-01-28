@@ -1,0 +1,12 @@
+{
+    "collapse_vars": true,
+    "evaluate": true,
+    "inline": true,
+    "passes": 1,
+    "properties": true,
+    "reduce_funcs": true,
+    "reduce_vars": true,
+    "toplevel": false,
+    "side_effects": true,
+    "unused": true
+}

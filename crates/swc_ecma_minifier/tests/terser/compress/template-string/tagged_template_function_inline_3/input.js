@@ -1,0 +1,2 @@
+function tpl() {}
+tpl`test`;

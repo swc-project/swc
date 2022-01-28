@@ -1,0 +1,13 @@
+{
+    "cache": {
+        "props": {
+            "$add": "_$ADD$_",
+            "$div": "_$DIV$_",
+            "$mul": "_$MUL$_",
+            "$divide": "_$DIVIDE$_",
+            "$minus": "_$MINUS$_",
+            "$keep": "_$KEEP$_"
+        }
+    },
+    "module": true
+}

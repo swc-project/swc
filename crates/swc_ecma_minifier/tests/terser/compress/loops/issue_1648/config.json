@@ -1,0 +1,7 @@
+{
+    "join_vars": true,
+    "loops": true,
+    "passes": 2,
+    "sequences": true,
+    "unused": true
+}

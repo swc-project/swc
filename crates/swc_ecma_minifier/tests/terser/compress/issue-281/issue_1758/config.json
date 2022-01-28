@@ -1,0 +1,5 @@
+{
+    "inline": true,
+    "sequences": true,
+    "side_effects": true
+}

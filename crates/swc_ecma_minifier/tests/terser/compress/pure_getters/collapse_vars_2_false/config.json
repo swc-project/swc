@@ -1,0 +1,5 @@
+{
+    "collapse_vars": true,
+    "pure_getters": false,
+    "reduce_vars": true
+}
