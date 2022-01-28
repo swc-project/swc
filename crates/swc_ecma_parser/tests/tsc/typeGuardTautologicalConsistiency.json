@@ -1,0 +1,349 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 260,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 36,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 4,
+            "end": 35,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 4,
+              "end": 18,
+              "ctxt": 0
+            },
+            "value": "stringOrNumber",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 18,
+                "end": 35,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 20,
+                  "end": 35,
+                  "ctxt": 0
+                },
+                "types": [
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 20,
+                      "end": 26,
+                      "ctxt": 0
+                    },
+                    "kind": "string"
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 29,
+                      "end": 35,
+                      "ctxt": 0
+                    },
+                    "kind": "number"
+                  }
+                ]
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 38,
+        "end": 157,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 42,
+          "end": 76,
+          "ctxt": 0
+        },
+        "operator": "===",
+        "left": {
+          "type": "UnaryExpression",
+          "span": {
+            "start": 42,
+            "end": 63,
+            "ctxt": 0
+          },
+          "operator": "typeof",
+          "argument": {
+            "type": "Identifier",
+            "span": {
+              "start": 49,
+              "end": 63,
+              "ctxt": 0
+            },
+            "value": "stringOrNumber",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 68,
+            "end": 76,
+            "ctxt": 0
+          },
+          "value": "number",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 78,
+          "end": 157,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "IfStatement",
+            "span": {
+              "start": 84,
+              "end": 155,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 88,
+                "end": 122,
+                "ctxt": 0
+              },
+              "operator": "!==",
+              "left": {
+                "type": "UnaryExpression",
+                "span": {
+                  "start": 88,
+                  "end": 109,
+                  "ctxt": 0
+                },
+                "operator": "typeof",
+                "argument": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 95,
+                    "end": 109,
+                    "ctxt": 0
+                  },
+                  "value": "stringOrNumber",
+                  "optional": false
+                }
+              },
+              "right": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 114,
+                  "end": 122,
+                  "ctxt": 0
+                },
+                "value": "number",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
+              }
+            },
+            "consequent": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 124,
+                "end": 155,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 134,
+                    "end": 149,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 134,
+                      "end": 148,
+                      "ctxt": 0
+                    },
+                    "value": "stringOrNumber",
+                    "optional": false
+                  }
+                }
+              ]
+            },
+            "alternate": null
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 159,
+        "end": 260,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 163,
+          "end": 235,
+          "ctxt": 0
+        },
+        "operator": "&&",
+        "left": {
+          "type": "BinaryExpression",
+          "span": {
+            "start": 163,
+            "end": 197,
+            "ctxt": 0
+          },
+          "operator": "===",
+          "left": {
+            "type": "UnaryExpression",
+            "span": {
+              "start": 163,
+              "end": 184,
+              "ctxt": 0
+            },
+            "operator": "typeof",
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 170,
+                "end": 184,
+                "ctxt": 0
+              },
+              "value": "stringOrNumber",
+              "optional": false
+            }
+          },
+          "right": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 189,
+              "end": 197,
+              "ctxt": 0
+            },
+            "value": "number",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
+          }
+        },
+        "right": {
+          "type": "BinaryExpression",
+          "span": {
+            "start": 201,
+            "end": 235,
+            "ctxt": 0
+          },
+          "operator": "!==",
+          "left": {
+            "type": "UnaryExpression",
+            "span": {
+              "start": 201,
+              "end": 222,
+              "ctxt": 0
+            },
+            "operator": "typeof",
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 208,
+                "end": 222,
+                "ctxt": 0
+              },
+              "value": "stringOrNumber",
+              "optional": false
+            }
+          },
+          "right": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 227,
+              "end": 235,
+              "ctxt": 0
+            },
+            "value": "number",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
+          }
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 237,
+          "end": 260,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 243,
+              "end": 258,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 243,
+                "end": 257,
+                "ctxt": 0
+              },
+              "value": "stringOrNumber",
+              "optional": false
+            }
+          }
+        ]
+      },
+      "alternate": null
+    }
+  ],
+  "interpreter": null
+}

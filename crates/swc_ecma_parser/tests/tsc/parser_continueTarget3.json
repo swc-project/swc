@@ -1,0 +1,92 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 29,
+    "end": 83,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 29,
+        "end": 83,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 29,
+          "end": 36,
+          "ctxt": 0
+        },
+        "value": "target1",
+        "optional": false
+      },
+      "body": {
+        "type": "LabeledStatement",
+        "span": {
+          "start": 38,
+          "end": 83,
+          "ctxt": 0
+        },
+        "label": {
+          "type": "Identifier",
+          "span": {
+            "start": 38,
+            "end": 45,
+            "ctxt": 0
+          },
+          "value": "target2",
+          "optional": false
+        },
+        "body": {
+          "type": "WhileStatement",
+          "span": {
+            "start": 47,
+            "end": 83,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "BooleanLiteral",
+            "span": {
+              "start": 54,
+              "end": 58,
+              "ctxt": 0
+            },
+            "value": true
+          },
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 60,
+              "end": 83,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "ContinueStatement",
+                "span": {
+                  "start": 64,
+                  "end": 81,
+                  "ctxt": 0
+                },
+                "label": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 73,
+                    "end": 80,
+                    "ctxt": 0
+                  },
+                  "value": "target1",
+                  "optional": false
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

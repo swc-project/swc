@@ -1,0 +1,53 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 241,
+    "end": 261,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 241,
+        "end": 261,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 245,
+            "end": 260,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 245,
+              "end": 246,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "RegExpLiteral",
+            "span": {
+              "start": 249,
+              "end": 260,
+              "ctxt": 0
+            },
+            "pattern": "\\u{DC00}",
+            "flags": "g"
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,120 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 19,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 19,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 0,
+          "end": 18,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 0,
+            "end": 1,
+            "ctxt": 0
+          },
+          "value": "f",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 2,
+                "end": 7,
+                "ctxt": 0
+              },
+              "operator": "<",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2,
+                  "end": 3,
+                  "ctxt": 0
+                },
+                "value": "g",
+                "optional": false
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 6,
+                  "end": 7,
+                  "ctxt": 0
+                },
+                "value": "A",
+                "optional": false
+              }
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 9,
+                "end": 17,
+                "ctxt": 0
+              },
+              "operator": ">",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 9,
+                  "end": 10,
+                  "ctxt": 0
+                },
+                "value": "B",
+                "optional": false
+              },
+              "right": {
+                "type": "UnaryExpression",
+                "span": {
+                  "start": 13,
+                  "end": 17,
+                  "ctxt": 0
+                },
+                "operator": "+",
+                "argument": {
+                  "type": "ParenthesisExpression",
+                  "span": {
+                    "start": 14,
+                    "end": 17,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 15,
+                      "end": 16,
+                      "ctxt": 0
+                    },
+                    "value": 7.0
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

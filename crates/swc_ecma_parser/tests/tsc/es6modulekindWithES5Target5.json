@@ -1,0 +1,109 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 65,
+    "end": 131,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 65,
+        "end": 94,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 72,
+          "end": 94,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 77,
+            "end": 79,
+            "ctxt": 0
+          },
+          "value": "E1",
+          "optional": false
+        },
+        "members": [
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 86,
+              "end": 92,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 86,
+                "end": 92,
+                "ctxt": 0
+              },
+              "value": "value1",
+              "optional": false
+            },
+            "init": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 103,
+        "end": 131,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 103,
+          "end": 131,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": true,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 114,
+            "end": 116,
+            "ctxt": 0
+          },
+          "value": "E2",
+          "optional": false
+        },
+        "members": [
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 123,
+              "end": 129,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 123,
+                "end": 129,
+                "ctxt": 0
+              },
+              "value": "value1",
+              "optional": false
+            },
+            "init": null
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

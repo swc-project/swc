@@ -1,0 +1,81 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 58,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 25,
+          "end": 26,
+          "ctxt": 0
+        },
+        "value": "g",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 15,
+        "end": 58,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 29,
+          "end": 58,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 35,
+              "end": 56,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "YieldExpression",
+              "span": {
+                "start": 42,
+                "end": 55,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "YieldExpression",
+                "span": {
+                  "start": 48,
+                  "end": 55,
+                  "ctxt": 0
+                },
+                "argument": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 54,
+                    "end": 55,
+                    "ctxt": 0
+                  },
+                  "value": 0.0
+                },
+                "delegate": false
+              },
+              "delegate": false
+            }
+          }
+        ]
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

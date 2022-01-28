@@ -1,0 +1,40 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 6,
+    "end": 40,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 6,
+        "end": 40,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 13,
+          "end": 40,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 18,
+            "end": 32,
+            "ctxt": 0
+          },
+          "value": "SignatureFlags",
+          "optional": false
+        },
+        "members": []
+      }
+    }
+  ],
+  "interpreter": null
+}

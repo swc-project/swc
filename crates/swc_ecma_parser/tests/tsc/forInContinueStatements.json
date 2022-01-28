@@ -1,0 +1,948 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 29,
+    "end": 474,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ForInStatement",
+      "span": {
+        "start": 29,
+        "end": 63,
+        "ctxt": 0
+      },
+      "left": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 33,
+          "end": 38,
+          "ctxt": 0
+        },
+        "kind": "var",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 37,
+              "end": 38,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 37,
+                "end": 38,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": null,
+            "definite": false
+          }
+        ]
+      },
+      "right": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 42,
+          "end": 44,
+          "ctxt": 0
+        },
+        "properties": []
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 46,
+          "end": 63,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ContinueStatement",
+            "span": {
+              "start": 52,
+              "end": 61,
+              "ctxt": 0
+            },
+            "label": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 65,
+        "end": 108,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 65,
+          "end": 68,
+          "ctxt": 0
+        },
+        "value": "ONE",
+        "optional": false
+      },
+      "body": {
+        "type": "ForInStatement",
+        "span": {
+          "start": 70,
+          "end": 108,
+          "ctxt": 0
+        },
+        "left": {
+          "type": "VariableDeclaration",
+          "span": {
+            "start": 74,
+            "end": 79,
+            "ctxt": 0
+          },
+          "kind": "var",
+          "declare": false,
+          "declarations": [
+            {
+              "type": "VariableDeclarator",
+              "span": {
+                "start": 78,
+                "end": 79,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 78,
+                  "end": 79,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "init": null,
+              "definite": false
+            }
+          ]
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "span": {
+            "start": 83,
+            "end": 85,
+            "ctxt": 0
+          },
+          "properties": []
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 87,
+            "end": 108,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ContinueStatement",
+              "span": {
+                "start": 93,
+                "end": 106,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 102,
+                  "end": 105,
+                  "ctxt": 0
+                },
+                "value": "ONE",
+                "optional": false
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 110,
+        "end": 162,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 110,
+          "end": 113,
+          "ctxt": 0
+        },
+        "value": "TWO",
+        "optional": false
+      },
+      "body": {
+        "type": "LabeledStatement",
+        "span": {
+          "start": 115,
+          "end": 162,
+          "ctxt": 0
+        },
+        "label": {
+          "type": "Identifier",
+          "span": {
+            "start": 115,
+            "end": 120,
+            "ctxt": 0
+          },
+          "value": "THREE",
+          "optional": false
+        },
+        "body": {
+          "type": "ForInStatement",
+          "span": {
+            "start": 122,
+            "end": 162,
+            "ctxt": 0
+          },
+          "left": {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 126,
+              "end": 131,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 130,
+                  "end": 131,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 130,
+                    "end": 131,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": null,
+                "definite": false
+              }
+            ]
+          },
+          "right": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 135,
+              "end": 137,
+              "ctxt": 0
+            },
+            "properties": []
+          },
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 139,
+              "end": 162,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "ContinueStatement",
+                "span": {
+                  "start": 145,
+                  "end": 160,
+                  "ctxt": 0
+                },
+                "label": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 154,
+                    "end": 159,
+                    "ctxt": 0
+                  },
+                  "value": "THREE",
+                  "optional": false
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 164,
+        "end": 252,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 164,
+          "end": 168,
+          "ctxt": 0
+        },
+        "value": "FOUR",
+        "optional": false
+      },
+      "body": {
+        "type": "ForInStatement",
+        "span": {
+          "start": 170,
+          "end": 252,
+          "ctxt": 0
+        },
+        "left": {
+          "type": "VariableDeclaration",
+          "span": {
+            "start": 174,
+            "end": 179,
+            "ctxt": 0
+          },
+          "kind": "var",
+          "declare": false,
+          "declarations": [
+            {
+              "type": "VariableDeclarator",
+              "span": {
+                "start": 178,
+                "end": 179,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 178,
+                  "end": 179,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "init": null,
+              "definite": false
+            }
+          ]
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "span": {
+            "start": 183,
+            "end": 185,
+            "ctxt": 0
+          },
+          "properties": []
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 187,
+            "end": 252,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "LabeledStatement",
+              "span": {
+                "start": 193,
+                "end": 250,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 193,
+                  "end": 197,
+                  "ctxt": 0
+                },
+                "value": "FIVE",
+                "optional": false
+              },
+              "body": {
+                "type": "ForInStatement",
+                "span": {
+                  "start": 203,
+                  "end": 250,
+                  "ctxt": 0
+                },
+                "left": {
+                  "type": "VariableDeclaration",
+                  "span": {
+                    "start": 207,
+                    "end": 212,
+                    "ctxt": 0
+                  },
+                  "kind": "var",
+                  "declare": false,
+                  "declarations": [
+                    {
+                      "type": "VariableDeclarator",
+                      "span": {
+                        "start": 211,
+                        "end": 212,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 211,
+                          "end": 212,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "optional": false,
+                        "typeAnnotation": null
+                      },
+                      "init": null,
+                      "definite": false
+                    }
+                  ]
+                },
+                "right": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 216,
+                    "end": 218,
+                    "ctxt": 0
+                  },
+                  "properties": []
+                },
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 220,
+                    "end": 250,
+                    "ctxt": 0
+                  },
+                  "stmts": [
+                    {
+                      "type": "ContinueStatement",
+                      "span": {
+                        "start": 230,
+                        "end": 244,
+                        "ctxt": 0
+                      },
+                      "label": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 239,
+                          "end": 243,
+                          "ctxt": 0
+                        },
+                        "value": "FOUR",
+                        "optional": false
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "ForInStatement",
+      "span": {
+        "start": 254,
+        "end": 318,
+        "ctxt": 0
+      },
+      "left": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 258,
+          "end": 263,
+          "ctxt": 0
+        },
+        "kind": "var",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 262,
+              "end": 263,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 262,
+                "end": 263,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": null,
+            "definite": false
+          }
+        ]
+      },
+      "right": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 267,
+          "end": 269,
+          "ctxt": 0
+        },
+        "properties": []
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 271,
+          "end": 318,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "LabeledStatement",
+            "span": {
+              "start": 277,
+              "end": 316,
+              "ctxt": 0
+            },
+            "label": {
+              "type": "Identifier",
+              "span": {
+                "start": 277,
+                "end": 280,
+                "ctxt": 0
+              },
+              "value": "SIX",
+              "optional": false
+            },
+            "body": {
+              "type": "ForInStatement",
+              "span": {
+                "start": 286,
+                "end": 316,
+                "ctxt": 0
+              },
+              "left": {
+                "type": "VariableDeclaration",
+                "span": {
+                  "start": 290,
+                  "end": 295,
+                  "ctxt": 0
+                },
+                "kind": "var",
+                "declare": false,
+                "declarations": [
+                  {
+                    "type": "VariableDeclarator",
+                    "span": {
+                      "start": 294,
+                      "end": 295,
+                      "ctxt": 0
+                    },
+                    "id": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 294,
+                        "end": 295,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "optional": false,
+                      "typeAnnotation": null
+                    },
+                    "init": null,
+                    "definite": false
+                  }
+                ]
+              },
+              "right": {
+                "type": "ObjectExpression",
+                "span": {
+                  "start": 299,
+                  "end": 301,
+                  "ctxt": 0
+                },
+                "properties": []
+              },
+              "body": {
+                "type": "ContinueStatement",
+                "span": {
+                  "start": 303,
+                  "end": 316,
+                  "ctxt": 0
+                },
+                "label": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 312,
+                    "end": 315,
+                    "ctxt": 0
+                  },
+                  "value": "SIX",
+                  "optional": false
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 320,
+        "end": 396,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 320,
+          "end": 325,
+          "ctxt": 0
+        },
+        "value": "SEVEN",
+        "optional": false
+      },
+      "body": {
+        "type": "ForInStatement",
+        "span": {
+          "start": 327,
+          "end": 396,
+          "ctxt": 0
+        },
+        "left": {
+          "type": "VariableDeclaration",
+          "span": {
+            "start": 332,
+            "end": 337,
+            "ctxt": 0
+          },
+          "kind": "var",
+          "declare": false,
+          "declarations": [
+            {
+              "type": "VariableDeclarator",
+              "span": {
+                "start": 336,
+                "end": 337,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 336,
+                  "end": 337,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "init": null,
+              "definite": false
+            }
+          ]
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "span": {
+            "start": 341,
+            "end": 343,
+            "ctxt": 0
+          },
+          "properties": []
+        },
+        "body": {
+          "type": "ForInStatement",
+          "span": {
+            "start": 345,
+            "end": 396,
+            "ctxt": 0
+          },
+          "left": {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 350,
+              "end": 355,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 354,
+                  "end": 355,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 354,
+                    "end": 355,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": null,
+                "definite": false
+              }
+            ]
+          },
+          "right": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 359,
+              "end": 361,
+              "ctxt": 0
+            },
+            "properties": []
+          },
+          "body": {
+            "type": "ForInStatement",
+            "span": {
+              "start": 363,
+              "end": 396,
+              "ctxt": 0
+            },
+            "left": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 368,
+                "end": 373,
+                "ctxt": 0
+              },
+              "kind": "var",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 372,
+                    "end": 373,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 372,
+                      "end": 373,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": null,
+                  "definite": false
+                }
+              ]
+            },
+            "right": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 377,
+                "end": 379,
+                "ctxt": 0
+              },
+              "properties": []
+            },
+            "body": {
+              "type": "ContinueStatement",
+              "span": {
+                "start": 381,
+                "end": 396,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 390,
+                  "end": 395,
+                  "ctxt": 0
+                },
+                "value": "SEVEN",
+                "optional": false
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 398,
+        "end": 474,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 398,
+          "end": 403,
+          "ctxt": 0
+        },
+        "value": "EIGHT",
+        "optional": false
+      },
+      "body": {
+        "type": "ForInStatement",
+        "span": {
+          "start": 405,
+          "end": 474,
+          "ctxt": 0
+        },
+        "left": {
+          "type": "VariableDeclaration",
+          "span": {
+            "start": 410,
+            "end": 415,
+            "ctxt": 0
+          },
+          "kind": "var",
+          "declare": false,
+          "declarations": [
+            {
+              "type": "VariableDeclarator",
+              "span": {
+                "start": 414,
+                "end": 415,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 414,
+                  "end": 415,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "init": null,
+              "definite": false
+            }
+          ]
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "span": {
+            "start": 419,
+            "end": 421,
+            "ctxt": 0
+          },
+          "properties": []
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 422,
+            "end": 474,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 428,
+                "end": 452,
+                "ctxt": 0
+              },
+              "kind": "var",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 432,
+                    "end": 452,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 432,
+                      "end": 434,
+                      "ctxt": 0
+                    },
+                    "value": "fn",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "FunctionExpression",
+                    "identifier": null,
+                    "params": [],
+                    "decorators": [],
+                    "span": {
+                      "start": 437,
+                      "end": 452,
+                      "ctxt": 0
+                    },
+                    "body": {
+                      "type": "BlockStatement",
+                      "span": {
+                        "start": 449,
+                        "end": 452,
+                        "ctxt": 0
+                      },
+                      "stmts": []
+                    },
+                    "generator": false,
+                    "async": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  },
+                  "definite": false
+                }
+              ]
+            },
+            {
+              "type": "ContinueStatement",
+              "span": {
+                "start": 457,
+                "end": 472,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 466,
+                  "end": 471,
+                  "ctxt": 0
+                },
+                "value": "EIGHT",
+                "optional": false
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,332 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 38,
+    "end": 148,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 38,
+        "end": 148,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 42,
+            "end": 148,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 42,
+              "end": 43,
+              "ctxt": 0
+            },
+            "value": "v",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 46,
+              "end": 148,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 52,
+                    "end": 61,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 53,
+                      "end": 60,
+                      "ctxt": 0
+                    },
+                    "operator": "+",
+                    "left": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 53,
+                        "end": 55,
+                        "ctxt": 0
+                      },
+                      "value": "",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    },
+                    "right": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 58,
+                        "end": 60,
+                        "ctxt": 0
+                      },
+                      "value": "",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
+                  }
+                },
+                "value": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 63,
+                    "end": 64,
+                    "ctxt": 0
+                  },
+                  "value": 0.0
+                }
+              },
+              {
+                "type": "MethodProperty",
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 70,
+                    "end": 79,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 71,
+                      "end": 78,
+                      "ctxt": 0
+                    },
+                    "operator": "+",
+                    "left": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 71,
+                        "end": 73,
+                        "ctxt": 0
+                      },
+                      "value": "",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    },
+                    "right": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 76,
+                        "end": 78,
+                        "ctxt": 0
+                      },
+                      "value": "",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
+                  }
+                },
+                "params": [],
+                "decorators": [],
+                "span": {
+                  "start": 70,
+                  "end": 85,
+                  "ctxt": 0
+                },
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 82,
+                    "end": 85,
+                    "ctxt": 0
+                  },
+                  "stmts": []
+                },
+                "generator": false,
+                "async": false,
+                "typeParameters": null,
+                "returnType": null
+              },
+              {
+                "type": "GetterProperty",
+                "span": {
+                  "start": 91,
+                  "end": 120,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 95,
+                    "end": 104,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 96,
+                      "end": 103,
+                      "ctxt": 0
+                    },
+                    "operator": "+",
+                    "left": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 96,
+                        "end": 98,
+                        "ctxt": 0
+                      },
+                      "value": "",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    },
+                    "right": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 101,
+                        "end": 103,
+                        "ctxt": 0
+                      },
+                      "value": "",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
+                  }
+                },
+                "typeAnnotation": null,
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 107,
+                    "end": 120,
+                    "ctxt": 0
+                  },
+                  "stmts": [
+                    {
+                      "type": "ReturnStatement",
+                      "span": {
+                        "start": 109,
+                        "end": 118,
+                        "ctxt": 0
+                      },
+                      "argument": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 116,
+                          "end": 117,
+                          "ctxt": 0
+                        },
+                        "value": 0.0
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "SetterProperty",
+                "span": {
+                  "start": 126,
+                  "end": 146,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 130,
+                    "end": 139,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 131,
+                      "end": 138,
+                      "ctxt": 0
+                    },
+                    "operator": "+",
+                    "left": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 131,
+                        "end": 133,
+                        "ctxt": 0
+                      },
+                      "value": "",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    },
+                    "right": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 136,
+                        "end": 138,
+                        "ctxt": 0
+                      },
+                      "value": "",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
+                  }
+                },
+                "param": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 140,
+                    "end": 141,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 143,
+                    "end": 146,
+                    "ctxt": 0
+                  },
+                  "stmts": []
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

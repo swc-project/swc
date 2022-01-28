@@ -1,0 +1,99 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 41,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 15,
+        "end": 41,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 19,
+            "end": 41,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 19,
+              "end": 20,
+              "ctxt": 0
+            },
+            "value": "v",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 23,
+              "end": 41,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "SetterProperty",
+                "span": {
+                  "start": 25,
+                  "end": 39,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 29,
+                    "end": 32,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 30,
+                      "end": 31,
+                      "ctxt": 0
+                    },
+                    "value": "e",
+                    "optional": false
+                  }
+                },
+                "param": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 33,
+                    "end": 34,
+                    "ctxt": 0
+                  },
+                  "value": "v",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 36,
+                    "end": 39,
+                    "ctxt": 0
+                  },
+                  "stmts": []
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

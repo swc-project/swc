@@ -1,0 +1,50 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 18,
+    "end": 27,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 18,
+        "end": 27,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "JSXElement",
+        "span": {
+          "start": 18,
+          "end": 26,
+          "ctxt": 0
+        },
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 19,
+              "end": 23,
+              "ctxt": 0
+            },
+            "value": "nope",
+            "optional": false
+          },
+          "span": {
+            "start": 18,
+            "end": 26,
+            "ctxt": 0
+          },
+          "attributes": [],
+          "selfClosing": true,
+          "typeArguments": null
+        },
+        "children": [],
+        "closing": null
+      }
+    }
+  ],
+  "interpreter": null
+}

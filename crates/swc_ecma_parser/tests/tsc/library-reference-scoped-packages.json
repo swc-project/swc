@@ -1,0 +1,60 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 136,
+    "end": 155,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 136,
+        "end": 155,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 143,
+          "end": 155,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 149,
+              "end": 154,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 149,
+                "end": 150,
+                "ctxt": 0
+              },
+              "value": "y",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 153,
+                "end": 154,
+                "ctxt": 0
+              },
+              "value": 0.0
+            },
+            "definite": false
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

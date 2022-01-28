@@ -1,0 +1,138 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 90,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 25,
+          "end": 26,
+          "ctxt": 0
+        },
+        "value": "g",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 15,
+        "end": 90,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 29,
+          "end": 90,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 35,
+              "end": 43,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "YieldExpression",
+              "span": {
+                "start": 35,
+                "end": 42,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 41,
+                  "end": 42,
+                  "ctxt": 0
+                },
+                "value": 0.0
+              },
+              "delegate": false
+            }
+          },
+          {
+            "type": "FunctionDeclaration",
+            "identifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 58,
+                "end": 60,
+                "ctxt": 0
+              },
+              "value": "g2",
+              "optional": false
+            },
+            "declare": false,
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 48,
+              "end": 88,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 63,
+                "end": 88,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 73,
+                    "end": 82,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "YieldExpression",
+                    "span": {
+                      "start": 73,
+                      "end": 81,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 79,
+                        "end": 81,
+                        "ctxt": 0
+                      },
+                      "value": "",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    },
+                    "delegate": false
+                  }
+                }
+              ]
+            },
+            "generator": true,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          }
+        ]
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,716 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 42,
+    "end": 915,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 42,
+        "end": 86,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 52,
+          "end": 57,
+          "ctxt": 0
+        },
+        "value": "Mixin",
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 58,
+          "end": 86,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsMethodSignature",
+            "span": {
+              "start": 64,
+              "end": 84,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 64,
+                "end": 75,
+                "ctxt": 0
+              },
+              "value": "mixinMethod",
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "params": [],
+            "typeAnn": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 77,
+                "end": 83,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 79,
+                  "end": 83,
+                  "ctxt": 0
+                },
+                "kind": "void"
+              }
+            },
+            "typeParams": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 97,
+          "end": 102,
+          "ctxt": 0
+        },
+        "value": "Mixin",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 158,
+            "end": 179,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 158,
+              "end": 179,
+              "ctxt": 0
+            },
+            "value": "baseClass",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 167,
+                "end": 179,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 169,
+                  "end": 179,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 169,
+                    "end": 179,
+                    "ctxt": 0
+                  },
+                  "value": "TBaseClass",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 88,
+        "end": 506,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 234,
+          "end": 506,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ClassDeclaration",
+            "identifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 394,
+                "end": 404,
+                "ctxt": 0
+              },
+              "value": "MixinClass",
+              "optional": false
+            },
+            "declare": false,
+            "span": {
+              "start": 388,
+              "end": 481,
+              "ctxt": 0
+            },
+            "decorators": [],
+            "body": [
+              {
+                "type": "ClassMethod",
+                "span": {
+                  "start": 450,
+                  "end": 475,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 450,
+                    "end": 461,
+                    "ctxt": 0
+                  },
+                  "value": "mixinMethod",
+                  "optional": false
+                },
+                "function": {
+                  "params": [],
+                  "decorators": [],
+                  "span": {
+                    "start": 450,
+                    "end": 475,
+                    "ctxt": 0
+                  },
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 464,
+                      "end": 475,
+                      "ctxt": 0
+                    },
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
+                },
+                "kind": "method",
+                "isStatic": false,
+                "accessibility": null,
+                "isAbstract": false,
+                "isOptional": false,
+                "isOverride": false
+              }
+            ],
+            "superClass": {
+              "type": "Identifier",
+              "span": {
+                "start": 413,
+                "end": 422,
+                "ctxt": 0
+              },
+              "value": "baseClass",
+              "optional": false
+            },
+            "isAbstract": false,
+            "typeParams": null,
+            "superTypeParams": null,
+            "implements": [
+              {
+                "type": "TsExpressionWithTypeArguments",
+                "span": {
+                  "start": 434,
+                  "end": 439,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 434,
+                    "end": 439,
+                    "ctxt": 0
+                  },
+                  "value": "Mixin",
+                  "optional": false
+                },
+                "typeArguments": null
+              }
+            ]
+          },
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 486,
+              "end": 504,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 493,
+                "end": 503,
+                "ctxt": 0
+              },
+              "value": "MixinClass",
+              "optional": false
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 102,
+          "end": 157,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 103,
+              "end": 156,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 103,
+                "end": 113,
+                "ctxt": 0
+              },
+              "value": "TBaseClass",
+              "optional": false
+            },
+            "constraint": {
+              "type": "TsConstructorType",
+              "span": {
+                "start": 122,
+                "end": 156,
+                "ctxt": 0
+              },
+              "params": [
+                {
+                  "type": "RestElement",
+                  "span": {
+                    "start": 136,
+                    "end": 148,
+                    "ctxt": 0
+                  },
+                  "rest": {
+                    "start": 136,
+                    "end": 139,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 139,
+                      "end": 143,
+                      "ctxt": 0
+                    },
+                    "value": "args",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 143,
+                      "end": 148,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 145,
+                        "end": 148,
+                        "ctxt": 0
+                      },
+                      "kind": "any"
+                    }
+                  }
+                }
+              ],
+              "typeParams": null,
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 150,
+                  "end": 156,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 153,
+                    "end": 156,
+                    "ctxt": 0
+                  },
+                  "kind": "any"
+                }
+              },
+              "isAbstract": true
+            },
+            "default": null
+          }
+        ]
+      },
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 180,
+          "end": 233,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsIntersectionType",
+          "span": {
+            "start": 182,
+            "end": 233,
+            "ctxt": 0
+          },
+          "types": [
+            {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 182,
+                "end": 192,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 182,
+                  "end": 192,
+                  "ctxt": 0
+                },
+                "value": "TBaseClass",
+                "optional": false
+              },
+              "typeParams": null
+            },
+            {
+              "type": "TsParenthesizedType",
+              "span": {
+                "start": 195,
+                "end": 233,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsConstructorType",
+                "span": {
+                  "start": 196,
+                  "end": 232,
+                  "ctxt": 0
+                },
+                "params": [
+                  {
+                    "type": "RestElement",
+                    "span": {
+                      "start": 210,
+                      "end": 222,
+                      "ctxt": 0
+                    },
+                    "rest": {
+                      "start": 210,
+                      "end": 213,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 213,
+                        "end": 217,
+                        "ctxt": 0
+                      },
+                      "value": "args",
+                      "optional": false,
+                      "typeAnnotation": null
+                    },
+                    "typeAnnotation": {
+                      "type": "TsTypeAnnotation",
+                      "span": {
+                        "start": 217,
+                        "end": 222,
+                        "ctxt": 0
+                      },
+                      "typeAnnotation": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 219,
+                          "end": 222,
+                          "ctxt": 0
+                        },
+                        "kind": "any"
+                      }
+                    }
+                  }
+                ],
+                "typeParams": null,
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 224,
+                    "end": 232,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 227,
+                      "end": 232,
+                      "ctxt": 0
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 227,
+                        "end": 232,
+                        "ctxt": 0
+                      },
+                      "value": "Mixin",
+                      "optional": false
+                    },
+                    "typeParams": null
+                  }
+                },
+                "isAbstract": true
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 523,
+          "end": 535,
+          "ctxt": 0
+        },
+        "value": "AbstractBase",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 508,
+        "end": 580,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 542,
+            "end": 578,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 551,
+              "end": 569,
+              "ctxt": 0
+            },
+            "value": "abstractBaseMethod",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 542,
+              "end": 578,
+              "ctxt": 0
+            },
+            "body": null,
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 571,
+                "end": 577,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 573,
+                  "end": 577,
+                  "ctxt": 0
+                },
+                "kind": "void"
+              }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": true,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 582,
+        "end": 620,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 588,
+            "end": 619,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 588,
+              "end": 597,
+              "ctxt": 0
+            },
+            "value": "MixedBase",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 600,
+              "end": 619,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 600,
+                "end": 605,
+                "ctxt": 0
+              },
+              "value": "Mixin",
+              "optional": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 606,
+                    "end": 618,
+                    "ctxt": 0
+                  },
+                  "value": "AbstractBase",
+                  "optional": false
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 789,
+          "end": 808,
+          "ctxt": 0
+        },
+        "value": "DerivedFromAbstract",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 783,
+        "end": 830,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 817,
+          "end": 826,
+          "ctxt": 0
+        },
+        "value": "MixedBase",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 899,
+        "end": 915,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 899,
+          "end": 914,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 903,
+            "end": 912,
+            "ctxt": 0
+          },
+          "value": "MixedBase",
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

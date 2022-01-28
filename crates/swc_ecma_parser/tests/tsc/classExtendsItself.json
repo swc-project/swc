@@ -1,0 +1,220 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 102,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 7,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 0,
+        "end": 21,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 16,
+          "end": 17,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 38,
+          "end": 39,
+          "ctxt": 0
+        },
+        "value": "D",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 32,
+        "end": 59,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 51,
+          "end": 52,
+          "ctxt": 0
+        },
+        "value": "D",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 39,
+          "end": 42,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 40,
+              "end": 41,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 40,
+                "end": 41,
+                "ctxt": 0
+              },
+              "value": "T",
+              "optional": false
+            },
+            "constraint": null,
+            "default": null
+          }
+        ]
+      },
+      "superTypeParams": {
+        "type": "TsTypeParameterInstantiation",
+        "span": {
+          "start": 52,
+          "end": 55,
+          "ctxt": 0
+        },
+        "params": [
+          {
+            "type": "TsTypeReference",
+            "span": {
+              "start": 53,
+              "end": 54,
+              "ctxt": 0
+            },
+            "typeName": {
+              "type": "Identifier",
+              "span": {
+                "start": 53,
+                "end": 54,
+                "ctxt": 0
+              },
+              "value": "T",
+              "optional": false
+            },
+            "typeParams": null
+          }
+        ]
+      },
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 76,
+          "end": 77,
+          "ctxt": 0
+        },
+        "value": "E",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 70,
+        "end": 102,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 89,
+          "end": 90,
+          "ctxt": 0
+        },
+        "value": "E",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 77,
+          "end": 80,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 78,
+              "end": 79,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 78,
+                "end": 79,
+                "ctxt": 0
+              },
+              "value": "T",
+              "optional": false
+            },
+            "constraint": null,
+            "default": null
+          }
+        ]
+      },
+      "superTypeParams": {
+        "type": "TsTypeParameterInstantiation",
+        "span": {
+          "start": 90,
+          "end": 98,
+          "ctxt": 0
+        },
+        "params": [
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 91,
+              "end": 97,
+              "ctxt": 0
+            },
+            "kind": "string"
+          }
+        ]
+      },
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,196 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 23,
+    "end": 123,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 23,
+        "end": 123,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 27,
+            "end": 122,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 27,
+              "end": 30,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "FunctionExpression",
+            "identifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 42,
+                "end": 45,
+                "ctxt": 0
+              },
+              "value": "bar",
+              "optional": false
+            },
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 33,
+              "end": 122,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 48,
+                "end": 122,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "VariableDeclaration",
+                  "span": {
+                    "start": 54,
+                    "end": 81,
+                    "ctxt": 0
+                  },
+                  "kind": "let",
+                  "declare": false,
+                  "declarations": [
+                    {
+                      "type": "VariableDeclarator",
+                      "span": {
+                        "start": 58,
+                        "end": 80,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 58,
+                          "end": 70,
+                          "ctxt": 0
+                        },
+                        "value": "intermediate",
+                        "optional": false,
+                        "typeAnnotation": {
+                          "type": "TsTypeAnnotation",
+                          "span": {
+                            "start": 70,
+                            "end": 80,
+                            "ctxt": 0
+                          },
+                          "typeAnnotation": {
+                            "type": "TsTupleType",
+                            "span": {
+                              "start": 72,
+                              "end": 80,
+                              "ctxt": 0
+                            },
+                            "elemTypes": [
+                              {
+                                "type": "TsTupleElement",
+                                "span": {
+                                  "start": 73,
+                                  "end": 79,
+                                  "ctxt": 0
+                                },
+                                "label": null,
+                                "ty": {
+                                  "type": "TsKeywordType",
+                                  "span": {
+                                    "start": 73,
+                                    "end": 79,
+                                    "ctxt": 0
+                                  },
+                                  "kind": "string"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "init": null,
+                      "definite": false
+                    }
+                  ]
+                },
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 86,
+                    "end": 120,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "AssignmentExpression",
+                    "span": {
+                      "start": 93,
+                      "end": 119,
+                      "ctxt": 0
+                    },
+                    "operator": "=",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 93,
+                        "end": 105,
+                        "ctxt": 0
+                      },
+                      "value": "intermediate",
+                      "optional": false,
+                      "typeAnnotation": null
+                    },
+                    "right": {
+                      "type": "ArrayExpression",
+                      "span": {
+                        "start": 108,
+                        "end": 119,
+                        "ctxt": 0
+                      },
+                      "elements": [
+                        {
+                          "spread": null,
+                          "expression": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 109,
+                              "end": 118,
+                              "ctxt": 0
+                            },
+                            "value": "undefined",
+                            "optional": false
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

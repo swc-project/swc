@@ -1,0 +1,193 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 115,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 25,
+          "end": 26,
+          "ctxt": 0
+        },
+        "value": "g",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 15,
+        "end": 115,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 29,
+          "end": 115,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 35,
+              "end": 113,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 39,
+                  "end": 112,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 39,
+                    "end": 40,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "ClassExpression",
+                  "identifier": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 49,
+                      "end": 50,
+                      "ctxt": 0
+                    },
+                    "value": "C",
+                    "optional": false
+                  },
+                  "span": {
+                    "start": 43,
+                    "end": 112,
+                    "ctxt": 0
+                  },
+                  "decorators": [],
+                  "body": [
+                    {
+                      "type": "ClassMethod",
+                      "span": {
+                        "start": 61,
+                        "end": 106,
+                        "ctxt": 0
+                      },
+                      "key": {
+                        "type": "Computed",
+                        "span": {
+                          "start": 62,
+                          "end": 71,
+                          "ctxt": 0
+                        },
+                        "expression": {
+                          "type": "YieldExpression",
+                          "span": {
+                            "start": 63,
+                            "end": 70,
+                            "ctxt": 0
+                          },
+                          "argument": {
+                            "type": "NumericLiteral",
+                            "span": {
+                              "start": 69,
+                              "end": 70,
+                              "ctxt": 0
+                            },
+                            "value": 0.0
+                          },
+                          "delegate": false
+                        }
+                      },
+                      "function": {
+                        "params": [],
+                        "decorators": [],
+                        "span": {
+                          "start": 61,
+                          "end": 106,
+                          "ctxt": 0
+                        },
+                        "body": {
+                          "type": "BlockStatement",
+                          "span": {
+                            "start": 74,
+                            "end": 106,
+                            "ctxt": 0
+                          },
+                          "stmts": [
+                            {
+                              "type": "ExpressionStatement",
+                              "span": {
+                                "start": 88,
+                                "end": 96,
+                                "ctxt": 0
+                              },
+                              "expression": {
+                                "type": "YieldExpression",
+                                "span": {
+                                  "start": 88,
+                                  "end": 95,
+                                  "ctxt": 0
+                                },
+                                "argument": {
+                                  "type": "NumericLiteral",
+                                  "span": {
+                                    "start": 94,
+                                    "end": 95,
+                                    "ctxt": 0
+                                  },
+                                  "value": 0.0
+                                },
+                                "delegate": false
+                              }
+                            }
+                          ]
+                        },
+                        "generator": true,
+                        "async": false,
+                        "typeParameters": null,
+                        "returnType": null
+                      },
+                      "kind": "method",
+                      "isStatic": false,
+                      "accessibility": null,
+                      "isAbstract": false,
+                      "isOptional": false,
+                      "isOverride": false
+                    }
+                  ],
+                  "superClass": null,
+                  "isAbstract": false,
+                  "typeParams": null,
+                  "superTypeParams": null,
+                  "implements": []
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,251 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 211,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 15,
+        "end": 42,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 15,
+          "end": 41,
+          "ctxt": 0
+        },
+        "operator": "instanceof",
+        "left": {
+          "type": "CallExpression",
+          "span": {
+            "start": 15,
+            "end": 23,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 15,
+              "end": 21,
+              "ctxt": 0
+            },
+            "value": "Symbol",
+            "optional": false
+          },
+          "arguments": [],
+          "typeArguments": null
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 35,
+            "end": 41,
+            "ctxt": 0
+          },
+          "value": "Symbol",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 43,
+        "end": 70,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 43,
+          "end": 69,
+          "ctxt": 0
+        },
+        "operator": "instanceof",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 43,
+            "end": 49,
+            "ctxt": 0
+          },
+          "value": "Symbol",
+          "optional": false
+        },
+        "right": {
+          "type": "CallExpression",
+          "span": {
+            "start": 61,
+            "end": 69,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 61,
+              "end": 67,
+              "ctxt": 0
+            },
+            "value": "Symbol",
+            "optional": false
+          },
+          "arguments": [],
+          "typeArguments": null
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 71,
+        "end": 106,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 71,
+          "end": 105,
+          "ctxt": 0
+        },
+        "operator": "instanceof",
+        "left": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 71,
+            "end": 87,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 72,
+              "end": 86,
+              "ctxt": 0
+            },
+            "operator": "||",
+            "left": {
+              "type": "CallExpression",
+              "span": {
+                "start": 72,
+                "end": 80,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 72,
+                  "end": 78,
+                  "ctxt": 0
+                },
+                "value": "Symbol",
+                "optional": false
+              },
+              "arguments": [],
+              "typeArguments": null
+            },
+            "right": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 84,
+                "end": 86,
+                "ctxt": 0
+              },
+              "properties": []
+            }
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 99,
+            "end": 105,
+            "ctxt": 0
+          },
+          "value": "Object",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 176,
+        "end": 211,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 176,
+          "end": 210,
+          "ctxt": 0
+        },
+        "operator": "instanceof",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 176,
+            "end": 182,
+            "ctxt": 0
+          },
+          "value": "Symbol",
+          "optional": false
+        },
+        "right": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 194,
+            "end": 210,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 195,
+              "end": 209,
+              "ctxt": 0
+            },
+            "operator": "||",
+            "left": {
+              "type": "CallExpression",
+              "span": {
+                "start": 195,
+                "end": 203,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 195,
+                  "end": 201,
+                  "ctxt": 0
+                },
+                "value": "Symbol",
+                "optional": false
+              },
+              "arguments": [],
+              "typeArguments": null
+            },
+            "right": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 207,
+                "end": 209,
+                "ctxt": 0
+              },
+              "properties": []
+            }
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

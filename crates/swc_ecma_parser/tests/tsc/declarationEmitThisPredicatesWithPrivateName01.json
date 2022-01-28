@@ -1,0 +1,214 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 44,
+    "end": 146,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 44,
+        "end": 123,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 57,
+            "end": 58,
+            "ctxt": 0
+          },
+          "value": "C",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 51,
+          "end": 123,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "ClassMethod",
+            "span": {
+              "start": 65,
+              "end": 121,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 65,
+                "end": 66,
+                "ctxt": 0
+              },
+              "value": "m",
+              "optional": false
+            },
+            "function": {
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 65,
+                "end": 121,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 80,
+                  "end": 121,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "ReturnStatement",
+                    "span": {
+                      "start": 90,
+                      "end": 115,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "BinaryExpression",
+                      "span": {
+                        "start": 97,
+                        "end": 114,
+                        "ctxt": 0
+                      },
+                      "operator": "instanceof",
+                      "left": {
+                        "type": "ThisExpression",
+                        "span": {
+                          "start": 97,
+                          "end": 101,
+                          "ctxt": 0
+                        }
+                      },
+                      "right": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 113,
+                          "end": 114,
+                          "ctxt": 0
+                        },
+                        "value": "D",
+                        "optional": false
+                      }
+                    }
+                  }
+                ]
+              },
+              "generator": false,
+              "async": false,
+              "typeParameters": null,
+              "returnType": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 68,
+                  "end": 79,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsTypePredicate",
+                  "span": {
+                    "start": 70,
+                    "end": 79,
+                    "ctxt": 0
+                  },
+                  "asserts": false,
+                  "paramName": {
+                    "type": "TsThisType",
+                    "span": {
+                      "start": 70,
+                      "end": 74,
+                      "ctxt": 0
+                    }
+                  },
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 78,
+                      "end": 79,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 78,
+                        "end": 79,
+                        "ctxt": 0
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 78,
+                          "end": 79,
+                          "ctxt": 0
+                        },
+                        "value": "D",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  }
+                }
+              }
+            },
+            "kind": "method",
+            "isStatic": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "isOverride": false
+          }
+        ],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 131,
+          "end": 132,
+          "ctxt": 0
+        },
+        "value": "D",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 125,
+        "end": 146,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 141,
+          "end": 142,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

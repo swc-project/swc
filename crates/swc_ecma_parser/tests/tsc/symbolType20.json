@@ -1,0 +1,41 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 35,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 15,
+        "end": 35,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 25,
+          "end": 31,
+          "ctxt": 0
+        },
+        "value": "symbol",
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 32,
+          "end": 35,
+          "ctxt": 0
+        },
+        "body": []
+      }
+    }
+  ],
+  "interpreter": null
+}

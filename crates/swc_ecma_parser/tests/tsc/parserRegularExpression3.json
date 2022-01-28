@@ -1,0 +1,62 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 22,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 22,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 0,
+          "end": 21,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 0,
+            "end": 3,
+            "ctxt": 0
+          },
+          "value": "Foo",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "UnaryExpression",
+              "span": {
+                "start": 4,
+                "end": 20,
+                "ctxt": 0
+              },
+              "operator": "!",
+              "argument": {
+                "type": "RegExpLiteral",
+                "span": {
+                  "start": 5,
+                  "end": 20,
+                  "ctxt": 0
+                },
+                "pattern": "(\\\\?|&)adurl=",
+                "flags": ""
+              }
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

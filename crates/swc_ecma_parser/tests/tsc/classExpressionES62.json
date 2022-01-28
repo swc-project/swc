@@ -1,0 +1,103 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 57,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 22,
+          "end": 23,
+          "ctxt": 0
+        },
+        "value": "D",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 16,
+        "end": 27,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 28,
+        "end": 57,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 32,
+            "end": 56,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 32,
+              "end": 33,
+              "ctxt": 0
+            },
+            "value": "v",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ClassExpression",
+            "identifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 42,
+                "end": 43,
+                "ctxt": 0
+              },
+              "value": "C",
+              "optional": false
+            },
+            "span": {
+              "start": 36,
+              "end": 56,
+              "ctxt": 0
+            },
+            "decorators": [],
+            "body": [],
+            "superClass": {
+              "type": "Identifier",
+              "span": {
+                "start": 52,
+                "end": 53,
+                "ctxt": 0
+              },
+              "value": "D",
+              "optional": false
+            },
+            "isAbstract": false,
+            "typeParams": null,
+            "superTypeParams": null,
+            "implements": []
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

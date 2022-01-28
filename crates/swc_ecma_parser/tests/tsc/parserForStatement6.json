@@ -1,0 +1,58 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 20,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ForInStatement",
+      "span": {
+        "start": 0,
+        "end": 20,
+        "ctxt": 0
+      },
+      "left": {
+        "type": "CallExpression",
+        "span": {
+          "start": 5,
+          "end": 10,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 5,
+            "end": 8,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      },
+      "right": {
+        "type": "Identifier",
+        "span": {
+          "start": 14,
+          "end": 15,
+          "ctxt": 0
+        },
+        "value": "b",
+        "optional": false
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 17,
+          "end": 20,
+          "ctxt": 0
+        },
+        "stmts": []
+      }
+    }
+  ],
+  "interpreter": null
+}

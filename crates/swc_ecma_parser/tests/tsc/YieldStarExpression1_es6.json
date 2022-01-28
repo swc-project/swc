@@ -1,0 +1,47 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 27,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 16,
+        "end": 27,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 16,
+          "end": 26,
+          "ctxt": 0
+        },
+        "operator": "*",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 16,
+            "end": 21,
+            "ctxt": 0
+          },
+          "value": "yield",
+          "optional": false
+        },
+        "right": {
+          "type": "ArrayExpression",
+          "span": {
+            "start": 24,
+            "end": 26,
+            "ctxt": 0
+          },
+          "elements": []
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

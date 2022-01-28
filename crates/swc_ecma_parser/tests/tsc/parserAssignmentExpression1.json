@@ -1,0 +1,66 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 14,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 14,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 0,
+          "end": 13,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 0,
+            "end": 7,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1,
+              "end": 6,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 1,
+                "end": 4,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "arguments": [],
+            "typeArguments": null
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 10,
+            "end": 13,
+            "ctxt": 0
+          },
+          "value": "bar",
+          "optional": false
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

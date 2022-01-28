@@ -1,0 +1,106 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 78,
+    "end": 152,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 84,
+          "end": 92,
+          "ctxt": 0
+        },
+        "value": "ErrClass",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 78,
+        "end": 152,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "Constructor",
+          "span": {
+            "start": 125,
+            "end": 150,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 125,
+              "end": 136,
+              "ctxt": 0
+            },
+            "value": "constructor",
+            "optional": false
+          },
+          "params": [
+            {
+              "type": "Parameter",
+              "span": {
+                "start": 137,
+                "end": 145,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "pat": {
+                "type": "AssignmentPattern",
+                "span": {
+                  "start": 137,
+                  "end": 145,
+                  "ctxt": 0
+                },
+                "left": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 137,
+                    "end": 138,
+                    "ctxt": 0
+                  },
+                  "value": "f",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "right": {
+                  "type": "ThisExpression",
+                  "span": {
+                    "start": 141,
+                    "end": 145,
+                    "ctxt": 0
+                  }
+                },
+                "typeAnnotation": null
+              }
+            }
+          ],
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 147,
+              "end": 150,
+              "ctxt": 0
+            },
+            "stmts": []
+          },
+          "accessibility": null,
+          "isOptional": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

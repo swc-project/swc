@@ -1,0 +1,833 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 509,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 15,
+          "end": 17,
+          "ctxt": 0
+        },
+        "value": "CM",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 0,
+        "end": 20,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 21,
+        "end": 33,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 28,
+          "end": 30,
+          "ctxt": 0
+        },
+        "value": "CM",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 31,
+          "end": 33,
+          "ctxt": 0
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 35,
+        "end": 47,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 42,
+          "end": 44,
+          "ctxt": 0
+        },
+        "value": "MC",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 45,
+          "end": 47,
+          "ctxt": 0
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 63,
+          "end": 65,
+          "ctxt": 0
+        },
+        "value": "MC",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 48,
+        "end": 68,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 85,
+          "end": 87,
+          "ctxt": 0
+        },
+        "value": "CI",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 70,
+        "end": 90,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 91,
+        "end": 106,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 101,
+          "end": 103,
+          "ctxt": 0
+        },
+        "value": "CI",
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 104,
+          "end": 106,
+          "ctxt": 0
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 108,
+        "end": 123,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 118,
+          "end": 120,
+          "ctxt": 0
+        },
+        "value": "IC",
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 121,
+          "end": 123,
+          "ctxt": 0
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 139,
+          "end": 141,
+          "ctxt": 0
+        },
+        "value": "IC",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 124,
+        "end": 144,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 161,
+          "end": 164,
+          "ctxt": 0
+        },
+        "value": "CC1",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 146,
+        "end": 167,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 174,
+          "end": 177,
+          "ctxt": 0
+        },
+        "value": "CC1",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 168,
+        "end": 180,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 188,
+          "end": 191,
+          "ctxt": 0
+        },
+        "value": "CC2",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 182,
+        "end": 194,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 210,
+          "end": 213,
+          "ctxt": 0
+        },
+        "value": "CC2",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 195,
+        "end": 216,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 241,
+          "end": 244,
+          "ctxt": 0
+        },
+        "value": "DCI",
+        "optional": false
+      },
+      "declare": true,
+      "span": {
+        "start": 218,
+        "end": 247,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 248,
+        "end": 264,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 258,
+          "end": 261,
+          "ctxt": 0
+        },
+        "value": "DCI",
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 262,
+          "end": 264,
+          "ctxt": 0
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 266,
+        "end": 282,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 276,
+          "end": 279,
+          "ctxt": 0
+        },
+        "value": "DIC",
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 280,
+          "end": 282,
+          "ctxt": 0
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 306,
+          "end": 309,
+          "ctxt": 0
+        },
+        "value": "DIC",
+        "optional": false
+      },
+      "declare": true,
+      "span": {
+        "start": 283,
+        "end": 312,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 337,
+          "end": 341,
+          "ctxt": 0
+        },
+        "value": "DCC1",
+        "optional": false
+      },
+      "declare": true,
+      "span": {
+        "start": 314,
+        "end": 344,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 359,
+          "end": 363,
+          "ctxt": 0
+        },
+        "value": "DCC1",
+        "optional": false
+      },
+      "declare": true,
+      "span": {
+        "start": 345,
+        "end": 366,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 382,
+          "end": 386,
+          "ctxt": 0
+        },
+        "value": "DCC2",
+        "optional": false
+      },
+      "declare": true,
+      "span": {
+        "start": 368,
+        "end": 389,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 413,
+          "end": 417,
+          "ctxt": 0
+        },
+        "value": "DCC2",
+        "optional": false
+      },
+      "declare": true,
+      "span": {
+        "start": 390,
+        "end": 420,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 422,
+        "end": 429,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 422,
+          "end": 428,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 426,
+            "end": 428,
+            "ctxt": 0
+          },
+          "value": "CM",
+          "optional": false
+        },
+        "arguments": null,
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 430,
+        "end": 437,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 430,
+          "end": 436,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 434,
+            "end": 436,
+            "ctxt": 0
+          },
+          "value": "MC",
+          "optional": false
+        },
+        "arguments": null,
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 438,
+        "end": 445,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 438,
+          "end": 444,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 442,
+            "end": 444,
+            "ctxt": 0
+          },
+          "value": "CI",
+          "optional": false
+        },
+        "arguments": null,
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 446,
+        "end": 453,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 446,
+          "end": 452,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 450,
+            "end": 452,
+            "ctxt": 0
+          },
+          "value": "IC",
+          "optional": false
+        },
+        "arguments": null,
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 454,
+        "end": 462,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 454,
+          "end": 461,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 458,
+            "end": 461,
+            "ctxt": 0
+          },
+          "value": "CC1",
+          "optional": false
+        },
+        "arguments": null,
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 463,
+        "end": 471,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 463,
+          "end": 470,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 467,
+            "end": 470,
+            "ctxt": 0
+          },
+          "value": "CC2",
+          "optional": false
+        },
+        "arguments": null,
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 472,
+        "end": 480,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 472,
+          "end": 479,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 476,
+            "end": 479,
+            "ctxt": 0
+          },
+          "value": "DCI",
+          "optional": false
+        },
+        "arguments": null,
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 481,
+        "end": 489,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 481,
+          "end": 488,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 485,
+            "end": 488,
+            "ctxt": 0
+          },
+          "value": "DIC",
+          "optional": false
+        },
+        "arguments": null,
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 490,
+        "end": 499,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 490,
+          "end": 498,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 494,
+            "end": 498,
+            "ctxt": 0
+          },
+          "value": "DCC1",
+          "optional": false
+        },
+        "arguments": null,
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 500,
+        "end": 509,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 500,
+          "end": 508,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 504,
+            "end": 508,
+            "ctxt": 0
+          },
+          "value": "DCC2",
+          "optional": false
+        },
+        "arguments": null,
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,172 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 308,
+    "end": 396,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 308,
+        "end": 318,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 312,
+            "end": 317,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 312,
+              "end": 313,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 316,
+              "end": 317,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 319,
+        "end": 396,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 323,
+          "end": 330,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 323,
+            "end": 324,
+            "ctxt": 0
+          },
+          "value": "x",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 329,
+            "end": 330,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 332,
+          "end": 396,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 336,
+              "end": 394,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 336,
+                "end": 393,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 336,
+                  "end": 342,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 343,
+                      "end": 392,
+                      "ctxt": 0
+                    },
+                    "operator": "+",
+                    "left": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 343,
+                        "end": 386,
+                        "ctxt": 0
+                      },
+                      "value": "#1: var\\nx\\n=\\n1\\n; x === 1. Actual: ",
+                      "hasEscape": true,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    },
+                    "right": {
+                      "type": "ParenthesisExpression",
+                      "span": {
+                        "start": 389,
+                        "end": 392,
+                        "ctxt": 0
+                      },
+                      "expression": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 390,
+                          "end": 391,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "optional": false
+                      }
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    }
+  ],
+  "interpreter": null
+}

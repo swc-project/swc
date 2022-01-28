@@ -1,0 +1,701 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 32,
+    "end": 471,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 32,
+        "end": 53,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 36,
+            "end": 52,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 36,
+              "end": 43,
+              "ctxt": 0
+            },
+            "value": "BOOLEAN",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 43,
+                "end": 52,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 45,
+                  "end": 52,
+                  "ctxt": 0
+                },
+                "kind": "boolean"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 54,
+        "end": 73,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 58,
+            "end": 72,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 58,
+              "end": 64,
+              "ctxt": 0
+            },
+            "value": "NUMBER",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 64,
+                "end": 72,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 66,
+                  "end": 72,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 74,
+        "end": 93,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 78,
+            "end": 92,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 78,
+              "end": 84,
+              "ctxt": 0
+            },
+            "value": "STRING",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 84,
+                "end": 92,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 86,
+                  "end": 92,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 95,
+        "end": 123,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 99,
+            "end": 123,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 99,
+              "end": 114,
+              "ctxt": 0
+            },
+            "value": "resultIsBoolean",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 114,
+                "end": 123,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 116,
+                  "end": 123,
+                  "ctxt": 0
+                },
+                "kind": "boolean"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 124,
+        "end": 150,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 128,
+            "end": 150,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 128,
+              "end": 142,
+              "ctxt": 0
+            },
+            "value": "resultIsNumber",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 142,
+                "end": 150,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 144,
+                  "end": 150,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 151,
+        "end": 177,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 155,
+            "end": 177,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 155,
+              "end": 169,
+              "ctxt": 0
+            },
+            "value": "resultIsString",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 169,
+                "end": 177,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 171,
+                  "end": 177,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 254,
+        "end": 290,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 254,
+          "end": 289,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 254,
+            "end": 269,
+            "ctxt": 0
+          },
+          "value": "resultIsBoolean",
+          "optional": false,
+          "typeAnnotation": null
+        },
+        "right": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 272,
+            "end": 289,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "SequenceExpression",
+            "span": {
+              "start": 273,
+              "end": 288,
+              "ctxt": 0
+            },
+            "expressions": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 273,
+                  "end": 280,
+                  "ctxt": 0
+                },
+                "value": "BOOLEAN",
+                "optional": false
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 282,
+                  "end": 288,
+                  "ctxt": 0
+                },
+                "value": "STRING",
+                "optional": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 291,
+        "end": 327,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 291,
+          "end": 326,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 291,
+            "end": 306,
+            "ctxt": 0
+          },
+          "value": "resultIsBoolean",
+          "optional": false,
+          "typeAnnotation": null
+        },
+        "right": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 309,
+            "end": 326,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "SequenceExpression",
+            "span": {
+              "start": 310,
+              "end": 325,
+              "ctxt": 0
+            },
+            "expressions": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 310,
+                  "end": 317,
+                  "ctxt": 0
+                },
+                "value": "BOOLEAN",
+                "optional": false
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 319,
+                  "end": 325,
+                  "ctxt": 0
+                },
+                "value": "NUMBER",
+                "optional": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 329,
+        "end": 364,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 329,
+          "end": 363,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 329,
+            "end": 343,
+            "ctxt": 0
+          },
+          "value": "resultIsNumber",
+          "optional": false,
+          "typeAnnotation": null
+        },
+        "right": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 346,
+            "end": 363,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "SequenceExpression",
+            "span": {
+              "start": 347,
+              "end": 362,
+              "ctxt": 0
+            },
+            "expressions": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 347,
+                  "end": 353,
+                  "ctxt": 0
+                },
+                "value": "NUMBER",
+                "optional": false
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 355,
+                  "end": 362,
+                  "ctxt": 0
+                },
+                "value": "BOOLEAN",
+                "optional": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 365,
+        "end": 399,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 365,
+          "end": 398,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 365,
+            "end": 379,
+            "ctxt": 0
+          },
+          "value": "resultIsNumber",
+          "optional": false,
+          "typeAnnotation": null
+        },
+        "right": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 382,
+            "end": 398,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "SequenceExpression",
+            "span": {
+              "start": 383,
+              "end": 397,
+              "ctxt": 0
+            },
+            "expressions": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 383,
+                  "end": 389,
+                  "ctxt": 0
+                },
+                "value": "NUMBER",
+                "optional": false
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 391,
+                  "end": 397,
+                  "ctxt": 0
+                },
+                "value": "STRING",
+                "optional": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 401,
+        "end": 436,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 401,
+          "end": 435,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 401,
+            "end": 415,
+            "ctxt": 0
+          },
+          "value": "resultIsString",
+          "optional": false,
+          "typeAnnotation": null
+        },
+        "right": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 418,
+            "end": 435,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "SequenceExpression",
+            "span": {
+              "start": 419,
+              "end": 434,
+              "ctxt": 0
+            },
+            "expressions": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 419,
+                  "end": 425,
+                  "ctxt": 0
+                },
+                "value": "STRING",
+                "optional": false
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 427,
+                  "end": 434,
+                  "ctxt": 0
+                },
+                "value": "BOOLEAN",
+                "optional": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 437,
+        "end": 471,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 437,
+          "end": 470,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 437,
+            "end": 451,
+            "ctxt": 0
+          },
+          "value": "resultIsString",
+          "optional": false,
+          "typeAnnotation": null
+        },
+        "right": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 454,
+            "end": 470,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "SequenceExpression",
+            "span": {
+              "start": 455,
+              "end": 469,
+              "ctxt": 0
+            },
+            "expressions": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 455,
+                  "end": 461,
+                  "ctxt": 0
+                },
+                "value": "STRING",
+                "optional": false
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 463,
+                  "end": 469,
+                  "ctxt": 0
+                },
+                "value": "NUMBER",
+                "optional": false
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,102 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 20,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 0,
+        "end": 20,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 5,
+          "end": 6,
+          "ctxt": 0
+        },
+        "value": "E",
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 11,
+            "end": 12,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 11,
+              "end": 12,
+              "ctxt": 0
+            },
+            "value": "1",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": false
+            }
+          },
+          "init": null
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 14,
+            "end": 15,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 14,
+              "end": 15,
+              "ctxt": 0
+            },
+            "value": "2",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": false
+            }
+          },
+          "init": null
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 17,
+            "end": 18,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 17,
+              "end": 18,
+              "ctxt": 0
+            },
+            "value": "3",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": false
+            }
+          },
+          "init": null
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}
