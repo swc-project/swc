@@ -1,5 +1,5 @@
-use std::{iter::once, mem::take};
-use swc_common::{Span, DUMMY_SP};
+use std::mem::take;
+use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_utils::replace_ident;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -12,73 +12,6 @@ pub fn prefixer() -> impl VisitMut {
 struct Prefixer {
     in_block: bool,
     added: Vec<Declaration>,
-}
-
-impl Prefixer {
-    fn handle_cursor_image_set(
-        &mut self,
-        v: &mut Value,
-        second: Option<Value>,
-        important: Option<Span>,
-    ) {
-        match v {
-            Value::Function(f) => {
-                if &*f.name.value == "image-set" {
-                    let val = Value::Function(Function {
-                        span: DUMMY_SP,
-                        name: Ident {
-                            span: DUMMY_SP,
-                            value: "-webkit-image-set".into(),
-                            raw: "-webkit-image-set".into(),
-                        },
-                        value: f.value.clone(),
-                    });
-
-                    let second = second.map(|v| match &v {
-                        Value::Ident(t) => {
-                            if &*t.value == "grab" {
-                                Value::Ident(Ident {
-                                    span: t.span,
-                                    value: "-webkit-grab".into(),
-                                    raw: "-webkit-grab".into(),
-                                })
-                            } else {
-                                v
-                            }
-                        }
-                        _ => v,
-                    });
-
-                    self.added.push(Declaration {
-                        span: DUMMY_SP,
-                        property: DeclarationProperty::Ident(Ident {
-                            span: DUMMY_SP,
-                            value: "cursor".into(),
-                            raw: "cursor".into(),
-                        }),
-                        value: {
-                            let val = Value::Comma(CommaValues {
-                                span: DUMMY_SP,
-                                values: once(val).chain(second).collect(),
-                            });
-
-                            vec![val]
-                        },
-                        important,
-                    });
-                }
-            }
-
-            Value::Comma(c) => {
-                if !c.values.is_empty() {
-                    let second = c.values.get(1).cloned();
-                    self.handle_cursor_image_set(&mut c.values[0], second, important);
-                }
-            }
-
-            _ => {}
-        }
-    }
 }
 
 impl VisitMut for Prefixer {
@@ -289,17 +222,47 @@ impl VisitMut for Prefixer {
 
             "cursor" => {
                 if !n.value.is_empty() {
-                    match &n.value[0] {
-                        Value::Ident(Ident { value, .. }) => {
-                            if &**value == "grab" {
-                                same_name!("-webkit-grab");
+                    let new_value = n
+                        .value
+                        .iter()
+                        .map(|node| match node {
+                            Value::Ident(Ident { value, .. }) => {
+                                if &**value == "grab" {
+                                    Value::Ident(Ident {
+                                        span: DUMMY_SP,
+                                        value: "-webkit-grab".into(),
+                                        raw: "-webkit-grab".into(),
+                                    })
+                                } else {
+                                    node.clone()
+                                }
                             }
-                        }
+                            Value::Function(Function { name, value, .. }) => {
+                                if &*name.value == "image-set" {
+                                    Value::Function(Function {
+                                        span: DUMMY_SP,
+                                        name: Ident {
+                                            span: DUMMY_SP,
+                                            value: "-webkit-image-set".into(),
+                                            raw: "-webkit-image-set".into(),
+                                        },
+                                        value: value.clone(),
+                                    })
+                                } else {
+                                    node.clone()
+                                }
+                            }
+                            _ => node.clone(),
+                        })
+                        .collect();
 
-                        _ => {
-                            let second = n.value.get(1).cloned();
-                            self.handle_cursor_image_set(&mut n.value[0], second, n.important);
-                        }
+                    if n.value != new_value {
+                        self.added.push(Declaration {
+                            span: n.span,
+                            property: n.property.clone(),
+                            value: new_value,
+                            important: n.important.clone(),
+                        });
                     }
                 }
             }
