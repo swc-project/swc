@@ -1,5 +1,5 @@
 use crate::{
-    compress::optimize::{unused::UnreachableHandler, Optimizer},
+    compress::{optimize::Optimizer, util::UnreachableHandler},
     mode::Mode,
 };
 use swc_common::{util::take::Take, DUMMY_SP};
