@@ -1,5 +1,5 @@
 pub(crate) use self::pure::pure_optimizer;
-use self::{drop_console::drop_console, hoist_decls::DeclHoisterConfig, optimize::optimizer};
+use self::{hoist_decls::DeclHoisterConfig, optimize::optimizer};
 use crate::{
     analyzer::{analyze, UsageAnalyzer},
     compress::hoist_decls::decl_hoister,
@@ -35,7 +35,6 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, Vis
 use swc_timer::timer;
 use tracing::error;
 
-mod drop_console;
 mod hoist_decls;
 mod optimize;
 mod pure;
@@ -50,10 +49,6 @@ pub(crate) fn compressor<'a, M>(
 where
     M: Mode,
 {
-    let console_remover = Optional {
-        enabled: options.drop_console,
-        visitor: drop_console(),
-    };
     let compressor = Compressor {
         globals,
         marks,
@@ -66,9 +61,11 @@ where
     };
 
     chain!(
-        console_remover,
         as_folder(compressor),
-        expr_simplifier(ExprSimplifierConfig {})
+        Optional {
+            enabled: options.evaluate || options.side_effects,
+            visitor: expr_simplifier(ExprSimplifierConfig {})
+        }
     )
 }
 

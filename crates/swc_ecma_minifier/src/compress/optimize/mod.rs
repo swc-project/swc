@@ -2635,6 +2635,7 @@ where
                 Expr::Lit(Lit::Num(..)) => {}
 
                 _ => {
+                    tracing::debug!("Ignoring arg of `void`");
                     let arg = self.ignore_return_value(&mut n.arg);
 
                     n.arg = Box::new(arg.unwrap_or_else(|| make_number(DUMMY_SP, 0.0)));
