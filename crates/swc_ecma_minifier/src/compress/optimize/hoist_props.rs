@@ -97,18 +97,18 @@ where
                                     "hoist_props: Storing a variable (`{}`) to inline properties",
                                     name.id
                                 );
-                                self.mode.store(name.to_id(), &value);
                                 self.simple_props
                                     .insert((name.to_id(), s.value.clone()), value);
+                                self.mode.store(name.to_id(), &n.init.as_deref().unwrap());
                             }
                             PropName::Ident(i) => {
                                 tracing::trace!(
                                     "hoist_props: Storing a variable(`{}`) to inline properties",
                                     name.id
                                 );
-                                self.mode.store(name.to_id(), &value);
                                 self.simple_props
                                     .insert((name.to_id(), i.sym.clone()), value);
+                                self.mode.store(name.to_id(), &n.init.as_deref().unwrap());
                             }
                             _ => {}
                         }
