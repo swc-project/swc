@@ -35,7 +35,7 @@ fn fixture(input: PathBuf) {
 
         let output_path = output_dir.join(format!(
             "{}_{}.js",
-            input.file_name().unwrap().to_str().unwrap(),
+            input.file_stem().unwrap().to_str().unwrap(),
             name
         ));
 
