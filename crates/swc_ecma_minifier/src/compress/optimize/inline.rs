@@ -200,6 +200,8 @@ where
                             i.id.span.ctxt
                         );
 
+                        self.mode.store(i.to_id(), &*init);
+
                         self.lits.insert(i.to_id(), init.clone());
                     }
                     return;
