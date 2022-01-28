@@ -14,12 +14,12 @@ use testing::{NormalizedOutput, Tester};
 #[testing::fixture(
     "../swc_ecma_parser/tests/tsc/**/*.ts",
     exclude(
-        "privateNameFieldDestructuredBinding/input.ts",
-        "restPropertyWithBindingPattern/input.ts",
-        "elementAccessChain\\.3/input.ts",
-        "propertyAccessChain\\.3/input.ts",
-        "objectRestNegative/input.ts",
-        "objectRestPropertyMustBeLast/input.ts",
+        "privateNameFieldDestructuredBinding.ts",
+        "restPropertyWithBindingPattern.ts",
+        "elementAccessChain\\.3.ts",
+        "propertyAccessChain\\.3.ts",
+        "objectRestNegative.ts",
+        "objectRestPropertyMustBeLast.ts",
     )
 )]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.tsx")]
