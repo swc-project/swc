@@ -118,95 +118,93 @@
                     "raw": "4"
                   },
                   {
-                    "type": "SpaceValues",
+                    "type": "Comma",
+                    "span": {
+                      "start": 41,
+                      "end": 42,
+                      "ctxt": 0
+                    }
+                  },
+                  {
+                    "type": "SimpleBlock",
                     "span": {
                       "start": 43,
+                      "end": 54,
+                      "ctxt": 0
+                    },
+                    "name": "[",
+                    "value": [
+                      {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 44,
+                          "end": 53,
+                          "ctxt": 0
+                        },
+                        "value": "col-start",
+                        "raw": "col-start"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 55,
+                      "end": 66,
+                      "ctxt": 0
+                    },
+                    "value": "min-content",
+                    "raw": "min-content"
+                  },
+                  {
+                    "type": "SimpleBlock",
+                    "span": {
+                      "start": 67,
+                      "end": 79,
+                      "ctxt": 0
+                    },
+                    "name": "[",
+                    "value": [
+                      {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 68,
+                          "end": 78,
+                          "ctxt": 0
+                        },
+                        "value": "col-middle",
+                        "raw": "col-middle"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 80,
+                      "end": 91,
+                      "ctxt": 0
+                    },
+                    "value": "max-content",
+                    "raw": "max-content"
+                  },
+                  {
+                    "type": "SimpleBlock",
+                    "span": {
+                      "start": 92,
                       "end": 101,
                       "ctxt": 0
                     },
-                    "values": [
-                      {
-                        "type": "SimpleBlock",
-                        "span": {
-                          "start": 43,
-                          "end": 54,
-                          "ctxt": 0
-                        },
-                        "name": "[",
-                        "value": [
-                          {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 44,
-                              "end": 53,
-                              "ctxt": 0
-                            },
-                            "value": "col-start",
-                            "raw": "col-start"
-                          }
-                        ]
-                      },
+                    "name": "[",
+                    "value": [
                       {
                         "type": "Identifier",
                         "span": {
-                          "start": 55,
-                          "end": 66,
+                          "start": 93,
+                          "end": 100,
                           "ctxt": 0
                         },
-                        "value": "min-content",
-                        "raw": "min-content"
-                      },
-                      {
-                        "type": "SimpleBlock",
-                        "span": {
-                          "start": 67,
-                          "end": 79,
-                          "ctxt": 0
-                        },
-                        "name": "[",
-                        "value": [
-                          {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 68,
-                              "end": 78,
-                              "ctxt": 0
-                            },
-                            "value": "col-middle",
-                            "raw": "col-middle"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 80,
-                          "end": 91,
-                          "ctxt": 0
-                        },
-                        "value": "max-content",
-                        "raw": "max-content"
-                      },
-                      {
-                        "type": "SimpleBlock",
-                        "span": {
-                          "start": 92,
-                          "end": 101,
-                          "ctxt": 0
-                        },
-                        "name": "[",
-                        "value": [
-                          {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 93,
-                              "end": 100,
-                              "ctxt": 0
-                            },
-                            "value": "col-end",
-                            "raw": "col-end"
-                          }
-                        ]
+                        "value": "col-end",
+                        "raw": "col-end"
                       }
                     ]
                   }

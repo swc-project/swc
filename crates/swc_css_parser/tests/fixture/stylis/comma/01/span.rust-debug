@@ -80,12 +80,6 @@ error: Ident
   |     ^^^^^^
 
 error: Value
- --> $DIR/tests/fixture/stylis/comma/01/input.css:2:12
-  |
-2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
-  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Value
  --> $DIR/tests/fixture/stylis/comma/01/input.css:2:13
   |
 2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
@@ -102,18 +96,6 @@ error: Ident
   |
 2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
   |             ^^^^^^^^^
-
-error: Value
- --> $DIR/tests/fixture/stylis/comma/01/input.css:2:23
-  |
-2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
-  |                       ^^^^^^^^^^^^^^^
-
-error: SpaceValues
- --> $DIR/tests/fixture/stylis/comma/01/input.css:2:23
-  |
-2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
-  |                       ^^^^^^^^^^^^^^^
 
 error: Value
  --> $DIR/tests/fixture/stylis/comma/01/input.css:2:23
@@ -168,6 +150,18 @@ error: Unit
   |
 2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
   |                                     ^
+
+error: Value
+ --> $DIR/tests/fixture/stylis/comma/01/input.css:2:39
+  |
+2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
+  |                                       ^
+
+error: Comma
+ --> $DIR/tests/fixture/stylis/comma/01/input.css:2:39
+  |
+2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
+  |                                       ^
 
 error: Value
  --> $DIR/tests/fixture/stylis/comma/01/input.css:2:41

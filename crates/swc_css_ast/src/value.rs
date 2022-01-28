@@ -38,11 +38,8 @@ pub enum Value {
     #[tag("BinValue")]
     Bin(BinValue),
 
-    #[tag("SpaceValues")]
-    Space(SpaceValues),
-
-    #[tag("CommaValues")]
-    Comma(CommaValues),
+    #[tag("Comma")]
+    Comma(Comma),
 
     #[tag("Tokens")]
     Tokens(Tokens),
@@ -55,19 +52,9 @@ pub enum Value {
 }
 
 /// List of values separated by a space.
-#[ast_node("SpaceValues")]
-#[derive(Default)]
-pub struct SpaceValues {
+#[ast_node("Comma")]
+pub struct Comma {
     pub span: Span,
-    pub values: Vec<Value>,
-}
-
-/// List of values separated by a space.
-#[ast_node("CommaValues")]
-#[derive(Default)]
-pub struct CommaValues {
-    pub span: Span,
-    pub values: Vec<Value>,
 }
 
 #[ast_node("BinValue")]

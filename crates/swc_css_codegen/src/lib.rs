@@ -604,12 +604,39 @@ where
         punct!(self, "}");
     }
 
+    fn emit_list_values(&mut self, nodes: &[Value], format: ListFormat) -> Result {
+        let mut need_space = true;
+
+        for (idx, node) in nodes.iter().enumerate() {
+            if idx != 0 {
+                match node {
+                    Value::Comma(_) => {
+                        need_space = if self.config.minify { false } else { true };
+                    }
+                    _ => {
+                        if need_space {
+                            self.write_delim(format)?;
+                        } else {
+                            need_space = true;
+                        }
+                    }
+                };
+            }
+
+            emit!(self, node)
+        }
+
+        Ok(())
+    }
+
     #[emitter]
     fn emit_function(&mut self, n: &Function) -> Result {
         emit!(self, n.name);
-
         punct!(self, "(");
-        self.emit_list(&n.value, ListFormat::CommaDelimited)?;
+        self.emit_list_values(
+            &n.value,
+            ListFormat::SpaceDelimited | ListFormat::SingleLine,
+        )?;
         punct!(self, ")");
     }
 
@@ -627,7 +654,6 @@ where
             Value::DashedIdent(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
-            Value::Space(n) => emit!(self, n),
             Value::Tokens(n) => emit!(self, n),
             Value::AtText(n) => emit!(self, n),
             Value::Url(n) => emit!(self, n),
@@ -751,12 +777,14 @@ where
             formatting_space!(self);
         }
 
-        let format = match is_custom_property {
-            true => ListFormat::NotDelimited,
-            false => ListFormat::SpaceDelimited | ListFormat::SingleLine,
-        };
-
-        self.emit_list(&n.value, format)?;
+        if is_custom_property {
+            self.emit_list(&n.value, ListFormat::NotDelimited)?;
+        } else {
+            self.emit_list_values(
+                &n.value,
+                ListFormat::SpaceDelimited | ListFormat::SingleLine,
+            )?;
+        }
 
         if let Some(tok) = n.important {
             if !is_custom_property {
@@ -868,13 +896,8 @@ where
     }
 
     #[emitter]
-    fn emit_comma_values(&mut self, n: &CommaValues) -> Result {
-        self.emit_list(&n.values, ListFormat::CommaDelimited)?;
-    }
-
-    #[emitter]
-    fn emit_space_values(&mut self, n: &SpaceValues) -> Result {
-        self.emit_list(&n.values, ListFormat::SpaceDelimited)?;
+    fn emit_comma(&mut self, _n: &Comma) -> Result {
+        punct!(self, ",");
     }
 
     #[emitter]
@@ -1255,6 +1278,7 @@ where
                     formatting_newline!(self);
                 }
             }
+
             emit!(self, node)
         }
 

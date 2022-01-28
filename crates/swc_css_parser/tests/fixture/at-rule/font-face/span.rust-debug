@@ -131,14 +131,6 @@ error: Str
 error: Value
  --> $DIR/tests/fixture/at-rule/font-face/input.css:3:55
   |
-3 |       src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
-  |  _______________________________________________________^
-4 | |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
-  | |_______________________________________________^
-
-error: Value
- --> $DIR/tests/fixture/at-rule/font-face/input.css:3:55
-  |
 3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
   |                                                       ^^^^^^^^^^^^^^^
 
@@ -165,6 +157,18 @@ error: Str
   |
 3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
   |                                                              ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:3:70
+  |
+3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+  |                                                                      ^
+
+error: Comma
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:3:70
+  |
+3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+  |                                                                      ^
 
 error: Value
  --> $DIR/tests/fixture/at-rule/font-face/input.css:4:5

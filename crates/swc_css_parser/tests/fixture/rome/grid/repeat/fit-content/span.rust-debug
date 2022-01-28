@@ -116,6 +116,18 @@ error: Number
   |                                   ^
 
 error: Value
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:33
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |                                    ^
+
+error: Comma
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:33
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |                                    ^
+
+error: Value
  --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:35
   |
 2 |     grid-template-columns: repeat(4, fit-content(300px));

@@ -116,6 +116,18 @@ error: Ident
   |                                   ^^^^^^^^^^^
 
 error: Value
+ --> $DIR/tests/fixture/rome/grid/minmax/input.css:2:43
+  |
+2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
+  |                                              ^
+
+error: Comma
+ --> $DIR/tests/fixture/rome/grid/minmax/input.css:2:43
+  |
+2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
+  |                                              ^
+
+error: Value
  --> $DIR/tests/fixture/rome/grid/minmax/input.css:2:45
   |
 2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
@@ -182,6 +194,18 @@ error: Unit
   |                                                                 ^^
 
 error: Value
+ --> $DIR/tests/fixture/rome/grid/minmax/input.css:2:64
+  |
+2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
+  |                                                                   ^
+
+error: Comma
+ --> $DIR/tests/fixture/rome/grid/minmax/input.css:2:64
+  |
+2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
+  |                                                                   ^
+
+error: Value
  --> $DIR/tests/fixture/rome/grid/minmax/input.css:2:66
   |
 2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
@@ -234,6 +258,18 @@ error: Ident
   |
 2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
   |                                                                                 ^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/grid/minmax/input.css:2:89
+  |
+2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
+  |                                                                                            ^
+
+error: Comma
+ --> $DIR/tests/fixture/rome/grid/minmax/input.css:2:89
+  |
+2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
+  |                                                                                            ^
 
 error: Value
  --> $DIR/tests/fixture/rome/grid/minmax/input.css:2:91

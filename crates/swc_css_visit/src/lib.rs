@@ -115,9 +115,7 @@ define!({
 
         Bin(BinValue),
 
-        Space(SpaceValues),
-
-        Comma(CommaValues),
+        Comma(Comma),
 
         Tokens(Tokens),
 
@@ -126,14 +124,8 @@ define!({
         Url(Url),
     }
 
-    pub struct SpaceValues {
+    pub struct Comma {
         pub span: Span,
-        pub values: Vec<Value>,
-    }
-
-    pub struct CommaValues {
-        pub span: Span,
-        pub values: Vec<Value>,
     }
 
     pub struct BinValue {

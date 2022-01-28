@@ -118,6 +118,14 @@
                     "raw": "min-content"
                   },
                   {
+                    "type": "Comma",
+                    "span": {
+                      "start": 51,
+                      "end": 52,
+                      "ctxt": 0
+                    }
+                  },
+                  {
                     "type": "UnitValue",
                     "span": {
                       "start": 53,
@@ -192,6 +200,14 @@
                     }
                   },
                   {
+                    "type": "Comma",
+                    "span": {
+                      "start": 72,
+                      "end": 73,
+                      "ctxt": 0
+                    }
+                  },
+                  {
                     "type": "UnitValue",
                     "span": {
                       "start": 74,
@@ -247,6 +263,14 @@
                     },
                     "value": "max-content",
                     "raw": "max-content"
+                  },
+                  {
+                    "type": "Comma",
+                    "span": {
+                      "start": 97,
+                      "end": 98,
+                      "ctxt": 0
+                    }
                   },
                   {
                     "type": "Identifier",

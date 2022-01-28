@@ -117,6 +117,14 @@
                     "raw": "255"
                   },
                   {
+                    "type": "Comma",
+                    "span": {
+                      "start": 23,
+                      "end": 24,
+                      "ctxt": 0
+                    }
+                  },
+                  {
                     "type": "Number",
                     "span": {
                       "start": 25,
@@ -125,6 +133,14 @@
                     },
                     "value": 0.0,
                     "raw": "0"
+                  },
+                  {
+                    "type": "Comma",
+                    "span": {
+                      "start": 26,
+                      "end": 27,
+                      "ctxt": 0
+                    }
                   },
                   {
                     "type": "Number",

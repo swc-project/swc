@@ -118,6 +118,14 @@
                     "raw": "circle"
                   },
                   {
+                    "type": "Comma",
+                    "span": {
+                      "start": 59,
+                      "end": 60,
+                      "ctxt": 0
+                    }
+                  },
+                  {
                     "type": "Identifier",
                     "span": {
                       "start": 61,
@@ -126,6 +134,14 @@
                     },
                     "value": "white",
                     "raw": "white"
+                  },
+                  {
+                    "type": "Comma",
+                    "span": {
+                      "start": 66,
+                      "end": 67,
+                      "ctxt": 0
+                    }
                   },
                   {
                     "type": "Identifier",

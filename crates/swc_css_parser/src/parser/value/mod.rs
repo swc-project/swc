@@ -1,5 +1,3 @@
-use std::iter::once;
-
 use super::{input::ParserInput, Ctx, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
@@ -33,18 +31,13 @@ where
                 break;
             }
 
-            let ctx = Ctx {
-                allow_separating_value_with_comma: true,
-                allow_separating_value_with_space: false,
-                ..self.ctx
-            };
-            let v = self.with_ctx(ctx).parse_one_value()?;
+            let v = self.parse_one_value_inner()?;
+
             hi = v.span().hi;
             values.push(v);
-
             state = self.input.state();
 
-            if !eat!(self, " ") {
+            if !eat!(self, " ") && !is!(self, ",") {
                 if self.ctx.recover_from_property_value
                     && !is_one_of!(self, EOF, ";", "}", "!", ")", "]")
                 {
@@ -70,56 +63,6 @@ where
 
         // TODO: Make this lazy
         Ok((values, hi))
-    }
-
-    fn parse_one_value(&mut self) -> PResult<Value> {
-        let span = self.input.cur_span()?;
-        let value = self.parse_one_value_inner()?;
-
-        let val = if self.ctx.allow_separating_value_with_space && eat!(self, " ") {
-            self.input.skip_ws()?;
-
-            let mut values = vec![value];
-
-            loop {
-                if !is_one_of!(self, Str, Num, Ident, Function, Dimension, "[", "(") {
-                    break;
-                }
-
-                let value = self.parse_one_value_inner()?;
-
-                values.push(value);
-
-                self.input.skip_ws()?;
-            }
-
-            Value::Space(SpaceValues {
-                span: span!(self, span.lo),
-                values,
-            })
-        } else {
-            value
-        };
-
-        if self.ctx.allow_separating_value_with_comma && eat!(self, ",") {
-            let next = self.parse_one_value()?;
-            match next {
-                Value::Comma(next) => {
-                    return Ok(Value::Comma(CommaValues {
-                        span: span!(self, span.lo),
-                        values: once(val).chain(next.values).collect(),
-                    }))
-                }
-                _ => {
-                    return Ok(Value::Comma(CommaValues {
-                        span: span!(self, span.lo),
-                        values: vec![val, next],
-                    }))
-                }
-            }
-        }
-
-        Ok(val)
     }
 
     /// Parse value as <declaration-value>.
@@ -274,7 +217,16 @@ where
         self.input.skip_ws()?;
 
         let span = self.input.cur_span()?;
+
         match cur!(self) {
+            tok!(",") => {
+                bump!(self);
+
+                return Ok(Value::Comma(Comma {
+                    span: span!(self, span.lo),
+                }));
+            }
+
             tok!("str") => return Ok(Value::Str(self.parse()?)),
 
             tok!("num") => return self.parse_numeric_value(),
@@ -391,7 +343,7 @@ where
                 allow_operation_in_value: false,
                 ..self.ctx
             };
-            let right = self.with_ctx(ctx).parse_one_value()?;
+            let right = self.with_ctx(ctx).parse_one_value_inner()?;
 
             let value = Value::Bin(BinValue {
                 span: span!(self, start),
@@ -466,16 +418,14 @@ where
 
         loop {
             self.input.skip_ws()?;
-            if is_one_of!(self, EOF, ")", "}", ";", "]") {
+
+            if is_one_of!(self, ")") {
                 break;
             }
-            let value = self.parse_one_value()?;
+
+            let value = self.parse_one_value_inner()?;
 
             args.push(value);
-
-            if !eat!(self, ",") {
-                break;
-            }
         }
 
         Ok(args)
@@ -488,12 +438,7 @@ where
 
         self.input.skip_ws()?;
 
-        let ctx = Ctx {
-            allow_separating_value_with_space: false,
-            ..self.ctx
-        };
-
-        let value = self.with_ctx(ctx).parse_property_values()?.0;
+        let value = self.parse_property_values()?.0;
 
         self.input.skip_ws()?;
 
@@ -940,8 +885,6 @@ where
         };
         let ctx = Ctx {
             allow_operation_in_value: true,
-            allow_separating_value_with_space: true,
-            allow_separating_value_with_comma: false,
             ..self.ctx
         };
         let value = self.with_ctx(ctx).parse_comma_separated_value()?;
