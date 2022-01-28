@@ -26,3 +26,5 @@ tabbed-custom-element::part(tab) {}
 ::spelling-error {}
 
 ::target-text {}
+
+.form-range::-webkit-slider-thumb:active {}

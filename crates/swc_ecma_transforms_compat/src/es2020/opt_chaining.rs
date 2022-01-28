@@ -48,7 +48,7 @@ impl VisitMut for OptChaining {
                 let mut stmt = BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![Stmt::Return(ReturnStmt {
-                        span: DUMMY_SP,
+                        span: e.span(),
                         arg: Some(e.take()),
                     })],
                 };

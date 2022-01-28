@@ -3,3 +3,4 @@
 
 # yarn run cspell "**/src/**/*.rs"
 cargo fmt --all -- --check
+cargo clippy
