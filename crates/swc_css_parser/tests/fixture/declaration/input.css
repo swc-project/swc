@@ -4,4 +4,14 @@ div {
     prop: {value};
     prop: [value];
     prop: fn(value);
+    prop: fn(value)fn(value);
+    prop: value, value;
+    prop: value,value;
+    prop: 100%100%;
+    prop: "string""string";
+    prop: #ccc#ccc;
+    prop: url(value)url(value);
+    prop: (value)(value);
+    prop: {value}{value};
+    prop: [value][value];
 }

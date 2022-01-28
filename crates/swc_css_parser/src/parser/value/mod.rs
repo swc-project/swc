@@ -37,7 +37,9 @@ where
             values.push(v);
             state = self.input.state();
 
-            if !eat!(self, " ") && !is!(self, ",") {
+            if !eat!(self, " ")
+                && !is_one_of!(self, ",", "function", "ident", "percent", "str", "#", "url", "[", "{", "(")
+            {
                 if self.ctx.recover_from_property_value
                     && !is_one_of!(self, EOF, ";", "}", "!", ")", "]")
                 {
@@ -261,7 +263,7 @@ where
                 return self.parse_brace_value().map(From::from);
             }
 
-            Token::Hash { .. } => {
+            tok!("#") => {
                 let token = bump!(self);
 
                 match token {
