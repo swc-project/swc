@@ -1,6 +1,8 @@
 use super::Pure;
 use std::mem::take;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::undefined;
 
 impl<M> Pure<'_, M> {
     pub(super) fn drop_console(&mut self, e: &mut Expr) {
@@ -45,11 +47,9 @@ impl<M> Pure<'_, M> {
                     }
                 }
 
-                // Simplifier will remove side-effect-free items.
-                *e = Expr::Seq(SeqExpr {
-                    span: *span,
-                    exprs: take(args).into_iter().map(|arg| arg.expr).collect(),
-                })
+                tracing::debug!("drop_console: Removing console call");
+                self.changed = true;
+                *e = *undefined(DUMMY_SP);
             }
         }
     }
