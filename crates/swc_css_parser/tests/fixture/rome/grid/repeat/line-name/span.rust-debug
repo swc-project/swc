@@ -121,7 +121,7 @@ error: Value
 2 |     grid-template-columns: repeat(4, [col-start]);
   |                                    ^
 
-error: Comma
+error: Delimiter
  --> $DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:33
   |
 2 |     grid-template-columns: repeat(4, [col-start]);

@@ -610,7 +610,7 @@ where
         for (idx, node) in nodes.iter().enumerate() {
             if idx != 0 {
                 match node {
-                    Value::Comma(_) => {
+                    Value::Delimiter(Delimiter { value: DelimiterValue::Comma, .. }) => {
                         need_space = if self.config.minify { false } else { true };
                     }
                     _ => {
@@ -657,7 +657,7 @@ where
             Value::Tokens(n) => emit!(self, n),
             Value::AtText(n) => emit!(self, n),
             Value::Url(n) => emit!(self, n),
-            Value::Comma(n) => emit!(self, n),
+            Value::Delimiter(n) => emit!(self, n),
         }
     }
 
@@ -896,8 +896,8 @@ where
     }
 
     #[emitter]
-    fn emit_comma(&mut self, _n: &Comma) -> Result {
-        punct!(self, ",");
+    fn emit_delimiter(&mut self, n: &Delimiter) -> Result {
+        punct!(self, n.value.as_str());
     }
 
     #[emitter]

@@ -121,7 +121,7 @@ error: Value
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
   |                                                       ^
 
-error: Comma
+error: Delimiter
  --> $DIR/tests/fixture/vercel/002/input.css:2:55
   |
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
@@ -145,7 +145,7 @@ error: Value
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
   |                                                              ^
 
-error: Comma
+error: Delimiter
  --> $DIR/tests/fixture/vercel/002/input.css:2:62
   |
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);

@@ -117,12 +117,13 @@
                     "raw": "255"
                   },
                   {
-                    "type": "Comma",
+                    "type": "Delimiter",
                     "span": {
                       "start": 23,
                       "end": 24,
                       "ctxt": 0
-                    }
+                    },
+                    "value": ","
                   },
                   {
                     "type": "Number",
@@ -135,12 +136,13 @@
                     "raw": "0"
                   },
                   {
-                    "type": "Comma",
+                    "type": "Delimiter",
                     "span": {
                       "start": 26,
                       "end": 27,
                       "ctxt": 0
-                    }
+                    },
+                    "value": ","
                   },
                   {
                     "type": "Number",

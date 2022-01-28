@@ -121,7 +121,7 @@ error: Value
 2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));
   |                                    ^
 
-error: Comma
+error: Delimiter
  --> $DIR/tests/fixture/rome/grid/repeat/minmax/input.css:2:33
   |
 2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));
@@ -163,7 +163,7 @@ error: Value
 2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));
   |                                                        ^
 
-error: Comma
+error: Delimiter
  --> $DIR/tests/fixture/rome/grid/repeat/minmax/input.css:2:53
   |
 2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));

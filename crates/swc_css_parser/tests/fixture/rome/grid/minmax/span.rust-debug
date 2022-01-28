@@ -121,7 +121,7 @@ error: Value
 2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
   |                                              ^
 
-error: Comma
+error: Delimiter
  --> $DIR/tests/fixture/rome/grid/minmax/input.css:2:43
   |
 2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
@@ -199,7 +199,7 @@ error: Value
 2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
   |                                                                   ^
 
-error: Comma
+error: Delimiter
  --> $DIR/tests/fixture/rome/grid/minmax/input.css:2:64
   |
 2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
@@ -265,7 +265,7 @@ error: Value
 2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
   |                                                                                            ^
 
-error: Comma
+error: Delimiter
  --> $DIR/tests/fixture/rome/grid/minmax/input.css:2:89
   |
 2 |     grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);

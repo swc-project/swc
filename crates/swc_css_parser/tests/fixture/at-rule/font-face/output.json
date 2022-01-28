@@ -130,12 +130,13 @@
                 ]
               },
               {
-                "type": "Comma",
+                "type": "Delimiter",
                 "span": {
                   "start": 112,
                   "end": 113,
                   "ctxt": 0
-                }
+                },
+                "value": ","
               },
               {
                 "type": "Url",

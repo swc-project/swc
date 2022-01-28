@@ -38,8 +38,8 @@ pub enum Value {
     #[tag("BinValue")]
     Bin(BinValue),
 
-    #[tag("Comma")]
-    Comma(Comma),
+    #[tag("Delimiter")]
+    Delimiter(Delimiter),
 
     #[tag("Tokens")]
     Tokens(Tokens),
@@ -51,10 +51,16 @@ pub enum Value {
     Url(Url),
 }
 
-/// List of values separated by a space.
-#[ast_node("Comma")]
-pub struct Comma {
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+pub enum DelimiterValue {
+    /// `,`
+    Comma,
+}
+
+#[ast_node("Delimiter")]
+pub struct Delimiter {
     pub span: Span,
+    pub value: DelimiterValue,
 }
 
 #[ast_node("BinValue")]

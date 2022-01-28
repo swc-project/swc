@@ -224,8 +224,9 @@ where
             tok!(",") => {
                 bump!(self);
 
-                return Ok(Value::Comma(Comma {
+                return Ok(Value::Delimiter(Delimiter {
                     span: span!(self, span.lo),
+                    value: DelimiterValue::Comma,
                 }));
             }
 

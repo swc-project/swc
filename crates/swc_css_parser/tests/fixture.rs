@@ -285,7 +285,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(AttrSelector, visit_attr_selector);
     mtd!(BinValue, visit_bin_value);
     mtd!(ClassSelector, visit_class_selector);
-    mtd!(Comma, visit_comma);
+    mtd!(Delimiter, visit_delimiter);
     mtd!(ComplexSelector, visit_complex_selector);
     mtd!(Combinator, visit_combinator);
     mtd!(CompoundSelector, visit_compound_selector);

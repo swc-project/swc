@@ -164,7 +164,7 @@ error: Value
 3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
   |                                                                      ^
 
-error: Comma
+error: Delimiter
  --> $DIR/tests/fixture/at-rule/font-face/input.css:3:70
   |
 3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),

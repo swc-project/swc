@@ -165,12 +165,13 @@
                 ]
               },
               {
-                "type": "Comma",
+                "type": "Delimiter",
                 "span": {
                   "start": 42,
                   "end": 43,
                   "ctxt": 0
-                }
+                },
+                "value": ","
               },
               {
                 "type": "Identifier",

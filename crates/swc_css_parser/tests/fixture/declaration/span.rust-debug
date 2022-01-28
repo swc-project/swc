@@ -401,7 +401,7 @@ error: Value
 8 |     prop: value, value;
   |                ^
 
-error: Comma
+error: Delimiter
  --> $DIR/tests/fixture/declaration/input.css:8:16
   |
 8 |     prop: value, value;
@@ -455,7 +455,7 @@ error: Value
 9 |     prop: value,value;
   |                ^
 
-error: Comma
+error: Delimiter
  --> $DIR/tests/fixture/declaration/input.css:9:16
   |
 9 |     prop: value,value;

@@ -401,12 +401,13 @@
                 "raw": "value"
               },
               {
-                "type": "Comma",
+                "type": "Delimiter",
                 "span": {
                   "start": 146,
                   "end": 147,
                   "ctxt": 0
-                }
+                },
+                "value": ","
               },
               {
                 "type": "Identifier",
@@ -450,12 +451,13 @@
                 "raw": "value"
               },
               {
-                "type": "Comma",
+                "type": "Delimiter",
                 "span": {
                   "start": 170,
                   "end": 171,
                   "ctxt": 0
-                }
+                },
+                "value": ","
               },
               {
                 "type": "Identifier",

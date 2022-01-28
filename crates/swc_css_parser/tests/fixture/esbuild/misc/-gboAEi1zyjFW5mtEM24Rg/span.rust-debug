@@ -106,7 +106,7 @@ error: Value
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                        ^
 
-error: Comma
+error: Delimiter
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:24
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
@@ -130,7 +130,7 @@ error: Value
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                           ^
 
-error: Comma
+error: Delimiter
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:27
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }

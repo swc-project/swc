@@ -203,12 +203,13 @@
                     }
                   },
                   {
-                    "type": "Comma",
+                    "type": "Delimiter",
                     "span": {
                       "start": 46,
                       "end": 47,
                       "ctxt": 0
-                    }
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -308,12 +309,13 @@
                     }
                   },
                   {
-                    "type": "Comma",
+                    "type": "Delimiter",
                     "span": {
                       "start": 73,
                       "end": 74,
                       "ctxt": 0
-                    }
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -438,12 +440,13 @@
                     }
                   },
                   {
-                    "type": "Comma",
+                    "type": "Delimiter",
                     "span": {
                       "start": 104,
                       "end": 105,
                       "ctxt": 0
-                    }
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -604,12 +607,13 @@
                     }
                   },
                   {
-                    "type": "Comma",
+                    "type": "Delimiter",
                     "span": {
                       "start": 142,
                       "end": 143,
                       "ctxt": 0
-                    }
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -702,12 +706,13 @@
                     }
                   },
                   {
-                    "type": "Comma",
+                    "type": "Delimiter",
                     "span": {
                       "start": 160,
                       "end": 161,
                       "ctxt": 0
-                    }
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -800,12 +805,13 @@
                     }
                   },
                   {
-                    "type": "Comma",
+                    "type": "Delimiter",
                     "span": {
                       "start": 178,
                       "end": 179,
                       "ctxt": 0
-                    }
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -1034,12 +1040,13 @@
                     }
                   },
                   {
-                    "type": "Comma",
+                    "type": "Delimiter",
                     "span": {
                       "start": 236,
                       "end": 237,
                       "ctxt": 0
-                    }
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -1139,12 +1146,13 @@
                     }
                   },
                   {
-                    "type": "Comma",
+                    "type": "Delimiter",
                     "span": {
                       "start": 263,
                       "end": 264,
                       "ctxt": 0
-                    }
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -1269,12 +1277,13 @@
                     }
                   },
                   {
-                    "type": "Comma",
+                    "type": "Delimiter",
                     "span": {
                       "start": 294,
                       "end": 295,
                       "ctxt": 0
-                    }
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -1435,12 +1444,13 @@
                     }
                   },
                   {
-                    "type": "Comma",
+                    "type": "Delimiter",
                     "span": {
                       "start": 332,
                       "end": 333,
                       "ctxt": 0
-                    }
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -1533,12 +1543,13 @@
                     }
                   },
                   {
-                    "type": "Comma",
+                    "type": "Delimiter",
                     "span": {
                       "start": 350,
                       "end": 351,
                       "ctxt": 0
-                    }
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -1631,12 +1642,13 @@
                     }
                   },
                   {
-                    "type": "Comma",
+                    "type": "Delimiter",
                     "span": {
                       "start": 368,
                       "end": 369,
                       "ctxt": 0
-                    }
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
