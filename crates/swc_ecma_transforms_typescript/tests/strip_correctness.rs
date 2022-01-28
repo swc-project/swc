@@ -11,8 +11,8 @@ use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::resolve
 use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
 use swc_ecma_visit::{Fold, FoldWith};
 
-#[testing::fixture("../swc_ecma_parser/tests/typescript/**/*.ts")]
-#[testing::fixture("../swc_ecma_parser/tests/typescript/**/*.tsx")]
+#[testing::fixture("../swc_ecma_parser/tests/**/*.ts")]
+#[testing::fixture("../swc_ecma_parser/tests/**/*.tsx")]
 fn identity(entry: PathBuf) {
     let file_name = entry
         .to_string_lossy()

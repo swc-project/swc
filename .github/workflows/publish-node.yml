@@ -231,6 +231,7 @@ jobs:
           rm -rf crates/swc/tests/vercel
           rm -rf crates/swc/tests/tsc-references
           rm -rf crates/swc_bundler/tests
+          rm -rf crates/swc_ecma_parser/tests/tsc
           rm -rf crates/swc_ecma_parser/tests/typescript
           rm -rf crates/swc_ecma_minifier/tests/terser
           rm -rf crates/swc_ecma_minifier/tests/compress
