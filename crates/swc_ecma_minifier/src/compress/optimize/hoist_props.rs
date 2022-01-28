@@ -99,6 +99,7 @@ where
                                 );
                                 self.simple_props
                                     .insert((name.to_id(), s.value.clone()), value);
+                                self.mode.store(name.to_id(), n.init.as_deref().unwrap());
                             }
                             PropName::Ident(i) => {
                                 tracing::trace!(
@@ -107,6 +108,7 @@ where
                                 );
                                 self.simple_props
                                     .insert((name.to_id(), i.sym.clone()), value);
+                                self.mode.store(name.to_id(), n.init.as_deref().unwrap());
                             }
                             _ => {}
                         }
