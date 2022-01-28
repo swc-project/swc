@@ -1,37 +1,12 @@
-use std::{borrow::Cow, mem::take};
-use swc_common::pass::CompilerPass;
+use super::Pure;
+use std::mem::take;
 use swc_ecma_ast::*;
-use swc_ecma_transforms::pass::JsPass;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 
-pub fn drop_console() -> impl JsPass + VisitMut {
-    as_folder(DropConsole { done: false })
-}
-
-struct DropConsole {
-    /// Invoking this pass multiple times is simply waste of time.
-    done: bool,
-}
-
-impl CompilerPass for DropConsole {
-    fn name() -> Cow<'static, str> {
-        "drop-console".into()
-    }
-}
-
-impl VisitMut for DropConsole {
-    noop_visit_mut_type!();
-
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
-        if self.done {
-            return;
-        }
-
-        n.visit_mut_children_with(self);
-
+impl<M> Pure<'_, M> {
+    pub(super) fn drop_console(&mut self, e: &mut Expr) {
         if let Expr::Call(CallExpr {
             span, callee, args, ..
-        }) = n
+        }) = e
         {
             // Find console.log
             let callee = match callee {
@@ -67,21 +42,11 @@ impl VisitMut for DropConsole {
                 }
 
                 // Simplifier will remove side-effect-free items.
-                *n = Expr::Seq(SeqExpr {
+                *e = Expr::Seq(SeqExpr {
                     span: *span,
                     exprs: take(args).into_iter().map(|arg| arg.expr).collect(),
                 })
             }
         }
-    }
-
-    fn visit_mut_module(&mut self, n: &mut Module) {
-        if self.done {
-            return;
-        }
-
-        n.visit_mut_children_with(self);
-
-        self.done = true;
     }
 }

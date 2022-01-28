@@ -18,6 +18,7 @@ mod bools;
 mod conds;
 mod ctx;
 mod dead_code;
+mod drop_console;
 mod evaluate;
 mod if_return;
 mod loops;
