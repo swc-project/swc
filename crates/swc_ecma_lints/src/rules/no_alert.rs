@@ -60,7 +60,8 @@ impl NoAlert {
         }
     }
 
-    fn emit_report(&self, fn_name: &str, span: Span) {
+    fn emit_report(&self, fn_name: &str) {
+        let span = self.call_expr_span.unwrap();
         let message = format!("Unexpected {}", fn_name);
 
         HANDLER.with(|handler| match self.expected_reaction {
@@ -74,7 +75,7 @@ impl NoAlert {
         });
     }
 
-    fn check_names(&self, obj_name: Option<&str>, fn_name: &str, span: Span) {
+    fn check_names(&self, obj_name: Option<&str>, fn_name: &str) {
         if let Some(obj_name) = obj_name {
             if self.pass_call_on_global_this && obj_name == GLOBAL_THIS_PROP {
                 return;
@@ -86,7 +87,7 @@ impl NoAlert {
         }
 
         if self.fn_names.contains(fn_name) {
-            self.emit_report(fn_name, span);
+            self.emit_report(fn_name);
         }
     }
 
@@ -103,13 +104,12 @@ impl NoAlert {
             }
 
             let obj_sym = Some(&*obj.sym);
-            let call_expr_span = self.call_expr_span.unwrap();
 
             match prop {
-                MemberProp::Ident(prop) => self.check_names(obj_sym, &*prop.sym, call_expr_span),
+                MemberProp::Ident(prop) => self.check_names(obj_sym, &*prop.sym),
                 MemberProp::Computed(comp) => {
                     if let Expr::Lit(Lit::Str(lit_str)) = comp.expr.as_ref() {
-                        self.check_names(obj_sym, &*lit_str.value, call_expr_span)
+                        self.check_names(obj_sym, &*lit_str.value)
                     }
                 }
                 _ => {}
@@ -142,8 +142,8 @@ impl Visit for NoAlert {
             return;
         }
 
-        if let Some(call_expr_span) = self.call_expr_span {
-            self.check_names(None, &*id.sym, call_expr_span);
+        if self.call_expr_span.is_some() {
+            self.check_names(None, &*id.sym);
         }
     }
 
