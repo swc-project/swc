@@ -1,5 +1,5 @@
 use super::Pure;
-use crate::compress::util::{always_terminates, is_fine_for_if_cons, negate};
+use crate::compress::util::{always_terminates, is_fine_for_if_cons, negate, UnreachableHandler};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -15,24 +15,29 @@ impl<M> Pure<'_, M> {
             .find(|(_, stmt)| always_terminates(stmt));
 
         if let Some((idx, _)) = idx {
-            stmts.iter_mut().skip(idx + 1).for_each(|stmt| match stmt {
-                Stmt::Decl(
-                    Decl::Var(VarDecl {
-                        kind: VarDeclKind::Var,
-                        ..
-                    })
-                    | Decl::Fn(..),
-                ) => {
-                    // Preserve
-                }
+            stmts.iter_mut().skip(idx + 1).for_each(|stmt| {
+                UnreachableHandler::preserve_vars(stmt);
 
-                Stmt::Empty(..) => {
-                    // noop
-                }
+                match stmt {
+                    Stmt::Decl(
+                        Decl::Var(VarDecl {
+                            kind: VarDeclKind::Var,
+                            ..
+                        })
+                        | Decl::Fn(..),
+                    ) => {
+                        // Preserve
+                    }
 
-                _ => {
-                    self.changed = true;
-                    stmt.take();
+                    Stmt::Empty(..) => {
+                        // noop
+                    }
+
+                    _ => {
+                        tracing::debug!("Removing unreachable statements");
+                        self.changed = true;
+                        stmt.take();
+                    }
                 }
             });
         }
