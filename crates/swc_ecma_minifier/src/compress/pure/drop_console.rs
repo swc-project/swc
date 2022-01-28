@@ -1,5 +1,4 @@
 use super::Pure;
-use std::mem::take;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::undefined;
@@ -10,10 +9,7 @@ impl<M> Pure<'_, M> {
             return;
         }
 
-        if let Expr::Call(CallExpr {
-            span, callee, args, ..
-        }) = e
-        {
+        if let Expr::Call(CallExpr { callee, .. }) = e {
             // Find console.log
             let callee = match callee {
                 Callee::Expr(callee) => callee,
