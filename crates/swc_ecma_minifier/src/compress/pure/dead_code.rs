@@ -1,7 +1,8 @@
 use super::Pure;
 use crate::{
-    compress::util::{always_terminates, is_fine_for_if_cons},
+    compress::util::{always_terminates, is_fine_for_if_cons, UnreachableHandler},
     mode::Mode,
+    util::ModuleItemExt,
 };
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -118,7 +119,7 @@ where
 
     pub(super) fn remove_unreachable_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike,
+        T: StmtLike + ModuleItemExt,
     {
         if !self.options.side_effects {
             return;
@@ -151,9 +152,15 @@ where
             self.changed = true;
             tracing::debug!("dead_code: Removing unreachable statements");
 
-            let extras = stmts.drain(last..).collect::<Vec<_>>();
+            let mut unreachable_stmts = stmts.drain(last..).collect::<Vec<_>>();
 
-            for extra in extras {
+            for s in &mut unreachable_stmts {
+                if let Some(s) = s.as_stmt_mut() {
+                    UnreachableHandler::preserve_vars(s);
+                }
+            }
+
+            for extra in unreachable_stmts {
                 match extra.as_stmt() {
                     Some(Stmt::Decl(..)) | None => {
                         stmts.push(extra);
