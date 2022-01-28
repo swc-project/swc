@@ -1,0 +1,3 @@
+alert();
+
+const alert = () => {};

@@ -1,0 +1,78 @@
+error: Unexpected alert
+ 
+  |
+3 | alert();
+  | ^^^^^^^
+
+error: Unexpected alert
+ 
+  |
+4 | window.alert();
+  | ^^^^^^^^^^^^^^
+
+error: Unexpected alert
+ 
+  |
+5 | window["alert"]();
+  | ^^^^^^^^^^^^^^^^^
+
+error: Unexpected confirm
+ 
+  |
+6 | confirm();
+  | ^^^^^^^^^
+
+error: Unexpected confirm
+ 
+  |
+7 | window.confirm();
+  | ^^^^^^^^^^^^^^^^
+
+error: Unexpected confirm
+ 
+  |
+8 | window["confirm"]();
+  | ^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected prompt
+ 
+  |
+9 | prompt();
+  | ^^^^^^^^
+
+error: Unexpected prompt
+  
+   |
+10 | window.prompt();
+   | ^^^^^^^^^^^^^^^
+
+error: Unexpected prompt
+  
+   |
+11 | window["prompt"]();
+   | ^^^^^^^^^^^^^^^^^^
+
+error: Unexpected alert
+  
+   |
+13 |     window.alert();
+   |     ^^^^^^^^^^^^^^
+
+error: Unexpected alert
+  
+   |
+16 |     alert();
+   |     ^^^^^^^
+
+error: Unexpected alert
+  
+   |
+21 | alert();
+   | ^^^^^^^
+
+error: Unexpected alert
+  
+   |
+31 | window.alert();
+   | ^^^^^^^^^^^^^^
+

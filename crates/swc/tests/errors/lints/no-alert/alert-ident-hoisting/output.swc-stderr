@@ -1,0 +1,6 @@
+error: Unexpected alert
+ 
+  |
+1 | alert();
+  | ^^^^^^^
+

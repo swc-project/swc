@@ -6,9 +6,24 @@ use swc_ecma_visit::{noop_fold_type, Fold};
 mod const_assign;
 mod duplicate_bindings;
 mod duplicate_exports;
+pub mod no_alert;
 pub mod no_console;
 
-pub fn all(lint_config: &LintConfig, top_level_ctxt: SyntaxContext) -> Vec<Box<dyn Rule>> {
+pub struct LintParams<'a> {
+    pub program: &'a Program,
+    pub lint_config: &'a LintConfig,
+    pub top_level_ctxt: SyntaxContext,
+    pub es_version: EsVersion,
+}
+
+pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
+    let LintParams {
+        program,
+        lint_config,
+        top_level_ctxt,
+        es_version,
+    } = lint_params;
+
     let mut rules = vec![
         const_assign::const_assign(),
         duplicate_bindings::duplicate_bindings(),
@@ -18,6 +33,13 @@ pub fn all(lint_config: &LintConfig, top_level_ctxt: SyntaxContext) -> Vec<Box<d
     rules.extend(no_console::no_console(
         &lint_config.no_console,
         top_level_ctxt,
+    ));
+
+    rules.extend(no_alert::no_alert(
+        program,
+        &lint_config.no_alert,
+        top_level_ctxt,
+        es_version,
     ));
 
     rules
