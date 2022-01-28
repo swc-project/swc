@@ -621,35 +621,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "dbg-swc"
-version = "0.10.0"
-dependencies = [
- "anyhow",
- "pretty_assertions 1.0.0",
- "rayon",
- "structopt",
- "swc_atoms",
- "swc_common",
- "swc_ecma_ast",
- "swc_ecma_codegen",
- "swc_ecma_dep_graph",
- "swc_ecma_diff",
- "swc_ecma_loader",
- "swc_ecma_minifier",
- "swc_ecma_parser",
- "swc_ecma_transforms_base",
- "swc_ecma_transforms_react",
- "swc_ecma_transforms_typescript",
- "swc_ecma_utils",
- "swc_ecma_visit",
- "swc_node_comments",
- "swc_timer",
- "tempfile",
- "tracing",
- "tracing-subscriber",
-]
-
-[[package]]
 name = "debug_unreachable"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1850,18 +1821,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "pretty_assertions"
-version = "1.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ec0cfe1b2403f172ba0f234e500906ee0a3e493fb81092dac23ebefe129301cc"
-dependencies = [
- "ansi_term",
- "ctor",
- "diff",
- "output_vt100",
-]
-
-[[package]]
 name = "proc-macro-crate"
 version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2937,28 +2896,12 @@ dependencies = [
 name = "swc_ecma_dep_graph"
 version = "0.58.0"
 dependencies = [
- "pretty_assertions 0.7.2",
+ "pretty_assertions",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
  "swc_ecma_visit",
- "testing",
-]
-
-[[package]]
-name = "swc_ecma_diff"
-version = "0.6.0"
-dependencies = [
- "ansi_term",
- "auto_impl",
- "num-bigint",
- "string_cache",
- "swc_atoms",
- "swc_common",
- "swc_ecma_ast",
- "swc_ecma_codegen",
- "swc_ecma_parser",
  "testing",
 ]
 
@@ -3021,7 +2964,7 @@ dependencies = [
  "backtrace",
  "indexmap",
  "once_cell",
- "pretty_assertions 0.7.2",
+ "pretty_assertions",
  "rayon",
  "regex",
  "retain_mut",
@@ -3052,7 +2995,7 @@ dependencies = [
  "enum_kind",
  "lexical",
  "num-bigint",
- "pretty_assertions 0.7.2",
+ "pretty_assertions",
  "serde",
  "serde_json",
  "smallvec",
@@ -3078,7 +3021,7 @@ dependencies = [
  "dashmap",
  "indexmap",
  "once_cell",
- "pretty_assertions 0.7.2",
+ "pretty_assertions",
  "semver 1.0.4",
  "serde",
  "serde_json",
@@ -3100,7 +3043,7 @@ dependencies = [
 name = "swc_ecma_transforms"
 version = "0.114.3"
 dependencies = [
- "pretty_assertions 0.7.2",
+ "pretty_assertions",
  "sourcemap",
  "swc_atoms",
  "swc_common",
@@ -3408,7 +3351,7 @@ dependencies = [
  "ahash",
  "anyhow",
  "copyless",
- "pretty_assertions 0.7.2",
+ "pretty_assertions",
  "rayon",
  "serde",
  "serde_json",
@@ -3473,7 +3416,7 @@ dependencies = [
  "dashmap",
  "is-macro",
  "once_cell",
- "pretty_assertions 0.7.2",
+ "pretty_assertions",
  "regex",
  "serde",
  "serde_json",
@@ -3661,7 +3604,7 @@ dependencies = [
  "ansi_term",
  "difference",
  "once_cell",
- "pretty_assertions 0.7.2",
+ "pretty_assertions",
  "regex",
  "serde_json",
  "swc_common",
