@@ -38,7 +38,9 @@ where
             state = self.input.state();
 
             if !eat!(self, " ")
-                && !is_one_of!(self, ",", "function", "ident", "percent", "str", "#", "url", "[", "{", "(")
+                && !is_one_of!(
+                    self, ",", "function", "ident", "percent", "str", "#", "url", "[", "{", "("
+                )
             {
                 if self.ctx.recover_from_property_value
                     && !is_one_of!(self, EOF, ";", "}", "!", ")", "]")
