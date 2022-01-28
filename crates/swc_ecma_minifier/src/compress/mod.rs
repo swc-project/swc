@@ -7,7 +7,7 @@ use crate::{
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
-    util::{now, unit::CompileUnit, Optional},
+    util::{now, unit::CompileUnit},
     DISABLE_BUGGY_PASSES, MAX_PAR_DEPTH,
 };
 #[cfg(feature = "pretty_assertions")]

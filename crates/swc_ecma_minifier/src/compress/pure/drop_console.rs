@@ -4,6 +4,10 @@ use swc_ecma_ast::*;
 
 impl<M> Pure<'_, M> {
     pub(super) fn drop_console(&mut self, e: &mut Expr) {
+        if !self.options.drop_console {
+            return;
+        }
+
         if let Expr::Call(CallExpr {
             span, callee, args, ..
         }) = e

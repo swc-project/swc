@@ -223,6 +223,10 @@ where
 
         self.remove_invalid(e);
 
+        self.drop_console(e);
+
+        self.remove_invalid(e);
+
         if let Expr::Seq(seq) = e {
             if seq.exprs.is_empty() {
                 *e = Expr::Invalid(Invalid { span: DUMMY_SP });
