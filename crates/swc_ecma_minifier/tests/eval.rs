@@ -171,38 +171,34 @@ impl VisitMut for PartialInliner {
         e.visit_mut_children_with(self);
 
         if let Some(evaluator) = self.eval.as_mut() {
-            match e {
-                Expr::TaggedTpl(tt) => {
-                    if tt.tag.is_ident_ref_to("css".into()) {
-                        let res = evaluator.eval_tpl(&tt.tpl);
+            if let Expr::TaggedTpl(tt) = e {
+                if tt.tag.is_ident_ref_to("css".into()) {
+                    let res = evaluator.eval_tpl(&tt.tpl);
 
-                        let res = match res {
-                            Some(v) => v,
-                            None => return,
-                        };
+                    let res = match res {
+                        Some(v) => v,
+                        None => return,
+                    };
 
-                        match res {
-                            EvalResult::Lit(Lit::Str(s)) => {
-                                let el = TplElement {
-                                    span: s.span,
-                                    tail: true,
-                                    cooked: Some(s.clone()),
-                                    raw: s,
-                                };
-                                tt.tpl = Tpl {
-                                    span: el.span,
-                                    exprs: Default::default(),
-                                    quasis: vec![el],
-                                };
-                            }
-                            _ => {
-                                unreachable!()
-                            }
+                    match res {
+                        EvalResult::Lit(Lit::Str(s)) => {
+                            let el = TplElement {
+                                span: s.span,
+                                tail: true,
+                                cooked: Some(s.clone()),
+                                raw: s,
+                            };
+                            tt.tpl = Tpl {
+                                span: el.span,
+                                exprs: Default::default(),
+                                quasis: vec![el],
+                            };
+                        }
+                        _ => {
+                            unreachable!()
                         }
                     }
                 }
-
-                _ => {}
             }
         }
     }
@@ -465,4 +461,45 @@ fn partial_7() {
         )
         ",
     );
+}
+
+#[test]
+fn partial_8() {
+    PartialInliner::expect(
+        "const darken = c => c
+    const color = 'red'
+    const otherColor = 'green'
+    const mediumScreen = '680px'
+    const animationDuration = '200ms'
+    const animationName = 'my-cool-animation'
+    const obj = { display: 'block' }
+    
+    export default ({ display }) => (
+        css`
+          p.${color} {
+            color: ${otherColor};
+            display: ${obj.display};
+          }
+        `
+    )
+    ",
+        "
+        const darken = c => c
+    const color = 'red'
+    const otherColor = 'green'
+    const mediumScreen = '680px'
+    const animationDuration = '200ms'
+    const animationName = 'my-cool-animation'
+    const obj = { display: 'block' }
+    
+    export default ({ display }) => (
+        css`
+          p.red {
+            color: green;
+            display: block;
+          }
+        `
+    )
+        ",
+    )
 }
