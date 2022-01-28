@@ -1,5 +1,0 @@
-{
-    "pure_getters": "strict",
-    "side_effects": true,
-    "unsafe": true
-}

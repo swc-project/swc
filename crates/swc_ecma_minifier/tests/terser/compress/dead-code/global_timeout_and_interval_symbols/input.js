@@ -1,4 +1,0 @@
-clearInterval;
-clearTimeout;
-setInterval;
-setTimeout;

@@ -1,8 +1,0 @@
-{
-    "properties": {
-        "builtins": true,
-        "debug": "XYZ",
-        "keep_quoted": true,
-        "reserved": []
-    }
-}

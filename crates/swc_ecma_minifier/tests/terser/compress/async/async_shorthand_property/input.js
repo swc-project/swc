@@ -1,1 +1,0 @@
-function print(o){console.log(o.async+" "+o.await)}var async="Async",await="Await";print({async:async});print({await:await});print({async:async,await:await});print({await:await,async:async});print({async:async});print({await:await});print({async:async,await:await});print({await:await,async:async});

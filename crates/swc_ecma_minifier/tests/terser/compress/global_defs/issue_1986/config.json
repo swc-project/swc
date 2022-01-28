@@ -1,5 +1,0 @@
-{
-    "global_defs": {
-        "@alert": "console.log"
-    }
-}

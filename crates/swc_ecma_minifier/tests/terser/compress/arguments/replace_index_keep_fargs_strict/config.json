@@ -1,7 +1,0 @@
-{
-    "arguments": true,
-    "evaluate": true,
-    "keep_fargs": false,
-    "properties": true,
-    "reduce_vars": true
-}

@@ -1,2 +1,0 @@
-var Foo;
-var Bar;

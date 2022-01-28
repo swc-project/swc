@@ -1,7 +1,0 @@
-{
-    "evaluate": true,
-    "reduce_funcs": true,
-    "reduce_vars": true,
-    "unsafe_regexp": true,
-    "unused": true
-}

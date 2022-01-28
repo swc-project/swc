@@ -1,2 +1,0 @@
-var foo;
-var foobar;

@@ -1,2 +1,0 @@
-if (x) yes();
-else;

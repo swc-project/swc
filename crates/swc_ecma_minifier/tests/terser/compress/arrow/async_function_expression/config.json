@@ -1,6 +1,0 @@
-{
-    "unsafe_arrows": true,
-    "ecma": 2015,
-    "evaluate": true,
-    "side_effects": true
-}

@@ -1,7 +1,0 @@
-{
-    "dead_code": true,
-    "loops": true,
-    "booleans": true,
-    "conditionals": true,
-    "evaluate": true
-}

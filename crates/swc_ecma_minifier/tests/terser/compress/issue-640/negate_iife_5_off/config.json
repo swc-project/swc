@@ -1,6 +1,0 @@
-{
-    "conditionals": true,
-    "expression": true,
-    "negate_iife": false,
-    "sequences": true
-}

@@ -1,8 +1,0 @@
-{
-    "inline": true,
-    "pure_funcs": ["pureFunc"],
-    "reduce_vars": true,
-    "side_effects": true,
-    "toplevel": true,
-    "unused": true
-}

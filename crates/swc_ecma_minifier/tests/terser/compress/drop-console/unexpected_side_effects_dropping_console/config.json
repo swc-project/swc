@@ -1,7 +1,0 @@
-{
-    "drop_console": true,
-    "evaluate": true,
-    "reduce_vars": true,
-    "side_effects": true,
-    "unused": true
-}
