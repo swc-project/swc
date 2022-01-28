@@ -7,7 +7,7 @@ use crate::{
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
-    util::{now, unit::CompileUnit},
+    util::{now, unit::CompileUnit, Optional},
     DISABLE_BUGGY_PASSES, MAX_PAR_DEPTH,
 };
 #[cfg(feature = "pretty_assertions")]
@@ -62,7 +62,10 @@ where
 
     chain!(
         as_folder(compressor),
-        expr_simplifier(ExprSimplifierConfig {})
+        Optional {
+            enabled: options.evaluate || options.side_effects,
+            visitor: expr_simplifier(ExprSimplifierConfig {})
+        }
     )
 }
 
