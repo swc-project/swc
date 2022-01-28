@@ -610,7 +610,10 @@ where
         for (idx, node) in nodes.iter().enumerate() {
             if idx != 0 {
                 match node {
-                    Value::Delimiter(Delimiter { value: DelimiterValue::Comma, .. }) => {
+                    Value::Delimiter(Delimiter {
+                        value: DelimiterValue::Comma,
+                        ..
+                    }) => {
                         need_space = if self.config.minify { false } else { true };
                     }
                     _ => {
