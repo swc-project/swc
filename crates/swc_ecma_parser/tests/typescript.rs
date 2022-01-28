@@ -113,8 +113,8 @@ fn run_spec(file: &Path, output_json: &Path) {
         || file_name.contains("tsc/tsxErrorRecovery2x")
         || file_name.contains("tsc/tsxErrorRecovery3x")
         || file_name.contains("tsc/tsxErrorRecovery5x")
-        || file_name.contains("tsc/tsxReactEmitEntitiesx/input.tsx")
-        || file_name.contains("tsc/tsxTypeArgumentsJsxPreserveOutputx/input.tsx")
+        || file_name.contains("tsc/tsxReactEmitEntitiesx")
+        || file_name.contains("tsc/tsxTypeArgumentsJsxPreserveOutputx")
         || file_name.contains("tsc/emitCompoundExponentiationAssignmentWithIndexingOnLHS3")
         || file_name.contains("tsc/objectLiteralGettersAndSetters")
         || file_name.contains("tsc/restElementMustBeLast")
@@ -142,7 +142,7 @@ fn run_spec(file: &Path, output_json: &Path) {
         );
     }
 
-    with_parser(false, &file, true, false, |p, _| {
+    with_parser(false, file, true, false, |p, _| {
         let program = p.parse_program()?.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
