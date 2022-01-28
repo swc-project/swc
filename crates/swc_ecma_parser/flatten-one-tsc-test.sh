@@ -3,9 +3,13 @@ set -eu
 
 echo "Moving $1"
 
-TEST_DIR="$(dirname $1)"
-TO="./tests/typescript/tsc/"
+test_name="$(dirname $1)"
 
-echo $TEST_DIR
-echo $TO
-# mv $TEST_DIR $TO
+filename=$(basename -- "$1")
+extension="${filename##*.}"
+
+TO="$test_name.${extension}"
+
+echo "TestFile: $1"
+echo "$TO"
+mv $1 $TO
