@@ -4283,6 +4283,41 @@ test!(
   }
   "
 );
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_3246_1,
+    "import { foo } from 'bar';
+
+    import(foo);
+    ",
+    r#""use strict";
+    var _bar = require("bar");
+    Promise.resolve().then(function() {
+        return _interopRequireWildcard(require(_bar.foo));
+    });
+    "#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_3246_2,
+    "import foo from 'bar';
+
+  import(foo);
+  ",
+    r#""use strict";
+  var _bar = _interopRequireDefault(require("bar"));
+  Promise.resolve().then(function() {
+      return _interopRequireWildcard(require(_bar.default));
+  });
+  "#
+);
 
 test!(
     syntax(),
