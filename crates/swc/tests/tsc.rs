@@ -12,23 +12,21 @@ use swc_ecma_parser::{Syntax, TsConfig};
 use testing::{NormalizedOutput, Tester};
 
 #[testing::fixture(
-    "../swc_ecma_parser/tests/typescript/tsc/**/input.ts",
+    "../swc_ecma_parser/tests/tsc/**/*.ts",
     exclude(
-        "privateNameFieldDestructuredBinding/input.ts",
-        "restPropertyWithBindingPattern/input.ts",
-        "elementAccessChain\\.3/input.ts",
-        "propertyAccessChain\\.3/input.ts",
-        "objectRestNegative/input.ts",
-        "objectRestPropertyMustBeLast/input.ts",
+        "privateNameFieldDestructuredBinding.ts",
+        "restPropertyWithBindingPattern.ts",
+        "elementAccessChain\\.3.ts",
+        "propertyAccessChain\\.3.ts",
+        "objectRestNegative.ts",
+        "objectRestPropertyMustBeLast.ts",
     )
 )]
-#[testing::fixture("../swc_ecma_parser/tests/typescript/tsc/**/input.tsx")]
+#[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.tsx")]
 fn fixture(input: PathBuf) {
     if input.to_string_lossy().contains("jsdoc") {
         return;
     }
-
-    let parent = input.parent().unwrap();
 
     for (name, opts) in matrix() {
         let output_dir = Path::new("tests").join("tsc-references");
@@ -37,7 +35,7 @@ fn fixture(input: PathBuf) {
 
         let output_path = output_dir.join(format!(
             "{}_{}.js",
-            parent.file_name().unwrap().to_str().unwrap(),
+            input.file_stem().unwrap().to_str().unwrap(),
             name
         ));
 
