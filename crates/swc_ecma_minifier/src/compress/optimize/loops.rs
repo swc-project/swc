@@ -104,18 +104,25 @@ where
                         }
                         self.changed |= f.init.is_some() | f.update.is_some();
 
-                        self.prepend_stmts
-                            .extend(f.init.take().map(|init| match init {
+                        {
+                            let target = if self.options.side_effects {
+                                &mut self.append_stmts
+                            } else {
+                                &mut self.prepend_stmts
+                            };
+
+                            target.extend(f.init.take().map(|init| match init {
                                 VarDeclOrExpr::VarDecl(var) => Stmt::Decl(Decl::Var(var)),
                                 VarDeclOrExpr::Expr(expr) => Stmt::Expr(ExprStmt {
                                     span: DUMMY_SP,
                                     expr,
                                 }),
                             }));
-                        self.prepend_stmts.push(Stmt::Expr(ExprStmt {
-                            span: DUMMY_SP,
-                            expr: f.test.take().unwrap(),
-                        }));
+                            target.push(Stmt::Expr(ExprStmt {
+                                span: DUMMY_SP,
+                                expr: f.test.take().unwrap(),
+                            }));
+                        }
                         f.update = None;
                         *stmt = *f.body.take();
                     } else if let Known(true) = val {
