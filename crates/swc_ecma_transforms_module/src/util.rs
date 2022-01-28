@@ -514,20 +514,7 @@ impl Scope {
             {
                 let expr = match *(args.pop().unwrap().expr) {
                     Expr::Ident(ident) => match Self::fold_ident(folder, ident) {
-                        Ok(mut expr) => {
-                            if let Expr::Member(member) = &mut expr {
-                                if let Expr::Ident(ident) = member.obj.as_mut() {
-                                    member.obj = Box::new(Expr::Paren(ParenExpr {
-                                        expr: Box::new(Expr::Seq(SeqExpr {
-                                            span,
-                                            exprs: vec![Box::new(ident.take().into())],
-                                        })),
-                                        span,
-                                    }))
-                                }
-                            };
-                            expr
-                        }
+                        Ok(expr) => expr,
                         Err(ident) => Expr::Ident(ident),
                     },
                     expr => expr,
