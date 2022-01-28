@@ -64,6 +64,18 @@ fn shifted(file: PathBuf) {
 #[testing::fixture("tests/typescript/**/*.ts")]
 #[testing::fixture("tests/typescript/**/*.tsx")]
 fn spec(file: PathBuf) {
+    let output = file.parent().unwrap().join("output.json");
+    run_spec(&file, &output);
+}
+
+#[testing::fixture("tests/tsc/**/*.ts")]
+#[testing::fixture("tests/tsc/**/*.tsx")]
+fn tsc_spec(file: PathBuf) {
+    let output = file.with_extension("json");
+    run_spec(&file, &output);
+}
+
+fn run_spec(file: &Path, output_json: &Path) {
     let file_name = file
         .display()
         .to_string()
@@ -137,7 +149,7 @@ fn spec(file: PathBuf) {
             serde_json::to_string_pretty(&program).expect("failed to serialize module as json");
 
         if StdErr::from(json.clone())
-            .compare_to_file(&format!("{}.json", file.display()))
+            .compare_to_file(&output_json)
             .is_err()
         {
             panic!()
