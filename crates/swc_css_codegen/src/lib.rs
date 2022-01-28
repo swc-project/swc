@@ -614,7 +614,7 @@ where
                         value: DelimiterValue::Comma,
                         ..
                     }) => {
-                        need_space = if self.config.minify { false } else { true };
+                        need_space = !self.config.minify;
                     }
                     _ => {
                         if need_space {
