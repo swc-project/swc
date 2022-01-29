@@ -48,7 +48,9 @@ use swc_ecma_transforms::{
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{decorators, export_default_from, import_assertions},
-    react, resolver_with_mark, typescript, Assumptions,
+    react,
+    resolver::ts_resolver,
+    resolver_with_mark, typescript, Assumptions,
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
@@ -304,7 +306,11 @@ impl Options {
         //
         // We do this before creating custom passses, so custom passses can use the
         // variable management system based on the syntax contexts.
-        program.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+        if syntax.typescript() {
+            program.visit_mut_with(&mut ts_resolver(top_level_mark));
+        } else {
+            program.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+        }
 
         let mut transform = transform.unwrap_or_default();
 
