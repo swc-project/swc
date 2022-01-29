@@ -118,6 +118,10 @@ fn cursor() {
     t("cursor:none;", "cursor:none;");
     t("cursor:grab;", "cursor:-webkit-grab;cursor:grab;");
     t(
+        "cursor:url(cursor_1.png) 4 12, grab;",
+        "cursor:url(cursor_1.png) 4 12,-webkit-grab;cursor:url(cursor_1.png) 4 12,grab;",
+    );
+    t(
         "cursor:image-set(url(foo.jpg) 2x), pointer;",
         "cursor:-webkit-image-set(url(foo.jpg) 2x),pointer;cursor:image-set(url(foo.jpg) \
          2x),pointer;",
@@ -126,6 +130,12 @@ fn cursor() {
         "cursor:image-set(url(foo.jpg) 2x), grab;",
         "cursor:-webkit-image-set(url(foo.jpg) 2x),-webkit-grab;cursor:image-set(url(foo.jpg) \
          2x),grab;",
+    );
+    t(
+        "cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), image-set(url(foo.jpg) 2x) 5 5, grab;",
+        "cursor:url(cursor_1.svg) 4 5,url(cursor_2.svg),-webkit-image-set(url(foo.jpg) 2x) 5 \
+         5,-webkit-grab;cursor:url(cursor_1.svg) 4 5,url(cursor_2.svg),image-set(url(foo.jpg) 2x) \
+         5 5,grab;",
     );
 }
 
