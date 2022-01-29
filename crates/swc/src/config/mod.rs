@@ -299,7 +299,6 @@ impl Options {
             .global_mark
             .unwrap_or_else(|| Mark::fresh(Mark::root()));
 
-
         let es_version = target.unwrap_or_default();
 
         let syntax = syntax.unwrap_or_default();
