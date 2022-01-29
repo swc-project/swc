@@ -126,7 +126,7 @@ define!({
 
     pub enum DelimiterValue {
         Comma,
-        Solidus
+        Solidus,
     }
 
     pub struct Delimiter {
