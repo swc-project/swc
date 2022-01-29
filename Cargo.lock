@@ -2611,7 +2611,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.119.7"
+version = "0.119.8"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3191,7 +3191,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.75.0"
+version = "0.75.1"
 dependencies = [
  "either",
  "serde",
