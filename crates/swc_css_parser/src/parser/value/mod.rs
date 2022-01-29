@@ -33,13 +33,27 @@ where
 
             let v = self.parse_one_value_inner()?;
 
+            println!("{:?}", self.input.cur());
+
             hi = v.span().hi;
             values.push(v);
             state = self.input.state();
 
             if !eat!(self, " ")
                 && !is_one_of!(
-                    self, ",", "function", "ident", "percent", "str", "#", "url", "[", "{", "("
+                    self,
+                    ",",
+                    "/",
+                    "function",
+                    "ident",
+                    "dimension",
+                    "percent",
+                    "str",
+                    "#",
+                    "url",
+                    "[",
+                    "{",
+                    "("
                 )
             {
                 if self.ctx.recover_from_property_value
@@ -229,6 +243,15 @@ where
                 return Ok(Value::Delimiter(Delimiter {
                     span: span!(self, span.lo),
                     value: DelimiterValue::Comma,
+                }));
+            }
+
+            tok!("/") => {
+                bump!(self);
+
+                return Ok(Value::Delimiter(Delimiter {
+                    span: span!(self, span.lo),
+                    value: DelimiterValue::Solidus,
                 }));
             }
 

@@ -6,7 +6,9 @@ div {
     prop: fn(value);
     prop: fn(value)fn(value);
     prop: value, value;
+    prop: value ,value;
     prop: value,value;
+    prop: value , value;
     prop: 100%100%;
     prop: "string""string";
     prop: #ccc#ccc;
@@ -14,4 +16,8 @@ div {
     prop: (value)(value);
     prop: {value}{value};
     prop: [value][value];
+    prop: center/1em;
+    prop: center/ 1em;
+    prop: center /1em;
+    prop: center / 1em;
 }
