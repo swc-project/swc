@@ -616,7 +616,7 @@ error: Value
 17 | .sidebar { animation: slide-left 300ms; }
    |                                  ^^^^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/at-rule/layer/input.css:17:34
    |
 17 | .sidebar { animation: slide-left 300ms; }
@@ -628,7 +628,7 @@ error: Number
 17 | .sidebar { animation: slide-left 300ms; }
    |                                  ^^^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/at-rule/layer/input.css:17:37
    |
 17 | .sidebar { animation: slide-left 300ms; }
@@ -1372,7 +1372,7 @@ error: Value
 40 |         p { margin-block: 0.75em; }
    |                           ^^^^^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/at-rule/layer/input.css:40:27
    |
 40 |         p { margin-block: 0.75em; }
@@ -1384,7 +1384,7 @@ error: Number
 40 |         p { margin-block: 0.75em; }
    |                           ^^^^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/at-rule/layer/input.css:40:31
    |
 40 |         p { margin-block: 0.75em; }

@@ -179,7 +179,7 @@ error: Value
 4 |     width: 1px!important;
   |            ^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/important/basic/input.css:4:12
   |
 4 |     width: 1px!important;
@@ -191,7 +191,7 @@ error: Number
 4 |     width: 1px!important;
   |            ^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/important/basic/input.css:4:13
   |
 4 |     width: 1px!important;
@@ -401,7 +401,7 @@ error: Value
 11 |     margin: 10px      !      important;
    |             ^^^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/important/basic/input.css:11:13
    |
 11 |     margin: 10px      !      important;
@@ -413,7 +413,7 @@ error: Number
 11 |     margin: 10px      !      important;
    |             ^^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/important/basic/input.css:11:15
    |
 11 |     margin: 10px      !      important;
@@ -443,7 +443,7 @@ error: Value
 12 |     padding: 20px     !  /* test */   important;
    |              ^^^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/important/basic/input.css:12:14
    |
 12 |     padding: 20px     !  /* test */   important;
@@ -455,7 +455,7 @@ error: Number
 12 |     padding: 20px     !  /* test */   important;
    |              ^^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/important/basic/input.css:12:16
    |
 12 |     padding: 20px     !  /* test */   important;
@@ -485,7 +485,7 @@ error: Value
 13 |     width: 100px ! /*! test */ important;
    |            ^^^^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/important/basic/input.css:13:12
    |
 13 |     width: 100px ! /*! test */ important;
@@ -497,7 +497,7 @@ error: Number
 13 |     width: 100px ! /*! test */ important;
    |            ^^^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/important/basic/input.css:13:15
    |
 13 |     width: 100px ! /*! test */ important;
@@ -527,7 +527,7 @@ error: Value
 14 |     height: 100px /*! test */ important;
    |             ^^^^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/important/basic/input.css:14:13
    |
 14 |     height: 100px /*! test */ important;
@@ -539,7 +539,7 @@ error: Number
 14 |     height: 100px /*! test */ important;
    |             ^^^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/important/basic/input.css:14:16
    |
 14 |     height: 100px /*! test */ important;
@@ -623,7 +623,7 @@ error: Value
 16 |     padding: 1px/* sep */!important;
    |              ^^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/important/basic/input.css:16:14
    |
 16 |     padding: 1px/* sep */!important;
@@ -635,7 +635,7 @@ error: Number
 16 |     padding: 1px/* sep */!important;
    |              ^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/important/basic/input.css:16:15
    |
 16 |     padding: 1px/* sep */!important;

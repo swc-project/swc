@@ -118,7 +118,7 @@
                 "raw": "0"
               },
               {
-                "type": "UnitValue",
+                "type": "Dimension",
                 "span": {
                   "start": 63,
                   "end": 66,
@@ -135,6 +135,7 @@
                   "raw": "2"
                 },
                 "unit": {
+                  "type": "Identifier",
                   "span": {
                     "start": 64,
                     "end": 66,
@@ -213,7 +214,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "UnitValue",
+                  "type": "Dimension",
                   "span": {
                     "start": 117,
                     "end": 120,
@@ -230,6 +231,7 @@
                     "raw": "2"
                   },
                   "unit": {
+                    "type": "Identifier",
                     "span": {
                       "start": 118,
                       "end": 120,
@@ -309,7 +311,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "UnitValue",
+                  "type": "Dimension",
                   "span": {
                     "start": 174,
                     "end": 177,
@@ -326,6 +328,7 @@
                     "raw": "2"
                   },
                   "unit": {
+                    "type": "Identifier",
                     "span": {
                       "start": 175,
                       "end": 177,
@@ -405,7 +408,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "UnitValue",
+                  "type": "Dimension",
                   "span": {
                     "start": 226,
                     "end": 229,
@@ -422,6 +425,7 @@
                     "raw": "2"
                   },
                   "unit": {
+                    "type": "Identifier",
                     "span": {
                       "start": 227,
                       "end": 229,
@@ -598,7 +602,7 @@
                   },
                   "value": [
                     {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 359,
                         "end": 364,
@@ -615,6 +619,7 @@
                         "raw": "10"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 361,
                           "end": 364,

@@ -109,7 +109,7 @@
                 "raw": "1"
               },
               {
-                "type": "UnitValue",
+                "type": "Dimension",
                 "span": {
                   "start": 16,
                   "end": 19,
@@ -126,6 +126,7 @@
                   "raw": "0"
                 },
                 "unit": {
+                  "type": "Identifier",
                   "span": {
                     "start": 17,
                     "end": 19,
@@ -136,7 +137,7 @@
                 }
               },
               {
-                "type": "UnitValue",
+                "type": "Dimension",
                 "span": {
                   "start": 20,
                   "end": 23,
@@ -153,6 +154,7 @@
                   "raw": "1"
                 },
                 "unit": {
+                  "type": "Identifier",
                   "span": {
                     "start": 21,
                     "end": 23,

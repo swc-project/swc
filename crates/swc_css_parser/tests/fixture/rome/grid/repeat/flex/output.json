@@ -127,7 +127,7 @@
                     "value": ","
                   },
                   {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 43,
                       "end": 46,
@@ -144,6 +144,7 @@
                       "raw": "1"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 44,
                         "end": 46,

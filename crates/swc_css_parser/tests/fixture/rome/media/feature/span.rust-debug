@@ -262,7 +262,7 @@ error: MediaFeatureValue
 3 | @media only screen and (min-width: 800px) {}
   |                                    ^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/media/feature/input.css:3:36
   |
 3 | @media only screen and (min-width: 800px) {}
@@ -274,7 +274,7 @@ error: Number
 3 | @media only screen and (min-width: 800px) {}
   |                                    ^^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:3:39
   |
 3 | @media only screen and (min-width: 800px) {}
@@ -364,7 +364,7 @@ error: MediaFeatureValue
 4 | @media screen and (min-width       :          800px        ) {}
   |                                               ^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/media/feature/input.css:4:47
   |
 4 | @media screen and (min-width       :          800px        ) {}
@@ -376,7 +376,7 @@ error: Number
 4 | @media screen and (min-width       :          800px        ) {}
   |                                               ^^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:4:50
   |
 4 | @media screen and (min-width       :          800px        ) {}
@@ -466,7 +466,7 @@ error: MediaFeatureValue
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                               ^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/media/feature/input.css:5:31
   |
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -478,7 +478,7 @@ error: Number
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                               ^^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:5:34
   |
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -532,7 +532,7 @@ error: MediaFeatureValue
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                                      ^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/media/feature/input.css:5:54
   |
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -544,7 +544,7 @@ error: Number
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                                      ^^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:5:57
   |
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -598,7 +598,7 @@ error: MediaFeatureValue
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                                                             ^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/media/feature/input.css:5:77
   |
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -610,7 +610,7 @@ error: Number
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                                                             ^^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:5:80
   |
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -700,7 +700,7 @@ error: MediaFeatureValue
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |                               ^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:31
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
@@ -712,7 +712,7 @@ error: Number
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |                               ^^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:34
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
@@ -766,7 +766,7 @@ error: MediaFeatureValue
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |                                                      ^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:54
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
@@ -778,7 +778,7 @@ error: Number
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |                                                      ^^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:57
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
@@ -832,7 +832,7 @@ error: MediaFeatureValue
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |                                                                             ^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:77
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
@@ -844,7 +844,7 @@ error: Number
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |                                                                             ^^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:80
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
@@ -898,7 +898,7 @@ error: MediaFeatureValue
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |                                                                                                    ^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:100
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
@@ -910,7 +910,7 @@ error: Number
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |                                                                                                    ^^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:103
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}

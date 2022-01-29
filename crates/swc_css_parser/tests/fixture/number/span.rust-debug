@@ -1091,7 +1091,7 @@ error: Value
 35 |     property: 1e;
    |               ^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/number/input.css:35:15
    |
 35 |     property: 1e;
@@ -1103,7 +1103,7 @@ error: Number
 35 |     property: 1e;
    |               ^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/number/input.css:35:16
    |
 35 |     property: 1e;

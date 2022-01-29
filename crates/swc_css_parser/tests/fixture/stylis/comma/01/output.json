@@ -136,7 +136,7 @@
                     "modifiers": null
                   },
                   {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 39,
                       "end": 41,
@@ -153,6 +153,7 @@
                       "raw": "2"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 40,
                         "end": 41,

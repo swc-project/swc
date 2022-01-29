@@ -99,7 +99,7 @@
                 "raw": "inset"
               },
               {
-                "type": "UnitValue",
+                "type": "Dimension",
                 "span": {
                   "start": 22,
                   "end": 25,
@@ -116,6 +116,7 @@
                   "raw": "0"
                 },
                 "unit": {
+                  "type": "Identifier",
                   "span": {
                     "start": 23,
                     "end": 25,
@@ -126,7 +127,7 @@
                 }
               },
               {
-                "type": "UnitValue",
+                "type": "Dimension",
                 "span": {
                   "start": 26,
                   "end": 29,
@@ -143,6 +144,7 @@
                   "raw": "0"
                 },
                 "unit": {
+                  "type": "Identifier",
                   "span": {
                     "start": 27,
                     "end": 29,
@@ -153,7 +155,7 @@
                 }
               },
               {
-                "type": "UnitValue",
+                "type": "Dimension",
                 "span": {
                   "start": 30,
                   "end": 33,
@@ -170,6 +172,7 @@
                   "raw": "0"
                 },
                 "unit": {
+                  "type": "Identifier",
                   "span": {
                     "start": 31,
                     "end": 33,
@@ -180,7 +183,7 @@
                 }
               },
               {
-                "type": "UnitValue",
+                "type": "Dimension",
                 "span": {
                   "start": 34,
                   "end": 37,
@@ -197,6 +200,7 @@
                   "raw": "0"
                 },
                 "unit": {
+                  "type": "Identifier",
                   "span": {
                     "start": 35,
                     "end": 37,
