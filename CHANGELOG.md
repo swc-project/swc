@@ -37,6 +37,18 @@
 
 - **(node-swc)** Speed up `parse` and `parseFile` (#3380) ([0359deb](https://github.com/swc-project/swc/commit/0359deb4841be743d73db4536d4a22ac797d7f65))
 
+### Refactor
+
+
+
+- **(css/ast)** Refactor delimited values (#3397) ([b31619d](https://github.com/swc-project/swc/commit/b31619d48e2caa29ae581331eaf2ed4c4bb93683))
+
+
+- **(es/minifier)** Remove unused crates (#3395) ([74b4330](https://github.com/swc-project/swc/commit/74b433080bf79026fbcb905d7f0fba435822df68))
+
+
+- **(es/parser)** Flatten tests to make `git` faster (#3393) ([839d0ac](https://github.com/swc-project/swc/commit/839d0ac480f0a702ac40bf14ba84d192cde47ec6))
+
 ## [1.2.135] - 2022-01-27
 
 ### Bug Fixes
