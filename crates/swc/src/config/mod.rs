@@ -243,6 +243,7 @@ impl Default for InputSourceMap {
 
 impl Options {
     /// `parse`: `(syntax, target, is_module)`
+    #[allow(clippy::too_many_arguments)]
     pub fn build_as_input<'a, P>(
         &self,
         cm: &Arc<SourceMap>,
