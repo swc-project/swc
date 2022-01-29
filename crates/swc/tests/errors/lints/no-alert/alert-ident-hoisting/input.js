@@ -1,3 +1,0 @@
-alert();
-
-const alert = () => {};

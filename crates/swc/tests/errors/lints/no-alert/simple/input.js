@@ -24,8 +24,13 @@ alert();
 // this.alert(foo)
 // this['alert'](foo)
 
-function foo() {
+function foo4() {
     var window = bar;
     window.alert();
 }
 window.alert();
+
+function foo5() {
+    alert();
+    const alert = () => {};
+}
