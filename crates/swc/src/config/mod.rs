@@ -401,6 +401,10 @@ impl Options {
             );
 
         let pass = chain!(
+            // Do a resolver pass before
+            // type stripping as we need to know scope information
+            // for emitting enums and namespaces.
+            resolver_with_mark(top_level_mark),
             // Decorators may use type information
             Optional::new(
                 decorators(decorators::Config {
@@ -412,11 +416,6 @@ impl Options {
             // The transform strips import assertions, so it's only enabled if
             // keep_import_assertions is false.
             Optional::new(import_assertions(), !experimental.keep_import_assertions),
-            // Do a resolver pass after decorators as it might
-            // emit runtime declarations and do it before
-            // type stripping as we need to know scope information
-            // for emitting enums and namespaces.
-            resolver_with_mark(top_level_mark),
             Optional::new(
                 typescript::strip_with_jsx(
                     cm.clone(),
