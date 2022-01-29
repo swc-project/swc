@@ -33,8 +33,6 @@ where
 
             let v = self.parse_one_value_inner()?;
 
-            println!("{:?}", self.input.cur());
-
             hi = v.span().hi;
             values.push(v);
             state = self.input.state();
