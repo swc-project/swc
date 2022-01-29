@@ -52,7 +52,7 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, VisitMutWith};
 
 #[cfg(test)]
 mod tests;
@@ -289,11 +289,22 @@ impl Options {
             }
         });
 
+        let top_level_mark = self
+            .global_mark
+            .unwrap_or_else(|| Mark::fresh(Mark::root()));
+
         let target = target.unwrap_or_default();
 
         let syntax = syntax.unwrap_or_default();
 
-        let program = parse(syntax, target, is_module)?;
+        let mut program = parse(syntax, target, is_module)?;
+
+        // Do a resolver pass before everything.
+        //
+        // We do this before creating custom passses, so custom passses can use the
+        // variable management system based on the syntax contexts.
+        program.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+
         let mut transform = transform.unwrap_or_default();
 
         if program.is_module() {
@@ -365,10 +376,6 @@ impl Options {
             }
         };
 
-        let top_level_mark = self
-            .global_mark
-            .unwrap_or_else(|| Mark::fresh(Mark::root()));
-
         let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 
         let pass = chain!(
@@ -401,10 +408,6 @@ impl Options {
             );
 
         let pass = chain!(
-            // Do a resolver pass before
-            // type stripping as we need to know scope information
-            // for emitting enums and namespaces.
-            resolver_with_mark(top_level_mark),
             // Decorators may use type information
             Optional::new(
                 decorators(decorators::Config {
