@@ -1,38 +1,38 @@
 error: Stylesheet
- --> $DIR/tests/fixture/declaration/input.css:1:1
-  |
-1 | / div {
-2 | |     prop: value;
-3 | |     prop: (value);
-4 | |     prop: {value};
-5 | |     prop: [value];
-6 | |     prop: fn(value);
-7 | | }
-  | |__^
+  --> $DIR/tests/fixture/declaration/input.css:1:1
+   |
+1  | / div {
+2  | |     prop: value;
+3  | |     prop: (value);
+4  | |     prop: {value};
+...  |
+16 | |     prop: [value][value];
+17 | | }
+   | |__^
 
 error: Rule
- --> $DIR/tests/fixture/declaration/input.css:1:1
-  |
-1 | / div {
-2 | |     prop: value;
-3 | |     prop: (value);
-4 | |     prop: {value};
-5 | |     prop: [value];
-6 | |     prop: fn(value);
-7 | | }
-  | |_^
+  --> $DIR/tests/fixture/declaration/input.css:1:1
+   |
+1  | / div {
+2  | |     prop: value;
+3  | |     prop: (value);
+4  | |     prop: {value};
+...  |
+16 | |     prop: [value][value];
+17 | | }
+   | |_^
 
 error: QualifiedRule
- --> $DIR/tests/fixture/declaration/input.css:1:1
-  |
-1 | / div {
-2 | |     prop: value;
-3 | |     prop: (value);
-4 | |     prop: {value};
-5 | |     prop: [value];
-6 | |     prop: fn(value);
-7 | | }
-  | |_^
+  --> $DIR/tests/fixture/declaration/input.css:1:1
+   |
+1  | / div {
+2  | |     prop: value;
+3  | |     prop: (value);
+4  | |     prop: {value};
+...  |
+16 | |     prop: [value][value];
+17 | | }
+   | |_^
 
 error: SelectorList
  --> $DIR/tests/fixture/declaration/input.css:1:1
@@ -65,17 +65,17 @@ error: Ident
   | ^^^
 
 error: Block
- --> $DIR/tests/fixture/declaration/input.css:1:5
-  |
-1 |   div {
-  |  _____^
-2 | |     prop: value;
-3 | |     prop: (value);
-4 | |     prop: {value};
-5 | |     prop: [value];
-6 | |     prop: fn(value);
-7 | | }
-  | |_^
+  --> $DIR/tests/fixture/declaration/input.css:1:5
+   |
+1  |   div {
+   |  _____^
+2  | |     prop: value;
+3  | |     prop: (value);
+4  | |     prop: {value};
+...  |
+16 | |     prop: [value][value];
+17 | | }
+   | |_^
 
 error: Declaration
  --> $DIR/tests/fixture/declaration/input.css:2:5
@@ -286,4 +286,616 @@ error: Ident
   |
 6 |     prop: fn(value);
   |              ^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/declaration/input.css:7:5
+  |
+7 |     prop: fn(value)fn(value);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/declaration/input.css:7:5
+  |
+7 |     prop: fn(value)fn(value);
+  |     ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/declaration/input.css:7:5
+  |
+7 |     prop: fn(value)fn(value);
+  |     ^^^^
+
+error: Value
+ --> $DIR/tests/fixture/declaration/input.css:7:11
+  |
+7 |     prop: fn(value)fn(value);
+  |           ^^^^^^^^^
+
+error: Function
+ --> $DIR/tests/fixture/declaration/input.css:7:11
+  |
+7 |     prop: fn(value)fn(value);
+  |           ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/declaration/input.css:7:11
+  |
+7 |     prop: fn(value)fn(value);
+  |           ^^
+
+error: Value
+ --> $DIR/tests/fixture/declaration/input.css:7:14
+  |
+7 |     prop: fn(value)fn(value);
+  |              ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/declaration/input.css:7:14
+  |
+7 |     prop: fn(value)fn(value);
+  |              ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/declaration/input.css:7:20
+  |
+7 |     prop: fn(value)fn(value);
+  |                    ^^^^^^^^^
+
+error: Function
+ --> $DIR/tests/fixture/declaration/input.css:7:20
+  |
+7 |     prop: fn(value)fn(value);
+  |                    ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/declaration/input.css:7:20
+  |
+7 |     prop: fn(value)fn(value);
+  |                    ^^
+
+error: Value
+ --> $DIR/tests/fixture/declaration/input.css:7:23
+  |
+7 |     prop: fn(value)fn(value);
+  |                       ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/declaration/input.css:7:23
+  |
+7 |     prop: fn(value)fn(value);
+  |                       ^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/declaration/input.css:8:5
+  |
+8 |     prop: value, value;
+  |     ^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/declaration/input.css:8:5
+  |
+8 |     prop: value, value;
+  |     ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/declaration/input.css:8:5
+  |
+8 |     prop: value, value;
+  |     ^^^^
+
+error: Value
+ --> $DIR/tests/fixture/declaration/input.css:8:11
+  |
+8 |     prop: value, value;
+  |           ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/declaration/input.css:8:11
+  |
+8 |     prop: value, value;
+  |           ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/declaration/input.css:8:16
+  |
+8 |     prop: value, value;
+  |                ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/declaration/input.css:8:16
+  |
+8 |     prop: value, value;
+  |                ^
+
+error: Value
+ --> $DIR/tests/fixture/declaration/input.css:8:18
+  |
+8 |     prop: value, value;
+  |                  ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/declaration/input.css:8:18
+  |
+8 |     prop: value, value;
+  |                  ^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/declaration/input.css:9:5
+  |
+9 |     prop: value,value;
+  |     ^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+ --> $DIR/tests/fixture/declaration/input.css:9:5
+  |
+9 |     prop: value,value;
+  |     ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/declaration/input.css:9:5
+  |
+9 |     prop: value,value;
+  |     ^^^^
+
+error: Value
+ --> $DIR/tests/fixture/declaration/input.css:9:11
+  |
+9 |     prop: value,value;
+  |           ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/declaration/input.css:9:11
+  |
+9 |     prop: value,value;
+  |           ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/declaration/input.css:9:16
+  |
+9 |     prop: value,value;
+  |                ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/declaration/input.css:9:16
+  |
+9 |     prop: value,value;
+  |                ^
+
+error: Value
+ --> $DIR/tests/fixture/declaration/input.css:9:17
+  |
+9 |     prop: value,value;
+  |                 ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/declaration/input.css:9:17
+  |
+9 |     prop: value,value;
+  |                 ^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration/input.css:10:5
+   |
+10 |     prop: 100%100%;
+   |     ^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/declaration/input.css:10:5
+   |
+10 |     prop: 100%100%;
+   |     ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:10:5
+   |
+10 |     prop: 100%100%;
+   |     ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:10:11
+   |
+10 |     prop: 100%100%;
+   |           ^^^^
+
+error: Percent
+  --> $DIR/tests/fixture/declaration/input.css:10:11
+   |
+10 |     prop: 100%100%;
+   |           ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/declaration/input.css:10:11
+   |
+10 |     prop: 100%100%;
+   |           ^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:10:15
+   |
+10 |     prop: 100%100%;
+   |               ^^^^
+
+error: Percent
+  --> $DIR/tests/fixture/declaration/input.css:10:15
+   |
+10 |     prop: 100%100%;
+   |               ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/declaration/input.css:10:15
+   |
+10 |     prop: 100%100%;
+   |               ^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration/input.css:11:5
+   |
+11 |     prop: "string""string";
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/declaration/input.css:11:5
+   |
+11 |     prop: "string""string";
+   |     ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:11:5
+   |
+11 |     prop: "string""string";
+   |     ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:11:11
+   |
+11 |     prop: "string""string";
+   |           ^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/declaration/input.css:11:11
+   |
+11 |     prop: "string""string";
+   |           ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:11:19
+   |
+11 |     prop: "string""string";
+   |                   ^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/declaration/input.css:11:19
+   |
+11 |     prop: "string""string";
+   |                   ^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration/input.css:12:5
+   |
+12 |     prop: #ccc#ccc;
+   |     ^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/declaration/input.css:12:5
+   |
+12 |     prop: #ccc#ccc;
+   |     ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:12:5
+   |
+12 |     prop: #ccc#ccc;
+   |     ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:12:11
+   |
+12 |     prop: #ccc#ccc;
+   |           ^^^^
+
+error: HashValue
+  --> $DIR/tests/fixture/declaration/input.css:12:11
+   |
+12 |     prop: #ccc#ccc;
+   |           ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:12:15
+   |
+12 |     prop: #ccc#ccc;
+   |               ^^^^
+
+error: HashValue
+  --> $DIR/tests/fixture/declaration/input.css:12:15
+   |
+12 |     prop: #ccc#ccc;
+   |               ^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration/input.css:13:5
+   |
+13 |     prop: url(value)url(value);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/declaration/input.css:13:5
+   |
+13 |     prop: url(value)url(value);
+   |     ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:13:5
+   |
+13 |     prop: url(value)url(value);
+   |     ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:13:11
+   |
+13 |     prop: url(value)url(value);
+   |           ^^^^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/declaration/input.css:13:11
+   |
+13 |     prop: url(value)url(value);
+   |           ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:13:11
+   |
+13 |     prop: url(value)url(value);
+   |           ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/declaration/input.css:13:15
+   |
+13 |     prop: url(value)url(value);
+   |               ^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/declaration/input.css:13:15
+   |
+13 |     prop: url(value)url(value);
+   |               ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:13:21
+   |
+13 |     prop: url(value)url(value);
+   |                     ^^^^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/declaration/input.css:13:21
+   |
+13 |     prop: url(value)url(value);
+   |                     ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:13:21
+   |
+13 |     prop: url(value)url(value);
+   |                     ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/declaration/input.css:13:25
+   |
+13 |     prop: url(value)url(value);
+   |                         ^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/declaration/input.css:13:25
+   |
+13 |     prop: url(value)url(value);
+   |                         ^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration/input.css:14:5
+   |
+14 |     prop: (value)(value);
+   |     ^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/declaration/input.css:14:5
+   |
+14 |     prop: (value)(value);
+   |     ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:14:5
+   |
+14 |     prop: (value)(value);
+   |     ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:14:11
+   |
+14 |     prop: (value)(value);
+   |           ^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/declaration/input.css:14:11
+   |
+14 |     prop: (value)(value);
+   |           ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:14:12
+   |
+14 |     prop: (value)(value);
+   |            ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:14:12
+   |
+14 |     prop: (value)(value);
+   |            ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:14:18
+   |
+14 |     prop: (value)(value);
+   |                  ^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/declaration/input.css:14:18
+   |
+14 |     prop: (value)(value);
+   |                  ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:14:19
+   |
+14 |     prop: (value)(value);
+   |                   ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:14:19
+   |
+14 |     prop: (value)(value);
+   |                   ^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration/input.css:15:5
+   |
+15 |     prop: {value}{value};
+   |     ^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/declaration/input.css:15:5
+   |
+15 |     prop: {value}{value};
+   |     ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:15:5
+   |
+15 |     prop: {value}{value};
+   |     ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:15:11
+   |
+15 |     prop: {value}{value};
+   |           ^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/declaration/input.css:15:11
+   |
+15 |     prop: {value}{value};
+   |           ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:15:12
+   |
+15 |     prop: {value}{value};
+   |            ^^^^^
+
+error: Tokens
+  --> $DIR/tests/fixture/declaration/input.css:15:12
+   |
+15 |     prop: {value}{value};
+   |            ^^^^^
+
+error: Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
+  --> $DIR/tests/fixture/declaration/input.css:15:12
+   |
+15 |     prop: {value}{value};
+   |            ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:15:18
+   |
+15 |     prop: {value}{value};
+   |                  ^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/declaration/input.css:15:18
+   |
+15 |     prop: {value}{value};
+   |                  ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:15:19
+   |
+15 |     prop: {value}{value};
+   |                   ^^^^^
+
+error: Tokens
+  --> $DIR/tests/fixture/declaration/input.css:15:19
+   |
+15 |     prop: {value}{value};
+   |                   ^^^^^
+
+error: Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
+  --> $DIR/tests/fixture/declaration/input.css:15:19
+   |
+15 |     prop: {value}{value};
+   |                   ^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration/input.css:16:5
+   |
+16 |     prop: [value][value];
+   |     ^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+  --> $DIR/tests/fixture/declaration/input.css:16:5
+   |
+16 |     prop: [value][value];
+   |     ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:16:5
+   |
+16 |     prop: [value][value];
+   |     ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:16:11
+   |
+16 |     prop: [value][value];
+   |           ^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/declaration/input.css:16:11
+   |
+16 |     prop: [value][value];
+   |           ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:16:12
+   |
+16 |     prop: [value][value];
+   |            ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:16:12
+   |
+16 |     prop: [value][value];
+   |            ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:16:18
+   |
+16 |     prop: [value][value];
+   |                  ^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/declaration/input.css:16:18
+   |
+16 |     prop: [value][value];
+   |                  ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:16:19
+   |
+16 |     prop: [value][value];
+   |                   ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:16:19
+   |
+16 |     prop: [value][value];
+   |                   ^^^^^
 

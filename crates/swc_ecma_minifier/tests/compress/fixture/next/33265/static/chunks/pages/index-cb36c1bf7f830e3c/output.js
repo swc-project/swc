@@ -55,9 +55,11 @@
                 BigInt("0x1000000000000"),
                 BigInt("0x100000000000000"),
                 BigInt("0x10000000000000000")
-            ], ENDIANNESS = (a1 = new Uint16Array([
+            ];
+            a1 = new Uint16Array([
                 65484
-            ]), 255 === (b1 = new Uint8Array(a1.buffer, a1.byteOffset, a1.byteLength))[0] ? "big" : 204 === b1[0] ? "little" : "unknown"), bytesToNumber = function(bytes, _temp) {
+            ]), 255 === (b1 = new Uint8Array(a1.buffer, a1.byteOffset, a1.byteLength))[0] || 204 === b1[0];
+            var bytesToNumber = function(bytes, _temp) {
                 var _ref = void 0 === _temp ? {} : _temp, _ref$signed = _ref.signed, _ref$le = _ref.le, le = void 0 !== _ref$le && _ref$le;
                 bytes = toUint8(bytes);
                 var fn = le ? "reduce" : "reduceRight", number = (bytes[fn] ? bytes[fn] : Array.prototype[fn]).call(bytes, function(total, byte, i) {
@@ -464,13 +466,12 @@
                 var dataHeader = getvint(bytes, offset + innerid.length);
                 return getInfinityDataSize(id, bytes, offset + dataHeader.length + dataHeader.value + innerid.length);
             }, findEbml1 = function findEbml(bytes, paths) {
-                var paths1;
                 paths1 = paths, paths = Array.isArray(paths1) ? paths1.map(function(p) {
                     return ebml_helpers_normalizePath(p);
                 }) : [
                     ebml_helpers_normalizePath(paths1)
                 ], bytes = (0, byte_helpers.Ki)(bytes);
-                var results = [];
+                var paths1, results = [];
                 if (!paths.length) return results;
                 for(var i = 0; i < bytes.length;){
                     var id = getvint(bytes, i, !1), dataHeader = getvint(bytes, i + id.length), dataStart = i + id.length + dataHeader.length;
@@ -3253,7 +3254,7 @@
                 return "text/vtt" === attributes.mimeType || "text" === attributes.contentType;
             }, toM3u8 = function(dashPlaylists, locations, sidxMapping) {
                 if (void 0 === sidxMapping && (sidxMapping = {}), !dashPlaylists.length) return {};
-                var _mediaGroups, playlists, sidxMapping1, _dashPlaylists$0$attr = dashPlaylists[0].attributes, duration = _dashPlaylists$0$attr.sourceDuration, type = _dashPlaylists$0$attr.type, suggestedPresentationDelay = _dashPlaylists$0$attr.suggestedPresentationDelay, minimumUpdatePeriod = _dashPlaylists$0$attr.minimumUpdatePeriod, videoPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(videoOnly)).map(formatVideoPlaylist), audioPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(audioOnly)), vttPlaylists = dashPlaylists.filter(vttOnly), captions = dashPlaylists.map(function(playlist) {
+                var playlists, sidxMapping1, _mediaGroups, _dashPlaylists$0$attr = dashPlaylists[0].attributes, duration = _dashPlaylists$0$attr.sourceDuration, type = _dashPlaylists$0$attr.type, suggestedPresentationDelay = _dashPlaylists$0$attr.suggestedPresentationDelay, minimumUpdatePeriod = _dashPlaylists$0$attr.minimumUpdatePeriod, videoPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(videoOnly)).map(formatVideoPlaylist), audioPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(audioOnly)), vttPlaylists = dashPlaylists.filter(vttOnly), captions = dashPlaylists.map(function(playlist) {
                     return playlist.attributes.captionServices;
                 }).filter(Boolean), manifest = {
                     allowCache: !0,
@@ -4600,7 +4601,7 @@
                 this.left = obj.left, this.right = obj.right, this.top = obj.top || top, this.height = obj.height || height, this.bottom = obj.bottom || top + (obj.height || height), this.width = obj.width || width, this.lineHeight = void 0 !== lh ? lh : obj.lineHeight;
             }
             function moveBoxToLinePosition(window, styleBox, containerBox, boxPositions) {
-                var size, boxPosition = new BoxPosition(styleBox), cue2 = styleBox.cue, linePos = function(cue) {
+                var boxPosition = new BoxPosition(styleBox), cue2 = styleBox.cue, linePos = function(cue) {
                     if ("number" == typeof cue.line && (cue.snapToLines || cue.line >= 0 && cue.line <= 100)) return cue.line;
                     if (!cue.track || !cue.track.textTrackList || !cue.track.textTrackList.mediaElement) return -1;
                     for(var track = cue.track, trackList = track.textTrackList, count = 0, i = 0; i < trackList.length && trackList[i] !== track; i++)"showing" === trackList[i].mode && count++;
@@ -4627,7 +4628,7 @@
                             ], size = "width";
                             break;
                     }
-                    var step = boxPosition.lineHeight, position = step * Math.round(linePos), maxPosition = containerBox[size] + step, initialAxis = axis1[0];
+                    var size, step = boxPosition.lineHeight, position = step * Math.round(linePos), maxPosition = containerBox[size] + step, initialAxis = axis1[0];
                     Math.abs(position) > maxPosition && (position = position < 0 ? -1 : 1, position *= Math.ceil(maxPosition / step) * step), linePos < 0 && (position += "" === cue2.vertical ? containerBox.height : containerBox.width, axis1 = axis1.reverse()), boxPosition.move(initialAxis, position);
                 } else {
                     var calculatedPercentage = boxPosition.lineHeight / containerBox.height * 100;
@@ -4771,7 +4772,7 @@
                     else throw e;
                 },
                 parse: function(data) {
-                    var line1, self = this;
+                    var self = this;
                     function collectNextLine() {
                         for(var buffer = self.buffer, pos = 0; pos < buffer.length && "\r" !== buffer[pos] && "\n" !== buffer[pos];)++pos;
                         var line = buffer.substr(0, pos);
@@ -4845,7 +4846,7 @@
                     try {
                         if ("INITIAL" === self.state) {
                             if (!/\r\n|\n/.test(self.buffer)) return this;
-                            var m = (line1 = collectNextLine()).match(/^WEBVTT([ \t].*)?$/);
+                            var line1, m = (line1 = collectNextLine()).match(/^WEBVTT([ \t].*)?$/);
                             if (!m || !m[0]) throw new ParsingError(ParsingError.Errors.BadSignature);
                             self.state = "HEADER";
                         }

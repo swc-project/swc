@@ -7406,10 +7406,10 @@
                         value: function() {
                             var boxes = this.getBoundingBoxes();
                             if (boxes) {
-                                var decodeResult = this.context.decoder.decodeFromBoundingBoxes(boxes) || {};
+                                var _this$context$inputIm3, decodeResult = this.context.decoder.decodeFromBoundingBoxes(boxes) || {};
                                 decodeResult.boxes = boxes, this.publishResult(decodeResult, null === (_this$context$inputIm3 = this.context.inputImageWrapper) || void 0 === _this$context$inputIm3 ? void 0 : _this$context$inputIm3.data);
                             } else {
-                                var _this$context$inputIm3, _this$context$inputIm4, imageResult = this.context.decoder.decodeFromImage(this.context.inputImageWrapper);
+                                var _this$context$inputIm4, imageResult = this.context.decoder.decodeFromImage(this.context.inputImageWrapper);
                                 imageResult ? this.publishResult(imageResult, null === (_this$context$inputIm4 = this.context.inputImageWrapper) || void 0 === _this$context$inputIm4 ? void 0 : _this$context$inputIm4.data) : this.publishResult();
                             }
                         }

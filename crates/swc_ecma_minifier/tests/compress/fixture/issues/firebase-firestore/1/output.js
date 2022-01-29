@@ -2411,7 +2411,7 @@
                     this.name = t, this.readTime = e, this.bundledQuery = n;
                 }
             }
-            Bs.store = "namedQueries", Bs.keyPath = "name";
+            Bs.store = "namedQueries", Bs.keyPath = "name", vs.store, Vs.store, Ss.store, Ns.store, ks.store, Ps.store, Os.store, $s.store, Ms.store, xs.store, Fs.store, Ls.store, Bs.store;
             class Ks {
                 constructor(){
                     this.onCommittedListeners = [];

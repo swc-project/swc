@@ -12,9 +12,8 @@ function _classCallCheck(instance, Constructor) {
     };
     E1.C = C, (E1.M || (E1.M = {})).x = 42;
 })(E || (E = {})), (function(F) {
-    var Color, Color;
     (Color = Color || (Color = {}))[Color.Red = 0] = "Red";
-    var C = function() {
+    var Color, Color, C = function() {
         "use strict";
         _classCallCheck(this, C);
     };

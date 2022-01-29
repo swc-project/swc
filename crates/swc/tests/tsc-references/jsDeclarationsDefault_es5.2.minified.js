@@ -16,7 +16,7 @@ export default 12;
 export default function foo() {
     return foo;
 };
-export var _typeof, x = foo;
+export var x = foo;
 export { foo as bar };
 var Foo = function() {
     "use strict";

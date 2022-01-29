@@ -3290,12 +3290,12 @@
     function isMatchingRootContainer(grandContainer, targetContainer) {
         return grandContainer === targetContainer || 8 === grandContainer.nodeType && grandContainer.parentNode === targetContainer;
     }
-    function dispatchEventForPluginEventSystem(domEventName6, eventSystemFlags4, nativeEvent5, targetInst4, targetContainer) {
-        var ancestorInst = targetInst4;
-        if ((1 & eventSystemFlags4) == 0 && (2 & eventSystemFlags4) == 0) {
+    function dispatchEventForPluginEventSystem(domEventName4, eventSystemFlags3, nativeEvent3, targetInst2, targetContainer) {
+        var ancestorInst = targetInst2;
+        if ((1 & eventSystemFlags3) == 0 && (2 & eventSystemFlags3) == 0) {
             var targetContainerNode = targetContainer;
-            if (null !== targetInst4) {
-                var node = targetInst4;
+            if (null !== targetInst2) {
+                var node = targetInst2;
                 mainLoop: for(;;){
                     if (null === node) return;
                     var nodeTag = node.tag;
@@ -3331,227 +3331,231 @@
                 isBatchingEventUpdates = !1, finishEventHandler();
             }
         }(function() {
-            var domEventName7, eventSystemFlags5, nativeEvent6, targetInst5, nativeEventTarget3, dispatchQueue3, dispatchQueue1, domEventName4, targetInst2, nativeEvent3, nativeEventTarget1, eventSystemFlags3, dispatchQueue2, domEventName5, targetInst3, nativeEvent4, nativeEventTarget2;
-            return domEventName7 = domEventName6, eventSystemFlags5 = eventSystemFlags4, nativeEvent6 = nativeEvent5, targetInst5 = ancestorInst, nativeEventTarget3 = getEventTarget(nativeEvent6), void (function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
-                var reactName = topLevelEventsToReactNames.get(domEventName);
-                if (void 0 !== reactName) {
-                    var SyntheticEventCtor = SyntheticEvent, reactEventType = domEventName;
-                    switch(domEventName){
-                        case "keypress":
-                            if (0 === getEventCharCode(nativeEvent)) return;
-                        case "keydown":
-                        case "keyup":
-                            SyntheticEventCtor = SyntheticKeyboardEvent;
-                            break;
-                        case "focusin":
-                            reactEventType = "focus", SyntheticEventCtor = SyntheticFocusEvent;
-                            break;
-                        case "focusout":
-                            reactEventType = "blur", SyntheticEventCtor = SyntheticFocusEvent;
-                            break;
-                        case "beforeblur":
-                        case "afterblur":
-                            SyntheticEventCtor = SyntheticFocusEvent;
-                            break;
-                        case "click":
-                            if (2 === nativeEvent.button) return;
-                        case "auxclick":
-                        case "dblclick":
-                        case "mousedown":
-                        case "mousemove":
-                        case "mouseup":
-                        case "mouseout":
-                        case "mouseover":
-                        case "contextmenu":
-                            SyntheticEventCtor = SyntheticMouseEvent;
-                            break;
-                        case "drag":
-                        case "dragend":
-                        case "dragenter":
-                        case "dragexit":
-                        case "dragleave":
-                        case "dragover":
-                        case "dragstart":
-                        case "drop":
-                            SyntheticEventCtor = SyntheticDragEvent;
-                            break;
-                        case "touchcancel":
-                        case "touchend":
-                        case "touchmove":
-                        case "touchstart":
-                            SyntheticEventCtor = SyntheticTouchEvent;
-                            break;
-                        case ANIMATION_END:
-                        case ANIMATION_ITERATION:
-                        case ANIMATION_START:
-                            SyntheticEventCtor = SyntheticAnimationEvent;
-                            break;
-                        case TRANSITION_END:
-                            SyntheticEventCtor = SyntheticTransitionEvent;
-                            break;
-                        case "scroll":
-                            SyntheticEventCtor = SyntheticUIEvent;
-                            break;
-                        case "wheel":
-                            SyntheticEventCtor = SyntheticWheelEvent;
-                            break;
-                        case "copy":
-                        case "cut":
-                        case "paste":
-                            SyntheticEventCtor = SyntheticClipboardEvent;
-                            break;
-                        case "gotpointercapture":
-                        case "lostpointercapture":
-                        case "pointercancel":
-                        case "pointerdown":
-                        case "pointermove":
-                        case "pointerout":
-                        case "pointerover":
-                        case "pointerup":
-                            SyntheticEventCtor = SyntheticPointerEvent;
-                            break;
-                    }
-                    var inCapturePhase = (4 & eventSystemFlags) != 0, accumulateTargetOnly = !inCapturePhase && "scroll" === domEventName, _listeners = accumulateSinglePhaseListeners(targetInst, reactName, nativeEvent.type, inCapturePhase, accumulateTargetOnly);
-                    if (_listeners.length > 0) {
-                        var _event = new SyntheticEventCtor(reactName, reactEventType, null, nativeEvent, nativeEventTarget);
-                        dispatchQueue.push({
-                            event: _event,
-                            listeners: _listeners
-                        });
-                    }
-                }
-            }(dispatchQueue1 = dispatchQueue3 = [], domEventName4 = domEventName7, targetInst2 = targetInst5, nativeEvent3 = nativeEvent6, nativeEventTarget1 = nativeEventTarget3, eventSystemFlags3 = eventSystemFlags5), (7 & eventSystemFlags3) == 0 && (function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
-                var win, from, to, isOverEvent = "mouseover" === domEventName || "pointerover" === domEventName, isOutEvent = "mouseout" === domEventName || "pointerout" === domEventName;
-                if (isOverEvent && (16 & eventSystemFlags) == 0) {
-                    var related = nativeEvent.relatedTarget || nativeEvent.fromElement;
-                    if (related && (getClosestInstanceFromNode(related) || isContainerMarkedAsRoot(related))) return;
-                }
-                if (isOutEvent || isOverEvent) {
-                    if (nativeEventTarget.window === nativeEventTarget) win = nativeEventTarget;
-                    else {
-                        var doc = nativeEventTarget.ownerDocument;
-                        win = doc ? doc.defaultView || doc.parentWindow : window;
-                    }
-                    if (isOutEvent) {
-                        var _related = nativeEvent.relatedTarget || nativeEvent.toElement;
-                        if (from = targetInst, null !== (to = _related ? getClosestInstanceFromNode(_related) : null)) {
-                            var nearestMounted = getNearestMountedFiber(to);
-                            (to !== nearestMounted || 5 !== to.tag && 6 !== to.tag) && (to = null);
+            var domEventName6, eventSystemFlags4, nativeEvent5, targetInst4, nativeEventTarget2, dispatchQueue2;
+            return domEventName6 = domEventName4, eventSystemFlags4 = eventSystemFlags3, nativeEvent5 = nativeEvent3, targetInst4 = ancestorInst, nativeEventTarget2 = getEventTarget(nativeEvent5), dispatchQueue2 = [], void (function(dispatchQueue3, domEventName7, targetInst5, nativeEvent6, nativeEventTarget3, eventSystemFlags5, targetContainer) {
+                if ((function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
+                    var reactName = topLevelEventsToReactNames.get(domEventName);
+                    if (void 0 !== reactName) {
+                        var SyntheticEventCtor = SyntheticEvent, reactEventType = domEventName;
+                        switch(domEventName){
+                            case "keypress":
+                                if (0 === getEventCharCode(nativeEvent)) return;
+                            case "keydown":
+                            case "keyup":
+                                SyntheticEventCtor = SyntheticKeyboardEvent;
+                                break;
+                            case "focusin":
+                                reactEventType = "focus", SyntheticEventCtor = SyntheticFocusEvent;
+                                break;
+                            case "focusout":
+                                reactEventType = "blur", SyntheticEventCtor = SyntheticFocusEvent;
+                                break;
+                            case "beforeblur":
+                            case "afterblur":
+                                SyntheticEventCtor = SyntheticFocusEvent;
+                                break;
+                            case "click":
+                                if (2 === nativeEvent.button) return;
+                            case "auxclick":
+                            case "dblclick":
+                            case "mousedown":
+                            case "mousemove":
+                            case "mouseup":
+                            case "mouseout":
+                            case "mouseover":
+                            case "contextmenu":
+                                SyntheticEventCtor = SyntheticMouseEvent;
+                                break;
+                            case "drag":
+                            case "dragend":
+                            case "dragenter":
+                            case "dragexit":
+                            case "dragleave":
+                            case "dragover":
+                            case "dragstart":
+                            case "drop":
+                                SyntheticEventCtor = SyntheticDragEvent;
+                                break;
+                            case "touchcancel":
+                            case "touchend":
+                            case "touchmove":
+                            case "touchstart":
+                                SyntheticEventCtor = SyntheticTouchEvent;
+                                break;
+                            case ANIMATION_END:
+                            case ANIMATION_ITERATION:
+                            case ANIMATION_START:
+                                SyntheticEventCtor = SyntheticAnimationEvent;
+                                break;
+                            case TRANSITION_END:
+                                SyntheticEventCtor = SyntheticTransitionEvent;
+                                break;
+                            case "scroll":
+                                SyntheticEventCtor = SyntheticUIEvent;
+                                break;
+                            case "wheel":
+                                SyntheticEventCtor = SyntheticWheelEvent;
+                                break;
+                            case "copy":
+                            case "cut":
+                            case "paste":
+                                SyntheticEventCtor = SyntheticClipboardEvent;
+                                break;
+                            case "gotpointercapture":
+                            case "lostpointercapture":
+                            case "pointercancel":
+                            case "pointerdown":
+                            case "pointermove":
+                            case "pointerout":
+                            case "pointerover":
+                            case "pointerup":
+                                SyntheticEventCtor = SyntheticPointerEvent;
+                                break;
                         }
-                    } else from = null, to = targetInst;
-                    if (from !== to) {
-                        var SyntheticEventCtor = SyntheticMouseEvent, leaveEventType = "onMouseLeave", enterEventType = "onMouseEnter", eventTypePrefix = "mouse";
-                        ("pointerout" === domEventName || "pointerover" === domEventName) && (SyntheticEventCtor = SyntheticPointerEvent, leaveEventType = "onPointerLeave", enterEventType = "onPointerEnter", eventTypePrefix = "pointer");
-                        var fromNode = null == from ? win : getNodeFromInstance(from), toNode = null == to ? win : getNodeFromInstance(to), leave = new SyntheticEventCtor(leaveEventType, eventTypePrefix + "leave", from, nativeEvent, nativeEventTarget);
-                        leave.target = fromNode, leave.relatedTarget = toNode;
-                        var enter = null;
-                        if (getClosestInstanceFromNode(nativeEventTarget) === targetInst) {
-                            var enterEvent = new SyntheticEventCtor(enterEventType, eventTypePrefix + "enter", to, nativeEvent, nativeEventTarget);
-                            enterEvent.target = toNode, enterEvent.relatedTarget = fromNode, enter = enterEvent;
+                        var inCapturePhase = (4 & eventSystemFlags) != 0, accumulateTargetOnly = !inCapturePhase && "scroll" === domEventName, _listeners = accumulateSinglePhaseListeners(targetInst, reactName, nativeEvent.type, inCapturePhase, accumulateTargetOnly);
+                        if (_listeners.length > 0) {
+                            var _event = new SyntheticEventCtor(reactName, reactEventType, null, nativeEvent, nativeEventTarget);
+                            dispatchQueue.push({
+                                event: _event,
+                                listeners: _listeners
+                            });
                         }
-                        accumulateEnterLeaveTwoPhaseListeners(dispatchQueue, leave, enter, from, to);
                     }
-                }
-            }(dispatchQueue1, domEventName4, targetInst2, nativeEvent3, nativeEventTarget1, eventSystemFlags3), function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
-                var node, state, elem, nodeName, getTargetInstFunc, handleEventFunc, elem1, nodeName1, targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
-                if ("select" === (nodeName1 = (elem1 = targetNode).nodeName && elem1.nodeName.toLowerCase()) || "input" === nodeName1 && "file" === elem1.type ? getTargetInstFunc = getTargetInstForChangeEvent : isTextInputElement(targetNode) ? isInputEventSupported ? getTargetInstFunc = getTargetInstForInputOrChangeEvent : (getTargetInstFunc = getTargetInstForInputEventPolyfill, handleEventFunc = handleEventsForInputEventPolyfill) : (nodeName = (elem = targetNode).nodeName) && "input" === nodeName.toLowerCase() && ("checkbox" === elem.type || "radio" === elem.type) && (getTargetInstFunc = getTargetInstForClickEvent), getTargetInstFunc) {
-                    var inst = getTargetInstFunc(domEventName, targetInst);
-                    if (inst) {
-                        createAndAccumulateChangeEvent(dispatchQueue, inst, nativeEvent, nativeEventTarget);
-                        return;
-                    }
-                }
-                handleEventFunc && handleEventFunc(domEventName, targetNode, targetInst), "focusout" === domEventName && (state = (node = targetNode)._wrapperState) && state.controlled && "number" === node.type && setDefaultValue(node, "number", node.value);
-            }(dispatchQueue1, domEventName4, targetInst2, nativeEvent3, nativeEventTarget1), function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
-                var targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
-                switch(domEventName){
-                    case "focusin":
-                        (isTextInputElement(targetNode) || "true" === targetNode.contentEditable) && (activeElement$1 = targetNode, activeElementInst$1 = targetInst, lastSelection = null);
-                        break;
-                    case "focusout":
-                        activeElement$1 = null, activeElementInst$1 = null, lastSelection = null;
-                        break;
-                    case "mousedown":
-                        mouseDown = !0;
-                        break;
-                    case "contextmenu":
-                    case "mouseup":
-                    case "dragend":
-                        mouseDown = !1, constructSelectEvent(dispatchQueue, nativeEvent, nativeEventTarget);
-                        break;
-                    case "selectionchange":
-                        if (skipSelectionChangeEvent) break;
-                    case "keydown":
-                    case "keyup":
-                        constructSelectEvent(dispatchQueue, nativeEvent, nativeEventTarget);
-                }
-            }(dispatchQueue1, domEventName4, targetInst2, nativeEvent3, nativeEventTarget1), function(dispatchQueue, domEventName9, targetInst, nativeEvent, nativeEventTarget) {
-                if (canUseCompositionEvent ? eventType = (function(domEventName) {
-                    switch(domEventName){
-                        case "compositionstart":
-                            return "onCompositionStart";
-                        case "compositionend":
-                            return "onCompositionEnd";
-                        case "compositionupdate":
-                            return "onCompositionUpdate";
-                    }
-                })(domEventName9) : isComposing ? isFallbackCompositionEnd(domEventName9, nativeEvent) && (eventType = "onCompositionEnd") : (domEventName8 = domEventName9, nativeEvent7 = nativeEvent, "keydown" === domEventName8 && 229 === nativeEvent7.keyCode && (eventType = "onCompositionStart")), !eventType) return null;
-                useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) && (isComposing || "onCompositionStart" !== eventType ? "onCompositionEnd" === eventType && isComposing && (fallbackData = getData()) : isComposing = (root1 = nativeEventTarget, startText = getText(), !0));
-                var domEventName8, nativeEvent7, eventType, fallbackData, listeners = accumulateTwoPhaseListeners(targetInst, eventType);
-                if (listeners.length > 0) {
-                    var event = new SyntheticCompositionEvent(eventType, domEventName9, null, nativeEvent, nativeEventTarget);
-                    if (dispatchQueue.push({
-                        event: event,
-                        listeners: listeners
-                    }), fallbackData) event.data = fallbackData;
-                    else {
-                        var customData = getDataFromCustomEvent(nativeEvent);
-                        null !== customData && (event.data = customData);
-                    }
-                }
-            }(dispatchQueue2 = dispatchQueue1, domEventName5 = domEventName4, targetInst3 = targetInst2, nativeEvent4 = nativeEvent3, nativeEventTarget2 = nativeEventTarget1), function(dispatchQueue, domEventName10, targetInst, nativeEvent8, nativeEventTarget) {
-                var chars1;
-                if (!(chars1 = canUseTextInputEvent ? function(domEventName, nativeEvent) {
-                    switch(domEventName){
-                        case "compositionend":
-                            return getDataFromCustomEvent(nativeEvent);
-                        case "keypress":
-                            if (32 !== nativeEvent.which) return null;
-                            return hasSpaceKeypress = !0, " ";
-                        case "textInput":
-                            var chars = nativeEvent.data;
-                            if (" " === chars && hasSpaceKeypress) return null;
-                            return chars;
-                        default:
-                            return null;
-                    }
-                }(domEventName10, nativeEvent8) : function(domEventName, nativeEvent) {
-                    var nativeEvent9;
-                    if (isComposing) return "compositionend" === domEventName || !canUseCompositionEvent && isFallbackCompositionEnd(domEventName, nativeEvent) ? (root1 = null, startText = null, fallbackText = null, isComposing = !1, getData()) : null;
-                    switch(domEventName){
-                        case "paste":
-                            return null;
-                        case "keypress":
-                            if (!(((nativeEvent9 = nativeEvent).ctrlKey || nativeEvent9.altKey || nativeEvent9.metaKey) && !(nativeEvent9.ctrlKey && nativeEvent9.altKey))) {
-                                if (nativeEvent.char && nativeEvent.char.length > 1) return nativeEvent.char;
-                                if (nativeEvent.which) return String.fromCharCode(nativeEvent.which);
+                })(dispatchQueue3, domEventName7, targetInst5, nativeEvent6, nativeEventTarget3, eventSystemFlags5), (7 & eventSystemFlags5) == 0) {
+                    var dispatchQueue1, domEventName5, targetInst3, nativeEvent4, nativeEventTarget1;
+                    (function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
+                        var win, from, to, isOverEvent = "mouseover" === domEventName || "pointerover" === domEventName, isOutEvent = "mouseout" === domEventName || "pointerout" === domEventName;
+                        if (isOverEvent && (16 & eventSystemFlags) == 0) {
+                            var related = nativeEvent.relatedTarget || nativeEvent.fromElement;
+                            if (related && (getClosestInstanceFromNode(related) || isContainerMarkedAsRoot(related))) return;
+                        }
+                        if (isOutEvent || isOverEvent) {
+                            if (nativeEventTarget.window === nativeEventTarget) win = nativeEventTarget;
+                            else {
+                                var doc = nativeEventTarget.ownerDocument;
+                                win = doc ? doc.defaultView || doc.parentWindow : window;
                             }
-                            return null;
-                        case "compositionend":
-                            return useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) ? null : nativeEvent.data;
-                        default:
-                            return null;
-                    }
-                }(domEventName10, nativeEvent8))) return null;
-                var listeners = accumulateTwoPhaseListeners(targetInst, "onBeforeInput");
-                if (listeners.length > 0) {
-                    var event = new SyntheticInputEvent("onBeforeInput", "beforeinput", null, nativeEvent8, nativeEventTarget);
-                    dispatchQueue.push({
-                        event: event,
-                        listeners: listeners
-                    }), event.data = chars1;
+                            if (isOutEvent) {
+                                var _related = nativeEvent.relatedTarget || nativeEvent.toElement;
+                                if (from = targetInst, null !== (to = _related ? getClosestInstanceFromNode(_related) : null)) {
+                                    var nearestMounted = getNearestMountedFiber(to);
+                                    (to !== nearestMounted || 5 !== to.tag && 6 !== to.tag) && (to = null);
+                                }
+                            } else from = null, to = targetInst;
+                            if (from !== to) {
+                                var SyntheticEventCtor = SyntheticMouseEvent, leaveEventType = "onMouseLeave", enterEventType = "onMouseEnter", eventTypePrefix = "mouse";
+                                ("pointerout" === domEventName || "pointerover" === domEventName) && (SyntheticEventCtor = SyntheticPointerEvent, leaveEventType = "onPointerLeave", enterEventType = "onPointerEnter", eventTypePrefix = "pointer");
+                                var fromNode = null == from ? win : getNodeFromInstance(from), toNode = null == to ? win : getNodeFromInstance(to), leave = new SyntheticEventCtor(leaveEventType, eventTypePrefix + "leave", from, nativeEvent, nativeEventTarget);
+                                leave.target = fromNode, leave.relatedTarget = toNode;
+                                var enter = null;
+                                if (getClosestInstanceFromNode(nativeEventTarget) === targetInst) {
+                                    var enterEvent = new SyntheticEventCtor(enterEventType, eventTypePrefix + "enter", to, nativeEvent, nativeEventTarget);
+                                    enterEvent.target = toNode, enterEvent.relatedTarget = fromNode, enter = enterEvent;
+                                }
+                                accumulateEnterLeaveTwoPhaseListeners(dispatchQueue, leave, enter, from, to);
+                            }
+                        }
+                    })(dispatchQueue3, domEventName7, targetInst5, nativeEvent6, nativeEventTarget3, eventSystemFlags5), (function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
+                        var node, state, elem, nodeName, getTargetInstFunc, handleEventFunc, elem1, nodeName1, targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
+                        if ("select" === (nodeName1 = (elem1 = targetNode).nodeName && elem1.nodeName.toLowerCase()) || "input" === nodeName1 && "file" === elem1.type ? getTargetInstFunc = getTargetInstForChangeEvent : isTextInputElement(targetNode) ? isInputEventSupported ? getTargetInstFunc = getTargetInstForInputOrChangeEvent : (getTargetInstFunc = getTargetInstForInputEventPolyfill, handleEventFunc = handleEventsForInputEventPolyfill) : (nodeName = (elem = targetNode).nodeName) && "input" === nodeName.toLowerCase() && ("checkbox" === elem.type || "radio" === elem.type) && (getTargetInstFunc = getTargetInstForClickEvent), getTargetInstFunc) {
+                            var inst = getTargetInstFunc(domEventName, targetInst);
+                            if (inst) {
+                                createAndAccumulateChangeEvent(dispatchQueue, inst, nativeEvent, nativeEventTarget);
+                                return;
+                            }
+                        }
+                        handleEventFunc && handleEventFunc(domEventName, targetNode, targetInst), "focusout" === domEventName && (state = (node = targetNode)._wrapperState) && state.controlled && "number" === node.type && setDefaultValue(node, "number", node.value);
+                    })(dispatchQueue3, domEventName7, targetInst5, nativeEvent6, nativeEventTarget3), (function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
+                        var targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
+                        switch(domEventName){
+                            case "focusin":
+                                (isTextInputElement(targetNode) || "true" === targetNode.contentEditable) && (activeElement$1 = targetNode, activeElementInst$1 = targetInst, lastSelection = null);
+                                break;
+                            case "focusout":
+                                activeElement$1 = null, activeElementInst$1 = null, lastSelection = null;
+                                break;
+                            case "mousedown":
+                                mouseDown = !0;
+                                break;
+                            case "contextmenu":
+                            case "mouseup":
+                            case "dragend":
+                                mouseDown = !1, constructSelectEvent(dispatchQueue, nativeEvent, nativeEventTarget);
+                                break;
+                            case "selectionchange":
+                                if (skipSelectionChangeEvent) break;
+                            case "keydown":
+                            case "keyup":
+                                constructSelectEvent(dispatchQueue, nativeEvent, nativeEventTarget);
+                        }
+                    })(dispatchQueue3, domEventName7, targetInst5, nativeEvent6, nativeEventTarget3), (function(dispatchQueue, domEventName9, targetInst, nativeEvent, nativeEventTarget) {
+                        if (canUseCompositionEvent ? eventType = (function(domEventName) {
+                            switch(domEventName){
+                                case "compositionstart":
+                                    return "onCompositionStart";
+                                case "compositionend":
+                                    return "onCompositionEnd";
+                                case "compositionupdate":
+                                    return "onCompositionUpdate";
+                            }
+                        })(domEventName9) : isComposing ? isFallbackCompositionEnd(domEventName9, nativeEvent) && (eventType = "onCompositionEnd") : (domEventName8 = domEventName9, nativeEvent7 = nativeEvent, "keydown" === domEventName8 && 229 === nativeEvent7.keyCode && (eventType = "onCompositionStart")), !eventType) return null;
+                        useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) && (isComposing || "onCompositionStart" !== eventType ? "onCompositionEnd" === eventType && isComposing && (fallbackData = getData()) : isComposing = (root1 = nativeEventTarget, startText = getText(), !0));
+                        var domEventName8, nativeEvent7, eventType, fallbackData, listeners = accumulateTwoPhaseListeners(targetInst, eventType);
+                        if (listeners.length > 0) {
+                            var event = new SyntheticCompositionEvent(eventType, domEventName9, null, nativeEvent, nativeEventTarget);
+                            if (dispatchQueue.push({
+                                event: event,
+                                listeners: listeners
+                            }), fallbackData) event.data = fallbackData;
+                            else {
+                                var customData = getDataFromCustomEvent(nativeEvent);
+                                null !== customData && (event.data = customData);
+                            }
+                        }
+                    })(dispatchQueue1 = dispatchQueue3, domEventName5 = domEventName7, targetInst3 = targetInst5, nativeEvent4 = nativeEvent6, nativeEventTarget1 = nativeEventTarget3), (function(dispatchQueue, domEventName10, targetInst, nativeEvent8, nativeEventTarget) {
+                        if (!(chars1 = canUseTextInputEvent ? function(domEventName, nativeEvent) {
+                            switch(domEventName){
+                                case "compositionend":
+                                    return getDataFromCustomEvent(nativeEvent);
+                                case "keypress":
+                                    if (32 !== nativeEvent.which) return null;
+                                    return hasSpaceKeypress = !0, " ";
+                                case "textInput":
+                                    var chars = nativeEvent.data;
+                                    if (" " === chars && hasSpaceKeypress) return null;
+                                    return chars;
+                                default:
+                                    return null;
+                            }
+                        }(domEventName10, nativeEvent8) : function(domEventName, nativeEvent) {
+                            var nativeEvent9;
+                            if (isComposing) return "compositionend" === domEventName || !canUseCompositionEvent && isFallbackCompositionEnd(domEventName, nativeEvent) ? (root1 = null, startText = null, fallbackText = null, isComposing = !1, getData()) : null;
+                            switch(domEventName){
+                                case "paste":
+                                    return null;
+                                case "keypress":
+                                    if (!(((nativeEvent9 = nativeEvent).ctrlKey || nativeEvent9.altKey || nativeEvent9.metaKey) && !(nativeEvent9.ctrlKey && nativeEvent9.altKey))) {
+                                        if (nativeEvent.char && nativeEvent.char.length > 1) return nativeEvent.char;
+                                        if (nativeEvent.which) return String.fromCharCode(nativeEvent.which);
+                                    }
+                                    return null;
+                                case "compositionend":
+                                    return useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) ? null : nativeEvent.data;
+                                default:
+                                    return null;
+                            }
+                        }(domEventName10, nativeEvent8))) return null;
+                        var chars1, listeners = accumulateTwoPhaseListeners(targetInst, "onBeforeInput");
+                        if (listeners.length > 0) {
+                            var event = new SyntheticInputEvent("onBeforeInput", "beforeinput", null, nativeEvent8, nativeEventTarget);
+                            dispatchQueue.push({
+                                event: event,
+                                listeners: listeners
+                            }), event.data = chars1;
+                        }
+                    })(dispatchQueue1, domEventName5, targetInst3, nativeEvent4, nativeEventTarget1);
                 }
-            }(dispatchQueue2, domEventName5, targetInst3, nativeEvent4, nativeEventTarget2)), processDispatchQueue(dispatchQueue3, eventSystemFlags5));
+            }(dispatchQueue2, domEventName6, targetInst4, nativeEvent5, nativeEventTarget2, eventSystemFlags4), processDispatchQueue(dispatchQueue2, eventSystemFlags4));
         });
     }
     function createDispatchListener(instance, listener, currentTarget) {
@@ -4387,9 +4391,8 @@
         if (isDisallowedContextReadInDEV && error1("Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function components, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo()."), lastContextWithAllBitsObserved === context) ;
         else if (!1 === observedBits || 0 === observedBits) ;
         else {
-            var resolvedObservedBits;
             "number" != typeof observedBits || 1073741823 === observedBits ? (lastContextWithAllBitsObserved = context, resolvedObservedBits = 1073741823) : resolvedObservedBits = observedBits;
-            var contextItem = {
+            var resolvedObservedBits, contextItem = {
                 context: context,
                 observedBits: resolvedObservedBits,
                 next: null
@@ -6387,7 +6390,7 @@
     function updateOffscreenComponent(current, workInProgress, renderLanes) {
         var _subtreeRenderLanes, nextProps = workInProgress.pendingProps, nextChildren = nextProps.children, prevState = null !== current ? current.memoizedState : null;
         if ("hidden" === nextProps.mode || "unstable-defer-without-hiding" === nextProps.mode) if ((4 & workInProgress.mode) == 0) {
-            var nextBaseLanes, nextState = {
+            var nextState = {
                 baseLanes: NoLanes
             };
             workInProgress.memoizedState = nextState, pushRenderLanes(workInProgress, renderLanes);
@@ -6398,7 +6401,7 @@
             workInProgress.memoizedState = _nextState2, pushRenderLanes(workInProgress, null !== prevState ? prevState.baseLanes : renderLanes);
         } else {
             nextBaseLanes = null !== prevState ? mergeLanes(prevState.baseLanes, renderLanes) : renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824;
-            var _nextState = {
+            var nextBaseLanes, _nextState = {
                 baseLanes: nextBaseLanes
             };
             return workInProgress.memoizedState = _nextState, pushRenderLanes(workInProgress, nextBaseLanes), null;
@@ -9384,9 +9387,8 @@
         return container ? 9 === container.nodeType ? container.documentElement : container.firstChild : null;
     }
     function legacyRenderSubtreeIntoContainer(parentComponent, children, container3, forceHydrate1, callback) {
-        var callback1, callerName;
         topLevelUpdateWarnings(container3), callerName = "render", null !== (callback1 = void 0 === callback ? null : callback) && "function" != typeof callback1 && error1("%s(...): Expected the last optional `callback` argument to be a function. Instead received: %s.", callerName, callback1);
-        var fiberRoot, root = container3._reactRootContainer;
+        var callback1, callerName, fiberRoot, root = container3._reactRootContainer;
         if (root) {
             if (fiberRoot = root._internalRoot, "function" == typeof callback) {
                 var _originalCallback = callback;

@@ -118,6 +118,15 @@
                     "raw": "min-content"
                   },
                   {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 51,
+                      "end": 52,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
                     "type": "UnitValue",
                     "span": {
                       "start": 53,
@@ -192,6 +201,15 @@
                     }
                   },
                   {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 72,
+                      "end": 73,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
                     "type": "UnitValue",
                     "span": {
                       "start": 74,
@@ -247,6 +265,15 @@
                     },
                     "value": "max-content",
                     "raw": "max-content"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 97,
+                      "end": 98,
+                      "ctxt": 0
+                    },
+                    "value": ","
                   },
                   {
                     "type": "Identifier",

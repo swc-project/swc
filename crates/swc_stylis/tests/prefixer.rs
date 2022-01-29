@@ -118,14 +118,24 @@ fn cursor() {
     t("cursor:none;", "cursor:none;");
     t("cursor:grab;", "cursor:-webkit-grab;cursor:grab;");
     t(
+        "cursor:url(cursor_1.png) 4 12, grab;",
+        "cursor:url(cursor_1.png) 4 12,-webkit-grab;cursor:url(cursor_1.png) 4 12,grab;",
+    );
+    t(
         "cursor:image-set(url(foo.jpg) 2x), pointer;",
-        "cursor:-webkit-image-set(url(foo.jpg) 2x), pointer;cursor:image-set(url(foo.jpg) 2x), \
-         pointer;",
+        "cursor:-webkit-image-set(url(foo.jpg) 2x),pointer;cursor:image-set(url(foo.jpg) \
+         2x),pointer;",
     );
     t(
         "cursor:image-set(url(foo.jpg) 2x), grab;",
-        "cursor:-webkit-image-set(url(foo.jpg) 2x), -webkit-grab;cursor:image-set(url(foo.jpg) \
-         2x), grab;",
+        "cursor:-webkit-image-set(url(foo.jpg) 2x),-webkit-grab;cursor:image-set(url(foo.jpg) \
+         2x),grab;",
+    );
+    t(
+        "cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), image-set(url(foo.jpg) 2x) 5 5, grab;",
+        "cursor:url(cursor_1.svg) 4 5,url(cursor_2.svg),-webkit-image-set(url(foo.jpg) 2x) 5 \
+         5,-webkit-grab;cursor:url(cursor_1.svg) 4 5,url(cursor_2.svg),image-set(url(foo.jpg) 2x) \
+         5 5,grab;",
     );
 }
 
@@ -141,8 +151,8 @@ fn backface_visibility() {
 fn transition() {
     t(
         "transition:transform 1s,transform all 400ms,text-transform;",
-        "-webkit-transition:-webkit-transform 1s, -webkit-transform all 400ms, \
-         text-transform;transition:transform 1s, transform all 400ms, text-transform;",
+        "-webkit-transition:-webkit-transform 1s,-webkit-transform all \
+         400ms,text-transform;transition:transform 1s,transform all 400ms,text-transform;",
     );
 }
 
@@ -356,20 +366,20 @@ fn size() {
         "min-inline-size:-webkit-max-content;min-inline-size:-moz-max-content;min-inline-size:\
          max-content;",
     );
-    t("width:max(250px, 100px);", "width:max(250px, 100px);");
-    t("height:min(150px, 200px);", "height:min(150px, 200px);");
-    t("min-width:min(100px, 50px);", "min-width:min(100px, 50px);");
+    t("width:max(250px, 100px);", "width:max(250px,100px);");
+    t("height:min(150px, 200px);", "height:min(150px,200px);");
+    t("min-width:min(100px, 50px);", "min-width:min(100px,50px);");
     t(
         "max-width:max(150px, 200px);",
-        "max-width:max(150px, 200px);",
+        "max-width:max(150px,200px);",
     );
     t(
         "min-height:max(100px, 50px);",
-        "min-height:max(100px, 50px);",
+        "min-height:max(100px,50px);",
     );
     t(
         "max-height:min(150px, 200px);",
-        "max-height:min(150px, 200px);",
+        "max-height:min(150px,200px);",
     );
 }
 
@@ -445,8 +455,8 @@ fn appearance() {
     );
     t(
         "animation-timing-function:cubic-bezier(0.1,0.7,1.0,0.1);",
-        "-webkit-animation-timing-function:cubic-bezier(0.1, 0.7, 1.0, \
-         0.1);animation-timing-function:cubic-bezier(0.1, 0.7, 1.0, 0.1);",
+        "-webkit-animation-timing-function:cubic-bezier(0.1,0.7,1.0,0.1);\
+         animation-timing-function:cubic-bezier(0.1,0.7,1.0,0.1);",
     );
 }
 

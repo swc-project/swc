@@ -27,6 +27,7 @@ where
         }
 
         {
+            let mut found_vars_without_init = false;
             let mut found_other = false;
             let mut need_work = false;
 
@@ -42,7 +43,12 @@ where
                             if found_other {
                                 need_work = true;
                             }
+
+                            found_vars_without_init = true;
                         } else {
+                            if found_vars_without_init && self.options.join_vars {
+                                need_work = true;
+                            }
                             found_other = true;
                         }
                     }

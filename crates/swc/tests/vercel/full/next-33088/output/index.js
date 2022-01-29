@@ -7,6 +7,9 @@ export default function g() {
         hits: []
     }), 2), h = g[0], i = g[1], j = a.slicedToArray(f.useState("react"), 2), k = j[0], l = j[1];
     return f.useEffect(function() {
+        "" !== k && (function() {
+            return c.apply(this, arguments);
+        })();
         function c() {
             return (c = a.asyncToGenerator(b.mark(function a() {
                 var c, d;
@@ -25,9 +28,6 @@ export default function g() {
                 }, a);
             }))).apply(this, arguments);
         }
-        "" !== k && (function() {
-            return c.apply(this, arguments);
-        })();
     }, [
         k
     ]), d(e, {

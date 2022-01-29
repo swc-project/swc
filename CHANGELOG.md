@@ -5,6 +5,59 @@
 
 
 
+- **(es/compat)** Add the missing span in `optional_chaining` (#3384) ([9eb7773](https://github.com/swc-project/swc/commit/9eb77738fd1049022693f52843483623553856dd))
+
+
+- **(es/minifier)** Fix evaluator (#3391) ([38c2499](https://github.com/swc-project/swc/commit/38c2499358e2dc4df5b6acee25da54fe411f6e8a))
+
+
+- **(es/modules)** Allow using dynamic import with a name from another import (#3390) ([1dcc188](https://github.com/swc-project/swc/commit/1dcc188dd8230954e2801f7c6e3034b0c0215bc4))
+
+
+- **(swc)** Run `resolver` before everything (#3400) ([cebc5dc](https://github.com/swc-project/swc/commit/cebc5dc148fa4c03a536a841a106955de18b010b))
+
+### Features
+
+
+
+- **(css/codegen)** Implement `minify: true` (#3369) ([0537ef1](https://github.com/swc-project/swc/commit/0537ef1a1170da5c693a36cd20fd2b089a8a3618))
+
+
+- **(css/parser)** Improve selector parser (#3386) ([c73835b](https://github.com/swc-project/swc/commit/c73835bfebe56518e107a3666fe95ca649d33a24))
+
+
+- **(es/minifier)** Implement `drop_console` (#3392) ([91d7800](https://github.com/swc-project/swc/commit/91d78000ea445575f9ac30d0f36299ab4f0cbf5c))
+
+### Miscellaneous Tasks
+
+
+
+- **(repo)** Add `clippy` to git push hook (#3383) ([78e83a3](https://github.com/swc-project/swc/commit/78e83a386b62abaf9b38b58b5dd942de2333e3a6))
+
+### Performance
+
+
+
+- **(node-swc)** Speed up `parse` and `parseFile` (#3380) ([0359deb](https://github.com/swc-project/swc/commit/0359deb4841be743d73db4536d4a22ac797d7f65))
+
+### Refactor
+
+
+
+- **(css/ast)** Refactor delimited values (#3397) ([b31619d](https://github.com/swc-project/swc/commit/b31619d48e2caa29ae581331eaf2ed4c4bb93683))
+
+
+- **(es/minifier)** Remove unused crates (#3395) ([74b4330](https://github.com/swc-project/swc/commit/74b433080bf79026fbcb905d7f0fba435822df68))
+
+
+- **(es/parser)** Flatten tests to make `git` faster (#3393) ([839d0ac](https://github.com/swc-project/swc/commit/839d0ac480f0a702ac40bf14ba84d192cde47ec6))
+
+## [1.2.135] - 2022-01-27
+
+### Bug Fixes
+
+
+
 - **(css)** Fix the type definition of `@support` at-rules (#3330) ([34943ff](https://github.com/swc-project/swc/commit/34943ffa15ddecb56ee0889a598dfd3d0aa4025c))
 
 
@@ -41,6 +94,9 @@
 - **(es/minifier)** Prepend/append correctly (#3367) ([703972d](https://github.com/swc-project/swc/commit/703972dc296fbdfc319d48d43ef3841ebfa56eb3))
 
 
+- **(es/minifier)** Improve minifier (#3350) ([68e9017](https://github.com/swc-project/swc/commit/68e90173762feb2aa6744ca46f5d1185a89da271))
+
+
 - **(es/module)** Remove `.jsx` file extension (#3334) ([b2bf38d](https://github.com/swc-project/swc/commit/b2bf38d025064a42c398ab321fc2e69401a3f74b))
 
 
@@ -48,6 +104,12 @@
 
 
 - **(swc)** Respect `jsc.experimental.keepImportAssertions` (#3352) ([d9dc2b9](https://github.com/swc-project/swc/commit/d9dc2b99dde69792db4f5a31ffc983f8b04c0bef))
+
+### Documentation
+
+
+
+- **(contributing)** Fix formatting (#3376) ([90cf073](https://github.com/swc-project/swc/commit/90cf073ab91d44718235d8e0bc38953f7a4c1970))
 
 ### Features
 
@@ -74,6 +136,9 @@
 - **(es/minifier)** Handle array literals in `sequences` (#3348) ([8007b2d](https://github.com/swc-project/swc/commit/8007b2dc9338e34a1e9780606fd35181890af990))
 
 
+- **(es/preset-env)** Upgrade `browserslist-rs` (#3375) ([d3d754b](https://github.com/swc-project/swc/commit/d3d754bd174bfbd0f6fc25276c40e46e3a3da01f))
+
+
 - **(plugin)** Pass host context to plugins for diagnostics emission (#3359) ([a8debc1](https://github.com/swc-project/swc/commit/a8debc17f6082c033d3734a8e2c0cccc598c1d08))
 
 ### Miscellaneous Tasks
@@ -81,6 +146,9 @@
 
 
 - **(ci)** Update `thread_local` (#3357) ([a635e9f](https://github.com/swc-project/swc/commit/a635e9f35bb2a718abad56286d7b6fcecdfe4e58))
+
+
+- **(ci)** Fix FreeBSD build (#3379) ([464c15b](https://github.com/swc-project/swc/commit/464c15b7757aedd50c80d955d7f2c78133a7f994))
 
 ### Performance
 
@@ -99,6 +167,9 @@
 
 
 - **(css/ast)** Rename `PercentValue` to `Percent` (#3363) ([6fc7562](https://github.com/swc-project/swc/commit/6fc7562686b0915c7a1280620ffe183de66e113f))
+
+
+- **(es/minifier)** Merge execution tests into a file to make `git` faster (#3377) ([7ef3bfa](https://github.com/swc-project/swc/commit/7ef3bfa5b617bffeeb91240dbc2d842dcd48826c))
 
 
 - **(plugin)** Remove multivalue polyfill (#3346) ([4386498](https://github.com/swc-project/swc/commit/438649818fb7e7b1ef6cddf5ba244f80cf7e69a9))

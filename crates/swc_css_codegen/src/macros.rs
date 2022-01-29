@@ -34,6 +34,14 @@ macro_rules! formatting_space {
     }};
 }
 
+macro_rules! formatting_newline {
+    ($g:expr) => {{
+        if !$g.config.minify {
+            $g.wr.write_newline()?;
+        }
+    }};
+}
+
 macro_rules! space {
     ($g:expr) => {{
         $g.wr.write_space()?;

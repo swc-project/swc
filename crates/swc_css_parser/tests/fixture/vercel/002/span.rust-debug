@@ -116,6 +116,18 @@ error: Ident
   |                                                 ^^^^^^
 
 error: Value
+ --> $DIR/tests/fixture/vercel/002/input.css:2:55
+  |
+2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+  |                                                       ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/vercel/002/input.css:2:55
+  |
+2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+  |                                                       ^
+
+error: Value
  --> $DIR/tests/fixture/vercel/002/input.css:2:57
   |
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
@@ -126,6 +138,18 @@ error: Ident
   |
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
   |                                                         ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/vercel/002/input.css:2:62
+  |
+2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+  |                                                              ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/vercel/002/input.css:2:62
+  |
+2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+  |                                                              ^
 
 error: Value
  --> $DIR/tests/fixture/vercel/002/input.css:2:64

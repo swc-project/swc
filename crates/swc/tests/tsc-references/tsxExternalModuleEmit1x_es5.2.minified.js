@@ -55,7 +55,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-export var _typeof, App = function(_Component) {
+export var App = function(_Component) {
     "use strict";
     _inherits(App, _Component);
     var _super = _createSuper(App);

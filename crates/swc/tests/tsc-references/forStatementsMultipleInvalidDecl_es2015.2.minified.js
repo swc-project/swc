@@ -27,4 +27,4 @@ for(new C(), new C2(), new D();;);
 for(new D();;);
 for(new Array();;);
 for(;;);
-for(;;);
+for(M.A;;);

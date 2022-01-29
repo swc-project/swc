@@ -17,7 +17,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-export var _typeof, C = function() {
+export var C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {

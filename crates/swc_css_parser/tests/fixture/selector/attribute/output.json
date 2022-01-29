@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 568,
+    "end": 590,
     "ctxt": 0
   },
   "rules": [
@@ -2321,6 +2321,86 @@
         "span": {
           "start": 566,
           "end": 568,
+          "ctxt": 0
+        },
+        "value": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 569,
+        "end": 588,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 569,
+          "end": 585,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 569,
+              "end": 585,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 569,
+                  "end": 585,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "AttributeSelector",
+                    "span": {
+                      "start": 569,
+                      "end": 585,
+                      "ctxt": 0
+                    },
+                    "prefix": null,
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 570,
+                        "end": 575,
+                        "ctxt": 0
+                      },
+                      "value": "frame",
+                      "raw": "frame"
+                    },
+                    "matcher": "=",
+                    "value": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 576,
+                        "end": 582,
+                        "ctxt": 0
+                      },
+                      "value": "hsides",
+                      "raw": "hsides"
+                    },
+                    "modifier": "i"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 586,
+          "end": 588,
           "ctxt": 0
         },
         "value": []

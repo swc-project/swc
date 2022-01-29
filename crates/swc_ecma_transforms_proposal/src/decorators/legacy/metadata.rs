@@ -1,8 +1,8 @@
 use super::EnumKind;
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::move_map::MoveMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, member_expr, quote_ident, undefined, ExprFactory, Id};
+use swc_ecma_utils::{member_expr, quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/parameter/parameterVisitor.ts
@@ -121,7 +121,7 @@ impl ParamMetadata {
 
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/metadata/metadataVisitor.ts
 pub(super) struct Metadata<'a> {
-    pub(super) enums: &'a AHashMap<Id, EnumKind>,
+    pub(super) enums: &'a AHashMap<JsWord, EnumKind>,
 
     pub(super) class_name: Option<&'a Ident>,
 }
@@ -237,7 +237,7 @@ impl Fold for Metadata<'_> {
                 TsEntityName::Ident(i) => Some(i),
             })
         {
-            if let Some(kind) = self.enums.get(&name.to_id()) {
+            if let Some(kind) = self.enums.get(&name.sym) {
                 let dec = self.create_metadata_design_decorator(
                     "design:type",
                     match kind {

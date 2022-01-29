@@ -51,11 +51,13 @@ use swc_ecma_transforms::{
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{decorators, export_default_from, import_assertions},
-    react, resolver_with_mark, typescript, Assumptions,
+    react,
+    resolver::ts_resolver,
+    resolver_with_mark, typescript, Assumptions,
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, VisitMutWith};
 
 #[cfg(test)]
 mod tests;
@@ -246,6 +248,7 @@ impl Default for InputSourceMap {
 
 impl Options {
     /// `parse`: `(syntax, target, is_module)`
+    #[allow(clippy::too_many_arguments)]
     pub fn build_as_input<'a, P>(
         &self,
         cm: &Arc<SourceMap>,
@@ -297,6 +300,26 @@ impl Options {
         let syntax = syntax.unwrap_or_default();
 
         let program = parse(syntax, es_version, is_module)?;
+        let top_level_mark = self
+            .global_mark
+            .unwrap_or_else(|| Mark::fresh(Mark::root()));
+
+        let target = target.unwrap_or_default();
+
+        let syntax = syntax.unwrap_or_default();
+
+        let mut program = parse(syntax, target, is_module)?;
+
+        // Do a resolver pass before everything.
+        //
+        // We do this before creating custom passses, so custom passses can use the
+        // variable management system based on the syntax contexts.
+        if syntax.typescript() {
+            program.visit_mut_with(&mut ts_resolver(top_level_mark));
+        } else {
+            program.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+        }
+
         let mut transform = transform.unwrap_or_default();
 
         if program.is_module() {
@@ -368,10 +391,6 @@ impl Options {
             }
         };
 
-        let top_level_mark = self
-            .global_mark
-            .unwrap_or_else(|| Mark::fresh(Mark::root()));
-
         let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 
         let pass = chain!(
@@ -415,11 +434,6 @@ impl Options {
             // The transform strips import assertions, so it's only enabled if
             // keep_import_assertions is false.
             Optional::new(import_assertions(), !experimental.keep_import_assertions),
-            // Do a resolver pass after decorators as it might
-            // emit runtime declarations and do it before
-            // type stripping as we need to know scope information
-            // for emitting enums and namespaces.
-            resolver_with_mark(top_level_mark),
             Optional::new(
                 typescript::strip_with_jsx(
                     cm.clone(),

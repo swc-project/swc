@@ -6,3 +6,4 @@ export const a = 1;
 export const b = 2;
 export { _default as default };
 export default ns;
+foo.a, foo1.a, foo.b, foo1.b;

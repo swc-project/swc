@@ -1,4 +1,7 @@
-use std::{mem::take, path::PathBuf};
+use std::{
+    mem::take,
+    path::{Path, PathBuf},
+};
 use swc_common::{FileName, Span};
 use swc_css_ast::Stylesheet;
 use swc_css_codegen::{
@@ -7,16 +10,24 @@ use swc_css_codegen::{
 };
 use swc_css_parser::{parse_file, parser::ParserConfig};
 use swc_css_visit::{VisitMut, VisitMutWith};
-use testing::{assert_eq, NormalizedOutput};
+use testing::{assert_eq, run_test2, NormalizedOutput};
 
-#[testing::fixture("tests/fixture/**/input.css")]
-fn fixture(input: PathBuf) {
+fn run(input: &Path, minify: bool) {
     let dir = input.parent().unwrap();
-    let output_file = dir.join("output.css");
-    eprintln!("{}", input.display());
+    let output = if minify {
+        dir.join(format!(
+            "output.min.{}",
+            input.extension().unwrap().to_string_lossy()
+        ))
+    } else {
+        dir.join(format!(
+            "output.{}",
+            input.extension().unwrap().to_string_lossy()
+        ))
+    };
 
-    testing::run_test2(false, |cm, handler| {
-        let fm = cm.load_file(&input).unwrap();
+    run_test2(false, |cm, handler| {
+        let fm = cm.load_file(input).unwrap();
 
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
@@ -36,20 +47,33 @@ fn fixture(input: PathBuf) {
         }
 
         let mut css_str = String::new();
+
         {
-            let wr = BasicCssWriter::new(&mut css_str, BasicCssWriterConfig { indent: "\t" });
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
+            let wr = BasicCssWriter::new(
+                &mut css_str,
+                BasicCssWriterConfig {
+                    indent: if minify { "" } else { "\t" },
+                },
+            );
+
+            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify });
 
             gen.emit(&stylesheet).unwrap();
         }
 
         NormalizedOutput::from(css_str)
-            .compare_to_file(output_file)
+            .compare_to_file(output)
             .unwrap();
 
         Ok(())
     })
     .unwrap();
+}
+
+#[testing::fixture("tests/fixture/**/input.css")]
+fn css(input: PathBuf) {
+    run(&input, false);
+    run(&input, true);
 }
 
 #[testing::fixture("../swc_css_parser/tests/fixture/**/input.css")]

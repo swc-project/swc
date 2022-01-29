@@ -6,9 +6,9 @@ error: Stylesheet
 3  | | [title="foo"] {}
 4  | | [ title = "foo" ] {}
 ...  |
-28 | | [   href   *=   "insensitive"   i   ] {}
 29 | | [   href   ] {}
-   | |_______________^
+30 | | [frame=hsides i] {} 
+   | |_____________________^
 
 error: Rule
  --> $DIR/tests/fixture/selector/attribute/input.css:1:1
@@ -1749,4 +1749,64 @@ error: Block
    |
 29 | [   href   ] {}
    |              ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:30:1
+   |
+30 | [frame=hsides i] {} 
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:30:1
+   |
+30 | [frame=hsides i] {} 
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:30:1
+   |
+30 | [frame=hsides i] {} 
+   | ^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:30:1
+   |
+30 | [frame=hsides i] {} 
+   | ^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:30:1
+   |
+30 | [frame=hsides i] {} 
+   | ^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:30:1
+   |
+30 | [frame=hsides i] {} 
+   | ^^^^^^^^^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:30:1
+   |
+30 | [frame=hsides i] {} 
+   | ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/attribute/input.css:30:2
+   |
+30 | [frame=hsides i] {} 
+   |  ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/attribute/input.css:30:8
+   |
+30 | [frame=hsides i] {} 
+   |        ^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/attribute/input.css:30:18
+   |
+30 | [frame=hsides i] {} 
+   |                  ^^
 

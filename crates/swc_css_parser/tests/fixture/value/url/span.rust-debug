@@ -753,18 +753,6 @@ error: Value
   --> $DIR/tests/fixture/value/url/input.css:15:58
    |
 15 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
-   |                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SpaceValues
-  --> $DIR/tests/fixture/value/url/input.css:15:58
-   |
-15 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
-   |                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/value/url/input.css:15:58
-   |
-15 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
    |                                                          ^^^^^^^
 
 error: DashedIdent

@@ -796,7 +796,6 @@
             }
         },
         unstable_next: function(eventHandler) {
-            var priorityLevel;
             switch(currentPriorityLevel){
                 case 1:
                 case 2:
@@ -807,7 +806,7 @@
                     priorityLevel = currentPriorityLevel;
                     break;
             }
-            var previousPriorityLevel = currentPriorityLevel;
+            var priorityLevel, previousPriorityLevel = currentPriorityLevel;
             currentPriorityLevel = priorityLevel;
             try {
                 return eventHandler();

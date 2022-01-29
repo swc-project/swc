@@ -45,9 +45,9 @@ var _dec16 = ViewEntity({
     name: "AccountMemberView",
     expression: "\n    SELECT\n        m.tmcode, m.mid, m.accea, m.qaccea, m.endday, m.quick_endday,\n        (SELECT COUNT(*) FROM TBLACCOUNT a WHERE m.mid = a.mid AND a.use_quick=\"F\") as accountCnt,\n        (SELECT COUNT(*) FROM TBLACCOUNT a WHERE m.mid = a.mid AND a.use_quick=\"T\") as accountQuickCnt\n    FROM TBLMEMBER m\n    "
 });
-export var AccountMemberView = _class = _dec16((_class = function AccountMemberView1() {
+export var AccountMemberView = _class = _dec16((_class = function AccountMemberView() {
     "use strict";
-    _classCallCheck(this, AccountMemberView1);
+    _classCallCheck(this, AccountMemberView);
     _initializerDefineProperty(this, "memberId", _descriptor, this);
     _initializerDefineProperty(this, "mallId", _descriptor1, this);
     _initializerDefineProperty(this, "allowAccountCnt", _descriptor2, this);

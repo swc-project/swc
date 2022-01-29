@@ -76,10 +76,10 @@ For running all tests, take the following steps:
 
 2. Install js dependencies.
    Ensure [Yarn Package Manager is installed](https://yarnpkg.com/getting-started/install)
-
-       ```bash
-       yarn
-       ```
+    
+    ```bash
+    yarn
+    ```
 
 3. Setup some environment variables which is required for tests.
 
@@ -116,9 +116,9 @@ For running all tests, take the following steps:
 While working on specific packages, individual tests can be run by specifying a package to the
 cargo test runner, e.g.
 
-    ```bash
-    cargo test -p swc_ecma_transforms --all-features
-    ```
+```bash
+cargo test -p swc_ecma_transforms --all-features
+```
 
 ## Pull requests
 

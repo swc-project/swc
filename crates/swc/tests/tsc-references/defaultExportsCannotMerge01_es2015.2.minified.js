@@ -5,4 +5,4 @@ export default function Decl() {
 };
 !function(Decl) {
     Decl.x = 10, Decl.y = 20;
-}(Decl || (Decl = {})), Entity();
+}(Decl || (Decl = {})), Entity(), Entity.x, Entity.y;

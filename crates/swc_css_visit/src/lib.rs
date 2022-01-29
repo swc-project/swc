@@ -115,9 +115,7 @@ define!({
 
         Bin(BinValue),
 
-        Space(SpaceValues),
-
-        Comma(CommaValues),
+        Delimiter(Delimiter),
 
         Tokens(Tokens),
 
@@ -126,14 +124,14 @@ define!({
         Url(Url),
     }
 
-    pub struct SpaceValues {
-        pub span: Span,
-        pub values: Vec<Value>,
+    pub enum DelimiterValue {
+        /// `,`
+        Comma,
     }
 
-    pub struct CommaValues {
+    pub struct Delimiter {
         pub span: Span,
-        pub values: Vec<Value>,
+        pub value: DelimiterValue,
     }
 
     pub struct BinValue {
