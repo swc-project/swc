@@ -7,9 +7,9 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls_with_ctxt, ident::IdentLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-const FN_NAMES: &'static [&str] = &["alert", "confirm", "prompt"];
-const GLOBAL_THIS_PROP: &'static str = "globalThis";
-const OBJ_NAMES: &'static [&str] = &["window", GLOBAL_THIS_PROP];
+const FN_NAMES: &[&str] = &["alert", "confirm", "prompt"];
+const GLOBAL_THIS_PROP: &str = "globalThis";
+const OBJ_NAMES: &[&str] = &["window", GLOBAL_THIS_PROP];
 
 pub fn no_alert(
     program: &Program,
@@ -123,31 +123,40 @@ impl NoAlert {
 impl Visit for NoAlert {
     noop_visit_type!();
 
-    fn visit_call_expr(&mut self, call_expr: &CallExpr) {
-        self.call_expr_span = Some(call_expr.span);
+    fn visit_expr(&mut self, expr: &Expr) {
+        match expr {
+            Expr::Ident(id) => {
+                if id.span.ctxt != self.top_level_ctxt {
+                    return;
+                }
 
-        call_expr.visit_children_with(self);
-    }
+                if self.top_level_declared_vars.contains(&id.to_id()) {
+                    return;
+                }
 
-    fn visit_opt_chain_expr(&mut self, opt_chain: &OptChainExpr) {
-        opt_chain.visit_children_with(self);
-    }
+                if self.call_expr_span.is_some() {
+                    self.check_names(None, &*id.sym);
+                }
+            }
+            Expr::Call(call_expr) => {
+                if self.call_expr_span.is_none() {
+                    self.call_expr_span = Some(call_expr.span);
+                }
 
-    fn visit_ident(&mut self, id: &Ident) {
-        if id.span.ctxt != self.top_level_ctxt {
-            return;
+                call_expr.visit_children_with(self);
+
+                self.call_expr_span = None;
+            }
+            Expr::Member(member_expr) => {
+                self.check_member_expr(member_expr);
+            }
+            Expr::OptChain(opt_chain) => {
+                opt_chain.visit_children_with(self);
+            }
+            Expr::Paren(paren) => {
+                paren.visit_children_with(self);
+            }
+            _ => {}
         }
-
-        if self.top_level_declared_vars.contains(&id.to_id()) {
-            return;
-        }
-
-        if self.call_expr_span.is_some() {
-            self.check_names(None, &*id.sym);
-        }
-    }
-
-    fn visit_member_expr(&mut self, member_expr: &MemberExpr) {
-        self.check_member_expr(member_expr);
     }
 }

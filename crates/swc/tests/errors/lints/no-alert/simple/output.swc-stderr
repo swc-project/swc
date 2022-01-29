@@ -76,3 +76,9 @@ error: Unexpected alert
 31 | window.alert();
    | ^^^^^^^^^^^^^^
 
+error: Unexpected alert
+  
+   |
+38 | alert(() => alert("foo"));
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+

@@ -34,3 +34,19 @@ function foo5() {
     alert();
     const alert = () => {};
 }
+
+alert(() => alert("foo"));
+
+(() => {
+    const obj = {
+        alert,
+    };
+})();
+
+(() => {
+    alert = () => {};
+})();
+
+(() => {
+    console.log(alert);
+})();
