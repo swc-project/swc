@@ -295,20 +295,16 @@ impl Options {
             }
         });
 
-        let es_version = target.unwrap_or_default();
-
-        let syntax = syntax.unwrap_or_default();
-
-        let program = parse(syntax, es_version, is_module)?;
         let top_level_mark = self
             .global_mark
             .unwrap_or_else(|| Mark::fresh(Mark::root()));
 
-        let target = target.unwrap_or_default();
+
+        let es_version = target.unwrap_or_default();
 
         let syntax = syntax.unwrap_or_default();
 
-        let mut program = parse(syntax, target, is_module)?;
+        let mut program = parse(syntax, es_version, is_module)?;
 
         // Do a resolver pass before everything.
         //
