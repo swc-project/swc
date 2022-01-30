@@ -10702,7 +10702,7 @@ error: MediaFeatureValue
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
     |                     ^^^^^
 
-error: UnitValue
+error: Dimension
    --> $DIR/tests/fixture/at-rule/media/input.css:109:21
     |
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
@@ -10714,7 +10714,7 @@ error: Number
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
     |                     ^^^
 
-error: Unit
+error: Ident
    --> $DIR/tests/fixture/at-rule/media/input.css:109:24
     |
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
@@ -10768,7 +10768,7 @@ error: MediaFeatureValue
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
     |                                            ^^^^^
 
-error: UnitValue
+error: Dimension
    --> $DIR/tests/fixture/at-rule/media/input.css:109:44
     |
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
@@ -10780,7 +10780,7 @@ error: Number
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
     |                                            ^^^
 
-error: Unit
+error: Ident
    --> $DIR/tests/fixture/at-rule/media/input.css:109:47
     |
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
@@ -10834,7 +10834,7 @@ error: MediaFeatureValue
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
     |                                                                   ^^^^^
 
-error: UnitValue
+error: Dimension
    --> $DIR/tests/fixture/at-rule/media/input.css:109:67
     |
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
@@ -10846,7 +10846,7 @@ error: Number
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
     |                                                                   ^^^
 
-error: Unit
+error: Ident
    --> $DIR/tests/fixture/at-rule/media/input.css:109:70
     |
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
@@ -10930,7 +10930,7 @@ error: MediaFeatureValue
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
     |                    ^^^^^
 
-error: UnitValue
+error: Dimension
    --> $DIR/tests/fixture/at-rule/media/input.css:110:20
     |
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
@@ -10942,7 +10942,7 @@ error: Number
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
     |                    ^^^
 
-error: Unit
+error: Ident
    --> $DIR/tests/fixture/at-rule/media/input.css:110:23
     |
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
@@ -11014,7 +11014,7 @@ error: MediaFeatureValue
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
     |                                            ^^^^^
 
-error: UnitValue
+error: Dimension
    --> $DIR/tests/fixture/at-rule/media/input.css:110:44
     |
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
@@ -11026,7 +11026,7 @@ error: Number
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
     |                                            ^^^
 
-error: Unit
+error: Ident
    --> $DIR/tests/fixture/at-rule/media/input.css:110:47
     |
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
@@ -11080,7 +11080,7 @@ error: MediaFeatureValue
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
     |                                                                  ^^^^^
 
-error: UnitValue
+error: Dimension
    --> $DIR/tests/fixture/at-rule/media/input.css:110:66
     |
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
@@ -11092,7 +11092,7 @@ error: Number
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
     |                                                                  ^^^
 
-error: Unit
+error: Ident
    --> $DIR/tests/fixture/at-rule/media/input.css:110:69
     |
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}

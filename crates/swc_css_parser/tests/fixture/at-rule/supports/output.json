@@ -2476,7 +2476,7 @@
                   },
                   "value": [
                     {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 1363,
                         "end": 1368,
@@ -2493,6 +2493,7 @@
                         "raw": "10"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 1365,
                           "end": 1368,
@@ -2648,7 +2649,7 @@
                         },
                         "value": [
                           {
-                            "type": "UnitValue",
+                            "type": "Dimension",
                             "span": {
                               "start": 1462,
                               "end": 1467,
@@ -2665,6 +2666,7 @@
                               "raw": "10"
                             },
                             "unit": {
+                              "type": "Identifier",
                               "span": {
                                 "start": 1464,
                                 "end": 1467,

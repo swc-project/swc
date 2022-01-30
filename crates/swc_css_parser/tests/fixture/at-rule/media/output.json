@@ -9454,7 +9454,7 @@
                         "raw": "min-width"
                       },
                       "value": {
-                        "type": "UnitValue",
+                        "type": "Dimension",
                         "span": {
                           "start": 3803,
                           "end": 3808,
@@ -9471,6 +9471,7 @@
                           "raw": "800"
                         },
                         "unit": {
+                          "type": "Identifier",
                           "span": {
                             "start": 3806,
                             "end": 3808,
@@ -9506,7 +9507,7 @@
                           "raw": "min-width"
                         },
                         "value": {
-                          "type": "UnitValue",
+                          "type": "Dimension",
                           "span": {
                             "start": 3826,
                             "end": 3831,
@@ -9523,6 +9524,7 @@
                             "raw": "800"
                           },
                           "unit": {
+                            "type": "Identifier",
                             "span": {
                               "start": 3829,
                               "end": 3831,
@@ -9561,7 +9563,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 3849,
                         "end": 3854,
@@ -9578,6 +9580,7 @@
                         "raw": "800"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 3852,
                           "end": 3854,
@@ -9646,7 +9649,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 3878,
                       "end": 3883,
@@ -9663,6 +9666,7 @@
                       "raw": "800"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 3881,
                         "end": 3883,
@@ -9706,7 +9710,7 @@
                           "raw": "min-width"
                         },
                         "value": {
-                          "type": "UnitValue",
+                          "type": "Dimension",
                           "span": {
                             "start": 3902,
                             "end": 3907,
@@ -9723,6 +9727,7 @@
                             "raw": "800"
                           },
                           "unit": {
+                            "type": "Identifier",
                             "span": {
                               "start": 3905,
                               "end": 3907,
@@ -9758,7 +9763,7 @@
                             "raw": "min-width"
                           },
                           "value": {
-                            "type": "UnitValue",
+                            "type": "Dimension",
                             "span": {
                               "start": 3924,
                               "end": 3929,
@@ -9775,6 +9780,7 @@
                               "raw": "800"
                             },
                             "unit": {
+                              "type": "Identifier",
                               "span": {
                                 "start": 3927,
                                 "end": 3929,

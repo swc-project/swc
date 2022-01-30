@@ -3122,7 +3122,7 @@ error: Value
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
    |                                                                                          ^^^^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/at-rule/supports/input.css:35:90
    |
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
@@ -3134,7 +3134,7 @@ error: Number
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
    |                                                                                          ^^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:35:92
    |
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
@@ -3350,7 +3350,7 @@ error: Value
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
    |                                                                                         ^^^^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/at-rule/supports/input.css:36:89
    |
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
@@ -3362,7 +3362,7 @@ error: Number
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
    |                                                                                         ^^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/at-rule/supports/input.css:36:91
    |
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}

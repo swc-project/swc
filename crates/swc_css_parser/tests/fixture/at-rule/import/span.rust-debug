@@ -7330,7 +7330,7 @@ error: MediaFeatureValue
 140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
     |                                                                                                                                                        ^^^^^
 
-error: UnitValue
+error: Dimension
    --> $DIR/tests/fixture/at-rule/import/input.css:140:152
     |
 140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
@@ -7342,7 +7342,7 @@ error: Number
 140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
     |                                                                                                                                                        ^^^
 
-error: Unit
+error: Ident
    --> $DIR/tests/fixture/at-rule/import/input.css:140:155
     |
 140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
@@ -7528,7 +7528,7 @@ error: MediaFeatureValue
 141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
     |                                                                                         ^^^^^
 
-error: UnitValue
+error: Dimension
    --> $DIR/tests/fixture/at-rule/import/input.css:141:89
     |
 141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
@@ -7540,7 +7540,7 @@ error: Number
 141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
     |                                                                                         ^^^
 
-error: Unit
+error: Ident
    --> $DIR/tests/fixture/at-rule/import/input.css:141:92
     |
 141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
