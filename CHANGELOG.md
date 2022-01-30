@@ -5,6 +5,9 @@
 
 
 
+- **(css)** Allow empty `@media` at-rule (#3404) ([75a14f9](https://github.com/swc-project/swc/commit/75a14f98b7370226115ee24eec6eb8c802bd4837))
+
+
 - **(css/parser)** Fix parser logic related to case insensivity (#3382) ([3ded88b](https://github.com/swc-project/swc/commit/3ded88bffca4abd0bb77a52b0dfb32d8c8520581))
 
 
