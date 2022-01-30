@@ -26,6 +26,9 @@
 
 
 
+- **(css/ast)** Add `/` to the delimiters (#3402) ([2dc31d9](https://github.com/swc-project/swc/commit/2dc31d9d142a4e76529507596bc476590b4a26e9))
+
+
 - **(css/codegen)** Implement `minify: true` (#3369) ([0537ef1](https://github.com/swc-project/swc/commit/0537ef1a1170da5c693a36cd20fd2b089a8a3618))
 
 
