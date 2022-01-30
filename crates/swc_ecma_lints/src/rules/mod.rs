@@ -42,6 +42,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         top_level_ctxt,
         es_version,
     ));
+
     rules.extend(no_debugger::no_debugger(&lint_config.no_debugger));
 
     rules
