@@ -6,8 +6,8 @@ error: Stylesheet
 3   | |
 4   | | @media all {}
 ...   |
-104 | | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
-105 | | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
+109 | | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+110 | | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
     | |____________________________________________________________________________^
 
 error: Rule
@@ -10478,5 +10478,623 @@ error: Unit
    --> $DIR/tests/fixture/at-rule/media/input.css:105:69
     |
 105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
+    |                                                                     ^^
+
+error: Rule
+   --> $DIR/tests/fixture/at-rule/media/input.css:107:1
+    |
+107 | @media    NOT   all   {}
+    | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:107:1
+    |
+107 | @media    NOT   all   {}
+    | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:107:1
+    |
+107 | @media    NOT   all   {}
+    | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+   --> $DIR/tests/fixture/at-rule/media/input.css:107:11
+    |
+107 | @media    NOT   all   {}
+    |           ^^^^^^^^^
+
+error: MediaQuery
+   --> $DIR/tests/fixture/at-rule/media/input.css:107:11
+    |
+107 | @media    NOT   all   {}
+    |           ^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:107:11
+    |
+107 | @media    NOT   all   {}
+    |           ^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:107:17
+    |
+107 | @media    NOT   all   {}
+    |                 ^^^
+
+error: Rule
+   --> $DIR/tests/fixture/at-rule/media/input.css:108:1
+    |
+108 | @media ONLY screen AND (color) {}
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:108:1
+    |
+108 | @media ONLY screen AND (color) {}
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:108:1
+    |
+108 | @media ONLY screen AND (color) {}
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+   --> $DIR/tests/fixture/at-rule/media/input.css:108:8
+    |
+108 | @media ONLY screen AND (color) {}
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+   --> $DIR/tests/fixture/at-rule/media/input.css:108:8
+    |
+108 | @media ONLY screen AND (color) {}
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:108:8
+    |
+108 | @media ONLY screen AND (color) {}
+    |        ^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:108:13
+    |
+108 | @media ONLY screen AND (color) {}
+    |             ^^^^^^
+
+error: MediaConditionWithoutOr
+   --> $DIR/tests/fixture/at-rule/media/input.css:108:24
+    |
+108 | @media ONLY screen AND (color) {}
+    |                        ^^^^^^^
+
+error: MediaConditionWithoutOrType
+   --> $DIR/tests/fixture/at-rule/media/input.css:108:24
+    |
+108 | @media ONLY screen AND (color) {}
+    |                        ^^^^^^^
+
+error: MediaInParens
+   --> $DIR/tests/fixture/at-rule/media/input.css:108:24
+    |
+108 | @media ONLY screen AND (color) {}
+    |                        ^^^^^^^
+
+error: MediaFeature
+   --> $DIR/tests/fixture/at-rule/media/input.css:108:24
+    |
+108 | @media ONLY screen AND (color) {}
+    |                        ^^^^^^^
+
+error: MediaFeatureBoolean
+   --> $DIR/tests/fixture/at-rule/media/input.css:108:24
+    |
+108 | @media ONLY screen AND (color) {}
+    |                        ^^^^^^^
+
+error: MediaFeatureName
+   --> $DIR/tests/fixture/at-rule/media/input.css:108:25
+    |
+108 | @media ONLY screen AND (color) {}
+    |                         ^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:108:25
+    |
+108 | @media ONLY screen AND (color) {}
+    |                         ^^^^^
+
+error: Rule
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:1
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:1
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:1
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:8
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:8
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:8
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionAllType
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:9
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:9
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:9
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionAllType
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:9
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |         ^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:9
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |         ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:9
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |         ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:9
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |         ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:10
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |          ^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:10
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |          ^^^^^^^^^
+
+error: MediaFeatureValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:21
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                     ^^^^^
+
+error: UnitValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:21
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                     ^^^^^
+
+error: Number
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:21
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                     ^^^
+
+error: Unit
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:24
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                        ^^
+
+error: MediaConditionAllType
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:28
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaAnd
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:28
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:32
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:32
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:32
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:33
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                 ^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:33
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                 ^^^^^^^^^
+
+error: MediaFeatureValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:44
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                            ^^^^^
+
+error: UnitValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:44
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                            ^^^^^
+
+error: Number
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:44
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                            ^^^
+
+error: Unit
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:47
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                               ^^
+
+error: MediaConditionAllType
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:52
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                                    ^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaOr
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:52
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                                    ^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:55
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                                       ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:55
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                                       ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:55
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                                       ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:56
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                                        ^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:56
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                                        ^^^^^^^^^
+
+error: MediaFeatureValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:67
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                                                   ^^^^^
+
+error: UnitValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:67
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                                                   ^^^^^
+
+error: Number
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:67
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                                                   ^^^
+
+error: Unit
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:70
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                                                      ^^
+
+error: Rule
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:1
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:1
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:1
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:8
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:8
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:8
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionAllType
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:8
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |        ^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:8
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |        ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:8
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |        ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:8
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |        ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:9
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |         ^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:9
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |         ^^^^^^^^^
+
+error: MediaFeatureValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:20
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                    ^^^^^
+
+error: UnitValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:20
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                    ^^^^^
+
+error: Number
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:20
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                    ^^^
+
+error: Unit
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:23
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                       ^^
+
+error: MediaConditionAllType
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:27
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaAnd
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:27
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:32
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:32
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionAllType
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:32
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:32
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:32
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:32
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:33
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                 ^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:33
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                 ^^^^^^^^^
+
+error: MediaFeatureValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:44
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                            ^^^^^
+
+error: UnitValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:44
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                            ^^^^^
+
+error: Number
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:44
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                            ^^^
+
+error: Unit
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:47
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                               ^^
+
+error: MediaConditionAllType
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:51
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                                   ^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaOr
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:51
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                                   ^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:54
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                                      ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:54
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                                      ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:54
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                                      ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:55
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                                       ^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:55
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                                       ^^^^^^^^^
+
+error: MediaFeatureValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:66
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                                                  ^^^^^
+
+error: UnitValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:66
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                                                  ^^^^^
+
+error: Number
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:66
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                                                  ^^^
+
+error: Unit
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:69
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
     |                                                                     ^^
 

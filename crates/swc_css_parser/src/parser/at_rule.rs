@@ -351,7 +351,7 @@ where
 
                 self.input.skip_ws()?;
 
-                let supports = if is_one_of!(self, "not", "(") {
+                let supports = if is_case_insensitive_ident!(self, "not") || is!(self, "(") {
                     ImportSupportsType::SupportsCondition(self.parse()?)
                 } else {
                     ImportSupportsType::Declaration(self.parse()?)
@@ -534,7 +534,7 @@ where
         let mut last_pos;
         let mut conditions = vec![];
 
-        if is!(self, "not") {
+        if is_case_insensitive_ident!(self, "not") {
             let not = self.parse()?;
 
             last_pos = self.input.last_pos()?;
@@ -549,8 +549,8 @@ where
 
             self.input.skip_ws()?;
 
-            if is!(self, "and") {
-                while is!(self, "and") {
+            if is_case_insensitive_ident!(self, "and") {
+                while is_case_insensitive_ident!(self, "and") {
                     let and = self.parse()?;
 
                     last_pos = self.input.last_pos()?;
@@ -559,8 +559,8 @@ where
 
                     self.input.skip_ws()?;
                 }
-            } else if is!(self, "or") {
-                while is!(self, "or") {
+            } else if is_case_insensitive_ident!(self, "or") {
+                while is_case_insensitive_ident!(self, "or") {
                     let or = self.parse()?;
 
                     last_pos = self.input.last_pos()?;
@@ -586,7 +586,7 @@ where
     fn parse(&mut self) -> PResult<SupportsNot> {
         let span = self.input.cur_span()?;
 
-        expect!(self, "not");
+        expect_case_insensitive_ident!(self, "not");
 
         self.input.skip_ws()?;
 
@@ -606,7 +606,7 @@ where
     fn parse(&mut self) -> PResult<SupportsAnd> {
         let span = self.input.cur_span()?;
 
-        expect!(self, "and");
+        expect_case_insensitive_ident!(self, "and");
 
         self.input.skip_ws()?;
 
@@ -626,7 +626,7 @@ where
     fn parse(&mut self) -> PResult<SupportsOr> {
         let span = self.input.cur_span()?;
 
-        expect!(self, "or");
+        expect_case_insensitive_ident!(self, "or");
 
         self.input.skip_ws()?;
 
@@ -650,7 +650,7 @@ where
 
         self.input.skip_ws()?;
 
-        if !is!(self, "(") && !is!(self, "not") {
+        if !is!(self, "(") && !is_case_insensitive_ident!(self, "not") {
             self.input.reset(&state);
 
             return Ok(SupportsInParens::Feature(self.parse()?));
@@ -885,8 +885,7 @@ where
         let start_pos = self.input.cur_span()?.lo;
         let state = self.input.state();
 
-        // TODO uppercase acceptable
-        let mut modifier = if is!(self, "not") || is!(self, "only") {
+        let mut modifier = if is_one_of_case_insensitive_ident!(self, "not", "only") {
             let modifier = Some(self.parse()?);
 
             self.input.skip_ws()?;
@@ -898,7 +897,9 @@ where
 
         let mut last_pos = self.input.last_pos()?;
 
-        let media_type = if !is!(self, Ident) || is_one_of!(self, "not", "and", "or", "only") {
+        let media_type = if !is!(self, Ident)
+            || is_one_of_case_insensitive_ident!(self, "not", "and", "or", "only")
+        {
             None
         } else {
             let media_type = Some(self.parse()?);
@@ -911,7 +912,9 @@ where
         };
 
         let condition = if media_type.is_some() {
-            if eat!(self, "and") {
+            if is_one_of_case_insensitive_ident!(self, "and") {
+                bump!(self);
+
                 self.input.skip_ws()?;
 
                 let condition_without_or: MediaConditionWithoutOr = self.parse()?;
@@ -954,7 +957,7 @@ where
         let mut last_pos;
         let mut conditions = vec![];
 
-        if is!(self, "not") {
+        if is_case_insensitive_ident!(self, "not") {
             let not = self.parse()?;
 
             last_pos = self.input.last_pos()?;
@@ -969,8 +972,8 @@ where
 
             self.input.skip_ws()?;
 
-            if is!(self, "and") {
-                while is!(self, "and") {
+            if is_case_insensitive_ident!(self, "and") {
+                while is_case_insensitive_ident!(self, "and") {
                     let and = self.parse()?;
 
                     last_pos = self.input.last_pos()?;
@@ -979,8 +982,8 @@ where
 
                     self.input.skip_ws()?;
                 }
-            } else if is!(self, "or") {
-                while is!(self, "or") {
+            } else if is_case_insensitive_ident!(self, "or") {
+                while is_case_insensitive_ident!(self, "or") {
                     let or = self.parse()?;
 
                     last_pos = self.input.last_pos()?;
@@ -1010,7 +1013,7 @@ where
         let mut last_pos;
         let mut conditions = vec![];
 
-        if is!(self, "not") {
+        if is_case_insensitive_ident!(self, "not") {
             let not = self.parse()?;
 
             last_pos = self.input.last_pos()?;
@@ -1025,8 +1028,8 @@ where
 
             self.input.skip_ws()?;
 
-            if is!(self, "and") {
-                while is!(self, "and") {
+            if is_case_insensitive_ident!(self, "and") {
+                while is_case_insensitive_ident!(self, "and") {
                     let and = self.parse()?;
 
                     last_pos = self.input.last_pos()?;
@@ -1052,7 +1055,7 @@ where
     fn parse(&mut self) -> PResult<MediaNot> {
         let span = self.input.cur_span()?;
 
-        expect!(self, "not");
+        expect_case_insensitive_ident!(self, "not");
 
         self.input.skip_ws()?;
 
@@ -1072,7 +1075,7 @@ where
     fn parse(&mut self) -> PResult<MediaAnd> {
         let span = self.input.cur_span()?;
 
-        expect!(self, "and");
+        expect_case_insensitive_ident!(self, "and");
 
         self.input.skip_ws()?;
 
@@ -1092,7 +1095,7 @@ where
     fn parse(&mut self) -> PResult<MediaOr> {
         let span = self.input.cur_span()?;
 
-        expect!(self, "or");
+        expect_case_insensitive_ident!(self, "or");
 
         self.input.skip_ws()?;
 
@@ -1116,7 +1119,7 @@ where
 
         self.input.skip_ws()?;
 
-        if !is!(self, "(") && !is!(self, "not") {
+        if !is!(self, "(") && !is_case_insensitive_ident!(self, "not") {
             self.input.reset(&state);
 
             return Ok(MediaInParens::Feature(self.parse()?));
