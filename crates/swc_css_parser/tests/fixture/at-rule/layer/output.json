@@ -575,7 +575,7 @@
                 "raw": "slide-left"
               },
               {
-                "type": "UnitValue",
+                "type": "Dimension",
                 "span": {
                   "start": 332,
                   "end": 337,
@@ -592,6 +592,7 @@
                   "raw": "300"
                 },
                 "unit": {
+                  "type": "Identifier",
                   "span": {
                     "start": 335,
                     "end": 337,
@@ -1333,7 +1334,7 @@
                     },
                     "value": [
                       {
-                        "type": "UnitValue",
+                        "type": "Dimension",
                         "span": {
                           "start": 681,
                           "end": 687,
@@ -1350,6 +1351,7 @@
                           "raw": "0.75"
                         },
                         "unit": {
+                          "type": "Identifier",
                           "span": {
                             "start": 685,
                             "end": 687,

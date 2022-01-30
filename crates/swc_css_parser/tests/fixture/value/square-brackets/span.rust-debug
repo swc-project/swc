@@ -281,7 +281,7 @@ error: Value
 6 |     prop:  [red #fff 12px];
   |                      ^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:22
   |
 6 |     prop:  [red #fff 12px];
@@ -293,7 +293,7 @@ error: Number
 6 |     prop:  [red #fff 12px];
   |                      ^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:24
   |
 6 |     prop:  [red #fff 12px];

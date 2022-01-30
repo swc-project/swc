@@ -146,7 +146,7 @@
                     },
                     "op": "+",
                     "left": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 66,
                         "end": 69,
@@ -163,6 +163,7 @@
                         "raw": "1"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 67,
                           "end": 69,

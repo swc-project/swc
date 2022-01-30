@@ -76,7 +76,7 @@ error: Value
 1 | a { value: 10\2cx }
   |            ^^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/esbuild/misc/53OltIbJ-YBXtSKedVvYwA/input.css:1:12
   |
 1 | a { value: 10\2cx }
@@ -88,7 +88,7 @@ error: Number
 1 | a { value: 10\2cx }
   |            ^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/53OltIbJ-YBXtSKedVvYwA/input.css:1:14
   |
 1 | a { value: 10\2cx }

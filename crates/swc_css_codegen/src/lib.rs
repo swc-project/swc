@@ -648,7 +648,7 @@ where
         match n {
             Value::Function(n) => emit!(self, n),
             Value::SimpleBlock(n) => emit!(self, n),
-            Value::Unit(n) => emit!(self, n),
+            Value::Dimension(n) => emit!(self, n),
             Value::Number(n) => emit!(self, n),
             Value::Percent(n) => emit!(self, n),
             Value::Ratio(n) => emit!(self, n),
@@ -862,7 +862,7 @@ where
     }
 
     #[emitter]
-    fn emit_unit_value(&mut self, n: &UnitValue) -> Result {
+    fn emit_dimension(&mut self, n: &Dimension) -> Result {
         emit!(self, n.value);
         emit!(self, n.unit);
     }
@@ -1125,11 +1125,6 @@ where
             SubclassSelector::PseudoElement(n) => emit!(self, n),
             SubclassSelector::At(n) => emit!(self, n),
         }
-    }
-
-    #[emitter]
-    fn emit_unit(&mut self, n: &Unit) -> Result {
-        self.wr.write_raw(Some(n.span), &n.raw)?;
     }
 
     #[emitter]

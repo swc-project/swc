@@ -76,7 +76,7 @@ error: Value
 1 | a { value: 10x\, }
   |            ^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:12
   |
 1 | a { value: 10x\, }
@@ -88,7 +88,7 @@ error: Number
 1 | a { value: 10x\, }
   |            ^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:14
   |
 1 | a { value: 10x\, }

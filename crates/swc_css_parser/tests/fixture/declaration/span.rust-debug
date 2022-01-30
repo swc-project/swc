@@ -1055,7 +1055,7 @@ error: Value
 19 |     prop: center/1em;
    |                  ^^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/declaration/input.css:19:18
    |
 19 |     prop: center/1em;
@@ -1067,7 +1067,7 @@ error: Number
 19 |     prop: center/1em;
    |                  ^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/declaration/input.css:19:19
    |
 19 |     prop: center/1em;
@@ -1121,7 +1121,7 @@ error: Value
 20 |     prop: center/ 1em;
    |                   ^^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/declaration/input.css:20:19
    |
 20 |     prop: center/ 1em;
@@ -1133,7 +1133,7 @@ error: Number
 20 |     prop: center/ 1em;
    |                   ^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/declaration/input.css:20:20
    |
 20 |     prop: center/ 1em;
@@ -1187,7 +1187,7 @@ error: Value
 21 |     prop: center /1em;
    |                   ^^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/declaration/input.css:21:19
    |
 21 |     prop: center /1em;
@@ -1199,7 +1199,7 @@ error: Number
 21 |     prop: center /1em;
    |                   ^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/declaration/input.css:21:20
    |
 21 |     prop: center /1em;
@@ -1253,7 +1253,7 @@ error: Value
 22 |     prop: center / 1em;
    |                    ^^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/declaration/input.css:22:20
    |
 22 |     prop: center / 1em;
@@ -1265,7 +1265,7 @@ error: Number
 22 |     prop: center / 1em;
    |                    ^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/declaration/input.css:22:21
    |
 22 |     prop: center / 1em;

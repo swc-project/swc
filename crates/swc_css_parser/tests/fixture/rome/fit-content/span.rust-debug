@@ -109,7 +109,7 @@ error: Value
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
   |                                        ^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:37
   |
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
@@ -121,7 +121,7 @@ error: Number
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
   |                                        ^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:38
   |
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
@@ -151,7 +151,7 @@ error: Value
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
   |                                                         ^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:54
   |
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
@@ -163,7 +163,7 @@ error: Number
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
   |                                                         ^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:55
   |
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
@@ -175,7 +175,7 @@ error: Value
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
   |                                                              ^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:59
   |
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
@@ -187,7 +187,7 @@ error: Number
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
   |                                                              ^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:60
   |
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;

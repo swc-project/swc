@@ -503,7 +503,7 @@ error: Value
 17 |     30% { top: 50px; }
    |                ^^^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:16
    |
 17 |     30% { top: 50px; }
@@ -515,7 +515,7 @@ error: Number
 17 |     30% { top: 50px; }
    |                ^^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:18
    |
 17 |     30% { top: 50px; }
@@ -599,7 +599,7 @@ error: Value
 18 |     68%, 72% { left: 50px; }
    |                      ^^^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:22
    |
 18 |     68%, 72% { left: 50px; }
@@ -611,7 +611,7 @@ error: Number
 18 |     68%, 72% { left: 50px; }
    |                      ^^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:24
    |
 18 |     68%, 72% { left: 50px; }
@@ -677,7 +677,7 @@ error: Value
 19 |     100% { top: 100px; left: 100%; }
    |                 ^^^^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:17
    |
 19 |     100% { top: 100px; left: 100%; }
@@ -689,7 +689,7 @@ error: Number
 19 |     100% { top: 100px; left: 100%; }
    |                 ^^^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:20
    |
 19 |     100% { top: 100px; left: 100%; }

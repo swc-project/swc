@@ -52,7 +52,7 @@ error: Value
 1 | @viewport { width: 100vw }
   |                    ^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:20
   |
 1 | @viewport { width: 100vw }
@@ -64,7 +64,7 @@ error: Number
 1 | @viewport { width: 100vw }
   |                    ^^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:23
   |
 1 | @viewport { width: 100vw }

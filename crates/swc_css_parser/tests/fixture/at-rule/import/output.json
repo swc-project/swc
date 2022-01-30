@@ -928,7 +928,7 @@
                     "raw": "max-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 672,
                       "end": 677,
@@ -945,6 +945,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 675,
                         "end": 677,
@@ -1081,7 +1082,7 @@
                     "raw": "max-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 755,
                       "end": 760,
@@ -1098,6 +1099,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 758,
                         "end": 760,
@@ -4781,7 +4783,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 3985,
                       "end": 3990,
@@ -4798,6 +4800,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 3988,
                         "end": 3990,
@@ -5081,7 +5084,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 4156,
                       "end": 4161,
@@ -5098,6 +5101,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 4159,
                         "end": 4161,
@@ -5243,7 +5247,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 4243,
                       "end": 4248,
@@ -5260,6 +5264,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 4246,
                         "end": 4248,
@@ -5414,7 +5419,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 4332,
                       "end": 4337,
@@ -5431,6 +5436,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 4335,
                         "end": 4337,
@@ -5625,7 +5631,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 4466,
                       "end": 4471,
@@ -5642,6 +5648,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 4469,
                         "end": 4471,
@@ -5807,7 +5814,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 4558,
                       "end": 4563,
@@ -5824,6 +5831,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 4561,
                         "end": 4563,
@@ -5930,7 +5938,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 4614,
                       "end": 4619,
@@ -5947,6 +5955,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 4617,
                         "end": 4619,
@@ -6112,7 +6121,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 4773,
                       "end": 4778,
@@ -6129,6 +6138,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 4776,
                         "end": 4778,
@@ -6294,7 +6304,7 @@
                     "raw": "MIN-WIDTH"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 4874,
                       "end": 4879,
@@ -6311,6 +6321,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 4877,
                         "end": 4879,
@@ -6476,7 +6487,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 5154,
                       "end": 5159,
@@ -6493,6 +6504,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 5157,
                         "end": 5159,
@@ -7388,7 +7400,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 5917,
                       "end": 5922,
@@ -7405,6 +7417,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 5920,
                         "end": 5922,

@@ -56,7 +56,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 19,
                       "end": 24,
@@ -73,6 +73,7 @@
                       "raw": "935"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 22,
                         "end": 24,

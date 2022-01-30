@@ -1,4 +1,4 @@
-use crate::{Ident, Number, Ratio, Rule, UnitValue};
+use crate::{Dimension, Ident, Number, Ratio, Rule};
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
@@ -125,8 +125,8 @@ pub enum MediaFeatureValue {
     #[tag("Number")]
     Number(Number),
 
-    #[tag("UnitValue")]
-    Dimension(UnitValue),
+    #[tag("Dimension")]
+    Dimension(Dimension),
 
     #[tag("Ident")]
     Ident(Ident),

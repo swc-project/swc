@@ -175,7 +175,7 @@ error: Value
 2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));
   |                                                          ^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/grid/repeat/minmax/input.css:2:55
   |
 2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));
@@ -187,7 +187,7 @@ error: Number
 2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));
   |                                                          ^^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/grid/repeat/minmax/input.css:2:58
   |
 2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));
