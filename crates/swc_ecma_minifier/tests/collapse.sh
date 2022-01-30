@@ -15,9 +15,14 @@ find ./tests/terser -name 'input.js' | while read -r input; do
   fi
   
   output="$(dirname $input)/output.js"	
-  output_terser="$(dirname $input)/output.terser.js"	
   output="$(cat $output)"	
-  output_terser="$(cat $output_terser)"	
+
+  output_terser="$(dirname $input)/output.terser.js"	
+  if [[ -f "$output_terser" ]] ; then	
+    output_terser="$(cat $output_terser)"	
+  else	
+    output_terser=''	
+  fi
   
   
   test_name="${dir/\.\//}";	
@@ -39,7 +44,7 @@ fn $test_name() {
     let mangle = $mangle_json;	
     
     let expected = r###\"$output\"###;	
-    let expected_terser = r###\"$output\"###;	
+    let expected_terser = r###\"$output_terser\"###;	
     
     run_test(src, compress, mangle, expected, expected_terser);	
 }"	
