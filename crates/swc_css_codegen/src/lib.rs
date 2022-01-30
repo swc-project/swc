@@ -758,21 +758,21 @@ where
     }
 
     #[emitter]
-    fn emit_declaration_property(&mut self, n: &DeclarationProperty) -> Result {
+    fn emit_declaration_name(&mut self, n: &DeclarationName) -> Result {
         match n {
-            DeclarationProperty::Ident(n) => emit!(self, n),
-            DeclarationProperty::DashedIdent(n) => emit!(self, n),
+            DeclarationName::Ident(n) => emit!(self, n),
+            DeclarationName::DashedIdent(n) => emit!(self, n),
         }
     }
 
     #[emitter]
     fn emit_declaration(&mut self, n: &Declaration) -> Result {
-        emit!(self, n.property);
+        emit!(self, n.name);
         punct!(self, ":");
 
-        let is_custom_property = match n.property {
-            DeclarationProperty::DashedIdent(_) => true,
-            DeclarationProperty::Ident(_) => false,
+        let is_custom_property = match n.name {
+            DeclarationName::DashedIdent(_) => true,
+            DeclarationName::Ident(_) => false,
         };
 
         if !is_custom_property {

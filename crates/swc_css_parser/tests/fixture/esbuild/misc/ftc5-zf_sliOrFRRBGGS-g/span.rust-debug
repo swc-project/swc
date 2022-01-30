@@ -58,7 +58,7 @@ error: Declaration
 1 | a { color: #122233ff }
   |     ^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:5
   |
 1 | a { color: #122233ff }

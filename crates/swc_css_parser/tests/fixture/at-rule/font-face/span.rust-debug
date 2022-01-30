@@ -55,7 +55,7 @@ error: Declaration
 2 |     font-family: "Open Sans";
   |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/at-rule/font-face/input.css:2:5
   |
 2 |     font-family: "Open Sans";
@@ -86,7 +86,7 @@ error: Declaration
 4 | |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
   | |______________________________________________________________^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/at-rule/font-face/input.css:3:5
   |
 3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),

@@ -70,7 +70,7 @@ error: Declaration
 1 | @supports (display: grid) {
   |            ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/at-rule/supports/input.css:1:12
   |
 1 | @supports (display: grid) {
@@ -155,7 +155,7 @@ error: Declaration
 3 |         display: grid;
   |         ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/at-rule/supports/input.css:3:9
   |
 3 |         display: grid;
@@ -245,7 +245,7 @@ error: Declaration
 7 | @supports (display: flex) {
   |            ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/at-rule/supports/input.css:7:12
   |
 7 | @supports (display: flex) {
@@ -330,7 +330,7 @@ error: Declaration
 9 |         color: blue;
   |         ^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/at-rule/supports/input.css:9:9
   |
 9 |         color: blue;
@@ -529,7 +529,7 @@ error: Declaration
 14 |             display: flex;
    |             ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:14:13
    |
 14 |             display: flex;
@@ -601,7 +601,7 @@ error: Declaration
 18 | @supports   (   display   :   flex   )   {}
    |                 ^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:18:17
    |
 18 | @supports   (   display   :   flex   )   {}
@@ -679,7 +679,7 @@ error: Declaration
 19 | @supports not (display: flex) {}
    |                ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:19:16
    |
 19 | @supports not (display: flex) {}
@@ -757,7 +757,7 @@ error: Declaration
 20 | @SUPPORTS not (display: flex) {}
    |                ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:20:16
    |
 20 | @SUPPORTS not (display: flex) {}
@@ -829,7 +829,7 @@ error: Declaration
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:12
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -943,7 +943,7 @@ error: Declaration
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:50
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1057,7 +1057,7 @@ error: Declaration
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:93
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1171,7 +1171,7 @@ error: Declaration
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:139
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1322,7 +1322,7 @@ error: Declaration
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:22:13
    |
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -1440,7 +1440,7 @@ error: Declaration
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:23:5
    |
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -1558,7 +1558,7 @@ error: Declaration
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:24:5
    |
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -1676,7 +1676,7 @@ error: Declaration
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:25:5
    |
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
@@ -1826,7 +1826,7 @@ error: Declaration
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:28:13
    |
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
@@ -1880,7 +1880,7 @@ error: Declaration
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
    |                                             ^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:28:45
    |
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
@@ -1934,7 +1934,7 @@ error: Declaration
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
    |                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:28:72
    |
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
@@ -2036,7 +2036,7 @@ error: Declaration
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:29:12
    |
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
@@ -2108,7 +2108,7 @@ error: Declaration
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
    |                                             ^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:29:45
    |
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
@@ -2162,7 +2162,7 @@ error: Declaration
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
    |                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:29:71
    |
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
@@ -2264,7 +2264,7 @@ error: Declaration
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:30:17
    |
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
@@ -2336,7 +2336,7 @@ error: Declaration
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
    |                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:30:68
    |
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
@@ -2390,7 +2390,7 @@ error: Declaration
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
    |                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:30:109
    |
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
@@ -2492,7 +2492,7 @@ error: Declaration
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
    |           ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:31:11
    |
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
@@ -2564,7 +2564,7 @@ error: Declaration
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
    |                                          ^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:31:42
    |
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
@@ -2618,7 +2618,7 @@ error: Declaration
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
    |                                                                  ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:31:66
    |
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
@@ -2738,7 +2738,7 @@ error: Declaration
 32 | @supports ((display: flex)) {}
    |             ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:32:13
    |
 32 | @supports ((display: flex)) {}
@@ -2810,7 +2810,7 @@ error: Declaration
 33 | @supports (display: flex !important) {}
    |            ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:33:12
    |
 33 | @supports (display: flex !important) {}
@@ -2888,7 +2888,7 @@ error: Declaration
 34 | @supports NOT (display: flex) {}
    |                ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:34:16
    |
 34 | @supports NOT (display: flex) {}
@@ -2978,7 +2978,7 @@ error: Declaration
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:35:13
    |
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
@@ -3032,7 +3032,7 @@ error: Declaration
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
    |                                             ^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:35:45
    |
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
@@ -3086,7 +3086,7 @@ error: Declaration
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
    |                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:35:72
    |
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
@@ -3188,7 +3188,7 @@ error: Declaration
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:36:12
    |
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
@@ -3260,7 +3260,7 @@ error: Declaration
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
    |                                             ^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:36:45
    |
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
@@ -3314,7 +3314,7 @@ error: Declaration
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
    |                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:36:71
    |
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
@@ -3434,7 +3434,7 @@ error: Declaration
 37 | @supports (NOT (display: flex)) {}
    |                 ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/supports/input.css:37:17
    |
 37 | @supports (NOT (display: flex)) {}

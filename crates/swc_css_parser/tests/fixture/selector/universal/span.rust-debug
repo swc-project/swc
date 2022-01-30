@@ -67,7 +67,7 @@ error: Declaration
 2 |     display: block;
   |     ^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/selector/universal/input.css:2:5
   |
 2 |     display: block;

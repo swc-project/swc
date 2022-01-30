@@ -40,7 +40,7 @@ error: Declaration
 1 | @page { color: red; @top-left {} }
   |         ^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:9
   |
 1 | @page { color: red; @top-left {} }

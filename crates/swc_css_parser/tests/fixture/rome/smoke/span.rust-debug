@@ -75,7 +75,7 @@ error: Declaration
 3 |     background: red;
   |     ^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/smoke/input.css:3:5
   |
 3 |     background: red;
@@ -105,7 +105,7 @@ error: Declaration
 4 |     width: calc(1px + 2%);
   |     ^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/smoke/input.css:4:5
   |
 4 |     width: calc(1px + 2%);

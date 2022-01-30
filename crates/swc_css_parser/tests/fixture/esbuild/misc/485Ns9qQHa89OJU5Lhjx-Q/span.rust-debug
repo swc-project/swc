@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: \69 dent }
   |     ^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/485Ns9qQHa89OJU5Lhjx-Q/input.css:1:5
   |
 1 | a { value: \69 dent }

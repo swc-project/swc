@@ -1018,7 +1018,7 @@ error: Declaration
 19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
    |                                    ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/import/input.css:19:36
    |
 19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
@@ -1186,7 +1186,7 @@ error: Declaration
 20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
    |                                    ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/import/input.css:20:36
    |
 20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
@@ -1384,7 +1384,7 @@ error: Declaration
 21 | @import url("fallback-layout.css") supports(not (display: flex));
    |                                                  ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/import/input.css:21:50
    |
 21 | @import url("fallback-layout.css") supports(not (display: flex));
@@ -4804,7 +4804,7 @@ error: Declaration
 108 | @import "test.css" supports(display: flex);
     |                             ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:108:29
     |
 108 | @import "test.css" supports(display: flex);
@@ -4870,7 +4870,7 @@ error: Declaration
 109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
     |                             ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:109:29
     |
 109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
@@ -5008,7 +5008,7 @@ error: Declaration
 110 | @import"test.css"supports(display: flex)screen and (orientation:landscape);
     |                           ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:110:27
     |
 110 | @import"test.css"supports(display: flex)screen and (orientation:landscape);
@@ -5608,7 +5608,7 @@ error: Declaration
 128 | @import url("./test.css") supports(display: flex);
     |                                    ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:128:36
     |
 128 | @import url("./test.css") supports(display: flex);
@@ -5692,7 +5692,7 @@ error: Declaration
 129 | @import url("./test.css") supports(display: flex !important);
     |                                    ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:129:36
     |
 129 | @import url("./test.css") supports(display: flex !important);
@@ -5776,7 +5776,7 @@ error: Declaration
 130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
     |                                    ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:130:36
     |
 130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
@@ -6112,7 +6112,7 @@ error: Declaration
 133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
     |                                                   ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:133:51
     |
 133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
@@ -6292,7 +6292,7 @@ error: Declaration
 134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
     |                                          ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:134:42
     |
 134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
@@ -6478,7 +6478,7 @@ error: Declaration
 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
     |                                            ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:135:44
     |
 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
@@ -6712,7 +6712,7 @@ error: Declaration
 137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
     |                                                      ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:137:54
     |
 137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
@@ -6910,7 +6910,7 @@ error: Declaration
 138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
     |                                                 ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:138:49
     |
 138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
@@ -7240,7 +7240,7 @@ error: Declaration
 140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
     |                                                                          ^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:140:74
     |
 140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
@@ -7438,7 +7438,7 @@ error: Declaration
 141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
     |                                                   ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:141:51
     |
 141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
@@ -7636,7 +7636,7 @@ error: Declaration
 142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
     |                                                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:142:118
     |
 142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
@@ -8254,7 +8254,7 @@ error: Declaration
 149 | @import url("./import-with-supports.css") supports(display: flex);
     |                                                    ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:149:52
     |
 149 | @import url("./import-with-supports.css") supports(display: flex);
@@ -8380,7 +8380,7 @@ error: Declaration
 150 | @import url("./import-with-supports.css") supports(((display: flex)));
     |                                                      ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:150:54
     |
 150 | @import url("./import-with-supports.css") supports(((display: flex)));
@@ -8464,7 +8464,7 @@ error: Declaration
 151 | @import url("./deep-import-with-supports.css") supports(display: flex);
     |                                                         ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:151:57
     |
 151 | @import url("./deep-import-with-supports.css") supports(display: flex);
@@ -8548,7 +8548,7 @@ error: Declaration
 152 | @import url('./test.css') supports(display: grid);
     |                                    ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:152:36
     |
 152 | @import url('./test.css') supports(display: grid);
@@ -8632,7 +8632,7 @@ error: Declaration
 153 | @import url('./test.css') supports(   display   :    grid   );
     |                                       ^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:153:39
     |
 153 | @import url('./test.css') supports(   display   :    grid   );
@@ -8716,7 +8716,7 @@ error: Declaration
 154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
     |                                                              ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:154:62
     |
 154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
@@ -9148,7 +9148,7 @@ error: Declaration
 158 | @import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);
     |                                                                             ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
    --> $DIR/tests/fixture/at-rule/import/input.css:158:77
     |
 158 | @import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);

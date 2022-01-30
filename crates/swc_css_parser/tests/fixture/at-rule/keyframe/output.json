@@ -114,7 +114,7 @@
                   "end": 161,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 136,
@@ -202,7 +202,7 @@
                   "end": 214,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 187,
@@ -318,7 +318,7 @@
                   "end": 264,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 258,
@@ -349,7 +349,7 @@
                   "end": 273,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 266,
@@ -417,7 +417,7 @@
                   "end": 296,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 287,
@@ -521,7 +521,7 @@
                   "end": 325,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 315,
@@ -607,7 +607,7 @@
                   "end": 350,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 340,
@@ -656,7 +656,7 @@
                   "end": 362,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 352,

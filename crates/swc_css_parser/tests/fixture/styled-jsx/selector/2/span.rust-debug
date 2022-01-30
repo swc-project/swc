@@ -139,7 +139,7 @@ error: Declaration
 2 |     color: green;
   |     ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:2:5
   |
 2 |     color: green;

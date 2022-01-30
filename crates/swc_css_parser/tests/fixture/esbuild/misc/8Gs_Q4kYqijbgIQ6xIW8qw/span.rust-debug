@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: url(a\62c) }
   |     ^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/8Gs_Q4kYqijbgIQ6xIW8qw/input.css:1:5
   |
 1 | a { value: url(a\62c) }

@@ -83,7 +83,7 @@ error: Declaration
 2 |     property: 10;
   |     ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/number/input.css:2:5
   |
 2 |     property: 10;
@@ -113,7 +113,7 @@ error: Declaration
 3 |     property: +10;
   |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/number/input.css:3:5
   |
 3 |     property: +10;
@@ -143,7 +143,7 @@ error: Declaration
 4 |     property: -10;
   |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/number/input.css:4:5
   |
 4 |     property: -10;
@@ -173,7 +173,7 @@ error: Declaration
 5 |     property: 0.1;
   |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/number/input.css:5:5
   |
 5 |     property: 0.1;
@@ -203,7 +203,7 @@ error: Declaration
 6 |     property: +0.1;
   |     ^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/number/input.css:6:5
   |
 6 |     property: +0.1;
@@ -233,7 +233,7 @@ error: Declaration
 7 |     property: -0.1;
   |     ^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/number/input.css:7:5
   |
 7 |     property: -0.1;
@@ -263,7 +263,7 @@ error: Declaration
 8 |     property: -.1;
   |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/number/input.css:8:5
   |
 8 |     property: -.1;
@@ -293,7 +293,7 @@ error: Declaration
 9 |     property: +.1;
   |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/number/input.css:9:5
   |
 9 |     property: +.1;
@@ -323,7 +323,7 @@ error: Declaration
 10 |     property: 0;
    |     ^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:10:5
    |
 10 |     property: 0;
@@ -353,7 +353,7 @@ error: Declaration
 11 |     property: 10;
    |     ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:11:5
    |
 11 |     property: 10;
@@ -383,7 +383,7 @@ error: Declaration
 12 |     property: .10;
    |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:12:5
    |
 12 |     property: .10;
@@ -413,7 +413,7 @@ error: Declaration
 13 |     property: 12.34;
    |     ^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:13:5
    |
 13 |     property: 12.34;
@@ -443,7 +443,7 @@ error: Declaration
 14 |     property: 0.1;
    |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:14:5
    |
 14 |     property: 0.1;
@@ -473,7 +473,7 @@ error: Declaration
 15 |     property: 1.0;
    |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:15:5
    |
 15 |     property: 1.0;
@@ -503,7 +503,7 @@ error: Declaration
 16 |     property: 0.0;
    |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:16:5
    |
 16 |     property: 0.0;
@@ -533,7 +533,7 @@ error: Declaration
 17 |     property: +0.0;
    |     ^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:17:5
    |
 17 |     property: +0.0;
@@ -563,7 +563,7 @@ error: Declaration
 18 |     property: -0.0;
    |     ^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:18:5
    |
 18 |     property: -0.0;
@@ -593,7 +593,7 @@ error: Declaration
 19 |     property: .0;
    |     ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:19:5
    |
 19 |     property: .0;
@@ -623,7 +623,7 @@ error: Declaration
 20 |     property: 1.200000;
    |     ^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:20:5
    |
 20 |     property: 1.200000;
@@ -653,7 +653,7 @@ error: Declaration
 21 |     property: 1.2e2;
    |     ^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:21:5
    |
 21 |     property: 1.2e2;
@@ -683,7 +683,7 @@ error: Declaration
 22 |     property: 1e2;
    |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:22:5
    |
 22 |     property: 1e2;
@@ -713,7 +713,7 @@ error: Declaration
 23 |     property: .2e2;
    |     ^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:23:5
    |
 23 |     property: .2e2;
@@ -743,7 +743,7 @@ error: Declaration
 24 |     property: 1.2E2;
    |     ^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:24:5
    |
 24 |     property: 1.2E2;
@@ -773,7 +773,7 @@ error: Declaration
 25 |     property: 1.2e+2;
    |     ^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:25:5
    |
 25 |     property: 1.2e+2;
@@ -803,7 +803,7 @@ error: Declaration
 26 |     property: 1.2e-2;
    |     ^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:26:5
    |
 26 |     property: 1.2e-2;
@@ -833,7 +833,7 @@ error: Declaration
 27 |     property: -1;
    |     ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:27:5
    |
 27 |     property: -1;
@@ -863,7 +863,7 @@ error: Declaration
 28 |     property: -1.2;
    |     ^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:28:5
    |
 28 |     property: -1.2;
@@ -893,7 +893,7 @@ error: Declaration
 29 |     property: -.2;
    |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:29:5
    |
 29 |     property: -.2;
@@ -923,7 +923,7 @@ error: Declaration
 30 |     property: -.2;
    |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:30:5
    |
 30 |     property: -.2;
@@ -953,7 +953,7 @@ error: Declaration
 31 |     property: +.2;
    |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:31:5
    |
 31 |     property: +.2;
@@ -983,7 +983,7 @@ error: Declaration
 32 |     property: -1.2e3;
    |     ^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:32:5
    |
 32 |     property: -1.2e3;
@@ -1013,7 +1013,7 @@ error: Declaration
 33 |     property: 1.75;
    |     ^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:33:5
    |
 33 |     property: 1.75;
@@ -1043,7 +1043,7 @@ error: Declaration
 34 |     property: +1.75;
    |     ^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:34:5
    |
 34 |     property: +1.75;
@@ -1073,7 +1073,7 @@ error: Declaration
 35 |     property: 1e;
    |     ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/number/input.css:35:5
    |
 35 |     property: 1e;

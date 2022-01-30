@@ -298,7 +298,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Number, visit_number);
     mtd!(Ratio, visit_ratio);
     mtd!(Percent, visit_percent);
-    mtd!(DeclarationProperty, visit_declaration_property);
+    mtd!(DeclarationName, visit_declaration_name);
     mtd!(Declaration, visit_declaration);
     mtd!(Nth, visit_nth);
     mtd!(AnPlusB, visit_an_plus_b);

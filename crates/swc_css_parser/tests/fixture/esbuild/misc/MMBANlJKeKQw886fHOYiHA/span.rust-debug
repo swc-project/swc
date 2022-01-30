@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: 10\32x }
   |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/MMBANlJKeKQw886fHOYiHA/input.css:1:5
   |
 1 | a { value: 10\32x }

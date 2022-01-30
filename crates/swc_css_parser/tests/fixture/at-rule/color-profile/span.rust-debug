@@ -52,7 +52,7 @@ error: Declaration
 2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/at-rule/color-profile/input.css:2:5
   |
 2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
@@ -136,7 +136,7 @@ error: Declaration
 6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/at-rule/color-profile/input.css:6:5
   |
 6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');

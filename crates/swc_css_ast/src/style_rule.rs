@@ -56,14 +56,14 @@ pub enum DeclarationBlockItem {
 #[ast_node("Declaration")]
 pub struct Declaration {
     pub span: Span,
-    pub property: DeclarationProperty,
+    pub name: DeclarationName,
     pub value: Vec<Value>,
     /// The span includes `!`
     pub important: Option<Span>,
 }
 
 #[ast_node]
-pub enum DeclarationProperty {
+pub enum DeclarationName {
     #[tag("Ident")]
     Ident(Ident),
     #[tag("DashedIdent")]

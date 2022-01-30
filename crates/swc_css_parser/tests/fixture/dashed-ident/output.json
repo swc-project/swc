@@ -79,7 +79,7 @@
               "end": 26,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 12,
@@ -136,7 +136,7 @@
               "end": 52,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 36,
@@ -261,7 +261,7 @@
               "end": 84,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 72,
@@ -423,7 +423,7 @@
               "end": 131,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 107,
