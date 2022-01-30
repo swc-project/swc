@@ -55,6 +55,8 @@ pub enum Value {
 pub enum DelimiterValue {
     /// `,`
     Comma,
+    /// `/`
+    Solidus,
 }
 
 #[ast_node("Delimiter")]

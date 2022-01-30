@@ -39,7 +39,19 @@ where
 
             if !eat!(self, " ")
                 && !is_one_of!(
-                    self, ",", "function", "ident", "percent", "str", "#", "url", "[", "{", "("
+                    self,
+                    ",",
+                    "/",
+                    "function",
+                    "ident",
+                    "dimension",
+                    "percent",
+                    "str",
+                    "#",
+                    "url",
+                    "[",
+                    "{",
+                    "("
                 )
             {
                 if self.ctx.recover_from_property_value
@@ -229,6 +241,15 @@ where
                 return Ok(Value::Delimiter(Delimiter {
                     span: span!(self, span.lo),
                     value: DelimiterValue::Comma,
+                }));
+            }
+
+            tok!("/") => {
+                bump!(self);
+
+                return Ok(Value::Delimiter(Delimiter {
+                    span: span!(self, span.lo),
+                    value: DelimiterValue::Solidus,
                 }));
             }
 
