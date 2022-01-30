@@ -38,9 +38,9 @@ fn $test_name() {
     let compress = r###\"$conf_json\"###;	
     let mangle = $mangle_json;	
     
-    let expected = r###\"$(cat $output)\"###;	
-    let expected_terser = r###\"$(cat $output_terser)\"###;	
+    let expected = r###\"$output\"###;	
+    let expected_terser = r###\"$output\"###;	
     
-    run_test(src, compress, mangle);	
+    run_test(src, compress, mangle, expected, expected_terser);	
 }"	
 done 	
