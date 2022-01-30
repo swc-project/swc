@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 1227,
+    "end": 1252,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 0,
-        "end": 1226,
+        "end": 1251,
         "ctxt": 0
       },
       "prelude": {
@@ -66,7 +66,7 @@
         "type": "Block",
         "span": {
           "start": 2,
-          "end": 1226,
+          "end": 1251,
           "ctxt": 0
         },
         "value": [
@@ -1364,6 +1364,56 @@
                   },
                   "value": "image.png􏿿",
                   "raw": "image.png\\10FFFF"
+                },
+                "modifiers": null
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1229,
+              "end": 1248,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 1229,
+                "end": 1239,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Url",
+                "span": {
+                  "start": 1241,
+                  "end": 1248,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1241,
+                    "end": 1244,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "UrlValueRaw",
+                  "span": {
+                    "start": 1245,
+                    "end": 1247,
+                    "ctxt": 0
+                  },
+                  "value": "18",
+                  "raw": "18"
                 },
                 "modifiers": null
               }

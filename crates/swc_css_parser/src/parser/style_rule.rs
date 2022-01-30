@@ -208,13 +208,7 @@ where
         self.input.skip_ws()?;
 
         let is_dashed_ident = match cur!(self) {
-            Token::Ident { value, .. } => {
-                if value.starts_with("--") {
-                    true
-                } else {
-                    false
-                }
-            }
+            Token::Ident { value, .. } => value.starts_with("--"),
             _ => {
                 return Err(Error::new(span, ErrorKind::Expected("Ident")));
             }
