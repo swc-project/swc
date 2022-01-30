@@ -2454,6 +2454,126 @@ error: Ident
    |                                               ^^^^^^^^^
 
 error: Rule
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:1
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:1
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:1
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportHref
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:9
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |         ^^^^^^^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:9
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |         ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:9
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |         ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:13
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |             ^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:13
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |             ^^^^^^^^
+
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:23
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:23
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:23
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |                       ^^^^^^
+
+error: MediaConditionWithoutOr
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:34
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionWithoutOrType
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:34
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:34
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:34
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:34
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:35
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |                                   ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:35
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |                                   ^^^^^^^^^^^
+
+error: MediaFeatureValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:48
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |                                                ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:48
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |                                                ^^^^^^^^^
+
+error: Rule
   --> $DIR/tests/fixture/at-rule/import/input.css:48:1
    |
 48 | @import url(test.css)screen and (orientation:landscape);
@@ -7029,6 +7149,402 @@ error: Unit
     |
 139 | @import url("./test.css")screen and (min-width: 400px);
     |                                                    ^^
+
+error: Rule
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:1
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:1
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:1
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportHref
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:9
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |         ^^^^^^^^^^^^^^^^^
+
+error: Url
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:9
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |         ^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:9
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |         ^^^
+
+error: UrlValue
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:13
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |             ^^^^^^^^^^^^
+
+error: Str
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:13
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |             ^^^^^^^^^^^^
+
+error: ImportLayerName
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:31
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:31
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:31
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                               ^^^^^
+
+error: Value
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:42
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                          ^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:42
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                          ^^^^^^^
+
+error: ImportSupportsType
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:74
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                          ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:74
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                          ^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationProperty
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:74
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                          ^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:74
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                          ^^^^^^^
+
+error: Value
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:92
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                                            ^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:92
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                                            ^^^^
+
+error: MediaQueryList
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:107
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:107
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:107
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                                                           ^^^^^^
+
+error: MediaConditionWithoutOr
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:126
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionWithoutOrType
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:126
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:126
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:126
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:126
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:132
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                                                                                    ^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:132
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                                                                                    ^^^^^^^^^
+
+error: MediaFeatureValue
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:152
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                                                                                                        ^^^^^
+
+error: UnitValue
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:152
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                                                                                                        ^^^^^
+
+error: Number
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:152
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                                                                                                        ^^^
+
+error: Unit
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:155
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                                                                                                           ^^
+
+error: Rule
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:1
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:1
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:1
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportHref
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:9
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |         ^^^^^^^^^^^^^^^^^
+
+error: Url
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:9
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |         ^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:9
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |         ^^^
+
+error: UrlValue
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:13
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |             ^^^^^^^^^^^^
+
+error: Str
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:13
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |             ^^^^^^^^^^^^
+
+error: ImportLayerName
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:27
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                           ^^^^^^^^^^^^^^
+
+error: Function
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:27
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                           ^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:27
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                           ^^^^^
+
+error: Value
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:33
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                 ^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:33
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                 ^^^^^^^
+
+error: ImportSupportsType
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:51
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                   ^^^^^^^^^^^^^
+
+error: Declaration
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:51
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                   ^^^^^^^^^^^^^
+
+error: DeclarationProperty
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:51
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                   ^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:51
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                   ^^^^^^^
+
+error: Value
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:60
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                            ^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:60
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                            ^^^^
+
+error: MediaQueryList
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:66
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:66
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:66
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                                  ^^^^^^
+
+error: MediaConditionWithoutOr
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:77
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                                             ^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionWithoutOrType
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:77
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                                             ^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:77
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                                             ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:77
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                                             ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:77
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                                             ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:78
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                                              ^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:78
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                                              ^^^^^^^^^
+
+error: MediaFeatureValue
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:89
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                                                         ^^^^^
+
+error: UnitValue
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:89
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                                                         ^^^^^
+
+error: Number
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:89
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                                                         ^^^
+
+error: Unit
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:92
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                                                            ^^
 
 error: Rule
    --> $DIR/tests/fixture/at-rule/import/input.css:142:1

@@ -7,6 +7,7 @@ mod const_assign;
 mod duplicate_bindings;
 mod duplicate_exports;
 pub mod no_console;
+mod no_debugger;
 
 pub fn all(lint_config: &LintConfig, top_level_ctxt: SyntaxContext) -> Vec<Box<dyn Rule>> {
     let mut rules = vec![
@@ -19,6 +20,8 @@ pub fn all(lint_config: &LintConfig, top_level_ctxt: SyntaxContext) -> Vec<Box<d
         &lint_config.no_console,
         top_level_ctxt,
     ));
+
+    rules.extend(no_debugger::no_debugger(&lint_config.no_debugger));
 
     rules
 }

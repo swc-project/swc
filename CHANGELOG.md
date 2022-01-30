@@ -5,6 +5,12 @@
 
 
 
+- **(css/parser)** Fix parser logic related to case insensivity (#3382) ([3ded88b](https://github.com/swc-project/swc/commit/3ded88bffca4abd0bb77a52b0dfb32d8c8520581))
+
+
+- **(css/parser)** Fix bugs related to `url` (#3403) ([3c8d985](https://github.com/swc-project/swc/commit/3c8d985a07baf5a52f40221fcc73344b3ca48d15))
+
+
 - **(es/compat)** Add the missing span in `optional_chaining` (#3384) ([9eb7773](https://github.com/swc-project/swc/commit/9eb77738fd1049022693f52843483623553856dd))
 
 
@@ -24,6 +30,9 @@
 
 
 - **(css/parser)** Improve selector parser (#3386) ([c73835b](https://github.com/swc-project/swc/commit/c73835bfebe56518e107a3666fe95ca649d33a24))
+
+
+- **(es/lints)** Implement `no-debugger` rule (#3398) ([9dec923](https://github.com/swc-project/swc/commit/9dec9236f7b3c95c803571404d7abae71e173936))
 
 
 - **(es/minifier)** Implement `drop_console` (#3392) ([91d7800](https://github.com/swc-project/swc/commit/91d78000ea445575f9ac30d0f36299ab4f0cbf5c))
@@ -51,6 +60,12 @@
 
 
 - **(es/parser)** Flatten tests to make `git` faster (#3393) ([839d0ac](https://github.com/swc-project/swc/commit/839d0ac480f0a702ac40bf14ba84d192cde47ec6))
+
+### Testing
+
+
+
+- **(css/codegen)** Add more tests (#3405) ([64383e3](https://github.com/swc-project/swc/commit/64383e385cc6a5b735273218f31a4430a772c941))
 
 ## [1.2.135] - 2022-01-27
 

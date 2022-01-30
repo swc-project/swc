@@ -867,6 +867,8 @@ where
                             modifiers.push(UrlModifier::Function(self.parse()?));
                         }
                         _ => {
+                            let span = self.input.cur_span()?;
+
                             return Err(Error::new(span, ErrorKind::Expected("ident or function")));
                         }
                     }

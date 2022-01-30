@@ -2611,7 +2611,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.119.8"
+version = "0.119.9"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2751,7 +2751,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.57.0"
+version = "0.57.2"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2813,7 +2813,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.57.0"
+version = "0.57.2"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2919,7 +2919,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.11.0"
+version = "0.11.1"
 dependencies = [
  "auto_impl",
  "parking_lot",

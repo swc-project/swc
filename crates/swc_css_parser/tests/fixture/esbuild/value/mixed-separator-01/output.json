@@ -1,0 +1,146 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 48,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 0,
+        "end": 48,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 1,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 1,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 1,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TypeSelector",
+                  "span": {
+                    "start": 0,
+                    "end": 1,
+                    "ctxt": 0
+                  },
+                  "prefix": null,
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 0,
+                      "end": 1,
+                      "ctxt": 0
+                    },
+                    "value": "a",
+                    "raw": "a"
+                  }
+                },
+                "subclassSelectors": []
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 2,
+          "end": 48,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 4,
+              "end": 46,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 4,
+                "end": 14,
+                "ctxt": 0
+              },
+              "value": "box-shadow",
+              "raw": "box-shadow"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 16,
+                  "end": 29,
+                  "ctxt": 0
+                },
+                "value": "rebeccapurple",
+                "raw": "rebeccapurple"
+              },
+              {
+                "type": "Delimiter",
+                "span": {
+                  "start": 30,
+                  "end": 31,
+                  "ctxt": 0
+                },
+                "value": ","
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 32,
+                  "end": 38,
+                  "ctxt": 0
+                },
+                "value": "yellow",
+                "raw": "yellow"
+              },
+              {
+                "type": "Delimiter",
+                "span": {
+                  "start": 39,
+                  "end": 40,
+                  "ctxt": 0
+                },
+                "value": ","
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 41,
+                  "end": 46,
+                  "ctxt": 0
+                },
+                "value": "black",
+                "raw": "black"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    }
+  ]
+}
