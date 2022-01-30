@@ -27,3 +27,4 @@ a[   class   =   "test"   ] {}
 [   href*="insensitive"   i   ] {}
 [   href   *=   "insensitive"   i   ] {}
 [   href   ] {}
+[frame=hsides i] {} 

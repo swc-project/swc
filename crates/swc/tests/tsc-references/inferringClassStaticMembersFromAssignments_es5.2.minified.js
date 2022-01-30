@@ -20,11 +20,12 @@ var C3 = function() {
     "use strict";
     _classCallCheck(this, C3);
 };
-C3.staticProp = 0, (function() {}).staticProp = 0;
+function F3() {}
+C3.staticProp = 0, F3.staticProp = 0;
 var C4 = function _class() {
     "use strict";
     _classCallCheck(this, _class);
 };
 C4.staticProp = 0;
 var F4 = function() {};
-F4.staticProp = 0, a.C1.staticProp, a.C2.staticProp, a.F1.staticProp, a.F2.staticProp, C3.staticProp, C4.staticProp, F4.staticProp;
+F4.staticProp = 0, a.C1.staticProp, a.C2.staticProp, a.F1.staticProp, a.F2.staticProp, C3.staticProp, C4.staticProp, F3.staticProp, F4.staticProp;

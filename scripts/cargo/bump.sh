@@ -13,5 +13,5 @@ cargo metadata --offline --format-version 1 > /dev/null
 
 git add -A
 git commit -m 'chore: Publish crates'
-git push
+git push --no-verify
 cargo mono publish --no-verify

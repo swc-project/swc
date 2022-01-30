@@ -191,7 +191,7 @@ where
                         .as_ref()
                         .and_then(|data| data.vars.get(&param.to_id()))
                     {
-                        if usage.reassigned {
+                        if usage.reassigned() {
                             continue;
                         }
                         if usage.ref_count != 1 {

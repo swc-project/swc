@@ -1,5 +1,0 @@
-{
-    "hoist_props": true,
-    "reduce_vars": true,
-    "toplevel": false
-}

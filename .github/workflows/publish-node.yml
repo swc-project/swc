@@ -231,6 +231,7 @@ jobs:
           rm -rf crates/swc/tests/vercel
           rm -rf crates/swc/tests/tsc-references
           rm -rf crates/swc_bundler/tests
+          rm -rf crates/swc_ecma_parser/tests/tsc
           rm -rf crates/swc_ecma_parser/tests/typescript
           rm -rf crates/swc_ecma_minifier/tests/terser
           rm -rf crates/swc_ecma_minifier/tests/compress
@@ -242,14 +243,16 @@ jobs:
           rm -rf crates/swc_ecma_codegen/tests/test262-min
       - name: Build
         id: build
-        uses: vmactions/freebsd-vm@v0.1.5
+        uses: vmactions/freebsd-vm@v0.1.6
         env:
           DEBUG: napi:*
           RUSTUP_HOME: /usr/local/rustup
           CARGO_HOME: /usr/local/cargo
           RUSTUP_IO_THREADS: 1
+          CARGO_PROFILE_RELEASE_LTO: false
+          CARGO_PROFILE_RELEASE_CODEGEN_UNITS: 16
         with:
-          envs: DEBUG RUSTUP_HOME CARGO_HOME RUSTUP_IO_THREADS
+          envs: DEBUG RUSTUP_HOME CARGO_HOME RUSTUP_IO_THREADS CARGO_PROFILE_RELEASE_LTO CARGO_PROFILE_RELEASE_CODEGEN_UNITS
           usesh: true
           mem: 6000
           prepare: |

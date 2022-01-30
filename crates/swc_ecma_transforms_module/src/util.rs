@@ -506,13 +506,21 @@ impl Scope {
             Expr::Call(CallExpr {
                 span,
                 callee: Callee::Import(_),
-                args,
+                mut args,
                 ..
             }) if !folder.config().ignore_dynamic
                 // TODO: import assertion
                 && args.len() == 1 =>
             {
-                folder.make_dynamic_import(span, args)
+                let expr = match *(args.pop().unwrap().expr) {
+                    Expr::Ident(ident) => match Self::fold_ident(folder, ident) {
+                        Ok(expr) => expr,
+                        Err(ident) => Expr::Ident(ident),
+                    },
+                    expr => expr,
+                };
+
+                folder.make_dynamic_import(span, vec![expr.as_arg()])
             }
 
             Expr::Call(CallExpr {

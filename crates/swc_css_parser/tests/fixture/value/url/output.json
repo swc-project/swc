@@ -757,52 +757,42 @@
                     },
                     "value": [
                       {
-                        "type": "SpaceValues",
+                        "type": "DashedIdentifier",
                         "span": {
                           "start": 712,
+                          "end": 719,
+                          "ctxt": 0
+                        },
+                        "value": "--color",
+                        "raw": "--color"
+                      },
+                      {
+                        "type": "Function",
+                        "span": {
+                          "start": 720,
                           "end": 740,
                           "ctxt": 0
                         },
-                        "values": [
+                        "name": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 720,
+                            "end": 723,
+                            "ctxt": 0
+                          },
+                          "value": "var",
+                          "raw": "var"
+                        },
+                        "value": [
                           {
                             "type": "DashedIdentifier",
                             "span": {
-                              "start": 712,
-                              "end": 719,
+                              "start": 724,
+                              "end": 739,
                               "ctxt": 0
                             },
-                            "value": "--color",
-                            "raw": "--color"
-                          },
-                          {
-                            "type": "Function",
-                            "span": {
-                              "start": 720,
-                              "end": 740,
-                              "ctxt": 0
-                            },
-                            "name": {
-                              "type": "Identifier",
-                              "span": {
-                                "start": 720,
-                                "end": 723,
-                                "ctxt": 0
-                              },
-                              "value": "var",
-                              "raw": "var"
-                            },
-                            "value": [
-                              {
-                                "type": "DashedIdentifier",
-                                "span": {
-                                  "start": 724,
-                                  "end": 739,
-                                  "ctxt": 0
-                                },
-                                "value": "--primary-color",
-                                "raw": "--primary-color"
-                              }
-                            ]
+                            "value": "--primary-color",
+                            "raw": "--primary-color"
                           }
                         ]
                       }

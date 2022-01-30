@@ -1,6 +1,6 @@
 {
     "collapse_vars": true,
     "dead_code": true,
-    "passes": 2,
+    "passes": 3,
     "unused": true
 }

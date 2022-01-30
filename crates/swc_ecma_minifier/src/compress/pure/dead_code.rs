@@ -2,6 +2,7 @@ use super::Pure;
 use crate::{
     compress::util::{always_terminates, is_fine_for_if_cons},
     mode::Mode,
+    util::ModuleItemExt,
 };
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -12,6 +13,51 @@ impl<M> Pure<'_, M>
 where
     M: Mode,
 {
+    pub(super) fn drop_unreachable_stmts<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike + ModuleItemExt + Take,
+    {
+        if !self.options.side_effects {
+            return;
+        }
+
+        let idx = stmts
+            .iter()
+            .enumerate()
+            .find(|(_, stmt)| match stmt.as_stmt() {
+                Some(s) => always_terminates(s),
+                _ => false,
+            });
+
+        if let Some((idx, _)) = idx {
+            stmts.iter_mut().skip(idx + 1).for_each(|stmt| {
+                match stmt.as_stmt() {
+                    Some(Stmt::Decl(
+                        Decl::Var(VarDecl {
+                            kind: VarDeclKind::Var,
+                            ..
+                        })
+                        | Decl::Fn(..),
+                    )) => {
+                        // Preserve
+                    }
+
+                    Some(Stmt::Empty(..)) => {
+                        // noop
+                    }
+
+                    Some(..) => {
+                        tracing::debug!("Removing unreachable statements");
+                        self.changed = true;
+                        stmt.take();
+                    }
+
+                    _ => {}
+                }
+            });
+        }
+    }
+
     pub(super) fn drop_useless_blocks<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
@@ -114,53 +160,5 @@ where
         }
 
         *stmts = new;
-    }
-
-    pub(super) fn remove_unreachable_stmts<T>(&mut self, stmts: &mut Vec<T>)
-    where
-        T: StmtLike,
-    {
-        if !self.options.side_effects {
-            return;
-        }
-
-        let mut last = None;
-        let mut terminated = false;
-        for (idx, stmt) in stmts.iter().enumerate() {
-            match stmt.as_stmt() {
-                Some(stmt) if always_terminates(stmt) => {
-                    terminated = true;
-                }
-                _ => {
-                    if terminated {
-                        last = Some(idx);
-                        break;
-                    }
-                }
-            }
-        }
-
-        if let Some(last) = last {
-            if stmts[last..]
-                .iter()
-                .all(|stmt| matches!(stmt.as_stmt(), Some(Stmt::Decl(..)) | None))
-            {
-                return;
-            }
-
-            self.changed = true;
-            tracing::debug!("dead_code: Removing unreachable statements");
-
-            let extras = stmts.drain(last..).collect::<Vec<_>>();
-
-            for extra in extras {
-                match extra.as_stmt() {
-                    Some(Stmt::Decl(..)) | None => {
-                        stmts.push(extra);
-                    }
-                    _ => {}
-                }
-            }
-        }
     }
 }

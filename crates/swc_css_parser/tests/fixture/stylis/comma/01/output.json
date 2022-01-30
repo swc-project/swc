@@ -89,110 +89,99 @@
             },
             "value": [
               {
-                "type": "CommaValues",
+                "type": "Function",
                 "span": {
-                  "start": 15,
-                  "end": 51,
+                  "start": 16,
+                  "end": 42,
                   "ctxt": 0
                 },
-                "values": [
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 16,
+                    "end": 25,
+                    "ctxt": 0
+                  },
+                  "value": "image-set",
+                  "raw": "image-set"
+                },
+                "value": [
                   {
-                    "type": "Function",
+                    "type": "Url",
                     "span": {
-                      "start": 16,
-                      "end": 42,
+                      "start": 26,
+                      "end": 38,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Identifier",
                       "span": {
-                        "start": 16,
-                        "end": 25,
+                        "start": 26,
+                        "end": 29,
                         "ctxt": 0
                       },
-                      "value": "image-set",
-                      "raw": "image-set"
+                      "value": "url",
+                      "raw": "url"
                     },
-                    "value": [
-                      {
-                        "type": "SpaceValues",
-                        "span": {
-                          "start": 26,
-                          "end": 41,
-                          "ctxt": 0
-                        },
-                        "values": [
-                          {
-                            "type": "Url",
-                            "span": {
-                              "start": 26,
-                              "end": 38,
-                              "ctxt": 0
-                            },
-                            "name": {
-                              "type": "Identifier",
-                              "span": {
-                                "start": 26,
-                                "end": 29,
-                                "ctxt": 0
-                              },
-                              "value": "url",
-                              "raw": "url"
-                            },
-                            "value": {
-                              "type": "UrlValueRaw",
-                              "span": {
-                                "start": 30,
-                                "end": 37,
-                                "ctxt": 0
-                              },
-                              "value": "foo.jpg",
-                              "raw": "foo.jpg"
-                            },
-                            "modifiers": null
-                          },
-                          {
-                            "type": "UnitValue",
-                            "span": {
-                              "start": 39,
-                              "end": 41,
-                              "ctxt": 0
-                            },
-                            "value": {
-                              "type": "Number",
-                              "span": {
-                                "start": 39,
-                                "end": 40,
-                                "ctxt": 0
-                              },
-                              "value": 2.0,
-                              "raw": "2"
-                            },
-                            "unit": {
-                              "span": {
-                                "start": 40,
-                                "end": 41,
-                                "ctxt": 0
-                              },
-                              "value": "x",
-                              "raw": "x"
-                            }
-                          }
-                        ]
-                      }
-                    ]
+                    "value": {
+                      "type": "UrlValueRaw",
+                      "span": {
+                        "start": 30,
+                        "end": 37,
+                        "ctxt": 0
+                      },
+                      "value": "foo.jpg",
+                      "raw": "foo.jpg"
+                    },
+                    "modifiers": null
                   },
                   {
-                    "type": "Identifier",
+                    "type": "UnitValue",
                     "span": {
-                      "start": 44,
-                      "end": 51,
+                      "start": 39,
+                      "end": 41,
                       "ctxt": 0
                     },
-                    "value": "pointer",
-                    "raw": "pointer"
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 39,
+                        "end": 40,
+                        "ctxt": 0
+                      },
+                      "value": 2.0,
+                      "raw": "2"
+                    },
+                    "unit": {
+                      "span": {
+                        "start": 40,
+                        "end": 41,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "raw": "x"
+                    }
                   }
                 ]
+              },
+              {
+                "type": "Delimiter",
+                "span": {
+                  "start": 42,
+                  "end": 43,
+                  "ctxt": 0
+                },
+                "value": ","
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 44,
+                  "end": 51,
+                  "ctxt": 0
+                },
+                "value": "pointer",
+                "raw": "pointer"
               }
             ],
             "important": null

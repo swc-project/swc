@@ -24,7 +24,7 @@ var YUI = function() {
     }, handleLoad = function() {
         YUI.Env.windowLoaded = !0, YUI.Env.DOMReady = !0, hasWin && remove(window, "load", handleLoad);
     }, getLoader = function(Y, o) {
-        var loader = Y.Env._loader, lCore = [
+        var G_ENV, loader = Y.Env._loader, lCore = [
             "loader-base"
         ], mods = YUI.Env.mods;
         return loader ? (loader.ignoreRegistered = !1, loader.onEnd = null, loader.data = null, loader.required = [], loader.loadType = null) : (loader = new Y.Loader(Y.config), Y.Env._loader = loader), mods && mods.loader && (lCore = [].concat(lCore, YUI.Env.loaderExtras)), YUI.Env.core = Y.Array.dedupe([].concat(YUI.Env.core, lCore)), loader;
@@ -1269,7 +1269,6 @@ var YUI = function() {
         "yui-base"
     ]
 }), YUI.add("loader-base", function(Y, NAME) {
-    var VERSION, BUILD, CDN_BASE, COMBO_BASE, META, groups, yui2Update, galleryUpdate;
     VERSION = Y.version, BUILD = "/build/", CDN_BASE = Y.Env.base, COMBO_BASE = CDN_BASE + "combo?", META = {
         version: VERSION,
         root: VERSION + "/",
@@ -1325,7 +1324,7 @@ var YUI = function() {
         "groups",
         "skin"
     ], 0, !0), YUI.Env[VERSION] = META;
-    var modulekey, NOT_FOUND = {}, NO_REQUIREMENTS = [], GLOBAL_ENV = YUI.Env, GLOBAL_LOADED = GLOBAL_ENV._loaded, INTL = "intl", VERSION1 = Y.version, YObject = Y.Object, oeach = YObject.each, yArray = Y.Array, _queue = GLOBAL_ENV._loaderQueue, META1 = GLOBAL_ENV[VERSION1], L = Y.Lang, ON_PAGE = GLOBAL_ENV.mods, _path = function(dir, file, type, nomin) {
+    var VERSION, BUILD, CDN_BASE, COMBO_BASE, META, groups, yui2Update, galleryUpdate, modulekey, NOT_FOUND = {}, NO_REQUIREMENTS = [], GLOBAL_ENV = YUI.Env, GLOBAL_LOADED = GLOBAL_ENV._loaded, INTL = "intl", VERSION1 = Y.version, YObject = Y.Object, oeach = YObject.each, yArray = Y.Array, _queue = GLOBAL_ENV._loaderQueue, META1 = GLOBAL_ENV[VERSION1], L = Y.Lang, ON_PAGE = GLOBAL_ENV.mods, _path = function(dir, file, type, nomin) {
         var path = dir + "/" + file;
         return nomin || (path += "-min"), path += "." + (type || "css");
     };

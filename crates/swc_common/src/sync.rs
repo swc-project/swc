@@ -279,6 +279,7 @@ impl<T> RwLock<T> {
         f(&*self.read())
     }
 
+    #[allow(clippy::result_unit_err)]
     #[cfg(not(feature = "concurrent"))]
     #[inline(always)]
     pub fn try_write(&self) -> Result<WriteGuard<'_, T>, ()> {

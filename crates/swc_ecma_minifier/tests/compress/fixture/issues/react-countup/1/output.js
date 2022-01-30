@@ -35,9 +35,8 @@
                         var i = t - s1.startTime;
                         s1.remaining = s1.duration - i, s1.useEasing ? s1.countDown ? s1.frameVal = s1.startVal - s1.easingFn(i, 0, s1.startVal - s1.endVal, s1.duration) : s1.frameVal = s1.easingFn(i, s1.startVal, s1.endVal - s1.startVal, s1.duration) : s1.countDown ? s1.frameVal = s1.startVal - (s1.startVal - s1.endVal) * (i / s1.duration) : s1.frameVal = s1.startVal + (s1.endVal - s1.startVal) * (i / s1.duration), s1.countDown ? s1.frameVal = s1.frameVal < s1.endVal ? s1.endVal : s1.frameVal : s1.frameVal = s1.frameVal > s1.endVal ? s1.endVal : s1.frameVal, s1.frameVal = Number(s1.frameVal.toFixed(s1.options.decimalPlaces)), s1.printValue(s1.frameVal), i < s1.duration ? s1.rAF = requestAnimationFrame(s1.count) : null !== s1.finalEndVal ? s1.update(s1.finalEndVal) : s1.callback && s1.callback();
                     }, this.formatNumber = function(t3) {
-                        var i, a, n, e;
                         i = Math.abs(t3).toFixed(s1.options.decimalPlaces);
-                        var o = (i += "").split(".");
+                        var i, a, n, e, o = (i += "").split(".");
                         if (a = o[0], n = o.length > 1 ? s1.options.decimal + o[1] : "", s1.options.useGrouping) {
                             e = "";
                             for(var l = 0, h = a.length; l < h; ++l)0 !== l && l % 3 == 0 && (e = s1.options.separator + e), e = a[h - l - 1] + e;
@@ -395,9 +394,9 @@
                 };
                 var ref = function(width, layout, sizes) {
                     if (sizes && ("fill" === layout || "responsive" === layout)) {
-                        for(var match, _Math, viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes); match)percentSizes.push(parseInt(match[2]));
+                        for(var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes); match)percentSizes.push(parseInt(match[2]));
                         if (percentSizes.length) {
-                            var smallestRatio = 0.01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
+                            var match, _Math, smallestRatio = 0.01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
                             return {
                                 widths: allSizes.filter(function(s) {
                                     return s >= configDeviceSizes[0] * smallestRatio;

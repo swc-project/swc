@@ -53,32 +53,6 @@ function AsyncGenerator(gen) {
 function _AwaitValue(value) {
     this.wrapped = value;
 }
-function _f() {
-    var fn;
-    return (_f = (fn = regeneratorRuntime.mark(function _callee(a) {
-        var _b, c;
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    c = null !== (_b = a.b) && void 0 !== _b ? _b : 10;
-                case 2:
-                    if (!c) {
-                        _ctx.next = 7;
-                        break;
-                    }
-                    return _ctx.next = 5, c--;
-                case 5:
-                    _ctx.next = 2;
-                    break;
-                case 7:
-                case "end":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }), function() {
-        return new AsyncGenerator(fn.apply(this, arguments));
-    })).apply(this, arguments);
-}
 "function" == typeof Symbol && Symbol.asyncIterator && (AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
     return this;
 }), AsyncGenerator.prototype.next = function(arg) {
