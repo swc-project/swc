@@ -8,8 +8,8 @@ pub enum Value {
     #[tag("SimpleBlock")]
     SimpleBlock(SimpleBlock),
 
-    #[tag("UnitValue")]
-    Unit(UnitValue),
+    #[tag("Dimension")]
+    Dimension(Dimension),
 
     #[tag("Number")]
     Number(Number),
@@ -55,6 +55,8 @@ pub enum Value {
 pub enum DelimiterValue {
     /// `,`
     Comma,
+    /// `/`
+    Solidus,
 }
 
 #[ast_node("Delimiter")]
@@ -92,18 +94,11 @@ pub struct HashValue {
     pub raw: JsWord,
 }
 
-#[ast_node]
-pub struct Unit {
-    pub span: Span,
-    pub value: JsWord,
-    pub raw: JsWord,
-}
-
-#[ast_node("UnitValue")]
-pub struct UnitValue {
+#[ast_node("Dimension")]
+pub struct Dimension {
     pub span: Span,
     pub value: Number,
-    pub unit: Unit,
+    pub unit: Ident,
 }
 
 #[ast_node("Percent")]

@@ -40,7 +40,7 @@
             },
             "value": [
               {
-                "type": "UnitValue",
+                "type": "Dimension",
                 "span": {
                   "start": 23,
                   "end": 28,
@@ -57,6 +57,7 @@
                   "raw": "100"
                 },
                 "unit": {
+                  "type": "Identifier",
                   "span": {
                     "start": 26,
                     "end": 28,

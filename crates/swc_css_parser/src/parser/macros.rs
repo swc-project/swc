@@ -84,6 +84,51 @@ macro_rules! bump {
     };
 }
 
+macro_rules! is_case_insensitive_ident {
+    ($parser:expr, $tt:tt) => {{
+        match $parser.input.cur()? {
+            Some(swc_css_ast::Token::Ident { value, .. })
+                if &*value.to_ascii_lowercase() == $tt =>
+            {
+                true
+            }
+            _ => false,
+        }
+    }};
+}
+
+macro_rules! expect_case_insensitive_ident {
+    ($parser:expr, $tt:tt) => {
+        if is_case_insensitive_ident!($parser, $tt) {
+            bump!($parser);
+        } else {
+            let span = $parser.input.cur_span()?;
+
+            return Err(crate::error::Error::new(
+                span,
+                crate::error::ErrorKind::ExpectedButGot(stringify!($tt)),
+            ));
+        }
+    };
+}
+
+macro_rules! is_one_of_case_insensitive_ident {
+    ($parser:expr, $($tt:tt),+) => {
+        match $parser.input.cur()? {
+            Some(swc_css_ast::Token::Ident { value, .. }) => {
+                let lowercased = &*value.to_ascii_lowercase();
+
+                if $(lowercased == $tt)||* {
+                    true
+                } else {
+                    false
+                }
+            }
+            _ => false,
+        }
+    };
+}
+
 macro_rules! is {
     ($parser:expr, EOF) => {{
         $parser.input.cur()?.is_none()

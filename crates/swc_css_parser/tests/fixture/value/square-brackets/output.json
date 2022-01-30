@@ -264,7 +264,7 @@
                     "raw": "fff"
                   },
                   {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 133,
                       "end": 137,
@@ -281,6 +281,7 @@
                       "raw": "12"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 135,
                         "end": 137,

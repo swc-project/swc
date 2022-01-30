@@ -86,16 +86,10 @@ define!({
         AtRule(AtRule),
     }
 
-    pub struct Unit {
-        pub span: Span,
-        pub value: JsWord,
-        pub raw: JsWord,
-    }
-
     pub enum Value {
         SimpleBlock(SimpleBlock),
 
-        Unit(UnitValue),
+        Dimension(Dimension),
 
         Number(Number),
 
@@ -125,8 +119,8 @@ define!({
     }
 
     pub enum DelimiterValue {
-        /// `,`
         Comma,
+        Solidus,
     }
 
     pub struct Delimiter {
@@ -156,10 +150,10 @@ define!({
         pub raw: JsWord,
     }
 
-    pub struct UnitValue {
+    pub struct Dimension {
         pub span: Span,
         pub value: Number,
-        pub unit: Unit,
+        pub unit: Ident,
     }
 
     pub struct Percent {
@@ -471,7 +465,7 @@ define!({
 
     pub struct MediaRule {
         pub span: Span,
-        pub media: MediaQueryList,
+        pub media: Option<MediaQueryList>,
         pub rules: Vec<Rule>,
     }
 
@@ -548,7 +542,7 @@ define!({
 
     pub enum MediaFeatureValue {
         Number(Number),
-        Dimension(UnitValue),
+        Dimension(Dimension),
         Ident(Ident),
         Ratio(Ratio),
     }

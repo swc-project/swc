@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 18,
+    "end": 48,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 0,
-        "end": 18,
+        "end": 48,
         "ctxt": 0
       },
       "prelude": {
@@ -66,64 +66,78 @@
         "type": "Block",
         "span": {
           "start": 2,
-          "end": 18,
+          "end": 48,
           "ctxt": 0
         },
         "value": [
           {
-            "type": "Tokens",
+            "type": "Declaration",
             "span": {
-              "start": 8,
-              "end": 15,
+              "start": 4,
+              "end": 46,
               "ctxt": 0
             },
-            "tokens": [
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 4,
+                "end": 14,
+                "ctxt": 0
+              },
+              "value": "box-shadow",
+              "raw": "box-shadow"
+            },
+            "value": [
               {
+                "type": "Identifier",
                 "span": {
-                  "start": 8,
-                  "end": 12,
+                  "start": 16,
+                  "end": 29,
                   "ctxt": 0
                 },
-                "token": {
-                  "Ident": {
-                    "value": "prop",
-                    "raw": "prop"
-                  }
-                }
+                "value": "rebeccapurple",
+                "raw": "rebeccapurple"
               },
               {
+                "type": "Delimiter",
                 "span": {
-                  "start": 12,
-                  "end": 13,
+                  "start": 30,
+                  "end": 31,
                   "ctxt": 0
                 },
-                "token": "Colon"
+                "value": ","
               },
               {
+                "type": "Identifier",
                 "span": {
-                  "start": 13,
-                  "end": 14,
+                  "start": 32,
+                  "end": 38,
                   "ctxt": 0
                 },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
+                "value": "yellow",
+                "raw": "yellow"
               },
               {
+                "type": "Delimiter",
                 "span": {
-                  "start": 14,
-                  "end": 15,
+                  "start": 39,
+                  "end": 40,
                   "ctxt": 0
                 },
-                "token": {
-                  "Delim": {
-                    "value": "/"
-                  }
-                }
+                "value": ","
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 41,
+                  "end": 46,
+                  "ctxt": 0
+                },
+                "value": "black",
+                "raw": "black"
               }
-            ]
+            ],
+            "important": null
           }
         ]
       }

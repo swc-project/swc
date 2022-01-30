@@ -39,7 +39,19 @@ where
 
             if !eat!(self, " ")
                 && !is_one_of!(
-                    self, ",", "function", "ident", "percent", "str", "#", "url", "[", "{", "("
+                    self,
+                    ",",
+                    "/",
+                    "function",
+                    "ident",
+                    "dimension",
+                    "percent",
+                    "str",
+                    "#",
+                    "url",
+                    "[",
+                    "{",
+                    "("
                 )
             {
                 if self.ctx.recover_from_property_value
@@ -232,6 +244,15 @@ where
                 }));
             }
 
+            tok!("/") => {
+                bump!(self);
+
+                return Ok(Value::Delimiter(Delimiter {
+                    span: span!(self, span.lo),
+                    value: DelimiterValue::Solidus,
+                }));
+            }
+
             tok!("str") => return Ok(Value::Str(self.parse()?)),
 
             tok!("num") => return self.parse_numeric_value(),
@@ -409,7 +430,7 @@ where
     fn parse_basical_numeric_value(&mut self) -> PResult<Value> {
         match cur!(self) {
             tok!("percent") => Ok(Value::Percent(self.parse()?)),
-            tok!("dimension") => Ok(Value::Unit(self.parse()?)),
+            tok!("dimension") => Ok(Value::Dimension(self.parse()?)),
             tok!("num") => Ok(Value::Number(self.parse()?)),
             _ => {
                 unreachable!()
@@ -666,11 +687,11 @@ where
     }
 }
 
-impl<I> Parse<UnitValue> for Parser<I>
+impl<I> Parse<Dimension> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<UnitValue> {
+    fn parse(&mut self) -> PResult<Dimension> {
         let span = self.input.cur_span()?;
 
         if !is!(self, Dimension) {
@@ -687,7 +708,7 @@ where
             } => {
                 let unit_len = raw_unit.len() as u32;
 
-                Ok(UnitValue {
+                Ok(Dimension {
                     span,
                     value: Number {
                         value,
@@ -698,7 +719,7 @@ where
                             Default::default(),
                         ),
                     },
-                    unit: Unit {
+                    unit: Ident {
                         span: swc_common::Span::new(
                             span.hi - BytePos(unit_len),
                             span.hi,
@@ -846,6 +867,8 @@ where
                             modifiers.push(UrlModifier::Function(self.parse()?));
                         }
                         _ => {
+                            let span = self.input.cur_span()?;
+
                             return Err(Error::new(span, ErrorKind::Expected("ident or function")));
                         }
                     }

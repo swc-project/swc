@@ -194,7 +194,7 @@ error: Value
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
   |                             ^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/supports/input.css:4:29
   |
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -206,7 +206,7 @@ error: Number
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
   |                             ^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/supports/input.css:4:30
   |
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -312,7 +312,7 @@ error: Value
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
   |                                  ^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/supports/input.css:5:34
   |
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -324,7 +324,7 @@ error: Number
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
   |                                  ^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/supports/input.css:5:35
   |
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -430,7 +430,7 @@ error: Value
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
   |                                     ^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/supports/input.css:6:37
   |
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -442,7 +442,7 @@ error: Number
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
   |                                     ^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/supports/input.css:6:38
   |
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -548,7 +548,7 @@ error: Value
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
   |                                ^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/supports/input.css:7:32
   |
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
@@ -560,7 +560,7 @@ error: Number
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
   |                                ^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/supports/input.css:7:33
   |
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
@@ -823,7 +823,7 @@ error: Value
 12 |           (transform: rotate(10deg)) {}
    |                              ^^^^^
 
-error: UnitValue
+error: Dimension
   --> $DIR/tests/fixture/rome/supports/input.css:12:30
    |
 12 |           (transform: rotate(10deg)) {}
@@ -835,7 +835,7 @@ error: Number
 12 |           (transform: rotate(10deg)) {}
    |                              ^^
 
-error: Unit
+error: Ident
   --> $DIR/tests/fixture/rome/supports/input.css:12:32
    |
 12 |           (transform: rotate(10deg)) {}

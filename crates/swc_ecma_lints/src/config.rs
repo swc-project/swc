@@ -41,4 +41,5 @@ pub struct LintConfig {
 
     #[serde(default)]
     pub no_alert: RuleConfig<()>,
+    pub no_debugger: RuleConfig<()>,
 }

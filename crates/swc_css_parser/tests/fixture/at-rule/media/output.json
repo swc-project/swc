@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 3723,
+    "end": 3959,
     "ctxt": 0
   },
   "rules": [
@@ -552,7 +552,7 @@
                     "raw": "min-resolution"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 287,
                       "end": 294,
@@ -569,6 +569,7 @@
                       "raw": "118"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 290,
                         "end": 294,
@@ -1436,7 +1437,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 714,
                       "end": 718,
@@ -1453,6 +1454,7 @@
                       "raw": "20"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 716,
                         "end": 718,
@@ -1520,7 +1522,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 741,
                       "end": 745,
@@ -1537,6 +1539,7 @@
                       "raw": "20"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 743,
                         "end": 745,
@@ -1604,7 +1607,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 778,
                       "end": 782,
@@ -1621,6 +1624,7 @@
                       "raw": "20"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 780,
                         "end": 782,
@@ -1883,7 +1887,7 @@
                       "raw": "max-width"
                     },
                     "value": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 921,
                         "end": 925,
@@ -1900,6 +1904,7 @@
                         "raw": "15"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 923,
                           "end": 925,
@@ -2025,7 +2030,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 973,
                       "end": 977,
@@ -2042,6 +2047,7 @@
                       "raw": "20"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 975,
                         "end": 977,
@@ -2077,7 +2083,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 995,
                         "end": 999,
@@ -2094,6 +2100,7 @@
                         "raw": "20"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 997,
                           "end": 999,
@@ -2162,7 +2169,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1030,
                       "end": 1034,
@@ -2179,6 +2186,7 @@
                       "raw": "20"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1032,
                         "end": 1034,
@@ -2214,7 +2222,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 1067,
                         "end": 1071,
@@ -2231,6 +2239,7 @@
                         "raw": "20"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 1069,
                           "end": 1071,
@@ -2299,7 +2308,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1100,
                       "end": 1106,
@@ -2316,6 +2325,7 @@
                       "raw": "1024"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1104,
                         "end": 1106,
@@ -2351,7 +2361,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 1124,
                         "end": 1130,
@@ -2368,6 +2378,7 @@
                         "raw": "1024"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 1128,
                           "end": 1130,
@@ -2404,7 +2415,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 1148,
                         "end": 1154,
@@ -2421,6 +2432,7 @@
                         "raw": "1024"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 1152,
                           "end": 1154,
@@ -2489,7 +2501,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1176,
                       "end": 1180,
@@ -2506,6 +2518,7 @@
                       "raw": "20"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1178,
                         "end": 1180,
@@ -2541,7 +2554,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 1197,
                         "end": 1201,
@@ -2558,6 +2571,7 @@
                         "raw": "20"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 1199,
                           "end": 1201,
@@ -2626,7 +2640,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1222,
                       "end": 1226,
@@ -2643,6 +2657,7 @@
                       "raw": "20"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1224,
                         "end": 1226,
@@ -2678,7 +2693,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 1242,
                         "end": 1246,
@@ -2695,6 +2710,7 @@
                         "raw": "20"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 1244,
                           "end": 1246,
@@ -3073,7 +3089,7 @@
                   },
                   "comparison": "<",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1424,
                       "end": 1429,
@@ -3090,6 +3106,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1427,
                         "end": 1429,
@@ -3158,7 +3175,7 @@
                   },
                   "comparison": "<=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1452,
                       "end": 1457,
@@ -3175,6 +3192,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1455,
                         "end": 1457,
@@ -3243,7 +3261,7 @@
                   },
                   "comparison": ">",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1479,
                       "end": 1484,
@@ -3260,6 +3278,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1482,
                         "end": 1484,
@@ -3328,7 +3347,7 @@
                   },
                   "comparison": ">=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1507,
                       "end": 1512,
@@ -3345,6 +3364,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1510,
                         "end": 1512,
@@ -3413,7 +3433,7 @@
                   },
                   "comparison": "=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1534,
                       "end": 1539,
@@ -3430,6 +3450,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1537,
                         "end": 1539,
@@ -3498,7 +3519,7 @@
                   },
                   "comparison": "<",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1570,
                       "end": 1575,
@@ -3515,6 +3536,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1573,
                         "end": 1575,
@@ -3583,7 +3605,7 @@
                   },
                   "comparison": "<=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1612,
                       "end": 1617,
@@ -3600,6 +3622,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1615,
                         "end": 1617,
@@ -3668,7 +3691,7 @@
                   },
                   "comparison": ">",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1653,
                       "end": 1658,
@@ -3685,6 +3708,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1656,
                         "end": 1658,
@@ -3753,7 +3777,7 @@
                   },
                   "comparison": ">=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1695,
                       "end": 1700,
@@ -3770,6 +3794,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1698,
                         "end": 1700,
@@ -3838,7 +3863,7 @@
                   },
                   "comparison": "=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1736,
                       "end": 1741,
@@ -3855,6 +3880,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1739,
                         "end": 1741,
@@ -3923,7 +3949,7 @@
                   },
                   "comparison": "=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1765,
                       "end": 1770,
@@ -3940,6 +3966,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1768,
                         "end": 1770,
@@ -4008,7 +4035,7 @@
                   },
                   "comparison": ">=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1789,
                       "end": 1794,
@@ -4025,6 +4052,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1792,
                         "end": 1794,
@@ -4082,7 +4110,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1808,
                       "end": 1813,
@@ -4099,6 +4127,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1811,
                         "end": 1813,
@@ -4167,7 +4196,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1835,
                       "end": 1840,
@@ -4184,6 +4213,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1838,
                         "end": 1840,
@@ -4252,7 +4282,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1863,
                       "end": 1868,
@@ -4269,6 +4299,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1866,
                         "end": 1868,
@@ -4337,7 +4368,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1890,
                       "end": 1895,
@@ -4354,6 +4385,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1893,
                         "end": 1895,
@@ -4422,7 +4454,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1918,
                       "end": 1923,
@@ -4439,6 +4471,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1921,
                         "end": 1923,
@@ -4507,7 +4540,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1950,
                       "end": 1955,
@@ -4524,6 +4557,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1953,
                         "end": 1955,
@@ -4592,7 +4626,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 1991,
                       "end": 1996,
@@ -4609,6 +4643,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 1994,
                         "end": 1996,
@@ -4677,7 +4712,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2033,
                       "end": 2038,
@@ -4694,6 +4729,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2036,
                         "end": 2038,
@@ -4762,7 +4798,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2074,
                       "end": 2079,
@@ -4779,6 +4815,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2077,
                         "end": 2079,
@@ -4847,7 +4884,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2116,
                       "end": 2121,
@@ -4864,6 +4901,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2119,
                         "end": 2121,
@@ -4932,7 +4970,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2151,
                       "end": 2156,
@@ -4949,6 +4987,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2154,
                         "end": 2156,
@@ -5017,7 +5056,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2175,
                       "end": 2180,
@@ -5034,6 +5073,7 @@
                       "raw": "600"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2178,
                         "end": 2180,
@@ -5102,7 +5142,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2202,
                       "end": 2207,
@@ -5119,6 +5159,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2205,
                         "end": 2207,
@@ -5141,7 +5182,7 @@
                   },
                   "rightComparison": "<",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2218,
                       "end": 2223,
@@ -5158,6 +5199,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2221,
                         "end": 2223,
@@ -5215,7 +5257,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2236,
                       "end": 2241,
@@ -5232,6 +5274,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2239,
                         "end": 2241,
@@ -5254,7 +5297,7 @@
                   },
                   "rightComparison": "<",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2253,
                       "end": 2258,
@@ -5271,6 +5314,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2256,
                         "end": 2258,
@@ -5328,7 +5372,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2271,
                       "end": 2276,
@@ -5345,6 +5389,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2274,
                         "end": 2276,
@@ -5367,7 +5412,7 @@
                   },
                   "rightComparison": "<=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2288,
                       "end": 2293,
@@ -5384,6 +5429,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2291,
                         "end": 2293,
@@ -5441,7 +5487,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2306,
                       "end": 2311,
@@ -5458,6 +5504,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2309,
                         "end": 2311,
@@ -5480,7 +5527,7 @@
                   },
                   "rightComparison": "<=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2324,
                       "end": 2329,
@@ -5497,6 +5544,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2327,
                         "end": 2329,
@@ -5554,7 +5602,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2341,
                       "end": 2346,
@@ -5571,6 +5619,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2344,
                         "end": 2346,
@@ -5593,7 +5642,7 @@
                   },
                   "rightComparison": "<",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2353,
                       "end": 2358,
@@ -5610,6 +5659,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2356,
                         "end": 2358,
@@ -5667,7 +5717,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2369,
                       "end": 2374,
@@ -5684,6 +5734,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2372,
                         "end": 2374,
@@ -5706,7 +5757,7 @@
                   },
                   "rightComparison": "<=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2383,
                       "end": 2388,
@@ -5723,6 +5774,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2386,
                         "end": 2388,
@@ -5780,7 +5832,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2405,
                       "end": 2410,
@@ -5797,6 +5849,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2408,
                         "end": 2410,
@@ -5819,7 +5872,7 @@
                   },
                   "rightComparison": "<",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2429,
                       "end": 2434,
@@ -5836,6 +5889,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2432,
                         "end": 2434,
@@ -5893,7 +5947,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2457,
                       "end": 2462,
@@ -5910,6 +5964,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2460,
                         "end": 2462,
@@ -5932,7 +5987,7 @@
                   },
                   "rightComparison": "<",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2482,
                       "end": 2487,
@@ -5949,6 +6004,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2485,
                         "end": 2487,
@@ -6006,7 +6062,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2510,
                       "end": 2515,
@@ -6023,6 +6079,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2513,
                         "end": 2515,
@@ -6045,7 +6102,7 @@
                   },
                   "rightComparison": "<=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2535,
                       "end": 2540,
@@ -6062,6 +6119,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2538,
                         "end": 2540,
@@ -6119,7 +6177,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2563,
                       "end": 2568,
@@ -6136,6 +6194,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2566,
                         "end": 2568,
@@ -6158,7 +6217,7 @@
                   },
                   "rightComparison": "<=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2589,
                       "end": 2594,
@@ -6175,6 +6234,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2592,
                         "end": 2594,
@@ -6232,7 +6292,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2611,
                       "end": 2616,
@@ -6249,6 +6309,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2614,
                         "end": 2616,
@@ -6271,7 +6332,7 @@
                   },
                   "rightComparison": "<",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2623,
                       "end": 2628,
@@ -6288,6 +6349,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2626,
                         "end": 2628,
@@ -6345,7 +6407,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2639,
                       "end": 2644,
@@ -6362,6 +6424,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2642,
                         "end": 2644,
@@ -6384,7 +6447,7 @@
                   },
                   "rightComparison": "<=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2653,
                       "end": 2658,
@@ -6401,6 +6464,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2656,
                         "end": 2658,
@@ -6458,7 +6522,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2671,
                       "end": 2676,
@@ -6475,6 +6539,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2674,
                         "end": 2676,
@@ -6497,7 +6562,7 @@
                   },
                   "rightComparison": ">",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2687,
                       "end": 2692,
@@ -6514,6 +6579,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2690,
                         "end": 2692,
@@ -6571,7 +6637,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2705,
                       "end": 2710,
@@ -6588,6 +6654,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2708,
                         "end": 2710,
@@ -6610,7 +6677,7 @@
                   },
                   "rightComparison": ">",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2722,
                       "end": 2727,
@@ -6627,6 +6694,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2725,
                         "end": 2727,
@@ -6684,7 +6752,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2740,
                       "end": 2745,
@@ -6701,6 +6769,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2743,
                         "end": 2745,
@@ -6723,7 +6792,7 @@
                   },
                   "rightComparison": ">=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2757,
                       "end": 2762,
@@ -6740,6 +6809,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2760,
                         "end": 2762,
@@ -6797,7 +6867,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2775,
                       "end": 2780,
@@ -6814,6 +6884,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2778,
                         "end": 2780,
@@ -6836,7 +6907,7 @@
                   },
                   "rightComparison": ">=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2793,
                       "end": 2798,
@@ -6853,6 +6924,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2796,
                         "end": 2798,
@@ -6910,7 +6982,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2810,
                       "end": 2815,
@@ -6927,6 +6999,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2813,
                         "end": 2815,
@@ -6949,7 +7022,7 @@
                   },
                   "rightComparison": ">",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2822,
                       "end": 2827,
@@ -6966,6 +7039,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2825,
                         "end": 2827,
@@ -7023,7 +7097,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2838,
                       "end": 2843,
@@ -7040,6 +7114,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2841,
                         "end": 2843,
@@ -7062,7 +7137,7 @@
                   },
                   "rightComparison": ">=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2852,
                       "end": 2857,
@@ -7079,6 +7154,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2855,
                         "end": 2857,
@@ -7136,7 +7212,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2875,
                       "end": 2880,
@@ -7153,6 +7229,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2878,
                         "end": 2880,
@@ -7175,7 +7252,7 @@
                   },
                   "rightComparison": ">",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2899,
                       "end": 2904,
@@ -7192,6 +7269,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2902,
                         "end": 2904,
@@ -7249,7 +7327,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2927,
                       "end": 2932,
@@ -7266,6 +7344,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2930,
                         "end": 2932,
@@ -7288,7 +7367,7 @@
                   },
                   "rightComparison": ">",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2952,
                       "end": 2957,
@@ -7305,6 +7384,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2955,
                         "end": 2957,
@@ -7362,7 +7442,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 2980,
                       "end": 2985,
@@ -7379,6 +7459,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 2983,
                         "end": 2985,
@@ -7401,7 +7482,7 @@
                   },
                   "rightComparison": ">=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 3005,
                       "end": 3010,
@@ -7418,6 +7499,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 3008,
                         "end": 3010,
@@ -7475,7 +7557,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 3033,
                       "end": 3038,
@@ -7492,6 +7574,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 3036,
                         "end": 3038,
@@ -7514,7 +7597,7 @@
                   },
                   "rightComparison": ">=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 3059,
                       "end": 3064,
@@ -7531,6 +7614,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 3062,
                         "end": 3064,
@@ -7588,7 +7672,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 3081,
                       "end": 3086,
@@ -7605,6 +7689,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 3084,
                         "end": 3086,
@@ -7627,7 +7712,7 @@
                   },
                   "rightComparison": ">",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 3093,
                       "end": 3098,
@@ -7644,6 +7729,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 3096,
                         "end": 3098,
@@ -7701,7 +7787,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 3109,
                       "end": 3114,
@@ -7718,6 +7804,7 @@
                       "raw": "400"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 3112,
                         "end": 3114,
@@ -7740,7 +7827,7 @@
                   },
                   "rightComparison": ">=",
                   "right": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 3123,
                       "end": 3128,
@@ -7757,6 +7844,7 @@
                       "raw": "700"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 3126,
                         "end": 3128,
@@ -7849,7 +7937,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 3167,
                         "end": 3173,
@@ -7866,6 +7954,7 @@
                         "raw": "1024"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 3171,
                           "end": 3173,
@@ -8198,7 +8287,7 @@
                     },
                     "comparison": ">",
                     "right": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 3319,
                         "end": 3325,
@@ -8215,6 +8304,7 @@
                         "raw": "1024"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 3323,
                           "end": 3325,
@@ -8365,7 +8455,7 @@
                     },
                     "comparison": ">",
                     "right": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 3375,
                         "end": 3381,
@@ -8382,6 +8472,7 @@
                         "raw": "1024"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 3379,
                           "end": 3381,
@@ -8552,7 +8643,7 @@
                     },
                     "comparison": ">",
                     "right": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 3435,
                         "end": 3441,
@@ -8569,6 +8660,7 @@
                         "raw": "1024"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 3439,
                           "end": 3441,
@@ -8739,7 +8831,7 @@
                     },
                     "comparison": ">",
                     "right": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 3554,
                         "end": 3560,
@@ -8756,6 +8848,7 @@
                         "raw": "1024"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 3558,
                           "end": 3560,
@@ -8832,7 +8925,7 @@
                         "raw": "min-width"
                       },
                       "value": {
-                        "type": "UnitValue",
+                        "type": "Dimension",
                         "span": {
                           "start": 3591,
                           "end": 3596,
@@ -8849,6 +8942,7 @@
                           "raw": "800"
                         },
                         "unit": {
+                          "type": "Identifier",
                           "span": {
                             "start": 3594,
                             "end": 3596,
@@ -8884,7 +8978,7 @@
                           "raw": "min-width"
                         },
                         "value": {
-                          "type": "UnitValue",
+                          "type": "Dimension",
                           "span": {
                             "start": 3614,
                             "end": 3619,
@@ -8901,6 +8995,7 @@
                             "raw": "800"
                           },
                           "unit": {
+                            "type": "Identifier",
                             "span": {
                               "start": 3617,
                               "end": 3619,
@@ -8939,7 +9034,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 3637,
                         "end": 3642,
@@ -8956,6 +9051,7 @@
                         "raw": "800"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 3640,
                           "end": 3642,
@@ -9024,7 +9120,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 3666,
                       "end": 3671,
@@ -9041,6 +9137,7 @@
                       "raw": "800"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 3669,
                         "end": 3671,
@@ -9084,7 +9181,7 @@
                           "raw": "min-width"
                         },
                         "value": {
-                          "type": "UnitValue",
+                          "type": "Dimension",
                           "span": {
                             "start": 3690,
                             "end": 3695,
@@ -9101,6 +9198,7 @@
                             "raw": "800"
                           },
                           "unit": {
+                            "type": "Identifier",
                             "span": {
                               "start": 3693,
                               "end": 3695,
@@ -9136,7 +9234,7 @@
                             "raw": "min-width"
                           },
                           "value": {
-                            "type": "UnitValue",
+                            "type": "Dimension",
                             "span": {
                               "start": 3712,
                               "end": 3717,
@@ -9153,6 +9251,7 @@
                               "raw": "800"
                             },
                             "unit": {
+                              "type": "Identifier",
                               "span": {
                                 "start": 3715,
                                 "end": 3717,
@@ -9172,6 +9271,555 @@
           }
         ]
       },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 3724,
+        "end": 3748,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 3734,
+          "end": 3743,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 3734,
+              "end": 3743,
+              "ctxt": 0
+            },
+            "modifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 3734,
+                "end": 3737,
+                "ctxt": 0
+              },
+              "value": "NOT",
+              "raw": "NOT"
+            },
+            "mediaType": {
+              "type": "Identifier",
+              "span": {
+                "start": 3740,
+                "end": 3743,
+                "ctxt": 0
+              },
+              "value": "all",
+              "raw": "all"
+            },
+            "condition": null
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 3749,
+        "end": 3782,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 3756,
+          "end": 3779,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 3756,
+              "end": 3779,
+              "ctxt": 0
+            },
+            "modifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 3756,
+                "end": 3760,
+                "ctxt": 0
+              },
+              "value": "ONLY",
+              "raw": "ONLY"
+            },
+            "mediaType": {
+              "type": "Identifier",
+              "span": {
+                "start": 3761,
+                "end": 3767,
+                "ctxt": 0
+              },
+              "value": "screen",
+              "raw": "screen"
+            },
+            "condition": {
+              "type": "MediaConditionWithoutOr",
+              "span": {
+                "start": 3772,
+                "end": 3779,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureBoolean",
+                  "span": {
+                    "start": 3772,
+                    "end": 3779,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 3773,
+                      "end": 3778,
+                      "ctxt": 0
+                    },
+                    "value": "color",
+                    "raw": "color"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 3783,
+        "end": 3858,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 3790,
+          "end": 3855,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 3790,
+              "end": 3855,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 3790,
+                "end": 3855,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaCondition",
+                  "span": {
+                    "start": 3791,
+                    "end": 3832,
+                    "ctxt": 0
+                  },
+                  "conditions": [
+                    {
+                      "type": "MediaFeaturePlain",
+                      "span": {
+                        "start": 3791,
+                        "end": 3809,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 3792,
+                          "end": 3801,
+                          "ctxt": 0
+                        },
+                        "value": "min-width",
+                        "raw": "min-width"
+                      },
+                      "value": {
+                        "type": "Dimension",
+                        "span": {
+                          "start": 3803,
+                          "end": 3808,
+                          "ctxt": 0
+                        },
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 3803,
+                            "end": 3806,
+                            "ctxt": 0
+                          },
+                          "value": 800.0,
+                          "raw": "800"
+                        },
+                        "unit": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 3806,
+                            "end": 3808,
+                            "ctxt": 0
+                          },
+                          "value": "px",
+                          "raw": "px"
+                        }
+                      }
+                    },
+                    {
+                      "type": "MediaAnd",
+                      "span": {
+                        "start": 3810,
+                        "end": 3832,
+                        "ctxt": 0
+                      },
+                      "condition": {
+                        "type": "MediaFeaturePlain",
+                        "span": {
+                          "start": 3814,
+                          "end": 3832,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 3815,
+                            "end": 3824,
+                            "ctxt": 0
+                          },
+                          "value": "min-width",
+                          "raw": "min-width"
+                        },
+                        "value": {
+                          "type": "Dimension",
+                          "span": {
+                            "start": 3826,
+                            "end": 3831,
+                            "ctxt": 0
+                          },
+                          "value": {
+                            "type": "Number",
+                            "span": {
+                              "start": 3826,
+                              "end": 3829,
+                              "ctxt": 0
+                            },
+                            "value": 800.0,
+                            "raw": "800"
+                          },
+                          "unit": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 3829,
+                              "end": 3831,
+                              "ctxt": 0
+                            },
+                            "value": "px",
+                            "raw": "px"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "MediaOr",
+                  "span": {
+                    "start": 3834,
+                    "end": 3855,
+                    "ctxt": 0
+                  },
+                  "condition": {
+                    "type": "MediaFeaturePlain",
+                    "span": {
+                      "start": 3837,
+                      "end": 3855,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3838,
+                        "end": 3847,
+                        "ctxt": 0
+                      },
+                      "value": "min-width",
+                      "raw": "min-width"
+                    },
+                    "value": {
+                      "type": "Dimension",
+                      "span": {
+                        "start": 3849,
+                        "end": 3854,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 3849,
+                          "end": 3852,
+                          "ctxt": 0
+                        },
+                        "value": 800.0,
+                        "raw": "800"
+                      },
+                      "unit": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 3852,
+                          "end": 3854,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 3859,
+        "end": 3934,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 3866,
+          "end": 3931,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 3866,
+              "end": 3931,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 3866,
+                "end": 3931,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
+                  "span": {
+                    "start": 3866,
+                    "end": 3884,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 3867,
+                      "end": 3876,
+                      "ctxt": 0
+                    },
+                    "value": "min-width",
+                    "raw": "min-width"
+                  },
+                  "value": {
+                    "type": "Dimension",
+                    "span": {
+                      "start": 3878,
+                      "end": 3883,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 3878,
+                        "end": 3881,
+                        "ctxt": 0
+                      },
+                      "value": 800.0,
+                      "raw": "800"
+                    },
+                    "unit": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3881,
+                        "end": 3883,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                },
+                {
+                  "type": "MediaAnd",
+                  "span": {
+                    "start": 3885,
+                    "end": 3931,
+                    "ctxt": 0
+                  },
+                  "condition": {
+                    "type": "MediaCondition",
+                    "span": {
+                      "start": 3890,
+                      "end": 3930,
+                      "ctxt": 0
+                    },
+                    "conditions": [
+                      {
+                        "type": "MediaFeaturePlain",
+                        "span": {
+                          "start": 3890,
+                          "end": 3908,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 3891,
+                            "end": 3900,
+                            "ctxt": 0
+                          },
+                          "value": "min-width",
+                          "raw": "min-width"
+                        },
+                        "value": {
+                          "type": "Dimension",
+                          "span": {
+                            "start": 3902,
+                            "end": 3907,
+                            "ctxt": 0
+                          },
+                          "value": {
+                            "type": "Number",
+                            "span": {
+                              "start": 3902,
+                              "end": 3905,
+                              "ctxt": 0
+                            },
+                            "value": 800.0,
+                            "raw": "800"
+                          },
+                          "unit": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 3905,
+                              "end": 3907,
+                              "ctxt": 0
+                            },
+                            "value": "px",
+                            "raw": "px"
+                          }
+                        }
+                      },
+                      {
+                        "type": "MediaOr",
+                        "span": {
+                          "start": 3909,
+                          "end": 3930,
+                          "ctxt": 0
+                        },
+                        "condition": {
+                          "type": "MediaFeaturePlain",
+                          "span": {
+                            "start": 3912,
+                            "end": 3930,
+                            "ctxt": 0
+                          },
+                          "name": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 3913,
+                              "end": 3922,
+                              "ctxt": 0
+                            },
+                            "value": "min-width",
+                            "raw": "min-width"
+                          },
+                          "value": {
+                            "type": "Dimension",
+                            "span": {
+                              "start": 3924,
+                              "end": 3929,
+                              "ctxt": 0
+                            },
+                            "value": {
+                              "type": "Number",
+                              "span": {
+                                "start": 3924,
+                                "end": 3927,
+                                "ctxt": 0
+                              },
+                              "value": 800.0,
+                              "raw": "800"
+                            },
+                            "unit": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 3927,
+                                "end": 3929,
+                                "ctxt": 0
+                              },
+                              "value": "px",
+                              "raw": "px"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 3936,
+        "end": 3945,
+        "ctxt": 0
+      },
+      "media": null,
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 3946,
+        "end": 3958,
+        "ctxt": 0
+      },
+      "media": null,
       "rules": []
     }
   ]
