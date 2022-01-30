@@ -1,12 +1,3 @@
-macro_rules! ident_tok {
-    ($tt:tt) => {
-        swc_css_ast::Token::Ident {
-            value: swc_atoms::js_word!($tt),
-            ..
-        }
-    };
-}
-
 macro_rules! tok {
     ("num") => {
         swc_css_ast::Token::Num { .. }
@@ -174,21 +165,5 @@ macro_rules! tok {
 
     ("important") => {
         ident_tok!("important")
-    };
-
-    ("not") => {
-        ident_tok!("not")
-    };
-
-    ("or") => {
-        ident_tok!("or")
-    };
-
-    ("and") => {
-        ident_tok!("and")
-    };
-
-    ("only") => {
-        ident_tok!("only")
     };
 }
