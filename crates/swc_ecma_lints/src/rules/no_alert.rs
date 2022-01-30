@@ -37,8 +37,6 @@ struct NoAlert {
     top_level_ctxt: SyntaxContext,
     top_level_declared_vars: AHashSet<Id>,
     pass_call_on_global_this: bool,
-    fn_names: AHashSet<&'static str>,
-    obj_names: AHashSet<&'static str>,
     call_expr_span: Option<Span>,
 }
 
@@ -54,8 +52,6 @@ impl NoAlert {
             top_level_ctxt,
             top_level_declared_vars,
             pass_call_on_global_this: es_version < EsVersion::Es2020,
-            fn_names: FN_NAMES.iter().map(|n| *n).collect(),
-            obj_names: OBJ_NAMES.iter().map(|n| *n).collect(),
             call_expr_span: None,
         }
     }
@@ -81,12 +77,12 @@ impl NoAlert {
                 return;
             }
 
-            if !self.obj_names.contains(obj_name) {
+            if !OBJ_NAMES.contains(&obj_name) {
                 return;
             }
         }
 
-        if self.fn_names.contains(fn_name) {
+        if FN_NAMES.contains(&fn_name) {
             self.emit_report(fn_name);
         }
     }
