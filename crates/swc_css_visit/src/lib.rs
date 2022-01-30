@@ -113,8 +113,6 @@ define!({
 
         Tokens(Tokens),
 
-        AtText(AtTextValue),
-
         Url(Url),
     }
 
@@ -165,12 +163,6 @@ define!({
         pub span: Span,
         pub left: Number,
         pub right: Option<Number>,
-    }
-
-    pub struct AtTextValue {
-        pub span: Span,
-        pub name: Ident,
-        pub block: Option<SimpleBlock>,
     }
 
     pub struct Url {

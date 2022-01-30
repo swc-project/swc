@@ -44,9 +44,6 @@ pub enum Value {
     #[tag("Tokens")]
     Tokens(Tokens),
 
-    #[tag("AtTextValue")]
-    AtText(AtTextValue),
-
     #[tag("Url")]
     Url(Url),
 }
@@ -131,14 +128,6 @@ pub enum BinOp {
     Mul,
     /// `/`
     Div,
-}
-
-#[ast_node("AtTextValue")]
-pub struct AtTextValue {
-    pub span: Span,
-    /// Includes `@`.
-    pub name: Ident,
-    pub block: Option<SimpleBlock>,
 }
 
 #[ast_node("Url")]

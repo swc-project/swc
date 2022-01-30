@@ -300,28 +300,6 @@ where
                 }
             }
 
-            Token::AtKeyword { .. } => {
-                let name = bump!(self);
-                let name = match name {
-                    Token::AtKeyword { value, raw } => Ident { span, value, raw },
-                    _ => {
-                        unreachable!()
-                    }
-                };
-
-                let block = if is!(self, "{") {
-                    self.parse_brace_value().map(Some)?
-                } else {
-                    None
-                };
-
-                return Ok(Value::AtText(AtTextValue {
-                    span: span!(self, span.lo),
-                    name,
-                    block,
-                }));
-            }
-
             _ => {}
         }
 

@@ -52,39 +52,39 @@ error: Block
 1 | a { value: @\6b eyword }
   |   ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Declaration
+error: Tokens
  --> $DIR/tests/fixture/esbuild/misc/4-S1C8qZOZ6Mm7WdRUH72Q/input.css:1:5
   |
 1 | a { value: @\6b eyword }
-  |     ^^^^^^^^^^^^^^^^^^
+  |     ^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
- --> $DIR/tests/fixture/esbuild/misc/4-S1C8qZOZ6Mm7WdRUH72Q/input.css:1:5
-  |
-1 | a { value: @\6b eyword }
-  |     ^^^^^
-
-error: Ident
+error: Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/4-S1C8qZOZ6Mm7WdRUH72Q/input.css:1:5
   |
 1 | a { value: @\6b eyword }
   |     ^^^^^
 
-error: Value
+error: Colon
+ --> $DIR/tests/fixture/esbuild/misc/4-S1C8qZOZ6Mm7WdRUH72Q/input.css:1:10
+  |
+1 | a { value: @\6b eyword }
+  |          ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/esbuild/misc/4-S1C8qZOZ6Mm7WdRUH72Q/input.css:1:11
+  |
+1 | a { value: @\6b eyword }
+  |           ^
+
+error: AtKeyword { value: Atom('keyword' type=inline), raw: Atom('\6b eyword' type=dynamic) }
  --> $DIR/tests/fixture/esbuild/misc/4-S1C8qZOZ6Mm7WdRUH72Q/input.css:1:12
   |
 1 | a { value: @\6b eyword }
   |            ^^^^^^^^^^^
 
-error: AtTextValue
- --> $DIR/tests/fixture/esbuild/misc/4-S1C8qZOZ6Mm7WdRUH72Q/input.css:1:12
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/esbuild/misc/4-S1C8qZOZ6Mm7WdRUH72Q/input.css:1:23
   |
 1 | a { value: @\6b eyword }
-  |            ^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/4-S1C8qZOZ6Mm7WdRUH72Q/input.css:1:12
-  |
-1 | a { value: @\6b eyword }
-  |            ^^^^^^^^^^^
+  |                       ^
 

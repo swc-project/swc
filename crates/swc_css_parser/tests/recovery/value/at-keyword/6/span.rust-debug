@@ -52,39 +52,39 @@ error: Block
 1 | a { value: @\6beyword }
   |   ^^^^^^^^^^^^^^^^^^^^^
 
-error: Declaration
+error: Tokens
  --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:5
   |
 1 | a { value: @\6beyword }
-  |     ^^^^^^^^^^^^^^^^^
+  |     ^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:5
-  |
-1 | a { value: @\6beyword }
-  |     ^^^^^
-
-error: Ident
+error: Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:5
   |
 1 | a { value: @\6beyword }
   |     ^^^^^
 
-error: Value
+error: Colon
+ --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:10
+  |
+1 | a { value: @\6beyword }
+  |          ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:11
+  |
+1 | a { value: @\6beyword }
+  |           ^
+
+error: AtKeyword { value: Atom('ھyword' type=inline), raw: Atom('\6beyword' type=dynamic) }
  --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:12
   |
 1 | a { value: @\6beyword }
   |            ^^^^^^^^^^
 
-error: AtTextValue
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:12
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:22
   |
 1 | a { value: @\6beyword }
-  |            ^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:12
-  |
-1 | a { value: @\6beyword }
-  |            ^^^^^^^^^^
+  |                      ^
 

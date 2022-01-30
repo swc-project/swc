@@ -658,7 +658,6 @@ where
             Value::Str(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
             Value::Tokens(n) => emit!(self, n),
-            Value::AtText(n) => emit!(self, n),
             Value::Url(n) => emit!(self, n),
             Value::Delimiter(n) => emit!(self, n),
         }
@@ -1005,15 +1004,6 @@ where
                 }
             }
         }
-    }
-
-    #[emitter]
-    fn emit_at_text_value(&mut self, n: &AtTextValue) -> Result {
-        punct!(self, "@");
-        emit!(self, n.name);
-        space!(self);
-
-        emit!(self, n.block);
     }
 
     #[emitter]
