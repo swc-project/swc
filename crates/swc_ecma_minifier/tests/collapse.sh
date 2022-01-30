@@ -13,6 +13,13 @@ find ./tests/terser -name 'input.js' | while read -r input; do
   else	
     mangle_json='None'	
   fi
+  
+  output="$(dirname $input)/output.js"	
+  output_terser="$(dirname $input)/output.terser.js"	
+  output="$(cat $output)"	
+  output_terser="$(cat $output_terser)"	
+  
+  
   test_name="${dir/\.\//}";	
   test_name="${test_name//\//_}";	
   test_name="${test_name//\-/_}";	
@@ -30,6 +37,10 @@ fn $test_name() {
     let src = r###\"$(cat $input)\"###;	
     let compress = r###\"$conf_json\"###;	
     let mangle = $mangle_json;	
+    
+    let expected = r###\"$(cat $output)\"###;	
+    let expected_terser = r###\"$(cat $output_terser)\"###;	
+    
     run_test(src, compress, mangle);	
 }"	
 done 	
