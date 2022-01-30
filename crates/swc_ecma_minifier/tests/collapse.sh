@@ -3,7 +3,7 @@
 set -eu	
 
 
-find ./tests/exec -name 'input.js' | while read -r input; do	
+find ./tests/terser -name 'input.js' | while read -r input; do	
   dir="$(dirname $input)"	
   conf_json="$(dirname $input)/config.json"	
   test_name="${dir/\.\//}";	
