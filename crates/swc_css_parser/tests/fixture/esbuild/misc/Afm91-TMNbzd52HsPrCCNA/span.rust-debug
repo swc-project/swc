@@ -76,7 +76,7 @@ error: Value
 1 | a { color: #abbbccff }
   |            ^^^^^^^^^
 
-error: HashValue
+error: HexColor
  --> $DIR/tests/fixture/esbuild/misc/Afm91-TMNbzd52HsPrCCNA/input.css:1:12
   |
 1 | a { color: #abbbccff }

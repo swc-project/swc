@@ -89,7 +89,7 @@
             },
             "value": [
               {
-                "type": "HashValue",
+                "type": "HexColor",
                 "span": {
                   "start": 11,
                   "end": 20,

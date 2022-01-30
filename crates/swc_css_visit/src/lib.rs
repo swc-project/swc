@@ -97,7 +97,7 @@ define!({
 
         Ratio(Ratio),
 
-        Hash(HashValue),
+        Color(Color),
 
         Ident(Ident),
 
@@ -144,7 +144,11 @@ define!({
         pub value: Vec<Value>,
     }
 
-    pub struct HashValue {
+    pub enum Color {
+        HexColor(HexColor),
+    }
+
+    pub struct HexColor {
         pub span: Span,
         pub value: JsWord,
         pub raw: JsWord,

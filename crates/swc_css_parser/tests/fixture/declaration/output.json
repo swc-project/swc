@@ -689,7 +689,7 @@
             },
             "value": [
               {
-                "type": "HashValue",
+                "type": "HexColor",
                 "span": {
                   "start": 285,
                   "end": 289,
@@ -699,7 +699,7 @@
                 "raw": "ccc"
               },
               {
-                "type": "HashValue",
+                "type": "HexColor",
                 "span": {
                   "start": 289,
                   "end": 293,
