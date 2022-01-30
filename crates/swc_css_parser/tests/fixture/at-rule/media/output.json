@@ -2,8 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 3935,
-    "end": 3747,
+    "end": 3959,
     "ctxt": 0
   },
   "rules": [
@@ -9395,10 +9394,6 @@
           }
         ]
       },
-        "end": 3733,
-        "ctxt": 0
-      },
-      "media": null,
       "rules": []
     },
     {
@@ -9805,8 +9800,23 @@
           }
         ]
       },
-        "start": 3734,
-        "end": 3746,
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 3936,
+        "end": 3945,
+        "ctxt": 0
+      },
+      "media": null,
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 3946,
+        "end": 3958,
         "ctxt": 0
       },
       "media": null,

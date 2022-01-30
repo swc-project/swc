@@ -6,9 +6,9 @@ error: Stylesheet
 3   | |
 4   | | @media all {}
 ...   |
-109 | | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
-110 | | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
-    | |____________________________________________________________________________^
+112 | | @media {}
+113 | | @media    {}
+    | |_____________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:1:1
@@ -11097,4 +11097,40 @@ error: Ident
     |
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
     |                                                                     ^^
+
+error: Rule
+   --> $DIR/tests/fixture/at-rule/media/input.css:112:1
+    |
+112 | @media {}
+    | ^^^^^^^^^
+
+error: AtRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:112:1
+    |
+112 | @media {}
+    | ^^^^^^^^^
+
+error: MediaRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:112:1
+    |
+112 | @media {}
+    | ^^^^^^^^^
+
+error: Rule
+   --> $DIR/tests/fixture/at-rule/media/input.css:113:1
+    |
+113 | @media    {}
+    | ^^^^^^^^^^^^
+
+error: AtRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:113:1
+    |
+113 | @media    {}
+    | ^^^^^^^^^^^^
+
+error: MediaRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:113:1
+    |
+113 | @media    {}
+    | ^^^^^^^^^^^^
 
