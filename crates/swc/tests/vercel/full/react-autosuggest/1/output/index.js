@@ -92,8 +92,8 @@ var ItemsList = function(_Component) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(ItemsList1, _Component);
-    var Constructor1, protoProps, staticProps, Derived, _super = (Derived = ItemsList1, function() {
+    }(ItemsList, _Component);
+    var Constructor1, protoProps, staticProps, Derived, _super = (Derived = ItemsList, function() {
         var self, call, result, Super = _getPrototypeOf(Derived);
         if ((function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
@@ -110,12 +110,12 @@ var ItemsList = function(_Component) {
         } else result = Super.apply(this, arguments);
         return self = this, (call = result) && ("object" === _typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(self);
     });
-    function ItemsList1() {
+    function ItemsList() {
         var _this;
         !function(instance, Constructor) {
             var left, right;
             if (left = instance, null != (right = Constructor) && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? !right[Symbol.hasInstance](left) : !(left instanceof right)) throw new TypeError("Cannot call a class as a function");
-        }(this, ItemsList1);
+        }(this, ItemsList);
         for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
         return _defineProperty(_assertThisInitialized(_this = _super.call.apply(_super, [
             this
@@ -123,7 +123,7 @@ var ItemsList = function(_Component) {
             _this.props.onHighlightedItemChange(null === highlightedItem ? null : highlightedItem.item);
         }), _this;
     }
-    return Constructor1 = ItemsList1, protoProps = [
+    return Constructor1 = ItemsList, protoProps = [
         {
             key: "shouldComponentUpdate",
             value: function(nextProps) {
@@ -167,7 +167,7 @@ var ItemsList = function(_Component) {
                 }));
             }
         }
-    ], _defineProperties(Constructor1.prototype, protoProps), staticProps && _defineProperties(Constructor1, staticProps), ItemsList1;
+    ], _defineProperties(Constructor1.prototype, protoProps), staticProps && _defineProperties(Constructor1, staticProps), ItemsList;
 }(_react.Component);
 exports.default = ItemsList, _defineProperty(ItemsList, "propTypes", {
     items: _propTypes.default.array.isRequired,
