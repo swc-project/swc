@@ -736,6 +736,7 @@ where
         keyword!(self, "color-profile");
         space!(self);
         emit!(self, n.name);
+        formatting_space!(self);
         punct!(self, "{");
         self.emit_list(&n.block, ListFormat::NotDelimited)?;
         punct!(self, "}");
