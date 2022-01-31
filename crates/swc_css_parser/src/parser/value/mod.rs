@@ -269,7 +269,7 @@ where
                 let span = self.input.cur_span()?;
                 let base = self.parse_basical_numeric_value()?;
 
-                return self.parse_numeric_value_with_base(span.lo, base)
+                return self.parse_numeric_value_with_base(span.lo, base);
             }
 
             Token::Ident { value, .. } => {
