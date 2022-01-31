@@ -674,7 +674,9 @@ where
                         _ => !self.config.minify,
                     },
                     _ => match nodes.get(idx + 1) {
-                        Some(Value::SimpleBlock(_)) => !self.config.minify,
+                        Some(Value::SimpleBlock(_)) | Some(Value::Color(Color::HexColor(_))) => {
+                            !self.config.minify
+                        }
                         Some(Value::Delimiter(_)) => false,
                         _ => true,
                     },
