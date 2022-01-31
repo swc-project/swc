@@ -1,0 +1,3230 @@
+error: Stylesheet
+  --> $DIR/tests/fixture/function/calc/input.css:1:1
+   |
+1  | / :root {
+2  | |     font-size: calc(100vw / 35);
+3  | | }
+4  | |
+...  |
+50 | | div { margin-top: calc(-120% - 4px); }
+51 | | /*div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }*/
+   | |__________________________________________________^
+
+error: Rule
+ --> $DIR/tests/fixture/function/calc/input.css:1:1
+  |
+1 | / :root {
+2 | |     font-size: calc(100vw / 35);
+3 | | }
+  | |_^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/function/calc/input.css:1:1
+  |
+1 | / :root {
+2 | |     font-size: calc(100vw / 35);
+3 | | }
+  | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/function/calc/input.css:1:1
+  |
+1 | :root {
+  | ^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/function/calc/input.css:1:1
+  |
+1 | :root {
+  | ^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/function/calc/input.css:1:1
+  |
+1 | :root {
+  | ^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/function/calc/input.css:1:1
+  |
+1 | :root {
+  | ^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/function/calc/input.css:1:1
+  |
+1 | :root {
+  | ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/calc/input.css:1:2
+  |
+1 | :root {
+  |  ^^^^
+
+error: Block
+ --> $DIR/tests/fixture/function/calc/input.css:1:7
+  |
+1 |   :root {
+  |  _______^
+2 | |     font-size: calc(100vw / 35);
+3 | | }
+  | |_^
+
+error: Declaration
+ --> $DIR/tests/fixture/function/calc/input.css:2:5
+  |
+2 |     font-size: calc(100vw / 35);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/function/calc/input.css:2:5
+  |
+2 |     font-size: calc(100vw / 35);
+  |     ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/calc/input.css:2:5
+  |
+2 |     font-size: calc(100vw / 35);
+  |     ^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/function/calc/input.css:2:16
+  |
+2 |     font-size: calc(100vw / 35);
+  |                ^^^^^^^^^^^^^^^^
+
+error: Function
+ --> $DIR/tests/fixture/function/calc/input.css:2:16
+  |
+2 |     font-size: calc(100vw / 35);
+  |                ^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/calc/input.css:2:16
+  |
+2 |     font-size: calc(100vw / 35);
+  |                ^^^^
+
+error: Value
+ --> $DIR/tests/fixture/function/calc/input.css:2:21
+  |
+2 |     font-size: calc(100vw / 35);
+  |                     ^^^^^^^^^^
+
+error: BinValue
+ --> $DIR/tests/fixture/function/calc/input.css:2:21
+  |
+2 |     font-size: calc(100vw / 35);
+  |                     ^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/function/calc/input.css:2:21
+  |
+2 |     font-size: calc(100vw / 35);
+  |                     ^^^^^
+
+error: Dimension
+ --> $DIR/tests/fixture/function/calc/input.css:2:21
+  |
+2 |     font-size: calc(100vw / 35);
+  |                     ^^^^^
+
+error: Number
+ --> $DIR/tests/fixture/function/calc/input.css:2:21
+  |
+2 |     font-size: calc(100vw / 35);
+  |                     ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/calc/input.css:2:24
+  |
+2 |     font-size: calc(100vw / 35);
+  |                        ^^
+
+error: Value
+ --> $DIR/tests/fixture/function/calc/input.css:2:29
+  |
+2 |     font-size: calc(100vw / 35);
+  |                             ^^
+
+error: Number
+ --> $DIR/tests/fixture/function/calc/input.css:2:29
+  |
+2 |     font-size: calc(100vw / 35);
+  |                             ^^
+
+error: Rule
+  --> $DIR/tests/fixture/function/calc/input.css:5:1
+   |
+5  | / div {
+6  | |     --width: calc(10% + 30px);
+7  | |
+8  | |     width: calc(0px);
+...  |
+29 | |     /*width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);*/
+30 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/function/calc/input.css:5:1
+   |
+5  | / div {
+6  | |     --width: calc(10% + 30px);
+7  | |
+8  | |     width: calc(0px);
+...  |
+29 | |     /*width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);*/
+30 | | }
+   | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/function/calc/input.css:5:1
+  |
+5 | div {
+  | ^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/function/calc/input.css:5:1
+  |
+5 | div {
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/function/calc/input.css:5:1
+  |
+5 | div {
+  | ^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/function/calc/input.css:5:1
+  |
+5 | div {
+  | ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/calc/input.css:5:1
+  |
+5 | div {
+  | ^^^
+
+error: Block
+  --> $DIR/tests/fixture/function/calc/input.css:5:5
+   |
+5  |   div {
+   |  _____^
+6  | |     --width: calc(10% + 30px);
+7  | |
+8  | |     width: calc(0px);
+...  |
+29 | |     /*width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);*/
+30 | | }
+   | |_^
+
+error: Declaration
+ --> $DIR/tests/fixture/function/calc/input.css:6:5
+  |
+6 |     --width: calc(10% + 30px);
+  |     ^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/function/calc/input.css:6:5
+  |
+6 |     --width: calc(10% + 30px);
+  |     ^^^^^^^
+
+error: DashedIdent
+ --> $DIR/tests/fixture/function/calc/input.css:6:5
+  |
+6 |     --width: calc(10% + 30px);
+  |     ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/function/calc/input.css:6:13
+  |
+6 |     --width: calc(10% + 30px);
+  |             ^^^^^^^^^^^^^^^^^
+
+error: Tokens
+ --> $DIR/tests/fixture/function/calc/input.css:6:13
+  |
+6 |     --width: calc(10% + 30px);
+  |             ^^^^^^^^^^^^^^^^^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/function/calc/input.css:6:13
+  |
+6 |     --width: calc(10% + 30px);
+  |             ^
+
+error: Function { value: Atom('calc' type=inline), raw: Atom('calc' type=inline) }
+ --> $DIR/tests/fixture/function/calc/input.css:6:14
+  |
+6 |     --width: calc(10% + 30px);
+  |              ^^^^^
+
+error: Percent { value: 10.0, raw: Atom('10' type=inline) }
+ --> $DIR/tests/fixture/function/calc/input.css:6:19
+  |
+6 |     --width: calc(10% + 30px);
+  |                   ^^^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/function/calc/input.css:6:22
+  |
+6 |     --width: calc(10% + 30px);
+  |                      ^
+
+error: Delim { value: '+' }
+ --> $DIR/tests/fixture/function/calc/input.css:6:23
+  |
+6 |     --width: calc(10% + 30px);
+  |                       ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/function/calc/input.css:6:24
+  |
+6 |     --width: calc(10% + 30px);
+  |                        ^
+
+error: Dimension { value: 30.0, raw_value: Atom('30' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
+ --> $DIR/tests/fixture/function/calc/input.css:6:25
+  |
+6 |     --width: calc(10% + 30px);
+  |                         ^^^^
+
+error: RParen
+ --> $DIR/tests/fixture/function/calc/input.css:6:29
+  |
+6 |     --width: calc(10% + 30px);
+  |                             ^
+
+error: Declaration
+ --> $DIR/tests/fixture/function/calc/input.css:8:5
+  |
+8 |     width: calc(0px);
+  |     ^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/function/calc/input.css:8:5
+  |
+8 |     width: calc(0px);
+  |     ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/calc/input.css:8:5
+  |
+8 |     width: calc(0px);
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/function/calc/input.css:8:12
+  |
+8 |     width: calc(0px);
+  |            ^^^^^^^^^
+
+error: Function
+ --> $DIR/tests/fixture/function/calc/input.css:8:12
+  |
+8 |     width: calc(0px);
+  |            ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/calc/input.css:8:12
+  |
+8 |     width: calc(0px);
+  |            ^^^^
+
+error: Value
+ --> $DIR/tests/fixture/function/calc/input.css:8:17
+  |
+8 |     width: calc(0px);
+  |                 ^^^
+
+error: Dimension
+ --> $DIR/tests/fixture/function/calc/input.css:8:17
+  |
+8 |     width: calc(0px);
+  |                 ^^^
+
+error: Number
+ --> $DIR/tests/fixture/function/calc/input.css:8:17
+  |
+8 |     width: calc(0px);
+  |                 ^
+
+error: Ident
+ --> $DIR/tests/fixture/function/calc/input.css:8:18
+  |
+8 |     width: calc(0px);
+  |                  ^^
+
+error: Declaration
+ --> $DIR/tests/fixture/function/calc/input.css:9:5
+  |
+9 |     line-height: calc(0);
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/function/calc/input.css:9:5
+  |
+9 |     line-height: calc(0);
+  |     ^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/calc/input.css:9:5
+  |
+9 |     line-height: calc(0);
+  |     ^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/function/calc/input.css:9:18
+  |
+9 |     line-height: calc(0);
+  |                  ^^^^^^^
+
+error: Function
+ --> $DIR/tests/fixture/function/calc/input.css:9:18
+  |
+9 |     line-height: calc(0);
+  |                  ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/calc/input.css:9:18
+  |
+9 |     line-height: calc(0);
+  |                  ^^^^
+
+error: Value
+ --> $DIR/tests/fixture/function/calc/input.css:9:23
+  |
+9 |     line-height: calc(0);
+  |                       ^
+
+error: Number
+ --> $DIR/tests/fixture/function/calc/input.css:9:23
+  |
+9 |     line-height: calc(0);
+  |                       ^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:10:5
+   |
+10 |     line-height: calc(2 + 3 * 4);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:10:5
+   |
+10 |     line-height: calc(2 + 3 * 4);
+   |     ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:10:5
+   |
+10 |     line-height: calc(2 + 3 * 4);
+   |     ^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:10:18
+   |
+10 |     line-height: calc(2 + 3 * 4);
+   |                  ^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:10:18
+   |
+10 |     line-height: calc(2 + 3 * 4);
+   |                  ^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:10:18
+   |
+10 |     line-height: calc(2 + 3 * 4);
+   |                  ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:10:23
+   |
+10 |     line-height: calc(2 + 3 * 4);
+   |                       ^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:10:23
+   |
+10 |     line-height: calc(2 + 3 * 4);
+   |                       ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:10:23
+   |
+10 |     line-height: calc(2 + 3 * 4);
+   |                       ^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:10:23
+   |
+10 |     line-height: calc(2 + 3 * 4);
+   |                       ^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:10:23
+   |
+10 |     line-height: calc(2 + 3 * 4);
+   |                       ^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:10:23
+   |
+10 |     line-height: calc(2 + 3 * 4);
+   |                       ^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:10:27
+   |
+10 |     line-height: calc(2 + 3 * 4);
+   |                           ^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:10:27
+   |
+10 |     line-height: calc(2 + 3 * 4);
+   |                           ^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:10:31
+   |
+10 |     line-height: calc(2 + 3 * 4);
+   |                               ^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:10:31
+   |
+10 |     line-height: calc(2 + 3 * 4);
+   |                               ^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:12:5
+   |
+12 |     line-height: calc(-5 * 0);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:12:5
+   |
+12 |     line-height: calc(-5 * 0);
+   |     ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:12:5
+   |
+12 |     line-height: calc(-5 * 0);
+   |     ^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:12:18
+   |
+12 |     line-height: calc(-5 * 0);
+   |                  ^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:12:18
+   |
+12 |     line-height: calc(-5 * 0);
+   |                  ^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:12:18
+   |
+12 |     line-height: calc(-5 * 0);
+   |                  ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:12:23
+   |
+12 |     line-height: calc(-5 * 0);
+   |                       ^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:12:23
+   |
+12 |     line-height: calc(-5 * 0);
+   |                       ^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:12:23
+   |
+12 |     line-height: calc(-5 * 0);
+   |                       ^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:12:23
+   |
+12 |     line-height: calc(-5 * 0);
+   |                       ^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:12:28
+   |
+12 |     line-height: calc(-5 * 0);
+   |                            ^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:12:28
+   |
+12 |     line-height: calc(-5 * 0);
+   |                            ^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:13:5
+   |
+13 |     width: calc((100px + 100px));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:13:5
+   |
+13 |     width: calc((100px + 100px));
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:13:5
+   |
+13 |     width: calc((100px + 100px));
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:13:12
+   |
+13 |     width: calc((100px + 100px));
+   |            ^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:13:12
+   |
+13 |     width: calc((100px + 100px));
+   |            ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:13:12
+   |
+13 |     width: calc((100px + 100px));
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:13:17
+   |
+13 |     width: calc((100px + 100px));
+   |                 ^^^^^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:13:17
+   |
+13 |     width: calc((100px + 100px));
+   |                 ^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:13:18
+   |
+13 |     width: calc((100px + 100px));
+   |                  ^^^^^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:13:18
+   |
+13 |     width: calc((100px + 100px));
+   |                  ^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:13:18
+   |
+13 |     width: calc((100px + 100px));
+   |                  ^^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:13:18
+   |
+13 |     width: calc((100px + 100px));
+   |                  ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:13:18
+   |
+13 |     width: calc((100px + 100px));
+   |                  ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:13:21
+   |
+13 |     width: calc((100px + 100px));
+   |                     ^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:13:26
+   |
+13 |     width: calc((100px + 100px));
+   |                          ^^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:13:26
+   |
+13 |     width: calc((100px + 100px));
+   |                          ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:13:26
+   |
+13 |     width: calc((100px + 100px));
+   |                          ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:13:29
+   |
+13 |     width: calc((100px + 100px));
+   |                             ^^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:14:5
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:14:5
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:14:5
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:14:12
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:14:12
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:14:12
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:14:20
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:14:20
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:14:24
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |                        ^^^^^^^^^^^^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:14:24
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |                        ^^^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:14:24
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |                        ^^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:14:24
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |                        ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:14:24
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |                        ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:14:27
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |                           ^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:14:36
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |                                    ^^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:14:36
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |                                    ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:14:36
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |                                    ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:14:39
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |                                       ^^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:15:5
+   |
+15 |     width: calc(   100px   +    100px   );
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:15:5
+   |
+15 |     width: calc(   100px   +    100px   );
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:15:5
+   |
+15 |     width: calc(   100px   +    100px   );
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:15:12
+   |
+15 |     width: calc(   100px   +    100px   );
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:15:12
+   |
+15 |     width: calc(   100px   +    100px   );
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:15:12
+   |
+15 |     width: calc(   100px   +    100px   );
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:15:20
+   |
+15 |     width: calc(   100px   +    100px   );
+   |                    ^^^^^^^^^^^^^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:15:20
+   |
+15 |     width: calc(   100px   +    100px   );
+   |                    ^^^^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:15:20
+   |
+15 |     width: calc(   100px   +    100px   );
+   |                    ^^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:15:20
+   |
+15 |     width: calc(   100px   +    100px   );
+   |                    ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:15:20
+   |
+15 |     width: calc(   100px   +    100px   );
+   |                    ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:15:23
+   |
+15 |     width: calc(   100px   +    100px   );
+   |                       ^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:15:33
+   |
+15 |     width: calc(   100px   +    100px   );
+   |                                 ^^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:15:33
+   |
+15 |     width: calc(   100px   +    100px   );
+   |                                 ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:15:33
+   |
+15 |     width: calc(   100px   +    100px   );
+   |                                 ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:15:36
+   |
+15 |     width: calc(   100px   +    100px   );
+   |                                    ^^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:16:5
+   |
+16 |     width: calc(500px + 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:16:5
+   |
+16 |     width: calc(500px + 50%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:16:5
+   |
+16 |     width: calc(500px + 50%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:16:12
+   |
+16 |     width: calc(500px + 50%);
+   |            ^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:16:12
+   |
+16 |     width: calc(500px + 50%);
+   |            ^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:16:12
+   |
+16 |     width: calc(500px + 50%);
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:16:17
+   |
+16 |     width: calc(500px + 50%);
+   |                 ^^^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:16:17
+   |
+16 |     width: calc(500px + 50%);
+   |                 ^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:16:17
+   |
+16 |     width: calc(500px + 50%);
+   |                 ^^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:16:17
+   |
+16 |     width: calc(500px + 50%);
+   |                 ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:16:17
+   |
+16 |     width: calc(500px + 50%);
+   |                 ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:16:20
+   |
+16 |     width: calc(500px + 50%);
+   |                    ^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:16:25
+   |
+16 |     width: calc(500px + 50%);
+   |                         ^^^
+
+error: Percent
+  --> $DIR/tests/fixture/function/calc/input.css:16:25
+   |
+16 |     width: calc(500px + 50%);
+   |                         ^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:16:25
+   |
+16 |     width: calc(500px + 50%);
+   |                         ^^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:17:5
+   |
+17 |     width: calc(10% + 20%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:17:5
+   |
+17 |     width: calc(10% + 20%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:17:5
+   |
+17 |     width: calc(10% + 20%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:17:12
+   |
+17 |     width: calc(10% + 20%);
+   |            ^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:17:12
+   |
+17 |     width: calc(10% + 20%);
+   |            ^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:17:12
+   |
+17 |     width: calc(10% + 20%);
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:17:17
+   |
+17 |     width: calc(10% + 20%);
+   |                 ^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:17:17
+   |
+17 |     width: calc(10% + 20%);
+   |                 ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:17:17
+   |
+17 |     width: calc(10% + 20%);
+   |                 ^^^
+
+error: Percent
+  --> $DIR/tests/fixture/function/calc/input.css:17:17
+   |
+17 |     width: calc(10% + 20%);
+   |                 ^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:17:17
+   |
+17 |     width: calc(10% + 20%);
+   |                 ^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:17:23
+   |
+17 |     width: calc(10% + 20%);
+   |                       ^^^
+
+error: Percent
+  --> $DIR/tests/fixture/function/calc/input.css:17:23
+   |
+17 |     width: calc(10% + 20%);
+   |                       ^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:17:23
+   |
+17 |     width: calc(10% + 20%);
+   |                       ^^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:18:5
+   |
+18 |     width: calc(2pc + 3pt);
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:18:5
+   |
+18 |     width: calc(2pc + 3pt);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:18:5
+   |
+18 |     width: calc(2pc + 3pt);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:18:12
+   |
+18 |     width: calc(2pc + 3pt);
+   |            ^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:18:12
+   |
+18 |     width: calc(2pc + 3pt);
+   |            ^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:18:12
+   |
+18 |     width: calc(2pc + 3pt);
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:18:17
+   |
+18 |     width: calc(2pc + 3pt);
+   |                 ^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:18:17
+   |
+18 |     width: calc(2pc + 3pt);
+   |                 ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:18:17
+   |
+18 |     width: calc(2pc + 3pt);
+   |                 ^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:18:17
+   |
+18 |     width: calc(2pc + 3pt);
+   |                 ^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:18:17
+   |
+18 |     width: calc(2pc + 3pt);
+   |                 ^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:18:18
+   |
+18 |     width: calc(2pc + 3pt);
+   |                  ^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:18:23
+   |
+18 |     width: calc(2pc + 3pt);
+   |                       ^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:18:23
+   |
+18 |     width: calc(2pc + 3pt);
+   |                       ^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:18:23
+   |
+18 |     width: calc(2pc + 3pt);
+   |                       ^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:18:24
+   |
+18 |     width: calc(2pc + 3pt);
+   |                        ^^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:19:5
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:19:5
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:19:5
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:19:12
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:19:12
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:19:12
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:19:17
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:19:17
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:19:17
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:19:17
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:19:17
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                 ^^^^^^^^^^^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:19:17
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                 ^^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:19:17
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                 ^^^^^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:19:17
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                 ^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:19:17
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                 ^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:19:17
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                 ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:19:17
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                 ^^^^
+
+error: Percent
+  --> $DIR/tests/fixture/function/calc/input.css:19:17
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                 ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:19:17
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                 ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:19:24
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                        ^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:19:24
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                        ^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:19:28
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                            ^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:19:28
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                            ^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:19:32
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                                ^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:19:32
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:19:32
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                                ^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:19:33
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                                 ^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:19:38
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                                      ^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:19:38
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                                      ^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:19:42
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                                          ^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:19:42
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                                          ^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:19:42
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                                          ^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:19:43
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                                           ^^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:21:5
+   |
+21 |     width: calc(calc(50px));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:21:5
+   |
+21 |     width: calc(calc(50px));
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:21:5
+   |
+21 |     width: calc(calc(50px));
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:21:12
+   |
+21 |     width: calc(calc(50px));
+   |            ^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:21:12
+   |
+21 |     width: calc(calc(50px));
+   |            ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:21:12
+   |
+21 |     width: calc(calc(50px));
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:21:17
+   |
+21 |     width: calc(calc(50px));
+   |                 ^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:21:17
+   |
+21 |     width: calc(calc(50px));
+   |                 ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:21:17
+   |
+21 |     width: calc(calc(50px));
+   |                 ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:21:22
+   |
+21 |     width: calc(calc(50px));
+   |                      ^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:21:22
+   |
+21 |     width: calc(calc(50px));
+   |                      ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:21:22
+   |
+21 |     width: calc(calc(50px));
+   |                      ^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:21:24
+   |
+21 |     width: calc(calc(50px));
+   |                        ^^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:23:5
+   |
+23 |     width: calc(calc(3 * 25%));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:23:5
+   |
+23 |     width: calc(calc(3 * 25%));
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:23:5
+   |
+23 |     width: calc(calc(3 * 25%));
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:23:12
+   |
+23 |     width: calc(calc(3 * 25%));
+   |            ^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:23:12
+   |
+23 |     width: calc(calc(3 * 25%));
+   |            ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:23:12
+   |
+23 |     width: calc(calc(3 * 25%));
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:23:17
+   |
+23 |     width: calc(calc(3 * 25%));
+   |                 ^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:23:17
+   |
+23 |     width: calc(calc(3 * 25%));
+   |                 ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:23:17
+   |
+23 |     width: calc(calc(3 * 25%));
+   |                 ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:23:22
+   |
+23 |     width: calc(calc(3 * 25%));
+   |                      ^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:23:22
+   |
+23 |     width: calc(calc(3 * 25%));
+   |                      ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:23:22
+   |
+23 |     width: calc(calc(3 * 25%));
+   |                      ^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:23:22
+   |
+23 |     width: calc(calc(3 * 25%));
+   |                      ^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:23:26
+   |
+23 |     width: calc(calc(3 * 25%));
+   |                          ^^^
+
+error: Percent
+  --> $DIR/tests/fixture/function/calc/input.css:23:26
+   |
+23 |     width: calc(calc(3 * 25%));
+   |                          ^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:23:26
+   |
+23 |     width: calc(calc(3 * 25%));
+   |                          ^^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:24:5
+   |
+24 |     width: calc(2 * var(--width));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:24:5
+   |
+24 |     width: calc(2 * var(--width));
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:24:5
+   |
+24 |     width: calc(2 * var(--width));
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:24:12
+   |
+24 |     width: calc(2 * var(--width));
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:24:12
+   |
+24 |     width: calc(2 * var(--width));
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:24:12
+   |
+24 |     width: calc(2 * var(--width));
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:24:17
+   |
+24 |     width: calc(2 * var(--width));
+   |                 ^^^^^^^^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:24:17
+   |
+24 |     width: calc(2 * var(--width));
+   |                 ^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:24:17
+   |
+24 |     width: calc(2 * var(--width));
+   |                 ^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:24:17
+   |
+24 |     width: calc(2 * var(--width));
+   |                 ^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:24:21
+   |
+24 |     width: calc(2 * var(--width));
+   |                     ^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:24:21
+   |
+24 |     width: calc(2 * var(--width));
+   |                     ^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:24:21
+   |
+24 |     width: calc(2 * var(--width));
+   |                     ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:24:25
+   |
+24 |     width: calc(2 * var(--width));
+   |                         ^^^^^^^
+
+error: DashedIdent
+  --> $DIR/tests/fixture/function/calc/input.css:24:25
+   |
+24 |     width: calc(2 * var(--width));
+   |                         ^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:26:5
+   |
+26 |     width: calc(infinity);
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:26:5
+   |
+26 |     width: calc(infinity);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:26:5
+   |
+26 |     width: calc(infinity);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:26:12
+   |
+26 |     width: calc(infinity);
+   |            ^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:26:12
+   |
+26 |     width: calc(infinity);
+   |            ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:26:12
+   |
+26 |     width: calc(infinity);
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:26:17
+   |
+26 |     width: calc(infinity);
+   |                 ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:26:17
+   |
+26 |     width: calc(infinity);
+   |                 ^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:27:5
+   |
+27 |     width: calc(InFiNiTy);
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:27:5
+   |
+27 |     width: calc(InFiNiTy);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:27:5
+   |
+27 |     width: calc(InFiNiTy);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:27:12
+   |
+27 |     width: calc(InFiNiTy);
+   |            ^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:27:12
+   |
+27 |     width: calc(InFiNiTy);
+   |            ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:27:12
+   |
+27 |     width: calc(InFiNiTy);
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:27:17
+   |
+27 |     width: calc(InFiNiTy);
+   |                 ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:27:17
+   |
+27 |     width: calc(InFiNiTy);
+   |                 ^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:28:5
+   |
+28 |     width: calc(NaN);
+   |     ^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:28:5
+   |
+28 |     width: calc(NaN);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:28:5
+   |
+28 |     width: calc(NaN);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:28:12
+   |
+28 |     width: calc(NaN);
+   |            ^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:28:12
+   |
+28 |     width: calc(NaN);
+   |            ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:28:12
+   |
+28 |     width: calc(NaN);
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:28:17
+   |
+28 |     width: calc(NaN);
+   |                 ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:28:17
+   |
+28 |     width: calc(NaN);
+   |                 ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/function/calc/input.css:32:1
+   |
+32 | / .bar {
+33 | |     font-size: calc(1rem * pow(1.5, -1));
+34 | |     font-size: calc(1rem * pow(1.5, 0));
+35 | |     font-size: calc(1rem * pow(1.5, 1));
+...  |
+38 | |     font-size: calc(1rem * pow(1.5, 4));
+39 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/function/calc/input.css:32:1
+   |
+32 | / .bar {
+33 | |     font-size: calc(1rem * pow(1.5, -1));
+34 | |     font-size: calc(1rem * pow(1.5, 0));
+35 | |     font-size: calc(1rem * pow(1.5, 1));
+...  |
+38 | |     font-size: calc(1rem * pow(1.5, 4));
+39 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/function/calc/input.css:32:1
+   |
+32 | .bar {
+   | ^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/function/calc/input.css:32:1
+   |
+32 | .bar {
+   | ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/function/calc/input.css:32:1
+   |
+32 | .bar {
+   | ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/function/calc/input.css:32:1
+   |
+32 | .bar {
+   | ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/function/calc/input.css:32:1
+   |
+32 | .bar {
+   | ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:32:2
+   |
+32 | .bar {
+   |  ^^^
+
+error: Block
+  --> $DIR/tests/fixture/function/calc/input.css:32:6
+   |
+32 |   .bar {
+   |  ______^
+33 | |     font-size: calc(1rem * pow(1.5, -1));
+34 | |     font-size: calc(1rem * pow(1.5, 0));
+35 | |     font-size: calc(1rem * pow(1.5, 1));
+...  |
+38 | |     font-size: calc(1rem * pow(1.5, 4));
+39 | | }
+   | |_^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:33:5
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:33:5
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |     ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:33:5
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |     ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:33:16
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:33:16
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:33:16
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:33:21
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                     ^^^^^^^^^^^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:33:21
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                     ^^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:33:21
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                     ^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:33:21
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                     ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:33:21
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                     ^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:33:22
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                      ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:33:28
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                            ^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:33:28
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                            ^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:33:28
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:33:32
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:33:32
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:33:35
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                                   ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/function/calc/input.css:33:35
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                                   ^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:33:37
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                                     ^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:33:37
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                                     ^^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:34:5
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:34:5
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |     ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:34:5
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |     ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:34:16
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:34:16
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:34:16
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:34:21
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                     ^^^^^^^^^^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:34:21
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                     ^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:34:21
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                     ^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:34:21
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                     ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:34:21
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                     ^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:34:22
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                      ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:34:28
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                            ^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:34:28
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                            ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:34:28
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:34:32
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:34:32
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:34:35
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                                   ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/function/calc/input.css:34:35
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                                   ^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:34:37
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                                     ^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:34:37
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                                     ^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:35:5
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:35:5
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |     ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:35:5
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |     ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:35:16
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:35:16
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:35:16
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:35:21
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                     ^^^^^^^^^^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:35:21
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                     ^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:35:21
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                     ^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:35:21
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                     ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:35:21
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                     ^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:35:22
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                      ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:35:28
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                            ^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:35:28
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                            ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:35:28
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:35:32
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:35:32
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:35:35
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                                   ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/function/calc/input.css:35:35
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                                   ^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:35:37
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                                     ^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:35:37
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                                     ^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:36:5
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:36:5
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |     ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:36:5
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |     ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:36:16
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:36:16
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:36:16
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:36:21
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                     ^^^^^^^^^^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:36:21
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                     ^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:36:21
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                     ^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:36:21
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                     ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:36:21
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                     ^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:36:22
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                      ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:36:28
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                            ^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:36:28
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                            ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:36:28
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:36:32
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:36:32
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:36:35
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                                   ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/function/calc/input.css:36:35
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                                   ^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:36:37
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                                     ^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:36:37
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                                     ^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:37:5
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:37:5
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |     ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:37:5
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |     ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:37:16
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:37:16
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:37:16
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:37:21
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                     ^^^^^^^^^^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:37:21
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                     ^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:37:21
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                     ^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:37:21
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                     ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:37:21
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                     ^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:37:22
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                      ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:37:28
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                            ^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:37:28
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                            ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:37:28
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:37:32
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:37:32
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:37:35
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                                   ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/function/calc/input.css:37:35
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                                   ^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:37:37
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                                     ^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:37:37
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                                     ^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:38:5
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:38:5
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |     ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:38:5
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |     ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:38:16
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:38:16
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:38:16
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:38:21
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                     ^^^^^^^^^^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:38:21
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                     ^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:38:21
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                     ^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:38:21
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                     ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:38:21
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                     ^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:38:22
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                      ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:38:28
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                            ^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:38:28
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                            ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:38:28
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:38:32
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:38:32
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:38:35
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                                   ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/function/calc/input.css:38:35
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                                   ^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:38:37
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                                     ^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:38:37
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                                     ^
+
+error: Rule
+  --> $DIR/tests/fixture/function/calc/input.css:41:1
+   |
+41 | / .fade {
+42 | |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+43 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/function/calc/input.css:41:1
+   |
+41 | / .fade {
+42 | |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+43 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/function/calc/input.css:41:1
+   |
+41 | .fade {
+   | ^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/function/calc/input.css:41:1
+   |
+41 | .fade {
+   | ^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/function/calc/input.css:41:1
+   |
+41 | .fade {
+   | ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/function/calc/input.css:41:1
+   |
+41 | .fade {
+   | ^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/function/calc/input.css:41:1
+   |
+41 | .fade {
+   | ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:41:2
+   |
+41 | .fade {
+   |  ^^^^
+
+error: Block
+  --> $DIR/tests/fixture/function/calc/input.css:41:7
+   |
+41 |   .fade {
+   |  _______^
+42 | |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+43 | | }
+   | |_^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:42:5
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:42:5
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |     ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:42:5
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |     ^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:42:23
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:42:23
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:42:23
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                       ^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:42:39
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                       ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:42:39
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                       ^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:42:46
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                              ^^
+
+error: Percent
+  --> $DIR/tests/fixture/function/calc/input.css:42:46
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                              ^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:42:46
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                              ^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:42:48
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/function/calc/input.css:42:48
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                ^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:42:50
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                  ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:42:50
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                  ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:42:56
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                        ^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:42:56
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                        ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:42:56
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                        ^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:42:58
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                          ^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:42:60
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                            ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/function/calc/input.css:42:60
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                            ^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:42:62
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                              ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:42:62
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                              ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:42:68
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                    ^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:42:68
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                    ^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:42:68
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                    ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:42:73
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                         ^^^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:42:73
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                         ^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:42:73
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                         ^^^^
+
+error: Percent
+  --> $DIR/tests/fixture/function/calc/input.css:42:73
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                         ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:42:73
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                         ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:42:80
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                                ^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:42:80
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                                ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:42:80
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                                ^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:42:82
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                                  ^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:42:85
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                                     ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/function/calc/input.css:42:85
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                                     ^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:42:87
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                                       ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:42:87
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                                       ^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:42:94
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                                              ^^^^
+
+error: Percent
+  --> $DIR/tests/fixture/function/calc/input.css:42:94
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                                              ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:42:94
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                                              ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/function/calc/input.css:45:1
+   |
+45 | / div {
+46 | |     /*height: -webkit-calc(9/16 * 100%)!important;*/
+47 | |     /*width: -moz-calc((50px - 50%)*2);*/
+48 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/function/calc/input.css:45:1
+   |
+45 | / div {
+46 | |     /*height: -webkit-calc(9/16 * 100%)!important;*/
+47 | |     /*width: -moz-calc((50px - 50%)*2);*/
+48 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/function/calc/input.css:45:1
+   |
+45 | div {
+   | ^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/function/calc/input.css:45:1
+   |
+45 | div {
+   | ^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/function/calc/input.css:45:1
+   |
+45 | div {
+   | ^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/function/calc/input.css:45:1
+   |
+45 | div {
+   | ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:45:1
+   |
+45 | div {
+   | ^^^
+
+error: Block
+  --> $DIR/tests/fixture/function/calc/input.css:45:5
+   |
+45 |   div {
+   |  _____^
+46 | |     /*height: -webkit-calc(9/16 * 100%)!important;*/
+47 | |     /*width: -moz-calc((50px - 50%)*2);*/
+48 | | }
+   | |_^
+
+error: Rule
+  --> $DIR/tests/fixture/function/calc/input.css:49:1
+   |
+49 | div { width: calc(100% / 4); }
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/function/calc/input.css:49:1
+   |
+49 | div { width: calc(100% / 4); }
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/function/calc/input.css:49:1
+   |
+49 | div { width: calc(100% / 4); }
+   | ^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/function/calc/input.css:49:1
+   |
+49 | div { width: calc(100% / 4); }
+   | ^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/function/calc/input.css:49:1
+   |
+49 | div { width: calc(100% / 4); }
+   | ^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/function/calc/input.css:49:1
+   |
+49 | div { width: calc(100% / 4); }
+   | ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:49:1
+   |
+49 | div { width: calc(100% / 4); }
+   | ^^^
+
+error: Block
+  --> $DIR/tests/fixture/function/calc/input.css:49:5
+   |
+49 | div { width: calc(100% / 4); }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:49:7
+   |
+49 | div { width: calc(100% / 4); }
+   |       ^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:49:7
+   |
+49 | div { width: calc(100% / 4); }
+   |       ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:49:7
+   |
+49 | div { width: calc(100% / 4); }
+   |       ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:49:14
+   |
+49 | div { width: calc(100% / 4); }
+   |              ^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:49:14
+   |
+49 | div { width: calc(100% / 4); }
+   |              ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:49:14
+   |
+49 | div { width: calc(100% / 4); }
+   |              ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:49:19
+   |
+49 | div { width: calc(100% / 4); }
+   |                   ^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:49:19
+   |
+49 | div { width: calc(100% / 4); }
+   |                   ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:49:19
+   |
+49 | div { width: calc(100% / 4); }
+   |                   ^^^^
+
+error: Percent
+  --> $DIR/tests/fixture/function/calc/input.css:49:19
+   |
+49 | div { width: calc(100% / 4); }
+   |                   ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:49:19
+   |
+49 | div { width: calc(100% / 4); }
+   |                   ^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:49:26
+   |
+49 | div { width: calc(100% / 4); }
+   |                          ^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:49:26
+   |
+49 | div { width: calc(100% / 4); }
+   |                          ^
+
+error: Rule
+  --> $DIR/tests/fixture/function/calc/input.css:50:1
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/function/calc/input.css:50:1
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/function/calc/input.css:50:1
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   | ^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/function/calc/input.css:50:1
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   | ^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/function/calc/input.css:50:1
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   | ^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/function/calc/input.css:50:1
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   | ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:50:1
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   | ^^^
+
+error: Block
+  --> $DIR/tests/fixture/function/calc/input.css:50:5
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/calc/input.css:50:7
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/calc/input.css:50:7
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   |       ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:50:7
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   |       ^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:50:19
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   |                   ^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/function/calc/input.css:50:19
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   |                   ^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:50:19
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   |                   ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:50:24
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   |                        ^^^^^^^^^^^
+
+error: BinValue
+  --> $DIR/tests/fixture/function/calc/input.css:50:24
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   |                        ^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:50:24
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   |                        ^^^^^
+
+error: Percent
+  --> $DIR/tests/fixture/function/calc/input.css:50:24
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   |                        ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:50:24
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   |                        ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/calc/input.css:50:32
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   |                                ^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:50:32
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   |                                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/function/calc/input.css:50:32
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   |                                ^
+
+error: Ident
+  --> $DIR/tests/fixture/function/calc/input.css:50:33
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   |                                 ^^
+
