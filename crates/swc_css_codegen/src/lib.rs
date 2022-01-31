@@ -492,12 +492,18 @@ where
     fn emit_supports_rule(&mut self, n: &SupportsRule) -> Result {
         punct!(self, "@");
         keyword!(self, "supports");
-        space!(self);
+
+        match n.condition.conditions.get(0) {
+            Some(SupportsConditionType::SupportsInParens(_)) => {
+                formatting_space!(self);
+            }
+            _ => {
+                space!(self);
+            }
+        }
 
         emit!(self, n.condition);
-
         formatting_space!(self);
-
         punct!(self, "{");
         self.emit_list(&n.rules, ListFormat::NotDelimited)?;
         punct!(self, "}");
@@ -520,6 +526,7 @@ where
 
     #[emitter]
     fn emit_supports_not(&mut self, n: &SupportsNot) -> Result {
+        formatting_space!(self);
         keyword!(self, "not");
         space!(self);
         emit!(self, n.condition);
@@ -527,6 +534,7 @@ where
 
     #[emitter]
     fn emit_supports_and(&mut self, n: &SupportsAnd) -> Result {
+        formatting_space!(self);
         keyword!(self, "and");
         space!(self);
         emit!(self, n.condition);
@@ -534,6 +542,7 @@ where
 
     #[emitter]
     fn emit_support_or(&mut self, n: &SupportsOr) -> Result {
+        formatting_space!(self);
         keyword!(self, "or");
         space!(self);
         emit!(self, n.condition);
