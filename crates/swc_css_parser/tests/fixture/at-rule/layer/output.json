@@ -1480,7 +1480,7 @@
                     },
                     "value": [
                       {
-                        "type": "HashValue",
+                        "type": "HexColor",
                         "span": {
                           "start": 736,
                           "end": 740,

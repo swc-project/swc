@@ -89,7 +89,7 @@
             },
             "value": [
               {
-                "type": "HashValue",
+                "type": "HexColor",
                 "span": {
                   "start": 13,
                   "end": 20,
@@ -120,7 +120,7 @@
             },
             "value": [
               {
-                "type": "HashValue",
+                "type": "HexColor",
                 "span": {
                   "start": 31,
                   "end": 38,
@@ -151,7 +151,7 @@
             },
             "value": [
               {
-                "type": "HashValue",
+                "type": "HexColor",
                 "span": {
                   "start": 49,
                   "end": 56,
@@ -182,7 +182,7 @@
             },
             "value": [
               {
-                "type": "HashValue",
+                "type": "HexColor",
                 "span": {
                   "start": 67,
                   "end": 76,
@@ -213,7 +213,7 @@
             },
             "value": [
               {
-                "type": "HashValue",
+                "type": "HexColor",
                 "span": {
                   "start": 87,
                   "end": 96,
@@ -244,7 +244,7 @@
             },
             "value": [
               {
-                "type": "HashValue",
+                "type": "HexColor",
                 "span": {
                   "start": 107,
                   "end": 111,
@@ -275,7 +275,7 @@
             },
             "value": [
               {
-                "type": "HashValue",
+                "type": "HexColor",
                 "span": {
                   "start": 122,
                   "end": 126,
@@ -306,7 +306,7 @@
             },
             "value": [
               {
-                "type": "HashValue",
+                "type": "HexColor",
                 "span": {
                   "start": 137,
                   "end": 141,
@@ -337,7 +337,7 @@
             },
             "value": [
               {
-                "type": "HashValue",
+                "type": "HexColor",
                 "span": {
                   "start": 152,
                   "end": 157,
@@ -368,7 +368,7 @@
             },
             "value": [
               {
-                "type": "HashValue",
+                "type": "HexColor",
                 "span": {
                   "start": 168,
                   "end": 173,
@@ -399,7 +399,7 @@
             },
             "value": [
               {
-                "type": "HashValue",
+                "type": "HexColor",
                 "span": {
                   "start": 184,
                   "end": 189,

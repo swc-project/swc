@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 3935,
+    "end": 3959,
     "ctxt": 0
   },
   "rules": [
@@ -9800,6 +9800,26 @@
           }
         ]
       },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 3936,
+        "end": 3945,
+        "ctxt": 0
+      },
+      "media": null,
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 3946,
+        "end": 3958,
+        "ctxt": 0
+      },
+      "media": null,
       "rules": []
     }
   ]

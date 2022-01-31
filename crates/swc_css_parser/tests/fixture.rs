@@ -291,7 +291,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Block, visit_block);
     mtd!(SimpleBlock, visit_simple_block);
     mtd!(Function, visit_function);
-    mtd!(HashValue, visit_hash_value);
+    mtd!(HexColor, visit_hex_color);
     mtd!(NestingSelector, visit_nesting_selector);
     mtd!(IdSelector, visit_id_selector);
     mtd!(TypeSelector, visit_type_selector);

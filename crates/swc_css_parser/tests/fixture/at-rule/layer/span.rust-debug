@@ -1504,7 +1504,7 @@ error: Value
 44 |         p { color: #222; }
    |                    ^^^^
 
-error: HashValue
+error: HexColor
   --> $DIR/tests/fixture/at-rule/layer/input.css:44:20
    |
 44 |         p { color: #222; }

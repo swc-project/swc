@@ -811,7 +811,14 @@ where
 {
     fn parse(&mut self) -> PResult<MediaRule> {
         let span = self.input.cur_span()?;
-        let media = self.parse()?;
+
+        let media = if !is!(self, "{") {
+            let media_query_list = self.parse()?;
+
+            Some(media_query_list)
+        } else {
+            None
+        };
 
         expect!(self, "{");
 

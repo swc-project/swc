@@ -97,7 +97,7 @@ define!({
 
         Ratio(Ratio),
 
-        Hash(HashValue),
+        Color(Color),
 
         Ident(Ident),
 
@@ -142,7 +142,11 @@ define!({
         pub value: Vec<Value>,
     }
 
-    pub struct HashValue {
+    pub enum Color {
+        HexColor(HexColor),
+    }
+
+    pub struct HexColor {
         pub span: Span,
         pub value: JsWord,
         pub raw: JsWord,
@@ -457,7 +461,7 @@ define!({
 
     pub struct MediaRule {
         pub span: Span,
-        pub media: MediaQueryList,
+        pub media: Option<MediaQueryList>,
         pub rules: Vec<Rule>,
     }
 

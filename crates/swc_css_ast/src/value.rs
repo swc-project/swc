@@ -20,8 +20,8 @@ pub enum Value {
     #[tag("Ratio")]
     Ratio(Ratio),
 
-    #[tag("HashValue")]
-    Hash(HashValue),
+    #[tag("Color")]
+    Color(Color),
 
     #[tag("Ident")]
     Ident(Ident),
@@ -81,8 +81,15 @@ pub struct Function {
     pub value: Vec<Value>,
 }
 
-#[ast_node("HashValue")]
-pub struct HashValue {
+#[ast_node]
+pub enum Color {
+    // TODO more
+    #[tag("HexColor")]
+    HexColor(HexColor),
+}
+
+#[ast_node("HexColor")]
+pub struct HexColor {
     /// Includes `#`
     pub span: Span,
     /// Does **not** include `#`

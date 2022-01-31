@@ -254,7 +254,7 @@
                     "raw": "red"
                   },
                   {
-                    "type": "HashValue",
+                    "type": "HexColor",
                     "span": {
                       "start": 128,
                       "end": 132,

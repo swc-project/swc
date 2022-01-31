@@ -288,11 +288,14 @@ where
     fn emit_media_rule(&mut self, n: &MediaRule) -> Result {
         punct!(self, "@");
         keyword!(self, "media");
-        space!(self);
 
-        emit!(self, n.media);
-
-        formatting_space!(self);
+        if n.media.is_some() {
+            space!(self);
+            emit!(self, n.media);
+            formatting_space!(self);
+        } else {
+            formatting_space!(self);
+        }
 
         punct!(self, "{");
         self.emit_list(&n.rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
@@ -652,7 +655,7 @@ where
             Value::Number(n) => emit!(self, n),
             Value::Percent(n) => emit!(self, n),
             Value::Ratio(n) => emit!(self, n),
-            Value::Hash(n) => emit!(self, n),
+            Value::Color(n) => emit!(self, n),
             Value::Ident(n) => emit!(self, n),
             Value::DashedIdent(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
@@ -882,7 +885,14 @@ where
     }
 
     #[emitter]
-    fn emit_hash_value(&mut self, n: &HashValue) -> Result {
+    fn emit_color(&mut self, n: &Color) -> Result {
+        match n {
+            Color::HexColor(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_hex_color(&mut self, n: &HexColor) -> Result {
         punct!(self, "#");
 
         self.wr.write_raw(Some(n.span), &n.raw)?;
