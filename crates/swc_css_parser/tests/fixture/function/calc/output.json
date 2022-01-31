@@ -1,0 +1,3409 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 1429,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 0,
+        "end": 42,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 5,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 5,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 5,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoClassSelector",
+                    "span": {
+                      "start": 0,
+                      "end": 5,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1,
+                        "end": 5,
+                        "ctxt": 0
+                      },
+                      "value": "root",
+                      "raw": "root"
+                    },
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 6,
+          "end": 42,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 12,
+              "end": 39,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 12,
+                "end": 21,
+                "ctxt": 0
+              },
+              "value": "font-size",
+              "raw": "font-size"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 23,
+                  "end": 39,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 23,
+                    "end": 27,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "BinValue",
+                    "span": {
+                      "start": 28,
+                      "end": 38,
+                      "ctxt": 0
+                    },
+                    "op": "/",
+                    "left": {
+                      "type": "Dimension",
+                      "span": {
+                        "start": 28,
+                        "end": 33,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 28,
+                          "end": 31,
+                          "ctxt": 0
+                        },
+                        "value": 100.0,
+                        "raw": "100"
+                      },
+                      "unit": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 31,
+                          "end": 33,
+                          "ctxt": 0
+                        },
+                        "value": "vw",
+                        "raw": "vw"
+                      }
+                    },
+                    "right": {
+                      "type": "Number",
+                      "span": {
+                        "start": 36,
+                        "end": 38,
+                        "ctxt": 0
+                      },
+                      "value": 35.0,
+                      "raw": "35"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 44,
+        "end": 836,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 44,
+          "end": 47,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 44,
+              "end": 47,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 44,
+                  "end": 47,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TypeSelector",
+                  "span": {
+                    "start": 44,
+                    "end": 47,
+                    "ctxt": 0
+                  },
+                  "prefix": null,
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 44,
+                      "end": 47,
+                      "ctxt": 0
+                    },
+                    "value": "div",
+                    "raw": "div"
+                  }
+                },
+                "subclassSelectors": []
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 48,
+          "end": 836,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 54,
+              "end": 63,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "DashedIdentifier",
+              "span": {
+                "start": 54,
+                "end": 61,
+                "ctxt": 0
+              },
+              "value": "--width",
+              "raw": "--width"
+            },
+            "value": [
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 62,
+                  "end": 79,
+                  "ctxt": 0
+                },
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 62,
+                      "end": 63,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 63,
+                      "end": 68,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Function": {
+                        "value": "calc",
+                        "raw": "calc"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 68,
+                      "end": 71,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Percent": {
+                        "value": 10.0,
+                        "raw": "10"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 71,
+                      "end": 72,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 72,
+                      "end": 73,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Delim": {
+                        "value": "+"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 73,
+                      "end": 74,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 74,
+                      "end": 78,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Dimension": {
+                        "value": 30.0,
+                        "raw_value": "30",
+                        "unit": "px",
+                        "raw_unit": "px",
+                        "type": "integer"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 78,
+                      "end": 79,
+                      "ctxt": 0
+                    },
+                    "token": "RParen"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 86,
+              "end": 102,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 86,
+                "end": 91,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 93,
+                  "end": 102,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 93,
+                    "end": 97,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "Dimension",
+                    "span": {
+                      "start": 98,
+                      "end": 101,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 98,
+                        "end": 99,
+                        "ctxt": 0
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    },
+                    "unit": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 99,
+                        "end": 101,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 108,
+              "end": 128,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 108,
+                "end": 119,
+                "ctxt": 0
+              },
+              "value": "line-height",
+              "raw": "line-height"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 121,
+                  "end": 128,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 121,
+                    "end": 125,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 126,
+                      "end": 127,
+                      "ctxt": 0
+                    },
+                    "value": 0.0,
+                    "raw": "0"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 134,
+              "end": 162,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 134,
+                "end": 145,
+                "ctxt": 0
+              },
+              "value": "line-height",
+              "raw": "line-height"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 147,
+                  "end": 162,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 147,
+                    "end": 151,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "BinValue",
+                    "span": {
+                      "start": 152,
+                      "end": 161,
+                      "ctxt": 0
+                    },
+                    "op": "*",
+                    "left": {
+                      "type": "BinValue",
+                      "span": {
+                        "start": 152,
+                        "end": 158,
+                        "ctxt": 0
+                      },
+                      "op": "+",
+                      "left": {
+                        "type": "Number",
+                        "span": {
+                          "start": 152,
+                          "end": 153,
+                          "ctxt": 0
+                        },
+                        "value": 2.0,
+                        "raw": "2"
+                      },
+                      "right": {
+                        "type": "Number",
+                        "span": {
+                          "start": 156,
+                          "end": 157,
+                          "ctxt": 0
+                        },
+                        "value": 3.0,
+                        "raw": "3"
+                      }
+                    },
+                    "right": {
+                      "type": "Number",
+                      "span": {
+                        "start": 160,
+                        "end": 161,
+                        "ctxt": 0
+                      },
+                      "value": 4.0,
+                      "raw": "4"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 208,
+              "end": 233,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 208,
+                "end": 219,
+                "ctxt": 0
+              },
+              "value": "line-height",
+              "raw": "line-height"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 221,
+                  "end": 233,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 221,
+                    "end": 225,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "BinValue",
+                    "span": {
+                      "start": 226,
+                      "end": 232,
+                      "ctxt": 0
+                    },
+                    "op": "*",
+                    "left": {
+                      "type": "Number",
+                      "span": {
+                        "start": 226,
+                        "end": 228,
+                        "ctxt": 0
+                      },
+                      "value": -5.0,
+                      "raw": "-5"
+                    },
+                    "right": {
+                      "type": "Number",
+                      "span": {
+                        "start": 231,
+                        "end": 232,
+                        "ctxt": 0
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 239,
+              "end": 267,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 239,
+                "end": 244,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 246,
+                  "end": 267,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 246,
+                    "end": 250,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "SimpleBlock",
+                    "span": {
+                      "start": 251,
+                      "end": 266,
+                      "ctxt": 0
+                    },
+                    "name": "(",
+                    "value": [
+                      {
+                        "type": "BinValue",
+                        "span": {
+                          "start": 252,
+                          "end": 265,
+                          "ctxt": 0
+                        },
+                        "op": "+",
+                        "left": {
+                          "type": "Dimension",
+                          "span": {
+                            "start": 252,
+                            "end": 257,
+                            "ctxt": 0
+                          },
+                          "value": {
+                            "type": "Number",
+                            "span": {
+                              "start": 252,
+                              "end": 255,
+                              "ctxt": 0
+                            },
+                            "value": 100.0,
+                            "raw": "100"
+                          },
+                          "unit": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 255,
+                              "end": 257,
+                              "ctxt": 0
+                            },
+                            "value": "px",
+                            "raw": "px"
+                          }
+                        },
+                        "right": {
+                          "type": "Dimension",
+                          "span": {
+                            "start": 260,
+                            "end": 265,
+                            "ctxt": 0
+                          },
+                          "value": {
+                            "type": "Number",
+                            "span": {
+                              "start": 260,
+                              "end": 263,
+                              "ctxt": 0
+                            },
+                            "value": 100.0,
+                            "raw": "100"
+                          },
+                          "unit": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 263,
+                              "end": 265,
+                              "ctxt": 0
+                            },
+                            "value": "px",
+                            "raw": "px"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 273,
+              "end": 317,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 273,
+                "end": 278,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 280,
+                  "end": 317,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 280,
+                    "end": 284,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "SimpleBlock",
+                    "span": {
+                      "start": 288,
+                      "end": 313,
+                      "ctxt": 0
+                    },
+                    "name": "(",
+                    "value": [
+                      {
+                        "type": "BinValue",
+                        "span": {
+                          "start": 292,
+                          "end": 312,
+                          "ctxt": 0
+                        },
+                        "op": "+",
+                        "left": {
+                          "type": "Dimension",
+                          "span": {
+                            "start": 292,
+                            "end": 297,
+                            "ctxt": 0
+                          },
+                          "value": {
+                            "type": "Number",
+                            "span": {
+                              "start": 292,
+                              "end": 295,
+                              "ctxt": 0
+                            },
+                            "value": 100.0,
+                            "raw": "100"
+                          },
+                          "unit": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 295,
+                              "end": 297,
+                              "ctxt": 0
+                            },
+                            "value": "px",
+                            "raw": "px"
+                          }
+                        },
+                        "right": {
+                          "type": "Dimension",
+                          "span": {
+                            "start": 304,
+                            "end": 309,
+                            "ctxt": 0
+                          },
+                          "value": {
+                            "type": "Number",
+                            "span": {
+                              "start": 304,
+                              "end": 307,
+                              "ctxt": 0
+                            },
+                            "value": 100.0,
+                            "raw": "100"
+                          },
+                          "unit": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 307,
+                              "end": 309,
+                              "ctxt": 0
+                            },
+                            "value": "px",
+                            "raw": "px"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 323,
+              "end": 360,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 323,
+                "end": 328,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 330,
+                  "end": 360,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 330,
+                    "end": 334,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "BinValue",
+                    "span": {
+                      "start": 338,
+                      "end": 359,
+                      "ctxt": 0
+                    },
+                    "op": "+",
+                    "left": {
+                      "type": "Dimension",
+                      "span": {
+                        "start": 338,
+                        "end": 343,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 338,
+                          "end": 341,
+                          "ctxt": 0
+                        },
+                        "value": 100.0,
+                        "raw": "100"
+                      },
+                      "unit": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 341,
+                          "end": 343,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
+                    },
+                    "right": {
+                      "type": "Dimension",
+                      "span": {
+                        "start": 351,
+                        "end": 356,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 351,
+                          "end": 354,
+                          "ctxt": 0
+                        },
+                        "value": 100.0,
+                        "raw": "100"
+                      },
+                      "unit": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 354,
+                          "end": 356,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 366,
+              "end": 390,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 366,
+                "end": 371,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 373,
+                  "end": 390,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 373,
+                    "end": 377,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "BinValue",
+                    "span": {
+                      "start": 378,
+                      "end": 389,
+                      "ctxt": 0
+                    },
+                    "op": "+",
+                    "left": {
+                      "type": "Dimension",
+                      "span": {
+                        "start": 378,
+                        "end": 383,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 378,
+                          "end": 381,
+                          "ctxt": 0
+                        },
+                        "value": 500.0,
+                        "raw": "500"
+                      },
+                      "unit": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 381,
+                          "end": 383,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
+                    },
+                    "right": {
+                      "type": "Percent",
+                      "span": {
+                        "start": 386,
+                        "end": 389,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 386,
+                          "end": 388,
+                          "ctxt": 0
+                        },
+                        "value": 50.0,
+                        "raw": "50"
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 396,
+              "end": 418,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 396,
+                "end": 401,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 403,
+                  "end": 418,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 403,
+                    "end": 407,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "BinValue",
+                    "span": {
+                      "start": 408,
+                      "end": 417,
+                      "ctxt": 0
+                    },
+                    "op": "+",
+                    "left": {
+                      "type": "Percent",
+                      "span": {
+                        "start": 408,
+                        "end": 411,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 408,
+                          "end": 410,
+                          "ctxt": 0
+                        },
+                        "value": 10.0,
+                        "raw": "10"
+                      }
+                    },
+                    "right": {
+                      "type": "Percent",
+                      "span": {
+                        "start": 414,
+                        "end": 417,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 414,
+                          "end": 416,
+                          "ctxt": 0
+                        },
+                        "value": 20.0,
+                        "raw": "20"
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 424,
+              "end": 446,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 424,
+                "end": 429,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 431,
+                  "end": 446,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 431,
+                    "end": 435,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "BinValue",
+                    "span": {
+                      "start": 436,
+                      "end": 445,
+                      "ctxt": 0
+                    },
+                    "op": "+",
+                    "left": {
+                      "type": "Dimension",
+                      "span": {
+                        "start": 436,
+                        "end": 439,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 436,
+                          "end": 437,
+                          "ctxt": 0
+                        },
+                        "value": 2.0,
+                        "raw": "2"
+                      },
+                      "unit": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 437,
+                          "end": 439,
+                          "ctxt": 0
+                        },
+                        "value": "pc",
+                        "raw": "pc"
+                      }
+                    },
+                    "right": {
+                      "type": "Dimension",
+                      "span": {
+                        "start": 442,
+                        "end": 445,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 442,
+                          "end": 443,
+                          "ctxt": 0
+                        },
+                        "value": 3.0,
+                        "raw": "3"
+                      },
+                      "unit": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 443,
+                          "end": 445,
+                          "ctxt": 0
+                        },
+                        "value": "pt",
+                        "raw": "pt"
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 452,
+              "end": 493,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 452,
+                "end": 457,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 459,
+                  "end": 493,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 459,
+                    "end": 463,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "BinValue",
+                    "span": {
+                      "start": 464,
+                      "end": 492,
+                      "ctxt": 0
+                    },
+                    "op": "*",
+                    "left": {
+                      "type": "BinValue",
+                      "span": {
+                        "start": 464,
+                        "end": 487,
+                        "ctxt": 0
+                      },
+                      "op": "-",
+                      "left": {
+                        "type": "BinValue",
+                        "span": {
+                          "start": 464,
+                          "end": 483,
+                          "ctxt": 0
+                        },
+                        "op": "*",
+                        "left": {
+                          "type": "BinValue",
+                          "span": {
+                            "start": 464,
+                            "end": 477,
+                            "ctxt": 0
+                          },
+                          "op": "-",
+                          "left": {
+                            "type": "BinValue",
+                            "span": {
+                              "start": 464,
+                              "end": 473,
+                              "ctxt": 0
+                            },
+                            "op": "/",
+                            "left": {
+                              "type": "Percent",
+                              "span": {
+                                "start": 464,
+                                "end": 468,
+                                "ctxt": 0
+                              },
+                              "value": {
+                                "type": "Number",
+                                "span": {
+                                  "start": 464,
+                                  "end": 467,
+                                  "ctxt": 0
+                                },
+                                "value": 100.0,
+                                "raw": "100"
+                              }
+                            },
+                            "right": {
+                              "type": "Number",
+                              "span": {
+                                "start": 471,
+                                "end": 472,
+                                "ctxt": 0
+                              },
+                              "value": 3.0,
+                              "raw": "3"
+                            }
+                          },
+                          "right": {
+                            "type": "Number",
+                            "span": {
+                              "start": 475,
+                              "end": 476,
+                              "ctxt": 0
+                            },
+                            "value": 2.0,
+                            "raw": "2"
+                          }
+                        },
+                        "right": {
+                          "type": "Dimension",
+                          "span": {
+                            "start": 479,
+                            "end": 482,
+                            "ctxt": 0
+                          },
+                          "value": {
+                            "type": "Number",
+                            "span": {
+                              "start": 479,
+                              "end": 480,
+                              "ctxt": 0
+                            },
+                            "value": 1.0,
+                            "raw": "1"
+                          },
+                          "unit": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 480,
+                              "end": 482,
+                              "ctxt": 0
+                            },
+                            "value": "em",
+                            "raw": "em"
+                          }
+                        }
+                      },
+                      "right": {
+                        "type": "Number",
+                        "span": {
+                          "start": 485,
+                          "end": 486,
+                          "ctxt": 0
+                        },
+                        "value": 2.0,
+                        "raw": "2"
+                      }
+                    },
+                    "right": {
+                      "type": "Dimension",
+                      "span": {
+                        "start": 489,
+                        "end": 492,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 489,
+                          "end": 490,
+                          "ctxt": 0
+                        },
+                        "value": 1.0,
+                        "raw": "1"
+                      },
+                      "unit": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 490,
+                          "end": 492,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 500,
+              "end": 523,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 500,
+                "end": 505,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 507,
+                  "end": 523,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 507,
+                    "end": 511,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 512,
+                      "end": 522,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 512,
+                        "end": 516,
+                        "ctxt": 0
+                      },
+                      "value": "calc",
+                      "raw": "calc"
+                    },
+                    "value": [
+                      {
+                        "type": "Dimension",
+                        "span": {
+                          "start": 517,
+                          "end": 521,
+                          "ctxt": 0
+                        },
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 517,
+                            "end": 519,
+                            "ctxt": 0
+                          },
+                          "value": 50.0,
+                          "raw": "50"
+                        },
+                        "unit": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 519,
+                            "end": 521,
+                            "ctxt": 0
+                          },
+                          "value": "px",
+                          "raw": "px"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 568,
+              "end": 594,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 568,
+                "end": 573,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 575,
+                  "end": 594,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 575,
+                    "end": 579,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 580,
+                      "end": 593,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 580,
+                        "end": 584,
+                        "ctxt": 0
+                      },
+                      "value": "calc",
+                      "raw": "calc"
+                    },
+                    "value": [
+                      {
+                        "type": "BinValue",
+                        "span": {
+                          "start": 585,
+                          "end": 592,
+                          "ctxt": 0
+                        },
+                        "op": "*",
+                        "left": {
+                          "type": "Number",
+                          "span": {
+                            "start": 585,
+                            "end": 586,
+                            "ctxt": 0
+                          },
+                          "value": 3.0,
+                          "raw": "3"
+                        },
+                        "right": {
+                          "type": "Percent",
+                          "span": {
+                            "start": 589,
+                            "end": 592,
+                            "ctxt": 0
+                          },
+                          "value": {
+                            "type": "Number",
+                            "span": {
+                              "start": 589,
+                              "end": 591,
+                              "ctxt": 0
+                            },
+                            "value": 25.0,
+                            "raw": "25"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 600,
+              "end": 629,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 600,
+                "end": 605,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 607,
+                  "end": 629,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 607,
+                    "end": 611,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "BinValue",
+                    "span": {
+                      "start": 612,
+                      "end": 628,
+                      "ctxt": 0
+                    },
+                    "op": "*",
+                    "left": {
+                      "type": "Number",
+                      "span": {
+                        "start": 612,
+                        "end": 613,
+                        "ctxt": 0
+                      },
+                      "value": 2.0,
+                      "raw": "2"
+                    },
+                    "right": {
+                      "type": "Function",
+                      "span": {
+                        "start": 616,
+                        "end": 628,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 616,
+                          "end": 619,
+                          "ctxt": 0
+                        },
+                        "value": "var",
+                        "raw": "var"
+                      },
+                      "value": [
+                        {
+                          "type": "DashedIdentifier",
+                          "span": {
+                            "start": 620,
+                            "end": 627,
+                            "ctxt": 0
+                          },
+                          "value": "--width",
+                          "raw": "--width"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 692,
+              "end": 713,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 692,
+                "end": 697,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 699,
+                  "end": 713,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 699,
+                    "end": 703,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 704,
+                      "end": 712,
+                      "ctxt": 0
+                    },
+                    "value": "infinity",
+                    "raw": "infinity"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 719,
+              "end": 740,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 719,
+                "end": 724,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 726,
+                  "end": 740,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 726,
+                    "end": 730,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 731,
+                      "end": 739,
+                      "ctxt": 0
+                    },
+                    "value": "InFiNiTy",
+                    "raw": "InFiNiTy"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 746,
+              "end": 762,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 746,
+                "end": 751,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 753,
+                  "end": 762,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 753,
+                    "end": 757,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 758,
+                      "end": 761,
+                      "ctxt": 0
+                    },
+                    "value": "NaN",
+                    "raw": "NaN"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 838,
+        "end": 1093,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 838,
+          "end": 842,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 838,
+              "end": 842,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 838,
+                  "end": 842,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 838,
+                      "end": 842,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 839,
+                        "end": 842,
+                        "ctxt": 0
+                      },
+                      "value": "bar",
+                      "raw": "bar"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 843,
+          "end": 1093,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 849,
+              "end": 885,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 849,
+                "end": 858,
+                "ctxt": 0
+              },
+              "value": "font-size",
+              "raw": "font-size"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 860,
+                  "end": 885,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 860,
+                    "end": 864,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "BinValue",
+                    "span": {
+                      "start": 865,
+                      "end": 884,
+                      "ctxt": 0
+                    },
+                    "op": "*",
+                    "left": {
+                      "type": "Dimension",
+                      "span": {
+                        "start": 865,
+                        "end": 869,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 865,
+                          "end": 866,
+                          "ctxt": 0
+                        },
+                        "value": 1.0,
+                        "raw": "1"
+                      },
+                      "unit": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 866,
+                          "end": 869,
+                          "ctxt": 0
+                        },
+                        "value": "rem",
+                        "raw": "rem"
+                      }
+                    },
+                    "right": {
+                      "type": "Function",
+                      "span": {
+                        "start": 872,
+                        "end": 884,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 872,
+                          "end": 875,
+                          "ctxt": 0
+                        },
+                        "value": "pow",
+                        "raw": "pow"
+                      },
+                      "value": [
+                        {
+                          "type": "Number",
+                          "span": {
+                            "start": 876,
+                            "end": 879,
+                            "ctxt": 0
+                          },
+                          "value": 1.5,
+                          "raw": "1.5"
+                        },
+                        {
+                          "type": "Delimiter",
+                          "span": {
+                            "start": 879,
+                            "end": 880,
+                            "ctxt": 0
+                          },
+                          "value": ","
+                        },
+                        {
+                          "type": "Number",
+                          "span": {
+                            "start": 881,
+                            "end": 883,
+                            "ctxt": 0
+                          },
+                          "value": -1.0,
+                          "raw": "-1"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 891,
+              "end": 926,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 891,
+                "end": 900,
+                "ctxt": 0
+              },
+              "value": "font-size",
+              "raw": "font-size"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 902,
+                  "end": 926,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 902,
+                    "end": 906,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "BinValue",
+                    "span": {
+                      "start": 907,
+                      "end": 925,
+                      "ctxt": 0
+                    },
+                    "op": "*",
+                    "left": {
+                      "type": "Dimension",
+                      "span": {
+                        "start": 907,
+                        "end": 911,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 907,
+                          "end": 908,
+                          "ctxt": 0
+                        },
+                        "value": 1.0,
+                        "raw": "1"
+                      },
+                      "unit": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 908,
+                          "end": 911,
+                          "ctxt": 0
+                        },
+                        "value": "rem",
+                        "raw": "rem"
+                      }
+                    },
+                    "right": {
+                      "type": "Function",
+                      "span": {
+                        "start": 914,
+                        "end": 925,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 914,
+                          "end": 917,
+                          "ctxt": 0
+                        },
+                        "value": "pow",
+                        "raw": "pow"
+                      },
+                      "value": [
+                        {
+                          "type": "Number",
+                          "span": {
+                            "start": 918,
+                            "end": 921,
+                            "ctxt": 0
+                          },
+                          "value": 1.5,
+                          "raw": "1.5"
+                        },
+                        {
+                          "type": "Delimiter",
+                          "span": {
+                            "start": 921,
+                            "end": 922,
+                            "ctxt": 0
+                          },
+                          "value": ","
+                        },
+                        {
+                          "type": "Number",
+                          "span": {
+                            "start": 923,
+                            "end": 924,
+                            "ctxt": 0
+                          },
+                          "value": 0.0,
+                          "raw": "0"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 932,
+              "end": 967,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 932,
+                "end": 941,
+                "ctxt": 0
+              },
+              "value": "font-size",
+              "raw": "font-size"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 943,
+                  "end": 967,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 943,
+                    "end": 947,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "BinValue",
+                    "span": {
+                      "start": 948,
+                      "end": 966,
+                      "ctxt": 0
+                    },
+                    "op": "*",
+                    "left": {
+                      "type": "Dimension",
+                      "span": {
+                        "start": 948,
+                        "end": 952,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 948,
+                          "end": 949,
+                          "ctxt": 0
+                        },
+                        "value": 1.0,
+                        "raw": "1"
+                      },
+                      "unit": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 949,
+                          "end": 952,
+                          "ctxt": 0
+                        },
+                        "value": "rem",
+                        "raw": "rem"
+                      }
+                    },
+                    "right": {
+                      "type": "Function",
+                      "span": {
+                        "start": 955,
+                        "end": 966,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 955,
+                          "end": 958,
+                          "ctxt": 0
+                        },
+                        "value": "pow",
+                        "raw": "pow"
+                      },
+                      "value": [
+                        {
+                          "type": "Number",
+                          "span": {
+                            "start": 959,
+                            "end": 962,
+                            "ctxt": 0
+                          },
+                          "value": 1.5,
+                          "raw": "1.5"
+                        },
+                        {
+                          "type": "Delimiter",
+                          "span": {
+                            "start": 962,
+                            "end": 963,
+                            "ctxt": 0
+                          },
+                          "value": ","
+                        },
+                        {
+                          "type": "Number",
+                          "span": {
+                            "start": 964,
+                            "end": 965,
+                            "ctxt": 0
+                          },
+                          "value": 1.0,
+                          "raw": "1"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 973,
+              "end": 1008,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 973,
+                "end": 982,
+                "ctxt": 0
+              },
+              "value": "font-size",
+              "raw": "font-size"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 984,
+                  "end": 1008,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 984,
+                    "end": 988,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "BinValue",
+                    "span": {
+                      "start": 989,
+                      "end": 1007,
+                      "ctxt": 0
+                    },
+                    "op": "*",
+                    "left": {
+                      "type": "Dimension",
+                      "span": {
+                        "start": 989,
+                        "end": 993,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 989,
+                          "end": 990,
+                          "ctxt": 0
+                        },
+                        "value": 1.0,
+                        "raw": "1"
+                      },
+                      "unit": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 990,
+                          "end": 993,
+                          "ctxt": 0
+                        },
+                        "value": "rem",
+                        "raw": "rem"
+                      }
+                    },
+                    "right": {
+                      "type": "Function",
+                      "span": {
+                        "start": 996,
+                        "end": 1007,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 996,
+                          "end": 999,
+                          "ctxt": 0
+                        },
+                        "value": "pow",
+                        "raw": "pow"
+                      },
+                      "value": [
+                        {
+                          "type": "Number",
+                          "span": {
+                            "start": 1000,
+                            "end": 1003,
+                            "ctxt": 0
+                          },
+                          "value": 1.5,
+                          "raw": "1.5"
+                        },
+                        {
+                          "type": "Delimiter",
+                          "span": {
+                            "start": 1003,
+                            "end": 1004,
+                            "ctxt": 0
+                          },
+                          "value": ","
+                        },
+                        {
+                          "type": "Number",
+                          "span": {
+                            "start": 1005,
+                            "end": 1006,
+                            "ctxt": 0
+                          },
+                          "value": 2.0,
+                          "raw": "2"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1014,
+              "end": 1049,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 1014,
+                "end": 1023,
+                "ctxt": 0
+              },
+              "value": "font-size",
+              "raw": "font-size"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1025,
+                  "end": 1049,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1025,
+                    "end": 1029,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "BinValue",
+                    "span": {
+                      "start": 1030,
+                      "end": 1048,
+                      "ctxt": 0
+                    },
+                    "op": "*",
+                    "left": {
+                      "type": "Dimension",
+                      "span": {
+                        "start": 1030,
+                        "end": 1034,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 1030,
+                          "end": 1031,
+                          "ctxt": 0
+                        },
+                        "value": 1.0,
+                        "raw": "1"
+                      },
+                      "unit": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1031,
+                          "end": 1034,
+                          "ctxt": 0
+                        },
+                        "value": "rem",
+                        "raw": "rem"
+                      }
+                    },
+                    "right": {
+                      "type": "Function",
+                      "span": {
+                        "start": 1037,
+                        "end": 1048,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1037,
+                          "end": 1040,
+                          "ctxt": 0
+                        },
+                        "value": "pow",
+                        "raw": "pow"
+                      },
+                      "value": [
+                        {
+                          "type": "Number",
+                          "span": {
+                            "start": 1041,
+                            "end": 1044,
+                            "ctxt": 0
+                          },
+                          "value": 1.5,
+                          "raw": "1.5"
+                        },
+                        {
+                          "type": "Delimiter",
+                          "span": {
+                            "start": 1044,
+                            "end": 1045,
+                            "ctxt": 0
+                          },
+                          "value": ","
+                        },
+                        {
+                          "type": "Number",
+                          "span": {
+                            "start": 1046,
+                            "end": 1047,
+                            "ctxt": 0
+                          },
+                          "value": 3.0,
+                          "raw": "3"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1055,
+              "end": 1090,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 1055,
+                "end": 1064,
+                "ctxt": 0
+              },
+              "value": "font-size",
+              "raw": "font-size"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1066,
+                  "end": 1090,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1066,
+                    "end": 1070,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "BinValue",
+                    "span": {
+                      "start": 1071,
+                      "end": 1089,
+                      "ctxt": 0
+                    },
+                    "op": "*",
+                    "left": {
+                      "type": "Dimension",
+                      "span": {
+                        "start": 1071,
+                        "end": 1075,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 1071,
+                          "end": 1072,
+                          "ctxt": 0
+                        },
+                        "value": 1.0,
+                        "raw": "1"
+                      },
+                      "unit": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1072,
+                          "end": 1075,
+                          "ctxt": 0
+                        },
+                        "value": "rem",
+                        "raw": "rem"
+                      }
+                    },
+                    "right": {
+                      "type": "Function",
+                      "span": {
+                        "start": 1078,
+                        "end": 1089,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1078,
+                          "end": 1081,
+                          "ctxt": 0
+                        },
+                        "value": "pow",
+                        "raw": "pow"
+                      },
+                      "value": [
+                        {
+                          "type": "Number",
+                          "span": {
+                            "start": 1082,
+                            "end": 1085,
+                            "ctxt": 0
+                          },
+                          "value": 1.5,
+                          "raw": "1.5"
+                        },
+                        {
+                          "type": "Delimiter",
+                          "span": {
+                            "start": 1085,
+                            "end": 1086,
+                            "ctxt": 0
+                          },
+                          "value": ","
+                        },
+                        {
+                          "type": "Number",
+                          "span": {
+                            "start": 1087,
+                            "end": 1088,
+                            "ctxt": 0
+                          },
+                          "value": 4.0,
+                          "raw": "4"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 1095,
+        "end": 1204,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 1095,
+          "end": 1100,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 1095,
+              "end": 1100,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 1095,
+                  "end": 1100,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 1095,
+                      "end": 1100,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1096,
+                        "end": 1100,
+                        "ctxt": 0
+                      },
+                      "value": "fade",
+                      "raw": "fade"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 1101,
+          "end": 1204,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1107,
+              "end": 1201,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 1107,
+                "end": 1123,
+                "ctxt": 0
+              },
+              "value": "background-image",
+              "raw": "background-image"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1125,
+                  "end": 1201,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1125,
+                    "end": 1140,
+                    "ctxt": 0
+                  },
+                  "value": "linear-gradient",
+                  "raw": "linear-gradient"
+                },
+                "value": [
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1141,
+                      "end": 1147,
+                      "ctxt": 0
+                    },
+                    "value": "silver",
+                    "raw": "silver"
+                  },
+                  {
+                    "type": "Percent",
+                    "span": {
+                      "start": 1148,
+                      "end": 1150,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1148,
+                        "end": 1149,
+                        "ctxt": 0
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 1150,
+                      "end": 1151,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1152,
+                      "end": 1157,
+                      "ctxt": 0
+                    },
+                    "value": "white",
+                    "raw": "white"
+                  },
+                  {
+                    "type": "Dimension",
+                    "span": {
+                      "start": 1158,
+                      "end": 1162,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1158,
+                        "end": 1160,
+                        "ctxt": 0
+                      },
+                      "value": 20.0,
+                      "raw": "20"
+                    },
+                    "unit": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1160,
+                        "end": 1162,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 1162,
+                      "end": 1163,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1164,
+                      "end": 1169,
+                      "ctxt": 0
+                    },
+                    "value": "white",
+                    "raw": "white"
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 1170,
+                      "end": 1187,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1170,
+                        "end": 1174,
+                        "ctxt": 0
+                      },
+                      "value": "calc",
+                      "raw": "calc"
+                    },
+                    "value": [
+                      {
+                        "type": "BinValue",
+                        "span": {
+                          "start": 1175,
+                          "end": 1186,
+                          "ctxt": 0
+                        },
+                        "op": "-",
+                        "left": {
+                          "type": "Percent",
+                          "span": {
+                            "start": 1175,
+                            "end": 1179,
+                            "ctxt": 0
+                          },
+                          "value": {
+                            "type": "Number",
+                            "span": {
+                              "start": 1175,
+                              "end": 1178,
+                              "ctxt": 0
+                            },
+                            "value": 100.0,
+                            "raw": "100"
+                          }
+                        },
+                        "right": {
+                          "type": "Dimension",
+                          "span": {
+                            "start": 1182,
+                            "end": 1186,
+                            "ctxt": 0
+                          },
+                          "value": {
+                            "type": "Number",
+                            "span": {
+                              "start": 1182,
+                              "end": 1184,
+                              "ctxt": 0
+                            },
+                            "value": 20.0,
+                            "raw": "20"
+                          },
+                          "unit": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 1184,
+                              "end": 1186,
+                              "ctxt": 0
+                            },
+                            "value": "px",
+                            "raw": "px"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 1187,
+                      "end": 1188,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1189,
+                      "end": 1195,
+                      "ctxt": 0
+                    },
+                    "value": "silver",
+                    "raw": "silver"
+                  },
+                  {
+                    "type": "Percent",
+                    "span": {
+                      "start": 1196,
+                      "end": 1200,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1196,
+                        "end": 1199,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 1206,
+        "end": 1308,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 1206,
+          "end": 1209,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 1206,
+              "end": 1209,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 1206,
+                  "end": 1209,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TypeSelector",
+                  "span": {
+                    "start": 1206,
+                    "end": 1209,
+                    "ctxt": 0
+                  },
+                  "prefix": null,
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1206,
+                      "end": 1209,
+                      "ctxt": 0
+                    },
+                    "value": "div",
+                    "raw": "div"
+                  }
+                },
+                "subclassSelectors": []
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 1210,
+          "end": 1308,
+          "ctxt": 0
+        },
+        "value": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 1309,
+        "end": 1339,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 1309,
+          "end": 1312,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 1309,
+              "end": 1312,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 1309,
+                  "end": 1312,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TypeSelector",
+                  "span": {
+                    "start": 1309,
+                    "end": 1312,
+                    "ctxt": 0
+                  },
+                  "prefix": null,
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1309,
+                      "end": 1312,
+                      "ctxt": 0
+                    },
+                    "value": "div",
+                    "raw": "div"
+                  }
+                },
+                "subclassSelectors": []
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 1313,
+          "end": 1339,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1315,
+              "end": 1336,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 1315,
+                "end": 1320,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1322,
+                  "end": 1336,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1322,
+                    "end": 1326,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "BinValue",
+                    "span": {
+                      "start": 1327,
+                      "end": 1335,
+                      "ctxt": 0
+                    },
+                    "op": "/",
+                    "left": {
+                      "type": "Percent",
+                      "span": {
+                        "start": 1327,
+                        "end": 1331,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 1327,
+                          "end": 1330,
+                          "ctxt": 0
+                        },
+                        "value": 100.0,
+                        "raw": "100"
+                      }
+                    },
+                    "right": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1334,
+                        "end": 1335,
+                        "ctxt": 0
+                      },
+                      "value": 4.0,
+                      "raw": "4"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 1340,
+        "end": 1378,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 1340,
+          "end": 1343,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 1340,
+              "end": 1343,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 1340,
+                  "end": 1343,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TypeSelector",
+                  "span": {
+                    "start": 1340,
+                    "end": 1343,
+                    "ctxt": 0
+                  },
+                  "prefix": null,
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1340,
+                      "end": 1343,
+                      "ctxt": 0
+                    },
+                    "value": "div",
+                    "raw": "div"
+                  }
+                },
+                "subclassSelectors": []
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 1344,
+          "end": 1378,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1346,
+              "end": 1375,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 1346,
+                "end": 1356,
+                "ctxt": 0
+              },
+              "value": "margin-top",
+              "raw": "margin-top"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1358,
+                  "end": 1375,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1358,
+                    "end": 1362,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "BinValue",
+                    "span": {
+                      "start": 1363,
+                      "end": 1374,
+                      "ctxt": 0
+                    },
+                    "op": "-",
+                    "left": {
+                      "type": "Percent",
+                      "span": {
+                        "start": 1363,
+                        "end": 1368,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 1363,
+                          "end": 1367,
+                          "ctxt": 0
+                        },
+                        "value": -120.0,
+                        "raw": "-120"
+                      }
+                    },
+                    "right": {
+                      "type": "Dimension",
+                      "span": {
+                        "start": 1371,
+                        "end": 1374,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 1371,
+                          "end": 1372,
+                          "ctxt": 0
+                        },
+                        "value": 4.0,
+                        "raw": "4"
+                      },
+                      "unit": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1372,
+                          "end": 1374,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    }
+  ]
+}
