@@ -108,3 +108,6 @@
 @media ONLY screen AND (color) {}
 @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
 @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+
+@media {}
+@media    {}

@@ -288,11 +288,14 @@ where
     fn emit_media_rule(&mut self, n: &MediaRule) -> Result {
         punct!(self, "@");
         keyword!(self, "media");
-        space!(self);
 
-        emit!(self, n.media);
-
-        formatting_space!(self);
+        if n.media.is_some() {
+            space!(self);
+            emit!(self, n.media);
+            formatting_space!(self);
+        } else {
+            formatting_space!(self);
+        }
 
         punct!(self, "{");
         self.emit_list(&n.rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
