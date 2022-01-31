@@ -38,6 +38,9 @@
 - **(css/parser)** Improve selector parser (#3386) ([c73835b](https://github.com/swc-project/swc/commit/c73835bfebe56518e107a3666fe95ca649d33a24))
 
 
+- **(css/parser)** Improve parsing of math functions (#3415) ([1b1cae0](https://github.com/swc-project/swc/commit/1b1cae037279be2e1f66788f0cb1539b7b8d6721))
+
+
 - **(es/lints)** Implement `no-debugger` rule (#3398) ([9dec923](https://github.com/swc-project/swc/commit/9dec9236f7b3c95c803571404d7abae71e173936))
 
 
