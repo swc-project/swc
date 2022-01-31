@@ -287,18 +287,7 @@ where
                 return self.parse_brace_value().map(From::from);
             }
 
-            tok!("#") => {
-                let token = bump!(self);
-
-                match token {
-                    Token::Hash { value, raw, .. } => {
-                        return Ok(Value::Hash(HashValue { span, value, raw }))
-                    }
-                    _ => {
-                        unreachable!()
-                    }
-                }
-            }
+            tok!("#") => return Ok(Value::Color(Color::HexColor(self.parse()?))),
 
             Token::AtKeyword { .. } => {
                 let name = bump!(self);
@@ -730,6 +719,26 @@ where
                     },
                 })
             }
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+impl<I> Parse<HexColor> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<HexColor> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, "#") {
+            return Err(Error::new(span, ErrorKind::Expected("hash token")));
+        }
+
+        match bump!(self) {
+            Token::Hash { value, raw, .. } => Ok(HexColor { span, value, raw }),
             _ => {
                 unreachable!()
             }

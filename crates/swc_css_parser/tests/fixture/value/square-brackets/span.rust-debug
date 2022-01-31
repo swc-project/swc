@@ -269,7 +269,7 @@ error: Value
 6 |     prop:  [red #fff 12px];
   |                 ^^^^
 
-error: HashValue
+error: HexColor
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:17
   |
 6 |     prop:  [red #fff 12px];

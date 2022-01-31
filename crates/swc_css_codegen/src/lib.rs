@@ -655,7 +655,7 @@ where
             Value::Number(n) => emit!(self, n),
             Value::Percent(n) => emit!(self, n),
             Value::Ratio(n) => emit!(self, n),
-            Value::Hash(n) => emit!(self, n),
+            Value::Color(n) => emit!(self, n),
             Value::Ident(n) => emit!(self, n),
             Value::DashedIdent(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
@@ -886,7 +886,14 @@ where
     }
 
     #[emitter]
-    fn emit_hash_value(&mut self, n: &HashValue) -> Result {
+    fn emit_color(&mut self, n: &Color) -> Result {
+        match n {
+            Color::HexColor(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_hex_color(&mut self, n: &HexColor) -> Result {
         punct!(self, "#");
 
         self.wr.write_raw(Some(n.span), &n.raw)?;
