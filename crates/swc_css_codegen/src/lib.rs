@@ -613,7 +613,7 @@ where
         for (idx, node) in nodes.iter().enumerate() {
             if idx != 0 {
                 match node {
-                    Value::Delimiter(_) => {
+                    Value::Delimiter(_) | Value::Str(_) | Value::Percent(_) => {
                         need_space = !self.config.minify;
                     }
                     _ => {

@@ -389,7 +389,7 @@ figure {margin: 0}
 kbd {margin: 0;
 padding: 0.125rem 0.25rem 0;
 background-color: #e6e6e6;
-font-family: Consolas, "Liberation Mono", Courier, monospace;
+font-family: Consolas,"Liberation Mono", Courier, monospace;
 color: #0a0a0a}
 .subheader {margin-top: 0.2rem;
 margin-bottom: 0.5rem;
@@ -409,7 +409,7 @@ font-size: 0.8125rem}
 cite:before, .cite-block:before {content: "— "}
 code, .code-inline {border: 1px solid #cacaca;
 background-color: #e6e6e6;
-font-family: Consolas, "Liberation Mono", Courier, monospace;
+font-family: Consolas,"Liberation Mono", Courier, monospace;
 font-weight: normal;
 color: #0a0a0a;
 display: inline;
@@ -418,7 +418,7 @@ word-wrap: break-word;
 padding: 0.125rem 0.3125rem 0.0625rem}
 .code-block {border: 1px solid #cacaca;
 background-color: #e6e6e6;
-font-family: Consolas, "Liberation Mono", Courier, monospace;
+font-family: Consolas,"Liberation Mono", Courier, monospace;
 font-weight: normal;
 color: #0a0a0a;
 display: block;
@@ -455,9 +455,9 @@ tr.show-for-print {display: table-row !important}
 td.show-for-print {display: table-cell !important}
 th.show-for-print {display: table-cell !important}
 a, a:visited {text-decoration: underline}
-a[href]:after {content: " (" attr(href) ")"}
+a[href]:after {content: " (" attr(href)")"}
 .ir a:after, a[href^='javascript:']:after, a[href^='#']:after {content: ''}
-abbr[title]:after {content: " (" attr(title) ")"}
+abbr[title]:after {content: " (" attr(title)")"}
 pre, blockquote {border: 1px solid #8a8a8a;
 page-break-inside: avoid}
 thead {display: table-header-group}
@@ -1507,9 +1507,9 @@ background-color: transparent}
 -ms-flex-wrap: wrap;
 flex-wrap: wrap}
 .button-group.stacked .button, .button-group.stacked-for-small .button, .button-group.stacked-for-medium .button {-webkit-box-flex: 0;
--webkit-flex: 0 0 100%;
--ms-flex: 0 0 100%;
-flex: 0 0 100%}
+-webkit-flex: 0 0100%;
+-ms-flex: 0 0100%;
+flex: 0 0100%}
 .button-group.stacked .button:last-child, .button-group.stacked-for-small .button:last-child, .button-group.stacked-for-medium .button:last-child {margin-bottom: 0}
 .button-group.stacked.expanded .button, .button-group.stacked-for-small.expanded .button, .button-group.stacked-for-medium.expanded .button {-webkit-box-flex: 1;
 -webkit-flex: 1 1 0px;
@@ -1581,9 +1581,9 @@ background-color: #1779ba}
 .progress-meter-text {position: absolute;
 top: 50%;
 left: 50%;
--webkit-transform: translate(-50%, -50%);
--ms-transform: translate(-50%, -50%);
-transform: translate(-50%, -50%);
+-webkit-transform: translate(-50%,-50%);
+-ms-transform: translate(-50%,-50%);
+transform: translate(-50%,-50%);
 margin: 0;
 font-size: 0.75rem;
 font-weight: bold;
@@ -2454,9 +2454,9 @@ left: 1rem}
 .accordion-menu .is-accordion-submenu-parent[aria-expanded='true']>a::after {-webkit-transform: rotate(180deg);
 -ms-transform: rotate(180deg);
 transform: rotate(180deg);
--webkit-transform-origin: 50% 50%;
--ms-transform-origin: 50% 50%;
-transform-origin: 50% 50%}
+-webkit-transform-origin: 50%50%;
+-ms-transform-origin: 50%50%;
+transform-origin: 50%50%}
 .is-accordion-submenu-parent {position: relative}
 .has-submenu-toggle>a {margin-right: 40px}
 .submenu-toggle {position: absolute;
@@ -2479,9 +2479,9 @@ margin: auto}
 .submenu-toggle[aria-expanded='true']::after {-webkit-transform: scaleY(-1);
 -ms-transform: scaleY(-1);
 transform: scaleY(-1);
--webkit-transform-origin: 50% 50%;
--ms-transform-origin: 50% 50%;
-transform-origin: 50% 50%}
+-webkit-transform-origin: 50%50%;
+-ms-transform-origin: 50%50%;
+transform-origin: 50%50%}
 .submenu-toggle-text {position: absolute !important;
 width: 1px !important;
 height: 1px !important;
@@ -3164,9 +3164,9 @@ margin-right: 1rem}
 margin-right: 0}
 .top-bar input.button {width: auto}
 .top-bar .top-bar-left, .top-bar .top-bar-right {-webkit-box-flex: 0;
--webkit-flex: 0 0 100%;
--ms-flex: 0 0 100%;
-flex: 0 0 100%;
+-webkit-flex: 0 0100%;
+-ms-flex: 0 0100%;
+flex: 0 0100%;
 max-width: 100%}
 @media print, screen and (min-width: 40em) {.top-bar {-webkit-flex-wrap: nowrap;
 -ms-flex-wrap: nowrap;
@@ -3185,17 +3185,17 @@ margin-left: auto}}
 -ms-flex-wrap: wrap;
 flex-wrap: wrap}
 .top-bar.stacked-for-medium .top-bar-left, .top-bar.stacked-for-medium .top-bar-right {-webkit-box-flex: 0;
--webkit-flex: 0 0 100%;
--ms-flex: 0 0 100%;
-flex: 0 0 100%;
+-webkit-flex: 0 0100%;
+-ms-flex: 0 0100%;
+flex: 0 0100%;
 max-width: 100%}}
 @media print, screen and (max-width: 74.99875em) {.top-bar.stacked-for-large {-webkit-flex-wrap: wrap;
 -ms-flex-wrap: wrap;
 flex-wrap: wrap}
 .top-bar.stacked-for-large .top-bar-left, .top-bar.stacked-for-large .top-bar-right {-webkit-box-flex: 0;
--webkit-flex: 0 0 100%;
--ms-flex: 0 0 100%;
-flex: 0 0 100%;
+-webkit-flex: 0 0100%;
+-ms-flex: 0 0100%;
+flex: 0 0100%;
 max-width: 100%}}
 .top-bar-title {-webkit-box-flex: 0;
 -webkit-flex: 0 0 auto;

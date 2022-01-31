@@ -1,0 +1,18 @@
+div {
+    padding: 100%20%;
+    margin: 100%20px;
+    background-position: 50% 50%, calc(50% + 20px) calc(50% + 20px);
+}
+
+div {
+    background: image-set(url("image.png") 1x) 100%;
+    background: 100% image-set(url("image.png") 1x);
+}
+
+div {
+    margin: 100% 20px 100% 40em;
+}
+
+div { 
+    background: rgba(0, 0, 0, 0) image-set(url("image.png") 1x) repeat scroll 0% 0%; 
+}
