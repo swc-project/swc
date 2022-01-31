@@ -82,3 +82,15 @@ error: Unexpected alert
 38 | alert(() => alert("foo"));
    | ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Unexpected alert
+  
+   |
+38 | alert(() => alert("foo"));
+   |             ^^^^^^^^^^^^
+
+error: Unexpected alert
+  
+   |
+54 | fu(() => alert(""));
+   |          ^^^^^^^^^
+

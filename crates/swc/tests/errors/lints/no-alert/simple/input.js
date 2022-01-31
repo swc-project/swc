@@ -50,3 +50,5 @@ alert(() => alert("foo"));
 (() => {
     console.log(alert);
 })();
+
+fu(() => alert(""));

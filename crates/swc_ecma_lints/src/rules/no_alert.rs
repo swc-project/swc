@@ -2,6 +2,7 @@ use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
 };
+use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls_with_ctxt, ident::IdentLike};
@@ -37,7 +38,6 @@ struct NoAlert {
     top_level_ctxt: SyntaxContext,
     top_level_declared_vars: AHashSet<Id>,
     pass_call_on_global_this: bool,
-    call_expr_span: Option<Span>,
 }
 
 impl NoAlert {
@@ -52,12 +52,10 @@ impl NoAlert {
             top_level_ctxt,
             top_level_declared_vars,
             pass_call_on_global_this: es_version < EsVersion::Es2020,
-            call_expr_span: None,
         }
     }
 
-    fn emit_report(&self, fn_name: &str) {
-        let span = self.call_expr_span.unwrap();
+    fn emit_report(&self, span: Span, fn_name: &str) {
         let message = format!("Unexpected {}", fn_name);
 
         HANDLER.with(|handler| match self.expected_reaction {
@@ -71,8 +69,10 @@ impl NoAlert {
         });
     }
 
-    fn check_names(&self, obj_name: Option<&str>, fn_name: &str) {
-        if let Some(obj_name) = obj_name {
+    fn check(&self, call_span: Span, obj: &Option<JsWord>, prop: &JsWord) {
+        if let Some(obj) = obj {
+            let obj_name: &str = &*obj;
+
             if self.pass_call_on_global_this && obj_name == GLOBAL_THIS_PROP {
                 return;
             }
@@ -82,69 +82,91 @@ impl NoAlert {
             }
         }
 
+        let fn_name: &str = &*prop;
+
         if FN_NAMES.contains(&fn_name) {
-            self.emit_report(fn_name);
+            self.emit_report(call_span, fn_name);
         }
-    }
-
-    fn check_member_expr(&self, member_expr: &MemberExpr) {
-        let MemberExpr { obj, prop, .. } = member_expr;
-
-        if let Expr::Ident(obj) = obj.as_ref() {
-            if obj.span.ctxt != self.top_level_ctxt {
-                return;
-            }
-
-            if self.top_level_declared_vars.contains(&obj.to_id()) {
-                return;
-            }
-
-            let obj_sym = Some(&*obj.sym);
-
-            match prop {
-                MemberProp::Ident(prop) => self.check_names(obj_sym, &*prop.sym),
-                MemberProp::Computed(comp) => {
-                    if let Expr::Lit(Lit::Str(lit_str)) = comp.expr.as_ref() {
-                        self.check_names(obj_sym, &*lit_str.value)
-                    }
-                }
-                _ => {}
-            }
-        }
-
-        // TODO: handle call alert on "this"
     }
 }
 
 impl Visit for NoAlert {
     noop_visit_type!();
 
+    fn visit_call_expr(&mut self, call_expr: &CallExpr) {
+        let mut call_collector = CallCollector {
+            top_level_ctxt: self.top_level_ctxt,
+            top_level_declared_vars: &self.top_level_declared_vars,
+            obj: None,
+            prop: None,
+        };
+
+        if let Some(callee) = call_expr.callee.as_expr() {
+            callee.visit_with(&mut call_collector);
+        }
+
+        if let Some(prop) = &call_collector.prop {
+            self.check(call_expr.span, &call_collector.obj, prop);
+        }
+
+        // keep dive into call expr
+        call_expr.visit_children_with(self);
+    }
+}
+
+struct CallCollector<'a> {
+    top_level_ctxt: SyntaxContext,
+    top_level_declared_vars: &'a AHashSet<Id>,
+    obj: Option<JsWord>,
+    prop: Option<JsWord>,
+}
+
+impl CallCollector<'_> {
+    fn is_satisfying_indent(&self, ident: &Ident) -> bool {
+        if ident.span.ctxt != self.top_level_ctxt {
+            return false;
+        }
+
+        if self.top_level_declared_vars.contains(&ident.to_id()) {
+            return false;
+        }
+
+        true
+    }
+}
+
+impl Visit for CallCollector<'_> {
     fn visit_expr(&mut self, expr: &Expr) {
         match expr {
-            Expr::Ident(id) => {
-                if id.span.ctxt != self.top_level_ctxt {
-                    return;
+            Expr::Ident(ident) => {
+                if self.is_satisfying_indent(ident) {
+                    self.prop = Some(ident.sym.clone());
                 }
-
-                if self.top_level_declared_vars.contains(&id.to_id()) {
-                    return;
-                }
-
-                if self.call_expr_span.is_some() {
-                    self.check_names(None, &*id.sym);
-                }
-            }
-            Expr::Call(call_expr) => {
-                if self.call_expr_span.is_none() {
-                    self.call_expr_span = Some(call_expr.span);
-                }
-
-                call_expr.visit_children_with(self);
-
-                self.call_expr_span = None;
             }
             Expr::Member(member_expr) => {
-                self.check_member_expr(member_expr);
+                let MemberExpr { obj, prop, .. } = member_expr;
+
+                if let Expr::Ident(obj) = obj.as_ref() {
+                    if !self.is_satisfying_indent(obj) {
+                        return;
+                    }
+
+                    self.obj = Some(obj.sym.clone());
+
+                    match prop {
+                        MemberProp::Ident(Ident { sym, .. }) => {
+                            self.prop = Some(sym.clone());
+                        }
+                        MemberProp::Computed(comp) => {
+                            if let Expr::Lit(Lit::Str(Str { value, .. })) = comp.expr.as_ref() {
+                                self.prop = Some(value.clone());
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+
+                // TODO: handle call alert on "this"
             }
             Expr::OptChain(opt_chain) => {
                 opt_chain.visit_children_with(self);
