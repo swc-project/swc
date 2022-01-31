@@ -3,7 +3,9 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{alias_ident_for, alias_if_required, prepend, quote_ident, ExprFactory};
+use swc_ecma_utils::{
+    alias_ident_for, alias_if_required, prepend, private_ident, quote_ident, ExprFactory,
+};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub(super) struct BrandCheckHandler<'a> {
@@ -186,12 +188,9 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
                     .as_arg()
                 };
                 // Used iff !prefix
-                let old_var = Ident {
-                    // be more like babel
-                    sym: (String::from("_this") + &ident.sym).into(),
-                    span: ident.span.apply_mark(Mark::fresh(Mark::root())),
-                    optional: false,
-                };
+                // be more like babel
+                let old_var = private_ident!(ident.span, format!("_this{}", ident.sym));
+
                 if !*prefix {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,

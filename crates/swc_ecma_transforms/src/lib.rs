@@ -8,7 +8,7 @@ pub use self::{
     resolver::{resolver, resolver_with_mark},
 };
 pub use swc_ecma_transforms_base::{
-    assumptions::Assumptions, fixer, helpers, hygiene, pass, perf, resolver,
+    assumptions::Assumptions, fixer, helpers, hygiene, ident_scope, pass, perf, resolver,
 };
 #[cfg(feature = "swc_ecma_transforms_compat")]
 #[cfg_attr(docsrs, doc(cfg(feature = "compat")))]

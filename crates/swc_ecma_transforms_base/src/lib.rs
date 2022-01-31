@@ -7,6 +7,7 @@ pub mod fixer;
 pub mod hygiene;
 pub mod assumptions;
 pub mod helpers;
+pub mod ident_scope;
 #[doc(hidden)]
 pub mod native;
 pub mod pass;

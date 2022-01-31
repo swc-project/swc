@@ -202,7 +202,7 @@ impl ForOf {
             },
         };
 
-        let step = quote_ident!(var_span, "_step");
+        let step = private_ident!(var_span, "_step");
         let step_value = Box::new(step.clone().make_member(quote_ident!("value")));
         body.stmts.insert(
             0,
@@ -229,32 +229,29 @@ impl ForOf {
             },
         );
 
-        let iterator = quote_ident!(var_span, "_iterator");
+        let iterator = private_ident!(var_span, "_iterator");
         // `_iterator.return`
         let iterator_return = Box::new(iterator.clone().make_member(quote_ident!("return")));
 
-        let normal_completion_ident = Ident::new("_iteratorNormalCompletion".into(), var_span);
+        let normal_completion_ident = private_ident!(var_span, "_iteratorNormalCompletion");
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: normal_completion_ident.clone().into(),
             init: Some(true.into()),
             definite: false,
         });
-        let error_flag_ident = Ident::new("_didIteratorError".into(), var_span);
+        let error_flag_ident = private_ident!(var_span, "_didIteratorError");
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: error_flag_ident.clone().into(),
             init: Some(false.into()),
             definite: false,
         });
-        let error_ident = Ident::new("_iteratorError".into(), var_span);
+        let error_ident = private_ident!(var_span, "_iteratorError");
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: error_ident.clone().into(),
-            init: Some(Box::new(Expr::Ident(Ident::new(
-                js_word!("undefined"),
-                DUMMY_SP,
-            )))),
+            init: Some(Box::new(Expr::Ident(quote_ident!("undefined")))),
             definite: false,
         });
 

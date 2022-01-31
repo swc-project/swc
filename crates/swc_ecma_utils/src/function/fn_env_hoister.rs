@@ -51,10 +51,7 @@ impl FnEnvHoister {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: id.into(),
-                init: Some(Box::new(Expr::Ident(Ident::new(
-                    js_word!("arguments"),
-                    DUMMY_SP,
-                )))),
+                init: Some(Box::new(Expr::Ident(quote_ident!(js_word!("arguments"))))),
                 definite: false,
             });
         }
@@ -110,10 +107,7 @@ impl FnEnvHoister {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: id.into(),
-                init: Some(Box::new(Expr::Ident(Ident::new(
-                    js_word!("arguments"),
-                    DUMMY_SP,
-                )))),
+                init: Some(Box::new(Expr::Ident(quote_ident!(js_word!("arguments"))))),
                 definite: false,
             });
         }

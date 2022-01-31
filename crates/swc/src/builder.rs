@@ -18,6 +18,7 @@ use swc_ecma_transforms::{
     hygiene::hygiene_with_config, modules, modules::util::Scope, optimization::const_modules,
     pass::Optional, Assumptions,
 };
+use swc_ecma_transforms_base::ident_scope::IdentScopeRecord;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
 /// Builder is used to create a high performance `Compiler`.
@@ -32,6 +33,7 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     loose: bool,
     assumptions: Assumptions,
     hygiene: Option<hygiene::Config>,
+    unblock_ident: IdentScopeRecord,
     fixer: bool,
     inject_helpers: bool,
     minify: Option<JsMinifyOptions>,
@@ -45,6 +47,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         loose: bool,
         assumptions: Assumptions,
         top_level_mark: Mark,
+        unblock_ident: IdentScopeRecord,
         pass: P,
     ) -> Self {
         PassBuilder {
@@ -53,6 +56,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             env: None,
             pass,
             top_level_mark,
+            unblock_ident,
             target: EsVersion::Es5,
             loose,
             assumptions,
@@ -75,6 +79,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             env: self.env,
             pass,
             top_level_mark: self.top_level_mark,
+            unblock_ident: self.unblock_ident,
             target: self.target,
             loose: self.loose,
             assumptions: self.assumptions,
@@ -246,7 +251,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                                 ignore_function_length: self.loose,
                             },
                             typescript: syntax.typescript()
-                        }
+                        },
                     ),
                     should_enable(self.target, EsVersion::Es2015)
                 ),
@@ -292,7 +297,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 top_level_mark: self.top_level_mark,
             }),
             Optional::new(
-                hygiene_with_config(self.hygiene.clone().unwrap_or_default()),
+                hygiene_with_config(self.hygiene.clone().unwrap_or_default(), self.unblock_ident),
                 self.hygiene.is_some() && !is_mangler_enabled
             ),
             Optional::new(fixer(comments.map(|v| v as &dyn Comments)), self.fixer),

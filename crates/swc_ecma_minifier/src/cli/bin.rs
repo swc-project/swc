@@ -61,7 +61,10 @@ fn run_cli(filename: String) -> Result<(), ParseError> {
         );
 
         let output = output
-            .fold_with(&mut hygiene_with_config(Default::default()))
+            .fold_with(&mut hygiene_with_config(
+                Default::default(),
+                Default::default(),
+            ))
             .fold_with(&mut fixer(None));
 
         print_js(cm.clone(), &output);

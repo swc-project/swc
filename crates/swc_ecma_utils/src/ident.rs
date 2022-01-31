@@ -60,7 +60,7 @@ impl IdentLike for (JsWord, SyntaxContext) {
 impl IdentLike for Ident {
     #[inline]
     fn from_ident(i: &Ident) -> Self {
-        Ident::new(i.sym.clone(), i.span)
+        i.clone()
     }
 
     #[inline]

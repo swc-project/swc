@@ -1,5 +1,5 @@
 use super::{ops::Operations, LOG};
-use crate::scope::ScopeKind;
+use crate::{ident_scope::IdentScopeRecord, scope::ScopeKind};
 use std::{cell::RefCell, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, SyntaxContext};
@@ -17,12 +17,19 @@ pub(super) struct Data {
     idx_cache: AHashMap<JsWord, usize>,
 }
 
+#[derive(Clone, Copy, Debug)]
+pub struct DeclInfo {
+    ctxt: SyntaxContext,
+    scope_depth: u16,
+    is_block_scoped: bool,
+}
+
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {
     pub kind: ScopeKind,
 
     pub direct_decls: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
-    pub decls: RefCell<AHashMap<JsWord, Vec<(u16, SyntaxContext)>>>,
+    pub decls: RefCell<AHashMap<JsWord, Vec<DeclInfo>>>,
 
     /// Usages in current scope.
     pub direct_usages: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
@@ -71,7 +78,10 @@ impl CurScope<'_> {
             let ctxts_of_decls = b.get_mut(&id.0);
 
             if let Some(ctxts_of_decls) = ctxts_of_decls {
-                if let Some(pos) = ctxts_of_decls.iter().position(|&(_, ctxt)| ctxt == id.1) {
+                if let Some(pos) = ctxts_of_decls
+                    .iter()
+                    .position(|&DeclInfo { ctxt, .. }| ctxt == id.1)
+                {
                     ctxts_of_decls.remove(pos);
                 }
             }
@@ -84,27 +94,37 @@ impl CurScope<'_> {
     }
 
     /// Called when we are exiting a scope.
-    fn remove_decls_from_map(&self, map: &AHashMap<JsWord, Vec<SyntaxContext>>) {
+    fn remove_decls_from_map(&self, map: &AHashMap<JsWord, Vec<SyntaxContext>>, kind: ScopeKind) {
+        let block_scope_kind = kind == ScopeKind::Block;
+
         for (sym, dropped_ctxts) in map {
             let mut b = self.data.decls.borrow_mut();
             let ctxts_of_decls = b.get_mut(sym);
 
             if let Some(ctxts_of_decls) = ctxts_of_decls {
-                ctxts_of_decls.retain(|&(_, ctxt)| !dropped_ctxts.contains(&ctxt));
+                ctxts_of_decls.retain(
+                    |&DeclInfo {
+                         ctxt,
+                         is_block_scoped,
+                         ..
+                     }| {
+                        block_scope_kind && is_block_scoped || !dropped_ctxts.contains(&ctxt)
+                    },
+                );
             }
         }
 
         // TODO: Consider `var` / `let` / `const`.
         if let Some(v) = self.parent {
-            v.remove_decls_from_map(map);
+            v.remove_decls_from_map(map, kind);
         }
     }
 
-    fn add_decl(&self, id: Id) {
-        self.add_decl_inner(id, true)
+    fn add_decl(&self, id: Id, is_block_scoped: bool) {
+        self.add_decl_inner(id, true, is_block_scoped)
     }
 
-    fn add_decl_inner(&self, id: Id, direct: bool) {
+    fn add_decl_inner(&self, id: Id, direct: bool, is_block_scoped: bool) {
         if direct {
             let mut b = self.data.direct_decls.borrow_mut();
             let ctxts_of_decls = b.entry(id.0.clone()).or_default();
@@ -116,8 +136,15 @@ impl CurScope<'_> {
         {
             let mut b = self.data.decls.borrow_mut();
             let ctxts_of_decls = b.entry(id.0.clone()).or_default();
-            if !ctxts_of_decls.iter().any(|(_, ctxt)| ctxt == &id.1) {
-                ctxts_of_decls.push((self.depth, id.1));
+            if !ctxts_of_decls
+                .iter()
+                .any(|DeclInfo { ctxt, .. }| ctxt == &id.1)
+            {
+                ctxts_of_decls.push(DeclInfo {
+                    ctxt: id.1,
+                    scope_depth: self.depth,
+                    is_block_scoped,
+                });
             }
         }
 
@@ -127,23 +154,26 @@ impl CurScope<'_> {
 
         // TODO: Consider `var` / `let` / `const`.
         if let Some(v) = self.parent {
-            v.add_decl_inner(id, false);
+            v.add_decl_inner(id, false, is_block_scoped);
         }
     }
 
     /// Given usage (`sym`), will it be resolved as `ctxt` if we don't rename
     /// it?
-    fn conflict(&self, sym: &JsWord, ctxt: SyntaxContext) -> Vec<(u16, SyntaxContext)> {
+    fn conflict(&self, sym: &JsWord, ctxt: SyntaxContext) -> Vec<DeclInfo> {
         let mut conflicts = match self.parent {
             Some(s) => s.conflict(sym, ctxt),
             None => vec![],
         };
 
         if let Some(ctxts) = self.data.decls.borrow().get(sym) {
-            if ctxts.len() > 1 {
-                return conflicts;
-            }
-            conflicts.extend(ctxts.iter().copied().filter(|(_, cx)| cx != &ctxt));
+            conflicts.extend(ctxts.iter().copied().filter(
+                |DeclInfo {
+                     ctxt: cx,
+                     is_block_scoped,
+                     ..
+                 }| cx != &ctxt && *is_block_scoped,
+            ));
         }
 
         conflicts
@@ -151,7 +181,10 @@ impl CurScope<'_> {
 
     fn scope_depth(&self, id: &Id) -> u16 {
         if let Some(ctxts) = self.data.decls.borrow().get(&id.0) {
-            for (scope_depth, ctxt) in ctxts.iter() {
+            for DeclInfo {
+                ctxt, scope_depth, ..
+            } in ctxts.iter()
+            {
                 if ctxt == &id.1 {
                     return *scope_depth;
                 }
@@ -196,6 +229,7 @@ pub(super) struct UsageAnalyzer<'a> {
     pub cur: CurScope<'a>,
 
     pub is_pat_decl: bool,
+    pub unblock_ident: IdentScopeRecord,
 }
 
 impl UsageAnalyzer<'_> {
@@ -261,6 +295,7 @@ impl UsageAnalyzer<'_> {
                 depth: self.cur.depth + 1,
             },
             is_pat_decl: self.is_pat_decl,
+            unblock_ident: self.unblock_ident.clone(),
         };
 
         op(&mut child);
@@ -270,7 +305,7 @@ impl UsageAnalyzer<'_> {
         {
             let decls_in_scope = take(&mut *v.direct_decls.borrow_mut());
 
-            self.cur.remove_decls_from_map(&decls_in_scope);
+            self.cur.remove_decls_from_map(&decls_in_scope, kind);
         }
 
         *self.data.scopes.entry(scope_ctxt).or_default() = v;
@@ -302,7 +337,7 @@ impl UsageAnalyzer<'_> {
         }
     }
 
-    fn add_decl(&mut self, id: Id) {
+    fn add_decl(&mut self, id: Id, is_block_scoped: bool) {
         if id.0 == js_word!("arguments") {
             return;
         }
@@ -313,36 +348,73 @@ impl UsageAnalyzer<'_> {
 
         let id = self.get_renamed_id(id);
 
-        let need_rename = {
+        let renames = {
             let b = self.cur.data.decls.borrow();
             let ctxts_of_decls = b.get(&id.0);
 
             if let Some(ctxts_of_decls) = ctxts_of_decls {
-                let cur_scope_conflict = if ctxts_of_decls.iter().any(|(_, ctxt)| ctxt == &id.1) {
-                    ctxts_of_decls.len() > 1
-                } else {
+                let conflicts: Vec<DeclInfo> = ctxts_of_decls
+                    .iter()
+                    .filter(
+                        |DeclInfo {
+                             ctxt,
+                             is_block_scoped: b,
+                             ..
+                         }| ctxt == &id.1 && (is_block_scoped || *b),
+                    )
+                    .copied()
+                    .collect();
+
+                let need_rename = if conflicts.is_empty() {
                     !ctxts_of_decls.is_empty()
+                        && (is_block_scoped || ctxts_of_decls.iter().any(|x| x.is_block_scoped))
+                } else {
+                    ctxts_of_decls.len() > 1
                 };
 
-                if cur_scope_conflict && LOG {
-                    debug!("Renaming: Decl-decl conflict (same scope)");
+                if need_rename {
+                    if !conflicts.is_empty()
+                        && (!is_block_scoped || conflicts.iter().all(|x| x.is_block_scoped))
+                    {
+                        Some(conflicts)
+                    } else if is_block_scoped {
+                        Some(vec![DeclInfo {
+                            ctxt: id.1,
+                            scope_depth: self.cur.scope_depth(&id),
+                            is_block_scoped,
+                        }])
+                    } else {
+                        Some(
+                            ctxts_of_decls
+                                .iter()
+                                .filter(|x| x.is_block_scoped)
+                                .copied()
+                                .collect(),
+                        )
+                    }
+                } else {
+                    None
                 }
-
-                cur_scope_conflict
             } else {
                 // Fresh decl
-                false
+                None
             }
         };
 
-        if need_rename {
-            self.rename(id)
+        if let Some(renames) = renames {
+            for DeclInfo { ctxt, .. } in renames {
+                if LOG {
+                    debug!("Renaming: Decl-decl conflict (ctxt={:?})", ctxt);
+                }
+
+                self.rename((id.0.clone(), ctxt));
+            }
         } else {
-            self.cur.add_decl(id)
+            self.cur.add_decl(id, is_block_scoped)
         }
     }
 
-    fn add_usage(&mut self, id: Id) {
+    fn add_usage(&mut self, id: Id, is_block_scoped: bool) {
         if id.0 == js_word!("arguments") {
             return;
         }
@@ -359,7 +431,10 @@ impl UsageAnalyzer<'_> {
             let scope_depth = self.cur.scope_depth(&id);
             let mut top_match = (scope_depth, id.1);
 
-            for (scope_depth, ctxt) in conflicts.iter() {
+            for DeclInfo {
+                ctxt, scope_depth, ..
+            } in conflicts.iter()
+            {
                 if scope_depth < &top_match.0 {
                     top_match = (*scope_depth, *ctxt);
                 }
@@ -368,16 +443,24 @@ impl UsageAnalyzer<'_> {
             let top_level_depth = 1; // 1 because script and module create a scope
             let renames = if top_match.0 == top_level_depth {
                 let mut all_candidates = conflicts;
-                all_candidates.push((scope_depth, id.1));
+                all_candidates.push(DeclInfo {
+                    ctxt: id.1,
+                    scope_depth,
+                    is_block_scoped,
+                });
                 all_candidates
                     .into_iter()
-                    .filter(|(depth, _)| *depth > top_level_depth)
+                    .filter(
+                        |DeclInfo {
+                             scope_depth: depth, ..
+                         }| *depth > top_level_depth,
+                    )
                     .collect()
             } else {
                 conflicts
             };
 
-            for (_, ctxt) in renames {
+            for DeclInfo { ctxt, .. } in renames {
                 if LOG {
                     debug!("Renaming decl: Usage-decl conflict (ctxt={:?})", ctxt);
                 }
@@ -387,6 +470,13 @@ impl UsageAnalyzer<'_> {
         }
 
         self.cur.add_usage(id);
+    }
+
+    fn is_block_scoped(&self, ident: &Ident) -> bool {
+        !self
+            .unblock_ident
+            .borrow()
+            .contains(&(ident.sym.clone(), ident.span.ctxt).into())
     }
 }
 
@@ -417,9 +507,9 @@ impl Visit for UsageAnalyzer<'_> {
 
         {
             if self.is_pat_decl {
-                self.add_decl(node.key.to_id());
+                self.add_decl(node.key.to_id(), self.is_block_scoped(&node.key));
             } else {
-                self.add_usage(node.key.to_id());
+                self.add_usage(node.key.to_id(), self.is_block_scoped(&node.key));
             }
         }
     }
@@ -441,14 +531,14 @@ impl Visit for UsageAnalyzer<'_> {
     }
 
     fn visit_class_decl(&mut self, c: &ClassDecl) {
-        self.add_decl(c.ident.to_id());
+        self.add_decl(c.ident.to_id(), self.is_block_scoped(&c.ident));
         c.visit_children_with(self);
     }
 
     fn visit_class_expr(&mut self, c: &ClassExpr) {
         self.visit_with_scope(c.class.span.ctxt, ScopeKind::Fn, |v| {
             if let Some(i) = &c.ident {
-                v.add_decl(i.to_id());
+                v.add_decl(i.to_id(), v.is_block_scoped(i));
             }
 
             c.visit_children_with(v);
@@ -482,12 +572,12 @@ impl Visit for UsageAnalyzer<'_> {
     }
 
     fn visit_export_default_specifier(&mut self, n: &ExportDefaultSpecifier) {
-        self.add_usage(n.exported.to_id());
+        self.add_usage(n.exported.to_id(), self.is_block_scoped(&n.exported));
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
         if let ModuleExportName::Ident(orig) = &n.orig {
-            self.add_usage(orig.to_id());
+            self.add_usage(orig.to_id(), self.is_block_scoped(orig));
         }
     }
 
@@ -495,14 +585,14 @@ impl Visit for UsageAnalyzer<'_> {
         e.visit_children_with(self);
 
         if let Expr::Ident(i) = e {
-            self.add_usage(i.to_id());
+            self.add_usage(i.to_id(), self.is_block_scoped(i));
         }
     }
 
     fn visit_fn_decl(&mut self, f: &FnDecl) {
         f.function.decorators.visit_with(self);
 
-        self.add_decl(f.ident.to_id());
+        self.add_decl(f.ident.to_id(), self.is_block_scoped(&f.ident));
 
         self.visit_with_scope(f.function.span.ctxt, ScopeKind::Fn, |v| {
             v.is_pat_decl = true;
@@ -523,7 +613,7 @@ impl Visit for UsageAnalyzer<'_> {
             f.function.params.visit_with(v);
 
             if let Some(i) = &f.ident {
-                v.add_decl(i.to_id());
+                v.add_decl(i.to_id(), v.is_block_scoped(i));
             }
 
             v.is_pat_decl = false;
@@ -534,15 +624,15 @@ impl Visit for UsageAnalyzer<'_> {
     }
 
     fn visit_import_default_specifier(&mut self, s: &ImportDefaultSpecifier) {
-        self.add_decl(s.local.to_id());
+        self.add_decl(s.local.to_id(), self.is_block_scoped(&s.local));
     }
 
     fn visit_import_named_specifier(&mut self, s: &ImportNamedSpecifier) {
-        self.add_decl(s.local.to_id());
+        self.add_decl(s.local.to_id(), self.is_block_scoped(&s.local));
     }
 
     fn visit_import_star_as_specifier(&mut self, s: &ImportStarAsSpecifier) {
-        self.add_decl(s.local.to_id());
+        self.add_decl(s.local.to_id(), self.is_block_scoped(&s.local));
     }
 
     fn visit_method_prop(&mut self, f: &MethodProp) {
@@ -591,9 +681,9 @@ impl Visit for UsageAnalyzer<'_> {
 
         if let Pat::Ident(i) = p {
             if self.is_pat_decl {
-                self.add_decl(i.id.to_id());
+                self.add_decl(i.id.to_id(), self.is_block_scoped(&i.id));
             } else {
-                self.add_usage(i.id.to_id());
+                self.add_usage(i.id.to_id(), self.is_block_scoped(&i.id));
             }
         }
     }
@@ -602,7 +692,7 @@ impl Visit for UsageAnalyzer<'_> {
         p.visit_children_with(self);
 
         if let Prop::Shorthand(i) = p {
-            self.add_usage(i.to_id());
+            self.add_usage(i.to_id(), self.is_block_scoped(i));
         }
     }
 
@@ -658,7 +748,8 @@ impl Visit for Hoister<'_, '_> {
             } else {
             }
 
-            self.inner.add_decl(node.key.to_id());
+            self.inner
+                .add_decl(node.key.to_id(), self.inner.is_block_scoped(&node.key));
         }
     }
 
@@ -678,7 +769,8 @@ impl Visit for Hoister<'_, '_> {
             return;
         }
 
-        self.inner.add_decl(c.ident.to_id());
+        self.inner
+            .add_decl(c.ident.to_id(), self.inner.is_block_scoped(&c.ident));
     }
 
     fn visit_constructor(&mut self, c: &Constructor) {
@@ -690,7 +782,8 @@ impl Visit for Hoister<'_, '_> {
             trace!("hoister: Fn decl: `{}`", f.ident);
         }
 
-        self.inner.add_decl(f.ident.to_id());
+        self.inner
+            .add_decl(f.ident.to_id(), self.inner.is_block_scoped(&f.ident));
     }
 
     fn visit_function(&mut self, _: &Function) {}
@@ -712,7 +805,8 @@ impl Visit for Hoister<'_, '_> {
             } else {
             }
 
-            self.inner.add_decl(i.id.to_id());
+            self.inner
+                .add_decl(i.id.to_id(), self.inner.is_block_scoped(&i.id));
         }
     }
 

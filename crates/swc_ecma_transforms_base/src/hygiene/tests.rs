@@ -86,7 +86,7 @@ where
         let hygiene_src = tester.print(&module.clone().fold_with(&mut HygieneVisualizer));
         println!("----- Hygiene -----\n{}", hygiene_src);
 
-        let module = module.fold_with(&mut hygiene_with_config(config));
+        let module = module.fold_with(&mut hygiene_with_config(config, Default::default()));
 
         let actual = tester.print(&module);
 

@@ -2,7 +2,10 @@ use self::{
     ops::Operator,
     usage_analyzer::{Data, UsageAnalyzer},
 };
-use crate::hygiene::{unique_scope::unique_scope, usage_analyzer::CurScope};
+use crate::{
+    hygiene::{unique_scope::unique_scope, usage_analyzer::CurScope},
+    ident_scope::IdentScopeRecord,
+};
 use swc_atoms::JsWord;
 use swc_common::{chain, collections::AHashMap};
 use swc_ecma_ast::*;
@@ -131,8 +134,8 @@ pub fn rename(map: &AHashMap<Id, JsWord>) -> impl '_ + Fold + VisitMut {
 
 /// See [hygiene_with_config] for doc. Creates a `hygiene` pass with default
 /// value of [Config].
-pub fn hygiene() -> impl Fold + VisitMut + 'static {
-    hygiene_with_config(Default::default())
+pub fn hygiene(unblock_ident: IdentScopeRecord) -> impl Fold + VisitMut + 'static {
+    hygiene_with_config(Default::default(), unblock_ident)
 }
 
 /// The pass actually modifies the identifiers in the way that different
@@ -161,13 +164,23 @@ pub fn hygiene() -> impl Fold + VisitMut + 'static {
 /// ## Third phase
 ///
 ///  At third phase, we rename all identifiers in the queue.
-pub fn hygiene_with_config(config: Config) -> impl 'static + Fold + VisitMut {
-    as_folder(chain!(unique_scope(), Hygiene { config }))
+pub fn hygiene_with_config(
+    config: Config,
+    unblock_ident: IdentScopeRecord,
+) -> impl 'static + Fold + VisitMut {
+    as_folder(chain!(
+        unique_scope(),
+        Hygiene {
+            config,
+            unblock_ident
+        }
+    ))
 }
 
 #[derive(Debug, Default)]
 struct Hygiene {
     config: Config,
+    unblock_ident: IdentScopeRecord,
 }
 
 impl Hygiene {
@@ -186,6 +199,7 @@ impl Hygiene {
                     depth: 0,
                 },
                 is_pat_decl: false,
+                unblock_ident: self.unblock_ident.clone(),
             };
 
             n.visit_with(&mut v);

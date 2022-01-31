@@ -733,7 +733,7 @@ where
                         _ => Box::new(require),
                     };
 
-                    let ident = Ident::new(import.0, import.1);
+                    let ident = quote_ident!(import.1, import.0);
 
                     if lazy {
                         let return_data = Stmt::Return(ReturnStmt {

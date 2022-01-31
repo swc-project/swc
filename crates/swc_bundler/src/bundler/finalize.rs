@@ -33,7 +33,7 @@ where
                 bundle.module = self.optimize(bundle.module);
 
                 if !self.config.disable_hygiene {
-                    bundle.module = bundle.module.fold_with(&mut hygiene());
+                    bundle.module = bundle.module.fold_with(&mut hygiene(Default::default()));
                 }
 
                 bundle.module = self.may_wrap_with_iife(bundle.module);

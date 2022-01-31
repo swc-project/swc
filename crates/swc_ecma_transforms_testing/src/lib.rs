@@ -288,7 +288,7 @@ pub fn test_transform<F, P>(
         }
 
         let actual = actual
-            .fold_with(&mut hygiene::hygiene())
+            .fold_with(&mut hygiene::hygiene(Default::default()))
             .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 
         println!("{:?}", tester.comments);
@@ -379,7 +379,7 @@ where
         }
 
         let mut module = module
-            .fold_with(&mut hygiene::hygiene())
+            .fold_with(&mut hygiene::hygiene(Default::default()))
             .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 
         let src_without_helpers = tester.print(&module, &tester.comments.clone());
@@ -436,7 +436,7 @@ where
         }
 
         let mut module = module
-            .fold_with(&mut hygiene::hygiene())
+            .fold_with(&mut hygiene::hygiene(Default::default()))
             .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 
         let src_without_helpers = tester.print(&module, &tester.comments.clone());
@@ -728,7 +728,7 @@ fn test_fixture_inner<P>(
         }
 
         let actual = actual
-            .fold_with(&mut crate::hygiene::hygiene())
+            .fold_with(&mut crate::hygiene::hygiene(Default::default()))
             .fold_with(&mut crate::fixer::fixer(Some(&tester.comments)))
             .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: false,

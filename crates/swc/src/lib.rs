@@ -814,6 +814,7 @@ impl Compiler {
                 opts.is_module,
                 Some(config),
                 Some(&self.comments),
+                Default::default(),
                 before_pass,
             )?;
             Ok(Some(built))
@@ -1023,7 +1024,7 @@ impl Compiler {
                 );
 
                 if !is_mangler_enabled {
-                    module.visit_mut_with(&mut hygiene())
+                    module.visit_mut_with(&mut hygiene(Default::default()))
                 }
                 module.fold_with(&mut fixer(Some(&self.comments as &dyn Comments)))
             });

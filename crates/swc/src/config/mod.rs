@@ -44,7 +44,9 @@ use swc_ecma_minifier::option::{
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{
-    hygiene, modules,
+    hygiene,
+    ident_scope::{unscope_ident_collector, IdentScopeRecord},
+    modules,
     modules::{
         hoist::import_hoister, path::NodeImportResolver, rewriter::import_rewriter, util::Scope,
     },
@@ -260,6 +262,7 @@ impl Options {
         is_module: IsModule,
         config: Option<Config>,
         comments: Option<&'a SwcComments>,
+        unblock_ident: IdentScopeRecord,
         custom_before_pass: impl FnOnce(&Program) -> P,
     ) -> Result<BuiltInput<impl 'a + swc_ecma_visit::Fold>, Error>
     where
@@ -396,28 +399,37 @@ impl Options {
             json_parse_pass
         );
 
-        let pass = PassBuilder::new(cm, handler, loose, assumptions, top_level_mark, pass)
-            .target(es_version)
-            .skip_helper_injection(self.skip_helper_injection)
-            .minify(js_minify)
-            .hygiene(if self.disable_hygiene {
-                None
-            } else {
-                Some(hygiene::Config { keep_class_names })
-            })
-            .fixer(!self.disable_fixer)
-            .preset_env(config.env)
-            .regenerator(regenerator)
-            .finalize(
-                base_url,
-                paths.into_iter().collect(),
-                base,
-                syntax,
-                config.module,
-                comments,
-            );
+        let pass = PassBuilder::new(
+            cm,
+            handler,
+            loose,
+            assumptions,
+            top_level_mark,
+            unblock_ident.clone(),
+            pass,
+        )
+        .target(es_version)
+        .skip_helper_injection(self.skip_helper_injection)
+        .minify(js_minify)
+        .hygiene(if self.disable_hygiene {
+            None
+        } else {
+            Some(hygiene::Config { keep_class_names })
+        })
+        .fixer(!self.disable_fixer)
+        .preset_env(config.env)
+        .regenerator(regenerator)
+        .finalize(
+            base_url,
+            paths.into_iter().collect(),
+            base,
+            syntax,
+            config.module,
+            comments,
+        );
 
         let pass = chain!(
+            unscope_ident_collector(unblock_ident),
             // Decorators may use type information
             Optional::new(
                 decorators(decorators::Config {

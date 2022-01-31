@@ -207,7 +207,7 @@ pub(crate) fn test_transform<F, P>(
         }
 
         let actual = actual
-            .fold_with(&mut hygiene_with_config(hygiene_config))
+            .fold_with(&mut hygiene_with_config(hygiene_config, Default::default()))
             .fold_with(&mut fixer(None))
             .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: false,

@@ -83,7 +83,7 @@ pub(crate) fn invoke(module: &Module) {
 
     let module = module
         .clone()
-        .fold_with(&mut hygiene())
+        .fold_with(&mut hygiene(Default::default()))
         .fold_with(&mut fixer(None));
     let module = drop_span(module);
 
