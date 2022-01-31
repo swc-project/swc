@@ -1,3 +1,6 @@
 a {
     prop: +;
+    prop1: 1 + 2;
+    prop2: 1+2;
+    prop3: func(1 + 2);
 }

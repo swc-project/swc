@@ -255,8 +255,6 @@ where
 
             tok!("str") => return Ok(Value::Str(self.parse()?)),
 
-            tok!("num") => return self.parse_numeric_value(),
-
             tok!("url") => return Ok(Value::Url(self.parse()?)),
 
             Token::Function { value, .. } => {
@@ -267,9 +265,12 @@ where
                 return Ok(Value::Function(self.parse()?));
             }
 
-            tok!("percent") => return self.parse_numeric_value(),
+            tok!("percent") | tok!("dimension") | tok!("num") => {
+                let span = self.input.cur_span()?;
+                let base = self.parse_basical_numeric_value()?;
 
-            tok!("dimension") => return self.parse_numeric_value(),
+                return self.parse_numeric_value_with_base(span.lo, base)
+            }
 
             Token::Ident { value, .. } => {
                 if value.starts_with("--") {
@@ -301,15 +302,6 @@ where
         }
 
         Err(Error::new(span, ErrorKind::Expected("Declaration value")))
-    }
-
-    /// This may parse operations, depending on the context.
-    fn parse_numeric_value(&mut self) -> PResult<Value> {
-        let span = self.input.cur_span()?;
-
-        let base = self.parse_basical_numeric_value()?;
-
-        self.parse_numeric_value_with_base(span.lo, base)
     }
 
     fn parse_numeric_value_with_base(&mut self, start: BytePos, base: Value) -> PResult<Value> {
@@ -885,21 +877,43 @@ where
 {
     fn parse(&mut self) -> PResult<Function> {
         let span = self.input.cur_span()?;
-
-        let name = match bump!(self) {
+        let ident = match bump!(self) {
             Token::Function { value, raw } => (value, raw),
             _ => {
                 unreachable!()
             }
         };
-
+        let is_math_function = matches!(
+            &*ident.0.to_ascii_lowercase(),
+            "calc"
+                | "min"
+                | "max"
+                | "clamp"
+                | "round"
+                | "mod"
+                | "rem"
+                | "sin"
+                | "cos"
+                | "tan"
+                | "asin"
+                | "acos"
+                | "atan"
+                | "atan2"
+                | "pow"
+                | "sqrt"
+                | "hypot"
+                | "log"
+                | "exp"
+                | "abs"
+                | "sign"
+        );
         let name = Ident {
             span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
-            value: name.0,
-            raw: name.1,
+            value: ident.0,
+            raw: ident.1,
         };
         let ctx = Ctx {
-            allow_operation_in_value: true,
+            allow_operation_in_value: is_math_function,
             ..self.ctx
         };
         let value = self.with_ctx(ctx).parse_comma_separated_value()?;
