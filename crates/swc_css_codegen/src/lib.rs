@@ -292,12 +292,10 @@ where
                     if media_query.modifier.is_none() && media_query.media_type.is_none() =>
                 {
                     match &media_query.condition {
-                        Some(MediaConditionType::All(media_condition)) => {
-                            match media_condition.conditions.get(0) {
-                                Some(MediaConditionAllType::MediaInParens(_)) => false,
-                                _ => true,
-                            }
-                        }
+                        Some(MediaConditionType::All(media_condition)) => !matches!(
+                            media_condition.conditions.get(0),
+                            Some(MediaConditionAllType::MediaInParens(_))
+                        ),
                         _ => true,
                     }
                 }
@@ -840,7 +838,7 @@ where
         // we print " " (whitespace) always
         if is_custom_property {
             match n.value.get(0) {
-                Some(Value::Tokens(tokens)) if tokens.tokens.len() == 0 => {
+                Some(Value::Tokens(tokens)) if tokens.tokens.is_empty() => {
                     space!(self);
                 }
                 _ => {
@@ -971,10 +969,7 @@ where
     fn emit_bin_value(&mut self, n: &BinValue) -> Result {
         emit!(self, n.left);
 
-        let need_space = match n.op {
-            BinOp::Add | BinOp::Mul => true,
-            _ => false,
-        };
+        let need_space = matches!(n.op, BinOp::Add | BinOp::Mul);
 
         if need_space {
             space!(self);
