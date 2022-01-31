@@ -190,23 +190,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 34,
+                  "start": 35,
                   "end": 63,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 34,
-                      "end": 35,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 35,

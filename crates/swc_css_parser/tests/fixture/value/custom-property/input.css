@@ -52,3 +52,7 @@
 :root {
     --foo: 
 }
+
+:root {
+    --var:  value;
+}

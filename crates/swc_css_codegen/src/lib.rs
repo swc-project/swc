@@ -786,7 +786,19 @@ where
             DeclarationName::Ident(_) => false,
         };
 
-        if !is_custom_property {
+        // https://github.com/w3c/csswg-drafts/issues/774
+        // `--foo: ;` and `--foo:;` is valid, but not all browsers support it, currently
+        // we print " " (whitespace) always
+        if is_custom_property {
+            match n.value.get(0) {
+                Some(Value::Tokens(tokens)) if tokens.tokens.len() == 0 => {
+                    space!(self);
+                }
+                _ => {
+                    formatting_space!(self);
+                }
+            };
+        } else {
             formatting_space!(self);
         }
 

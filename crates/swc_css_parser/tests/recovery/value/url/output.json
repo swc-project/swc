@@ -74,7 +74,7 @@
             "type": "Declaration",
             "span": {
               "start": 10,
-              "end": 17,
+              "end": 53,
               "ctxt": 0
             },
             "name": {
@@ -91,23 +91,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 16,
+                  "start": 17,
                   "end": 53,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 16,
-                      "end": 17,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 17,

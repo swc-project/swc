@@ -224,12 +224,15 @@ where
 
         expect!(self, ":");
 
+        self.input.skip_ws()?;
+
         let mut end = self.input.cur_span()?.hi;
         let mut value = vec![];
 
         if !is!(self, EOF) {
             match is_dashed_ident {
                 true => {
+                    
                     let tokens = Value::Tokens(self.parse_declaration_value()?);
 
                     value.push(tokens);
