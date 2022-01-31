@@ -71,7 +71,7 @@ error: Declaration
 2 |     prop1: value;
   |     ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/declaration-list/input.css:2:5
   |
 2 |     prop1: value;
@@ -101,7 +101,7 @@ error: Declaration
 3 |     prop2: value;
   |     ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/declaration-list/input.css:3:5
   |
 3 |     prop2: value;

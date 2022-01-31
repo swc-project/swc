@@ -78,7 +78,7 @@
               "end": 37,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 22,
@@ -109,7 +109,7 @@
               "end": 78,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 43,
@@ -140,7 +140,7 @@
               "end": 106,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 84,
@@ -337,7 +337,7 @@
               "end": 201,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 165,
@@ -368,7 +368,7 @@
               "end": 219,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 207,
@@ -399,7 +399,7 @@
               "end": 264,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 225,
@@ -467,7 +467,7 @@
               "end": 283,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 271,
@@ -702,7 +702,7 @@
                   "end": 405,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 366,
@@ -976,7 +976,7 @@
                   "end": 534,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 495,

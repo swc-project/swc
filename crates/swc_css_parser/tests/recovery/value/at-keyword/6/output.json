@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 24,
+    "end": 23,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 0,
-        "end": 24,
+        "end": 23,
         "ctxt": 0
       },
       "prelude": {
@@ -66,49 +66,77 @@
         "type": "Block",
         "span": {
           "start": 2,
-          "end": 24,
+          "end": 23,
           "ctxt": 0
         },
         "value": [
           {
-            "type": "Declaration",
+            "type": "Tokens",
             "span": {
               "start": 4,
               "end": 22,
               "ctxt": 0
             },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 4,
-                "end": 9,
-                "ctxt": 0
-              },
-              "value": "value",
-              "raw": "value"
-            },
-            "value": [
+            "tokens": [
               {
-                "type": "AtTextValue",
+                "span": {
+                  "start": 4,
+                  "end": 9,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 9,
+                  "end": 10,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 10,
+                  "end": 11,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
                 "span": {
                   "start": 11,
+                  "end": 21,
+                  "ctxt": 0
+                },
+                "token": {
+                  "AtKeyword": {
+                    "value": "ھyword",
+                    "raw": "\\6beyword"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 21,
                   "end": 22,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 11,
-                    "end": 22,
-                    "ctxt": 0
-                  },
-                  "value": "keyword",
-                  "raw": "\\6b eyword"
-                },
-                "block": null
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
               }
-            ],
-            "important": null
+            ]
           }
         ]
       }

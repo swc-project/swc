@@ -57,7 +57,7 @@
                   "end": 70,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 43,
@@ -139,7 +139,7 @@
                   "end": 123,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 95,

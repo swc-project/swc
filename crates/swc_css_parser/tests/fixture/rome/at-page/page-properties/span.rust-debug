@@ -51,7 +51,7 @@ error: Declaration
 2 |     display: none;
   |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:2:2
   |
 2 |     display: none;

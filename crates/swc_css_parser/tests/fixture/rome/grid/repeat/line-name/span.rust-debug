@@ -73,7 +73,7 @@ error: Declaration
 2 |     grid-template-columns: repeat(4, [col-start]);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:2
   |
 2 |     grid-template-columns: repeat(4, [col-start]);

@@ -73,7 +73,7 @@ error: Declaration
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:2
   |
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);

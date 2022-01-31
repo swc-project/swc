@@ -78,7 +78,7 @@
               "end": 19,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 10,
@@ -137,7 +137,7 @@
               "end": 45,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 25,
@@ -188,7 +188,7 @@
               "end": 76,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 48,
@@ -294,7 +294,7 @@
               "end": 98,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 79,
@@ -344,7 +344,7 @@
               "end": 129,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 101,
@@ -394,7 +394,7 @@
               "end": 162,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 132,

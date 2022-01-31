@@ -52,39 +52,39 @@ error: Block
 1 | a { value: @\2cx }
   |   ^^^^^^^^^^^^^^^^
 
-error: Declaration
+error: Tokens
  --> $DIR/tests/fixture/esbuild/misc/mn3ADjaNJuY6IF0Nqms-VQ/input.css:1:5
   |
 1 | a { value: @\2cx }
-  |     ^^^^^^^^^^^^
+  |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
- --> $DIR/tests/fixture/esbuild/misc/mn3ADjaNJuY6IF0Nqms-VQ/input.css:1:5
-  |
-1 | a { value: @\2cx }
-  |     ^^^^^
-
-error: Ident
+error: Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/mn3ADjaNJuY6IF0Nqms-VQ/input.css:1:5
   |
 1 | a { value: @\2cx }
   |     ^^^^^
 
-error: Value
+error: Colon
+ --> $DIR/tests/fixture/esbuild/misc/mn3ADjaNJuY6IF0Nqms-VQ/input.css:1:10
+  |
+1 | a { value: @\2cx }
+  |          ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/esbuild/misc/mn3ADjaNJuY6IF0Nqms-VQ/input.css:1:11
+  |
+1 | a { value: @\2cx }
+  |           ^
+
+error: AtKeyword { value: Atom(',x' type=inline), raw: Atom('\2cx' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/mn3ADjaNJuY6IF0Nqms-VQ/input.css:1:12
   |
 1 | a { value: @\2cx }
   |            ^^^^^
 
-error: AtTextValue
- --> $DIR/tests/fixture/esbuild/misc/mn3ADjaNJuY6IF0Nqms-VQ/input.css:1:12
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/esbuild/misc/mn3ADjaNJuY6IF0Nqms-VQ/input.css:1:17
   |
 1 | a { value: @\2cx }
-  |            ^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/mn3ADjaNJuY6IF0Nqms-VQ/input.css:1:12
-  |
-1 | a { value: @\2cx }
-  |            ^^^^^
+  |                 ^
 

@@ -125,7 +125,7 @@ error: Declaration
 3 |         display: none;
   |         ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:3
   |
 3 |         display: none;

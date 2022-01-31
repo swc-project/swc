@@ -71,44 +71,72 @@
         },
         "value": [
           {
-            "type": "Declaration",
+            "type": "Tokens",
             "span": {
               "start": 4,
               "end": 17,
               "ctxt": 0
             },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 4,
-                "end": 9,
-                "ctxt": 0
-              },
-              "value": "value",
-              "raw": "value"
-            },
-            "value": [
+            "tokens": [
               {
-                "type": "AtTextValue",
+                "span": {
+                  "start": 4,
+                  "end": 9,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 9,
+                  "end": 10,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 10,
+                  "end": 11,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
                 "span": {
                   "start": 11,
+                  "end": 16,
+                  "ctxt": 0
+                },
+                "token": {
+                  "AtKeyword": {
+                    "value": ",x",
+                    "raw": "\\2cx"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 16,
                   "end": 17,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 11,
-                    "end": 17,
-                    "ctxt": 0
-                  },
-                  "value": "x,",
-                  "raw": "x\\2c "
-                },
-                "block": null
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
               }
-            ],
-            "important": null
+            ]
           }
         ]
       }

@@ -58,7 +58,7 @@ error: Declaration
 1 | a { color: #AABBCDFF }
   |     ^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/_APxY5Pe47Bb71-CwD1nhw/input.css:1:5
   |
 1 | a { color: #AABBCDFF }

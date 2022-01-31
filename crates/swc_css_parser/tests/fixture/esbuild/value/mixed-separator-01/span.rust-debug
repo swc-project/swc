@@ -58,7 +58,7 @@ error: Declaration
 1 | a { box-shadow: rebeccapurple , yellow , black }
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/value/mixed-separator-01/input.css:1:5
   |
 1 | a { box-shadow: rebeccapurple , yellow , black }

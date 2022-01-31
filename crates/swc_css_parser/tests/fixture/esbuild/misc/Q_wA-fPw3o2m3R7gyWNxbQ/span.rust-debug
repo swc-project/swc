@@ -76,7 +76,7 @@ error: Declaration
 1 | a:after { content: '\invalid' }
   |           ^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:11
   |
 1 | a:after { content: '\invalid' }

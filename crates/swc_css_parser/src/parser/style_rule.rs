@@ -214,10 +214,10 @@ where
             }
         };
 
-        let property = if is_dashed_ident {
-            DeclarationProperty::DashedIdent(self.parse()?)
+        let name = if is_dashed_ident {
+            DeclarationName::DashedIdent(self.parse()?)
         } else {
-            DeclarationProperty::Ident(self.parse()?)
+            DeclarationName::Ident(self.parse()?)
         };
 
         self.input.skip_ws()?;
@@ -285,7 +285,7 @@ where
 
         Ok(Declaration {
             span: Span::new(span.lo, end, Default::default()),
-            property,
+            name,
             value,
             important,
         })
