@@ -290,8 +290,31 @@ where
         keyword!(self, "media");
 
         if n.media.is_some() {
-            space!(self);
+            let need_space = match n.media.as_ref().unwrap().queries.get(0) {
+                Some(media_query)
+                    if media_query.modifier.is_none() && media_query.media_type.is_none() =>
+                {
+                    match &media_query.condition {
+                        Some(MediaConditionType::All(media_condition)) => {
+                            match media_condition.conditions.get(0) {
+                                Some(MediaConditionAllType::MediaInParens(_)) => false,
+                                _ => true,
+                            }
+                        }
+                        _ => true,
+                    }
+                }
+                _ => true,
+            };
+
+            if need_space {
+                space!(self);
+            } else {
+                formatting_space!(self);
+            }
+
             emit!(self, n.media);
+
             formatting_space!(self);
         } else {
             formatting_space!(self);
@@ -449,22 +472,22 @@ where
     #[emitter]
     fn emit_media_feature_range(&mut self, n: &MediaFeatureRange) -> Result {
         emit!(self, n.left);
-        space!(self);
+        formatting_space!(self);
         self.wr.write_punct(None, n.comparison.as_str())?;
-        space!(self);
+        formatting_space!(self);
         emit!(self, n.right);
     }
 
     #[emitter]
     fn emit_media_feature_range_interval(&mut self, n: &MediaFeatureRangeInterval) -> Result {
         emit!(self, n.left);
-        space!(self);
+        formatting_space!(self);
         self.wr.write_punct(None, n.left_comparison.as_str())?;
-        space!(self);
+        formatting_space!(self);
         emit!(self, n.name);
-        space!(self);
+        formatting_space!(self);
         self.wr.write_punct(None, n.right_comparison.as_str())?;
-        space!(self);
+        formatting_space!(self);
         emit!(self, n.right);
     }
 
