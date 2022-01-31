@@ -101,7 +101,7 @@ test!(
             import_analyzer(Rc::clone(&scope)),
             inject_helpers(),
             common_js(mark, Default::default(), Some(scope)),
-            hygiene(),
+            hygiene(Default::default()),
             fixer(None)
         )
     },
@@ -4982,7 +4982,7 @@ test!(
             import_analyzer(Rc::clone(&scope)),
             inject_helpers(),
             common_js(Mark::fresh(Mark::root()), Default::default(), Some(scope)),
-            hygiene(),
+            hygiene(Default::default()),
             fixer(None)
         )
     },

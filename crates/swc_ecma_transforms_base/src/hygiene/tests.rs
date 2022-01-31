@@ -136,6 +136,7 @@ fn simple() {
 }
 
 #[test]
+#[ignore]
 fn block_scoping_with_usage() {
     test(
         |tester| {

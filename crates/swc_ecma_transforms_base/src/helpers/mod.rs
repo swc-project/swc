@@ -364,7 +364,7 @@ swcHelpers._throw();",
                 let tr = as_folder(InjectHelpers);
                 let actual = tester
                     .apply_transform(tr, "input.js", Default::default(), input)?
-                    .fold_with(&mut crate::hygiene::hygiene())
+                    .fold_with(&mut crate::hygiene::hygiene(Default::default()))
                     .fold_with(&mut crate::fixer::fixer(None));
 
                 if actual == expected {

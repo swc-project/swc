@@ -134,7 +134,7 @@ fn identity(entry: PathBuf) {
                             },
                             mark,
                         ))
-                        .fold_with(&mut hygiene())
+                        .fold_with(&mut hygiene(Default::default()))
                         .fold_with(&mut fixer(None))
                 })
                 .map_err(|e| {

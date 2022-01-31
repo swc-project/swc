@@ -70,7 +70,7 @@ fn main() {
         let module = module.fold_with(&mut strip(top_level_mark));
 
         // Fix up any identifiers with the same name, but different contexts
-        let module = module.fold_with(&mut hygiene());
+        let module = module.fold_with(&mut hygiene(Default::default()));
 
         // Ensure that we have enough parenthesis.
         let module = module.fold_with(&mut fixer(Some(&comments)));
