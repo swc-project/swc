@@ -275,7 +275,7 @@ max-width: 100%;
 padding-right: calc(var(--bs-gutter-x) * 0.5);
 padding-left: calc(var(--bs-gutter-x) * 0.5);
 margin-top: var(--bs-gutter-y)}
-.col {flex: 1 00%}
+.col {flex: 1 0 0%}
 .row-cols-auto>* {flex: 0 0 auto;
 width: auto}
 .row-cols-1>* {flex: 0 0 auto;
@@ -339,7 +339,7 @@ width: 100%}
 .g-4, .gy-4 {--bs-gutter-y: 1.5rem}
 .g-5, .gx-5 {--bs-gutter-x: 3rem}
 .g-5, .gy-5 {--bs-gutter-y: 3rem}
-@media (min-width: 576px) {.col-sm {flex: 1 00%}
+@media (min-width: 576px) {.col-sm {flex: 1 0 0%}
 .row-cols-sm-auto>* {flex: 0 0 auto;
 width: auto}
 .row-cols-sm-1>* {flex: 0 0 auto;
@@ -404,7 +404,7 @@ width: 100%}
 .g-sm-4, .gy-sm-4 {--bs-gutter-y: 1.5rem}
 .g-sm-5, .gx-sm-5 {--bs-gutter-x: 3rem}
 .g-sm-5, .gy-sm-5 {--bs-gutter-y: 3rem}}
-@media (min-width: 768px) {.col-md {flex: 1 00%}
+@media (min-width: 768px) {.col-md {flex: 1 0 0%}
 .row-cols-md-auto>* {flex: 0 0 auto;
 width: auto}
 .row-cols-md-1>* {flex: 0 0 auto;
@@ -469,7 +469,7 @@ width: 100%}
 .g-md-4, .gy-md-4 {--bs-gutter-y: 1.5rem}
 .g-md-5, .gx-md-5 {--bs-gutter-x: 3rem}
 .g-md-5, .gy-md-5 {--bs-gutter-y: 3rem}}
-@media (min-width: 992px) {.col-lg {flex: 1 00%}
+@media (min-width: 992px) {.col-lg {flex: 1 0 0%}
 .row-cols-lg-auto>* {flex: 0 0 auto;
 width: auto}
 .row-cols-lg-1>* {flex: 0 0 auto;
@@ -534,7 +534,7 @@ width: 100%}
 .g-lg-4, .gy-lg-4 {--bs-gutter-y: 1.5rem}
 .g-lg-5, .gx-lg-5 {--bs-gutter-x: 3rem}
 .g-lg-5, .gy-lg-5 {--bs-gutter-y: 3rem}}
-@media (min-width: 1200px) {.col-xl {flex: 1 00%}
+@media (min-width: 1200px) {.col-xl {flex: 1 0 0%}
 .row-cols-xl-auto>* {flex: 0 0 auto;
 width: auto}
 .row-cols-xl-1>* {flex: 0 0 auto;
@@ -599,7 +599,7 @@ width: 100%}
 .g-xl-4, .gy-xl-4 {--bs-gutter-y: 1.5rem}
 .g-xl-5, .gx-xl-5 {--bs-gutter-x: 3rem}
 .g-xl-5, .gy-xl-5 {--bs-gutter-y: 3rem}}
-@media (min-width: 1400px) {.col-xxl {flex: 1 00%}
+@media (min-width: 1400px) {.col-xxl {flex: 1 0 0%}
 .row-cols-xxl-auto>* {flex: 0 0 auto;
 width: auto}
 .row-cols-xxl-1>* {flex: 0 0 auto;
@@ -2035,7 +2035,7 @@ border-bottom-left-radius: calc(0.25rem - 1px)}
 .card-group>.card {margin-bottom: 0.75rem}
 @media (min-width: 576px) {.card-group {display: flex;
 flex-flow: row wrap}
-.card-group>.card {flex: 1 00%;
+.card-group>.card {flex: 1 0 0%;
 margin-bottom: 0}
 .card-group>.card+.card {margin-left: 0;
 border-left: 0}
@@ -2112,7 +2112,7 @@ list-style: none}
 .breadcrumb-item+.breadcrumb-item::before {float: left;
 padding-right: 0.5rem;
 color: #6c757d;
-content: var(--bs-breadcrumb-divider,"/")}
+content: var(--bs-breadcrumb-divider, "/")}
 .breadcrumb-item.active {color: #6c757d}
 .pagination {display: flex;
 padding-left: 0;
@@ -2240,7 +2240,7 @@ white-space: nowrap;
 background-color: #0d6efd;
 transition: width 0.6s ease}
 @media (prefers-reduced-motion: reduce) {.progress-bar {transition: none}}
-.progress-bar-striped {background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15)25%, transparent25%, transparent50%, rgba(255, 255, 255, 0.15)50%, rgba(255, 255, 255, 0.15)75%, transparent75%, transparent);
+.progress-bar-striped {background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 background-size: 1rem 1rem}
 .progress-bar-animated {-webkit-animation: 1s linear infinite progress-bar-stripes;
 animation: 1s linear infinite progress-bar-stripes}
@@ -2253,7 +2253,7 @@ margin-bottom: 0;
 border-radius: 0.25rem}
 .list-group-numbered {list-style-type: none;
 counter-reset: section}
-.list-group-numbered>li::before {content: counters(section,".")". ";
+.list-group-numbered>li::before {content: counters(section, ".") ". ";
 counter-increment: section}
 .list-group-item-action {width: 100%;
 color: #495057;
@@ -2793,7 +2793,7 @@ width: 2rem;
 height: 2rem;
 background-repeat: no-repeat;
 background-position: 50%;
-background-size: 100%100%}
+background-size: 100% 100%}
 .carousel-control-prev-icon {background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3e%3c/svg%3e")}
 .carousel-control-next-icon {background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e")}
 .carousel-indicators {position: absolute;
@@ -2955,19 +2955,19 @@ animation: placeholder-glow 2s ease-in-out infinite}
 @keyframes placeholder-glow {
 50% {opacity: 0.2}
 }
-.placeholder-wave {-webkit-mask-image: linear-gradient(130deg, #00055%, rgba(0, 0, 0, 0.8)75%, #00095%);
-mask-image: linear-gradient(130deg, #00055%, rgba(0, 0, 0, 0.8)75%, #00095%);
--webkit-mask-size: 200%100%;
-mask-size: 200%100%;
+.placeholder-wave {-webkit-mask-image: linear-gradient(130deg, #000 55%, rgba(0, 0, 0, 0.8) 75%, #000 95%);
+mask-image: linear-gradient(130deg, #000 55%, rgba(0, 0, 0, 0.8) 75%, #000 95%);
+-webkit-mask-size: 200% 100%;
+mask-size: 200% 100%;
 -webkit-animation: placeholder-wave 2s linear infinite;
 animation: placeholder-wave 2s linear infinite}
 @keyframes placeholder-wave {
-100% {-webkit-mask-position: -200%0%;
-mask-position: -200%0%}
+100% {-webkit-mask-position: -200% 0%;
+mask-position: -200% 0%}
 }
 @keyframes placeholder-wave {
-100% {-webkit-mask-position: -200%0%;
-mask-position: -200%0%}
+100% {-webkit-mask-position: -200% 0%;
+mask-position: -200% 0%}
 }
 .clearfix::after {display: block;
 clear: both;
@@ -3119,7 +3119,7 @@ position: sticky !important}
 .end-0 {right: 0 !important}
 .end-50 {right: 50% !important}
 .end-100 {right: 100% !important}
-.translate-middle {transform: translate(-50%,-50%) !important}
+.translate-middle {transform: translate(-50%, -50%) !important}
 .translate-middle-x {transform: translateX(-50%) !important}
 .translate-middle-y {transform: translateY(-50%) !important}
 .border {border: 1px solid #dee2e6 !important}

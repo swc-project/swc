@@ -1,4 +1,4 @@
-div {background: center/ contain no-repeat url("../../media/examples/firefox-logo.svg"), #eee35% url("../../media/examples/lizard.png");
+div {background: center/ contain no-repeat url("../../media/examples/firefox-logo.svg"), #eee 35% url("../../media/examples/lizard.png");
 border: medium dashed green}
 div {border: 0.5rem outset pink;
 outline: 0.5rem solid khaki;

@@ -33,3 +33,8 @@ div {
 img, input[type="image"], video, embed, iframe, marquee, object, table {
     aspect-ratio: attr(width) / attr(height);
 }
+
+div {
+    prop: func(foo), func(foo);
+}
+

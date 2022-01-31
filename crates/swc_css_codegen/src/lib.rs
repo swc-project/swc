@@ -608,25 +608,36 @@ where
     }
 
     fn emit_list_values(&mut self, nodes: &[Value], format: ListFormat) -> Result {
-        let mut need_space = true;
+        let iter = nodes.iter();
 
-        for (idx, node) in nodes.iter().enumerate() {
-            if idx != 0 {
-                match node {
-                    Value::Delimiter(_) | Value::Str(_) | Value::Percent(_) => {
-                        need_space = !self.config.minify;
-                    }
-                    _ => {
-                        if need_space {
-                            self.write_delim(format)?;
-                        } else {
-                            need_space = true;
-                        }
-                    }
+        for (idx, node) in iter.enumerate() {
+            emit!(self, node);
+
+            if idx != nodes.len() - 1 {
+                let need_delim = match node {
+                    Value::SimpleBlock(_)
+                    | Value::Function(_)
+                    | Value::Delimiter(_)
+                    | Value::Str(_)
+                    | Value::Url(_)
+                    | Value::Percent(_) => match nodes.get(idx + 1) {
+                        Some(Value::Delimiter(Delimiter {
+                            value: DelimiterValue::Comma,
+                            ..
+                        })) => false,
+                        _ => !self.config.minify,
+                    },
+                    _ => match nodes.get(idx + 1) {
+                        Some(Value::SimpleBlock(_)) => !self.config.minify,
+                        Some(Value::Delimiter(_)) => false,
+                        _ => true,
+                    },
                 };
-            }
 
-            emit!(self, node)
+                if need_delim {
+                    self.write_delim(format)?;
+                }
+            }
         }
 
         Ok(())
@@ -898,9 +909,26 @@ where
     #[emitter]
     fn emit_bin_value(&mut self, n: &BinValue) -> Result {
         emit!(self, n.left);
-        space!(self);
+
+        let need_space = match n.op {
+            BinOp::Add | BinOp::Mul => true,
+            _ => false,
+        };
+
+        if need_space {
+            space!(self);
+        } else {
+            formatting_space!(self);
+        }
+
         punct!(self, n.op.as_str());
-        space!(self);
+
+        if need_space {
+            space!(self);
+        } else {
+            formatting_space!(self);
+        }
+
         emit!(self, n.right);
     }
 
