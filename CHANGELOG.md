@@ -68,6 +68,9 @@
 - **(css/ast)** Use `Color` instead of `HashValue` (#3411) ([6b921ca](https://github.com/swc-project/swc/commit/6b921cac02e801318529ad5511104ddb4ac6a6c6))
 
 
+- **(css/ast)** Rename `property` to `name` (#3410) ([eeedd9a](https://github.com/swc-project/swc/commit/eeedd9adf573b75435ecf7c87a71f9d8c5b64b20))
+
+
 - **(es/minifier)** Remove unused crates (#3395) ([74b4330](https://github.com/swc-project/swc/commit/74b433080bf79026fbcb905d7f0fba435822df68))
 
 
