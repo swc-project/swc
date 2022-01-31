@@ -15,6 +15,6 @@ class D {
     constructor(x){
         this.b // error, evaluated in scope of constructor, cannot reference y
          = y;
-        var y1 = "";
+        var y = "";
     }
 }

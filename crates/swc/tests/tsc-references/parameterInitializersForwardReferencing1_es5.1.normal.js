@@ -6,7 +6,7 @@ function _classCallCheck(instance, Constructor) {
 var foo = "";
 function f1() {
     var bar = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo;
-    var foo1 = 2;
+    var foo = 2;
     return bar; // returns 1
 }
 function f2() {
@@ -14,15 +14,15 @@ function f2() {
         var baz = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo;
         return baz;
     };
-    var foo2 = 2;
+    var foo = 2;
     return bar(); // returns 1
 }
 function f3() {
-    var bar = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo, foo3 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 2;
+    var bar = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo, foo1 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 2;
     return bar;
 }
-function f4(foo4) {
-    var bar = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : foo4;
+function f4(foo2) {
+    var bar = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : foo2;
     return bar;
 }
 function f5() {
@@ -35,7 +35,7 @@ function f6() {
 }
 function f7(param) {
     var bar = param[foo];
-    var foo5 = 2;
+    var foo3 = 2;
 }
 var Foo = function Foo() {
     "use strict";

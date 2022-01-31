@@ -2,15 +2,15 @@ var A;
 (function(A1) {
     let B1;
     (function(B) {
-        var x1;
-        B.x = x1;
+        var x;
+        B.x = x;
     })(B1 = A1.B || (A1.B = {}));
 })(A || (A = {}));
 (function(A) {
     let B2;
     (function(B) {
-        var x2;
-        B.x = x2;
+        var x;
+        B.x = x;
     })(B2 || (B2 = {}));
 })(A || (A = {}));
 // ensure the right var decl is exported

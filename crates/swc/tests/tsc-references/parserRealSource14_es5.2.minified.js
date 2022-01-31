@@ -44,8 +44,8 @@ function _defineProperties(target, props) {
             return path.push(cur), callback(path, walker), cur;
         }, post = function(cur, parent, walker) {
             return walker.state.pop(), cur;
-        }, path1 = new AstPath();
-        TypeScript.getAstWalkerFactory().walk(ast, pre, post, null, path1);
+        }, path = new AstPath();
+        TypeScript.getAstWalkerFactory().walk(ast, pre, post, null, path);
     };
     TypeScript1.lastOf = lastOf, TypeScript1.max = max, TypeScript1.min = function(a, b) {
         return a <= b ? a : b;

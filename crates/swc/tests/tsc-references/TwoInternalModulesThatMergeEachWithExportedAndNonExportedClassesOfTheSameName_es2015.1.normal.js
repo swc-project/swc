@@ -6,10 +6,10 @@ var A;
 })(A || (A = {}));
 (function(A) {
     class Point {
-        fromCarthesian(p1) {
+        fromCarthesian(p) {
             return {
-                x: p1.x,
-                y: p1.y
+                x: p.x,
+                y: p.y
             };
         }
     }

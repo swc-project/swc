@@ -16,10 +16,10 @@ var A;
     A1.fng = fng;
 })(A || (A = {}));
 // these should not be errors since the functions are exported
-var fn1;
-var fn1 = A.fn;
-var fng1;
-var fng1 = A.fng; // bug 838015
+var fn;
+var fn = A.fn;
+var fng;
+var fng = A.fng; // bug 838015
 // these should be errors since the functions are not exported
 var fn2 = A.fn2;
 var fng2 = A.fng2;

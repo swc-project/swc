@@ -35,7 +35,7 @@ function b() {
     var _b = _param.b, b = _b === void 0 ? a() : _b, x = _objectWithoutProperties(_param, [
         "b"
     ]);
-    var a1;
+    var a;
 }
 var x = "";
 function c() {
@@ -43,5 +43,5 @@ function c() {
     var b = _param.b, c = _objectWithoutProperties(_param, [
         "b"
     ]);
-    var x1;
+    var x;
 }

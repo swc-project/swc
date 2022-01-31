@@ -123,9 +123,9 @@ var C5 = /*#__PURE__*/ function(_super) {
     }
     return C5;
 }("hello");
-var C6 = /*#__PURE__*/ function(x1) {
+var C6 = /*#__PURE__*/ function(x) {
     "use strict";
-    _inherits(C6, x1);
+    _inherits(C6, x);
     var _super = _createSuper(C6);
     function C6() {
         _classCallCheck(this, C6);

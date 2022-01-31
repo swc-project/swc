@@ -1,13 +1,13 @@
 var A;
 (function(A1) {
-    function fn1(s) {
+    function fn(s) {
         return true;
     }
-    A1.fn = fn1;
-    function fng1(s) {
+    A1.fn = fn;
+    function fng(s) {
         return null;
     }
-    A1.fng = fng1;
+    A1.fng = fng;
     function fn2(s) {
         return false;
     }

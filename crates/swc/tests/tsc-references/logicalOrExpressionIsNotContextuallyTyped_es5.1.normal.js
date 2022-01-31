@@ -4,6 +4,6 @@
 // operand types.
 var a;
 // bug 786110
-var r = a || function(a1) {
-    return a1.toLowerCase();
+var r = a || function(a) {
+    return a.toLowerCase();
 };

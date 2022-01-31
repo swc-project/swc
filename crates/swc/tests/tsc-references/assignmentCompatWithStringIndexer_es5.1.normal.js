@@ -119,7 +119,7 @@ var Generics;
         }
         return B2;
     }(A);
-    var b21;
-    a1 = b21; // ok
-    b21 = a1; // error
+    var b2;
+    a1 = b2; // ok
+    b2 = a1; // error
 })(Generics || (Generics = {}));

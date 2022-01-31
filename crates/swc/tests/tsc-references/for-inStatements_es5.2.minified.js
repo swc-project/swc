@@ -2,8 +2,8 @@ function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
 function _defineProperties(target, props) {
-    for(var i1 = 0; i1 < props.length; i1++){
-        var descriptor = props[i1];
+    for(var i = 0; i < props.length; i++){
+        var descriptor = props[i];
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
@@ -54,11 +54,11 @@ for(var x in c);
 for(var x in d);
 for(var x in d[x]);
 for(var x in c[d]);
-for(var x in function(x1) {
-    return x1;
+for(var x in function(x) {
+    return x;
 });
-for(var x in function(x2, y) {
-    return x2 + y;
+for(var x in function(x, y) {
+    return x + y;
 });
 var aString, anAny, c, d, e, i, M, Color, A = function() {
     "use strict";

@@ -6,8 +6,8 @@ function _arrayLikeToArray(arr, len) {
 function _arrayWithoutHoles(arr) {
     if (Array.isArray(arr)) return _arrayLikeToArray(arr);
 }
-function _iterableToArray(iter1) {
-    if (typeof Symbol !== "undefined" && iter1[Symbol.iterator] != null || iter1["@@iterator"] != null) return Array.from(iter1);
+function _iterableToArray(iter) {
+    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
 function _nonIterableSpread() {
     throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");

@@ -26,19 +26,19 @@ var r5 = foo((x)=>b
 , (x)=>a
 ); // typeof b => typeof b
 function other(x) {
-    var r6 = foo((a1)=>a1
-    , (b1)=>b1
+    var r6 = foo((a)=>a
+    , (b)=>b
     ); // T => T
-    var r6b = foo((a2)=>a2
-    , (b2)=>b2
+    var r6b = foo((a)=>a
+    , (b)=>b
     ); // {} => {}
 }
 function other2(x) {
-    var r7 = foo((a3)=>a3
-    , (b3)=>b3
+    var r7 = foo((a)=>a
+    , (b)=>b
     ); // T => T
-    var r7b = foo((a4)=>a4
-    , (b4)=>b4
+    var r7b = foo((a)=>a
+    , (b)=>b
     ); // {} => {}
     var r8 = r7(null);
 // BUG 835518
@@ -49,7 +49,7 @@ function foo2(a, b) {
     return r;
 }
 function other3(x) {
-    var r8 = foo2((a5)=>a5
-    , (b5)=>b5
+    var r8 = foo2((a)=>a
+    , (b)=>b
     ); // Date => Date
 }

@@ -10,8 +10,8 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 function _defineProperties(target, props) {
-    for(var i1 = 0; i1 < props.length; i1++){
-        var descriptor = props[i1];
+    for(var i = 0; i < props.length; i++){
+        var descriptor = props[i];
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
         if ("value" in descriptor) descriptor.writable = true;
@@ -128,16 +128,16 @@ var C = /*#__PURE__*/ function() {
             value: function f() {
                 var x;
                 // BUG 823818
-                var a1 = x['foo'](); // should be string
-                return a1 + x.foo();
+                var a = x['foo'](); // should be string
+                return a + x.foo();
             }
         },
         {
             key: "g",
             value: function g(x) {
                 // BUG 823818
-                var a2 = x['foo'](); // should be string
-                return a2 + x.foo();
+                var a = x['foo'](); // should be string
+                return a + x.foo();
             }
         }
     ]);
@@ -157,8 +157,8 @@ var r3d = a(new B())['foo'](); // valid call to an invalid function, U is inferr
 var b = {
     foo: function(x) {
         // BUG 823818
-        var a3 = x['foo'](); // should be string
-        return a3 + x.foo();
+        var a = x['foo'](); // should be string
+        return a + x.foo();
     }
 };
 var r4 = b.foo(new B()); // valid call to an invalid function

@@ -49,7 +49,7 @@ var b, b2, Generics, A = function() {
     _classCallCheck(this, A);
 };
 b = b, b2 = b2, (function(Generics) {
-    var b1, b21, A1 = function() {
+    var b1, b2, A1 = function() {
         "use strict";
         _classCallCheck(this, A1);
     }, B = function(A2) {
@@ -71,5 +71,5 @@ b = b, b2 = b2, (function(Generics) {
         }
         return B2;
     }(A1);
-    b21 = b21;
+    b2 = b2;
 })(Generics || (Generics = {}));

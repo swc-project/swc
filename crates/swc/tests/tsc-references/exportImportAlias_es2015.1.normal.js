@@ -1,7 +1,7 @@
 // expect no errors here
 var A;
 (function(A1) {
-    var x1 = A1.x = 'hello world';
+    var x = A1.x = 'hello world';
     class Point {
         constructor(x, y){
             this.x = x;
@@ -12,8 +12,8 @@ var A;
 })(A || (A = {}));
 var C;
 (function(C1) {
-    var a1 = A;
-    C1.a = a1;
+    var a = A;
+    C1.a = a;
 })(C || (C = {}));
 var a = C.a.x;
 var b = new C.a.Point(0, 0);

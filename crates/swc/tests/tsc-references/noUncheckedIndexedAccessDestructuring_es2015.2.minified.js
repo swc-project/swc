@@ -21,7 +21,7 @@ t2.z.toString();
     const { x , y , z  } = numMapPoint;
     x.toFixed(), y.toFixed(), z.toFixed();
 }{
-    const { x  } = numMapPoint, q = function(source, excluded) {
+    const { x: x1  } = numMapPoint, q = function(source, excluded) {
         if (null == source) return {};
         var key, i, target = function(source, excluded) {
             if (null == source) return {};
@@ -37,11 +37,11 @@ t2.z.toString();
     }(numMapPoint, [
         "x"
     ]);
-    x.toFixed(), q.y.toFixed(), q.z.toFixed();
+    x1.toFixed(), q.y.toFixed(), q.z.toFixed();
 }[target_string] = strArray, [target_string_undef] = strArray, [, , , ...target_string_arr] = strArray;
 {
-    let x, y, z;
-    ({ x , y , z  } = numMapPoint);
-    let q;
-    ({ q  } = numMapPoint);
+    let x2, y1, z1;
+    ({ x: x2 , y: y1 , z: z1  } = numMapPoint);
+    let q1;
+    ({ q: q1  } = numMapPoint);
 }

@@ -19,7 +19,7 @@ var M;
     var a = M1.a = 1;
 })(M || (M = {}));
 M = x;
-function i(a1) {
-    a1 = x;
+function i(a) {
+    a = x;
 }
 i = x;

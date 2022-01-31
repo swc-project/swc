@@ -146,12 +146,12 @@ function _f1() {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
             try {
                 for(var _iterator = _asyncIterator({}), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
-                    let _value = _step.value;
-                    const x = _value;
+                    let _value1 = _step.value;
+                    const x = _value1;
                 }
-            } catch (err) {
+            } catch (err1) {
                 _didIteratorError = true;
-                _iteratorError = err;
+                _iteratorError = err1;
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
@@ -199,12 +199,12 @@ function _f2() {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
             try {
                 for(var _iterator = _asyncIterator({}), _step; _iteratorAbruptCompletion = !(_step = yield _awaitAsyncGenerator(_iterator.next())).done; _iteratorAbruptCompletion = false){
-                    let _value = _step.value;
-                    const x = _value;
+                    let _value2 = _step.value;
+                    const x = _value2;
                 }
-            } catch (err) {
+            } catch (err2) {
                 _didIteratorError = true;
-                _iteratorError = err;
+                _iteratorError = err2;
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {

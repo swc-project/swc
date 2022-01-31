@@ -34,10 +34,10 @@ var A;
         _createClass(Point, [
             {
                 key: "fromCarthesian",
-                value: function fromCarthesian(p1) {
+                value: function fromCarthesian(p) {
                     return {
-                        x: p1.x,
-                        y: p1.y
+                        x: p.x,
+                        y: p.y
                     };
                 }
             }

@@ -23,18 +23,18 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-function _defineProperty(obj1, key, value) {
-    if (key in obj1) {
-        Object.defineProperty(obj1, key, {
+function _defineProperty(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
             value: value,
             enumerable: true,
             configurable: true,
             writable: true
         });
     } else {
-        obj1[key] = value;
+        obj[key] = value;
     }
-    return obj1;
+    return obj;
 }
 function _get(target, property, receiver) {
     if (typeof Reflect !== "undefined" && Reflect.get) {
@@ -129,9 +129,9 @@ function _superPropBase(object, property) {
     }
     return object;
 }
-var _typeof = function(obj1) {
+var _typeof = function(obj) {
     "@swc/helpers - typeof";
-    return obj1 && typeof Symbol !== "undefined" && obj1.constructor === Symbol ? "symbol" : typeof obj1;
+    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;

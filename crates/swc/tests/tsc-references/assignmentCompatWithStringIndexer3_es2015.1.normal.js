@@ -7,9 +7,9 @@ var Generics;
     class A {
     }
     function foo() {
-        var a1;
+        var a;
         var b;
-        a1 = b; // error
-        b = a1; // error
+        a = b; // error
+        b = a; // error
     }
 })(Generics || (Generics = {}));

@@ -241,12 +241,12 @@ var TypeScript;
         ;
         return TypeScript.getAstWalkerFactory().walk(script, pre), bestOffset;
     }, TypeScript1.walkAST = function(ast, callback) {
-        var path1 = new AstPath();
+        var path = new AstPath();
         TypeScript.getAstWalkerFactory().walk(ast, function(cur, parent, walker) {
             var path = walker.state;
             return path.push(cur), callback(path, walker), cur;
         }, function(cur, parent, walker) {
             return walker.state.pop(), cur;
-        }, null, path1);
+        }, null, path);
     };
 }(TypeScript || (TypeScript = {}));

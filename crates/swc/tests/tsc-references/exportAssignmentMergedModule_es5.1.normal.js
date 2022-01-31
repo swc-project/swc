@@ -21,7 +21,7 @@ var Foo;
 module.exports = Foo;
 // @Filename: foo_1.ts
 var foo = require("./foo_0");
-var a1 = foo.a();
+var a = foo.a();
 if (!!foo.b) {
     foo.Test.answer = foo.c(42);
 }

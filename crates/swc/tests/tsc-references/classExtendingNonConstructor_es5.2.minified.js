@@ -84,9 +84,9 @@ var x, C1 = function(undefined) {
         return _classCallCheck(this, C5), _super4.apply(this, arguments);
     }
     return C5;
-}("hello"), C6 = function(x1) {
+}("hello"), C6 = function(x) {
     "use strict";
-    _inherits(C6, x1);
+    _inherits(C6, x);
     var _super = _createSuper(C6);
     function C6() {
         return _classCallCheck(this, C6), _super.apply(this, arguments);

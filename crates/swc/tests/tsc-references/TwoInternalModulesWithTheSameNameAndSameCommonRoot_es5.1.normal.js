@@ -8,10 +8,10 @@ var A;
 (function(A1) {
     var Utils1;
     (function(Utils) {
-        function mirror(p1) {
+        function mirror(p) {
             return {
-                x: p1.y,
-                y: p1.x
+                x: p.y,
+                y: p.x
             };
         }
         Utils.mirror = mirror;

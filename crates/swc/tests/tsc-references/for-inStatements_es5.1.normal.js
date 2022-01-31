@@ -10,8 +10,8 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 function _defineProperties(target, props) {
-    for(var i1 = 0; i1 < props.length; i1++){
-        var descriptor = props[i1];
+    for(var i = 0; i < props.length; i++){
+        var descriptor = props[i];
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
         if ("value" in descriptor) descriptor.writable = true;
@@ -130,11 +130,11 @@ for(var x in 42 ? c : d){}
 for(var x in '' ? c : d){}
 for(var x in 42 ? d[x] : c[x]){}
 for(var x in c[d]){}
-for(var x in function(x1) {
-    return x1;
+for(var x in function(x) {
+    return x;
 }){}
-for(var x in function(x2, y) {
-    return x2 + y;
+for(var x in function(x, y) {
+    return x + y;
 }){}
 var A = /*#__PURE__*/ function() {
     "use strict";

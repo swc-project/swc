@@ -1,9 +1,9 @@
-function _defineEnumerableProperties(obj1, descs) {
+function _defineEnumerableProperties(obj, descs) {
     for(var key in descs){
         var desc = descs[key];
         desc.configurable = desc.enumerable = true;
         if ("value" in desc) desc.writable = true;
-        Object.defineProperty(obj1, key, desc);
+        Object.defineProperty(obj, key, desc);
     }
     if (Object.getOwnPropertySymbols) {
         var objectSymbols = Object.getOwnPropertySymbols(descs);
@@ -12,10 +12,10 @@ function _defineEnumerableProperties(obj1, descs) {
             var desc = descs[sym];
             desc.configurable = desc.enumerable = true;
             if ("value" in desc) desc.writable = true;
-            Object.defineProperty(obj1, sym, desc);
+            Object.defineProperty(obj, sym, desc);
         }
     }
-    return obj1;
+    return obj;
 }
 var _obj, _mutatorMap = {};
 //@target: ES6

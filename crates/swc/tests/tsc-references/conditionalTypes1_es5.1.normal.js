@@ -85,17 +85,17 @@ function f33() {
     var z;
     var z;
 }
-var f40 = function(a1) {
-    return a1;
+var f40 = function(a) {
+    return a;
 };
-var f41 = function(a2) {
-    return a2;
+var f41 = function(a) {
+    return a;
 };
-var f42 = function(a3) {
-    return a3;
+var f42 = function(a) {
+    return a;
 };
-var f43 = function(a4) {
-    return a4;
+var f43 = function(a) {
+    return a;
 };
 var f44 = function(value) {
     return value;

@@ -100,8 +100,8 @@ function tryCatchFn() {
     try {
         var x = ()=>this
         ;
-    } catch (e1) {
-        var t = ()=>e1 + this
+    } catch (e) {
+        var t = ()=>e + this
         ;
     } finally{
         var m = ()=>this + ''

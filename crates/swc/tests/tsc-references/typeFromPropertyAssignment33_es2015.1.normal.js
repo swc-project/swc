@@ -11,12 +11,12 @@
     var p2 = ExpandoMerge2.p2 = 222;
 })(ExpandoMerge || (ExpandoMerge = {}));
 // @Filename: expando.ts
-function ExpandoMerge(n1) {
-    return n1;
+function ExpandoMerge(n) {
+    return n;
 }
 ExpandoMerge.p1 = 111;
-ExpandoMerge.m = function(n2) {
-    return n2 + 1;
+ExpandoMerge.m = function(n) {
+    return n + 1;
 };
 ExpandoMerge.p4 = 44444;
 ExpandoMerge.p5 = 555555;

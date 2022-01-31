@@ -85,7 +85,7 @@ var C = function C() {
         }
         return _class2;
     }(C), _class.x = 1, _class).x], b = tmp === void 0 ? "" : tmp;
-    var C1;
+    var C;
 })();
 var x = "";
 (function(param) {
@@ -99,5 +99,5 @@ var x = "";
         }
         return _class2;
     }(C), _class1.x = 1, _class1).x], b = tmp === void 0 ? "" : tmp, d = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : x;
-    var x1;
+    var x;
 })();

@@ -3,8 +3,8 @@
 class C {
     f() {
         var x;
-        var a1 = x['getDate'](); // number
-        return a1 + x.getDate();
+        var a = x['getDate'](); // number
+        return a + x.getDate();
     }
 }
 var r = new C().f();
@@ -16,8 +16,8 @@ var r3 = a().getDate();
 var r3b = a()['getDate']();
 var b = {
     foo: (x)=>{
-        var a2 = x['getDate'](); // number
-        return a2 + x.getDate();
+        var a = x['getDate'](); // number
+        return a + x.getDate();
     }
 };
 var r4 = b.foo(new Date());

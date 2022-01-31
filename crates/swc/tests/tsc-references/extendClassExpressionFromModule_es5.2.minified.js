@@ -16,7 +16,7 @@ var x = function() {
     _classCallCheck(this, x);
 };
 module.exports = x;
-var x = require("./foo1"), y = function(x1) {
+var x = require("./foo1"), y = function(x) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -27,7 +27,7 @@ var x = require("./foo1"), y = function(x1) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(y, x1);
+    }(y, x);
     var Derived, hasNativeReflectConstruct, _super = (Derived = y, hasNativeReflectConstruct = function() {
         if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
         if (Reflect.construct.sham) return !1;

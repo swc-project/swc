@@ -21,7 +21,7 @@ class D {
     constructor(x){
         this.b // ok
          = y;
-        var y1 = "";
+        var y = "";
     }
 }
 class E {

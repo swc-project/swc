@@ -59,10 +59,10 @@ t2.z.toString(); // Should error
     y.toFixed(); // Should OK
     z.toFixed(); // Should error
 }{
-    const { x  } = numMapPoint, q = _objectWithoutProperties(numMapPoint, [
+    const { x: x1  } = numMapPoint, q = _objectWithoutProperties(numMapPoint, [
         "x"
     ]);
-    x.toFixed(); // Should OK
+    x1.toFixed(); // Should OK
     q.y.toFixed(); // Should OK
     q.z.toFixed(); // Should error
 }// Assignment forms
@@ -70,8 +70,8 @@ t2.z.toString(); // Should error
 [target_string_undef] = strArray; // Should OK
 [, , , ...target_string_arr] = strArray; // Should OK
 {
-    let x, y, z;
-    ({ x , y , z  } = numMapPoint); // Should OK
-    let q;
-    ({ q  } = numMapPoint); // Should error
+    let x2, y1, z1;
+    ({ x: x2 , y: y1 , z: z1  } = numMapPoint); // Should OK
+    let q1;
+    ({ q: q1  } = numMapPoint); // Should error
 }

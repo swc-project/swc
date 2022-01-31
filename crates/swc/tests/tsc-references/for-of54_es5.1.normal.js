@@ -2,8 +2,8 @@ var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError 
 try {
     //@target: ES6
     for(var _iterator = [][Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
-        var v = _step.value;
-        var v1 = 0;
+        var v1 = _step.value;
+        var v = 0;
     }
 } catch (err) {
     _didIteratorError = true;

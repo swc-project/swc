@@ -26,6 +26,6 @@ var M;
     var foo = M1.foo = 1;
 })(M || (M = {}));
 M = x;
-function k(a1) {
-    a1 = x;
+function k(a) {
+    a = x;
 }

@@ -10,8 +10,8 @@ var M;
     class A {
     }
     M1.A = A;
-    function F2(x1) {
-        return x1.toString();
+    function F2(x) {
+        return x.toString();
     }
     M1.F2 = F2;
 })(M || (M = {}));

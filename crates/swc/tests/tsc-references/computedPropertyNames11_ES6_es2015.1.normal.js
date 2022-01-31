@@ -2,7 +2,7 @@
 var s;
 var n;
 var a;
-var v1 = {
+var v = {
     get [s] () {
         return 0;
     },

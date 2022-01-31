@@ -20,8 +20,8 @@ x = M;
 x = {
     f () {}
 };
-function f(a1) {
-    x = a1;
+function f(a) {
+    x = a;
 }
 x = f;
 var E;

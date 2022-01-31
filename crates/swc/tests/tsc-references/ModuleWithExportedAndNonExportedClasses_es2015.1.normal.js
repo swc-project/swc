@@ -3,9 +3,9 @@ var A;
     class A1 {
     }
     A3.A = A1;
-    class AG1 {
+    class AG {
     }
-    A3.AG = AG1;
+    A3.AG = AG;
     class A2 {
     }
     class AG2 {

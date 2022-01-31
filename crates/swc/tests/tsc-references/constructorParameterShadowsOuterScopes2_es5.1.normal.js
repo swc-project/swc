@@ -27,7 +27,7 @@ var D = function D(x) {
     _classCallCheck(this, D);
     this.b // ok
      = y;
-    var y1 = "";
+    var y = "";
 };
 var E = function E(z1) {
     "use strict";

@@ -30,7 +30,7 @@ var M;
 })(M || (M = {}));
 M = null; // error
 var h = null;
-function i(a1) {
-    a1 = null;
+function i(a) {
+    a = null;
 }
 i = null; // error

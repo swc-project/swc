@@ -48,13 +48,13 @@ function _slicedToArray(arr, i) {
 function _toConsumableArray(arr) {
     return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
 }
-function _unsupportedIterableToArray(o2, minLen) {
-    if (!o2) return;
-    if (typeof o2 === "string") return _arrayLikeToArray(o2, minLen);
-    var n = Object.prototype.toString.call(o2).slice(8, -1);
-    if (n === "Object" && o2.constructor) n = o2.constructor.name;
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
     if (n === "Map" || n === "Set") return Array.from(n);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o2, minLen);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
 // In a typed function call, argument expressions are contextually typed by their corresponding parameter types.
 function foo(param) {

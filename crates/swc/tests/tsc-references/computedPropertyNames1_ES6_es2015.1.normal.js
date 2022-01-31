@@ -1,5 +1,5 @@
 // @target: es6
-var v1 = {
+var v = {
     get [0 + 1] () {
         return 0;
     },

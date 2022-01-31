@@ -83,13 +83,13 @@ function f33() {
     var z;
     var z;
 }
-const f40 = (a1)=>a1
+const f40 = (a)=>a
 ;
-const f41 = (a2)=>a2
+const f41 = (a)=>a
 ;
-const f42 = (a3)=>a3
+const f42 = (a)=>a
 ;
-const f43 = (a4)=>a4
+const f43 = (a)=>a
 ;
 const f44 = (value)=>value
 ;

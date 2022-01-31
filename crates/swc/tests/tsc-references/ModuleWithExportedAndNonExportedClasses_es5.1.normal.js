@@ -10,11 +10,11 @@ var A;
         _classCallCheck(this, A1);
     };
     A3.A = A1;
-    var AG1 = function AG1() {
+    var AG = function AG() {
         "use strict";
-        _classCallCheck(this, AG1);
+        _classCallCheck(this, AG);
     };
-    A3.AG = AG1;
+    A3.AG = AG;
     var A2 = function A2() {
         "use strict";
         _classCallCheck(this, A2);

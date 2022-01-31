@@ -95,9 +95,9 @@ function _superPropBase(object, property) {
 function _toConsumableArray(arr) {
     return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
 }
-var _typeof = function(obj1) {
+var _typeof = function(obj) {
     "@swc/helpers - typeof";
-    return obj1 && typeof Symbol !== "undefined" && obj1.constructor === Symbol ? "symbol" : typeof obj1;
+    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _unsupportedIterableToArray(o, minLen) {
     if (!o) return;
@@ -133,8 +133,8 @@ function _createSuper(Derived) {
 }
 var _obj, _obj1, _obj2, _obj3, _instance, _obj4, _instance1, _instance2, _instance3;
 function foo(x, y) {
-    for(var _len = arguments.length, z1 = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
-        z1[_key - 2] = arguments[_key];
+    for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+        z[_key - 2] = arguments[_key];
     }
 }
 var a;
@@ -233,22 +233,22 @@ xa[1].foo.apply(this, [
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C(x, y) {
-        for(var _len = arguments.length, z2 = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
-            z2[_key - 2] = arguments[_key];
+        for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+            z[_key - 2] = arguments[_key];
         }
         _classCallCheck(this, C);
         this.foo(x, y);
         this.foo.apply(this, [
             x,
             y
-        ].concat(_toConsumableArray(z2)));
+        ].concat(_toConsumableArray(z)));
     }
     _createClass(C, [
         {
             key: "foo",
             value: function foo(x, y) {
-                for(var _len = arguments.length, z3 = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
-                    z3[_key - 2] = arguments[_key];
+                for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+                    z[_key - 2] = arguments[_key];
                 }
             }
         }

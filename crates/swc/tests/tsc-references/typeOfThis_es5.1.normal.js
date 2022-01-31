@@ -66,10 +66,10 @@ var MyTestClass = // @target: esnext
             key: "staticFn",
             value: //type of 'this' in static function param list is constructor function type
             function staticFn() {
-                var t1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
-                var t1;
-                var t1 = MyTestClass;
-                t1.staticCanary;
+                var t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
+                var t;
+                var t = MyTestClass;
+                t.staticCanary;
                 //type of 'this' in static function body is constructor function type
                 var p = this;
                 var p;
@@ -145,10 +145,10 @@ var MyGenericTestClass = /*#__PURE__*/ function() {
             key: "staticFn",
             value: //type of 'this' in static function param list is constructor function type
             function staticFn() {
-                var t2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
-                var t2;
-                var t2 = MyGenericTestClass;
-                t2.staticCanary;
+                var t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
+                var t;
+                var t = MyGenericTestClass;
+                t.staticCanary;
                 //type of 'this' in static function body is constructor function type
                 var p = this;
                 var p;

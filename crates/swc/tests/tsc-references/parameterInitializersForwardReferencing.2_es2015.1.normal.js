@@ -34,7 +34,7 @@ function b(_param = a()) {
     var { b =a()  } = _param, x = _objectWithoutProperties(_param, [
         "b"
     ]);
-    var a1;
+    var a;
 }
 const x = "";
 function c(_param = a(), d = x) {

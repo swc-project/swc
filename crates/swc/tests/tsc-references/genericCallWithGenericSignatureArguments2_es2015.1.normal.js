@@ -41,7 +41,7 @@ var onlyT;
         var r;
         return r;
     }
-    var r71 = foo3(E.A, (x)=>E.A
+    var r7 = foo3(E.A, (x)=>E.A
     , (x)=>F.A
     ); // error
 })(onlyT || (onlyT = {}));
@@ -85,7 +85,7 @@ var TU;
         var r;
         return r;
     }
-    var r72 = foo3(E.A, (x)=>E.A
+    var r7 = foo3(E.A, (x)=>E.A
     , (x)=>F.A
     );
 })(TU || (TU = {}));

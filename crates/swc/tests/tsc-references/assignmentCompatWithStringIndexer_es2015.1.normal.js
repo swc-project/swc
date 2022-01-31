@@ -19,9 +19,9 @@ var Generics;
     b1 = a1; // error
     class B2 extends A1 {
     }
-    var b21;
-    a1 = b21; // ok
-    b21 = a1; // error
+    var b2;
+    a1 = b2; // ok
+    b2 = a1; // error
     function foo() {
         var b3;
         var a3;

@@ -16,8 +16,8 @@ function F(x) {
 }
 var M;
 (function(M1) {
-    var F2 = function F2(x1) {
-        return x1.toString();
+    var F2 = function F2(x) {
+        return x.toString();
     };
     var A = function A() {
         "use strict";

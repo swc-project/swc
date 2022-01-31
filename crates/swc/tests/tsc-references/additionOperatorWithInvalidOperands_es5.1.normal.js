@@ -39,8 +39,8 @@ var E;
 })(E || (E = {}));
 var M;
 (function(M1) {
-    var a1;
-    M1.a = a1;
+    var a;
+    M1.a = a;
 })(M || (M = {}));
 var a;
 var b;

@@ -26,8 +26,8 @@ var M;
     // Emit M.S.Bar
     S.Bar, /*#__PURE__*/ React.createElement(S.Bar, null);
 })(M || (M = {}));
-(function(M) {
-    var M3 = 100;
+(function(M3) {
+    var M = 100;
     // Emit M_1.Foo
     Foo, /*#__PURE__*/ React.createElement(Foo, null);
 })(M || (M = {}));

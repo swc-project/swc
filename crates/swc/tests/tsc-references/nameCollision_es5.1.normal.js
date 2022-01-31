@@ -4,10 +4,10 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 var A;
-(function(A) {
+(function(A1) {
     // these 2 statements force an underscore before the 'A' 
     // in the generated function call.
-    var A1 = 12;
+    var A = 12;
     var _A = '';
 })(A || (A = {}));
 var B;
@@ -21,29 +21,29 @@ var B;
     };
 })(B || (B = {}));
 var X;
-(function(X2) {
-    var X1 = 13;
+(function(X1) {
+    var X = 13;
     var Y2;
-    (function(Y3) {
-        var Y1 = 13;
+    (function(Y1) {
+        var Y = 13;
         var Z;
-        (function(Z) {
+        (function(Z1) {
             var X = 12;
             var Y = 12;
-            var Z1 = 12;
-        })(Z = Y3.Z || (Y3.Z = {}));
-    })(Y2 = X2.Y || (X2.Y = {}));
+            var Z = 12;
+        })(Z = Y1.Z || (Y1.Z = {}));
+    })(Y2 = X1.Y || (X1.Y = {}));
 })(X || (X = {}));
 var Y;
-(function(Y5) {
-    var Y4;
-    (function(Y6) {
-        var Y4;
-        (function(Y4) {
-            Y4[Y4["Red"] = 0] = "Red";
-            Y4[Y4["Blue"] = 1] = "Blue";
-        })(Y4 = Y6.Y || (Y6.Y = {}));
-    })(Y4 = Y5.Y || (Y5.Y = {}));
+(function(Y4) {
+    var Y3;
+    (function(Y5) {
+        var Y3;
+        (function(Y3) {
+            Y3[Y3["Red"] = 0] = "Red";
+            Y3[Y3["Blue"] = 1] = "Blue";
+        })(Y3 = Y5.Y || (Y5.Y = {}));
+    })(Y3 = Y4.Y || (Y4.Y = {}));
 })(Y || (Y = {}));
 // no collision, since interface doesn't
 // generate code.

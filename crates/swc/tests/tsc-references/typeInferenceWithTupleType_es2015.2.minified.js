@@ -10,11 +10,11 @@ var zipResult = function(array1, array2) {
             void 0
         ]
     ];
-    for(var zipResult1, length = array1.length, i = 0; i < length; ++i)zipResult1.push([
+    for(var zipResult, length = array1.length, i = 0; i < length; ++i)zipResult.push([
         array1[i],
         array2[i]
     ]);
-    return zipResult1;
+    return zipResult;
 }([
     "foo",
     "bar"

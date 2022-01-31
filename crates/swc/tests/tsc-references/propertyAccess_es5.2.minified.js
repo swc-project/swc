@@ -36,12 +36,12 @@ var Compass, bothIndex, stringOrNumber, someObject, A = function() {
             return !1;
         }
     }(), function() {
-        var obj1, self, call, result, Super = _getPrototypeOf(Derived);
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
         } else result = Super.apply(this, arguments);
-        return self = this, (call = result) && ("object" == ((obj1 = call) && "undefined" != typeof Symbol && obj1.constructor === Symbol ? "symbol" : typeof obj1) || "function" == typeof call) ? call : (function(self) {
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
             if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
             return self;
         })(self);

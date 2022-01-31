@@ -16,9 +16,9 @@ function _toConsumableArray(arr) {
 function _unsupportedIterableToArray(o, minLen) {
     if (o) {
         if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
-        var n1 = Object.prototype.toString.call(o).slice(8, -1);
-        if ("Object" === n1 && o.constructor && (n1 = o.constructor.name), "Map" === n1 || "Set" === n1) return Array.from(n1);
-        if ("Arguments" === n1 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n1)) return _arrayLikeToArray(o, minLen);
+        var n = Object.prototype.toString.call(o).slice(8, -1);
+        if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(n);
+        if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
     }
 }
 fn(1), fn(1, 2, 3, 4), takeTwo(1, 2, 3, 4), withRest.apply(void 0, [

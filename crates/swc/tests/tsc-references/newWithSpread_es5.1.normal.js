@@ -1,6 +1,6 @@
 function _arrayLikeToArray(arr, len) {
     if (len == null || len > arr.length) len = arr.length;
-    for(var i1 = 0, arr2 = new Array(len); i1 < len; i1++)arr2[i1] = arr[i1];
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
     return arr2;
 }
 function _arrayWithoutHoles(arr) {
@@ -27,11 +27,11 @@ function _construct(Parent, args, Class) {
         _construct = Reflect.construct;
     } else {
         _construct = function _construct(Parent, args, Class) {
-            var a1 = [
+            var a = [
                 null
             ];
-            a1.push.apply(a1, args);
-            var Constructor = Function.bind.apply(Parent, a1);
+            a.push.apply(a, args);
+            var Constructor = Function.bind.apply(Parent, a);
             var instance = new Constructor();
             if (Class) _setPrototypeOf(instance, Class.prototype);
             return instance;

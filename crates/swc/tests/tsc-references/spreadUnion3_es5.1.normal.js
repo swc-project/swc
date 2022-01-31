@@ -27,10 +27,10 @@ function _objectSpread(target) {
     return target;
 }
 // @strictNullChecks: true
-function f(x1) {
+function f(x) {
     return _objectSpread({
         y: 123
-    }, x1) // y: string | number
+    }, x) // y: string | number
     ;
 }
 f(undefined);

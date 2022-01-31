@@ -1,5 +1,5 @@
-var ANY, ANY1, obj, M, _typeof = function(obj2) {
-    return obj2 && "undefined" != typeof Symbol && obj2.constructor === Symbol ? "symbol" : typeof obj2;
+var ANY, ANY1, obj, M, _typeof = function(obj) {
+    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
 }, ANY2 = [
     "",
     ""

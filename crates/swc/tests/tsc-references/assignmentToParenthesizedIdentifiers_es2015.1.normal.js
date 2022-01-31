@@ -24,8 +24,8 @@ var M2;
 (function(M21) {
     let M31;
     (function(M3) {
-        var x1;
-        M3.x = x1;
+        var x;
+        M3.x = x;
     })(M31 = M21.M3 || (M21.M3 = {}));
     M31 = {
         x: 3
@@ -54,11 +54,11 @@ fn = ()=>3
 ; // Bug 823548: Should be error (fn is not a reference)
 fn = ()=>3
 ; // Should be error
-function fn2(x2, y) {
-    x2 = 3;
-    x2 = 3; // OK
-    x2 = ''; // Error
-    x2 = ''; // Error
+function fn2(x, y) {
+    x = 3;
+    x = 3; // OK
+    x = ''; // Error
+    x = ''; // Error
     y.t = 3; // OK
     y.t = 3; // OK
     y.t = ''; // Error

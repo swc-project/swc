@@ -18,12 +18,12 @@ function f3() {
     }
 }
 function f4() {
-    let v;
-    v.x = 10;
+    let v1;
+    v1.x = 10;
     if (true) {
         let v;
         v.x = "hello";
     } else {
-        v.x = 20;
+        v1.x = 20;
     }
 }

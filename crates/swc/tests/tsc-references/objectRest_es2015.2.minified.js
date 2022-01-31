@@ -1,7 +1,7 @@
 function _extends() {
     return (_extends = Object.assign || function(target) {
-        for(var i1 = 1; i1 < arguments.length; i1++){
-            var source = arguments[i1];
+        for(var i = 1; i < arguments.length; i++){
+            var source = arguments[i];
             for(var key in source)Object.prototype.hasOwnProperty.call(source, key) && (target[key] = source[key]);
         }
         return target;
@@ -9,17 +9,17 @@ function _extends() {
 }
 function _objectWithoutProperties(source, excluded) {
     if (null == source) return {};
-    var key, i1, target = _objectWithoutPropertiesLoose(source, excluded);
+    var key, i, target = _objectWithoutPropertiesLoose(source, excluded);
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-        for(i1 = 0; i1 < sourceSymbolKeys.length; i1++)key = sourceSymbolKeys[i1], excluded.indexOf(key) >= 0 || Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], excluded.indexOf(key) >= 0 || Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
     }
     return target;
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
     if (null == source) return {};
-    var key, i1, target = {}, sourceKeys = Object.keys(source);
-    for(i1 = 0; i1 < sourceKeys.length; i1++)key = sourceKeys[i1], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+    var key, i, target = {}, sourceKeys = Object.keys(source);
+    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
     return target;
 }
 function _toPropertyKey(arg) {

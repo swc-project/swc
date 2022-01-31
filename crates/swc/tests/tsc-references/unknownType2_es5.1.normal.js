@@ -122,13 +122,13 @@ function switchTestLiterals(x) {
             break;
     }
 }
-function switchTestObjects(x, y, z) {
+function switchTestObjects(x, y1, z) {
     switch(x){
         case true:
         case false:
             var bool = x;
             break;
-        case y:
+        case y1:
             var obj1 = x;
             break;
         case z:

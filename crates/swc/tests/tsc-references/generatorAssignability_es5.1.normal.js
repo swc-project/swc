@@ -271,23 +271,23 @@ function asyncfn() {
 }
 function _asyncfn() {
     _asyncfn = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        var _iteratorAbruptCompletion, _didIteratorError5, _iteratorError5, _iterator, _step, _value, _iteratorAbruptCompletion1, _didIteratorError2, _iteratorError2, _iterator2, _step2, _value1, _iteratorAbruptCompletion2, _didIteratorError3, _iteratorError3, _iterator3, _step3, _value2, _iteratorAbruptCompletion3, _didIteratorError4, _iteratorError4, _iterator4, _step4, _value3;
+        var _iteratorAbruptCompletion, _didIteratorError5, _iteratorError5, _iterator5, _step5, _value, _iteratorAbruptCompletion1, _didIteratorError2, _iteratorError2, _iterator2, _step2, _value1, _iteratorAbruptCompletion2, _didIteratorError3, _iteratorError3, _iterator3, _step3, _value2, _iteratorAbruptCompletion3, _didIteratorError4, _iteratorError4, _iterator4, _step4, _value3;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     _iteratorAbruptCompletion = false, _didIteratorError5 = false;
                     _ctx.prev = 1;
-                    _iterator = _asyncIterator(g1);
+                    _iterator5 = _asyncIterator(g1);
                 case 3:
                     _ctx.next = 5;
-                    return _iterator.next();
+                    return _iterator5.next();
                 case 5:
-                    if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
+                    if (!(_iteratorAbruptCompletion = !(_step5 = _ctx.sent).done)) {
                         _ctx.next = 10;
                         break;
                     }
                     {
-                        _value = _step.value;
+                        _value = _step5.value;
                         _ = _value;
                         ; // error
                     }
@@ -306,7 +306,7 @@ function _asyncfn() {
                 case 16:
                     _ctx.prev = 16;
                     _ctx.prev = 17;
-                    if (!(_iteratorAbruptCompletion && _iterator.return != null)) {
+                    if (!(_iteratorAbruptCompletion && _iterator5.return != null)) {
                         _ctx.next = 21;
                         break;
                     }
@@ -571,7 +571,7 @@ function f3() {
 }
 function _f3() {
     _f3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        var syncGenerator, o, _iteratorAbruptCompletion, _didIteratorError6, _iteratorError6, _iterator, _step, _value, x;
+        var syncGenerator, o, _iteratorAbruptCompletion, _didIteratorError6, _iteratorError6, _iterator6, _step6, _value, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx1) {
             while(1)switch(_ctx1.prev = _ctx1.next){
                 case 0:
@@ -593,17 +593,17 @@ function _f3() {
                     o = _defineProperty({}, Symbol.asyncIterator, syncGenerator);
                     _iteratorAbruptCompletion = false, _didIteratorError6 = false;
                     _ctx1.prev = 3;
-                    _iterator = _asyncIterator(o);
+                    _iterator6 = _asyncIterator(o);
                 case 5:
                     _ctx1.next = 7;
-                    return _iterator.next();
+                    return _iterator6.next();
                 case 7:
-                    if (!(_iteratorAbruptCompletion = !(_step = _ctx1.sent).done)) {
+                    if (!(_iteratorAbruptCompletion = !(_step6 = _ctx1.sent).done)) {
                         _ctx1.next = 12;
                         break;
                     }
                     {
-                        _value = _step.value;
+                        _value = _step6.value;
                         x = _value;
                     }
                 case 9:
@@ -621,7 +621,7 @@ function _f3() {
                 case 18:
                     _ctx1.prev = 18;
                     _ctx1.prev = 19;
-                    if (!(_iteratorAbruptCompletion && _iterator.return != null)) {
+                    if (!(_iteratorAbruptCompletion && _iterator6.return != null)) {
                         _ctx1.next = 23;
                         break;
                     }

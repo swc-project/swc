@@ -1,9 +1,9 @@
-function ExpandoMerge(n1) {
-    return n1;
+function ExpandoMerge(n) {
+    return n;
 }
 ExpandoMerge.p1 = 111;
-ExpandoMerge.m = function(n2) {
-    return n2 + 1;
+ExpandoMerge.m = function(n) {
+    return n + 1;
 };
 (function(ExpandoMerge1) {
     var p2 = ExpandoMerge1.p2 = 222;

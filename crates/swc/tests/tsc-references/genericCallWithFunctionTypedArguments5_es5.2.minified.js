@@ -1,5 +1,5 @@
-function foo(arg1) {
-    return arg1.cb(null);
+function foo(arg) {
+    return arg.cb(null);
 }
 var arg = {
     cb: function(x) {

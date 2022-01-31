@@ -18,10 +18,10 @@ function _toConsumableArray(arr) {
 function _unsupportedIterableToArray(o, minLen) {
     if (!o) return;
     if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n1 = Object.prototype.toString.call(o).slice(8, -1);
-    if (n1 === "Object" && o.constructor) n1 = o.constructor.name;
-    if (n1 === "Map" || n1 === "Set") return Array.from(n1);
-    if (n1 === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n1)) return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(n);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
 var n;
 fn(1) // no error

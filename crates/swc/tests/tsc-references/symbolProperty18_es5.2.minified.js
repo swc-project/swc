@@ -13,8 +13,8 @@ var _obj, _mutatorMap = {}, i = (_defineProperty(_obj = {}, Symbol.iterator, 0),
         var desc = descs[key];
         desc.configurable = desc.enumerable = !0, "value" in desc && (desc.writable = !0), Object.defineProperty(obj, key, desc);
     }
-    if (Object.getOwnPropertySymbols) for(var objectSymbols = Object.getOwnPropertySymbols(descs), i1 = 0; i1 < objectSymbols.length; i1++){
-        var sym = objectSymbols[i1], desc = descs[sym];
+    if (Object.getOwnPropertySymbols) for(var objectSymbols = Object.getOwnPropertySymbols(descs), i = 0; i < objectSymbols.length; i++){
+        var sym = objectSymbols[i], desc = descs[sym];
         desc.configurable = desc.enumerable = !0, "value" in desc && (desc.writable = !0), Object.defineProperty(obj, sym, desc);
     }
 }(_obj, _mutatorMap), _obj);

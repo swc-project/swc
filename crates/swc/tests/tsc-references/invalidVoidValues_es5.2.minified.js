@@ -9,6 +9,6 @@ var x, E, a, b, M, C = function() {
 };
 x = a, x = b, x = {
     f: function() {}
-}, (M || (M = {})).x = 1, x = M, x = function(a1) {
-    x = a1;
+}, (M || (M = {})).x = 1, x = M, x = function(a) {
+    x = a;
 };

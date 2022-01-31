@@ -5,11 +5,11 @@ function _classCallCheck(instance, Constructor) {
 }
 var enumdule;
 (function(enumdule1) {
-    var Point = function Point(x1, y1) {
+    var Point = function Point(x, y) {
         "use strict";
         _classCallCheck(this, Point);
-        this.x = x1;
-        this.y = y1;
+        this.x = x;
+        this.y = y;
     };
     enumdule1.Point = Point;
 })(enumdule || (enumdule = {}));

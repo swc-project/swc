@@ -9,11 +9,11 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function _getPrototypeOf(o1) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o1) {
-        return o1.__proto__ || Object.getPrototypeOf(o1);
+function _getPrototypeOf(o) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+        return o.__proto__ || Object.getPrototypeOf(o);
     };
-    return _getPrototypeOf(o1);
+    return _getPrototypeOf(o);
 }
 function _inherits(subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
@@ -34,12 +34,12 @@ function _possibleConstructorReturn(self, call) {
     }
     return _assertThisInitialized(self);
 }
-function _setPrototypeOf(o1, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o1, p) {
-        o1.__proto__ = p;
-        return o1;
+function _setPrototypeOf(o, p) {
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+        o.__proto__ = p;
+        return o;
     };
-    return _setPrototypeOf(o1, p);
+    return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj) {
     "@swc/helpers - typeof";

@@ -12,6 +12,6 @@ f = x;
 var g;
 g = x;
 var h = x;
-function i(a1) {
-    a1 = x;
+function i(a) {
+    a = x;
 }
