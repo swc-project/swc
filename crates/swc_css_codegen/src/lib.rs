@@ -596,14 +596,31 @@ where
     fn emit_namespace_rule(&mut self, n: &NamespaceRule) -> Result {
         punct!(self, "@");
         keyword!(self, "namespace");
-        space!(self);
 
-        if n.prefix.is_some() {
-            emit!(self, n.prefix);
+        let has_prefix = n.prefix.is_some();
+        let is_uri_url = match n.uri {
+            NamespaceUri::Url(_) => true,
+            NamespaceUri::Str(_) => false,
+        };
+
+        if has_prefix || is_uri_url {
             space!(self);
+        } else {
+            formatting_space!(self);
+        }
+
+        if has_prefix {
+            emit!(self, n.prefix);
+
+            if is_uri_url {
+                space!(self);
+            } else {
+                formatting_space!(self);
+            }
         }
 
         emit!(self, n.uri);
+        punct!(self, ";");
     }
 
     #[emitter]
