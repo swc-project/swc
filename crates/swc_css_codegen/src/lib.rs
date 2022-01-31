@@ -101,15 +101,12 @@ where
     fn emit_charset_rule(&mut self, n: &CharsetRule) -> Result {
         punct!(self, "@");
         keyword!(self, "charset");
-
         // https://drafts.csswg.org/css2/#charset%E2%91%A0
         // @charset must be written literally, i.e., the 10 characters '@charset "'
         // (lowercase, no backslash escapes), followed by the encoding name, followed by
         // ";.
         space!(self);
-
         emit!(self, n.charset);
-
         semi!(self);
     }
 
@@ -391,7 +388,7 @@ where
 
     #[emitter]
     fn emit_media_not(&mut self, n: &MediaNot) -> Result {
-        space!(self);
+        formatting_space!(self);
         keyword!(self, "not");
         space!(self);
         emit!(self, n.condition);
@@ -399,7 +396,7 @@ where
 
     #[emitter]
     fn emit_media_and(&mut self, n: &MediaAnd) -> Result {
-        space!(self);
+        formatting_space!(self);
         keyword!(self, "and");
         space!(self);
         emit!(self, n.condition);
@@ -407,7 +404,7 @@ where
 
     #[emitter]
     fn emit_media_or(&mut self, n: &MediaOr) -> Result {
-        space!(self);
+        formatting_space!(self);
         keyword!(self, "or");
         space!(self);
         emit!(self, n.condition);
