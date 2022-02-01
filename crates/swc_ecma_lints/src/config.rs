@@ -52,6 +52,7 @@ mod non_critical_lints {
 
 #[cfg(not(feature = "non_critical_lints"))]
 mod non_critical_lints {
+    #[derive(Debug, Clone, Default, Serialize, Deserialize)]
     pub struct LintConfig {}
 }
 

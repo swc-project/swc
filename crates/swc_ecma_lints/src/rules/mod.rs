@@ -26,13 +26,6 @@ pub struct LintParams<'a> {
 }
 
 pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
-    let LintParams {
-        program,
-        lint_config,
-        top_level_ctxt,
-        es_version,
-    } = lint_params;
-
     let mut rules = vec![
         const_assign::const_assign(),
         duplicate_bindings::duplicate_bindings(),
@@ -41,6 +34,13 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
     #[cfg(feature = "non_critical_lints")]
     {
+        let LintParams {
+            program,
+            lint_config,
+            top_level_ctxt,
+            es_version,
+        } = lint_params;
+
         rules.extend(no_console::no_console(
             &lint_config.no_console,
             top_level_ctxt,
