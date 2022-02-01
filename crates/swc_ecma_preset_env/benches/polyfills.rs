@@ -26,6 +26,7 @@ fn run(b: &mut Bencher, src: &str, config: Config) {
         let mut folder = preset_env(
             Mark::fresh(Mark::root()),
             Some(SingleThreadedComments::default()),
+            Default::default(),
             config,
         );
 

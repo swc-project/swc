@@ -176,6 +176,7 @@ fn es2015(b: &mut Bencher) {
             Mark::fresh(Mark::root()),
             Some(SingleThreadedComments::default()),
             Default::default(),
+            Default::default(),
         )
     });
 }
@@ -194,7 +195,9 @@ fn es2015_block_scoped_fn(b: &mut Bencher) {
 
 #[bench]
 fn es2015_block_scoping(b: &mut Bencher) {
-    run(b, swc_ecma_transforms_compat::es2015::block_scoping);
+    run(b, || {
+        swc_ecma_transforms_compat::es2015::block_scoping(Default::default())
+    });
 }
 
 #[bench]

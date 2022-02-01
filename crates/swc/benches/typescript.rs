@@ -80,7 +80,7 @@ fn base_tr_resolver_and_hygiene(b: &mut Bencher) {
             module
                 .clone()
                 .fold_with(&mut resolver())
-                .fold_with(&mut hygiene())
+                .fold_with(&mut hygiene(Default::default()))
         }))
     });
 }

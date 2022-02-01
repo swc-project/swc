@@ -53,13 +53,15 @@ fn fixer(b: &mut Bencher) {
 
 #[bench]
 fn hygiene(b: &mut Bencher) {
-    tr!(b, swc_ecma_transforms_base::hygiene::hygiene);
+    tr!(b, || swc_ecma_transforms_base::hygiene::hygiene(
+        Default::default()
+    ));
 }
 
 #[bench]
 fn resolver_with_hygiene(b: &mut Bencher) {
     tr!(b, || chain!(
         swc_ecma_transforms_base::resolver::resolver(),
-        swc_ecma_transforms_base::hygiene::hygiene()
+        swc_ecma_transforms_base::hygiene::hygiene(Default::default())
     ));
 }
