@@ -9,6 +9,7 @@ pub use self::{
 };
 use serde::Deserialize;
 use swc_common::{chain, comments::Comments, pass::Optional, Mark};
+use swc_ecma_transforms_base::ident_scope::IdentScopeRecord;
 use swc_ecma_visit::Fold;
 
 mod arrow;
@@ -42,7 +43,12 @@ fn exprs() -> impl Fold {
 }
 
 /// Compiles es2015 to es5.
-pub fn es2015<C>(global_mark: Mark, comments: Option<C>, c: Config) -> impl Fold
+pub fn es2015<C>(
+    global_mark: Mark,
+    comments: Option<C>,
+    ident_scope_record: IdentScopeRecord,
+    c: Config,
+) -> impl Fold
 where
     C: Comments,
 {
@@ -64,7 +70,7 @@ where
         computed_properties(c.computed_props),
         destructuring(c.destructuring),
         regenerator(c.regenerator, global_mark),
-        block_scoping(),
+        block_scoping(ident_scope_record),
     )
 }
 
@@ -108,6 +114,7 @@ mod tests {
         |t| es2015(
             Mark::fresh(Mark::root()),
             Some(t.comments.clone()),
+            Default::default(),
             Default::default()
         ),
         issue_169,
@@ -144,7 +151,8 @@ export var Foo = function() {
         |t| es2015(
             Mark::fresh(Mark::root()),
             Some(t.comments.clone()),
-            Default::default()
+            Default::default(),
+            Default::default(),
         ),
         issue_189,
         r#"
@@ -173,7 +181,8 @@ class HomePage extends React.Component {}
         |t| es2015(
             Mark::fresh(Mark::root()),
             Some(t.comments.clone()),
-            Default::default()
+            Default::default(),
+            Default::default(),
         ),
         issue_227,
         "export default function fn1(...args) {
@@ -244,7 +253,8 @@ function foo(scope) {
         |t| es2015(
             Mark::fresh(Mark::root()),
             Some(t.comments.clone()),
-            Default::default()
+            Default::default(),
+            Default::default(),
         ),
         issue_413,
         r#"
@@ -264,7 +274,8 @@ export var getBadgeBorderRadius = function(text, color) {
         |t| es2015(
             Mark::fresh(Mark::root()),
             Some(t.comments.clone()),
-            Default::default()
+            Default::default(),
+            Default::default(),
         ),
         issue_400_1,
         "class A {
@@ -330,7 +341,8 @@ var B = function(A) {
         |t| es2015(
             Mark::fresh(Mark::root()),
             Some(t.comments.clone()),
-            Default::default()
+            Default::default(),
+            Default::default(),
         ),
         issue_400_2,
         "class A {
@@ -363,7 +375,8 @@ return new B(20).print()"
         |t| es2015(
             Mark::fresh(Mark::root()),
             Some(t.comments.clone()),
-            Default::default()
+            Default::default(),
+            Default::default(),
         ),
         issue_1660_1,
         "

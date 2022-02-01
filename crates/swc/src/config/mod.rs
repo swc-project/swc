@@ -262,7 +262,7 @@ impl Options {
         is_module: IsModule,
         config: Option<Config>,
         comments: Option<&'a SwcComments>,
-        unblock_ident: IdentScopeRecord,
+        ident_scope_record: IdentScopeRecord,
         custom_before_pass: impl FnOnce(&Program) -> P,
     ) -> Result<BuiltInput<impl 'a + swc_ecma_visit::Fold>, Error>
     where
@@ -405,7 +405,7 @@ impl Options {
             loose,
             assumptions,
             top_level_mark,
-            unblock_ident.clone(),
+            ident_scope_record.clone(),
             pass,
         )
         .target(es_version)
@@ -429,7 +429,7 @@ impl Options {
         );
 
         let pass = chain!(
-            unscope_ident_collector(unblock_ident),
+            unscope_ident_collector(ident_scope_record),
             // Decorators may use type information
             Optional::new(
                 decorators(decorators::Config {

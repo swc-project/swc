@@ -134,8 +134,8 @@ pub fn rename(map: &AHashMap<Id, JsWord>) -> impl '_ + Fold + VisitMut {
 
 /// See [hygiene_with_config] for doc. Creates a `hygiene` pass with default
 /// value of [Config].
-pub fn hygiene(unblock_ident: IdentScopeRecord) -> impl Fold + VisitMut + 'static {
-    hygiene_with_config(Default::default(), unblock_ident)
+pub fn hygiene(ident_scope_record: IdentScopeRecord) -> impl Fold + VisitMut + 'static {
+    hygiene_with_config(Default::default(), ident_scope_record)
 }
 
 /// The pass actually modifies the identifiers in the way that different
@@ -166,13 +166,13 @@ pub fn hygiene(unblock_ident: IdentScopeRecord) -> impl Fold + VisitMut + 'stati
 ///  At third phase, we rename all identifiers in the queue.
 pub fn hygiene_with_config(
     config: Config,
-    unblock_ident: IdentScopeRecord,
+    ident_scope_record: IdentScopeRecord,
 ) -> impl 'static + Fold + VisitMut {
     as_folder(chain!(
         unique_scope(),
         Hygiene {
             config,
-            unblock_ident
+            ident_scope_record
         }
     ))
 }
@@ -180,7 +180,7 @@ pub fn hygiene_with_config(
 #[derive(Debug, Default)]
 struct Hygiene {
     config: Config,
-    unblock_ident: IdentScopeRecord,
+    ident_scope_record: IdentScopeRecord,
 }
 
 impl Hygiene {
@@ -199,7 +199,7 @@ impl Hygiene {
                     depth: 0,
                 },
                 is_pat_decl: false,
-                unblock_ident: self.unblock_ident.clone(),
+                ident_scope_record: self.ident_scope_record.clone(),
             };
 
             n.visit_with(&mut v);

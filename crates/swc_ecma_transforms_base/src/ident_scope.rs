@@ -1,14 +1,15 @@
 use std::{cell::RefCell, rc::Rc};
 
+use is_macro::Is;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, SyntaxContext};
+use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::{Pat, VarDecl, VarDeclKind};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[derive(Debug, Default, Clone, PartialEq, Eq, Hash)]
 pub struct IdentScope {
-    ctxt: SyntaxContext,
     sym: JsWord,
+    ctxt: SyntaxContext,
 }
 
 impl From<(JsWord, SyntaxContext)> for IdentScope {
@@ -17,14 +18,41 @@ impl From<(JsWord, SyntaxContext)> for IdentScope {
     }
 }
 
-pub type IdentScopeRecord = Rc<RefCell<AHashSet<IdentScope>>>;
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Is, Hash)]
+pub enum IdentScopeKind {
+    /// `var`
+    Var,
+    /// `let` or `const`
+    Block,
+    /// `var` but should be block scoped
+    BlockVar,
+    Unresolved,
+}
 
-pub fn unscope_ident_collector(unblock_ident: IdentScopeRecord) -> impl Fold {
-    as_folder(UnblockIdentCollector { unblock_ident })
+impl Default for IdentScopeKind {
+    fn default() -> Self {
+        IdentScopeKind::Unresolved
+    }
+}
+
+impl From<VarDeclKind> for IdentScopeKind {
+    fn from(value: VarDeclKind) -> Self {
+        if value == VarDeclKind::Var {
+            Self::Var
+        } else {
+            Self::Block
+        }
+    }
+}
+
+pub type IdentScopeRecord = Rc<RefCell<AHashMap<IdentScope, IdentScopeKind>>>;
+
+pub fn unscope_ident_collector(ident_scope_record: IdentScopeRecord) -> impl Fold {
+    as_folder(UnblockIdentCollector { ident_scope_record })
 }
 
 struct UnblockIdentCollector {
-    unblock_ident: IdentScopeRecord,
+    ident_scope_record: IdentScopeRecord,
 }
 
 impl VisitMut for UnblockIdentCollector {
@@ -33,21 +61,15 @@ impl VisitMut for UnblockIdentCollector {
     fn visit_mut_var_decl(&mut self, var: &mut VarDecl) {
         var.visit_mut_children_with(self);
 
-        if var.kind != VarDeclKind::Var {
-            for decl in var.decls.iter() {
-                if let Pat::Ident(name) = &decl.name {
-                    self.unblock_ident
-                        .borrow_mut()
-                        .remove(&(name.id.sym.clone(), name.id.span.ctxt()).into());
-                }
-            }
-        } else {
-            for decl in var.decls.iter() {
-                if let Pat::Ident(name) = &decl.name {
-                    self.unblock_ident
-                        .borrow_mut()
-                        .insert((name.id.sym.clone(), name.id.span.ctxt()).into());
-                }
+        for decl in var.decls.iter() {
+            if let Pat::Ident(name) = &decl.name {
+                self.ident_scope_record
+                    .borrow_mut()
+                    .entry(IdentScope {
+                        sym: name.id.sym.clone(),
+                        ctxt: name.id.span.ctxt(),
+                    })
+                    .or_insert_with(|| var.kind.into());
             }
         }
     }

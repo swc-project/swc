@@ -1,5 +1,8 @@
 use super::{ops::Operations, LOG};
-use crate::{ident_scope::IdentScopeRecord, scope::ScopeKind};
+use crate::{
+    ident_scope::{IdentScopeKind, IdentScopeRecord},
+    scope::ScopeKind,
+};
 use std::{cell::RefCell, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, SyntaxContext};
@@ -21,7 +24,7 @@ pub(super) struct Data {
 pub struct DeclInfo {
     ctxt: SyntaxContext,
     scope_depth: u16,
-    is_block_scoped: bool,
+    ident_scope_kind: IdentScopeKind,
 }
 
 #[derive(Debug, Default)]
@@ -95,7 +98,7 @@ impl CurScope<'_> {
 
     /// Called when we are exiting a scope.
     fn remove_decls_from_map(&self, map: &AHashMap<JsWord, Vec<SyntaxContext>>, kind: ScopeKind) {
-        let block_scope_kind = kind == ScopeKind::Block;
+        let is_block_scope = kind == ScopeKind::Block;
 
         for (sym, dropped_ctxts) in map {
             let mut b = self.data.decls.borrow_mut();
@@ -105,10 +108,10 @@ impl CurScope<'_> {
                 ctxts_of_decls.retain(
                     |&DeclInfo {
                          ctxt,
-                         is_block_scoped,
+                         ident_scope_kind: ident_kind,
                          ..
                      }| {
-                        block_scope_kind && is_block_scoped || !dropped_ctxts.contains(&ctxt)
+                        is_block_scope && !ident_kind.is_block() || !dropped_ctxts.contains(&ctxt)
                     },
                 );
             }
@@ -120,11 +123,11 @@ impl CurScope<'_> {
         }
     }
 
-    fn add_decl(&self, id: Id, is_block_scoped: bool) {
-        self.add_decl_inner(id, true, is_block_scoped)
+    fn add_decl(&self, id: Id, ident_scope_kind: IdentScopeKind) {
+        self.add_decl_inner(id, true, ident_scope_kind)
     }
 
-    fn add_decl_inner(&self, id: Id, direct: bool, is_block_scoped: bool) {
+    fn add_decl_inner(&self, id: Id, direct: bool, ident_scope_kind: IdentScopeKind) {
         if direct {
             let mut b = self.data.direct_decls.borrow_mut();
             let ctxts_of_decls = b.entry(id.0.clone()).or_default();
@@ -143,7 +146,7 @@ impl CurScope<'_> {
                 ctxts_of_decls.push(DeclInfo {
                     ctxt: id.1,
                     scope_depth: self.depth,
-                    is_block_scoped,
+                    ident_scope_kind,
                 });
             }
         }
@@ -154,7 +157,7 @@ impl CurScope<'_> {
 
         // TODO: Consider `var` / `let` / `const`.
         if let Some(v) = self.parent {
-            v.add_decl_inner(id, false, is_block_scoped);
+            v.add_decl_inner(id, false, ident_scope_kind);
         }
     }
 
@@ -170,9 +173,9 @@ impl CurScope<'_> {
             conflicts.extend(ctxts.iter().copied().filter(
                 |DeclInfo {
                      ctxt: cx,
-                     is_block_scoped,
+                     ident_scope_kind,
                      ..
-                 }| cx != &ctxt && *is_block_scoped,
+                 }| cx != &ctxt && !ident_scope_kind.is_var(),
             ));
         }
 
@@ -229,7 +232,7 @@ pub(super) struct UsageAnalyzer<'a> {
     pub cur: CurScope<'a>,
 
     pub is_pat_decl: bool,
-    pub unblock_ident: IdentScopeRecord,
+    pub ident_scope_record: IdentScopeRecord,
 }
 
 impl UsageAnalyzer<'_> {
@@ -295,7 +298,7 @@ impl UsageAnalyzer<'_> {
                 depth: self.cur.depth + 1,
             },
             is_pat_decl: self.is_pat_decl,
-            unblock_ident: self.unblock_ident.clone(),
+            ident_scope_record: self.ident_scope_record.clone(),
         };
 
         op(&mut child);
@@ -337,7 +340,7 @@ impl UsageAnalyzer<'_> {
         }
     }
 
-    fn add_decl(&mut self, id: Id, is_block_scoped: bool) {
+    fn add_decl(&mut self, id: Id, ident_scope_kind: IdentScopeKind) {
         if id.0 == js_word!("arguments") {
             return;
         }
@@ -358,36 +361,39 @@ impl UsageAnalyzer<'_> {
                     .filter(
                         |DeclInfo {
                              ctxt,
-                             is_block_scoped: b,
+                             ident_scope_kind: kind,
                              ..
-                         }| ctxt == &id.1 && (is_block_scoped || *b),
+                         }| {
+                            ctxt == &id.1 && (!ident_scope_kind.is_var() || !kind.is_var())
+                        },
                     )
                     .copied()
                     .collect();
 
                 let need_rename = if conflicts.is_empty() {
                     !ctxts_of_decls.is_empty()
-                        && (is_block_scoped || ctxts_of_decls.iter().any(|x| x.is_block_scoped))
+                        && (!ident_scope_kind.is_var()
+                            || ctxts_of_decls.iter().any(|x| !x.ident_scope_kind.is_var()))
                 } else {
                     ctxts_of_decls.len() > 1
                 };
 
                 if need_rename {
-                    if !conflicts.is_empty()
-                        && (!is_block_scoped || conflicts.iter().all(|x| x.is_block_scoped))
-                    {
-                        Some(conflicts)
-                    } else if is_block_scoped {
+                    if !ident_scope_kind.is_var() {
                         Some(vec![DeclInfo {
                             ctxt: id.1,
                             scope_depth: self.cur.scope_depth(&id),
-                            is_block_scoped,
+                            ident_scope_kind,
                         }])
+                    } else if !conflicts.is_empty()
+                        && (conflicts.iter().all(|x| !x.ident_scope_kind.is_var()))
+                    {
+                        Some(conflicts)
                     } else {
                         Some(
                             ctxts_of_decls
                                 .iter()
-                                .filter(|x| x.is_block_scoped)
+                                .filter(|x| !x.ident_scope_kind.is_var())
                                 .copied()
                                 .collect(),
                         )
@@ -410,11 +416,11 @@ impl UsageAnalyzer<'_> {
                 self.rename((id.0.clone(), ctxt));
             }
         } else {
-            self.cur.add_decl(id, is_block_scoped)
+            self.cur.add_decl(id, ident_scope_kind)
         }
     }
 
-    fn add_usage(&mut self, id: Id, is_block_scoped: bool) {
+    fn add_usage(&mut self, id: Id, ident_scope_kind: IdentScopeKind) {
         if id.0 == js_word!("arguments") {
             return;
         }
@@ -446,7 +452,7 @@ impl UsageAnalyzer<'_> {
                 all_candidates.push(DeclInfo {
                     ctxt: id.1,
                     scope_depth,
-                    is_block_scoped,
+                    ident_scope_kind,
                 });
                 all_candidates
                     .into_iter()
@@ -472,11 +478,12 @@ impl UsageAnalyzer<'_> {
         self.cur.add_usage(id);
     }
 
-    fn is_block_scoped(&self, ident: &Ident) -> bool {
-        !self
-            .unblock_ident
+    fn ident_scope_kind(&self, ident: &Ident) -> IdentScopeKind {
+        self.ident_scope_record
             .borrow()
-            .contains(&(ident.sym.clone(), ident.span.ctxt).into())
+            .get(&(ident.sym.clone(), ident.span.ctxt).into())
+            .copied()
+            .unwrap_or_default()
     }
 }
 
@@ -507,9 +514,9 @@ impl Visit for UsageAnalyzer<'_> {
 
         {
             if self.is_pat_decl {
-                self.add_decl(node.key.to_id(), self.is_block_scoped(&node.key));
+                self.add_decl(node.key.to_id(), self.ident_scope_kind(&node.key));
             } else {
-                self.add_usage(node.key.to_id(), self.is_block_scoped(&node.key));
+                self.add_usage(node.key.to_id(), self.ident_scope_kind(&node.key));
             }
         }
     }
@@ -531,14 +538,14 @@ impl Visit for UsageAnalyzer<'_> {
     }
 
     fn visit_class_decl(&mut self, c: &ClassDecl) {
-        self.add_decl(c.ident.to_id(), self.is_block_scoped(&c.ident));
+        self.add_decl(c.ident.to_id(), self.ident_scope_kind(&c.ident));
         c.visit_children_with(self);
     }
 
     fn visit_class_expr(&mut self, c: &ClassExpr) {
         self.visit_with_scope(c.class.span.ctxt, ScopeKind::Fn, |v| {
             if let Some(i) = &c.ident {
-                v.add_decl(i.to_id(), v.is_block_scoped(i));
+                v.add_decl(i.to_id(), v.ident_scope_kind(i));
             }
 
             c.visit_children_with(v);
@@ -572,12 +579,12 @@ impl Visit for UsageAnalyzer<'_> {
     }
 
     fn visit_export_default_specifier(&mut self, n: &ExportDefaultSpecifier) {
-        self.add_usage(n.exported.to_id(), self.is_block_scoped(&n.exported));
+        self.add_usage(n.exported.to_id(), self.ident_scope_kind(&n.exported));
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
         if let ModuleExportName::Ident(orig) = &n.orig {
-            self.add_usage(orig.to_id(), self.is_block_scoped(orig));
+            self.add_usage(orig.to_id(), self.ident_scope_kind(orig));
         }
     }
 
@@ -585,14 +592,14 @@ impl Visit for UsageAnalyzer<'_> {
         e.visit_children_with(self);
 
         if let Expr::Ident(i) = e {
-            self.add_usage(i.to_id(), self.is_block_scoped(i));
+            self.add_usage(i.to_id(), self.ident_scope_kind(i));
         }
     }
 
     fn visit_fn_decl(&mut self, f: &FnDecl) {
         f.function.decorators.visit_with(self);
 
-        self.add_decl(f.ident.to_id(), self.is_block_scoped(&f.ident));
+        self.add_decl(f.ident.to_id(), self.ident_scope_kind(&f.ident));
 
         self.visit_with_scope(f.function.span.ctxt, ScopeKind::Fn, |v| {
             v.is_pat_decl = true;
@@ -613,7 +620,7 @@ impl Visit for UsageAnalyzer<'_> {
             f.function.params.visit_with(v);
 
             if let Some(i) = &f.ident {
-                v.add_decl(i.to_id(), v.is_block_scoped(i));
+                v.add_decl(i.to_id(), v.ident_scope_kind(i));
             }
 
             v.is_pat_decl = false;
@@ -624,15 +631,15 @@ impl Visit for UsageAnalyzer<'_> {
     }
 
     fn visit_import_default_specifier(&mut self, s: &ImportDefaultSpecifier) {
-        self.add_decl(s.local.to_id(), self.is_block_scoped(&s.local));
+        self.add_decl(s.local.to_id(), self.ident_scope_kind(&s.local));
     }
 
     fn visit_import_named_specifier(&mut self, s: &ImportNamedSpecifier) {
-        self.add_decl(s.local.to_id(), self.is_block_scoped(&s.local));
+        self.add_decl(s.local.to_id(), self.ident_scope_kind(&s.local));
     }
 
     fn visit_import_star_as_specifier(&mut self, s: &ImportStarAsSpecifier) {
-        self.add_decl(s.local.to_id(), self.is_block_scoped(&s.local));
+        self.add_decl(s.local.to_id(), self.ident_scope_kind(&s.local));
     }
 
     fn visit_method_prop(&mut self, f: &MethodProp) {
@@ -681,9 +688,9 @@ impl Visit for UsageAnalyzer<'_> {
 
         if let Pat::Ident(i) = p {
             if self.is_pat_decl {
-                self.add_decl(i.id.to_id(), self.is_block_scoped(&i.id));
+                self.add_decl(i.id.to_id(), self.ident_scope_kind(&i.id));
             } else {
-                self.add_usage(i.id.to_id(), self.is_block_scoped(&i.id));
+                self.add_usage(i.id.to_id(), self.ident_scope_kind(&i.id));
             }
         }
     }
@@ -692,7 +699,7 @@ impl Visit for UsageAnalyzer<'_> {
         p.visit_children_with(self);
 
         if let Prop::Shorthand(i) = p {
-            self.add_usage(i.to_id(), self.is_block_scoped(i));
+            self.add_usage(i.to_id(), self.ident_scope_kind(i));
         }
     }
 
@@ -749,7 +756,7 @@ impl Visit for Hoister<'_, '_> {
             }
 
             self.inner
-                .add_decl(node.key.to_id(), self.inner.is_block_scoped(&node.key));
+                .add_decl(node.key.to_id(), self.inner.ident_scope_kind(&node.key));
         }
     }
 
@@ -770,7 +777,7 @@ impl Visit for Hoister<'_, '_> {
         }
 
         self.inner
-            .add_decl(c.ident.to_id(), self.inner.is_block_scoped(&c.ident));
+            .add_decl(c.ident.to_id(), self.inner.ident_scope_kind(&c.ident));
     }
 
     fn visit_constructor(&mut self, c: &Constructor) {
@@ -783,7 +790,7 @@ impl Visit for Hoister<'_, '_> {
         }
 
         self.inner
-            .add_decl(f.ident.to_id(), self.inner.is_block_scoped(&f.ident));
+            .add_decl(f.ident.to_id(), self.inner.ident_scope_kind(&f.ident));
     }
 
     fn visit_function(&mut self, _: &Function) {}
@@ -806,7 +813,7 @@ impl Visit for Hoister<'_, '_> {
             }
 
             self.inner
-                .add_decl(i.id.to_id(), self.inner.is_block_scoped(&i.id));
+                .add_decl(i.id.to_id(), self.inner.ident_scope_kind(&i.id));
         }
     }
 

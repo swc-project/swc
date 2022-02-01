@@ -314,9 +314,9 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         props1[STATIC_PROPS_ID] = true;
     }
     if (isSSG && !isFallback) {
-        let data1;
+        let data;
         try {
-            data1 = await getStaticProps({
+            data = await getStaticProps({
                 ...pageIsDynamic ? {
                     params: query
                 } : undefined,
@@ -336,75 +336,75 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
             }
             throw staticPropsError;
         }
-        if (data1 == null) {
+        if (data == null) {
             throw new Error(GSP_NO_RETURNED_VALUE);
         }
-        const invalidKeys1 = Object.keys(data1).filter((key)=>key !== "revalidate" && key !== "props" && key !== "redirect" && key !== "notFound"
+        const invalidKeys = Object.keys(data).filter((key)=>key !== "revalidate" && key !== "props" && key !== "redirect" && key !== "notFound"
         );
-        if (invalidKeys1.includes("unstable_revalidate")) {
+        if (invalidKeys.includes("unstable_revalidate")) {
             throw new Error(UNSTABLE_REVALIDATE_RENAME_ERROR);
         }
-        if (invalidKeys1.length) {
-            throw new Error(invalidKeysMsg("getStaticProps", invalidKeys1));
+        if (invalidKeys.length) {
+            throw new Error(invalidKeysMsg("getStaticProps", invalidKeys));
         }
         if (process.env.NODE_ENV !== "production") {
-            if (typeof data1.notFound !== "undefined" && typeof data1.redirect !== "undefined") {
+            if (typeof data.notFound !== "undefined" && typeof data.redirect !== "undefined") {
                 throw new Error(`\`redirect\` and \`notFound\` can not both be returned from ${isSSG ? "getStaticProps" : "getServerSideProps"} at the same time. Page: ${pathname}\nSee more info here: https://nextjs.org/docs/messages/gssp-mixed-not-found-redirect`);
             }
         }
-        if ("notFound" in data1 && data1.notFound) {
+        if ("notFound" in data && data.notFound) {
             if (pathname === "/404") {
                 throw new Error(`The /404 page can not return notFound in "getStaticProps", please remove it to continue!`);
             }
             renderOpts.isNotFound = true;
         }
-        if ("redirect" in data1 && data1.redirect && typeof data1.redirect === "object") {
-            checkRedirectValues(data1.redirect, req, "getStaticProps");
+        if ("redirect" in data && data.redirect && typeof data.redirect === "object") {
+            checkRedirectValues(data.redirect, req, "getStaticProps");
             if (isBuildTimeSSG) {
                 throw new Error(`\`redirect\` can not be returned from getStaticProps during prerendering (${req.url})\n` + `See more info here: https://nextjs.org/docs/messages/gsp-redirect-during-prerender`);
             }
-            data1.props = {
-                __N_REDIRECT: data1.redirect.destination,
-                __N_REDIRECT_STATUS: getRedirectStatus(data1.redirect)
+            data.props = {
+                __N_REDIRECT: data.redirect.destination,
+                __N_REDIRECT_STATUS: getRedirectStatus(data.redirect)
             };
-            if (typeof data1.redirect.basePath !== "undefined") {
-                data1.props.__N_REDIRECT_BASE_PATH = data1.redirect.basePath;
+            if (typeof data.redirect.basePath !== "undefined") {
+                data.props.__N_REDIRECT_BASE_PATH = data.redirect.basePath;
             }
             renderOpts.isRedirect = true;
         }
-        if ((dev || isBuildTimeSSG) && !renderOpts.isNotFound && !isSerializableProps(pathname, "getStaticProps", data1.props)) {
+        if ((dev || isBuildTimeSSG) && !renderOpts.isNotFound && !isSerializableProps(pathname, "getStaticProps", data.props)) {
             // this fn should throw an error instead of ever returning `false`
             throw new Error("invariant: getStaticProps did not return valid props. Please report this.");
         }
-        if ("revalidate" in data1) {
-            if (typeof data1.revalidate === "number") {
-                if (!Number.isInteger(data1.revalidate)) {
-                    throw new Error(`A page's revalidate option must be seconds expressed as a natural number for ${req.url}. Mixed numbers, such as '${data1.revalidate}', cannot be used.` + `\nTry changing the value to '${Math.ceil(data1.revalidate)}' or using \`Math.ceil()\` if you're computing the value.`);
-                } else if (data1.revalidate <= 0) {
+        if ("revalidate" in data) {
+            if (typeof data.revalidate === "number") {
+                if (!Number.isInteger(data.revalidate)) {
+                    throw new Error(`A page's revalidate option must be seconds expressed as a natural number for ${req.url}. Mixed numbers, such as '${data.revalidate}', cannot be used.` + `\nTry changing the value to '${Math.ceil(data.revalidate)}' or using \`Math.ceil()\` if you're computing the value.`);
+                } else if (data.revalidate <= 0) {
                     throw new Error(`A page's revalidate option can not be less than or equal to zero for ${req.url}. A revalidate option of zero means to revalidate after _every_ request, and implies stale data cannot be tolerated.` + `\n\nTo never revalidate, you can set revalidate to \`false\` (only ran once at build-time).` + `\nTo revalidate as soon as possible, you can set the value to \`1\`.`);
-                } else if (data1.revalidate > 31536000) {
+                } else if (data.revalidate > 31536000) {
                     // if it's greater than a year for some reason error
                     console.warn(`Warning: A page's revalidate option was set to more than a year for ${req.url}. This may have been done in error.` + `\nTo only run getStaticProps at build-time and not revalidate at runtime, you can set \`revalidate\` to \`false\`!`);
                 }
-            } else if (data1.revalidate === true) {
+            } else if (data.revalidate === true) {
                 // When enabled, revalidate after 1 second. This value is optimal for
                 // the most up-to-date page possible, but without a 1-to-1
                 // request-refresh ratio.
-                data1.revalidate = 1;
-            } else if (data1.revalidate === false || typeof data1.revalidate === "undefined") {
+                data.revalidate = 1;
+            } else if (data.revalidate === false || typeof data.revalidate === "undefined") {
                 // By default, we never revalidate.
-                data1.revalidate = false;
+                data.revalidate = false;
             } else {
-                throw new Error(`A page's revalidate option must be seconds expressed as a natural number. Mixed numbers and strings cannot be used. Received '${JSON.stringify(data1.revalidate)}' for ${req.url}`);
+                throw new Error(`A page's revalidate option must be seconds expressed as a natural number. Mixed numbers and strings cannot be used. Received '${JSON.stringify(data.revalidate)}' for ${req.url}`);
             }
         } else {
             // By default, we never revalidate.
-            (data1).revalidate = false;
+            (data).revalidate = false;
         }
-        props1.pageProps = Object.assign({}, props1.pageProps, "props" in data1 ? data1.props : undefined);
+        props1.pageProps = Object.assign({}, props1.pageProps, "props" in data ? data.props : undefined);
         // pass up revalidate and props for export
         // TODO: change this to a different passing mechanism
-        (renderOpts).revalidate = "revalidate" in data1 ? data1.revalidate : undefined;
+        (renderOpts).revalidate = "revalidate" in data ? data.revalidate : undefined;
         renderOpts.pageData = props1;
         // this must come after revalidate is added to renderOpts
         if (renderOpts.isNotFound) {

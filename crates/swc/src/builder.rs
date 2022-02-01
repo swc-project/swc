@@ -33,7 +33,7 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     loose: bool,
     assumptions: Assumptions,
     hygiene: Option<hygiene::Config>,
-    unblock_ident: IdentScopeRecord,
+    ident_scope_record: IdentScopeRecord,
     fixer: bool,
     inject_helpers: bool,
     minify: Option<JsMinifyOptions>,
@@ -47,7 +47,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         loose: bool,
         assumptions: Assumptions,
         top_level_mark: Mark,
-        unblock_ident: IdentScopeRecord,
+        ident_scope_record: IdentScopeRecord,
         pass: P,
     ) -> Self {
         PassBuilder {
@@ -56,7 +56,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             env: None,
             pass,
             top_level_mark,
-            unblock_ident,
+            ident_scope_record,
             target: EsVersion::Es5,
             loose,
             assumptions,
@@ -79,7 +79,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             env: self.env,
             pass,
             top_level_mark: self.top_level_mark,
-            unblock_ident: self.unblock_ident,
+            ident_scope_record: self.ident_scope_record,
             target: self.target,
             loose: self.loose,
             assumptions: self.assumptions,
@@ -182,6 +182,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             Either::Left(swc_ecma_preset_env::preset_env(
                 self.top_level_mark,
                 comments,
+                self.ident_scope_record.clone(),
                 env,
             ))
         } else {
@@ -231,6 +232,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                     compat::es2015(
                         self.top_level_mark,
                         comments,
+                        self.ident_scope_record.clone(),
                         compat::es2015::Config {
                             computed_props: compat::es2015::computed_props::Config {
                                 loose: self.loose
@@ -297,7 +299,10 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 top_level_mark: self.top_level_mark,
             }),
             Optional::new(
-                hygiene_with_config(self.hygiene.clone().unwrap_or_default(), self.unblock_ident),
+                hygiene_with_config(
+                    self.hygiene.clone().unwrap_or_default(),
+                    self.ident_scope_record
+                ),
                 self.hygiene.is_some() && !is_mangler_enabled
             ),
             Optional::new(fixer(comments.map(|v| v as &dyn Comments)), self.fixer),

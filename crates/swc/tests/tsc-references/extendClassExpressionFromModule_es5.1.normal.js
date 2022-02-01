@@ -77,9 +77,9 @@ module.exports = x;
 // @Filename: foo2.ts
 var foo1 = require('./foo1');
 var x = foo1;
-var y = /*#__PURE__*/ function(x) {
+var y = /*#__PURE__*/ function(x1) {
     "use strict";
-    _inherits(y, x);
+    _inherits(y, x1);
     var _super = _createSuper(y);
     function y() {
         _classCallCheck(this, y);

@@ -3070,6 +3070,7 @@ dependencies = [
 name = "swc_ecma_transforms_base"
 version = "0.57.1"
 dependencies = [
+ "is-macro",
  "once_cell",
  "phf",
  "rayon",

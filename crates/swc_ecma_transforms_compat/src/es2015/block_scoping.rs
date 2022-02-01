@@ -3,7 +3,10 @@ use std::mem::take;
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_base::{
+    helper,
+    ident_scope::{IdentScopeKind, IdentScopeRecord},
+};
 use swc_ecma_utils::{
     contains_arguments, contains_this_expr, find_ids, ident::IdentLike, prepend, private_ident,
     quote_ident, quote_str, undefined, var::VarCollector, ExprFactory, Id, StmtLike,
@@ -26,12 +29,13 @@ use swc_ecma_visit::{
 ///    });
 /// }
 /// ```
-pub fn block_scoping() -> impl Fold {
+pub fn block_scoping(ident_scope_record: IdentScopeRecord) -> impl Fold {
     as_folder(BlockScoping {
         scope: Default::default(),
         vars: vec![],
         var_decl_kind: VarDeclKind::Var,
         in_loop_body_scope: false,
+        ident_scope_record,
     })
 }
 
@@ -57,6 +61,7 @@ struct BlockScoping {
     vars: Vec<VarDeclarator>,
     var_decl_kind: VarDeclKind,
     in_loop_body_scope: bool,
+    ident_scope_record: IdentScopeRecord,
 }
 
 impl BlockScoping {
@@ -535,7 +540,18 @@ impl VisitMut for BlockScoping {
 
         self.var_decl_kind = old;
 
-        var.kind = VarDeclKind::Var;
+        if var.kind != VarDeclKind::Var {
+            var.kind = VarDeclKind::Var;
+
+            var.decls.iter().for_each(|decl| {
+                if let Pat::Ident(binding) = &decl.name {
+                    self.ident_scope_record.borrow_mut().insert(
+                        (binding.id.sym.clone(), binding.id.span.ctxt()).into(),
+                        IdentScopeKind::BlockVar,
+                    );
+                }
+            });
+        }
 
         if !self.in_loop_body_scope {
             return;

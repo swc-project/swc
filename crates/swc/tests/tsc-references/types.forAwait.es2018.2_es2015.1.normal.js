@@ -136,7 +136,7 @@ function _f() {
                 }
             }
         }
-        for (const x1 of asyncIterable){}
+        for (const x of asyncIterable){}
         for (y of asyncIterable){}
     });
     return _f.apply(this, arguments);

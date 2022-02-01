@@ -19,6 +19,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat::{bugfixes, es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es3},
+    ident_scope::IdentScopeRecord,
     pass::{noop, Optional},
 };
 use swc_ecma_utils::prepend_stmts;
@@ -32,7 +33,12 @@ mod regenerator;
 mod transform_data;
 mod version;
 
-pub fn preset_env<C>(global_mark: Mark, comments: Option<C>, c: Config) -> impl Fold
+pub fn preset_env<C>(
+    global_mark: Mark,
+    comments: Option<C>,
+    ident_scope_record: IdentScopeRecord,
+    c: Config,
+) -> impl Fold
 where
     C: Comments,
 {
@@ -206,7 +212,12 @@ where
         es2015::regenerator(Default::default(), global_mark),
         true
     );
-    let pass = add!(pass, BlockScoping, es2015::block_scoping(), true);
+    let pass = add!(
+        pass,
+        BlockScoping,
+        es2015::block_scoping(ident_scope_record),
+        true
+    );
 
     let pass = add!(pass, NewTarget, es2015::new_target(), true);
 

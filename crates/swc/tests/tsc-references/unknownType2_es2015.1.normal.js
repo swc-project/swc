@@ -121,13 +121,13 @@ function switchTestLiterals(x) {
             break;
     }
 }
-function switchTestObjects(x, y1, z) {
+function switchTestObjects(x, y, z) {
     switch(x){
         case true:
         case false:
             const bool = x;
             break;
-        case y1:
+        case y:
             const obj1 = x;
             break;
         case z:
