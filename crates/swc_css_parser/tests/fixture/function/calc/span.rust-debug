@@ -226,7 +226,7 @@ error: Declaration
  --> $DIR/tests/fixture/function/calc/input.css:6:5
   |
 6 |     --width: calc(10% + 30px);
-  |     ^^^^^^^^^
+  |     ^^^^^^^^^^^^^^
 
 error: DeclarationName
  --> $DIR/tests/fixture/function/calc/input.css:6:5
@@ -241,22 +241,16 @@ error: DashedIdent
   |     ^^^^^^^
 
 error: Value
- --> $DIR/tests/fixture/function/calc/input.css:6:13
+ --> $DIR/tests/fixture/function/calc/input.css:6:14
   |
 6 |     --width: calc(10% + 30px);
-  |             ^^^^^^^^^^^^^^^^^
+  |              ^^^^^^^^^^^^^^^^
 
 error: Tokens
- --> $DIR/tests/fixture/function/calc/input.css:6:13
+ --> $DIR/tests/fixture/function/calc/input.css:6:14
   |
 6 |     --width: calc(10% + 30px);
-  |             ^^^^^^^^^^^^^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/function/calc/input.css:6:13
-  |
-6 |     --width: calc(10% + 30px);
-  |             ^
+  |              ^^^^^^^^^^^^^^^^
 
 error: Function { value: Atom('calc' type=inline), raw: Atom('calc' type=inline) }
  --> $DIR/tests/fixture/function/calc/input.css:6:14

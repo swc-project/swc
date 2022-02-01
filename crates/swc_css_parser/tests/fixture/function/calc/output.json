@@ -231,7 +231,7 @@
             "type": "Declaration",
             "span": {
               "start": 54,
-              "end": 63,
+              "end": 68,
               "ctxt": 0
             },
             "name": {
@@ -248,23 +248,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 62,
+                  "start": 63,
                   "end": 79,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 62,
-                      "end": 63,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 63,

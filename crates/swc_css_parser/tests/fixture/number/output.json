@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 676,
+    "end": 714,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 0,
-        "end": 675,
+        "end": 713,
         "ctxt": 0
       },
       "prelude": {
@@ -66,7 +66,7 @@
         "type": "Block",
         "span": {
           "start": 4,
-          "end": 675,
+          "end": 713,
           "ctxt": 0
         },
         "value": [
@@ -1138,6 +1138,88 @@
                   "value": "e",
                   "raw": "e"
                 }
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 678,
+              "end": 691,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 678,
+                "end": 686,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 688,
+                  "end": 689,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              },
+              {
+                "type": "Number",
+                "span": {
+                  "start": 689,
+                  "end": 691,
+                  "ctxt": 0
+                },
+                "value": 2.0,
+                "raw": "+2"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 697,
+              "end": 710,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 697,
+                "end": 705,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 707,
+                  "end": 708,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              },
+              {
+                "type": "Number",
+                "span": {
+                  "start": 708,
+                  "end": 710,
+                  "ctxt": 0
+                },
+                "value": -2.0,
+                "raw": "-2"
               }
             ],
             "important": null
