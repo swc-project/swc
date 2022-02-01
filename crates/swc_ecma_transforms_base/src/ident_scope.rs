@@ -47,7 +47,7 @@ impl From<VarDeclKind> for IdentScopeKind {
 
 pub type IdentScopeRecord = Rc<RefCell<AHashMap<IdentScope, IdentScopeKind>>>;
 
-pub fn unscope_ident_collector(ident_scope_record: IdentScopeRecord) -> impl Fold {
+pub fn ident_scope_collector(ident_scope_record: IdentScopeRecord) -> impl Fold {
     as_folder(UnblockIdentCollector { ident_scope_record })
 }
 

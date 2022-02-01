@@ -45,7 +45,7 @@ pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{
     hygiene,
-    ident_scope::{unscope_ident_collector, IdentScopeRecord},
+    ident_scope::{ident_scope_collector, IdentScopeRecord},
     modules,
     modules::{
         hoist::import_hoister, path::NodeImportResolver, rewriter::import_rewriter, util::Scope,
@@ -429,7 +429,7 @@ impl Options {
         );
 
         let pass = chain!(
-            unscope_ident_collector(ident_scope_record),
+            ident_scope_collector(ident_scope_record),
             // Decorators may use type information
             Optional::new(
                 decorators(decorators::Config {
