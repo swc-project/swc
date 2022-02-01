@@ -23,6 +23,9 @@
 - **(es/modules)** Allow using dynamic import with a name from another import (#3390) ([1dcc188](https://github.com/swc-project/swc/commit/1dcc188dd8230954e2801f7c6e3034b0c0215bc4))
 
 
+- **(es/modules)** Fix span of imports (#3418) ([2c99ca1](https://github.com/swc-project/swc/commit/2c99ca1bab353668f5c475ab6cb223186701927a))
+
+
 - **(swc)** Run `resolver` before everything (#3400) ([cebc5dc](https://github.com/swc-project/swc/commit/cebc5dc148fa4c03a536a841a106955de18b010b))
 
 ### Features
