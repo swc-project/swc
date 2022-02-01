@@ -2774,7 +2774,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.60.0"
+version = "0.60.1"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2813,7 +2813,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.62.1"
+version = "0.62.2"
 dependencies = [
  "bitflags",
  "lexical",
