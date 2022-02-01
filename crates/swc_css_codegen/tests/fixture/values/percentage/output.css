@@ -9,3 +9,15 @@ div {margin: 100% 20px 100% 40em}
 div {background: rgba(0, 0, 0, 0) image-set(url("image.png") 1x) repeat scroll 0% 0%}
 div {width: 100.00%;
 width: 100.01%}
+div {width: 0%;
+width: 0.1%;
+width: 100%;
+width: 100.5%;
+width: 100.1000%;
+width: 1e0%;
+width: 1e1%;
+width: 1e2%;
+width: 10e-1%;
+width: 10e-5%;
+width: 10e+2%;
+width: 12e+2%}
