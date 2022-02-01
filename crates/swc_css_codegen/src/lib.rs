@@ -764,7 +764,11 @@ where
 
     #[emitter]
     fn emit_str(&mut self, n: &Str) -> Result {
-        self.wr.write_raw(Some(n.span), &n.raw)?;
+        if self.config.minify {
+            self.wr.write_str(Some(n.span), &n.value)?;
+        } else {
+            self.wr.write_raw(Some(n.span), &n.raw)?;
+        }
     }
 
     #[emitter]
