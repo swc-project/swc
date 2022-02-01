@@ -68,13 +68,14 @@ where
     }
 
     fn write_str(&mut self, span: Option<Span>, text: &str) -> Result {
-        self.write_raw_char(None, '"')?;
+        let mut new_string = String::new();
 
-        for (_, char) in text.chars().enumerate() {
+        // TODO improve output for `'"string" is string'`
+        for char in text.chars() {
             match char {
                 // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER (U+FFFD).
                 '\0' => {
-                    self.write_raw_char(span, '\u{FFFD}')?;
+                    new_string.push('\u{FFFD}');
                 }
                 // If the character is in the range [\1-\1f] (U+0001 to U+001F) or is U+007F, the
                 // character escaped as code point.
@@ -83,8 +84,8 @@ where
 
                     let b3;
                     let b4;
-
                     let char_as_u8 = char as u8;
+
                     let bytes = if char_as_u8 > 0x0F {
                         let high = (char_as_u8 >> 4) as usize;
                         let low = (char_as_u8 & 0x0F) as usize;
@@ -98,31 +99,32 @@ where
                         &b3[..]
                     };
 
-                    self.write_raw(None, unsafe { std::str::from_utf8_unchecked(&bytes) })?;
+                    new_string.push_str(unsafe { std::str::from_utf8_unchecked(&bytes) });
                 }
                 // If the character is '"' (U+0022) or "\" (U+005C), the escaped character.
                 '"' => {
-                    self.write_raw(None, "\\\"")?;
+                    new_string.push_str("\\\"");
                 }
                 '\\' => {
-                    self.write_raw(None, "\\\\")?;
+                    new_string.push_str("\\\\");
                 }
                 // Otherwise, the character itself.
                 _ => {
-                    self.write_raw_char(span, char)?;
+                    new_string.push(char);
                 }
             };
         }
 
-        self.write_raw_char(None, '"')?;
+        self.write_raw_char(span, '"')?;
+        self.write_raw(span, &new_string)?;
+        self.write_raw_char(span, '"')?;
 
         Ok(())
     }
 
-    fn write_raw(&mut self, _span: Option<Span>, text: &str) -> Result {
-        for (_, s) in text.chars().enumerate() {
-            self.col += 1;
-            self.w.write_char(s)?;
+    fn write_raw(&mut self, span: Option<Span>, text: &str) -> Result {
+        for char in text.chars() {
+            self.write_raw_char(span,char)?;
         }
 
         Ok(())
