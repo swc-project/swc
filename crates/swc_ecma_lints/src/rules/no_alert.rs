@@ -38,6 +38,9 @@ struct NoAlert {
     top_level_ctxt: SyntaxContext,
     top_level_declared_vars: AHashSet<Id>,
     pass_call_on_global_this: bool,
+    inside_callee: bool,
+    obj: Option<JsWord>,
+    prop: Option<JsWord>,
 }
 
 impl NoAlert {
@@ -52,6 +55,9 @@ impl NoAlert {
             top_level_ctxt,
             top_level_declared_vars,
             pass_call_on_global_this: es_version < EsVersion::Es2020,
+            inside_callee: false,
+            obj: None,
+            prop: None,
         }
     }
 
@@ -88,40 +94,7 @@ impl NoAlert {
             self.emit_report(call_span, fn_name);
         }
     }
-}
 
-impl Visit for NoAlert {
-    noop_visit_type!();
-
-    fn visit_call_expr(&mut self, call_expr: &CallExpr) {
-        let mut call_collector = CallCollector {
-            top_level_ctxt: self.top_level_ctxt,
-            top_level_declared_vars: &self.top_level_declared_vars,
-            obj: None,
-            prop: None,
-        };
-
-        if let Some(callee) = call_expr.callee.as_expr() {
-            callee.visit_with(&mut call_collector);
-        }
-
-        if let Some(prop) = &call_collector.prop {
-            self.check(call_expr.span, &call_collector.obj, prop);
-        }
-
-        // keep dive into call expr
-        call_expr.visit_children_with(self);
-    }
-}
-
-struct CallCollector<'a> {
-    top_level_ctxt: SyntaxContext,
-    top_level_declared_vars: &'a AHashSet<Id>,
-    obj: Option<JsWord>,
-    prop: Option<JsWord>,
-}
-
-impl CallCollector<'_> {
     fn is_satisfying_indent(&self, ident: &Ident) -> bool {
         if ident.span.ctxt != self.top_level_ctxt {
             return false;
@@ -133,10 +106,8 @@ impl CallCollector<'_> {
 
         true
     }
-}
 
-impl Visit for CallCollector<'_> {
-    fn visit_expr(&mut self, expr: &Expr) {
+    fn handle_callee(&mut self, expr: &Expr) {
         match expr {
             Expr::Ident(ident) => {
                 if self.is_satisfying_indent(ident) {
@@ -175,6 +146,39 @@ impl Visit for CallCollector<'_> {
                 paren.visit_children_with(self);
             }
             _ => {}
+        }
+    }
+
+    fn handle_call(&mut self, call_expr: &CallExpr) {
+        if let Some(callee) = call_expr.callee.as_expr() {
+            self.inside_callee = true;
+
+            callee.visit_with(self);
+
+            self.inside_callee = false;
+        }
+
+        if let Some(prop) = &self.prop {
+            self.check(call_expr.span, &self.obj, prop);
+
+            self.obj = None;
+            self.prop = None;
+        }
+    }
+}
+
+impl Visit for NoAlert {
+    noop_visit_type!();
+
+    fn visit_expr(&mut self, expr: &Expr) {
+        if self.inside_callee {
+            self.handle_callee(expr);
+        } else {
+            if let Expr::Call(call_expr) = expr {
+                self.handle_call(call_expr);
+            }
+
+            expr.visit_children_with(self);
         }
     }
 }
