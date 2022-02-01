@@ -2611,7 +2611,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.119.9"
+version = "0.119.10"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2774,7 +2774,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.60.0"
+version = "0.60.1"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2813,7 +2813,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.62.1"
+version = "0.62.2"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3041,7 +3041,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.114.3"
+version = "0.114.4"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3140,7 +3140,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.75.1"
+version = "0.75.2"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3310,7 +3310,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.111.9"
+version = "0.111.10"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
