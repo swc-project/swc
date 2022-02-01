@@ -11,12 +11,11 @@
             "hidden": {
                 "jest": true
             }
-        },
+        }
     },
     "module": {
         "type": "commonjs"
     },
     "minify": false,
-    "isModule": true,
     "sourceMaps": "inline"
 }
