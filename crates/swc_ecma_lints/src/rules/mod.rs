@@ -6,8 +6,8 @@ use swc_ecma_visit::{noop_fold_type, Fold};
 mod const_assign;
 mod duplicate_bindings;
 mod duplicate_exports;
-pub mod no_alert;
-pub mod no_console;
+pub(crate) mod no_alert;
+pub(crate) mod no_console;
 mod no_debugger;
 
 pub struct LintParams<'a> {
