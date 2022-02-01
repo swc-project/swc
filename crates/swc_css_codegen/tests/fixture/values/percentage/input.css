@@ -21,3 +21,8 @@ div {
 div { 
     background: rgba(0, 0, 0, 0) image-set(url("image.png") 1x) repeat scroll 0% 0%; 
 }
+
+div {
+    width:100.00%;
+    width:100.01%;
+}

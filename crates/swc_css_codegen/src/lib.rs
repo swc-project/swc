@@ -938,15 +938,59 @@ where
 
     #[emitter]
     fn emit_number(&mut self, n: &Number) -> Result {
-        self.wr.write_raw(Some(n.span), &n.raw)?;
+        if self.config.minify {
+            if n.value.is_sign_negative() && n.value == 0.0 {
+                self.wr.write_raw(Some(n.span), "-0")?;
+            } else {
+                let mut minified = n.value.to_string();
+
+                if minified.starts_with("0.") {
+                    minified.replace_range(0..1, "");
+                } else if minified.starts_with("-0.") {
+                    minified.replace_range(1..2, "");
+                }
+
+                if minified.starts_with(".000") {
+                    // TODO bug fix me
+                    let cnt = minified
+                        .as_bytes()
+                        .iter()
+                        .skip(1)
+                        .filter(|&&v| v == b'0')
+                        .count();
+
+                    minified.replace_range(0..cnt + 1, "");
+
+                    let remain_len = minified.len();
+
+                    minified.push_str("e-");
+                    minified.push_str(&(remain_len + cnt).to_string());
+                } else if minified.ends_with("000") {
+                    let cnt = minified
+                        .as_bytes()
+                        .iter()
+                        .rev()
+                        .filter(|&&v| v == b'0')
+                        .count();
+
+                    minified.truncate(minified.len() - cnt);
+                    minified.push('e');
+                    minified.push_str(&cnt.to_string());
+                }
+
+                self.wr.write_raw(Some(n.span), &minified)?;
+            }
+        } else {
+            self.wr.write_raw(Some(n.span), &n.raw)?;
+        }
     }
 
     #[emitter]
     fn emit_ration(&mut self, n: &Ratio) -> Result {
         emit!(self, n.left);
-        punct!(self, "/");
 
         if let Some(right) = &n.right {
+            punct!(self, "/");
             emit!(self, right);
         }
     }
