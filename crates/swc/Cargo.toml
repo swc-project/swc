@@ -50,7 +50,7 @@ swc_common = {version = "0.17.0", path = "../swc_common", features = ["sourcemap
 swc_ecma_ast = {version = "0.65.3", path = "../swc_ecma_ast"}
 swc_ecma_codegen = {version = "0.89.1", path = "../swc_ecma_codegen"}
 swc_ecma_ext_transforms = {version = "0.50.0", path = "../swc_ecma_ext_transforms"}
-swc_ecma_lints = {version = "0.11.1", path = "../swc_ecma_lints"}
+swc_ecma_lints = {version = "0.11.1", path = "../swc_ecma_lints", features = ["non_critical_lints"]}
 swc_ecma_loader = {version = "0.28.0", path = "../swc_ecma_loader", features = ["lru", "node", "tsc"]}
 swc_ecma_minifier = {version = "0.71.4", path = "../swc_ecma_minifier"}
 swc_ecma_parser = {version = "0.87.0", path = "../swc_ecma_parser"}

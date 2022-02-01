@@ -24,3 +24,6 @@ swc_ecma_codegen = {version = "0.89.0", path = "../swc_ecma_codegen"}
 swc_ecma_parser = {version = "0.87.0", path = "../swc_ecma_parser"}
 swc_ecma_transforms_base = {version = "0.57.0", path = "../swc_ecma_transforms_base"}
 testing = {version = "0.18.0", path = "../testing"}
+
+[features]
+non_critical_lints = []
