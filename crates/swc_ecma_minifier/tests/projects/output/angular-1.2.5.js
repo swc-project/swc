@@ -1173,9 +1173,9 @@
                 function applyDirectivesToNode(directives, compileNode, templateAttrs, transcludeFn1, jqCollection, originalReplaceDirective, preLinkFns, postLinkFns, previousCompileContext) {
                     previousCompileContext = previousCompileContext || {};
                     for(var newScopeDirective, directive1, directiveName, $template, linkFn1, directiveValue, terminalPriority = -Number.MAX_VALUE, controllerDirectives = previousCompileContext.controllerDirectives, newIsolateScopeDirective = previousCompileContext.newIsolateScopeDirective, templateDirective = previousCompileContext.templateDirective, nonTlbTranscludeDirective = previousCompileContext.nonTlbTranscludeDirective, hasTranscludeDirective = !1, hasElementTranscludeDirective = !1, $compileNode = templateAttrs.$$element = jqLite(compileNode), replaceDirective = originalReplaceDirective, childTranscludeFn = transcludeFn1, i2 = 0, ii1 = directives.length; i2 < ii1; i2++){
-                        var attrStart = (directive1 = directives[i2]).$$start, attrEnd = directive1.$$end;
-                        if (attrStart && ($compileNode = groupScan(compileNode, attrStart, attrEnd)), $template = undefined, terminalPriority > directive1.priority) break;
-                        if ((directiveValue = directive1.scope) && (newScopeDirective = newScopeDirective || directive1, !directive1.templateUrl && (assertNoDuplicate("new/isolated scope", newIsolateScopeDirective, directive1, $compileNode), isObject(directiveValue) && (newIsolateScopeDirective = directive1))), directiveName = directive1.name, !directive1.templateUrl && directive1.controller && (directiveValue = directive1.controller, assertNoDuplicate("'" + directiveName + "' controller", (controllerDirectives = controllerDirectives || {})[directiveName], directive1, $compileNode), controllerDirectives[directiveName] = directive1), (directiveValue = directive1.transclude) && (hasTranscludeDirective = !0, directive1.$$tlb || (assertNoDuplicate("transclusion", nonTlbTranscludeDirective, directive1, $compileNode), nonTlbTranscludeDirective = directive1), "element" == directiveValue ? (hasElementTranscludeDirective = !0, terminalPriority = directive1.priority, $template = groupScan(compileNode, attrStart, attrEnd), compileNode = ($compileNode = templateAttrs.$$element = jqLite(document1.createComment(" " + directiveName + ": " + templateAttrs[directiveName] + " ")))[0], replaceWith(jqCollection, jqLite(sliceArgs($template)), compileNode), childTranscludeFn = compile($template, transcludeFn1, terminalPriority, replaceDirective && replaceDirective.name, {
+                        var attrStart1 = (directive1 = directives[i2]).$$start, attrEnd1 = directive1.$$end;
+                        if (attrStart1 && ($compileNode = groupScan(compileNode, attrStart1, attrEnd1)), $template = undefined, terminalPriority > directive1.priority) break;
+                        if ((directiveValue = directive1.scope) && (newScopeDirective = newScopeDirective || directive1, !directive1.templateUrl && (assertNoDuplicate("new/isolated scope", newIsolateScopeDirective, directive1, $compileNode), isObject(directiveValue) && (newIsolateScopeDirective = directive1))), directiveName = directive1.name, !directive1.templateUrl && directive1.controller && (directiveValue = directive1.controller, assertNoDuplicate("'" + directiveName + "' controller", (controllerDirectives = controllerDirectives || {})[directiveName], directive1, $compileNode), controllerDirectives[directiveName] = directive1), (directiveValue = directive1.transclude) && (hasTranscludeDirective = !0, directive1.$$tlb || (assertNoDuplicate("transclusion", nonTlbTranscludeDirective, directive1, $compileNode), nonTlbTranscludeDirective = directive1), "element" == directiveValue ? (hasElementTranscludeDirective = !0, terminalPriority = directive1.priority, $template = groupScan(compileNode, attrStart1, attrEnd1), compileNode = ($compileNode = templateAttrs.$$element = jqLite(document1.createComment(" " + directiveName + ": " + templateAttrs[directiveName] + " ")))[0], replaceWith(jqCollection, jqLite(sliceArgs($template)), compileNode), childTranscludeFn = compile($template, transcludeFn1, terminalPriority, replaceDirective && replaceDirective.name, {
                             nonTlbTranscludeDirective: nonTlbTranscludeDirective
                         })) : ($template = jqLite(jqLiteClone(compileNode)).contents(), $compileNode.empty(), childTranscludeFn = compile($template, transcludeFn1))), directive1.template) if (assertNoDuplicate("template", templateDirective, directive1, $compileNode), templateDirective = directive1, directiveValue = isFunction(directive1.template) ? directive1.template($compileNode, templateAttrs) : directive1.template, directiveValue = denormalizeTemplate(directiveValue), directive1.replace) {
                             if (replaceDirective = directive1, compileNode = ($template = jqLite("<div>" + trim1(directiveValue) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
@@ -1192,9 +1192,9 @@
                             nonTlbTranscludeDirective: nonTlbTranscludeDirective
                         }), ii1 = directives.length;
                         else if (directive1.compile) try {
-                            linkFn1 = directive1.compile($compileNode, templateAttrs, childTranscludeFn), isFunction(linkFn1) ? addLinkFns(null, linkFn1, attrStart, attrEnd) : linkFn1 && addLinkFns(linkFn1.pre, linkFn1.post, attrStart, attrEnd);
-                        } catch (e) {
-                            $exceptionHandler(e, startingTag($compileNode));
+                            linkFn1 = directive1.compile($compileNode, templateAttrs, childTranscludeFn), isFunction(linkFn1) ? addLinkFns(null, linkFn1, attrStart1, attrEnd1) : linkFn1 && addLinkFns(linkFn1.pre, linkFn1.post, attrStart1, attrEnd1);
+                        } catch (e2) {
+                            $exceptionHandler(e2, startingTag($compileNode));
                         }
                         directive1.terminal && (nodeLinkFn.terminal = !0, terminalPriority = Math.max(terminalPriority, directive1.priority));
                     }
@@ -1272,8 +1272,8 @@
                         var scopeToChild = scope1;
                         for(newIsolateScopeDirective && (newIsolateScopeDirective.template || null === newIsolateScopeDirective.templateUrl) && (scopeToChild = isolateScope), childLinkFn && childLinkFn(scopeToChild, linkNode.childNodes, undefined, boundTranscludeFn), i = postLinkFns.length - 1; i >= 0; i--)try {
                             (linkFn = postLinkFns[i])(linkFn.isolateScope ? isolateScope : scope1, $element, attrs, linkFn.require && getControllers(linkFn.require, $element, elementControllers), transcludeFn);
-                        } catch (e2) {
-                            $exceptionHandler(e2, startingTag($element));
+                        } catch (e3) {
+                            $exceptionHandler(e3, startingTag($element));
                         }
                     }
                 }
@@ -2781,8 +2781,8 @@
                             for(dirty = !1, current = this; asyncQueue.length;){
                                 try {
                                     (asyncTask = asyncQueue.shift()).scope.$eval(asyncTask.expression);
-                                } catch (e) {
-                                    clearPhase(), $exceptionHandler(e);
+                                } catch (e4) {
+                                    clearPhase(), $exceptionHandler(e4);
                                 }
                                 lastDirtyWatch = null;
                             }
@@ -2803,8 +2803,8 @@
                         }while (dirty || asyncQueue.length)
                         for(clearPhase(); postDigestQueue.length;)try {
                             postDigestQueue.shift()();
-                        } catch (e) {
-                            $exceptionHandler(e);
+                        } catch (e6) {
+                            $exceptionHandler(e6);
                         }
                     },
                     $destroy: function() {
@@ -2830,8 +2830,8 @@
                     $apply: function(expr) {
                         try {
                             return beginPhase("$apply"), this.$eval(expr);
-                        } catch (e) {
-                            $exceptionHandler(e);
+                        } catch (e7) {
+                            $exceptionHandler(e7);
                         } finally{
                             clearPhase();
                             try {

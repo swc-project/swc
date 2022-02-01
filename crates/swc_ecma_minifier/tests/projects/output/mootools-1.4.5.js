@@ -130,8 +130,8 @@
         var isType = object != Object, prototype = object.prototype;
         isType && (object = new Type(name, object));
         for(var i2 = 0, l1 = methods.length; i2 < l1; i2++){
-            var key = methods[i2], generic = object[key], proto = prototype[key];
-            generic && generic.protect(), isType && proto && object.implement(key, proto.protect());
+            var key1 = methods[i2], generic = object[key1], proto = prototype[key1];
+            generic && generic.protect(), isType && proto && object.implement(key1, proto.protect());
         }
         if (isType) {
             var methodsEnumerable = prototype.propertyIsEnumerable(methods[0]);

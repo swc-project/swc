@@ -3389,8 +3389,8 @@ class PolyNumberFormatter {
     }
     format(i) {
         if (this.inf) {
-            const fixed = this.floor ? Math.floor(i) : i;
-            return this.inf.format(fixed);
+            const fixed1 = this.floor ? Math.floor(i) : i;
+            return this.inf.format(fixed1);
         } else {
             const fixed = this.floor ? Math.floor(i) : roundTo(i, 3);
             return padStart(fixed, this.padTo);
@@ -3742,16 +3742,16 @@ class Interval {
             try {
                 end = DateTime.fromISO(e, opts);
                 endIsValid = end.isValid;
-            } catch (e2) {
+            } catch (e3) {
                 endIsValid = false;
             }
             if (startIsValid && endIsValid) {
                 return Interval.fromDateTimes(start, end);
             }
             if (startIsValid) {
-                const dur = Duration.fromISO(e, opts);
-                if (dur.isValid) {
-                    return Interval.after(start, dur);
+                const dur1 = Duration.fromISO(e, opts);
+                if (dur1.isValid) {
+                    return Interval.after(start, dur1);
                 }
             } else if (endIsValid) {
                 const dur = Duration.fromISO(s13, opts);

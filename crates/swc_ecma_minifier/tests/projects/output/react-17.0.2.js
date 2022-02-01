@@ -410,15 +410,15 @@
                 }), "object" == typeof Reflect && Reflect.construct) {
                     try {
                         Reflect.construct(Fake, []);
-                    } catch (x) {
-                        control = x;
+                    } catch (x1) {
+                        control = x1;
                     }
                     Reflect.construct(fn, [], Fake);
                 } else {
                     try {
                         Fake.call();
-                    } catch (x) {
-                        control = x;
+                    } catch (x4) {
+                        control = x4;
                     }
                     fn.call(Fake.prototype);
                 }
@@ -630,9 +630,9 @@
             return localPerformance.now();
         };
     } else {
-        var localDate = Date, initialTime = localDate.now();
+        var localDate = Date, initialTime1 = localDate.now();
         getCurrentTime = function() {
-            return localDate.now() - initialTime;
+            return localDate.now() - initialTime1;
         };
     }
     if ("undefined" == typeof window || "function" != typeof MessageChannel) {

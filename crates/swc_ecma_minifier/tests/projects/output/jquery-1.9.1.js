@@ -2500,9 +2500,9 @@
                 }, s1.timeout));
                 try {
                     state = 1, transport.send(requestHeaders, done);
-                } catch (e) {
-                    if (state < 2) done(-1, e);
-                    else throw e;
+                } catch (e2) {
+                    if (state < 2) done(-1, e2);
+                    else throw e2;
                 }
             } else done(-1, "No Transport");
             function done(status, nativeStatusText, responses1, headers) {

@@ -4897,8 +4897,8 @@
                                     continue;
                             }
                         }
-                    } catch (e) {
-                        self.reportOrThrowError(e), "CUETEXT" === self.state && self.cue && self.oncue && self.oncue(self.cue), self.cue = null, self.state = "INITIAL" === self.state ? "BADWEBVTT" : "BADCUE";
+                    } catch (e4) {
+                        self.reportOrThrowError(e4), "CUETEXT" === self.state && self.cue && self.oncue && self.oncue(self.cue), self.cue = null, self.state = "INITIAL" === self.state ? "BADWEBVTT" : "BADCUE";
                     }
                     return this;
                 },

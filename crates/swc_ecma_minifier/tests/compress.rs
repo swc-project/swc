@@ -206,7 +206,7 @@ fn run(
     );
 
     if !disable_hygiene {
-        output.visit_mut_with(&mut hygiene())
+        output.visit_mut_with(&mut hygiene(Default::default()))
     }
 
     let output = output.fold_with(&mut fixer(None));

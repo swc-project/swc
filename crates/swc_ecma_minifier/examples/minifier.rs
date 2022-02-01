@@ -50,7 +50,7 @@ fn main() {
             &ExtraOptions { top_level_mark },
         );
 
-        let output = output.fold_with(&mut hygiene());
+        let output = output.fold_with(&mut hygiene(Default::default()));
         let output = output.fold_with(&mut fixer(None));
 
         let code = print(cm, &[output], true);

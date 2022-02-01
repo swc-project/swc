@@ -1264,8 +1264,8 @@ class BufReader {
         this.eof = false;
     }
     async read(p) {
-        let rr = p.byteLength;
-        if (p.byteLength === 0) return rr;
+        let rr1 = p.byteLength;
+        if (p.byteLength === 0) return rr1;
         if (this.r === this.w) {
             if (p.byteLength >= this.buf.byteLength) {
                 const rr = await this.rd.read(p);
@@ -1275,10 +1275,10 @@ class BufReader {
             }
             this.r = 0;
             this.w = 0;
-            rr = await this.rd.read(this.buf);
-            if (rr === 0 || rr === null) return rr;
-            assert(rr >= 0, "negative read");
-            this.w += rr;
+            rr1 = await this.rd.read(this.buf);
+            if (rr1 === 0 || rr1 === null) return rr1;
+            assert(rr1 >= 0, "negative read");
+            this.w += rr1;
         }
         const copied = copy(this.buf.subarray(this.r, this.w), p, 0);
         this.r += copied;
@@ -1797,10 +1797,10 @@ class MultipartReader {
                 continue;
             }
             let formFile;
-            const n = await copyN(p, buf, maxValueBytes);
+            const n1 = await copyN(p, buf, maxValueBytes);
             const contentType = p.headers.get("content-type");
             assert(contentType != null, "content-type must be set");
-            if (n > maxMemory) {
+            if (n1 > maxMemory) {
                 const ext = extname2(p.fileName);
                 const filepath = await Deno.makeTempFile({
                     dir: ".",
@@ -1830,8 +1830,8 @@ class MultipartReader {
                     content: buf.bytes(),
                     size: buf.length
                 };
-                maxMemory -= n;
-                maxValueBytes -= n;
+                maxMemory -= n1;
+                maxValueBytes -= n1;
             }
             if (formFile) {
                 const mapVal = fileMap.get(p.formName);

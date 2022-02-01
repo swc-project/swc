@@ -56,7 +56,7 @@
                 break;
             }
             if (browserApi) {
-                for(var _i = 0; _i < browserApi.length; _i++)FullscreenApi[specApi[_i]] = browserApi[_i];
+                for(var _i1 = 0; _i1 < browserApi.length; _i1++)FullscreenApi[specApi[_i1]] = browserApi[_i1];
                 FullscreenApi.prefixed = browserApi[0] !== specApi[0];
             }
             var history = [];
@@ -6830,8 +6830,8 @@
                     var groupId = "placeholder-uri-" + mediaType + "-" + groupKey + "-" + labelKey;
                     if (!properties.playlists || !properties.playlists.length) {
                         if (audioOnlyMaster && "AUDIO" === mediaType && !properties.uri) for(var _i = 0; _i < master.playlists.length; _i++){
-                            var p = master.playlists[_i];
-                            if (p.attributes && p.attributes.AUDIO && p.attributes.AUDIO === groupKey) return;
+                            var p1 = master.playlists[_i];
+                            if (p1.attributes && p1.attributes.AUDIO && p1.attributes.AUDIO === groupKey) return;
                         }
                         properties.playlists = [
                             (0, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__.Z)({}, properties)
@@ -13369,10 +13369,10 @@
                         return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
                     }, module.exports.default = module.exports, module.exports.__esModule = !0;
                 }), setPrototypeOf = createCommonjsModule(function(module) {
-                    function _setPrototypeOf(o1, p1) {
+                    function _setPrototypeOf(o1, p2) {
                         return module.exports = _setPrototypeOf = Object.setPrototypeOf || function(o, p) {
                             return o.__proto__ = p, o;
-                        }, module.exports.default = module.exports, module.exports.__esModule = !0, _setPrototypeOf(o1, p1);
+                        }, module.exports.default = module.exports, module.exports.__esModule = !0, _setPrototypeOf(o1, p2);
                     }
                     module.exports = _setPrototypeOf, module.exports.default = module.exports, module.exports.__esModule = !0;
                 }), inheritsLoose = createCommonjsModule(function(module) {
