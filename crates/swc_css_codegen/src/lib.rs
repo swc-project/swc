@@ -101,15 +101,12 @@ where
     fn emit_charset_rule(&mut self, n: &CharsetRule) -> Result {
         punct!(self, "@");
         keyword!(self, "charset");
-
         // https://drafts.csswg.org/css2/#charset%E2%91%A0
         // @charset must be written literally, i.e., the 10 characters '@charset "'
         // (lowercase, no backslash escapes), followed by the encoding name, followed by
         // ";.
         space!(self);
-
         emit!(self, n.charset);
-
         semi!(self);
     }
 
@@ -290,8 +287,29 @@ where
         keyword!(self, "media");
 
         if n.media.is_some() {
-            space!(self);
+            let need_space = match n.media.as_ref().unwrap().queries.get(0) {
+                Some(media_query)
+                    if media_query.modifier.is_none() && media_query.media_type.is_none() =>
+                {
+                    match &media_query.condition {
+                        Some(MediaConditionType::All(media_condition)) => !matches!(
+                            media_condition.conditions.get(0),
+                            Some(MediaConditionAllType::MediaInParens(_))
+                        ),
+                        _ => true,
+                    }
+                }
+                _ => true,
+            };
+
+            if need_space {
+                space!(self);
+            } else {
+                formatting_space!(self);
+            }
+
             emit!(self, n.media);
+
             formatting_space!(self);
         } else {
             formatting_space!(self);
@@ -368,7 +386,7 @@ where
 
     #[emitter]
     fn emit_media_not(&mut self, n: &MediaNot) -> Result {
-        space!(self);
+        formatting_space!(self);
         keyword!(self, "not");
         space!(self);
         emit!(self, n.condition);
@@ -376,7 +394,7 @@ where
 
     #[emitter]
     fn emit_media_and(&mut self, n: &MediaAnd) -> Result {
-        space!(self);
+        formatting_space!(self);
         keyword!(self, "and");
         space!(self);
         emit!(self, n.condition);
@@ -384,7 +402,7 @@ where
 
     #[emitter]
     fn emit_media_or(&mut self, n: &MediaOr) -> Result {
-        space!(self);
+        formatting_space!(self);
         keyword!(self, "or");
         space!(self);
         emit!(self, n.condition);
@@ -449,22 +467,22 @@ where
     #[emitter]
     fn emit_media_feature_range(&mut self, n: &MediaFeatureRange) -> Result {
         emit!(self, n.left);
-        space!(self);
+        formatting_space!(self);
         self.wr.write_punct(None, n.comparison.as_str())?;
-        space!(self);
+        formatting_space!(self);
         emit!(self, n.right);
     }
 
     #[emitter]
     fn emit_media_feature_range_interval(&mut self, n: &MediaFeatureRangeInterval) -> Result {
         emit!(self, n.left);
-        space!(self);
+        formatting_space!(self);
         self.wr.write_punct(None, n.left_comparison.as_str())?;
-        space!(self);
+        formatting_space!(self);
         emit!(self, n.name);
-        space!(self);
+        formatting_space!(self);
         self.wr.write_punct(None, n.right_comparison.as_str())?;
-        space!(self);
+        formatting_space!(self);
         emit!(self, n.right);
     }
 
@@ -472,12 +490,18 @@ where
     fn emit_supports_rule(&mut self, n: &SupportsRule) -> Result {
         punct!(self, "@");
         keyword!(self, "supports");
-        space!(self);
+
+        match n.condition.conditions.get(0) {
+            Some(SupportsConditionType::SupportsInParens(_)) => {
+                formatting_space!(self);
+            }
+            _ => {
+                space!(self);
+            }
+        }
 
         emit!(self, n.condition);
-
         formatting_space!(self);
-
         punct!(self, "{");
         self.emit_list(&n.rules, ListFormat::NotDelimited)?;
         punct!(self, "}");
@@ -500,6 +524,7 @@ where
 
     #[emitter]
     fn emit_supports_not(&mut self, n: &SupportsNot) -> Result {
+        formatting_space!(self);
         keyword!(self, "not");
         space!(self);
         emit!(self, n.condition);
@@ -507,6 +532,7 @@ where
 
     #[emitter]
     fn emit_supports_and(&mut self, n: &SupportsAnd) -> Result {
+        formatting_space!(self);
         keyword!(self, "and");
         space!(self);
         emit!(self, n.condition);
@@ -514,6 +540,7 @@ where
 
     #[emitter]
     fn emit_support_or(&mut self, n: &SupportsOr) -> Result {
+        formatting_space!(self);
         keyword!(self, "or");
         space!(self);
         emit!(self, n.condition);
@@ -573,14 +600,31 @@ where
     fn emit_namespace_rule(&mut self, n: &NamespaceRule) -> Result {
         punct!(self, "@");
         keyword!(self, "namespace");
-        space!(self);
 
-        if n.prefix.is_some() {
-            emit!(self, n.prefix);
+        let has_prefix = n.prefix.is_some();
+        let is_uri_url = match n.uri {
+            NamespaceUri::Url(_) => true,
+            NamespaceUri::Str(_) => false,
+        };
+
+        if has_prefix || is_uri_url {
             space!(self);
+        } else {
+            formatting_space!(self);
+        }
+
+        if has_prefix {
+            emit!(self, n.prefix);
+
+            if is_uri_url {
+                space!(self);
+            } else {
+                formatting_space!(self);
+            }
         }
 
         emit!(self, n.uri);
+        punct!(self, ";");
     }
 
     #[emitter]
@@ -608,28 +652,38 @@ where
     }
 
     fn emit_list_values(&mut self, nodes: &[Value], format: ListFormat) -> Result {
-        let mut need_space = true;
+        let iter = nodes.iter();
 
-        for (idx, node) in nodes.iter().enumerate() {
-            if idx != 0 {
-                match node {
-                    Value::Delimiter(Delimiter {
-                        value: DelimiterValue::Comma,
-                        ..
-                    }) => {
-                        need_space = !self.config.minify;
-                    }
-                    _ => {
-                        if need_space {
-                            self.write_delim(format)?;
-                        } else {
-                            need_space = true;
+        for (idx, node) in iter.enumerate() {
+            emit!(self, node);
+
+            if idx != nodes.len() - 1 {
+                let need_delim = match node {
+                    Value::SimpleBlock(_)
+                    | Value::Function(_)
+                    | Value::Delimiter(_)
+                    | Value::Str(_)
+                    | Value::Url(_)
+                    | Value::Percent(_) => match nodes.get(idx + 1) {
+                        Some(Value::Delimiter(Delimiter {
+                            value: DelimiterValue::Comma,
+                            ..
+                        })) => false,
+                        _ => !self.config.minify,
+                    },
+                    _ => match nodes.get(idx + 1) {
+                        Some(Value::SimpleBlock(_)) | Some(Value::Color(Color::HexColor(_))) => {
+                            !self.config.minify
                         }
-                    }
+                        Some(Value::Delimiter(_)) => false,
+                        _ => true,
+                    },
                 };
-            }
 
-            emit!(self, node)
+                if need_delim {
+                    self.write_delim(format)?;
+                }
+            }
         }
 
         Ok(())
@@ -688,6 +742,7 @@ where
         keyword!(self, "color-profile");
         space!(self);
         emit!(self, n.name);
+        formatting_space!(self);
         punct!(self, "{");
         self.emit_list(&n.block, ListFormat::NotDelimited)?;
         punct!(self, "}");
@@ -778,7 +833,19 @@ where
             DeclarationName::Ident(_) => false,
         };
 
-        if !is_custom_property {
+        // https://github.com/w3c/csswg-drafts/issues/774
+        // `--foo: ;` and `--foo:;` is valid, but not all browsers support it, currently
+        // we print " " (whitespace) always
+        if is_custom_property {
+            match n.value.get(0) {
+                Some(Value::Tokens(tokens)) if tokens.tokens.is_empty() => {
+                    space!(self);
+                }
+                _ => {
+                    formatting_space!(self);
+                }
+            };
+        } else {
             formatting_space!(self);
         }
 
@@ -901,9 +968,23 @@ where
     #[emitter]
     fn emit_bin_value(&mut self, n: &BinValue) -> Result {
         emit!(self, n.left);
-        space!(self);
+
+        let need_space = matches!(n.op, BinOp::Add | BinOp::Mul);
+
+        if need_space {
+            space!(self);
+        } else {
+            formatting_space!(self);
+        }
+
         punct!(self, n.op.as_str());
-        space!(self);
+
+        if need_space {
+            space!(self);
+        } else {
+            formatting_space!(self);
+        }
+
         emit!(self, n.right);
     }
 

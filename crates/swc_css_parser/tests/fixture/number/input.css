@@ -33,4 +33,6 @@ div {
     property: 1.75;
     property: +1.75;
     property: 1e;
+    property: 1+2;
+    property: 1-2;
 }

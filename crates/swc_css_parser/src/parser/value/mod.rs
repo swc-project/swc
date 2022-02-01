@@ -46,6 +46,7 @@ where
                     "ident",
                     "dimension",
                     "percent",
+                    "num",
                     "str",
                     "#",
                     "url",

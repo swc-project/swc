@@ -24,3 +24,7 @@ div {
     background: SRC("http://www.example.com/pinkish.gif");
     background: src(var(--foo));
 }
+
+div {
+    background: url(foo.img) red;
+}

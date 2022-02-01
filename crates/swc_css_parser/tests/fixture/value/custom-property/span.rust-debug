@@ -6,8 +6,8 @@ error: Stylesheet
 3  | |
 4  | |     --important:value!important;
 ...  |
-53 | |     --foo: 
-54 | | }
+57 | |     --var:  value;
+58 | | }
    | |__^
 
 error: Rule
@@ -174,22 +174,16 @@ error: DashedIdent
   |     ^^^^^^^^^^^^
 
 error: Value
- --> $DIR/tests/fixture/value/custom-property/input.css:5:18
+ --> $DIR/tests/fixture/value/custom-property/input.css:5:19
   |
 5 |     --important1: value!important;
-  |                  ^^^^^^
+  |                   ^^^^^
 
 error: Tokens
- --> $DIR/tests/fixture/value/custom-property/input.css:5:18
+ --> $DIR/tests/fixture/value/custom-property/input.css:5:19
   |
 5 |     --important1: value!important;
-  |                  ^^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/value/custom-property/input.css:5:18
-  |
-5 |     --important1: value!important;
-  |                  ^
+  |                   ^^^^^
 
 error: Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
  --> $DIR/tests/fixture/value/custom-property/input.css:5:19
@@ -216,22 +210,16 @@ error: DashedIdent
   |     ^^^^^^^^^^^^
 
 error: Value
- --> $DIR/tests/fixture/value/custom-property/input.css:6:18
+ --> $DIR/tests/fixture/value/custom-property/input.css:6:19
   |
 6 |     --important2: value !important;
-  |                  ^^^^^^^
+  |                   ^^^^^^
 
 error: Tokens
- --> $DIR/tests/fixture/value/custom-property/input.css:6:18
+ --> $DIR/tests/fixture/value/custom-property/input.css:6:19
   |
 6 |     --important2: value !important;
-  |                  ^^^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/value/custom-property/input.css:6:18
-  |
-6 |     --important2: value !important;
-  |                  ^
+  |                   ^^^^^^
 
 error: Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
  --> $DIR/tests/fixture/value/custom-property/input.css:6:19
@@ -306,22 +294,16 @@ error: DashedIdent
   |     ^^^^^^^^^^^^
 
 error: Value
- --> $DIR/tests/fixture/value/custom-property/input.css:8:18
+ --> $DIR/tests/fixture/value/custom-property/input.css:8:19
   |
 8 |     --important4: calc(1)!important;
-  |                  ^^^^^^^^
+  |                   ^^^^^^^
 
 error: Tokens
- --> $DIR/tests/fixture/value/custom-property/input.css:8:18
+ --> $DIR/tests/fixture/value/custom-property/input.css:8:19
   |
 8 |     --important4: calc(1)!important;
-  |                  ^^^^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/value/custom-property/input.css:8:18
-  |
-8 |     --important4: calc(1)!important;
-  |                  ^
+  |                   ^^^^^^^
 
 error: Function { value: Atom('calc' type=inline), raw: Atom('calc' type=inline) }
  --> $DIR/tests/fixture/value/custom-property/input.css:8:19
@@ -345,7 +327,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:10:5
    |
 10 |     --empty: ;
-   |     ^^^^^^^^^
+   |     ^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:10:5
@@ -360,28 +342,22 @@ error: DashedIdent
    |     ^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:10:13
+  --> $DIR/tests/fixture/value/custom-property/input.css:10:14
    |
 10 |     --empty: ;
-   |             ^
+   |              ^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:10:13
+  --> $DIR/tests/fixture/value/custom-property/input.css:10:14
    |
 10 |     --empty: ;
-   |             ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:10:13
-   |
-10 |     --empty: ;
-   |             ^
+   |              ^
 
 error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:11:5
    |
 11 |     --empty2: /**/;
-   |     ^^^^^^^^^^
+   |     ^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:11:5
@@ -396,22 +372,16 @@ error: DashedIdent
    |     ^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:11:14
+  --> $DIR/tests/fixture/value/custom-property/input.css:11:15
    |
 11 |     --empty2: /**/;
-   |              ^
+   |               ^^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:11:14
+  --> $DIR/tests/fixture/value/custom-property/input.css:11:15
    |
 11 |     --empty2: /**/;
-   |              ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:11:14
-   |
-11 |     --empty2: /**/;
-   |              ^
+   |               ^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:12:5
@@ -432,22 +402,16 @@ error: DashedIdent
    |     ^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:12:14
+  --> $DIR/tests/fixture/value/custom-property/input.css:12:15
    |
 12 |     --empty3: !important;
-   |              ^
+   |               ^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:12:14
+  --> $DIR/tests/fixture/value/custom-property/input.css:12:15
    |
 12 |     --empty3: !important;
-   |              ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:12:14
-   |
-12 |     --empty3: !important;
-   |              ^
+   |               ^
 
 error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:13:5
@@ -468,28 +432,22 @@ error: DashedIdent
    |     ^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:13:18
+  --> $DIR/tests/fixture/value/custom-property/input.css:13:19
    |
 13 |     --empty4:/**/ !important;
-   |                  ^
+   |                   ^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:13:18
+  --> $DIR/tests/fixture/value/custom-property/input.css:13:19
    |
 13 |     --empty4:/**/ !important;
-   |                  ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:13:18
-   |
-13 |     --empty4:/**/ !important;
-   |                  ^
+   |                   ^
 
 error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:14:5
    |
 14 |     --empty5:/* 1 */ /* 2 */;
-   |     ^^^^^^^^^^^^^^^^^
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:14:5
@@ -504,22 +462,16 @@ error: DashedIdent
    |     ^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:14:21
+  --> $DIR/tests/fixture/value/custom-property/input.css:14:22
    |
 14 |     --empty5:/* 1 */ /* 2 */;
-   |                     ^
+   |                      ^^^^^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:14:21
+  --> $DIR/tests/fixture/value/custom-property/input.css:14:22
    |
 14 |     --empty5:/* 1 */ /* 2 */;
-   |                     ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:14:21
-   |
-14 |     --empty5:/* 1 */ /* 2 */;
-   |                     ^
+   |                      ^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:16:5
@@ -561,7 +513,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:17:5
    |
 17 |     --number: 1;
-   |     ^^^^^^^^^^
+   |     ^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:17:5
@@ -576,22 +528,16 @@ error: DashedIdent
    |     ^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:17:14
+  --> $DIR/tests/fixture/value/custom-property/input.css:17:15
    |
 17 |     --number: 1;
-   |              ^^
+   |               ^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:17:14
+  --> $DIR/tests/fixture/value/custom-property/input.css:17:15
    |
 17 |     --number: 1;
-   |              ^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:17:14
-   |
-17 |     --number: 1;
-   |              ^
+   |               ^
 
 error: Num { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:17:15
@@ -603,7 +549,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:18:5
    |
 18 |     --unit: 100vw;
-   |     ^^^^^^^^
+   |     ^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:18:5
@@ -618,22 +564,16 @@ error: DashedIdent
    |     ^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:18:12
+  --> $DIR/tests/fixture/value/custom-property/input.css:18:13
    |
 18 |     --unit: 100vw;
-   |            ^^^^^^
+   |             ^^^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:18:12
+  --> $DIR/tests/fixture/value/custom-property/input.css:18:13
    |
 18 |     --unit: 100vw;
-   |            ^^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:18:12
-   |
-18 |     --unit: 100vw;
-   |            ^
+   |             ^^^^^
 
 error: Dimension { value: 100.0, raw_value: Atom('100' type=inline), unit: Atom('vw' type=inline), raw_unit: Atom('vw' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:18:13
@@ -645,7 +585,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:19:5
    |
 19 |     --color: #06c;
-   |     ^^^^^^^^^
+   |     ^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:19:5
@@ -660,22 +600,16 @@ error: DashedIdent
    |     ^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:19:13
+  --> $DIR/tests/fixture/value/custom-property/input.css:19:14
    |
 19 |     --color: #06c;
-   |             ^^^^^
+   |              ^^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:19:13
+  --> $DIR/tests/fixture/value/custom-property/input.css:19:14
    |
 19 |     --color: #06c;
-   |             ^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:19:13
-   |
-19 |     --color: #06c;
-   |             ^
+   |              ^^^^
 
 error: Hash { is_id: false, value: Atom('06c' type=inline), raw: Atom('06c' type=inline) }
   --> $DIR/tests/fixture/value/custom-property/input.css:19:14
@@ -687,7 +621,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:21:5
    |
 21 |     --function: calc(1 + 1);
-   |     ^^^^^^^^^^^^
+   |     ^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:21:5
@@ -702,22 +636,16 @@ error: DashedIdent
    |     ^^^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:21:16
+  --> $DIR/tests/fixture/value/custom-property/input.css:21:17
    |
 21 |     --function: calc(1 + 1);
-   |                ^^^^^^^^^^^^
+   |                 ^^^^^^^^^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:21:16
+  --> $DIR/tests/fixture/value/custom-property/input.css:21:17
    |
 21 |     --function: calc(1 + 1);
-   |                ^^^^^^^^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:21:16
-   |
-21 |     --function: calc(1 + 1);
-   |                ^
+   |                 ^^^^^^^^^^^
 
 error: Function { value: Atom('calc' type=inline), raw: Atom('calc' type=inline) }
   --> $DIR/tests/fixture/value/custom-property/input.css:21:17
@@ -765,7 +693,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:22:5
    |
 22 |     --variable: var(--unit);
-   |     ^^^^^^^^^^^^
+   |     ^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:22:5
@@ -780,22 +708,16 @@ error: DashedIdent
    |     ^^^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:22:16
+  --> $DIR/tests/fixture/value/custom-property/input.css:22:17
    |
 22 |     --variable: var(--unit);
-   |                ^^^^^^^^^^^^
+   |                 ^^^^^^^^^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:22:16
+  --> $DIR/tests/fixture/value/custom-property/input.css:22:17
    |
 22 |     --variable: var(--unit);
-   |                ^^^^^^^^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:22:16
-   |
-22 |     --variable: var(--unit);
-   |                ^
+   |                 ^^^^^^^^^^^
 
 error: Function { value: Atom('var' type=static), raw: Atom('var' type=static) }
   --> $DIR/tests/fixture/value/custom-property/input.css:22:17
@@ -819,7 +741,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:24:5
    |
 24 |     --string: 'single quoted string';
-   |     ^^^^^^^^^^
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:24:5
@@ -834,22 +756,16 @@ error: DashedIdent
    |     ^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:24:14
+  --> $DIR/tests/fixture/value/custom-property/input.css:24:15
    |
 24 |     --string: 'single quoted string';
-   |              ^^^^^^^^^^^^^^^^^^^^^^^
+   |               ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:24:14
+  --> $DIR/tests/fixture/value/custom-property/input.css:24:15
    |
 24 |     --string: 'single quoted string';
-   |              ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:24:14
-   |
-24 |     --string: 'single quoted string';
-   |              ^
+   |               ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Str { value: Atom('single quoted string' type=dynamic), raw: Atom(''single quoted string'' type=dynamic) }
   --> $DIR/tests/fixture/value/custom-property/input.css:24:15
@@ -861,7 +777,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:25:5
    |
 25 |     --string: "double quoted string";
-   |     ^^^^^^^^^^
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:25:5
@@ -876,22 +792,16 @@ error: DashedIdent
    |     ^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:25:14
+  --> $DIR/tests/fixture/value/custom-property/input.css:25:15
    |
 25 |     --string: "double quoted string";
-   |              ^^^^^^^^^^^^^^^^^^^^^^^
+   |               ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:25:14
+  --> $DIR/tests/fixture/value/custom-property/input.css:25:15
    |
 25 |     --string: "double quoted string";
-   |              ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:25:14
-   |
-25 |     --string: "double quoted string";
-   |              ^
+   |               ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Str { value: Atom('double quoted string' type=dynamic), raw: Atom('"double quoted string"' type=dynamic) }
   --> $DIR/tests/fixture/value/custom-property/input.css:25:15
@@ -903,7 +813,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:27:5
    |
 27 |     --square-block: [1, 2, 3];
-   |     ^^^^^^^^^^^^^^^^
+   |     ^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:27:5
@@ -918,22 +828,16 @@ error: DashedIdent
    |     ^^^^^^^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:27:20
+  --> $DIR/tests/fixture/value/custom-property/input.css:27:21
    |
 27 |     --square-block: [1, 2, 3];
-   |                    ^^^^^^^^^^
+   |                     ^^^^^^^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:27:20
+  --> $DIR/tests/fixture/value/custom-property/input.css:27:21
    |
 27 |     --square-block: [1, 2, 3];
-   |                    ^^^^^^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:27:20
-   |
-27 |     --square-block: [1, 2, 3];
-   |                    ^
+   |                     ^^^^^^^^^
 
 error: LBracket
   --> $DIR/tests/fixture/value/custom-property/input.css:27:21
@@ -993,7 +897,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:28:5
    |
 28 |     --square-block1: [];
-   |     ^^^^^^^^^^^^^^^^^
+   |     ^^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:28:5
@@ -1008,22 +912,16 @@ error: DashedIdent
    |     ^^^^^^^^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:28:21
+  --> $DIR/tests/fixture/value/custom-property/input.css:28:22
    |
 28 |     --square-block1: [];
-   |                     ^^^
+   |                      ^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:28:21
+  --> $DIR/tests/fixture/value/custom-property/input.css:28:22
    |
 28 |     --square-block1: [];
-   |                     ^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:28:21
-   |
-28 |     --square-block1: [];
-   |                     ^
+   |                      ^^
 
 error: LBracket
   --> $DIR/tests/fixture/value/custom-property/input.css:28:22
@@ -1083,7 +981,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:30:5
    |
 30 |     --round-block: (1, 2, 3);
-   |     ^^^^^^^^^^^^^^^
+   |     ^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:30:5
@@ -1098,22 +996,16 @@ error: DashedIdent
    |     ^^^^^^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:30:19
+  --> $DIR/tests/fixture/value/custom-property/input.css:30:20
    |
 30 |     --round-block: (1, 2, 3);
-   |                   ^^^^^^^^^^
+   |                    ^^^^^^^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:30:19
+  --> $DIR/tests/fixture/value/custom-property/input.css:30:20
    |
 30 |     --round-block: (1, 2, 3);
-   |                   ^^^^^^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:30:19
-   |
-30 |     --round-block: (1, 2, 3);
-   |                   ^
+   |                    ^^^^^^^^^
 
 error: LParen
   --> $DIR/tests/fixture/value/custom-property/input.css:30:20
@@ -1173,7 +1065,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:31:5
    |
 31 |     --round-block1: ();
-   |     ^^^^^^^^^^^^^^^^
+   |     ^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:31:5
@@ -1188,22 +1080,16 @@ error: DashedIdent
    |     ^^^^^^^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:31:20
+  --> $DIR/tests/fixture/value/custom-property/input.css:31:21
    |
 31 |     --round-block1: ();
-   |                    ^^^
+   |                     ^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:31:20
+  --> $DIR/tests/fixture/value/custom-property/input.css:31:21
    |
 31 |     --round-block1: ();
-   |                    ^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:31:20
-   |
-31 |     --round-block1: ();
-   |                    ^
+   |                     ^^
 
 error: LParen
   --> $DIR/tests/fixture/value/custom-property/input.css:31:21
@@ -1263,7 +1149,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:33:5
    |
 33 |     --bracket-block: {1, 2, 3};
-   |     ^^^^^^^^^^^^^^^^^
+   |     ^^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:33:5
@@ -1278,22 +1164,16 @@ error: DashedIdent
    |     ^^^^^^^^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:33:21
+  --> $DIR/tests/fixture/value/custom-property/input.css:33:22
    |
 33 |     --bracket-block: {1, 2, 3};
-   |                     ^^^^^^^^^^
+   |                      ^^^^^^^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:33:21
+  --> $DIR/tests/fixture/value/custom-property/input.css:33:22
    |
 33 |     --bracket-block: {1, 2, 3};
-   |                     ^^^^^^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:33:21
-   |
-33 |     --bracket-block: {1, 2, 3};
-   |                     ^
+   |                      ^^^^^^^^^
 
 error: LBrace
   --> $DIR/tests/fixture/value/custom-property/input.css:33:22
@@ -1353,7 +1233,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:34:5
    |
 34 |     --bracket-block1: {};
-   |     ^^^^^^^^^^^^^^^^^^
+   |     ^^^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:34:5
@@ -1368,22 +1248,16 @@ error: DashedIdent
    |     ^^^^^^^^^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:34:22
+  --> $DIR/tests/fixture/value/custom-property/input.css:34:23
    |
 34 |     --bracket-block1: {};
-   |                      ^^^
+   |                       ^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:34:22
+  --> $DIR/tests/fixture/value/custom-property/input.css:34:23
    |
 34 |     --bracket-block1: {};
-   |                      ^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:34:22
-   |
-34 |     --bracket-block1: {};
-   |                      ^
+   |                       ^^
 
 error: LBrace
   --> $DIR/tests/fixture/value/custom-property/input.css:34:23
@@ -1443,7 +1317,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:38:5
    |
 38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
-   |     ^^^^^^^^
+   |     ^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:38:5
@@ -1458,22 +1332,16 @@ error: DashedIdent
    |     ^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:38:12
+  --> $DIR/tests/fixture/value/custom-property/input.css:38:13
    |
 38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
-   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:38:12
+  --> $DIR/tests/fixture/value/custom-property/input.css:38:13
    |
 38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
-   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:38:12
-   |
-38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
-   |            ^
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: LBracket
   --> $DIR/tests/fixture/value/custom-property/input.css:38:13
@@ -1617,7 +1485,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:39:5
    |
 39 |     --javascript: function(rule) { console.log(rule) };
-   |     ^^^^^^^^^^^^^^
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:39:5
@@ -1632,22 +1500,16 @@ error: DashedIdent
    |     ^^^^^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:39:18
+  --> $DIR/tests/fixture/value/custom-property/input.css:39:19
    |
 39 |     --javascript: function(rule) { console.log(rule) };
-   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:39:18
+  --> $DIR/tests/fixture/value/custom-property/input.css:39:19
    |
 39 |     --javascript: function(rule) { console.log(rule) };
-   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:39:18
-   |
-39 |     --javascript: function(rule) { console.log(rule) };
-   |                  ^
+   |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Function { value: Atom('function' type=static), raw: Atom('function' type=static) }
   --> $DIR/tests/fixture/value/custom-property/input.css:39:19
@@ -1731,7 +1593,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:41:5
    |
 41 |     --CDO: <!--;
-   |     ^^^^^^^
+   |     ^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:41:5
@@ -1746,22 +1608,16 @@ error: DashedIdent
    |     ^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:41:11
+  --> $DIR/tests/fixture/value/custom-property/input.css:41:12
    |
 41 |     --CDO: <!--;
-   |           ^^^^^
+   |            ^^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:41:11
+  --> $DIR/tests/fixture/value/custom-property/input.css:41:12
    |
 41 |     --CDO: <!--;
-   |           ^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:41:11
-   |
-41 |     --CDO: <!--;
-   |           ^
+   |            ^^^^
 
 error: CDO
   --> $DIR/tests/fixture/value/custom-property/input.css:41:12
@@ -1773,7 +1629,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:42:5
    |
 42 |     --CDC: -->;
-   |     ^^^^^^^
+   |     ^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:42:5
@@ -1788,22 +1644,16 @@ error: DashedIdent
    |     ^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:42:11
+  --> $DIR/tests/fixture/value/custom-property/input.css:42:12
    |
 42 |     --CDC: -->;
-   |           ^^^^
+   |            ^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:42:11
+  --> $DIR/tests/fixture/value/custom-property/input.css:42:12
    |
 42 |     --CDC: -->;
-   |           ^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:42:11
-   |
-42 |     --CDC: -->;
-   |           ^
+   |            ^^^
 
 error: CDC
   --> $DIR/tests/fixture/value/custom-property/input.css:42:12
@@ -2079,7 +1929,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:46:5
    |
 46 |     --semicolon-not-top-level: (;);
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:46:5
@@ -2094,22 +1944,16 @@ error: DashedIdent
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:46:31
+  --> $DIR/tests/fixture/value/custom-property/input.css:46:32
    |
 46 |     --semicolon-not-top-level: (;);
-   |                               ^^^^
+   |                                ^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:46:31
+  --> $DIR/tests/fixture/value/custom-property/input.css:46:32
    |
 46 |     --semicolon-not-top-level: (;);
-   |                               ^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:46:31
-   |
-46 |     --semicolon-not-top-level: (;);
-   |                               ^
+   |                                ^^^
 
 error: LParen
   --> $DIR/tests/fixture/value/custom-property/input.css:46:32
@@ -2133,7 +1977,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:47:5
    |
 47 |     --delim-not-top-level: (!);
-   |     ^^^^^^^^^^^^^^^^^^^^^^^
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:47:5
@@ -2148,22 +1992,16 @@ error: DashedIdent
    |     ^^^^^^^^^^^^^^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:47:27
+  --> $DIR/tests/fixture/value/custom-property/input.css:47:28
    |
 47 |     --delim-not-top-level: (!);
-   |                           ^^^^
+   |                            ^^^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:47:27
+  --> $DIR/tests/fixture/value/custom-property/input.css:47:28
    |
 47 |     --delim-not-top-level: (!);
-   |                           ^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:47:27
-   |
-47 |     --delim-not-top-level: (!);
-   |                           ^
+   |                            ^^^
 
 error: LParen
   --> $DIR/tests/fixture/value/custom-property/input.css:47:28
@@ -2331,7 +2169,7 @@ error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:51:8
    |
 51 | :root {--foo: }
-   |        ^^^^^^^
+   |        ^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:51:8
@@ -2346,22 +2184,16 @@ error: DashedIdent
    |        ^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:51:14
+  --> $DIR/tests/fixture/value/custom-property/input.css:51:15
    |
 51 | :root {--foo: }
-   |              ^
+   |               ^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:51:14
+  --> $DIR/tests/fixture/value/custom-property/input.css:51:15
    |
 51 | :root {--foo: }
-   |              ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:51:14
-   |
-51 | :root {--foo: }
-   |              ^
+   |               ^
 
 error: Rule
   --> $DIR/tests/fixture/value/custom-property/input.css:52:1
@@ -2429,7 +2261,7 @@ error: Declaration
    |
 53 | /     --foo: 
 54 | | }
-   | |_
+   | |_^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/custom-property/input.css:53:5
@@ -2444,27 +2276,111 @@ error: DashedIdent
    |     ^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/custom-property/input.css:53:11
+  --> $DIR/tests/fixture/value/custom-property/input.css:54:1
    |
-53 |       --foo: 
-   |  ___________^
-54 | | }
-   | |_
+54 | }
+   | ^
 
 error: Tokens
-  --> $DIR/tests/fixture/value/custom-property/input.css:53:11
+  --> $DIR/tests/fixture/value/custom-property/input.css:54:1
    |
-53 |       --foo: 
-   |  ___________^
-54 | | }
-   | |_
+54 | }
+   | ^
 
-error: WhiteSpace { value: Atom(' 
-' type=inline) }
-  --> $DIR/tests/fixture/value/custom-property/input.css:53:11
+error: Rule
+  --> $DIR/tests/fixture/value/custom-property/input.css:56:1
    |
-53 |       --foo: 
-   |  ___________^
-54 | | }
-   | |_
+56 | / :root {
+57 | |     --var:  value;
+58 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/value/custom-property/input.css:56:1
+   |
+56 | / :root {
+57 | |     --var:  value;
+58 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/value/custom-property/input.css:56:1
+   |
+56 | :root {
+   | ^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/value/custom-property/input.css:56:1
+   |
+56 | :root {
+   | ^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/value/custom-property/input.css:56:1
+   |
+56 | :root {
+   | ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/value/custom-property/input.css:56:1
+   |
+56 | :root {
+   | ^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/value/custom-property/input.css:56:1
+   |
+56 | :root {
+   | ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/custom-property/input.css:56:2
+   |
+56 | :root {
+   |  ^^^^
+
+error: Block
+  --> $DIR/tests/fixture/value/custom-property/input.css:56:7
+   |
+56 |   :root {
+   |  _______^
+57 | |     --var:  value;
+58 | | }
+   | |_^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/custom-property/input.css:57:5
+   |
+57 |     --var:  value;
+   |     ^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/custom-property/input.css:57:5
+   |
+57 |     --var:  value;
+   |     ^^^^^
+
+error: DashedIdent
+  --> $DIR/tests/fixture/value/custom-property/input.css:57:5
+   |
+57 |     --var:  value;
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/custom-property/input.css:57:13
+   |
+57 |     --var:  value;
+   |             ^^^^^
+
+error: Tokens
+  --> $DIR/tests/fixture/value/custom-property/input.css:57:13
+   |
+57 |     --var:  value;
+   |             ^^^^^
+
+error: Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
+  --> $DIR/tests/fixture/value/custom-property/input.css:57:13
+   |
+57 |     --var:  value;
+   |             ^^^^^
 

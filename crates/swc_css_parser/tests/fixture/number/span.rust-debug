@@ -6,8 +6,8 @@ error: Stylesheet
 3  | |     property: +10;
 4  | |     property: -10;
 ...  |
-35 | |     property: 1e;
-36 | | }
+37 | |     property: 1-2;
+38 | | }
    | |__^
 
 error: Rule
@@ -18,8 +18,8 @@ error: Rule
 3  | |     property: +10;
 4  | |     property: -10;
 ...  |
-35 | |     property: 1e;
-36 | | }
+37 | |     property: 1-2;
+38 | | }
    | |_^
 
 error: QualifiedRule
@@ -30,8 +30,8 @@ error: QualifiedRule
 3  | |     property: +10;
 4  | |     property: -10;
 ...  |
-35 | |     property: 1e;
-36 | | }
+37 | |     property: 1-2;
+38 | | }
    | |_^
 
 error: SelectorList
@@ -73,8 +73,8 @@ error: Block
 3  | |     property: +10;
 4  | |     property: -10;
 ...  |
-35 | |     property: 1e;
-36 | | }
+37 | |     property: 1-2;
+38 | | }
    | |_^
 
 error: Declaration
@@ -1108,4 +1108,88 @@ error: Ident
    |
 35 |     property: 1e;
    |                ^
+
+error: Declaration
+  --> $DIR/tests/fixture/number/input.css:36:5
+   |
+36 |     property: 1+2;
+   |     ^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/number/input.css:36:5
+   |
+36 |     property: 1+2;
+   |     ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/number/input.css:36:5
+   |
+36 |     property: 1+2;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/number/input.css:36:15
+   |
+36 |     property: 1+2;
+   |               ^
+
+error: Number
+  --> $DIR/tests/fixture/number/input.css:36:15
+   |
+36 |     property: 1+2;
+   |               ^
+
+error: Value
+  --> $DIR/tests/fixture/number/input.css:36:16
+   |
+36 |     property: 1+2;
+   |                ^^
+
+error: Number
+  --> $DIR/tests/fixture/number/input.css:36:16
+   |
+36 |     property: 1+2;
+   |                ^^
+
+error: Declaration
+  --> $DIR/tests/fixture/number/input.css:37:5
+   |
+37 |     property: 1-2;
+   |     ^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/number/input.css:37:5
+   |
+37 |     property: 1-2;
+   |     ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/number/input.css:37:5
+   |
+37 |     property: 1-2;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/number/input.css:37:15
+   |
+37 |     property: 1-2;
+   |               ^
+
+error: Number
+  --> $DIR/tests/fixture/number/input.css:37:15
+   |
+37 |     property: 1-2;
+   |               ^
+
+error: Value
+  --> $DIR/tests/fixture/number/input.css:37:16
+   |
+37 |     property: 1-2;
+   |                ^^
+
+error: Number
+  --> $DIR/tests/fixture/number/input.css:37:16
+   |
+37 |     property: 1-2;
+   |                ^^
 

@@ -1,6 +1,6 @@
 error: Expected a property value
- --> $DIR/tests/errors/percent/minus/input.css:1:11
+ --> $DIR/tests/errors/percent/minus/input.css:1:12
   |
 1 | a { width: -0.%; }
-  |           ^^^^^
+  |            ^^^^
 

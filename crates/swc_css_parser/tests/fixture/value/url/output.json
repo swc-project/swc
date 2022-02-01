@@ -957,7 +957,7 @@
             "type": "Declaration",
             "span": {
               "start": 823,
-              "end": 830,
+              "end": 866,
               "ctxt": 0
             },
             "name": {
@@ -974,23 +974,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 829,
+                  "start": 830,
                   "end": 866,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 829,
-                      "end": 830,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 830,

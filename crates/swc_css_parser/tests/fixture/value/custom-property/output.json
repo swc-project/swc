@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 1133,
+    "end": 1163,
     "ctxt": 0
   },
   "rules": [
@@ -185,23 +185,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 73,
+                  "start": 74,
                   "end": 79,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 73,
-                      "end": 74,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 74,
@@ -245,23 +233,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 108,
+                  "start": 109,
                   "end": 115,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 108,
-                      "end": 109,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 109,
@@ -377,23 +353,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 179,
+                  "start": 180,
                   "end": 187,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 179,
-                      "end": 180,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 180,
@@ -442,7 +406,7 @@
             "type": "Declaration",
             "span": {
               "start": 204,
-              "end": 213,
+              "end": 214,
               "ctxt": 0
             },
             "name": {
@@ -459,24 +423,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 212,
+                  "start": 213,
                   "end": 213,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 212,
-                      "end": 213,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  }
-                ]
+                "tokens": []
               }
             ],
             "important": null
@@ -485,7 +436,7 @@
             "type": "Declaration",
             "span": {
               "start": 219,
-              "end": 229,
+              "end": 234,
               "ctxt": 0
             },
             "name": {
@@ -502,24 +453,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 228,
-                  "end": 229,
+                  "start": 229,
+                  "end": 233,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 228,
-                      "end": 229,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  }
-                ]
+                "tokens": []
               }
             ],
             "important": null
@@ -545,24 +483,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 248,
+                  "start": 249,
                   "end": 249,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 248,
-                      "end": 249,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  }
-                ]
+                "tokens": []
               }
             ],
             "important": {
@@ -592,24 +517,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 278,
+                  "start": 279,
                   "end": 279,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 278,
-                      "end": 279,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  }
-                ]
+                "tokens": []
               }
             ],
             "important": {
@@ -622,7 +534,7 @@
             "type": "Declaration",
             "span": {
               "start": 295,
-              "end": 312,
+              "end": 320,
               "ctxt": 0
             },
             "name": {
@@ -639,24 +551,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 311,
-                  "end": 312,
+                  "start": 312,
+                  "end": 319,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 311,
-                      "end": 312,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  }
-                ]
+                "tokens": []
               }
             ],
             "important": null
@@ -709,7 +608,7 @@
             "type": "Declaration",
             "span": {
               "start": 353,
-              "end": 363,
+              "end": 364,
               "ctxt": 0
             },
             "name": {
@@ -726,23 +625,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 362,
+                  "start": 363,
                   "end": 364,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 362,
-                      "end": 363,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 363,
@@ -766,7 +653,7 @@
             "type": "Declaration",
             "span": {
               "start": 370,
-              "end": 378,
+              "end": 383,
               "ctxt": 0
             },
             "name": {
@@ -783,23 +670,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 377,
+                  "start": 378,
                   "end": 383,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 377,
-                      "end": 378,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 378,
@@ -825,7 +700,7 @@
             "type": "Declaration",
             "span": {
               "start": 389,
-              "end": 398,
+              "end": 402,
               "ctxt": 0
             },
             "name": {
@@ -842,23 +717,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 397,
+                  "start": 398,
                   "end": 402,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 397,
-                      "end": 398,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 398,
@@ -882,7 +745,7 @@
             "type": "Declaration",
             "span": {
               "start": 409,
-              "end": 421,
+              "end": 426,
               "ctxt": 0
             },
             "name": {
@@ -899,23 +762,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 420,
+                  "start": 421,
                   "end": 432,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 420,
-                      "end": 421,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 421,
@@ -1010,7 +861,7 @@
             "type": "Declaration",
             "span": {
               "start": 438,
-              "end": 450,
+              "end": 454,
               "ctxt": 0
             },
             "name": {
@@ -1027,23 +878,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 449,
+                  "start": 450,
                   "end": 461,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 449,
-                      "end": 450,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 450,
@@ -1087,7 +926,7 @@
             "type": "Declaration",
             "span": {
               "start": 468,
-              "end": 478,
+              "end": 500,
               "ctxt": 0
             },
             "name": {
@@ -1104,23 +943,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 477,
+                  "start": 478,
                   "end": 500,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 477,
-                      "end": 478,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 478,
@@ -1143,7 +970,7 @@
             "type": "Declaration",
             "span": {
               "start": 506,
-              "end": 516,
+              "end": 538,
               "ctxt": 0
             },
             "name": {
@@ -1160,23 +987,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 515,
+                  "start": 516,
                   "end": 538,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 515,
-                      "end": 516,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 516,
@@ -1199,7 +1014,7 @@
             "type": "Declaration",
             "span": {
               "start": 545,
-              "end": 561,
+              "end": 562,
               "ctxt": 0
             },
             "name": {
@@ -1216,23 +1031,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 560,
+                  "start": 561,
                   "end": 570,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 560,
-                      "end": 561,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 561,
@@ -1340,7 +1143,7 @@
             "type": "Declaration",
             "span": {
               "start": 576,
-              "end": 593,
+              "end": 594,
               "ctxt": 0
             },
             "name": {
@@ -1357,23 +1160,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 592,
+                  "start": 593,
                   "end": 595,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 592,
-                      "end": 593,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 593,
@@ -1446,7 +1237,7 @@
             "type": "Declaration",
             "span": {
               "start": 625,
-              "end": 640,
+              "end": 641,
               "ctxt": 0
             },
             "name": {
@@ -1463,23 +1254,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 639,
+                  "start": 640,
                   "end": 649,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 639,
-                      "end": 640,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 640,
@@ -1587,7 +1366,7 @@
             "type": "Declaration",
             "span": {
               "start": 655,
-              "end": 671,
+              "end": 672,
               "ctxt": 0
             },
             "name": {
@@ -1604,23 +1383,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 670,
+                  "start": 671,
                   "end": 673,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 670,
-                      "end": 671,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 671,
@@ -1693,7 +1460,7 @@
             "type": "Declaration",
             "span": {
               "start": 702,
-              "end": 719,
+              "end": 720,
               "ctxt": 0
             },
             "name": {
@@ -1710,23 +1477,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 718,
+                  "start": 719,
                   "end": 728,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 718,
-                      "end": 719,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 719,
@@ -1834,7 +1589,7 @@
             "type": "Declaration",
             "span": {
               "start": 734,
-              "end": 752,
+              "end": 753,
               "ctxt": 0
             },
             "name": {
@@ -1851,23 +1606,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 751,
+                  "start": 752,
                   "end": 754,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 751,
-                      "end": 752,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 752,
@@ -1940,7 +1683,7 @@
             "type": "Declaration",
             "span": {
               "start": 787,
-              "end": 795,
+              "end": 796,
               "ctxt": 0
             },
             "name": {
@@ -1957,23 +1700,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 794,
+                  "start": 795,
                   "end": 828,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 794,
-                      "end": 795,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 795,
@@ -2216,7 +1947,7 @@
             "type": "Declaration",
             "span": {
               "start": 834,
-              "end": 848,
+              "end": 857,
               "ctxt": 0
             },
             "name": {
@@ -2233,23 +1964,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 847,
+                  "start": 848,
                   "end": 884,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 847,
-                      "end": 848,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 848,
@@ -2404,7 +2123,7 @@
             "type": "Declaration",
             "span": {
               "start": 891,
-              "end": 898,
+              "end": 902,
               "ctxt": 0
             },
             "name": {
@@ -2421,23 +2140,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 897,
+                  "start": 898,
                   "end": 902,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 897,
-                      "end": 898,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 898,
@@ -2455,7 +2162,7 @@
             "type": "Declaration",
             "span": {
               "start": 908,
-              "end": 915,
+              "end": 918,
               "ctxt": 0
             },
             "name": {
@@ -2472,23 +2179,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 914,
+                  "start": 915,
                   "end": 918,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 914,
-                      "end": 915,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 915,
@@ -2849,7 +2544,7 @@
             "type": "Declaration",
             "span": {
               "start": 1015,
-              "end": 1042,
+              "end": 1043,
               "ctxt": 0
             },
             "name": {
@@ -2866,23 +2561,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 1041,
+                  "start": 1042,
                   "end": 1045,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 1041,
-                      "end": 1042,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 1042,
@@ -2916,7 +2599,7 @@
             "type": "Declaration",
             "span": {
               "start": 1051,
-              "end": 1074,
+              "end": 1075,
               "ctxt": 0
             },
             "name": {
@@ -2933,23 +2616,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 1073,
+                  "start": 1074,
                   "end": 1077,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 1073,
-                      "end": 1074,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 1074,
@@ -3170,7 +2841,7 @@
             "type": "Declaration",
             "span": {
               "start": 1102,
-              "end": 1109,
+              "end": 1110,
               "ctxt": 0
             },
             "name": {
@@ -3187,24 +2858,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 1108,
+                  "start": 1109,
                   "end": 1109,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 1108,
-                      "end": 1109,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  }
-                ]
+                "tokens": []
               }
             ],
             "important": null
@@ -3282,7 +2940,7 @@
             "type": "Declaration",
             "span": {
               "start": 1123,
-              "end": 1131,
+              "end": 1132,
               "ctxt": 0
             },
             "name": {
@@ -3299,20 +2957,120 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 1129,
+                  "start": 1131,
                   "end": 1131,
+                  "ctxt": 0
+                },
+                "tokens": []
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 1134,
+        "end": 1162,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 1134,
+          "end": 1139,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 1134,
+              "end": 1139,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 1134,
+                  "end": 1139,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoClassSelector",
+                    "span": {
+                      "start": 1134,
+                      "end": 1139,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1135,
+                        "end": 1139,
+                        "ctxt": 0
+                      },
+                      "value": "root",
+                      "raw": "root"
+                    },
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 1140,
+          "end": 1162,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1146,
+              "end": 1159,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "DashedIdentifier",
+              "span": {
+                "start": 1146,
+                "end": 1151,
+                "ctxt": 0
+              },
+              "value": "--var",
+              "raw": "--var"
+            },
+            "value": [
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 1154,
+                  "end": 1159,
                   "ctxt": 0
                 },
                 "tokens": [
                   {
                     "span": {
-                      "start": 1129,
-                      "end": 1131,
+                      "start": 1154,
+                      "end": 1159,
                       "ctxt": 0
                     },
                     "token": {
-                      "WhiteSpace": {
-                        "value": " \n"
+                      "Ident": {
+                        "value": "value",
+                        "raw": "value"
                       }
                     }
                   }

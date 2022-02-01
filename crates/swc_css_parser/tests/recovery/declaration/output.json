@@ -75,7 +75,7 @@
             "type": "Declaration",
             "span": {
               "start": 13,
-              "end": 30,
+              "end": 19,
               "ctxt": 0
             },
             "name": {
@@ -88,30 +88,7 @@
               "value": "prop",
               "raw": "prop"
             },
-            "value": [
-              {
-                "type": "Tokens",
-                "span": {
-                  "start": 18,
-                  "end": 19,
-                  "ctxt": 0
-                },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 18,
-                      "end": 19,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  }
-                ]
-              }
-            ],
+            "value": [],
             "important": null
           },
           {

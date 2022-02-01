@@ -87,7 +87,7 @@ error: Declaration
  --> $DIR/tests/fixture/rome/functions/input.css:2:2
   |
 2 |     --fancy: 2px;
-  |     ^^^^^^^^^
+  |     ^^^^^^^^^^^^
 
 error: DeclarationName
  --> $DIR/tests/fixture/rome/functions/input.css:2:2
@@ -102,22 +102,16 @@ error: DashedIdent
   |     ^^^^^^^
 
 error: Value
- --> $DIR/tests/fixture/rome/functions/input.css:2:10
+ --> $DIR/tests/fixture/rome/functions/input.css:2:11
   |
 2 |     --fancy: 2px;
-  |             ^^^^
+  |              ^^^
 
 error: Tokens
- --> $DIR/tests/fixture/rome/functions/input.css:2:10
+ --> $DIR/tests/fixture/rome/functions/input.css:2:11
   |
 2 |     --fancy: 2px;
-  |             ^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/rome/functions/input.css:2:10
-  |
-2 |     --fancy: 2px;
-  |             ^
+  |              ^^^
 
 error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
  --> $DIR/tests/fixture/rome/functions/input.css:2:11

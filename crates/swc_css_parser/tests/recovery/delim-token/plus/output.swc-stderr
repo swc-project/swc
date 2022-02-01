@@ -10,15 +10,9 @@ error: Expected Declaration value
 3 |     prop1: 1 + 2;
   |              ^
 
-error: Expected a property value
- --> $DIR/tests/recovery/delim-token/plus/input.css:4:11
-  |
-4 |     prop2: 1+2;
-  |           ^^^^
-
 error: Expected Declaration value
- --> $DIR/tests/recovery/delim-token/plus/input.css:5:19
+ --> $DIR/tests/recovery/delim-token/plus/input.css:4:19
   |
-5 |     prop3: func(1 + 2);
+4 |     prop2: func(1 + 2);
   |                   ^
 

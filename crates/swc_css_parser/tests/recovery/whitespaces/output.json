@@ -74,7 +74,7 @@
             "type": "Declaration",
             "span": {
               "start": 8,
-              "end": 24,
+              "end": 14,
               "ctxt": 0
             },
             "name": {
@@ -87,37 +87,14 @@
               "value": "prop",
               "raw": "prop"
             },
-            "value": [
-              {
-                "type": "Tokens",
-                "span": {
-                  "start": 13,
-                  "end": 14,
-                  "ctxt": 0
-                },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 13,
-                      "end": 14,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  }
-                ]
-              }
-            ],
+            "value": [],
             "important": null
           },
           {
             "type": "Declaration",
             "span": {
               "start": 20,
-              "end": 39,
+              "end": 29,
               "ctxt": 0
             },
             "name": {
@@ -130,37 +107,14 @@
               "value": "prop",
               "raw": "prop"
             },
-            "value": [
-              {
-                "type": "Tokens",
-                "span": {
-                  "start": 25,
-                  "end": 29,
-                  "ctxt": 0
-                },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 25,
-                      "end": 29,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": "    "
-                      }
-                    }
-                  }
-                ]
-              }
-            ],
+            "value": [],
             "important": null
           },
           {
             "type": "Declaration",
             "span": {
               "start": 35,
-              "end": 52,
+              "end": 42,
               "ctxt": 0
             },
             "name": {
@@ -173,37 +127,14 @@
               "value": "prop",
               "raw": "prop"
             },
-            "value": [
-              {
-                "type": "Tokens",
-                "span": {
-                  "start": 40,
-                  "end": 42,
-                  "ctxt": 0
-                },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 40,
-                      "end": 42,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": "\n\n"
-                      }
-                    }
-                  }
-                ]
-              }
-            ],
+            "value": [],
             "important": null
           },
           {
             "type": "Declaration",
             "span": {
               "start": 48,
-              "end": 64,
+              "end": 63,
               "ctxt": 0
             },
             "name": {
@@ -216,26 +147,7 @@
               "value": "prop",
               "raw": "prop"
             },
-            "value": [
-              {
-                "type": "Tokens",
-                "span": {
-                  "start": 63,
-                  "end": 64,
-                  "ctxt": 0
-                },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 63,
-                      "end": 64,
-                      "ctxt": 0
-                    },
-                    "token": "Semi"
-                  }
-                ]
-              }
-            ],
+            "value": [],
             "important": null
           }
         ]

@@ -224,6 +224,8 @@ where
 
         expect!(self, ":");
 
+        self.input.skip_ws()?;
+
         let mut end = self.input.cur_span()?.hi;
         let mut value = vec![];
 
