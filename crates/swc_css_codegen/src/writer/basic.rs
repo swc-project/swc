@@ -85,7 +85,7 @@ where
                 // If the character is in the range [\1-\1f] (U+0001 to U+001F) or is U+007F, the
                 // character escaped as code point.
                 '\x01'..='\x1F' | '\x7F' => {
-                    static HEX_DIGITS: &'static [u8; 16] = b"0123456789abcdef";
+                    static HEX_DIGITS: &[u8; 16] = b"0123456789abcdef";
 
                     let b3;
                     let b4;
@@ -104,7 +104,7 @@ where
                         &b3[..]
                     };
 
-                    new_string.push_str(from_utf8(&bytes).unwrap());
+                    new_string.push_str(from_utf8(bytes).unwrap());
                 }
                 // If the character is '"' (U+0022) or "\" (U+005C), the escaped character.
                 // We avoid escaping `"` to better string compression - we count the quantity of
@@ -131,11 +131,11 @@ where
 
         if dq > sq {
             self.write_raw_char(span, '\'')?;
-            self.write_raw(span, &new_string.replace("'", "\\'"))?;
+            self.write_raw(span, &new_string.replace('\'', "\\'"))?;
             self.write_raw_char(span, '\'')?;
         } else {
             self.write_raw_char(span, '"')?;
-            self.write_raw(span, &new_string.replace("\"", "\\\""))?;
+            self.write_raw(span, &new_string.replace('"', "\\\""))?;
             self.write_raw_char(span, '"')?;
         }
 
