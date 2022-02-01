@@ -67,16 +67,14 @@ where
         self.w.write_char(' ')
     }
 
-    fn write_str(&mut self, _span: Option<Span>, text: &str) -> Result {
+    fn write_str(&mut self, span: Option<Span>, text: &str) -> Result {
         self.write_raw_char(None, '"')?;
 
         for (_, char) in text.chars().enumerate() {
-            self.col += 1;
-
             match char {
                 // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER (U+FFFD).
                 '\0' => {
-                    self.write_raw(None, "\u{FFFD}")?;
+                    self.write_raw_char(span, '\u{FFFD}')?;
                 }
                 // If the character is in the range [\1-\1f] (U+0001 to U+001F) or is U+007F, the
                 // character escaped as code point.
@@ -92,21 +90,26 @@ where
                         let low = (char_as_u8 & 0x0F) as usize;
 
                         b4 = [b'\\', HEX_DIGITS[high], HEX_DIGITS[low], b' '];
+
                         &b4[..]
                     } else {
                         b3 = [b'\\', HEX_DIGITS[char as usize], b' '];
+
                         &b3[..]
                     };
 
                     self.write_raw(None, unsafe { std::str::from_utf8_unchecked(&bytes) })?;
                 }
                 // If the character is '"' (U+0022) or "\" (U+005C), the escaped character.
-                '"' | '\\' => {
+                '"' => {
                     self.write_raw(None, "\\\"")?;
+                }
+                '\\' => {
+                    self.write_raw(None, "\\\\")?;
                 }
                 // Otherwise, the character itself.
                 _ => {
-                    self.w.write_char(char)?;
+                    self.write_raw_char(span, char)?;
                 }
             };
         }

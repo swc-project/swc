@@ -23,4 +23,9 @@ awesome string";
     content: "\'string\' is \"string\"";
     background: url('http://example.com/foo\'bar.jpg');
     background: url("http://example.com/foo\"bar.jpg");
+    content: '⬇️';
+    content: "😀";
+    content: "\'test\'";
+    content: "\\'test\'";
+    content: "\\\\'test\'";
 }
