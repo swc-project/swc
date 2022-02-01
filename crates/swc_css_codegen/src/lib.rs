@@ -951,13 +951,15 @@ where
                 }
 
                 if minified.starts_with(".000") {
-                    // TODO bug fix me
-                    let cnt = minified
-                        .as_bytes()
-                        .iter()
-                        .skip(1)
-                        .filter(|&&v| v == b'0')
-                        .count();
+                    let mut cnt = 3;
+
+                    for &v in minified.as_bytes().iter().skip(4) {
+                        if v == b'0' {
+                            cnt += 1;
+                        } else {
+                            break;
+                        }
+                    }
 
                     minified.replace_range(0..cnt + 1, "");
 
@@ -966,12 +968,15 @@ where
                     minified.push_str("e-");
                     minified.push_str(&(remain_len + cnt).to_string());
                 } else if minified.ends_with("000") {
-                    let cnt = minified
-                        .as_bytes()
-                        .iter()
-                        .rev()
-                        .filter(|&&v| v == b'0')
-                        .count();
+                    let mut cnt = 3;
+
+                    for &v in minified.as_bytes().iter().rev().skip(3) {
+                        if v == b'0' {
+                            cnt += 1;
+                        } else {
+                            break;
+                        }
+                    }
 
                     minified.truncate(minified.len() - cnt);
                     minified.push('e');
