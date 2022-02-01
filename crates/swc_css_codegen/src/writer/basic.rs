@@ -1,5 +1,8 @@
 use super::CssWriter;
-use std::fmt::{Result, Write};
+use std::{
+    fmt::{Result, Write},
+    str::from_utf8,
+};
 use swc_common::Span;
 
 pub struct BasicCssWriterConfig<'a> {
@@ -70,7 +73,9 @@ where
     fn write_str(&mut self, span: Option<Span>, text: &str) -> Result {
         let mut new_string = String::new();
 
-        // TODO improve output for `'"string" is string'`
+        let mut dq = 0;
+        let mut sq = 0;
+
         for char in text.chars() {
             match char {
                 // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER (U+FFFD).
@@ -99,14 +104,23 @@ where
                         &b3[..]
                     };
 
-                    new_string.push_str(unsafe { std::str::from_utf8_unchecked(&bytes) });
+                    new_string.push_str(from_utf8(&bytes).unwrap());
                 }
                 // If the character is '"' (U+0022) or "\" (U+005C), the escaped character.
-                '"' => {
-                    new_string.push_str("\\\"");
-                }
+                // We avoid escaping `"` to better string compression - we count the quantity of
+                // quotes to choose the best default quotes
                 '\\' => {
                     new_string.push_str("\\\\");
+                }
+                '"' => {
+                    dq += 1;
+
+                    new_string.push(char);
+                }
+                '\'' => {
+                    sq += 1;
+
+                    new_string.push(char);
                 }
                 // Otherwise, the character itself.
                 _ => {
@@ -115,16 +129,22 @@ where
             };
         }
 
-        self.write_raw_char(span, '"')?;
-        self.write_raw(span, &new_string)?;
-        self.write_raw_char(span, '"')?;
+        if dq > sq {
+            self.write_raw_char(span, '\'')?;
+            self.write_raw(span, &new_string.replace("'", "\\'"))?;
+            self.write_raw_char(span, '\'')?;
+        } else {
+            self.write_raw_char(span, '"')?;
+            self.write_raw(span, &new_string.replace("\"", "\\\""))?;
+            self.write_raw_char(span, '"')?;
+        }
 
         Ok(())
     }
 
     fn write_raw(&mut self, span: Option<Span>, text: &str) -> Result {
         for char in text.chars() {
-            self.write_raw_char(span,char)?;
+            self.write_raw_char(span, char)?;
         }
 
         Ok(())

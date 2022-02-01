@@ -34,9 +34,13 @@ div {
     content: "This string has a \00000A line break in it.";
 
     content: "\"test\" \"test\" \"test\" 'test'";
-    content: "'test' 'test' 'test' \"test\"";
-    content: '\"test\" \"test\" \"test\" \"test\"';
+    content: "\"test\" \"test\" \"test\" \'test\'";
+    content: "\'test\' \'test\' \'test\' \"test\"";
+    content: '\"test\" \"test\" \"test\" \'test\'';
     content: '\'test\' \'test\' \'test\' "test"';
+    content: '\'test\' \'test\' \'test\' \"test\"';
+    
+    content: '\\\'test\\\' \\\'test\\\' \\\'test\\\' \\\"test\\\"';
 
     background: url('http://example.com/foo\'bar.jpg');
     background: url('http://example.com/foo\"bar.jpg');
