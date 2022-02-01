@@ -597,7 +597,7 @@ const JpegImage = function jpegImage() {
             }
             fileMarker = readUint16();
             while(fileMarker != 65497){
-                let i, j;
+                let i, j1;
                 switch(fileMarker){
                     case 65280:
                         break;
@@ -653,13 +653,13 @@ const JpegImage = function jpegImage() {
                             const quantizationTableSpec = data[offset++];
                             const tableData = new Int32Array(64);
                             if (quantizationTableSpec >> 4 === 0) {
-                                for(j = 0; j < 64; j++){
-                                    const z = dctZigZag[j];
-                                    tableData[z] = data[offset++];
+                                for(j1 = 0; j1 < 64; j1++){
+                                    const z1 = dctZigZag[j1];
+                                    tableData[z1] = data[offset++];
                                 }
                             } else if (quantizationTableSpec >> 4 === 1) {
-                                for(j = 0; j < 64; j++){
-                                    const z = dctZigZag[j];
+                                for(j1 = 0; j1 < 64; j1++){
+                                    const z = dctZigZag[j1];
                                     tableData[z] = readUint16();
                                 }
                             } else {
@@ -703,12 +703,12 @@ const JpegImage = function jpegImage() {
                             const huffmanTableSpec = data[offset++];
                             const codeLengths = new Uint8Array(16);
                             let codeLengthSum = 0;
-                            for(j = 0; j < 16; j++, offset++){
-                                codeLengthSum += codeLengths[j] = data[offset];
+                            for(j1 = 0; j1 < 16; j1++, offset++){
+                                codeLengthSum += codeLengths[j1] = data[offset];
                             }
                             const huffmanValues = new Uint8Array(codeLengthSum);
-                            for(j = 0; j < codeLengthSum; j++, offset++){
-                                huffmanValues[j] = data[offset];
+                            for(j1 = 0; j1 < codeLengthSum; j1++, offset++){
+                                huffmanValues[j1] = data[offset];
                             }
                             i += 17 + codeLengthSum;
                             (huffmanTableSpec >> 4 === 0 ? huffmanTablesDC : huffmanTablesAC)[huffmanTableSpec & 15] = buildHuffmanTable(codeLengths, huffmanValues);
@@ -721,13 +721,13 @@ const JpegImage = function jpegImage() {
                     case 65498:
                         readUint16();
                         const selectorsCount = data[offset++];
-                        let components = [], component;
+                        let components = [], component2;
                         for(i = 0; i < selectorsCount; i++){
-                            component = frame1.components[data[offset++]];
+                            component2 = frame1.components[data[offset++]];
                             const tableSpec = data[offset++];
-                            component.huffmanTableDC = huffmanTablesDC[tableSpec >> 4];
-                            component.huffmanTableAC = huffmanTablesAC[tableSpec & 15];
-                            components.push(component);
+                            component2.huffmanTableDC = huffmanTablesDC[tableSpec >> 4];
+                            component2.huffmanTableAC = huffmanTablesAC[tableSpec & 15];
+                            components.push(component2);
                         }
                         const spectralStart = data[offset++];
                         const spectralEnd = data[offset++];
