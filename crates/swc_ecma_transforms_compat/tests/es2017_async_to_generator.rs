@@ -655,7 +655,8 @@ test_exec!(
         es2015(
             Mark::fresh(Mark::root()),
             Some(t.comments.clone()),
-            Default::default()
+            Default::default(),
+            Default::default(),
         )
     ),
     issue_400_1,
@@ -721,7 +722,8 @@ test_exec!(
         es2015(
             Mark::fresh(Mark::root()),
             Some(t.comments.clone()),
-            Default::default()
+            Default::default(),
+            Default::default(),
         )
     ),
     issue_400_3,

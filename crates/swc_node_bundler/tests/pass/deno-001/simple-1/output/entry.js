@@ -111,11 +111,11 @@ function chunkedBodyReader(h, r) {
         if (Number.isNaN(chunkSize) || chunkSize < 0) throw new Error("Invalid chunk size");
         if (chunkSize > 0) {
             if (chunkSize > buf.byteLength) {
-                let eof = await r.readFull(buf);
-                if (eof === null) throw new Deno.errors.UnexpectedEof();
+                let eof1 = await r.readFull(buf);
+                if (eof1 === null) throw new Deno.errors.UnexpectedEof();
                 const restChunk = new Uint8Array(chunkSize - buf.byteLength);
-                eof = await r.readFull(restChunk);
-                if (eof === null) throw new Deno.errors.UnexpectedEof();
+                eof1 = await r.readFull(restChunk);
+                if (eof1 === null) throw new Deno.errors.UnexpectedEof();
                 else chunks.push({
                     offset: 0,
                     data: restChunk
@@ -235,11 +235,11 @@ async function writeResponse(w, r) {
     for (const [key, value] of headers)out += `${key}: ${value}\r\n`;
     out += `\r\n`;
     const header = encoder.encode(out);
-    const n = await writer.write(header);
-    assert(n === header.byteLength);
+    const n1 = await writer.write(header);
+    assert(n1 === header.byteLength);
     if (r.body instanceof Uint8Array) {
-        const n = await writer.write(r.body);
-        assert(n === r.body.byteLength);
+        const n2 = await writer.write(r.body);
+        assert(n2 === r.body.byteLength);
     } else if (headers.has("content-length")) {
         const contentLength = headers.get("content-length");
         assert(contentLength != null);

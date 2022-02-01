@@ -22,7 +22,11 @@ fn syntax() -> Syntax {
 }
 
 fn tr() -> impl Fold {
-    chain!(resolver(), function_name(), block_scoping())
+    chain!(
+        resolver(),
+        function_name(),
+        block_scoping(Default::default())
+    )
 }
 
 //macro_rules! identical {

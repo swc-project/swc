@@ -77,7 +77,7 @@ test!(
             ignore_function_length: true
         }),
         destructuring(destructuring::Config { loose: false }),
-        block_scoping(),
+        block_scoping(Default::default()),
     ),
     fn_len_default_assignment_with_types,
     "export function transformFileSync(

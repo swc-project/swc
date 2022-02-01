@@ -4029,7 +4029,7 @@ test!(
         chain!(
             resolver_with_mark(mark),
             block_scoped_functions(),
-            block_scoping(),
+            block_scoping(Default::default()),
             common_js(mark, Default::default(), None),
         )
     },
@@ -4419,7 +4419,7 @@ test!(
     syntax(),
     |t| chain!(
         resolver(),
-        block_scoping(),
+        block_scoping(Default::default()),
         classes(Some(t.comments.clone()),),
         destructuring(Default::default()),
         common_js(Mark::fresh(Mark::root()), Default::default(), None)
@@ -4552,7 +4552,7 @@ test!(
         classes(Some(t.comments.clone()),),
         parameters(Default::default()),
         destructuring(Default::default()),
-        block_scoping(),
+        block_scoping(Default::default()),
         common_js(Mark::fresh(Mark::root()), Default::default(), None),
     ),
     regression_4209,

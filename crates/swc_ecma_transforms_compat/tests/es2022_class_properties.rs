@@ -32,7 +32,7 @@ fn tr(t: &Tester) -> impl Fold {
         function_name(),
         class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
-        block_scoping(),
+        block_scoping(Default::default()),
         reserved_words(false),
     )
 }
@@ -2904,7 +2904,7 @@ test!(
     |_| chain!(
         resolver(),
         class_properties(class_properties::Config { loose: false }),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     issue_443,
     "
@@ -2991,7 +2991,7 @@ test!(
     syntax(),
     |_| chain!(
         class_properties(class_properties::Config { loose: false }),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     private_regression_t6719,
     r#"
@@ -3080,7 +3080,7 @@ test!(
     syntax(),
     |_| chain!(
         class_properties(class_properties::Config { loose: false }),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     private_reevaluated,
     r#"
@@ -3147,7 +3147,7 @@ test!(
     syntax(),
     |_| chain!(
         class_properties(class_properties::Config { loose: false }),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     private_static,
     r#"
@@ -3197,7 +3197,7 @@ test!(
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     private_destructuring_object_pattern_1,
     r#"
@@ -3239,7 +3239,7 @@ test!(
     syntax(),
     |_| chain!(
         class_properties(class_properties::Config { loose: false }),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     private_static_inherited,
     r#"
@@ -3348,7 +3348,7 @@ test!(
     syntax(),
     |_| chain!(
         class_properties(class_properties::Config { loose: false }),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     private_static_undefined,
     r#"
@@ -3391,7 +3391,7 @@ test!(
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     private_destructuring_array_pattern,
     r#"
@@ -3428,7 +3428,7 @@ test!(
     syntax(),
     |_| chain!(
         class_properties(class_properties::Config { loose: false }),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     private_regression_t2983,
     r#"
@@ -3469,7 +3469,7 @@ test!(
     |_| chain!(
         class_properties(class_properties::Config { loose: false }),
         async_to_generator(),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     private_regression_t7364,
     r#"
@@ -3544,7 +3544,7 @@ test!(
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     private_destructuring_array_pattern_1,
     r#"
@@ -3720,7 +3720,7 @@ test!(
     syntax(),
     |_| chain!(
         class_properties(class_properties::Config { loose: false }),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     private_static_export,
     r#"
@@ -4127,7 +4127,7 @@ test!(
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     private_canonical,
     r#"
@@ -4271,7 +4271,7 @@ test!(
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     private_destructuring_array_pattern_3,
     r#"
@@ -4333,7 +4333,7 @@ test!(
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     private_destructuring_array_pattern_2,
     r#"
@@ -4369,7 +4369,7 @@ test!(
     syntax(),
     |_| chain!(
         class_properties(class_properties::Config { loose: false }),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     private_non_block_arrow_func,
     r#"
@@ -4454,7 +4454,7 @@ test!(
         class_properties(class_properties::Config { loose: false }),
         exponentation(),
         classes(Some(t.comments.clone())),
-        block_scoping(),
+        block_scoping(Default::default()),
     ),
     private_instance,
     r#"
@@ -4513,7 +4513,7 @@ test!(
     syntax(),
     |_| chain!(
         class_properties(class_properties::Config { loose: false }),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     public_native_classes,
     r#"
@@ -4568,7 +4568,7 @@ test!(
     syntax(),
     |_| chain!(
         class_properties(class_properties::Config { loose: false }),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     private_static_infer_name,
     r#"
@@ -4622,7 +4622,7 @@ test!(
     syntax(),
     |_| chain!(
         class_properties(class_properties::Config { loose: false }),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     private_native_classes,
     r#"
@@ -4674,7 +4674,7 @@ test!(
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     public_computed_without_block,
     r#"
@@ -4726,7 +4726,7 @@ test!(
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
-        block_scoping()
+        block_scoping(Default::default())
     ),
     public_static_super,
     r#"

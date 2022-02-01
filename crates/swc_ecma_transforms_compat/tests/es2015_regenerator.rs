@@ -933,7 +933,8 @@ test_exec!(
         es2015(
             Mark::fresh(Mark::root()),
             Some(t.comments.clone()),
-            Default::default()
+            Default::default(),
+            Default::default(),
         ),
     ),
     issue_600_full,
@@ -1744,7 +1745,7 @@ test!(
         let mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator(),
-            es2015::<SingleThreadedComments>(mark, None, Default::default())
+            es2015::<SingleThreadedComments>(mark, None, Default::default(), Default::default())
         )
     },
     issue_1799_2,
@@ -1784,7 +1785,7 @@ test!(
         chain!(
             async_to_generator(),
             es2016(),
-            es2015::<SingleThreadedComments>(mark, None, Default::default()),
+            es2015::<SingleThreadedComments>(mark, None, Default::default(), Default::default()),
         )
     },
     issue_1799_3,
@@ -1827,7 +1828,7 @@ test!(
             es2018(Default::default()),
             es2017(),
             es2016(),
-            es2015::<SingleThreadedComments>(mark, None, Default::default()),
+            es2015::<SingleThreadedComments>(mark, None, Default::default(), Default::default()),
         )
     },
     issue_1799_5,
@@ -2035,7 +2036,7 @@ test!(
     Syntax::default(),
     |_| {
         let mark = Mark::fresh(Mark::root());
-        es2015::<SingleThreadedComments>(mark, None, Default::default())
+        es2015::<SingleThreadedComments>(mark, None, Default::default(), Default::default())
     },
     issue_2024_1,
     "

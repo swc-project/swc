@@ -125,6 +125,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                 preset_env(
                     Mark::fresh(Mark::root()),
                     Some(SingleThreadedComments::default()),
+                    Default::default(),
                     Config {
                         debug: c.debug,
                         mode: match c.use_built_ins {

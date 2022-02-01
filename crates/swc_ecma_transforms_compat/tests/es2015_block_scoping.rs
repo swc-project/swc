@@ -11,7 +11,7 @@ use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, Tester};
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Default::default()),
     for_loop,
     "for (const key in obj) {
             const bar = obj[key];
@@ -47,7 +47,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Default::default()),
     for_let_loop,
     "let functions = [];
 for (let i = 0; i < 10; i++) {
@@ -72,7 +72,7 @@ functions[7]();
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Default::default()),
     for_let_loop_exec,
     "let functions = [];
 for (let i = 0; i < 10; i++) {
@@ -87,7 +87,7 @@ expect(functions[7]()).toBe(7);
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Default::default()),
     for_let_of_exec,
     "let functions = [];
 for (let i of [1, 3, 5, 7, 9]) {
@@ -102,7 +102,10 @@ expect(functions[1]()).toBe(3);
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| chain!(for_of(Default::default()), block_scoping()),
+    |_| chain!(
+        for_of(Default::default()),
+        block_scoping(Default::default())
+    ),
     issue_609_1,
     "let functions = [];
 for (let i of [1, 3, 5, 7, 9]) {
@@ -117,7 +120,7 @@ expect(functions[1]()).toBe(3);
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Default::default()),
     issue_662,
     "function foo(parts) {
   let match = null;
@@ -165,7 +168,7 @@ foo();"
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Default::default()),
     issue_686,
     "module.exports = function(values) {
     var vars = [];
@@ -251,7 +254,7 @@ test!(
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Default::default()),
     issue_723_1,
     "function foo() {
   const lod = { 0: { mig: 'bana' }};
@@ -277,6 +280,7 @@ test_exec!(
         es2015::es2015(
             mark,
             Some(comments.clone()),
+            Default::default(),
             es2015::Config {
                 ..Default::default()
             },
@@ -307,6 +311,7 @@ test!(
         es2015::es2015(
             mark,
             Some(comments.clone()),
+            Default::default(),
             es2015::Config {
                 ..Default::default()
             },
@@ -338,6 +343,7 @@ test!(
         es2015::es2015(
             mark,
             Some(comments.clone()),
+            Default::default(),
             es2015::Config {
                 ..Default::default()
             },
@@ -374,6 +380,7 @@ test!(
         es2015::es2015(
             mark,
             Some(comments.clone()),
+            Default::default(),
             es2015::Config {
                 ..Default::default()
             },
@@ -410,6 +417,7 @@ test!(
         es2015::es2015(
             mark,
             Some(comments.clone()),
+            Default::default(),
             es2015::Config {
                 ..Default::default()
             },
@@ -454,6 +462,7 @@ test!(
         es2015::es2015(
             mark,
             Some(comments.clone()),
+            Default::default(),
             es2015::Config {
                 ..Default::default()
             },
@@ -498,6 +507,7 @@ test!(
             es2015::es2015(
                 mark,
                 Some(comments.clone()),
+                Default::default(),
                 es2015::Config {
                     ..Default::default()
                 },
@@ -573,6 +583,7 @@ test_exec!(
             es2015::es2015(
                 mark,
                 Some(comments.clone()),
+                Default::default(),
                 es2015::Config {
                     ..Default::default()
                 },
@@ -594,7 +605,7 @@ test_exec!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Default::default()),
     issue_1231_1,
     "
     function combineOverlappingMatches(matches) {
@@ -645,7 +656,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Default::default()),
     issue_1415_1,
     "
     export function test(items) {
@@ -724,6 +735,7 @@ test!(
         es2015::es2015(
             mark,
             Some(comments.clone()),
+            Default::default(),
             es2015::Config {
                 ..Default::default()
             },
@@ -758,6 +770,7 @@ test!(
         es2015::es2015(
             mark,
             Some(comments.clone()),
+            Default::default(),
             es2015::Config {
                 ..Default::default()
             },
@@ -792,6 +805,7 @@ compare_stdout!(
         es2015::es2015(
             mark,
             Some(comments.clone()),
+            Default::default(),
             es2015::Config {
                 ..Default::default()
             },
@@ -816,6 +830,7 @@ test!(
         es2015::es2015(
             mark,
             Some(comments.clone()),
+            Default::default(),
             es2015::Config {
                 ..Default::default()
             },
@@ -843,7 +858,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Default::default()),
     issue_1462_1,
     "
     export default function _objectSpread(target) {
@@ -889,7 +904,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Default::default()),
     issue_2027_1,
     "
     const keys = {
@@ -926,7 +941,12 @@ test!(
     |t| {
         let mark = Mark::fresh(Mark::root());
 
-        es2015(mark, Some(t.comments.clone()), Default::default())
+        es2015(
+            mark,
+            Some(t.comments.clone()),
+            Default::default(),
+            Default::default(),
+        )
     },
     issue_2027_2,
     "
@@ -965,7 +985,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Default::default()),
     issue_2998_1,
     "
     let a = 5;
@@ -985,7 +1005,7 @@ for(var b = 0; b < a; b++){
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Default::default()),
     issue_2998_2,
     "
     for (var a; ;) { }
@@ -999,7 +1019,7 @@ test!(
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(),
+    |_| block_scoping(Default::default()),
     issue_2998_3,
     "let a = 5;
 const expected = [];
@@ -1016,7 +1036,7 @@ fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
     compare_stdout(
         Default::default(),
-        |_| chain!(resolver(), block_scoping()),
+        |_| chain!(resolver(), block_scoping(Default::default())),
         &input,
     );
 }

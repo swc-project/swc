@@ -19,7 +19,7 @@ fn tr(c: Config) -> impl Fold {
         resolver(),
         parameters(c),
         destructuring(destructuring::Config { loose: false }),
-        block_scoping(),
+        block_scoping(Default::default()),
     )
 }
 
@@ -1641,7 +1641,10 @@ function foo() {
 // parameters_regression_4333
 test!(
     syntax(),
-    |_| chain!(parameters(Default::default()), block_scoping(),),
+    |_| chain!(
+        parameters(Default::default()),
+        block_scoping(Default::default()),
+    ),
     parameters_regression_4333,
     r#"
 const args = 'bar';

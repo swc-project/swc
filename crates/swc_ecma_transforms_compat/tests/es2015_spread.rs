@@ -625,7 +625,7 @@ test!(
     // Cost is too high.
     ignore,
     syntax(),
-    |_| chain!(tr(), block_scoping()),
+    |_| chain!(tr(), block_scoping(Default::default())),
     spread_known_rest,
     r#"
 function foo(...bar) {

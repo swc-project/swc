@@ -99,8 +99,8 @@ class BufReader {
    * hence n may be less than len(p).
    * To read exactly len(p) bytes, use io.ReadFull(b, p).
    */ async read(p) {
-        let rr = p.byteLength;
-        if (p.byteLength === 0) return rr;
+        let rr1 = p.byteLength;
+        if (p.byteLength === 0) return rr1;
         if (this.r === this.w) {
             if (p.byteLength >= this.buf.byteLength) {
                 // Large read, empty buffer.
@@ -118,10 +118,10 @@ class BufReader {
             // Do not use this.fill, which will loop.
             this.r = 0;
             this.w = 0;
-            rr = await this.rd.read(this.buf);
-            if (rr === 0 || rr === null) return rr;
-            assert(rr >= 0, "negative read");
-            this.w += rr;
+            rr1 = await this.rd.read(this.buf);
+            if (rr1 === 0 || rr1 === null) return rr1;
+            assert(rr1 >= 0, "negative read");
+            this.w += rr1;
         }
         // copy as much as we can
         const copied = copyBytes(this.buf.subarray(this.r, this.w), p, 0);
@@ -705,11 +705,11 @@ function chunkedBodyReader(h, r) {
         if (Number.isNaN(chunkSize) || chunkSize < 0) throw new Error("Invalid chunk size");
         if (chunkSize > 0) {
             if (chunkSize > buf.byteLength) {
-                let eof = await r.readFull(buf);
-                if (eof === null) throw new Deno.errors.UnexpectedEof();
+                let eof1 = await r.readFull(buf);
+                if (eof1 === null) throw new Deno.errors.UnexpectedEof();
                 const restChunk = new Uint8Array(chunkSize - buf.byteLength);
-                eof = await r.readFull(restChunk);
-                if (eof === null) throw new Deno.errors.UnexpectedEof();
+                eof1 = await r.readFull(restChunk);
+                if (eof1 === null) throw new Deno.errors.UnexpectedEof();
                 else chunks.push({
                     offset: 0,
                     data: restChunk
@@ -829,11 +829,11 @@ async function writeResponse(w, r) {
     for (const [key, value] of headers)out += `${key}: ${value}\r\n`;
     out += `\r\n`;
     const header = encoder.encode(out);
-    const n = await writer.write(header);
-    assert(n === header.byteLength);
+    const n1 = await writer.write(header);
+    assert(n1 === header.byteLength);
     if (r.body instanceof Uint8Array) {
-        const n = await writer.write(r.body);
-        assert(n === r.body.byteLength);
+        const n2 = await writer.write(r.body);
+        assert(n2 === r.body.byteLength);
     } else if (headers.has("content-length")) {
         const contentLength = headers.get("content-length");
         assert(contentLength != null);

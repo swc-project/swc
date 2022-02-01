@@ -608,7 +608,12 @@ fn fixture_es2015(input: PathBuf) {
 
             chain!(
                 resolver_with_mark(top_level_mark),
-                es2015::es2015(top_level_mark, Some(NoopComments), Default::default())
+                es2015::es2015(
+                    top_level_mark,
+                    Some(NoopComments),
+                    Default::default(),
+                    Default::default()
+                )
             )
         },
         &input,

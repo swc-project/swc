@@ -555,7 +555,8 @@ test!(
             es2015(
                 Mark::fresh(Mark::root()),
                 Some(t.comments.clone()),
-                Default::default()
+                Default::default(),
+                Default::default(),
             ),
             es3(true),
             import_analyzer(Rc::clone(&scope)),

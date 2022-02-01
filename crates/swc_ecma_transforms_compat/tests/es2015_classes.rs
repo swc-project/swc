@@ -26,7 +26,7 @@ fn spec_tr(tester: &Tester) -> impl Fold {
         spread(spread::Config {
             ..Default::default()
         }),
-        block_scoping(),
+        block_scoping(Default::default()),
     )
 }
 
@@ -5168,7 +5168,10 @@ function (Array) {
 // extend_builtins_imported_babel_plugin_transform_builtin_classes
 test_exec!(
     syntax(),
-    |t| chain!(classes(Some(t.comments.clone())), block_scoping()),
+    |t| chain!(
+        classes(Some(t.comments.clone())),
+        block_scoping(Default::default())
+    ),
     extend_builtins_imported_babel_plugin_transform_builtin_classes_exec,
     r#"
 // Imported from
@@ -5469,7 +5472,10 @@ expect(obj.test).toBe(3);
 // extend_builtins_spec
 test_exec!(
     syntax(),
-    |t| chain!(classes(Some(t.comments.clone())), block_scoping()),
+    |t| chain!(
+        classes(Some(t.comments.clone())),
+        block_scoping(Default::default())
+    ),
     extend_builtins_spec_exec,
     r#"
 class List extends Array {}
@@ -5719,7 +5725,7 @@ test!(
     // TODO: Unignore this
     ignore,
     syntax(),
-    |t| chain!(tr(t), block_scoping()),
+    |t| chain!(tr(t), block_scoping(Default::default())),
     regression_t7010,
     r#"
 class Foo {
@@ -6006,7 +6012,10 @@ expect(obj.test).toBe(3);
 // extend_builtins_builtin_objects_throw_when_wrapped
 test_exec!(
     syntax(),
-    |t| chain!(classes(Some(t.comments.clone())), block_scoping()),
+    |t| chain!(
+        classes(Some(t.comments.clone())),
+        block_scoping(Default::default())
+    ),
     extend_builtins_builtin_objects_throw_when_wrapped_exec,
     r#"
 // JSON is wrapped because it starts with an uppercase letter, but it
@@ -6055,7 +6064,10 @@ test_exec!(
     // Just don't do this.
     ignore,
     syntax(),
-    |t| chain!(classes(Some(t.comments.clone())), block_scoping()),
+    |t| chain!(
+        classes(Some(t.comments.clone())),
+        block_scoping(Default::default())
+    ),
     extend_builtins_overwritten_null_exec,
     r#"
 var env = {
@@ -6076,7 +6088,10 @@ test_exec!(
     // Just don't do this. With is evil.
     ignore,
     syntax(),
-    |t| chain!(classes(Some(t.comments.clone())), block_scoping()),
+    |t| chain!(
+        classes(Some(t.comments.clone())),
+        block_scoping(Default::default())
+    ),
     extend_builtins_super_called_exec,
     r#"
 var called = false;
@@ -6389,6 +6404,7 @@ test!(
             es2015::es2015(
                 global_mark,
                 Some(t.comments.clone()),
+                Default::default(),
                 es2015::Config {
                     ..Default::default()
                 }
@@ -6427,6 +6443,7 @@ test!(
             es2015::es2015(
                 global_mark,
                 Some(t.comments.clone()),
+                Default::default(),
                 es2015::Config {
                     ..Default::default()
                 }
@@ -6510,6 +6527,7 @@ test!(
             es2015::es2015(
                 global_mark,
                 Some(t.comments.clone()),
+                Default::default(),
                 es2015::Config {
                     ..Default::default()
                 }
@@ -6557,6 +6575,7 @@ test!(
             es2015::es2015(
                 global_mark,
                 Some(t.comments.clone()),
+                Default::default(),
                 es2015::Config {
                     ..Default::default()
                 }
