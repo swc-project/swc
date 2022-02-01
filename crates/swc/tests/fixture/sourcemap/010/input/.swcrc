@@ -1,0 +1,19 @@
+{
+  "module": {
+    "type": "commonjs"
+  },
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": false
+    },
+    "target": "es2015",
+    "transform": {
+      "legacyDecorator": true,
+      "hidden": {
+        "jest": true
+      }
+    }
+  },
+  "sourceMaps": true
+}
