@@ -201,7 +201,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         // { 0: 1, }
         // { a: expr, }
         if eat!(self, ':') {
-            let value = self.parse_with(|p| p.include_in_expr(true).parse_assignment_expr())?;
+            let value = self.include_in_expr(true).parse_assignment_expr()?;
             return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key,
                 value,
