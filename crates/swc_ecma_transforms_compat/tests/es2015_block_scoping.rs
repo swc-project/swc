@@ -1,17 +1,32 @@
 use std::{fs::read_to_string, path::PathBuf};
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_base::{
+    hygiene::hygiene,
+    ident_scope::{ident_scope_collector, IdentScopeRecord},
+    resolver::resolver,
+};
 use swc_ecma_transforms_compat::{
     es2015,
     es2015::{block_scoping, for_of::for_of},
     es2017::async_to_generator,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, Tester};
+use swc_ecma_visit::Fold;
+
+fn tr() -> impl Fold {
+    let ident_scope_record: IdentScopeRecord = Default::default();
+    chain!(
+        resolver(),
+        ident_scope_collector(ident_scope_record.clone()),
+        block_scoping(ident_scope_record.clone()),
+        hygiene(ident_scope_record)
+    )
+}
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Default::default()),
+    |_| tr(),
     for_loop,
     "for (const key in obj) {
             const bar = obj[key];
@@ -47,7 +62,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Default::default()),
+    |_| tr(),
     for_let_loop,
     "let functions = [];
 for (let i = 0; i < 10; i++) {
@@ -72,7 +87,7 @@ functions[7]();
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Default::default()),
+    |_| tr(),
     for_let_loop_exec,
     "let functions = [];
 for (let i = 0; i < 10; i++) {
@@ -87,7 +102,7 @@ expect(functions[7]()).toBe(7);
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Default::default()),
+    |_| tr(),
     for_let_of_exec,
     "let functions = [];
 for (let i of [1, 3, 5, 7, 9]) {
@@ -102,10 +117,7 @@ expect(functions[1]()).toBe(3);
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| chain!(
-        for_of(Default::default()),
-        block_scoping(Default::default())
-    ),
+    |_| chain!(for_of(Default::default()), tr()),
     issue_609_1,
     "let functions = [];
 for (let i of [1, 3, 5, 7, 9]) {
@@ -120,7 +132,7 @@ expect(functions[1]()).toBe(3);
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Default::default()),
+    |_| tr(),
     issue_662,
     "function foo(parts) {
   let match = null;
@@ -168,7 +180,7 @@ foo();"
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Default::default()),
+    |_| tr(),
     issue_686,
     "module.exports = function(values) {
     var vars = [];
@@ -254,7 +266,7 @@ test!(
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Default::default()),
+    |_| tr(),
     issue_723_1,
     "function foo() {
   const lod = { 0: { mig: 'bana' }};
@@ -605,7 +617,7 @@ test_exec!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Default::default()),
+    |_| tr(),
     issue_1231_1,
     "
     function combineOverlappingMatches(matches) {
@@ -656,7 +668,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Default::default()),
+    |_| tr(),
     issue_1415_1,
     "
     export function test(items) {
@@ -858,7 +870,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Default::default()),
+    |_| tr(),
     issue_1462_1,
     "
     export default function _objectSpread(target) {
@@ -904,7 +916,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Default::default()),
+    |_| tr(),
     issue_2027_1,
     "
     const keys = {
@@ -985,7 +997,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Default::default()),
+    |_| tr(),
     issue_2998_1,
     "
     let a = 5;
@@ -1005,7 +1017,7 @@ for(var b = 0; b < a; b++){
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Default::default()),
+    |_| tr(),
     issue_2998_2,
     "
     for (var a; ;) { }
@@ -1019,7 +1031,7 @@ test!(
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Default::default()),
+    |_| tr(),
     issue_2998_3,
     "let a = 5;
 const expected = [];
@@ -1034,9 +1046,5 @@ expect(expected).toEqual([0,1,2,3,4]);
 #[testing::fixture("tests/block-scoping/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
-    compare_stdout(
-        Default::default(),
-        |_| chain!(resolver(), block_scoping(Default::default())),
-        &input,
-    );
+    compare_stdout(Default::default(), |_| tr(), &input);
 }
