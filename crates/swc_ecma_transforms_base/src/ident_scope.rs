@@ -3,8 +3,10 @@ use std::{cell::RefCell, rc::Rc};
 use is_macro::Is;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, SyntaxContext};
-use swc_ecma_ast::{Pat, VarDecl, VarDeclKind};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_ast::{AssignPatProp, Expr, Ident, KeyValuePatProp, PropName, VarDecl, VarDeclKind};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 #[derive(Debug, Default, Clone, PartialEq, Eq, Hash)]
 pub struct IdentScope {
@@ -48,29 +50,61 @@ impl From<VarDeclKind> for IdentScopeKind {
 pub type IdentScopeRecord = Rc<RefCell<AHashMap<IdentScope, IdentScopeKind>>>;
 
 pub fn ident_scope_collector(ident_scope_record: IdentScopeRecord) -> impl Fold {
-    as_folder(UnblockIdentCollector { ident_scope_record })
+    as_folder(IdentScopeCollector { ident_scope_record })
 }
 
-struct UnblockIdentCollector {
+struct IdentScopeCollector {
     ident_scope_record: IdentScopeRecord,
 }
 
-impl VisitMut for UnblockIdentCollector {
+impl VisitMut for IdentScopeCollector {
     noop_visit_mut_type!();
 
     fn visit_mut_var_decl(&mut self, var: &mut VarDecl) {
         var.visit_mut_children_with(self);
 
+        let mut pat_visitor = PatVisitor {
+            ident_scope_record: self.ident_scope_record.clone(),
+            ident_scope_kind: var.kind.into(),
+        };
+
         for decl in var.decls.iter() {
-            if let Pat::Ident(name) = &decl.name {
-                self.ident_scope_record
-                    .borrow_mut()
-                    .entry(IdentScope {
-                        sym: name.id.sym.clone(),
-                        ctxt: name.id.span.ctxt(),
-                    })
-                    .or_insert_with(|| var.kind.into());
-            }
+            decl.name.visit_with(&mut pat_visitor);
         }
+    }
+}
+
+struct PatVisitor {
+    ident_scope_record: IdentScopeRecord,
+    ident_scope_kind: IdentScopeKind,
+}
+
+impl Visit for PatVisitor {
+    noop_visit_type!();
+
+    /// No-op (we don't care about expressions)
+    fn visit_expr(&mut self, _: &Expr) {}
+
+    fn visit_ident(&mut self, ident: &Ident) {
+        self.ident_scope_record
+            .borrow_mut()
+            .entry(IdentScope {
+                sym: ident.sym.clone(),
+                ctxt: ident.span.ctxt(),
+            })
+            .or_insert_with(|| self.ident_scope_kind);
+    }
+
+    /// No-op (we don't care about expressions)
+    fn visit_prop_name(&mut self, _: &PropName) {}
+
+    /// let { x: y } = z;
+    fn visit_key_value_pat_prop(&mut self, n: &KeyValuePatProp) {
+        n.value.visit_with(self);
+    }
+
+    /// let { x = y } = z;
+    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
+        n.key.visit_with(self);
     }
 }
