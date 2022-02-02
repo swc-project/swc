@@ -49,3 +49,12 @@ const foo31 = 0.00321;
 const foo32 = 0.000321;
 const foo33 = 0.1;
 const foo34 = 0.00001;
+const foo35 = 0;
+const foo36 = -0;
+const foo37 = +0;
+const foo38 = 0.00001543;
+const foo39 = 0.00001543;
+const foo40 = (0.00001543);
+const foo41 = {
+    1000050000: "foo"
+};
