@@ -3,7 +3,7 @@ use std::{
     path::{Path, PathBuf},
 };
 use swc_common::{FileName, Span};
-use swc_css_ast::Stylesheet;
+use swc_css_ast::{Number, Str, Stylesheet};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodeGenerator, CodegenConfig, Emit,
@@ -32,7 +32,7 @@ fn run(input: &Path, minify: bool) {
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
-        let stylesheet: Stylesheet = parse_file(
+        let mut stylesheet: Stylesheet = parse_file(
             &fm,
             ParserConfig {
                 parse_values: true,
@@ -61,13 +61,57 @@ fn run(input: &Path, minify: bool) {
             gen.emit(&stylesheet).unwrap();
         }
 
+        let fm_output = cm.load_file(&output).unwrap();
+
         NormalizedOutput::from(css_str)
             .compare_to_file(output)
             .unwrap();
 
+        let mut errors = vec![];
+        let mut stylesheet_output: Stylesheet = parse_file(
+            &fm_output,
+            ParserConfig {
+                parse_values: true,
+                ..Default::default()
+            },
+            &mut errors,
+        )
+        .map_err(|err| {
+            err.to_diagnostics(&handler).emit();
+        })?;
+
+        for err in take(&mut errors) {
+            err.to_diagnostics(&handler).emit();
+        }
+
+        stylesheet.visit_mut_with(&mut NormalizeTest);
+        stylesheet_output.visit_mut_with(&mut NormalizeTest);
+
+        assert_eq!(stylesheet, stylesheet_output);
+
         Ok(())
     })
     .unwrap();
+}
+
+struct NormalizeTest;
+
+impl VisitMut for NormalizeTest {
+    fn visit_mut_span(&mut self, n: &mut Span) {
+        *n = Default::default()
+    }
+
+    fn visit_mut_number(&mut self, n: &mut Number) {
+        n.visit_mut_children_with(self);
+
+        n.raw = "".into();
+    }
+
+    fn visit_mut_str(&mut self, n: &mut Str) {
+        n.visit_mut_children_with(self);
+
+        n.raw = "".into();
+    }
 }
 
 #[testing::fixture("tests/fixture/**/input.css")]
@@ -94,7 +138,9 @@ fn parse_again(input: PathBuf) {
             },
             &mut errors,
         )
-        .unwrap();
+        .map_err(|err| {
+            err.to_diagnostics(&handler).emit();
+        })?;
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -111,19 +157,20 @@ fn parse_again(input: PathBuf) {
         eprintln!("==== ==== Codegen ==== ====\n{}\n", css_str);
 
         let new_fm = cm.new_source_file(FileName::Anon, css_str);
+        let mut parsed_errors = vec![];
         let mut parsed: Stylesheet = parse_file(
             &new_fm,
             ParserConfig {
                 parse_values: true,
                 ..Default::default()
             },
-            &mut errors,
+            &mut parsed_errors,
         )
         .map_err(|err| {
             err.to_diagnostics(&handler).emit();
         })?;
 
-        for err in errors {
+        for err in parsed_errors {
             err.to_diagnostics(&handler).emit();
         }
 
