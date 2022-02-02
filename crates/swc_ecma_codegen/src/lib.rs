@@ -530,8 +530,6 @@ where
                 self.wr.write_str_lit(num.span, "-")?;
             }
             self.wr.write_str_lit(num.span, "Infinity")?;
-        } else if num.value.is_sign_negative() && num.value == 0.0 {
-            self.wr.write_str_lit(num.span, "-0")?;
         } else {
             let mut minified = num.value.to_string();
 

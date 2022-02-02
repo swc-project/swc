@@ -58,3 +58,6 @@ const foo40 = (0.00001543000);
 const foo41 = { 1000050000: "foo" };
 const foo42 = 1000000003242;
 const foo43 = -1000000003242;
+const foo43 = 0.0;
+const foo44 = -0.0;
+const foo45 = +0.0;

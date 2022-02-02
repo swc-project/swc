@@ -60,3 +60,6 @@ const foo41 = {
 };
 const foo42 = 1000000003242;
 const foo43 = -1000000003242;
+const foo43 = 0;
+const foo44 = -0;
+const foo45 = +0;
