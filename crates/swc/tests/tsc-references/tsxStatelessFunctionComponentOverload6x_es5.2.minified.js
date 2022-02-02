@@ -19,7 +19,7 @@ React.createElement(MainButton, {
 }, "GO"), React.createElement(MainButton, {
     onClick: function(e) {}
 }, "Hello world"), React.createElement(MainButton, _extends({}, obj)), React.createElement(MainButton, _extends({}, {
-    to: 1e4
+    to: 10000
 }, obj)), React.createElement(MainButton, _extends({}, obj1)), React.createElement(MainButton, _extends({}, obj1, {
     to: "/to/somewhere"
 })), React.createElement(MainButton, _extends({}, {

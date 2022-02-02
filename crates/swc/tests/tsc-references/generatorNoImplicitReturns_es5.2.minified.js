@@ -3,7 +3,7 @@ var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                if (!(Math.random() > .5)) {
+                if (!(Math.random() > 0.5)) {
                     _ctx.next = 2;
                     break;
                 }

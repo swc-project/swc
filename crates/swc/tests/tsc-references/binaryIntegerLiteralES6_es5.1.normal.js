@@ -1,7 +1,7 @@
 // @target: es6
 var bin1 = 26;
 var bin2 = 26;
-var bin3 = 9671406556917009e9;
+var bin3 = 9671406556917009000000000;
 var bin4 = Infinity;
 var obj1 = {
     26: "Hello",
@@ -15,7 +15,7 @@ var obj2 = {
     a: bin2,
     bin2: bin2,
     b: 26,
-    9671406556917009e9: false
+    9671406556917009000000000: false
 };
 obj1[26]; // string
 obj1[26]; // string
@@ -32,6 +32,6 @@ obj2["0B11010"]; // any
 obj2["a"]; // number
 obj2["b"]; // number
 obj2["bin2"]; // number
-obj2[9671406556917009e9]; // boolean
+obj2[9671406556917009000000000]; // boolean
 obj2["9.671406556917009e+24"]; // boolean
 obj2["Infinity"]; // any

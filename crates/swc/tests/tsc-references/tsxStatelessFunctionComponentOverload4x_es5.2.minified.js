@@ -20,7 +20,7 @@ React.createElement(OneThing, {
 })), React.createElement(OneThing, _extends({}, obj, {
     extra: "extra attr"
 })), React.createElement(OneThing, _extends({}, obj, {
-    y1: 1e4
+    y1: 10000
 })), React.createElement(OneThing, _extends({}, obj, {
     yy: !0
 })), React.createElement(OneThing, _extends({}, obj2, {
@@ -37,14 +37,14 @@ React.createElement(OneThing, {
     y3: "hello"
 }), React.createElement(TestingOptional, {
     y1: "hello",
-    y2: 1e3,
+    y2: 1000,
     y3: !0
 }), React.createElement(TestingOptional, {
     y1: "hello",
-    y2: 1e3,
+    y2: 1000,
     children: "hi"
 }), React.createElement(TestingOptional, {
     y1: "hello",
-    y2: 1e3
+    y2: 1000
 }, "Hi");
 export { };

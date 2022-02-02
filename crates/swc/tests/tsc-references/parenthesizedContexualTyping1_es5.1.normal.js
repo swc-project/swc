@@ -34,24 +34,24 @@ var h = fun(function(x) {
     return x;
 }, 10);
 // Ternaries in parens
-var i = fun(Math.random() < .5 ? function(x) {
+var i = fun(Math.random() < 0.5 ? function(x) {
     return x;
 } : function(x) {
     return undefined;
 }, 10);
-var j = fun(Math.random() < .5 ? function(x) {
+var j = fun(Math.random() < 0.5 ? function(x) {
     return x;
 } : function(x) {
     return undefined;
 }, 10);
-var k = fun(Math.random() < .5 ? function(x) {
+var k = fun(Math.random() < 0.5 ? function(x) {
     return x;
 } : function(x) {
     return undefined;
 }, function(x) {
     return x;
 }, 10);
-var l = fun(Math.random() < .5 ? function(x) {
+var l = fun(Math.random() < 0.5 ? function(x) {
     return x;
 } : function(x) {
     return undefined;

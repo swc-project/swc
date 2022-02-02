@@ -21,7 +21,7 @@ var ref1 = {
     1: "string"
 }, b3 = ref1[1];
 var ref2 = {
-    b4: 1e5
+    b4: 100000
 }, _b4 = ref2.b4, b4 = _b4 === void 0 ? 1 : _b4;
 var ref3 = {
     b5: {

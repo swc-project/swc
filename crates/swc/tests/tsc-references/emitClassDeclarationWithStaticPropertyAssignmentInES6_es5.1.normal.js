@@ -11,6 +11,6 @@ C.z = "Foo";
 var D = function D() {
     "use strict";
     _classCallCheck(this, D);
-    this.x = 2e4;
+    this.x = 20000;
 };
 D.b = true;

@@ -42,7 +42,7 @@ var c5 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj1, {
     yy1: "hi"
 }));
 var c6 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj1, {
-    yy: 1e4,
+    yy: 10000,
     yy1: "true"
 }));
 var c7 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, defaultObj, {

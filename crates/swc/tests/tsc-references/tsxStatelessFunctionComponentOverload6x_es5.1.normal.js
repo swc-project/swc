@@ -43,7 +43,7 @@ var b1 = /*#__PURE__*/ React.createElement(MainButton, {
 }, "Hello world");
 var b2 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, obj));
 var b3 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
-    to: 1e4
+    to: 10000
 }, obj));
 var b4 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, obj1)); // any; just pick the first overload
 var b5 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, obj1, {

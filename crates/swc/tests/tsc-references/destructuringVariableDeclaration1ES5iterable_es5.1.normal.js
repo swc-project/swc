@@ -128,7 +128,7 @@ var ref4 = {
         }
     ]
 }, _e = _slicedToArray(ref4.e, 3), e1 = _e[0], e2 = _e[1], tmp7 = _e[2], e3 = tmp7 === void 0 ? {
-    b1: 1e3,
+    b1: 1000,
     b4: 200
 } : tmp7;
 var ref5 = {

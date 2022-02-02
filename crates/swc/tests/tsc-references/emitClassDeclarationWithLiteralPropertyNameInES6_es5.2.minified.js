@@ -31,4 +31,4 @@ var B = function() {
         }
     ], _defineProperties((Constructor = B).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), B;
 }();
-B.hi = 1e4, B[22] = "twenty-two", B[5] = "binary", B[1693] = "octal";
+B.hi = 10000, B[22] = "twenty-two", B[5] = "binary", B[1693] = "octal";

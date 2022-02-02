@@ -49,7 +49,7 @@ var k2 = /*#__PURE__*/ React.createElement(Comp, {
 var k3 = /*#__PURE__*/ React.createElement(Comp, {
     a: 10,
     b: "hi"
-}, /*#__PURE__*/ React.createElement("div", null, " My Div "), 1e6);
+}, /*#__PURE__*/ React.createElement("div", null, " My Div "), 1000000);
 var k4 = /*#__PURE__*/ React.createElement(Comp, {
     a: 10,
     b: "hi"

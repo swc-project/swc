@@ -8,6 +8,6 @@ var C = function() {
 C.z = "Foo";
 var D = function() {
     "use strict";
-    _classCallCheck(this, D), this.x = 2e4;
+    _classCallCheck(this, D), this.x = 20000;
 };
 D.b = !0;
