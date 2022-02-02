@@ -1,2 +1,2 @@
-var millisecondsPerWeek = 7 * 24 * 60 * 60 * 1000;
+var millisecondsPerWeek = 7 * 24 * 60 * 60 * 1e3;
 console.log(millisecondsPerWeek);

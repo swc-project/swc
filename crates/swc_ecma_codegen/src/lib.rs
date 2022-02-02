@@ -533,16 +533,48 @@ where
         } else if num.value.is_sign_negative() && num.value == 0.0 {
             self.wr.write_str_lit(num.span, "-0")?;
         } else {
-            let mut s = num.value.to_string();
-            if self.cfg.minify && !s.contains('.') && !s.contains('e') && s.ends_with("0000") {
-                let cnt = s.as_bytes().iter().rev().filter(|&&v| v == b'0').count() - 1;
+            let mut minified = num.value.to_string();
 
-                s.truncate(s.len() - cnt);
-                s.push('e');
-                s.push_str(&cnt.to_string());
+            if minified.starts_with("0.") {
+                minified.replace_range(0..1, "");
+            } else if minified.starts_with("-0.") {
+                minified.replace_range(1..2, "");
             }
 
-            self.wr.write_str_lit(num.span, &s)?;
+            if minified.starts_with(".000") {
+                let mut cnt = 3;
+
+                for &v in minified.as_bytes().iter().skip(4) {
+                    if v == b'0' {
+                        cnt += 1;
+                    } else {
+                        break;
+                    }
+                }
+
+                minified.replace_range(0..cnt + 1, "");
+
+                let remain_len = minified.len();
+
+                minified.push_str("e-");
+                minified.push_str(&(remain_len + cnt).to_string());
+            } else if minified.ends_with("000") {
+                let mut cnt = 3;
+
+                for &v in minified.as_bytes().iter().rev().skip(3) {
+                    if v == b'0' {
+                        cnt += 1;
+                    } else {
+                        break;
+                    }
+                }
+
+                minified.truncate(minified.len() - cnt);
+                minified.push('e');
+                minified.push_str(&cnt.to_string());
+            }
+
+            self.wr.write_str_lit(num.span, &minified)?;
         }
     }
 

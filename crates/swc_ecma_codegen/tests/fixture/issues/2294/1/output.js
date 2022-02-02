@@ -1,2 +1,2 @@
-var millisecondsPerWeek = 604800000;
+var millisecondsPerWeek = 6048e5;
 console.log(millisecondsPerWeek);
