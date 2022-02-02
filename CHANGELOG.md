@@ -53,6 +53,9 @@
 - **(es/lints)** Implement `no-debugger` rule (#3398) ([9dec923](https://github.com/swc-project/swc/commit/9dec9236f7b3c95c803571404d7abae71e173936))
 
 
+- **(es/lints)** Add `no-alert` and a feature gate (#3394) ([5cbe4fe](https://github.com/swc-project/swc/commit/5cbe4fe512c67dd6017e0142b12465e20a2153a5))
+
+
 - **(es/minifier)** Implement `drop_console` (#3392) ([91d7800](https://github.com/swc-project/swc/commit/91d78000ea445575f9ac30d0f36299ab4f0cbf5c))
 
 ### Miscellaneous Tasks
