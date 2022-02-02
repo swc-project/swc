@@ -56,7 +56,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 19,
                       "end": 24,
@@ -73,6 +73,7 @@
                       "raw": "935"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 22,
                         "end": 24,
@@ -200,7 +201,7 @@
                   "end": 78,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 63,
@@ -318,7 +319,7 @@
                   "end": 133,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 118,
@@ -673,7 +674,7 @@
                   "end": 264,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 250,

@@ -1,0 +1,21 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "target": "es2020",
+        "loose": true,
+        "transform": {
+            "legacyDecorator": true,
+            "hidden": {
+                "jest": true
+            }
+        }
+    },
+    "module": {
+        "type": "commonjs"
+    },
+    "minify": false,
+    "sourceMaps": "inline"
+}

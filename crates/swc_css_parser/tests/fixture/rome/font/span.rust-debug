@@ -45,7 +45,7 @@ error: Declaration
 2 |     src: url("");
   |     ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/font/input.css:2:2
   |
 2 |     src: url("");

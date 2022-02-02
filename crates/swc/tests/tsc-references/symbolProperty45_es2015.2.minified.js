@@ -1,0 +1,1 @@
+Symbol.hasInstance, Symbol.toPrimitive;

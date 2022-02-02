@@ -28,7 +28,7 @@
               "end": 41,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 17,
@@ -59,7 +59,7 @@
               "end": 176,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 47,
@@ -100,73 +100,72 @@
                 "modifiers": []
               },
               {
-                "type": "CommaValues",
+                "type": "Function",
                 "span": {
                   "start": 97,
+                  "end": 112,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 97,
+                    "end": 103,
+                    "ctxt": 0
+                  },
+                  "value": "format",
+                  "raw": "format"
+                },
+                "value": [
+                  {
+                    "type": "String",
+                    "span": {
+                      "start": 104,
+                      "end": 111,
+                      "ctxt": 0
+                    },
+                    "value": "woff2",
+                    "raw": "\"woff2\""
+                  }
+                ]
+              },
+              {
+                "type": "Delimiter",
+                "span": {
+                  "start": 112,
+                  "end": 113,
+                  "ctxt": 0
+                },
+                "value": ","
+              },
+              {
+                "type": "Url",
+                "span": {
+                  "start": 118,
                   "end": 161,
                   "ctxt": 0
                 },
-                "values": [
-                  {
-                    "type": "Function",
-                    "span": {
-                      "start": 97,
-                      "end": 112,
-                      "ctxt": 0
-                    },
-                    "name": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 97,
-                        "end": 103,
-                        "ctxt": 0
-                      },
-                      "value": "format",
-                      "raw": "format"
-                    },
-                    "value": [
-                      {
-                        "type": "String",
-                        "span": {
-                          "start": 104,
-                          "end": 111,
-                          "ctxt": 0
-                        },
-                        "value": "woff2",
-                        "raw": "\"woff2\""
-                      }
-                    ]
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 118,
+                    "end": 121,
+                    "ctxt": 0
                   },
-                  {
-                    "type": "Url",
-                    "span": {
-                      "start": 118,
-                      "end": 161,
-                      "ctxt": 0
-                    },
-                    "name": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 118,
-                        "end": 121,
-                        "ctxt": 0
-                      },
-                      "value": "url",
-                      "raw": "url"
-                    },
-                    "value": {
-                      "type": "String",
-                      "span": {
-                        "start": 122,
-                        "end": 160,
-                        "ctxt": 0
-                      },
-                      "value": "/fonts/OpenSans-Regular-webfont.woff",
-                      "raw": "\"/fonts/OpenSans-Regular-webfont.woff\""
-                    },
-                    "modifiers": []
-                  }
-                ]
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 122,
+                    "end": 160,
+                    "ctxt": 0
+                  },
+                  "value": "/fonts/OpenSans-Regular-webfont.woff",
+                  "raw": "\"/fonts/OpenSans-Regular-webfont.woff\""
+                },
+                "modifiers": []
               },
               {
                 "type": "Function",

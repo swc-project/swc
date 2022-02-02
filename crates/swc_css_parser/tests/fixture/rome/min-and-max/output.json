@@ -78,7 +78,7 @@
               "end": 27,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 10,
@@ -108,7 +108,7 @@
                 },
                 "value": [
                   {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 21,
                       "end": 26,
@@ -125,6 +125,7 @@
                       "raw": "500"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 24,
                         "end": 26,
@@ -146,7 +147,7 @@
               "end": 54,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 30,
@@ -176,7 +177,7 @@
                 },
                 "value": [
                   {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 41,
                       "end": 46,
@@ -193,6 +194,7 @@
                       "raw": "500"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 44,
                         "end": 46,
@@ -201,6 +203,15 @@
                       "value": "px",
                       "raw": "px"
                     }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 46,
+                      "end": 47,
+                      "ctxt": 0
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -243,7 +254,7 @@
               "end": 85,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 57,
@@ -273,7 +284,7 @@
                 },
                 "value": [
                   {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 68,
                       "end": 73,
@@ -290,6 +301,7 @@
                       "raw": "500"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 71,
                         "end": 73,
@@ -300,6 +312,15 @@
                     }
                   },
                   {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 73,
+                      "end": 74,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
                     "type": "BinValue",
                     "span": {
                       "start": 75,
@@ -308,7 +329,7 @@
                     },
                     "op": "+",
                     "left": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 75,
                         "end": 79,
@@ -325,6 +346,7 @@
                         "raw": "40"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 77,
                           "end": 79,
@@ -365,7 +387,7 @@
               "end": 123,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 88,
@@ -395,7 +417,7 @@
                 },
                 "value": [
                   {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 99,
                       "end": 104,
@@ -412,6 +434,7 @@
                       "raw": "500"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 102,
                         "end": 104,
@@ -420,6 +443,15 @@
                       "value": "px",
                       "raw": "px"
                     }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 104,
+                      "end": 105,
+                      "ctxt": 0
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -456,45 +488,36 @@
                         }
                       },
                       "right": {
-                        "type": "SpaceValues",
+                        "type": "Dimension",
                         "span": {
                           "start": 111,
-                          "end": 117,
+                          "end": 116,
                           "ctxt": 0
                         },
-                        "values": [
-                          {
-                            "type": "UnitValue",
-                            "span": {
-                              "start": 111,
-                              "end": 116,
-                              "ctxt": 0
-                            },
-                            "value": {
-                              "type": "Number",
-                              "span": {
-                                "start": 111,
-                                "end": 114,
-                                "ctxt": 0
-                              },
-                              "value": 400.0,
-                              "raw": "400"
-                            },
-                            "unit": {
-                              "span": {
-                                "start": 114,
-                                "end": 116,
-                                "ctxt": 0
-                              },
-                              "value": "px",
-                              "raw": "px"
-                            }
-                          }
-                        ]
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 111,
+                            "end": 114,
+                            "ctxt": 0
+                          },
+                          "value": 400.0,
+                          "raw": "400"
+                        },
+                        "unit": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 114,
+                            "end": 116,
+                            "ctxt": 0
+                          },
+                          "value": "px",
+                          "raw": "px"
+                        }
                       }
                     },
                     "right": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 119,
                         "end": 122,
@@ -511,6 +534,7 @@
                         "raw": "2"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 120,
                           "end": 122,
@@ -533,7 +557,7 @@
               "end": 197,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 126,
@@ -563,7 +587,7 @@
                 },
                 "value": [
                   {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 137,
                       "end": 142,
@@ -580,6 +604,7 @@
                       "raw": "500"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 140,
                         "end": 142,
@@ -588,6 +613,15 @@
                       "value": "px",
                       "raw": "px"
                     }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 142,
+                      "end": 143,
+                      "ctxt": 0
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -624,45 +658,36 @@
                         }
                       },
                       "right": {
-                        "type": "SpaceValues",
+                        "type": "Dimension",
                         "span": {
                           "start": 149,
-                          "end": 155,
+                          "end": 154,
                           "ctxt": 0
                         },
-                        "values": [
-                          {
-                            "type": "UnitValue",
-                            "span": {
-                              "start": 149,
-                              "end": 154,
-                              "ctxt": 0
-                            },
-                            "value": {
-                              "type": "Number",
-                              "span": {
-                                "start": 149,
-                                "end": 152,
-                                "ctxt": 0
-                              },
-                              "value": 400.0,
-                              "raw": "400"
-                            },
-                            "unit": {
-                              "span": {
-                                "start": 152,
-                                "end": 154,
-                                "ctxt": 0
-                              },
-                              "value": "px",
-                              "raw": "px"
-                            }
-                          }
-                        ]
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 149,
+                            "end": 152,
+                            "ctxt": 0
+                          },
+                          "value": 400.0,
+                          "raw": "400"
+                        },
+                        "unit": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 152,
+                            "end": 154,
+                            "ctxt": 0
+                          },
+                          "value": "px",
+                          "raw": "px"
+                        }
                       }
                     },
                     "right": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 157,
                         "end": 160,
@@ -679,6 +704,7 @@
                         "raw": "2"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 158,
                           "end": 160,
@@ -688,6 +714,15 @@
                         "raw": "px"
                       }
                     }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 160,
+                      "end": 161,
+                      "ctxt": 0
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -724,45 +759,36 @@
                         }
                       },
                       "right": {
-                        "type": "SpaceValues",
+                        "type": "Dimension",
                         "span": {
                           "start": 167,
-                          "end": 173,
+                          "end": 172,
                           "ctxt": 0
                         },
-                        "values": [
-                          {
-                            "type": "UnitValue",
-                            "span": {
-                              "start": 167,
-                              "end": 172,
-                              "ctxt": 0
-                            },
-                            "value": {
-                              "type": "Number",
-                              "span": {
-                                "start": 167,
-                                "end": 170,
-                                "ctxt": 0
-                              },
-                              "value": 400.0,
-                              "raw": "400"
-                            },
-                            "unit": {
-                              "span": {
-                                "start": 170,
-                                "end": 172,
-                                "ctxt": 0
-                              },
-                              "value": "px",
-                              "raw": "px"
-                            }
-                          }
-                        ]
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 167,
+                            "end": 170,
+                            "ctxt": 0
+                          },
+                          "value": 400.0,
+                          "raw": "400"
+                        },
+                        "unit": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 170,
+                            "end": 172,
+                            "ctxt": 0
+                          },
+                          "value": "px",
+                          "raw": "px"
+                        }
                       }
                     },
                     "right": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 175,
                         "end": 178,
@@ -779,6 +805,7 @@
                         "raw": "2"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 176,
                           "end": 178,
@@ -788,6 +815,15 @@
                         "raw": "px"
                       }
                     }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 178,
+                      "end": 179,
+                      "ctxt": 0
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -824,45 +860,36 @@
                         }
                       },
                       "right": {
-                        "type": "SpaceValues",
+                        "type": "Dimension",
                         "span": {
                           "start": 185,
-                          "end": 191,
+                          "end": 190,
                           "ctxt": 0
                         },
-                        "values": [
-                          {
-                            "type": "UnitValue",
-                            "span": {
-                              "start": 185,
-                              "end": 190,
-                              "ctxt": 0
-                            },
-                            "value": {
-                              "type": "Number",
-                              "span": {
-                                "start": 185,
-                                "end": 188,
-                                "ctxt": 0
-                              },
-                              "value": 400.0,
-                              "raw": "400"
-                            },
-                            "unit": {
-                              "span": {
-                                "start": 188,
-                                "end": 190,
-                                "ctxt": 0
-                              },
-                              "value": "px",
-                              "raw": "px"
-                            }
-                          }
-                        ]
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 185,
+                            "end": 188,
+                            "ctxt": 0
+                          },
+                          "value": 400.0,
+                          "raw": "400"
+                        },
+                        "unit": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 188,
+                            "end": 190,
+                            "ctxt": 0
+                          },
+                          "value": "px",
+                          "raw": "px"
+                        }
                       }
                     },
                     "right": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 193,
                         "end": 196,
@@ -879,6 +906,7 @@
                         "raw": "2"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 194,
                           "end": 196,
@@ -901,7 +929,7 @@
               "end": 217,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 200,
@@ -931,7 +959,7 @@
                 },
                 "value": [
                   {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 211,
                       "end": 216,
@@ -948,6 +976,7 @@
                       "raw": "500"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 214,
                         "end": 216,
@@ -969,7 +998,7 @@
               "end": 244,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 220,
@@ -999,7 +1028,7 @@
                 },
                 "value": [
                   {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 231,
                       "end": 236,
@@ -1016,6 +1045,7 @@
                       "raw": "500"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 234,
                         "end": 236,
@@ -1024,6 +1054,15 @@
                       "value": "px",
                       "raw": "px"
                     }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 236,
+                      "end": 237,
+                      "ctxt": 0
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -1066,7 +1105,7 @@
               "end": 275,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 247,
@@ -1096,7 +1135,7 @@
                 },
                 "value": [
                   {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 258,
                       "end": 263,
@@ -1113,6 +1152,7 @@
                       "raw": "500"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 261,
                         "end": 263,
@@ -1123,6 +1163,15 @@
                     }
                   },
                   {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 263,
+                      "end": 264,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
                     "type": "BinValue",
                     "span": {
                       "start": 265,
@@ -1131,7 +1180,7 @@
                     },
                     "op": "+",
                     "left": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 265,
                         "end": 269,
@@ -1148,6 +1197,7 @@
                         "raw": "40"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 267,
                           "end": 269,
@@ -1188,7 +1238,7 @@
               "end": 313,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 278,
@@ -1218,7 +1268,7 @@
                 },
                 "value": [
                   {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 289,
                       "end": 294,
@@ -1235,6 +1285,7 @@
                       "raw": "500"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 292,
                         "end": 294,
@@ -1243,6 +1294,15 @@
                       "value": "px",
                       "raw": "px"
                     }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 294,
+                      "end": 295,
+                      "ctxt": 0
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -1279,45 +1339,36 @@
                         }
                       },
                       "right": {
-                        "type": "SpaceValues",
+                        "type": "Dimension",
                         "span": {
                           "start": 301,
-                          "end": 307,
+                          "end": 306,
                           "ctxt": 0
                         },
-                        "values": [
-                          {
-                            "type": "UnitValue",
-                            "span": {
-                              "start": 301,
-                              "end": 306,
-                              "ctxt": 0
-                            },
-                            "value": {
-                              "type": "Number",
-                              "span": {
-                                "start": 301,
-                                "end": 304,
-                                "ctxt": 0
-                              },
-                              "value": 400.0,
-                              "raw": "400"
-                            },
-                            "unit": {
-                              "span": {
-                                "start": 304,
-                                "end": 306,
-                                "ctxt": 0
-                              },
-                              "value": "px",
-                              "raw": "px"
-                            }
-                          }
-                        ]
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 301,
+                            "end": 304,
+                            "ctxt": 0
+                          },
+                          "value": 400.0,
+                          "raw": "400"
+                        },
+                        "unit": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 304,
+                            "end": 306,
+                            "ctxt": 0
+                          },
+                          "value": "px",
+                          "raw": "px"
+                        }
                       }
                     },
                     "right": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 309,
                         "end": 312,
@@ -1334,6 +1385,7 @@
                         "raw": "2"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 310,
                           "end": 312,
@@ -1356,7 +1408,7 @@
               "end": 387,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 316,
@@ -1386,7 +1438,7 @@
                 },
                 "value": [
                   {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 327,
                       "end": 332,
@@ -1403,6 +1455,7 @@
                       "raw": "500"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 330,
                         "end": 332,
@@ -1411,6 +1464,15 @@
                       "value": "px",
                       "raw": "px"
                     }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 332,
+                      "end": 333,
+                      "ctxt": 0
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -1447,45 +1509,36 @@
                         }
                       },
                       "right": {
-                        "type": "SpaceValues",
+                        "type": "Dimension",
                         "span": {
                           "start": 339,
-                          "end": 345,
+                          "end": 344,
                           "ctxt": 0
                         },
-                        "values": [
-                          {
-                            "type": "UnitValue",
-                            "span": {
-                              "start": 339,
-                              "end": 344,
-                              "ctxt": 0
-                            },
-                            "value": {
-                              "type": "Number",
-                              "span": {
-                                "start": 339,
-                                "end": 342,
-                                "ctxt": 0
-                              },
-                              "value": 400.0,
-                              "raw": "400"
-                            },
-                            "unit": {
-                              "span": {
-                                "start": 342,
-                                "end": 344,
-                                "ctxt": 0
-                              },
-                              "value": "px",
-                              "raw": "px"
-                            }
-                          }
-                        ]
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 339,
+                            "end": 342,
+                            "ctxt": 0
+                          },
+                          "value": 400.0,
+                          "raw": "400"
+                        },
+                        "unit": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 342,
+                            "end": 344,
+                            "ctxt": 0
+                          },
+                          "value": "px",
+                          "raw": "px"
+                        }
                       }
                     },
                     "right": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 347,
                         "end": 350,
@@ -1502,6 +1555,7 @@
                         "raw": "2"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 348,
                           "end": 350,
@@ -1511,6 +1565,15 @@
                         "raw": "px"
                       }
                     }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 350,
+                      "end": 351,
+                      "ctxt": 0
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -1547,45 +1610,36 @@
                         }
                       },
                       "right": {
-                        "type": "SpaceValues",
+                        "type": "Dimension",
                         "span": {
                           "start": 357,
-                          "end": 363,
+                          "end": 362,
                           "ctxt": 0
                         },
-                        "values": [
-                          {
-                            "type": "UnitValue",
-                            "span": {
-                              "start": 357,
-                              "end": 362,
-                              "ctxt": 0
-                            },
-                            "value": {
-                              "type": "Number",
-                              "span": {
-                                "start": 357,
-                                "end": 360,
-                                "ctxt": 0
-                              },
-                              "value": 400.0,
-                              "raw": "400"
-                            },
-                            "unit": {
-                              "span": {
-                                "start": 360,
-                                "end": 362,
-                                "ctxt": 0
-                              },
-                              "value": "px",
-                              "raw": "px"
-                            }
-                          }
-                        ]
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 357,
+                            "end": 360,
+                            "ctxt": 0
+                          },
+                          "value": 400.0,
+                          "raw": "400"
+                        },
+                        "unit": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 360,
+                            "end": 362,
+                            "ctxt": 0
+                          },
+                          "value": "px",
+                          "raw": "px"
+                        }
                       }
                     },
                     "right": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 365,
                         "end": 368,
@@ -1602,6 +1656,7 @@
                         "raw": "2"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 366,
                           "end": 368,
@@ -1611,6 +1666,15 @@
                         "raw": "px"
                       }
                     }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 368,
+                      "end": 369,
+                      "ctxt": 0
+                    },
+                    "value": ","
                   },
                   {
                     "type": "BinValue",
@@ -1647,45 +1711,36 @@
                         }
                       },
                       "right": {
-                        "type": "SpaceValues",
+                        "type": "Dimension",
                         "span": {
                           "start": 375,
-                          "end": 381,
+                          "end": 380,
                           "ctxt": 0
                         },
-                        "values": [
-                          {
-                            "type": "UnitValue",
-                            "span": {
-                              "start": 375,
-                              "end": 380,
-                              "ctxt": 0
-                            },
-                            "value": {
-                              "type": "Number",
-                              "span": {
-                                "start": 375,
-                                "end": 378,
-                                "ctxt": 0
-                              },
-                              "value": 400.0,
-                              "raw": "400"
-                            },
-                            "unit": {
-                              "span": {
-                                "start": 378,
-                                "end": 380,
-                                "ctxt": 0
-                              },
-                              "value": "px",
-                              "raw": "px"
-                            }
-                          }
-                        ]
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 375,
+                            "end": 378,
+                            "ctxt": 0
+                          },
+                          "value": 400.0,
+                          "raw": "400"
+                        },
+                        "unit": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 378,
+                            "end": 380,
+                            "ctxt": 0
+                          },
+                          "value": "px",
+                          "raw": "px"
+                        }
                       }
                     },
                     "right": {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 383,
                         "end": 386,
@@ -1702,6 +1757,7 @@
                         "raw": "2"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 384,
                           "end": 386,

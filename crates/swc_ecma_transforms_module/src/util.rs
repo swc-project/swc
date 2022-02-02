@@ -430,6 +430,7 @@ impl Scope {
     }
 
     fn fold_ident(folder: &mut impl ModulePass, i: Ident) -> Result<Expr, Ident> {
+        let orig_span = i.span;
         let v = folder.scope().idents.get(&i.to_id()).cloned();
         match v {
             None => Err(i),
@@ -444,7 +445,7 @@ impl Scope {
                 let (ident, span) = scope.imports.get(&src).as_ref().unwrap().as_ref().unwrap();
 
                 let obj = {
-                    let ident = Ident::new(ident.clone(), *span);
+                    let ident = Ident::new(ident.clone(), orig_span.with_ctxt(span.ctxt));
 
                     if lazy {
                         Expr::Call(CallExpr {
@@ -506,13 +507,21 @@ impl Scope {
             Expr::Call(CallExpr {
                 span,
                 callee: Callee::Import(_),
-                args,
+                mut args,
                 ..
             }) if !folder.config().ignore_dynamic
                 // TODO: import assertion
                 && args.len() == 1 =>
             {
-                folder.make_dynamic_import(span, args)
+                let expr = match *(args.pop().unwrap().expr) {
+                    Expr::Ident(ident) => match Self::fold_ident(folder, ident) {
+                        Ok(expr) => expr,
+                        Err(ident) => Expr::Ident(ident),
+                    },
+                    expr => expr,
+                };
+
+                folder.make_dynamic_import(span, vec![expr.as_arg()])
             }
 
             Expr::Call(CallExpr {

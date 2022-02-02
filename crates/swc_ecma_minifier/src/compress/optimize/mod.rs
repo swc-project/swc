@@ -242,7 +242,7 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, stmts)))]
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self>,
+        T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
         Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer> + VisitWith<AssertValid>,
     {
         match self.data {
@@ -288,6 +288,10 @@ where
                     stmt.visit_mut_with(self);
                 } else {
                     stmt.visit_mut_with(&mut *self.with_ctx(child_ctx));
+                }
+
+                if cfg!(debug_assertions) {
+                    stmt.visit_with(&mut AssertValid);
                 }
 
                 new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
@@ -923,11 +927,14 @@ where
                         .as_ref()
                         .and_then(|data| data.vars.get(&obj.to_id()))
                     {
-                        if !usage.declared_as_fn_param && usage.var_kind.is_none() {
-                            return None;
+                        if !usage.declared {
+                            return Some(e.take());
                         }
 
-                        if !usage.reassigned && usage.no_side_effect_for_member_access {
+                        if !usage.mutated
+                            && !usage.reassigned()
+                            && usage.no_side_effect_for_member_access
+                        {
                             return None;
                         }
                     }
@@ -1863,6 +1870,8 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
+        let was_directive = matches!(&*n.expr, Expr::Lit(Lit::Str(..)));
+
         n.visit_mut_children_with(self);
 
         let mut need_ignore_return_value = false;
@@ -1882,6 +1891,12 @@ where
         let is_directive = matches!(&*n.expr, Expr::Lit(Lit::Str(..)));
 
         if is_directive {
+            if !was_directive {
+                *n = ExprStmt {
+                    span: DUMMY_SP,
+                    expr: Take::dummy(),
+                };
+            }
             return;
         }
 
@@ -2110,6 +2125,20 @@ where
         }
     }
 
+    fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
+        s.visit_mut_children_with(self);
+
+        if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+            decl: Decl::Var(v),
+            ..
+        })) = s
+        {
+            if v.decls.is_empty() {
+                s.take();
+            }
+        }
+    }
+
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         let ctx = Ctx {
             top_level: true,
@@ -2179,9 +2208,14 @@ where
     }
 
     fn visit_mut_param(&mut self, n: &mut Param) {
-        n.visit_mut_children_with(self);
+        let ctx = Ctx {
+            var_kind: None,
+            ..self.ctx
+        };
+        let mut o = self.with_ctx(ctx);
+        n.visit_mut_children_with(&mut *o);
 
-        self.drop_unused_param(&mut n.pat, false);
+        o.drop_unused_param(&mut n.pat, false);
     }
 
     fn visit_mut_params(&mut self, n: &mut Vec<Param>) {
@@ -2316,6 +2350,12 @@ where
                 Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
+                }
+                Stmt::Expr(es) => {
+                    if es.expr.is_invalid() {
+                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                        return;
+                    }
                 }
                 _ => {}
             }
@@ -2595,6 +2635,7 @@ where
                 Expr::Lit(Lit::Num(..)) => {}
 
                 _ => {
+                    tracing::debug!("Ignoring arg of `void`");
                     let arg = self.ignore_return_value(&mut n.arg);
 
                     n.arg = Box::new(arg.unwrap_or_else(|| make_number(DUMMY_SP, 0.0)));

@@ -4,4 +4,4 @@ Outer.Inner = class {
     messages() {
         return [];
     }
-}, Outer.i.messages();
+}, Outer.i, Outer.i.messages();

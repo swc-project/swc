@@ -58,7 +58,7 @@ error: Declaration
 1 | a { border-top-left-radius: 0 0 }
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/PSncmPJMuHC-CjpwiYtkDw/input.css:1:5
   |
 1 | a { border-top-left-radius: 0 0 }

@@ -2,13 +2,14 @@ use self::metadata::{Metadata, ParamMetadata};
 use super::{contains_decorator, DecoratorFinder};
 use smallvec::SmallVec;
 use std::mem::take;
+use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     alias_if_required, default_constructor, ident::IdentLike, member_expr, prepend, private_ident,
     prop_name_to_expr, prop_name_to_expr_value, quote_ident, replace_ident, undefined, ExprFactory,
-    Id, ModuleItemLike, StmtLike,
+    ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Visit, VisitWith};
 
@@ -27,7 +28,7 @@ pub(super) struct Legacy {
     uninitialized_vars: Vec<VarDeclarator>,
     initialized_vars: Vec<VarDeclarator>,
     exports: Vec<ExportSpecifier>,
-    enums: AHashMap<Id, EnumKind>,
+    enums: AHashMap<JsWord, EnumKind>,
 }
 
 pub(super) fn new(metadata: bool) -> Legacy {
@@ -76,7 +77,7 @@ impl Visit for Legacy {
                 }
             });
         if let Some(kind) = enum_kind {
-            self.enums.insert(e.id.to_id(), kind);
+            self.enums.insert(e.id.sym.clone(), kind);
         }
     }
 }

@@ -1,4 +1,6 @@
 use crate::rules::{no_console::NoConsoleConfig, prefer_regex_literals::PreferRegexLiteralsConfig};
+#[cfg(feature = "non_critical_lints")]
+use crate::rules::non_critical_lints::no_console::NoConsoleConfig;
 use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
 
@@ -36,9 +38,17 @@ impl<T: Debug + Clone + Serialize + Default> RuleConfig<T> {
 #[non_exhaustive]
 #[serde(rename_all = "camelCase")]
 pub struct LintConfig {
+    #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
     pub no_console: RuleConfig<NoConsoleConfig>,
 
     #[serde(default)]
     pub prefer_regex_literals: RuleConfig<PreferRegexLiteralsConfig>,
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default)]
+    pub no_alert: RuleConfig<()>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default)]
+    pub no_debugger: RuleConfig<()>,
 }

@@ -49,8 +49,8 @@ _objectWithoutProperties((_complex = complex).x, [
 ]), _objectWithoutProperties(_complex, [
     "x",
     "y"
-]), _complex.x.ka;
-var complex, _complex, overEmit, _overEmit, ref, ref1, _a = _toArray(overEmit.a), ref2 = _a[0], ref2 = null !== ref2 ? ref2 : function(e) {
+]), (ref = _complex).x.ka, ref.y;
+var complex, _complex, ref, overEmit, _overEmit, ref1, ref2, _a = _toArray(overEmit.a), ref3 = _a[0], ref3 = null !== ref3 ? ref3 : function(e) {
     throw e;
 }(new TypeError("Cannot destructure undefined"));
 _a.slice(1), overEmit.b.z, _extends({}, overEmit.a[0]), _objectWithoutProperties(overEmit.b, [
@@ -63,4 +63,4 @@ _a.slice(1), overEmit.b.z, _extends({}, overEmit.a[0]), _objectWithoutProperties
 ]), _objectWithoutProperties(_overEmit, [
     "a",
     "b"
-]), (ref1 = _toArray((ref = _overEmit).a))[0], ref1.slice(1), ref.b.z;
+]), (ref2 = _toArray((ref1 = _overEmit).a))[0], ref2.slice(1), ref1.b.z;

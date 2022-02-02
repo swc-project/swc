@@ -87,9 +87,9 @@ error: Declaration
  --> $DIR/tests/fixture/rome/functions/input.css:2:2
   |
 2 |     --fancy: 2px;
-  |     ^^^^^^^^^
+  |     ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/functions/input.css:2:2
   |
 2 |     --fancy: 2px;
@@ -102,22 +102,16 @@ error: DashedIdent
   |     ^^^^^^^
 
 error: Value
- --> $DIR/tests/fixture/rome/functions/input.css:2:10
+ --> $DIR/tests/fixture/rome/functions/input.css:2:11
   |
 2 |     --fancy: 2px;
-  |             ^^^^
+  |              ^^^
 
 error: Tokens
- --> $DIR/tests/fixture/rome/functions/input.css:2:10
+ --> $DIR/tests/fixture/rome/functions/input.css:2:11
   |
 2 |     --fancy: 2px;
-  |             ^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/rome/functions/input.css:2:10
-  |
-2 |     --fancy: 2px;
-  |             ^
+  |              ^^^
 
 error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
  --> $DIR/tests/fixture/rome/functions/input.css:2:11
@@ -131,7 +125,7 @@ error: Declaration
 3 |     border: var(--fancy);
   |     ^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/functions/input.css:3:2
   |
 3 |     border: var(--fancy);
@@ -179,7 +173,7 @@ error: Declaration
 4 |     font-size: calc(10px + 5rem);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/functions/input.css:4:2
   |
 4 |     font-size: calc(10px + 5rem);
@@ -227,7 +221,7 @@ error: Value
 4 |     font-size: calc(10px + 5rem);
   |                     ^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/functions/input.css:4:18
   |
 4 |     font-size: calc(10px + 5rem);
@@ -239,7 +233,7 @@ error: Number
 4 |     font-size: calc(10px + 5rem);
   |                     ^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:4:20
   |
 4 |     font-size: calc(10px + 5rem);
@@ -251,7 +245,7 @@ error: Value
 4 |     font-size: calc(10px + 5rem);
   |                            ^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/functions/input.css:4:25
   |
 4 |     font-size: calc(10px + 5rem);
@@ -263,7 +257,7 @@ error: Number
 4 |     font-size: calc(10px + 5rem);
   |                            ^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:4:26
   |
 4 |     font-size: calc(10px + 5rem);
@@ -275,7 +269,7 @@ error: Declaration
 5 |     background: url("");
   |     ^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/functions/input.css:5:2
   |
 5 |     background: url("");
@@ -323,7 +317,7 @@ error: Declaration
 6 |     background: url("something");
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/functions/input.css:6:2
   |
 6 |     background: url("something");
@@ -371,7 +365,7 @@ error: Declaration
 7 |     background: url("./something");
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/functions/input.css:7:2
   |
 7 |     background: url("./something");

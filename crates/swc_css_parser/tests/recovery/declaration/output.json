@@ -75,10 +75,10 @@
             "type": "Declaration",
             "span": {
               "start": 13,
-              "end": 30,
+              "end": 19,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 13,
@@ -88,30 +88,7 @@
               "value": "prop",
               "raw": "prop"
             },
-            "value": [
-              {
-                "type": "Tokens",
-                "span": {
-                  "start": 18,
-                  "end": 19,
-                  "ctxt": 0
-                },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 18,
-                      "end": 19,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  }
-                ]
-              }
-            ],
+            "value": [],
             "important": null
           },
           {
@@ -121,7 +98,7 @@
               "end": 35,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 25,
@@ -287,7 +264,7 @@
               "end": 77,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 67,

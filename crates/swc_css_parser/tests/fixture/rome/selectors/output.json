@@ -572,7 +572,7 @@
               "end": 114,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 101,
@@ -702,7 +702,7 @@
               "end": 155,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 142,
@@ -832,7 +832,7 @@
               "end": 197,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 184,
@@ -993,7 +993,7 @@
               "end": 256,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 243,

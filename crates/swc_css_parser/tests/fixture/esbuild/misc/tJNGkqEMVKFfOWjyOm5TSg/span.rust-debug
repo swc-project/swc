@@ -58,7 +58,7 @@ error: Declaration
 1 | a { width: -0.1; }
   |     ^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/tJNGkqEMVKFfOWjyOm5TSg/input.css:1:5
   |
 1 | a { width: -0.1; }

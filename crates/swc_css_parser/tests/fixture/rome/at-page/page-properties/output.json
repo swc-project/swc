@@ -28,7 +28,7 @@
               "end": 22,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 9,

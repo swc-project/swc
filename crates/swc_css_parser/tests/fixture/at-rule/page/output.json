@@ -62,7 +62,7 @@
               "end": 34,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 23,
@@ -74,7 +74,7 @@
             },
             "value": [
               {
-                "type": "UnitValue",
+                "type": "Dimension",
                 "span": {
                   "start": 31,
                   "end": 34,
@@ -91,6 +91,7 @@
                   "raw": "1"
                 },
                 "unit": {
+                  "type": "Identifier",
                   "span": {
                     "start": 32,
                     "end": 34,
@@ -128,7 +129,7 @@
               "end": 54,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 43,
@@ -140,7 +141,7 @@
             },
             "value": [
               {
-                "type": "UnitValue",
+                "type": "Dimension",
                 "span": {
                   "start": 51,
                   "end": 54,
@@ -157,6 +158,7 @@
                   "raw": "1"
                 },
                 "unit": {
+                  "type": "Identifier",
                   "span": {
                     "start": 52,
                     "end": 54,
@@ -194,7 +196,7 @@
               "end": 74,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 63,
@@ -206,7 +208,7 @@
             },
             "value": [
               {
-                "type": "UnitValue",
+                "type": "Dimension",
                 "span": {
                   "start": 71,
                   "end": 74,
@@ -223,6 +225,7 @@
                   "raw": "1"
                 },
                 "unit": {
+                  "type": "Identifier",
                   "span": {
                     "start": 72,
                     "end": 74,
@@ -279,7 +282,7 @@
               "end": 102,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 91,
@@ -291,7 +294,7 @@
             },
             "value": [
               {
-                "type": "UnitValue",
+                "type": "Dimension",
                 "span": {
                   "start": 99,
                   "end": 102,
@@ -308,6 +311,7 @@
                   "raw": "2"
                 },
                 "unit": {
+                  "type": "Identifier",
                   "span": {
                     "start": 100,
                     "end": 102,
@@ -364,7 +368,7 @@
               "end": 129,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 118,
@@ -376,7 +380,7 @@
             },
             "value": [
               {
-                "type": "UnitValue",
+                "type": "Dimension",
                 "span": {
                   "start": 126,
                   "end": 129,
@@ -393,6 +397,7 @@
                   "raw": "2"
                 },
                 "unit": {
+                  "type": "Identifier",
                   "span": {
                     "start": 127,
                     "end": 129,
@@ -449,7 +454,7 @@
               "end": 156,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 145,
@@ -461,7 +466,7 @@
             },
             "value": [
               {
-                "type": "UnitValue",
+                "type": "Dimension",
                 "span": {
                   "start": 153,
                   "end": 156,
@@ -478,6 +483,7 @@
                   "raw": "2"
                 },
                 "unit": {
+                  "type": "Identifier",
                   "span": {
                     "start": 154,
                     "end": 156,

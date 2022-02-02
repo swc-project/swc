@@ -1,8 +1,11 @@
 use std::path::PathBuf;
 
 use swc_common::{input::SourceFileInput, Mark, SyntaxContext};
-use swc_ecma_ast::EsVersion;
-use swc_ecma_lints::{config::LintConfig, rules::all};
+use swc_ecma_ast::{EsVersion, Program};
+use swc_ecma_lints::{
+    config::LintConfig,
+    rules::{all, LintParams},
+};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_utils::HANDLER;
@@ -13,6 +16,7 @@ use swc_ecma_visit::VisitMutWith;
 fn pass(input: PathBuf) {
     testing::run_test(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
+        let es_version = EsVersion::latest();
 
         let lexer = Lexer::new(
             if input.extension().unwrap() == "ts" {
@@ -29,7 +33,7 @@ fn pass(input: PathBuf) {
                     ..Default::default()
                 })
             },
-            EsVersion::latest(),
+            es_version,
             SourceFileInput::from(&*fm),
             None,
         );
@@ -43,13 +47,22 @@ fn pass(input: PathBuf) {
 
         let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 
-        let mut config = LintConfig::default();
+        let config = LintConfig::default();
 
-        let rules = all(&config, top_level_ctxt);
+        let program = Program::Module(m);
+
+        let rules = all(LintParams {
+            program: &program,
+            lint_config: &config,
+            top_level_ctxt,
+            es_version,
+        });
 
         HANDLER.set(handler, || {
-            for mut rule in rules {
-                rule.lint_module(&m);
+            if let Program::Module(m) = &program {
+                for mut rule in rules {
+                    rule.lint_module(&m);
+                }
             }
         });
 

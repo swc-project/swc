@@ -1,0 +1,18 @@
+@viewport {
+    width: 100vw; /*Sets the width of the actual viewport to the device width*/
+}
+
+@viewport {
+    min-width: 640px;
+    max-width: 800px;
+}
+
+@viewport {
+    zoom: 0.75;
+    min-zoom: 0.5;
+    max-zoom: 0.9;
+}
+
+@viewport {
+    orientation: landscape;
+}

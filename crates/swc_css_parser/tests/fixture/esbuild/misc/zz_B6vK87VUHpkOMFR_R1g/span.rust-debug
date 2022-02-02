@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: 10e\32x }
   |     ^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:5
   |
 1 | a { value: 10e\32x }
@@ -76,7 +76,7 @@ error: Value
 1 | a { value: 10e\32x }
   |            ^^^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:12
   |
 1 | a { value: 10e\32x }
@@ -88,7 +88,7 @@ error: Number
 1 | a { value: 10e\32x }
   |            ^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:14
   |
 1 | a { value: 10e\32x }

@@ -73,7 +73,7 @@ error: Declaration
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:2
   |
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
@@ -116,16 +116,16 @@ error: Number
   |                                   ^
 
 error: Value
- --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:35
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:33
   |
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
-  |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |                                    ^
 
-error: SpaceValues
- --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:35
+error: Delimiter
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:33
   |
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
-  |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |                                    ^
 
 error: Value
  --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:35

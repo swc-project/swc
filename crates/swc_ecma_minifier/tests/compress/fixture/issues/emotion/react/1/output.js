@@ -619,7 +619,7 @@
                     next: cursor
                 };
             }, emotion_element_99289b21_browser_esm_hasOwnProperty = Object.prototype.hasOwnProperty, EmotionCacheContext = (0, react.createContext)("undefined" != typeof HTMLElement ? function(options) {
-                var container, _insert, currentSheet, key = options.key;
+                var key = options.key;
                 if ("css" === key) {
                     var ssrStyles = document.querySelectorAll("style[data-emotion]:not([data-s])");
                     Array.prototype.forEach.call(ssrStyles, function(node) {
@@ -631,7 +631,7 @@
                     for(var attrib = node.getAttribute("data-emotion").split(" "), i = 1; i < attrib.length; i++)inserted[attrib[i]] = !0;
                     nodesToHydrate.push(node);
                 });
-                var collection, length, finalizingPlugins = [
+                var container, _insert, currentSheet, collection, length, finalizingPlugins = [
                     stringify,
                     function(callback) {
                         return function(element) {

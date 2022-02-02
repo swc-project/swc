@@ -1,0 +1,30 @@
+div {
+    background: url(https://example.com/image.png);
+    background: URL(https://example.com/image.png);
+    background: \URL(https://example.com/image.png);
+    background: url("https://example.com/image.png");
+    background: url('https://example.com/image.png');
+    background: URL('https://example.com/image.png');
+    background: \URL('https://example.com/image.png');
+    background: url(data:image/png;base64,iRxVB0);
+    background: url(#IDofSVGpath);
+
+    /* A <url-modifier> is either an <ident> or a functional notation. */
+    background: url("//aa.com/img.svg" prefetch);
+    background: url("//aa.com/img.svg" foo bar baz func(test));
+    background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+
+    background: url();
+    background: url("");
+    background: url('');
+
+    --foo: "http://www.example.com/pinkish.gif";
+
+    background: src("http://www.example.com/pinkish.gif");
+    background: SRC("http://www.example.com/pinkish.gif");
+    background: src(var(--foo));
+}
+
+div {
+    background: url(foo.img) red;
+}

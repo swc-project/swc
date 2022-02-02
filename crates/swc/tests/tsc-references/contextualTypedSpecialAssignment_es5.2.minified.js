@@ -38,7 +38,7 @@ var Thing = function() {
 exports.x = {
     status: "done",
     m: function(n) {}
-}, module.exports.y = {
+}, exports.x, module.exports.y = {
     status: "done",
     m: function(n) {}
 }, module.exports.y, Thing.prototype.x = {

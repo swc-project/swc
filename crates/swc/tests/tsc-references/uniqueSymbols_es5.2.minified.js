@@ -59,21 +59,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     }
     info.done ? resolve(value) : Promise.resolve(value).then(_next, _throw);
 }
-function _asyncToGenerator(fn) {
-    return function() {
-        var self = this, args = arguments;
-        return new Promise(function(resolve, reject) {
-            var gen = fn.apply(self, args);
-            function _next(value) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-            }
-            function _throw(err) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-            }
-            _next(void 0);
-        });
-    };
-}
 function _AwaitValue(value) {
     this.wrapped = value;
 }
@@ -96,11 +81,6 @@ function _defineProperty(obj, key, value) {
         configurable: !0,
         writable: !0
     }) : obj[key] = value, obj;
-}
-function _wrapAsyncGenerator(fn) {
-    return function() {
-        return new AsyncGenerator(fn.apply(this, arguments));
-    };
 }
 "function" == typeof Symbol && Symbol.asyncIterator && (AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
     return this;
@@ -152,90 +132,12 @@ var _obj, _marked = regeneratorRuntime.mark(function() {
         }
     }, _marked3);
 }), constCall = Symbol(), letCall = Symbol(), varCall = Symbol();
-function _asyncFuncReturnConstCall() {
-    return (_asyncFuncReturnConstCall = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    return _ctx.abrupt("return", constCall);
-                case 1:
-                case "end":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }))).apply(this, arguments);
-}
-function _asyncFuncReturnLetCall() {
-    return (_asyncFuncReturnLetCall = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    return _ctx.abrupt("return", letCall);
-                case 1:
-                case "end":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }))).apply(this, arguments);
-}
-function _asyncFuncReturnVarCall() {
-    return (_asyncFuncReturnVarCall = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    return _ctx.abrupt("return", varCall);
-                case 1:
-                case "end":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }))).apply(this, arguments);
-}
-function _asyncGenFuncYieldConstCall() {
-    return (_asyncGenFuncYieldConstCall = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    return _ctx.next = 2, constCall;
-                case 2:
-                case "end":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }))).apply(this, arguments);
-}
-function _asyncGenFuncYieldLetCall() {
-    return (_asyncGenFuncYieldLetCall = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    return _ctx.next = 2, letCall;
-                case 2:
-                case "end":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }))).apply(this, arguments);
-}
-function _asyncGenFuncYieldVarCall() {
-    return (_asyncGenFuncYieldVarCall = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    return _ctx.next = 2, varCall;
-                case 2:
-                case "end":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }))).apply(this, arguments);
-}
 Symbol();
 var C = function() {
     "use strict";
     _classCallCheck(this, C), this.readonlyCall = Symbol(), this.readwriteCall = Symbol();
 };
-C.readonlyStaticCall = Symbol(), C.readonlyStaticTypeAndCall = Symbol(), C.readwriteStaticCall = Symbol(), C.readonlyStaticCall, C.readonlyStaticType, C.readonlyStaticTypeAndCall, C.readwriteStaticCall, C.readonlyStaticCall, C.readonlyStaticType, C.readonlyStaticTypeAndCall, C.readwriteStaticCall, l.nested.readonlyNestedType, l.nested.readonlyNestedType, l.nested.readonlyNestedType, Promise.resolve(constCall), f(s), f(N.s), f(N.s), regeneratorRuntime.mark(function method4() {
+C.readonlyStaticCall = Symbol(), C.readonlyStaticTypeAndCall = Symbol(), C.readwriteStaticCall = Symbol(), C.readonlyStaticCall, C.readonlyStaticType, C.readonlyStaticTypeAndCall, C.readwriteStaticCall, C.readonlyStaticCall, C.readonlyStaticType, C.readonlyStaticTypeAndCall, C.readwriteStaticCall, c.readonlyCall, c.readwriteCall, c.readonlyCall, c.readwriteCall, c.readonlyCall, c.readwriteCall, i.readonlyType, i.readonlyType, i.readonlyType, l.readonlyType, l.nested.readonlyNestedType, l.readonlyType, l.nested.readonlyNestedType, l.readonlyType, l.nested.readonlyNestedType, Promise.resolve(constCall), f(s), f(N.s), f(N.s), N.s, N.s, N.s, N.s, regeneratorRuntime.mark(function method4() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -261,7 +163,8 @@ var C0 = function() {
         {
             key: "method2",
             value: function() {
-                return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                var fn;
+                return (fn = regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
@@ -271,13 +174,26 @@ var C0 = function() {
                                 return _ctx.stop();
                         }
                     }, _callee);
-                }))();
+                }), function() {
+                    var self = this, args = arguments;
+                    return new Promise(function(resolve, reject) {
+                        var gen = fn.apply(self, args);
+                        function _next(value) {
+                            asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+                        }
+                        function _throw(err) {
+                            asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+                        }
+                        _next(void 0);
+                    });
+                })();
             }
         },
         {
             key: "method3",
             value: function() {
-                return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                var fn;
+                return (fn = regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
@@ -287,7 +203,9 @@ var C0 = function() {
                                 return _ctx.stop();
                         }
                     }, _callee);
-                }))();
+                }), function() {
+                    return new AsyncGenerator(fn.apply(this, arguments));
+                })();
             }
         },
         {
@@ -313,7 +231,7 @@ var C0 = function() {
         }
     ]), C0;
 }();
-C0.a = s, C0.b = N.s, C0.c = N.s, C0.d = s, C0.e = N.s, C0.f = N.s, o[s], o[N.s], o[N.s], f(s), f(N.s), f(N.s), g(s), g(N.s), g(N.s), _defineProperty(_obj = {}, s, "a"), _defineProperty(_obj, N.s, "b");
+C0.a = s, C0.b = N.s, C0.c = N.s, C0.d = s, C0.e = N.s, C0.f = N.s, o[s], o[N.s], o[N.s], f(s), f(N.s), f(N.s), g(s), g(N.s), g(N.s), N.s, N.s, 2 * Math.random() && N.s, 2 * Math.random() && N.s, _defineProperty(_obj = {}, s, "a"), _defineProperty(_obj, N.s, "b");
 var C1 = function() {
     "use strict";
     _classCallCheck(this, C1);

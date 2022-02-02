@@ -89,7 +89,7 @@ error: Declaration
 2 |     content: ' content ';
   |     ^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/values/input.css:2:2
   |
 2 |     content: ' content ';
@@ -189,7 +189,7 @@ error: Declaration
 6 |     opacity: 1e-3;
   |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/values/input.css:6:2
   |
 6 |     opacity: 1e-3;
@@ -219,7 +219,7 @@ error: Declaration
 7 |     line-height: 0.2;
   |     ^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/values/input.css:7:2
   |
 7 |     line-height: 0.2;
@@ -249,7 +249,7 @@ error: Declaration
 8 |     width: 20%;
   |     ^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/values/input.css:8:2
   |
 8 |     width: 20%;
@@ -285,7 +285,7 @@ error: Declaration
 9 |     margin-top: -5%;
   |     ^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/values/input.css:9:2
   |
 9 |     margin-top: -5%;
@@ -376,7 +376,7 @@ error: Declaration
 13 |     color: yellow
    |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/rome/values/input.css:13:2
    |
 13 |     color: yellow
@@ -464,7 +464,7 @@ error: Declaration
 17 |     color: yellow;
    |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/rome/values/input.css:17:2
    |
 17 |     color: yellow;
@@ -494,7 +494,7 @@ error: Declaration
 18 |     background: none
    |     ^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/rome/values/input.css:18:2
    |
 18 |     background: none

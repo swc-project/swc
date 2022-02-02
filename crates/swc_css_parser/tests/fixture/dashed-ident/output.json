@@ -76,10 +76,10 @@
             "type": "Declaration",
             "span": {
               "start": 12,
-              "end": 26,
+              "end": 30,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 12,
@@ -93,23 +93,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 25,
+                  "start": 26,
                   "end": 30,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 25,
-                      "end": 26,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 26,
@@ -133,10 +121,10 @@
             "type": "Declaration",
             "span": {
               "start": 36,
-              "end": 52,
+              "end": 56,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 36,
@@ -150,23 +138,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 51,
+                  "start": 52,
                   "end": 56,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 51,
-                      "end": 52,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 52,
@@ -258,10 +234,10 @@
             "type": "Declaration",
             "span": {
               "start": 72,
-              "end": 84,
+              "end": 88,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 72,
@@ -275,23 +251,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 83,
+                  "start": 84,
                   "end": 88,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 83,
-                      "end": 84,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 84,
@@ -423,7 +387,7 @@
               "end": 131,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 107,

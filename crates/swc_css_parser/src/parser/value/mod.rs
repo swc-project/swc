@@ -1,5 +1,3 @@
-use std::iter::once;
-
 use super::{input::ParserInput, Ctx, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
@@ -33,18 +31,30 @@ where
                 break;
             }
 
-            let ctx = Ctx {
-                allow_separating_value_with_comma: true,
-                allow_separating_value_with_space: false,
-                ..self.ctx
-            };
-            let v = self.with_ctx(ctx).parse_one_value()?;
+            let v = self.parse_one_value_inner()?;
+
             hi = v.span().hi;
             values.push(v);
-
             state = self.input.state();
 
-            if !eat!(self, " ") {
+            if !eat!(self, " ")
+                && !is_one_of!(
+                    self,
+                    ",",
+                    "/",
+                    "function",
+                    "ident",
+                    "dimension",
+                    "percent",
+                    "num",
+                    "str",
+                    "#",
+                    "url",
+                    "[",
+                    "{",
+                    "("
+                )
+            {
                 if self.ctx.recover_from_property_value
                     && !is_one_of!(self, EOF, ";", "}", "!", ")", "]")
                 {
@@ -70,56 +80,6 @@ where
 
         // TODO: Make this lazy
         Ok((values, hi))
-    }
-
-    fn parse_one_value(&mut self) -> PResult<Value> {
-        let span = self.input.cur_span()?;
-        let value = self.parse_one_value_inner()?;
-
-        let val = if self.ctx.allow_separating_value_with_space && eat!(self, " ") {
-            self.input.skip_ws()?;
-
-            let mut values = vec![value];
-
-            loop {
-                if !is_one_of!(self, Str, Num, Ident, Function, Dimension, "[", "(") {
-                    break;
-                }
-
-                let value = self.parse_one_value_inner()?;
-
-                values.push(value);
-
-                self.input.skip_ws()?;
-            }
-
-            Value::Space(SpaceValues {
-                span: span!(self, span.lo),
-                values,
-            })
-        } else {
-            value
-        };
-
-        if self.ctx.allow_separating_value_with_comma && eat!(self, ",") {
-            let next = self.parse_one_value()?;
-            match next {
-                Value::Comma(next) => {
-                    return Ok(Value::Comma(CommaValues {
-                        span: span!(self, span.lo),
-                        values: once(val).chain(next.values).collect(),
-                    }))
-                }
-                _ => {
-                    return Ok(Value::Comma(CommaValues {
-                        span: span!(self, span.lo),
-                        values: vec![val, next],
-                    }))
-                }
-            }
-        }
-
-        Ok(val)
     }
 
     /// Parse value as <declaration-value>.
@@ -274,10 +234,27 @@ where
         self.input.skip_ws()?;
 
         let span = self.input.cur_span()?;
-        match cur!(self) {
-            tok!("str") => return Ok(Value::Str(self.parse()?)),
 
-            tok!("num") => return self.parse_numeric_value(),
+        match cur!(self) {
+            tok!(",") => {
+                bump!(self);
+
+                return Ok(Value::Delimiter(Delimiter {
+                    span: span!(self, span.lo),
+                    value: DelimiterValue::Comma,
+                }));
+            }
+
+            tok!("/") => {
+                bump!(self);
+
+                return Ok(Value::Delimiter(Delimiter {
+                    span: span!(self, span.lo),
+                    value: DelimiterValue::Solidus,
+                }));
+            }
+
+            tok!("str") => return Ok(Value::Str(self.parse()?)),
 
             tok!("url") => return Ok(Value::Url(self.parse()?)),
 
@@ -289,9 +266,12 @@ where
                 return Ok(Value::Function(self.parse()?));
             }
 
-            tok!("percent") => return self.parse_numeric_value(),
+            tok!("percent") | tok!("dimension") | tok!("num") => {
+                let span = self.input.cur_span()?;
+                let base = self.parse_basical_numeric_value()?;
 
-            tok!("dimension") => return self.parse_numeric_value(),
+                return self.parse_numeric_value_with_base(span.lo, base);
+            }
 
             Token::Ident { value, .. } => {
                 if value.starts_with("--") {
@@ -309,40 +289,7 @@ where
                 return self.parse_brace_value().map(From::from);
             }
 
-            Token::Hash { .. } => {
-                let token = bump!(self);
-
-                match token {
-                    Token::Hash { value, raw, .. } => {
-                        return Ok(Value::Hash(HashValue { span, value, raw }))
-                    }
-                    _ => {
-                        unreachable!()
-                    }
-                }
-            }
-
-            Token::AtKeyword { .. } => {
-                let name = bump!(self);
-                let name = match name {
-                    Token::AtKeyword { value, raw } => Ident { span, value, raw },
-                    _ => {
-                        unreachable!()
-                    }
-                };
-
-                let block = if is!(self, "{") {
-                    self.parse_brace_value().map(Some)?
-                } else {
-                    None
-                };
-
-                return Ok(Value::AtText(AtTextValue {
-                    span: span!(self, span.lo),
-                    name,
-                    block,
-                }));
-            }
+            tok!("#") => return Ok(Value::Color(Color::HexColor(self.parse()?))),
 
             _ => {}
         }
@@ -356,15 +303,6 @@ where
         }
 
         Err(Error::new(span, ErrorKind::Expected("Declaration value")))
-    }
-
-    /// This may parse operations, depending on the context.
-    fn parse_numeric_value(&mut self) -> PResult<Value> {
-        let span = self.input.cur_span()?;
-
-        let base = self.parse_basical_numeric_value()?;
-
-        self.parse_numeric_value_with_base(span.lo, base)
     }
 
     fn parse_numeric_value_with_base(&mut self, start: BytePos, base: Value) -> PResult<Value> {
@@ -391,7 +329,7 @@ where
                 allow_operation_in_value: false,
                 ..self.ctx
             };
-            let right = self.with_ctx(ctx).parse_one_value()?;
+            let right = self.with_ctx(ctx).parse_one_value_inner()?;
 
             let value = Value::Bin(BinValue {
                 span: span!(self, start),
@@ -452,7 +390,7 @@ where
     fn parse_basical_numeric_value(&mut self) -> PResult<Value> {
         match cur!(self) {
             tok!("percent") => Ok(Value::Percent(self.parse()?)),
-            tok!("dimension") => Ok(Value::Unit(self.parse()?)),
+            tok!("dimension") => Ok(Value::Dimension(self.parse()?)),
             tok!("num") => Ok(Value::Number(self.parse()?)),
             _ => {
                 unreachable!()
@@ -466,16 +404,14 @@ where
 
         loop {
             self.input.skip_ws()?;
-            if is_one_of!(self, EOF, ")", "}", ";", "]") {
+
+            if is_one_of!(self, ")") {
                 break;
             }
-            let value = self.parse_one_value()?;
+
+            let value = self.parse_one_value_inner()?;
 
             args.push(value);
-
-            if !eat!(self, ",") {
-                break;
-            }
         }
 
         Ok(args)
@@ -488,12 +424,7 @@ where
 
         self.input.skip_ws()?;
 
-        let ctx = Ctx {
-            allow_separating_value_with_space: false,
-            ..self.ctx
-        };
-
-        let value = self.with_ctx(ctx).parse_property_values()?.0;
+        let value = self.parse_property_values()?.0;
 
         self.input.skip_ws()?;
 
@@ -716,11 +647,11 @@ where
     }
 }
 
-impl<I> Parse<UnitValue> for Parser<I>
+impl<I> Parse<Dimension> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<UnitValue> {
+    fn parse(&mut self) -> PResult<Dimension> {
         let span = self.input.cur_span()?;
 
         if !is!(self, Dimension) {
@@ -737,7 +668,7 @@ where
             } => {
                 let unit_len = raw_unit.len() as u32;
 
-                Ok(UnitValue {
+                Ok(Dimension {
                     span,
                     value: Number {
                         value,
@@ -748,7 +679,7 @@ where
                             Default::default(),
                         ),
                     },
-                    unit: Unit {
+                    unit: Ident {
                         span: swc_common::Span::new(
                             span.hi - BytePos(unit_len),
                             span.hi,
@@ -759,6 +690,26 @@ where
                     },
                 })
             }
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+impl<I> Parse<HexColor> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<HexColor> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, "#") {
+            return Err(Error::new(span, ErrorKind::Expected("hash token")));
+        }
+
+        match bump!(self) {
+            Token::Hash { value, raw, .. } => Ok(HexColor { span, value, raw }),
             _ => {
                 unreachable!()
             }
@@ -896,6 +847,8 @@ where
                             modifiers.push(UrlModifier::Function(self.parse()?));
                         }
                         _ => {
+                            let span = self.input.cur_span()?;
+
                             return Err(Error::new(span, ErrorKind::Expected("ident or function")));
                         }
                     }
@@ -925,23 +878,43 @@ where
 {
     fn parse(&mut self) -> PResult<Function> {
         let span = self.input.cur_span()?;
-
-        let name = match bump!(self) {
+        let ident = match bump!(self) {
             Token::Function { value, raw } => (value, raw),
             _ => {
                 unreachable!()
             }
         };
-
+        let is_math_function = matches!(
+            &*ident.0.to_ascii_lowercase(),
+            "calc"
+                | "min"
+                | "max"
+                | "clamp"
+                | "round"
+                | "mod"
+                | "rem"
+                | "sin"
+                | "cos"
+                | "tan"
+                | "asin"
+                | "acos"
+                | "atan"
+                | "atan2"
+                | "pow"
+                | "sqrt"
+                | "hypot"
+                | "log"
+                | "exp"
+                | "abs"
+                | "sign"
+        );
         let name = Ident {
             span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
-            value: name.0,
-            raw: name.1,
+            value: ident.0,
+            raw: ident.1,
         };
         let ctx = Ctx {
-            allow_operation_in_value: true,
-            allow_separating_value_with_space: true,
-            allow_separating_value_with_comma: false,
+            allow_operation_in_value: is_math_function,
             ..self.ctx
         };
         let value = self.with_ctx(ctx).parse_comma_separated_value()?;

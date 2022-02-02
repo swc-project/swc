@@ -78,7 +78,7 @@
               "end": 74,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 9,
@@ -118,6 +118,15 @@
                     "raw": "circle"
                   },
                   {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 59,
+                      "end": 60,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
                     "type": "Identifier",
                     "span": {
                       "start": 61,
@@ -126,6 +135,15 @@
                     },
                     "value": "white",
                     "raw": "white"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 66,
+                      "end": 67,
+                      "ctxt": 0
+                    },
+                    "value": ","
                   },
                   {
                     "type": "Identifier",

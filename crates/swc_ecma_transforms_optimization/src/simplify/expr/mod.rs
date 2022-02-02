@@ -1397,6 +1397,7 @@ impl VisitMut for SimplifyExpr {
                     _ => false,
                 }
             {
+                self.changed = true;
                 *p = *a.left.take();
             }
         }

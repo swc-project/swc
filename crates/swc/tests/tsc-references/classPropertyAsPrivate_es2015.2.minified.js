@@ -11,4 +11,4 @@ class C {
     static set b(x) {}
     static foo() {}
 }
-c.x, c.y, c.y = 1, c.foo(), C.b(), C.b = 1, C.foo();
+c.x, c.y, c.y = 1, c.foo(), C.a, C.b(), C.b = 1, C.foo();

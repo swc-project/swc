@@ -18,6 +18,7 @@ mod bools;
 mod conds;
 mod ctx;
 mod dead_code;
+mod drop_console;
 mod evaluate;
 mod if_return;
 mod loops;
@@ -75,14 +76,14 @@ where
 {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: ModuleItemExt,
+        T: ModuleItemExt + Take,
         Vec<T>: VisitWith<self::vars::VarWithOutInitCounter>
             + VisitMutWith<self::vars::VarPrepender>
             + VisitMutWith<self::vars::VarMover>,
     {
         self.remove_dead_branch(stmts);
 
-        self.remove_unreachable_stmts(stmts);
+        self.drop_unreachable_stmts(stmts);
 
         self.drop_useless_blocks(stmts);
 
@@ -92,8 +93,6 @@ where
     }
 
     fn optimize_fn_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        self.drop_unreachable_stmts(stmts);
-
         self.remove_useless_return(stmts);
 
         self.negate_if_terminate(stmts, true, false);
@@ -219,6 +218,10 @@ where
             };
             e.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
+
+        self.remove_invalid(e);
+
+        self.drop_console(e);
 
         self.remove_invalid(e);
 

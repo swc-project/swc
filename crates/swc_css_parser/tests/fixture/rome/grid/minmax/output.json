@@ -78,7 +78,7 @@
               "end": 111,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 10,
@@ -118,7 +118,16 @@
                     "raw": "min-content"
                   },
                   {
-                    "type": "UnitValue",
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 51,
+                      "end": 52,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Dimension",
                     "span": {
                       "start": 53,
                       "end": 58,
@@ -135,6 +144,7 @@
                       "raw": "300"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 56,
                         "end": 58,
@@ -165,7 +175,7 @@
                 },
                 "value": [
                   {
-                    "type": "UnitValue",
+                    "type": "Dimension",
                     "span": {
                       "start": 67,
                       "end": 72,
@@ -182,6 +192,7 @@
                       "raw": "200"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 70,
                         "end": 72,
@@ -192,7 +203,16 @@
                     }
                   },
                   {
-                    "type": "UnitValue",
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 72,
+                      "end": 73,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Dimension",
                     "span": {
                       "start": 74,
                       "end": 77,
@@ -209,6 +229,7 @@
                       "raw": "1"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 75,
                         "end": 77,
@@ -247,6 +268,15 @@
                     },
                     "value": "max-content",
                     "raw": "max-content"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 97,
+                      "end": 98,
+                      "ctxt": 0
+                    },
+                    "value": ","
                   },
                   {
                     "type": "Identifier",

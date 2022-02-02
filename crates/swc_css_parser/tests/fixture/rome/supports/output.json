@@ -35,7 +35,7 @@
                 "end": 28,
                 "ctxt": 0
               },
-              "property": {
+              "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 15,
@@ -86,7 +86,7 @@
               "end": 78,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 47,
@@ -118,7 +118,7 @@
                 "raw": "0"
               },
               {
-                "type": "UnitValue",
+                "type": "Dimension",
                 "span": {
                   "start": 63,
                   "end": 66,
@@ -135,6 +135,7 @@
                   "raw": "2"
                 },
                 "unit": {
+                  "type": "Identifier",
                   "span": {
                     "start": 64,
                     "end": 66,
@@ -181,7 +182,7 @@
                 "end": 132,
                 "ctxt": 0
               },
-              "property": {
+              "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 96,
@@ -213,7 +214,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "UnitValue",
+                  "type": "Dimension",
                   "span": {
                     "start": 117,
                     "end": 120,
@@ -230,6 +231,7 @@
                     "raw": "2"
                   },
                   "unit": {
+                    "type": "Identifier",
                     "span": {
                       "start": 118,
                       "end": 120,
@@ -277,7 +279,7 @@
                 "end": 189,
                 "ctxt": 0
               },
-              "property": {
+              "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 150,
@@ -309,7 +311,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "UnitValue",
+                  "type": "Dimension",
                   "span": {
                     "start": 174,
                     "end": 177,
@@ -326,6 +328,7 @@
                     "raw": "2"
                   },
                   "unit": {
+                    "type": "Identifier",
                     "span": {
                       "start": 175,
                       "end": 177,
@@ -373,7 +376,7 @@
                 "end": 241,
                 "ctxt": 0
               },
-              "property": {
+              "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 207,
@@ -405,7 +408,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "UnitValue",
+                  "type": "Dimension",
                   "span": {
                     "start": 226,
                     "end": 229,
@@ -422,6 +425,7 @@
                     "raw": "2"
                   },
                   "unit": {
+                    "type": "Identifier",
                     "span": {
                       "start": 227,
                       "end": 229,
@@ -489,7 +493,7 @@
                   "end": 287,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 261,
@@ -527,7 +531,7 @@
                     "end": 323,
                     "ctxt": 0
                   },
-                  "property": {
+                  "name": {
                     "type": "Identifier",
                     "span": {
                       "start": 304,
@@ -568,7 +572,7 @@
                 "end": 365,
                 "ctxt": 0
               },
-              "property": {
+              "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 341,
@@ -598,7 +602,7 @@
                   },
                   "value": [
                     {
-                      "type": "UnitValue",
+                      "type": "Dimension",
                       "span": {
                         "start": 359,
                         "end": 364,
@@ -615,6 +619,7 @@
                         "raw": "10"
                       },
                       "unit": {
+                        "type": "Identifier",
                         "span": {
                           "start": 361,
                           "end": 364,

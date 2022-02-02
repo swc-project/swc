@@ -58,7 +58,7 @@ error: Declaration
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:5
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
@@ -88,7 +88,7 @@ error: Value
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |                       ^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:23
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
@@ -100,7 +100,7 @@ error: Number
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |                       ^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:24
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
@@ -112,7 +112,7 @@ error: Value
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |                           ^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:27
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
@@ -124,7 +124,7 @@ error: Number
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |                           ^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:28
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
@@ -136,7 +136,7 @@ error: Value
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |                               ^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:31
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
@@ -148,7 +148,7 @@ error: Number
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |                               ^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:32
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
@@ -160,7 +160,7 @@ error: Value
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |                                   ^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:35
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
@@ -172,7 +172,7 @@ error: Number
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |                                   ^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:36
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }

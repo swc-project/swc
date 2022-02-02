@@ -57,16 +57,16 @@ define!({
         pub raw: JsWord,
     }
 
-    pub enum DeclarationProperty {
-        Ident(Ident),
-        DashedIdent(DashedIdent),
-    }
-
     pub struct Declaration {
         pub span: Span,
-        pub property: DeclarationProperty,
+        pub name: DeclarationName,
         pub value: Vec<Value>,
         pub important: Option<Span>,
+    }
+
+    pub enum DeclarationName {
+        Ident(Ident),
+        DashedIdent(DashedIdent),
     }
 
     pub struct QualifiedRule {
@@ -86,16 +86,10 @@ define!({
         AtRule(AtRule),
     }
 
-    pub struct Unit {
-        pub span: Span,
-        pub value: JsWord,
-        pub raw: JsWord,
-    }
-
     pub enum Value {
         SimpleBlock(SimpleBlock),
 
-        Unit(UnitValue),
+        Dimension(Dimension),
 
         Number(Number),
 
@@ -103,7 +97,7 @@ define!({
 
         Ratio(Ratio),
 
-        Hash(HashValue),
+        Color(Color),
 
         Ident(Ident),
 
@@ -115,25 +109,21 @@ define!({
 
         Bin(BinValue),
 
-        Space(SpaceValues),
-
-        Comma(CommaValues),
+        Delimiter(Delimiter),
 
         Tokens(Tokens),
-
-        AtText(AtTextValue),
 
         Url(Url),
     }
 
-    pub struct SpaceValues {
-        pub span: Span,
-        pub values: Vec<Value>,
+    pub enum DelimiterValue {
+        Comma,
+        Solidus,
     }
 
-    pub struct CommaValues {
+    pub struct Delimiter {
         pub span: Span,
-        pub values: Vec<Value>,
+        pub value: DelimiterValue,
     }
 
     pub struct BinValue {
@@ -152,16 +142,20 @@ define!({
         pub value: Vec<Value>,
     }
 
-    pub struct HashValue {
+    pub enum Color {
+        HexColor(HexColor),
+    }
+
+    pub struct HexColor {
         pub span: Span,
         pub value: JsWord,
         pub raw: JsWord,
     }
 
-    pub struct UnitValue {
+    pub struct Dimension {
         pub span: Span,
         pub value: Number,
-        pub unit: Unit,
+        pub unit: Ident,
     }
 
     pub struct Percent {
@@ -173,12 +167,6 @@ define!({
         pub span: Span,
         pub left: Number,
         pub right: Option<Number>,
-    }
-
-    pub struct AtTextValue {
-        pub span: Span,
-        pub name: Ident,
-        pub block: Option<SimpleBlock>,
     }
 
     pub struct Url {
@@ -473,7 +461,7 @@ define!({
 
     pub struct MediaRule {
         pub span: Span,
-        pub media: MediaQueryList,
+        pub media: Option<MediaQueryList>,
         pub rules: Vec<Rule>,
     }
 
@@ -550,7 +538,7 @@ define!({
 
     pub enum MediaFeatureValue {
         Number(Number),
-        Dimension(UnitValue),
+        Dimension(Dimension),
         Ident(Ident),
         Ratio(Ratio),
     }

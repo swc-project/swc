@@ -64,7 +64,7 @@ error: Declaration
 1 | .decl { a: b }
   |         ^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:9
   |
 1 | .decl { a: b }

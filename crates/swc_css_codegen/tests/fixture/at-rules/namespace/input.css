@@ -1,0 +1,7 @@
+/* Default namespace */
+@namespace url(XML-namespace-URL);
+@namespace "XML-namespace-URL";
+
+/* Prefixed namespace */
+@namespace prefix url(XML-namespace-URL);
+@namespace prefix "XML-namespace-URL";

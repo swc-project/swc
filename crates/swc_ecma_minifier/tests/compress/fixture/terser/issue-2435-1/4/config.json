@@ -2,6 +2,6 @@
     "booleans": true,
     "conditionals": true,
     "evaluate": true,
-    "passes": 2,
+    "passes": 3,
     "side_effects": true
 }

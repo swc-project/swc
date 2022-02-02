@@ -1,4 +1,4 @@
-error: Expected ")"
+error: Expected Declaration value
  --> $DIR/tests/errors/rome/invalid/grid/repeat/unclosed/input.css:3:1
   |
 3 | }

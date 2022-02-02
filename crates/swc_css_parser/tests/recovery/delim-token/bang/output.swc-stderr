@@ -1,8 +1,6 @@
 error: Expected !important
- --> $DIR/tests/recovery/delim-token/bang/input.css:2:13
+ --> $DIR/tests/recovery/delim-token/bang/input.css:2:12
   |
-2 |       color: !!;
-  |  _____________^
-3 | | }
-  | |_
+2 |     color: !!;
+  |            ^^^
 

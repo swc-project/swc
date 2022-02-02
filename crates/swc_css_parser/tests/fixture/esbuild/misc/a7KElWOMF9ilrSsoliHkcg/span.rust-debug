@@ -58,7 +58,7 @@ error: Declaration
 1 | a { color: #AABBCDDD }
   |     ^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:5
   |
 1 | a { color: #AABBCDDD }
@@ -76,7 +76,7 @@ error: Value
 1 | a { color: #AABBCDDD }
   |            ^^^^^^^^^
 
-error: HashValue
+error: HexColor
  --> $DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:12
   |
 1 | a { color: #AABBCDDD }

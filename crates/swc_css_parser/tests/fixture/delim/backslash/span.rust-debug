@@ -67,7 +67,7 @@ error: Declaration
 2 |     color: \\ red \\ blue;
   |     ^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/delim/backslash/input.css:2:5
   |
 2 |     color: \\ red \\ blue;

@@ -73,7 +73,7 @@ error: Declaration
 2 |     grid-template-columns: repeat(4, fit-content(300px));
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:2
   |
 2 |     grid-template-columns: repeat(4, fit-content(300px));
@@ -116,6 +116,18 @@ error: Number
   |                                   ^
 
 error: Value
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:33
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |                                    ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:33
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |                                    ^
+
+error: Value
  --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:35
   |
 2 |     grid-template-columns: repeat(4, fit-content(300px));
@@ -139,7 +151,7 @@ error: Value
 2 |     grid-template-columns: repeat(4, fit-content(300px));
   |                                                  ^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:47
   |
 2 |     grid-template-columns: repeat(4, fit-content(300px));
@@ -151,7 +163,7 @@ error: Number
 2 |     grid-template-columns: repeat(4, fit-content(300px));
   |                                                  ^^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:50
   |
 2 |     grid-template-columns: repeat(4, fit-content(300px));

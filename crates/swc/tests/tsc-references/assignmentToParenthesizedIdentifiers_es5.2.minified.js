@@ -1,4 +1,3 @@
-function fn() {}
 x = 3 = "", (function(M1) {
     var y;
     M1.y = y;

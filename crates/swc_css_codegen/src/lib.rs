@@ -44,7 +44,14 @@ where
 
     #[emitter]
     fn emit_stylesheet(&mut self, n: &Stylesheet) -> Result {
-        self.emit_list(&n.rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
+        self.emit_list(
+            &n.rules,
+            if self.config.minify {
+                ListFormat::NotDelimited
+            } else {
+                ListFormat::NotDelimited | ListFormat::MultiLine
+            },
+        )?;
     }
 
     #[emitter]
@@ -59,9 +66,7 @@ where
     #[emitter]
     fn emit_qualified_rule(&mut self, n: &QualifiedRule) -> Result {
         emit!(self, n.prelude);
-        if !self.config.minify {
-            space!(self);
-        }
+        formatting_space!(self);
         emit!(self, n.block);
     }
 
@@ -96,11 +101,12 @@ where
     fn emit_charset_rule(&mut self, n: &CharsetRule) -> Result {
         punct!(self, "@");
         keyword!(self, "charset");
-
+        // https://drafts.csswg.org/css2/#charset%E2%91%A0
+        // @charset must be written literally, i.e., the 10 characters '@charset "'
+        // (lowercase, no backslash escapes), followed by the encoding name, followed by
+        // ";.
         space!(self);
-
         emit!(self, n.charset);
-
         semi!(self);
     }
 
@@ -108,16 +114,31 @@ where
     fn emit_import_rule(&mut self, n: &ImportRule) -> Result {
         punct!(self, "@");
         keyword!(self, "import");
-        space!(self);
+
+        match n.href {
+            ImportHref::Url(_) => {
+                space!(self);
+            }
+            ImportHref::Str(_) => {
+                formatting_space!(self);
+            }
+        }
+
         emit!(self, n.href);
 
         if let Some(layer_name) = &n.layer_name {
-            space!(self);
+            formatting_space!(self);
             emit!(self, layer_name);
+
+            if self.config.minify && (n.supports.is_some() || n.media.is_some()) {
+                if let ImportLayerName::Ident(_) = layer_name {
+                    space!(self);
+                }
+            }
         }
 
         if let Some(supports) = &n.supports {
-            space!(self);
+            formatting_space!(self);
             keyword!(self, "supports");
             punct!(self, "(");
             emit!(self, supports);
@@ -125,7 +146,7 @@ where
         }
 
         if let Some(media) = &n.media {
-            space!(self);
+            formatting_space!(self);
             emit!(self, media);
         }
 
@@ -152,8 +173,7 @@ where
     fn emit_font_face_rule(&mut self, n: &FontFaceRule) -> Result {
         punct!(self, "@");
         keyword!(self, "font-face");
-        space!(self);
-
+        formatting_space!(self);
         emit!(self, n.block);
     }
 
@@ -169,13 +189,32 @@ where
     fn emit_keyframes_rule(&mut self, n: &KeyframesRule) -> Result {
         punct!(self, "@");
         keyword!(self, "keyframes");
-        space!(self);
+
+        match n.name {
+            KeyframesName::Str(_) => {
+                formatting_space!(self);
+            }
+            KeyframesName::CustomIdent(_) => {
+                space!(self);
+            }
+        }
 
         emit!(self, n.name);
-        space!(self);
 
+        formatting_space!(self);
         punct!(self, "{");
-        self.emit_list(&n.blocks, ListFormat::NotDelimited)?;
+        formatting_newline!(self);
+
+        self.emit_list(
+            &n.blocks,
+            if self.config.minify {
+                ListFormat::NotDelimited
+            } else {
+                ListFormat::MultiLine
+            },
+        )?;
+
+        formatting_newline!(self);
         punct!(self, "}");
     }
 
@@ -201,15 +240,24 @@ where
     fn emit_layer_rule(&mut self, n: &LayerRule) -> Result {
         punct!(self, "@");
         keyword!(self, "layer");
-        space!(self);
 
         if n.prelude.is_some() {
+            space!(self);
             emit!(self, n.prelude);
+        } else {
+            formatting_space!(self);
         }
 
         if let Some(rules) = &n.rules {
             punct!(self, "{");
-            self.emit_list(rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
+            self.emit_list(
+                rules,
+                if self.config.minify {
+                    ListFormat::NotDelimited
+                } else {
+                    ListFormat::NotDelimited | ListFormat::MultiLine
+                },
+            )?;
             punct!(self, "}");
         } else {
             punct!(self, ";");
@@ -220,7 +268,7 @@ where
     fn emit_keyframe_block(&mut self, n: &KeyframeBlock) -> Result {
         self.emit_list(&n.selector, ListFormat::CommaDelimited)?;
 
-        space!(self);
+        formatting_space!(self);
 
         emit!(self, n.rule);
     }
@@ -237,11 +285,35 @@ where
     fn emit_media_rule(&mut self, n: &MediaRule) -> Result {
         punct!(self, "@");
         keyword!(self, "media");
-        space!(self);
 
-        emit!(self, n.media);
+        if n.media.is_some() {
+            let need_space = match n.media.as_ref().unwrap().queries.get(0) {
+                Some(media_query)
+                    if media_query.modifier.is_none() && media_query.media_type.is_none() =>
+                {
+                    match &media_query.condition {
+                        Some(MediaConditionType::All(media_condition)) => !matches!(
+                            media_condition.conditions.get(0),
+                            Some(MediaConditionAllType::MediaInParens(_))
+                        ),
+                        _ => true,
+                    }
+                }
+                _ => true,
+            };
 
-        space!(self);
+            if need_space {
+                space!(self);
+            } else {
+                formatting_space!(self);
+            }
+
+            emit!(self, n.media);
+
+            formatting_space!(self);
+        } else {
+            formatting_space!(self);
+        }
 
         punct!(self, "{");
         self.emit_list(&n.rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
@@ -314,7 +386,7 @@ where
 
     #[emitter]
     fn emit_media_not(&mut self, n: &MediaNot) -> Result {
-        space!(self);
+        formatting_space!(self);
         keyword!(self, "not");
         space!(self);
         emit!(self, n.condition);
@@ -322,7 +394,7 @@ where
 
     #[emitter]
     fn emit_media_and(&mut self, n: &MediaAnd) -> Result {
-        space!(self);
+        formatting_space!(self);
         keyword!(self, "and");
         space!(self);
         emit!(self, n.condition);
@@ -330,7 +402,7 @@ where
 
     #[emitter]
     fn emit_media_or(&mut self, n: &MediaOr) -> Result {
-        space!(self);
+        formatting_space!(self);
         keyword!(self, "or");
         space!(self);
         emit!(self, n.condition);
@@ -383,7 +455,7 @@ where
     fn emit_media_feature_plain(&mut self, n: &MediaFeaturePlain) -> Result {
         emit!(self, n.name);
         punct!(self, ":");
-        space!(self);
+        formatting_space!(self);
         emit!(self, n.value);
     }
 
@@ -395,22 +467,22 @@ where
     #[emitter]
     fn emit_media_feature_range(&mut self, n: &MediaFeatureRange) -> Result {
         emit!(self, n.left);
-        space!(self);
+        formatting_space!(self);
         self.wr.write_punct(None, n.comparison.as_str())?;
-        space!(self);
+        formatting_space!(self);
         emit!(self, n.right);
     }
 
     #[emitter]
     fn emit_media_feature_range_interval(&mut self, n: &MediaFeatureRangeInterval) -> Result {
         emit!(self, n.left);
-        space!(self);
+        formatting_space!(self);
         self.wr.write_punct(None, n.left_comparison.as_str())?;
-        space!(self);
+        formatting_space!(self);
         emit!(self, n.name);
-        space!(self);
+        formatting_space!(self);
         self.wr.write_punct(None, n.right_comparison.as_str())?;
-        space!(self);
+        formatting_space!(self);
         emit!(self, n.right);
     }
 
@@ -418,12 +490,18 @@ where
     fn emit_supports_rule(&mut self, n: &SupportsRule) -> Result {
         punct!(self, "@");
         keyword!(self, "supports");
-        space!(self);
+
+        match n.condition.conditions.get(0) {
+            Some(SupportsConditionType::SupportsInParens(_)) => {
+                formatting_space!(self);
+            }
+            _ => {
+                space!(self);
+            }
+        }
 
         emit!(self, n.condition);
-
-        space!(self);
-
+        formatting_space!(self);
         punct!(self, "{");
         self.emit_list(&n.rules, ListFormat::NotDelimited)?;
         punct!(self, "}");
@@ -446,6 +524,7 @@ where
 
     #[emitter]
     fn emit_supports_not(&mut self, n: &SupportsNot) -> Result {
+        formatting_space!(self);
         keyword!(self, "not");
         space!(self);
         emit!(self, n.condition);
@@ -453,6 +532,7 @@ where
 
     #[emitter]
     fn emit_supports_and(&mut self, n: &SupportsAnd) -> Result {
+        formatting_space!(self);
         keyword!(self, "and");
         space!(self);
         emit!(self, n.condition);
@@ -460,6 +540,7 @@ where
 
     #[emitter]
     fn emit_support_or(&mut self, n: &SupportsOr) -> Result {
+        formatting_space!(self);
         keyword!(self, "or");
         space!(self);
         emit!(self, n.condition);
@@ -519,21 +600,38 @@ where
     fn emit_namespace_rule(&mut self, n: &NamespaceRule) -> Result {
         punct!(self, "@");
         keyword!(self, "namespace");
-        space!(self);
 
-        if n.prefix.is_some() {
-            emit!(self, n.prefix);
+        let has_prefix = n.prefix.is_some();
+        let is_uri_url = match n.uri {
+            NamespaceUri::Url(_) => true,
+            NamespaceUri::Str(_) => false,
+        };
+
+        if has_prefix || is_uri_url {
             space!(self);
+        } else {
+            formatting_space!(self);
+        }
+
+        if has_prefix {
+            emit!(self, n.prefix);
+
+            if is_uri_url {
+                space!(self);
+            } else {
+                formatting_space!(self);
+            }
         }
 
         emit!(self, n.uri);
+        punct!(self, ";");
     }
 
     #[emitter]
     fn emit_viewport_rule(&mut self, n: &ViewportRule) -> Result {
         punct!(self, "@");
         keyword!(self, "viewport");
-        space!(self);
+        formatting_space!(self);
 
         emit!(self, n.block);
     }
@@ -546,19 +644,59 @@ where
 
         self.emit_list(&n.selectors, ListFormat::CommaDelimited)?;
 
-        space!(self);
+        formatting_space!(self);
 
         punct!(self, "{");
         self.emit_list(&n.block, ListFormat::NotDelimited)?;
         punct!(self, "}");
     }
 
+    fn emit_list_values(&mut self, nodes: &[Value], format: ListFormat) -> Result {
+        let iter = nodes.iter();
+
+        for (idx, node) in iter.enumerate() {
+            emit!(self, node);
+
+            if idx != nodes.len() - 1 {
+                let need_delim = match node {
+                    Value::SimpleBlock(_)
+                    | Value::Function(_)
+                    | Value::Delimiter(_)
+                    | Value::Str(_)
+                    | Value::Url(_)
+                    | Value::Percent(_) => match nodes.get(idx + 1) {
+                        Some(Value::Delimiter(Delimiter {
+                            value: DelimiterValue::Comma,
+                            ..
+                        })) => false,
+                        _ => !self.config.minify,
+                    },
+                    _ => match nodes.get(idx + 1) {
+                        Some(Value::SimpleBlock(_)) | Some(Value::Color(Color::HexColor(_))) => {
+                            !self.config.minify
+                        }
+                        Some(Value::Delimiter(_)) => false,
+                        _ => true,
+                    },
+                };
+
+                if need_delim {
+                    self.write_delim(format)?;
+                }
+            }
+        }
+
+        Ok(())
+    }
+
     #[emitter]
     fn emit_function(&mut self, n: &Function) -> Result {
         emit!(self, n.name);
-
         punct!(self, "(");
-        self.emit_list(&n.value, ListFormat::CommaDelimited)?;
+        self.emit_list_values(
+            &n.value,
+            ListFormat::SpaceDelimited | ListFormat::SingleLine,
+        )?;
         punct!(self, ")");
     }
 
@@ -567,20 +705,18 @@ where
         match n {
             Value::Function(n) => emit!(self, n),
             Value::SimpleBlock(n) => emit!(self, n),
-            Value::Unit(n) => emit!(self, n),
+            Value::Dimension(n) => emit!(self, n),
             Value::Number(n) => emit!(self, n),
             Value::Percent(n) => emit!(self, n),
             Value::Ratio(n) => emit!(self, n),
-            Value::Hash(n) => emit!(self, n),
+            Value::Color(n) => emit!(self, n),
             Value::Ident(n) => emit!(self, n),
             Value::DashedIdent(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
-            Value::Space(n) => emit!(self, n),
             Value::Tokens(n) => emit!(self, n),
-            Value::AtText(n) => emit!(self, n),
             Value::Url(n) => emit!(self, n),
-            Value::Comma(n) => emit!(self, n),
+            Value::Delimiter(n) => emit!(self, n),
         }
     }
 
@@ -606,6 +742,7 @@ where
         keyword!(self, "color-profile");
         space!(self);
         emit!(self, n.name);
+        formatting_space!(self);
         punct!(self, "{");
         self.emit_list(&n.block, ListFormat::NotDelimited)?;
         punct!(self, "}");
@@ -627,7 +764,11 @@ where
 
     #[emitter]
     fn emit_str(&mut self, n: &Str) -> Result {
-        self.wr.write_raw(Some(n.span), &n.raw)?;
+        if self.config.minify {
+            self.wr.write_str(Some(n.span), &n.value)?;
+        } else {
+            self.wr.write_raw(Some(n.span), &n.raw)?;
+        }
     }
 
     #[emitter]
@@ -657,7 +798,14 @@ where
     fn emit_block(&mut self, n: &Block) -> Result {
         punct!(self, "{");
 
-        self.emit_list(&n.value, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
+        self.emit_list(
+            &n.value,
+            if self.config.minify {
+                ListFormat::SemiDelimited
+            } else {
+                ListFormat::SemiDelimited | ListFormat::MultiLine
+            },
+        )?;
 
         punct!(self, "}");
     }
@@ -672,33 +820,47 @@ where
     }
 
     #[emitter]
-    fn emit_declaration_property(&mut self, n: &DeclarationProperty) -> Result {
+    fn emit_declaration_name(&mut self, n: &DeclarationName) -> Result {
         match n {
-            DeclarationProperty::Ident(n) => emit!(self, n),
-            DeclarationProperty::DashedIdent(n) => emit!(self, n),
+            DeclarationName::Ident(n) => emit!(self, n),
+            DeclarationName::DashedIdent(n) => emit!(self, n),
         }
     }
 
     #[emitter]
     fn emit_declaration(&mut self, n: &Declaration) -> Result {
-        emit!(self, n.property);
+        emit!(self, n.name);
         punct!(self, ":");
 
-        let is_custom_property = match n.property {
-            DeclarationProperty::DashedIdent(_) => true,
-            DeclarationProperty::Ident(_) => false,
+        let is_custom_property = match n.name {
+            DeclarationName::DashedIdent(_) => true,
+            DeclarationName::Ident(_) => false,
         };
 
-        if !is_custom_property {
+        // https://github.com/w3c/csswg-drafts/issues/774
+        // `--foo: ;` and `--foo:;` is valid, but not all browsers support it, currently
+        // we print " " (whitespace) always
+        if is_custom_property {
+            match n.value.get(0) {
+                Some(Value::Tokens(tokens)) if tokens.tokens.is_empty() => {
+                    space!(self);
+                }
+                _ => {
+                    formatting_space!(self);
+                }
+            };
+        } else {
             formatting_space!(self);
         }
 
-        let format = match is_custom_property {
-            true => ListFormat::NotDelimited,
-            false => ListFormat::SpaceDelimited | ListFormat::SingleLine,
-        };
-
-        self.emit_list(&n.value, format)?;
+        if is_custom_property {
+            self.emit_list(&n.value, ListFormat::NotDelimited)?;
+        } else {
+            self.emit_list_values(
+                &n.value,
+                ListFormat::SpaceDelimited | ListFormat::SingleLine,
+            )?;
+        }
 
         if let Some(tok) = n.important {
             if !is_custom_property {
@@ -747,8 +909,7 @@ where
     #[emitter]
     fn emit_page_rule_block(&mut self, n: &PageRuleBlock) -> Result {
         punct!(self, "{");
-
-        self.wr.write_newline()?;
+        formatting_newline!(self);
 
         self.wr.increase_indent();
 
@@ -758,8 +919,7 @@ where
         };
         self.with_ctx(ctx)
             .emit_list(&n.items, ListFormat::MultiLine | ListFormat::NotDelimited)?;
-
-        self.wr.write_newline()?;
+        formatting_newline!(self);
 
         self.wr.decrease_indent();
 
@@ -775,28 +935,84 @@ where
     }
 
     #[emitter]
-    fn emit_unit_value(&mut self, n: &UnitValue) -> Result {
+    fn emit_dimension(&mut self, n: &Dimension) -> Result {
         emit!(self, n.value);
         emit!(self, n.unit);
     }
 
     #[emitter]
     fn emit_number(&mut self, n: &Number) -> Result {
-        self.wr.write_raw(Some(n.span), &n.raw)?;
+        if self.config.minify {
+            if n.value.is_sign_negative() && n.value == 0.0 {
+                self.wr.write_raw(Some(n.span), "-0")?;
+            } else {
+                let mut minified = n.value.to_string();
+
+                if minified.starts_with("0.") {
+                    minified.replace_range(0..1, "");
+                } else if minified.starts_with("-0.") {
+                    minified.replace_range(1..2, "");
+                }
+
+                if minified.starts_with(".000") {
+                    let mut cnt = 3;
+
+                    for &v in minified.as_bytes().iter().skip(4) {
+                        if v == b'0' {
+                            cnt += 1;
+                        } else {
+                            break;
+                        }
+                    }
+
+                    minified.replace_range(0..cnt + 1, "");
+
+                    let remain_len = minified.len();
+
+                    minified.push_str("e-");
+                    minified.push_str(&(remain_len + cnt).to_string());
+                } else if minified.ends_with("000") {
+                    let mut cnt = 3;
+
+                    for &v in minified.as_bytes().iter().rev().skip(3) {
+                        if v == b'0' {
+                            cnt += 1;
+                        } else {
+                            break;
+                        }
+                    }
+
+                    minified.truncate(minified.len() - cnt);
+                    minified.push('e');
+                    minified.push_str(&cnt.to_string());
+                }
+
+                self.wr.write_raw(Some(n.span), &minified)?;
+            }
+        } else {
+            self.wr.write_raw(Some(n.span), &n.raw)?;
+        }
     }
 
     #[emitter]
     fn emit_ration(&mut self, n: &Ratio) -> Result {
         emit!(self, n.left);
-        punct!(self, "/");
 
         if let Some(right) = &n.right {
+            punct!(self, "/");
             emit!(self, right);
         }
     }
 
     #[emitter]
-    fn emit_hash_value(&mut self, n: &HashValue) -> Result {
+    fn emit_color(&mut self, n: &Color) -> Result {
+        match n {
+            Color::HexColor(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_hex_color(&mut self, n: &HexColor) -> Result {
         punct!(self, "#");
 
         self.wr.write_raw(Some(n.span), &n.raw)?;
@@ -805,20 +1021,29 @@ where
     #[emitter]
     fn emit_bin_value(&mut self, n: &BinValue) -> Result {
         emit!(self, n.left);
-        space!(self);
+
+        let need_space = matches!(n.op, BinOp::Add | BinOp::Mul);
+
+        if need_space {
+            space!(self);
+        } else {
+            formatting_space!(self);
+        }
+
         punct!(self, n.op.as_str());
-        space!(self);
+
+        if need_space {
+            space!(self);
+        } else {
+            formatting_space!(self);
+        }
+
         emit!(self, n.right);
     }
 
     #[emitter]
-    fn emit_comma_values(&mut self, n: &CommaValues) -> Result {
-        self.emit_list(&n.values, ListFormat::CommaDelimited)?;
-    }
-
-    #[emitter]
-    fn emit_space_values(&mut self, n: &SpaceValues) -> Result {
-        self.emit_list(&n.values, ListFormat::SpaceDelimited)?;
+    fn emit_delimiter(&mut self, n: &Delimiter) -> Result {
+        punct!(self, n.value.as_str());
     }
 
     #[emitter]
@@ -926,15 +1151,6 @@ where
     }
 
     #[emitter]
-    fn emit_at_text_value(&mut self, n: &AtTextValue) -> Result {
-        punct!(self, "@");
-        emit!(self, n.name);
-        space!(self);
-
-        emit!(self, n.block);
-    }
-
-    #[emitter]
     fn emit_url(&mut self, n: &Url) -> Result {
         emit!(self, n.name);
         punct!(self, "(");
@@ -944,7 +1160,10 @@ where
         }
 
         if let Some(modifiers) = &n.modifiers {
-            self.emit_list(modifiers, ListFormat::SpaceDelimited)?;
+            if !modifiers.is_empty() {
+                formatting_space!(self);
+                self.emit_list(modifiers, ListFormat::SpaceDelimited)?;
+            }
         }
 
         punct!(self, ")");
@@ -1043,11 +1262,6 @@ where
     }
 
     #[emitter]
-    fn emit_unit(&mut self, n: &Unit) -> Result {
-        self.wr.write_raw(Some(n.span), &n.raw)?;
-    }
-
-    #[emitter]
     fn emit_type_selector(&mut self, n: &TypeSelector) -> Result {
         if let Some(prefix) = &n.prefix {
             emit!(self, prefix);
@@ -1097,7 +1311,15 @@ where
         emit!(self, n.value);
 
         if let Some(m) = &n.modifier {
-            space!(self);
+            match n.value {
+                Some(AttrSelectorValue::Str(_)) => {
+                    formatting_space!(self);
+                }
+                Some(AttrSelectorValue::Ident(_)) => {
+                    space!(self);
+                }
+                _ => {}
+            }
 
             self.wr.write_raw_char(None, *m)?;
         }
@@ -1185,9 +1407,10 @@ where
                 self.write_delim(format)?;
 
                 if format & ListFormat::LinesMask == ListFormat::MultiLine {
-                    self.wr.write_newline()?;
+                    formatting_newline!(self);
                 }
             }
+
             emit!(self, node)
         }
 
@@ -1199,7 +1422,7 @@ where
             ListFormat::None => {}
             ListFormat::CommaDelimited => {
                 punct!(self, ",");
-                space!(self);
+                formatting_space!(self);
             }
             ListFormat::SpaceDelimited => {
                 space!(self)

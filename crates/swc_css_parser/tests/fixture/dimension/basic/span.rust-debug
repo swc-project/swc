@@ -83,7 +83,7 @@ error: Declaration
 2 |     prop: 10px;
   |     ^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/dimension/basic/input.css:2:5
   |
 2 |     prop: 10px;
@@ -101,7 +101,7 @@ error: Value
 2 |     prop: 10px;
   |           ^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/dimension/basic/input.css:2:11
   |
 2 |     prop: 10px;
@@ -113,7 +113,7 @@ error: Number
 2 |     prop: 10px;
   |           ^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/dimension/basic/input.css:2:13
   |
 2 |     prop: 10px;
@@ -125,7 +125,7 @@ error: Declaration
 3 |     prop: .10px;
   |     ^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/dimension/basic/input.css:3:5
   |
 3 |     prop: .10px;
@@ -143,7 +143,7 @@ error: Value
 3 |     prop: .10px;
   |           ^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/dimension/basic/input.css:3:11
   |
 3 |     prop: .10px;
@@ -155,7 +155,7 @@ error: Number
 3 |     prop: .10px;
   |           ^^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/dimension/basic/input.css:3:14
   |
 3 |     prop: .10px;
@@ -167,7 +167,7 @@ error: Declaration
 4 |     prop: 12.34px;
   |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/dimension/basic/input.css:4:5
   |
 4 |     prop: 12.34px;
@@ -185,7 +185,7 @@ error: Value
 4 |     prop: 12.34px;
   |           ^^^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/dimension/basic/input.css:4:11
   |
 4 |     prop: 12.34px;
@@ -197,7 +197,7 @@ error: Number
 4 |     prop: 12.34px;
   |           ^^^^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/dimension/basic/input.css:4:16
   |
 4 |     prop: 12.34px;
@@ -209,7 +209,7 @@ error: Declaration
 5 |     prop: 0000.000px;
   |     ^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/dimension/basic/input.css:5:5
   |
 5 |     prop: 0000.000px;
@@ -227,7 +227,7 @@ error: Value
 5 |     prop: 0000.000px;
   |           ^^^^^^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/dimension/basic/input.css:5:11
   |
 5 |     prop: 0000.000px;
@@ -239,7 +239,7 @@ error: Number
 5 |     prop: 0000.000px;
   |           ^^^^^^^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/dimension/basic/input.css:5:19
   |
 5 |     prop: 0000.000px;
@@ -251,7 +251,7 @@ error: Declaration
 6 |     prop: 1px\\9;
   |     ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/dimension/basic/input.css:6:5
   |
 6 |     prop: 1px\\9;
@@ -269,7 +269,7 @@ error: Value
 6 |     prop: 1px\\9;
   |           ^^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/dimension/basic/input.css:6:11
   |
 6 |     prop: 1px\\9;
@@ -281,7 +281,7 @@ error: Number
 6 |     prop: 1px\\9;
   |           ^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/dimension/basic/input.css:6:12
   |
 6 |     prop: 1px\\9;
@@ -293,7 +293,7 @@ error: Declaration
 7 |     prop: 1e;
   |     ^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/dimension/basic/input.css:7:5
   |
 7 |     prop: 1e;
@@ -311,7 +311,7 @@ error: Value
 7 |     prop: 1e;
   |           ^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/dimension/basic/input.css:7:11
   |
 7 |     prop: 1e;
@@ -323,7 +323,7 @@ error: Number
 7 |     prop: 1e;
   |           ^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/dimension/basic/input.css:7:12
   |
 7 |     prop: 1e;
@@ -335,7 +335,7 @@ error: Declaration
 8 |     prop: 1unknown;
   |     ^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/dimension/basic/input.css:8:5
   |
 8 |     prop: 1unknown;
@@ -353,7 +353,7 @@ error: Value
 8 |     prop: 1unknown;
   |           ^^^^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/dimension/basic/input.css:8:11
   |
 8 |     prop: 1unknown;
@@ -365,7 +365,7 @@ error: Number
 8 |     prop: 1unknown;
   |           ^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/dimension/basic/input.css:8:12
   |
 8 |     prop: 1unknown;

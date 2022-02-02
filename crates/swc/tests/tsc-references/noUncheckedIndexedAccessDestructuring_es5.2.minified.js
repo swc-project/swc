@@ -70,4 +70,4 @@ var x1 = numMapPoint.x, q = function(source, excluded) {
 }(numMapPoint, [
     "x"
 ]);
-x1.toFixed(), q.y.toFixed(), q.z.toFixed(), target_string = _slicedToArray(strArray, 1)[0], target_string_undef = _slicedToArray(strArray, 1)[0], target_string_arr = _toArray(strArray).slice(3), (ref = numMapPoint).x, ref.y, ref.z;
+x1.toFixed(), q.y.toFixed(), q.z.toFixed(), target_string = _slicedToArray(strArray, 1)[0], target_string_undef = _slicedToArray(strArray, 1)[0], target_string_arr = _toArray(strArray).slice(3), (ref = numMapPoint).x, ref.y, ref.z, numMapPoint.q;

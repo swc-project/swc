@@ -75,10 +75,10 @@
             "type": "Declaration",
             "span": {
               "start": 10,
-              "end": 17,
+              "end": 22,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 10,
@@ -92,23 +92,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 16,
+                  "start": 17,
                   "end": 22,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 16,
-                      "end": 17,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 17,
@@ -131,10 +119,10 @@
             "type": "Declaration",
             "span": {
               "start": 25,
-              "end": 39,
+              "end": 44,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 25,
@@ -148,23 +136,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 38,
+                  "start": 39,
                   "end": 44,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 38,
-                      "end": 39,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 39,
@@ -187,10 +163,10 @@
             "type": "Declaration",
             "span": {
               "start": 47,
-              "end": 56,
+              "end": 63,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 47,
@@ -204,23 +180,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 55,
+                  "start": 56,
                   "end": 63,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 55,
-                      "end": 56,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 56,
@@ -243,10 +207,10 @@
             "type": "Declaration",
             "span": {
               "start": 66,
-              "end": 74,
+              "end": 78,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 66,
@@ -260,23 +224,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 73,
+                  "start": 74,
                   "end": 78,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 73,
-                      "end": 74,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 74,
@@ -300,10 +252,10 @@
             "type": "Declaration",
             "span": {
               "start": 81,
-              "end": 95,
+              "end": 98,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 81,
@@ -317,23 +269,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 94,
+                  "start": 95,
                   "end": 98,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 94,
-                      "end": 95,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 95,
@@ -356,10 +296,10 @@
             "type": "Declaration",
             "span": {
               "start": 101,
-              "end": 111,
+              "end": 113,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 101,
@@ -373,23 +313,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 110,
+                  "start": 111,
                   "end": 113,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 110,
-                      "end": 111,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 111,
@@ -413,10 +341,10 @@
             "type": "Declaration",
             "span": {
               "start": 116,
-              "end": 126,
+              "end": 130,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 116,
@@ -430,23 +358,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 125,
+                  "start": 126,
                   "end": 130,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 125,
-                      "end": 126,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 126,
@@ -472,10 +388,10 @@
             "type": "Declaration",
             "span": {
               "start": 133,
-              "end": 141,
+              "end": 145,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 133,
@@ -489,23 +405,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 140,
+                  "start": 141,
                   "end": 145,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 140,
-                      "end": 141,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 141,
@@ -531,10 +435,10 @@
             "type": "Declaration",
             "span": {
               "start": 148,
-              "end": 160,
+              "end": 164,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 148,
@@ -548,23 +452,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 159,
+                  "start": 160,
                   "end": 165,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 159,
-                      "end": 160,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 160,
@@ -595,10 +487,10 @@
             "type": "Declaration",
             "span": {
               "start": 168,
-              "end": 187,
+              "end": 191,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 168,
@@ -612,23 +504,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 186,
+                  "start": 187,
                   "end": 197,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 186,
-                      "end": 187,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 187,
@@ -680,10 +560,10 @@
             "type": "Declaration",
             "span": {
               "start": 200,
-              "end": 215,
+              "end": 216,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 200,
@@ -697,23 +577,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 214,
+                  "start": 215,
                   "end": 218,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 214,
-                      "end": 215,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 215,
@@ -751,10 +619,10 @@
             "type": "Declaration",
             "span": {
               "start": 221,
-              "end": 231,
+              "end": 232,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 221,
@@ -768,23 +636,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 230,
+                  "start": 231,
                   "end": 234,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 230,
-                      "end": 231,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 231,
@@ -822,10 +678,10 @@
             "type": "Declaration",
             "span": {
               "start": 237,
-              "end": 249,
+              "end": 250,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 237,
@@ -839,23 +695,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 248,
+                  "start": 249,
                   "end": 252,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 248,
-                      "end": 249,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 249,
@@ -893,10 +737,10 @@
             "type": "Declaration",
             "span": {
               "start": 255,
-              "end": 277,
+              "end": 284,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 255,
@@ -910,23 +754,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 276,
+                  "start": 277,
                   "end": 284,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 276,
-                      "end": 277,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 277,
@@ -949,10 +781,10 @@
             "type": "Declaration",
             "span": {
               "start": 287,
-              "end": 307,
+              "end": 313,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 287,
@@ -966,23 +798,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 306,
+                  "start": 307,
                   "end": 313,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 306,
-                      "end": 307,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 307,
@@ -1005,10 +825,10 @@
             "type": "Declaration",
             "span": {
               "start": 316,
-              "end": 344,
+              "end": 351,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 316,
@@ -1022,23 +842,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 343,
+                  "start": 344,
                   "end": 354,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 343,
-                      "end": 344,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 344,
@@ -1089,10 +897,10 @@
             "type": "Declaration",
             "span": {
               "start": 357,
-              "end": 383,
+              "end": 389,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 357,
@@ -1106,23 +914,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 382,
+                  "start": 383,
                   "end": 392,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 382,
-                      "end": 383,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 383,
@@ -1173,10 +969,10 @@
             "type": "Declaration",
             "span": {
               "start": 395,
-              "end": 415,
+              "end": 419,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 395,
@@ -1190,23 +986,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 414,
+                  "start": 415,
                   "end": 419,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 414,
-                      "end": 415,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 415,
@@ -1224,10 +1008,10 @@
             "type": "Declaration",
             "span": {
               "start": 422,
-              "end": 442,
+              "end": 445,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 422,
@@ -1241,23 +1025,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 441,
+                  "start": 442,
                   "end": 445,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 441,
-                      "end": 442,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 442,
@@ -1275,10 +1047,10 @@
             "type": "Declaration",
             "span": {
               "start": 448,
-              "end": 469,
+              "end": 470,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 448,
@@ -1292,23 +1064,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 468,
+                  "start": 469,
                   "end": 475,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 468,
-                      "end": 469,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 469,
@@ -1342,10 +1102,10 @@
             "type": "Declaration",
             "span": {
               "start": 478,
-              "end": 499,
+              "end": 500,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 478,
@@ -1359,23 +1119,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 498,
+                  "start": 499,
                   "end": 504,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 498,
-                      "end": 499,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 499,

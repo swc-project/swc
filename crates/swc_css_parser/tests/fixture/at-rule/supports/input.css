@@ -31,3 +31,7 @@
 @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
 @supports ((display: flex)) {}
 @supports (display: flex !important) {}
+@supports NOT (display: flex) {}
+@supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
+@supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
+@supports (NOT (display: flex)) {}

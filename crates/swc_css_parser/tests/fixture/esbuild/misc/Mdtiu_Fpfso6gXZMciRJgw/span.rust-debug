@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: 10\65m }
   |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:5
   |
 1 | a { value: 10\65m }
@@ -76,7 +76,7 @@ error: Value
 1 | a { value: 10\65m }
   |            ^^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:12
   |
 1 | a { value: 10\65m }
@@ -88,7 +88,7 @@ error: Number
 1 | a { value: 10\65m }
   |            ^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:14
   |
 1 | a { value: 10\65m }

@@ -6,8 +6,8 @@ error: Stylesheet
 3  | |     background-image: url("./image (1).jpg");
 4  | |     background-image: url('./image (1).jpg');
 ...  |
-47 | |     background: url(image.png\10FFFF);
-48 | | }
+48 | |     background: url(18);
+49 | | }
    | |__^
 
 error: Rule
@@ -18,8 +18,8 @@ error: Rule
 3  | |     background-image: url("./image (1).jpg");
 4  | |     background-image: url('./image (1).jpg');
 ...  |
-47 | |     background: url(image.png\10FFFF);
-48 | | }
+48 | |     background: url(18);
+49 | | }
    | |_^
 
 error: QualifiedRule
@@ -30,8 +30,8 @@ error: QualifiedRule
 3  | |     background-image: url("./image (1).jpg");
 4  | |     background-image: url('./image (1).jpg');
 ...  |
-47 | |     background: url(image.png\10FFFF);
-48 | | }
+48 | |     background: url(18);
+49 | | }
    | |_^
 
 error: SelectorList
@@ -73,8 +73,8 @@ error: Block
 3  | |     background-image: url("./image (1).jpg");
 4  | |     background-image: url('./image (1).jpg');
 ...  |
-47 | |     background: url(image.png\10FFFF);
-48 | | }
+48 | |     background: url(18);
+49 | | }
    | |_^
 
 error: Declaration
@@ -83,7 +83,7 @@ error: Declaration
 2 |     background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/function/url/input.css:2:5
   |
 2 |     background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
@@ -131,7 +131,7 @@ error: Declaration
 3 |     background-image: url("./image (1).jpg");
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/function/url/input.css:3:5
   |
 3 |     background-image: url("./image (1).jpg");
@@ -179,7 +179,7 @@ error: Declaration
 4 |     background-image: url('./image (1).jpg');
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/function/url/input.css:4:5
   |
 4 |     background-image: url('./image (1).jpg');
@@ -227,7 +227,7 @@ error: Declaration
 5 |     background-image: URL('./image (1).jpg');
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/function/url/input.css:5:5
   |
 5 |     background-image: URL('./image (1).jpg');
@@ -275,7 +275,7 @@ error: Declaration
 6 |     background-image: url(   './image (1).jpg');
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/function/url/input.css:6:5
   |
 6 |     background-image: url(   './image (1).jpg');
@@ -323,7 +323,7 @@ error: Declaration
 7 |     background-image: url('./image (1).jpg'   );
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/function/url/input.css:7:5
   |
 7 |     background-image: url('./image (1).jpg'   );
@@ -371,7 +371,7 @@ error: Declaration
 8 |     background-image: url(   './image (1).jpg'   );
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/function/url/input.css:8:5
   |
 8 |     background-image: url(   './image (1).jpg'   );
@@ -421,7 +421,7 @@ error: Declaration
 11 | |     );
    | |_____^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/function/url/input.css:9:5
   |
 9 |     background-image: url(   
@@ -475,7 +475,7 @@ error: Declaration
 12 |     background-image: url();
    |     ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:12:5
    |
 12 |     background-image: url();
@@ -523,7 +523,7 @@ error: Declaration
 13 |     background-image: url(   );
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:13:5
    |
 13 |     background-image: url(   );
@@ -571,7 +571,7 @@ error: Declaration
 14 |     background-image: url("");
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:14:5
    |
 14 |     background-image: url("");
@@ -619,7 +619,7 @@ error: Declaration
 15 |     background-image: url(   ""   );
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:15:5
    |
 15 |     background-image: url(   ""   );
@@ -667,7 +667,7 @@ error: Declaration
 16 |     background-image: url('');
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:16:5
    |
 16 |     background-image: url('');
@@ -715,7 +715,7 @@ error: Declaration
 17 |     background-image: url(   ''   );
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:17:5
    |
 17 |     background-image: url(   ''   );
@@ -763,7 +763,7 @@ error: Declaration
 18 |     background-image: url(   ' '   );
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:18:5
    |
 18 |     background-image: url(   ' '   );
@@ -811,7 +811,7 @@ error: Declaration
 19 |     background-image: url(./image.png);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:19:5
    |
 19 |     background-image: url(./image.png);
@@ -859,7 +859,7 @@ error: Declaration
 20 |     background-image: url(   ./image.png   );
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:20:5
    |
 20 |     background-image: url(   ./image.png   );
@@ -907,7 +907,7 @@ error: Declaration
 21 |     background-image: url(   ./image\32.png   );
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:21:5
    |
 21 |     background-image: url(   ./image\32.png   );
@@ -957,7 +957,7 @@ error: Declaration
 24 | |     );
    | |_____^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:22:5
    |
 22 |     background-image: url(   
@@ -1023,7 +1023,7 @@ error: Declaration
 33 | |     );
    | |_____^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:25:5
    |
 25 |     background-image: url(
@@ -1105,7 +1105,7 @@ error: Declaration
 42 | |        );
    | |________^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:34:5
    |
 34 |     background-image: url(   
@@ -1181,7 +1181,7 @@ error: Declaration
 43 |     background: url(image.png\0001);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:43:5
    |
 43 |     background: url(image.png\0001);
@@ -1229,7 +1229,7 @@ error: Declaration
 44 |     background: url(image.png\1);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:44:5
    |
 44 |     background: url(image.png\1);
@@ -1277,7 +1277,7 @@ error: Declaration
 45 |     background: url(image.png\D799);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:45:5
    |
 45 |     background: url(image.png\D799);
@@ -1325,7 +1325,7 @@ error: Declaration
 46 |     background: url(image.png\E000);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:46:5
    |
 46 |     background: url(image.png\E000);
@@ -1373,7 +1373,7 @@ error: Declaration
 47 |     background: url(image.png\10FFFF);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/function/url/input.css:47:5
    |
 47 |     background: url(image.png\10FFFF);
@@ -1414,4 +1414,52 @@ error: UrlValueRaw
    |
 47 |     background: url(image.png\10FFFF);
    |                     ^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/function/url/input.css:48:5
+   |
+48 |     background: url(18);
+   |     ^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/function/url/input.css:48:5
+   |
+48 |     background: url(18);
+   |     ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/url/input.css:48:5
+   |
+48 |     background: url(18);
+   |     ^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/url/input.css:48:17
+   |
+48 |     background: url(18);
+   |                 ^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/function/url/input.css:48:17
+   |
+48 |     background: url(18);
+   |                 ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/function/url/input.css:48:17
+   |
+48 |     background: url(18);
+   |                 ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/function/url/input.css:48:21
+   |
+48 |     background: url(18);
+   |                     ^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/function/url/input.css:48:21
+   |
+48 |     background: url(18);
+   |                     ^^
 

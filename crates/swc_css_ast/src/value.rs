@@ -8,8 +8,8 @@ pub enum Value {
     #[tag("SimpleBlock")]
     SimpleBlock(SimpleBlock),
 
-    #[tag("UnitValue")]
-    Unit(UnitValue),
+    #[tag("Dimension")]
+    Dimension(Dimension),
 
     #[tag("Number")]
     Number(Number),
@@ -20,8 +20,8 @@ pub enum Value {
     #[tag("Ratio")]
     Ratio(Ratio),
 
-    #[tag("HashValue")]
-    Hash(HashValue),
+    #[tag("Color")]
+    Color(Color),
 
     #[tag("Ident")]
     Ident(Ident),
@@ -38,36 +38,28 @@ pub enum Value {
     #[tag("BinValue")]
     Bin(BinValue),
 
-    #[tag("SpaceValues")]
-    Space(SpaceValues),
-
-    #[tag("CommaValues")]
-    Comma(CommaValues),
+    #[tag("Delimiter")]
+    Delimiter(Delimiter),
 
     #[tag("Tokens")]
     Tokens(Tokens),
-
-    #[tag("AtTextValue")]
-    AtText(AtTextValue),
 
     #[tag("Url")]
     Url(Url),
 }
 
-/// List of values separated by a space.
-#[ast_node("SpaceValues")]
-#[derive(Default)]
-pub struct SpaceValues {
-    pub span: Span,
-    pub values: Vec<Value>,
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+pub enum DelimiterValue {
+    /// `,`
+    Comma,
+    /// `/`
+    Solidus,
 }
 
-/// List of values separated by a space.
-#[ast_node("CommaValues")]
-#[derive(Default)]
-pub struct CommaValues {
+#[ast_node("Delimiter")]
+pub struct Delimiter {
     pub span: Span,
-    pub values: Vec<Value>,
+    pub value: DelimiterValue,
 }
 
 #[ast_node("BinValue")]
@@ -89,8 +81,15 @@ pub struct Function {
     pub value: Vec<Value>,
 }
 
-#[ast_node("HashValue")]
-pub struct HashValue {
+#[ast_node]
+pub enum Color {
+    // TODO more
+    #[tag("HexColor")]
+    HexColor(HexColor),
+}
+
+#[ast_node("HexColor")]
+pub struct HexColor {
     /// Includes `#`
     pub span: Span,
     /// Does **not** include `#`
@@ -99,18 +98,11 @@ pub struct HashValue {
     pub raw: JsWord,
 }
 
-#[ast_node]
-pub struct Unit {
-    pub span: Span,
-    pub value: JsWord,
-    pub raw: JsWord,
-}
-
-#[ast_node("UnitValue")]
-pub struct UnitValue {
+#[ast_node("Dimension")]
+pub struct Dimension {
     pub span: Span,
     pub value: Number,
-    pub unit: Unit,
+    pub unit: Ident,
 }
 
 #[ast_node("Percent")]
@@ -143,14 +135,6 @@ pub enum BinOp {
     Mul,
     /// `/`
     Div,
-}
-
-#[ast_node("AtTextValue")]
-pub struct AtTextValue {
-    pub span: Span,
-    /// Includes `@`.
-    pub name: Ident,
-    pub block: Option<SimpleBlock>,
 }
 
 #[ast_node("Url")]

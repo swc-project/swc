@@ -78,7 +78,7 @@
               "end": 37,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 22,
@@ -109,7 +109,7 @@
               "end": 78,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 43,
@@ -140,7 +140,7 @@
               "end": 106,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 84,
@@ -337,7 +337,7 @@
               "end": 201,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 165,
@@ -368,7 +368,7 @@
               "end": 219,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 207,
@@ -399,7 +399,7 @@
               "end": 264,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 225,
@@ -413,23 +413,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 236,
+                  "start": 237,
                   "end": 265,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 236,
-                      "end": 237,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 237,
@@ -467,7 +455,7 @@
               "end": 283,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 271,
@@ -702,7 +690,7 @@
                   "end": 405,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 366,
@@ -716,23 +704,11 @@
                   {
                     "type": "Tokens",
                     "span": {
-                      "start": 377,
+                      "start": 378,
                       "end": 406,
                       "ctxt": 0
                     },
                     "tokens": [
-                      {
-                        "span": {
-                          "start": 377,
-                          "end": 378,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
                       {
                         "span": {
                           "start": 378,
@@ -976,7 +952,7 @@
                   "end": 534,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 495,
@@ -990,23 +966,11 @@
                   {
                     "type": "Tokens",
                     "span": {
-                      "start": 506,
+                      "start": 507,
                       "end": 535,
                       "ctxt": 0
                     },
                     "tokens": [
-                      {
-                        "span": {
-                          "start": 506,
-                          "end": 507,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
                       {
                         "span": {
                           "start": 507,

@@ -1,2 +1,2 @@
 var _key;
-_key = Symbol.iterator;
+_key = Symbol.iterator, Symbol.toPrimitive, Symbol.toStringTag;

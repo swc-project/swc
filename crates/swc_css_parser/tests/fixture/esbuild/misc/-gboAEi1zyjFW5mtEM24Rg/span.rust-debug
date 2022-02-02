@@ -58,7 +58,7 @@ error: Declaration
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:5
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
@@ -101,6 +101,18 @@ error: Number
   |                     ^^^
 
 error: Value
+ --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:24
+  |
+1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
+  |                        ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:24
+  |
+1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
+  |                        ^
+
+error: Value
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:26
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
@@ -111,6 +123,18 @@ error: Number
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                          ^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:27
+  |
+1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
+  |                           ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:27
+  |
+1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
+  |                           ^
 
 error: Value
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:29

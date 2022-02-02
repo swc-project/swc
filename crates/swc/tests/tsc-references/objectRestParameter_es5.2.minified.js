@@ -30,7 +30,9 @@ suddenly(function(_param) {
             ka: 1
         },
         y: "noo"
-    }, _z = _param.x.z, nested = _objectWithoutProperties(_param.x, [
+    };
+    _param.x.z;
+    var nested = _objectWithoutProperties(_param.x, [
         "z"
     ]), rest = _objectWithoutProperties(_param, [
         "x"

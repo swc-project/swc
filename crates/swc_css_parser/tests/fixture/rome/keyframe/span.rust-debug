@@ -96,7 +96,7 @@ error: Declaration
 3 |         margin-top: 50px !important;
   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/keyframe/input.css:3:9
   |
 3 |         margin-top: 50px !important;
@@ -114,7 +114,7 @@ error: Value
 3 |         margin-top: 50px !important;
   |                     ^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/keyframe/input.css:3:21
   |
 3 |         margin-top: 50px !important;
@@ -126,7 +126,7 @@ error: Number
 3 |         margin-top: 50px !important;
   |                     ^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/keyframe/input.css:3:23
   |
 3 |         margin-top: 50px !important;
@@ -176,7 +176,7 @@ error: Declaration
 6 |         margin-top: 100px !important;
   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/keyframe/input.css:6:9
   |
 6 |         margin-top: 100px !important;
@@ -194,7 +194,7 @@ error: Value
 6 |         margin-top: 100px !important;
   |                     ^^^^^
 
-error: UnitValue
+error: Dimension
  --> $DIR/tests/fixture/rome/keyframe/input.css:6:21
   |
 6 |         margin-top: 100px !important;
@@ -206,7 +206,7 @@ error: Number
 6 |         margin-top: 100px !important;
   |                     ^^^
 
-error: Unit
+error: Ident
  --> $DIR/tests/fixture/rome/keyframe/input.css:6:24
   |
 6 |         margin-top: 100px !important;

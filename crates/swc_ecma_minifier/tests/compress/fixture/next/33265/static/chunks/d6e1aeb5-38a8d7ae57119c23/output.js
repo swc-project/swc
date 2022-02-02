@@ -1502,9 +1502,8 @@
                 showing: "showing"
             }, Track1 = function(_EventTarget) {
                 function Track(options) {
-                    var _this;
                     void 0 === options && (options = {}), _this = _EventTarget.call(this) || this;
-                    var trackProps = {
+                    var _this, trackProps = {
                         id: options.id || "vjs_track_" + newGUID(),
                         kind: options.kind || "",
                         language: options.language || ""
@@ -1598,12 +1597,12 @@
             }, TextTrack1 = function(_Track) {
                 function TextTrack(options) {
                     if (void 0 === options && (options = {}), !options.tech) throw new Error("A tech was not provided.");
-                    var settings = mergeOptions$3(options, {
+                    var _this, settings = mergeOptions$3(options, {
                         kind: TextTrackKind[options.kind] || "subtitles",
                         language: options.language || options.srclang || ""
                     }), mode = TextTrackMode[settings.mode] || "disabled", default_ = settings.default;
                     ("metadata" === settings.kind || "chapters" === settings.kind) && (mode = "hidden"), (_this = _Track.call(this, settings) || this).tech_ = settings.tech, _this.cues_ = [], _this.activeCues_ = [], _this.preload_ = !1 !== _this.tech_.preloadTextTracks;
-                    var _this, cues = new TextTrackCueList1(_this.cues_), activeCues = new TextTrackCueList1(_this.activeCues_), changed = !1, timeupdateHandler = bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), function() {
+                    var cues = new TextTrackCueList1(_this.cues_), activeCues = new TextTrackCueList1(_this.activeCues_), changed = !1, timeupdateHandler = bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), function() {
                         !(!this.tech_.isReady_ || this.tech_.isDisposed()) && (this.activeCues = this.activeCues, changed && (this.trigger("cuechange"), changed = !1));
                     });
                     return _this.tech_.one("dispose", function() {
@@ -1670,9 +1669,8 @@
             };
             var AudioTrack1 = function(_Track) {
                 function AudioTrack(options) {
-                    var _this;
                     void 0 === options && (options = {});
-                    var settings = mergeOptions$3(options, {
+                    var _this, settings = mergeOptions$3(options, {
                         kind: AudioTrackKind[options.kind] || ""
                     });
                     _this = _Track.call(this, settings) || this;
@@ -1689,9 +1687,8 @@
                 return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(AudioTrack, _Track), AudioTrack;
             }(Track1), VideoTrack1 = function(_Track) {
                 function VideoTrack(options) {
-                    var _this;
                     void 0 === options && (options = {});
-                    var settings = mergeOptions$3(options, {
+                    var _this, settings = mergeOptions$3(options, {
                         kind: VideoTrackKind[options.kind] || ""
                     });
                     _this = _Track.call(this, settings) || this;
@@ -2254,9 +2251,8 @@
             }
             var TextTrackDisplay1 = function(_Component) {
                 function TextTrackDisplay(player, options, ready) {
-                    var _this;
                     _this = _Component.call(this, player, options, ready) || this;
-                    var updateDisplayHandler = function(e) {
+                    var _this, updateDisplayHandler = function(e) {
                         return _this.updateDisplay(e);
                     };
                     return player.on("loadstart", function(e) {
@@ -2544,9 +2540,8 @@
             CurrentTimeDisplay1.prototype.labelText_ = "Current Time", CurrentTimeDisplay1.prototype.controlText_ = "Current Time", Component$1.registerComponent("CurrentTimeDisplay", CurrentTimeDisplay1);
             var DurationDisplay1 = function(_TimeDisplay) {
                 function DurationDisplay(player, options) {
-                    var _this;
                     _this = _TimeDisplay.call(this, player, options) || this;
-                    var updateContent = function(e) {
+                    var _this, updateContent = function(e) {
                         return _this.updateContent(e);
                     };
                     return _this.on(player, "durationchange", updateContent), _this.on(player, "loadstart", updateContent), _this.on(player, "loadedmetadata", updateContent), _this;
@@ -3418,9 +3413,8 @@
             Component$1.registerComponent("Menu", Menu1);
             var MenuButton1 = function(_Component) {
                 function MenuButton(player, options) {
-                    var _this;
                     void 0 === options && (options = {}), (_this = _Component.call(this, player, options) || this).menuButton_ = new Button1(player, options), _this.menuButton_.controlText(_this.controlText_), _this.menuButton_.el_.setAttribute("aria-haspopup", "true");
-                    var buttonClass = Button1.prototype.buildCSSClass();
+                    var _this, buttonClass = Button1.prototype.buildCSSClass();
                     _this.menuButton_.el_.className = _this.buildCSSClass() + " " + buttonClass, _this.menuButton_.removeClass("vjs-control"), _this.addChild(_this.menuButton_), _this.update(), _this.enabled_ = !0;
                     var handleClick = function(e) {
                         return _this.handleClick(e);
@@ -3740,9 +3734,8 @@
             ChaptersButton1.prototype.kind_ = "chapters", ChaptersButton1.prototype.controlText_ = "Chapters", Component$1.registerComponent("ChaptersButton", ChaptersButton1);
             var DescriptionsButton1 = function(_TextTrackButton) {
                 function DescriptionsButton(player, options, ready) {
-                    var _this;
                     _this = _TextTrackButton.call(this, player, options, ready) || this;
-                    var tracks = player.textTracks(), changeHandler = bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.handleTracksChange);
+                    var _this, tracks = player.textTracks(), changeHandler = bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), _this.handleTracksChange);
                     return tracks.addEventListener("change", changeHandler), _this.on("dispose", function() {
                         tracks.removeEventListener("change", changeHandler);
                     }), _this;
@@ -4686,9 +4679,8 @@
                 return setter && (options.set = set), Object.defineProperty(obj, key, options);
             }, Html51 = function(_Tech) {
                 function Html5(options, ready) {
-                    var _this;
                     _this = _Tech.call(this, options, ready) || this;
-                    var source = options.source, crossoriginTracks = !1;
+                    var _this, source = options.source, crossoriginTracks = !1;
                     if (source && (_this.el_.currentSrc !== source.src || options.tag && 3 === options.tag.initNetworkState_) ? _this.setSource(source) : _this.handleLateInit_(_this.el_), options.enableSourceset && _this.setupSourcesetHandling_(), _this.isScrubbing_ = !1, _this.el_.hasChildNodes()) {
                         for(var nodes = _this.el_.childNodes, nodesLength = nodes.length, removeNodes = []; nodesLength--;){
                             var node = nodes[nodesLength];
@@ -5200,9 +5192,8 @@
                 huge: 1 / 0
             }, Player1 = function(_Component) {
                 function Player(tag, options, ready) {
-                    var _this;
                     if (tag.id = tag.id || options.id || "vjs_video_" + newGUID(), (options = assign(Player.getTagSettings(tag), options)).initChildren = !1, options.createEl = !1, options.evented = !1, options.reportTouchActivity = !1, !options.language) if ("function" == typeof tag.closest) {
-                        var closest = tag.closest("[lang]");
+                        var _this, closest = tag.closest("[lang]");
                         closest && closest.getAttribute && (options.language = closest.getAttribute("lang"));
                     } else for(var element = tag; element && 1 === element.nodeType;){
                         if (getAttributes(element).hasOwnProperty("lang")) {
@@ -7192,14 +7183,14 @@
                     return null;
                 }
                 if (!playlist || !playlist.segments || 0 === playlist.segments.length) return null;
-                var segment = playlist.segments[0];
+                var dateTimeObject, segment = playlist.segments[0];
                 if (dateTimeObject < segment.dateTimeObject) return null;
                 for(var i = 0; i < playlist.segments.length - 1; i++){
                     segment = playlist.segments[i];
                     var nextSegmentStart = playlist.segments[i + 1].dateTimeObject;
                     if (dateTimeObject < nextSegmentStart) break;
                 }
-                var dateTimeObject, videoTimingInfo, lastSegment = playlist.segments[playlist.segments.length - 1], lastSegmentStart = lastSegment.dateTimeObject, lastSegmentDuration = lastSegment.videoTimingInfo ? (videoTimingInfo = lastSegment.videoTimingInfo).transmuxedPresentationEnd - videoTimingInfo.transmuxedPresentationStart - videoTimingInfo.transmuxerPrependedSeconds : lastSegment.duration + 0.25 * lastSegment.duration;
+                var videoTimingInfo, lastSegment = playlist.segments[playlist.segments.length - 1], lastSegmentStart = lastSegment.dateTimeObject, lastSegmentDuration = lastSegment.videoTimingInfo ? (videoTimingInfo = lastSegment.videoTimingInfo).transmuxedPresentationEnd - videoTimingInfo.transmuxedPresentationStart - videoTimingInfo.transmuxerPrependedSeconds : lastSegment.duration + 0.25 * lastSegment.duration;
                 return dateTimeObject > new Date(lastSegmentStart.getTime() + 1000 * lastSegmentDuration) ? null : (dateTimeObject > lastSegmentStart && (segment = lastSegment), {
                     segment: segment,
                     estimatedStart: segment.videoTimingInfo ? segment.videoTimingInfo.transmuxedPresentationStart : Playlist.duration(playlist, playlist.mediaSequence + playlist.segments.indexOf(segment)),
@@ -9687,9 +9678,8 @@
                 (_NalByteStream = function() {
                     var i, buffer, syncPoint = 0;
                     _NalByteStream.prototype.init.call(this), this.push = function(data) {
-                        var swapBuffer;
                         buffer ? ((swapBuffer = new Uint8Array(buffer.byteLength + data.data.byteLength)).set(buffer), swapBuffer.set(data.data, buffer.byteLength), buffer = swapBuffer) : buffer = data.data;
-                        for(var len = buffer.byteLength; syncPoint < len - 3; syncPoint++)if (1 === buffer[syncPoint + 2]) {
+                        for(var swapBuffer, len = buffer.byteLength; syncPoint < len - 3; syncPoint++)if (1 === buffer[syncPoint + 2]) {
                             i = syncPoint + 5;
                             break;
                         }
@@ -10644,9 +10634,8 @@
                         }
                     },
                     parsePesTime: function(packet) {
-                        var ptsDtsFlags;
                         if (!parsePayloadUnitStartIndicator(packet)) return null;
-                        var offset = 4 + parseAdaptionField(packet);
+                        var ptsDtsFlags, offset = 4 + parseAdaptionField(packet);
                         if (offset >= packet.byteLength) return null;
                         var pes = null;
                         return 192 & (ptsDtsFlags = packet[offset + 7]) && ((pes = {}).pts = (14 & packet[offset + 9]) << 27 | (255 & packet[offset + 10]) << 20 | (254 & packet[offset + 11]) << 12 | (255 & packet[offset + 12]) << 5 | (254 & packet[offset + 13]) >>> 3, pes.pts *= 4, pes.pts += (6 & packet[offset + 13]) >>> 1, pes.dts = pes.pts, 64 & ptsDtsFlags && (pes.dts = (14 & packet[offset + 14]) << 27 | (255 & packet[offset + 15]) << 20 | (254 & packet[offset + 16]) << 12 | (255 & packet[offset + 17]) << 5 | (254 & packet[offset + 18]) >>> 3, pes.dts *= 4, pes.dts += (6 & packet[offset + 18]) >>> 1)), pes;
@@ -13022,7 +13011,7 @@
                 }, _proto.stopForError = function(error) {
                     this.error(error), this.state = "READY", this.pause(), this.trigger("error");
                 }, _proto.segmentRequestFinished_ = function(error, simpleSegment, result) {
-                    var loadHandler, _this3 = this;
+                    var _this3 = this;
                     if (!this.subtitlesTrack_) {
                         this.state = "READY";
                         return;
@@ -13039,7 +13028,7 @@
                     this.saveBandwidthRelatedStats_(segmentInfo.duration, simpleSegment.stats), this.state = "APPENDING", this.trigger("appending");
                     var segment = segmentInfo.segment;
                     if (segment.map && (segment.map.bytes = simpleSegment.map.bytes), segmentInfo.bytes = simpleSegment.bytes, "function" != typeof global_window__WEBPACK_IMPORTED_MODULE_0___default().WebVTT && this.subtitlesTrack_ && this.subtitlesTrack_.tech_) {
-                        var errorHandler = function() {
+                        var loadHandler, errorHandler = function() {
                             _this3.subtitlesTrack_.tech_.off("vttjsloaded", loadHandler), _this3.stopForError({
                                 message: "Error loading vtt.js"
                             });
@@ -13846,9 +13835,8 @@
                 return log("not " + sharedLogLine + " as no switching criteria met"), !1;
             }, MasterPlaylistController1 = function(_videojs$EventTarget) {
                 function MasterPlaylistController(options) {
-                    var _this;
                     _this = _videojs$EventTarget.call(this) || this;
-                    var src = options.src, handleManifestRedirects = options.handleManifestRedirects, withCredentials = options.withCredentials, tech = options.tech, bandwidth = options.bandwidth, externVhs = options.externVhs, useCueTags = options.useCueTags, blacklistDuration = options.blacklistDuration, enableLowInitialPlaylist = options.enableLowInitialPlaylist, sourceType = options.sourceType, cacheEncryptionKeys = options.cacheEncryptionKeys, experimentalBufferBasedABR = options.experimentalBufferBasedABR, experimentalLeastPixelDiffSelector = options.experimentalLeastPixelDiffSelector, captionServices = options.captionServices;
+                    var _this, src = options.src, handleManifestRedirects = options.handleManifestRedirects, withCredentials = options.withCredentials, tech = options.tech, bandwidth = options.bandwidth, externVhs = options.externVhs, useCueTags = options.useCueTags, blacklistDuration = options.blacklistDuration, enableLowInitialPlaylist = options.enableLowInitialPlaylist, sourceType = options.sourceType, cacheEncryptionKeys = options.cacheEncryptionKeys, experimentalBufferBasedABR = options.experimentalBufferBasedABR, experimentalLeastPixelDiffSelector = options.experimentalLeastPixelDiffSelector, captionServices = options.captionServices;
                     if (!src) throw new Error("A non-empty playlist URL or JSON manifest string is required");
                     var maxPlaylistRetries = options.maxPlaylistRetries;
                     null == maxPlaylistRetries && (maxPlaylistRetries = 1 / 0), Vhs$1 = externVhs, _this.experimentalBufferBasedABR = Boolean(experimentalBufferBasedABR), _this.experimentalLeastPixelDiffSelector = Boolean(experimentalLeastPixelDiffSelector), _this.withCredentials = withCredentials, _this.tech_ = tech, _this.vhs_ = tech.vhs, _this.sourceType_ = sourceType, _this.useCueTags_ = useCueTags, _this.blacklistDuration = blacklistDuration, _this.maxPlaylistRetries = maxPlaylistRetries, _this.enableLowInitialPlaylist = enableLowInitialPlaylist, _this.useCueTags_ && (_this.cueTagsTrack_ = _this.tech_.addTextTrack("metadata", "ad-cues"), _this.cueTagsTrack_.inBandMetadataTrackDispatchType = ""), _this.requestOptions_ = {

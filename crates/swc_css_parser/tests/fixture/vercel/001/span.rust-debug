@@ -85,7 +85,7 @@ error: Declaration
 2 |     margin-right: 0;
   |     ^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/vercel/001/input.css:2:5
   |
 2 |     margin-right: 0;

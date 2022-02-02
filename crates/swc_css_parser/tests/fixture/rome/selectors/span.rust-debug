@@ -452,7 +452,7 @@ error: Declaration
 14 |   color: purple;
    |   ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/rome/selectors/input.css:14:3
    |
 14 |   color: purple;
@@ -561,7 +561,7 @@ error: Declaration
 18 |   color: purple;
    |   ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/rome/selectors/input.css:18:3
    |
 18 |   color: purple;
@@ -670,7 +670,7 @@ error: Declaration
 22 |   color: purple;
    |   ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/rome/selectors/input.css:22:3
    |
 22 |   color: purple;
@@ -803,7 +803,7 @@ error: Declaration
 26 |     color: purple;
    |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/rome/selectors/input.css:26:2
    |
 26 |     color: purple;

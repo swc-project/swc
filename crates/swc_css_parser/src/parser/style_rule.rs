@@ -208,27 +208,23 @@ where
         self.input.skip_ws()?;
 
         let is_dashed_ident = match cur!(self) {
-            Token::Ident { value, .. } => {
-                if value.starts_with("--") {
-                    true
-                } else {
-                    false
-                }
-            }
+            Token::Ident { value, .. } => value.starts_with("--"),
             _ => {
                 return Err(Error::new(span, ErrorKind::Expected("Ident")));
             }
         };
 
-        let property = if is_dashed_ident {
-            DeclarationProperty::DashedIdent(self.parse()?)
+        let name = if is_dashed_ident {
+            DeclarationName::DashedIdent(self.parse()?)
         } else {
-            DeclarationProperty::Ident(self.parse()?)
+            DeclarationName::Ident(self.parse()?)
         };
 
         self.input.skip_ws()?;
 
         expect!(self, ":");
+
+        self.input.skip_ws()?;
 
         let mut end = self.input.cur_span()?.hi;
         let mut value = vec![];
@@ -291,7 +287,7 @@ where
 
         Ok(Declaration {
             span: Span::new(span.lo, end, Default::default()),
-            property,
+            name,
             value,
             important,
         })

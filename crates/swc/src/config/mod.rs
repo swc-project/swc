@@ -29,7 +29,10 @@ use swc_common::{
 };
 use swc_ecma_ast::{EsVersion, Expr, Program};
 use swc_ecma_ext_transforms::jest;
-use swc_ecma_lints::{config::LintConfig, rules::lint_to_fold};
+use swc_ecma_lints::{
+    config::LintConfig,
+    rules::{lint_to_fold, LintParams},
+};
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
@@ -48,11 +51,13 @@ use swc_ecma_transforms::{
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{decorators, export_default_from, import_assertions},
-    react, resolver_with_mark, typescript, Assumptions,
+    react,
+    resolver::ts_resolver,
+    resolver_with_mark, typescript, Assumptions,
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, VisitMutWith};
 
 #[cfg(test)]
 mod tests;
@@ -243,6 +248,7 @@ impl Default for InputSourceMap {
 
 impl Options {
     /// `parse`: `(syntax, target, is_module)`
+    #[allow(clippy::too_many_arguments)]
     pub fn build_as_input<'a, P>(
         &self,
         cm: &Arc<SourceMap>,
@@ -289,11 +295,26 @@ impl Options {
             }
         });
 
-        let target = target.unwrap_or_default();
+        let top_level_mark = self
+            .global_mark
+            .unwrap_or_else(|| Mark::fresh(Mark::root()));
+
+        let es_version = target.unwrap_or_default();
 
         let syntax = syntax.unwrap_or_default();
 
-        let program = parse(syntax, target, is_module)?;
+        let mut program = parse(syntax, es_version, is_module)?;
+
+        // Do a resolver pass before everything.
+        //
+        // We do this before creating custom passses, so custom passses can use the
+        // variable management system based on the syntax contexts.
+        if syntax.typescript() {
+            program.visit_mut_with(&mut ts_resolver(top_level_mark));
+        } else {
+            program.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+        }
+
         let mut transform = transform.unwrap_or_default();
 
         if program.is_module() {
@@ -365,10 +386,6 @@ impl Options {
             }
         };
 
-        let top_level_mark = self
-            .global_mark
-            .unwrap_or_else(|| Mark::fresh(Mark::root()));
-
         let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 
         let pass = chain!(
@@ -380,7 +397,7 @@ impl Options {
         );
 
         let pass = PassBuilder::new(cm, handler, loose, assumptions, top_level_mark, pass)
-            .target(target)
+            .target(es_version)
             .skip_helper_injection(self.skip_helper_injection)
             .minify(js_minify)
             .hygiene(if self.disable_hygiene {
@@ -412,11 +429,6 @@ impl Options {
             // The transform strips import assertions, so it's only enabled if
             // keep_import_assertions is false.
             Optional::new(import_assertions(), !experimental.keep_import_assertions),
-            // Do a resolver pass after decorators as it might
-            // emit runtime declarations and do it before
-            // type stripping as we need to know scope information
-            // for emitting enums and namespaces.
-            resolver_with_mark(top_level_mark),
             Optional::new(
                 typescript::strip_with_jsx(
                     cm.clone(),
@@ -430,7 +442,12 @@ impl Options {
                 ),
                 syntax.typescript()
             ),
-            lint_to_fold(swc_ecma_lints::rules::all(&lints, top_level_ctxt)),
+            lint_to_fold(swc_ecma_lints::rules::all(LintParams {
+                program: &program,
+                lint_config: &lints,
+                top_level_ctxt,
+                es_version,
+            })),
             crate::plugin::plugins(experimental),
             custom_before_pass(&program),
             // handle jsx
@@ -448,7 +465,7 @@ impl Options {
             pass,
             external_helpers,
             syntax,
-            target,
+            target: es_version,
             is_module,
             source_maps: source_maps.unwrap_or(SourceMapsConfig::Bool(false)),
             inline_sources_content: config.inline_sources_content,

@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: '\61bc' }
   |     ^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/eWp7_8m3btY6p4erQ5c2JQ/input.css:1:5
   |
 1 | a { value: '\61bc' }

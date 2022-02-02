@@ -78,7 +78,7 @@
               "end": 47,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 10,
@@ -118,7 +118,16 @@
                     "raw": "4"
                   },
                   {
-                    "type": "UnitValue",
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 41,
+                      "end": 42,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Dimension",
                     "span": {
                       "start": 43,
                       "end": 46,
@@ -135,6 +144,7 @@
                       "raw": "1"
                     },
                     "unit": {
+                      "type": "Identifier",
                       "span": {
                         "start": 44,
                         "end": 46,

@@ -6,9 +6,9 @@ error: Stylesheet
 3  | | dialog::backdrop {}
 4  | |
 ...  |
-27 | |
-28 | | ::target-text {}
-   | |_________________^
+29 | |
+30 | | .form-range::-webkit-slider-thumb:active {}
+   | |____________________________________________^
 
 error: Rule
  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1
@@ -1029,4 +1029,94 @@ error: Block
    |
 28 | ::target-text {}
    |               ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1
+   |
+30 | .form-range::-webkit-slider-thumb:active {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1
+   |
+30 | .form-range::-webkit-slider-thumb:active {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1
+   |
+30 | .form-range::-webkit-slider-thumb:active {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1
+   |
+30 | .form-range::-webkit-slider-thumb:active {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1
+   |
+30 | .form-range::-webkit-slider-thumb:active {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1
+   |
+30 | .form-range::-webkit-slider-thumb:active {}
+   | ^^^^^^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1
+   |
+30 | .form-range::-webkit-slider-thumb:active {}
+   | ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:2
+   |
+30 | .form-range::-webkit-slider-thumb:active {}
+   |  ^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:12
+   |
+30 | .form-range::-webkit-slider-thumb:active {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoElementSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:12
+   |
+30 | .form-range::-webkit-slider-thumb:active {}
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:14
+   |
+30 | .form-range::-webkit-slider-thumb:active {}
+   |              ^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:34
+   |
+30 | .form-range::-webkit-slider-thumb:active {}
+   |                                  ^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:34
+   |
+30 | .form-range::-webkit-slider-thumb:active {}
+   |                                  ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:35
+   |
+30 | .form-range::-webkit-slider-thumb:active {}
+   |                                   ^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:42
+   |
+30 | .form-range::-webkit-slider-thumb:active {}
+   |                                          ^^
 

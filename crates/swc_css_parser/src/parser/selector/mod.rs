@@ -127,13 +127,7 @@ where
         let span = self.input.cur_span()?;
 
         if is!(self, Ident) && peeked_is!(self, "|") {
-            let token = bump!(self);
-            let ident = match token {
-                Token::Ident { value, raw } => Ident { span, value, raw },
-                _ => {
-                    unreachable!()
-                }
-            };
+            let ident = self.parse()?;
 
             bump!(self);
 
@@ -169,14 +163,7 @@ where
             let prefix = self.parse_ns_prefix()?;
 
             if is!(self, Ident) {
-                let span = self.input.cur_span()?;
-                let token = bump!(self);
-                let name = match token {
-                    Token::Ident { value, raw } => Ident { span, value, raw },
-                    _ => {
-                        unreachable!()
-                    }
-                };
+                let name = self.parse()?;
 
                 return Ok((prefix, Some(name)));
             } else {
@@ -186,14 +173,7 @@ where
         }
 
         if is!(self, Ident) {
-            let span = self.input.cur_span()?;
-            let token = bump!(self);
-            let name = match token {
-                Token::Ident { value, raw } => Ident { span, value, raw },
-                _ => {
-                    unreachable!()
-                }
-            };
+            let name = self.parse()?;
 
             return Ok((None, Some(name)));
         }
@@ -211,18 +191,7 @@ where
         }
 
         if is!(self, Ident) {
-            let name_span = self.input.cur_span()?;
-            let token = bump!(self);
-            let name = match token {
-                Token::Ident { value, raw } => Ident {
-                    span: name_span,
-                    value,
-                    raw,
-                },
-                _ => {
-                    unreachable!()
-                }
-            };
+            let name = self.parse()?;
 
             return Ok(Some(TypeSelector {
                 span: span!(self, span.lo),
@@ -254,8 +223,19 @@ where
 
     fn parse_id_selector(&mut self) -> PResult<IdSelector> {
         let span = self.input.cur_span()?;
-        let ident = match bump!(self) {
-            Token::Hash { value, raw, .. } => Ident { span, value, raw },
+        let text = match bump!(self) {
+            Token::Hash {
+                is_id, value, raw, ..
+            } => {
+                if !is_id {
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected("identifier in id selector"),
+                    ));
+                }
+
+                Ident { span, value, raw }
+            }
             _ => {
                 unreachable!()
             }
@@ -263,7 +243,7 @@ where
 
         Ok(IdSelector {
             span: span!(self, span.lo),
-            text: ident,
+            text,
         })
     }
 
@@ -279,19 +259,11 @@ where
             _ => Err(Error::new(span, ErrorKind::ExpectedSelectorText))?,
         }
 
-        let value = bump!(self);
-        let values = match value {
-            Token::Ident { value, raw } => (value, raw),
-            _ => unreachable!(),
-        };
+        let text = self.parse()?;
 
         Ok(ClassSelector {
             span: span!(self, start_pos),
-            text: Ident {
-                span,
-                value: values.0,
-                raw: values.1,
-            },
+            text,
         })
     }
 
@@ -359,17 +331,9 @@ where
 
             matcher_value = match cur!(self) {
                 Token::Ident { .. } => {
-                    let value = bump!(self);
-                    let ident = match value {
-                        Token::Ident { value, raw } => (value, raw),
-                        _ => unreachable!(),
-                    };
+                    let ident = self.parse()?;
 
-                    Some(AttrSelectorValue::Ident(Ident {
-                        span,
-                        value: ident.0,
-                        raw: ident.1,
-                    }))
+                    Some(AttrSelectorValue::Ident(ident))
                 }
                 Token::Str { .. } => {
                     let value = bump!(self);
@@ -427,19 +391,9 @@ where
                 if &(*value).to_ascii_lowercase() == "odd"
                     || &(*value).to_ascii_lowercase() == "even" =>
             {
-                let name = bump!(self);
-                let names = match name {
-                    Token::Ident { value, raw } => (value, raw),
-                    _ => {
-                        unreachable!();
-                    }
-                };
+                let ident = self.parse()?;
 
-                NthValue::Ident(Ident {
-                    span: span!(self, span.lo),
-                    value: names.0,
-                    raw: names.1,
-                })
+                NthValue::Ident(ident)
             }
             // <integer>
             Token::Num { .. } => {
@@ -732,20 +686,11 @@ where
                 children: Some(children),
             });
         } else if is!(self, Ident) {
-            let ident_span = self.input.cur_span()?;
-            let value = bump!(self);
-            let values = match value {
-                Token::Ident { value, raw } => (value, raw),
-                _ => unreachable!(),
-            };
+            let name = self.parse()?;
 
             return Ok(PseudoClassSelector {
                 span: span!(self, span.lo),
-                name: Ident {
-                    span: ident_span,
-                    value: values.0,
-                    raw: values.1,
-                },
+                name,
                 children: None,
             });
         }
@@ -783,20 +728,11 @@ where
                 children: Some(children),
             });
         } else if is!(self, Ident) {
-            let ident_span = self.input.cur_span()?;
-            let value = bump!(self);
-            let values = match value {
-                Token::Ident { value, raw } => (value, raw),
-                _ => unreachable!(),
-            };
+            let name = self.parse()?;
 
             return Ok(PseudoElementSelector {
                 span: span!(self, span.lo),
-                name: Ident {
-                    span: ident_span,
-                    value: values.0,
-                    raw: values.1,
-                },
+                name,
                 children: None,
             });
         }
@@ -804,6 +740,45 @@ where
         let span = self.input.cur_span()?;
 
         return Err(Error::new(span, ErrorKind::InvalidSelector));
+    }
+
+    fn parse_subclass_selector(&mut self) -> PResult<SubclassSelector> {
+        match cur!(self) {
+            tok!("#") => Ok(SubclassSelector::Id(self.parse_id_selector()?)),
+            tok!(".") => Ok(SubclassSelector::Class(self.parse_class_selector()?)),
+            tok!("[") => Ok(SubclassSelector::Attr(self.parse_attribute_selector()?)),
+            tok!(":") => Ok(SubclassSelector::PseudoClass(
+                self.parse_pseudo_class_selector()?,
+            )),
+            // TODO remove me from here
+            Token::AtKeyword { .. } if self.ctx.allow_at_selector => {
+                let span = self.input.cur_span()?;
+
+                let values = match bump!(self) {
+                    Token::AtKeyword { value, raw } => (value, raw),
+                    _ => {
+                        unreachable!()
+                    }
+                };
+
+                Ok(SubclassSelector::At(AtSelector {
+                    span,
+                    text: Ident {
+                        span,
+                        value: values.0,
+                        raw: values.1,
+                    },
+                }))
+            }
+            _ => {
+                let span = self.input.cur_span()?;
+
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("id, class, attribute or pseudo-class selector"),
+                ));
+            }
+        }
     }
 
     fn parse_compound_selector(&mut self) -> PResult<CompoundSelector> {
@@ -820,71 +795,45 @@ where
             });
         }
 
-        let type_selector = self.parse_type_selector().unwrap();
+        let type_selector = self.parse_type_selector()?;
         let mut subclass_selectors = vec![];
 
-        'subclass_selectors: loop {
-            if is!(self, EOF) {
+        loop {
+            if !(is!(self, "#")
+                || is!(self, ".")
+                || is!(self, "[")
+                || (is!(self, ":") && !peeked_is!(self, ":"))
+                // TODO remove `@`
+                || is!(self, "@"))
+            {
                 break;
             }
 
-            match cur!(self) {
-                Token::Hash { is_id, .. } => {
-                    if !*is_id {
-                        break 'subclass_selectors;
-                    }
+            let subclass_selector = self.parse_subclass_selector()?;
 
-                    subclass_selectors.push(self.parse_id_selector()?.into());
+            subclass_selectors.push(subclass_selector);
+        }
+
+        loop {
+            if !(is!(self, ":") && peeked_is!(self, ":")) {
+                break;
+            }
+
+            // TODO pseudo element is not subclass selector
+            let pseudo_element =
+                SubclassSelector::PseudoElement(self.parse_pseudo_element_selector()?);
+
+            subclass_selectors.push(pseudo_element);
+
+            loop {
+                if !(is!(self, ":") && !peeked_is!(self, ":")) {
+                    break;
                 }
 
-                tok!(".") => {
-                    subclass_selectors.push(self.parse_class_selector()?.into());
-                }
+                let pseudo_element =
+                    SubclassSelector::PseudoClass(self.parse_pseudo_class_selector()?);
 
-                tok!("[") => {
-                    let attr = self.parse_attribute_selector()?;
-
-                    subclass_selectors.push(attr.into());
-                }
-
-                tok!(":") => {
-                    if peeked_is!(self, ":") {
-                        while is!(self, ":") {
-                            let pseudo_element = self.parse_pseudo_element_selector()?;
-
-                            subclass_selectors.push(pseudo_element.into());
-                        }
-
-                        break 'subclass_selectors;
-                    }
-
-                    let pseudo_class = self.parse_pseudo_class_selector()?;
-
-                    subclass_selectors.push(pseudo_class.into());
-                }
-
-                Token::AtKeyword { .. } if self.ctx.allow_at_selector => {
-                    let values = match bump!(self) {
-                        Token::AtKeyword { value, raw } => (value, raw),
-                        _ => {
-                            unreachable!()
-                        }
-                    };
-
-                    subclass_selectors.push(SubclassSelector::At(AtSelector {
-                        span,
-                        text: Ident {
-                            span,
-                            value: values.0,
-                            raw: values.1,
-                        },
-                    }));
-                    break 'subclass_selectors;
-                }
-
-                _ => {
-                    break 'subclass_selectors;
-                }
+                subclass_selectors.push(pseudo_element);
             }
         }
 
