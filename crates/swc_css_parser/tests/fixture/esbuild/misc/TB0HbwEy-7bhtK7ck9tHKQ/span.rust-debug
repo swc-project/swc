@@ -64,7 +64,7 @@ error: Declaration
 1 | @keyframes name{from{color:red}to{color:blue}}
   |                      ^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/TB0HbwEy-7bhtK7ck9tHKQ/input.css:1:22
   |
 1 | @keyframes name{from{color:red}to{color:blue}}
@@ -124,7 +124,7 @@ error: Declaration
 1 | @keyframes name{from{color:red}to{color:blue}}
   |                                   ^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/TB0HbwEy-7bhtK7ck9tHKQ/input.css:1:35
   |
 1 | @keyframes name{from{color:red}to{color:blue}}

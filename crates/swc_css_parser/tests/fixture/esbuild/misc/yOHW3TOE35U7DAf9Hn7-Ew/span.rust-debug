@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: \2cx() }
   |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:5
   |
 1 | a { value: \2cx() }

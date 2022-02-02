@@ -75,7 +75,7 @@ error: Declaration
 3 | /* comment */color/* comment */:/* comment */red/* comment */;
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/comment/input.css:3:14
   |
 3 | /* comment */color/* comment */:/* comment */red/* comment */;
@@ -172,7 +172,7 @@ error: Declaration
 11 |     color: black;
    |     ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/comment/input.css:11:5
    |
 11 |     color: black;
@@ -202,7 +202,7 @@ error: Declaration
 13 |     background: red;
    |     ^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/comment/input.css:13:5
    |
 13 |     background: red;
@@ -290,7 +290,7 @@ error: Declaration
 19 |     color: black;
    |     ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/comment/input.css:19:5
    |
 19 |     color: black;

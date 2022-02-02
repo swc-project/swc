@@ -680,7 +680,7 @@
                   "end": 139,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 129,
@@ -711,7 +711,7 @@
                   "end": 158,
                   "ctxt": 0
                 },
-                "property": {
+                "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 141,

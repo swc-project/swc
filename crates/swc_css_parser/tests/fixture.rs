@@ -281,7 +281,6 @@ macro_rules! mtd {
 impl Visit for SpanVisualizer<'_> {
     mtd!(AtRule, visit_at_rule);
     mtd!(AtSelector, visit_at_selector);
-    mtd!(AtTextValue, visit_at_text_value);
     mtd!(AttrSelector, visit_attr_selector);
     mtd!(BinValue, visit_bin_value);
     mtd!(ClassSelector, visit_class_selector);
@@ -292,14 +291,14 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Block, visit_block);
     mtd!(SimpleBlock, visit_simple_block);
     mtd!(Function, visit_function);
-    mtd!(HashValue, visit_hash_value);
+    mtd!(HexColor, visit_hex_color);
     mtd!(NestingSelector, visit_nesting_selector);
     mtd!(IdSelector, visit_id_selector);
     mtd!(TypeSelector, visit_type_selector);
     mtd!(Number, visit_number);
     mtd!(Ratio, visit_ratio);
     mtd!(Percent, visit_percent);
-    mtd!(DeclarationProperty, visit_declaration_property);
+    mtd!(DeclarationName, visit_declaration_name);
     mtd!(Declaration, visit_declaration);
     mtd!(Nth, visit_nth);
     mtd!(AnPlusB, visit_an_plus_b);

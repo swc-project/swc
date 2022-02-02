@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 676,
+    "end": 1150,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 0,
-        "end": 675,
+        "end": 1149,
         "ctxt": 0
       },
       "prelude": {
@@ -66,7 +66,7 @@
         "type": "Block",
         "span": {
           "start": 4,
-          "end": 675,
+          "end": 1149,
           "ctxt": 0
         },
         "value": [
@@ -77,7 +77,7 @@
               "end": 22,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 10,
@@ -108,7 +108,7 @@
               "end": 41,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 28,
@@ -139,7 +139,7 @@
               "end": 60,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 47,
@@ -170,7 +170,7 @@
               "end": 79,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 66,
@@ -201,7 +201,7 @@
               "end": 99,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 85,
@@ -232,7 +232,7 @@
               "end": 119,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 105,
@@ -263,7 +263,7 @@
               "end": 138,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 125,
@@ -294,7 +294,7 @@
               "end": 157,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 144,
@@ -325,7 +325,7 @@
               "end": 174,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 163,
@@ -356,7 +356,7 @@
               "end": 192,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 180,
@@ -387,7 +387,7 @@
               "end": 211,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 198,
@@ -418,7 +418,7 @@
               "end": 232,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 217,
@@ -449,7 +449,7 @@
               "end": 251,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 238,
@@ -480,7 +480,7 @@
               "end": 270,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 257,
@@ -511,7 +511,7 @@
               "end": 289,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 276,
@@ -542,7 +542,7 @@
               "end": 309,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 295,
@@ -573,7 +573,7 @@
               "end": 329,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 315,
@@ -604,7 +604,7 @@
               "end": 347,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 335,
@@ -635,7 +635,7 @@
               "end": 371,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 353,
@@ -666,7 +666,7 @@
               "end": 392,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 377,
@@ -697,7 +697,7 @@
               "end": 411,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 398,
@@ -728,7 +728,7 @@
               "end": 431,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 417,
@@ -759,7 +759,7 @@
               "end": 452,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 437,
@@ -790,7 +790,7 @@
               "end": 474,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 458,
@@ -821,7 +821,7 @@
               "end": 496,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 480,
@@ -852,7 +852,7 @@
               "end": 514,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 502,
@@ -883,7 +883,7 @@
               "end": 534,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 520,
@@ -911,10 +911,10 @@
             "type": "Declaration",
             "span": {
               "start": 540,
-              "end": 553,
+              "end": 552,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 540,
@@ -929,7 +929,38 @@
                 "type": "Number",
                 "span": {
                   "start": 550,
-                  "end": 553,
+                  "end": 552,
+                  "ctxt": 0
+                },
+                "value": 0.2,
+                "raw": ".2"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 558,
+              "end": 571,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 558,
+                "end": 566,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 568,
+                  "end": 571,
                   "ctxt": 0
                 },
                 "value": -0.2,
@@ -941,15 +972,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 559,
-              "end": 572,
+              "start": 577,
+              "end": 590,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
-                "start": 559,
-                "end": 567,
+                "start": 577,
+                "end": 585,
                 "ctxt": 0
               },
               "value": "property",
@@ -959,39 +990,8 @@
               {
                 "type": "Number",
                 "span": {
-                  "start": 569,
-                  "end": 572,
-                  "ctxt": 0
-                },
-                "value": -0.2,
-                "raw": "-.2"
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 578,
-              "end": 591,
-              "ctxt": 0
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 578,
-                "end": 586,
-                "ctxt": 0
-              },
-              "value": "property",
-              "raw": "property"
-            },
-            "value": [
-              {
-                "type": "Number",
-                "span": {
-                  "start": 588,
-                  "end": 591,
+                  "start": 587,
+                  "end": 590,
                   "ctxt": 0
                 },
                 "value": 0.2,
@@ -1003,15 +1003,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 597,
-              "end": 613,
+              "start": 596,
+              "end": 612,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
-                "start": 597,
-                "end": 605,
+                "start": 596,
+                "end": 604,
                 "ctxt": 0
               },
               "value": "property",
@@ -1021,8 +1021,8 @@
               {
                 "type": "Number",
                 "span": {
-                  "start": 607,
-                  "end": 613,
+                  "start": 606,
+                  "end": 612,
                   "ctxt": 0
                 },
                 "value": -1200.0,
@@ -1034,15 +1034,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 619,
-              "end": 633,
+              "start": 618,
+              "end": 632,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
-                "start": 619,
-                "end": 627,
+                "start": 618,
+                "end": 626,
                 "ctxt": 0
               },
               "value": "property",
@@ -1052,8 +1052,8 @@
               {
                 "type": "Number",
                 "span": {
-                  "start": 629,
-                  "end": 633,
+                  "start": 628,
+                  "end": 632,
                   "ctxt": 0
                 },
                 "value": 1.75,
@@ -1065,15 +1065,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 639,
-              "end": 654,
+              "start": 638,
+              "end": 653,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
-                "start": 639,
-                "end": 647,
+                "start": 638,
+                "end": 646,
                 "ctxt": 0
               },
               "value": "property",
@@ -1083,8 +1083,8 @@
               {
                 "type": "Number",
                 "span": {
-                  "start": 649,
-                  "end": 654,
+                  "start": 648,
+                  "end": 653,
                   "ctxt": 0
                 },
                 "value": 1.75,
@@ -1096,15 +1096,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 660,
+              "start": 659,
               "end": 672,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
-                "start": 660,
-                "end": 668,
+                "start": 659,
+                "end": 667,
                 "ctxt": 0
               },
               "value": "property",
@@ -1112,32 +1112,747 @@
             },
             "value": [
               {
-                "type": "Dimension",
+                "type": "Number",
                 "span": {
-                  "start": 670,
+                  "start": 669,
                   "end": 672,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 670,
-                    "end": 671,
-                    "ctxt": 0
-                  },
-                  "value": 1.0,
-                  "raw": "1"
+                "value": 1.0,
+                "raw": "1e0"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 678,
+              "end": 691,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 678,
+                "end": 686,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 688,
+                  "end": 691,
+                  "ctxt": 0
                 },
-                "unit": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 671,
-                    "end": 672,
-                    "ctxt": 0
-                  },
-                  "value": "e",
-                  "raw": "e"
-                }
+                "value": 10.0,
+                "raw": "1e1"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 697,
+              "end": 711,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 697,
+                "end": 705,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 707,
+                  "end": 711,
+                  "ctxt": 0
+                },
+                "value": 10.0,
+                "raw": "1e+1"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 717,
+              "end": 731,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 717,
+                "end": 725,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 727,
+                  "end": 731,
+                  "ctxt": 0
+                },
+                "value": 0.1,
+                "raw": "1e-1"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 737,
+              "end": 752,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 737,
+                "end": 745,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 747,
+                  "end": 752,
+                  "ctxt": 0
+                },
+                "value": 1e-10,
+                "raw": "1e-10"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 758,
+              "end": 771,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 758,
+                "end": 766,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 768,
+                  "end": 769,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              },
+              {
+                "type": "Number",
+                "span": {
+                  "start": 769,
+                  "end": 771,
+                  "ctxt": 0
+                },
+                "value": 2.0,
+                "raw": "+2"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 777,
+              "end": 790,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 777,
+                "end": 785,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 787,
+                  "end": 788,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              },
+              {
+                "type": "Number",
+                "span": {
+                  "start": 788,
+                  "end": 790,
+                  "ctxt": 0
+                },
+                "value": -2.0,
+                "raw": "-2"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 796,
+              "end": 810,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 796,
+                "end": 804,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 806,
+                  "end": 810,
+                  "ctxt": 0
+                },
+                "value": 4.01,
+                "raw": "4.01"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 816,
+              "end": 832,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 816,
+                "end": 824,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 826,
+                  "end": 832,
+                  "ctxt": 0
+                },
+                "value": -456.8,
+                "raw": "-456.8"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 838,
+              "end": 851,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 838,
+                "end": 846,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 848,
+                  "end": 851,
+                  "ctxt": 0
+                },
+                "value": 0.6,
+                "raw": ".60"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 857,
+              "end": 872,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 857,
+                "end": 865,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 867,
+                  "end": 872,
+                  "ctxt": 0
+                },
+                "value": 0.006,
+                "raw": ".0060"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 878,
+              "end": 892,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 878,
+                "end": 886,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 888,
+                  "end": 892,
+                  "ctxt": 0
+                },
+                "value": 10000.0,
+                "raw": "10e3"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 898,
+              "end": 915,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 898,
+                "end": 906,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 908,
+                  "end": 915,
+                  "ctxt": 0
+                },
+                "value": -0.034,
+                "raw": "-3.4e-2"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 921,
+              "end": 943,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 921,
+                "end": 929,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 931,
+                  "end": 943,
+                  "ctxt": 0
+                },
+                "value": 0.56,
+                "raw": "0.5600000000"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 949,
+              "end": 963,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 949,
+                "end": 957,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 959,
+                  "end": 963,
+                  "ctxt": 0
+                },
+                "value": 10000000.0,
+                "raw": "10e6"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 969,
+              "end": 987,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 969,
+                "end": 977,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 979,
+                  "end": 987,
+                  "ctxt": 0
+                },
+                "value": 10000000.0,
+                "raw": "10000000"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 993,
+              "end": 1006,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 993,
+                "end": 1001,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 1003,
+                  "end": 1006,
+                  "ctxt": 0
+                },
+                "value": 0.0,
+                "raw": "0.0"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1012,
+              "end": 1026,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 1012,
+                "end": 1020,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 1022,
+                  "end": 1026,
+                  "ctxt": 0
+                },
+                "value": -0.0,
+                "raw": "-0.0"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1032,
+              "end": 1046,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 1032,
+                "end": 1040,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 1042,
+                  "end": 1046,
+                  "ctxt": 0
+                },
+                "value": 0.0,
+                "raw": "+0.0"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1052,
+              "end": 1065,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 1052,
+                "end": 1060,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 1062,
+                  "end": 1065,
+                  "ctxt": 0
+                },
+                "value": 10.0,
+                "raw": "1e1"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1071,
+              "end": 1084,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 1071,
+                "end": 1079,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 1081,
+                  "end": 1084,
+                  "ctxt": 0
+                },
+                "value": 100.0,
+                "raw": "1e2"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1090,
+              "end": 1103,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 1090,
+                "end": 1098,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 1100,
+                  "end": 1103,
+                  "ctxt": 0
+                },
+                "value": 1000.0,
+                "raw": "1e3"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1109,
+              "end": 1122,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 1109,
+                "end": 1117,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 1119,
+                  "end": 1122,
+                  "ctxt": 0
+                },
+                "value": 10000.0,
+                "raw": "1e4"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1128,
+              "end": 1146,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 1128,
+                "end": 1136,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
+              {
+                "type": "Number",
+                "span": {
+                  "start": 1138,
+                  "end": 1146,
+                  "ctxt": 0
+                },
+                "value": 0.0001001,
+                "raw": "100.1e-6"
               }
             ],
             "important": null

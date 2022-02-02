@@ -83,7 +83,7 @@ error: Declaration
 2 |     prop:  [];
   |     ^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/value/square-brackets/input.css:2:5
   |
 2 |     prop:  [];
@@ -113,7 +113,7 @@ error: Declaration
 3 |     prop:  [ ];
   |     ^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/value/square-brackets/input.css:3:5
   |
 3 |     prop:  [ ];
@@ -143,7 +143,7 @@ error: Declaration
 4 |     prop:  [row1-start];
   |     ^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/value/square-brackets/input.css:4:5
   |
 4 |     prop:  [row1-start];
@@ -185,7 +185,7 @@ error: Declaration
 5 |     prop:  [   row1-start-with-spaces-around   ];
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/value/square-brackets/input.css:5:5
   |
 5 |     prop:  [   row1-start-with-spaces-around   ];
@@ -227,7 +227,7 @@ error: Declaration
 6 |     prop:  [red #fff 12px];
   |     ^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:5
   |
 6 |     prop:  [red #fff 12px];
@@ -269,7 +269,7 @@ error: Value
 6 |     prop:  [red #fff 12px];
   |                 ^^^^
 
-error: HashValue
+error: HexColor
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:17
   |
 6 |     prop:  [red #fff 12px];
@@ -305,7 +305,7 @@ error: Declaration
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/value/square-brackets/input.css:7:5
   |
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];

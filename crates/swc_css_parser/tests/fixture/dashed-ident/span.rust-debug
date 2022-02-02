@@ -78,9 +78,9 @@ error: Declaration
  --> $DIR/tests/fixture/dashed-ident/input.css:2:5
   |
 2 |     --main-color: #06c;
-  |     ^^^^^^^^^^^^^^
+  |     ^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/dashed-ident/input.css:2:5
   |
 2 |     --main-color: #06c;
@@ -93,22 +93,16 @@ error: DashedIdent
   |     ^^^^^^^^^^^^
 
 error: Value
- --> $DIR/tests/fixture/dashed-ident/input.css:2:18
+ --> $DIR/tests/fixture/dashed-ident/input.css:2:19
   |
 2 |     --main-color: #06c;
-  |                  ^^^^^
+  |                   ^^^^
 
 error: Tokens
- --> $DIR/tests/fixture/dashed-ident/input.css:2:18
+ --> $DIR/tests/fixture/dashed-ident/input.css:2:19
   |
 2 |     --main-color: #06c;
-  |                  ^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/dashed-ident/input.css:2:18
-  |
-2 |     --main-color: #06c;
-  |                  ^
+  |                   ^^^^
 
 error: Hash { is_id: false, value: Atom('06c' type=inline), raw: Atom('06c' type=inline) }
  --> $DIR/tests/fixture/dashed-ident/input.css:2:19
@@ -120,9 +114,9 @@ error: Declaration
  --> $DIR/tests/fixture/dashed-ident/input.css:3:5
   |
 3 |     --accent-color: #006;
-  |     ^^^^^^^^^^^^^^^^
+  |     ^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/dashed-ident/input.css:3:5
   |
 3 |     --accent-color: #006;
@@ -135,22 +129,16 @@ error: DashedIdent
   |     ^^^^^^^^^^^^^^
 
 error: Value
- --> $DIR/tests/fixture/dashed-ident/input.css:3:20
+ --> $DIR/tests/fixture/dashed-ident/input.css:3:21
   |
 3 |     --accent-color: #006;
-  |                    ^^^^^
+  |                     ^^^^
 
 error: Tokens
- --> $DIR/tests/fixture/dashed-ident/input.css:3:20
+ --> $DIR/tests/fixture/dashed-ident/input.css:3:21
   |
 3 |     --accent-color: #006;
-  |                    ^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/dashed-ident/input.css:3:20
-  |
-3 |     --accent-color: #006;
-  |                    ^
+  |                     ^^^^
 
 error: Hash { is_id: false, value: Atom('006' type=inline), raw: Atom('006' type=inline) }
  --> $DIR/tests/fixture/dashed-ident/input.css:3:21
@@ -223,9 +211,9 @@ error: Declaration
  --> $DIR/tests/fixture/dashed-ident/input.css:7:5
   |
 7 |     --fg-color: blue;
-  |     ^^^^^^^^^^^^
+  |     ^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/dashed-ident/input.css:7:5
   |
 7 |     --fg-color: blue;
@@ -238,22 +226,16 @@ error: DashedIdent
   |     ^^^^^^^^^^
 
 error: Value
- --> $DIR/tests/fixture/dashed-ident/input.css:7:16
+ --> $DIR/tests/fixture/dashed-ident/input.css:7:17
   |
 7 |     --fg-color: blue;
-  |                ^^^^^
+  |                 ^^^^
 
 error: Tokens
- --> $DIR/tests/fixture/dashed-ident/input.css:7:16
+ --> $DIR/tests/fixture/dashed-ident/input.css:7:17
   |
 7 |     --fg-color: blue;
-  |                ^^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/dashed-ident/input.css:7:16
-  |
-7 |     --fg-color: blue;
-  |                ^
+  |                 ^^^^
 
 error: Ident { value: Atom('blue' type=inline), raw: Atom('blue' type=inline) }
  --> $DIR/tests/fixture/dashed-ident/input.css:7:17
@@ -352,7 +334,7 @@ error: Declaration
 11 |     color: var(--main-color);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/dashed-ident/input.css:11:5
    |
 11 |     color: var(--main-color);

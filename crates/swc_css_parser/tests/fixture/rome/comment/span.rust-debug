@@ -72,7 +72,7 @@ error: Declaration
 6 |     color: white; /* comment */
   |     ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/rome/comment/input.css:6:2
   |
 6 |     color: white; /* comment */
@@ -157,7 +157,7 @@ error: Declaration
 10 |     color: /* comment */ white;
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/rome/comment/input.css:10:2
    |
 10 |     color: /* comment */ white;
@@ -242,7 +242,7 @@ error: Declaration
 14 |     color: white;
    |     ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/rome/comment/input.css:14:2
    |
 14 |     color: white;

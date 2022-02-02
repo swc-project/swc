@@ -430,6 +430,7 @@ impl Scope {
     }
 
     fn fold_ident(folder: &mut impl ModulePass, i: Ident) -> Result<Expr, Ident> {
+        let orig_span = i.span;
         let v = folder.scope().idents.get(&i.to_id()).cloned();
         match v {
             None => Err(i),
@@ -444,7 +445,7 @@ impl Scope {
                 let (ident, span) = scope.imports.get(&src).as_ref().unwrap().as_ref().unwrap();
 
                 let obj = {
-                    let ident = Ident::new(ident.clone(), *span);
+                    let ident = Ident::new(ident.clone(), orig_span.with_ctxt(span.ctxt));
 
                     if lazy {
                         Expr::Call(CallExpr {

@@ -20,8 +20,8 @@ pub enum Value {
     #[tag("Ratio")]
     Ratio(Ratio),
 
-    #[tag("HashValue")]
-    Hash(HashValue),
+    #[tag("Color")]
+    Color(Color),
 
     #[tag("Ident")]
     Ident(Ident),
@@ -43,9 +43,6 @@ pub enum Value {
 
     #[tag("Tokens")]
     Tokens(Tokens),
-
-    #[tag("AtTextValue")]
-    AtText(AtTextValue),
 
     #[tag("Url")]
     Url(Url),
@@ -84,8 +81,15 @@ pub struct Function {
     pub value: Vec<Value>,
 }
 
-#[ast_node("HashValue")]
-pub struct HashValue {
+#[ast_node]
+pub enum Color {
+    // TODO more
+    #[tag("HexColor")]
+    HexColor(HexColor),
+}
+
+#[ast_node("HexColor")]
+pub struct HexColor {
     /// Includes `#`
     pub span: Span,
     /// Does **not** include `#`
@@ -131,14 +135,6 @@ pub enum BinOp {
     Mul,
     /// `/`
     Div,
-}
-
-#[ast_node("AtTextValue")]
-pub struct AtTextValue {
-    pub span: Span,
-    /// Includes `@`.
-    pub name: Ident,
-    pub block: Option<SimpleBlock>,
 }
 
 #[ast_node("Url")]

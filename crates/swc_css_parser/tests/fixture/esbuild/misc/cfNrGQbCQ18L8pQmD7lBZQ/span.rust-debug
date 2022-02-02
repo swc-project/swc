@@ -58,7 +58,7 @@ error: Declaration
 1 | a { color: red; color: green; color: red }
   |     ^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:5
   |
 1 | a { color: red; color: green; color: red }
@@ -88,7 +88,7 @@ error: Declaration
 1 | a { color: red; color: green; color: red }
   |                 ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:17
   |
 1 | a { color: red; color: green; color: red }
@@ -118,7 +118,7 @@ error: Declaration
 1 | a { color: red; color: green; color: red }
   |                               ^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:31
   |
 1 | a { color: red; color: green; color: red }

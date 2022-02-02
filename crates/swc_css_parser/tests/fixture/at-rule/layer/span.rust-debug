@@ -214,7 +214,7 @@ error: Declaration
 5 |         from { translate: 0; }
   |                ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/at-rule/layer/input.css:5:16
   |
 5 |         from { translate: 0; }
@@ -274,7 +274,7 @@ error: Declaration
 6 |         to { translate: -100% 0; }
   |              ^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/at-rule/layer/input.css:6:14
   |
 6 |         to { translate: -100% 0; }
@@ -436,7 +436,7 @@ error: Declaration
 12 |         from { margin-left: 0; }
    |                ^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/layer/input.css:12:16
    |
 12 |         from { margin-left: 0; }
@@ -496,7 +496,7 @@ error: Declaration
 13 |         to { margin-left: -100%; }
    |              ^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/layer/input.css:13:14
    |
 13 |         to { margin-left: -100%; }
@@ -586,7 +586,7 @@ error: Declaration
 17 | .sidebar { animation: slide-left 300ms; }
    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/layer/input.css:17:12
    |
 17 | .sidebar { animation: slide-left 300ms; }
@@ -772,7 +772,7 @@ error: Declaration
 23 |     strong { font-weight: bold; }
    |              ^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/layer/input.css:23:14
    |
 23 |     strong { font-weight: bold; }
@@ -910,7 +910,7 @@ error: Declaration
 27 |     .title { font-weight: 100; }
    |              ^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/layer/input.css:27:14
    |
 27 |     .title { font-weight: 100; }
@@ -1054,7 +1054,7 @@ error: Declaration
 30 |         h1, h2 { color: maroon; }
    |                  ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/layer/input.css:30:18
    |
 30 |         h1, h2 { color: maroon; }
@@ -1180,7 +1180,7 @@ error: Declaration
 35 |     [hidden] { display: none; }
    |                ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/layer/input.css:35:16
    |
 35 |     [hidden] { display: none; }
@@ -1354,7 +1354,7 @@ error: Declaration
 40 |         p { margin-block: 0.75em; }
    |             ^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/layer/input.css:40:13
    |
 40 |         p { margin-block: 0.75em; }
@@ -1486,7 +1486,7 @@ error: Declaration
 44 |         p { color: #222; }
    |             ^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/layer/input.css:44:13
    |
 44 |         p { color: #222; }
@@ -1504,7 +1504,7 @@ error: Value
 44 |         p { color: #222; }
    |                    ^^^^
 
-error: HashValue
+error: HexColor
   --> $DIR/tests/fixture/at-rule/layer/input.css:44:20
    |
 44 |         p { color: #222; }
@@ -1615,7 +1615,7 @@ error: Declaration
 50 |     blockquote { color: rebeccapurple; }
    |                  ^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/at-rule/layer/input.css:50:18
    |
 50 |     blockquote { color: rebeccapurple; }

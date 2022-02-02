@@ -83,7 +83,7 @@ error: Declaration
 2 |     prop: 10px;
   |     ^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/dimension/basic/input.css:2:5
   |
 2 |     prop: 10px;
@@ -125,7 +125,7 @@ error: Declaration
 3 |     prop: .10px;
   |     ^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/dimension/basic/input.css:3:5
   |
 3 |     prop: .10px;
@@ -167,7 +167,7 @@ error: Declaration
 4 |     prop: 12.34px;
   |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/dimension/basic/input.css:4:5
   |
 4 |     prop: 12.34px;
@@ -209,7 +209,7 @@ error: Declaration
 5 |     prop: 0000.000px;
   |     ^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/dimension/basic/input.css:5:5
   |
 5 |     prop: 0000.000px;
@@ -251,7 +251,7 @@ error: Declaration
 6 |     prop: 1px\\9;
   |     ^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/dimension/basic/input.css:6:5
   |
 6 |     prop: 1px\\9;
@@ -293,7 +293,7 @@ error: Declaration
 7 |     prop: 1e;
   |     ^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/dimension/basic/input.css:7:5
   |
 7 |     prop: 1e;
@@ -335,7 +335,7 @@ error: Declaration
 8 |     prop: 1unknown;
   |     ^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/dimension/basic/input.css:8:5
   |
 8 |     prop: 1unknown;

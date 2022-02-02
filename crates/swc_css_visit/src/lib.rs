@@ -57,16 +57,16 @@ define!({
         pub raw: JsWord,
     }
 
-    pub enum DeclarationProperty {
-        Ident(Ident),
-        DashedIdent(DashedIdent),
-    }
-
     pub struct Declaration {
         pub span: Span,
-        pub property: DeclarationProperty,
+        pub name: DeclarationName,
         pub value: Vec<Value>,
         pub important: Option<Span>,
+    }
+
+    pub enum DeclarationName {
+        Ident(Ident),
+        DashedIdent(DashedIdent),
     }
 
     pub struct QualifiedRule {
@@ -97,7 +97,7 @@ define!({
 
         Ratio(Ratio),
 
-        Hash(HashValue),
+        Color(Color),
 
         Ident(Ident),
 
@@ -112,8 +112,6 @@ define!({
         Delimiter(Delimiter),
 
         Tokens(Tokens),
-
-        AtText(AtTextValue),
 
         Url(Url),
     }
@@ -144,7 +142,11 @@ define!({
         pub value: Vec<Value>,
     }
 
-    pub struct HashValue {
+    pub enum Color {
+        HexColor(HexColor),
+    }
+
+    pub struct HexColor {
         pub span: Span,
         pub value: JsWord,
         pub raw: JsWord,
@@ -165,12 +167,6 @@ define!({
         pub span: Span,
         pub left: Number,
         pub right: Option<Number>,
-    }
-
-    pub struct AtTextValue {
-        pub span: Span,
-        pub name: Ident,
-        pub block: Option<SimpleBlock>,
     }
 
     pub struct Url {

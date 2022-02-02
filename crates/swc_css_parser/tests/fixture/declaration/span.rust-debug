@@ -83,7 +83,7 @@ error: Declaration
 2 |     prop: value;
   |     ^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/declaration/input.css:2:5
   |
 2 |     prop: value;
@@ -113,7 +113,7 @@ error: Declaration
 3 |     prop: (value);
   |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/declaration/input.css:3:5
   |
 3 |     prop: (value);
@@ -155,7 +155,7 @@ error: Declaration
 4 |     prop: {value};
   |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/declaration/input.css:4:5
   |
 4 |     prop: {value};
@@ -203,7 +203,7 @@ error: Declaration
 5 |     prop: [value];
   |     ^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/declaration/input.css:5:5
   |
 5 |     prop: [value];
@@ -245,7 +245,7 @@ error: Declaration
 6 |     prop: fn(value);
   |     ^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/declaration/input.css:6:5
   |
 6 |     prop: fn(value);
@@ -293,7 +293,7 @@ error: Declaration
 7 |     prop: fn(value)fn(value);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/declaration/input.css:7:5
   |
 7 |     prop: fn(value)fn(value);
@@ -371,7 +371,7 @@ error: Declaration
 8 |     prop: value, value;
   |     ^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/declaration/input.css:8:5
   |
 8 |     prop: value, value;
@@ -425,7 +425,7 @@ error: Declaration
 9 |     prop: value ,value;
   |     ^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/declaration/input.css:9:5
   |
 9 |     prop: value ,value;
@@ -479,7 +479,7 @@ error: Declaration
 10 |     prop: value,value;
    |     ^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/declaration/input.css:10:5
    |
 10 |     prop: value,value;
@@ -533,7 +533,7 @@ error: Declaration
 11 |     prop: value , value;
    |     ^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/declaration/input.css:11:5
    |
 11 |     prop: value , value;
@@ -587,7 +587,7 @@ error: Declaration
 12 |     prop: 100%100%;
    |     ^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/declaration/input.css:12:5
    |
 12 |     prop: 100%100%;
@@ -641,7 +641,7 @@ error: Declaration
 13 |     prop: "string""string";
    |     ^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/declaration/input.css:13:5
    |
 13 |     prop: "string""string";
@@ -683,7 +683,7 @@ error: Declaration
 14 |     prop: #ccc#ccc;
    |     ^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/declaration/input.css:14:5
    |
 14 |     prop: #ccc#ccc;
@@ -701,7 +701,7 @@ error: Value
 14 |     prop: #ccc#ccc;
    |           ^^^^
 
-error: HashValue
+error: HexColor
   --> $DIR/tests/fixture/declaration/input.css:14:11
    |
 14 |     prop: #ccc#ccc;
@@ -713,7 +713,7 @@ error: Value
 14 |     prop: #ccc#ccc;
    |               ^^^^
 
-error: HashValue
+error: HexColor
   --> $DIR/tests/fixture/declaration/input.css:14:15
    |
 14 |     prop: #ccc#ccc;
@@ -725,7 +725,7 @@ error: Declaration
 15 |     prop: url(value)url(value);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/declaration/input.css:15:5
    |
 15 |     prop: url(value)url(value);
@@ -803,7 +803,7 @@ error: Declaration
 16 |     prop: (value)(value);
    |     ^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/declaration/input.css:16:5
    |
 16 |     prop: (value)(value);
@@ -869,7 +869,7 @@ error: Declaration
 17 |     prop: {value}{value};
    |     ^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/declaration/input.css:17:5
    |
 17 |     prop: {value}{value};
@@ -947,7 +947,7 @@ error: Declaration
 18 |     prop: [value][value];
    |     ^^^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/declaration/input.css:18:5
    |
 18 |     prop: [value][value];
@@ -1013,7 +1013,7 @@ error: Declaration
 19 |     prop: center/1em;
    |     ^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/declaration/input.css:19:5
    |
 19 |     prop: center/1em;
@@ -1079,7 +1079,7 @@ error: Declaration
 20 |     prop: center/ 1em;
    |     ^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/declaration/input.css:20:5
    |
 20 |     prop: center/ 1em;
@@ -1145,7 +1145,7 @@ error: Declaration
 21 |     prop: center /1em;
    |     ^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/declaration/input.css:21:5
    |
 21 |     prop: center /1em;
@@ -1211,7 +1211,7 @@ error: Declaration
 22 |     prop: center / 1em;
    |     ^^^^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
   --> $DIR/tests/fixture/declaration/input.css:22:5
    |
 22 |     prop: center / 1em;

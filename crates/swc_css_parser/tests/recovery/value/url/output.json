@@ -74,10 +74,10 @@
             "type": "Declaration",
             "span": {
               "start": 10,
-              "end": 17,
+              "end": 53,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 10,
@@ -91,23 +91,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 16,
+                  "start": 17,
                   "end": 53,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 16,
-                      "end": 17,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 17,
@@ -199,7 +187,7 @@
               "end": 125,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 92,
@@ -249,7 +237,7 @@
               "end": 159,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 131,
@@ -299,7 +287,7 @@
               "end": 196,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 165,
@@ -349,7 +337,7 @@
               "end": 233,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 202,
@@ -399,7 +387,7 @@
               "end": 272,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 239,
@@ -449,7 +437,7 @@
               "end": 288,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 278,

@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: '\0' }
   |     ^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/MxxFvoxSpp02tFmpbNdA8g/input.css:1:5
   |
 1 | a { value: '\0' }

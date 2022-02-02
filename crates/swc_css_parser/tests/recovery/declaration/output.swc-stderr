@@ -1,14 +1,6 @@
-error: Expected a property value
- --> $DIR/tests/recovery/declaration/input.css:2:10
-  |
-2 |     prop: ;
-  |          ^
-
 error: Expected !important
- --> $DIR/tests/recovery/declaration/input.css:7:12
+ --> $DIR/tests/recovery/declaration/input.css:7:11
   |
-7 |       prop: !!;
-  |  ____________^
-8 | |     color: red;
-  | |____^
+7 |     prop: !!;
+  |           ^^^
 

@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: #\30hash }
   |     ^^^^^^^^^^^^^^^
 
-error: DeclarationProperty
+error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/486QvEO8dmLFsXYp6xgKVw/input.css:1:5
   |
 1 | a { value: #\30hash }
@@ -76,7 +76,7 @@ error: Value
 1 | a { value: #\30hash }
   |            ^^^^^^^^
 
-error: HashValue
+error: HexColor
  --> $DIR/tests/fixture/esbuild/misc/486QvEO8dmLFsXYp6xgKVw/input.css:1:12
   |
 1 | a { value: #\30hash }

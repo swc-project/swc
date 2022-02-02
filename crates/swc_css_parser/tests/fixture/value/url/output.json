@@ -77,7 +77,7 @@
               "end": 56,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 10,
@@ -127,7 +127,7 @@
               "end": 108,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 62,
@@ -177,7 +177,7 @@
               "end": 161,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 114,
@@ -227,7 +227,7 @@
               "end": 215,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 167,
@@ -277,7 +277,7 @@
               "end": 269,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 221,
@@ -327,7 +327,7 @@
               "end": 323,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 275,
@@ -377,7 +377,7 @@
               "end": 378,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 329,
@@ -427,7 +427,7 @@
               "end": 429,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 384,
@@ -477,7 +477,7 @@
               "end": 464,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 435,
@@ -527,7 +527,7 @@
               "end": 589,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 545,
@@ -588,7 +588,7 @@
               "end": 653,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 595,
@@ -699,7 +699,7 @@
               "end": 742,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 659,
@@ -810,7 +810,7 @@
               "end": 766,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 749,
@@ -860,7 +860,7 @@
               "end": 791,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 772,
@@ -910,7 +910,7 @@
               "end": 816,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 797,
@@ -957,10 +957,10 @@
             "type": "Declaration",
             "span": {
               "start": 823,
-              "end": 830,
+              "end": 866,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "DashedIdentifier",
               "span": {
                 "start": 823,
@@ -974,23 +974,11 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 829,
+                  "start": 830,
                   "end": 866,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 829,
-                      "end": 830,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 830,
@@ -1016,7 +1004,7 @@
               "end": 926,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 873,
@@ -1066,7 +1054,7 @@
               "end": 985,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 932,
@@ -1116,7 +1104,7 @@
               "end": 1018,
               "ctxt": 0
             },
-            "property": {
+            "name": {
               "type": "Identifier",
               "span": {
                 "start": 991,

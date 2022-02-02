@@ -119,23 +119,23 @@ fn cursor() {
     t("cursor:grab;", "cursor:-webkit-grab;cursor:grab;");
     t(
         "cursor:url(cursor_1.png) 4 12, grab;",
-        "cursor:url(cursor_1.png) 4 12,-webkit-grab;cursor:url(cursor_1.png) 4 12,grab;",
+        "cursor:url(cursor_1.png)4 12,-webkit-grab;cursor:url(cursor_1.png)4 12,grab;",
     );
     t(
         "cursor:image-set(url(foo.jpg) 2x), pointer;",
-        "cursor:-webkit-image-set(url(foo.jpg) 2x),pointer;cursor:image-set(url(foo.jpg) \
-         2x),pointer;",
+        "cursor:-webkit-image-set(url(foo.jpg)2x),pointer;cursor:image-set(url(foo.jpg)2x),\
+         pointer;",
     );
     t(
         "cursor:image-set(url(foo.jpg) 2x), grab;",
-        "cursor:-webkit-image-set(url(foo.jpg) 2x),-webkit-grab;cursor:image-set(url(foo.jpg) \
-         2x),grab;",
+        "cursor:-webkit-image-set(url(foo.jpg)2x),-webkit-grab;cursor:image-set(url(foo.jpg)2x),\
+         grab;",
     );
     t(
         "cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), image-set(url(foo.jpg) 2x) 5 5, grab;",
-        "cursor:url(cursor_1.svg) 4 5,url(cursor_2.svg),-webkit-image-set(url(foo.jpg) 2x) 5 \
-         5,-webkit-grab;cursor:url(cursor_1.svg) 4 5,url(cursor_2.svg),image-set(url(foo.jpg) 2x) \
-         5 5,grab;",
+        "cursor:url(cursor_1.svg)4 5,url(cursor_2.svg),-webkit-image-set(url(foo.jpg)2x)5 \
+         5,-webkit-grab;cursor:url(cursor_1.svg)4 5,url(cursor_2.svg),image-set(url(foo.jpg)2x)5 \
+         5,grab;",
     );
 }
 
@@ -393,12 +393,12 @@ fn background() {
     t("background:none;", "background:none;");
     t(
         "background:image-set(url(foo.jpg) 2x);",
-        "background:-webkit-image-set(url(foo.jpg) 2x);background:image-set(url(foo.jpg) 2x);",
+        "background:-webkit-image-set(url(foo.jpg)2x);background:image-set(url(foo.jpg)2x);",
     );
     t(
         "background-image:image-set(url(foo.jpg) 2x);",
-        "background-image:-webkit-image-set(url(foo.jpg) \
-         2x);background-image:image-set(url(foo.jpg) 2x);",
+        "background-image:-webkit-image-set(url(foo.jpg)2x);background-image:image-set(url(foo.\
+         jpg)2x);",
     );
 }
 
@@ -443,7 +443,7 @@ fn appearance() {
     );
     t(
         "animation-duration:0.6s;",
-        "-webkit-animation-duration:0.6s;animation-duration:0.6s;",
+        "-webkit-animation-duration:.6s;animation-duration:.6s;",
     );
     t(
         "animation-name:slidein;",
@@ -455,8 +455,8 @@ fn appearance() {
     );
     t(
         "animation-timing-function:cubic-bezier(0.1,0.7,1.0,0.1);",
-        "-webkit-animation-timing-function:cubic-bezier(0.1,0.7,1.0,0.1);\
-         animation-timing-function:cubic-bezier(0.1,0.7,1.0,0.1);",
+        "-webkit-animation-timing-function:cubic-bezier(.1,.7,1,.1);animation-timing-function:\
+         cubic-bezier(.1,.7,1,.1);",
     );
 }
 
