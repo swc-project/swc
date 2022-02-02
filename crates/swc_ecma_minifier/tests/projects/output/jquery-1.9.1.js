@@ -1665,7 +1665,7 @@
             if (!cached) {
                 for(group || (group = tokenize(selector)), i3 = group.length; i3--;)(cached = matcherFromTokens(group[i3]))[expando] ? setMatchers1.push(cached) : elementMatchers1.push(cached);
                 cached = compilerCache(selector, (elementMatchers = elementMatchers1, matcherCachedRuns = 0, bySet = (setMatchers = setMatchers1).length > 0, byElement = elementMatchers.length > 0, superMatcher = function(seed, context, xml, results, expandContext) {
-                    var elem, j, matcher, setMatched = [], matchedCount = 0, i = "0", unmatched = seed && [], outermost = null != expandContext, contextBackup = outermostContext, elems = seed || byElement && Expr.find.TAG("*", expandContext && context.parentNode || context), dirrunsUnique = dirruns += null == contextBackup ? 1 : Math.random() || .1;
+                    var elem, j, matcher, setMatched = [], matchedCount = 0, i = "0", unmatched = seed && [], outermost = null != expandContext, contextBackup = outermostContext, elems = seed || byElement && Expr.find.TAG("*", expandContext && context.parentNode || context), dirrunsUnique = dirruns += null == contextBackup ? 1 : Math.random() || 0.1;
                     for(outermost && (outermostContext = context !== document && context, cachedruns = matcherCachedRuns); null != (elem = elems[i]); i++){
                         if (byElement && elem) {
                             for(j = 0; matcher = elementMatchers[j++];)if (matcher(elem, context, xml)) {
@@ -2238,7 +2238,7 @@
         };
     }), jQuery.support.opacity || (jQuery.cssHooks.opacity = {
         get: function(elem, computed) {
-            return ropacity.test((computed && elem.currentStyle ? elem.currentStyle.filter : elem.style.filter) || "") ? .01 * parseFloat(RegExp.$1) + "" : computed ? "1" : "";
+            return ropacity.test((computed && elem.currentStyle ? elem.currentStyle.filter : elem.style.filter) || "") ? 0.01 * parseFloat(RegExp.$1) + "" : computed ? "1" : "";
         },
         set: function(elem, value) {
             var style = elem.style, currentStyle = elem.currentStyle, opacity = jQuery.isNumeric(value) ? "alpha(opacity=" + 100 * value + ")" : "", filter = currentStyle && currentStyle.filter || style.filter || "";
@@ -2909,7 +2909,7 @@
             return p;
         },
         swing: function(p) {
-            return .5 - Math.cos(p * Math.PI) / 2;
+            return 0.5 - Math.cos(p * Math.PI) / 2;
         }
     }, jQuery.timers = [], jQuery.fx = Tween.prototype.init, jQuery.fx.tick = function() {
         var timer, timers = jQuery.timers, i = 0;

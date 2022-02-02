@@ -135,7 +135,7 @@
             }
             var preventScrollSupported = null;
             function findOffsetInNode(node, coords) {
-                for(var closest, coordsClosest, dxClosest = 2e8, offset = 0, rowBot = coords.top, rowTop = coords.top, child = node.firstChild, childIndex = 0; child; child = child.nextSibling, childIndex++){
+                for(var closest, coordsClosest, dxClosest = 200000000, offset = 0, rowBot = coords.top, rowTop = coords.top, child = node.firstChild, childIndex = 0; child; child = child.nextSibling, childIndex++){
                     var rects = void 0;
                     if (1 == child.nodeType) rects = child.getClientRects();
                     else {
@@ -1824,7 +1824,7 @@
                 }, 20), this.view.domObserver.start()), view.root.addEventListener("mouseup", this.up = this.up.bind(this)), view.root.addEventListener("mousemove", this.move = this.move.bind(this)), setSelectionOrigin(view, "pointer");
             };
             function inOrNearComposition(view, event) {
-                return !!view.composing || !!(result1.safari && 500 > Math.abs(event.timeStamp - view.compositionEndedAt)) && (view.compositionEndedAt = -2e8, !0);
+                return !!view.composing || !!(result1.safari && 500 > Math.abs(event.timeStamp - view.compositionEndedAt)) && (view.compositionEndedAt = -200000000, !0);
             }
             MouseDown.prototype.done = function() {
                 var this$1 = this;
@@ -1861,7 +1861,7 @@
             }, handlers1.contextmenu = function(view) {
                 return forceDOMFlush(view);
             };
-            var timeoutComposition = result1.android ? 5e3 : -1;
+            var timeoutComposition = result1.android ? 5000 : -1;
             function scheduleComposeEnd(view, delay) {
                 clearTimeout(view.composingTimeout), delay > -1 && (view.composingTimeout = setTimeout(function() {
                     return endComposition(view);
@@ -2099,7 +2099,7 @@
                 return decorations.length ? buildTree(decorations, doc, 0, noSpec) : empty1;
             }, DecorationSet.prototype.find = function(start, end, predicate) {
                 var result = [];
-                return this.findInner(null == start ? 0 : start, null == end ? 1e9 : end, result, 0, predicate), result;
+                return this.findInner(null == start ? 0 : start, null == end ? 1000000000 : end, result, 0, predicate), result;
             }, DecorationSet.prototype.findInner = function(start, end, result, offset, predicate) {
                 for(var i = 0; i < this.local.length; i++){
                     var span = this.local[i];
@@ -2330,7 +2330,7 @@
                         x: 0,
                         y: 0,
                         type: ""
-                    }, view7.lastSelectionOrigin = null, view7.lastSelectionTime = 0, view7.lastIOSEnter = 0, view7.lastIOSEnterFallbackTimeout = null, view7.lastAndroidDelete = 0, view7.composing = !1, view7.composingTimeout = null, view7.compositionNodes = [], view7.compositionEndedAt = -2e8, view7.domObserver = new DOMObserver(view7, function(from1, to1, typeOver1, added) {
+                    }, view7.lastSelectionOrigin = null, view7.lastSelectionTime = 0, view7.lastIOSEnter = 0, view7.lastIOSEnterFallbackTimeout = null, view7.lastAndroidDelete = 0, view7.composing = !1, view7.composingTimeout = null, view7.compositionNodes = [], view7.compositionEndedAt = -200000000, view7.domObserver = new DOMObserver(view7, function(from1, to1, typeOver1, added) {
                         return (function(view8, from2, to2, typeOver, addedNodes) {
                             if (from2 < 0) {
                                 var preferredPos, preferredSide, nextSel, tr, storedMarks, markChange, $from1, origin = view8.lastSelectionTime > Date.now() - 50 ? view8.lastSelectionOrigin : null, newSel = selectionFromDOM(view8, origin);

@@ -11,33 +11,33 @@ export default function(value, options) {
                 case "yrs":
                 case "yr":
                 case "y":
-                    return 315576e5 * n;
+                    return 31557600000 * n;
                 case "weeks":
                 case "week":
                 case "w":
-                    return 6048e5 * n;
+                    return 604800000 * n;
                 case "days":
                 case "day":
                 case "d":
-                    return 864e5 * n;
+                    return 86400000 * n;
                 case "hours":
                 case "hour":
                 case "hrs":
                 case "hr":
                 case "h":
-                    return 36e5 * n;
+                    return 3600000 * n;
                 case "minutes":
                 case "minute":
                 case "mins":
                 case "min":
                 case "m":
-                    return 6e4 * n;
+                    return 60000 * n;
                 case "seconds":
                 case "second":
                 case "secs":
                 case "sec":
                 case "s":
-                    return 1e3 * n;
+                    return 1000 * n;
                 case "milliseconds":
                 case "millisecond":
                 case "msecs":
@@ -57,11 +57,11 @@ export default function(value, options) {
 };
 function fmtShort(ms) {
     const msAbs = Math.abs(ms);
-    return msAbs >= 864e5 ? `${Math.round(ms / 864e5)}d` : msAbs >= 36e5 ? `${Math.round(ms / 36e5)}h` : msAbs >= 6e4 ? `${Math.round(ms / 6e4)}m` : msAbs >= 1e3 ? `${Math.round(ms / 1e3)}s` : `${ms}ms`;
+    return msAbs >= 86400000 ? `${Math.round(ms / 86400000)}d` : msAbs >= 3600000 ? `${Math.round(ms / 3600000)}h` : msAbs >= 60000 ? `${Math.round(ms / 60000)}m` : msAbs >= 1000 ? `${Math.round(ms / 1000)}s` : `${ms}ms`;
 }
 function fmtLong(ms) {
     const msAbs = Math.abs(ms);
-    return msAbs >= 864e5 ? plural(ms, msAbs, 864e5, "day") : msAbs >= 36e5 ? plural(ms, msAbs, 36e5, "hour") : msAbs >= 6e4 ? plural(ms, msAbs, 6e4, "minute") : msAbs >= 1e3 ? plural(ms, msAbs, 1e3, "second") : `${ms} ms`;
+    return msAbs >= 86400000 ? plural(ms, msAbs, 86400000, "day") : msAbs >= 3600000 ? plural(ms, msAbs, 3600000, "hour") : msAbs >= 60000 ? plural(ms, msAbs, 60000, "minute") : msAbs >= 1000 ? plural(ms, msAbs, 1000, "second") : `${ms} ms`;
 }
 function plural(ms, msAbs, n, name) {
     return `${Math.round(ms / n)} ${name}${msAbs >= 1.5 * n ? "s" : ""}`;

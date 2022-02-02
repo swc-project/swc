@@ -66,36 +66,36 @@
             var second = newInterval(function(date) {
                 date.setTime(date - date.getMilliseconds());
             }, function(date, step) {
-                date.setTime(+date + 1e3 * step);
+                date.setTime(+date + 1000 * step);
             }, function(start, end) {
-                return (end - start) / 1e3;
+                return (end - start) / 1000;
             }, function(date) {
                 return date.getUTCSeconds();
             }), src_second = second;
             second.range;
             var minute1 = newInterval(function(date) {
-                date.setTime(date - date.getMilliseconds() - 1e3 * date.getSeconds());
+                date.setTime(date - date.getMilliseconds() - 1000 * date.getSeconds());
             }, function(date, step) {
-                date.setTime(+date + 6e4 * step);
+                date.setTime(+date + 60000 * step);
             }, function(start, end) {
-                return (end - start) / 6e4;
+                return (end - start) / 60000;
             }, function(date) {
                 return date.getMinutes();
             });
             minute1.range;
             var hour1 = newInterval(function(date) {
-                date.setTime(date - date.getMilliseconds() - 1e3 * date.getSeconds() - 6e4 * date.getMinutes());
+                date.setTime(date - date.getMilliseconds() - 1000 * date.getSeconds() - 60000 * date.getMinutes());
             }, function(date, step) {
-                date.setTime(+date + 36e5 * step);
+                date.setTime(+date + 3600000 * step);
             }, function(start, end) {
-                return (end - start) / 36e5;
+                return (end - start) / 3600000;
             }, function(date) {
                 return date.getHours();
             });
             hour1.range;
             var day1 = newInterval((date)=>date.setHours(0, 0, 0, 0)
             , (date, step)=>date.setDate(date.getDate() + step)
-            , (start, end)=>(end - start - (end.getTimezoneOffset() - start.getTimezoneOffset()) * 6e4) / 864e5
+            , (start, end)=>(end - start - (end.getTimezoneOffset() - start.getTimezoneOffset()) * 60000) / 86400000
             , (date)=>date.getDate() - 1
             ), src_day = day1;
             function weekday(i) {
@@ -104,7 +104,7 @@
                 }, function(date, step) {
                     date.setDate(date.getDate() + 7 * step);
                 }, function(start, end) {
-                    return (end - start - (end.getTimezoneOffset() - start.getTimezoneOffset()) * 6e4) / 6048e5;
+                    return (end - start - (end.getTimezoneOffset() - start.getTimezoneOffset()) * 60000) / 604800000;
                 });
             }
             day1.range;
@@ -141,9 +141,9 @@
             var utcMinute = newInterval(function(date) {
                 date.setUTCSeconds(0, 0);
             }, function(date, step) {
-                date.setTime(+date + 6e4 * step);
+                date.setTime(+date + 60000 * step);
             }, function(start, end) {
-                return (end - start) / 6e4;
+                return (end - start) / 60000;
             }, function(date) {
                 return date.getUTCMinutes();
             });
@@ -151,9 +151,9 @@
             var utcHour = newInterval(function(date) {
                 date.setUTCMinutes(0, 0, 0);
             }, function(date, step) {
-                date.setTime(+date + 36e5 * step);
+                date.setTime(+date + 3600000 * step);
             }, function(start, end) {
-                return (end - start) / 36e5;
+                return (end - start) / 3600000;
             }, function(date) {
                 return date.getUTCHours();
             });
@@ -163,7 +163,7 @@
             }, function(date, step) {
                 date.setUTCDate(date.getUTCDate() + step);
             }, function(start, end) {
-                return (end - start) / 864e5;
+                return (end - start) / 86400000;
             }, function(date) {
                 return date.getUTCDate() - 1;
             }), src_utcDay = utcDay;
@@ -173,7 +173,7 @@
                 }, function(date, step) {
                     date.setUTCDate(date.getUTCDate() + 7 * step);
                 }, function(start, end) {
-                    return (end - start) / 6048e5;
+                    return (end - start) / 604800000;
                 });
             }
             utcDay.range;
@@ -211,98 +211,98 @@
                     [
                         src_second,
                         1,
-                        1e3
+                        1000
                     ],
                     [
                         src_second,
                         5,
-                        5e3
+                        5000
                     ],
                     [
                         src_second,
                         15,
-                        15e3
+                        15000
                     ],
                     [
                         src_second,
                         30,
-                        3e4
+                        30000
                     ],
                     [
                         minute,
                         1,
-                        6e4
+                        60000
                     ],
                     [
                         minute,
                         5,
-                        3e5
+                        300000
                     ],
                     [
                         minute,
                         15,
-                        9e5
+                        900000
                     ],
                     [
                         minute,
                         30,
-                        18e5
+                        1800000
                     ],
                     [
                         hour,
                         1,
-                        36e5
+                        3600000
                     ],
                     [
                         hour,
                         3,
-                        108e5
+                        10800000
                     ],
                     [
                         hour,
                         6,
-                        216e5
+                        21600000
                     ],
                     [
                         hour,
                         12,
-                        432e5
+                        43200000
                     ],
                     [
                         day,
                         1,
-                        864e5
+                        86400000
                     ],
                     [
                         day,
                         2,
-                        1728e5
+                        172800000
                     ],
                     [
                         week,
                         1,
-                        6048e5
+                        604800000
                     ],
                     [
                         month,
                         1,
-                        2592e6
+                        2592000000
                     ],
                     [
                         month,
                         3,
-                        7776e6
+                        7776000000
                     ],
                     [
                         year,
                         1,
-                        31536e6
+                        31536000000
                     ], 
                 ];
                 function tickInterval(start, stop, count) {
                     const target = Math.abs(stop - start) / count, i = (0, bisector.Z)(([, , step])=>step
                     ).right(tickIntervals, target);
-                    if (i === tickIntervals.length) return year.every((0, src_ticks.ly)(start / 31536e6, stop / 31536e6, count));
+                    if (i === tickIntervals.length) return year.every((0, src_ticks.ly)(start / 31536000000, stop / 31536000000, count));
                     if (0 === i) return src_millisecond.every(Math.max((0, src_ticks.ly)(start, stop, count), 1));
                     const [t, step1] = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i];
                     return t.every(step1);
@@ -395,7 +395,7 @@
             }
             function parseYear(d, string, i) {
                 var n = numberRe.exec(string.slice(i, i + 2));
-                return n ? (d.y = +n[0] + (+n[0] > 68 ? 1900 : 2e3), i + n[0].length) : -1;
+                return n ? (d.y = +n[0] + (+n[0] > 68 ? 1900 : 2000), i + n[0].length) : -1;
             }
             function parseZone(d, string, i) {
                 var n = /^(Z)|([+-]\d\d)(?::?(\d\d))?/.exec(string.slice(i, i + 6));
@@ -435,7 +435,7 @@
             }
             function parseMicroseconds(d, string, i) {
                 var n = numberRe.exec(string.slice(i, i + 6));
-                return n ? (d.L = Math.floor(n[0] / 1e3), i + n[0].length) : -1;
+                return n ? (d.L = Math.floor(n[0] / 1000), i + n[0].length) : -1;
             }
             function parseLiteralPercent(d, string, i) {
                 var n = percentRe.exec(string.slice(i, i + 1));
@@ -503,11 +503,11 @@
                 return pad1((d = dISO(d)).getFullYear() % 100, p, 2);
             }
             function formatFullYear(d, p) {
-                return pad1(d.getFullYear() % 1e4, p, 4);
+                return pad1(d.getFullYear() % 10000, p, 4);
             }
             function formatFullYearISO(d, p) {
                 var day = d.getDay();
-                return pad1((d = day >= 4 || 0 === day ? thursday(d) : thursday.ceil(d)).getFullYear() % 1e4, p, 4);
+                return pad1((d = day >= 4 || 0 === day ? thursday(d) : thursday.ceil(d)).getFullYear() % 10000, p, 4);
             }
             function formatZone(d) {
                 var z = d.getTimezoneOffset();
@@ -567,11 +567,11 @@
                 return pad1((d = UTCdISO(d)).getUTCFullYear() % 100, p, 2);
             }
             function formatUTCFullYear(d, p) {
-                return pad1(d.getUTCFullYear() % 1e4, p, 4);
+                return pad1(d.getUTCFullYear() % 10000, p, 4);
             }
             function formatUTCFullYearISO(d, p) {
                 var day = d.getUTCDay();
-                return pad1((d = day >= 4 || 0 === day ? utcThursday(d) : utcThursday.ceil(d)).getUTCFullYear() % 1e4, p, 4);
+                return pad1((d = day >= 4 || 0 === day ? utcThursday(d) : utcThursday.ceil(d)).getUTCFullYear() % 10000, p, 4);
             }
             function formatUTCZone() {
                 return "+0000";
@@ -583,7 +583,7 @@
                 return +d;
             }
             function formatUnixTimestampSeconds(d) {
-                return Math.floor(+d / 1e3);
+                return Math.floor(+d / 1000);
             }
             (locale1 = (function(locale) {
                 var locale_dateTime = locale.dateTime, locale_date = locale.date, locale_time = locale.time, locale_periods = locale.periods, locale_weekdays = locale.days, locale_shortWeekdays = locale.shortDays, locale_months = locale.months, locale_shortMonths = locale.shortMonths, periodRe = formatRe(locale_periods), periodLookup = formatLookup(locale_periods), weekdayRe = formatRe(locale_weekdays), weekdayLookup = formatLookup(locale_weekdays), shortWeekdayRe = formatRe(locale_shortWeekdays), shortWeekdayLookup = formatLookup(locale_shortWeekdays), monthRe = formatRe(locale_months), monthLookup = formatLookup(locale_months), shortMonthRe = formatRe(locale_shortMonths), shortMonthLookup = formatLookup(locale_shortMonths), formats1 = {
@@ -743,7 +743,7 @@
                         var week, day, d = newDate(1900, void 0, 1);
                         if (parseSpecifier(d, specifier, string += "", 0) != string.length) return null;
                         if ("Q" in d) return new Date(d.Q);
-                        if ("s" in d) return new Date(1e3 * d.s + ("L" in d ? d.L : 0));
+                        if ("s" in d) return new Date(1000 * d.s + ("L" in d ? d.L : 0));
                         if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
                             if (d.V < 1 || d.V > 53) return null;
                             "w" in d || (d.w = 1), "Z" in d ? (week = (day = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day ? utcMonday.ceil(week) : utcMonday(week), week = src_utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day ? monday.ceil(week) : monday(week), week = src_day.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);

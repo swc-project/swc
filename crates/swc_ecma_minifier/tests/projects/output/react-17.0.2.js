@@ -667,7 +667,7 @@
                 console.error("forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported");
                 return;
             }
-            yieldInterval = fps > 0 ? Math.floor(1e3 / fps) : 5;
+            yieldInterval = fps > 0 ? Math.floor(1000 / fps) : 5;
         };
         var performWorkUntilDeadline = function() {
             if (null !== scheduledHostCallback) {
@@ -831,11 +831,11 @@
                     timeout = 1073741823;
                     break;
                 case 4:
-                    timeout = 1e4;
+                    timeout = 10000;
                     break;
                 case 3:
                 default:
-                    timeout = 5e3;
+                    timeout = 5000;
                     break;
             }
             var expirationTime = startTime + timeout, newTask = {

@@ -2975,7 +2975,7 @@ Elements.prototype = {
             if (!this.check(from, to)) return this;
             this.from = from, this.to = to, this.frame = this.options.frameSkip ? 0 : -1, this.time = null, this.transition = this.getTransition();
             var frames = this.options.frames, fps = this.options.fps, duration = this.options.duration;
-            return this.duration = Fx.Durations[duration] || duration.toInt(), this.frameInterval = 1e3 / fps, this.frames = frames || Math.round(this.duration / this.frameInterval), this.fireEvent("start", this.subject), pushInstance.call(this, fps), this;
+            return this.duration = Fx.Durations[duration] || duration.toInt(), this.frameInterval = 1000 / fps, this.frames = frames || Math.round(this.duration / this.frameInterval), this.fireEvent("start", this.subject), pushInstance.call(this, fps), this;
         },
         stop: function() {
             return this.isRunning() && (this.time = null, pullInstance.call(this, this.options.fps), this.frames == this.frame ? (this.fireEvent("complete", this.subject), this.callChain() || this.fireEvent("chainComplete", this.subject)) : this.fireEvent("stop", this.subject)), this;
@@ -2999,7 +2999,7 @@ Elements.prototype = {
     }, Fx.Durations = {
         "short": 250,
         normal: 500,
-        "long": 1e3
+        "long": 1000
     };
     var instances = {}, timers = {}, loop = function() {
         for(var now = Date.now(), i = this.length; i--;){
@@ -3008,7 +3008,7 @@ Elements.prototype = {
         }
     }, pushInstance = function(fps) {
         var list = instances[fps] || (instances[fps] = []);
-        list.push(this), timers[fps] || (timers[fps] = loop.periodical(Math.round(1e3 / fps), list));
+        list.push(this), timers[fps] || (timers[fps] = loop.periodical(Math.round(1000 / fps), list));
     }, pullInstance = function(fps) {
         var list = instances[fps];
         list && (list.erase(this), !list.length && timers[fps] && (delete instances[fps], timers[fps] = clearInterval(timers[fps])));
@@ -3250,7 +3250,7 @@ Elements.prototype = {
             return 1 - transition(1 - pos, params);
         },
         easeInOut: function(pos) {
-            return (pos <= .5 ? transition(2 * pos, params) : 2 - transition(2 * (1 - pos), params)) / 2;
+            return (pos <= 0.5 ? transition(2 * pos, params) : 2 - transition(2 * (1 - pos), params)) / 2;
         }
     });
 }, Fx.Transitions = {
@@ -3623,7 +3623,7 @@ var Cookie = new Class({
     write: function(value) {
         if (this.options.encode && (value = encodeURIComponent(value)), this.options.domain && (value += "; domain=" + this.options.domain), this.options.path && (value += "; path=" + this.options.path), this.options.duration) {
             var date = new Date();
-            date.setTime(date.getTime() + 864e5 * this.options.duration), value += "; expires=" + date.toGMTString();
+            date.setTime(date.getTime() + 86400000 * this.options.duration), value += "; expires=" + date.toGMTString();
         }
         return this.options.secure && (value += "; secure"), this.options.document.cookie = this.key + "=" + value, this;
     },
