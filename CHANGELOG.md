@@ -41,6 +41,9 @@
 - **(css/codegen)** Implement `minify: true` (#3369) ([0537ef1](https://github.com/swc-project/swc/commit/0537ef1a1170da5c693a36cd20fd2b089a8a3618))
 
 
+- **(css/codegen)** Improve minification of numbers (#3423) ([340844a](https://github.com/swc-project/swc/commit/340844ae6eb2617d8bec07e7c27ade9f320184b8))
+
+
 - **(css/parser)** Improve selector parser (#3386) ([c73835b](https://github.com/swc-project/swc/commit/c73835bfebe56518e107a3666fe95ca649d33a24))
 
 
