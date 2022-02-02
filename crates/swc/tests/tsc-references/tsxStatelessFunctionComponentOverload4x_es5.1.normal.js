@@ -38,7 +38,7 @@ var c3 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj, {
     extra: "extra attr"
 })); //  This is OK because all attribute are spread
 var c4 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj, {
-    y1: 10000
+    y1: 1e4
 })); // extra property;
 var c5 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj, {
     yy: true
@@ -64,16 +64,16 @@ var e1 = /*#__PURE__*/ React.createElement(TestingOptional, {
 });
 var e2 = /*#__PURE__*/ React.createElement(TestingOptional, {
     y1: "hello",
-    y2: 1000,
+    y2: 1e3,
     y3: true
 });
 var e3 = /*#__PURE__*/ React.createElement(TestingOptional, {
     y1: "hello",
-    y2: 1000,
+    y2: 1e3,
     children: "hi"
 });
 var e4 = /*#__PURE__*/ React.createElement(TestingOptional, {
     y1: "hello",
-    y2: 1000
+    y2: 1e3
 }, "Hi");
 export { };

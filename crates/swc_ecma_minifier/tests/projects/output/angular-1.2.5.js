@@ -3331,7 +3331,7 @@
                 if (match = string.match(R_ISO8601_STR)) {
                     var date = new Date(0), tzHour = 0, tzMin = 0, dateSetter = match[8] ? date.setUTCFullYear : date.setFullYear, timeSetter = match[8] ? date.setUTCHours : date.setHours;
                     match[9] && (tzHour = int(match[9] + match[10]), tzMin = int(match[9] + match[11])), dateSetter.call(date, int(match[1]), int(match[2]) - 1, int(match[3]));
-                    var h = int(match[4] || 0) - tzHour, m = int(match[5] || 0) - tzMin, s = int(match[6] || 0), ms = Math.round(1000 * parseFloat("0." + (match[7] || 0)));
+                    var h = int(match[4] || 0) - tzHour, m = int(match[5] || 0) - tzMin, s = int(match[6] || 0), ms = Math.round(1e3 * parseFloat("0." + (match[7] || 0)));
                     return timeSetter.call(date, h, m, s, ms), date;
                 }
                 return string;
@@ -3947,7 +3947,7 @@
         }
     }), ngNonBindableDirective = ngDirective({
         terminal: !0,
-        priority: 1000
+        priority: 1e3
     }), ngPluralizeDirective = [
         "$locale",
         "$interpolate",
@@ -3977,7 +3977,7 @@
             var NG_REMOVED = "$$NG_REMOVED", ngRepeatMinErr = minErr("ngRepeat");
             return {
                 transclude: "element",
-                priority: 1000,
+                priority: 1e3,
                 terminal: !0,
                 $$tlb: !0,
                 link: function($scope, $element, $attr, ctrl, $transclude) {

@@ -69,7 +69,7 @@
                     var lvl = log.levels[level], lvlRegExp = new RegExp("^(" + lvl + ")$");
                     if ("log" !== type && args.unshift(type.toUpperCase() + ":"), args.unshift(name1 + ":"), history) {
                         history.push([].concat(args));
-                        var splice = history.length - 1000;
+                        var splice = history.length - 1e3;
                         history.splice(0, splice > 0 ? splice : 0);
                     }
                     if (global_window__WEBPACK_IMPORTED_MODULE_0___default().console) {
@@ -1028,7 +1028,7 @@
                     var id, _this3 = this;
                     return this.supportsRaf_ ? (this.clearTimersOnDispose_(), fn = bind(this, fn), id = global_window__WEBPACK_IMPORTED_MODULE_0___default().requestAnimationFrame(function() {
                         _this3.rafIds_.has(id) && _this3.rafIds_.delete(id), fn();
-                    }), this.rafIds_.add(id), id) : this.setTimeout(fn, 1000 / 60);
+                    }), this.rafIds_.add(id), id) : this.setTimeout(fn, 1e3 / 60);
                 }, _proto.requestNamedAnimationFrame = function(name, fn) {
                     var _this4 = this;
                     if (!this.namedRafs_.has(name)) {
@@ -1634,7 +1634,7 @@
                                 if (0 === this.cues.length) return activeCues;
                                 for(var ct = this.tech_.currentTime(), active = [], i = 0, l = this.cues.length; i < l; i++){
                                     var cue = this.cues[i];
-                                    cue.startTime <= ct && cue.endTime >= ct ? active.push(cue) : cue.startTime === cue.endTime && cue.startTime <= ct && cue.startTime + 0.5 >= ct && active.push(cue);
+                                    cue.startTime <= ct && cue.endTime >= ct ? active.push(cue) : cue.startTime === cue.endTime && cue.startTime <= ct && cue.startTime + .5 >= ct && active.push(cue);
                                 }
                                 if (changed = !1, active.length !== this.activeCues_.length) changed = !0;
                                 else for(var _i = 0; _i < active.length; _i++)-1 === this.activeCues_.indexOf(active[_i]) && (changed = !0);
@@ -2902,13 +2902,13 @@
                     if (isSingleLeftClick(event)) {
                         var newTime, distance = this.calculateDistance(event), liveTracker = this.player_.liveTracker;
                         if (liveTracker && liveTracker.isLive()) {
-                            if (distance >= 0.99) {
+                            if (distance >= .99) {
                                 liveTracker.seekToLiveEdge();
                                 return;
                             }
                             var seekableStart = liveTracker.seekableStart(), seekableEnd = liveTracker.liveCurrentTime();
-                            if ((newTime = seekableStart + distance * liveTracker.liveWindow()) >= seekableEnd && (newTime = seekableEnd), newTime <= seekableStart && (newTime = seekableStart + 0.1), newTime === 1 / 0) return;
-                        } else (newTime = distance * this.player_.duration()) === this.player_.duration() && (newTime -= 0.1);
+                            if ((newTime = seekableStart + distance * liveTracker.liveWindow()) >= seekableEnd && (newTime = seekableEnd), newTime <= seekableStart && (newTime = seekableStart + .1), newTime === 1 / 0) return;
+                        } else (newTime = distance * this.player_.duration()) === this.player_.duration() && (newTime -= .1);
                         this.userSeek_(newTime);
                     }
                 }, _proto.enable = function() {
@@ -3176,9 +3176,9 @@
                 }, _proto.getPercent = function() {
                     return this.player_.muted() ? 0 : this.player_.volume();
                 }, _proto.stepForward = function() {
-                    this.checkMuted(), this.player_.volume(this.player_.volume() + 0.1);
+                    this.checkMuted(), this.player_.volume(this.player_.volume() + .1);
                 }, _proto.stepBack = function() {
-                    this.checkMuted(), this.player_.volume(this.player_.volume() - 0.1);
+                    this.checkMuted(), this.player_.volume(this.player_.volume() - .1);
                 }, _proto.updateARIAAttributes = function(event) {
                     var ariaValue = this.player_.muted() ? 0 : this.volumeAsPercentage_();
                     this.el_.setAttribute("aria-valuenow", ariaValue), this.el_.setAttribute("aria-valuetext", ariaValue + "%");
@@ -3263,14 +3263,14 @@
                 }, _proto.handleClick = function(event) {
                     var vol = this.player_.volume(), lastVolume = this.player_.lastVolume_();
                     if (0 === vol) {
-                        var volumeToSet = lastVolume < 0.1 ? 0.1 : lastVolume;
+                        var volumeToSet = lastVolume < .1 ? .1 : lastVolume;
                         this.player_.volume(volumeToSet), this.player_.muted(!1);
                     } else this.player_.muted(!this.player_.muted());
                 }, _proto.update = function(event) {
                     this.updateIcon_(), this.updateControlText_();
                 }, _proto.updateIcon_ = function() {
                     var vol = this.player_.volume(), level = 3;
-                    IS_IOS && this.player_.tech_ && this.player_.tech_.el_ && this.player_.muted(this.player_.tech_.el_.muted), 0 === vol || this.player_.muted() ? level = 0 : vol < 0.33 ? level = 1 : vol < 0.67 && (level = 2);
+                    IS_IOS && this.player_.tech_ && this.player_.tech_.el_ && this.player_.muted(this.player_.tech_.el_.muted), 0 === vol || this.player_.muted() ? level = 0 : vol < .33 ? level = 1 : vol < .67 && (level = 2);
                     for(var i = 0; i < 4; i++)removeClass(this.el_, "vjs-vol-" + i);
                     addClass(this.el_, "vjs-vol-" + level);
                 }, _proto.updateControlText_ = function() {
@@ -4517,7 +4517,7 @@
                 }, _proto.trackLive_ = function() {
                     var seekable = this.player_.seekable();
                     if (seekable && seekable.length) {
-                        var newTime = Number(global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.now().toFixed(4)), deltaTime = -1 === this.lastTime_ ? 0 : (newTime - this.lastTime_) / 1000;
+                        var newTime = Number(global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.now().toFixed(4)), deltaTime = -1 === this.lastTime_ ? 0 : (newTime - this.lastTime_) / 1e3;
                         this.lastTime_ = newTime, this.pastSeekEnd_ = this.pastSeekEnd() + deltaTime;
                         var liveCurrentTime = this.liveCurrentTime(), currentTime = this.player_.currentTime(), isBehind = this.player_.paused() || this.seekedBehindLive_ || Math.abs(liveCurrentTime - currentTime) > this.options_.liveTolerance;
                         this.timeupdateSeen_ && liveCurrentTime !== 1 / 0 || (isBehind = !1), isBehind !== this.behindLiveEdge_ && (this.behindLiveEdge_ = isBehind, this.trigger("liveedgechange"));
@@ -4930,7 +4930,7 @@
                 }
             }), Html51.isSupported = function() {
                 try {
-                    Html51.TEST_VID.volume = 0.5;
+                    Html51.TEST_VID.volume = .5;
                 } catch (e) {
                     return !1;
                 }
@@ -4942,7 +4942,7 @@
             }, Html51.canControlVolume = function() {
                 try {
                     var volume = Html51.TEST_VID.volume;
-                    return Html51.TEST_VID.volume = volume / 2 + 0.1, volume !== Html51.TEST_VID.volume;
+                    return Html51.TEST_VID.volume = volume / 2 + .1, volume !== Html51.TEST_VID.volume;
                 } catch (e) {
                     return !1;
                 }
@@ -4957,7 +4957,7 @@
                 if (IS_ANDROID && IS_CHROME && CHROME_VERSION < 58) return !1;
                 try {
                     var playbackRate = Html51.TEST_VID.playbackRate;
-                    return Html51.TEST_VID.playbackRate = playbackRate / 2 + 0.1, playbackRate !== Html51.TEST_VID.playbackRate;
+                    return Html51.TEST_VID.playbackRate = playbackRate / 2 + .1, playbackRate !== Html51.TEST_VID.playbackRate;
                 } catch (e) {
                     return !1;
                 }
@@ -6179,7 +6179,7 @@
             Player1.prototype.options_ = {
                 techOrder: Tech1.defaultTechOrder_,
                 html5: {},
-                inactivityTimeout: 2000,
+                inactivityTimeout: 2e3,
                 playbackRates: [],
                 liveui: !1,
                 children: [
@@ -6920,7 +6920,7 @@
                 }), result;
             }, refreshDelay = function(media, update) {
                 var segments = media.segments || [], lastSegment = segments[segments.length - 1], lastPart = lastSegment && lastSegment.parts && lastSegment.parts[lastSegment.parts.length - 1], lastDuration = lastPart && lastPart.duration || lastSegment && lastSegment.duration;
-                return update && lastDuration ? 1000 * lastDuration : 500 * (media.partTargetDuration || media.targetDuration || 10);
+                return update && lastDuration ? 1e3 * lastDuration : 500 * (media.partTargetDuration || media.targetDuration || 10);
             }, PlaylistLoader1 = function(_EventTarget) {
                 function PlaylistLoader(src, vhs, options) {
                     if (void 0 === options && (options = {}), _this = _EventTarget.call(this) || this, !src) throw new Error("A non-empty playlist URL or object is required");
@@ -7005,7 +7005,7 @@
                         playlist = this.master.playlists[playlist];
                     }
                     if (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.finalRenditionTimeout), shouldDelay) {
-                        var delay = (playlist.partTargetDuration || playlist.targetDuration) / 2 * 1000 || 5000;
+                        var delay = (playlist.partTargetDuration || playlist.targetDuration) / 2 * 1e3 || 5e3;
                         this.finalRenditionTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(this.media.bind(this, playlist, !1), delay);
                         return;
                     }
@@ -7040,7 +7040,7 @@
                     this.mediaUpdateTimeout && (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.mediaUpdateTimeout), this.mediaUpdateTimeout = null);
                     var media = this.media();
                     if (shouldDelay) {
-                        var delay = media ? (media.partTargetDuration || media.targetDuration) / 2 * 1000 : 5000;
+                        var delay = media ? (media.partTargetDuration || media.targetDuration) / 2 * 1e3 : 5e3;
                         this.mediaUpdateTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
                             _this5.mediaUpdateTimeout = null, _this5.load();
                         }, delay);
@@ -7103,11 +7103,11 @@
                 }, PlaylistLoader;
             }(EventTarget$1), videojsXHR = videojs.xhr, mergeOptions$1 = videojs.mergeOptions, callbackWrapper = function(request, error, response, callback) {
                 var reqResponse = "arraybuffer" === request.responseType ? request.response : request.responseText;
-                error || !reqResponse || (request.responseTime = Date.now(), request.roundTripTime = request.responseTime - request.requestTime, request.bytesReceived = reqResponse.byteLength || reqResponse.length, request.bandwidth || (request.bandwidth = Math.floor(request.bytesReceived / request.roundTripTime * 8000))), response.headers && (request.responseHeaders = response.headers), error && "ETIMEDOUT" === error.code && (request.timedout = !0), error || request.aborted || 200 === response.statusCode || 206 === response.statusCode || 0 === response.statusCode || (error = new Error("XHR Failed with a response of: " + (request && (reqResponse || request.responseText)))), callback(error, request);
+                error || !reqResponse || (request.responseTime = Date.now(), request.roundTripTime = request.responseTime - request.requestTime, request.bytesReceived = reqResponse.byteLength || reqResponse.length, request.bandwidth || (request.bandwidth = Math.floor(request.bytesReceived / request.roundTripTime * 8e3))), response.headers && (request.responseHeaders = response.headers), error && "ETIMEDOUT" === error.code && (request.timedout = !0), error || request.aborted || 200 === response.statusCode || 206 === response.statusCode || 0 === response.statusCode || (error = new Error("XHR Failed with a response of: " + (request && (reqResponse || request.responseText)))), callback(error, request);
             }, xhrFactory = function() {
                 var xhr = function XhrFunction(options, callback) {
                     options = mergeOptions$1({
-                        timeout: 45000
+                        timeout: 45e3
                     }, options);
                     var beforeRequest = XhrFunction.beforeRequest || videojs.Vhs.xhr.beforeRequest;
                     if (beforeRequest && "function" == typeof beforeRequest) {
@@ -7175,7 +7175,7 @@
             }), playerTimeToProgramTime = function(playerTime, segment) {
                 if (!segment.dateTimeObject) return null;
                 var transmuxerPrependedSeconds = segment.videoTimingInfo.transmuxerPrependedSeconds, transmuxedStart = segment.videoTimingInfo.transmuxedPresentationStart;
-                return new Date(segment.dateTimeObject.getTime() + 1000 * (playerTime - (transmuxedStart + transmuxerPrependedSeconds)));
+                return new Date(segment.dateTimeObject.getTime() + 1e3 * (playerTime - (transmuxedStart + transmuxerPrependedSeconds)));
             }, findSegmentForProgramTime = function(programTime, playlist) {
                 try {
                     dateTimeObject = new Date(programTime);
@@ -7190,8 +7190,8 @@
                     var nextSegmentStart = playlist.segments[i + 1].dateTimeObject;
                     if (dateTimeObject < nextSegmentStart) break;
                 }
-                var videoTimingInfo, lastSegment = playlist.segments[playlist.segments.length - 1], lastSegmentStart = lastSegment.dateTimeObject, lastSegmentDuration = lastSegment.videoTimingInfo ? (videoTimingInfo = lastSegment.videoTimingInfo).transmuxedPresentationEnd - videoTimingInfo.transmuxedPresentationStart - videoTimingInfo.transmuxerPrependedSeconds : lastSegment.duration + 0.25 * lastSegment.duration;
-                return dateTimeObject > new Date(lastSegmentStart.getTime() + 1000 * lastSegmentDuration) ? null : (dateTimeObject > lastSegmentStart && (segment = lastSegment), {
+                var videoTimingInfo, lastSegment = playlist.segments[playlist.segments.length - 1], lastSegmentStart = lastSegment.dateTimeObject, lastSegmentDuration = lastSegment.videoTimingInfo ? (videoTimingInfo = lastSegment.videoTimingInfo).transmuxedPresentationEnd - videoTimingInfo.transmuxedPresentationStart - videoTimingInfo.transmuxerPrependedSeconds : lastSegment.duration + .25 * lastSegment.duration;
+                return dateTimeObject > new Date(lastSegmentStart.getTime() + 1e3 * lastSegmentDuration) ? null : (dateTimeObject > lastSegmentStart && (segment = lastSegment), {
                     segment: segment,
                     estimatedStart: segment.videoTimingInfo ? segment.videoTimingInfo.transmuxedPresentationStart : Playlist.duration(playlist, playlist.mediaSequence + playlist.segments.indexOf(segment)),
                     type: segment.videoTimingInfo ? "accurate" : "estimate"
@@ -7202,7 +7202,7 @@
                 var lastSegment = playlist.segments[playlist.segments.length - 1];
                 if (lastSegment.videoTimingInfo && lastSegment.videoTimingInfo.transmuxedPresentationEnd < time) return null;
                 if (time > segmentEnd) {
-                    if (time > segmentEnd + 0.25 * lastSegment.duration) return null;
+                    if (time > segmentEnd + .25 * lastSegment.duration) return null;
                     segment = lastSegment;
                 }
                 return {
@@ -7215,7 +7215,7 @@
                     segmentDateTime = new Date(comparisonTimeStamp), programDateTime = new Date(programTime);
                 } catch (e) {}
                 var segmentDateTime, programDateTime, segmentTimeEpoch = segmentDateTime.getTime();
-                return (programDateTime.getTime() - segmentTimeEpoch) / 1000;
+                return (programDateTime.getTime() - segmentTimeEpoch) / 1e3;
             }, verifyProgramDateTimeTags = function(playlist) {
                 if (!playlist.segments || 0 === playlist.segments.length) return !1;
                 for(var i = 0; i < playlist.segments.length; i++)if (!playlist.segments[i].dateTimeObject) return !1;
@@ -7469,7 +7469,7 @@
                     global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.mediaUpdateTimeout), this.mediaUpdateTimeout = null;
                     var media = this.media();
                     if (isFinalRendition) {
-                        var delay = media ? media.targetDuration / 2 * 1000 : 5000;
+                        var delay = media ? media.targetDuration / 2 * 1e3 : 5e3;
                         this.mediaUpdateTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
                             return _this4.load();
                         }, delay);
@@ -7540,7 +7540,7 @@
                     var mpl = this.masterPlaylistLoader_;
                     mpl.createMupOnMedia_ && (mpl.off("loadedmetadata", mpl.createMupOnMedia_), mpl.createMupOnMedia_ = null), mpl.minimumUpdatePeriodTimeout_ && (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(mpl.minimumUpdatePeriodTimeout_), mpl.minimumUpdatePeriodTimeout_ = null);
                     var mup = mpl.master && mpl.master.minimumUpdatePeriod;
-                    if (0 === mup && (mpl.media() ? mup = 1000 * mpl.media().targetDuration : (mpl.createMupOnMedia_ = mpl.updateMinimumUpdatePeriodTimeout_, mpl.one("loadedmetadata", mpl.createMupOnMedia_))), "number" != typeof mup || mup <= 0) {
+                    if (0 === mup && (mpl.media() ? mup = 1e3 * mpl.media().targetDuration : (mpl.createMupOnMedia_ = mpl.updateMinimumUpdatePeriodTimeout_, mpl.one("loadedmetadata", mpl.createMupOnMedia_))), "number" != typeof mup || mup <= 0) {
                         mup < 0 && this.logger_("found invalid minimumUpdatePeriod of " + mup + ", not setting a timeout");
                         return;
                     }
@@ -8522,7 +8522,7 @@
                     if (!silence) {
                         var metaTable;
                         silence = (metaTable = {
-                            96000: [
+                            96e3: [
                                 highPrefix,
                                 [
                                     227,
@@ -8543,7 +8543,7 @@
                                     56
                                 ]
                             ],
-                            64000: [
+                            64e3: [
                                 highPrefix,
                                 [
                                     248,
@@ -8554,7 +8554,7 @@
                                     56
                                 ]
                             ],
-                            48000: [
+                            48e3: [
                                 highPrefix,
                                 [
                                     255,
@@ -8588,7 +8588,7 @@
                                     112
                                 ]
                             ],
-                            32000: [
+                            32e3: [
                                 highPrefix,
                                 [
                                     255,
@@ -8604,7 +8604,7 @@
                                     112
                                 ]
                             ],
-                            24000: [
+                            24e3: [
                                 highPrefix,
                                 [
                                     255,
@@ -8626,7 +8626,7 @@
                                     224
                                 ]
                             ],
-                            16000: [
+                            16e3: [
                                 highPrefix,
                                 [
                                     255,
@@ -8654,7 +8654,7 @@
                                     192
                                 ]
                             ],
-                            12000: [
+                            12e3: [
                                 lowPrefix,
                                 zeroFill(268),
                                 [
@@ -8722,7 +8722,7 @@
                                     112
                                 ]
                             ],
-                            8000: [
+                            8e3: [
                                 lowPrefix,
                                 zeroFill(268),
                                 [
@@ -8743,15 +8743,15 @@
                     }
                     return silence;
                 }, clock = {
-                    ONE_SECOND_IN_TS: 90000,
+                    ONE_SECOND_IN_TS: 9e4,
                     secondsToVideoTs: secondsToVideoTs = function(seconds) {
-                        return 90000 * seconds;
+                        return 9e4 * seconds;
                     },
                     secondsToAudioTs: secondsToAudioTs = function(seconds, sampleRate) {
                         return seconds * sampleRate;
                     },
                     videoTsToSeconds: videoTsToSeconds = function(timestamp) {
-                        return timestamp / 90000;
+                        return timestamp / 9e4;
                     },
                     audioTsToSeconds: audioTsToSeconds = function(timestamp, sampleRate) {
                         return timestamp / sampleRate;
@@ -9587,18 +9587,18 @@
                 };
                 for(var type1 in streamTypes)streamTypes.hasOwnProperty(type1) && (m2ts[type1] = streamTypes[type1]);
                 var m2ts_1 = m2ts, ONE_SECOND_IN_TS$2 = clock.ONE_SECOND_IN_TS, ADTS_SAMPLING_FREQUENCIES$1 = [
-                    96000,
+                    96e3,
                     88200,
-                    64000,
-                    48000,
+                    64e3,
+                    48e3,
                     44100,
-                    32000,
-                    24000,
+                    32e3,
+                    24e3,
                     22050,
-                    16000,
-                    12000,
+                    16e3,
+                    12e3,
                     11025,
-                    8000,
+                    8e3,
                     7350
                 ];
                 (_AdtsStream = function(handlePartialSegments) {
@@ -9912,18 +9912,18 @@
                     };
                 }).prototype = new stream1();
                 var ADTS_SAMPLING_FREQUENCIES = [
-                    96000,
+                    96e3,
                     88200,
-                    64000,
-                    48000,
+                    64e3,
+                    48e3,
                     44100,
-                    32000,
-                    24000,
+                    32e3,
+                    24e3,
                     22050,
-                    16000,
-                    12000,
+                    16e3,
+                    12e3,
                     11025,
-                    8000,
+                    8e3,
                     7350
                 ], parseId3TagSize = function(header, byteIndex) {
                     var returnSize = header[byteIndex + 6] << 21 | header[byteIndex + 7] << 14 | header[byteIndex + 8] << 7 | header[byteIndex + 9];
@@ -10139,7 +10139,7 @@
                         trackDecodeInfo.clearDtsInfo(track), config = void 0, pps = void 0;
                     }, this.getGopForFusion_ = function(nalUnit) {
                         var dtsDistance, nearestGopObj, currentGop, currentGopObj, i, nearestDistance = 1 / 0;
-                        for(i = 0; i < this.gopCache_.length; i++)currentGop = (currentGopObj = this.gopCache_[i]).gop, track.pps && arrayEquals(track.pps[0], currentGopObj.pps[0]) && track.sps && arrayEquals(track.sps[0], currentGopObj.sps[0]) && !(currentGop.dts < track.timelineStartInfo.dts) && (dtsDistance = nalUnit.dts - currentGop.dts - currentGop.duration) >= -10000 && dtsDistance <= 45000 && (!nearestGopObj || nearestDistance > dtsDistance) && (nearestGopObj = currentGopObj, nearestDistance = dtsDistance);
+                        for(i = 0; i < this.gopCache_.length; i++)currentGop = (currentGopObj = this.gopCache_[i]).gop, track.pps && arrayEquals(track.pps[0], currentGopObj.pps[0]) && track.sps && arrayEquals(track.sps[0], currentGopObj.sps[0]) && !(currentGop.dts < track.timelineStartInfo.dts) && (dtsDistance = nalUnit.dts - currentGop.dts - currentGop.duration) >= -1e4 && dtsDistance <= 45e3 && (!nearestGopObj || nearestDistance > dtsDistance) && (nearestGopObj = currentGopObj, nearestDistance = dtsDistance);
                         return nearestGopObj ? nearestGopObj.gop : null;
                     }, this.alignGopsAtStart_ = function(gops) {
                         var alignIndex, gopIndex, align, gop, byteLength, nalCount, duration, alignedGops;
@@ -10485,7 +10485,7 @@
                                 "tfhd"
                             ]).map(function(tfhd) {
                                 var scale, baseTime;
-                                return scale = timescale[toUnsigned(tfhd[4] << 24 | tfhd[5] << 16 | tfhd[6] << 8 | tfhd[7])] || 90000, (baseTime = "number" != typeof (baseTime = findBox_1(traf, [
+                                return scale = timescale[toUnsigned(tfhd[4] << 24 | tfhd[5] << 16 | tfhd[6] << 8 | tfhd[7])] || 9e4, (baseTime = "number" != typeof (baseTime = findBox_1(traf, [
                                     "tfdt"
                                 ]).map(function(tfdt) {
                                     var version, result;
@@ -10512,7 +10512,7 @@
                                 parsedTrun.samples && parsedTrun.samples.length && (compositionTimeOffset = parsedTrun.samples[0].compositionTimeOffset || 0);
                             }
                         }
-                        return (baseMediaDecodeTime + compositionTimeOffset) / (timescales[trackId] || 90000);
+                        return (baseMediaDecodeTime + compositionTimeOffset) / (timescales[trackId] || 9e4);
                     },
                     videoTrackIds: function(init) {
                         var traks = findBox_1(init, [
@@ -11150,7 +11150,7 @@
                     bytesReceived: 0,
                     roundTripTime: Date.now() - request.requestTime || 0
                 };
-                return stats.bytesReceived = progressEvent.loaded, stats.bandwidth = Math.floor(stats.bytesReceived / stats.roundTripTime * 8000), stats;
+                return stats.bytesReceived = progressEvent.loaded, stats.bandwidth = Math.floor(stats.bytesReceived / stats.roundTripTime * 8e3), stats;
             }, handleErrors = function(error, request) {
                 return request.timedout ? {
                     status: request.status,
@@ -12134,7 +12134,7 @@
                 }, _proto.timestampOffsetForSegment_ = function(options) {
                     return timestampOffsetForSegment(options);
                 }, _proto.earlyAbortWhenNeeded_ = function(stats) {
-                    if (!this.vhs_.tech_.paused() && this.xhrOptions_.timeout && this.playlist_.attributes.BANDWIDTH && !(Date.now() - (stats.firstBytesReceivedAt || Date.now()) < 1000)) {
+                    if (!this.vhs_.tech_.paused() && this.xhrOptions_.timeout && this.playlist_.attributes.BANDWIDTH && !(Date.now() - (stats.firstBytesReceivedAt || Date.now()) < 1e3)) {
                         var buffered, currentTime, playbackRate, currentTime1 = this.currentTime_(), measuredBandwidth = stats.bandwidth, segmentDuration = this.pendingSegment_.duration, requestTimeRemaining = Playlist.estimateSegmentRequestTime(segmentDuration, measuredBandwidth, this.playlist_, stats.bytesReceived), timeUntilRebuffer$1 = (buffered = this.buffered_(), currentTime = currentTime1, void 0 === (playbackRate = this.vhs_.tech_.playbackRate()) && (playbackRate = 1), ((buffered.length ? buffered.end(buffered.length - 1) : 0) - currentTime) / playbackRate - 1);
                         if (!(requestTimeRemaining <= timeUntilRebuffer$1)) {
                             var switchCandidate = minRebufferMaxBandwidthSelector({
@@ -12148,7 +12148,7 @@
                                 syncController: this.syncController_
                             });
                             if (switchCandidate) {
-                                var timeSavedBySwitching = requestTimeRemaining - timeUntilRebuffer$1 - switchCandidate.rebufferingImpact, minimumTimeSaving = 0.5;
+                                var timeSavedBySwitching = requestTimeRemaining - timeUntilRebuffer$1 - switchCandidate.rebufferingImpact, minimumTimeSaving = .5;
                                 timeUntilRebuffer$1 <= TIME_FUDGE_FACTOR && (minimumTimeSaving = 1), !switchCandidate.playlist || switchCandidate.playlist.uri === this.playlist_.uri || timeSavedBySwitching < minimumTimeSaving || (this.bandwidth = switchCandidate.playlist.attributes.BANDWIDTH * Config.BANDWIDTH_VARIANCE + 1, this.trigger("earlyabort"));
                             }
                         }
@@ -12325,7 +12325,7 @@
                     this.logger_("On QUOTA_EXCEEDED_ERR, removing audio/video from 0 to " + timeToRemoveUntil), this.remove(0, timeToRemoveUntil, function() {
                         _this3.logger_("On QUOTA_EXCEEDED_ERR, retrying append in 1s"), _this3.waitingOnRemove_ = !1, _this3.quotaExceededErrorRetryTimeout_ = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
                             _this3.logger_("On QUOTA_EXCEEDED_ERR, re-processing call queue"), _this3.quotaExceededErrorRetryTimeout_ = null, _this3.processCallQueue_();
-                        }, 1000);
+                        }, 1e3);
                     }, !0);
                 }, _proto.handleAppendError_ = function(_ref6, error) {
                     var segmentInfo = _ref6.segmentInfo, type = _ref6.type, bytes = _ref6.bytes;
@@ -12564,7 +12564,7 @@
                         this.logger_("Ignoring segment's throughput because its duration of " + segmentInfo.duration + (" is less than the min to record " + MIN_SEGMENT_DURATION_TO_SAVE_STATS));
                         return;
                     }
-                    var rate = this.throughput.rate, segmentProcessingTime = Date.now() - segmentInfo.endOfAllRequests + 1, segmentProcessingThroughput = Math.floor(segmentInfo.byteLength / segmentProcessingTime * 8000);
+                    var rate = this.throughput.rate, segmentProcessingTime = Date.now() - segmentInfo.endOfAllRequests + 1, segmentProcessingThroughput = Math.floor(segmentInfo.byteLength / segmentProcessingTime * 8e3);
                     this.throughput.rate += (segmentProcessingThroughput - rate) / ++this.throughput.count;
                 }, _proto.addSegmentMetadataCue_ = function(segmentInfo) {
                     if (this.segmentMetadataTrack_) {
@@ -13141,7 +13141,7 @@
                         for(var i = 0; i < partsAndSegments.length; i++){
                             var index = playlist.endList || 0 === currentTime ? i : partsAndSegments.length - (i + 1), partAndSegment = partsAndSegments[index], segment = partAndSegment.segment, datetimeMapping = syncController.timelineToDatetimeMappings[segment.timeline];
                             if (datetimeMapping && segment.dateTimeObject) {
-                                var start = segment.dateTimeObject.getTime() / 1000 + datetimeMapping;
+                                var start = segment.dateTimeObject.getTime() / 1e3 + datetimeMapping;
                                 if (segment.parts && "number" == typeof partAndSegment.partIndex) for(var z = 0; z < partAndSegment.partIndex; z++)start += segment.parts[z].duration;
                                 var distance = Math.abs(currentTime - start);
                                 if (null !== lastDistance && (0 === distance || lastDistance < distance)) break;
@@ -13264,7 +13264,7 @@
                     }
                 }, _proto.setDateTimeMappingForStart = function(playlist) {
                     if (this.timelineToDatetimeMappings = {}, playlist.segments && playlist.segments.length && playlist.segments[0].dateTimeObject) {
-                        var firstSegment = playlist.segments[0], playlistTimestamp = firstSegment.dateTimeObject.getTime() / 1000;
+                        var firstSegment = playlist.segments[0], playlistTimestamp = firstSegment.dateTimeObject.getTime() / 1e3;
                         this.timelineToDatetimeMappings[firstSegment.timeline] = -playlistTimestamp;
                     }
                 }, _proto.saveSegmentTimingInfo = function(_ref) {
@@ -13274,7 +13274,7 @@
                         time: segment.start
                     }));
                     var dateTime = segment.dateTimeObject;
-                    segment.discontinuity && shouldSaveTimelineMapping && dateTime && (this.timelineToDatetimeMappings[segment.timeline] = -(dateTime.getTime() / 1000));
+                    segment.discontinuity && shouldSaveTimelineMapping && dateTime && (this.timelineToDatetimeMappings[segment.timeline] = -(dateTime.getTime() / 1e3));
                 }, _proto.timestampOffsetForTimeline = function(timeline) {
                     return void 0 === this.timelines[timeline] ? null : this.timelines[timeline].time;
                 }, _proto.mappingForTimeline = function(timeline) {
@@ -13495,7 +13495,7 @@
                         {
                             key: "STEP",
                             get: function() {
-                                return 32000;
+                                return 32e3;
                             }
                         }
                     ]), Decrypter;
@@ -14144,7 +14144,7 @@
                         return;
                     }
                     this.switchMedia_(media, "fast-quality"), this.mainSegmentLoader_.resetEverything(function() {
-                        videojs.browser.IE_VERSION || videojs.browser.IS_EDGE ? _this5.tech_.setCurrentTime(_this5.tech_.currentTime() + 0.04) : _this5.tech_.setCurrentTime(_this5.tech_.currentTime());
+                        videojs.browser.IE_VERSION || videojs.browser.IS_EDGE ? _this5.tech_.setCurrentTime(_this5.tech_.currentTime() + .04) : _this5.tech_.setCurrentTime(_this5.tech_.currentTime());
                     });
                 }, _proto.play = function() {
                     if (!this.setupFirstPlay()) {
@@ -14214,7 +14214,7 @@
                             }
                         }), reincluded && (videojs.log.warn("Removing other playlists from the exclusion list because the last rendition is about to be excluded."), this.tech_.trigger("retryplaylist"));
                     }
-                    excludeUntil1 = currentPlaylist.playlistErrors_ > this.maxPlaylistRetries ? 1 / 0 : Date.now() + 1000 * blacklistDuration, currentPlaylist.excludeUntil = excludeUntil1, error.reason && (currentPlaylist.lastExcludeReason_ = error.reason), this.tech_.trigger("blacklistplaylist"), this.tech_.trigger({
+                    excludeUntil1 = currentPlaylist.playlistErrors_ > this.maxPlaylistRetries ? 1 / 0 : Date.now() + 1e3 * blacklistDuration, currentPlaylist.excludeUntil = excludeUntil1, error.reason && (currentPlaylist.lastExcludeReason_ = error.reason), this.tech_.trigger("blacklistplaylist"), this.tech_.trigger({
                         type: "usage",
                         name: "vhs-rendition-blacklisted"
                     }), this.tech_.trigger({
@@ -14237,7 +14237,7 @@
                         "abort",
                         "pause"
                     ]);
-                    var delayDuration = nextPlaylist.targetDuration / 2 * 1000 || 5000, shouldDelay = "number" == typeof nextPlaylist.lastRequest && Date.now() - nextPlaylist.lastRequest <= delayDuration;
+                    var delayDuration = nextPlaylist.targetDuration / 2 * 1e3 || 5e3, shouldDelay = "number" == typeof nextPlaylist.lastRequest && Date.now() - nextPlaylist.lastRequest <= delayDuration;
                     return this.switchMedia_(nextPlaylist, "exclude", isFinalRendition || shouldDelay);
                 }, _proto.pauseLoading = function() {
                     this.delegateLoaders_("all", [
@@ -14600,7 +14600,7 @@
                     var nextRange = findNextRange(buffered, currentTime);
                     if (nextRange.length > 0) {
                         var difference = nextRange.start(0) - currentTime;
-                        return this.logger_("Stopped at " + currentTime + ", setting timer for " + difference + ", seeking " + ("to " + nextRange.start(0))), this.cancelTimer_(), this.timer_ = setTimeout(this.skipTheGap_.bind(this), 1000 * difference, currentTime), !0;
+                        return this.logger_("Stopped at " + currentTime + ", setting timer for " + difference + ", seeking " + ("to " + nextRange.start(0))), this.cancelTimer_(), this.timer_ = setTimeout(this.skipTheGap_.bind(this), 1e3 * difference, currentTime), !0;
                     }
                     return !1;
                 }, _proto.afterSeekableWindow_ = function(seekable, currentTime, playlist, allowSeeksWithinUnsafeLiveWindow) {
@@ -14669,7 +14669,7 @@
                         name: "hls-error-reload"
                     }), player.play());
                 }, errorHandler = function() {
-                    if (Date.now() - lastCalled < 1000 * localOptions.errorInterval) {
+                    if (Date.now() - lastCalled < 1e3 * localOptions.errorInterval) {
                         player.trigger({
                             type: "usage",
                             name: "vhs-error-reload-canceled"
@@ -14945,7 +14945,7 @@
                                 code: 3
                             }) : error.code = 3, player.error(error);
                         });
-                        var defaultSelector = this.options_.experimentalBufferBasedABR ? Vhs.movingAverageBandwidthSelector(0.55) : Vhs.STANDARD_PLAYLIST_SELECTOR;
+                        var defaultSelector = this.options_.experimentalBufferBasedABR ? Vhs.movingAverageBandwidthSelector(.55) : Vhs.STANDARD_PLAYLIST_SELECTOR;
                         this.masterPlaylistController_.selectPlaylist = this.selectPlaylist ? this.selectPlaylist.bind(this) : defaultSelector.bind(this), this.masterPlaylistController_.selectInitialPlaylist = Vhs.INITIAL_PLAYLIST_SELECTOR.bind(this), this.playlists = this.masterPlaylistController_.masterPlaylistLoader_, this.mediaSource = this.masterPlaylistController_.mediaSource, Object.defineProperties(this, {
                             selectPlaylist: {
                                 get: function() {
@@ -14967,8 +14967,8 @@
                                 get: function() {
                                     var playerBandwidthEst = this.masterPlaylistController_.mainSegmentLoader_.bandwidth, networkInformation = global_window__WEBPACK_IMPORTED_MODULE_0___default().navigator.connection || global_window__WEBPACK_IMPORTED_MODULE_0___default().navigator.mozConnection || global_window__WEBPACK_IMPORTED_MODULE_0___default().navigator.webkitConnection;
                                     if (this.options_.useNetworkInformationApi && networkInformation) {
-                                        var networkInfoBandwidthEstBitsPerSec = 1000000 * networkInformation.downlink;
-                                        playerBandwidthEst = networkInfoBandwidthEstBitsPerSec >= 10000000 && playerBandwidthEst >= 10000000 ? Math.max(playerBandwidthEst, networkInfoBandwidthEstBitsPerSec) : networkInfoBandwidthEstBitsPerSec;
+                                        var networkInfoBandwidthEstBitsPerSec = 1e6 * networkInformation.downlink;
+                                        playerBandwidthEst = networkInfoBandwidthEstBitsPerSec >= 1e7 && playerBandwidthEst >= 1e7 ? Math.max(playerBandwidthEst, networkInfoBandwidthEstBitsPerSec) : networkInfoBandwidthEstBitsPerSec;
                                     }
                                     return playerBandwidthEst;
                                 },

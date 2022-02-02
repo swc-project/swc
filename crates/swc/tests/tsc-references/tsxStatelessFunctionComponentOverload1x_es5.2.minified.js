@@ -32,7 +32,7 @@ React.createElement(OneThing, {
     y1: "hello"
 }), React.createElement(TestingOptional, {
     y1: "hello",
-    y2: 1000
+    y2: 1e3
 }), React.createElement(TestingOptional, {
     y1: !0,
     y3: !0

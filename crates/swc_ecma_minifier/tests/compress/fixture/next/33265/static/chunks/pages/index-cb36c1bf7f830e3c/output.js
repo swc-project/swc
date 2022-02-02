@@ -2756,7 +2756,7 @@
                                             message: "defaulting media sequence to zero"
                                         })), "discontinuitySequence" in this.manifest || (this.manifest.discontinuitySequence = 0, this.trigger("info", {
                                             message: "defaulting discontinuity sequence to zero"
-                                        })), entry.duration > 0 && (currentUri.duration = entry.duration), 0 === entry.duration && (currentUri.duration = 0.01, this.trigger("info", {
+                                        })), entry.duration > 0 && (currentUri.duration = entry.duration), 0 === entry.duration && (currentUri.duration = .01, this.trigger("info", {
                                             message: "updating zero segment duration to a small value"
                                         })), this.manifest.segments = uris;
                                     },
@@ -3078,7 +3078,7 @@
                     };
                 },
                 dynamic: function(attributes) {
-                    var NOW = attributes.NOW, clientOffset = attributes.clientOffset, availabilityStartTime = attributes.availabilityStartTime, _attributes$timescale2 = attributes.timescale, timescale = void 0 === _attributes$timescale2 ? 1 : _attributes$timescale2, duration = attributes.duration, _attributes$start = attributes.start, _attributes$minimumUp = attributes.minimumUpdatePeriod, _attributes$timeShift = attributes.timeShiftBufferDepth, endNumber = parseEndNumber(attributes.endNumber), now = (NOW + clientOffset) / 1000, periodStartWC = availabilityStartTime + (void 0 === _attributes$start ? 0 : _attributes$start);
+                    var NOW = attributes.NOW, clientOffset = attributes.clientOffset, availabilityStartTime = attributes.availabilityStartTime, _attributes$timescale2 = attributes.timescale, timescale = void 0 === _attributes$timescale2 ? 1 : _attributes$timescale2, duration = attributes.duration, _attributes$start = attributes.start, _attributes$minimumUp = attributes.minimumUpdatePeriod, _attributes$timeShift = attributes.timeShiftBufferDepth, endNumber = parseEndNumber(attributes.endNumber), now = (NOW + clientOffset) / 1e3, periodStartWC = availabilityStartTime + (void 0 === _attributes$start ? 0 : _attributes$start);
                     return {
                         start: Math.max(0, Math.floor((now - periodStartWC - (void 0 === _attributes$timeShift ? 1 / 0 : _attributes$timeShift)) * timescale / duration)),
                         end: "number" == typeof endNumber ? endNumber : Math.min(Math.ceil((now + (void 0 === _attributes$minimumUp ? 0 : _attributes$minimumUp) - periodStartWC) * timescale / duration), Math.floor((now - periodStartWC) * timescale / duration))
@@ -3269,7 +3269,7 @@
                     duration: duration,
                     playlists: addSidxSegmentsToPlaylists(videoPlaylists, sidxMapping)
                 };
-                minimumUpdatePeriod >= 0 && (manifest.minimumUpdatePeriod = 1000 * minimumUpdatePeriod), locations && (manifest.locations = locations), "dynamic" === type && (manifest.suggestedPresentationDelay = suggestedPresentationDelay);
+                minimumUpdatePeriod >= 0 && (manifest.minimumUpdatePeriod = 1e3 * minimumUpdatePeriod), locations && (manifest.locations = locations), "dynamic" === type && (manifest.suggestedPresentationDelay = suggestedPresentationDelay);
                 var isAudioOnly = 0 === manifest.playlists.length;
                 return audioPlaylists.length && (manifest.mediaGroups.AUDIO.audio = organizeAudioPlaylists(audioPlaylists, sidxMapping, isAudioOnly)), vttPlaylists.length && (manifest.mediaGroups.SUBTITLES.subs = (playlists = vttPlaylists, void 0 === (sidxMapping1 = sidxMapping) && (sidxMapping1 = {}), playlists.reduce(function(a, playlist) {
                     var label = playlist.attributes.lang || "text";
@@ -3293,7 +3293,7 @@
                 }, {})), manifest;
             }, getLiveRValue = function(attributes, time, duration) {
                 var NOW = attributes.NOW, clientOffset = attributes.clientOffset, availabilityStartTime = attributes.availabilityStartTime, _attributes$timescale = attributes.timescale, _attributes$start = attributes.start, _attributes$minimumUp = attributes.minimumUpdatePeriod;
-                return Math.ceil((((NOW + clientOffset) / 1000 + (void 0 === _attributes$minimumUp ? 0 : _attributes$minimumUp) - (availabilityStartTime + (void 0 === _attributes$start ? 0 : _attributes$start))) * (void 0 === _attributes$timescale ? 1 : _attributes$timescale) - time) / duration);
+                return Math.ceil((((NOW + clientOffset) / 1e3 + (void 0 === _attributes$minimumUp ? 0 : _attributes$minimumUp) - (availabilityStartTime + (void 0 === _attributes$start ? 0 : _attributes$start))) * (void 0 === _attributes$timescale ? 1 : _attributes$timescale) - time) / duration);
             }, parseByTimeline = function(attributes, segmentTimeline) {
                 for(var type = attributes.type, _attributes$minimumUp2 = attributes.minimumUpdatePeriod, minimumUpdatePeriod = void 0 === _attributes$minimumUp2 ? 0 : _attributes$minimumUp2, _attributes$media = attributes.media, media = void 0 === _attributes$media ? "" : _attributes$media, sourceDuration = attributes.sourceDuration, _attributes$timescale2 = attributes.timescale, timescale = void 0 === _attributes$timescale2 ? 1 : _attributes$timescale2, _attributes$startNumb = attributes.startNumber, startNumber = void 0 === _attributes$startNumb ? 1 : _attributes$startNumb, timeline = attributes.periodIndex, segments = [], time = -1, sIndex = 0; sIndex < segmentTimeline.length; sIndex++){
                     var S = segmentTimeline[sIndex], duration = S.d, repeat = S.r || 0, segmentTime = S.t || 0;
@@ -3401,14 +3401,14 @@
                 var match = /P(?:(\d*)Y)?(?:(\d*)M)?(?:(\d*)D)?(?:T(?:(\d*)H)?(?:(\d*)M)?(?:([\d.]*)S)?)?/.exec(str);
                 if (!match) return 0;
                 var _match$slice = match.slice(1), year = _match$slice[0], month = _match$slice[1], day = _match$slice[2], hour = _match$slice[3], minute = _match$slice[4], second = _match$slice[5];
-                return 31536000 * parseFloat(year || 0) + 2592000 * parseFloat(month || 0) + 86400 * parseFloat(day || 0) + 3600 * parseFloat(hour || 0) + 60 * parseFloat(minute || 0) + parseFloat(second || 0);
+                return 31536e3 * parseFloat(year || 0) + 2592e3 * parseFloat(month || 0) + 86400 * parseFloat(day || 0) + 3600 * parseFloat(hour || 0) + 60 * parseFloat(minute || 0) + parseFloat(second || 0);
             }, parsers = {
                 mediaPresentationDuration: function(value) {
                     return parseDuration(value);
                 },
                 availabilityStartTime: function(value) {
                     var str;
-                    return str = value, /^\d+-\d+-\d+T\d+:\d+:\d+(\.\d+)?$/.test(str) && (str += "Z"), Date.parse(str) / 1000;
+                    return str = value, /^\d+-\d+-\d+T\d+:\d+:\d+(\.\d+)?$/.test(str) && (str += "Z"), Date.parse(str) / 1e3;
                 },
                 minimumUpdatePeriod: function(value) {
                     return parseDuration(value);
@@ -3668,11 +3668,11 @@
         1489: function(module) {
             var secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds, audioTsToVideoTs, videoTsToAudioTs, metadataTsToSeconds;
             secondsToVideoTs = function(seconds) {
-                return 90000 * seconds;
+                return 9e4 * seconds;
             }, secondsToAudioTs = function(seconds, sampleRate) {
                 return seconds * sampleRate;
             }, videoTsToSeconds = function(timestamp) {
-                return timestamp / 90000;
+                return timestamp / 9e4;
             }, audioTsToSeconds = function(timestamp, sampleRate) {
                 return timestamp / sampleRate;
             }, audioTsToVideoTs = function(timestamp, sampleRate) {
@@ -3682,7 +3682,7 @@
             }, metadataTsToSeconds = function(timestamp, timelineStartPts, keepOriginalTimestamps) {
                 return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
             }, module.exports = {
-                ONE_SECOND_IN_TS: 90000,
+                ONE_SECOND_IN_TS: 9e4,
                 secondsToVideoTs: secondsToVideoTs,
                 secondsToAudioTs: secondsToAudioTs,
                 videoTsToSeconds: videoTsToSeconds,
@@ -3877,7 +3877,7 @@
             }
             function parseTimeStamp(input) {
                 function computeSeconds(h, m, s, f) {
-                    return (0 | h) * 3600 + (0 | m) * 60 + (0 | s) + (0 | f) / 1000;
+                    return (0 | h) * 3600 + (0 | m) * 60 + (0 | s) + (0 | f) / 1e3;
                 }
                 var m1 = input.match(/^(\d+):(\d{1,2})(:\d{1,2})?\.(\d{3})/);
                 return m1 ? m1[3] ? computeSeconds(m1[1], m1[2], m1[3].replace(":", ""), m1[4]) : m1[1] > 59 ? computeSeconds(m1[1], m1[2], 0, m1[4]) : computeSeconds(0, m1[1], m1[2], m1[4]) : null;
@@ -5447,10 +5447,10 @@
                 if (offset < 0) throw new RangeError("Index out of range");
             }
             function writeFloat(buf, value, offset, littleEndian, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 340282346638528860000000000000000000000, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
+                return value = +value, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 34028234663852886e22, -34028234663852886e22), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
             }
             function writeDouble(buf, value, offset, littleEndian, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 8, 179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
+                return value = +value, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 8, 17976931348623157e292, -17976931348623157e292), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
             }
             exports.Buffer = Buffer, exports.SlowBuffer = function(length) {
                 return +length != length && (length = 0), Buffer.alloc(+length);
@@ -5831,7 +5831,7 @@
                 }
                 return (s ? -1 : 1) * m * Math.pow(2, e - mLen);
             }, exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
-                var e, m, c, eLen = 8 * nBytes - mLen - 1, eMax = (1 << eLen) - 1, eBias = eMax >> 1, rt = 23 === mLen ? 0.00000005960464477539062 : 0, i = isLE ? 0 : nBytes - 1, d = isLE ? 1 : -1, s = value < 0 || 0 === value && 1 / value < 0 ? 1 : 0;
+                var e, m, c, eLen = 8 * nBytes - mLen - 1, eMax = (1 << eLen) - 1, eBias = eMax >> 1, rt = 23 === mLen ? 5960464477539062e-23 : 0, i = isLE ? 0 : nBytes - 1, d = isLE ? 1 : -1, s = value < 0 || 0 === value && 1 / value < 0 ? 1 : 0;
                 for(isNaN(value = Math.abs(value)) || value === 1 / 0 ? (m = isNaN(value) ? 1 : 0, e = eMax) : (e = Math.floor(Math.log(value) / Math.LN2), value * (c = Math.pow(2, -e)) < 1 && (e--, c *= 2), e + eBias >= 1 ? value += rt / c : value += rt * Math.pow(2, 1 - eBias), value * c >= 2 && (e++, c /= 2), e + eBias >= eMax ? (m = 0, e = eMax) : e + eBias >= 1 ? (m = (value * c - 1) * Math.pow(2, mLen), e += eBias) : (m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen), e = 0)); mLen >= 8; buffer[offset + i] = 255 & m, i += d, m /= 256, mLen -= 8);
                 for(e = e << mLen | m, eLen += mLen; eLen > 0; buffer[offset + i] = 255 & e, i += d, e /= 256, eLen -= 8);
                 buffer[offset + i - d] |= 128 * s;

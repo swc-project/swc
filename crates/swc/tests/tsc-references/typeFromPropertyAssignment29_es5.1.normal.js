@@ -36,7 +36,7 @@ function ExpandoNested(n7) {
     var nested = function nested(m) {
         return n7 + m;
     };
-    nested.total = n7 + 1000000;
+    nested.total = n7 + 1e6;
     return nested;
 }
 ExpandoNested.also = -1;

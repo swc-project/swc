@@ -18,7 +18,7 @@ React.createElement(OneThing, null), React.createElement(OneThing, _extends({}, 
 }, {
     yy1: "hi"
 })), React.createElement(OneThing, _extends({}, obj1, {
-    yy: 10000,
+    yy: 1e4,
     yy1: "true"
 })), React.createElement(OneThing, _extends({}, defaultObj, {
     yy: !0

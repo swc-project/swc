@@ -7,7 +7,7 @@ function testGenerator() {
     return regeneratorRuntime.wrap(function testGenerator$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                if (!(Math.random() > 0.5)) {
+                if (!(Math.random() > .5)) {
                     _ctx.next = 2;
                     break;
                 }

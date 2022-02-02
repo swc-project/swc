@@ -76,7 +76,7 @@
                     var i = Number(t);
                     return this.ensureNumber(i) ? i : (this.error = "[CountUp] invalid start or end value: " + t, null);
                 }, t1.prototype.resetDuration = function() {
-                    this.startTime = null, this.duration = 1000 * Number(this.options.duration), this.remaining = this.duration;
+                    this.startTime = null, this.duration = 1e3 * Number(this.options.duration), this.remaining = this.duration;
                 }, t1;
             }();
         },
@@ -396,7 +396,7 @@
                     if (sizes && ("fill" === layout || "responsive" === layout)) {
                         for(var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes); match)percentSizes.push(parseInt(match[2]));
                         if (percentSizes.length) {
-                            var match, _Math, smallestRatio = 0.01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
+                            var match, _Math, smallestRatio = .01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
                             return {
                                 widths: allSizes.filter(function(s) {
                                     return s >= configDeviceSizes[0] * smallestRatio;
@@ -712,7 +712,7 @@
                             });
                         });
                     };
-                    delay && delay > 0 ? timerRef.current = setTimeout(run, 1000 * delay) : run(), null == onStart || onStart({
+                    delay && delay > 0 ? timerRef.current = setTimeout(run, 1e3 * delay) : run(), null == onStart || onStart({
                         pauseResume: pauseResume,
                         reset: reset,
                         update: update

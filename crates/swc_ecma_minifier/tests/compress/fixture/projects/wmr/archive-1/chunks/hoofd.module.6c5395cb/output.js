@@ -16,7 +16,7 @@ var isServerSide = "undefined" == typeof document, META = "M", TITLE = "T", LINK
             document.title = applyTitleTemplate(titleQueue[0], titleTemplateQueue[0]), metaQueue.forEach(function(meta) {
                 visited.has(meta.charset ? meta.keyword : meta[meta.keyword]) || (visited.add(meta.charset ? meta.keyword : meta[meta.keyword]), changeOrCreateMetaTag(meta));
             }), currentTitleIndex = currentTitleTemplateIndex = currentMetaIndex = 0;
-        }, 1000 / 60);
+        }, 1e3 / 60);
     };
     return {
         _setLang: function(l) {

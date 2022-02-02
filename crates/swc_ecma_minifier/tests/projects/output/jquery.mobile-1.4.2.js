@@ -940,12 +940,12 @@
         }), props1[test].duration = $10.camelCase(props1[test].prefix + test + "-duration"), props1[test].event = $10.camelCase(props1[test].prefix + test + "-end"), "" === props1[test].prefix && (props1[test].event = props1[test].event.toLowerCase());
     }), $10.support.cssTransitions = undefined4 !== props1.transition.prefix, $10.support.cssAnimations = undefined4 !== props1.animation.prefix, $10(testElement).remove(), $10.fn.animationComplete = function(callback, type, fallbackTime) {
         var timer, duration, that = this, animationType = type && "animation" !== type ? "transition" : "animation";
-        return $10.support.cssTransitions && "transition" === animationType || $10.support.cssAnimations && "animation" === animationType ? (fallbackTime === undefined4 && ($10(this).context !== document1 && (duration = 3000 * parseFloat($10(this).css(props1[animationType].duration))), (0 === duration || duration === undefined4 || isNaN(duration)) && (duration = $10.fn.animationComplete.defaultDuration)), timer = setTimeout(function() {
+        return $10.support.cssTransitions && "transition" === animationType || $10.support.cssAnimations && "animation" === animationType ? (fallbackTime === undefined4 && ($10(this).context !== document1 && (duration = 3e3 * parseFloat($10(this).css(props1[animationType].duration))), (0 === duration || duration === undefined4 || isNaN(duration)) && (duration = $10.fn.animationComplete.defaultDuration)), timer = setTimeout(function() {
             $10(that).off(props1[animationType].event), callback.apply(that);
         }, duration), $10(this).one(props1[animationType].event, function() {
             clearTimeout(timer), callback.call(this, arguments);
         })) : (setTimeout($10.proxy(callback, this), 0), $10(this));
-    }, $10.fn.animationComplete.defaultDuration = 1000, (function($, window, document, undefined) {
+    }, $10.fn.animationComplete.defaultDuration = 1e3, (function($, window, document, undefined) {
         var threshold, i1, dataPropertyName = "virtualMouseBindings", touchTargetPropertyName = "virtualTouchID", virtualEventNames = "vmouseover vmousedown vmousemove vmouseup vclick vmouseout vmousecancel".split(" "), touchEventProps = "clientX clientY pageX pageY screenX screenY".split(" "), mouseHookProps = $.event.mouseHooks ? $.event.mouseHooks.props : [], mouseEventProps = $.event.props.concat(mouseHookProps), activeDocHandlers = {}, resetTimerID = 0, startX = 0, startY = 0, didScroll = !1, clickBlockList = [], blockMouseTriggers = !1, blockTouchTriggers = !1, eventCaptureSupported = "addEventListener" in document, $document = $(document), nextTouchID = 1, lastTouchID = 0;
         function getNativeEvent(event) {
             for(; event && void 0 !== event.originalEvent;)event = event.originalEvent;
@@ -1103,7 +1103,7 @@
             }
         }, $.event.special.swipe = {
             scrollSupressionThreshold: 30,
-            durationThreshold: 1000,
+            durationThreshold: 1e3,
             horizontalDistanceThreshold: 30,
             verticalDistanceThreshold: 30,
             getLocation: function(event) {
@@ -3161,7 +3161,7 @@
                 this._ignoreResizeTo = 0;
             },
             _ignoreResizeEvents: function() {
-                this._ignoreResizeTo && clearTimeout(this._ignoreResizeTo), this._ignoreResizeTo = this._delay("_stopIgnoringResizeEvents", 1000);
+                this._ignoreResizeTo && clearTimeout(this._ignoreResizeTo), this._ignoreResizeTo = this._delay("_stopIgnoringResizeEvents", 1e3);
             },
             _handleWindowResize: function() {
                 this._isOpen && 0 === this._ignoreResizeTo && (this._expectResizeEvent() || this._orientationchangeInProgress) && !this._ui.container.hasClass("ui-popup-hidden") && this._ui.container.addClass("ui-popup-hidden ui-popup-truncate").removeAttr("style");
@@ -4736,7 +4736,7 @@
         function hideRenderingClass() {
             $html.removeClass("ui-mobile-rendering");
         }
-        $(window.document).trigger("mobileinit"), $.mobile.gradeA() && ($.mobile.ajaxBlacklist && ($.mobile.ajaxEnabled = !1), $html.addClass("ui-mobile ui-mobile-rendering"), setTimeout(hideRenderingClass, 5000), $.extend($.mobile, {
+        $(window.document).trigger("mobileinit"), $.mobile.gradeA() && ($.mobile.ajaxBlacklist && ($.mobile.ajaxEnabled = !1), $html.addClass("ui-mobile ui-mobile-rendering"), setTimeout(hideRenderingClass, 5e3), $.extend($.mobile, {
             initializePage: function() {
                 var path = $.mobile.path, $pages = $(":jqmData(role='page'), :jqmData(role='dialog')"), hash = path.stripHash(path.stripQueryParams(path.parseLocation().hash)), hashPage = document1.getElementById(hash);
                 $pages.length || ($pages = $("body").wrapInner("<div data-" + $.mobile.ns + "role='page'></div>").children(0)), $pages.each(function() {

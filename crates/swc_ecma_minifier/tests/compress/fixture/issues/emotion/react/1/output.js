@@ -22,7 +22,7 @@
                 return _proto.hydrate = function(nodes) {
                     nodes.forEach(this._insertTag);
                 }, _proto.insert = function(rule) {
-                    if (this.ctr % (this.isSpeedy ? 65000 : 1) == 0) {
+                    if (this.ctr % (this.isSpeedy ? 65e3 : 1) == 0) {
                         var options, tag;
                         this._insertTag((options = this, (tag = document.createElement("style")).setAttribute("data-emotion", options.key), void 0 !== options.nonce && tag.setAttribute("nonce", options.nonce), tag.appendChild(document.createTextNode("")), tag.setAttribute("data-s", ""), tag));
                     }

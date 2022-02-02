@@ -80,7 +80,7 @@ class Shard extends _utils.Emitter {
     /**
      * Destroys this shard.
      * @param {ShardDestroyOptions} [options={}]
-     */ destroy({ code =1000 , emit =true , log =true , reset =false  } = {}) {
+     */ destroy({ code =1e3 , emit =true , log =true , reset =false  } = {}) {
         if (log) {
             this._debug(`Destroying; Code = ${code}, Resetting? = ${reset ? "yes" : "no"}`);
         }
@@ -121,7 +121,7 @@ class Shard extends _utils.Emitter {
             _classPrivateFieldSet(this, _seq, -1);
             this.session.reset();
         }
-        _classPrivateFieldSet(this, _bucket, new _utils.Bucket(120, 60000));
+        _classPrivateFieldSet(this, _bucket, new _utils.Bucket(120, 6e4));
     }
     connect() {
         /* Step 0 - Check if a connection already exists. If so identify the session. */ if (this.connected) {
@@ -208,7 +208,7 @@ class Shard extends _utils.Emitter {
             case _utils.GatewayOp.RECONNECT:
                 this._debug("Gateway asked us to reconnect.");
                 this.destroy({
-                    code: 4000
+                    code: 4e3
                 });
                 break;
             case _utils.GatewayOp.INVALID_SESSION:
@@ -254,7 +254,7 @@ class Shard extends _utils.Emitter {
             this.status = _utils.Status.READY;
             delete this._readyTimeout;
             this.emit(_utils.ShardEvent.FULL_READY, this.expectedGuilds);
-        }, 15000);
+        }, 15e3);
     }
     /**
      * Called whenever the websocket opens.
@@ -420,10 +420,10 @@ class Shard extends _utils.Emitter {
         _classPrivateFieldSet(this, _seq, -1);
         _classPrivateFieldSet(this, _closingSeq, 0);
         _classPrivateFieldSet(this, _queue, []);
-        _classPrivateFieldSet(this, _bucket, new _utils.Bucket(120, 60000, {
+        _classPrivateFieldSet(this, _bucket, new _utils.Bucket(120, 6e4, {
             reservedTokens: 5
         }));
-        _classPrivateFieldSet(this, _presenceBucket, new _utils.Bucket(5, 60000));
+        _classPrivateFieldSet(this, _presenceBucket, new _utils.Bucket(5, 6e4));
     }
 } /**
  * @typedef {Object} DiscordPacket

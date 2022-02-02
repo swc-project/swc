@@ -53,7 +53,7 @@ var e3 = /*#__PURE__*/ React.createElement(TestingOptional, {
 });
 var e4 = /*#__PURE__*/ React.createElement(TestingOptional, {
     y1: "hello",
-    y2: 1000
+    y2: 1e3
 });
 var e5 = /*#__PURE__*/ React.createElement(TestingOptional, {
     y1: true,

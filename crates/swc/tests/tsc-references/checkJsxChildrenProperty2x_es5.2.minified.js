@@ -31,7 +31,7 @@ React.createElement(Comp, {
 }), React.createElement(Comp, {
     a: 10,
     b: "hi"
-}, React.createElement("div", null, " My Div "), 1000000), React.createElement(Comp, {
+}, React.createElement("div", null, " My Div "), 1e6), React.createElement(Comp, {
     a: 10,
     b: "hi"
 }, React.createElement("div", null, " My Div "), "hi hi hi!"), React.createElement(Comp, {

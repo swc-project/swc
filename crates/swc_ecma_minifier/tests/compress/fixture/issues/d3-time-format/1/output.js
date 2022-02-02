@@ -182,7 +182,7 @@ export default function formatLocale(locale) {
             var week, day, d = newDate(1900, void 0, 1);
             if (parseSpecifier(d, specifier, string += "", 0) != string.length) return null;
             if ("Q" in d) return new Date(d.Q);
-            if ("s" in d) return new Date(1000 * d.s + ("L" in d ? d.L : 0));
+            if ("s" in d) return new Date(1e3 * d.s + ("L" in d ? d.L : 0));
             if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
                 if (d.V < 1 || d.V > 53) return null;
                 "w" in d || (d.w = 1), "Z" in d ? (week = (day = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day ? utcMonday.ceil(week) : utcMonday(week), week = utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day ? timeMonday.ceil(week) : timeMonday(week), week = timeDay.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
@@ -274,7 +274,7 @@ function parseFullYear(d, string, i) {
 }
 function parseYear(d, string, i) {
     var n = numberRe.exec(string.slice(i, i + 2));
-    return n ? (d.y = +n[0] + (+n[0] > 68 ? 1900 : 2000), i + n[0].length) : -1;
+    return n ? (d.y = +n[0] + (+n[0] > 68 ? 1900 : 2e3), i + n[0].length) : -1;
 }
 function parseZone(d, string, i) {
     var n = /^(Z)|([+-]\d\d)(?::?(\d\d))?/.exec(string.slice(i, i + 6));
@@ -314,7 +314,7 @@ function parseMilliseconds(d, string, i) {
 }
 function parseMicroseconds(d, string, i) {
     var n = numberRe.exec(string.slice(i, i + 6));
-    return n ? (d.L = Math.floor(n[0] / 1000), i + n[0].length) : -1;
+    return n ? (d.L = Math.floor(n[0] / 1e3), i + n[0].length) : -1;
 }
 function parseLiteralPercent(d, string, i) {
     var n = percentRe.exec(string.slice(i, i + 1));
@@ -382,11 +382,11 @@ function formatYearISO(d, p) {
     return pad((d = dISO(d)).getFullYear() % 100, p, 2);
 }
 function formatFullYear(d, p) {
-    return pad(d.getFullYear() % 10000, p, 4);
+    return pad(d.getFullYear() % 1e4, p, 4);
 }
 function formatFullYearISO(d, p) {
     var day = d.getDay();
-    return pad((d = day >= 4 || 0 === day ? timeThursday(d) : timeThursday.ceil(d)).getFullYear() % 10000, p, 4);
+    return pad((d = day >= 4 || 0 === day ? timeThursday(d) : timeThursday.ceil(d)).getFullYear() % 1e4, p, 4);
 }
 function formatZone(d) {
     var z = d.getTimezoneOffset();
@@ -446,11 +446,11 @@ function formatUTCYearISO(d, p) {
     return pad((d = UTCdISO(d)).getUTCFullYear() % 100, p, 2);
 }
 function formatUTCFullYear(d, p) {
-    return pad(d.getUTCFullYear() % 10000, p, 4);
+    return pad(d.getUTCFullYear() % 1e4, p, 4);
 }
 function formatUTCFullYearISO(d, p) {
     var day = d.getUTCDay();
-    return pad((d = day >= 4 || 0 === day ? utcThursday(d) : utcThursday.ceil(d)).getUTCFullYear() % 10000, p, 4);
+    return pad((d = day >= 4 || 0 === day ? utcThursday(d) : utcThursday.ceil(d)).getUTCFullYear() % 1e4, p, 4);
 }
 function formatUTCZone() {
     return "+0000";
@@ -462,5 +462,5 @@ function formatUnixTimestamp(d) {
     return +d;
 }
 function formatUnixTimestampSeconds(d) {
-    return Math.floor(+d / 1000);
+    return Math.floor(+d / 1e3);
 }

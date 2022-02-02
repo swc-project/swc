@@ -245,7 +245,7 @@
                         ]);
                     },
                     round: function() {
-                        return this.x = this.x > 0 ? Math.floor(this.x + 0.5) : Math.floor(this.x - 0.5), this.y = this.y > 0 ? Math.floor(this.y + 0.5) : Math.floor(this.y - 0.5), this;
+                        return this.x = this.x > 0 ? Math.floor(this.x + .5) : Math.floor(this.x - .5), this.y = this.y > 0 ? Math.floor(this.y + .5) : Math.floor(this.y - .5), this;
                     }
                 };
             }
@@ -301,14 +301,14 @@
             }
             function grayAndHalfSampleFromCanvasData(canvasData, size, outArray) {
                 for(var i, topRowIdx = 0, bottomRowIdx = size.x, endIdx = Math.floor(canvasData.length / 4), outWidth = size.x / 2, outImgIdx = 0, inWidth = size.x; bottomRowIdx < endIdx;){
-                    for(i = 0; i < outWidth; i++)outArray[outImgIdx] = (0.299 * canvasData[4 * topRowIdx + 0] + 0.587 * canvasData[4 * topRowIdx + 1] + 0.114 * canvasData[4 * topRowIdx + 2] + (0.299 * canvasData[(topRowIdx + 1) * 4 + 0] + 0.587 * canvasData[(topRowIdx + 1) * 4 + 1] + 0.114 * canvasData[(topRowIdx + 1) * 4 + 2]) + (0.299 * canvasData[4 * bottomRowIdx + 0] + 0.587 * canvasData[4 * bottomRowIdx + 1] + 0.114 * canvasData[4 * bottomRowIdx + 2]) + (0.299 * canvasData[(bottomRowIdx + 1) * 4 + 0] + 0.587 * canvasData[(bottomRowIdx + 1) * 4 + 1] + 0.114 * canvasData[(bottomRowIdx + 1) * 4 + 2])) / 4, outImgIdx++, topRowIdx += 2, bottomRowIdx += 2;
+                    for(i = 0; i < outWidth; i++)outArray[outImgIdx] = (.299 * canvasData[4 * topRowIdx + 0] + .587 * canvasData[4 * topRowIdx + 1] + .114 * canvasData[4 * topRowIdx + 2] + (.299 * canvasData[(topRowIdx + 1) * 4 + 0] + .587 * canvasData[(topRowIdx + 1) * 4 + 1] + .114 * canvasData[(topRowIdx + 1) * 4 + 2]) + (.299 * canvasData[4 * bottomRowIdx + 0] + .587 * canvasData[4 * bottomRowIdx + 1] + .114 * canvasData[4 * bottomRowIdx + 2]) + (.299 * canvasData[(bottomRowIdx + 1) * 4 + 0] + .587 * canvasData[(bottomRowIdx + 1) * 4 + 1] + .114 * canvasData[(bottomRowIdx + 1) * 4 + 2])) / 4, outImgIdx++, topRowIdx += 2, bottomRowIdx += 2;
                     topRowIdx += inWidth, bottomRowIdx += inWidth;
                 }
             }
             function computeGray(imageData, outArray, config) {
                 var l = imageData.length / 4 | 0;
                 if (config && !0 === config.singleChannel) for(var i = 0; i < l; i++)outArray[i] = imageData[4 * i + 0];
-                else for(var _i = 0; _i < l; _i++)outArray[_i] = 0.299 * imageData[4 * _i + 0] + 0.587 * imageData[4 * _i + 1] + 0.114 * imageData[4 * _i + 2];
+                else for(var _i = 0; _i < l; _i++)outArray[_i] = .299 * imageData[4 * _i + 0] + .587 * imageData[4 * _i + 1] + .114 * imageData[4 * _i + 2];
             }
             function halfSample(inImgWrapper, outImgWrapper) {
                 for(var inImg = inImgWrapper.data, inWidth = inImgWrapper.size.x, outImg = outImgWrapper.data, topRowIdx = 0, bottomRowIdx = inWidth, endIdx = inImg.length, outWidth = inWidth / 2, outImgIdx = 0; bottomRowIdx < endIdx;){
@@ -533,7 +533,7 @@
                                 rad: 0
                             };
                             for(y = 0; y < height; y++)for(x = 0, ysq = y * y; x < width; x++)(val = data[y * width + x]) > 0 && (label = labelSum[val - 1], label.m00 += 1, label.m01 += y, label.m10 += x, label.m11 += x * y, label.m02 += ysq, label.m20 += x * x);
-                            for(i = 0; i < labelCount; i++)isNaN((label = labelSum[i]).m00) || 0 === label.m00 || (x_ = label.m10 / label.m00, y_ = label.m01 / label.m00, mu11 = label.m11 / label.m00 - x_ * y_, mu02 = label.m02 / label.m00 - y_ * y_, mu20 = label.m20 / label.m00 - x_ * x_, tmp = (mu02 - mu20) / (2 * mu11), tmp = 0.5 * Math.atan(tmp) + (mu11 >= 0 ? PI_4 : -PI_4) + PI, label.theta = (180 * tmp / PI + 90) % 180 - 90, label.theta < 0 && (label.theta += 180), label.rad = tmp > PI ? tmp - PI : tmp, label.vec = vec2.clone([
+                            for(i = 0; i < labelCount; i++)isNaN((label = labelSum[i]).m00) || 0 === label.m00 || (x_ = label.m10 / label.m00, y_ = label.m01 / label.m00, mu11 = label.m11 / label.m00 - x_ * y_, mu02 = label.m02 / label.m00 - y_ * y_, mu20 = label.m20 / label.m00 - x_ * x_, tmp = (mu02 - mu20) / (2 * mu11), tmp = .5 * Math.atan(tmp) + (mu11 >= 0 ? PI_4 : -PI_4) + PI, label.theta = (180 * tmp / PI + 90) % 180 - 90, label.theta < 0 && (label.theta += 180), label.rad = tmp > PI ? tmp - PI : tmp, label.vec = vec2.clone([
                                 Math.cos(tmp),
                                 Math.sin(tmp)
                             ]), result.push(label));
@@ -838,7 +838,7 @@
                         for(k = 0; k < moments1.length; k++)moments1[k].m00 > minComponentWeight && eligibleMoments.push(moments1[k]);
                         if (eligibleMoments.length >= 2) {
                             for(k = 0, matchingMoments = (function(moments) {
-                                var clusters = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.b)(moments, 0.9), topCluster = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.j)(clusters, 1, function(e) {
+                                var clusters = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.b)(moments, .9), topCluster = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.j)(clusters, 1, function(e) {
                                     return e.getPoints().length;
                                 }), points = [], result = [];
                                 if (1 === topCluster.length) {
@@ -912,7 +912,7 @@
                             });
                             return patchesFound;
                         }();
-                        if (patchesFound1.length < _numPatches.x * _numPatches.y * 0.05) return null;
+                        if (patchesFound1.length < _numPatches.x * _numPatches.y * .05) return null;
                         var maxLabel1 = function(patchesFound) {
                             var j, patch, label = 0, currIdx = 0, hsv = [
                                 0,
@@ -938,7 +938,7 @@
                                         _patchLabelGrid.data[idx] = Number.MAX_VALUE;
                                         continue;
                                     }
-                                    0 === _patchLabelGrid.data[idx] && Math.abs(gl_vec2__WEBPACK_IMPORTED_MODULE_0__.dot(_imageToPatchGrid.data[idx].vec, currentPatch.vec)) > 0.95 && trace(idx);
+                                    0 === _patchLabelGrid.data[idx] && Math.abs(gl_vec2__WEBPACK_IMPORTED_MODULE_0__.dot(_imageToPatchGrid.data[idx].vec, currentPatch.vec)) > .95 && trace(idx);
                                 }
                             }
                             for(_common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_patchGrid.data, 0), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_patchLabelGrid.data, 0), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_imageToPatchGrid.data, null), j = 0; j < patchesFound.length; j++)patch = patchesFound[j], _imageToPatchGrid.data[patch.index] = patch, _patchGrid.data[patch.index] = 1;
@@ -986,7 +986,7 @@
                         })(topLabels1, maxLabel1);
                     },
                     checkImageConstraints: function(inputStream, config) {
-                        var patchSize, area, width = inputStream.getWidth(), height = inputStream.getHeight(), thisHalfSample = config.halfSample ? 0.5 : 1;
+                        var patchSize, area, width = inputStream.getWidth(), height = inputStream.getHeight(), thisHalfSample = config.halfSample ? .5 : 1;
                         inputStream.getConfig().area && (area = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.d)(width, height, inputStream.getConfig().area), inputStream.setTopRight({
                             x: area.sx,
                             y: area.sy
@@ -1285,7 +1285,7 @@
             }, module.exports.default = module.exports, module.exports.__esModule = !0;
         },
         function(module, exports) {
-            module.exports = 0.000001;
+            module.exports = 1e-6;
         },
         function(module, exports) {
             module.exports = function() {
@@ -1333,7 +1333,7 @@
             };
         },
         function(module, exports) {
-            module.exports = 0.000001;
+            module.exports = 1e-6;
         },
         function(module, exports) {
             module.exports = function() {
@@ -2114,7 +2114,7 @@
         },
         function(module, exports) {
             "undefined" == typeof window || window.requestAnimationFrame || (window.requestAnimationFrame = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
-                window.setTimeout(callback, 1000 / 60);
+                window.setTimeout(callback, 1e3 / 60);
             }), "function" != typeof Math.imul && (Math.imul = function(a, b) {
                 var al = 65535 & a, bl = 65535 & b;
                 return al * bl + ((a >>> 16 & 65535) * bl + al * (b >>> 16 & 65535) << 16 >>> 0) | 0;
@@ -3155,7 +3155,7 @@
                 for(currentDir = line[0] > center ? Slope.DIR.UP : Slope.DIR.DOWN, extrema.push({
                     pos: 0,
                     val: line[0]
-                }), i = 0; i < line.length - 2; i++)slope = line[i + 1] - line[i], slope2 = line[i + 2] - line[i + 1], dir = slope + slope2 < rThreshold && line[i + 1] < 1.5 * center ? Slope.DIR.DOWN : slope + slope2 > threshold && line[i + 1] > 0.5 * center ? Slope.DIR.UP : currentDir, currentDir !== dir && (extrema.push({
+                }), i = 0; i < line.length - 2; i++)slope = line[i + 1] - line[i], slope2 = line[i + 2] - line[i + 1], dir = slope + slope2 < rThreshold && line[i + 1] < 1.5 * center ? Slope.DIR.DOWN : slope + slope2 > threshold && line[i + 1] > .5 * center ? Slope.DIR.UP : currentDir, currentDir !== dir && (extrema.push({
                     pos: i,
                     val: line[i]
                 }), currentDir = dir);
@@ -4154,7 +4154,7 @@
                             1,
                             2
                         ]
-                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.64), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", 0.3), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_128"), defineProperty_default()(assertThisInitialized_default()(_this), "MODULE_INDICES", {
+                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", .64), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", .3), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_128"), defineProperty_default()(assertThisInitialized_default()(_this), "MODULE_INDICES", {
                         bar: [
                             0,
                             2,
@@ -4545,7 +4545,7 @@
                     var _this;
                     return classCallCheck_default()(this, EANReader), _this = _super.call(this, merge_default()({
                         supplements: []
-                    }, config), supplements), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_13"), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.7), defineProperty_default()(assertThisInitialized_default()(_this), "STOP_PATTERN", [
+                    }, config), supplements), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_13"), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", .7), defineProperty_default()(assertThisInitialized_default()(_this), "STOP_PATTERN", [
                         1,
                         1,
                         1
@@ -4565,7 +4565,7 @@
                             else {
                                 if (counterPos === counter.length - 1) {
                                     var error = this._matchPattern(counter, pattern);
-                                    if (error < 0.48 && bestMatch.error && error < bestMatch.error) return found = !0, bestMatch.error = error, bestMatch.start = i - counter.reduce(function(sum, value) {
+                                    if (error < .48 && bestMatch.error && error < bestMatch.error) return found = !0, bestMatch.error = error, bestMatch.start = i - counter.reduce(function(sum, value) {
                                         return sum + value;
                                     }, 0), bestMatch.end = i, bestMatch;
                                     if (tryHarder) {
@@ -4600,7 +4600,7 @@
                                         var error = this._matchPattern(counter, CODE_PATTERN[code]);
                                         bestMatch.end = i, error < bestMatch.error && (bestMatch.code = code, bestMatch.error = error);
                                     }
-                                    if (bestMatch.error > 0.48) return null;
+                                    if (bestMatch.error > .48) return null;
                                     return bestMatch;
                                 }
                                 counterPos++, counter[counterPos] = 1, isWhite = !isWhite;
@@ -5570,7 +5570,7 @@
                     }, opts)), defineProperty_default()(assertThisInitialized_default()(_this), "barSpaceRatio", [
                         1,
                         1
-                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.78), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", 0.38), defineProperty_default()(assertThisInitialized_default()(_this), "START_PATTERN", [
+                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", .78), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", .38), defineProperty_default()(assertThisInitialized_default()(_this), "START_PATTERN", [
                         1,
                         1,
                         1,
@@ -5650,7 +5650,7 @@
                             3,
                             1
                         ]
-                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "MAX_CORRECTION_FACTOR", 5), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "i2of5"), opts.normalizeBarSpaceWidth && (_this.SINGLE_CODE_ERROR = 0.38, _this.AVG_CODE_ERROR = 0.09), _this.config = opts, possibleConstructorReturn_default()(_this, assertThisInitialized_default()(_this));
+                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "MAX_CORRECTION_FACTOR", 5), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "i2of5"), opts.normalizeBarSpaceWidth && (_this.SINGLE_CODE_ERROR = .38, _this.AVG_CODE_ERROR = .09), _this.config = opts, possibleConstructorReturn_default()(_this, assertThisInitialized_default()(_this));
                 }
                 return createClass_default()(I2of5Reader, [
                     {
@@ -5918,7 +5918,7 @@
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "barSpaceRatio", [
                         1,
                         1
-                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "2of5"), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.78), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", 0.3), _this;
+                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "2of5"), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", .78), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", .3), _this;
                 }
                 return createClass_default()(TwoOfFiveReader, [
                     {
@@ -6412,7 +6412,7 @@
                             }
                             for(extendLine(ext); ext > 1 && (!inputImageWrapper1.inImageWithBorder(line[0]) || !inputImageWrapper1.inImageWithBorder(line[1]));)extendLine(-(ext -= Math.ceil(ext / 2)));
                             return line;
-                        })(line2, lineAngle1, Math.floor(0.1 * lineLength))) ? null : (null === (result2 = tryDecode(line2)) && (result2 = (function(box, line, lineAngle) {
+                        })(line2, lineAngle1, Math.floor(.1 * lineLength))) ? null : (null === (result2 = tryDecode(line2)) && (result2 = (function(box, line, lineAngle) {
                             var i, dir, extension, sideLength = Math.sqrt(Math.pow(box[1][0] - box[0][0], 2) + Math.pow(box[1][1] - box[0][1], 2)), result = null, xdir = Math.sin(lineAngle), ydir = Math.cos(lineAngle);
                             for(i = 1; i < 16 && null === result; i++)extension = {
                                 y: (dir = sideLength / 16 * i * (i % 2 == 0 ? -1 : 1)) * xdir,
@@ -7417,7 +7417,7 @@
                     {
                         key: "startContinuousUpdate",
                         value: function() {
-                            var _this$context$config4, _this4 = this, next = null, delay = 1000 / ((null === (_this$context$config4 = this.context.config) || void 0 === _this$context$config4 ? void 0 : _this$context$config4.frequency) || 60);
+                            var _this$context$config4, _this4 = this, next = null, delay = 1e3 / ((null === (_this$context$config4 = this.context.config) || void 0 === _this$context$config4 ? void 0 : _this$context$config4.frequency) || 60);
                             this.context.stopped = !1;
                             var context = this.context;
                             !function newFrame(timestamp) {

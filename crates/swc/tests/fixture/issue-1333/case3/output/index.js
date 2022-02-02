@@ -63,7 +63,7 @@ class RequestHandler {
             var ref;
             const id = (ref = /\d{16,19}$/.exec(route)) === null || ref === void 0 ? void 0 : ref[0];
             const snowflake = _utils.Snowflake.deconstruct(id);
-            if (Date.now() - snowflake.timestamp > 1000 * 60 * 60 * 24 * 14) {
+            if (Date.now() - snowflake.timestamp > 1e3 * 60 * 60 * 24 * 14) {
                 ending += "deletes-old";
             }
         }
@@ -140,12 +140,12 @@ class RequestHandler {
         }
         let _retry = 0;
         if (res.headers) {
-            const [limit, remaining, reset, retry, cf] = getHeaders(res, headers), _reset = ~~reset * 1000 + Date.now() + this.rest.options.offset;
+            const [limit, remaining, reset, retry, cf] = getHeaders(res, headers), _reset = ~~reset * 1e3 + Date.now() + this.rest.options.offset;
             this.remaining = remaining ? ~~remaining : 1;
             this.limit = limit ? ~~limit : Infinity;
             this.reset = reset ? _reset : Date.now();
             if (retry) {
-                _retry = ~~reset * (cf ? 1000 : 1 + this.rest.options.offset);
+                _retry = ~~reset * (cf ? 1e3 : 1 + this.rest.options.offset);
             }
             if (res.headers.get("X-RateLimit-Global")) {
                 this.rest.globalTimeout = (0, _utils).sleep(_retry).then(()=>{

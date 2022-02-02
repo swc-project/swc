@@ -389,7 +389,7 @@ export async function renderToHTML(req__7, res__7, pathname__7, query__7, render
                     throw new Error(`A page's revalidate option must be seconds expressed as a natural number for ${req__7.url}. Mixed numbers, such as '${data__23.revalidate}', cannot be used.` + `\nTry changing the value to '${Math.ceil(data__23.revalidate)}' or using \`Math.ceil()\` if you're computing the value.`);
                 } else if (data__23.revalidate <= 0) {
                     throw new Error(`A page's revalidate option can not be less than or equal to zero for ${req__7.url}. A revalidate option of zero means to revalidate after _every_ request, and implies stale data cannot be tolerated.` + `\n\nTo never revalidate, you can set revalidate to \`false\` (only ran once at build-time).` + `\nTo revalidate as soon as possible, you can set the value to \`1\`.`);
-                } else if (data__23.revalidate > 31536000) {
+                } else if (data__23.revalidate > 31536e3) {
                     console.warn(`Warning: A page's revalidate option was set to more than a year for ${req__7.url}. This may have been done in error.` + `\nTo only run getStaticProps at build-time and not revalidate at runtime, you can set \`revalidate\` to \`false\`!`);
                 }
             } else if (data__23.revalidate === true) {

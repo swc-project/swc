@@ -47,7 +47,7 @@ var B = // @target: es6
     ]);
     return B;
 }();
-B["hi"] = 10000;
+B["hi"] = 1e4;
 B[22] = "twenty-two";
 B[5] = "binary";
 B[1693] = "octal";

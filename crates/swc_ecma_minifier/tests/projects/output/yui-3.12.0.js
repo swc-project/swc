@@ -985,7 +985,7 @@ var YUI = function() {
                 setTimeout(onError, 0);
             }, node.onload = function() {
                 setTimeout(onLoad, 0);
-            }) : (node.onerror = onError, node.onload = onLoad), env.cssFail || isScript || (cssTimeout = setTimeout(onError, req.timeout || 3000))) : this._poll(req), this.nodes.push(node), insertBefore.parentNode.insertBefore(node, insertBefore);
+            }) : (node.onerror = onError, node.onload = onLoad), env.cssFail || isScript || (cssTimeout = setTimeout(onError, req.timeout || 3e3))) : this._poll(req), this.nodes.push(node), insertBefore.parentNode.insertBefore(node, insertBefore);
         },
         _next: function() {
             !this._pending && (this._queue.length ? this._insert(this._queue.shift()) : this._reqsWaiting || this._finish());

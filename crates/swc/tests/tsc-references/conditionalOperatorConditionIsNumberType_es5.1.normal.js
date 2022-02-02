@@ -20,10 +20,10 @@ condNumber ? exprString1 : exprBoolean1; // Union
 //Cond is a number type literal
 1 ? exprAny1 : exprAny2;
 0 ? exprBoolean1 : exprBoolean2;
-0.123456789 ? exprNumber1 : exprNumber2;
--10000000000000 ? exprString1 : exprString2;
-1000000000000 ? exprIsObject1 : exprIsObject2;
-10000 ? exprString1 : exprBoolean1; // Union
+.123456789 ? exprNumber1 : exprNumber2;
+-1e13 ? exprString1 : exprString2;
+1e12 ? exprIsObject1 : exprIsObject2;
+1e4 ? exprString1 : exprBoolean1; // Union
 //Cond is a number type expression
 function foo() {
     return 1;
@@ -48,10 +48,10 @@ var resultIsObject1 = condNumber ? exprIsObject1 : exprIsObject2;
 var resultIsStringOrBoolean1 = condNumber ? exprString1 : exprBoolean1; // Union
 var resultIsAny2 = 1 ? exprAny1 : exprAny2;
 var resultIsBoolean2 = 0 ? exprBoolean1 : exprBoolean2;
-var resultIsNumber2 = 0.123456789 ? exprNumber1 : exprNumber2;
-var resultIsString2 = -10000000000000 ? exprString1 : exprString2;
-var resultIsObject2 = 1000000000000 ? exprIsObject1 : exprIsObject2;
-var resultIsStringOrBoolean2 = 10000 ? exprString1 : exprBoolean1; // Union
+var resultIsNumber2 = .123456789 ? exprNumber1 : exprNumber2;
+var resultIsString2 = -1e13 ? exprString1 : exprString2;
+var resultIsObject2 = 1e12 ? exprIsObject1 : exprIsObject2;
+var resultIsStringOrBoolean2 = 1e4 ? exprString1 : exprBoolean1; // Union
 var resultIsAny3 = 1 * 0 ? exprAny1 : exprAny2;
 var resultIsBoolean3 = 1 + 1 ? exprBoolean1 : exprBoolean2;
 var resultIsNumber3 = "string".length ? exprNumber1 : exprNumber2;

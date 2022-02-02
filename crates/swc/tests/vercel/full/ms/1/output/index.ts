@@ -11,33 +11,33 @@ export default function(c, e) {
                 case "yrs":
                 case "yr":
                 case "y":
-                    return 31557600000 * c;
+                    return 315576e5 * c;
                 case "weeks":
                 case "week":
                 case "w":
-                    return 604800000 * c;
+                    return 6048e5 * c;
                 case "days":
                 case "day":
                 case "d":
-                    return 86400000 * c;
+                    return 864e5 * c;
                 case "hours":
                 case "hour":
                 case "hrs":
                 case "hr":
                 case "h":
-                    return 3600000 * c;
+                    return 36e5 * c;
                 case "minutes":
                 case "minute":
                 case "mins":
                 case "min":
                 case "m":
-                    return 60000 * c;
+                    return 6e4 * c;
                 case "seconds":
                 case "second":
                 case "secs":
                 case "sec":
                 case "s":
-                    return 1000 * c;
+                    return 1e3 * c;
                 case "milliseconds":
                 case "millisecond":
                 case "msecs":
@@ -57,11 +57,11 @@ export default function(c, e) {
 };
 function a(a) {
     var b = Math.abs(a);
-    return b >= 86400000 ? "".concat(Math.round(a / 86400000), "d") : b >= 3600000 ? "".concat(Math.round(a / 3600000), "h") : b >= 60000 ? "".concat(Math.round(a / 60000), "m") : b >= 1000 ? "".concat(Math.round(a / 1000), "s") : "".concat(a, "ms");
+    return b >= 864e5 ? "".concat(Math.round(a / 864e5), "d") : b >= 36e5 ? "".concat(Math.round(a / 36e5), "h") : b >= 6e4 ? "".concat(Math.round(a / 6e4), "m") : b >= 1e3 ? "".concat(Math.round(a / 1e3), "s") : "".concat(a, "ms");
 }
 function b(a) {
     var b = Math.abs(a);
-    return b >= 86400000 ? c(a, b, 86400000, "day") : b >= 3600000 ? c(a, b, 3600000, "hour") : b >= 60000 ? c(a, b, 60000, "minute") : b >= 1000 ? c(a, b, 1000, "second") : "".concat(a, " ms");
+    return b >= 864e5 ? c(a, b, 864e5, "day") : b >= 36e5 ? c(a, b, 36e5, "hour") : b >= 6e4 ? c(a, b, 6e4, "minute") : b >= 1e3 ? c(a, b, 1e3, "second") : "".concat(a, " ms");
 }
 function c(a, b, c, d) {
     return "".concat(Math.round(a / c), " ").concat(d).concat(b >= 1.5 * c ? "s" : "");

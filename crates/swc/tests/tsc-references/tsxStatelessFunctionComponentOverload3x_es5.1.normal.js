@@ -21,10 +21,10 @@ var two2 = /*#__PURE__*/ React.createElement(ZeroThingOrTwoThing, {
 });
 var two3 = /*#__PURE__*/ React.createElement(ZeroThingOrTwoThing, _extends({}, obj2)); // it is just any so we allow it to pass through
 var two4 = /*#__PURE__*/ React.createElement(ZeroThingOrTwoThing, _extends({
-    yy: 1000
+    yy: 1e3
 }, obj2)); // it is just any so we allow it to pass through
 var two5 = /*#__PURE__*/ React.createElement(ZeroThingOrTwoThing, _extends({}, obj2, {
-    yy: 1000
+    yy: 1e3
 })); // it is just any so we allow it to pass through
 // OK
 var three1 = /*#__PURE__*/ React.createElement(ThreeThing, {

@@ -1,6 +1,6 @@
 // @lib: es5
 // @target: es6
-var id = 10000;
+var id = 1e4;
 var name = "my name";
 var person = {
     name: name,
