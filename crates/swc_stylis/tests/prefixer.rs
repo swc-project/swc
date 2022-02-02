@@ -443,7 +443,7 @@ fn appearance() {
     );
     t(
         "animation-duration:0.6s;",
-        "-webkit-animation-duration:0.6s;animation-duration:0.6s;",
+        "-webkit-animation-duration:.6s;animation-duration:.6s;",
     );
     t(
         "animation-name:slidein;",
@@ -455,8 +455,8 @@ fn appearance() {
     );
     t(
         "animation-timing-function:cubic-bezier(0.1,0.7,1.0,0.1);",
-        "-webkit-animation-timing-function:cubic-bezier(0.1,0.7,1.0,0.1);\
-         animation-timing-function:cubic-bezier(0.1,0.7,1.0,0.1);",
+        "-webkit-animation-timing-function:cubic-bezier(.1,.7,1,.1);animation-timing-function:\
+         cubic-bezier(.1,.7,1,.1);",
     );
 }
 
