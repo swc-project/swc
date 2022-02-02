@@ -37,7 +37,7 @@ export default function o(c) {
             var f, j, k = n(1900, void 0, 1);
             if (h(k, a, e += "", 0) != e.length) return null;
             if ("Q" in k) return new Date(k.Q);
-            if ("s" in k) return new Date(1e3 * k.s + ("L" in k ? k.L : 0));
+            if ("s" in k) return new Date(1000 * k.s + ("L" in k ? k.L : 0));
             if (!c || "Z" in k || (k.Z = 0), "p" in k && (k.H = k.H % 12 + 12 * k.p), void 0 === k.m && (k.m = "q" in k ? k.q : 0), "V" in k) {
                 if (k.V < 1 || k.V > 53) return null;
                 "w" in k || (k.w = 1), "Z" in k ? (f = (j = (f = m(n(k.y, 0, 1))).getUTCDay()) > 4 || 0 === j ? i.ceil(f) : i(f), f = g.offset(f, (k.V - 1) * 7), k.y = f.getUTCFullYear(), k.m = f.getUTCMonth(), k.d = f.getUTCDate() + (k.w + 6) % 7) : (f = (j = (f = l(n(k.y, 0, 1))).getDay()) > 4 || 0 === j ? d.ceil(f) : d(f), f = b.offset(f, (k.V - 1) * 7), k.y = f.getFullYear(), k.m = f.getMonth(), k.d = f.getDate() + (k.w + 6) % 7);
@@ -273,7 +273,7 @@ function C(a, b, c) {
 }
 function D(a, b, c) {
     var d = q.exec(b.slice(c, c + 2));
-    return d ? (a.y = +d[0] + (+d[0] > 68 ? 1900 : 2e3), c + d[0].length) : -1;
+    return d ? (a.y = +d[0] + (+d[0] > 68 ? 1900 : 2000), c + d[0].length) : -1;
 }
 function E(a, b, c) {
     var d = /^(Z)|([+-]\d\d)(?::?(\d\d))?/.exec(b.slice(c, c + 6));
@@ -313,7 +313,7 @@ function M(a, b, c) {
 }
 function N(a, b, c) {
     var d = q.exec(b.slice(c, c + 6));
-    return d ? (a.L = Math.floor(d[0] / 1e3), c + d[0].length) : -1;
+    return d ? (a.L = Math.floor(d[0] / 1000), c + d[0].length) : -1;
 }
 function O(a, b, c) {
     var d = r.exec(b.slice(c, c + 1));
@@ -381,11 +381,11 @@ function fa(a, b) {
     return t((a = aa(a)).getFullYear() % 100, b, 2);
 }
 function ga(a, b) {
-    return t(a.getFullYear() % 1e4, b, 4);
+    return t(a.getFullYear() % 10000, b, 4);
 }
 function ha(a, b) {
     var c = a.getDay();
-    return t((a = c >= 4 || 0 === c ? e(a) : e.ceil(a)).getFullYear() % 1e4, b, 4);
+    return t((a = c >= 4 || 0 === c ? e(a) : e.ceil(a)).getFullYear() % 10000, b, 4);
 }
 function ia(a) {
     var b = a.getTimezoneOffset();
@@ -445,11 +445,11 @@ function za(a, b) {
     return t((a = ua(a)).getUTCFullYear() % 100, b, 2);
 }
 function Aa(a, b) {
-    return t(a.getUTCFullYear() % 1e4, b, 4);
+    return t(a.getUTCFullYear() % 10000, b, 4);
 }
 function Ba(a, b) {
     var c = a.getUTCDay();
-    return t((a = c >= 4 || 0 === c ? j(a) : j.ceil(a)).getUTCFullYear() % 1e4, b, 4);
+    return t((a = c >= 4 || 0 === c ? j(a) : j.ceil(a)).getUTCFullYear() % 10000, b, 4);
 }
 function Ca() {
     return "+0000";
@@ -461,5 +461,5 @@ function Ea(a) {
     return +a;
 }
 function Fa(a) {
-    return Math.floor(+a / 1e3);
+    return Math.floor(+a / 1000);
 }
