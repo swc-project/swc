@@ -40,3 +40,4 @@ swc_node_base = {path = "../swc_node_base"}
 swc_node_bundler = {path = "../swc_node_bundler"}
 tracing = {version = "0.1.28", features = ["release_max_level_info"]}
 tracing-subscriber = {version = "0.3.4", features = ["env-filter"]}
+swc_ecma_lints = {version = "0.11.1", path = "../swc_ecma_lints", features = ["non_critical_lints"]}

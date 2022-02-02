@@ -29,3 +29,4 @@ swc_common = {path = "../swc_common"}
 swc_ecmascript = {path = "../swc_ecmascript"}
 tracing = {version = "0.1.28", features = ["release_max_level_off"]}
 wasm-bindgen = {version = "0.2", features = ["serde-serialize"]}
+swc_ecma_lints = {version = "0.11.1", path = "../swc_ecma_lints", features = ["non_critical_lints"]}
