@@ -538,8 +538,6 @@ where
             if self.cfg.minify {
                 if minified.starts_with("0.") {
                     minified.replace_range(0..1, "");
-                } else if minified.starts_with("-0.") {
-                    minified.replace_range(1..2, "");
                 }
 
                 if minified.starts_with(".000") {
