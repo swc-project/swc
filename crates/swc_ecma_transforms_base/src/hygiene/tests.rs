@@ -1,5 +1,8 @@
 use super::*;
-use crate::tests::{HygieneVisualizer, Tester};
+use crate::{
+    ident_scope::ident_scope_collector,
+    tests::{HygieneVisualizer, Tester},
+};
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, hygiene::*, DUMMY_SP};
 use swc_ecma_parser::Syntax;
@@ -86,7 +89,9 @@ where
         let hygiene_src = tester.print(&module.clone().fold_with(&mut HygieneVisualizer));
         println!("----- Hygiene -----\n{}", hygiene_src);
 
-        let module = module.fold_with(&mut hygiene_with_config(config, Default::default()));
+        let ident_scope_record: IdentScopeRecord = Default::default();
+        let module = module.fold_with(&mut ident_scope_collector(ident_scope_record.clone()));
+        let module = module.fold_with(&mut hygiene_with_config(config, ident_scope_record));
 
         let actual = tester.print(&module);
 
@@ -129,14 +134,13 @@ fn simple() {
         },
         "
         var foo = 1;
-        var foo1 = 2;
+        var foo = 2;
         use(foo);
         ",
     );
 }
 
 #[test]
-#[ignore]
 fn block_scoping_with_usage() {
     test(
         |tester| {
@@ -313,8 +317,8 @@ fn for_loop() {
         },
         "
             for(var a=1;;) {}
-            for(var a1 of foo) {}
-            for(var a2 = 3;;) {}
+            for(var a of foo) {}
+            for(var a = 3;;) {}
             ",
     );
 }
@@ -344,8 +348,8 @@ fn try_for_loop() {
                 for(var a=1;;) {}
             } finally {
             }
-            for(var a1 of foo) {}
-            for(var a2 = 3;;) {}
+            for(var a of foo) {}
+            for(var a = 3;;) {}
             ",
     );
 }
@@ -443,7 +447,7 @@ fn mark_root() {
         "
 var foo = 'bar';
 function Foo() {
-    var foo1 = 'foo';
+    var foo = 'foo';
     _defineProperty(this, 'bar', foo);
 }
             ",
@@ -577,7 +581,7 @@ fn block_in_fn() {
         function Foo() {
             var bar;
             {
-                var bar1;
+                var bar;
             }
         }
         ",
@@ -620,7 +624,7 @@ fn flat_in_fn() {
         "
         function Foo() {
             var bar;
-            var bar1;
+            var bar;
         }
         ",
     );
@@ -733,12 +737,12 @@ fn for_x() {
             var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
         }
 
-        for (var _ref1 of []){
-            var { a } = _ref1, b = _objectWithoutProperties(_ref1, ['a']);
+        for (var _ref of []){
+            var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
         }
         async function a() {
-            for await (var _ref2 of []){
-                var { a } = _ref2, b = _objectWithoutProperties(_ref2, ['a']);
+            for await (var _ref of []){
+                var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
             }
         }
         ",
@@ -860,11 +864,11 @@ fn regression_001() {
     }
     _createClass(Foo, [{
              key: 'test', value: function test(other) {
-                var old, _obj, old1, _obj1;
+                var old, _obj, old, _obj;
                 _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + 1), \
          old;
-                _classPrivateFieldSet(_obj = other.obj, foo, (old1 = +_classPrivateFieldGet(_obj1, \
-         foo)) + 1), old1;
+                _classPrivateFieldSet(_obj = other.obj, foo, (old = +_classPrivateFieldGet(_obj, \
+         foo)) + 1), old;
                 }
         }]);
     return Foo;
@@ -900,11 +904,11 @@ fn regression_002() {
         },
         "_createClass(Foo, [{
              key: 'test', value: function test(other) {
-                    var old, _obj, old1, _obj;
+                    var old, _obj, old, _obj;
                      _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + \
          1), old;
-                     _classPrivateFieldSet(_obj = other.obj, foo, (old1 = \
-         +_classPrivateFieldGet(_obj, foo)) + 1), old1;
+                     _classPrivateFieldSet(_obj = other.obj, foo, (old = \
+         +_classPrivateFieldGet(_obj, foo)) + 1), old;
                 }
         }]);",
     );
@@ -931,11 +935,11 @@ fn regression_003() {
                     &[mark1, mark2, mark1, mark1, mark2, mark2],
                 )])))
         },
-        "var old, _obj, old1, _obj;
+        "var old, _obj, old, _obj;
                      _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + \
          1), old;
-                     _classPrivateFieldSet(_obj = other.obj, foo, (old1 = \
-         +_classPrivateFieldGet(_obj, foo)) + 1), old1;",
+                     _classPrivateFieldSet(_obj = other.obj, foo, (old = \
+         +_classPrivateFieldGet(_obj, foo)) + 1), old;",
     );
 }
 
@@ -1038,8 +1042,8 @@ fn module_03() {
                 .fold_with(&mut OnceMarker::new(&[("foo", &[mark1, mark2, mark2])])))
         },
         "var foo = 1;
-        var foo1 = 2;
-        export {foo1 as foo}",
+        var foo = 2;
+        export { foo }",
         Default::default(),
     );
 }
@@ -1514,7 +1518,7 @@ fn opt_6() {
                     writable: true,
                     value: foo
                 });
-                var foo1 = 'foo';
+                var foo = 'foo';
             }
 
         }
@@ -1633,8 +1637,8 @@ fn issue_2297_1() {
         "
         var _bar = require('./Bar');
         var makeX = function(props) {
-            var _bar1 = props.bar;
-            var list = _bar1.list;
+            var _bar = props.bar;
+            var list = _bar.list;
             return list.map(function() {
                 return _bar.bar;
             });
@@ -1667,8 +1671,8 @@ fn var_awareness_1() {
         },
         "
         for (var i of [1, 2, 3]) {
-            for (var i1 of [4, 5, 6]) {
-                console.log(i1)
+            for (var i of [4, 5, 6]) {
+                console.log(i)
             }
         }
         ",
@@ -1701,8 +1705,8 @@ fn var_awareness_2() {
         for (var i of [1, 2, 3]) {
 
         }
-        for (var i1 of [4, 5, 6]) {
-            console.log(i1)
+        for (var i of [4, 5, 6]) {
+            console.log(i)
         }
         ",
     );
