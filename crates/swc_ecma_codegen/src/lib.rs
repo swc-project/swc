@@ -537,12 +537,12 @@ where
                 let mut original = printed.clone();
 
                 if num.value.fract() == 0.0 {
-                    let mut candidate = String::new();
+                    let mut hex = String::new();
 
-                    candidate.push_str(&format!("{:#x}", num.value as i64));
+                    hex.push_str(&format!("{:#x}", num.value as i64));
 
-                    if candidate.len() < printed.len() {
-                        printed = candidate;
+                    if hex.len() < printed.len() {
+                        printed = hex;
                     }
                 }
 
