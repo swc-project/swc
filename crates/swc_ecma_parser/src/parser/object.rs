@@ -155,6 +155,10 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         if eat!(self, '*') {
             let name = self.parse_prop_name()?;
             return self
+                .with_ctx(Context {
+                    allow_direct_super: true,
+                    ..self.ctx()
+                })
                 .parse_fn_args_body(
                     // no decorator in an object literal
                     vec![],
@@ -197,7 +201,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         // { 0: 1, }
         // { a: expr, }
         if eat!(self, ':') {
-            let value = self.include_in_expr(true).parse_assignment_expr()?;
+            let value = self.parse_with(|p| p.include_in_expr(true).parse_assignment_expr())?;
             return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key,
                 value,
@@ -207,6 +211,10 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         // Handle `a(){}` (and async(){} / get(){} / set(){})
         if (self.input.syntax().typescript() && is!(self, '<')) || is!(self, '(') {
             return self
+                .with_ctx(Context {
+                    allow_direct_super: true,
+                    ..self.ctx()
+                })
                 .parse_fn_args_body(
                     // no decorator in an object literal
                     vec![],
@@ -263,117 +271,128 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                 let is_generator = ident.sym == js_word!("async") && eat!(self, '*');
                 let key = self.parse_prop_name()?;
                 let key_span = key.span();
+                self.with_ctx(Context {
+                    allow_direct_super: true,
+                    ..self.ctx()
+                })
+                .parse_with(|parser| {
+                    match ident.sym {
+                        js_word!("get") => parser
+                            .parse_fn_args_body(
+                                // no decorator in an object literal
+                                vec![],
+                                start,
+                                |p| {
+                                    let params = p.parse_formal_params()?;
 
-                match ident.sym {
-                    js_word!("get") => self
-                        .parse_fn_args_body(
-                            // no decorator in an object literal
-                            vec![],
-                            start,
-                            |p| {
-                                let params = p.parse_formal_params()?;
-
-                                if params.iter().filter(|p| is_not_this(p)).count() != 0 {
-                                    p.emit_err(key_span, SyntaxError::TS1094);
-                                }
-
-                                Ok(params)
-                            },
-                            false,
-                            false,
-                        )
-                        .map(
-                            |Function {
-                                 body,
-                                 type_params,
-                                 return_type,
-                                 ..
-                             }| {
-                                if let Some(type_params) = type_params {
-                                    self.emit_err(type_params.span(), SyntaxError::TS1094);
-                                }
-
-                                if self.input.syntax().typescript()
-                                    && self.input.target() == EsVersion::Es3
-                                {
-                                    self.emit_err(key_span, SyntaxError::TS1056);
-                                }
-
-                                PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
-                                    span: span!(self, start),
-                                    key,
-                                    type_ann: return_type,
-                                    body,
-                                })))
-                            },
-                        ),
-                    js_word!("set") => self
-                        .parse_fn_args_body(
-                            // no decorator in an object literal
-                            vec![],
-                            start,
-                            |p| {
-                                let params = p.parse_formal_params()?;
-
-                                if params.iter().filter(|p| is_not_this(p)).count() != 1 {
-                                    p.emit_err(key_span, SyntaxError::TS1094);
-                                }
-
-                                if !params.is_empty() {
-                                    if let Pat::Rest(..) = params[0].pat {
-                                        p.emit_err(params[0].span(), SyntaxError::RestPatInSetter);
+                                    if params.iter().filter(|p| is_not_this(p)).count() != 0 {
+                                        p.emit_err(key_span, SyntaxError::TS1094);
                                     }
-                                }
 
-                                if p.input.syntax().typescript()
-                                    && p.input.target() == EsVersion::Es3
-                                {
-                                    p.emit_err(key_span, SyntaxError::TS1056);
-                                }
+                                    Ok(params)
+                                },
+                                false,
+                                false,
+                            )
+                            .map(
+                                |Function {
+                                     body,
+                                     type_params,
+                                     return_type,
+                                     ..
+                                 }| {
+                                    if let Some(type_params) = type_params {
+                                        parser.emit_err(type_params.span(), SyntaxError::TS1094);
+                                    }
 
-                                Ok(params)
-                            },
-                            false,
-                            false,
-                        )
-                        .map(
-                            |Function {
-                                 params,
-                                 body,
-                                 type_params,
-                                 ..
-                             }| {
-                                if let Some(type_params) = type_params {
-                                    self.emit_err(type_params.span(), SyntaxError::TS1094);
-                                }
+                                    if parser.input.syntax().typescript()
+                                        && parser.input.target() == EsVersion::Es3
+                                    {
+                                        parser.emit_err(key_span, SyntaxError::TS1056);
+                                    }
 
-                                // debug_assert_eq!(params.len(), 1);
-                                PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
-                                    span: span!(self, start),
+                                    PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
+                                        span: span!(parser, start),
+                                        key,
+                                        type_ann: return_type,
+                                        body,
+                                    })))
+                                },
+                            ),
+                        js_word!("set") => parser
+                            .parse_fn_args_body(
+                                // no decorator in an object literal
+                                vec![],
+                                start,
+                                |p| {
+                                    let params = p.parse_formal_params()?;
+
+                                    if params.iter().filter(|p| is_not_this(p)).count() != 1 {
+                                        p.emit_err(key_span, SyntaxError::TS1094);
+                                    }
+
+                                    if !params.is_empty() {
+                                        if let Pat::Rest(..) = params[0].pat {
+                                            p.emit_err(
+                                                params[0].span(),
+                                                SyntaxError::RestPatInSetter,
+                                            );
+                                        }
+                                    }
+
+                                    if p.input.syntax().typescript()
+                                        && p.input.target() == EsVersion::Es3
+                                    {
+                                        p.emit_err(key_span, SyntaxError::TS1056);
+                                    }
+
+                                    Ok(params)
+                                },
+                                false,
+                                false,
+                            )
+                            .map(
+                                |Function {
+                                     params,
+                                     body,
+                                     type_params,
+                                     ..
+                                 }| {
+                                    if let Some(type_params) = type_params {
+                                        parser.emit_err(type_params.span(), SyntaxError::TS1094);
+                                    }
+
+                                    // debug_assert_eq!(params.len(), 1);
+                                    PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
+                                        span: span!(parser, start),
+                                        key,
+                                        body,
+                                        param: params
+                                            .into_iter()
+                                            .map(|p| p.pat)
+                                            .next()
+                                            .unwrap_or(Pat::Invalid(Invalid { span: key_span })),
+                                    })))
+                                },
+                            ),
+                        js_word!("async") => parser
+                            .parse_fn_args_body(
+                                // no decorator in an object literal
+                                vec![],
+                                start,
+                                |p| p.parse_unique_formal_params(),
+                                true,
+                                is_generator,
+                            )
+                            .map(|function| {
+                                PropOrSpread::Prop(Box::new(Prop::Method(MethodProp {
                                     key,
-                                    body,
-                                    param: params
-                                        .into_iter()
-                                        .map(|p| p.pat)
-                                        .next()
-                                        .unwrap_or(Pat::Invalid(Invalid { span: key_span })),
+                                    function,
                                 })))
-                            },
-                        ),
-                    js_word!("async") => self
-                        .parse_fn_args_body(
-                            // no decorator in an object literal
-                            vec![],
-                            start,
-                            |p| p.parse_unique_formal_params(),
-                            true,
-                            is_generator,
-                        )
-                        .map(|function| {
-                            PropOrSpread::Prop(Box::new(Prop::Method(MethodProp { key, function })))
-                        }),
-                    _ => unreachable!(),
-                }
+                            }),
+                        _ => unreachable!(),
+                    }
+                })
             }
             _ => {
                 if self.input.syntax().typescript() {
