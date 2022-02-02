@@ -531,17 +531,29 @@ where
             }
             self.wr.write_str_lit(num.span, "Infinity")?;
         } else {
-            let mut minified = num.value.to_string();
+            let mut printed = num.value.to_string();
 
             if self.cfg.minify {
-                if minified.starts_with("0.") {
-                    minified.replace_range(0..1, "");
+                let mut original = printed.clone();
+
+                if num.value.fract() == 0.0 {
+                    let mut candidate = String::new();
+
+                    candidate.push_str(&format!("{:#x}", num.value as i64));
+
+                    if candidate.len() < printed.len() {
+                        printed = candidate;
+                    }
                 }
 
-                if minified.starts_with(".000") {
+                if original.starts_with("0.") {
+                    original.replace_range(0..1, "");
+                }
+
+                if original.starts_with(".000") {
                     let mut cnt = 3;
 
-                    for &v in minified.as_bytes().iter().skip(4) {
+                    for &v in original.as_bytes().iter().skip(4) {
                         if v == b'0' {
                             cnt += 1;
                         } else {
@@ -549,16 +561,16 @@ where
                         }
                     }
 
-                    minified.replace_range(0..cnt + 1, "");
+                    original.replace_range(0..cnt + 1, "");
 
-                    let remain_len = minified.len();
+                    let remain_len = original.len();
 
-                    minified.push_str("e-");
-                    minified.push_str(&(remain_len + cnt).to_string());
-                } else if minified.ends_with("000") {
+                    original.push_str("e-");
+                    original.push_str(&(remain_len + cnt).to_string());
+                } else if original.ends_with("000") {
                     let mut cnt = 3;
 
-                    for &v in minified.as_bytes().iter().rev().skip(3) {
+                    for &v in original.as_bytes().iter().rev().skip(3) {
                         if v == b'0' {
                             cnt += 1;
                         } else {
@@ -566,13 +578,17 @@ where
                         }
                     }
 
-                    minified.truncate(minified.len() - cnt);
-                    minified.push('e');
-                    minified.push_str(&cnt.to_string());
+                    original.truncate(original.len() - cnt);
+                    original.push('e');
+                    original.push_str(&cnt.to_string());
+                }
+
+                if original.len() < printed.len() {
+                    printed = original;
                 }
             }
 
-            self.wr.write_str_lit(num.span, &minified)?;
+            self.wr.write_str_lit(num.span, &printed)?;
         }
     }
 
