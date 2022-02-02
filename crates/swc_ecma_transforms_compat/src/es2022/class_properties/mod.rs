@@ -2,12 +2,11 @@
 
 use self::{
     class_name_tdz::ClassNameTdzFolder,
-    private_field::{BrandCheckHandler, FieldAccessFolder},
+    private_field::{BrandCheckHandler, FieldAccessFolder, Private, PrivateKind, PrivateRecord},
     this_in_static::ThisInStaticFolder,
     used_name::UsedNameCollector,
 };
-use std::collections::HashSet;
-use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{collections::AHashSet, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
@@ -35,8 +34,7 @@ mod used_name;
 pub fn class_properties(config: Config) -> impl Fold + VisitMut {
     as_folder(ClassProperties {
         config,
-        mark: Mark::root(),
-        method_mark: Mark::root(),
+        private: PrivateRecord::new(),
     })
 }
 
@@ -48,8 +46,7 @@ pub struct Config {
 #[derive(Clone)]
 struct ClassProperties {
     config: Config,
-    mark: Mark,
-    method_mark: Mark,
+    private: PrivateRecord,
 }
 
 #[fast_path(ShouldWork)]
@@ -111,8 +108,6 @@ impl VisitMut for ClassProperties {
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        expr.visit_mut_children_with(self);
-
         if let Expr::Class(ClassExpr { ident, class }) = expr {
             let ident = ident.take().unwrap_or_else(|| private_ident!("_class"));
             let mut stmts = vec![];
@@ -168,6 +163,8 @@ impl VisitMut for ClassProperties {
                 args: vec![],
                 type_args: Default::default(),
             });
+        } else {
+            expr.visit_mut_children_with(self);
         };
     }
 }
@@ -183,8 +180,6 @@ impl ClassProperties {
             match T::try_into_stmt(stmt) {
                 Err(node) => match node.try_into_module_decl() {
                     Ok(mut decl) => {
-                        decl.visit_mut_children_with(self);
-
                         match decl {
                             ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                                 span,
@@ -261,16 +256,18 @@ impl ClassProperties {
                                 );
                                 buf.extend(stmts.into_iter().map(T::from_stmt));
                             }
-                            _ => buf.push(match T::try_from_module_decl(decl) {
-                                Ok(t) => t,
-                                Err(..) => unreachable!(),
-                            }),
+                            _ => {
+                                decl.visit_mut_children_with(self);
+                                buf.push(match T::try_from_module_decl(decl) {
+                                    Ok(t) => t,
+                                    Err(..) => unreachable!(),
+                                })
+                            }
                         };
                     }
                     Err(..) => unreachable!(),
                 },
                 Ok(mut stmt) => {
-                    stmt.visit_mut_children_with(self);
                     // Fold class
                     match stmt {
                         Stmt::Decl(Decl::Class(ClassDecl {
@@ -290,7 +287,10 @@ impl ClassProperties {
                             buf.push(T::from_stmt(Stmt::Decl(Decl::Class(decl))));
                             buf.extend(stmts.into_iter().map(T::from_stmt));
                         }
-                        _ => buf.push(T::from_stmt(stmt)),
+                        _ => {
+                            stmt.visit_mut_children_with(self);
+                            buf.push(T::from_stmt(stmt))
+                        }
                     }
                 }
             }
@@ -307,8 +307,38 @@ impl ClassProperties {
         mut class: Class,
     ) -> (Vec<VarDeclarator>, ClassDecl, Vec<Stmt>) {
         // Create one mark per class
-        self.mark = Mark::fresh(Mark::root());
-        self.method_mark = Mark::fresh(Mark::root());
+        let private = Private {
+            mark: Mark::fresh(Mark::root()),
+            class_name: class_ident.clone(),
+            ident: class
+                .body
+                .iter()
+                .filter_map(|member| match member {
+                    ClassMember::PrivateMethod(method) => Some((
+                        method.key.id.sym.clone(),
+                        PrivateKind {
+                            is_method: true,
+                            is_static: method.is_static,
+                        },
+                    )),
+
+                    ClassMember::PrivateProp(prop) => Some((
+                        prop.key.id.sym.clone(),
+                        PrivateKind {
+                            is_method: false,
+                            is_static: prop.is_static,
+                        },
+                    )),
+
+                    _ => None,
+                })
+                .collect(),
+        };
+
+        self.private.push(private);
+
+        // we must collect outer class's private first
+        class.visit_mut_children_with(self);
 
         let has_super = class.super_class.is_some();
 
@@ -322,48 +352,11 @@ impl ClassProperties {
         let mut constructor = None;
         let mut used_names = vec![];
         let mut used_key_names = vec![];
-        let mut names_used_for_brand_checks = HashSet::default();
-
-        let statics = {
-            let mut s = HashSet::default();
-
-            for member in &class.body {
-                match member {
-                    ClassMember::PrivateMethod(method) => {
-                        if method.is_static {
-                            s.insert(method.key.id.sym.clone());
-                        }
-                    }
-
-                    ClassMember::PrivateProp(prop) => {
-                        if prop.is_static {
-                            s.insert(prop.key.id.sym.clone());
-                        }
-                    }
-
-                    _ => {}
-                }
-            }
-
-            s
-        };
-        let private_methods = {
-            let mut s = HashSet::default();
-
-            for member in &class.body {
-                if let ClassMember::PrivateMethod(method) = member {
-                    s.insert(method.key.id.sym.clone());
-                }
-            }
-
-            s
-        };
+        let mut names_used_for_brand_checks = AHashSet::default();
 
         class.body.visit_mut_with(&mut BrandCheckHandler {
-            mark: self.mark,
-            class_name: &class_ident,
             names: &mut names_used_for_brand_checks,
-            statics: &statics,
+            private: &self.private,
         });
 
         for member in class.body {
@@ -505,7 +498,7 @@ impl ClassProperties {
                     let ident = Ident::new(
                         format!("_{}", prop.key.id.sym).into(),
                         // We use `self.mark` for private variables.
-                        prop.key.span.apply_mark(self.mark),
+                        prop.key.span.apply_mark(self.private.curr_mark()),
                     );
                     prop.value.visit_with(&mut UsedNameCollector {
                         used_names: &mut used_names,
@@ -594,30 +587,31 @@ impl ClassProperties {
                 }
 
                 ClassMember::PrivateMethod(method) => {
+                    let is_static = method.is_static;
                     let prop_span = method.span;
                     let fn_name = Ident::new(
                         method.key.id.sym.clone(),
                         method
                             .span
                             .with_ctxt(SyntaxContext::empty())
-                            .apply_mark(self.method_mark),
+                            .apply_mark(self.private.curr_mark()),
                     );
 
                     let should_use_map =
                         matches!(method.kind, MethodKind::Getter | MethodKind::Setter)
                             && names_used_for_brand_checks.contains(&method.key.id.sym)
-                            && !statics.contains(&method.key.id.sym);
+                            && !is_static;
 
                     let weak_coll_var = Ident::new(
                         format!("_{}", method.key.id.sym).into(),
                         // We use `self.mark` for private variables.
-                        method.key.span.apply_mark(self.mark),
+                        method.key.span.apply_mark(self.private.curr_mark()),
                     );
                     method.function.visit_with(&mut UsedNameCollector {
                         used_names: &mut used_names,
                     });
 
-                    if should_use_map || !statics.contains(&method.key.id.sym) {
+                    if should_use_map || !is_static {
                         vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             definite: false,
@@ -650,7 +644,7 @@ impl ClassProperties {
                             props: vec![get, set],
                         };
 
-                        let obj = if statics.contains(&method.key.id.sym) {
+                        let obj = if is_static {
                             let var_name = private_ident!("static_method");
 
                             vars.push(VarDeclarator {
@@ -674,7 +668,7 @@ impl ClassProperties {
                             args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), obj],
                             type_args: Default::default(),
                         })));
-                    } else if !statics.contains(&method.key.id.sym) {
+                    } else if !is_static {
                         // Add `_get.add(this);` to the constructor where `_get` is the name of the
                         // weak set.
                         constructor_exprs.push(Box::new(Expr::Call(CallExpr {
@@ -712,26 +706,20 @@ impl ClassProperties {
         }
 
         private_method_fn_decls.visit_mut_with(&mut FieldAccessFolder {
-            mark: self.mark,
-            method_mark: self.method_mark,
-            private_methods: &private_methods,
-            statics: &statics,
+            private: &self.private,
             vars: vec![],
-            class_name: &class_ident,
             in_assign_pat: false,
         });
 
         extra_stmts.extend(private_method_fn_decls);
 
         members.visit_mut_with(&mut FieldAccessFolder {
-            mark: self.mark,
-            method_mark: self.method_mark,
-            private_methods: &private_methods,
-            statics: &statics,
+            private: &self.private,
             vars: vec![],
-            class_name: &class_ident,
             in_assign_pat: false,
         });
+
+        self.private.pop();
 
         (
             vars,

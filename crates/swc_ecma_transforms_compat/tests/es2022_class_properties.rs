@@ -4930,6 +4930,8 @@ test!(
     issue_1333_1,
     "
   class Foo {
+    #ws;
+    #ws2;
     get connected() {
         return this.#ws2 && this.#ws.readyState === _ws1.default.OPEN;
     }
@@ -4941,7 +4943,19 @@ test!(
           return _classPrivateFieldGet(this, _ws2) && _classPrivateFieldGet(this, _ws).readyState \
      === _ws1.default.OPEN;
       }
+      constructor(){
+        _ws.set(this, {
+            writable: true,
+            value: void 0
+        });
+        _ws2.set(this, {
+            writable: true,
+            value: void 0
+        });
+      }
     }
+    var _ws = new WeakMap();
+    var _ws2 = new WeakMap();
     "
 );
 
@@ -4952,6 +4966,8 @@ test!(
     "
   class Test {
     #ws;
+    #serialization;
+    #seq;
 
     _packet(raw) {
         /** @type {DiscordPacket} */
@@ -5112,9 +5128,19 @@ test!(
               writable: true,
               value: void 0
           });
+          _serialization.set(this, {
+            writable: true,
+            value: void 0
+          });
+          _seq.set(this, {
+            writable: true,
+            value: void 0
+          });
       }
   }
   var _ws = new WeakMap();
+  var _serialization = new WeakMap();
+  var _seq = new WeakMap();
     "
 );
 
@@ -5125,6 +5151,7 @@ test!(
     "
     class Test {
       #ws;
+      #serialization;
 
       _packet(raw) {
         /** @type {DiscordPacket} */
@@ -5165,10 +5192,14 @@ test!(
               writable: true,
               value: void 0
           });
+          _serialization.set(this, {
+            writable: true,
+            value: void 0
+          });
       }
   }
   var _ws = new WeakMap();
-
+  var _serialization = new WeakMap();
     "
 );
 
@@ -5179,6 +5210,7 @@ test!(
     "
   class Test {
     #ws;
+    #serialization;
 
     _packet(raw) {
       /** @type {DiscordPacket} */
@@ -5206,9 +5238,14 @@ test!(
               writable: true,
               value: void 0
           });
+          _serialization.set(this, {
+            writable: true,
+            value: void 0
+          });
       }
     }
     var _ws = new WeakMap();
+    var _serialization = new WeakMap();
     "
 );
 
@@ -5218,6 +5255,7 @@ test!(
     issue_1333_5,
     "
     class Test {
+      #serialization;
       _packet(raw) {
         pak = this.#serialization.decode(raw);
       }
@@ -5228,7 +5266,14 @@ test!(
       _packet(raw) {
           pak = _classPrivateFieldGet(this, _serialization).decode(raw);
       }
+      constructor(){
+        _serialization.set(this, {
+          writable: true,
+          value: void 0
+        });
+      }
     }
+    var _serialization = new WeakMap();
     "
 );
 
@@ -5238,6 +5283,7 @@ test!(
     issue_1333_6,
     "
     class Test {
+      #serialization;
       _packet(raw) {
         this.#serialization.decode(raw);
       }
@@ -5248,7 +5294,14 @@ test!(
       _packet(raw) {
           _classPrivateFieldGet(this, _serialization).decode(raw);
       }
+      constructor(){
+        _serialization.set(this, {
+          writable: true,
+          value: void 0
+        });
+      }
     }
+    var _serialization = new WeakMap();
     "
 );
 
@@ -5638,6 +5691,7 @@ test!(
     issue_3229_1,
     "
 class A {
+  #D;
   B() {
     1;
     C.#D++;
@@ -5653,7 +5707,14 @@ class A {
         _classPrivateFieldSet(_C = C, _D, (_this_D = +_classPrivateFieldGet(_C, _D)) + 1), _this_D;
         E(function() {});
     }
+    constructor(){
+      _D.set(this, {
+          writable: true,
+          value: void 0
+      });
+    }
 }
+var _D = new WeakMap();
   "
 );
 
@@ -5663,6 +5724,7 @@ test!(
     issue_3229_2,
     "
 class A {
+    #b;
     foo() {
         A.#b += 123
         class B {
@@ -5680,9 +5742,96 @@ class A {
             foo() {}
         }
     }
+    constructor(){
+      _b.set(this, {
+          writable: true,
+          value: void 0
+      });
+  }
 }
+var _b = new WeakMap();
 "
 );
+
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config { loose: false }),
+    issue_3368,
+    "
+class A {
+  #a = 'fff'
+  static #b = 123
+  foo() {
+    return class B {
+      bar() {
+        console.log(this.#a, this.#b, this.#bar)
+      }
+    }
+  }
+  #bar() {}
+}
+",
+    "
+var _bar = new WeakSet();
+class A {
+    foo() {
+        return class B {
+            bar() {
+              console.log(_classPrivateFieldGet(this, _a), _classStaticPrivateFieldSpecGet(this, \
+     A, _b), _classPrivateMethodGet(this, _bar, bar));
+            }
+        };
+    }
+    constructor(){
+        _a.set(this, {
+            writable: true,
+            value: 'fff'
+        });
+        _bar.add(this);
+    }
+}
+var _a = new WeakMap();
+var _b = {
+    writable: true,
+    value: 123
+};
+function bar() {}
+"
+);
+
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config { loose: false }),
+    nested_class_in_arrow,
+    "
+const a = () => class {
+  a = 123
+  foo() {
+    return class B {
+      b = 456
+    }
+  }
+}
+",
+    "
+const a = ()=>{
+    class _class {
+        foo() {
+            return class B {
+                constructor() {
+                    _defineProperty(this, 'b', 456);
+                }
+            };
+        }
+        constructor(){
+            _defineProperty(this, 'a', 123);
+        }
+    }
+    return _class;
+};
+"
+);
+
 #[testing::fixture("tests/fixture/classes/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(&input).unwrap();
