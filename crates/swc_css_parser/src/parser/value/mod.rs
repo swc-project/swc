@@ -231,6 +231,7 @@ where
     }
 
     fn parse_one_value_inner(&mut self) -> PResult<Value> {
+        // TODO remove me
         self.input.skip_ws()?;
 
         let span = self.input.cur_span()?;
@@ -396,25 +397,6 @@ where
                 unreachable!()
             }
         }
-    }
-
-    /// Parse comma separated values.
-    fn parse_comma_separated_value(&mut self) -> PResult<Vec<Value>> {
-        let mut args = vec![];
-
-        loop {
-            self.input.skip_ws()?;
-
-            if is_one_of!(self, ")") {
-                break;
-            }
-
-            let value = self.parse_one_value_inner()?;
-
-            args.push(value);
-        }
-
-        Ok(args)
     }
 
     fn parse_square_brackets_value(&mut self) -> PResult<SimpleBlock> {
@@ -917,14 +899,58 @@ where
             allow_operation_in_value: is_math_function,
             ..self.ctx
         };
-        let value = self.with_ctx(ctx).parse_comma_separated_value()?;
 
-        expect!(self, ")");
-
-        Ok(Function {
-            span: span!(self, span.lo),
+        // Create a function with its name equal to the value of the current input token
+        // and with its value initially set to an empty list.
+        let mut function = Function {
+            span: Default::default(),
             name,
-            value,
-        })
+            value: vec![],
+        };
+
+        // Repeatedly consume the next input token and process it as follows:
+        loop {
+            // <EOF-token>
+            // This is a parse error. Return the function.
+            if is!(self, EOF) {
+                break;
+            }
+
+            match cur!(self) {
+                // <)-token>
+                // Return the function.
+                tok!(")") => {
+                    bump!(self);
+
+                    break;
+                }
+                // anything else
+                // Reconsume the current input token. Consume a component value and append the
+                // returned value to the function’s value.
+                _ => {
+                    let state = self.input.state();
+                    let parsed = self.with_ctx(ctx).parse_one_value_inner();
+                    let value = match parsed {
+                        Ok(value) => {
+                            self.input.skip_ws()?;
+
+                            value
+                        }
+                        Err(err) => {
+                            self.errors.push(err);
+                            self.input.reset(&state);
+
+                            self.parse_component_value()?
+                        }
+                    };
+
+                    function.value.push(value);
+                }
+            }
+        }
+
+        function.span = span!(self, span.lo);
+
+        return Ok(function);
     }
 }
