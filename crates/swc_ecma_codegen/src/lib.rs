@@ -531,60 +531,11 @@ where
             }
             self.wr.write_str_lit(num.span, "Infinity")?;
         } else {
-            let mut printed = num.value.to_string();
-
-            if self.cfg.minify {
-                let mut original = printed.clone();
-
-                if num.value.fract() == 0.0 {
-                    let hex = format!("{:#x}", num.value as i64);
-
-                    if hex.len() < printed.len() {
-                        printed = hex;
-                    }
-                }
-
-                if original.starts_with("0.") {
-                    original.replace_range(0..1, "");
-                }
-
-                if original.starts_with(".000") {
-                    let mut cnt = 3;
-
-                    for &v in original.as_bytes().iter().skip(4) {
-                        if v == b'0' {
-                            cnt += 1;
-                        } else {
-                            break;
-                        }
-                    }
-
-                    original.replace_range(0..cnt + 1, "");
-
-                    let remain_len = original.len();
-
-                    original.push_str("e-");
-                    original.push_str(&(remain_len + cnt).to_string());
-                } else if original.ends_with("000") {
-                    let mut cnt = 3;
-
-                    for &v in original.as_bytes().iter().rev().skip(3) {
-                        if v == b'0' {
-                            cnt += 1;
-                        } else {
-                            break;
-                        }
-                    }
-
-                    original.truncate(original.len() - cnt);
-                    original.push('e');
-                    original.push_str(&cnt.to_string());
-                }
-
-                if original.len() < printed.len() {
-                    printed = original;
-                }
-            }
+            let printed = if self.cfg.minify {
+                minify_number(num.value)
+            } else {
+                num.value.to_string()
+            };
 
             self.wr.write_str_lit(num.span, &printed)?;
         }
@@ -802,6 +753,13 @@ where
     /// `1..toString` is a valid property access, emit a dot after the literal
     pub fn needs_2dots_for_property_access(&self, expr: &Expr) -> bool {
         if let Expr::Lit(Lit::Num(Number { span, value })) = expr {
+            if self.cfg.minify {
+                let s = minify_number(*value);
+                if s.as_bytes().contains(&b'.') || s.as_bytes().contains(&b'e') {
+                    return false;
+                }
+            }
+
             if value.fract() == 0.0 {
                 return true;
             }
@@ -3363,4 +3321,61 @@ fn is_space_require_before_rhs(rhs: &Expr) -> bool {
 
 fn is_empty_comments(span: &Span, comments: &Option<&dyn Comments>) -> bool {
     span.is_dummy() || comments.map_or(true, |c| !c.has_leading(span.hi() - BytePos(1)))
+}
+
+fn minify_number(num: f64) -> String {
+    let mut printed = num.to_string();
+
+    let mut original = printed.clone();
+
+    if num.fract() == 0.0 {
+        let hex = format!("{:#x}", num as i64);
+
+        if hex.len() < printed.len() {
+            printed = hex;
+        }
+    }
+
+    if original.starts_with("0.") {
+        original.replace_range(0..1, "");
+    }
+
+    if original.starts_with(".000") {
+        let mut cnt = 3;
+
+        for &v in original.as_bytes().iter().skip(4) {
+            if v == b'0' {
+                cnt += 1;
+            } else {
+                break;
+            }
+        }
+
+        original.replace_range(0..cnt + 1, "");
+
+        let remain_len = original.len();
+
+        original.push_str("e-");
+        original.push_str(&(remain_len + cnt).to_string());
+    } else if original.ends_with("000") {
+        let mut cnt = 3;
+
+        for &v in original.as_bytes().iter().rev().skip(3) {
+            if v == b'0' {
+                cnt += 1;
+            } else {
+                break;
+            }
+        }
+
+        original.truncate(original.len() - cnt);
+        original.push('e');
+        original.push_str(&cnt.to_string());
+    }
+
+    if original.len() < printed.len() {
+        printed = original;
+    }
+
+    printed
 }
