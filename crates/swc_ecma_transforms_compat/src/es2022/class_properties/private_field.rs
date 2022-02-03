@@ -1,21 +1,66 @@
 use std::iter;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    util::take::Take,
+    Mark, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{alias_ident_for, alias_if_required, prepend, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-pub(super) struct BrandCheckHandler<'a> {
-    /// Mark for the private `WeakSet` variable.
+pub(super) struct Private {
     pub mark: Mark,
+    pub class_name: Ident,
+    pub ident: AHashMap<JsWord, PrivateKind>,
+}
 
-    pub class_name: &'a Ident,
+pub(super) struct PrivateRecord(Vec<Private>);
 
+impl PrivateRecord {
+    pub fn new() -> Self {
+        PrivateRecord(Vec::new())
+    }
+
+    pub fn curr_class(&self) -> &Ident {
+        &self.0.last().unwrap().class_name
+    }
+
+    pub fn curr_mark(&self) -> Mark {
+        self.0.last().unwrap().mark
+    }
+
+    pub fn push(&mut self, p: Private) {
+        self.0.push(p)
+    }
+
+    pub fn pop(&mut self) {
+        self.0.pop();
+    }
+
+    pub fn get(&self, name: &JsWord) -> (Mark, PrivateKind, &Ident) {
+        for p in self.0.iter().rev() {
+            if let Some(kind) = p.ident.get(name) {
+                return (p.mark, kind.clone(), &p.class_name);
+            }
+        }
+        // TODO: better error information with span
+        panic!("Private name #{name} is not defined.");
+    }
+}
+
+#[derive(Clone, PartialEq)]
+pub(super) struct PrivateKind {
+    pub is_static: bool,
+    pub is_method: bool,
+}
+
+pub(super) struct BrandCheckHandler<'a> {
     /// Private names used for brand checks.
     pub names: &'a mut AHashSet<JsWord>,
 
-    pub statics: &'a AHashSet<JsWord>,
+    pub private: &'a PrivateRecord,
 }
 
 impl VisitMut for BrandCheckHandler<'_> {
@@ -31,20 +76,14 @@ impl VisitMut for BrandCheckHandler<'_> {
                 left,
                 right,
             }) if left.is_private_name() => {
-                let n = match &**left {
-                    Expr::PrivateName(ref n) => n,
-                    _ => {
-                        unreachable!()
-                    }
-                };
+                let n = left.as_private_name().unwrap();
                 if let Expr::Ident(right) = &**right {
-                    if self.class_name.sym == right.sym
-                        && self.class_name.span.ctxt == right.span.ctxt
-                    {
+                    let curr_class = self.private.curr_class();
+                    if curr_class.sym == right.sym && curr_class.span.ctxt == right.span.ctxt {
                         *e = Expr::Bin(BinExpr {
                             span: *span,
                             op: op!("==="),
-                            left: Box::new(Expr::Ident(self.class_name.clone())),
+                            left: Box::new(Expr::Ident(curr_class.clone())),
                             right: Box::new(Expr::Ident(right.clone())),
                         });
                         return;
@@ -53,22 +92,20 @@ impl VisitMut for BrandCheckHandler<'_> {
 
                 self.names.insert(n.id.sym.clone());
 
-                let is_static = self.statics.contains(&n.id.sym);
+                let (mark, kind, class_name) = self.private.get(&n.id.sym);
 
-                if is_static {
+                if kind.is_static {
                     *e = Expr::Bin(BinExpr {
                         span: *span,
                         op: op!("==="),
                         left: right.take(),
-                        right: Box::new(Expr::Ident(self.class_name.clone())),
+                        right: Box::new(Expr::Ident(class_name.clone())),
                     });
                     return;
                 }
 
-                let weak_coll_ident = Ident::new(
-                    format!("_{}", n.id.sym).into(),
-                    n.id.span.apply_mark(self.mark),
-                );
+                let weak_coll_ident =
+                    Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
 
                 *e = Expr::Call(CallExpr {
                     span: *span,
@@ -84,14 +121,8 @@ impl VisitMut for BrandCheckHandler<'_> {
 }
 
 pub(super) struct FieldAccessFolder<'a> {
-    /// Mark for the private `WeakSet` variable.
-    pub mark: Mark,
-    pub method_mark: Mark,
-
-    pub class_name: &'a Ident,
-    pub private_methods: &'a AHashSet<JsWord>,
     pub vars: Vec<VarDeclarator>,
-    pub statics: &'a AHashSet<JsWord>,
+    pub private: &'a PrivateRecord,
     pub in_assign_pat: bool,
 }
 
@@ -158,17 +189,14 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
 
                 let obj = arg.obj.clone();
 
-                let is_static = self.statics.contains(&n.id.sym);
-                let ident = Ident::new(
-                    format!("_{}", n.id.sym).into(),
-                    n.id.span.apply_mark(self.mark),
-                );
+                let (mark, kind, class_name) = self.private.get(&n.id.sym);
+                let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
 
                 let var = alias_ident_for(&obj, "_ref");
 
                 let this = if matches!(*obj, Expr::This(..)) {
                     ThisExpr { span: DUMMY_SP }.as_arg()
-                } else if is_static {
+                } else if kind.is_static {
                     obj.as_arg()
                 } else {
                     self.vars.push(VarDeclarator {
@@ -234,19 +262,14 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
                     .as_arg()
                 };
 
-                let expr = if is_static {
+                let expr = if kind.is_static {
                     Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(
                             class_static_private_field_spec_set,
                             "classStaticPrivateFieldSpecSet"
                         ),
-                        args: vec![
-                            this,
-                            self.class_name.clone().as_arg(),
-                            ident.as_arg(),
-                            value,
-                        ],
+                        args: vec![this, class_name.clone().as_arg(), ident.as_arg(), value],
 
                         type_args: Default::default(),
                     })
@@ -297,11 +320,8 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
 
                 let obj = left.obj.clone();
 
-                let is_static = self.statics.contains(&n.id.sym);
-                let ident = Ident::new(
-                    format!("_{}", n.id.sym).into(),
-                    n.id.span.apply_mark(self.mark),
-                );
+                let (mark, kind, class_name) = self.private.get(&n.id.sym);
+                let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
 
                 let var = alias_ident_for(&obj, "_ref");
 
@@ -339,19 +359,14 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
                     .as_arg()
                 };
 
-                if is_static {
+                if kind.is_static {
                     *e = Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(
                             class_static_private_field_spec_set,
                             "classStaticPrivateFieldSpecSet"
                         ),
-                        args: vec![
-                            this,
-                            self.class_name.clone().as_arg(),
-                            ident.as_arg(),
-                            value,
-                        ],
+                        args: vec![this, class_name.clone().as_arg(), ident.as_arg(), value],
 
                         type_args: Default::default(),
                     });
@@ -488,21 +503,15 @@ impl<'a> FieldAccessFolder<'a> {
 
         let mut obj = e.obj.take();
 
-        let is_method = self.private_methods.contains(&n.id.sym);
-        let is_static = self.statics.contains(&n.id.sym);
+        let (mark, kind, class_name) = self.private.get(&n.id.sym);
         let method_name = Ident::new(
             n.id.sym.clone(),
-            n.id.span
-                .with_ctxt(SyntaxContext::empty())
-                .apply_mark(self.method_mark),
+            n.id.span.with_ctxt(SyntaxContext::empty()).apply_mark(mark),
         );
-        let ident = Ident::new(
-            format!("_{}", n.id.sym).into(),
-            n.id.span.apply_mark(self.mark),
-        );
+        let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
 
-        if is_static {
-            if is_method {
+        if kind.is_static {
+            if kind.is_method {
                 let h = helper!(
                     class_static_private_method_get,
                     "classStaticPrivateMethodGet"
@@ -514,12 +523,12 @@ impl<'a> FieldAccessFolder<'a> {
                         callee: h,
                         args: vec![
                             obj.as_arg(),
-                            self.class_name.clone().as_arg(),
+                            class_name.clone().as_arg(),
                             method_name.as_arg(),
                         ],
                         type_args: Default::default(),
                     }),
-                    Some(Expr::Ident(self.class_name.clone())),
+                    Some(Expr::Ident(class_name.clone())),
                 );
             }
 
@@ -532,14 +541,10 @@ impl<'a> FieldAccessFolder<'a> {
                 Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: get,
-                    args: vec![
-                        obj.as_arg(),
-                        self.class_name.clone().as_arg(),
-                        ident.as_arg(),
-                    ],
+                    args: vec![obj.as_arg(), class_name.clone().as_arg(), ident.as_arg()],
                     type_args: Default::default(),
                 }),
-                Some(Expr::Ident(self.class_name.clone())),
+                Some(Expr::Ident(class_name.clone())),
             )
         } else {
             if self.in_assign_pat {
@@ -564,7 +569,7 @@ impl<'a> FieldAccessFolder<'a> {
                 };
             }
 
-            let get = if is_method {
+            let get = if kind.is_method {
                 helper!(class_private_method_get, "classPrivateMethodGet")
             } else {
                 helper!(class_private_field_get, "classPrivateFieldGet")
@@ -572,7 +577,7 @@ impl<'a> FieldAccessFolder<'a> {
 
             match &*obj {
                 Expr::This(this) => (
-                    if is_method {
+                    if kind.is_method {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: get,
@@ -622,7 +627,7 @@ impl<'a> FieldAccessFolder<'a> {
                         var.clone().as_arg()
                     };
 
-                    let args = if is_method {
+                    let args = if kind.is_method {
                         vec![first_arg, ident.as_arg(), method_name.as_arg()]
                     } else {
                         vec![first_arg, ident.as_arg()]
