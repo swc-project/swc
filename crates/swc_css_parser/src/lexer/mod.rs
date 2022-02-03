@@ -506,12 +506,15 @@ where
             self.consume();
 
             let start_whitespace = self.input.cur_pos();
+            let mut whitespaces = String::new();
 
             // While the next two input code points are whitespace, consume the next input
             // code point.
             while let (Some(next), Some(next_next)) = (self.next(), self.next_next()) {
                 if is_whitespace(next) && is_whitespace(next_next) {
                     self.consume();
+
+                    whitespaces.push(next);
                 } else {
                     break;
                 }
@@ -543,7 +546,7 @@ where
                 }
                 // Otherwise, consume a url token, and return it.
                 _ => {
-                    return self.read_url(ident_sequence);
+                    return self.read_url(ident_sequence, whitespaces);
                 }
             }
         }
@@ -658,7 +661,7 @@ where
 
     // This section describes how to consume a url token from a stream of code
     // points. It returns either a <url-token> or a <bad-url-token>.
-    fn read_url(&mut self, name: (JsWord, JsWord)) -> LexResult<Token> {
+    fn read_url(&mut self, name: (JsWord, JsWord), mut before: String) -> LexResult<Token> {
         // Initially create a <url-token> with its value set to the empty string.
         let mut value = String::new();
         let mut raw = String::new();
@@ -667,6 +670,8 @@ where
         while let Some(c) = self.next() {
             if is_whitespace(c) {
                 self.consume();
+
+                before.push(c);
             } else {
                 break;
             }
@@ -685,6 +690,8 @@ where
                         raw_name: name.1,
                         value: value.into(),
                         raw_value: raw.into(),
+                        before: before.into(),
+                        after: "".into(),
                     });
                 }
 
@@ -696,6 +703,8 @@ where
                         raw_name: name.1,
                         value: value.into(),
                         raw_value: raw.into(),
+                        before: before.into(),
+                        after: "".into(),
                     });
                 }
 
@@ -716,8 +725,6 @@ where
                         }
                     }
 
-                    raw.push_str(&whitespaces);
-
                     // if the next input code point is U+0029 RIGHT PARENTHESIS ()) or EOF, consume
                     // it and return the <url-token> (if EOF was encountered, this is a parse
                     // error);
@@ -730,6 +737,8 @@ where
                                 raw_name: name.1,
                                 value: value.into(),
                                 raw_value: raw.into(),
+                                before: before.into(),
+                                after: whitespaces.into(),
                             });
                         }
                         None => {
@@ -738,12 +747,15 @@ where
                                 raw_name: name.1,
                                 value: value.into(),
                                 raw_value: raw.into(),
+                                before: before.into(),
+                                after: whitespaces.into(),
                             });
                         }
                         _ => {}
                     }
 
                     value.push_str(&whitespaces);
+                    raw.push_str(&whitespaces);
 
                     // otherwise, consume the remnants of a bad url, create a <bad-url-token>, and
                     // return it.

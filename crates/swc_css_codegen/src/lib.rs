@@ -1179,7 +1179,15 @@ where
 
     #[emitter]
     fn emit_url_value_raw(&mut self, n: &UrlValueRaw) -> Result {
+        if !self.config.minify {
+            self.wr.write_raw(Some(n.span), &n.before)?;
+        }
+
         self.wr.write_raw(Some(n.span), &n.raw)?;
+
+        if !self.config.minify {
+            self.wr.write_raw(Some(n.span), &n.after)?;
+        }
     }
 
     #[emitter]

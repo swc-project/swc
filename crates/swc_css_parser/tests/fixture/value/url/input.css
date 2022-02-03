@@ -23,4 +23,16 @@ div {
     background: src("http://www.example.com/pinkish.gif");
     background: SRC("http://www.example.com/pinkish.gif");
     background: src(var(--foo));
+    background: url(   https://example.com/image.png   );
+    background: u\rl(   https://example.com/image.png   );
+    background: url(   
+                    https://example.com/image.png   
+    );
+    background: url(
+
+
+https://example.com/image.png
+
+
+);
 }
