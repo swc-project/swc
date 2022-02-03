@@ -436,7 +436,7 @@ impl AssignFolder {
             }) => {
                 let tmp_ident = {
                     let init = decl.init.unwrap_or_else(|| undefined(DUMMY_SP));
-                    match *init {
+                    match &*init {
                         Expr::Ident(ref i) if i.span.ctxt() != SyntaxContext::empty() => i.clone(),
                         _ => {
                             let tmp_ident = private_ident!(span, "tmp");
