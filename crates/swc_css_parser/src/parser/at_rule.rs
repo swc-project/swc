@@ -1,4 +1,4 @@
-use super::{input::ParserInput, traits::ParseDelmited, PResult, Parser};
+use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
     parser::{Ctx, RuleContext},
@@ -394,8 +394,23 @@ where
 
         expect!(self, "{");
 
-        // TODO: change on `parse_simple_block`
-        let blocks = self.parse_delimited(true)?;
+        self.input.skip_ws()?;
+
+        let mut blocks = vec![];
+
+        loop {
+            if is!(self, "}") {
+                break;
+            }
+
+            self.input.skip_ws()?;
+
+            let block = self.parse()?;
+
+            blocks.push(block);
+
+            self.input.skip_ws()?;
+        }
 
         expect!(self, "}");
 
@@ -435,6 +450,71 @@ where
                 let span = self.input.cur_span()?;
 
                 return Err(Error::new(span, ErrorKind::Expected("ident or string")));
+            }
+        }
+    }
+}
+
+impl<I> Parse<KeyframeBlock> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<KeyframeBlock> {
+        let span = self.input.cur_span()?;
+
+        let child = self.parse()?;
+        let mut prelude = vec![child];
+
+        loop {
+            self.input.skip_ws()?;
+
+            if !eat!(self, ",") {
+                break;
+            }
+
+            self.input.skip_ws()?;
+
+            let child = self.parse()?;
+
+            prelude.push(child);
+        }
+
+        let block = self.parse()?;
+
+        Ok(KeyframeBlock {
+            span: span!(self, span.lo),
+            prelude,
+            block,
+        })
+    }
+}
+
+impl<I> Parse<KeyframeSelector> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<KeyframeSelector> {
+        match cur!(self) {
+            tok!("ident") => {
+                let ident: Ident = self.parse()?;
+                let lowercased_ident_value = ident.value.to_ascii_lowercase();
+
+                if &*lowercased_ident_value != "from" && &*lowercased_ident_value != "to" {
+                    let span = self.input.cur_span()?;
+
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected("'from' or 'to' idents"),
+                    ));
+                }
+
+                Ok(KeyframeSelector::Ident(ident))
+            }
+            tok!("percent") => Ok(KeyframeSelector::Percent(self.parse()?)),
+            _ => {
+                let span = self.input.cur_span()?;
+
+                return Err(Error::new(span, ErrorKind::Expected("ident or percentage")));
             }
         }
     }
@@ -731,89 +811,6 @@ where
             selectors,
             block,
         })
-    }
-}
-
-impl<I> Parse<KeyframeSelector> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<KeyframeSelector> {
-        let span = self.input.cur_span()?;
-
-        if is!(self, Ident) {
-            self.parse().map(KeyframeSelector::Ident)
-        } else if is!(self, Percent) {
-            self.parse().map(KeyframeSelector::Percent)
-        } else {
-            Err(Error::new(span, ErrorKind::InvalidKeyframeSelector))
-        }
-    }
-}
-
-impl<I> Parse<KeyframeBlockRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<KeyframeBlockRule> {
-        if is!(self, AtKeyword) {
-            return self
-                .parse_at_rule(Default::default())
-                .map(Box::new)
-                .map(KeyframeBlockRule::AtRule);
-        }
-
-        self.parse().map(Box::new).map(KeyframeBlockRule::Block)
-    }
-}
-
-impl<I> Parse<KeyframeBlock> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<KeyframeBlock> {
-        let span = self.input.cur_span()?;
-
-        let selector = self.parse_delimited(false)?;
-
-        let rule = self.parse()?;
-
-        Ok(KeyframeBlock {
-            span: span!(self, span.lo),
-            selector,
-            rule,
-        })
-    }
-}
-
-impl<I> ParseDelmited<KeyframeSelector> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn eat_delimiter(&mut self) -> PResult<bool> {
-        self.input.skip_ws()?;
-
-        if eat!(self, ",") {
-            self.input.skip_ws()?;
-            Ok(true)
-        } else {
-            Ok(false)
-        }
-    }
-}
-
-impl<I> ParseDelmited<KeyframeBlock> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn eat_delimiter(&mut self) -> PResult<bool> {
-        self.input.skip_ws()?;
-
-        if is!(self, "}") {
-            Ok(false)
-        } else {
-            Ok(true)
-        }
     }
 }
 

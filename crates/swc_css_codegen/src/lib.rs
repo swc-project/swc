@@ -178,14 +178,6 @@ where
     }
 
     #[emitter]
-    fn emit_keyframes_name(&mut self, n: &KeyframesName) -> Result {
-        match n {
-            KeyframesName::CustomIdent(n) => emit!(self, n),
-            KeyframesName::Str(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
     fn emit_keyframes_rule(&mut self, n: &KeyframesRule) -> Result {
         punct!(self, "@");
         keyword!(self, "keyframes");
@@ -200,7 +192,6 @@ where
         }
 
         emit!(self, n.name);
-
         formatting_space!(self);
         punct!(self, "{");
         formatting_newline!(self);
@@ -216,6 +207,31 @@ where
 
         formatting_newline!(self);
         punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_keyframes_name(&mut self, n: &KeyframesName) -> Result {
+        match n {
+            KeyframesName::CustomIdent(n) => emit!(self, n),
+            KeyframesName::Str(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_keyframe_block(&mut self, n: &KeyframeBlock) -> Result {
+        self.emit_list(&n.prelude, ListFormat::CommaDelimited)?;
+
+        formatting_space!(self);
+
+        emit!(self, n.block);
+    }
+
+    #[emitter]
+    fn emit_keyframe_selector(&mut self, n: &KeyframeSelector) -> Result {
+        match n {
+            KeyframeSelector::Ident(n) => emit!(self, n),
+            KeyframeSelector::Percent(n) => emit!(self, n),
+        }
     }
 
     #[emitter]
@@ -261,23 +277,6 @@ where
             punct!(self, "}");
         } else {
             punct!(self, ";");
-        }
-    }
-
-    #[emitter]
-    fn emit_keyframe_block(&mut self, n: &KeyframeBlock) -> Result {
-        self.emit_list(&n.selector, ListFormat::CommaDelimited)?;
-
-        formatting_space!(self);
-
-        emit!(self, n.rule);
-    }
-
-    #[emitter]
-    fn emit_keyframe_selector(&mut self, n: &KeyframeSelector) -> Result {
-        match n {
-            KeyframeSelector::Ident(n) => emit!(self, n),
-            KeyframeSelector::Percent(n) => emit!(self, n),
         }
     }
 
@@ -890,14 +889,6 @@ where
     #[emitter]
     fn emit_dashed_ident(&mut self, n: &DashedIdent) -> Result {
         self.wr.write_raw(Some(n.span), &n.raw)?;
-    }
-
-    #[emitter]
-    fn emit_keyframe_block_rule(&mut self, n: &KeyframeBlockRule) -> Result {
-        match n {
-            KeyframeBlockRule::Block(n) => emit!(self, n),
-            KeyframeBlockRule::AtRule(n) => emit!(self, n),
-        }
     }
 
     #[emitter]

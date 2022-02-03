@@ -30,7 +30,7 @@
             "end": 77,
             "ctxt": 0
           },
-          "selector": [
+          "prelude": [
             {
               "type": "Identifier",
               "span": {
@@ -42,7 +42,7 @@
               "raw": "from"
             }
           ],
-          "rule": {
+          "block": {
             "type": "Block",
             "span": {
               "start": 33,
@@ -112,7 +112,7 @@
             "end": 130,
             "ctxt": 0
           },
-          "selector": [
+          "prelude": [
             {
               "type": "Identifier",
               "span": {
@@ -124,7 +124,7 @@
               "raw": "to"
             }
           ],
-          "rule": {
+          "block": {
             "type": "Block",
             "span": {
               "start": 85,
@@ -214,7 +214,7 @@
             "end": 167,
             "ctxt": 0
           },
-          "selector": [
+          "prelude": [
             {
               "type": "Identifier",
               "span": {
@@ -226,7 +226,7 @@
               "raw": "from"
             }
           ],
-          "rule": {
+          "block": {
             "type": "Block",
             "span": {
               "start": 160,
@@ -242,7 +242,7 @@
             "end": 182,
             "ctxt": 0
           },
-          "selector": [
+          "prelude": [
             {
               "type": "Identifier",
               "span": {
@@ -254,7 +254,7 @@
               "raw": "to"
             }
           ],
-          "rule": {
+          "block": {
             "type": "Block",
             "span": {
               "start": 175,
@@ -270,7 +270,7 @@
             "end": 198,
             "ctxt": 0
           },
-          "selector": [
+          "prelude": [
             {
               "type": "Percent",
               "span": {
@@ -290,7 +290,7 @@
               }
             }
           ],
-          "rule": {
+          "block": {
             "type": "Block",
             "span": {
               "start": 191,
@@ -306,7 +306,7 @@
             "end": 213,
             "ctxt": 0
           },
-          "selector": [
+          "prelude": [
             {
               "type": "Percent",
               "span": {
@@ -326,7 +326,7 @@
               }
             }
           ],
-          "rule": {
+          "block": {
             "type": "Block",
             "span": {
               "start": 206,
@@ -342,7 +342,7 @@
             "end": 230,
             "ctxt": 0
           },
-          "selector": [
+          "prelude": [
             {
               "type": "Percent",
               "span": {
@@ -362,7 +362,7 @@
               }
             }
           ],
-          "rule": {
+          "block": {
             "type": "Block",
             "span": {
               "start": 223,
