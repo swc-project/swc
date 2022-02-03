@@ -174,7 +174,7 @@ where
             }
             emit!(n.expr);
         }
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -287,7 +287,7 @@ where
             emit!(asserts);
         }
 
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -422,7 +422,7 @@ where
                 emit!(asserts);
             }
         }
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -444,7 +444,7 @@ where
             emit!(asserts);
         }
 
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -1287,7 +1287,7 @@ where
             }
         }
 
-        formatting_semi!();
+        semi!();
     }
 
     fn emit_accesibility(&mut self, n: Option<Accessibility>) -> Result {
@@ -1410,7 +1410,7 @@ where
             formatting_space!();
             emit!(body);
         } else {
-            formatting_semi!()
+            semi!()
         }
     }
 
@@ -2304,7 +2304,7 @@ where
     #[emitter]
     fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
         emit!(e.expr);
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -2355,7 +2355,7 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         keyword!(node.span, "debugger");
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -2461,7 +2461,7 @@ where
                 punct!(")");
             }
         }
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -2490,7 +2490,7 @@ where
             space!();
             emit!(label);
         }
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -2507,7 +2507,7 @@ where
             space!();
             emit!(label);
         }
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -2665,7 +2665,7 @@ where
             }
             emit!(n.arg);
         }
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
