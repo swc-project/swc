@@ -106,6 +106,7 @@ impl VisitMut for NormalizeTest {
 
         n.before = "".into();
         n.after = "".into();
+        n.raw = "".into();
     }
 
     fn visit_mut_number(&mut self, n: &mut Number) {

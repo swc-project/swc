@@ -6,8 +6,8 @@ error: Stylesheet
 3  | |     background: URL(https://example.com/image.png);
 4  | |     background: \URL(https://example.com/image.png);
 ...  |
-37 | | );
-38 | | }
+38 | |     background: URL(https://example.com/ima\)ge.png);
+39 | | }
    | |__^
 
 error: Rule
@@ -18,8 +18,8 @@ error: Rule
 3  | |     background: URL(https://example.com/image.png);
 4  | |     background: \URL(https://example.com/image.png);
 ...  |
-37 | | );
-38 | | }
+38 | |     background: URL(https://example.com/ima\)ge.png);
+39 | | }
    | |_^
 
 error: QualifiedRule
@@ -30,8 +30,8 @@ error: QualifiedRule
 3  | |     background: URL(https://example.com/image.png);
 4  | |     background: \URL(https://example.com/image.png);
 ...  |
-37 | | );
-38 | | }
+38 | |     background: URL(https://example.com/ima\)ge.png);
+39 | | }
    | |_^
 
 error: SelectorList
@@ -73,8 +73,8 @@ error: Block
 3  | |     background: URL(https://example.com/image.png);
 4  | |     background: \URL(https://example.com/image.png);
 ...  |
-37 | | );
-38 | | }
+38 | |     background: URL(https://example.com/ima\)ge.png);
+39 | | }
    | |_^
 
 error: Declaration
@@ -1372,4 +1372,52 @@ error: UrlValueRaw
 36 | |
 37 | | );
    | |_
+
+error: Declaration
+  --> $DIR/tests/fixture/value/url/input.css:38:5
+   |
+38 |     background: URL(https://example.com/ima\)ge.png);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/url/input.css:38:5
+   |
+38 |     background: URL(https://example.com/ima\)ge.png);
+   |     ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:38:5
+   |
+38 |     background: URL(https://example.com/ima\)ge.png);
+   |     ^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/url/input.css:38:17
+   |
+38 |     background: URL(https://example.com/ima\)ge.png);
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/value/url/input.css:38:17
+   |
+38 |     background: URL(https://example.com/ima\)ge.png);
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/url/input.css:38:17
+   |
+38 |     background: URL(https://example.com/ima\)ge.png);
+   |                 ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/value/url/input.css:38:21
+   |
+38 |     background: URL(https://example.com/ima\)ge.png);
+   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/value/url/input.css:38:21
+   |
+38 |     background: URL(https://example.com/ima\)ge.png);
+   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

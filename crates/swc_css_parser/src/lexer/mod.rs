@@ -767,8 +767,8 @@ where
                     return Ok(Token::BadUrl {
                         name: name.0,
                         raw_name: name.1,
-                        value: value.into(),
-                        raw_value: raw.into(),
+                        value: (before.to_owned() + &raw.to_owned()).into(),
+                        raw_value: (before.to_owned() + &&raw.to_owned()).into(),
                     });
                 }
 
@@ -789,8 +789,8 @@ where
                     return Ok(Token::BadUrl {
                         name: name.0,
                         raw_name: name.1,
-                        value: value.into(),
-                        raw_value: raw.into(),
+                        value: (before.to_owned() + &raw.to_owned()).into(),
+                        raw_value: (before.to_owned() + &&raw.to_owned()).into(),
                     });
                 }
 
@@ -818,8 +818,8 @@ where
                         return Ok(Token::BadUrl {
                             name: name.0,
                             raw_name: name.1,
-                            value: value.into(),
-                            raw_value: raw.into(),
+                            value: (before.to_owned() + &raw.to_owned()).into(),
+                            raw_value: (before.to_owned() + &&raw.to_owned()).into(),
                         });
                     }
                 }
