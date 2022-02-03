@@ -56,11 +56,7 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
 
     fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result {
         match s {
-            "\"" | "'" => {
-                self.commit_pending_semi()?;
-            }
-
-            "[" | "!" | "/" | "{" | "(" | "~" => {
+            "\"" | "'" | "[" | "!" | "/" | "{" | "(" | "~" | "-" | "+" | "#" => {
                 self.commit_pending_semi()?;
             }
 

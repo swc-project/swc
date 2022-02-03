@@ -43,7 +43,7 @@ for(var idx in {}){
 }
 do {
     throw null;
-}while (true)
+}while (true);
 var j = 0;
 while(j < 0){
     throw j;

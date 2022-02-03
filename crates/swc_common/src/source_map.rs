@@ -579,6 +579,16 @@ impl SourceMap {
         })
     }
 
+    /// Calls `op` with the source code located at `sp`.
+    pub fn with_snippet_of_span<F, Ret>(&self, sp: Span, op: F) -> Result<Ret, SpanSnippetError>
+    where
+        F: FnOnce(&str) -> Ret,
+    {
+        self.span_to_source(sp, |src, start_index, end_index| {
+            op(&src[start_index..end_index])
+        })
+    }
+
     pub fn span_to_margin(&self, sp: Span) -> Option<usize> {
         match self.span_to_prev_source(sp) {
             Err(_) => None,

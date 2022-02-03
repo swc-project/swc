@@ -555,7 +555,7 @@ var Formatting;
                                 lastDelta = indentNode.IndentationDelta;
                             }
                             indentNode = indentNode.Parent;
-                        }while (indentNode != null)
+                        }while (indentNode != null);
                     }
                 }
             },
