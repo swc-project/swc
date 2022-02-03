@@ -287,8 +287,11 @@ impl<'a, I: Tokens> Parser<I> {
                 }));
                 continue;
             }
-
-            elems.push(self.parse_class_member()?);
+            let mut p = self.with_ctx(Context {
+                allow_direct_super: true,
+                ..self.ctx()
+            });
+            elems.push(p.parse_class_member()?);
         }
         Ok(elems)
     }
@@ -663,12 +666,8 @@ impl<'a, I: Tokens> Parser<I> {
                     self.emit_err(type_ann.type_ann.span(), SyntaxError::TS1093);
                 }
 
-                let body: Option<_> = self
-                    .with_ctx(Context {
-                        allow_direct_super: true,
-                        ..self.ctx()
-                    })
-                    .parse_fn_body(false, false, params.is_simple_parameter_list())?;
+                let body: Option<_> =
+                    self.parse_fn_body(false, false, params.is_simple_parameter_list())?;
 
                 if self.syntax().typescript() && body.is_none() {
                     // Declare constructors cannot have assignment pattern in parameters
