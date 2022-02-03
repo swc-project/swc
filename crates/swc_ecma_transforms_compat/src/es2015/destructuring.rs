@@ -434,41 +434,34 @@ impl AssignFolder {
                 right: def_value,
                 ..
             }) => {
-                let var_decl = {
-                    if let Some(init) = decl.init {
-                        let tmp_ident = match &*init {
-                            Expr::Ident(ref i) if i.span.ctxt() != SyntaxContext::empty() => {
-                                i.clone()
-                            }
+                let init = if let Some(init) = decl.init {
+                    let tmp_ident = match &*init {
+                        Expr::Ident(ref i) if i.span.ctxt() != SyntaxContext::empty() => i.clone(),
 
-                            _ => {
-                                let tmp_ident = private_ident!(span, "tmp");
-                                decls.push(VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: tmp_ident.clone().into(),
-                                    init: Some(init),
-                                    definite: false,
-                                });
+                        _ => {
+                            let tmp_ident = private_ident!(span, "tmp");
+                            decls.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: tmp_ident.clone().into(),
+                                init: Some(init),
+                                definite: false,
+                            });
 
-                                tmp_ident
-                            }
-                        };
-
-                        VarDeclarator {
-                            span,
-                            name: *left,
-                            // tmp === void 0 ? def_value : tmp
-                            init: Some(Box::new(make_cond_expr(tmp_ident, def_value))),
-                            definite: false,
+                            tmp_ident
                         }
-                    } else {
-                        VarDeclarator {
-                            span,
-                            name: *left,
-                            init: Some(def_value),
-                            definite: false,
-                        }
-                    }
+                    };
+
+                    // tmp === void 0 ? def_value : tmp
+                    Some(Box::new(make_cond_expr(tmp_ident, def_value)))
+                } else {
+                    Some(def_value)
+                };
+
+                let var_decl = VarDeclarator {
+                    span,
+                    name: *left,
+                    init,
+                    definite: false,
                 };
 
                 let mut var_decls = vec![var_decl];
