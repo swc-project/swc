@@ -1,0 +1,9 @@
+{
+    "jsc": {
+        "lints": {
+            "quotes": ["error", {
+                "prefer": "backtick"
+            }]
+        }
+    }
+}

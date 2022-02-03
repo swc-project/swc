@@ -44,7 +44,7 @@ fn issue_1532() {
     assert!(f.contains("unknown variant `esnext`"))
 }
 
-#[testing::fixture("tests/errors/**/input.js")]
+#[testing::fixture("tests/errors/lints/**/input.js")]
 fn fixture(input: PathBuf) {
     let _log = testing::init();
     let output_path = input.parent().unwrap().join("output.swc-stderr");
