@@ -434,25 +434,23 @@ impl AssignFolder {
                 right: def_value,
                 ..
             }) => {
-                let init = decl.init.unwrap_or_else(|| undefined(DUMMY_SP));
-                let tmp_ident: Ident = (|| {
+                let tmp_ident = {
+                    let init = decl.init.unwrap_or_else(|| undefined(DUMMY_SP));
                     match *init {
-                        Expr::Ident(ref i) if i.span.ctxt() != SyntaxContext::empty() => {
-                            return i.clone();
+                        Expr::Ident(ref i) if i.span.ctxt() != SyntaxContext::empty() => i.clone(),
+                        _ => {
+                            let tmp_ident = private_ident!(span, "tmp");
+                            decls.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: tmp_ident.clone().into(),
+                                init: Some(init),
+                                definite: false,
+                            });
+
+                            tmp_ident
                         }
-                        _ => {}
                     }
-
-                    let tmp_ident = private_ident!(span, "tmp");
-                    decls.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: tmp_ident.clone().into(),
-                        init: Some(init),
-                        definite: false,
-                    });
-
-                    tmp_ident
-                })();
+                };
 
                 let var_decl = VarDeclarator {
                     span,
