@@ -10,14 +10,12 @@ use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{alias_ident_for, alias_if_required, prepend, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-#[derive(Clone)]
 pub(super) struct Private {
     pub mark: Mark,
     pub class_name: Ident,
     pub ident: AHashMap<JsWord, PrivateKind>,
 }
 
-#[derive(Clone)]
 pub(super) struct PrivateRecord(Vec<Private>);
 
 impl PrivateRecord {

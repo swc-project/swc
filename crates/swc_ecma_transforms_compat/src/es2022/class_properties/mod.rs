@@ -43,7 +43,6 @@ pub struct Config {
     pub loose: bool,
 }
 
-#[derive(Clone)]
 struct ClassProperties {
     config: Config,
     private: PrivateRecord,
