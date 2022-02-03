@@ -1,24 +1,14 @@
 use std::{cell::RefCell, rc::Rc};
 
 use is_macro::Is;
-use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, SyntaxContext};
-use swc_ecma_ast::{AssignPatProp, Expr, Ident, KeyValuePatProp, PropName, VarDecl, VarDeclKind};
+use swc_common::collections::AHashMap;
+use swc_ecma_ast::{
+    AssignPatProp, Expr, Id, Ident, KeyValuePatProp, PropName, VarDecl, VarDeclKind,
+};
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
-
-#[derive(Debug, Default, Clone, PartialEq, Eq, Hash)]
-pub struct IdentScope {
-    sym: JsWord,
-    ctxt: SyntaxContext,
-}
-
-impl From<(JsWord, SyntaxContext)> for IdentScope {
-    fn from((sym, ctxt): (JsWord, SyntaxContext)) -> Self {
-        IdentScope { sym, ctxt }
-    }
-}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Is, Hash)]
 pub enum IdentScopeKind {
@@ -47,7 +37,7 @@ impl From<VarDeclKind> for IdentScopeKind {
     }
 }
 
-pub type IdentScopeRecord = Rc<RefCell<AHashMap<IdentScope, IdentScopeKind>>>;
+pub type IdentScopeRecord = Rc<RefCell<AHashMap<Id, IdentScopeKind>>>;
 
 pub fn ident_scope_collector(ident_scope_record: IdentScopeRecord) -> impl Fold {
     as_folder(IdentScopeCollector { ident_scope_record })
@@ -88,10 +78,7 @@ impl Visit for PatVisitor {
     fn visit_ident(&mut self, ident: &Ident) {
         self.ident_scope_record
             .borrow_mut()
-            .entry(IdentScope {
-                sym: ident.sym.clone(),
-                ctxt: ident.span.ctxt(),
-            })
+            .entry(ident.to_id())
             .or_insert_with(|| self.ident_scope_kind);
     }
 

@@ -481,7 +481,7 @@ impl UsageAnalyzer<'_> {
     fn ident_scope_kind(&self, ident: &Ident) -> IdentScopeKind {
         self.ident_scope_record
             .borrow()
-            .get(&(ident.sym.clone(), ident.span.ctxt).into())
+            .get(&ident.to_id())
             .copied()
             .unwrap_or_default()
     }
