@@ -1410,7 +1410,7 @@ where
             formatting_space!();
             emit!(body);
         } else {
-            semi!()
+            semi!();
         }
     }
 
