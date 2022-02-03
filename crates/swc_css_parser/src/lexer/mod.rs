@@ -182,7 +182,7 @@ where
                     }
 
                     // Consume a name, and set the <hash-token>’s value to the returned string.
-                    let name = self.read_name()?;
+                    let ident_sequence = self.read_ident_sequence()?;
 
                     match hash_token {
                         Token::Hash {
@@ -190,8 +190,8 @@ where
                             ref mut raw,
                             ..
                         } => {
-                            *value = name.0;
-                            *raw = name.1;
+                            *value = ident_sequence.0;
+                            *raw = ident_sequence.1;
                         }
                         _ => {
                             unreachable!();
@@ -309,11 +309,11 @@ where
                 // create an <at-keyword-token> with its value set to the returned value, and
                 // return it.
                 if self.would_start_ident(first, second, third)? {
-                    let name = self.read_name()?;
+                    let ident_sequence = self.read_ident_sequence()?;
 
                     return Ok(Token::AtKeyword {
-                        value: name.0,
-                        raw: name.1,
+                        value: ident_sequence.0,
+                        raw: ident_sequence.1,
                     });
                 }
 
@@ -454,7 +454,7 @@ where
             };
 
             // Consume a name. Set the <dimension-token>’s unit to the returned value.
-            let name = self.read_name()?;
+            let ident_sequence = self.read_ident_sequence()?;
 
             match token {
                 Token::Dimension {
@@ -462,8 +462,8 @@ where
                     ref mut raw_unit,
                     ..
                 } => {
-                    *unit = name.0;
-                    *raw_unit = name.1;
+                    *unit = ident_sequence.0;
+                    *raw_unit = ident_sequence.1;
                 }
                 _ => {
                     unreachable!();
@@ -498,11 +498,11 @@ where
     // <bad-url-token>.
     fn read_ident_like(&mut self) -> LexResult<Token> {
         // Consume a name, and let string be the result.
-        let name = self.read_name()?;
+        let ident_sequence = self.read_ident_sequence()?;
 
         // If string’s value is an ASCII case-insensitive match for "url", and the next
         // input code point is U+0028 LEFT PARENTHESIS ((), consume it.
-        if name.0.to_ascii_lowercase() == js_word!("url") && self.next() == Some('(') {
+        if ident_sequence.0.to_ascii_lowercase() == js_word!("url") && self.next() == Some('(') {
             self.consume();
 
             let start_whitespace = self.input.cur_pos();
@@ -531,19 +531,19 @@ where
                     self.last_pos = Some(start_whitespace);
 
                     return Ok(Token::Function {
-                        value: name.0,
-                        raw: name.1,
+                        value: ident_sequence.0,
+                        raw: ident_sequence.1,
                     });
                 }
                 Some('"' | '\'') => {
                     return Ok(Token::Function {
-                        value: name.0,
-                        raw: name.1,
+                        value: ident_sequence.0,
+                        raw: ident_sequence.1,
                     });
                 }
                 // Otherwise, consume a url token, and return it.
                 _ => {
-                    return self.read_url(name);
+                    return self.read_url(ident_sequence);
                 }
             }
         }
@@ -553,16 +553,16 @@ where
             self.consume();
 
             return Ok(Token::Function {
-                value: name.0,
-                raw: name.1,
+                value: ident_sequence.0,
+                raw: ident_sequence.1,
             });
         }
 
         // Otherwise, create an <ident-token> with its value set to string and return
         // it.
         Ok(Token::Ident {
-            value: name.0,
-            raw: name.1,
+            value: ident_sequence.0,
+            raw: ident_sequence.1,
         })
     }
 
@@ -1034,11 +1034,11 @@ where
         }
     }
 
-    // Consume a name
-    // This section describes how to consume a name from a stream of code points. It
-    // returns a string containing the largest name that can be formed from adjacent
-    // code points in the stream, starting from the first.
-    fn read_name(&mut self) -> LexResult<(JsWord, JsWord)> {
+    // Consume an ident sequence
+    // This section describes how to consume an ident sequence from a stream of code
+    // points. It returns a string containing the largest name that can be formed
+    // from adjacent code points in the stream, starting from the first.
+    fn read_ident_sequence(&mut self) -> LexResult<(JsWord, JsWord)> {
         // Let result initially be an empty string.
         let mut raw = String::new();
         let mut value = String::new();
