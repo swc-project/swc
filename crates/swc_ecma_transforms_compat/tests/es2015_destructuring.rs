@@ -1996,14 +1996,14 @@ test!(
 test!(
     syntax(),
     |_| tr(),
-    ary_ptrn_elem_id_init_hole,
+    statements_let_dstr_ary_ptrn_elem_id_init_hole,
     "\
     let [x = 23] = [,];
 
     assert.sameValue(x, 23);
     ",
     "\
-    let tmp = void 0, x = tmp === void 0 ? 23 : tmp;
+    let x = 23;
     assert.sameValue(x, 23);
    "
 );
@@ -2011,7 +2011,51 @@ test!(
 test!(
     syntax(),
     |_| tr(),
-    const_ary_ptrn_elem_id_init_hole,
+    statements_let_dstr_ary_ptrn_elem_id_init_hole_2,
+    "\
+    let y = [x = 23] = [,];
+    ",
+    "\
+    var ref, ref1;
+    let y = (ref = [,], ref1 = ref[0], x = ref1 === void 0 ? 23 : ref1, ref);
+   "
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    statements_const_dstr_ary_ptrn_elem_id_init_hole,
+    "\
+    const [x = 23] = [,];
+
+    assert.sameValue(x, 23);
+    ",
+    "\
+    const x = 23;
+    assert.sameValue(x, 23);
+   "
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    statements_const_dstr_ary_ptrn_elem_id_init_hole_2,
+    "const [x = 23, y = 42] = [,,];",
+    "const x = 23, y = 42;"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    statements_const_dstr_ary_ptrn_elem_id_init_hole_3,
+    "const [x = 23, y] = [, 42];",
+    "const x = 23, y = 42;"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    for_const_dstr_ary_ptrn_elem_id_init_hole,
     "\
     var iterCount = 0;
 
@@ -2026,7 +2070,7 @@ test!(
     ",
     "\
     var iterCount = 0;
-    for(const tmp = void 0, x = tmp === void 0 ? 23 : tmp; iterCount < 1;){
+    for(const x = 23; iterCount < 1;){
         assert.sameValue(x, 23);
         iterCount += 1;
     }
