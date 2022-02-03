@@ -2748,9 +2748,9 @@ where
         }
         punct!("(");
         opt!(n.init);
-        semi!();
+        self.wr.write_punct(None, ";")?;
         opt_leading_space!(n.test);
-        semi!();
+        self.wr.write_punct(None, ";")?;
         opt_leading_space!(n.update);
         punct!(")");
 
