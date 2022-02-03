@@ -4,6 +4,7 @@ use std::{
 };
 use swc_common::{FileName, Span};
 use swc_css_ast::{HexColor, Number, Str, Stylesheet, UrlValueRaw};
+use swc_css_ast::{ImportantFlag, Number, Str, Stylesheet};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodeGenerator, CodegenConfig, Emit,
@@ -107,6 +108,11 @@ impl VisitMut for NormalizeTest {
         n.before = "".into();
         n.after = "".into();
         n.raw = "".into();
+    fn visit_mut_important_flag(&mut self, n: &mut ImportantFlag) {
+        n.visit_mut_children_with(self);
+
+        n.value.value = n.value.value.to_lowercase().into();
+        n.value.raw = n.value.raw.to_lowercase().into();
     }
 
     fn visit_mut_number(&mut self, n: &mut Number) {

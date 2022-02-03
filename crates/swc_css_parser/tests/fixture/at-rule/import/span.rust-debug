@@ -5716,6 +5716,18 @@ error: Ident
 129 | @import url("./test.css") supports(display: flex !important);
     |                                             ^^^^
 
+error: ImportantFlag
+   --> $DIR/tests/fixture/at-rule/import/input.css:129:50
+    |
+129 | @import url("./test.css") supports(display: flex !important);
+    |                                                  ^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:129:51
+    |
+129 | @import url("./test.css") supports(display: flex !important);
+    |                                                   ^^^^^^^^^
+
 error: Rule
    --> $DIR/tests/fixture/at-rule/import/input.css:130:1
     |
