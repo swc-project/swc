@@ -50,6 +50,9 @@
 - **(css/parser)** Improve parsing of math functions (#3415) ([1b1cae0](https://github.com/swc-project/swc/commit/1b1cae037279be2e1f66788f0cb1539b7b8d6721))
 
 
+- **(es/codegen)** Improve compression of numbers (#3425) ([e8b64a9](https://github.com/swc-project/swc/commit/e8b64a9871ccfda5f5fb1f03662650f3500e6634))
+
+
 - **(es/lints)** Implement `no-debugger` rule (#3398) ([9dec923](https://github.com/swc-project/swc/commit/9dec9236f7b3c95c803571404d7abae71e173936))
 
 
@@ -96,6 +99,9 @@
 
 
 - **(css/codegen)** Add more tests (#3405) ([64383e3](https://github.com/swc-project/swc/commit/64383e385cc6a5b735273218f31a4430a772c941))
+
+
+- **(css/codegen)** Verify AST is not broken after minification (#3430) ([73efd72](https://github.com/swc-project/swc/commit/73efd72cbe03f3f386dadf3c969763f15bb9b41d))
 
 ## [1.2.135] - 2022-01-27
 
