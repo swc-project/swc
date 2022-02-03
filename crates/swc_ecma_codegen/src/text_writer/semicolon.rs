@@ -60,7 +60,7 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
                 self.commit_pending_semi()?;
             }
 
-            "[" | "!" | "/" | "{" | "(" | "~" => {
+            "[" | "!" | "/" | "{" | "(" | "~" | "-" => {
                 self.commit_pending_semi()?;
             }
 
