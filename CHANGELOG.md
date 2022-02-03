@@ -14,6 +14,9 @@
 - **(css/parser)** Fix bugs related to `url` (#3403) ([3c8d985](https://github.com/swc-project/swc/commit/3c8d985a07baf5a52f40221fcc73344b3ca48d15))
 
 
+- **(es/codegen)** Fix bugs (#3436) ([ea8dfd8](https://github.com/swc-project/swc/commit/ea8dfd872ced8e264ad3d6da7f07c0043dacfb27))
+
+
 - **(es/compat)** Add the missing span in `optional_chaining` (#3384) ([9eb7773](https://github.com/swc-project/swc/commit/9eb77738fd1049022693f52843483623553856dd))
 
 
@@ -102,6 +105,9 @@
 
 
 - **(css/codegen)** Verify AST is not broken after minification (#3430) ([73efd72](https://github.com/swc-project/swc/commit/73efd72cbe03f3f386dadf3c969763f15bb9b41d))
+
+
+- **(swc)** Add tests (#3435) ([9e4cea0](https://github.com/swc-project/swc/commit/9e4cea017c2230e3d8db8dc48c3196116e90198a))
 
 ## [1.2.135] - 2022-01-27
 
