@@ -46,7 +46,7 @@ impl PrivateRecord {
             }
         }
         // TODO: better error information with span
-        panic!("Private name #{name} is not defined.");
+        panic!("Private name #{} is not defined.", name);
     }
 }
 

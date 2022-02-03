@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Handle private fields in nested classes (#3431) ([01500a5](https://github.com/swc-project/swc/commit/01500a54e04b88d08edff09f218166c862763657))
+
 ## [1.2.136] - 2022-02-03
 
 ### Bug Fixes
