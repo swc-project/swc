@@ -5,7 +5,7 @@
   "jsc": {
     "parser": {
       "syntax": "typescript",
-      "tsx": false
+      "tsx": true
     },
     "target": "es2015",
     "transform": {
