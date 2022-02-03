@@ -388,25 +388,7 @@ where
 {
     fn parse(&mut self) -> PResult<KeyframesRule> {
         let span = self.input.cur_span()?;
-        let name = match cur!(self) {
-            tok!("ident") => {
-                let custom_ident: CustomIdent = self.parse()?;
-
-                match &*custom_ident.value.to_ascii_lowercase() {
-                    "none" => {
-                        return Err(Error::new(
-                            span,
-                            ErrorKind::InvalidCustomIdent(stringify!(value)),
-                        ));
-                    }
-                    _ => {}
-                }
-
-                KeyframesName::CustomIdent(custom_ident)
-            }
-            tok!("str") => KeyframesName::Str(self.parse()?),
-            _ => return Err(Error::new(span, ErrorKind::Expected("ident or string"))),
-        };
+        let name = self.parse()?;
 
         self.input.skip_ws()?;
 
@@ -422,6 +404,39 @@ where
             name,
             blocks,
         })
+    }
+}
+
+impl<I> Parse<KeyframesName> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<KeyframesName> {
+        match cur!(self) {
+            tok!("ident") => {
+                let custom_ident: CustomIdent = self.parse()?;
+
+                match &*custom_ident.value.to_ascii_lowercase() {
+                    "none" => {
+                        let span = self.input.cur_span()?;
+
+                        return Err(Error::new(
+                            span,
+                            ErrorKind::InvalidCustomIdent(stringify!(value)),
+                        ));
+                    }
+                    _ => {}
+                }
+
+                Ok(KeyframesName::CustomIdent(custom_ident))
+            }
+            tok!("str") => Ok(KeyframesName::Str(self.parse()?)),
+            _ => {
+                let span = self.input.cur_span()?;
+
+                return Err(Error::new(span, ErrorKind::Expected("ident or string")));
+            }
+        }
     }
 }
 
