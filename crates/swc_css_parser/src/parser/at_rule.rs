@@ -407,18 +407,15 @@ where
             tok!("str") => KeyframesName::Str(self.parse()?),
             _ => return Err(Error::new(span, ErrorKind::Expected("ident or string"))),
         };
-        let mut blocks = vec![];
 
         self.input.skip_ws()?;
 
-        if is!(self, "{") {
-            expect!(self, "{");
+        expect!(self, "{");
 
-            // TODO: change on `parse_simple_block`
-            blocks = self.parse_delimited(true)?;
+        // TODO: change on `parse_simple_block`
+        let blocks = self.parse_delimited(true)?;
 
-            expect!(self, "}");
-        }
+        expect!(self, "}");
 
         Ok(KeyframesRule {
             span: span!(self, span.lo),
