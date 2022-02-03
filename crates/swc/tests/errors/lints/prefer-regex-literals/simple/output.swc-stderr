@@ -1,42 +1,48 @@
-error: Unexpected console statement
+error: Use a regular expression literal instead of the 'RegExp' constructor
  
   |
 1 | new RegExp("abc");
   | ^^^^^^^^^^^^^^^^^
 
-error: Unexpected console statement
+error: Use a regular expression literal instead of the 'RegExp' constructor
  
   |
 2 | new RegExp("abc", "u");
   | ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Unexpected console statement
+error: Use a regular expression literal instead of the 'RegExp' constructor
  
   |
 3 | RegExp("abc");
   | ^^^^^^^^^^^^^
 
-error: Unexpected console statement
+error: Use a regular expression literal instead of the 'RegExp' constructor
  
   |
 4 | RegExp("abc", "u");
   | ^^^^^^^^^^^^^^^^^^
 
-error: Unexpected console statement
+error: Use a regular expression literal instead of the 'RegExp' constructor
  
   |
 5 | new RegExp("\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d");
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Unexpected console statement
+error: Use a regular expression literal instead of the 'RegExp' constructor
  
   |
 6 | RegExp(`^\\d\\.$`);
   | ^^^^^^^^^^^^^^^^^^
 
-error: Unexpected console statement
+error: Use a regular expression literal instead of the 'RegExp' constructor
  
   |
 7 | new RegExp(String.raw`^\d\.$`);
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Use a regular expression literal instead of the 'RegExp' constructor
+  
+   |
+38 |     new RegExp("a");
+   |     ^^^^^^^^^^^^^^^
 

@@ -23,3 +23,19 @@ function f1() {
 }
 
 new RegExp(/redundant/);
+
+const obj = {
+    RegExp,
+};
+
+console.log(RegExp);
+
+((a, b) => {
+    RegExp;
+})("a", "b");
+
+foo(() => {
+    new RegExp("a");
+})("a", "b");
+
+new RegExp("a", "b", "c");
