@@ -537,9 +537,7 @@ where
                 let mut original = printed.clone();
 
                 if num.value.fract() == 0.0 {
-                    let mut hex = String::new();
-
-                    hex.push_str(&format!("{:#x}", num.value as i64));
+                    let hex = format!("{:#x}", num.value as i64);
 
                     if hex.len() < printed.len() {
                         printed = hex;
@@ -811,16 +809,16 @@ where
                 return false;
             }
 
-            // check if numeric literal is a decimal literal that was originally written
-            // with a dot
-            if let Ok(text) = self.cm.span_to_snippet(*span) {
-                if text.contains('.') {
-                    return false;
-                }
-                text.starts_with('0') || text.ends_with(' ')
-            } else {
-                true
-            }
+            self.cm
+                .with_snippet(*span, |text| {
+                    // check if numeric literal is a decimal literal that was originally written
+                    // with a dot
+                    if text.contains('.') {
+                        return false;
+                    }
+                    text.starts_with('0') || text.ends_with(' ')
+                })
+                .unwrap_or(true)
         } else {
             false
         }
