@@ -73,15 +73,15 @@ for(!function(M1) {
 })(N || (N = {}));;);
 for(;;);
 do ;
-while (null)
+while (null);
 do ;
-while (void 0)
+while (void 0);
 do ;
-while (0)
+while (0);
 for(;;);
 for(;;);
 do ;
-while ("")
+while ("");
 for(;;);
 for(;;);
 for(;;);
@@ -96,53 +96,53 @@ for(;;);
 for(;;);
 for(new C(); new C(););
 do ;
-while (new C())
+while (new C());
 for(new D(); new D(););
 do ;
-while (new D())
+while (new D());
 for(var a = !0; a;);
 do ;
-while (a)
+while (a);
 do ;
-while (null)
+while (null);
 for(var c = void 0; c;);
 do ;
-while (c)
+while (c);
 do ;
-while (0)
+while (0);
 for(var e = "a string"; e;);
 do ;
-while (e)
+while (e);
 "";
 do ;
-while ("")
+while ("");
 for(var g = /[a-z]/; g;);
 do ;
-while (g)
+while (g);
 for(var h = []; h;);
 do ;
-while (h)
+while (h);
 for(var i = [
     1,
     2
 ]; i;);
 do ;
-while (i)
+while (i);
 for(var j = {}; j;);
 do ;
-while (j)
+while (j);
 for(var k = {
     x: 1,
     y: "a"
 }; k;);
 do ;
-while (k)
+while (k);
 function fn(x) {
     return null;
 }
 for(fn(); fn(););
 do ;
-while (fn())
+while (fn());
 for(; fn;);
 do ;
-while (fn)
+while (fn);

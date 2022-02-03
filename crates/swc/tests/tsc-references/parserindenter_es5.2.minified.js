@@ -265,7 +265,7 @@ function _defineProperties(target, props) {
                         do {
                             var currentLine = this.snapshot.GetLineNumberFromPosition(indentNode.AuthorNode.Details.StartOffset);
                             lastLine != currentLine && (lastLine = currentLine, indentOverride = this.ApplyIndentationLevel(indentOverride, -lastDelta), lastDelta = 0), indentNode.CanIndent() && (indentNode.SetIndentationOverride(indentOverride), lastDelta = indentNode.IndentationDelta), indentNode = indentNode.Parent;
-                        }while (null != indentNode)
+                        }while (null != indentNode);
                     }
                 }
             },

@@ -630,7 +630,7 @@ function _fn29() {
                 case 0:
                     do {
                         ;
-                    }while (y)
+                    }while (y);
                 case 1:
                 case "end":
                     return _ctx.stop();

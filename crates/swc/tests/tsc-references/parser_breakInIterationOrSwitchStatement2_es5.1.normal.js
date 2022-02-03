@@ -1,3 +1,3 @@
 do {
     break;
-}while (true)
+}while (true);
