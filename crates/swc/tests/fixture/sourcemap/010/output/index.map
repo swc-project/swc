@@ -1,0 +1,31 @@
+{
+  "mappings": ";AAOAA,IAAI,CAACC,IAAI,CAAC,CAAkB,uBAAQ,CAAC;IACjC,KAAK,CAACC,QAAQ,GAAG,CAAI;IACrB,KAAK,CAACC,WAAW,GAAG,CAAC;QACjBC,WAAW,EAAEJ,IAAI,CAACK,EAAE;IACxB,CAAC;IACD,KAAK,CAACC,eAAe,GAAGN,IAAI,CAACK,EAAE;IAE/B,MAAM,MAAQ,CAAC;YACXH,QAAQ;YACRK,OAAO,EAAEJ,WAAW;YACpBC,WAAW,EAAEE,eAAe;QAChC,CAAC;;AACL,CAAC;AAnBoB,GAAc,CAAd,YAAc;AACjB,GAAO,CAAP,MAAO;AACD,GAAQ,CAAR,OAAQ;AACZ,GAAe,CAAf,UAAe;AACN,GAAqB,CAArB,iBAAqB;;;;;;AAiBlDE,EAAE,CAAC,CAAmB,wBAAQ,CAAC;IAC3B,KAAK,CAACC,aAAa,OAnBH,UAAe,UAmBDC,IAAI;IAClC,KAAK,CAACH,OAAO,GAAG,CAAC;QAACI,IAAI,EAAE,CAAM;IAAC,CAAC;IAChC,KAAK,CAACC,OAAO,OAtBO,OAAQ,wBADd,MAAO,uBAGI,iBAAqB;QAoBJL,OAAO,EAAEA,OAAO;QAAEL,QAAQ,EAAC,CAAI;qBAvB3D,MAAO,uBAuBsDQ,IAAI;IAC/EG,MAAM,CAACD,OAAO,CAACE,GAAG,CAAC,CAAC,GAAGC,eAAe;AAC1C,CAAC;MAGKL,IAAI,SA5BQ,MAAO,SA4BAM,SAAS;IAI9BC,MAAM,GAAG,CAAC;QACN,MAAM,eAjCI,MAAO,uBADJ,YAAc;IAmC/B,CAAC;gBALWC,KAAK,CAAE,CAAC;QAChB,KAAK,CAACA,KAAK;IACf,CAAC",
+  "names": [
+    "jest",
+    "mock",
+    "language",
+    "stringsMock",
+    "setLanguage",
+    "fn",
+    "mockSetLanguage",
+    "strings",
+    "it",
+    "TestComponent",
+    "Test",
+    "test",
+    "wrapper",
+    "expect",
+    "get",
+    "toMatchSnapshot",
+    "Component",
+    "render",
+    "props"
+  ],
+  "sources": [
+    "../../input/index.tsx"
+  ],
+  "sourcesContent": [
+    "import { View } from 'react-native';\nimport React from 'react';\nimport { shallow } from 'enzyme';\nimport connect from '../connect.js';\nimport LanguageProvider from '../LanguageProvider';\nimport LanguageStore from '../LanguageStore';\n\njest.mock('../LanguageStore', () => {\n    const language = \"en\"\n    const stringsMock = {\n        setLanguage: jest.fn()\n    };\n    const mockSetLanguage = jest.fn();\n\n    return () => ({\n        language,\n        strings: stringsMock,\n        setLanguage: mockSetLanguage,\n    })\n});\n\nit('renders correctly', () => {\n    const TestComponent = connect(Test);\n    const strings = { test: 'Test' };\n    const wrapper = shallow(<LanguageProvider strings={strings} language=\"en\"><Test /></LanguageProvider>);\n    expect(wrapper.get(0)).toMatchSnapshot();\n});\n\n\nclass Test extends React.Component {\n    constructor(props) {\n        super(props);\n    }\n    render() {\n        return <View />;\n    }\n}"
+  ],
+  "version": 3
+}
