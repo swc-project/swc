@@ -2718,7 +2718,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.2"
+version = "0.17.3"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2865,7 +2865,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.89.3"
+version = "0.89.4"
 dependencies = [
  "bitflags",
  "memchr",
