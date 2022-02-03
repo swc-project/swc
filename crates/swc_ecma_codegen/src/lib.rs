@@ -2264,7 +2264,7 @@ where
 {
     #[emitter]
     fn emit_stmt(&mut self, node: &Stmt) -> Result {
-        match *node {
+        match node {
             Stmt::Expr(ref e) => emit!(e),
             Stmt::Block(ref e) => {
                 emit!(e);
@@ -2286,6 +2286,10 @@ where
             Stmt::For(ref e) => emit!(e),
             Stmt::ForIn(ref e) => emit!(e),
             Stmt::ForOf(ref e) => emit!(e),
+            Stmt::Decl(Decl::Var(e)) => {
+                emit!(e);
+                semi!();
+            }
             Stmt::Decl(ref e) => emit!(e),
         }
         if self.comments.is_some() {
