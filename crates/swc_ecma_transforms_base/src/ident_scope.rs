@@ -2,13 +2,9 @@ use std::{cell::RefCell, rc::Rc};
 
 use is_macro::Is;
 use swc_common::collections::AHashMap;
-use swc_ecma_ast::{
-    AssignPatProp, Expr, Id, Ident, KeyValuePatProp, PropName, VarDecl, VarDeclKind,
-};
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
-};
+use swc_ecma_ast::{Id, VarDecl, VarDeclKind};
+use swc_ecma_utils::collect_decls;
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Is, Hash)]
 pub enum IdentScopeKind {
@@ -50,48 +46,13 @@ struct IdentScopeCollector {
 impl VisitMut for IdentScopeCollector {
     noop_visit_mut_type!();
 
-    fn visit_mut_var_decl(&mut self, var: &mut VarDecl) {
-        var.visit_mut_children_with(self);
+    fn visit_mut_var_decl(&mut self, var_decl: &mut VarDecl) {
+        var_decl.visit_mut_children_with(self);
 
-        let mut pat_visitor = PatVisitor {
-            ident_scope_record: self.ident_scope_record.clone(),
-            ident_scope_kind: var.kind.into(),
-        };
+        let kind = var_decl.kind.into();
 
-        for decl in var.decls.iter() {
-            decl.name.visit_with(&mut pat_visitor);
-        }
-    }
-}
-
-struct PatVisitor {
-    ident_scope_record: IdentScopeRecord,
-    ident_scope_kind: IdentScopeKind,
-}
-
-impl Visit for PatVisitor {
-    noop_visit_type!();
-
-    /// No-op (we don't care about expressions)
-    fn visit_expr(&mut self, _: &Expr) {}
-
-    fn visit_ident(&mut self, ident: &Ident) {
-        self.ident_scope_record
-            .borrow_mut()
-            .entry(ident.to_id())
-            .or_insert_with(|| self.ident_scope_kind);
-    }
-
-    /// No-op (we don't care about expressions)
-    fn visit_prop_name(&mut self, _: &PropName) {}
-
-    /// let { x: y } = z;
-    fn visit_key_value_pat_prop(&mut self, n: &KeyValuePatProp) {
-        n.value.visit_with(self);
-    }
-
-    /// let { x = y } = z;
-    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
-        n.key.visit_with(self);
+        collect_decls(var_decl).into_iter().for_each(|id| {
+            self.ident_scope_record.borrow_mut().insert(id, kind);
+        });
     }
 }
