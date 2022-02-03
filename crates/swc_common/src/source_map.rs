@@ -580,7 +580,7 @@ impl SourceMap {
     }
 
     /// Calls `op` with the source code located at `sp`.
-    pub fn with_snippet<F, Ret>(&self, sp: Span, op: F) -> Result<Ret, SpanSnippetError>
+    pub fn with_snippet_of_span<F, Ret>(&self, sp: Span, op: F) -> Result<Ret, SpanSnippetError>
     where
         F: FnOnce(&str) -> Ret,
     {

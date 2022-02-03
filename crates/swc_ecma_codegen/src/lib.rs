@@ -810,7 +810,7 @@ where
             }
 
             self.cm
-                .with_snippet(*span, |text| {
+                .with_snippet_of_span(*span, |text| {
                     // check if numeric literal is a decimal literal that was originally written
                     // with a dot
                     if text.contains('.') {
