@@ -530,19 +530,65 @@ where
                 self.wr.write_str_lit(num.span, "-")?;
             }
             self.wr.write_str_lit(num.span, "Infinity")?;
-        } else if num.value.is_sign_negative() && num.value == 0.0 {
-            self.wr.write_str_lit(num.span, "-0")?;
         } else {
-            let mut s = num.value.to_string();
-            if self.cfg.minify && !s.contains('.') && !s.contains('e') && s.ends_with("0000") {
-                let cnt = s.as_bytes().iter().rev().filter(|&&v| v == b'0').count() - 1;
+            let mut printed = num.value.to_string();
 
-                s.truncate(s.len() - cnt);
-                s.push('e');
-                s.push_str(&cnt.to_string());
+            if self.cfg.minify {
+                let mut original = printed.clone();
+
+                if num.value.fract() == 0.0 {
+                    let mut hex = String::new();
+
+                    hex.push_str(&format!("{:#x}", num.value as i64));
+
+                    if hex.len() < printed.len() {
+                        printed = hex;
+                    }
+                }
+
+                if original.starts_with("0.") {
+                    original.replace_range(0..1, "");
+                }
+
+                if original.starts_with(".000") {
+                    let mut cnt = 3;
+
+                    for &v in original.as_bytes().iter().skip(4) {
+                        if v == b'0' {
+                            cnt += 1;
+                        } else {
+                            break;
+                        }
+                    }
+
+                    original.replace_range(0..cnt + 1, "");
+
+                    let remain_len = original.len();
+
+                    original.push_str("e-");
+                    original.push_str(&(remain_len + cnt).to_string());
+                } else if original.ends_with("000") {
+                    let mut cnt = 3;
+
+                    for &v in original.as_bytes().iter().rev().skip(3) {
+                        if v == b'0' {
+                            cnt += 1;
+                        } else {
+                            break;
+                        }
+                    }
+
+                    original.truncate(original.len() - cnt);
+                    original.push('e');
+                    original.push_str(&cnt.to_string());
+                }
+
+                if original.len() < printed.len() {
+                    printed = original;
+                }
             }
 
-            self.wr.write_str_lit(num.span, &s)?;
+            self.wr.write_str_lit(num.span, &printed)?;
         }
     }
 
