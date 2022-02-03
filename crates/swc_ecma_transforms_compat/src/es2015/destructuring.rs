@@ -434,27 +434,20 @@ impl AssignFolder {
                 right: def_value,
                 ..
             }) => {
-                assert!(
-                    decl.init.is_some(),
-                    "destructuring pattern binding requires initializer"
-                );
-
-                let init = decl.init;
+                let init = decl.init.unwrap_or_else(|| undefined(DUMMY_SP));
                 let tmp_ident: Ident = (|| {
-                    if let Some(ref e) = init {
-                        match &**e {
-                            Expr::Ident(ref i) if i.span.ctxt() != SyntaxContext::empty() => {
-                                return i.clone();
-                            }
-                            _ => {}
+                    match *init {
+                        Expr::Ident(ref i) if i.span.ctxt() != SyntaxContext::empty() => {
+                            return i.clone();
                         }
+                        _ => {}
                     }
 
                     let tmp_ident = private_ident!(span, "tmp");
                     decls.push(VarDeclarator {
                         span: DUMMY_SP,
                         name: tmp_ident.clone().into(),
-                        init,
+                        init: Some(init),
                         definite: false,
                     });
 

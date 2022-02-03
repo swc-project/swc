@@ -1992,3 +1992,44 @@ test!(
     ref = [], ref1 = ref[0], bar = ref1 === void 0 ? baz : ref1, ref;
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    ary_ptrn_elem_id_init_hole,
+    "\
+    let [x = 23] = [,];
+
+    assert.sameValue(x, 23);
+    ",
+    "\
+    let tmp = void 0, x = tmp === void 0 ? 23 : tmp;
+    assert.sameValue(x, 23);
+   "
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    const_ary_ptrn_elem_id_init_hole,
+    "\
+    var iterCount = 0;
+
+    for (const [x = 23] = [,]; iterCount < 1; ) {
+      assert.sameValue(x, 23);
+      // another statement
+    
+      iterCount += 1;
+    }
+    
+    assert.sameValue(iterCount, 1, 'Iteration occurred as expected');
+    ",
+    "\
+    var iterCount = 0;
+    for(const tmp = void 0, x = tmp === void 0 ? 23 : tmp; iterCount < 1;){
+        assert.sameValue(x, 23);
+        iterCount += 1;
+    }
+    assert.sameValue(iterCount, 1, 'Iteration occurred as expected');
+   "
+);
