@@ -253,7 +253,7 @@ where
 
         self.input.skip_ws()?;
 
-        let important = if !is!(self, EOF) && is!(self, "!") {
+        let important = if is!(self, "!") {
             let important_flag = self.parse()?;
 
             end = self.input.last_pos()?;
