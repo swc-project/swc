@@ -2768,6 +2768,10 @@ where
         punct!("(");
         emit!(node.test);
         punct!(")");
+
+        if self.wr.target() <= EsVersion::Es5 {
+            semi!();
+        }
     }
 
     #[emitter]
