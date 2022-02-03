@@ -2323,6 +2323,15 @@ mod test {
             &["a", "b", "c", "d"],
         );
         run_extract_var_ids("var [ a, b = 1, [c], ...d ] = [];", &["a", "b", "c", "d"]);
+        run_extract_var_ids(
+            "var a = 1,
+        [b, ...c] = [2, 3],
+        { d: e } = {},
+        { f = g } = {},
+        { h: i = j } = {},
+        { ...k } = {};",
+            &["a", "b", "c", "e", "f", "i", "k"],
+        );
     }
 
     fn run_extract_var_ids(text: &str, expected_names: &[&str]) {
