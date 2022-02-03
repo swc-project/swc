@@ -34,11 +34,15 @@ impl VisitMut for Prefixer {
                     value: $name.into(),
                     raw: $name.into(),
                 });
+                let important = match &n.important {
+                    Some(i) => Some(i.clone()),
+                    None => None,
+                };
                 self.added.push(Declaration {
                     span: n.span,
                     name,
                     value: vec![val],
-                    important: n.important.clone(),
+                    important,
                 });
             }};
         }
@@ -50,12 +54,15 @@ impl VisitMut for Prefixer {
                     value: $name.into(),
                     raw: $name.into(),
                 });
-
+                let important = match &n.important {
+                    Some(i) => Some(i.clone()),
+                    None => None,
+                };
                 self.added.push(Declaration {
                     span: n.span,
                     name,
                     value: n.value.clone(),
-                    important: n.important.clone(),
+                    important,
                 });
             }};
         }
@@ -67,12 +74,15 @@ impl VisitMut for Prefixer {
                     value: $name.into(),
                     raw: $name.into(),
                 };
-
+                let important = match &n.important {
+                    Some(i) => Some(i.clone()),
+                    None => None,
+                };
                 self.added.push(Declaration {
                     span: n.span,
                     name: n.name.clone(),
                     value: vec![Value::Ident(val)],
-                    important: n.important.clone(),
+                    important,
                 });
             }};
         }
@@ -185,11 +195,15 @@ impl VisitMut for Prefixer {
                                 },
                                 value: f.value.clone(),
                             });
+                            let important = match &n.important {
+                                Some(i) => Some(i.clone()),
+                                None => None,
+                            };
                             self.added.push(Declaration {
                                 span: n.span,
                                 name: n.name.clone(),
                                 value: vec![val],
-                                important: n.important,
+                                important,
                             });
                         }
                     }
@@ -209,11 +223,15 @@ impl VisitMut for Prefixer {
                                 },
                                 value: f.value.clone(),
                             });
+                            let important = match &n.important {
+                                Some(i) => Some(i.clone()),
+                                None => None,
+                            };
                             self.added.push(Declaration {
                                 span: n.span,
                                 name: n.name.clone(),
                                 value: vec![val],
-                                important: n.important,
+                                important,
                             });
                         }
                     }
@@ -257,11 +275,15 @@ impl VisitMut for Prefixer {
                         .collect();
 
                     if n.value != new_value {
+                        let important = match &n.important {
+                            Some(i) => Some(i.clone()),
+                            None => None,
+                        };
                         self.added.push(Declaration {
                             span: n.span,
                             name: n.name.clone(),
                             value: new_value,
-                            important: n.important.clone(),
+                            important,
                         });
                     }
                 }
@@ -469,17 +491,23 @@ impl VisitMut for Prefixer {
 
             "transition" => {
                 let mut value = n.value.clone();
+
                 replace_ident(&mut value, "transform", "-webkit-transform");
+
                 let name = DeclarationName::Ident(Ident {
                     span: DUMMY_SP,
                     value: "-webkit-transition".into(),
                     raw: "-webkit-transition".into(),
                 });
+                let important = match &n.important {
+                    Some(i) => Some(i.clone()),
+                    None => None,
+                };
                 self.added.push(Declaration {
                     span: n.span,
                     name,
                     value,
-                    important: n.important,
+                    important,
                 });
             }
 
