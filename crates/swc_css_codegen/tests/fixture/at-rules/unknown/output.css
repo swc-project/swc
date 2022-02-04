@@ -1,0 +1,8 @@
+@unknown {}
+@unknown url(image.png) {}
+@unknown url(   image.png   ) {}
+@unknown url("image.png") {}
+@unknown url(   image.png   img   ) {}
+@unknown url(   image.png"" img   ) {}
+@unknown url(   image.png\ img   ) {}
+@unknown url(   image.png\)   ) {}
