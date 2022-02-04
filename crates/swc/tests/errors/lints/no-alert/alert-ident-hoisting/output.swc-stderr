@@ -1,6 +1,0 @@
-error: Unexpected alert
- 
-  |
-5 | window.alert();
-  | ^^^^^^^^^^^^^^
-
