@@ -231,24 +231,12 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(self, ')');
             expr
         } else {
-            let mut expr = self
+            let expr = self
                 .parse_ident(false, false)
                 .map(Expr::from)
                 .map(Box::new)?;
 
-            while eat!(self, '.') {
-                let ident = self.parse_ident(true, true)?;
-
-                let span = Span::new(start, expr.span().hi(), Default::default());
-
-                expr = Box::new(Expr::Member(MemberExpr {
-                    span,
-                    obj: expr,
-                    prop: MemberProp::Ident(ident),
-                }));
-            }
-
-            expr
+            self.parse_subscripts(Callee::Expr(expr), false, true)?
         };
 
         let expr = self.parse_maybe_decorator_args(expr)?;
