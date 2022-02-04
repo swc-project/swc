@@ -711,7 +711,7 @@ impl<'a> VisitMut for Resolver<'a> {
         self.ident_type = IdentType::Ref;
         n.update.visit_mut_with(&mut child);
 
-        child.visit_mut_stmt_within_same_scope(&mut *n.body);
+        child.visit_mut_stmt_within_child_scope(&mut *n.body);
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {
