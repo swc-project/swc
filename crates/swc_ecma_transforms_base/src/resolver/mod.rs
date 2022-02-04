@@ -1348,15 +1348,6 @@ impl VisitMut for Hoister<'_, '_> {
         self.in_block = old_in_block;
     }
 
-    fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
-        s.discriminant.visit_mut_with(self);
-
-        let old_in_block = self.in_block;
-        self.in_block = true;
-        s.cases.visit_mut_with(self);
-        self.in_block = old_in_block;
-    }
-
     #[inline]
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
         let params: Vec<Id> = find_ids(&c.param);
@@ -1460,9 +1451,6 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_function(&mut self, _: &mut Function) {}
 
     #[inline]
-    fn visit_mut_ts_module_block(&mut self, _: &mut TsModuleBlock) {}
-
-    #[inline]
     fn visit_mut_param(&mut self, _: &mut Param) {}
 
     fn visit_mut_pat(&mut self, node: &mut Pat) {
@@ -1486,11 +1474,23 @@ impl VisitMut for Hoister<'_, '_> {
     #[inline]
     fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
 
+    fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
+        s.discriminant.visit_mut_with(self);
+
+        let old_in_block = self.in_block;
+        self.in_block = true;
+        s.cases.visit_mut_with(self);
+        self.in_block = old_in_block;
+    }
+
     #[inline]
     fn visit_mut_tagged_tpl(&mut self, _: &mut TaggedTpl) {}
 
     #[inline]
     fn visit_mut_tpl(&mut self, _: &mut Tpl) {}
+
+    #[inline]
+    fn visit_mut_ts_module_block(&mut self, _: &mut TsModuleBlock) {}
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
         if self.in_block {
