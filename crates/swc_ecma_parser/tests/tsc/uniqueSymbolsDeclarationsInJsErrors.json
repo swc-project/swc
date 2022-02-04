@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 199,
-    "end": 445,
+    "start": 243,
+    "end": 503,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 205,
-          "end": 206,
+          "start": 249,
+          "end": 250,
           "ctxt": 0
         },
         "value": "C",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 199,
-        "end": 445,
+        "start": 243,
+        "end": 503,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 258,
-            "end": 285,
+            "start": 306,
+            "end": 333,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 265,
-              "end": 284,
+              "start": 313,
+              "end": 332,
               "ctxt": 0
             },
             "value": "readwriteStaticType",
@@ -58,15 +58,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 352,
-            "end": 372,
+            "start": 405,
+            "end": 425,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 359,
-              "end": 371,
+              "start": 412,
+              "end": 424,
               "ctxt": 0
             },
             "value": "readonlyType",
@@ -87,15 +87,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 422,
-            "end": 443,
+            "start": 479,
+            "end": 500,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 429,
-              "end": 442,
+              "start": 486,
+              "end": 499,
               "ctxt": 0
             },
             "value": "readwriteType",

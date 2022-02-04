@@ -185,3 +185,15 @@ var G1 = function G1(p1) {
         return _class;
     })(G1);
 };
+var H = function H(p1) {
+    "use strict";
+    var _this = this;
+    _classCallCheck(this, H);
+    this.p1 = p1;
+    this.p2 = function() {
+        return _this.p1.foo;
+    };
+    this.p3 = function() {
+        return _this.p1.foo;
+    };
+};

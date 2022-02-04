@@ -1,0 +1,2155 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 20,
+    "end": 885,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 26,
+          "end": 27,
+          "ctxt": 0
+        },
+        "value": "A",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 20,
+        "end": 885,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "PrivateProperty",
+          "span": {
+            "start": 34,
+            "end": 52,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 41,
+              "end": 47,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 42,
+                "end": 47,
+                "ctxt": 0
+              },
+              "value": "field",
+              "optional": false
+            }
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 50,
+              "end": 51,
+              "ctxt": 0
+            },
+            "value": 0.0
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "definite": false
+        },
+        {
+          "type": "Constructor",
+          "span": {
+            "start": 57,
+            "end": 835,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 57,
+              "end": 68,
+              "ctxt": 0
+            },
+            "value": "constructor",
+            "optional": false
+          },
+          "params": [],
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 71,
+              "end": 835,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 81,
+                  "end": 94,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 81,
+                    "end": 93,
+                    "ctxt": 0
+                  },
+                  "operator": "=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 81,
+                      "end": 89,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 81,
+                        "end": 82,
+                        "ctxt": 0
+                      },
+                      "value": "A",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 83,
+                        "end": 89,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 84,
+                          "end": 89,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 92,
+                      "end": 93,
+                      "ctxt": 0
+                    },
+                    "value": 1.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 103,
+                  "end": 117,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 103,
+                    "end": 116,
+                    "ctxt": 0
+                  },
+                  "operator": "+=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 103,
+                      "end": 111,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 103,
+                        "end": 104,
+                        "ctxt": 0
+                      },
+                      "value": "A",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 105,
+                        "end": 111,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 106,
+                          "end": 111,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 115,
+                      "end": 116,
+                      "ctxt": 0
+                    },
+                    "value": 2.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 126,
+                  "end": 140,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 126,
+                    "end": 139,
+                    "ctxt": 0
+                  },
+                  "operator": "-=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 126,
+                      "end": 134,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 126,
+                        "end": 127,
+                        "ctxt": 0
+                      },
+                      "value": "A",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 128,
+                        "end": 134,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 129,
+                          "end": 134,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 138,
+                      "end": 139,
+                      "ctxt": 0
+                    },
+                    "value": 3.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 149,
+                  "end": 163,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 149,
+                    "end": 162,
+                    "ctxt": 0
+                  },
+                  "operator": "/=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 149,
+                      "end": 157,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 149,
+                        "end": 150,
+                        "ctxt": 0
+                      },
+                      "value": "A",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 151,
+                        "end": 157,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 152,
+                          "end": 157,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 161,
+                      "end": 162,
+                      "ctxt": 0
+                    },
+                    "value": 4.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 172,
+                  "end": 186,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 172,
+                    "end": 185,
+                    "ctxt": 0
+                  },
+                  "operator": "*=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 172,
+                      "end": 180,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 172,
+                        "end": 173,
+                        "ctxt": 0
+                      },
+                      "value": "A",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 174,
+                        "end": 180,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 175,
+                          "end": 180,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 184,
+                      "end": 185,
+                      "ctxt": 0
+                    },
+                    "value": 5.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 195,
+                  "end": 210,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 195,
+                    "end": 209,
+                    "ctxt": 0
+                  },
+                  "operator": "**=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 195,
+                      "end": 203,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 195,
+                        "end": 196,
+                        "ctxt": 0
+                      },
+                      "value": "A",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 197,
+                        "end": 203,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 198,
+                          "end": 203,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 208,
+                      "end": 209,
+                      "ctxt": 0
+                    },
+                    "value": 6.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 219,
+                  "end": 233,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 219,
+                    "end": 232,
+                    "ctxt": 0
+                  },
+                  "operator": "%=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 219,
+                      "end": 227,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 219,
+                        "end": 220,
+                        "ctxt": 0
+                      },
+                      "value": "A",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 221,
+                        "end": 227,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 222,
+                          "end": 227,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 231,
+                      "end": 232,
+                      "ctxt": 0
+                    },
+                    "value": 7.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 242,
+                  "end": 257,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 242,
+                    "end": 256,
+                    "ctxt": 0
+                  },
+                  "operator": "<<=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 242,
+                      "end": 250,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 242,
+                        "end": 243,
+                        "ctxt": 0
+                      },
+                      "value": "A",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 244,
+                        "end": 250,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 245,
+                          "end": 250,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 255,
+                      "end": 256,
+                      "ctxt": 0
+                    },
+                    "value": 8.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 266,
+                  "end": 281,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 266,
+                    "end": 280,
+                    "ctxt": 0
+                  },
+                  "operator": ">>=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 266,
+                      "end": 274,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 266,
+                        "end": 267,
+                        "ctxt": 0
+                      },
+                      "value": "A",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 268,
+                        "end": 274,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 269,
+                          "end": 274,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 279,
+                      "end": 280,
+                      "ctxt": 0
+                    },
+                    "value": 9.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 290,
+                  "end": 307,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 290,
+                    "end": 306,
+                    "ctxt": 0
+                  },
+                  "operator": ">>>=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 290,
+                      "end": 298,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 290,
+                        "end": 291,
+                        "ctxt": 0
+                      },
+                      "value": "A",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 292,
+                        "end": 298,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 293,
+                          "end": 298,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 304,
+                      "end": 306,
+                      "ctxt": 0
+                    },
+                    "value": 10.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 316,
+                  "end": 331,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 316,
+                    "end": 330,
+                    "ctxt": 0
+                  },
+                  "operator": "&=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 316,
+                      "end": 324,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 316,
+                        "end": 317,
+                        "ctxt": 0
+                      },
+                      "value": "A",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 318,
+                        "end": 324,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 319,
+                          "end": 324,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 328,
+                      "end": 330,
+                      "ctxt": 0
+                    },
+                    "value": 11.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 340,
+                  "end": 355,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 340,
+                    "end": 354,
+                    "ctxt": 0
+                  },
+                  "operator": "|=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 340,
+                      "end": 348,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 340,
+                        "end": 341,
+                        "ctxt": 0
+                      },
+                      "value": "A",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 342,
+                        "end": 348,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 343,
+                          "end": 348,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 352,
+                      "end": 354,
+                      "ctxt": 0
+                    },
+                    "value": 12.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 364,
+                  "end": 379,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 364,
+                    "end": 378,
+                    "ctxt": 0
+                  },
+                  "operator": "^=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 364,
+                      "end": 372,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 364,
+                        "end": 365,
+                        "ctxt": 0
+                      },
+                      "value": "A",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 366,
+                        "end": 372,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 367,
+                          "end": 372,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 376,
+                      "end": 378,
+                      "ctxt": 0
+                    },
+                    "value": 13.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 388,
+                  "end": 412,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 388,
+                    "end": 411,
+                    "ctxt": 0
+                  },
+                  "operator": "=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 388,
+                      "end": 407,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 388,
+                        "end": 400,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 388,
+                          "end": 398,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 388,
+                            "end": 389,
+                            "ctxt": 0
+                          },
+                          "value": "A",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 390,
+                            "end": 398,
+                            "ctxt": 0
+                          },
+                          "value": "getClass",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [],
+                      "typeArguments": null
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 401,
+                        "end": 407,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 402,
+                          "end": 407,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 410,
+                      "end": 411,
+                      "ctxt": 0
+                    },
+                    "value": 1.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 421,
+                  "end": 446,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 421,
+                    "end": 445,
+                    "ctxt": 0
+                  },
+                  "operator": "+=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 421,
+                      "end": 440,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 421,
+                        "end": 433,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 421,
+                          "end": 431,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 421,
+                            "end": 422,
+                            "ctxt": 0
+                          },
+                          "value": "A",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 423,
+                            "end": 431,
+                            "ctxt": 0
+                          },
+                          "value": "getClass",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [],
+                      "typeArguments": null
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 434,
+                        "end": 440,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 435,
+                          "end": 440,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 444,
+                      "end": 445,
+                      "ctxt": 0
+                    },
+                    "value": 2.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 455,
+                  "end": 480,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 455,
+                    "end": 479,
+                    "ctxt": 0
+                  },
+                  "operator": "-=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 455,
+                      "end": 474,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 455,
+                        "end": 467,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 455,
+                          "end": 465,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 455,
+                            "end": 456,
+                            "ctxt": 0
+                          },
+                          "value": "A",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 457,
+                            "end": 465,
+                            "ctxt": 0
+                          },
+                          "value": "getClass",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [],
+                      "typeArguments": null
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 468,
+                        "end": 474,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 469,
+                          "end": 474,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 478,
+                      "end": 479,
+                      "ctxt": 0
+                    },
+                    "value": 3.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 489,
+                  "end": 514,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 489,
+                    "end": 513,
+                    "ctxt": 0
+                  },
+                  "operator": "/=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 489,
+                      "end": 508,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 489,
+                        "end": 501,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 489,
+                          "end": 499,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 489,
+                            "end": 490,
+                            "ctxt": 0
+                          },
+                          "value": "A",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 491,
+                            "end": 499,
+                            "ctxt": 0
+                          },
+                          "value": "getClass",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [],
+                      "typeArguments": null
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 502,
+                        "end": 508,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 503,
+                          "end": 508,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 512,
+                      "end": 513,
+                      "ctxt": 0
+                    },
+                    "value": 4.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 523,
+                  "end": 548,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 523,
+                    "end": 547,
+                    "ctxt": 0
+                  },
+                  "operator": "*=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 523,
+                      "end": 542,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 523,
+                        "end": 535,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 523,
+                          "end": 533,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 523,
+                            "end": 524,
+                            "ctxt": 0
+                          },
+                          "value": "A",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 525,
+                            "end": 533,
+                            "ctxt": 0
+                          },
+                          "value": "getClass",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [],
+                      "typeArguments": null
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 536,
+                        "end": 542,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 537,
+                          "end": 542,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 546,
+                      "end": 547,
+                      "ctxt": 0
+                    },
+                    "value": 5.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 557,
+                  "end": 583,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 557,
+                    "end": 582,
+                    "ctxt": 0
+                  },
+                  "operator": "**=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 557,
+                      "end": 576,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 557,
+                        "end": 569,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 557,
+                          "end": 567,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 557,
+                            "end": 558,
+                            "ctxt": 0
+                          },
+                          "value": "A",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 559,
+                            "end": 567,
+                            "ctxt": 0
+                          },
+                          "value": "getClass",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [],
+                      "typeArguments": null
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 570,
+                        "end": 576,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 571,
+                          "end": 576,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 581,
+                      "end": 582,
+                      "ctxt": 0
+                    },
+                    "value": 6.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 592,
+                  "end": 617,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 592,
+                    "end": 616,
+                    "ctxt": 0
+                  },
+                  "operator": "%=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 592,
+                      "end": 611,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 592,
+                        "end": 604,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 592,
+                          "end": 602,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 592,
+                            "end": 593,
+                            "ctxt": 0
+                          },
+                          "value": "A",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 594,
+                            "end": 602,
+                            "ctxt": 0
+                          },
+                          "value": "getClass",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [],
+                      "typeArguments": null
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 605,
+                        "end": 611,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 606,
+                          "end": 611,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 615,
+                      "end": 616,
+                      "ctxt": 0
+                    },
+                    "value": 7.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 626,
+                  "end": 652,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 626,
+                    "end": 651,
+                    "ctxt": 0
+                  },
+                  "operator": "<<=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 626,
+                      "end": 645,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 626,
+                        "end": 638,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 626,
+                          "end": 636,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 626,
+                            "end": 627,
+                            "ctxt": 0
+                          },
+                          "value": "A",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 628,
+                            "end": 636,
+                            "ctxt": 0
+                          },
+                          "value": "getClass",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [],
+                      "typeArguments": null
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 639,
+                        "end": 645,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 640,
+                          "end": 645,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 650,
+                      "end": 651,
+                      "ctxt": 0
+                    },
+                    "value": 8.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 661,
+                  "end": 687,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 661,
+                    "end": 686,
+                    "ctxt": 0
+                  },
+                  "operator": ">>=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 661,
+                      "end": 680,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 661,
+                        "end": 673,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 661,
+                          "end": 671,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 661,
+                            "end": 662,
+                            "ctxt": 0
+                          },
+                          "value": "A",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 663,
+                            "end": 671,
+                            "ctxt": 0
+                          },
+                          "value": "getClass",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [],
+                      "typeArguments": null
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 674,
+                        "end": 680,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 675,
+                          "end": 680,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 685,
+                      "end": 686,
+                      "ctxt": 0
+                    },
+                    "value": 9.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 696,
+                  "end": 724,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 696,
+                    "end": 723,
+                    "ctxt": 0
+                  },
+                  "operator": ">>>=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 696,
+                      "end": 715,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 696,
+                        "end": 708,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 696,
+                          "end": 706,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 696,
+                            "end": 697,
+                            "ctxt": 0
+                          },
+                          "value": "A",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 698,
+                            "end": 706,
+                            "ctxt": 0
+                          },
+                          "value": "getClass",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [],
+                      "typeArguments": null
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 709,
+                        "end": 715,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 710,
+                          "end": 715,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 721,
+                      "end": 723,
+                      "ctxt": 0
+                    },
+                    "value": 10.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 733,
+                  "end": 759,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 733,
+                    "end": 758,
+                    "ctxt": 0
+                  },
+                  "operator": "&=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 733,
+                      "end": 752,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 733,
+                        "end": 745,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 733,
+                          "end": 743,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 733,
+                            "end": 734,
+                            "ctxt": 0
+                          },
+                          "value": "A",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 735,
+                            "end": 743,
+                            "ctxt": 0
+                          },
+                          "value": "getClass",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [],
+                      "typeArguments": null
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 746,
+                        "end": 752,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 747,
+                          "end": 752,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 756,
+                      "end": 758,
+                      "ctxt": 0
+                    },
+                    "value": 11.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 768,
+                  "end": 794,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 768,
+                    "end": 793,
+                    "ctxt": 0
+                  },
+                  "operator": "|=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 768,
+                      "end": 787,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 768,
+                        "end": 780,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 768,
+                          "end": 778,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 768,
+                            "end": 769,
+                            "ctxt": 0
+                          },
+                          "value": "A",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 770,
+                            "end": 778,
+                            "ctxt": 0
+                          },
+                          "value": "getClass",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [],
+                      "typeArguments": null
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 781,
+                        "end": 787,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 782,
+                          "end": 787,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 791,
+                      "end": 793,
+                      "ctxt": 0
+                    },
+                    "value": 12.0
+                  }
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 803,
+                  "end": 829,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "AssignmentExpression",
+                  "span": {
+                    "start": 803,
+                    "end": 828,
+                    "ctxt": 0
+                  },
+                  "operator": "^=",
+                  "left": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 803,
+                      "end": 822,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 803,
+                        "end": 815,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 803,
+                          "end": 813,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 803,
+                            "end": 804,
+                            "ctxt": 0
+                          },
+                          "value": "A",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 805,
+                            "end": 813,
+                            "ctxt": 0
+                          },
+                          "value": "getClass",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [],
+                      "typeArguments": null
+                    },
+                    "property": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 816,
+                        "end": 822,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 817,
+                          "end": 822,
+                          "ctxt": 0
+                        },
+                        "value": "field",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 826,
+                      "end": 828,
+                      "ctxt": 0
+                    },
+                    "value": 13.0
+                  }
+                }
+              }
+            ]
+          },
+          "accessibility": null,
+          "isOptional": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 840,
+            "end": 883,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 847,
+              "end": 855,
+              "ctxt": 0
+            },
+            "value": "getClass",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 840,
+              "end": 883,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 858,
+                "end": 883,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 868,
+                    "end": 877,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 875,
+                      "end": 876,
+                      "ctxt": 0
+                    },
+                    "value": "A",
+                    "optional": false
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": true,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

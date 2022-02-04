@@ -4,6 +4,12 @@ function _classPrivateFieldGet(receiver, privateMap) {
     }
     return privateMap.get(receiver).value;
 }
+function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
+    if (receiver !== classConstructor) {
+        throw new TypeError("Private static access of wrong provenance");
+    }
+    return descriptor.value;
+}
 function _defineProperty(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -54,6 +60,10 @@ class C {
         _classPrivateFieldGet(obj, _prop);
         const rest = _extends({}, other);
         _classPrivateFieldGet(rest, _prop);
+        const statics = _objectSpread({}, C);
+        _classStaticPrivateFieldSpecGet(statics, C, _propStatic);
+        const sRest = _extends({}, C);
+        _classStaticPrivateFieldSpecGet(sRest, C, _propStatic);
     }
     constructor(){
         _prop.set(this, {
@@ -63,3 +73,7 @@ class C {
     }
 }
 var _prop = new WeakMap();
+var _propStatic = {
+    writable: true,
+    value: 1
+};

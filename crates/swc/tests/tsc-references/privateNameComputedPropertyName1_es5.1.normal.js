@@ -47,7 +47,7 @@ function _defineProperty(obj, key, value) {
     }
     return obj;
 }
-var A = // @target: esnext, es2015
+var A = // @target: esnext, es2022, es2015
 /*#__PURE__*/ function() {
     "use strict";
     function A() {

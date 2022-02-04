@@ -1,0 +1,575 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 68,
+    "end": 550,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 68,
+        "end": 129,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 77,
+            "end": 81,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 77,
+              "end": 81,
+              "ctxt": 0
+            },
+            "value": "type",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": false
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 83,
+            "end": 85,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 83,
+              "end": 85,
+              "ctxt": 0
+            },
+            "value": "as",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": false
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 87,
+            "end": 96,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 87,
+              "end": 96,
+              "ctxt": 0
+            },
+            "value": "something",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": false
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 98,
+            "end": 101,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 98,
+              "end": 101,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": false
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 103,
+            "end": 106,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 103,
+              "end": 106,
+              "ctxt": 0
+            },
+            "value": "bar",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": false
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 114,
+          "end": 128,
+          "ctxt": 0
+        },
+        "value": "./exports.js",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 130,
+        "end": 135,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 130,
+          "end": 134,
+          "ctxt": 0
+        },
+        "value": "type",
+        "optional": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 136,
+        "end": 139,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 136,
+          "end": 138,
+          "ctxt": 0
+        },
+        "value": "as",
+        "optional": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 177,
+        "end": 187,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 177,
+          "end": 186,
+          "ctxt": 0
+        },
+        "value": "something",
+        "optional": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 225,
+        "end": 229,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 225,
+          "end": 228,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 267,
+        "end": 271,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 267,
+          "end": 270,
+          "ctxt": 0
+        },
+        "value": "bar",
+        "optional": false
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 336,
+        "end": 351,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 342,
+            "end": 350,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 342,
+              "end": 346,
+              "ctxt": 0
+            },
+            "value": "type",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 349,
+              "end": 350,
+              "ctxt": 0
+            },
+            "value": 0.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 352,
+        "end": 365,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 358,
+            "end": 364,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 358,
+              "end": 360,
+              "ctxt": 0
+            },
+            "value": "as",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 363,
+              "end": 364,
+              "ctxt": 0
+            },
+            "value": 0.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 366,
+        "end": 386,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 372,
+            "end": 385,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 372,
+              "end": 381,
+              "ctxt": 0
+            },
+            "value": "something",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 384,
+              "end": 385,
+              "ctxt": 0
+            },
+            "value": 0.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 387,
+        "end": 403,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 396,
+            "end": 400,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 396,
+              "end": 400,
+              "ctxt": 0
+            },
+            "value": "type",
+            "optional": false
+          },
+          "exported": null,
+          "isTypeOnly": false
+        }
+      ],
+      "source": null,
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 404,
+        "end": 423,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 413,
+            "end": 420,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 418,
+              "end": 420,
+              "ctxt": 0
+            },
+            "value": "as",
+            "optional": false
+          },
+          "exported": null,
+          "isTypeOnly": true
+        }
+      ],
+      "source": null,
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 424,
+        "end": 450,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 433,
+            "end": 447,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 438,
+              "end": 447,
+              "ctxt": 0
+            },
+            "value": "something",
+            "optional": false
+          },
+          "exported": null,
+          "isTypeOnly": true
+        }
+      ],
+      "source": null,
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 451,
+        "end": 479,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 460,
+            "end": 476,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 465,
+              "end": 469,
+              "ctxt": 0
+            },
+            "value": "type",
+            "optional": false
+          },
+          "exported": {
+            "type": "Identifier",
+            "span": {
+              "start": 473,
+              "end": 476,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          },
+          "isTypeOnly": true
+        }
+      ],
+      "source": null,
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 480,
+        "end": 506,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 489,
+            "end": 493,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 494,
+              "end": 496,
+              "ctxt": 0
+            },
+            "value": "as",
+            "optional": false
+          },
+          "exported": {
+            "type": "Identifier",
+            "span": {
+              "start": 500,
+              "end": 503,
+              "ctxt": 0
+            },
+            "value": "bar",
+            "optional": false
+          },
+          "isTypeOnly": true
+        }
+      ],
+      "source": null,
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 507,
+        "end": 550,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 521,
+            "end": 547,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 526,
+              "end": 535,
+              "ctxt": 0
+            },
+            "value": "something",
+            "optional": false
+          },
+          "exported": {
+            "type": "Identifier",
+            "span": {
+              "start": 539,
+              "end": 547,
+              "ctxt": 0
+            },
+            "value": "whatever",
+            "optional": false
+          },
+          "isTypeOnly": true
+        }
+      ],
+      "source": null,
+      "typeOnly": true,
+      "asserts": null
+    }
+  ],
+  "interpreter": null
+}

@@ -25,3 +25,4 @@ var Bar = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Bar;
 }();
+Bar.instance = [];

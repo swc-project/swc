@@ -34,7 +34,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var Foo = // @target: esnext, es2015
+var Foo = // @target: esnext, es2022, es2015
 /*#__PURE__*/ function() {
     "use strict";
     function Foo(name) {

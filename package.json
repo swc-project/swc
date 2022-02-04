@@ -47,7 +47,9 @@
         "registry": "https://registry.npmjs.org/",
         "access": "public"
     },
-    "dependencies": {},
+    "dependencies": {
+        "ts-node": "^10.4.0"
+    },
     "optionalDependencies": {},
     "types": "./index.d.ts",
     "scripts": {

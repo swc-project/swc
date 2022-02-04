@@ -1,5 +1,5 @@
 // @strict: true
-// @target: esnext, es2020, es2015
+// @target: esnext, es2021, es2020, es2015
 function foo1(f) {
     f !== null && f !== void 0 ? f : f = function(a) {
         return a;

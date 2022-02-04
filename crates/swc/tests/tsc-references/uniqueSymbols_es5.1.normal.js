@@ -156,6 +156,7 @@ var _marked3 = regeneratorRuntime.mark(genFuncYieldConstCall);
 // @target: esnext
 // @lib: esnext
 // @declaration: false
+// @useDefineForClassFields: false
 // declarations with call initializer
 var constCall = Symbol();
 var letCall = Symbol();

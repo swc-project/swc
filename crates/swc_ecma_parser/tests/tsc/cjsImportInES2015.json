@@ -1,0 +1,188 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 102,
+    "end": 291,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 116,
+          "end": 128,
+          "ctxt": 0
+        },
+        "value": "SpecialError",
+        "optional": false
+      },
+      "declare": true,
+      "span": {
+        "start": 102,
+        "end": 145,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 137,
+          "end": 142,
+          "ctxt": 0
+        },
+        "value": "Error",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "TsExportAssignment",
+      "span": {
+        "start": 146,
+        "end": 168,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 155,
+          "end": 167,
+          "ctxt": 0
+        },
+        "value": "SpecialError",
+        "optional": false
+      }
+    },
+    {
+      "type": "TsImportEqualsDeclaration",
+      "span": {
+        "start": 202,
+        "end": 248,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isExport": false,
+      "isTypeOnly": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 214,
+          "end": 226,
+          "ctxt": 0
+        },
+        "value": "SpecialError",
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsExternalModuleReference",
+        "span": {
+          "start": 229,
+          "end": 247,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 237,
+            "end": 246,
+            "ctxt": 0
+          },
+          "value": "cjs-dep",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 258,
+          "end": 269,
+          "ctxt": 0
+        },
+        "value": "handleError",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 270,
+            "end": 287,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 270,
+              "end": 287,
+              "ctxt": 0
+            },
+            "value": "err",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 273,
+                "end": 287,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 275,
+                  "end": 287,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 275,
+                    "end": 287,
+                    "ctxt": 0
+                  },
+                  "value": "SpecialError",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 249,
+        "end": 291,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 289,
+          "end": 291,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

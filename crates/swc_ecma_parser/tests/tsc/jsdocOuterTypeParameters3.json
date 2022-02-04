@@ -1,0 +1,221 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 83,
+    "end": 193,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 89,
+          "end": 92,
+          "ctxt": 0
+        },
+        "value": "Baz",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 83,
+        "end": 193,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 99,
+            "end": 191,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 99,
+              "end": 100,
+              "ctxt": 0
+            },
+            "value": "m",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 99,
+              "end": 191,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 103,
+                "end": 191,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ClassDeclaration",
+                  "identifier": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 119,
+                      "end": 122,
+                      "ctxt": 0
+                    },
+                    "value": "Bar",
+                    "optional": false
+                  },
+                  "declare": false,
+                  "span": {
+                    "start": 113,
+                    "end": 185,
+                    "ctxt": 0
+                  },
+                  "decorators": [],
+                  "body": [
+                    {
+                      "type": "ClassMethod",
+                      "span": {
+                        "start": 137,
+                        "end": 175,
+                        "ctxt": 0
+                      },
+                      "key": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 144,
+                          "end": 147,
+                          "ctxt": 0
+                        },
+                        "value": "bar",
+                        "optional": false
+                      },
+                      "function": {
+                        "params": [],
+                        "decorators": [],
+                        "span": {
+                          "start": 137,
+                          "end": 175,
+                          "ctxt": 0
+                        },
+                        "body": {
+                          "type": "BlockStatement",
+                          "span": {
+                            "start": 150,
+                            "end": 175,
+                            "ctxt": 0
+                          },
+                          "stmts": [
+                            {
+                              "type": "ExpressionStatement",
+                              "span": {
+                                "start": 152,
+                                "end": 173,
+                                "ctxt": 0
+                              },
+                              "expression": {
+                                "type": "CallExpression",
+                                "span": {
+                                  "start": 152,
+                                  "end": 172,
+                                  "ctxt": 0
+                                },
+                                "callee": {
+                                  "type": "MemberExpression",
+                                  "span": {
+                                    "start": 152,
+                                    "end": 170,
+                                    "ctxt": 0
+                                  },
+                                  "object": {
+                                    "type": "MemberExpression",
+                                    "span": {
+                                      "start": 152,
+                                      "end": 166,
+                                      "ctxt": 0
+                                    },
+                                    "object": {
+                                      "type": "ThisExpression",
+                                      "span": {
+                                        "start": 152,
+                                        "end": 156,
+                                        "ctxt": 0
+                                      }
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 157,
+                                        "end": 166,
+                                        "ctxt": 0
+                                      },
+                                      "value": "prototype",
+                                      "optional": false
+                                    }
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "span": {
+                                      "start": 167,
+                                      "end": 170,
+                                      "ctxt": 0
+                                    },
+                                    "value": "foo",
+                                    "optional": false
+                                  }
+                                },
+                                "arguments": [],
+                                "typeArguments": null
+                              }
+                            }
+                          ]
+                        },
+                        "generator": false,
+                        "async": false,
+                        "typeParameters": null,
+                        "returnType": null
+                      },
+                      "kind": "method",
+                      "isStatic": true,
+                      "accessibility": null,
+                      "isAbstract": false,
+                      "isOptional": false,
+                      "isOverride": false
+                    }
+                  ],
+                  "superClass": null,
+                  "isAbstract": false,
+                  "typeParams": null,
+                  "superTypeParams": null,
+                  "implements": []
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}
