@@ -1330,6 +1330,30 @@ var store = global[SHARED] || (global[SHARED] = {});
         "class MultiVector extends (options.baseType||Float32Array) {}"
     );
 
+    identical!(
+        extends_nullish_coalescing,
+        "class Foo extends (Bar ?? class{}) {}"
+    );
+
+    identical!(extends_assign, "class Foo extends (Bar = class{}) {}");
+
+    identical!(
+        extends_logical_or_assin,
+        "class Foo extends (Bar ||= class{}) {}"
+    );
+
+    identical!(
+        extends_logical_and_assin,
+        "class Foo extends (Bar &&= class{}) {}"
+    );
+
+    identical!(
+        extends_logical_nullish_assin,
+        "class Foo extends (Bar ??= class{}) {}"
+    );
+
+    identical!(extends_cond, "class Foo extends (true ? Bar : Baz) {}");
+
     identical!(deno_10668_1, "console.log(null ?? (undefined && true))");
 
     identical!(deno_10668_2, "console.log(null && (undefined ?? true))");
