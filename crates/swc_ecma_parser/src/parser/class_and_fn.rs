@@ -192,6 +192,7 @@ impl<'a, I: Tokens> Parser<I> {
         if !self.syntax().decorators() {
             return Ok(vec![]);
         }
+        trace_cur!(self, parse_decorators);
 
         let mut decorators = vec![];
         let start = cur_pos!(self);
@@ -221,6 +222,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     fn parse_decorator(&mut self) -> PResult<Decorator> {
         let start = cur_pos!(self);
+        trace_cur!(self, parse_decorator);
 
         assert_and_bump!(self, '@');
 
