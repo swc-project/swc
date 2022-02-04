@@ -29,7 +29,10 @@ use swc_common::{
 };
 use swc_ecma_ast::{EsVersion, Expr, Program};
 use swc_ecma_ext_transforms::jest;
-use swc_ecma_lints::{config::LintConfig, rules::lint_to_fold};
+use swc_ecma_lints::{
+    config::LintConfig,
+    rules::{lint_to_fold, LintParams},
+};
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
@@ -296,11 +299,11 @@ impl Options {
             .global_mark
             .unwrap_or_else(|| Mark::fresh(Mark::root()));
 
-        let target = target.unwrap_or_default();
+        let es_version = target.unwrap_or_default();
 
         let syntax = syntax.unwrap_or_default();
 
-        let mut program = parse(syntax, target, is_module)?;
+        let mut program = parse(syntax, es_version, is_module)?;
 
         // Do a resolver pass before everything.
         //
@@ -394,7 +397,7 @@ impl Options {
         );
 
         let pass = PassBuilder::new(cm, handler, loose, assumptions, top_level_mark, pass)
-            .target(target)
+            .target(es_version)
             .skip_helper_injection(self.skip_helper_injection)
             .minify(js_minify)
             .hygiene(if self.disable_hygiene {
@@ -439,7 +442,12 @@ impl Options {
                 ),
                 syntax.typescript()
             ),
-            lint_to_fold(swc_ecma_lints::rules::all(&lints, top_level_ctxt)),
+            lint_to_fold(swc_ecma_lints::rules::all(LintParams {
+                program: &program,
+                lint_config: &lints,
+                top_level_ctxt,
+                es_version,
+            })),
             crate::plugin::plugins(experimental),
             custom_before_pass(&program),
             // handle jsx
@@ -457,7 +465,7 @@ impl Options {
             pass,
             external_helpers,
             syntax,
-            target,
+            target: es_version,
             is_module,
             source_maps: source_maps.unwrap_or(SourceMapsConfig::Bool(false)),
             inline_sources_content: config.inline_sources_content,

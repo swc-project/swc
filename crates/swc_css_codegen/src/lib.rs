@@ -1022,7 +1022,7 @@ where
     fn emit_bin_value(&mut self, n: &BinValue) -> Result {
         emit!(self, n.left);
 
-        let need_space = matches!(n.op, BinOp::Add | BinOp::Mul);
+        let need_space = matches!(n.op, BinOp::Add | BinOp::Sub);
 
         if need_space {
             space!(self);

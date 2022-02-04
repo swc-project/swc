@@ -23,10 +23,7 @@ pub fn no_console(
 
     match rule_reaction {
         LintRuleReaction::Off => None,
-        _ => Some(visitor_rule(NoConsole::new(
-            rule_reaction.clone(),
-            top_level_ctxt,
-        ))),
+        _ => Some(visitor_rule(NoConsole::new(*rule_reaction, top_level_ctxt))),
     }
 }
 

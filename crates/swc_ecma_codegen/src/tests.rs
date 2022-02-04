@@ -89,6 +89,7 @@ fn parse_then_emit(from: &str, cfg: Config, syntax: Syntax, target: EsVersion) -
     .unwrap()
 }
 
+#[track_caller]
 pub(crate) fn assert_min(from: &str, to: &str) {
     let out = parse_then_emit(
         from,

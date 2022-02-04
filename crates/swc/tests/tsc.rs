@@ -20,6 +20,10 @@ use testing::{NormalizedOutput, Tester};
         "propertyAccessChain\\.3.ts",
         "objectRestNegative.ts",
         "objectRestPropertyMustBeLast.ts",
+        // shall panic because not finding private field
+        "privateNameAndAny.ts",
+        "privateNameAndIndexSignature.ts",
+        "privateNameImplicitDeclaration.ts"    
     )
 )]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.tsx")]

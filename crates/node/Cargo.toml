@@ -34,6 +34,7 @@ swc_atoms = {version = "0.2.4", path = "../swc_atoms"}
 swc_bundler = {path = "../swc_bundler"}
 swc_common = {path = "../swc_common", features = ["sourcemap"]}
 swc_ecma_ast = {path = "../swc_ecma_ast"}
+swc_ecma_lints = {path = "../swc_ecma_lints", features = ["non_critical_lints"]}
 swc_ecma_loader = {path = "../swc_ecma_loader"}
 swc_ecma_parser = {path = "../swc_ecma_parser"}
 swc_node_base = {path = "../swc_node_base"}

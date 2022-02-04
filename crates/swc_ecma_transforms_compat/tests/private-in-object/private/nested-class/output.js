@@ -2,7 +2,7 @@ let Foo = function() {
     "use strict";
     function Foo() {
         _classCallCheck(this, Foo);
-        _foo1.set(this, {
+        _foo.set(this, {
             writable: true,
             value: 1
         });
@@ -25,10 +25,10 @@ let Foo = function() {
                     ]);
                     return Nested;
                 }();
-                _foo1.has(this);
+                _foo.has(this);
             }
         }
     ]);
     return Foo;
 }();
-var _foo1 = new WeakMap();
+var _foo = new WeakMap();

@@ -93,9 +93,9 @@ macro_rules! formatting_semi {
 /// emit.
 macro_rules! semi {
     ($emitter:expr, $sp:expr) => {
-        $emitter.wr.write_punct(Some($sp), ";")?;
+        $emitter.wr.write_semi(Some($sp))?;
     };
     ($emitter:expr) => {
-        $emitter.wr.write_punct(None, ";")?;
+        $emitter.wr.write_semi(None)?;
     };
 }

@@ -2,8 +2,7 @@ use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
 };
-use serde::{Deserialize, Serialize};
-use swc_common::{collections::AHashSet, errors::HANDLER, Span, SyntaxContext};
+use swc_common::{errors::HANDLER, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit};
 

@@ -6,22 +6,55 @@ use swc_ecma_visit::{noop_fold_type, Fold};
 mod const_assign;
 mod duplicate_bindings;
 mod duplicate_exports;
-pub mod no_console;
-mod no_debugger;
 
-pub fn all(lint_config: &LintConfig, top_level_ctxt: SyntaxContext) -> Vec<Box<dyn Rule>> {
+#[cfg(feature = "non_critical_lints")]
+#[path = ""]
+pub(crate) mod non_critical_lints {
+    pub mod no_alert;
+    pub mod no_console;
+    pub mod no_debugger;
+}
+
+#[cfg(feature = "non_critical_lints")]
+use non_critical_lints::*;
+
+pub struct LintParams<'a> {
+    pub program: &'a Program,
+    pub lint_config: &'a LintConfig,
+    pub top_level_ctxt: SyntaxContext,
+    pub es_version: EsVersion,
+}
+
+pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
     let mut rules = vec![
         const_assign::const_assign(),
         duplicate_bindings::duplicate_bindings(),
         duplicate_exports::duplicate_exports(),
     ];
 
-    rules.extend(no_console::no_console(
-        &lint_config.no_console,
-        top_level_ctxt,
-    ));
+    #[cfg(feature = "non_critical_lints")]
+    {
+        let LintParams {
+            program,
+            lint_config,
+            top_level_ctxt,
+            es_version,
+        } = lint_params;
 
-    rules.extend(no_debugger::no_debugger(&lint_config.no_debugger));
+        rules.extend(no_console::no_console(
+            &lint_config.no_console,
+            top_level_ctxt,
+        ));
+
+        rules.extend(no_alert::no_alert(
+            program,
+            &lint_config.no_alert,
+            top_level_ctxt,
+            es_version,
+        ));
+
+        rules.extend(no_debugger::no_debugger(&lint_config.no_debugger));
+    }
 
     rules
 }

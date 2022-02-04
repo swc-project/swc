@@ -174,7 +174,7 @@ where
             }
             emit!(n.expr);
         }
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -287,7 +287,7 @@ where
             emit!(asserts);
         }
 
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -422,7 +422,7 @@ where
                 emit!(asserts);
             }
         }
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -444,7 +444,7 @@ where
             emit!(asserts);
         }
 
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -530,19 +530,14 @@ where
                 self.wr.write_str_lit(num.span, "-")?;
             }
             self.wr.write_str_lit(num.span, "Infinity")?;
-        } else if num.value.is_sign_negative() && num.value == 0.0 {
-            self.wr.write_str_lit(num.span, "-0")?;
         } else {
-            let mut s = num.value.to_string();
-            if self.cfg.minify && !s.contains('.') && !s.contains('e') && s.ends_with("0000") {
-                let cnt = s.as_bytes().iter().rev().filter(|&&v| v == b'0').count() - 1;
+            let printed = if self.cfg.minify {
+                minify_number(num.value)
+            } else {
+                num.value.to_string()
+            };
 
-                s.truncate(s.len() - cnt);
-                s.push('e');
-                s.push_str(&cnt.to_string());
-            }
-
-            self.wr.write_str_lit(num.span, &s)?;
+            self.wr.write_str_lit(num.span, &printed)?;
         }
     }
 
@@ -758,6 +753,13 @@ where
     /// `1..toString` is a valid property access, emit a dot after the literal
     pub fn needs_2dots_for_property_access(&self, expr: &Expr) -> bool {
         if let Expr::Lit(Lit::Num(Number { span, value })) = expr {
+            if self.cfg.minify {
+                let s = minify_number(*value);
+                if s.as_bytes().contains(&b'.') || s.as_bytes().contains(&b'e') {
+                    return false;
+                }
+            }
+
             if value.fract() == 0.0 {
                 return true;
             }
@@ -765,16 +767,16 @@ where
                 return false;
             }
 
-            // check if numeric literal is a decimal literal that was originally written
-            // with a dot
-            if let Ok(text) = self.cm.span_to_snippet(*span) {
-                if text.contains('.') {
-                    return false;
-                }
-                text.starts_with('0') || text.ends_with(' ')
-            } else {
-                true
-            }
+            self.cm
+                .with_snippet_of_span(*span, |text| {
+                    // check if numeric literal is a decimal literal that was originally written
+                    // with a dot
+                    if text.contains('.') {
+                        return false;
+                    }
+                    text.starts_with('0') || text.ends_with(' ')
+                })
+                .unwrap_or(true)
         } else {
             false
         }
@@ -1285,7 +1287,7 @@ where
             }
         }
 
-        formatting_semi!();
+        semi!();
     }
 
     fn emit_accesibility(&mut self, n: Option<Accessibility>) -> Result {
@@ -1408,7 +1410,7 @@ where
             formatting_space!();
             emit!(body);
         } else {
-            formatting_semi!()
+            semi!();
         }
     }
 
@@ -2262,7 +2264,7 @@ where
 {
     #[emitter]
     fn emit_stmt(&mut self, node: &Stmt) -> Result {
-        match *node {
+        match node {
             Stmt::Expr(ref e) => emit!(e),
             Stmt::Block(ref e) => {
                 emit!(e);
@@ -2284,6 +2286,10 @@ where
             Stmt::For(ref e) => emit!(e),
             Stmt::ForIn(ref e) => emit!(e),
             Stmt::ForOf(ref e) => emit!(e),
+            Stmt::Decl(Decl::Var(e)) => {
+                emit!(e);
+                semi!();
+            }
             Stmt::Decl(ref e) => emit!(e),
         }
         if self.comments.is_some() {
@@ -2298,7 +2304,7 @@ where
     #[emitter]
     fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
         emit!(e.expr);
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -2341,7 +2347,7 @@ where
     fn emit_empty_stmt(&mut self, node: &EmptyStmt) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        semi!();
+        self.wr.write_punct(None, ";")?;
     }
 
     #[emitter]
@@ -2349,7 +2355,7 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         keyword!(node.span, "debugger");
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -2455,7 +2461,7 @@ where
                 punct!(")");
             }
         }
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -2484,7 +2490,7 @@ where
             space!();
             emit!(label);
         }
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -2501,7 +2507,7 @@ where
             space!();
             emit!(label);
         }
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -2659,7 +2665,7 @@ where
             }
             emit!(n.arg);
         }
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -2722,6 +2728,10 @@ where
         punct!("(");
         emit!(node.test);
         punct!(")");
+
+        if self.wr.target() <= EsVersion::Es5 {
+            semi!();
+        }
     }
 
     #[emitter]
@@ -2738,9 +2748,9 @@ where
         }
         punct!("(");
         opt!(n.init);
-        semi!();
+        self.wr.write_punct(None, ";")?;
         opt_leading_space!(n.test);
-        semi!();
+        self.wr.write_punct(None, ";")?;
         opt_leading_space!(n.update);
         punct!(")");
 
@@ -3315,4 +3325,61 @@ fn is_space_require_before_rhs(rhs: &Expr) -> bool {
 
 fn is_empty_comments(span: &Span, comments: &Option<&dyn Comments>) -> bool {
     span.is_dummy() || comments.map_or(true, |c| !c.has_leading(span.hi() - BytePos(1)))
+}
+
+fn minify_number(num: f64) -> String {
+    let mut printed = num.to_string();
+
+    let mut original = printed.clone();
+
+    if num.fract() == 0.0 {
+        let hex = format!("{:#x}", num as i64);
+
+        if hex.len() < printed.len() {
+            printed = hex;
+        }
+    }
+
+    if original.starts_with("0.") {
+        original.replace_range(0..1, "");
+    }
+
+    if original.starts_with(".000") {
+        let mut cnt = 3;
+
+        for &v in original.as_bytes().iter().skip(4) {
+            if v == b'0' {
+                cnt += 1;
+            } else {
+                break;
+            }
+        }
+
+        original.replace_range(0..cnt + 1, "");
+
+        let remain_len = original.len();
+
+        original.push_str("e-");
+        original.push_str(&(remain_len + cnt).to_string());
+    } else if original.ends_with("000") {
+        let mut cnt = 3;
+
+        for &v in original.as_bytes().iter().rev().skip(3) {
+            if v == b'0' {
+                cnt += 1;
+            } else {
+                break;
+            }
+        }
+
+        original.truncate(original.len() - cnt);
+        original.push('e');
+        original.push_str(&cnt.to_string());
+    }
+
+    if original.len() < printed.len() {
+        printed = original;
+    }
+
+    printed
 }
