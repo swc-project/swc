@@ -1,14 +1,14 @@
 error: Stylesheet
- --> $DIR/tests/fixture/selector/type/input.css:1:1
-  |
-1 | / *|* {}
-2 | | foo|h1 {}
-3 | | foo|* {}
-4 | | |h1 {}
-... |
-7 | | \2d {}
-8 | | \2d a {}
-  | |________^
+  --> $DIR/tests/fixture/selector/type/input.css:1:1
+   |
+1  | / *|* {}
+2  | | foo|h1 {}
+3  | | foo|* {}
+4  | | |h1 {}
+...  |
+11 | | foreignObject {}
+12 | | html textPath {}
+   | |_________________^
 
 error: Rule
  --> $DIR/tests/fixture/selector/type/input.css:1:1
@@ -423,4 +423,220 @@ error: Block
   |
 8 | \2d a {}
   |       ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/type/input.css:9:1
+  |
+9 | div\:before {}
+  | ^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/type/input.css:9:1
+  |
+9 | div\:before {}
+  | ^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/type/input.css:9:1
+  |
+9 | div\:before {}
+  | ^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/type/input.css:9:1
+  |
+9 | div\:before {}
+  | ^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/type/input.css:9:1
+  |
+9 | div\:before {}
+  | ^^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/type/input.css:9:1
+  |
+9 | div\:before {}
+  | ^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/type/input.css:9:1
+  |
+9 | div\:before {}
+  | ^^^^^^^^^^^
+
+error: Block
+ --> $DIR/tests/fixture/selector/type/input.css:9:13
+  |
+9 | div\:before {}
+  |             ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/type/input.css:10:1
+   |
+10 | d\iv {}
+   | ^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/type/input.css:10:1
+   |
+10 | d\iv {}
+   | ^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/type/input.css:10:1
+   |
+10 | d\iv {}
+   | ^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/type/input.css:10:1
+   |
+10 | d\iv {}
+   | ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/type/input.css:10:1
+   |
+10 | d\iv {}
+   | ^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/type/input.css:10:1
+   |
+10 | d\iv {}
+   | ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/type/input.css:10:1
+   |
+10 | d\iv {}
+   | ^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/type/input.css:10:6
+   |
+10 | d\iv {}
+   |      ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/type/input.css:11:1
+   |
+11 | foreignObject {}
+   | ^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/type/input.css:11:1
+   |
+11 | foreignObject {}
+   | ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/type/input.css:11:1
+   |
+11 | foreignObject {}
+   | ^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/type/input.css:11:1
+   |
+11 | foreignObject {}
+   | ^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/type/input.css:11:1
+   |
+11 | foreignObject {}
+   | ^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/type/input.css:11:1
+   |
+11 | foreignObject {}
+   | ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/type/input.css:11:1
+   |
+11 | foreignObject {}
+   | ^^^^^^^^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/type/input.css:11:15
+   |
+11 | foreignObject {}
+   |               ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/type/input.css:12:1
+   |
+12 | html textPath {}
+   | ^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/type/input.css:12:1
+   |
+12 | html textPath {}
+   | ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/type/input.css:12:1
+   |
+12 | html textPath {}
+   | ^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/type/input.css:12:1
+   |
+12 | html textPath {}
+   | ^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/type/input.css:12:1
+   |
+12 | html textPath {}
+   | ^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/type/input.css:12:1
+   |
+12 | html textPath {}
+   | ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/type/input.css:12:1
+   |
+12 | html textPath {}
+   | ^^^^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/type/input.css:12:5
+   |
+12 | html textPath {}
+   |     ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/type/input.css:12:6
+   |
+12 | html textPath {}
+   |      ^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/type/input.css:12:6
+   |
+12 | html textPath {}
+   |      ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/type/input.css:12:6
+   |
+12 | html textPath {}
+   |      ^^^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/type/input.css:12:15
+   |
+12 | html textPath {}
+   |               ^^
 

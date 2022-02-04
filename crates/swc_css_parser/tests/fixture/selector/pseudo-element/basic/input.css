@@ -28,3 +28,9 @@ tabbed-custom-element::part(tab) {}
 ::target-text {}
 
 .form-range::-webkit-slider-thumb:active {}
+
+a::bEfOrE {}
+
+a:hover::before {}
+a:hover::-moz-placeholder {}
+a, b > .foo::before {}
