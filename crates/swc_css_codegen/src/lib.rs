@@ -1484,5 +1484,5 @@ fn minify_hex_color(value: &str) -> String {
         }
     }
 
-    return value.to_ascii_lowercase();
+    value.to_ascii_lowercase()
 }
