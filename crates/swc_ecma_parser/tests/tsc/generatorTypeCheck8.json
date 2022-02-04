@@ -1,0 +1,176 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 117,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 15,
+        "end": 84,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 25,
+          "end": 37,
+          "ctxt": 0
+        },
+        "value": "BadGenerator",
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [
+        {
+          "type": "TsExpressionWithTypeArguments",
+          "span": {
+            "start": 46,
+            "end": 62,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 46,
+              "end": 54,
+              "ctxt": 0
+            },
+            "value": "Iterator",
+            "optional": false
+          },
+          "typeArguments": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 54,
+              "end": 62,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 55,
+                  "end": 61,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            ]
+          }
+        },
+        {
+          "type": "TsExpressionWithTypeArguments",
+          "span": {
+            "start": 64,
+            "end": 80,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 64,
+              "end": 72,
+              "ctxt": 0
+            },
+            "value": "Iterable",
+            "optional": false
+          },
+          "typeArguments": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 72,
+              "end": 80,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 73,
+                  "end": 79,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            ]
+          }
+        }
+      ],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 81,
+          "end": 84,
+          "ctxt": 0
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 95,
+          "end": 97,
+          "ctxt": 0
+        },
+        "value": "g3",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 85,
+        "end": 117,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 114,
+          "end": 117,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 99,
+          "end": 113,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsTypeReference",
+          "span": {
+            "start": 101,
+            "end": 113,
+            "ctxt": 0
+          },
+          "typeName": {
+            "type": "Identifier",
+            "span": {
+              "start": 101,
+              "end": 113,
+              "ctxt": 0
+            },
+            "value": "BadGenerator",
+            "optional": false
+          },
+          "typeParams": null
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

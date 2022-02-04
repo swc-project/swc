@@ -1,0 +1,84 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 43,
+    "end": 67,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 43,
+        "end": 67,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 47,
+            "end": 67,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 47,
+              "end": 48,
+              "ctxt": 0
+            },
+            "value": "v",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 51,
+              "end": 67,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 53,
+                    "end": 60,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 54,
+                      "end": 59,
+                      "ctxt": 0
+                    },
+                    "value": "await",
+                    "optional": false
+                  }
+                },
+                "value": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 62,
+                    "end": 65,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "optional": false
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,79 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 27,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 0,
+        "end": 27,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 5,
+          "end": 6,
+          "ctxt": 0
+        },
+        "value": "E",
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 11,
+            "end": 18,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 11,
+              "end": 14,
+              "ctxt": 0
+            },
+            "value": "Foo",
+            "optional": false
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 17,
+              "end": 18,
+              "ctxt": 0
+            },
+            "value": 1.0
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 22,
+            "end": 25,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 22,
+              "end": 25,
+              "ctxt": 0
+            },
+            "value": "Bar",
+            "optional": false
+          },
+          "init": null
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,44 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 20,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 15,
+        "end": 20,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 19,
+            "end": 20,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 19,
+              "end": 20,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

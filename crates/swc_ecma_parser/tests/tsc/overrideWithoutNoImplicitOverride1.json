@@ -1,0 +1,974 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 33,
+    "end": 757,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 33,
+        "end": 100,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 54,
+            "end": 66,
+            "ctxt": 0
+          },
+          "value": "AmbientClass",
+          "optional": false
+        },
+        "declare": true,
+        "span": {
+          "start": 40,
+          "end": 100,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "ClassMethod",
+            "span": {
+              "start": 74,
+              "end": 97,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 83,
+                "end": 88,
+                "ctxt": 0
+              },
+              "value": "yadda",
+              "optional": false
+            },
+            "function": {
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 74,
+                "end": 97,
+                "ctxt": 0
+              },
+              "body": null,
+              "generator": false,
+              "async": false,
+              "typeParameters": null,
+              "returnType": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 90,
+                  "end": 96,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 92,
+                    "end": 96,
+                    "ctxt": 0
+                  },
+                  "kind": "void"
+                }
+              }
+            },
+            "kind": "method",
+            "isStatic": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "isOverride": false
+          }
+        ],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 104,
+        "end": 168,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 117,
+            "end": 132,
+            "ctxt": 0
+          },
+          "value": "NonAmbientClass",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 111,
+          "end": 168,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "ClassMethod",
+            "span": {
+              "start": 140,
+              "end": 165,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 149,
+                "end": 154,
+                "ctxt": 0
+              },
+              "value": "yadda",
+              "optional": false
+            },
+            "function": {
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 140,
+                "end": 165,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 163,
+                  "end": 165,
+                  "ctxt": 0
+                },
+                "stmts": []
+              },
+              "generator": false,
+              "async": false,
+              "typeParameters": null,
+              "returnType": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 156,
+                  "end": 162,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 158,
+                    "end": 162,
+                    "ctxt": 0
+                  },
+                  "kind": "void"
+                }
+              }
+            },
+            "kind": "method",
+            "isStatic": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "isOverride": false
+          }
+        ],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 181,
+        "end": 236,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 202,
+            "end": 213,
+            "ctxt": 0
+          },
+          "value": "AmbientBase",
+          "optional": false
+        },
+        "declare": true,
+        "span": {
+          "start": 188,
+          "end": 236,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "ClassMethod",
+            "span": {
+              "start": 221,
+              "end": 233,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 221,
+                "end": 224,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "function": {
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 221,
+                "end": 233,
+                "ctxt": 0
+              },
+              "body": null,
+              "generator": false,
+              "async": false,
+              "typeParameters": null,
+              "returnType": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 226,
+                  "end": 232,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 228,
+                    "end": 232,
+                    "ctxt": 0
+                  },
+                  "kind": "void"
+                }
+              }
+            },
+            "kind": "method",
+            "isStatic": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "isOverride": false
+          }
+        ],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 240,
+        "end": 347,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 261,
+            "end": 275,
+            "ctxt": 0
+          },
+          "value": "AmbientDerived",
+          "optional": false
+        },
+        "declare": true,
+        "span": {
+          "start": 247,
+          "end": 347,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "ClassMethod",
+            "span": {
+              "start": 303,
+              "end": 315,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 303,
+                "end": 306,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "function": {
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 303,
+                "end": 315,
+                "ctxt": 0
+              },
+              "body": null,
+              "generator": false,
+              "async": false,
+              "typeParameters": null,
+              "returnType": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 308,
+                  "end": 314,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 310,
+                    "end": 314,
+                    "ctxt": 0
+                  },
+                  "kind": "void"
+                }
+              }
+            },
+            "kind": "method",
+            "isStatic": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "isOverride": false
+          },
+          {
+            "type": "ClassMethod",
+            "span": {
+              "start": 323,
+              "end": 344,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 332,
+                "end": 335,
+                "ctxt": 0
+              },
+              "value": "bar",
+              "optional": false
+            },
+            "function": {
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 323,
+                "end": 344,
+                "ctxt": 0
+              },
+              "body": null,
+              "generator": false,
+              "async": false,
+              "typeParameters": null,
+              "returnType": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 337,
+                  "end": 343,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 339,
+                    "end": 343,
+                    "ctxt": 0
+                  },
+                  "kind": "void"
+                }
+              }
+            },
+            "kind": "method",
+            "isStatic": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "isOverride": true
+          }
+        ],
+        "superClass": {
+          "type": "Identifier",
+          "span": {
+            "start": 284,
+            "end": 295,
+            "ctxt": 0
+          },
+          "value": "AmbientBase",
+          "optional": false
+        },
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 360,
+        "end": 579,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 378,
+          "end": 394,
+          "ctxt": 0
+        },
+        "value": "ambientNamespace",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 395,
+          "end": 579,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 402,
+              "end": 457,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "ClassDeclaration",
+              "identifier": {
+                "type": "Identifier",
+                "span": {
+                  "start": 415,
+                  "end": 426,
+                  "ctxt": 0
+                },
+                "value": "AmbientBase",
+                "optional": false
+              },
+              "declare": false,
+              "span": {
+                "start": 409,
+                "end": 457,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "body": [
+                {
+                  "type": "ClassMethod",
+                  "span": {
+                    "start": 438,
+                    "end": 450,
+                    "ctxt": 0
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 438,
+                      "end": 441,
+                      "ctxt": 0
+                    },
+                    "value": "foo",
+                    "optional": false
+                  },
+                  "function": {
+                    "params": [],
+                    "decorators": [],
+                    "span": {
+                      "start": 438,
+                      "end": 450,
+                      "ctxt": 0
+                    },
+                    "body": null,
+                    "generator": false,
+                    "async": false,
+                    "typeParameters": null,
+                    "returnType": {
+                      "type": "TsTypeAnnotation",
+                      "span": {
+                        "start": 443,
+                        "end": 449,
+                        "ctxt": 0
+                      },
+                      "typeAnnotation": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 445,
+                          "end": 449,
+                          "ctxt": 0
+                        },
+                        "kind": "void"
+                      }
+                    }
+                  },
+                  "kind": "method",
+                  "isStatic": false,
+                  "accessibility": null,
+                  "isAbstract": false,
+                  "isOptional": false,
+                  "isOverride": false
+                }
+              ],
+              "superClass": null,
+              "isAbstract": false,
+              "typeParams": null,
+              "superTypeParams": null,
+              "implements": []
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 465,
+              "end": 576,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "ClassDeclaration",
+              "identifier": {
+                "type": "Identifier",
+                "span": {
+                  "start": 478,
+                  "end": 492,
+                  "ctxt": 0
+                },
+                "value": "AmbientDerived",
+                "optional": false
+              },
+              "declare": false,
+              "span": {
+                "start": 472,
+                "end": 576,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "body": [
+                {
+                  "type": "ClassMethod",
+                  "span": {
+                    "start": 524,
+                    "end": 536,
+                    "ctxt": 0
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 524,
+                      "end": 527,
+                      "ctxt": 0
+                    },
+                    "value": "foo",
+                    "optional": false
+                  },
+                  "function": {
+                    "params": [],
+                    "decorators": [],
+                    "span": {
+                      "start": 524,
+                      "end": 536,
+                      "ctxt": 0
+                    },
+                    "body": null,
+                    "generator": false,
+                    "async": false,
+                    "typeParameters": null,
+                    "returnType": {
+                      "type": "TsTypeAnnotation",
+                      "span": {
+                        "start": 529,
+                        "end": 535,
+                        "ctxt": 0
+                      },
+                      "typeAnnotation": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 531,
+                          "end": 535,
+                          "ctxt": 0
+                        },
+                        "kind": "void"
+                      }
+                    }
+                  },
+                  "kind": "method",
+                  "isStatic": false,
+                  "accessibility": null,
+                  "isAbstract": false,
+                  "isOptional": false,
+                  "isOverride": false
+                },
+                {
+                  "type": "ClassMethod",
+                  "span": {
+                    "start": 548,
+                    "end": 569,
+                    "ctxt": 0
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 557,
+                      "end": 560,
+                      "ctxt": 0
+                    },
+                    "value": "bar",
+                    "optional": false
+                  },
+                  "function": {
+                    "params": [],
+                    "decorators": [],
+                    "span": {
+                      "start": 548,
+                      "end": 569,
+                      "ctxt": 0
+                    },
+                    "body": null,
+                    "generator": false,
+                    "async": false,
+                    "typeParameters": null,
+                    "returnType": {
+                      "type": "TsTypeAnnotation",
+                      "span": {
+                        "start": 562,
+                        "end": 568,
+                        "ctxt": 0
+                      },
+                      "typeAnnotation": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 564,
+                          "end": 568,
+                          "ctxt": 0
+                        },
+                        "kind": "void"
+                      }
+                    }
+                  },
+                  "kind": "method",
+                  "isStatic": false,
+                  "accessibility": null,
+                  "isAbstract": false,
+                  "isOptional": false,
+                  "isOverride": true
+                }
+              ],
+              "superClass": {
+                "type": "Identifier",
+                "span": {
+                  "start": 501,
+                  "end": 512,
+                  "ctxt": 0
+                },
+                "value": "AmbientBase",
+                "optional": false
+              },
+              "isAbstract": false,
+              "typeParams": null,
+              "superTypeParams": null,
+              "implements": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 592,
+        "end": 644,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 605,
+            "end": 619,
+            "ctxt": 0
+          },
+          "value": "NonAmbientBase",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 599,
+          "end": 644,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "ClassMethod",
+            "span": {
+              "start": 627,
+              "end": 641,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 627,
+                "end": 630,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "function": {
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 627,
+                "end": 641,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 639,
+                  "end": 641,
+                  "ctxt": 0
+                },
+                "stmts": []
+              },
+              "generator": false,
+              "async": false,
+              "typeParameters": null,
+              "returnType": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 632,
+                  "end": 638,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 634,
+                    "end": 638,
+                    "ctxt": 0
+                  },
+                  "kind": "void"
+                }
+              }
+            },
+            "kind": "method",
+            "isStatic": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "isOverride": false
+          }
+        ],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 648,
+        "end": 757,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 661,
+            "end": 678,
+            "ctxt": 0
+          },
+          "value": "NonAmbientDerived",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 655,
+          "end": 757,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "ClassMethod",
+            "span": {
+              "start": 709,
+              "end": 723,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 709,
+                "end": 712,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "function": {
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 709,
+                "end": 723,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 721,
+                  "end": 723,
+                  "ctxt": 0
+                },
+                "stmts": []
+              },
+              "generator": false,
+              "async": false,
+              "typeParameters": null,
+              "returnType": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 714,
+                  "end": 720,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 716,
+                    "end": 720,
+                    "ctxt": 0
+                  },
+                  "kind": "void"
+                }
+              }
+            },
+            "kind": "method",
+            "isStatic": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "isOverride": false
+          },
+          {
+            "type": "ClassMethod",
+            "span": {
+              "start": 731,
+              "end": 754,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 740,
+                "end": 743,
+                "ctxt": 0
+              },
+              "value": "bar",
+              "optional": false
+            },
+            "function": {
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 731,
+                "end": 754,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 752,
+                  "end": 754,
+                  "ctxt": 0
+                },
+                "stmts": []
+              },
+              "generator": false,
+              "async": false,
+              "typeParameters": null,
+              "returnType": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 745,
+                  "end": 751,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 747,
+                    "end": 751,
+                    "ctxt": 0
+                  },
+                  "kind": "void"
+                }
+              }
+            },
+            "kind": "method",
+            "isStatic": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "isOverride": true
+          }
+        ],
+        "superClass": {
+          "type": "Identifier",
+          "span": {
+            "start": 687,
+            "end": 701,
+            "ctxt": 0
+          },
+          "value": "NonAmbientBase",
+          "optional": false
+        },
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,269 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 148,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 10,
+          "ctxt": 0
+        },
+        "value": "Base",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 0,
+        "end": 73,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 17,
+            "end": 50,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 21,
+              "end": 22,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 17,
+              "end": 50,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 25,
+                "end": 50,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 35,
+                    "end": 44,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 42,
+                      "end": 43,
+                      "ctxt": 0
+                    },
+                    "value": 1.0
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "getter",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 55,
+            "end": 71,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 59,
+              "end": 60,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "function": {
+            "params": [
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 61,
+                  "end": 62,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 61,
+                    "end": 62,
+                    "ctxt": 0
+                  },
+                  "value": "v",
+                  "optional": false,
+                  "typeAnnotation": null
+                }
+              }
+            ],
+            "decorators": [],
+            "span": {
+              "start": 55,
+              "end": 71,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 64,
+                "end": 71,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "setter",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 90,
+          "end": 97,
+          "ctxt": 0
+        },
+        "value": "Derived",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 84,
+        "end": 148,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 117,
+            "end": 146,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 117,
+              "end": 118,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 117,
+              "end": 146,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 121,
+                "end": 146,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 131,
+                    "end": 140,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 138,
+                      "end": 139,
+                      "ctxt": 0
+                    },
+                    "value": 1.0
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 106,
+          "end": 110,
+          "ctxt": 0
+        },
+        "value": "Base",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,113 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 37,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 11,
+          "ctxt": 0
+        },
+        "value": "Outer",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 0,
+        "end": 37,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 14,
+            "end": 35,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 21,
+              "end": 27,
+              "ctxt": 0
+            },
+            "value": "public",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 14,
+              "end": 35,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 33,
+                "end": 35,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": {
+              "type": "TsTypeParameterDeclaration",
+              "span": {
+                "start": 27,
+                "end": 30,
+                "ctxt": 0
+              },
+              "parameters": [
+                {
+                  "type": "TsTypeParameter",
+                  "span": {
+                    "start": 28,
+                    "end": 29,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 28,
+                      "end": 29,
+                      "ctxt": 0
+                    },
+                    "value": "T",
+                    "optional": false
+                  },
+                  "constraint": null,
+                  "default": null
+                }
+              ]
+            },
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": true,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

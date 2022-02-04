@@ -1,0 +1,167 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 85,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 22,
+          "end": 26,
+          "ctxt": 0
+        },
+        "value": "Base",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 16,
+        "end": 30,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 37,
+          "end": 38,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 31,
+        "end": 85,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 58,
+            "end": 83,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Computed",
+            "span": {
+              "start": 58,
+              "end": 77,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "ParenthesisExpression",
+              "span": {
+                "start": 59,
+                "end": 76,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "SequenceExpression",
+                "span": {
+                  "start": 60,
+                  "end": 75,
+                  "ctxt": 0
+                },
+                "expressions": [
+                  {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 60,
+                      "end": 67,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Super",
+                      "span": {
+                        "start": 60,
+                        "end": 65,
+                        "ctxt": 0
+                      }
+                    },
+                    "arguments": [],
+                    "typeArguments": null
+                  },
+                  {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 69,
+                      "end": 75,
+                      "ctxt": 0
+                    },
+                    "value": "prop",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 58,
+              "end": 83,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 80,
+                "end": 83,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 47,
+          "end": 51,
+          "ctxt": 0
+        },
+        "value": "Base",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

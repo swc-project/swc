@@ -1,0 +1,101 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 33,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 9,
+          "end": 10,
+          "ctxt": 0
+        },
+        "value": "A",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 0,
+        "end": 33,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 30,
+          "end": 33,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 12,
+          "end": 29,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsFunctionType",
+          "span": {
+            "start": 14,
+            "end": 29,
+            "ctxt": 0
+          },
+          "params": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 22,
+                "end": 23,
+                "ctxt": 0
+              },
+              "value": "B",
+              "optional": false,
+              "typeAnnotation": null
+            }
+          ],
+          "typeParams": null,
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 25,
+              "end": 29,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 28,
+                "end": 29,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 28,
+                  "end": 29,
+                  "ctxt": 0
+                },
+                "value": "C",
+                "optional": false
+              },
+              "typeParams": null
+            }
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

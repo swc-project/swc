@@ -1,0 +1,165 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 142,
+    "end": 225,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 153,
+          "end": 169,
+          "ctxt": 0
+        },
+        "value": "mergeStringLists",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 170,
+            "end": 190,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "RestElement",
+            "span": {
+              "start": 170,
+              "end": 190,
+              "ctxt": 0
+            },
+            "rest": {
+              "start": 170,
+              "end": 173,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 173,
+                "end": 180,
+                "ctxt": 0
+              },
+              "value": "strings",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 180,
+                "end": 190,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsArrayType",
+                "span": {
+                  "start": 182,
+                  "end": 190,
+                  "ctxt": 0
+                },
+                "elemType": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 182,
+                    "end": 188,
+                    "ctxt": 0
+                  },
+                  "kind": "string"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 142,
+        "end": 225,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 192,
+          "end": 225,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ForOfStatement",
+            "span": {
+              "start": 198,
+              "end": 223,
+              "ctxt": 0
+            },
+            "await": null,
+            "left": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 203,
+                "end": 210,
+                "ctxt": 0
+              },
+              "kind": "var",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 207,
+                    "end": 210,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 207,
+                      "end": 210,
+                      "ctxt": 0
+                    },
+                    "value": "str",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": null,
+                  "definite": false
+                }
+              ]
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 214,
+                "end": 221,
+                "ctxt": 0
+              },
+              "value": "strings",
+              "optional": false
+            },
+            "body": {
+              "type": "EmptyStatement",
+              "span": {
+                "start": 222,
+                "end": 223,
+                "ctxt": 0
+              }
+            }
+          }
+        ]
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

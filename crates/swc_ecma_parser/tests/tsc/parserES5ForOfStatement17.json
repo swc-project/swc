@@ -1,0 +1,63 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 34,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ForStatement",
+      "span": {
+        "start": 15,
+        "end": 34,
+        "ctxt": 0
+      },
+      "init": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 20,
+          "end": 26,
+          "ctxt": 0
+        },
+        "kind": "var",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 24,
+              "end": 26,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 24,
+                "end": 26,
+                "ctxt": 0
+              },
+              "value": "of",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": null,
+            "definite": false
+          }
+        ]
+      },
+      "test": null,
+      "update": null,
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 31,
+          "end": 34,
+          "ctxt": 0
+        },
+        "stmts": []
+      }
+    }
+  ],
+  "interpreter": null
+}

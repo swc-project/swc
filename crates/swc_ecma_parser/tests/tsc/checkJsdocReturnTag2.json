@@ -1,0 +1,133 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 142,
+    "end": 289,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 151,
+          "end": 152,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 142,
+        "end": 172,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 155,
+          "end": 172,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 161,
+              "end": 170,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 168,
+                "end": 169,
+                "ctxt": 0
+              },
+              "value": 5.0
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 259,
+          "end": 261,
+          "ctxt": 0
+        },
+        "value": "f1",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 250,
+        "end": 289,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 264,
+          "end": 289,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 270,
+              "end": 287,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 277,
+                "end": 286,
+                "ctxt": 0
+              },
+              "operator": "||",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 277,
+                  "end": 278,
+                  "ctxt": 0
+                },
+                "value": 5.0
+              },
+              "right": {
+                "type": "BooleanLiteral",
+                "span": {
+                  "start": 282,
+                  "end": 286,
+                  "ctxt": 0
+                },
+                "value": true
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

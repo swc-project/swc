@@ -1,0 +1,113 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 163,
+    "end": 187,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 163,
+        "end": 187,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 167,
+            "end": 187,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 167,
+              "end": 168,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 171,
+              "end": 187,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 172,
+                  "end": 173,
+                  "ctxt": 0
+                },
+                "value": "s",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 175,
+                  "end": 177,
+                  "ctxt": 0
+                },
+                "value": "id",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            ],
+            "body": {
+              "type": "CallExpression",
+              "span": {
+                "start": 182,
+                "end": 187,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 182,
+                  "end": 184,
+                  "ctxt": 0
+                },
+                "value": "id",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 185,
+                      "end": 186,
+                      "ctxt": 0
+                    },
+                    "value": "s",
+                    "optional": false
+                  }
+                }
+              ],
+              "typeArguments": null
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

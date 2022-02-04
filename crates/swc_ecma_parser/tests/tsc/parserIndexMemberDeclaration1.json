@@ -1,0 +1,94 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 34,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 7,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 0,
+        "end": 34,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "TsIndexSignature",
+          "params": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 14,
+                "end": 23,
+                "ctxt": 0
+              },
+              "value": "a",
+              "optional": false,
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 15,
+                  "end": 23,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 17,
+                    "end": 23,
+                    "ctxt": 0
+                  },
+                  "kind": "string"
+                }
+              }
+            }
+          ],
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 24,
+              "end": 32,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 26,
+                "end": 32,
+                "ctxt": 0
+              },
+              "kind": "number"
+            }
+          },
+          "readonly": false,
+          "static": false,
+          "span": {
+            "start": 13,
+            "end": 32,
+            "ctxt": 0
+          }
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,130 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 103,
+    "end": 212,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 103,
+        "end": 212,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 107,
+            "end": 211,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 107,
+              "end": 110,
+              "ctxt": 0
+            },
+            "value": "obj",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 113,
+              "end": 211,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 176,
+                    "end": 177,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false
+                },
+                "value": {
+                  "type": "FunctionExpression",
+                  "identifier": null,
+                  "params": [
+                    {
+                      "type": "Parameter",
+                      "span": {
+                        "start": 189,
+                        "end": 190,
+                        "ctxt": 0
+                      },
+                      "decorators": [],
+                      "pat": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 189,
+                          "end": 190,
+                          "ctxt": 0
+                        },
+                        "value": "a",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
+                    }
+                  ],
+                  "decorators": [],
+                  "span": {
+                    "start": 179,
+                    "end": 208,
+                    "ctxt": 0
+                  },
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 192,
+                      "end": 208,
+                      "ctxt": 0
+                    },
+                    "stmts": [
+                      {
+                        "type": "ReturnStatement",
+                        "span": {
+                          "start": 196,
+                          "end": 205,
+                          "ctxt": 0
+                        },
+                        "argument": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 203,
+                            "end": 204,
+                            "ctxt": 0
+                          },
+                          "value": "a",
+                          "optional": false
+                        }
+                      }
+                    ]
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,118 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 106,
+    "end": 171,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 106,
+        "end": 133,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 110,
+            "end": 132,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 110,
+              "end": 112,
+              "ctxt": 0
+            },
+            "value": "ns",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 115,
+              "end": 132,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "ParenthesisExpression",
+              "span": {
+                "start": 115,
+                "end": 130,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "FunctionExpression",
+                "identifier": null,
+                "params": [],
+                "decorators": [],
+                "span": {
+                  "start": 116,
+                  "end": 129,
+                  "ctxt": 0
+                },
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 127,
+                    "end": 129,
+                    "ctxt": 0
+                  },
+                  "stmts": []
+                },
+                "generator": false,
+                "async": false,
+                "typeParameters": null,
+                "returnType": null
+              }
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 161,
+        "end": 171,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 165,
+            "end": 170,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 165,
+              "end": 170,
+              "ctxt": 0
+            },
+            "value": "crash",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

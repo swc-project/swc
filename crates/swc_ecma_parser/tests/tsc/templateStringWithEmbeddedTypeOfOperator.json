@@ -1,0 +1,152 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 33,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 33,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 4,
+            "end": 32,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 4,
+              "end": 5,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 8,
+              "end": 32,
+              "ctxt": 0
+            },
+            "expressions": [
+              {
+                "type": "UnaryExpression",
+                "span": {
+                  "start": 15,
+                  "end": 26,
+                  "ctxt": 0
+                },
+                "operator": "typeof",
+                "argument": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 22,
+                    "end": 26,
+                    "ctxt": 0
+                  },
+                  "value": "hi",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              }
+            ],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 9,
+                  "end": 12,
+                  "ctxt": 0
+                },
+                "tail": false,
+                "cooked": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 9,
+                    "end": 12,
+                    "ctxt": 0
+                  },
+                  "value": "abc",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": false
+                  }
+                },
+                "raw": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 9,
+                    "end": 12,
+                    "ctxt": 0
+                  },
+                  "value": "abc",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": false
+                  }
+                }
+              },
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 28,
+                  "end": 31,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 28,
+                    "end": 31,
+                    "ctxt": 0
+                  },
+                  "value": "def",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": false
+                  }
+                },
+                "raw": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 28,
+                    "end": 31,
+                    "ctxt": 0
+                  },
+                  "value": "def",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": false
+                  }
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,78 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 69,
+    "end": 94,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 69,
+        "end": 94,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 75,
+            "end": 93,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 75,
+              "end": 76,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 79,
+              "end": 93,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 79,
+                  "end": 84,
+                  "ctxt": 0
+                },
+                "value": "async",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            ],
+            "body": {
+              "type": "Identifier",
+              "span": {
+                "start": 88,
+                "end": 93,
+                "ctxt": 0
+              },
+              "value": "async",
+              "optional": false
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

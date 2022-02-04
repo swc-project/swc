@@ -1,0 +1,337 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 25,
+    "end": 229,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 34,
+          "end": 42,
+          "ctxt": 0
+        },
+        "value": "fnNumber",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 43,
+            "end": 53,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 43,
+              "end": 53,
+              "ctxt": 0
+            },
+            "value": "this",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 47,
+                "end": 53,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 49,
+                  "end": 53,
+                  "ctxt": 0
+                },
+                "kind": "void"
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 25,
+        "end": 77,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 63,
+          "end": 77,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 65,
+              "end": 75,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 72,
+                "end": 74,
+                "ctxt": 0
+              },
+              "value": 90.0
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 54,
+          "end": 62,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 56,
+            "end": 62,
+            "ctxt": 0
+          },
+          "kind": "number"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 78,
+        "end": 93,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 78,
+          "end": 92,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 82,
+            "end": 90,
+            "ctxt": 0
+          },
+          "value": "fnNumber",
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 113,
+          "end": 119,
+          "ctxt": 0
+        },
+        "value": "fnVoid",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 120,
+            "end": 130,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 120,
+              "end": 130,
+              "ctxt": 0
+            },
+            "value": "this",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 124,
+                "end": 130,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 126,
+                  "end": 130,
+                  "ctxt": 0
+                },
+                "kind": "void"
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 104,
+        "end": 140,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 138,
+          "end": 140,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 131,
+          "end": 137,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 133,
+            "end": 137,
+            "ctxt": 0
+          },
+          "kind": "void"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 141,
+        "end": 154,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 141,
+          "end": 153,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 145,
+            "end": 151,
+            "ctxt": 0
+          },
+          "value": "fnVoid",
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 174,
+          "end": 192,
+          "ctxt": 0
+        },
+        "value": "functionVoidNoThis",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 165,
+        "end": 203,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 201,
+          "end": 203,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 194,
+          "end": 200,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 196,
+            "end": 200,
+            "ctxt": 0
+          },
+          "kind": "void"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 204,
+        "end": 229,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 204,
+          "end": 228,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 208,
+            "end": 226,
+            "ctxt": 0
+          },
+          "value": "functionVoidNoThis",
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

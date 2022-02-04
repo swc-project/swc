@@ -1,0 +1,109 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 41,
+    "end": 82,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 41,
+        "end": 82,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 45,
+            "end": 81,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 45,
+              "end": 48,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 51,
+              "end": 81,
+              "ctxt": 0
+            },
+            "params": [],
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 78,
+                "end": 81,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "async": true,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 59,
+                "end": 74,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 61,
+                  "end": 74,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 61,
+                    "end": 68,
+                    "ctxt": 0
+                  },
+                  "value": "Promise",
+                  "optional": false
+                },
+                "typeParams": {
+                  "type": "TsTypeParameterInstantiation",
+                  "span": {
+                    "start": 68,
+                    "end": 74,
+                    "ctxt": 0
+                  },
+                  "params": [
+                    {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 69,
+                        "end": 73,
+                        "ctxt": 0
+                      },
+                      "kind": "void"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

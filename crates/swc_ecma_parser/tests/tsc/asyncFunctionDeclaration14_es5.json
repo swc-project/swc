@@ -1,0 +1,99 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 68,
+    "end": 117,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 83,
+          "end": 86,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 68,
+        "end": 117,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 104,
+          "end": 117,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 108,
+              "end": 115,
+              "ctxt": 0
+            },
+            "argument": null
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 88,
+          "end": 103,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsTypeReference",
+          "span": {
+            "start": 90,
+            "end": 103,
+            "ctxt": 0
+          },
+          "typeName": {
+            "type": "Identifier",
+            "span": {
+              "start": 90,
+              "end": 97,
+              "ctxt": 0
+            },
+            "value": "Promise",
+            "optional": false
+          },
+          "typeParams": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 97,
+              "end": 103,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 98,
+                  "end": 102,
+                  "ctxt": 0
+                },
+                "kind": "void"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

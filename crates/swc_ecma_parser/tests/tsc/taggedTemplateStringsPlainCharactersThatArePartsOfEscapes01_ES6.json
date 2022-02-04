@@ -1,0 +1,179 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 17,
+    "end": 130,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 26,
+          "end": 27,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 28,
+            "end": 39,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "RestElement",
+            "span": {
+              "start": 28,
+              "end": 39,
+              "ctxt": 0
+            },
+            "rest": {
+              "start": 28,
+              "end": 31,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 31,
+                "end": 32,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 32,
+                "end": 39,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsArrayType",
+                "span": {
+                  "start": 34,
+                  "end": 39,
+                  "ctxt": 0
+                },
+                "elemType": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 34,
+                    "end": 37,
+                    "ctxt": 0
+                  },
+                  "kind": "any"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 17,
+        "end": 45,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 41,
+          "end": 45,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 47,
+        "end": 130,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "TaggedTemplateExpression",
+        "span": {
+          "start": 47,
+          "end": 130,
+          "ctxt": 0
+        },
+        "tag": {
+          "type": "Identifier",
+          "span": {
+            "start": 47,
+            "end": 48,
+            "ctxt": 0
+          },
+          "value": "f",
+          "optional": false
+        },
+        "typeParameters": null,
+        "template": {
+          "type": "TemplateLiteral",
+          "span": {
+            "start": 49,
+            "end": 130,
+            "ctxt": 0
+          },
+          "expressions": [],
+          "quasis": [
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 50,
+                "end": 129,
+                "ctxt": 0
+              },
+              "tail": true,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 50,
+                  "end": 129,
+                  "ctxt": 0
+                },
+                "value": "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 2028 2029 0085 t v f b r n",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 50,
+                  "end": 129,
+                  "ctxt": 0
+                },
+                "value": "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 2028 2029 0085 t v f b r n",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

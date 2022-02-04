@@ -1,0 +1,61 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 39,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 25,
+          "end": 27,
+          "ctxt": 0
+        },
+        "value": "g3",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 15,
+        "end": 39,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 36,
+          "end": 39,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 29,
+          "end": 35,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 31,
+            "end": 35,
+            "ctxt": 0
+          },
+          "kind": "void"
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,123 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 36,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 16,
+        "end": 36,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 16,
+          "end": 35,
+          "ctxt": 0
+        },
+        "operator": "delete",
+        "argument": {
+          "type": "TemplateLiteral",
+          "span": {
+            "start": 23,
+            "end": 35,
+            "ctxt": 0
+          },
+          "expressions": [
+            {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 29,
+                "end": 30,
+                "ctxt": 0
+              },
+              "value": 0.0
+            }
+          ],
+          "quasis": [
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 24,
+                "end": 27,
+                "ctxt": 0
+              },
+              "tail": false,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 24,
+                  "end": 27,
+                  "ctxt": 0
+                },
+                "value": "abc",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 24,
+                  "end": 27,
+                  "ctxt": 0
+                },
+                "value": "abc",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
+              }
+            },
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 31,
+                "end": 34,
+                "ctxt": 0
+              },
+              "tail": true,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 31,
+                  "end": 34,
+                  "ctxt": 0
+                },
+                "value": "abc",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 31,
+                  "end": 34,
+                  "ctxt": 0
+                },
+                "value": "abc",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": false
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

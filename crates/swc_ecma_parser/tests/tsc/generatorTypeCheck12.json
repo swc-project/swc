@@ -1,0 +1,112 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 73,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 25,
+          "end": 26,
+          "ctxt": 0
+        },
+        "value": "g",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 15,
+        "end": 73,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 55,
+          "end": 73,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 61,
+              "end": 71,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 68,
+                "end": 70,
+                "ctxt": 0
+              },
+              "value": "",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
+        ]
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 28,
+          "end": 54,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsTypeReference",
+          "span": {
+            "start": 30,
+            "end": 54,
+            "ctxt": 0
+          },
+          "typeName": {
+            "type": "Identifier",
+            "span": {
+              "start": 30,
+              "end": 46,
+              "ctxt": 0
+            },
+            "value": "IterableIterator",
+            "optional": false
+          },
+          "typeParams": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 46,
+              "end": 54,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 47,
+                  "end": 53,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

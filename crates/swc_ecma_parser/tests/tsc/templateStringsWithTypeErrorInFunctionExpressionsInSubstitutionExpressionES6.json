@@ -1,0 +1,209 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 58,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 16,
+        "end": 58,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "TemplateLiteral",
+        "span": {
+          "start": 16,
+          "end": 57,
+          "ctxt": 0
+        },
+        "expressions": [
+          {
+            "type": "FunctionExpression",
+            "identifier": null,
+            "params": [
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 29,
+                  "end": 38,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 29,
+                    "end": 38,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 30,
+                      "end": 38,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 32,
+                        "end": 38,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  }
+                }
+              }
+            ],
+            "decorators": [],
+            "span": {
+              "start": 19,
+              "end": 54,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 40,
+                "end": 54,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 42,
+                    "end": 52,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "AssignmentExpression",
+                    "span": {
+                      "start": 42,
+                      "end": 51,
+                      "ctxt": 0
+                    },
+                    "operator": "=",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 42,
+                        "end": 43,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "optional": false,
+                      "typeAnnotation": null
+                    },
+                    "right": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 46,
+                        "end": 51,
+                        "ctxt": 0
+                      },
+                      "value": "bad",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          }
+        ],
+        "quasis": [
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 17,
+              "end": 17,
+              "ctxt": 0
+            },
+            "tail": false,
+            "cooked": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 17,
+                "end": 17,
+                "ctxt": 0
+              },
+              "value": "",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": false
+              }
+            },
+            "raw": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 17,
+                "end": 17,
+                "ctxt": 0
+              },
+              "value": "",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": false
+              }
+            }
+          },
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 56,
+              "end": 56,
+              "ctxt": 0
+            },
+            "tail": true,
+            "cooked": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 56,
+                "end": 56,
+                "ctxt": 0
+              },
+              "value": "",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": false
+              }
+            },
+            "raw": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 56,
+                "end": 56,
+                "ctxt": 0
+              },
+              "value": "",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": false
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

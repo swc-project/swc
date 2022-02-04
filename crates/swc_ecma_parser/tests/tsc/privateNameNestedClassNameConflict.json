@@ -1,0 +1,202 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 20,
+    "end": 129,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 26,
+          "end": 27,
+          "ctxt": 0
+        },
+        "value": "A",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 20,
+        "end": 129,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "PrivateProperty",
+          "span": {
+            "start": 34,
+            "end": 47,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 34,
+              "end": 38,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 35,
+                "end": 38,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            }
+          },
+          "value": null,
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 38,
+              "end": 46,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 40,
+                "end": 46,
+                "ctxt": 0
+              },
+              "kind": "string"
+            }
+          },
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "definite": false
+        },
+        {
+          "type": "Constructor",
+          "span": {
+            "start": 52,
+            "end": 127,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 52,
+              "end": 63,
+              "ctxt": 0
+            },
+            "value": "constructor",
+            "optional": false
+          },
+          "params": [],
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 66,
+              "end": 127,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "ClassDeclaration",
+                "identifier": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 82,
+                    "end": 83,
+                    "ctxt": 0
+                  },
+                  "value": "A",
+                  "optional": false
+                },
+                "declare": false,
+                "span": {
+                  "start": 76,
+                  "end": 121,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "body": [
+                  {
+                    "type": "PrivateProperty",
+                    "span": {
+                      "start": 98,
+                      "end": 111,
+                      "ctxt": 0
+                    },
+                    "key": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 98,
+                        "end": 102,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 99,
+                          "end": 102,
+                          "ctxt": 0
+                        },
+                        "value": "foo",
+                        "optional": false
+                      }
+                    },
+                    "value": null,
+                    "typeAnnotation": {
+                      "type": "TsTypeAnnotation",
+                      "span": {
+                        "start": 102,
+                        "end": 110,
+                        "ctxt": 0
+                      },
+                      "typeAnnotation": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 104,
+                          "end": 110,
+                          "ctxt": 0
+                        },
+                        "kind": "string"
+                      }
+                    },
+                    "isStatic": false,
+                    "decorators": [],
+                    "computed": false,
+                    "accessibility": null,
+                    "isAbstract": false,
+                    "isOptional": false,
+                    "isOverride": false,
+                    "readonly": false,
+                    "definite": false
+                  }
+                ],
+                "superClass": null,
+                "isAbstract": false,
+                "typeParams": null,
+                "superTypeParams": null,
+                "implements": []
+              }
+            ]
+          },
+          "accessibility": null,
+          "isOptional": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

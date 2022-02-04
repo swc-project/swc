@@ -1,0 +1,253 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 167,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 22,
+          "end": 26,
+          "ctxt": 0
+        },
+        "value": "Base",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 16,
+        "end": 30,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 37,
+          "end": 38,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 31,
+        "end": 167,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "Constructor",
+          "span": {
+            "start": 58,
+            "end": 165,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 58,
+              "end": 69,
+              "ctxt": 0
+            },
+            "value": "constructor",
+            "optional": false
+          },
+          "params": [],
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 72,
+              "end": 165,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 82,
+                  "end": 90,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "CallExpression",
+                  "span": {
+                    "start": 82,
+                    "end": 89,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "Super",
+                    "span": {
+                      "start": 82,
+                      "end": 87,
+                      "ctxt": 0
+                    }
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                }
+              },
+              {
+                "type": "VariableDeclaration",
+                "span": {
+                  "start": 99,
+                  "end": 159,
+                  "ctxt": 0
+                },
+                "kind": "var",
+                "declare": false,
+                "declarations": [
+                  {
+                    "type": "VariableDeclarator",
+                    "span": {
+                      "start": 103,
+                      "end": 158,
+                      "ctxt": 0
+                    },
+                    "id": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 103,
+                        "end": 106,
+                        "ctxt": 0
+                      },
+                      "value": "obj",
+                      "optional": false,
+                      "typeAnnotation": null
+                    },
+                    "init": {
+                      "type": "ObjectExpression",
+                      "span": {
+                        "start": 109,
+                        "end": 158,
+                        "ctxt": 0
+                      },
+                      "properties": [
+                        {
+                          "type": "MethodProperty",
+                          "key": {
+                            "type": "Computed",
+                            "span": {
+                              "start": 123,
+                              "end": 142,
+                              "ctxt": 0
+                            },
+                            "expression": {
+                              "type": "ParenthesisExpression",
+                              "span": {
+                                "start": 124,
+                                "end": 141,
+                                "ctxt": 0
+                              },
+                              "expression": {
+                                "type": "SequenceExpression",
+                                "span": {
+                                  "start": 125,
+                                  "end": 140,
+                                  "ctxt": 0
+                                },
+                                "expressions": [
+                                  {
+                                    "type": "CallExpression",
+                                    "span": {
+                                      "start": 125,
+                                      "end": 132,
+                                      "ctxt": 0
+                                    },
+                                    "callee": {
+                                      "type": "Super",
+                                      "span": {
+                                        "start": 125,
+                                        "end": 130,
+                                        "ctxt": 0
+                                      }
+                                    },
+                                    "arguments": [],
+                                    "typeArguments": null
+                                  },
+                                  {
+                                    "type": "StringLiteral",
+                                    "span": {
+                                      "start": 134,
+                                      "end": 140,
+                                      "ctxt": 0
+                                    },
+                                    "value": "prop",
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          "params": [],
+                          "decorators": [],
+                          "span": {
+                            "start": 123,
+                            "end": 148,
+                            "ctxt": 0
+                          },
+                          "body": {
+                            "type": "BlockStatement",
+                            "span": {
+                              "start": 145,
+                              "end": 148,
+                              "ctxt": 0
+                            },
+                            "stmts": []
+                          },
+                          "generator": false,
+                          "async": false,
+                          "typeParameters": null,
+                          "returnType": null
+                        }
+                      ]
+                    },
+                    "definite": false
+                  }
+                ]
+              }
+            ]
+          },
+          "accessibility": null,
+          "isOptional": false
+        }
+      ],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 47,
+          "end": 51,
+          "ctxt": 0
+        },
+        "value": "Base",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,66 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 68,
+    "end": 89,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 77,
+          "end": 78,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 79,
+            "end": 84,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 79,
+              "end": 84,
+              "ctxt": 0
+            },
+            "value": "await",
+            "optional": false,
+            "typeAnnotation": null
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 68,
+        "end": 89,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 86,
+          "end": 89,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

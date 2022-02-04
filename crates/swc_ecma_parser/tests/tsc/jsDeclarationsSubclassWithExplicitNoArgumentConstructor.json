@@ -1,0 +1,253 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 111,
+    "end": 351,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 111,
+        "end": 255,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 124,
+            "end": 129,
+            "ctxt": 0
+          },
+          "value": "Super",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 118,
+          "end": 255,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "Constructor",
+            "span": {
+              "start": 217,
+              "end": 253,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 217,
+                "end": 228,
+                "ctxt": 0
+              },
+              "value": "constructor",
+              "optional": false
+            },
+            "params": [
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 229,
+                  "end": 237,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 229,
+                    "end": 237,
+                    "ctxt": 0
+                  },
+                  "value": "firstArg",
+                  "optional": false,
+                  "typeAnnotation": null
+                }
+              },
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 239,
+                  "end": 248,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 239,
+                    "end": 248,
+                    "ctxt": 0
+                  },
+                  "value": "secondArg",
+                  "optional": false,
+                  "typeAnnotation": null
+                }
+              }
+            ],
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 250,
+                "end": 253,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "accessibility": null,
+            "isOptional": false
+          }
+        ],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 257,
+        "end": 351,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 270,
+            "end": 273,
+            "ctxt": 0
+          },
+          "value": "Sub",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 264,
+          "end": 351,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "Constructor",
+            "span": {
+              "start": 294,
+              "end": 349,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 294,
+                "end": 305,
+                "ctxt": 0
+              },
+              "value": "constructor",
+              "optional": false
+            },
+            "params": [],
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 308,
+                "end": 349,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 318,
+                    "end": 343,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 318,
+                      "end": 342,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Super",
+                      "span": {
+                        "start": 318,
+                        "end": 323,
+                        "ctxt": 0
+                      }
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 324,
+                            "end": 331,
+                            "ctxt": 0
+                          },
+                          "value": "first",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": true
+                          }
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 333,
+                            "end": 341,
+                            "ctxt": 0
+                          },
+                          "value": "second",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": true
+                          }
+                        }
+                      }
+                    ],
+                    "typeArguments": null
+                  }
+                }
+              ]
+            },
+            "accessibility": null,
+            "isOptional": false
+          }
+        ],
+        "superClass": {
+          "type": "Identifier",
+          "span": {
+            "start": 282,
+            "end": 287,
+            "ctxt": 0
+          },
+          "value": "Super",
+          "optional": false
+        },
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    }
+  ],
+  "interpreter": null
+}

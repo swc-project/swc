@@ -1,0 +1,119 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 63,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 27,
+          "end": 30,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 16,
+        "end": 63,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 33,
+          "end": 63,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 37,
+              "end": 61,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 41,
+                  "end": 61,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 41,
+                    "end": 42,
+                    "ctxt": 0
+                  },
+                  "value": "v",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 45,
+                    "end": 61,
+                    "ctxt": 0
+                  },
+                  "properties": [
+                    {
+                      "type": "KeyValueProperty",
+                      "key": {
+                        "type": "Computed",
+                        "span": {
+                          "start": 47,
+                          "end": 54,
+                          "ctxt": 0
+                        },
+                        "expression": {
+                          "type": "YieldExpression",
+                          "span": {
+                            "start": 48,
+                            "end": 53,
+                            "ctxt": 0
+                          },
+                          "argument": null,
+                          "delegate": false
+                        }
+                      },
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 56,
+                          "end": 59,
+                          "ctxt": 0
+                        },
+                        "value": "foo",
+                        "optional": false
+                      }
+                    }
+                  ]
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

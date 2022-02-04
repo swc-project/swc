@@ -1,0 +1,311 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 119,
+    "end": 381,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 119,
+        "end": 183,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsInterfaceDeclaration",
+        "span": {
+          "start": 126,
+          "end": 183,
+          "ctxt": 0
+        },
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 136,
+            "end": 143,
+            "ctxt": 0
+          },
+          "value": "Encoder",
+          "optional": false
+        },
+        "declare": false,
+        "typeParams": {
+          "type": "TsTypeParameterDeclaration",
+          "span": {
+            "start": 143,
+            "end": 146,
+            "ctxt": 0
+          },
+          "parameters": [
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 144,
+                "end": 145,
+                "ctxt": 0
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 144,
+                  "end": 145,
+                  "ctxt": 0
+                },
+                "value": "T",
+                "optional": false
+              },
+              "constraint": null,
+              "default": null
+            }
+          ]
+        },
+        "extends": [],
+        "body": {
+          "type": "TsInterfaceBody",
+          "span": {
+            "start": 147,
+            "end": 183,
+            "ctxt": 0
+          },
+          "body": [
+            {
+              "type": "TsMethodSignature",
+              "span": {
+                "start": 153,
+                "end": 181,
+                "ctxt": 0
+              },
+              "readonly": false,
+              "key": {
+                "type": "Identifier",
+                "span": {
+                  "start": 153,
+                  "end": 159,
+                  "ctxt": 0
+                },
+                "value": "encode",
+                "optional": false
+              },
+              "computed": false,
+              "optional": false,
+              "params": [
+                {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 160,
+                    "end": 168,
+                    "ctxt": 0
+                  },
+                  "value": "value",
+                  "optional": false,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 165,
+                      "end": 168,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 167,
+                        "end": 168,
+                        "ctxt": 0
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 167,
+                          "end": 168,
+                          "ctxt": 0
+                        },
+                        "value": "T",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  }
+                }
+              ],
+              "typeAnn": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 169,
+                  "end": 181,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 171,
+                    "end": 181,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 171,
+                      "end": 181,
+                      "ctxt": 0
+                    },
+                    "value": "Uint8Array",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              },
+              "typeParams": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 257,
+        "end": 381,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 270,
+            "end": 277,
+            "ctxt": 0
+          },
+          "value": "Encoder",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 264,
+          "end": 381,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "ClassMethod",
+            "span": {
+              "start": 325,
+              "end": 379,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 325,
+                "end": 331,
+                "ctxt": 0
+              },
+              "value": "encode",
+              "optional": false
+            },
+            "function": {
+              "params": [
+                {
+                  "type": "Parameter",
+                  "span": {
+                    "start": 332,
+                    "end": 337,
+                    "ctxt": 0
+                  },
+                  "decorators": [],
+                  "pat": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 332,
+                      "end": 337,
+                      "ctxt": 0
+                    },
+                    "value": "value",
+                    "optional": false,
+                    "typeAnnotation": null
+                  }
+                }
+              ],
+              "decorators": [],
+              "span": {
+                "start": 325,
+                "end": 379,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 339,
+                  "end": 379,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "ReturnStatement",
+                    "span": {
+                      "start": 349,
+                      "end": 373,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "NewExpression",
+                      "span": {
+                        "start": 356,
+                        "end": 373,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 360,
+                          "end": 370,
+                          "ctxt": 0
+                        },
+                        "value": "Uint8Array",
+                        "optional": false
+                      },
+                      "arguments": [
+                        {
+                          "spread": null,
+                          "expression": {
+                            "type": "NumericLiteral",
+                            "span": {
+                              "start": 371,
+                              "end": 372,
+                              "ctxt": 0
+                            },
+                            "value": 0.0
+                          }
+                        }
+                      ],
+                      "typeArguments": null
+                    }
+                  }
+                ]
+              },
+              "generator": false,
+              "async": false,
+              "typeParameters": null,
+              "returnType": null
+            },
+            "kind": "method",
+            "isStatic": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "isOverride": false
+          }
+        ],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    }
+  ],
+  "interpreter": null
+}

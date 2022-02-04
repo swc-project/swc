@@ -1,0 +1,178 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 79,
+    "end": 203,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 79,
+        "end": 101,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 92,
+            "end": 97,
+            "ctxt": 0
+          },
+          "value": "Alpha",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 86,
+          "end": 101,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 102,
+        "end": 175,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 115,
+            "end": 119,
+            "ctxt": 0
+          },
+          "value": "Beta",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 109,
+          "end": 175,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "Constructor",
+            "span": {
+              "start": 154,
+              "end": 173,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 154,
+                "end": 165,
+                "ctxt": 0
+              },
+              "value": "constructor",
+              "optional": false
+            },
+            "params": [],
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 168,
+                "end": 173,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "accessibility": null,
+            "isOptional": false
+          }
+        ],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 177,
+        "end": 203,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 183,
+            "end": 202,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 183,
+              "end": 186,
+              "ctxt": 0
+            },
+            "value": "arr",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrayExpression",
+            "span": {
+              "start": 189,
+              "end": 202,
+              "ctxt": 0
+            },
+            "elements": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 190,
+                    "end": 195,
+                    "ctxt": 0
+                  },
+                  "value": "Alpha",
+                  "optional": false
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 197,
+                    "end": 201,
+                    "ctxt": 0
+                  },
+                  "value": "Beta",
+                  "optional": false
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

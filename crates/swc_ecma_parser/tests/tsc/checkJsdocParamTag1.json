@@ -1,0 +1,213 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 138,
+    "end": 189,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 147,
+          "end": 150,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 151,
+            "end": 152,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 151,
+              "end": 152,
+              "ctxt": 0
+            },
+            "value": "n",
+            "optional": false,
+            "typeAnnotation": null
+          }
+        },
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 154,
+            "end": 155,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 154,
+              "end": 155,
+              "ctxt": 0
+            },
+            "value": "s",
+            "optional": false,
+            "typeAnnotation": null
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 138,
+        "end": 159,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 157,
+          "end": 159,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 161,
+        "end": 167,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 161,
+          "end": 166,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 161,
+            "end": 164,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 168,
+        "end": 175,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 168,
+          "end": 174,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 168,
+            "end": 171,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 172,
+                "end": 173,
+                "ctxt": 0
+              },
+              "value": 1.0
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 176,
+        "end": 189,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 176,
+          "end": 188,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 176,
+            "end": 179,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 180,
+                "end": 181,
+                "ctxt": 0
+              },
+              "value": 1.0
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 183,
+                "end": 187,
+                "ctxt": 0
+              },
+              "value": "hi",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

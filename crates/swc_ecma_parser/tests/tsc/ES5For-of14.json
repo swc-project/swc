@@ -1,0 +1,114 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 38,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ForOfStatement",
+      "span": {
+        "start": 0,
+        "end": 38,
+        "ctxt": 0
+      },
+      "await": null,
+      "left": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 5,
+          "end": 12,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 11,
+              "end": 12,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 11,
+                "end": 12,
+                "ctxt": 0
+              },
+              "value": "v",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": null,
+            "definite": false
+          }
+        ]
+      },
+      "right": {
+        "type": "ArrayExpression",
+        "span": {
+          "start": 16,
+          "end": 18,
+          "ctxt": 0
+        },
+        "elements": []
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 20,
+          "end": 38,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 26,
+              "end": 36,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 30,
+                  "end": 35,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 30,
+                    "end": 31,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 34,
+                    "end": 35,
+                    "ctxt": 0
+                  },
+                  "value": "v",
+                  "optional": false
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

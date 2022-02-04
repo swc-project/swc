@@ -1,0 +1,109 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 25,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ForInStatement",
+      "span": {
+        "start": 0,
+        "end": 25,
+        "ctxt": 0
+      },
+      "left": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 5,
+          "end": 15,
+          "ctxt": 0
+        },
+        "kind": "var",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 9,
+              "end": 15,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "ObjectPattern",
+              "span": {
+                "start": 9,
+                "end": 15,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "AssignmentPatternProperty",
+                  "span": {
+                    "start": 10,
+                    "end": 11,
+                    "ctxt": 0
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 10,
+                      "end": 11,
+                      "ctxt": 0
+                    },
+                    "value": "a",
+                    "optional": false
+                  },
+                  "value": null
+                },
+                {
+                  "type": "AssignmentPatternProperty",
+                  "span": {
+                    "start": 13,
+                    "end": 14,
+                    "ctxt": 0
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 13,
+                      "end": 14,
+                      "ctxt": 0
+                    },
+                    "value": "b",
+                    "optional": false
+                  },
+                  "value": null
+                }
+              ],
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": null,
+            "definite": false
+          }
+        ]
+      },
+      "right": {
+        "type": "ArrayExpression",
+        "span": {
+          "start": 19,
+          "end": 21,
+          "ctxt": 0
+        },
+        "elements": []
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 23,
+          "end": 25,
+          "ctxt": 0
+        },
+        "stmts": []
+      }
+    }
+  ],
+  "interpreter": null
+}

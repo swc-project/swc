@@ -1,0 +1,382 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 286,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 15,
+          "end": 16,
+          "ctxt": 0
+        },
+        "value": "A",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 0,
+        "end": 19,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 36,
+          "end": 37,
+          "ctxt": 0
+        },
+        "value": "B",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 21,
+        "end": 50,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 46,
+          "end": 47,
+          "ctxt": 0
+        },
+        "value": "A",
+        "optional": false
+      },
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 58,
+          "end": 59,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 52,
+        "end": 72,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 68,
+          "end": 69,
+          "ctxt": 0
+        },
+        "value": "A",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 89,
+          "end": 91,
+          "ctxt": 0
+        },
+        "value": "AA",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 74,
+        "end": 115,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 98,
+            "end": 113,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 107,
+              "end": 110,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 98,
+              "end": 113,
+              "ctxt": 0
+            },
+            "body": null,
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": true,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 132,
+          "end": 134,
+          "ctxt": 0
+        },
+        "value": "BB",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 117,
+        "end": 148,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 143,
+          "end": 145,
+          "ctxt": 0
+        },
+        "value": "AA",
+        "optional": false
+      },
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 156,
+          "end": 158,
+          "ctxt": 0
+        },
+        "value": "CC",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 150,
+        "end": 172,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 167,
+          "end": 169,
+          "ctxt": 0
+        },
+        "value": "AA",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 180,
+          "end": 182,
+          "ctxt": 0
+        },
+        "value": "DD",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 174,
+        "end": 196,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 191,
+          "end": 193,
+          "ctxt": 0
+        },
+        "value": "BB",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 213,
+          "end": 215,
+          "ctxt": 0
+        },
+        "value": "EE",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 198,
+        "end": 229,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 224,
+          "end": 226,
+          "ctxt": 0
+        },
+        "value": "BB",
+        "optional": false
+      },
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 237,
+          "end": 239,
+          "ctxt": 0
+        },
+        "value": "FF",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 231,
+        "end": 253,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 248,
+          "end": 250,
+          "ctxt": 0
+        },
+        "value": "CC",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 270,
+          "end": 272,
+          "ctxt": 0
+        },
+        "value": "GG",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 255,
+        "end": 286,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 281,
+          "end": 283,
+          "ctxt": 0
+        },
+        "value": "CC",
+        "optional": false
+      },
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

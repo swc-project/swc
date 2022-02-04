@@ -1,0 +1,77 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 103,
+    "end": 129,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 103,
+        "end": 117,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 109,
+            "end": 117,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 109,
+              "end": 110,
+              "ctxt": 0
+            },
+            "value": "c",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NullLiteral",
+            "span": {
+              "start": 113,
+              "end": 117,
+              "ctxt": 0
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 124,
+          "end": 125,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 118,
+        "end": 129,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

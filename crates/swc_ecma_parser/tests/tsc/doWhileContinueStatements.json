@@ -1,0 +1,585 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 32,
+    "end": 455,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "DoWhileStatement",
+      "span": {
+        "start": 32,
+        "end": 64,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BooleanLiteral",
+        "span": {
+          "start": 59,
+          "end": 63,
+          "ctxt": 0
+        },
+        "value": true
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 35,
+          "end": 52,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ContinueStatement",
+            "span": {
+              "start": 41,
+              "end": 50,
+              "ctxt": 0
+            },
+            "label": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 66,
+        "end": 108,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 66,
+          "end": 69,
+          "ctxt": 0
+        },
+        "value": "ONE",
+        "optional": false
+      },
+      "body": {
+        "type": "DoWhileStatement",
+        "span": {
+          "start": 71,
+          "end": 108,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 103,
+            "end": 107,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 74,
+            "end": 95,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ContinueStatement",
+              "span": {
+                "start": 80,
+                "end": 93,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 89,
+                  "end": 92,
+                  "ctxt": 0
+                },
+                "value": "ONE",
+                "optional": false
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 110,
+        "end": 160,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 110,
+          "end": 113,
+          "ctxt": 0
+        },
+        "value": "TWO",
+        "optional": false
+      },
+      "body": {
+        "type": "LabeledStatement",
+        "span": {
+          "start": 115,
+          "end": 160,
+          "ctxt": 0
+        },
+        "label": {
+          "type": "Identifier",
+          "span": {
+            "start": 115,
+            "end": 120,
+            "ctxt": 0
+          },
+          "value": "THREE",
+          "optional": false
+        },
+        "body": {
+          "type": "DoWhileStatement",
+          "span": {
+            "start": 122,
+            "end": 160,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "BooleanLiteral",
+            "span": {
+              "start": 155,
+              "end": 159,
+              "ctxt": 0
+            },
+            "value": true
+          },
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 125,
+              "end": 148,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "ContinueStatement",
+                "span": {
+                  "start": 131,
+                  "end": 146,
+                  "ctxt": 0
+                },
+                "label": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 140,
+                    "end": 145,
+                    "ctxt": 0
+                  },
+                  "value": "THREE",
+                  "optional": false
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 162,
+        "end": 246,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 162,
+          "end": 166,
+          "ctxt": 0
+        },
+        "value": "FOUR",
+        "optional": false
+      },
+      "body": {
+        "type": "DoWhileStatement",
+        "span": {
+          "start": 168,
+          "end": 246,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 241,
+            "end": 245,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 171,
+            "end": 234,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "LabeledStatement",
+              "span": {
+                "start": 177,
+                "end": 232,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 177,
+                  "end": 181,
+                  "ctxt": 0
+                },
+                "value": "FIVE",
+                "optional": false
+              },
+              "body": {
+                "type": "DoWhileStatement",
+                "span": {
+                  "start": 187,
+                  "end": 232,
+                  "ctxt": 0
+                },
+                "test": {
+                  "type": "BooleanLiteral",
+                  "span": {
+                    "start": 227,
+                    "end": 231,
+                    "ctxt": 0
+                  },
+                  "value": true
+                },
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 190,
+                    "end": 220,
+                    "ctxt": 0
+                  },
+                  "stmts": [
+                    {
+                      "type": "ContinueStatement",
+                      "span": {
+                        "start": 200,
+                        "end": 214,
+                        "ctxt": 0
+                      },
+                      "label": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 209,
+                          "end": 213,
+                          "ctxt": 0
+                        },
+                        "value": "FOUR",
+                        "optional": false
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "DoWhileStatement",
+      "span": {
+        "start": 248,
+        "end": 308,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BooleanLiteral",
+        "span": {
+          "start": 303,
+          "end": 307,
+          "ctxt": 0
+        },
+        "value": true
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 251,
+          "end": 296,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "LabeledStatement",
+            "span": {
+              "start": 257,
+              "end": 294,
+              "ctxt": 0
+            },
+            "label": {
+              "type": "Identifier",
+              "span": {
+                "start": 257,
+                "end": 260,
+                "ctxt": 0
+              },
+              "value": "SIX",
+              "optional": false
+            },
+            "body": {
+              "type": "DoWhileStatement",
+              "span": {
+                "start": 266,
+                "end": 294,
+                "ctxt": 0
+              },
+              "test": {
+                "type": "BooleanLiteral",
+                "span": {
+                  "start": 289,
+                  "end": 293,
+                  "ctxt": 0
+                },
+                "value": true
+              },
+              "body": {
+                "type": "ContinueStatement",
+                "span": {
+                  "start": 269,
+                  "end": 282,
+                  "ctxt": 0
+                },
+                "label": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 278,
+                    "end": 281,
+                    "ctxt": 0
+                  },
+                  "value": "SIX",
+                  "optional": false
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 310,
+        "end": 381,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 310,
+          "end": 315,
+          "ctxt": 0
+        },
+        "value": "SEVEN",
+        "optional": false
+      },
+      "body": {
+        "type": "DoWhileStatement",
+        "span": {
+          "start": 317,
+          "end": 381,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 376,
+            "end": 380,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "DoWhileStatement",
+          "span": {
+            "start": 320,
+            "end": 367,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "BooleanLiteral",
+            "span": {
+              "start": 362,
+              "end": 366,
+              "ctxt": 0
+            },
+            "value": true
+          },
+          "body": {
+            "type": "DoWhileStatement",
+            "span": {
+              "start": 323,
+              "end": 354,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BooleanLiteral",
+              "span": {
+                "start": 349,
+                "end": 353,
+                "ctxt": 0
+              },
+              "value": true
+            },
+            "body": {
+              "type": "ContinueStatement",
+              "span": {
+                "start": 326,
+                "end": 341,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 335,
+                  "end": 340,
+                  "ctxt": 0
+                },
+                "value": "SEVEN",
+                "optional": false
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 383,
+        "end": 455,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 383,
+          "end": 388,
+          "ctxt": 0
+        },
+        "value": "EIGHT",
+        "optional": false
+      },
+      "body": {
+        "type": "DoWhileStatement",
+        "span": {
+          "start": 390,
+          "end": 455,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 450,
+            "end": 454,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 392,
+            "end": 444,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 398,
+                "end": 422,
+                "ctxt": 0
+              },
+              "kind": "var",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 402,
+                    "end": 422,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 402,
+                      "end": 404,
+                      "ctxt": 0
+                    },
+                    "value": "fn",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "FunctionExpression",
+                    "identifier": null,
+                    "params": [],
+                    "decorators": [],
+                    "span": {
+                      "start": 407,
+                      "end": 422,
+                      "ctxt": 0
+                    },
+                    "body": {
+                      "type": "BlockStatement",
+                      "span": {
+                        "start": 419,
+                        "end": 422,
+                        "ctxt": 0
+                      },
+                      "stmts": []
+                    },
+                    "generator": false,
+                    "async": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  },
+                  "definite": false
+                }
+              ]
+            },
+            {
+              "type": "ContinueStatement",
+              "span": {
+                "start": 427,
+                "end": 442,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 436,
+                  "end": 441,
+                  "ctxt": 0
+                },
+                "value": "EIGHT",
+                "optional": false
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,307 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 243,
+    "end": 691,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 249,
+          "end": 250,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 243,
+        "end": 691,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 294,
+            "end": 331,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 301,
+              "end": 319,
+              "ctxt": 0
+            },
+            "value": "readonlyStaticCall",
+            "optional": false
+          },
+          "value": {
+            "type": "CallExpression",
+            "span": {
+              "start": 322,
+              "end": 330,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 322,
+                "end": 328,
+                "ctxt": 0
+              },
+              "value": "Symbol",
+              "optional": false
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 403,
+            "end": 429,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 410,
+              "end": 428,
+              "ctxt": 0
+            },
+            "value": "readonlyStaticType",
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 501,
+            "end": 545,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 508,
+              "end": 533,
+              "ctxt": 0
+            },
+            "value": "readonlyStaticTypeAndCall",
+            "optional": false
+          },
+          "value": {
+            "type": "CallExpression",
+            "span": {
+              "start": 536,
+              "end": 544,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 536,
+                "end": 542,
+                "ctxt": 0
+              },
+              "value": "Symbol",
+              "optional": false
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 551,
+            "end": 589,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 558,
+              "end": 577,
+              "ctxt": 0
+            },
+            "value": "readwriteStaticCall",
+            "optional": false
+          },
+          "value": {
+            "type": "CallExpression",
+            "span": {
+              "start": 580,
+              "end": 588,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 580,
+                "end": 586,
+                "ctxt": 0
+              },
+              "value": "Symbol",
+              "optional": false
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 633,
+            "end": 657,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 633,
+              "end": 645,
+              "ctxt": 0
+            },
+            "value": "readonlyCall",
+            "optional": false
+          },
+          "value": {
+            "type": "CallExpression",
+            "span": {
+              "start": 648,
+              "end": 656,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 648,
+                "end": 654,
+                "ctxt": 0
+              },
+              "value": "Symbol",
+              "optional": false
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 663,
+            "end": 688,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 663,
+              "end": 676,
+              "ctxt": 0
+            },
+            "value": "readwriteCall",
+            "optional": false
+          },
+          "value": {
+            "type": "CallExpression",
+            "span": {
+              "start": 679,
+              "end": 687,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 679,
+                "end": 685,
+                "ctxt": 0
+              },
+              "value": "Symbol",
+              "optional": false
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

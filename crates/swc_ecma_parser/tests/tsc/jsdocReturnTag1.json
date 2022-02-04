@@ -1,0 +1,190 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 128,
+    "end": 377,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 137,
+          "end": 138,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 128,
+        "end": 158,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 141,
+          "end": 158,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 147,
+              "end": 156,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 154,
+                "end": 155,
+                "ctxt": 0
+              },
+              "value": 5.0
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 237,
+          "end": 239,
+          "ctxt": 0
+        },
+        "value": "f1",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 228,
+        "end": 259,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 242,
+          "end": 259,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 248,
+              "end": 257,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 255,
+                "end": 256,
+                "ctxt": 0
+              },
+              "value": 5.0
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 344,
+          "end": 346,
+          "ctxt": 0
+        },
+        "value": "f2",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 335,
+        "end": 377,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 349,
+          "end": 377,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 355,
+              "end": 375,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 362,
+                "end": 374,
+                "ctxt": 0
+              },
+              "operator": "||",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 362,
+                  "end": 363,
+                  "ctxt": 0
+                },
+                "value": 5.0
+              },
+              "right": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 367,
+                  "end": 374,
+                  "ctxt": 0
+                },
+                "value": "hello",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

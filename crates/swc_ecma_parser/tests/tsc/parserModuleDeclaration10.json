@@ -1,0 +1,95 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 49,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 9,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "data",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 0,
+        "end": 24,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 15,
+          "end": 23,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 17,
+            "end": 23,
+            "ctxt": 0
+          },
+          "kind": "string"
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 34,
+          "end": 38,
+          "ctxt": 0
+        },
+        "value": "next",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 25,
+        "end": 49,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 40,
+          "end": 48,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 42,
+            "end": 48,
+            "ctxt": 0
+          },
+          "kind": "string"
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

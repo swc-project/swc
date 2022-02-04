@@ -1,0 +1,119 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 54,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 54,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 4,
+            "end": 54,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 4,
+              "end": 7,
+              "ctxt": 0
+            },
+            "value": "big",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 10,
+              "end": 54,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 15,
+                    "end": 20,
+                    "ctxt": 0
+                  },
+                  "value": "break",
+                  "optional": false
+                },
+                "value": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 23,
+                    "end": 24,
+                    "ctxt": 0
+                  },
+                  "value": 0.0
+                }
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 29,
+                    "end": 34,
+                    "ctxt": 0
+                  },
+                  "value": "super",
+                  "optional": false
+                },
+                "value": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 37,
+                    "end": 38,
+                    "ctxt": 0
+                  },
+                  "value": 0.0
+                }
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 43,
+                    "end": 48,
+                    "ctxt": 0
+                  },
+                  "value": "const",
+                  "optional": false
+                },
+                "value": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 51,
+                    "end": 52,
+                    "ctxt": 0
+                  },
+                  "value": 0.0
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

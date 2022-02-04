@@ -1,0 +1,135 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 29,
+    "end": 111,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 29,
+        "end": 111,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 29,
+          "end": 35,
+          "ctxt": 0
+        },
+        "value": "target",
+        "optional": false
+      },
+      "body": {
+        "type": "WhileStatement",
+        "span": {
+          "start": 37,
+          "end": 111,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 44,
+            "end": 48,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 50,
+            "end": 111,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "FunctionDeclaration",
+              "identifier": {
+                "type": "Identifier",
+                "span": {
+                  "start": 63,
+                  "end": 64,
+                  "ctxt": 0
+                },
+                "value": "f",
+                "optional": false
+              },
+              "declare": false,
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 54,
+                "end": 109,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 67,
+                  "end": 109,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "LabeledStatement",
+                    "span": {
+                      "start": 73,
+                      "end": 105,
+                      "ctxt": 0
+                    },
+                    "label": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 73,
+                        "end": 79,
+                        "ctxt": 0
+                      },
+                      "value": "target",
+                      "optional": false
+                    },
+                    "body": {
+                      "type": "WhileStatement",
+                      "span": {
+                        "start": 85,
+                        "end": 105,
+                        "ctxt": 0
+                      },
+                      "test": {
+                        "type": "BooleanLiteral",
+                        "span": {
+                          "start": 92,
+                          "end": 96,
+                          "ctxt": 0
+                        },
+                        "value": true
+                      },
+                      "body": {
+                        "type": "BlockStatement",
+                        "span": {
+                          "start": 98,
+                          "end": 105,
+                          "ctxt": 0
+                        },
+                        "stmts": []
+                      }
+                    }
+                  }
+                ]
+              },
+              "generator": false,
+              "async": false,
+              "typeParameters": null,
+              "returnType": null
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

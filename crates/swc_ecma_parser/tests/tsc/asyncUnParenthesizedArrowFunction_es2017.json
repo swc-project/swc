@@ -1,0 +1,316 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 44,
+    "end": 202,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 61,
+          "end": 78,
+          "ctxt": 0
+        },
+        "value": "someOtherFunction",
+        "optional": false
+      },
+      "declare": true,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 79,
+            "end": 85,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 79,
+              "end": 85,
+              "ctxt": 0
+            },
+            "value": "i",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 80,
+                "end": 85,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 82,
+                  "end": 85,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 44,
+        "end": 102,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 86,
+          "end": 101,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsTypeReference",
+          "span": {
+            "start": 88,
+            "end": 101,
+            "ctxt": 0
+          },
+          "typeName": {
+            "type": "Identifier",
+            "span": {
+              "start": 88,
+              "end": 95,
+              "ctxt": 0
+            },
+            "value": "Promise",
+            "optional": false
+          },
+          "typeParams": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 95,
+              "end": 101,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 96,
+                  "end": 100,
+                  "ctxt": 0
+                },
+                "kind": "void"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 103,
+        "end": 150,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 109,
+            "end": 150,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 109,
+              "end": 110,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 113,
+              "end": 150,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 119,
+                  "end": 120,
+                  "ctxt": 0
+                },
+                "value": "i",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            ],
+            "body": {
+              "type": "AwaitExpression",
+              "span": {
+                "start": 124,
+                "end": 150,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 130,
+                  "end": 150,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 130,
+                    "end": 147,
+                    "ctxt": 0
+                  },
+                  "value": "someOtherFunction",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 148,
+                        "end": 149,
+                        "ctxt": 0
+                      },
+                      "value": "i",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            },
+            "async": true,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 151,
+        "end": 202,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 157,
+            "end": 201,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 157,
+              "end": 159,
+              "ctxt": 0
+            },
+            "value": "x1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 162,
+              "end": 201,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 169,
+                  "end": 170,
+                  "ctxt": 0
+                },
+                "value": "i",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            ],
+            "body": {
+              "type": "AwaitExpression",
+              "span": {
+                "start": 175,
+                "end": 201,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 181,
+                  "end": 201,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 181,
+                    "end": 198,
+                    "ctxt": 0
+                  },
+                  "value": "someOtherFunction",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 199,
+                        "end": 200,
+                        "ctxt": 0
+                      },
+                      "value": "i",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            },
+            "async": true,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

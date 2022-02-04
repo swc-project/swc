@@ -1,0 +1,185 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 40,
+    "end": 118,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 40,
+        "end": 74,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 45,
+          "end": 57,
+          "ctxt": 0
+        },
+        "value": "PromiseAlias",
+        "optional": false
+      },
+      "typeParams": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 57,
+          "end": 60,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 58,
+              "end": 59,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 58,
+                "end": 59,
+                "ctxt": 0
+              },
+              "value": "T",
+              "optional": false
+            },
+            "constraint": null,
+            "default": null
+          }
+        ]
+      },
+      "typeAnnotation": {
+        "type": "TsTypeReference",
+        "span": {
+          "start": 63,
+          "end": 73,
+          "ctxt": 0
+        },
+        "typeName": {
+          "type": "Identifier",
+          "span": {
+            "start": 63,
+            "end": 70,
+            "ctxt": 0
+          },
+          "value": "Promise",
+          "optional": false
+        },
+        "typeParams": {
+          "type": "TsTypeParameterInstantiation",
+          "span": {
+            "start": 70,
+            "end": 73,
+            "ctxt": 0
+          },
+          "params": [
+            {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 71,
+                "end": 72,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 71,
+                  "end": 72,
+                  "ctxt": 0
+                },
+                "value": "T",
+                "optional": false
+              },
+              "typeParams": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 91,
+          "end": 92,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 76,
+        "end": 118,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 115,
+          "end": 118,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 94,
+          "end": 114,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsTypeReference",
+          "span": {
+            "start": 96,
+            "end": 114,
+            "ctxt": 0
+          },
+          "typeName": {
+            "type": "Identifier",
+            "span": {
+              "start": 96,
+              "end": 108,
+              "ctxt": 0
+            },
+            "value": "PromiseAlias",
+            "optional": false
+          },
+          "typeParams": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 108,
+              "end": 114,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 109,
+                  "end": 113,
+                  "ctxt": 0
+                },
+                "kind": "void"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

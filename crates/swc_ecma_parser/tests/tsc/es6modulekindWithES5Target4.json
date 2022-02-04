@@ -1,0 +1,55 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 36,
+    "end": 65,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 42,
+          "end": 43,
+          "ctxt": 0
+        },
+        "value": "E",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 36,
+        "end": 47,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ExportDefaultExpression",
+      "span": {
+        "start": 48,
+        "end": 65,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 63,
+          "end": 64,
+          "ctxt": 0
+        },
+        "value": "E",
+        "optional": false
+      }
+    }
+  ],
+  "interpreter": null
+}

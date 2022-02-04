@@ -1,0 +1,68 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 41,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 7,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 0,
+        "end": 41,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "Constructor",
+          "span": {
+            "start": 12,
+            "end": 39,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 22,
+              "end": 33,
+              "ctxt": 0
+            },
+            "value": "constructor",
+            "optional": false
+          },
+          "params": [],
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 36,
+              "end": 39,
+              "ctxt": 0
+            },
+            "stmts": []
+          },
+          "accessibility": "protected",
+          "isOptional": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,52 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 172,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 172,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 4,
+            "end": 171,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 4,
+              "end": 167,
+              "ctxt": 0
+            },
+            "value": "才能ソЫⅨ蒤郳र्क्ड्राüışğİliيونيكودöÄüß才能ソЫⅨ蒤郳र्क्ड्राüışğİliيونيكودöÄüßAbcd123",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 170,
+              "end": 171,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,125 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 243,
+    "end": 503,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 249,
+          "end": 250,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 243,
+        "end": 503,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 306,
+            "end": 333,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 313,
+              "end": 332,
+              "ctxt": 0
+            },
+            "value": "readwriteStaticType",
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 405,
+            "end": 425,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 412,
+              "end": 424,
+              "ctxt": 0
+            },
+            "value": "readonlyType",
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 479,
+            "end": 500,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 486,
+              "end": 499,
+              "ctxt": 0
+            },
+            "value": "readwriteType",
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

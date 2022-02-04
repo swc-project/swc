@@ -1,0 +1,218 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 17,
+    "end": 157,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 32,
+          "end": 36,
+          "ctxt": 0
+        },
+        "value": "bar1",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 17,
+        "end": 63,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 39,
+          "end": 63,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 45,
+              "end": 61,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "UnaryExpression",
+              "span": {
+                "start": 45,
+                "end": 60,
+                "ctxt": 0
+              },
+              "operator": "delete",
+              "argument": {
+                "type": "AwaitExpression",
+                "span": {
+                  "start": 52,
+                  "end": 60,
+                  "ctxt": 0
+                },
+                "argument": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 58,
+                    "end": 60,
+                    "ctxt": 0
+                  },
+                  "value": 42.0
+                }
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 80,
+          "end": 84,
+          "ctxt": 0
+        },
+        "value": "bar2",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 65,
+        "end": 111,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 87,
+          "end": 111,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 93,
+              "end": 109,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "UnaryExpression",
+              "span": {
+                "start": 93,
+                "end": 108,
+                "ctxt": 0
+              },
+              "operator": "delete",
+              "argument": {
+                "type": "AwaitExpression",
+                "span": {
+                  "start": 100,
+                  "end": 108,
+                  "ctxt": 0
+                },
+                "argument": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 106,
+                    "end": 108,
+                    "ctxt": 0
+                  },
+                  "value": 42.0
+                }
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 128,
+          "end": 132,
+          "ctxt": 0
+        },
+        "value": "bar3",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 113,
+        "end": 157,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 135,
+          "end": 157,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 141,
+              "end": 155,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "UnaryExpression",
+              "span": {
+                "start": 141,
+                "end": 154,
+                "ctxt": 0
+              },
+              "operator": "void",
+              "argument": {
+                "type": "AwaitExpression",
+                "span": {
+                  "start": 146,
+                  "end": 154,
+                  "ctxt": 0
+                },
+                "argument": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 152,
+                    "end": 154,
+                    "ctxt": 0
+                  },
+                  "value": 42.0
+                }
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

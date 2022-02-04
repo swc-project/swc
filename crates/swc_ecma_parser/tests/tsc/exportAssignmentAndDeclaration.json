@@ -1,0 +1,142 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 39,
+    "end": 145,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 39,
+        "end": 64,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 46,
+          "end": 64,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 51,
+            "end": 53,
+            "ctxt": 0
+          },
+          "value": "E1",
+          "optional": false
+        },
+        "members": [
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 57,
+              "end": 58,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 57,
+                "end": 58,
+                "ctxt": 0
+              },
+              "value": "A",
+              "optional": false
+            },
+            "init": null
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 59,
+              "end": 60,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 59,
+                "end": 60,
+                "ctxt": 0
+              },
+              "value": "B",
+              "optional": false
+            },
+            "init": null
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 61,
+              "end": 62,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 61,
+                "end": 62,
+                "ctxt": 0
+              },
+              "value": "C",
+              "optional": false
+            },
+            "init": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 72,
+          "end": 74,
+          "ctxt": 0
+        },
+        "value": "C1",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 66,
+        "end": 79,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "TsExportAssignment",
+      "span": {
+        "start": 133,
+        "end": 145,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 142,
+          "end": 144,
+          "ctxt": 0
+        },
+        "value": "C1",
+        "optional": false
+      }
+    }
+  ],
+  "interpreter": null
+}

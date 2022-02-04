@@ -1,0 +1,103 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 44,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ForOfStatement",
+      "span": {
+        "start": 15,
+        "end": 44,
+        "ctxt": 0
+      },
+      "await": null,
+      "left": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 20,
+          "end": 25,
+          "ctxt": 0
+        },
+        "kind": "var",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 24,
+              "end": 25,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 24,
+                "end": 25,
+                "ctxt": 0
+              },
+              "value": "v",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": null,
+            "definite": false
+          }
+        ]
+      },
+      "right": {
+        "type": "ArrayExpression",
+        "span": {
+          "start": 29,
+          "end": 32,
+          "ctxt": 0
+        },
+        "elements": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 30,
+                "end": 31,
+                "ctxt": 0
+              },
+              "value": 0.0
+            }
+          }
+        ]
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 34,
+          "end": 44,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 40,
+              "end": 42,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 40,
+                "end": 41,
+                "ctxt": 0
+              },
+              "value": "v",
+              "optional": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

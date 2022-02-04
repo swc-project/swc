@@ -1,0 +1,176 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 36,
+    "end": 97,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 42,
+          "end": 43,
+          "ctxt": 0
+        },
+        "value": "A",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 36,
+        "end": 97,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "PrivateProperty",
+          "span": {
+            "start": 48,
+            "end": 57,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 48,
+              "end": 52,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 49,
+                "end": 52,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            }
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 55,
+              "end": 56,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 60,
+            "end": 82,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 67,
+              "end": 71,
+              "ctxt": 0
+            },
+            "value": "inst",
+            "optional": false
+          },
+          "value": {
+            "type": "NewExpression",
+            "span": {
+              "start": 74,
+              "end": 81,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 78,
+                "end": 79,
+                "ctxt": 0
+              },
+              "value": "A",
+              "optional": false
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "PrivateProperty",
+          "span": {
+            "start": 85,
+            "end": 95,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 85,
+              "end": 90,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 86,
+                "end": 90,
+                "ctxt": 0
+              },
+              "value": "prop",
+              "optional": false
+            }
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 93,
+              "end": 94,
+              "ctxt": 0
+            },
+            "value": 2.0
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,284 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 103,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 15,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 6,
+            "end": 14,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 6,
+              "end": 9,
+              "ctxt": 0
+            },
+            "value": "arr",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrayExpression",
+            "span": {
+              "start": 12,
+              "end": 14,
+              "ctxt": 0
+            },
+            "elements": []
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ForStatement",
+      "span": {
+        "start": 16,
+        "end": 103,
+        "ctxt": 0
+      },
+      "init": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 21,
+          "end": 30,
+          "ctxt": 0
+        },
+        "kind": "let",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 25,
+              "end": 30,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 25,
+                "end": 26,
+                "ctxt": 0
+              },
+              "value": "i",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 29,
+                "end": 30,
+                "ctxt": 0
+              },
+              "value": 0.0
+            },
+            "definite": false
+          }
+        ]
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 32,
+          "end": 38,
+          "ctxt": 0
+        },
+        "operator": "<",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 32,
+            "end": 33,
+            "ctxt": 0
+          },
+          "value": "i",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 36,
+            "end": 38,
+            "ctxt": 0
+          },
+          "value": 10.0
+        }
+      },
+      "update": {
+        "type": "UpdateExpression",
+        "span": {
+          "start": 40,
+          "end": 43,
+          "ctxt": 0
+        },
+        "operator": "++",
+        "prefix": true,
+        "argument": {
+          "type": "Identifier",
+          "span": {
+            "start": 42,
+            "end": 43,
+            "ctxt": 0
+          },
+          "value": "i",
+          "optional": false
+        }
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 45,
+          "end": 103,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ClassDeclaration",
+            "identifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 57,
+                "end": 58,
+                "ctxt": 0
+              },
+              "value": "C",
+              "optional": false
+            },
+            "declare": false,
+            "span": {
+              "start": 51,
+              "end": 84,
+              "ctxt": 0
+            },
+            "decorators": [],
+            "body": [
+              {
+                "type": "ClassProperty",
+                "span": {
+                  "start": 69,
+                  "end": 78,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 69,
+                    "end": 73,
+                    "ctxt": 0
+                  },
+                  "value": "prop",
+                  "optional": false
+                },
+                "value": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 76,
+                    "end": 77,
+                    "ctxt": 0
+                  },
+                  "value": "i",
+                  "optional": false
+                },
+                "typeAnnotation": null,
+                "isStatic": false,
+                "decorators": [],
+                "accessibility": null,
+                "isAbstract": false,
+                "isOptional": false,
+                "isOverride": false,
+                "readonly": false,
+                "declare": false,
+                "definite": false
+              }
+            ],
+            "superClass": null,
+            "isAbstract": false,
+            "typeParams": null,
+            "superTypeParams": null,
+            "implements": []
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 89,
+              "end": 101,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 89,
+                "end": 100,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 89,
+                  "end": 97,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 89,
+                    "end": 92,
+                    "ctxt": 0
+                  },
+                  "value": "arr",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 93,
+                    "end": 97,
+                    "ctxt": 0
+                  },
+                  "value": "push",
+                  "optional": false
+                }
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 98,
+                      "end": 99,
+                      "ctxt": 0
+                    },
+                    "value": "C",
+                    "optional": false
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

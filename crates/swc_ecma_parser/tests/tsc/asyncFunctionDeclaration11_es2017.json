@@ -1,0 +1,89 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 43,
+    "end": 84,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 58,
+          "end": 63,
+          "ctxt": 0
+        },
+        "value": "await",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 43,
+        "end": 84,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 81,
+          "end": 84,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 65,
+          "end": 80,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsTypeReference",
+          "span": {
+            "start": 67,
+            "end": 80,
+            "ctxt": 0
+          },
+          "typeName": {
+            "type": "Identifier",
+            "span": {
+              "start": 67,
+              "end": 74,
+              "ctxt": 0
+            },
+            "value": "Promise",
+            "optional": false
+          },
+          "typeParams": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 74,
+              "end": 80,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 75,
+                  "end": 79,
+                  "ctxt": 0
+                },
+                "kind": "void"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

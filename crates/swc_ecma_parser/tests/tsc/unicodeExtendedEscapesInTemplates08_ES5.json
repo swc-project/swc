@@ -1,0 +1,91 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 129,
+    "end": 148,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 129,
+        "end": 148,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 133,
+            "end": 147,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 133,
+              "end": 134,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 137,
+              "end": 147,
+              "ctxt": 0
+            },
+            "expressions": [],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 138,
+                  "end": 146,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 138,
+                    "end": 146,
+                    "ctxt": 0
+                  },
+                  "value": "￿",
+                  "hasEscape": true,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": false
+                  }
+                },
+                "raw": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 138,
+                    "end": 146,
+                    "ctxt": 0
+                  },
+                  "value": "\\u{FFFF}",
+                  "hasEscape": true,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": false
+                  }
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}
