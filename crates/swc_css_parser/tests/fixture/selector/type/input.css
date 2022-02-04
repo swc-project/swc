@@ -10,3 +10,14 @@ div\:before {}
 d\iv {}
 foreignObject {}
 html textPath {}
+div#thing {}
+* {}
+* #foo {}
+*#foo {}
+#foo * {}
+.bar * {}
+*.bar {}
+*[lang^=en] {}
+*:hover {}
+*::before {}
+* *:not(*) {}

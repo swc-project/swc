@@ -6,9 +6,9 @@ error: Stylesheet
 3  | | dialog::backdrop {}
 4  | |
 ...  |
-35 | | a:hover::-moz-placeholder {}
 36 | | a, b > .foo::before {}
-   | |_______________________^
+37 | | *:hover.class {}
+   | |_________________^
 
 error: Rule
  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1
@@ -1473,4 +1473,88 @@ error: Block
    |
 36 | a, b > .foo::before {}
    |                     ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1
+   |
+37 | *:hover.class {}
+   | ^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1
+   |
+37 | *:hover.class {}
+   | ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1
+   |
+37 | *:hover.class {}
+   | ^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1
+   |
+37 | *:hover.class {}
+   | ^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1
+   |
+37 | *:hover.class {}
+   | ^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1
+   |
+37 | *:hover.class {}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1
+   |
+37 | *:hover.class {}
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:2
+   |
+37 | *:hover.class {}
+   |  ^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:2
+   |
+37 | *:hover.class {}
+   |  ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:3
+   |
+37 | *:hover.class {}
+   |   ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:8
+   |
+37 | *:hover.class {}
+   |        ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:8
+   |
+37 | *:hover.class {}
+   |        ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:9
+   |
+37 | *:hover.class {}
+   |         ^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:15
+   |
+37 | *:hover.class {}
+   |               ^^
 

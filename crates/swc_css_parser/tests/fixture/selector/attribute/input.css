@@ -27,4 +27,14 @@ a[   class   =   "test"   ] {}
 [   href*="insensitive"   i   ] {}
 [   href   *=   "insensitive"   i   ] {}
 [   href   ] {}
-[frame=hsides i] {} 
+[frame=hsides i] {}
+#id.class[target] {}
+#id[target] {}
+[target].class {}
+[title='foo'] {}
+[data-style='value'][data-loading] {}
+a[href="te's't"] {}
+a[href='te"s"t'] {}
+[ng\:cloak] {}
+[ng\3a cloak] {}
+[ng\00003acloak] {}

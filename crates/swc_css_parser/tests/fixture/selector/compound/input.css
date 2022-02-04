@@ -1,0 +1,16 @@
+.one {}
+.foo.bar {}
+.foo#id {}
+.class[target] {}
+.class#id[target] {}
+#id.class {}
+#id.class[target] {}
+div#thing:hover {}
+div#thing::before {}
+a[href='place']:hover {}
+a[href='place']::before {}
+.one.two.three {}
+button.btn-primary {}
+*#z98y {}
+#one#two {}
+#one.two.three {}
