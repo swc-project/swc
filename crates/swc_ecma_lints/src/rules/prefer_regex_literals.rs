@@ -20,8 +20,8 @@ const MAX_VALID_ARGS_COUNT: usize = 2;
 const GLOBAL_THIS: &str = "globalThis";
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct PreferRegexLiteralsConfig {
-    #[serde(rename = "disallowRedundantWrapping")]
     disallow_redundant_wrapping: Option<bool>,
 }
 
@@ -90,6 +90,25 @@ impl PreferRegexLiterals {
         }
     }
 
+    fn extract_arg_value_type(expr: &Expr) -> ArgValueType {
+        match expr {
+            Expr::Lit(Lit::Str(_)) => ArgValueType::Str,
+            Expr::Lit(Lit::Regex(_)) => ArgValueType::RegExp,
+            Expr::Tpl(Tpl { exprs, .. }) => match exprs.len() {
+                0 => ArgValueType::Str,
+                _ => ArgValueType::Another,
+            },
+            Expr::TaggedTpl(TaggedTpl {
+                tpl: Tpl { exprs, .. },
+                ..
+            }) => match exprs.len() {
+                0 => ArgValueType::Str,
+                _ => ArgValueType::Another,
+            },
+            _ => ArgValueType::Another,
+        }
+    }
+
     fn reset_state(&mut self) {
         self.call_span = None;
         self.first_arg = None;
@@ -100,44 +119,11 @@ impl PreferRegexLiterals {
         self.call_span = Some(call_span);
 
         if let Some(ExprOrSpread { expr, .. }) = args.get(0) {
-            let value = match expr.as_ref() {
-                Expr::Lit(Lit::Str(_)) => ArgValueType::Str,
-                Expr::Lit(Lit::Regex(_)) => ArgValueType::RegExp,
-                Expr::Tpl(Tpl { exprs, .. }) => match exprs.len() {
-                    0 => ArgValueType::Str,
-                    _ => ArgValueType::Another,
-                },
-                Expr::TaggedTpl(TaggedTpl {
-                    tpl: Tpl { exprs, .. },
-                    ..
-                }) => match exprs.len() {
-                    0 => ArgValueType::Str,
-                    _ => ArgValueType::Another,
-                },
-                _ => ArgValueType::Another,
-            };
-
-            self.first_arg = Some(value);
+            self.first_arg = Some(Self::extract_arg_value_type(expr.as_ref()));
         }
 
         if let Some(ExprOrSpread { expr, .. }) = args.get(1) {
-            let value = match expr.as_ref() {
-                Expr::Lit(Lit::Str(_)) => ArgValueType::Str,
-                Expr::Tpl(Tpl { exprs, .. }) => match exprs.len() {
-                    0 => ArgValueType::Str,
-                    _ => ArgValueType::Another,
-                },
-                Expr::TaggedTpl(TaggedTpl {
-                    tpl: Tpl { exprs, .. },
-                    ..
-                }) => match exprs.len() {
-                    0 => ArgValueType::Str,
-                    _ => ArgValueType::Another,
-                },
-                _ => ArgValueType::Another,
-            };
-
-            self.second_arg = Some(value);
+            self.second_arg = Some(Self::extract_arg_value_type(expr.as_ref()));
         }
     }
 
