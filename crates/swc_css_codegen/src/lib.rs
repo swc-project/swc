@@ -178,14 +178,6 @@ where
     }
 
     #[emitter]
-    fn emit_keyframes_name(&mut self, n: &KeyframesName) -> Result {
-        match n {
-            KeyframesName::CustomIdent(n) => emit!(self, n),
-            KeyframesName::Str(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
     fn emit_keyframes_rule(&mut self, n: &KeyframesRule) -> Result {
         punct!(self, "@");
         keyword!(self, "keyframes");
@@ -200,7 +192,6 @@ where
         }
 
         emit!(self, n.name);
-
         formatting_space!(self);
         punct!(self, "{");
         formatting_newline!(self);
@@ -216,6 +207,31 @@ where
 
         formatting_newline!(self);
         punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_keyframes_name(&mut self, n: &KeyframesName) -> Result {
+        match n {
+            KeyframesName::CustomIdent(n) => emit!(self, n),
+            KeyframesName::Str(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_keyframe_block(&mut self, n: &KeyframeBlock) -> Result {
+        self.emit_list(&n.prelude, ListFormat::CommaDelimited)?;
+
+        formatting_space!(self);
+
+        emit!(self, n.block);
+    }
+
+    #[emitter]
+    fn emit_keyframe_selector(&mut self, n: &KeyframeSelector) -> Result {
+        match n {
+            KeyframeSelector::Ident(n) => emit!(self, n),
+            KeyframeSelector::Percent(n) => emit!(self, n),
+        }
     }
 
     #[emitter]
@@ -261,23 +277,6 @@ where
             punct!(self, "}");
         } else {
             punct!(self, ";");
-        }
-    }
-
-    #[emitter]
-    fn emit_keyframe_block(&mut self, n: &KeyframeBlock) -> Result {
-        self.emit_list(&n.selector, ListFormat::CommaDelimited)?;
-
-        formatting_space!(self);
-
-        emit!(self, n.rule);
-    }
-
-    #[emitter]
-    fn emit_keyframe_selector(&mut self, n: &KeyframeSelector) -> Result {
-        match n {
-            KeyframeSelector::Ident(n) => emit!(self, n),
-            KeyframeSelector::Percent(n) => emit!(self, n),
         }
     }
 
@@ -893,14 +892,6 @@ where
     }
 
     #[emitter]
-    fn emit_keyframe_block_rule(&mut self, n: &KeyframeBlockRule) -> Result {
-        match n {
-            KeyframeBlockRule::Block(n) => emit!(self, n),
-            KeyframeBlockRule::AtRule(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
     fn emit_percent(&mut self, n: &Percent) -> Result {
         emit!(self, n.value);
         punct!(self, "%");
@@ -1101,11 +1092,15 @@ where
                 Token::Url {
                     raw_name,
                     raw_value,
+                    before,
+                    after,
                     ..
                 } => {
                     self.wr.write_raw(None, raw_name)?;
                     punct!(self, "(");
+                    self.wr.write_raw(None, before)?;
                     self.wr.write_raw(None, raw_value)?;
+                    self.wr.write_raw(None, after)?;
                     punct!(self, ")");
                 }
                 Token::BadUrl {
@@ -1179,7 +1174,19 @@ where
 
     #[emitter]
     fn emit_url_value_raw(&mut self, n: &UrlValueRaw) -> Result {
-        self.wr.write_raw(Some(n.span), &n.raw)?;
+        if !self.config.minify {
+            self.wr.write_raw(Some(n.span), &n.before)?;
+        }
+
+        if self.config.minify {
+            self.wr.write_raw(Some(n.span), &n.value)?;
+        } else {
+            self.wr.write_raw(Some(n.span), &n.raw)?;
+        }
+
+        if !self.config.minify {
+            self.wr.write_raw(Some(n.span), &n.after)?;
+        }
     }
 
     #[emitter]

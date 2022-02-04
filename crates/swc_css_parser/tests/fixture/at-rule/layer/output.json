@@ -167,7 +167,7 @@
                 "end": 130,
                 "ctxt": 0
               },
-              "selector": [
+              "prelude": [
                 {
                   "type": "Identifier",
                   "span": {
@@ -179,7 +179,7 @@
                   "raw": "from"
                 }
               ],
-              "rule": {
+              "block": {
                 "type": "Block",
                 "span": {
                   "start": 113,
@@ -227,7 +227,7 @@
                 "end": 165,
                 "ctxt": 0
               },
-              "selector": [
+              "prelude": [
                 {
                   "type": "Identifier",
                   "span": {
@@ -239,7 +239,7 @@
                   "raw": "to"
                 }
               ],
-              "rule": {
+              "block": {
                 "type": "Block",
                 "span": {
                   "start": 142,
@@ -355,7 +355,7 @@
                 "end": 254,
                 "ctxt": 0
               },
-              "selector": [
+              "prelude": [
                 {
                   "type": "Identifier",
                   "span": {
@@ -367,7 +367,7 @@
                   "raw": "from"
                 }
               ],
-              "rule": {
+              "block": {
                 "type": "Block",
                 "span": {
                   "start": 235,
@@ -415,7 +415,7 @@
                 "end": 289,
                 "ctxt": 0
               },
-              "selector": [
+              "prelude": [
                 {
                   "type": "Identifier",
                   "span": {
@@ -427,7 +427,7 @@
                   "raw": "to"
                 }
               ],
-              "rule": {
+              "block": {
                 "type": "Block",
                 "span": {
                   "start": 266,

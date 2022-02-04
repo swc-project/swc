@@ -30,7 +30,7 @@
             "end": 33,
             "ctxt": 0
           },
-          "selector": [
+          "prelude": [
             {
               "type": "Percent",
               "span": {
@@ -68,7 +68,7 @@
               }
             }
           ],
-          "rule": {
+          "block": {
             "type": "Block",
             "span": {
               "start": 22,
@@ -116,7 +116,7 @@
             "end": 52,
             "ctxt": 0
           },
-          "selector": [
+          "prelude": [
             {
               "type": "Percent",
               "span": {
@@ -154,7 +154,7 @@
               }
             }
           ],
-          "rule": {
+          "block": {
             "type": "Block",
             "span": {
               "start": 40,

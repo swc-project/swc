@@ -183,6 +183,8 @@ define!({
 
     pub struct UrlValueRaw {
         pub span: Span,
+        pub before: JsWord,
+        pub after: JsWord,
         pub value: JsWord,
         pub raw: JsWord,
     }
@@ -424,18 +426,13 @@ define!({
 
     pub struct KeyframeBlock {
         pub span: Span,
-        pub selector: Vec<KeyframeSelector>,
-        pub rule: KeyframeBlockRule,
+        pub prelude: Vec<KeyframeSelector>,
+        pub block: Block,
     }
 
     pub enum KeyframeSelector {
         Ident(Ident),
         Percent(Percent),
-    }
-
-    pub enum KeyframeBlockRule {
-        Block(Box<Block>),
-        AtRule(Box<AtRule>),
     }
 
     pub struct LayerName {

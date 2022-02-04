@@ -1135,7 +1135,11 @@ impl<'a, I: Tokens> Parser<I> {
                 Box::new(match obj {
                     Callee::Import(..) => unreachable!(),
                     Callee::Super(obj) => {
-                        if question_dot_token.is_some() {
+                        if !self.ctx().allow_direct_super
+                            && !self.input.syntax().allow_super_outside_method()
+                        {
+                            syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuper);
+                        } else if question_dot_token.is_some() {
                             if no_call {
                                 syntax_error!(
                                     self,
@@ -1223,7 +1227,11 @@ impl<'a, I: Tokens> Parser<I> {
                         }
                     }
                     Callee::Super(obj) => {
-                        if question_dot_token.is_some() {
+                        if !self.ctx().allow_direct_super
+                            && !self.input.syntax().allow_super_outside_method()
+                        {
+                            syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuper);
+                        } else if question_dot_token.is_some() {
                             if no_call {
                                 syntax_error!(
                                     self,

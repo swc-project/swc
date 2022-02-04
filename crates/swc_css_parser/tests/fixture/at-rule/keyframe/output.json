@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 432,
+    "end": 784,
     "ctxt": 0
   },
   "rules": [
@@ -87,7 +87,7 @@
             "end": 168,
             "ctxt": 0
           },
-          "selector": [
+          "prelude": [
             {
               "type": "Identifier",
               "span": {
@@ -99,7 +99,7 @@
               "raw": "from"
             }
           ],
-          "rule": {
+          "block": {
             "type": "Block",
             "span": {
               "start": 126,
@@ -175,7 +175,7 @@
             "end": 221,
             "ctxt": 0
           },
-          "selector": [
+          "prelude": [
             {
               "type": "Identifier",
               "span": {
@@ -187,7 +187,7 @@
               "raw": "to"
             }
           ],
-          "rule": {
+          "block": {
             "type": "Block",
             "span": {
               "start": 177,
@@ -283,7 +283,7 @@
             "end": 276,
             "ctxt": 0
           },
-          "selector": [
+          "prelude": [
             {
               "type": "Percent",
               "span": {
@@ -303,7 +303,7 @@
               }
             }
           ],
-          "rule": {
+          "block": {
             "type": "Block",
             "span": {
               "start": 256,
@@ -382,7 +382,7 @@
             "end": 299,
             "ctxt": 0
           },
-          "selector": [
+          "prelude": [
             {
               "type": "Percent",
               "span": {
@@ -402,7 +402,7 @@
               }
             }
           ],
-          "rule": {
+          "block": {
             "type": "Block",
             "span": {
               "start": 285,
@@ -468,7 +468,7 @@
             "end": 328,
             "ctxt": 0
           },
-          "selector": [
+          "prelude": [
             {
               "type": "Percent",
               "span": {
@@ -506,7 +506,7 @@
               }
             }
           ],
-          "rule": {
+          "block": {
             "type": "Block",
             "span": {
               "start": 313,
@@ -572,7 +572,7 @@
             "end": 365,
             "ctxt": 0
           },
-          "selector": [
+          "prelude": [
             {
               "type": "Percent",
               "span": {
@@ -592,7 +592,7 @@
               }
             }
           ],
-          "rule": {
+          "block": {
             "type": "Block",
             "span": {
               "start": 338,
@@ -749,6 +749,563 @@
         "raw": "\"None\""
       },
       "blocks": []
+    },
+    {
+      "type": "KeyframesRule",
+      "span": {
+        "start": 432,
+        "end": 651,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "CustomIdentifier",
+        "span": {
+          "start": 443,
+          "end": 454,
+          "ctxt": 0
+        },
+        "value": "slide-right",
+        "raw": "slide-right"
+      },
+      "blocks": [
+        {
+          "span": {
+            "start": 462,
+            "end": 500,
+            "ctxt": 0
+          },
+          "prelude": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 462,
+                "end": 466,
+                "ctxt": 0
+              },
+              "value": "from",
+              "raw": "from"
+            }
+          ],
+          "block": {
+            "type": "Block",
+            "span": {
+              "start": 467,
+              "end": 500,
+              "ctxt": 0
+            },
+            "value": [
+              {
+                "type": "Declaration",
+                "span": {
+                  "start": 477,
+                  "end": 493,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 477,
+                    "end": 488,
+                    "ctxt": 0
+                  },
+                  "value": "margin-left",
+                  "raw": "margin-left"
+                },
+                "value": [
+                  {
+                    "type": "Dimension",
+                    "span": {
+                      "start": 490,
+                      "end": 493,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 490,
+                        "end": 491,
+                        "ctxt": 0
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    },
+                    "unit": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 491,
+                        "end": 493,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                ],
+                "important": null
+              }
+            ]
+          }
+        },
+        {
+          "span": {
+            "start": 506,
+            "end": 565,
+            "ctxt": 0
+          },
+          "prelude": [
+            {
+              "type": "Percent",
+              "span": {
+                "start": 506,
+                "end": 509,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Number",
+                "span": {
+                  "start": 506,
+                  "end": 508,
+                  "ctxt": 0
+                },
+                "value": 50.0,
+                "raw": "50"
+              }
+            }
+          ],
+          "block": {
+            "type": "Block",
+            "span": {
+              "start": 510,
+              "end": 565,
+              "ctxt": 0
+            },
+            "value": [
+              {
+                "type": "Declaration",
+                "span": {
+                  "start": 520,
+                  "end": 538,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 520,
+                    "end": 531,
+                    "ctxt": 0
+                  },
+                  "value": "margin-left",
+                  "raw": "margin-left"
+                },
+                "value": [
+                  {
+                    "type": "Dimension",
+                    "span": {
+                      "start": 533,
+                      "end": 538,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 533,
+                        "end": 536,
+                        "ctxt": 0
+                      },
+                      "value": 110.0,
+                      "raw": "110"
+                    },
+                    "unit": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 536,
+                        "end": 538,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                ],
+                "important": null
+              },
+              {
+                "type": "Declaration",
+                "span": {
+                  "start": 548,
+                  "end": 558,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 548,
+                    "end": 555,
+                    "ctxt": 0
+                  },
+                  "value": "opacity",
+                  "raw": "opacity"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 557,
+                      "end": 558,
+                      "ctxt": 0
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  }
+                ],
+                "important": null
+              }
+            ]
+          }
+        },
+        {
+          "span": {
+            "start": 571,
+            "end": 604,
+            "ctxt": 0
+          },
+          "prelude": [
+            {
+              "type": "Percent",
+              "span": {
+                "start": 571,
+                "end": 574,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Number",
+                "span": {
+                  "start": 571,
+                  "end": 573,
+                  "ctxt": 0
+                },
+                "value": 50.0,
+                "raw": "50"
+              }
+            }
+          ],
+          "block": {
+            "type": "Block",
+            "span": {
+              "start": 575,
+              "end": 604,
+              "ctxt": 0
+            },
+            "value": [
+              {
+                "type": "Declaration",
+                "span": {
+                  "start": 585,
+                  "end": 597,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 585,
+                    "end": 592,
+                    "ctxt": 0
+                  },
+                  "value": "opacity",
+                  "raw": "opacity"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 594,
+                      "end": 597,
+                      "ctxt": 0
+                    },
+                    "value": 0.9,
+                    "raw": "0.9"
+                  }
+                ],
+                "important": null
+              }
+            ]
+          }
+        },
+        {
+          "span": {
+            "start": 610,
+            "end": 648,
+            "ctxt": 0
+          },
+          "prelude": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 610,
+                "end": 612,
+                "ctxt": 0
+              },
+              "value": "to",
+              "raw": "to"
+            }
+          ],
+          "block": {
+            "type": "Block",
+            "span": {
+              "start": 613,
+              "end": 648,
+              "ctxt": 0
+            },
+            "value": [
+              {
+                "type": "Declaration",
+                "span": {
+                  "start": 623,
+                  "end": 641,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 623,
+                    "end": 634,
+                    "ctxt": 0
+                  },
+                  "value": "margin-left",
+                  "raw": "margin-left"
+                },
+                "value": [
+                  {
+                    "type": "Dimension",
+                    "span": {
+                      "start": 636,
+                      "end": 641,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 636,
+                        "end": 639,
+                        "ctxt": 0
+                      },
+                      "value": 200.0,
+                      "raw": "200"
+                    },
+                    "unit": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 639,
+                        "end": 641,
+                        "ctxt": 0
+                      },
+                      "value": "px",
+                      "raw": "px"
+                    }
+                  }
+                ],
+                "important": null
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "KeyframesRule",
+      "span": {
+        "start": 653,
+        "end": 783,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "CustomIdentifier",
+        "span": {
+          "start": 664,
+          "end": 674,
+          "ctxt": 0
+        },
+        "value": "slidein-up",
+        "raw": "slidein-up"
+      },
+      "blocks": [
+        {
+          "span": {
+            "start": 681,
+            "end": 728,
+            "ctxt": 0
+          },
+          "prelude": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 681,
+                "end": 685,
+                "ctxt": 0
+              },
+              "value": "fRoM",
+              "raw": "fRoM"
+            }
+          ],
+          "block": {
+            "type": "Block",
+            "span": {
+              "start": 686,
+              "end": 728,
+              "ctxt": 0
+            },
+            "value": [
+              {
+                "type": "Declaration",
+                "span": {
+                  "start": 696,
+                  "end": 721,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 696,
+                    "end": 705,
+                    "ctxt": 0
+                  },
+                  "value": "transform",
+                  "raw": "transform"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 707,
+                      "end": 721,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 707,
+                        "end": 717,
+                        "ctxt": 0
+                      },
+                      "value": "translateX",
+                      "raw": "translateX"
+                    },
+                    "value": [
+                      {
+                        "type": "Percent",
+                        "span": {
+                          "start": 718,
+                          "end": 720,
+                          "ctxt": 0
+                        },
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 718,
+                            "end": 719,
+                            "ctxt": 0
+                          },
+                          "value": 0.0,
+                          "raw": "0"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "important": null
+              }
+            ]
+          }
+        },
+        {
+          "span": {
+            "start": 734,
+            "end": 781,
+            "ctxt": 0
+          },
+          "prelude": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 734,
+                "end": 736,
+                "ctxt": 0
+              },
+              "value": "tO",
+              "raw": "tO"
+            }
+          ],
+          "block": {
+            "type": "Block",
+            "span": {
+              "start": 737,
+              "end": 781,
+              "ctxt": 0
+            },
+            "value": [
+              {
+                "type": "Declaration",
+                "span": {
+                  "start": 747,
+                  "end": 774,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 747,
+                    "end": 756,
+                    "ctxt": 0
+                  },
+                  "value": "transform",
+                  "raw": "transform"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 758,
+                      "end": 774,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 758,
+                        "end": 768,
+                        "ctxt": 0
+                      },
+                      "value": "translateX",
+                      "raw": "translateX"
+                    },
+                    "value": [
+                      {
+                        "type": "Percent",
+                        "span": {
+                          "start": 769,
+                          "end": 773,
+                          "ctxt": 0
+                        },
+                        "value": {
+                          "type": "Number",
+                          "span": {
+                            "start": 769,
+                            "end": 772,
+                            "ctxt": 0
+                          },
+                          "value": 100.0,
+                          "raw": "100"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "important": null
+              }
+            ]
+          }
+        }
+      ]
     }
   ]
 }

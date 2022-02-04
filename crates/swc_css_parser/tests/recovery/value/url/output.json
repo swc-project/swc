@@ -222,6 +222,8 @@
                     "end": 124,
                     "ctxt": 0
                   },
+                  "before": "",
+                  "after": "",
                   "value": "image.png�",
                   "raw": "image.png\\999999"
                 },
@@ -272,6 +274,8 @@
                     "end": 158,
                     "ctxt": 0
                   },
+                  "before": "",
+                  "after": "",
                   "value": "image.png�",
                   "raw": "image.png\\0"
                 },
@@ -322,6 +326,8 @@
                     "end": 195,
                     "ctxt": 0
                   },
+                  "before": "",
+                  "after": "",
                   "value": "image.png�",
                   "raw": "image.png\\D800"
                 },
@@ -372,6 +378,8 @@
                     "end": 232,
                     "ctxt": 0
                   },
+                  "before": "",
+                  "after": "",
                   "value": "image.png�",
                   "raw": "image.png\\DFFF"
                 },
@@ -422,6 +430,8 @@
                     "end": 271,
                     "ctxt": 0
                   },
+                  "before": "",
+                  "after": "",
                   "value": "image.png�",
                   "raw": "image.png\\11FFFF"
                 },

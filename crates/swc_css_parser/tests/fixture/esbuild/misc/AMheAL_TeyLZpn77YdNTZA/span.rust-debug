@@ -46,12 +46,6 @@ error: Ident
 1 | @keyframes abc { \66rom {} }
   |                  ^^^^^^
 
-error: KeyframeBlockRule
- --> $DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:25
-  |
-1 | @keyframes abc { \66rom {} }
-  |                         ^^
-
 error: Block
  --> $DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:25
   |

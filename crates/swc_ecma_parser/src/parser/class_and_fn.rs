@@ -287,8 +287,11 @@ impl<'a, I: Tokens> Parser<I> {
                 }));
                 continue;
             }
-
-            elems.push(self.parse_class_member()?);
+            let mut p = self.with_ctx(Context {
+                allow_direct_super: true,
+                ..self.ctx()
+            });
+            elems.push(p.parse_class_member()?);
         }
         Ok(elems)
     }
@@ -992,25 +995,29 @@ impl<'a, I: Tokens> Parser<I> {
             }
         };
 
-        let ctx = Context {
-            in_async: is_async,
-            in_generator: is_generator,
-            ..self.ctx()
-        };
-
         let ident = if T::is_fn_expr() {
             //
             self.with_ctx(Context {
+                in_async: is_async,
                 in_generator: is_generator,
-                ..ctx
+                allow_direct_super: false,
+                ..self.ctx()
             })
             .parse_maybe_opt_binding_ident()?
         } else {
             // function declaration does not change context for `BindingIdentifier`.
-            self.parse_maybe_opt_binding_ident()?
+            self.with_ctx(Context {
+                allow_direct_super: false,
+                ..self.ctx()
+            })
+            .parse_maybe_opt_binding_ident()?
         };
 
-        self.parse_with(|p| {
+        self.with_ctx(Context {
+            allow_direct_super: false,
+            ..self.ctx()
+        })
+        .parse_with(|p| {
             let f = p.parse_fn_args_body(
                 decorators,
                 start,
@@ -1049,7 +1056,6 @@ impl<'a, I: Tokens> Parser<I> {
         F: FnOnce(&mut Self) -> PResult<Vec<Param>>,
     {
         trace_cur!(self, parse_fn_args_body);
-
         // let prev_in_generator = self.ctx().in_generator;
         let ctx = Context {
             in_async: is_async,
@@ -1203,9 +1209,14 @@ impl<'a, I: Tokens> Parser<I> {
         trace_cur!(self, make_method);
 
         let is_static = static_token.is_some();
-        let function = self.parse_with(|p| {
-            p.parse_fn_args_body(decorators, start, parse_args, is_async, is_generator)
-        })?;
+        let function = self
+            .with_ctx(Context {
+                allow_direct_super: true,
+                ..self.ctx()
+            })
+            .parse_with(|p| {
+                p.parse_fn_args_body(decorators, start, parse_args, is_async, is_generator)
+            })?;
 
         match kind {
             MethodKind::Getter | MethodKind::Setter

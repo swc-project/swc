@@ -30,7 +30,7 @@
             "end": 25,
             "ctxt": 0
           },
-          "selector": [
+          "prelude": [
             {
               "type": "Identifier",
               "span": {
@@ -42,7 +42,7 @@
               "raw": "from"
             }
           ],
-          "rule": {
+          "block": {
             "type": "Block",
             "span": {
               "start": 23,
@@ -58,7 +58,7 @@
             "end": 43,
             "ctxt": 0
           },
-          "selector": [
+          "prelude": [
             {
               "type": "Identifier",
               "span": {
@@ -70,7 +70,7 @@
               "raw": "to"
             }
           ],
-          "rule": {
+          "block": {
             "type": "Block",
             "span": {
               "start": 29,
