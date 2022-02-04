@@ -1,3 +1,4 @@
+use crate::rules::no_use_before_define::NoUseBeforeDefineConfig;
 #[cfg(feature = "non_critical_lints")]
 use crate::rules::non_critical_lints::no_console::NoConsoleConfig;
 #[cfg(feature = "non_critical_lints")]
@@ -54,4 +55,7 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
     pub no_debugger: RuleConfig<()>,
+
+    #[serde(default)]
+    pub no_use_before_define: RuleConfig<NoUseBeforeDefineConfig>,
 }

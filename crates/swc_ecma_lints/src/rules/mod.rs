@@ -6,6 +6,7 @@ use swc_ecma_visit::{noop_fold_type, Fold};
 mod const_assign;
 mod duplicate_bindings;
 mod duplicate_exports;
+pub(crate) mod no_use_before_define;
 
 #[cfg(feature = "non_critical_lints")]
 #[path = ""]
@@ -31,6 +32,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         const_assign::const_assign(),
         duplicate_bindings::duplicate_bindings(),
         duplicate_exports::duplicate_exports(),
+        no_use_before_define::no_use_before_define(&lint_params.lint_config.no_use_before_define),
     ];
 
     #[cfg(feature = "non_critical_lints")]
