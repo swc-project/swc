@@ -6,3 +6,6 @@ new A();
 let a = {
     a: ''
 };
+let b = {
+    A
+};

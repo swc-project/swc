@@ -68,3 +68,13 @@ class G {
         };
     }
 }
+class H {
+    constructor(p1){
+        this.p1 = p1;
+        this.p2 = ()=>{
+            return this.p1.foo;
+        };
+        this.p3 = ()=>this.p1.foo
+        ;
+    }
+}

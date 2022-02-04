@@ -1,0 +1,289 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 20,
+    "end": 176,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 26,
+          "end": 27,
+          "ctxt": 0
+        },
+        "value": "A",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 20,
+        "end": 176,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "PrivateProperty",
+          "span": {
+            "start": 34,
+            "end": 66,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 41,
+              "end": 49,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 42,
+                "end": 49,
+                "ctxt": 0
+              },
+              "value": "myField",
+              "optional": false
+            }
+          },
+          "value": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 52,
+              "end": 65,
+              "ctxt": 0
+            },
+            "value": "hello world",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "definite": false
+        },
+        {
+          "type": "Constructor",
+          "span": {
+            "start": 71,
+            "end": 174,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 71,
+              "end": 82,
+              "ctxt": 0
+            },
+            "value": "constructor",
+            "optional": false
+          },
+          "params": [],
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 85,
+              "end": 174,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 95,
+                  "end": 119,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "CallExpression",
+                  "span": {
+                    "start": 95,
+                    "end": 118,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 95,
+                      "end": 106,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 95,
+                        "end": 102,
+                        "ctxt": 0
+                      },
+                      "value": "console",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 103,
+                        "end": 106,
+                        "ctxt": 0
+                      },
+                      "value": "log",
+                      "optional": false
+                    }
+                  },
+                  "arguments": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 107,
+                          "end": 117,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 107,
+                            "end": 108,
+                            "ctxt": 0
+                          },
+                          "value": "A",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "PrivateName",
+                          "span": {
+                            "start": 109,
+                            "end": 117,
+                            "ctxt": 0
+                          },
+                          "id": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 110,
+                              "end": 117,
+                              "ctxt": 0
+                            },
+                            "value": "myField",
+                            "optional": false
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "typeArguments": null
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 133,
+                  "end": 160,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "CallExpression",
+                  "span": {
+                    "start": 133,
+                    "end": 159,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 133,
+                      "end": 144,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 133,
+                        "end": 140,
+                        "ctxt": 0
+                      },
+                      "value": "console",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 141,
+                        "end": 144,
+                        "ctxt": 0
+                      },
+                      "value": "log",
+                      "optional": false
+                    }
+                  },
+                  "arguments": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 145,
+                          "end": 158,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "ThisExpression",
+                          "span": {
+                            "start": 145,
+                            "end": 149,
+                            "ctxt": 0
+                          }
+                        },
+                        "property": {
+                          "type": "PrivateName",
+                          "span": {
+                            "start": 150,
+                            "end": 158,
+                            "ctxt": 0
+                          },
+                          "id": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 151,
+                              "end": 158,
+                              "ctxt": 0
+                            },
+                            "value": "myField",
+                            "optional": false
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "typeArguments": null
+                }
+              }
+            ]
+          },
+          "accessibility": null,
+          "isOptional": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

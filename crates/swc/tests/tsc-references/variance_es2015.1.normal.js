@@ -11,3 +11,4 @@ class Bar {
         Bar.instance.push(this);
     }
 }
+Bar.instance = [];

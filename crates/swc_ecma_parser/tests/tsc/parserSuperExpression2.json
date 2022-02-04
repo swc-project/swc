@@ -1,0 +1,146 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 40,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 7,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 0,
+        "end": 40,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 12,
+            "end": 38,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 12,
+              "end": 13,
+              "ctxt": 0
+            },
+            "value": "M",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 12,
+              "end": 38,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 16,
+                "end": 38,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 22,
+                    "end": 34,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 27,
+                      "end": 33,
+                      "ctxt": 0
+                    },
+                    "operator": ">",
+                    "left": {
+                      "type": "BinaryExpression",
+                      "span": {
+                        "start": 27,
+                        "end": 29,
+                        "ctxt": 0
+                      },
+                      "operator": "<",
+                      "left": {
+                        "type": "Invalid",
+                        "span": {
+                          "start": 27,
+                          "end": 28,
+                          "ctxt": 0
+                        }
+                      },
+                      "right": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 28,
+                          "end": 29,
+                          "ctxt": 0
+                        },
+                        "value": "T",
+                        "optional": false
+                      }
+                    },
+                    "right": {
+                      "type": "ParenthesisExpression",
+                      "span": {
+                        "start": 30,
+                        "end": 33,
+                        "ctxt": 0
+                      },
+                      "expression": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 31,
+                          "end": 32,
+                          "ctxt": 0
+                        },
+                        "value": 0.0
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

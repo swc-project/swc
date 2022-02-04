@@ -20,13 +20,18 @@ use testing::{NormalizedOutput, Tester};
         "propertyAccessChain\\.3.ts",
         "objectRestNegative.ts",
         "objectRestPropertyMustBeLast.ts",
-        // shall panic because not finding private field
         "privateNameAndAny.ts",
         "privateNameAndIndexSignature.ts",
-        "privateNameImplicitDeclaration.ts"    
+        "privateNameImplicitDeclaration.ts",
+        "privateNameStaticAccessorssDerivedClasses.ts",
+        "privateNameErrorsOnNotUseDefineForClassFieldsInEsNext.ts",
+        "enumConstantMembers.ts",
     )
 )]
-#[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.tsx")]
+#[testing::fixture(
+    "../swc_ecma_parser/tests/tsc/**/*.tsx",
+    exclude("checkJsxNamespaceNamesQuestionableForms.tsx")
+)]
 fn fixture(input: PathBuf) {
     if input.to_string_lossy().contains("jsdoc") {
         return;

@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 192,
+    "end": 199,
     "ctxt": 0
   },
   "body": [
@@ -103,8 +103,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 30,
-        "end": 53,
+        "start": 32,
+        "end": 55,
         "ctxt": 0
       },
       "kind": "let",
@@ -113,15 +113,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 34,
-            "end": 52,
+            "start": 36,
+            "end": 54,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 34,
-              "end": 35,
+              "start": 36,
+              "end": 37,
               "ctxt": 0
             },
             "value": "a",
@@ -131,15 +131,15 @@
           "init": {
             "type": "TsAsExpression",
             "span": {
-              "start": 38,
-              "end": 52,
+              "start": 40,
+              "end": 54,
               "ctxt": 0
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 38,
-                "end": 43,
+                "start": 40,
+                "end": 45,
                 "ctxt": 0
               },
               "value": "foo",
@@ -152,15 +152,15 @@
             "typeAnnotation": {
               "type": "TsLiteralType",
               "span": {
-                "start": 47,
-                "end": 52,
+                "start": 49,
+                "end": 54,
                 "ctxt": 0
               },
               "literal": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 47,
-                  "end": 52,
+                  "start": 49,
+                  "end": 54,
                   "ctxt": 0
                 },
                 "value": "bar",
@@ -179,8 +179,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 54,
-        "end": 77,
+        "start": 57,
+        "end": 80,
         "ctxt": 0
       },
       "kind": "let",
@@ -189,15 +189,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 58,
-            "end": 76,
+            "start": 61,
+            "end": 79,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 58,
-              "end": 59,
+              "start": 61,
+              "end": 62,
               "ctxt": 0
             },
             "value": "b",
@@ -207,15 +207,15 @@
           "init": {
             "type": "TsAsExpression",
             "span": {
-              "start": 62,
-              "end": 76,
+              "start": 65,
+              "end": 79,
               "ctxt": 0
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 62,
-                "end": 67,
+                "start": 65,
+                "end": 70,
                 "ctxt": 0
               },
               "value": "bar",
@@ -228,15 +228,15 @@
             "typeAnnotation": {
               "type": "TsLiteralType",
               "span": {
-                "start": 71,
-                "end": 76,
+                "start": 74,
+                "end": 79,
                 "ctxt": 0
               },
               "literal": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 71,
-                  "end": 76,
+                  "start": 74,
+                  "end": 79,
                   "ctxt": 0
                 },
                 "value": "foo",
@@ -255,8 +255,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 78,
-        "end": 104,
+        "start": 82,
+        "end": 108,
         "ctxt": 0
       },
       "kind": "let",
@@ -265,15 +265,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 82,
-            "end": 103,
+            "start": 86,
+            "end": 107,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 82,
-              "end": 83,
+              "start": 86,
+              "end": 87,
               "ctxt": 0
             },
             "value": "c",
@@ -283,15 +283,15 @@
           "init": {
             "type": "TsAsExpression",
             "span": {
-              "start": 86,
-              "end": 103,
+              "start": 90,
+              "end": 107,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 86,
-                "end": 94,
+                "start": 90,
+                "end": 98,
                 "ctxt": 0
               },
               "value": "fooOrBar",
@@ -300,15 +300,15 @@
             "typeAnnotation": {
               "type": "TsLiteralType",
               "span": {
-                "start": 98,
-                "end": 103,
+                "start": 102,
+                "end": 107,
                 "ctxt": 0
               },
               "literal": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 98,
-                  "end": 103,
+                  "start": 102,
+                  "end": 107,
                   "ctxt": 0
                 },
                 "value": "foo",
@@ -327,8 +327,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 105,
-        "end": 131,
+        "start": 110,
+        "end": 136,
         "ctxt": 0
       },
       "kind": "let",
@@ -337,15 +337,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 109,
-            "end": 130,
+            "start": 114,
+            "end": 135,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 109,
-              "end": 110,
+              "start": 114,
+              "end": 115,
               "ctxt": 0
             },
             "value": "d",
@@ -355,15 +355,15 @@
           "init": {
             "type": "TsAsExpression",
             "span": {
-              "start": 113,
-              "end": 130,
+              "start": 118,
+              "end": 135,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 113,
-                "end": 121,
+                "start": 118,
+                "end": 126,
                 "ctxt": 0
               },
               "value": "fooOrBar",
@@ -372,15 +372,15 @@
             "typeAnnotation": {
               "type": "TsLiteralType",
               "span": {
-                "start": 125,
-                "end": 130,
+                "start": 130,
+                "end": 135,
                 "ctxt": 0
               },
               "literal": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 125,
-                  "end": 130,
+                  "start": 130,
+                  "end": 135,
                   "ctxt": 0
                 },
                 "value": "bar",
@@ -399,8 +399,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 132,
-        "end": 158,
+        "start": 138,
+        "end": 164,
         "ctxt": 0
       },
       "kind": "let",
@@ -409,15 +409,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 136,
-            "end": 157,
+            "start": 142,
+            "end": 163,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 136,
-              "end": 137,
+              "start": 142,
+              "end": 143,
               "ctxt": 0
             },
             "value": "e",
@@ -427,15 +427,15 @@
           "init": {
             "type": "TsAsExpression",
             "span": {
-              "start": 140,
-              "end": 157,
+              "start": 146,
+              "end": 163,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 140,
-                "end": 148,
+                "start": 146,
+                "end": 154,
                 "ctxt": 0
               },
               "value": "fooOrBar",
@@ -444,15 +444,15 @@
             "typeAnnotation": {
               "type": "TsLiteralType",
               "span": {
-                "start": 152,
-                "end": 157,
+                "start": 158,
+                "end": 163,
                 "ctxt": 0
               },
               "literal": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 152,
-                  "end": 157,
+                  "start": 158,
+                  "end": 163,
                   "ctxt": 0
                 },
                 "value": "baz",
@@ -471,8 +471,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 159,
-        "end": 192,
+        "start": 166,
+        "end": 199,
         "ctxt": 0
       },
       "kind": "let",
@@ -481,15 +481,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 163,
-            "end": 191,
+            "start": 170,
+            "end": 198,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 163,
-              "end": 164,
+              "start": 170,
+              "end": 171,
               "ctxt": 0
             },
             "value": "f",
@@ -499,15 +499,15 @@
           "init": {
             "type": "TsAsExpression",
             "span": {
-              "start": 167,
-              "end": 191,
+              "start": 174,
+              "end": 198,
               "ctxt": 0
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 167,
-                "end": 172,
+                "start": 174,
+                "end": 179,
                 "ctxt": 0
               },
               "value": "baz",
@@ -520,15 +520,15 @@
             "typeAnnotation": {
               "type": "TsTypeQuery",
               "span": {
-                "start": 176,
-                "end": 191,
+                "start": 183,
+                "end": 198,
                 "ctxt": 0
               },
               "exprName": {
                 "type": "Identifier",
                 "span": {
-                  "start": 183,
-                  "end": 191,
+                  "start": 190,
+                  "end": 198,
                   "ctxt": 0
                 },
                 "value": "fooOrBar",

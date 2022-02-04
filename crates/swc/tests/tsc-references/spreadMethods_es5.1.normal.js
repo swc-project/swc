@@ -46,6 +46,7 @@ function _objectSpread(target) {
     return target;
 }
 var K = // @target: esnext
+// @useDefineForClassFields: false
 /*#__PURE__*/ function() {
     "use strict";
     function K() {

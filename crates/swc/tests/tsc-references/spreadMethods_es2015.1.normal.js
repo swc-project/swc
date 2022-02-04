@@ -27,6 +27,7 @@ function _objectSpread(target) {
     return target;
 }
 // @target: esnext
+// @useDefineForClassFields: false
 class K {
     m() {}
     get g() {

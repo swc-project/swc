@@ -1,0 +1,2 @@
+// newlines are <CR>
+"\n";

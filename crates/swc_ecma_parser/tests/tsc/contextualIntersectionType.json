@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 105,
+    "end": 109,
     "ctxt": 0
   },
   "body": [
@@ -253,23 +253,23 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 68,
-        "end": 105,
+        "start": 69,
+        "end": 109,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 68,
-          "end": 104,
+          "start": 69,
+          "end": 108,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "Identifier",
           "span": {
-            "start": 68,
-            "end": 69,
+            "start": 69,
+            "end": 70,
             "ctxt": 0
           },
           "value": "x",
@@ -279,8 +279,8 @@
         "right": {
           "type": "ObjectExpression",
           "span": {
-            "start": 72,
-            "end": 104,
+            "start": 73,
+            "end": 108,
             "ctxt": 0
           },
           "properties": [
@@ -289,8 +289,8 @@
               "key": {
                 "type": "Identifier",
                 "span": {
-                  "start": 78,
-                  "end": 79,
+                  "start": 80,
+                  "end": 81,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -299,16 +299,16 @@
               "value": {
                 "type": "ArrowFunctionExpression",
                 "span": {
-                  "start": 81,
-                  "end": 87,
+                  "start": 83,
+                  "end": 89,
                   "ctxt": 0
                 },
                 "params": [
                   {
                     "type": "Identifier",
                     "span": {
-                      "start": 81,
-                      "end": 82,
+                      "start": 83,
+                      "end": 84,
                       "ctxt": 0
                     },
                     "value": "s",
@@ -319,8 +319,8 @@
                 "body": {
                   "type": "Identifier",
                   "span": {
-                    "start": 86,
-                    "end": 87,
+                    "start": 88,
+                    "end": 89,
                     "ctxt": 0
                   },
                   "value": "s",
@@ -337,8 +337,8 @@
               "key": {
                 "type": "Identifier",
                 "span": {
-                  "start": 93,
-                  "end": 94,
+                  "start": 96,
+                  "end": 97,
                   "ctxt": 0
                 },
                 "value": "b",
@@ -347,16 +347,16 @@
               "value": {
                 "type": "ArrowFunctionExpression",
                 "span": {
-                  "start": 96,
-                  "end": 102,
+                  "start": 99,
+                  "end": 105,
                   "ctxt": 0
                 },
                 "params": [
                   {
                     "type": "Identifier",
                     "span": {
-                      "start": 96,
-                      "end": 97,
+                      "start": 99,
+                      "end": 100,
                       "ctxt": 0
                     },
                     "value": "n",
@@ -367,8 +367,8 @@
                 "body": {
                   "type": "Identifier",
                   "span": {
-                    "start": 101,
-                    "end": 102,
+                    "start": 104,
+                    "end": 105,
                     "ctxt": 0
                   },
                   "value": "n",

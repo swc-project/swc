@@ -27,7 +27,7 @@ a.empty.push('hi');
 // should get any on parameter initialisers
 function f() {
     var a1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : null, b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : n, l1 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : [];
-    // a should be any
+    // a should be null in strict mode
     a1 = undefined;
     a1 = null;
     a1 = 1;
@@ -51,3 +51,12 @@ u = true;
 u = {};
 u = 'ok';
 l.push('ok');
+/** @type {(v: unknown) => v is undefined} */ var isUndef = function(v) {
+    return v === undefined;
+};
+var e = [
+    1,
+    undefined
+];
+// should be undefined[]
+var g = e.filter(isUndef);

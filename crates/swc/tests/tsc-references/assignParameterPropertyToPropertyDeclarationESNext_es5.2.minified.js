@@ -107,4 +107,12 @@ var C = function() {
         }
         return _class;
     })(G);
+}, H = function(p1) {
+    "use strict";
+    var _this = this;
+    _classCallCheck(this, H), this.p1 = p1, this.p2 = function() {
+        return _this.p1.foo;
+    }, this.p3 = function() {
+        return _this.p1.foo;
+    };
 };
