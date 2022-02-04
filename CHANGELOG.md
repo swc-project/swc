@@ -19,6 +19,9 @@
 
 - **(css/lexer)** Implement error recovery for functions (#3445) ([f1410fc](https://github.com/swc-project/swc/commit/f1410fc09b4838fa8113c9b2041f58d7d752c519))
 
+
+- **(es/parser)** Add an option to allow `super` outside of class methods (#3427) ([cc185f0](https://github.com/swc-project/swc/commit/cc185f01cb249634d144830db702a281674f48da))
+
 ## [1.2.136] - 2022-02-03
 
 ### Bug Fixes
