@@ -8,10 +8,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
 
-const targetDir = path.resolve(__dirname, '..', 'tests', 'tsc')
+const targetDir = path.resolve(__dirname, '..', '..', 'tests', 'tsc')
 
-const root = path.join(process.argv[2], 'tests', 'cases', 'conformance')
-process.chdir(root)
+const fileToCheck = process.argv[2];
 
 
 
@@ -62,19 +61,4 @@ async function check(f: string) {
 }
 
 
-
-async function walk(dir: string): Promise<void> {
-    const files: string[] = await promisify(fs.readdir)(dir);
-
-    await Promise.all(files.map(async (f) => {
-        const p = path.join(dir, f);
-        if (fs.statSync(p).isDirectory()) {
-            await walk(p)
-        } else if (f.endsWith('.ts') || f.endsWith('.tsx')) {
-            await check(p)
-        }
-    }));
-}
-
-
-walk(root)
+check(fileToCheck)
