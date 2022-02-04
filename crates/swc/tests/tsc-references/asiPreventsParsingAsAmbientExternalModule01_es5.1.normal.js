@@ -1,2 +1,0 @@
-var declare;
-var module;

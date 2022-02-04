@@ -1,3 +1,0 @@
-do {
-    continue;
-}while (true)

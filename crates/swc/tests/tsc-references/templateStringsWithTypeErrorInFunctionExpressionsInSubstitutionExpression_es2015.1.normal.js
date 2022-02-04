@@ -1,3 +1,0 @@
-`${function(x) {
-    x = "bad";
-}}`;

@@ -1,4 +1,0 @@
-TWO: ;
-FOUR: for(;;)FIVE: for(;;)break FOUR;
-for(;;);
-for(;;)for(;;);

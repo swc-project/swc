@@ -1,2 +1,0 @@
-class {
-}`Hello world!`;

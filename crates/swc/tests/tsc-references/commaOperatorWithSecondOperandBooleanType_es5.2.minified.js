@@ -1,2 +1,0 @@
-var NUMBER;
-++NUMBER, ++NUMBER;

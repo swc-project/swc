@@ -1,2 +1,0 @@
-var sym;
-sym.newSymbolProp;

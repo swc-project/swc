@@ -1,2 +1,0 @@
-var namespace;
-var n;

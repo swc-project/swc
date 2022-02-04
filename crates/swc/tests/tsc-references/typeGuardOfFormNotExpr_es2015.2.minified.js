@@ -1,2 +1,0 @@
-if ("string" == typeof strOrNumOrBool || "number" == typeof strOrNumOrBool, "string" != typeof strOrNumOrBool && "number" != typeof strOrNumOrBool, "string" != typeof strOrNumOrBool && "number" != typeof strOrNumOrBool, "string" != typeof strOrNumOrBool && "number" != typeof strOrNumOrBool, "string" != typeof strOrNumOrBool && numOrBool !== strOrNumOrBool) numOrBool = strOrNumOrBool;
-else var strOrNumOrBool, numOrBool;

@@ -1,4 +1,0 @@
-module.exports = {
-    C: class {
-    }
-};
