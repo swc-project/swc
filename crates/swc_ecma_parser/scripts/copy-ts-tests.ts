@@ -1,4 +1,7 @@
-// Usage:  npx tsc *.ts && node copy-ts-tests.js  ~/projects/TypeScript
+#!/usr/bin/env npx ts-node
+
+// Usage: ./scripts/copy-ts-tests.ts  ~/projects/TypeScript
+
 
 import * as ts from "typescript";
 import * as fs from 'fs';
