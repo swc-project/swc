@@ -1,0 +1,391 @@
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
+function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+}
+function _arrayWithoutHoles(arr) {
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+}
+function _iterableToArray(iter) {
+    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+}
+function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _nonIterableSpread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _toArray(arr) {
+    return _arrayWithHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _toConsumableArray(arr) {
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(n);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+// Variadics in array literals
+function tup2(t, u) {
+    return [
+        1
+    ].concat(_toConsumableArray(t), [
+        2
+    ], _toConsumableArray(u), [
+        3
+    ]);
+}
+var t2 = tup2([
+    'hello'
+], [
+    10,
+    true
+]);
+function concat(t, u) {
+    return _toConsumableArray(t).concat(_toConsumableArray(u));
+}
+var tc1 = concat([], []);
+var tc2 = concat([
+    'hello'
+], [
+    42
+]);
+var tc3 = concat([
+    1,
+    2,
+    3
+], sa);
+var tc4 = concat(sa, [
+    1,
+    2,
+    3
+]); // Ideally would be [...string[], number, number, number]
+function concat2(t, u) {
+    return _toConsumableArray(t).concat(_toConsumableArray(u)); // (T[number] | U[number])[]
+}
+var tc5 = concat2([
+    1,
+    2,
+    3
+], [
+    4,
+    5,
+    6
+]); // (1 | 2 | 3 | 4 | 5 | 6)[]
+function foo2(t1, t21, a1) {
+    foo1(1, 'abc', true, 42, 43, 44);
+    foo1.apply(void 0, _toConsumableArray(t1).concat([
+        true,
+        42,
+        43,
+        44
+    ]));
+    foo1.apply(void 0, _toConsumableArray(t1).concat(_toConsumableArray(t21), [
+        42,
+        43,
+        44
+    ]));
+    foo1.apply(void 0, _toConsumableArray(t1).concat(_toConsumableArray(t21), _toConsumableArray(a1)));
+    foo1.apply(void 0, _toConsumableArray(t1)); // Error
+    foo1.apply(void 0, _toConsumableArray(t1).concat([
+        45
+    ])); // Error
+}
+function foo4(u) {
+    foo3(1, 2);
+    foo3(1, 'hello', true, 2);
+    foo3.apply(void 0, [
+        1
+    ].concat(_toConsumableArray(u), [
+        'hi',
+        2
+    ]));
+    foo3(1);
+}
+ft1([
+    'hello',
+    42
+]); // (string | number)[]
+ft2([
+    'hello',
+    42
+]); // readonly (string | number)[]
+ft3([
+    'hello',
+    42
+]); // [string, number]
+ft4([
+    'hello',
+    42
+]); // readonly [string, number]
+// Indexing variadic tuple types
+function f0(t, n) {
+    var a = t[0]; // string
+    var b = t[1]; // [string, ...T][1]
+    var c = t[2]; // [string, ...T][2]
+    var d = t[n]; // [string, ...T][number]
+}
+function f1(t, n) {
+    var a = t[0]; // string
+    var b = t[1]; // [string, ...T, number][1]
+    var c = t[2]; // [string, ...T, number][2]
+    var d = t[n]; // [string, ...T, number][number]
+}
+// Destructuring variadic tuple types
+function f2(t) {
+    var _t = _toArray(t), ax = _t.slice(0); // [string, ...T]
+    var _t1 = _toArray(t), b1 = _t1[0], bx = _t1.slice(1); // string, [...T]
+    var _t2 = _toArray(t), c1 = _t2[0], c2 = _t2[1], cx = _t2.slice(2); // string, [string, ...T][1], T[number][]
+}
+function f3(t) {
+    var _t = _toArray(t), ax = _t.slice(0); // [string, ...T, number]
+    var _t3 = _toArray(t), b1 = _t3[0], bx = _t3.slice(1); // string, [...T, number]
+    var _t4 = _toArray(t), c1 = _t4[0], c2 = _t4[1], cx = _t4.slice(2); // string, [string, ...T, number][1], (number | T[number])[]
+}
+var tm1 = fm1([
+    [
+        'abc'
+    ],
+    [
+        42
+    ],
+    [
+        true
+    ],
+    [
+        'def'
+    ]
+]); // [boolean, string]
+function gx1(u, v) {
+    fx1('abc'); // []
+    fx1.apply(void 0, [
+        'abc'
+    ].concat(_toConsumableArray(u))); // U
+    fx1.apply(void 0, [
+        'abc'
+    ].concat(_toConsumableArray(v))); // [...V]
+    fx1.apply(void 0, [
+        'abc'
+    ].concat(_toConsumableArray(u))); // U
+    fx1.apply(void 0, [
+        'abc'
+    ].concat(_toConsumableArray(v))); // Error
+}
+function gx2(u, v) {
+    fx2('abc'); // []
+    fx2.apply(void 0, [
+        'abc'
+    ].concat(_toConsumableArray(u))); // U
+    fx2.apply(void 0, [
+        'abc'
+    ].concat(_toConsumableArray(v))); // [...V]
+    fx2.apply(void 0, [
+        'abc'
+    ].concat(_toConsumableArray(u))); // U
+    fx2.apply(void 0, [
+        'abc'
+    ].concat(_toConsumableArray(v))); // V
+}
+// Relations involving variadic tuple types
+function f10(x, y, z) {
+    x = y;
+    x = z;
+    y = x; // Error
+    y = z;
+    z = x; // Error
+    z = y; // Error
+}
+// For a generic type T, [...T] is assignable to T, T is assignable to readonly [...T], and T is assignable
+// to [...T] when T is constrained to a mutable array or tuple type.
+function f11(t, m, r) {
+    t = m;
+    t = r; // Error
+    m = t;
+    m = r; // Error
+    r = t;
+    r = m;
+}
+function f12(t, m, r) {
+    t = m;
+    t = r; // Error
+    m = t; // Error
+    m = r; // Error
+    r = t;
+    r = m;
+}
+function f13(t0, t1, t22) {
+    t0 = t1;
+    t0 = t22;
+    t1 = t0;
+    t1 = t22;
+    t22 = t0; // Error
+    t22 = t1; // Error
+}
+function f14(t0, t1, t23) {
+    t0 = t1;
+    t0 = t23;
+    t1 = t0; // Error
+    t1 = t23;
+    t23 = t0; // Error
+    t23 = t1; // Error
+}
+function f15(k0, k1, k2, k3) {
+    k0 = 'length';
+    k1 = 'length';
+    k2 = 'length';
+    k0 = 'slice';
+    k1 = 'slice';
+    k2 = 'slice';
+    k3 = '0';
+    k3 = '1';
+    k3 = '2'; // Error
+}
+// Inference to [...T, ...U] with implied arity for T
+function curry(f) {
+    for(var _len1 = arguments.length, a = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++){
+        a[_key1 - 1] = arguments[_key1];
+    }
+    return function() {
+        for(var _len = arguments.length, b1 = new Array(_len), _key = 0; _key < _len; _key++){
+            b1[_key] = arguments[_key];
+        }
+        return f.apply(void 0, _toConsumableArray(a).concat(_toConsumableArray(b1)));
+    };
+}
+var fn1 = function(a, b, c, d) {
+    return 0;
+};
+var c0 = curry(fn1); // (a: number, b: string, c: boolean, d: string[]) => number
+var c1 = curry(fn1, 1); // (b: string, c: boolean, d: string[]) => number
+var c2 = curry(fn1, 1, 'abc'); // (c: boolean, d: string[]) => number
+var c3 = curry(fn1, 1, 'abc', true); // (d: string[]) => number
+var c4 = curry(fn1, 1, 'abc', true, [
+    'x',
+    'y'
+]); // () => number
+var fn2 = function(x, b) {
+    for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+        args[_key - 2] = arguments[_key];
+    }
+    return 0;
+};
+var c10 = curry(fn2); // (x: number, b: boolean, ...args: string[]) => number
+var c11 = curry(fn2, 1); // (b: boolean, ...args: string[]) => number
+var c12 = curry(fn2, 1, true); // (...args: string[]) => number
+var c13 = curry(fn2, 1, true, 'abc', 'def'); // (...args: string[]) => number
+var fn3 = function() {
+    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+        args[_key] = arguments[_key];
+    }
+    return 0;
+};
+var c20 = curry(fn3); // (...args: string[]) => number
+var c21 = curry(fn3, 'abc', 'def'); // (...args: string[]) => number
+var c22 = curry.apply(void 0, [
+    fn3
+].concat(_toConsumableArray(sa))); // (...args: string[]) => number
+// No inference to [...T, ...U] when there is no implied arity
+function curry2(f, t, u) {
+    return f.apply(void 0, _toConsumableArray(t).concat(_toConsumableArray(u)));
+}
+curry2(fn10, [
+    'hello',
+    42
+], [
+    true
+]);
+curry2(fn10, [
+    'hello'
+], [
+    42,
+    true
+]);
+ft([
+    1,
+    2,
+    3
+], [
+    1,
+    2,
+    3
+]);
+ft([
+    1,
+    2
+], [
+    1,
+    2,
+    3
+]);
+ft([
+    'a',
+    'b'
+], [
+    'c',
+    'd'
+]);
+ft([
+    'a',
+    'b'
+], [
+    'c',
+    'd',
+    42
+]);
+call('hello', 32, function(a, b) {
+    return 42;
+});
+call.apply(void 0, _toConsumableArray(sa).concat([
+    function() {
+        for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++){
+            x[_key] = arguments[_key];
+        }
+        return 42;
+    }
+]));
+function f21(args) {
+    var v1 = f20(args); // U
+    var v2 = f20([
+        "foo",
+        "bar"
+    ]); // [string]
+    var v3 = f20([
+        "foo",
+        42
+    ]); // [string]
+}
+function f23(args) {
+    var v1 = f22(args); // U
+    var v2 = f22([
+        "foo",
+        "bar"
+    ]); // [string, string]
+    var v3 = f22([
+        "foo",
+        42
+    ]); // [string]
+}
+var b = a.bind("", 1); // Desc<[boolean], object>
+function callApi(method) {
+    return function() {
+        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+            args[_key] = arguments[_key];
+        }
+        return method.apply(void 0, _toConsumableArray(args).concat([
+            {}
+        ]));
+    };
+}
+callApi(getUser);
+callApi(getOrgUser);
+var data = [
+    false,
+    false
+]; // Error

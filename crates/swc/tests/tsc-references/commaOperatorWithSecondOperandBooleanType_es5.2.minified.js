@@ -1,0 +1,2 @@
+var NUMBER;
+++NUMBER, ++NUMBER;

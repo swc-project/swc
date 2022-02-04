@@ -1,0 +1,2 @@
+require("foo").x;
+export { };

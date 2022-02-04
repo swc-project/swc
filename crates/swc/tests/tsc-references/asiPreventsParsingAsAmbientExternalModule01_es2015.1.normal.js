@@ -1,0 +1,2 @@
+var declare;
+var module;

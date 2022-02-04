@@ -1,0 +1,2 @@
+var unionOfDifferentReturnType, unionOfTypesWithAndWithoutStringSignature, unionOfDifferentReturnType1, unionOfTypesWithAndWithoutStringSignature1;
+unionOfDifferentReturnType.hello, unionOfDifferentReturnType[10], unionOfTypesWithAndWithoutStringSignature.hello, unionOfTypesWithAndWithoutStringSignature[10], unionOfDifferentReturnType1.hello, unionOfDifferentReturnType1[10], unionOfTypesWithAndWithoutStringSignature1.hello, unionOfTypesWithAndWithoutStringSignature1[10];

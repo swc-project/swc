@@ -1,0 +1,1 @@
+require("vs/foo").x;

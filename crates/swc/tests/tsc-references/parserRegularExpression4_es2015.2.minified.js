@@ -1,0 +1,1 @@
+(Ca.test(c.href) || Ba.test(c.href) && /(\\?|&)adurl=/.test(c.href) && !/(\\?|&)q=/.test(c.href)) && (/ (\\ ? | & ) rct = j /.test(c.href) || (d += "&rct=j"), /(\\?|&)q=/.test(c.href) || (d = (d += "&q=" + encodeURIComponent(W("q") || W("as_q") || A)).substring(0, 1948 - c.href.length)), b = !0);

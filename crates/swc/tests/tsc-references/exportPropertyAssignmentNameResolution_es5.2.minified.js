@@ -1,0 +1,6 @@
+module.exports.D = function _class() {
+    "use strict";
+    !function(instance, Constructor) {
+        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+    }(this, _class);
+}, new D();

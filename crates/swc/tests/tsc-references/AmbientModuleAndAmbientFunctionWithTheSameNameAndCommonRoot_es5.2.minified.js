@@ -1,0 +1,1 @@
+Point(), Point.Origin;

@@ -1,0 +1,2 @@
+// @declaration: true
+let x = {};
