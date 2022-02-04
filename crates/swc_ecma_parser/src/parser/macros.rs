@@ -356,10 +356,11 @@ macro_rules! syntax_error {
     ($p:expr, $span:expr, $err:expr) => {{
         if cfg!(feature = "debug") {
             tracing::error!(
-                "Syntax error called from {}:{}:{}",
+                "Syntax error called from {}:{}:{}\nCurrent token = {:?}",
                 file!(),
                 line!(),
-                column!()
+                column!(),
+                $p.input.cur()
             );
         }
         let err = make_error!($p, $span, $err);
