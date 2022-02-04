@@ -2055,6 +2055,32 @@ test!(
 test!(
     syntax(),
     |_| tr(),
+    statements_const_dstr_ary_ptrn_elem_id_init_hole_4,
+    "\
+    function* foo() {
+        yield 1;
+        yield 2;
+      }
+      
+      let bar = foo();
+      
+      const [x = bar.next().value, y] = [, bar.next().value];
+      console.log(x, y);
+      ",
+    "\
+    function* foo() {
+        yield 1;
+        yield 2;
+    }
+    let bar = foo();
+    const ref = [,bar.next().value], tmp = ref[0],
+    x = tmp === void 0 ? bar.next().value : tmp, y = ref[1];
+    console.log(x, y);"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
     for_const_dstr_ary_ptrn_elem_id_init_hole,
     "\
     var iterCount = 0;
