@@ -354,6 +354,14 @@ macro_rules! syntax_error {
     };
 
     ($p:expr, $span:expr, $err:expr) => {{
+        if cfg!(feature = "debug") {
+            tracing::error!(
+                "Syntax error called from {}:{}:{}",
+                file!(),
+                line!(),
+                column!()
+            );
+        }
         let err = make_error!($p, $span, $err);
         return Err(err.into());
     }};
