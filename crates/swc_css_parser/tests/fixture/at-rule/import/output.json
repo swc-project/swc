@@ -117,6 +117,8 @@
             "end": 79,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "./style.css",
           "raw": "./style.css"
         },
@@ -239,6 +241,8 @@
             "end": 179,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "./style.css",
           "raw": "./style.css"
         },
@@ -1235,6 +1239,8 @@
             "end": 849,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "test.css",
           "raw": "test.css"
         },
@@ -1355,6 +1361,8 @@
             "end": 922,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "test.css",
           "raw": "test.css"
         },
@@ -1395,6 +1403,8 @@
             "end": 945,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "test.css",
           "raw": "test.css"
         },
@@ -1435,8 +1445,10 @@
             "end": 969,
             "ctxt": 0
           },
+          "before": "",
+          "after": " ",
           "value": "test.css",
-          "raw": "test.css "
+          "raw": "test.css"
         },
         "modifiers": null
       },
@@ -1475,6 +1487,8 @@
             "end": 993,
             "ctxt": 0
           },
+          "before": " ",
+          "after": "",
           "value": "test.css",
           "raw": "test.css"
         },
@@ -1515,8 +1529,10 @@
             "end": 1018,
             "ctxt": 0
           },
+          "before": " ",
+          "after": " ",
           "value": "test.css",
-          "raw": "test.css "
+          "raw": "test.css"
         },
         "modifiers": null
       },
@@ -1555,8 +1571,10 @@
             "end": 1043,
             "ctxt": 0
           },
+          "before": "\n",
+          "after": "\n",
           "value": "test.css",
-          "raw": "test.css\n"
+          "raw": "test.css"
         },
         "modifiers": null
       },
@@ -1595,6 +1613,8 @@
             "end": 1058,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "",
           "raw": ""
         },
@@ -1841,6 +1861,8 @@
             "end": 1200,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "",
           "raw": ""
         },
@@ -1961,6 +1983,8 @@
             "end": 1257,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "test.css",
           "raw": "test.css"
         },
@@ -2067,6 +2091,8 @@
             "end": 1315,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "test.css",
           "raw": "test.css"
         },
@@ -2173,6 +2199,8 @@
             "end": 1374,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "test.css",
           "raw": "test.css"
         },
@@ -2279,6 +2307,8 @@
             "end": 1431,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "test.css",
           "raw": "test.css"
         },
@@ -2385,6 +2415,8 @@
             "end": 1510,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "test.css",
           "raw": "test.css"
         },
@@ -2531,6 +2563,8 @@
             "end": 1617,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "~package/test.css",
           "raw": "~package/test.css"
         },
@@ -2771,6 +2805,8 @@
             "end": 1932,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "~package/tilde.css",
           "raw": "~package/tilde.css"
         },
@@ -2811,6 +2847,8 @@
             "end": 1971,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "~aliasesImport/alias.css",
           "raw": "~aliasesImport/alias.css"
         },
@@ -2891,6 +2929,8 @@
             "end": 2023,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "./test.css",
           "raw": "./test.css"
         },
@@ -3480,6 +3520,8 @@
             "end": 2583,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "./test test.css",
           "raw": "./test\\ test.css"
         },
@@ -3520,6 +3562,8 @@
             "end": 2617,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "./test%20test.css",
           "raw": "./t\\65st%20test.css"
         },
@@ -3682,8 +3726,10 @@
             "end": 2813,
             "ctxt": 0
           },
+          "before": "                 ",
+          "after": "                      ",
           "value": "test.css",
-          "raw": "test.css                      "
+          "raw": "test.css"
         },
         "modifiers": null
       },
@@ -3783,6 +3829,8 @@
             "end": 2946,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "test.css?foo=bar",
           "raw": "test.css?foo=bar"
         },
@@ -3823,6 +3871,8 @@
             "end": 2982,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "test.css?foo=bar#hash",
           "raw": "test.css?foo=bar#hash"
         },
@@ -3863,6 +3913,8 @@
             "end": 3011,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "test.css?#hash",
           "raw": "test.css?#hash"
         },
@@ -4249,8 +4301,10 @@
             "end": 3304,
             "ctxt": 0
           },
+          "before": "   ",
+          "after": "   ",
           "value": "./test.css",
-          "raw": "./test.css   "
+          "raw": "./test.css"
         },
         "modifiers": null
       },
@@ -4430,6 +4484,8 @@
             "end": 3638,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "data:text/css;charset=utf-8,a%20%7B%0D%0A%20%20color%3A%20red%3B%0D%0A%7D",
           "raw": "data:text/css;charset=utf-8,a%20%7B%0D%0A%20%20color%3A%20red%3B%0D%0A%7D"
         },
@@ -4470,6 +4526,8 @@
             "end": 3671,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "package/first.css",
           "raw": "package/first.css"
         },
@@ -4510,6 +4568,8 @@
             "end": 3704,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "package/second.css",
           "raw": "package/second.css"
         },
@@ -6552,6 +6612,8 @@
             "end": 5195,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "test.css",
           "raw": "test.css"
         },
@@ -6592,6 +6654,8 @@
             "end": 5246,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "test.css",
           "raw": "test.css"
         },
@@ -6632,6 +6696,8 @@
             "end": 5283,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "test.css",
           "raw": "test.css"
         },
@@ -6738,6 +6804,8 @@
             "end": 5368,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "test.css",
           "raw": "test.css"
         },

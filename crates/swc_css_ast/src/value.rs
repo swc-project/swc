@@ -156,6 +156,8 @@ pub enum UrlValue {
 #[ast_node("UrlValueRaw")]
 pub struct UrlValueRaw {
     pub span: Span,
+    pub before: JsWord,
+    pub after: JsWord,
     pub value: JsWord,
     pub raw: JsWord,
 }

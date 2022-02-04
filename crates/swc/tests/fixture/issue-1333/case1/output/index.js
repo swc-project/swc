@@ -9,4 +9,16 @@ class Foo {
     get connected() {
         return _classPrivateFieldGet(this, _ws2) && _classPrivateFieldGet(this, _ws).readyState === _ws1.default.OPEN;
     }
+    constructor(){
+        _ws.set(this, {
+            writable: true,
+            value: void 0
+        });
+        _ws2.set(this, {
+            writable: true,
+            value: void 0
+        });
+    }
 }
+var _ws = new WeakMap();
+var _ws2 = new WeakMap();
