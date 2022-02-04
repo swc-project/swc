@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 52,
-    "end": 147,
+    "start": 49,
+    "end": 138,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 58,
-          "end": 61,
+          "start": 55,
+          "end": 58,
           "ctxt": 0
         },
         "value": "Foo",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 52,
-        "end": 84,
+        "start": 49,
+        "end": 79,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 69,
-            "end": 81,
+            "start": 65,
+            "end": 77,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 69,
-              "end": 77,
+              "start": 65,
+              "end": 73,
               "ctxt": 0
             },
             "value": "property",
@@ -46,8 +46,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 80,
-              "end": 81,
+              "start": 76,
+              "end": 77,
               "ctxt": 0
             },
             "value": 1.0
@@ -75,8 +75,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 94,
-          "end": 100,
+          "start": 87,
+          "end": 93,
           "ctxt": 0
         },
         "value": "SubFoo",
@@ -84,8 +84,8 @@
       },
       "declare": false,
       "span": {
-        "start": 88,
-        "end": 147,
+        "start": 81,
+        "end": 138,
         "ctxt": 0
       },
       "decorators": [],
@@ -93,15 +93,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 120,
-            "end": 144,
+            "start": 112,
+            "end": 136,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 128,
-              "end": 136,
+              "start": 120,
+              "end": 128,
               "ctxt": 0
             },
             "value": "property",
@@ -111,15 +111,15 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 136,
-              "end": 144,
+              "start": 128,
+              "end": 136,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 138,
-                "end": 144,
+                "start": 130,
+                "end": 136,
                 "ctxt": 0
               },
               "kind": "number"
@@ -139,8 +139,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 109,
-          "end": 112,
+          "start": 102,
+          "end": 105,
           "ctxt": 0
         },
         "value": "Foo",
