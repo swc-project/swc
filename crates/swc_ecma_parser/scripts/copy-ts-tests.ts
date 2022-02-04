@@ -8,7 +8,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
 
-const targetDir = path.resolve(__dirname, '..', 'tests', 'typescript', 'tsc')
+const targetDir = path.resolve(__dirname, '..', 'tests', 'tsc')
 
 const root = path.join(process.argv[2], 'tests', 'cases', 'conformance')
 process.chdir(root)
@@ -50,18 +50,13 @@ async function check(f: string) {
     });
 
     if (ok) {
-        const rel = path.relative(root, f);
-        const target = path.join(targetDir, rel.replace('.ts', ''))
+        const filename = path.basename(f);
+        const target = path.join(targetDir, filename)
 
         console.log('Creating', f, '->', target)
-        fs.mkdirSync(target, { recursive: true })
 
         // We use rename as resumable copy
-        if (f.endsWith('.tsx')) {
-            fs.renameSync(f, path.join(target, 'input.tsx'))
-        } else {
-            fs.renameSync(f, path.join(target, 'input.ts'))
-        }
+        fs.renameSync(f, target)
         // console.log('Created', target)
     }
 }
