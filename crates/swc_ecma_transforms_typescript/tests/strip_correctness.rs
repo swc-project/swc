@@ -78,6 +78,22 @@ fn identity(entry: PathBuf) {
         "tsc/objectRestPropertyMustBeLast.ts",
         "tsc/propertyNamesOfReservedWords.ts",
         "tsc/callSignaturesWithParameterInitializers.ts",
+        "parserForOfStatement23",
+        "parserForOfStatement24",
+        "constEnum4",
+        "checkJsxNamespaceNamesQuestionableForms",
+        "classExtendingOptionalChain",
+        "inlineJsxFactoryDeclarations",
+        "interfaceExtendingOptionalChain",
+        "inlineJsxFactoryDeclarations",
+        "interfaceExtendingOptionalChain",
+        "interfacesWithPredefinedTypesAsNames",
+        "jsxReactTestSuite",
+        "namedTupleMembersErrors",
+        "tsxAttributeResolution5",
+        "tsxReactEmitNesting",
+        "tsxTypeArgumentsJsxPreserveOutput",
+        "unicodeEscapesInJsxtags",
     ];
 
     // TODO: Unignore const enum test
