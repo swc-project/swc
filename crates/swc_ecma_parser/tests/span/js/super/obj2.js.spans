@@ -1,0 +1,6 @@
+error: Invalid access to super
+ --> $DIR/tests/span/js/super/obj2.js:2:14
+  |
+2 |     a: super.x,
+  |              ^
+

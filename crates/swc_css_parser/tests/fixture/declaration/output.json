@@ -753,6 +753,8 @@
                     "end": 314,
                     "ctxt": 0
                   },
+                  "before": "",
+                  "after": "",
                   "value": "value",
                   "raw": "value"
                 },
@@ -782,6 +784,8 @@
                     "end": 324,
                     "ctxt": 0
                   },
+                  "before": "",
+                  "after": "",
                   "value": "value",
                   "raw": "value"
                 },

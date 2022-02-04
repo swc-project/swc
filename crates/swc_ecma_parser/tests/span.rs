@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 use swc_common::{comments::SingleThreadedComments, errors::Handler, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_visit::{Visit, VisitWith};
 
 #[testing::fixture("tests/span/**/*.js")]
@@ -20,12 +20,21 @@ fn span(entry: PathBuf) {
 
         let comments = SingleThreadedComments::default();
         let lexer = Lexer::new(
-            Syntax::Typescript(TsConfig {
-                tsx: true,
-                decorators: true,
-                no_early_errors: true,
-                ..Default::default()
-            }),
+            if file_name.ends_with(".js") {
+                Syntax::Es(EsConfig {
+                    jsx: true,
+                    decorators: true,
+                    static_blocks: true,
+                    ..Default::default()
+                })
+            } else {
+                Syntax::Typescript(TsConfig {
+                    tsx: true,
+                    decorators: true,
+                    no_early_errors: true,
+                    ..Default::default()
+                })
+            },
             Default::default(),
             (&*src).into(),
             Some(&comments),

@@ -1092,11 +1092,15 @@ where
                 Token::Url {
                     raw_name,
                     raw_value,
+                    before,
+                    after,
                     ..
                 } => {
                     self.wr.write_raw(None, raw_name)?;
                     punct!(self, "(");
+                    self.wr.write_raw(None, before)?;
                     self.wr.write_raw(None, raw_value)?;
+                    self.wr.write_raw(None, after)?;
                     punct!(self, ")");
                 }
                 Token::BadUrl {
@@ -1170,7 +1174,19 @@ where
 
     #[emitter]
     fn emit_url_value_raw(&mut self, n: &UrlValueRaw) -> Result {
-        self.wr.write_raw(Some(n.span), &n.raw)?;
+        if !self.config.minify {
+            self.wr.write_raw(Some(n.span), &n.before)?;
+        }
+
+        if self.config.minify {
+            self.wr.write_raw(Some(n.span), &n.value)?;
+        } else {
+            self.wr.write_raw(Some(n.span), &n.raw)?;
+        }
+
+        if !self.config.minify {
+            self.wr.write_raw(Some(n.span), &n.after)?;
+        }
     }
 
     #[emitter]
