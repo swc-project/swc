@@ -19,7 +19,7 @@ fn identity(entry: PathBuf) {
     let file_name = entry
         .to_string_lossy()
         .replace("\\\\", "/")
-        .replace("\\", "/");
+        .replace('\\', "/");
 
     let ignored = &[
         // Cannot run the test with current test suite
@@ -160,6 +160,7 @@ fn identity(entry: PathBuf) {
                 private_in_object: true,
                 import_assertions: true,
                 allow_super_outside_method: true,
+                static_blocks: true,
                 ..Default::default()
             }),
             (&*js_fm).into(),
