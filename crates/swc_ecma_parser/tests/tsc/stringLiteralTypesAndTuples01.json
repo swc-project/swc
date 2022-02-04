@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 52,
-    "end": 464,
+    "start": 49,
+    "end": 445,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 52,
-        "end": 123,
+        "start": 49,
+        "end": 120,
         "ctxt": 0
       },
       "kind": "let",
@@ -19,23 +19,23 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 56,
-            "end": 122,
+            "start": 53,
+            "end": 119,
             "ctxt": 0
           },
           "id": {
             "type": "ArrayPattern",
             "span": {
-              "start": 56,
-              "end": 85,
+              "start": 53,
+              "end": 82,
               "ctxt": 0
             },
             "elements": [
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 57,
-                  "end": 62,
+                  "start": 54,
+                  "end": 59,
                   "ctxt": 0
                 },
                 "value": "hello",
@@ -45,8 +45,8 @@
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 64,
-                  "end": 69,
+                  "start": 61,
+                  "end": 66,
                   "ctxt": 0
                 },
                 "value": "brave",
@@ -56,8 +56,8 @@
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 71,
-                  "end": 77,
+                  "start": 68,
+                  "end": 74,
                   "ctxt": 0
                 },
                 "value": "newish",
@@ -67,8 +67,8 @@
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 79,
-                  "end": 84,
+                  "start": 76,
+                  "end": 81,
                   "ctxt": 0
                 },
                 "value": "world",
@@ -82,8 +82,8 @@
           "init": {
             "type": "ArrayExpression",
             "span": {
-              "start": 88,
-              "end": 122,
+              "start": 85,
+              "end": 119,
               "ctxt": 0
             },
             "elements": [
@@ -92,8 +92,8 @@
                 "expression": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 89,
-                    "end": 96,
+                    "start": 86,
+                    "end": 93,
                     "ctxt": 0
                   },
                   "value": "Hello",
@@ -109,8 +109,8 @@
                 "expression": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 98,
-                    "end": 105,
+                    "start": 95,
+                    "end": 102,
                     "ctxt": 0
                   },
                   "value": "Brave",
@@ -126,8 +126,8 @@
                 "expression": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 107,
-                    "end": 112,
+                    "start": 104,
+                    "end": 109,
                     "ctxt": 0
                   },
                   "value": "New",
@@ -143,8 +143,8 @@
                 "expression": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 114,
-                    "end": 121,
+                    "start": 111,
+                    "end": 118,
                     "ctxt": 0
                   },
                   "value": "World",
@@ -164,16 +164,16 @@
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 127,
-        "end": 164,
+        "start": 122,
+        "end": 159,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 132,
-          "end": 143,
+          "start": 127,
+          "end": 138,
           "ctxt": 0
         },
         "value": "RexOrRaptor",
@@ -183,23 +183,23 @@
       "typeAnnotation": {
         "type": "TsUnionType",
         "span": {
-          "start": 146,
-          "end": 164,
+          "start": 141,
+          "end": 159,
           "ctxt": 0
         },
         "types": [
           {
             "type": "TsLiteralType",
             "span": {
-              "start": 146,
-              "end": 153,
+              "start": 141,
+              "end": 148,
               "ctxt": 0
             },
             "literal": {
               "type": "StringLiteral",
               "span": {
-                "start": 146,
-                "end": 153,
+                "start": 141,
+                "end": 148,
                 "ctxt": 0
               },
               "value": "t-rex",
@@ -213,15 +213,15 @@
           {
             "type": "TsLiteralType",
             "span": {
-              "start": 156,
-              "end": 164,
+              "start": 151,
+              "end": 159,
               "ctxt": 0
             },
             "literal": {
               "type": "StringLiteral",
               "span": {
-                "start": 156,
-                "end": 164,
+                "start": 151,
+                "end": 159,
                 "ctxt": 0
               },
               "value": "raptor",
@@ -238,8 +238,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 166,
-        "end": 240,
+        "start": 160,
+        "end": 234,
         "ctxt": 0
       },
       "kind": "let",
@@ -248,23 +248,23 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 170,
-            "end": 239,
+            "start": 164,
+            "end": 233,
             "ctxt": 0
           },
           "id": {
             "type": "ArrayPattern",
             "span": {
-              "start": 170,
-              "end": 187,
+              "start": 164,
+              "end": 181,
               "ctxt": 0
             },
             "elements": [
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 171,
-                  "end": 173,
+                  "start": 165,
+                  "end": 167,
                   "ctxt": 0
                 },
                 "value": "im",
@@ -274,8 +274,8 @@
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 175,
-                  "end": 176,
+                  "start": 169,
+                  "end": 170,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -285,8 +285,8 @@
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 178,
-                  "end": 186,
+                  "start": 172,
+                  "end": 180,
                   "ctxt": 0
                 },
                 "value": "dinosaur",
@@ -298,38 +298,38 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 187,
-                "end": 214,
+                "start": 181,
+                "end": 208,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTupleType",
                 "span": {
-                  "start": 189,
-                  "end": 214,
+                  "start": 183,
+                  "end": 208,
                   "ctxt": 0
                 },
                 "elemTypes": [
                   {
                     "type": "TsTupleElement",
                     "span": {
-                      "start": 190,
-                      "end": 195,
+                      "start": 184,
+                      "end": 189,
                       "ctxt": 0
                     },
                     "label": null,
                     "ty": {
                       "type": "TsLiteralType",
                       "span": {
-                        "start": 190,
-                        "end": 195,
+                        "start": 184,
+                        "end": 189,
                         "ctxt": 0
                       },
                       "literal": {
                         "type": "StringLiteral",
                         "span": {
-                          "start": 190,
-                          "end": 195,
+                          "start": 184,
+                          "end": 189,
                           "ctxt": 0
                         },
                         "value": "I'm",
@@ -344,23 +344,23 @@
                   {
                     "type": "TsTupleElement",
                     "span": {
-                      "start": 197,
-                      "end": 200,
+                      "start": 191,
+                      "end": 194,
                       "ctxt": 0
                     },
                     "label": null,
                     "ty": {
                       "type": "TsLiteralType",
                       "span": {
-                        "start": 197,
-                        "end": 200,
+                        "start": 191,
+                        "end": 194,
                         "ctxt": 0
                       },
                       "literal": {
                         "type": "StringLiteral",
                         "span": {
-                          "start": 197,
-                          "end": 200,
+                          "start": 191,
+                          "end": 194,
                           "ctxt": 0
                         },
                         "value": "a",
@@ -375,23 +375,23 @@
                   {
                     "type": "TsTupleElement",
                     "span": {
-                      "start": 202,
-                      "end": 213,
+                      "start": 196,
+                      "end": 207,
                       "ctxt": 0
                     },
                     "label": null,
                     "ty": {
                       "type": "TsTypeReference",
                       "span": {
-                        "start": 202,
-                        "end": 213,
+                        "start": 196,
+                        "end": 207,
                         "ctxt": 0
                       },
                       "typeName": {
                         "type": "Identifier",
                         "span": {
-                          "start": 202,
-                          "end": 213,
+                          "start": 196,
+                          "end": 207,
                           "ctxt": 0
                         },
                         "value": "RexOrRaptor",
@@ -407,8 +407,8 @@
           "init": {
             "type": "ArrayExpression",
             "span": {
-              "start": 217,
-              "end": 239,
+              "start": 211,
+              "end": 233,
               "ctxt": 0
             },
             "elements": [
@@ -417,8 +417,8 @@
                 "expression": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 218,
-                    "end": 224,
+                    "start": 212,
+                    "end": 218,
                     "ctxt": 0
                   },
                   "value": "I'm",
@@ -434,8 +434,8 @@
                 "expression": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 226,
-                    "end": 229,
+                    "start": 220,
+                    "end": 223,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -451,8 +451,8 @@
                 "expression": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 231,
-                    "end": 238,
+                    "start": 225,
+                    "end": 232,
                     "ctxt": 0
                   },
                   "value": "t-rex",
@@ -472,22 +472,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 244,
-        "end": 259,
+        "start": 236,
+        "end": 251,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 244,
-          "end": 258,
+          "start": 236,
+          "end": 250,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 244,
-            "end": 248,
+            "start": 236,
+            "end": 240,
             "ctxt": 0
           },
           "value": "rawr",
@@ -499,8 +499,8 @@
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 249,
-                "end": 257,
+                "start": 241,
+                "end": 249,
                 "ctxt": 0
               },
               "value": "dinosaur",
@@ -516,8 +516,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 272,
-          "end": 276,
+          "start": 262,
+          "end": 266,
           "ctxt": 0
         },
         "value": "rawr",
@@ -528,16 +528,16 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 277,
-            "end": 294,
+            "start": 267,
+            "end": 284,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
-              "start": 277,
-              "end": 294,
+              "start": 267,
+              "end": 284,
               "ctxt": 0
             },
             "value": "dino",
@@ -545,22 +545,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 281,
-                "end": 294,
+                "start": 271,
+                "end": 284,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 283,
-                  "end": 294,
+                  "start": 273,
+                  "end": 284,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 283,
-                    "end": 294,
+                    "start": 273,
+                    "end": 284,
                     "ctxt": 0
                   },
                   "value": "RexOrRaptor",
@@ -574,38 +574,38 @@
       ],
       "decorators": [],
       "span": {
-        "start": 263,
-        "end": 464,
+        "start": 253,
+        "end": 445,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 296,
-          "end": 464,
+          "start": 286,
+          "end": 445,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "IfStatement",
             "span": {
-              "start": 303,
-              "end": 361,
+              "start": 292,
+              "end": 348,
               "ctxt": 0
             },
             "test": {
               "type": "BinaryExpression",
               "span": {
-                "start": 307,
-                "end": 323,
+                "start": 296,
+                "end": 312,
                 "ctxt": 0
               },
               "operator": "===",
               "left": {
                 "type": "Identifier",
                 "span": {
-                  "start": 307,
-                  "end": 311,
+                  "start": 296,
+                  "end": 300,
                   "ctxt": 0
                 },
                 "value": "dino",
@@ -614,8 +614,8 @@
               "right": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 316,
-                  "end": 323,
+                  "start": 305,
+                  "end": 312,
                   "ctxt": 0
                 },
                 "value": "t-rex",
@@ -629,23 +629,23 @@
             "consequent": {
               "type": "BlockStatement",
               "span": {
-                "start": 325,
-                "end": 361,
+                "start": 314,
+                "end": 348,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
-                    "start": 336,
-                    "end": 354,
+                    "start": 324,
+                    "end": 342,
                     "ctxt": 0
                   },
                   "argument": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 343,
-                      "end": 353,
+                      "start": 331,
+                      "end": 341,
                       "ctxt": 0
                     },
                     "value": "ROAAAAR!",
@@ -663,23 +663,23 @@
           {
             "type": "IfStatement",
             "span": {
-              "start": 367,
-              "end": 426,
+              "start": 353,
+              "end": 410,
               "ctxt": 0
             },
             "test": {
               "type": "BinaryExpression",
               "span": {
-                "start": 371,
-                "end": 388,
+                "start": 357,
+                "end": 374,
                 "ctxt": 0
               },
               "operator": "===",
               "left": {
                 "type": "Identifier",
                 "span": {
-                  "start": 371,
-                  "end": 375,
+                  "start": 357,
+                  "end": 361,
                   "ctxt": 0
                 },
                 "value": "dino",
@@ -688,8 +688,8 @@
               "right": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 380,
-                  "end": 388,
+                  "start": 366,
+                  "end": 374,
                   "ctxt": 0
                 },
                 "value": "raptor",
@@ -703,23 +703,23 @@
             "consequent": {
               "type": "BlockStatement",
               "span": {
-                "start": 390,
-                "end": 426,
+                "start": 376,
+                "end": 410,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
-                    "start": 401,
-                    "end": 419,
+                    "start": 386,
+                    "end": 404,
                     "ctxt": 0
                   },
                   "argument": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 408,
-                      "end": 418,
+                      "start": 393,
+                      "end": 403,
                       "ctxt": 0
                     },
                     "value": "yip yip!",
@@ -737,23 +737,23 @@
           {
             "type": "ThrowStatement",
             "span": {
-              "start": 434,
-              "end": 461,
+              "start": 416,
+              "end": 443,
               "ctxt": 0
             },
             "argument": {
               "type": "BinaryExpression",
               "span": {
-                "start": 440,
-                "end": 460,
+                "start": 422,
+                "end": 442,
                 "ctxt": 0
               },
               "operator": "+",
               "left": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 440,
-                  "end": 453,
+                  "start": 422,
+                  "end": 435,
                   "ctxt": 0
                 },
                 "value": "Unexpected ",
@@ -766,8 +766,8 @@
               "right": {
                 "type": "Identifier",
                 "span": {
-                  "start": 456,
-                  "end": 460,
+                  "start": 438,
+                  "end": 442,
                   "ctxt": 0
                 },
                 "value": "dino",
