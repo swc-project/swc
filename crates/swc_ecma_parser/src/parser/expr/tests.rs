@@ -9,6 +9,7 @@ use test::Bencher;
 
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
+        allow_super_outside_method: true,
         ..Default::default()
     })
 }
