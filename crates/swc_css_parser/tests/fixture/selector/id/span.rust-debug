@@ -6,9 +6,9 @@ error: Stylesheet
 3  | | #© {}
 4  | | #“‘’” {}
 ...  |
-34 | | #f\~o\~o {}
-35 | | #f\+o\+o {}
-   | |____________^
+37 | | #id.class {}
+38 | | #id.class[target] {}
+   | |_____________________^
 
 error: Rule
  --> $DIR/tests/fixture/selector/id/input.css:1:1
@@ -1899,4 +1899,220 @@ error: Block
    |
 35 | #f\+o\+o {}
    |          ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/id/input.css:36:1
+   |
+36 | #id {}
+   | ^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/id/input.css:36:1
+   |
+36 | #id {}
+   | ^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/id/input.css:36:1
+   |
+36 | #id {}
+   | ^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/id/input.css:36:1
+   |
+36 | #id {}
+   | ^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/id/input.css:36:1
+   |
+36 | #id {}
+   | ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/id/input.css:36:1
+   |
+36 | #id {}
+   | ^^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/id/input.css:36:1
+   |
+36 | #id {}
+   | ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/id/input.css:36:1
+   |
+36 | #id {}
+   | ^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/id/input.css:36:5
+   |
+36 | #id {}
+   |     ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/id/input.css:37:1
+   |
+37 | #id.class {}
+   | ^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/id/input.css:37:1
+   |
+37 | #id.class {}
+   | ^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/id/input.css:37:1
+   |
+37 | #id.class {}
+   | ^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/id/input.css:37:1
+   |
+37 | #id.class {}
+   | ^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/id/input.css:37:1
+   |
+37 | #id.class {}
+   | ^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/id/input.css:37:1
+   |
+37 | #id.class {}
+   | ^^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/id/input.css:37:1
+   |
+37 | #id.class {}
+   | ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/id/input.css:37:1
+   |
+37 | #id.class {}
+   | ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/id/input.css:37:4
+   |
+37 | #id.class {}
+   |    ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/id/input.css:37:4
+   |
+37 | #id.class {}
+   |    ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/id/input.css:37:5
+   |
+37 | #id.class {}
+   |     ^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/id/input.css:37:11
+   |
+37 | #id.class {}
+   |           ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/id/input.css:38:1
+   |
+38 | #id.class[target] {}
+   | ^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/id/input.css:38:1
+   |
+38 | #id.class[target] {}
+   | ^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/id/input.css:38:1
+   |
+38 | #id.class[target] {}
+   | ^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/id/input.css:38:1
+   |
+38 | #id.class[target] {}
+   | ^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/id/input.css:38:1
+   |
+38 | #id.class[target] {}
+   | ^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/id/input.css:38:1
+   |
+38 | #id.class[target] {}
+   | ^^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/id/input.css:38:1
+   |
+38 | #id.class[target] {}
+   | ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/id/input.css:38:1
+   |
+38 | #id.class[target] {}
+   | ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/id/input.css:38:4
+   |
+38 | #id.class[target] {}
+   |    ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/id/input.css:38:4
+   |
+38 | #id.class[target] {}
+   |    ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/id/input.css:38:5
+   |
+38 | #id.class[target] {}
+   |     ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/id/input.css:38:10
+   |
+38 | #id.class[target] {}
+   |          ^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/id/input.css:38:10
+   |
+38 | #id.class[target] {}
+   |          ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/id/input.css:38:11
+   |
+38 | #id.class[target] {}
+   |           ^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/id/input.css:38:19
+   |
+38 | #id.class[target] {}
+   |                   ^^
 

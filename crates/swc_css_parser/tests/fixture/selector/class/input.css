@@ -35,3 +35,7 @@
 .f\+o\+o {}
 .-a-b-c- {}
 .\#fake-id {}
+foo.class > .foo.class {}
+.foo#id {}
+.class[target] {}
+.class#id[target] {}

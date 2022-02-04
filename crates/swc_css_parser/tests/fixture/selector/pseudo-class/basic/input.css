@@ -11,3 +11,9 @@ div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
 ::-webkit-scrollbar-button:horizontal:decrement {}
 .test::-webkit-scrollbar-button:horizontal:decrement {}
 *:is(*) {}
+:--heading {}
+a:-moz-placeholder {}
+a:hover::before {}
+div :nth-child(2) {}
+a:hOvEr {}
+:-webkit-full-screen a {}
