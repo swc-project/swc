@@ -2612,7 +2612,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.121.0"
+version = "0.121.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3042,7 +3042,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.115.0"
+version = "0.115.1"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3068,7 +3068,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.58.0"
+version = "0.58.1"
 dependencies = [
  "once_cell",
  "phf",
@@ -3311,7 +3311,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.112.0"
+version = "0.112.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
