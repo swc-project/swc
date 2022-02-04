@@ -22,3 +22,33 @@
 @keyframes FOO {}
 @keyframes "initial" {}
 @keyframes "None" {}
+@keyframes slide-right {
+
+    from {
+        margin-left: 0px;
+    }
+
+    50% {
+        margin-left: 110px;
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.9;
+    }
+
+    to {
+        margin-left: 200px;
+    }
+
+}
+
+@keyframes slidein-up {
+    fRoM {
+        transform: translateX(0%);
+    }
+
+    tO {
+        transform: translateX(100%);
+    }
+}

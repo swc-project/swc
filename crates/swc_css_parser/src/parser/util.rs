@@ -1,6 +1,4 @@
-use crate::Parse;
-
-use super::{input::ParserInput, traits::ParseDelmited, Ctx, PResult, Parser};
+use super::{input::ParserInput, Ctx, Parser};
 use std::ops::{Deref, DerefMut};
 use swc_common::Span;
 
@@ -14,29 +12,6 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    // TODO: error recovery.
-    pub(super) fn parse_delimited<T>(&mut self, allow_zero: bool) -> PResult<Vec<T>>
-    where
-        Self: Parse<T> + ParseDelmited<T>,
-    {
-        let mut items = vec![];
-
-        if allow_zero && !ParseDelmited::eat_delimiter(self)? {
-            return Ok(vec![]);
-        }
-
-        loop {
-            let res = self.parse()?;
-            items.push(res);
-
-            if !ParseDelmited::eat_delimiter(self)? {
-                break;
-            }
-        }
-
-        Ok(items)
-    }
-
     /// Original context is restored when returned guard is dropped.
     #[inline]
     pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<I> {

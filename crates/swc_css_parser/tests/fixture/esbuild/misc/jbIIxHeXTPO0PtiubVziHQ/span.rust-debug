@@ -46,12 +46,6 @@ error: Ident
 1 | @keyframes name { from { color: red } to { color: blue } }
   |                   ^^^^
 
-error: KeyframeBlockRule
- --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:24
-  |
-1 | @keyframes name { from { color: red } to { color: blue } }
-  |                        ^^^^^^^^^^^^^^
-
 error: Block
  --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:24
   |
@@ -105,12 +99,6 @@ error: Ident
   |
 1 | @keyframes name { from { color: red } to { color: blue } }
   |                                       ^^
-
-error: KeyframeBlockRule
- --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:42
-  |
-1 | @keyframes name { from { color: red } to { color: blue } }
-  |                                          ^^^^^^^^^^^^^^^
 
 error: Block
  --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:42

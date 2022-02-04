@@ -46,12 +46,6 @@ error: Ident
 1 | @keyframes a\62 c { from {} }
   |                     ^^^^
 
-error: KeyframeBlockRule
- --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:26
-  |
-1 | @keyframes a\62 c { from {} }
-  |                          ^^
-
 error: Block
  --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:26
   |
