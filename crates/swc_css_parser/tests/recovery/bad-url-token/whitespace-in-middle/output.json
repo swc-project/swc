@@ -121,8 +121,8 @@
                   "BadUrl": {
                     "name": "url",
                     "raw_name": "url",
-                    "value": "./image.jpg  a  ",
-                    "raw_value": "./image.jpg  a  "
+                    "value": "   ./image.jpg  a  ",
+                    "raw_value": "   ./image.jpg  a  "
                   }
                 }
               }

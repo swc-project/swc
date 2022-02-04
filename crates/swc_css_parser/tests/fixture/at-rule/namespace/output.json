@@ -85,6 +85,8 @@
             "end": 79,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "http://www.w3.org/1999/xhtml",
           "raw": "http://www.w3.org/1999/xhtml"
         },
@@ -170,6 +172,8 @@
             "end": 175,
             "ctxt": 0
           },
+          "before": "",
+          "after": "",
           "value": "http://www.w3.org/2000/svg",
           "raw": "http://www.w3.org/2000/svg"
         },

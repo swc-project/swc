@@ -764,20 +764,27 @@ where
                 raw_name,
                 value,
                 raw_value,
+                before,
+                after,
             } => {
+                let name_length = raw_name.len() as u32;
                 let name = Ident {
-                    // TODO add additional fields in lexer to keep original spaces and fix span
-                    span: swc_common::Span::new(span.lo, span.lo + BytePos(3), Default::default()),
+                    span: swc_common::Span::new(
+                        span.lo,
+                        span.lo + BytePos(name_length),
+                        Default::default(),
+                    ),
                     value: name,
                     raw: raw_name,
                 };
-
                 let value = Some(UrlValue::Raw(UrlValueRaw {
                     span: swc_common::Span::new(
-                        span.lo + BytePos(4),
+                        span.lo + BytePos(name_length + 1),
                         span.hi - BytePos(1),
                         Default::default(),
                     ),
+                    before,
+                    after,
                     value,
                     raw: raw_value,
                 }));
