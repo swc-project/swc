@@ -22,6 +22,12 @@
 
 - **(es/parser)** Add an option to allow `super` outside of class methods (#3427) ([cc185f0](https://github.com/swc-project/swc/commit/cc185f01cb249634d144830db702a281674f48da))
 
+### Refactor
+
+
+
+- **(css/ast)** Refactor types related to `@keyframes` at-rule (#3441) ([5c1b021](https://github.com/swc-project/swc/commit/5c1b02182df9ee2f59b8b83f58b5d0b1ae04af35))
+
 ## [1.2.136] - 2022-02-03
 
 ### Bug Fixes
