@@ -40,6 +40,12 @@ error: TypeSelector
 1 | a { value: \2cx }
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1
+  |
+1 | a { value: \2cx }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1
   |

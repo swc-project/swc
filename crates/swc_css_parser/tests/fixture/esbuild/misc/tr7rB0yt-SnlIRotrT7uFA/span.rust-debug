@@ -40,6 +40,12 @@ error: TypeSelector
 1 | \2d 123 {}
   | ^^^^^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1
+  |
+1 | \2d 123 {}
+  | ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1
   |

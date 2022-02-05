@@ -46,6 +46,12 @@ error: TypeSelector
 1 | table {
   | ^^^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/value/escaped/input.css:1:1
+  |
+1 | table {
+  | ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/value/escaped/input.css:1:1
   |

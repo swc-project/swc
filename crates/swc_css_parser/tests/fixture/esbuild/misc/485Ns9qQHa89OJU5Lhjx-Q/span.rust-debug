@@ -40,6 +40,12 @@ error: TypeSelector
 1 | a { value: \69 dent }
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/485Ns9qQHa89OJU5Lhjx-Q/input.css:1:1
+  |
+1 | a { value: \69 dent }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/485Ns9qQHa89OJU5Lhjx-Q/input.css:1:1
   |

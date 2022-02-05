@@ -2044,6 +2044,12 @@ error: TypeSelector
 38 | foo.class > .foo.class {}
    | ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/class/input.css:38:1
+   |
+38 | foo.class > .foo.class {}
+   | ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/class/input.css:38:1
    |
@@ -2392,6 +2398,12 @@ error: TypeSelector
 42 | ul.list {}
    | ^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/class/input.css:42:1
+   |
+42 | ul.list {}
+   | ^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/class/input.css:42:1
    |
@@ -2453,6 +2465,12 @@ error: CompoundSelector
    | ^^^^^^^^^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/class/input.css:43:1
+   |
+43 | ul.list::before {}
+   | ^^
+
+error: TagNameSelector
   --> $DIR/tests/fixture/selector/class/input.css:43:1
    |
 43 | ul.list::before {}

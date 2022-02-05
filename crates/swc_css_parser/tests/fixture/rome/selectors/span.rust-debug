@@ -50,6 +50,12 @@ error: TypeSelector
 1 | div, div + #id, div ~ #id, div > #id {
   | ^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:1
+  |
+1 | div, div + #id, div ~ #id, div > #id {
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/selectors/input.css:1:1
   |
@@ -69,6 +75,12 @@ error: CompoundSelector
   |      ^^^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:6
+  |
+1 | div, div + #id, div ~ #id, div > #id {
+  |      ^^^
+
+error: TagNameSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:6
   |
 1 | div, div + #id, div ~ #id, div > #id {
@@ -128,6 +140,12 @@ error: TypeSelector
 1 | div, div + #id, div ~ #id, div > #id {
   |                 ^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:17
+  |
+1 | div, div + #id, div ~ #id, div > #id {
+  |                 ^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/selectors/input.css:1:17
   |
@@ -177,6 +195,12 @@ error: CompoundSelector
   |                            ^^^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:28
+  |
+1 | div, div + #id, div ~ #id, div > #id {
+  |                            ^^^
+
+error: TagNameSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:28
   |
 1 | div, div + #id, div ~ #id, div > #id {
@@ -358,7 +382,7 @@ error: TypeSelector
 9 | .class + * {
   |          ^
 
-error: Ident
+error: UniversalSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:9:10
   |
 9 | .class + * {
@@ -408,6 +432,12 @@ error: CompoundSelector
    | ^^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/rome/selectors/input.css:13:1
+   |
+13 | a[title] {
+   | ^
+
+error: TagNameSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:13:1
    |
 13 | a[title] {
@@ -511,6 +541,12 @@ error: CompoundSelector
    | ^^^^^^^^^^^^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/rome/selectors/input.css:17:1
+   |
+17 | a[title = "title"] {
+   | ^
+
+error: TagNameSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:17:1
    |
 17 | a[title = "title"] {
@@ -625,6 +661,12 @@ error: TypeSelector
 21 | a[title~="title" i] {
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/rome/selectors/input.css:21:1
+   |
+21 | a[title~="title" i] {
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/rome/selectors/input.css:21:1
    |
@@ -729,6 +771,12 @@ error: CompoundSelector
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/rome/selectors/input.css:25:1
+   |
+25 | a[title = "title"][href*="image/*" S] {
+   | ^
+
+error: TagNameSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:25:1
    |
 25 | a[title = "title"][href*="image/*" S] {
@@ -860,6 +908,12 @@ error: CompoundSelector
    | ^^^^^^^^^^^^^^^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/rome/selectors/input.css:29:1
+   |
+29 | p:nth-last-of-type(2) {
+   | ^
+
+error: TagNameSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:29:1
    |
 29 | p:nth-last-of-type(2) {

@@ -40,6 +40,12 @@ error: TypeSelector
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1
+  |
+1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1
   |

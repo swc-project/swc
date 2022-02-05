@@ -1276,26 +1276,46 @@ where
 
     #[emitter]
     fn emit_type_selector(&mut self, n: &TypeSelector) -> Result {
+        match n {
+            TypeSelector::TagName(n) => emit!(self, n),
+            TypeSelector::Universal(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_tag_name_selector(&mut self, n: &TagNameSelector) -> Result {
         if let Some(prefix) = &n.prefix {
             emit!(self, prefix);
-            punct!(self, "|");
         }
 
         emit!(self, n.name);
     }
 
     #[emitter]
+    fn emit_universal_selector(&mut self, n: &UniversalSelector) -> Result {
+        if let Some(prefix) = &n.prefix {
+            emit!(self, prefix);
+        }
+
+        punct!(self, "*");
+    }
+
+    #[emitter]
+    fn emit_ns_prefix(&mut self, n: &NsPrefix) -> Result {
+        emit!(self, n.prefix);
+        punct!(self, "|");
+    }
+
+    #[emitter]
     fn emit_id_selector(&mut self, n: &IdSelector) -> Result {
         punct!(self, "#");
-        let ctx = Ctx { ..self.ctx };
-        emit!(&mut *self.with_ctx(ctx), n.text);
+        emit!(self, n.text);
     }
 
     #[emitter]
     fn emit_class_selector(&mut self, n: &ClassSelector) -> Result {
         punct!(self, ".");
-        let ctx = Ctx { ..self.ctx };
-        emit!(&mut *self.with_ctx(ctx), n.text);
+        emit!(self, n.text);
     }
 
     #[emitter]
@@ -1312,7 +1332,6 @@ where
 
         if let Some(prefix) = &n.prefix {
             emit!(self, prefix);
-            punct!(self, "|");
         }
 
         emit!(self, n.name);

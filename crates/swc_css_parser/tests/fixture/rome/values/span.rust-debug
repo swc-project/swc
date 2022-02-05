@@ -50,6 +50,12 @@ error: TypeSelector
 1 | p::before {
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/rome/values/input.css:1:1
+  |
+1 | p::before {
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/rome/values/input.css:1:1
   |
@@ -355,6 +361,12 @@ error: TypeSelector
 12 | foo {
    | ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/rome/values/input.css:12:1
+   |
+12 | foo {
+   | ^^^
+
 error: Ident
   --> $DIR/tests/fixture/rome/values/input.css:12:1
    |
@@ -437,6 +449,12 @@ error: CompoundSelector
    | ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/rome/values/input.css:16:1
+   |
+16 | bar {
+   | ^^^
+
+error: TagNameSelector
   --> $DIR/tests/fixture/rome/values/input.css:16:1
    |
 16 | bar {

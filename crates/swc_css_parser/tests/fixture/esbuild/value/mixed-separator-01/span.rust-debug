@@ -40,6 +40,12 @@ error: TypeSelector
 1 | a { box-shadow: rebeccapurple , yellow , black }
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/value/mixed-separator-01/input.css:1:1
+  |
+1 | a { box-shadow: rebeccapurple , yellow , black }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/value/mixed-separator-01/input.css:1:1
   |

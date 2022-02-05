@@ -40,6 +40,12 @@ error: TypeSelector
 1 | a:after { content: 'a\b' }
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/2nNBhRWO2cNcBJf09zDxjw/input.css:1:1
+  |
+1 | a:after { content: 'a\b' }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/2nNBhRWO2cNcBJf09zDxjw/input.css:1:1
   |

@@ -40,6 +40,12 @@ error: TypeSelector
 1 | div#id {}
   | ^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1
+  |
+1 | div#id {}
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1
   |

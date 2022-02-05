@@ -58,6 +58,12 @@ error: TypeSelector
 1 | div {
   | ^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/value/url/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/value/url/input.css:1:1
   |

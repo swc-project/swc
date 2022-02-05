@@ -49,6 +49,12 @@ error: TypeSelector
 1 | a {
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/declaration-list/input.css:1:1
+  |
+1 | a {
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/declaration-list/input.css:1:1
   |

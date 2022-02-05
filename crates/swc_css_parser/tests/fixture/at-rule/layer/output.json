@@ -698,7 +698,7 @@
                     },
                     "nestingSelector": null,
                     "typeSelector": {
-                      "type": "TypeSelector",
+                      "type": "TagNameSelector",
                       "span": {
                         "start": 417,
                         "end": 423,
@@ -953,7 +953,7 @@
                         },
                         "nestingSelector": null,
                         "typeSelector": {
-                          "type": "TypeSelector",
+                          "type": "TagNameSelector",
                           "span": {
                             "start": 530,
                             "end": 532,
@@ -992,7 +992,7 @@
                         },
                         "nestingSelector": null,
                         "typeSelector": {
-                          "type": "TypeSelector",
+                          "type": "TagNameSelector",
                           "span": {
                             "start": 534,
                             "end": 536,
@@ -1283,7 +1283,7 @@
                         },
                         "nestingSelector": null,
                         "typeSelector": {
-                          "type": "TypeSelector",
+                          "type": "TagNameSelector",
                           "span": {
                             "start": 663,
                             "end": 664,
@@ -1429,7 +1429,7 @@
                         },
                         "nestingSelector": null,
                         "typeSelector": {
-                          "type": "TypeSelector",
+                          "type": "TagNameSelector",
                           "span": {
                             "start": 725,
                             "end": 726,
@@ -1569,7 +1569,7 @@
                     },
                     "nestingSelector": null,
                     "typeSelector": {
-                      "type": "TypeSelector",
+                      "type": "TagNameSelector",
                       "span": {
                         "start": 865,
                         "end": 875,

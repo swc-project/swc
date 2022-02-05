@@ -2152,6 +2152,12 @@ error: TypeSelector
 39 | div#thing:hover {}
    | ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/id/input.css:39:1
+   |
+39 | div#thing:hover {}
+   | ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:39:1
    |
@@ -2231,6 +2237,12 @@ error: CompoundSelector
    | ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/id/input.css:40:1
+   |
+40 | div#thing:nth-child(2n+1) {}
+   | ^^^
+
+error: TagNameSelector
   --> $DIR/tests/fixture/selector/id/input.css:40:1
    |
 40 | div#thing:nth-child(2n+1) {}
@@ -2327,6 +2339,12 @@ error: CompoundSelector
    | ^^^^^^^^^^^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/id/input.css:41:1
+   |
+41 | div#thing::before {}
+   | ^^^
+
+error: TagNameSelector
   --> $DIR/tests/fixture/selector/id/input.css:41:1
    |
 41 | div#thing::before {}

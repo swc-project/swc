@@ -87,7 +87,7 @@
                     },
                     "nestingSelector": null,
                     "typeSelector": {
-                      "type": "TypeSelector",
+                      "type": "TagNameSelector",
                       "span": {
                         "start": 32,
                         "end": 35,
@@ -236,7 +236,7 @@
                     },
                     "nestingSelector": null,
                     "typeSelector": {
-                      "type": "TypeSelector",
+                      "type": "TagNameSelector",
                       "span": {
                         "start": 102,
                         "end": 106,
@@ -427,7 +427,7 @@
                         },
                         "nestingSelector": null,
                         "typeSelector": {
-                          "type": "TypeSelector",
+                          "type": "TagNameSelector",
                           "span": {
                             "start": 188,
                             "end": 195,

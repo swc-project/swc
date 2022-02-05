@@ -3,7 +3,7 @@ use crate::{
     error::{Error, ErrorKind},
     Parse,
 };
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
@@ -15,49 +15,19 @@ where
         self.parse()
     }
 
-    fn parse_ns_prefix(&mut self) -> PResult<Option<Ident>> {
-        let span = self.input.cur_span()?;
-
-        if is!(self, Ident) && peeked_is!(self, "|") {
-            let ident = self.parse()?;
-
-            bump!(self);
-
-            return Ok(Some(ident));
-        } else if is!(self, "*") && peeked_is!(self, "|") {
-            bump!(self);
-            bump!(self);
-
-            let value: JsWord = "*".into();
-            let raw = value.clone();
-
-            return Ok(Some(Ident { span, value, raw }));
-        } else if is!(self, "|") {
-            bump!(self);
-
-            return Ok(Some(Ident {
-                span: Span::new(span.lo, span.lo, Default::default()),
-                value: js_word!(""),
-                raw: js_word!(""),
-            }));
-        }
-
-        Ok(None)
-    }
-
-    fn parse_wq_name(&mut self) -> PResult<(Option<Ident>, Option<Ident>)> {
+    fn parse_wq_name(&mut self) -> PResult<(Option<NsPrefix>, Option<Ident>)> {
         let state = self.input.state();
 
         if is!(self, Ident) && peeked_is!(self, "|")
             || is!(self, "*") && peeked_is!(self, "|")
             || is!(self, "|")
         {
-            let prefix = self.parse_ns_prefix()?;
+            let prefix = self.parse()?;
 
             if is!(self, Ident) {
                 let name = self.parse()?;
 
-                return Ok((prefix, Some(name)));
+                return Ok((Some(prefix), Some(name)));
             } else {
                 // TODO: implement `peeked_ahead_is` for perf
                 self.input.reset(&state);
@@ -71,46 +41,6 @@ where
         }
 
         Ok((None, None))
-    }
-
-    fn parse_type_selector(&mut self) -> PResult<Option<TypeSelector>> {
-        let span = self.input.cur_span()?;
-
-        let mut prefix = None;
-
-        if let Ok(result) = self.parse_ns_prefix() {
-            prefix = result;
-        }
-
-        if is!(self, Ident) {
-            let name = self.parse()?;
-
-            return Ok(Some(TypeSelector {
-                span: span!(self, span.lo),
-                prefix,
-                name,
-            }));
-        } else if is!(self, "*") {
-            let name_span = self.input.cur_span()?;
-
-            bump!(self);
-
-            let value: JsWord = "*".into();
-            let raw = value.clone();
-            let name = Ident {
-                span: name_span,
-                value,
-                raw,
-            };
-
-            return Ok(Some(TypeSelector {
-                span: span!(self, span.lo),
-                prefix,
-                name,
-            }));
-        }
-
-        Ok(None)
     }
 }
 
@@ -271,7 +201,11 @@ where
             });
         }
 
-        let type_selector = self.parse_type_selector()?;
+        let type_selector = if is_one_of!(self, Ident, "*", "|") {
+            Some(self.parse()?)
+        } else {
+            None
+        };
         let mut subclass_selectors = vec![];
 
         loop {
@@ -323,6 +257,83 @@ where
             type_selector,
             subclass_selectors,
         })
+    }
+}
+
+impl<I> Parse<TypeSelector> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<TypeSelector> {
+        let span = self.input.cur_span()?;
+        let prefix = if (is!(self, Ident) && peeked_is!(self, "|"))
+            || (is!(self, "*") && peeked_is!(self, "|"))
+            || is!(self, "|")
+        {
+            Some(self.parse()?)
+        } else {
+            None
+        };
+
+        if is!(self, Ident) {
+            let name = self.parse()?;
+
+            return Ok(TypeSelector::TagName(TagNameSelector {
+                span: span!(self, span.lo),
+                prefix,
+                name,
+            }));
+        } else if is!(self, "*") {
+            bump!(self);
+
+            return Ok(TypeSelector::Universal(UniversalSelector {
+                span: span!(self, span.lo),
+                prefix,
+            }));
+        }
+
+        return Err(Error::new(
+            span,
+            ErrorKind::Expected("ident, '*' or '|' delim tokens"),
+        ));
+    }
+}
+
+impl<I> Parse<NsPrefix> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<NsPrefix> {
+        let span = self.input.cur_span()?;
+
+        if is!(self, Ident) && peeked_is!(self, "|") {
+            let prefix = Some(self.parse()?);
+
+            bump!(self);
+
+            return Ok(NsPrefix {
+                span: span!(self, span.lo),
+                prefix,
+            });
+        } else if is!(self, "*") && peeked_is!(self, "|") {
+            bump!(self);
+            bump!(self);
+
+            let value: JsWord = "*".into();
+            let raw = value.clone();
+
+            return Ok(NsPrefix {
+                span: span!(self, span.lo),
+                prefix: Some(Ident { span, value, raw }),
+            });
+        }
+
+        expect!(self, "|");
+
+        return Ok(NsPrefix {
+            span: span!(self, span.lo),
+            prefix: None,
+        });
     }
 }
 

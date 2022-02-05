@@ -174,7 +174,7 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 22,
                     "end": 28,
@@ -260,7 +260,7 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 38,
                     "end": 49,
@@ -326,7 +326,7 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 53,
                     "end": 58,
@@ -412,7 +412,7 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 69,
                     "end": 74,
@@ -639,7 +639,7 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 117,
                     "end": 119,
@@ -705,7 +705,7 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 123,
                     "end": 128,
@@ -854,7 +854,7 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 153,
                     "end": 156,
@@ -1451,23 +1451,13 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "UniversalSelector",
                   "span": {
                     "start": 366,
                     "end": 367,
                     "ctxt": 0
                   },
-                  "prefix": null,
-                  "name": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 366,
-                      "end": 367,
-                      "ctxt": 0
-                    },
-                    "value": "*",
-                    "raw": "*"
-                  }
+                  "prefix": null
                 },
                 "subclassSelectors": [
                   {
@@ -1626,7 +1616,7 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 391,
                     "end": 392,
@@ -1712,7 +1702,7 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 413,
                     "end": 414,
@@ -1817,7 +1807,7 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 432,
                     "end": 435,
@@ -1943,7 +1933,7 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 453,
                     "end": 454,
@@ -2069,7 +2059,7 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 485,
                     "end": 486,

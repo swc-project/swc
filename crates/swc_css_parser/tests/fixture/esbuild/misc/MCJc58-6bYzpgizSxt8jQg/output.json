@@ -47,14 +47,22 @@
                       "ctxt": 0
                     },
                     "prefix": {
-                      "type": "Identifier",
+                      "type": "NsPrefix",
                       "span": {
                         "start": 1,
-                        "end": 6,
+                        "end": 7,
                         "ctxt": 0
                       },
-                      "value": ",ns",
-                      "raw": "\\2cns"
+                      "prefix": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1,
+                          "end": 6,
+                          "ctxt": 0
+                        },
+                        "value": ",ns",
+                        "raw": "\\2cns"
+                      }
                     },
                     "name": {
                       "type": "Identifier",

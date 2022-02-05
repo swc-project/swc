@@ -46,6 +46,12 @@ error: TypeSelector
 1 | html > /**/ body .selector {}
   | ^^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/hacks/input.css:1:1
+  |
+1 | html > /**/ body .selector {}
+  | ^^^^
+
 error: Ident
  --> $DIR/tests/fixture/hacks/input.css:1:1
   |
@@ -65,6 +71,12 @@ error: CompoundSelector
   |             ^^^^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/hacks/input.css:1:13
+  |
+1 | html > /**/ body .selector {}
+  |             ^^^^
+
+error: TagNameSelector
  --> $DIR/tests/fixture/hacks/input.css:1:13
   |
 1 | html > /**/ body .selector {}
@@ -148,6 +160,12 @@ error: TypeSelector
 2 | head ~ /**/ body .selector {}
   | ^^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/hacks/input.css:2:1
+  |
+2 | head ~ /**/ body .selector {}
+  | ^^^^
+
 error: Ident
  --> $DIR/tests/fixture/hacks/input.css:2:1
   |
@@ -167,6 +185,12 @@ error: CompoundSelector
   |             ^^^^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/hacks/input.css:2:13
+  |
+2 | head ~ /**/ body .selector {}
+  |             ^^^^
+
+error: TagNameSelector
  --> $DIR/tests/fixture/hacks/input.css:2:13
   |
 2 | head ~ /**/ body .selector {}

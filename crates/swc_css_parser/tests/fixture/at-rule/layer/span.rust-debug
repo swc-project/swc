@@ -730,6 +730,12 @@ error: TypeSelector
 23 |     strong { font-weight: bold; }
    |     ^^^^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/at-rule/layer/input.css:23:5
+   |
+23 |     strong { font-weight: bold; }
+   |     ^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/layer/input.css:23:5
    |
@@ -988,6 +994,12 @@ error: TypeSelector
 30 |         h1, h2 { color: maroon; }
    |         ^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/at-rule/layer/input.css:30:9
+   |
+30 |         h1, h2 { color: maroon; }
+   |         ^^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/layer/input.css:30:9
    |
@@ -1007,6 +1019,12 @@ error: CompoundSelector
    |             ^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/at-rule/layer/input.css:30:13
+   |
+30 |         h1, h2 { color: maroon; }
+   |             ^^
+
+error: TagNameSelector
   --> $DIR/tests/fixture/at-rule/layer/input.css:30:13
    |
 30 |         h1, h2 { color: maroon; }
@@ -1312,6 +1330,12 @@ error: TypeSelector
 40 |         p { margin-block: 0.75em; }
    |         ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/at-rule/layer/input.css:40:9
+   |
+40 |         p { margin-block: 0.75em; }
+   |         ^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/layer/input.css:40:9
    |
@@ -1444,6 +1468,12 @@ error: TypeSelector
 44 |         p { color: #222; }
    |         ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/at-rule/layer/input.css:44:9
+   |
+44 |         p { color: #222; }
+   |         ^
+
 error: Ident
   --> $DIR/tests/fixture/at-rule/layer/input.css:44:9
    |
@@ -1568,6 +1598,12 @@ error: CompoundSelector
    |     ^^^^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/at-rule/layer/input.css:50:5
+   |
+50 |     blockquote { color: rebeccapurple; }
+   |     ^^^^^^^^^^
+
+error: TagNameSelector
   --> $DIR/tests/fixture/at-rule/layer/input.css:50:5
    |
 50 |     blockquote { color: rebeccapurple; }

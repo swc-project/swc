@@ -64,18 +64,34 @@ pub struct NestingSelector {
     pub span: Span,
 }
 
-#[ast_node("TypeSelector")]
-pub struct TypeSelector {
+#[ast_node]
+pub enum TypeSelector {
+    #[tag("TagNameSelector")]
+    TagName(TagNameSelector),
+    #[tag("UniversalSelector")]
+    Universal(UniversalSelector),
+}
+
+#[ast_node("TagNameSelector")]
+pub struct TagNameSelector {
     pub span: Span,
-    ///	If present, this is an identifier or "*" and is followed by a "|"
-    /// character
-    pub prefix: Option<Ident>,
-    ///	This is an identifier or "*".
+    pub prefix: Option<NsPrefix>,
     pub name: Ident,
 }
 
+#[ast_node("UniversalSelector")]
+pub struct UniversalSelector {
+    pub span: Span,
+    pub prefix: Option<NsPrefix>,
+}
+
+#[ast_node("NsPrefix")]
+pub struct NsPrefix {
+    pub span: Span,
+    pub prefix: Option<Ident>,
+}
+
 #[ast_node]
-#[derive(Is)]
 pub enum SubclassSelector {
     #[tag("IdSelector")]
     Id(IdSelector),
@@ -118,7 +134,6 @@ pub enum AttributeSelectorMatcher {
 }
 
 #[ast_node]
-#[derive(Is)]
 pub enum AttributeSelectorValue {
     #[tag("String")]
     Str(Str),
@@ -130,7 +145,7 @@ pub enum AttributeSelectorValue {
 #[ast_node("AttributeSelector")]
 pub struct AttributeSelector {
     pub span: Span,
-    pub prefix: Option<Ident>,
+    pub prefix: Option<NsPrefix>,
     pub name: Ident,
     pub matcher: Option<AttributeSelectorMatcher>,
     pub value: Option<AttributeSelectorValue>,
@@ -138,7 +153,6 @@ pub struct AttributeSelector {
 }
 
 #[ast_node]
-#[derive(Is)]
 pub enum PseudoSelectorChildren {
     #[tag("Nth")]
     Nth(Nth),
@@ -164,7 +178,6 @@ pub struct AnPlusB {
 }
 
 #[ast_node]
-#[derive(Is)]
 pub enum NthValue {
     #[tag("AnPlusB")]
     AnPlusB(AnPlusB),

@@ -40,7 +40,7 @@ error: TypeSelector
 1 | * {}
   | ^
 
-error: Ident
+error: UniversalSelector
  --> $DIR/tests/fixture/esbuild/misc/eBC_tv-_FNqjWVMq-no99A/input.css:1:1
   |
 1 | * {}

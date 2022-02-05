@@ -46,6 +46,12 @@ error: AttributeSelector
 1 | [a|b |= "c"]{}
   | ^^^^^^^^^^^^
 
+error: NsPrefix
+ --> $DIR/tests/fixture/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:2
+  |
+1 | [a|b |= "c"]{}
+  |  ^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:2
   |

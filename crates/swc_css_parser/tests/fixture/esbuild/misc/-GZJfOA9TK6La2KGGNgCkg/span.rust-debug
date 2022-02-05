@@ -40,6 +40,12 @@ error: TypeSelector
 1 | div::before::after::selection::first-line::first-letter {color:red}
   | ^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1
+  |
+1 | div::before::after::selection::first-line::first-letter {color:red}
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1
   |

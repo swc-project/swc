@@ -46,6 +46,12 @@ error: AttributeSelector
 1 | [*|attr] {}
   | ^^^^^^^^
 
+error: NsPrefix
+ --> $DIR/tests/fixture/esbuild/misc/_XB1oeHz4bZ49LCE2cBI6g/input.css:1:2
+  |
+1 | [*|attr] {}
+  |  ^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/_XB1oeHz4bZ49LCE2cBI6g/input.css:1:2
   |

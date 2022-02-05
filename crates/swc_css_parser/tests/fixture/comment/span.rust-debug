@@ -55,6 +55,12 @@ error: TypeSelector
 1 | /* comment */a/* comment */
   |              ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/comment/input.css:1:14
+  |
+1 | /* comment */a/* comment */
+  |              ^
+
 error: Ident
  --> $DIR/tests/fixture/comment/input.css:1:14
   |
@@ -142,6 +148,12 @@ error: CompoundSelector
   | ^^^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/comment/input.css:9:1
+  |
+9 | div {
+  | ^^^
+
+error: TagNameSelector
  --> $DIR/tests/fixture/comment/input.css:9:1
   |
 9 | div {
@@ -263,6 +275,12 @@ error: CompoundSelector
    | ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/comment/input.css:18:1
+   |
+18 | a {
+   | ^
+
+error: TagNameSelector
   --> $DIR/tests/fixture/comment/input.css:18:1
    |
 18 | a {

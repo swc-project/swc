@@ -221,11 +221,27 @@ define!({
         pub value: CombinatorValue,
     }
 
-    pub struct TypeSelector {
+    pub enum TypeSelector {
+        TagName(TagNameSelector),
+        Universal(UniversalSelector),
+    }
+
+    pub struct TagNameSelector {
         pub span: Span,
-        pub prefix: Option<Ident>,
+        pub prefix: Option<NsPrefix>,
         pub name: Ident,
     }
+
+    pub struct UniversalSelector {
+        pub span: Span,
+        pub prefix: Option<NsPrefix>,
+    }
+    
+    pub struct NsPrefix {
+        pub span: Span,
+        pub prefix: Option<Ident>,
+    }
+
 
     pub struct NestingSelector {
         pub span: Span,
@@ -247,7 +263,7 @@ define!({
 
     pub struct AttributeSelector {
         pub span: Span,
-        pub prefix: Option<Ident>,
+        pub prefix: Option<NsPrefix>,
         pub name: Ident,
         pub matcher: Option<AttributeSelectorMatcher>,
         pub value: Option<AttributeSelectorValue>,

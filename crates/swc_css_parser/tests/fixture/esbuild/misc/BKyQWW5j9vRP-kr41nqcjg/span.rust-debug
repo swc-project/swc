@@ -40,6 +40,12 @@ error: TypeSelector
 1 | a { value: #\68 ash }
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/BKyQWW5j9vRP-kr41nqcjg/input.css:1:1
+  |
+1 | a { value: #\68 ash }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/BKyQWW5j9vRP-kr41nqcjg/input.css:1:1
   |

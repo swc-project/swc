@@ -886,6 +886,12 @@ error: AttributeSelector
 15 | [foo|att=val] {}
    | ^^^^^^^^^^^^^
 
+error: NsPrefix
+  --> $DIR/tests/fixture/selector/attribute/input.css:15:2
+   |
+15 | [foo|att=val] {}
+   |  ^^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:15:2
    |
@@ -952,6 +958,12 @@ error: AttributeSelector
 16 | [*|att] {}
    | ^^^^^^^
 
+error: NsPrefix
+  --> $DIR/tests/fixture/selector/attribute/input.css:16:2
+   |
+16 | [*|att] {}
+   |  ^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:16:2
    |
@@ -1011,6 +1023,12 @@ error: AttributeSelector
    |
 17 | [   *|att   ] {}
    | ^^^^^^^^^^^^^
+
+error: NsPrefix
+  --> $DIR/tests/fixture/selector/attribute/input.css:17:5
+   |
+17 | [   *|att   ] {}
+   |     ^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:17:5
@@ -1072,7 +1090,7 @@ error: AttributeSelector
 18 | [|att] {}
    | ^^^^^^
 
-error: Ident
+error: NsPrefix
   --> $DIR/tests/fixture/selector/attribute/input.css:18:2
    |
 18 | [|att] {}
@@ -1132,7 +1150,7 @@ error: AttributeSelector
 19 | [ |att ] {}
    | ^^^^^^^^
 
-error: Ident
+error: NsPrefix
   --> $DIR/tests/fixture/selector/attribute/input.css:19:3
    |
 19 | [ |att ] {}
@@ -1192,7 +1210,7 @@ error: AttributeSelector
 20 | [   |att   ] {}
    | ^^^^^^^^^^^^
 
-error: Ident
+error: NsPrefix
   --> $DIR/tests/fixture/selector/attribute/input.css:20:5
    |
 20 | [   |att   ] {}
@@ -1408,6 +1426,12 @@ error: TypeSelector
 24 | a[ class = "test" ] {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:24:1
+   |
+24 | a[ class = "test" ] {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:24:1
    |
@@ -1475,6 +1499,12 @@ error: CompoundSelector
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:25:1
+   |
+25 | a[   class   =   "test"   ] {}
+   | ^
+
+error: TagNameSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:25:1
    |
 25 | a[   class   =   "test"   ] {}
@@ -2218,6 +2248,12 @@ error: TypeSelector
 36 | a[href="te's't"] {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:36:1
+   |
+36 | a[href="te's't"] {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:36:1
    |
@@ -2285,6 +2321,12 @@ error: CompoundSelector
    | ^^^^^^^^^^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:37:1
+   |
+37 | a[href='te"s"t'] {}
+   | ^
+
+error: TagNameSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:37:1
    |
 37 | a[href='te"s"t'] {}

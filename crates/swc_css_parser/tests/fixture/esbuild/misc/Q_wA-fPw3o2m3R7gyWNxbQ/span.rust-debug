@@ -40,6 +40,12 @@ error: TypeSelector
 1 | a:after { content: '\invalid' }
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
+  |
+1 | a:after { content: '\invalid' }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
   |

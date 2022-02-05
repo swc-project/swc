@@ -568,6 +568,12 @@ error: TypeSelector
 8 | div#thing:hover {}
   | ^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/compound/input.css:8:1
+  |
+8 | div#thing:hover {}
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/compound/input.css:8:1
   |
@@ -652,6 +658,12 @@ error: TypeSelector
 9 | div#thing::before {}
   | ^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/compound/input.css:9:1
+  |
+9 | div#thing::before {}
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/compound/input.css:9:1
   |
@@ -731,6 +743,12 @@ error: CompoundSelector
    | ^^^^^^^^^^^^^^^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/compound/input.css:10:1
+   |
+10 | a[href='place']:hover {}
+   | ^
+
+error: TagNameSelector
   --> $DIR/tests/fixture/selector/compound/input.css:10:1
    |
 10 | a[href='place']:hover {}
@@ -821,6 +839,12 @@ error: CompoundSelector
    | ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/compound/input.css:11:1
+   |
+11 | a[href='place']::before {}
+   | ^
+
+error: TagNameSelector
   --> $DIR/tests/fixture/selector/compound/input.css:11:1
    |
 11 | a[href='place']::before {}
@@ -1006,6 +1030,12 @@ error: TypeSelector
 13 | button.btn-primary {}
    | ^^^^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/compound/input.css:13:1
+   |
+13 | button.btn-primary {}
+   | ^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/compound/input.css:13:1
    |
@@ -1072,7 +1102,7 @@ error: TypeSelector
 14 | *#z98y {}
    | ^
 
-error: Ident
+error: UniversalSelector
   --> $DIR/tests/fixture/selector/compound/input.css:14:1
    |
 14 | *#z98y {}

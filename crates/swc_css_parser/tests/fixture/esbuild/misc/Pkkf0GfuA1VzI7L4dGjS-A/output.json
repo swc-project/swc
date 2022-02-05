@@ -45,21 +45,29 @@
                   }
                 },
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 1,
                     "end": 4,
                     "ctxt": 0
                   },
                   "prefix": {
-                    "type": "Identifier",
+                    "type": "NsPrefix",
                     "span": {
                       "start": 1,
-                      "end": 2,
+                      "end": 3,
                       "ctxt": 0
                     },
-                    "value": "*",
-                    "raw": "*"
+                    "prefix": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1,
+                        "end": 2,
+                        "ctxt": 0
+                      },
+                      "value": "*",
+                      "raw": "*"
+                    }
                   },
                   "name": {
                     "type": "Identifier",

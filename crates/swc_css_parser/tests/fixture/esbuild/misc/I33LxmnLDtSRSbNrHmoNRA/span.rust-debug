@@ -40,6 +40,12 @@ error: TypeSelector
 1 | a + b {}
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/I33LxmnLDtSRSbNrHmoNRA/input.css:1:1
+  |
+1 | a + b {}
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/I33LxmnLDtSRSbNrHmoNRA/input.css:1:1
   |
@@ -59,6 +65,12 @@ error: CompoundSelector
   |     ^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/esbuild/misc/I33LxmnLDtSRSbNrHmoNRA/input.css:1:5
+  |
+1 | a + b {}
+  |     ^
+
+error: TagNameSelector
  --> $DIR/tests/fixture/esbuild/misc/I33LxmnLDtSRSbNrHmoNRA/input.css:1:5
   |
 1 | a + b {}

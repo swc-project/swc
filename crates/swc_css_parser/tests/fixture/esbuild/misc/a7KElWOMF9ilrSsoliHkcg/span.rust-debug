@@ -40,6 +40,12 @@ error: TypeSelector
 1 | a { color: #AABBCDDD }
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1
+  |
+1 | a { color: #AABBCDDD }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1
   |

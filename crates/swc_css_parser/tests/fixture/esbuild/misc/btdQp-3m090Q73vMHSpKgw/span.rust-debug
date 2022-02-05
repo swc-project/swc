@@ -40,6 +40,18 @@ error: TypeSelector
 1 | \2a|div {}
   | ^^^^^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1
+  |
+1 | \2a|div {}
+  | ^^^^^^^
+
+error: NsPrefix
+ --> $DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1
+  |
+1 | \2a|div {}
+  | ^^^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1
   |
