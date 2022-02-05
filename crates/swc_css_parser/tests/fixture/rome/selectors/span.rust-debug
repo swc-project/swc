@@ -697,6 +697,18 @@ error: Str
 21 | a[title~="title" i] {
    |          ^^^^^^^
 
+error: AttributeSelectorModifier
+  --> $DIR/tests/fixture/rome/selectors/input.css:21:18
+   |
+21 | a[title~="title" i] {
+   |                  ^
+
+error: Ident
+  --> $DIR/tests/fixture/rome/selectors/input.css:21:18
+   |
+21 | a[title~="title" i] {
+   |                  ^
+
 error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:21:21
    |
@@ -835,6 +847,18 @@ error: Str
    |
 25 | a[title = "title"][href*="image/*" S] {
    |                          ^^^^^^^^^
+
+error: AttributeSelectorModifier
+  --> $DIR/tests/fixture/rome/selectors/input.css:25:36
+   |
+25 | a[title = "title"][href*="image/*" S] {
+   |                                    ^
+
+error: Ident
+  --> $DIR/tests/fixture/rome/selectors/input.css:25:36
+   |
+25 | a[title = "title"][href*="image/*" S] {
+   |                                    ^
 
 error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:25:39

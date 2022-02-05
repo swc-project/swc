@@ -658,6 +658,18 @@ error: Str
 11 | [href*="insensitive" i] {}
    |        ^^^^^^^^^^^^^
 
+error: AttributeSelectorModifier
+  --> $DIR/tests/fixture/selector/attribute/input.css:11:22
+   |
+11 | [href*="insensitive" i] {}
+   |                      ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/attribute/input.css:11:22
+   |
+11 | [href*="insensitive" i] {}
+   |                      ^
+
 error: Block
   --> $DIR/tests/fixture/selector/attribute/input.css:11:25
    |
@@ -717,6 +729,18 @@ error: Str
    |
 12 | [href*="insensitive" I] {}
    |        ^^^^^^^^^^^^^
+
+error: AttributeSelectorModifier
+  --> $DIR/tests/fixture/selector/attribute/input.css:12:22
+   |
+12 | [href*="insensitive" I] {}
+   |                      ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/attribute/input.css:12:22
+   |
+12 | [href*="insensitive" I] {}
+   |                      ^
 
 error: Block
   --> $DIR/tests/fixture/selector/attribute/input.css:12:25
@@ -778,6 +802,18 @@ error: Str
 13 | [href*="cAsE" s] {}
    |        ^^^^^^
 
+error: AttributeSelectorModifier
+  --> $DIR/tests/fixture/selector/attribute/input.css:13:15
+   |
+13 | [href*="cAsE" s] {}
+   |               ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/attribute/input.css:13:15
+   |
+13 | [href*="cAsE" s] {}
+   |               ^
+
 error: Block
   --> $DIR/tests/fixture/selector/attribute/input.css:13:18
    |
@@ -837,6 +873,18 @@ error: Str
    |
 14 | [href*="cAsE" S] {}
    |        ^^^^^^
+
+error: AttributeSelectorModifier
+  --> $DIR/tests/fixture/selector/attribute/input.css:14:15
+   |
+14 | [href*="cAsE" S] {}
+   |               ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/attribute/input.css:14:15
+   |
+14 | [href*="cAsE" S] {}
+   |               ^
 
 error: Block
   --> $DIR/tests/fixture/selector/attribute/input.css:14:18
@@ -1600,6 +1648,18 @@ error: Str
 26 | [href*="insensitive"   i] {}
    |        ^^^^^^^^^^^^^
 
+error: AttributeSelectorModifier
+  --> $DIR/tests/fixture/selector/attribute/input.css:26:24
+   |
+26 | [href*="insensitive"   i] {}
+   |                        ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/attribute/input.css:26:24
+   |
+26 | [href*="insensitive"   i] {}
+   |                        ^
+
 error: Block
   --> $DIR/tests/fixture/selector/attribute/input.css:26:27
    |
@@ -1660,6 +1720,18 @@ error: Str
 27 | [   href*="insensitive"   i   ] {}
    |           ^^^^^^^^^^^^^
 
+error: AttributeSelectorModifier
+  --> $DIR/tests/fixture/selector/attribute/input.css:27:27
+   |
+27 | [   href*="insensitive"   i   ] {}
+   |                           ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/attribute/input.css:27:27
+   |
+27 | [   href*="insensitive"   i   ] {}
+   |                           ^
+
 error: Block
   --> $DIR/tests/fixture/selector/attribute/input.css:27:33
    |
@@ -1719,6 +1791,18 @@ error: Str
    |
 28 | [   href   *=   "insensitive"   i   ] {}
    |                 ^^^^^^^^^^^^^
+
+error: AttributeSelectorModifier
+  --> $DIR/tests/fixture/selector/attribute/input.css:28:33
+   |
+28 | [   href   *=   "insensitive"   i   ] {}
+   |                                 ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/attribute/input.css:28:33
+   |
+28 | [   href   *=   "insensitive"   i   ] {}
+   |                                 ^
 
 error: Block
   --> $DIR/tests/fixture/selector/attribute/input.css:28:39
@@ -1833,6 +1917,18 @@ error: Ident
    |
 30 | [frame=hsides i] {}
    |        ^^^^^^
+
+error: AttributeSelectorModifier
+  --> $DIR/tests/fixture/selector/attribute/input.css:30:15
+   |
+30 | [frame=hsides i] {}
+   |               ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/attribute/input.css:30:15
+   |
+30 | [frame=hsides i] {}
+   |               ^
 
 error: Block
   --> $DIR/tests/fixture/selector/attribute/input.css:30:18

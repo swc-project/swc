@@ -1342,7 +1342,7 @@ where
 
         emit!(self, n.value);
 
-        if let Some(m) = &n.modifier {
+        if n.modifier.is_some() {
             match n.value {
                 Some(AttributeSelectorValue::Str(_)) => {
                     formatting_space!(self);
@@ -1353,10 +1353,15 @@ where
                 _ => {}
             }
 
-            self.wr.write_raw_char(None, *m)?;
+            emit!(self, n.modifier);
         }
 
         punct!(self, "]");
+    }
+
+    #[emitter]
+    fn emit_attribute_selector_modifier(&mut self, n: &AttributeSelectorModifier) -> Result {
+        emit!(self, n.value);
     }
 
     #[emitter]

@@ -497,23 +497,15 @@ where
             let span = self.input.cur_span()?;
 
             value = match cur!(self) {
-                Token::Ident { .. } => {
+                tok!("ident") => {
                     let ident = self.parse()?;
 
                     Some(AttributeSelectorValue::Ident(ident))
                 }
-                Token::Str { .. } => {
-                    let value = bump!(self);
-                    let str = match value {
-                        Token::Str { value, raw } => (value, raw),
-                        _ => unreachable!(),
-                    };
+                tok!("str") => {
+                    let string = self.parse()?;
 
-                    Some(AttributeSelectorValue::Str(Str {
-                        span,
-                        value: str.0,
-                        raw: str.1,
-                    }))
+                    Some(AttributeSelectorValue::Str(string))
                 }
                 _ => return Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcherValue)),
             };
@@ -521,16 +513,7 @@ where
             self.input.skip_ws()?;
 
             if is!(self, Ident) {
-                let span = self.input.cur_span()?;
-
-                match self.input.cur()? {
-                    Some(Token::Ident { value, .. }) => {
-                        modifier = value.chars().next();
-
-                        bump!(self);
-                    }
-                    _ => return Err(Error::new(span, ErrorKind::InvalidAttrSelectorModifier)),
-                }
+                modifier = Some(self.parse()?);
             }
 
             self.input.skip_ws()?;
@@ -546,6 +529,27 @@ where
             value,
             modifier,
         })
+    }
+}
+
+impl<I> Parse<AttributeSelectorModifier> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<AttributeSelectorModifier> {
+        let span = self.input.cur_span()?;
+
+        match cur!(self) {
+            tok!("ident") => {
+                let value = self.parse()?;
+
+                Ok(AttributeSelectorModifier {
+                    span: span!(self, span.lo),
+                    value,
+                })
+            }
+            _ => return Err(Error::new(span, ErrorKind::InvalidAttrSelectorModifier)),
+        }
     }
 }
 

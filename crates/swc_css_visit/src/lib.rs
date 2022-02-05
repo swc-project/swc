@@ -236,12 +236,11 @@ define!({
         pub span: Span,
         pub prefix: Option<NsPrefix>,
     }
-    
+
     pub struct NsPrefix {
         pub span: Span,
         pub prefix: Option<Ident>,
     }
-
 
     pub struct NestingSelector {
         pub span: Span,
@@ -256,18 +255,23 @@ define!({
         At(AtSelector),
     }
 
-    pub enum AttributeSelectorValue {
-        Str(Str),
-        Ident(Ident),
-    }
-
     pub struct AttributeSelector {
         pub span: Span,
         pub prefix: Option<NsPrefix>,
         pub name: Ident,
         pub matcher: Option<AttributeSelectorMatcher>,
         pub value: Option<AttributeSelectorValue>,
-        pub modifier: Option<char>,
+        pub modifier: Option<AttributeSelectorModifier>,
+    }
+
+    pub enum AttributeSelectorValue {
+        Str(Str),
+        Ident(Ident),
+    }
+
+    pub struct AttributeSelectorModifier {
+        pub span: Span,
+        pub value: Ident,
     }
 
     pub enum PseudoSelectorChildren {
@@ -314,11 +318,6 @@ define!({
     }
 
     pub struct ClassSelector {
-        pub span: Span,
-        pub text: Ident,
-    }
-
-    pub struct TagSelector {
         pub span: Span,
         pub text: Ident,
     }

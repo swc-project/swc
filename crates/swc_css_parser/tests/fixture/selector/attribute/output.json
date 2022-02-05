@@ -859,7 +859,24 @@
                       "value": "insensitive",
                       "raw": "\"insensitive\""
                     },
-                    "modifier": "i"
+                    "modifier": {
+                      "type": "AttributeSelectorModifier",
+                      "span": {
+                        "start": 203,
+                        "end": 204,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 203,
+                          "end": 204,
+                          "ctxt": 0
+                        },
+                        "value": "i",
+                        "raw": "i"
+                      }
+                    }
                   }
                 ]
               }
@@ -939,7 +956,24 @@
                       "value": "insensitive",
                       "raw": "\"insensitive\""
                     },
-                    "modifier": "I"
+                    "modifier": {
+                      "type": "AttributeSelectorModifier",
+                      "span": {
+                        "start": 230,
+                        "end": 231,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 230,
+                          "end": 231,
+                          "ctxt": 0
+                        },
+                        "value": "I",
+                        "raw": "I"
+                      }
+                    }
                   }
                 ]
               }
@@ -1019,7 +1053,24 @@
                       "value": "cAsE",
                       "raw": "\"cAsE\""
                     },
-                    "modifier": "s"
+                    "modifier": {
+                      "type": "AttributeSelectorModifier",
+                      "span": {
+                        "start": 250,
+                        "end": 251,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 250,
+                          "end": 251,
+                          "ctxt": 0
+                        },
+                        "value": "s",
+                        "raw": "s"
+                      }
+                    }
                   }
                 ]
               }
@@ -1099,7 +1150,24 @@
                       "value": "cAsE",
                       "raw": "\"cAsE\""
                     },
-                    "modifier": "S"
+                    "modifier": {
+                      "type": "AttributeSelectorModifier",
+                      "span": {
+                        "start": 270,
+                        "end": 271,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 270,
+                          "end": 271,
+                          "ctxt": 0
+                        },
+                        "value": "S",
+                        "raw": "S"
+                      }
+                    }
                   }
                 ]
               }
@@ -2098,7 +2166,24 @@
                       "value": "insensitive",
                       "raw": "\"insensitive\""
                     },
-                    "modifier": "i"
+                    "modifier": {
+                      "type": "AttributeSelectorModifier",
+                      "span": {
+                        "start": 471,
+                        "end": 472,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 471,
+                          "end": 472,
+                          "ctxt": 0
+                        },
+                        "value": "i",
+                        "raw": "i"
+                      }
+                    }
                   }
                 ]
               }
@@ -2178,7 +2263,24 @@
                       "value": "insensitive",
                       "raw": "\"insensitive\""
                     },
-                    "modifier": "i"
+                    "modifier": {
+                      "type": "AttributeSelectorModifier",
+                      "span": {
+                        "start": 503,
+                        "end": 504,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 503,
+                          "end": 504,
+                          "ctxt": 0
+                        },
+                        "value": "i",
+                        "raw": "i"
+                      }
+                    }
                   }
                 ]
               }
@@ -2258,7 +2360,24 @@
                       "value": "insensitive",
                       "raw": "\"insensitive\""
                     },
-                    "modifier": "i"
+                    "modifier": {
+                      "type": "AttributeSelectorModifier",
+                      "span": {
+                        "start": 544,
+                        "end": 545,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 544,
+                          "end": 545,
+                          "ctxt": 0
+                        },
+                        "value": "i",
+                        "raw": "i"
+                      }
+                    }
                   }
                 ]
               }
@@ -2409,7 +2528,24 @@
                       "value": "hsides",
                       "raw": "hsides"
                     },
-                    "modifier": "i"
+                    "modifier": {
+                      "type": "AttributeSelectorModifier",
+                      "span": {
+                        "start": 583,
+                        "end": 584,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 583,
+                          "end": 584,
+                          "ctxt": 0
+                        },
+                        "value": "i",
+                        "raw": "i"
+                      }
+                    }
                   }
                 ]
               }

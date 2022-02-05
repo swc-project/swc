@@ -68,7 +68,24 @@
                       "value": "c",
                       "raw": "\"c\""
                     },
-                    "modifier": "i"
+                    "modifier": {
+                      "type": "AttributeSelectorModifier",
+                      "span": {
+                        "start": 9,
+                        "end": 10,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 9,
+                          "end": 10,
+                          "ctxt": 0
+                        },
+                        "value": "i",
+                        "raw": "i"
+                      }
+                    }
                   }
                 ]
               }

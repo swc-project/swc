@@ -58,6 +58,18 @@ error: Str
 1 | [b = "c" I] {}
   |      ^^^
 
+error: AttributeSelectorModifier
+ --> $DIR/tests/fixture/esbuild/misc/pOZgFOB3GdVvQ0hiAsWfpQ/input.css:1:10
+  |
+1 | [b = "c" I] {}
+  |          ^
+
+error: Ident
+ --> $DIR/tests/fixture/esbuild/misc/pOZgFOB3GdVvQ0hiAsWfpQ/input.css:1:10
+  |
+1 | [b = "c" I] {}
+  |          ^
+
 error: Block
  --> $DIR/tests/fixture/esbuild/misc/pOZgFOB3GdVvQ0hiAsWfpQ/input.css:1:13
   |

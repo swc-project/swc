@@ -799,7 +799,24 @@
                       "value": "title",
                       "raw": "\"title\""
                     },
-                    "modifier": "i"
+                    "modifier": {
+                      "type": "AttributeSelectorModifier",
+                      "span": {
+                        "start": 177,
+                        "end": 178,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 177,
+                          "end": 178,
+                          "ctxt": 0
+                        },
+                        "value": "i",
+                        "raw": "i"
+                      }
+                    }
                   }
                 ]
               }
@@ -960,7 +977,24 @@
                       "value": "image/*",
                       "raw": "\"image/*\""
                     },
-                    "modifier": "S"
+                    "modifier": {
+                      "type": "AttributeSelectorModifier",
+                      "span": {
+                        "start": 237,
+                        "end": 238,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 237,
+                          "end": 238,
+                          "ctxt": 0
+                        },
+                        "value": "S",
+                        "raw": "S"
+                      }
+                    }
                   }
                 ]
               }
