@@ -582,7 +582,6 @@ impl Legacy {
                                     },
                                 }))
                             } else {
-                                // undefined(DUMMY_SP)
                                 Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })))
                             },
                         }))),
