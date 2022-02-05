@@ -1006,7 +1006,13 @@ where
     fn emit_hex_color(&mut self, n: &HexColor) -> Result {
         punct!(self, "#");
 
-        self.wr.write_raw(Some(n.span), &n.raw)?;
+        if self.config.minify {
+            let minified = minify_hex_color(&n.value);
+
+            self.wr.write_raw(Some(n.span), &minified)?;
+        } else {
+            self.wr.write_raw(Some(n.span), &n.raw)?;
+        }
     }
 
     #[emitter]
@@ -1445,4 +1451,38 @@ where
 
         Ok(())
     }
+}
+
+fn minify_hex_color(value: &str) -> String {
+    let length = value.len();
+
+    if length == 6 || length == 8 {
+        let chars = value.as_bytes();
+
+        if chars[0] == chars[1] && chars[2] == chars[3] && chars[4] == chars[5] {
+            // 6 -> 3 or 8 -> 3
+            if length == 6 || chars[6] == b'f' && chars[7] == b'f' {
+                let mut minified = String::new();
+
+                minified.push((chars[0] as char).to_ascii_lowercase());
+                minified.push((chars[2] as char).to_ascii_lowercase());
+                minified.push((chars[4] as char).to_ascii_lowercase());
+
+                return minified;
+            }
+            // 8 -> 4
+            else if length == 8 && chars[6] == chars[7] {
+                let mut minified = String::new();
+
+                minified.push((chars[0] as char).to_ascii_lowercase());
+                minified.push((chars[2] as char).to_ascii_lowercase());
+                minified.push((chars[4] as char).to_ascii_lowercase());
+                minified.push((chars[6] as char).to_ascii_lowercase());
+
+                return minified;
+            }
+        }
+    }
+
+    value.to_ascii_lowercase()
 }

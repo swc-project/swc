@@ -27,7 +27,7 @@ function _interopRequireWildcard(obj) {
 }
 async function getPackage() {
     const pkg = await Promise.resolve().then(function() {
-        return _interopRequireWildcard(require(join(process.cwd(), 'package.json')));
+        return _interopRequireWildcard(require((0, _path).join(process.cwd(), 'package.json')));
     });
     return pkg.default || pkg;
 }

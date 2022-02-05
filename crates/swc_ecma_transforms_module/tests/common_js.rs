@@ -4324,6 +4324,24 @@ test!(
     |_| tr(Config {
         ..Default::default()
     }),
+    issue_3438,
+    "import { foo } from 'bar';
+
+  import(`world/${foo(baz)}.js`);
+  ",
+    r#""use strict";
+  var _bar = require("bar");
+  Promise.resolve().then(function() {
+    return _interopRequireWildcard(require(`world/${(0, _bar).foo(baz)}.js`));
+  });
+  "#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
     issue_1043_1,
     "
   export * from './http';
