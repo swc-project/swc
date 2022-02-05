@@ -221,166 +221,6 @@ where
         Ok(None)
     }
 
-    fn parse_id_selector(&mut self) -> PResult<IdSelector> {
-        let span = self.input.cur_span()?;
-        let text = match bump!(self) {
-            Token::Hash {
-                is_id, value, raw, ..
-            } => {
-                if !is_id {
-                    return Err(Error::new(
-                        span,
-                        ErrorKind::Expected("identifier in id selector"),
-                    ));
-                }
-
-                Ident { span, value, raw }
-            }
-            _ => {
-                unreachable!()
-            }
-        };
-
-        Ok(IdSelector {
-            span: span!(self, span.lo),
-            text,
-        })
-    }
-
-    fn parse_class_selector(&mut self) -> PResult<ClassSelector> {
-        let start_pos = self.input.cur_span()?.lo;
-
-        bump!(self);
-
-        let span = self.input.cur_span()?;
-
-        match cur!(self) {
-            Token::Ident { .. } => {}
-            _ => Err(Error::new(span, ErrorKind::ExpectedSelectorText))?,
-        }
-
-        let text = self.parse()?;
-
-        Ok(ClassSelector {
-            span: span!(self, start_pos),
-            text,
-        })
-    }
-
-    fn parse_attribute_selector(&mut self) -> PResult<AttrSelector> {
-        let start_pos = self.input.cur_span()?.lo;
-
-        expect!(self, "[");
-
-        self.input.skip_ws()?;
-
-        let prefix;
-        let name;
-        let mut attr_matcher = None;
-        let mut matcher_value = None;
-        let mut matcher_modifier = None;
-
-        if let Ok((p, Some(n))) = self.parse_wq_name() {
-            prefix = p;
-            name = n;
-        } else {
-            return Err(Error::new(
-                span!(self, start_pos),
-                ErrorKind::InvalidAttrSelectorName,
-            ));
-        }
-
-        self.input.skip_ws()?;
-
-        if !is!(self, "]") {
-            let span = self.input.cur_span()?;
-
-            attr_matcher = match cur!(self) {
-                tok!("~") | tok!("|") | tok!("^") | tok!("$") | tok!("*") => {
-                    let tok = bump!(self);
-
-                    expect!(self, "=");
-
-                    Some(match tok {
-                        tok!("~") => AttrSelectorMatcher::Tilde,
-                        tok!("|") => AttrSelectorMatcher::Bar,
-                        tok!("^") => AttrSelectorMatcher::Caret,
-                        tok!("$") => AttrSelectorMatcher::Dollar,
-                        tok!("*") => AttrSelectorMatcher::Asterisk,
-                        _ => {
-                            unreachable!()
-                        }
-                    })
-                }
-                tok!("=") => {
-                    let tok = bump!(self);
-
-                    Some(match tok {
-                        tok!("=") => AttrSelectorMatcher::Equals,
-                        _ => {
-                            unreachable!()
-                        }
-                    })
-                }
-                _ => Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcher))?,
-            };
-
-            self.input.skip_ws()?;
-
-            let span = self.input.cur_span()?;
-
-            matcher_value = match cur!(self) {
-                Token::Ident { .. } => {
-                    let ident = self.parse()?;
-
-                    Some(AttrSelectorValue::Ident(ident))
-                }
-                Token::Str { .. } => {
-                    let value = bump!(self);
-                    let str = match value {
-                        Token::Str { value, raw } => (value, raw),
-                        _ => unreachable!(),
-                    };
-
-                    Some(AttrSelectorValue::Str(Str {
-                        span,
-                        value: str.0,
-                        raw: str.1,
-                    }))
-                }
-                _ => return Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcherValue)),
-            };
-
-            self.input.skip_ws()?;
-
-            if is!(self, Ident) {
-                let span = self.input.cur_span()?;
-
-                match self.input.cur()? {
-                    Some(Token::Ident { value, .. }) => {
-                        matcher_modifier = value.chars().next();
-
-                        bump!(self);
-                    }
-                    _ => return Err(Error::new(span, ErrorKind::InvalidAttrSelectorModifier)),
-                }
-            }
-
-            self.input.skip_ws()?;
-        }
-
-        expect!(self, "]");
-
-        Ok(AttrSelector {
-            span: span!(self, start_pos),
-            prefix,
-            name,
-            matcher: attr_matcher,
-            value: matcher_value,
-            modifier: matcher_modifier,
-        })
-    }
-
     fn parse_nth(&mut self) -> PResult<Nth> {
         self.input.skip_ws()?;
 
@@ -644,112 +484,12 @@ where
         Ok(nth)
     }
 
-    fn parse_pseudo_class_selector(&mut self) -> PResult<PseudoClassSelector> {
-        let span = self.input.cur_span()?;
-
-        expect!(self, ":"); // `:`
-
-        if is!(self, Function) {
-            let fn_span = self.input.cur_span()?;
-            let name = bump!(self);
-            let names = match name {
-                Token::Function { value, raw } => (value, raw),
-                _ => unreachable!(),
-            };
-
-            let children = match &*names.0.to_ascii_lowercase() {
-                "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type" => {
-                    let state = self.input.state();
-                    let nth = self.parse_nth();
-
-                    match nth {
-                        Ok(nth) => PseudoSelectorChildren::Nth(nth),
-                        Err(_) => {
-                            self.input.reset(&state);
-
-                            PseudoSelectorChildren::Tokens(self.parse_any_value()?)
-                        }
-                    }
-                }
-                _ => PseudoSelectorChildren::Tokens(self.parse_any_value()?),
-            };
-
-            expect!(self, ")");
-
-            return Ok(PseudoClassSelector {
-                span: span!(self, span.lo),
-                name: Ident {
-                    span: Span::new(fn_span.lo, fn_span.hi - BytePos(1), Default::default()),
-                    value: names.0,
-                    raw: names.1,
-                },
-                children: Some(children),
-            });
-        } else if is!(self, Ident) {
-            let name = self.parse()?;
-
-            return Ok(PseudoClassSelector {
-                span: span!(self, span.lo),
-                name,
-                children: None,
-            });
-        }
-
-        let span = self.input.cur_span()?;
-
-        return Err(Error::new(span, ErrorKind::InvalidSelector));
-    }
-
-    fn parse_pseudo_element_selector(&mut self) -> PResult<PseudoElementSelector> {
-        let span = self.input.cur_span()?;
-
-        expect!(self, ":"); // `:`
-        expect!(self, ":"); // `:`
-
-        if is!(self, Function) {
-            let fn_span = self.input.cur_span()?;
-            let name = bump!(self);
-            let names = match name {
-                Token::Function { value, raw } => (value, raw),
-                _ => unreachable!(),
-            };
-
-            let children = self.parse_any_value()?;
-
-            expect!(self, ")");
-
-            return Ok(PseudoElementSelector {
-                span: span!(self, span.lo),
-                name: Ident {
-                    span: Span::new(fn_span.lo, fn_span.hi - BytePos(1), Default::default()),
-                    value: names.0,
-                    raw: names.1,
-                },
-                children: Some(children),
-            });
-        } else if is!(self, Ident) {
-            let name = self.parse()?;
-
-            return Ok(PseudoElementSelector {
-                span: span!(self, span.lo),
-                name,
-                children: None,
-            });
-        }
-
-        let span = self.input.cur_span()?;
-
-        return Err(Error::new(span, ErrorKind::InvalidSelector));
-    }
-
     fn parse_subclass_selector(&mut self) -> PResult<SubclassSelector> {
         match cur!(self) {
-            tok!("#") => Ok(SubclassSelector::Id(self.parse_id_selector()?)),
-            tok!(".") => Ok(SubclassSelector::Class(self.parse_class_selector()?)),
-            tok!("[") => Ok(SubclassSelector::Attr(self.parse_attribute_selector()?)),
-            tok!(":") => Ok(SubclassSelector::PseudoClass(
-                self.parse_pseudo_class_selector()?,
-            )),
+            tok!("#") => Ok(SubclassSelector::Id(self.parse()?)),
+            tok!(".") => Ok(SubclassSelector::Class(self.parse()?)),
+            tok!("[") => Ok(SubclassSelector::Attr(self.parse()?)),
+            tok!(":") => Ok(SubclassSelector::PseudoClass(self.parse()?)),
             // TODO remove me from here
             Token::AtKeyword { .. } if self.ctx.allow_at_selector => {
                 let span = self.input.cur_span()?;
@@ -820,8 +560,7 @@ where
             }
 
             // TODO pseudo element is not subclass selector
-            let pseudo_element =
-                SubclassSelector::PseudoElement(self.parse_pseudo_element_selector()?);
+            let pseudo_element = SubclassSelector::PseudoElement(self.parse()?);
 
             subclass_selectors.push(pseudo_element);
 
@@ -830,8 +569,7 @@ where
                     break;
                 }
 
-                let pseudo_element =
-                    SubclassSelector::PseudoClass(self.parse_pseudo_class_selector()?);
+                let pseudo_element = SubclassSelector::PseudoClass(self.parse()?);
 
                 subclass_selectors.push(pseudo_element);
             }
@@ -867,5 +605,282 @@ where
 {
     fn parse(&mut self) -> PResult<ComplexSelector> {
         self.parse_complex_selector()
+    }
+}
+
+impl<I> Parse<IdSelector> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<IdSelector> {
+        let span = self.input.cur_span()?;
+        let text = match bump!(self) {
+            Token::Hash {
+                is_id, value, raw, ..
+            } => {
+                if !is_id {
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected("identifier in id selector"),
+                    ));
+                }
+
+                Ident { span, value, raw }
+            }
+            _ => {
+                unreachable!()
+            }
+        };
+
+        Ok(IdSelector {
+            span: span!(self, span.lo),
+            text,
+        })
+    }
+}
+
+impl<I> Parse<ClassSelector> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ClassSelector> {
+        let span = self.input.cur_span()?;
+
+        expect!(self, ".");
+
+        let text = self.parse()?;
+
+        Ok(ClassSelector {
+            span: span!(self, span.lo),
+            text,
+        })
+    }
+}
+
+// TODO rename
+impl<I> Parse<AttrSelector> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<AttrSelector> {
+        let start_pos = self.input.cur_span()?.lo;
+
+        expect!(self, "[");
+
+        self.input.skip_ws()?;
+
+        let prefix;
+        let name;
+        let mut attr_matcher = None;
+        let mut matcher_value = None;
+        let mut matcher_modifier = None;
+
+        if let Ok((p, Some(n))) = self.parse_wq_name() {
+            prefix = p;
+            name = n;
+        } else {
+            return Err(Error::new(
+                span!(self, start_pos),
+                ErrorKind::InvalidAttrSelectorName,
+            ));
+        }
+
+        self.input.skip_ws()?;
+
+        if !is!(self, "]") {
+            let span = self.input.cur_span()?;
+
+            attr_matcher = match cur!(self) {
+                tok!("~") | tok!("|") | tok!("^") | tok!("$") | tok!("*") => {
+                    let tok = bump!(self);
+
+                    expect!(self, "=");
+
+                    Some(match tok {
+                        tok!("~") => AttrSelectorMatcher::Tilde,
+                        tok!("|") => AttrSelectorMatcher::Bar,
+                        tok!("^") => AttrSelectorMatcher::Caret,
+                        tok!("$") => AttrSelectorMatcher::Dollar,
+                        tok!("*") => AttrSelectorMatcher::Asterisk,
+                        _ => {
+                            unreachable!()
+                        }
+                    })
+                }
+                tok!("=") => {
+                    let tok = bump!(self);
+
+                    Some(match tok {
+                        tok!("=") => AttrSelectorMatcher::Equals,
+                        _ => {
+                            unreachable!()
+                        }
+                    })
+                }
+                _ => Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcher))?,
+            };
+
+            self.input.skip_ws()?;
+
+            let span = self.input.cur_span()?;
+
+            matcher_value = match cur!(self) {
+                Token::Ident { .. } => {
+                    let ident = self.parse()?;
+
+                    Some(AttrSelectorValue::Ident(ident))
+                }
+                Token::Str { .. } => {
+                    let value = bump!(self);
+                    let str = match value {
+                        Token::Str { value, raw } => (value, raw),
+                        _ => unreachable!(),
+                    };
+
+                    Some(AttrSelectorValue::Str(Str {
+                        span,
+                        value: str.0,
+                        raw: str.1,
+                    }))
+                }
+                _ => return Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcherValue)),
+            };
+
+            self.input.skip_ws()?;
+
+            if is!(self, Ident) {
+                let span = self.input.cur_span()?;
+
+                match self.input.cur()? {
+                    Some(Token::Ident { value, .. }) => {
+                        matcher_modifier = value.chars().next();
+
+                        bump!(self);
+                    }
+                    _ => return Err(Error::new(span, ErrorKind::InvalidAttrSelectorModifier)),
+                }
+            }
+
+            self.input.skip_ws()?;
+        }
+
+        expect!(self, "]");
+
+        Ok(AttrSelector {
+            span: span!(self, start_pos),
+            prefix,
+            name,
+            matcher: attr_matcher,
+            value: matcher_value,
+            modifier: matcher_modifier,
+        })
+    }
+}
+
+impl<I> Parse<PseudoClassSelector> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PseudoClassSelector> {
+        let span = self.input.cur_span()?;
+
+        expect!(self, ":"); // `:`
+
+        if is!(self, Function) {
+            let fn_span = self.input.cur_span()?;
+            let name = bump!(self);
+            let names = match name {
+                Token::Function { value, raw } => (value, raw),
+                _ => unreachable!(),
+            };
+
+            let children = match &*names.0.to_ascii_lowercase() {
+                "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type" => {
+                    let state = self.input.state();
+                    let nth = self.parse_nth();
+
+                    match nth {
+                        Ok(nth) => PseudoSelectorChildren::Nth(nth),
+                        Err(_) => {
+                            self.input.reset(&state);
+
+                            PseudoSelectorChildren::Tokens(self.parse_any_value()?)
+                        }
+                    }
+                }
+                _ => PseudoSelectorChildren::Tokens(self.parse_any_value()?),
+            };
+
+            expect!(self, ")");
+
+            return Ok(PseudoClassSelector {
+                span: span!(self, span.lo),
+                name: Ident {
+                    span: Span::new(fn_span.lo, fn_span.hi - BytePos(1), Default::default()),
+                    value: names.0,
+                    raw: names.1,
+                },
+                children: Some(children),
+            });
+        } else if is!(self, Ident) {
+            let name = self.parse()?;
+
+            return Ok(PseudoClassSelector {
+                span: span!(self, span.lo),
+                name,
+                children: None,
+            });
+        }
+
+        let span = self.input.cur_span()?;
+
+        return Err(Error::new(span, ErrorKind::InvalidSelector));
+    }
+}
+
+impl<I> Parse<PseudoElementSelector> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PseudoElementSelector> {
+        let span = self.input.cur_span()?;
+
+        expect!(self, ":"); // `:`
+        expect!(self, ":"); // `:`
+
+        if is!(self, Function) {
+            let fn_span = self.input.cur_span()?;
+            let name = bump!(self);
+            let names = match name {
+                Token::Function { value, raw } => (value, raw),
+                _ => unreachable!(),
+            };
+
+            let children = self.parse_any_value()?;
+
+            expect!(self, ")");
+
+            return Ok(PseudoElementSelector {
+                span: span!(self, span.lo),
+                name: Ident {
+                    span: Span::new(fn_span.lo, fn_span.hi - BytePos(1), Default::default()),
+                    value: names.0,
+                    raw: names.1,
+                },
+                children: Some(children),
+            });
+        } else if is!(self, Ident) {
+            let name = self.parse()?;
+
+            return Ok(PseudoElementSelector {
+                span: span!(self, span.lo),
+                name,
+                children: None,
+            });
+        }
+
+        let span = self.input.cur_span()?;
+
+        return Err(Error::new(span, ErrorKind::InvalidSelector));
     }
 }
