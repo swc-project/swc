@@ -2612,7 +2612,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.121.4"
+version = "0.121.5"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3042,7 +3042,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.115.1"
+version = "0.115.2"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3141,7 +3141,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.76.0"
+version = "0.76.1"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3311,7 +3311,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.112.3"
+version = "0.112.4"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
