@@ -61,7 +61,7 @@ fn pass(input: PathBuf) {
         HANDLER.set(handler, || {
             if let Program::Module(m) = &program {
                 for mut rule in rules {
-                    rule.lint_module(&m);
+                    rule.lint_module(m);
                 }
             }
         });

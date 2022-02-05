@@ -418,6 +418,12 @@ impl Options {
             );
 
         let pass = chain!(
+            lint_to_fold(swc_ecma_lints::rules::all(LintParams {
+                program: &program,
+                lint_config: &lints,
+                top_level_ctxt,
+                es_version,
+            })),
             // Decorators may use type information
             Optional::new(
                 decorators(decorators::Config {
@@ -442,12 +448,6 @@ impl Options {
                 ),
                 syntax.typescript()
             ),
-            lint_to_fold(swc_ecma_lints::rules::all(LintParams {
-                program: &program,
-                lint_config: &lints,
-                top_level_ctxt,
-                es_version,
-            })),
             crate::plugin::plugins(experimental),
             custom_before_pass(&program),
             // handle jsx
