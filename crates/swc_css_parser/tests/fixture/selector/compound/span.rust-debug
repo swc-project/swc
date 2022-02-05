@@ -778,6 +778,18 @@ error: Ident
 10 | a[href='place']:hover {}
    |   ^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/compound/input.css:10:7
+   |
+10 | a[href='place']:hover {}
+   |       ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/compound/input.css:10:8
+   |
+10 | a[href='place']:hover {}
+   |        ^^^^^^^
+
 error: Str
   --> $DIR/tests/fixture/selector/compound/input.css:10:8
    |
@@ -873,6 +885,18 @@ error: Ident
    |
 11 | a[href='place']::before {}
    |   ^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/compound/input.css:11:7
+   |
+11 | a[href='place']::before {}
+   |       ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/compound/input.css:11:8
+   |
+11 | a[href='place']::before {}
+   |        ^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/compound/input.css:11:8

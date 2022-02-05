@@ -136,17 +136,8 @@ pub struct AttributeSelector {
     pub modifier: Option<AttributeSelectorModifier>,
 }
 
-#[ast_node]
-pub enum AttributeSelectorValue {
-    #[tag("String")]
-    Str(Str),
-
-    #[tag("Ident")]
-    Ident(Ident),
-}
-
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
-pub enum AttributeSelectorMatcher {
+pub enum AttributeSelectorMatcherValue {
     /// `=`
     Equals,
 
@@ -164,6 +155,21 @@ pub enum AttributeSelectorMatcher {
 
     /// `*=`
     Asterisk,
+}
+
+#[ast_node("AttributeSelectorMatcher")]
+pub struct AttributeSelectorMatcher {
+    pub span: Span,
+    pub value: AttributeSelectorMatcherValue,
+}
+
+#[ast_node]
+pub enum AttributeSelectorValue {
+    #[tag("String")]
+    Str(Str),
+
+    #[tag("Ident")]
+    Ident(Ident),
 }
 
 #[ast_node("AttributeSelectorModifier")]

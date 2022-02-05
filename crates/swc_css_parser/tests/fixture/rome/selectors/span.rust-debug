@@ -576,6 +576,18 @@ error: Ident
 17 | a[title = "title"] {
    |   ^^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/rome/selectors/input.css:17:9
+   |
+17 | a[title = "title"] {
+   |         ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/rome/selectors/input.css:17:11
+   |
+17 | a[title = "title"] {
+   |           ^^^^^^^
+
 error: Str
   --> $DIR/tests/fixture/rome/selectors/input.css:17:11
    |
@@ -690,6 +702,18 @@ error: Ident
    |
 21 | a[title~="title" i] {
    |   ^^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/rome/selectors/input.css:21:8
+   |
+21 | a[title~="title" i] {
+   |        ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/rome/selectors/input.css:21:10
+   |
+21 | a[title~="title" i] {
+   |          ^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/rome/selectors/input.css:21:10
@@ -818,6 +842,18 @@ error: Ident
 25 | a[title = "title"][href*="image/*" S] {
    |   ^^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/rome/selectors/input.css:25:9
+   |
+25 | a[title = "title"][href*="image/*" S] {
+   |         ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/rome/selectors/input.css:25:11
+   |
+25 | a[title = "title"][href*="image/*" S] {
+   |           ^^^^^^^
+
 error: Str
   --> $DIR/tests/fixture/rome/selectors/input.css:25:11
    |
@@ -841,6 +877,18 @@ error: Ident
    |
 25 | a[title = "title"][href*="image/*" S] {
    |                    ^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/rome/selectors/input.css:25:24
+   |
+25 | a[title = "title"][href*="image/*" S] {
+   |                        ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/rome/selectors/input.css:25:26
+   |
+25 | a[title = "title"][href*="image/*" S] {
+   |                          ^^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/rome/selectors/input.css:25:26

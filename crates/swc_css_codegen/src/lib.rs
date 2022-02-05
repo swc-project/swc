@@ -1319,14 +1319,6 @@ where
     }
 
     #[emitter]
-    fn emit_attribute_selector_value(&mut self, n: &AttributeSelectorValue) -> Result {
-        match n {
-            AttributeSelectorValue::Str(n) => emit!(self, n),
-            AttributeSelectorValue::Ident(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
     fn emit_attribute_selector(&mut self, n: &AttributeSelector) -> Result {
         punct!(self, "[");
 
@@ -1336,27 +1328,39 @@ where
 
         emit!(self, n.name);
 
-        if let Some(matcher) = n.matcher {
-            self.wr.write_punct(None, matcher.as_str())?;
-        }
+        if n.matcher.is_some() {
+            emit!(self, n.matcher);
+            emit!(self, n.value);
 
-        emit!(self, n.value);
+            if n.modifier.is_some() {
+                match n.value {
+                    Some(AttributeSelectorValue::Str(_)) => {
+                        formatting_space!(self);
+                    }
+                    Some(AttributeSelectorValue::Ident(_)) => {
+                        space!(self);
+                    }
+                    _ => {}
+                }
 
-        if n.modifier.is_some() {
-            match n.value {
-                Some(AttributeSelectorValue::Str(_)) => {
-                    formatting_space!(self);
-                }
-                Some(AttributeSelectorValue::Ident(_)) => {
-                    space!(self);
-                }
-                _ => {}
+                emit!(self, n.modifier);
             }
-
-            emit!(self, n.modifier);
         }
 
         punct!(self, "]");
+    }
+
+    #[emitter]
+    fn emit_attribute_selector_matcher(&mut self, n: &AttributeSelectorMatcher) -> Result {
+        self.wr.write_punct(None, n.value.as_str())?;
+    }
+
+    #[emitter]
+    fn emit_attribute_selector_value(&mut self, n: &AttributeSelectorValue) -> Result {
+        match n {
+            AttributeSelectorValue::Str(n) => emit!(self, n),
+            AttributeSelectorValue::Ident(n) => emit!(self, n),
+        }
     }
 
     #[emitter]

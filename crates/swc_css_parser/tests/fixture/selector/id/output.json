@@ -3011,7 +3011,15 @@
                       "value": "lang",
                       "raw": "lang"
                     },
-                    "matcher": "^=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 769,
+                        "end": 771,
+                        "ctxt": 0
+                      },
+                      "value": "^="
+                    },
                     "value": {
                       "type": "Identifier",
                       "span": {

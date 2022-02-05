@@ -74,7 +74,15 @@
                       "value": "b",
                       "raw": "b"
                     },
-                    "matcher": "|=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 5,
+                        "end": 7,
+                        "ctxt": 0
+                      },
+                      "value": "|="
+                    },
                     "value": {
                       "type": "String",
                       "span": {

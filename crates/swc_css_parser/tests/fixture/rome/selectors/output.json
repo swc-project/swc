@@ -658,7 +658,15 @@
                       "value": "title",
                       "raw": "title"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 127,
+                        "end": 128,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -788,7 +796,15 @@
                       "value": "title",
                       "raw": "title"
                     },
-                    "matcher": "~=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 167,
+                        "end": 169,
+                        "ctxt": 0
+                      },
+                      "value": "~="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -935,7 +951,15 @@
                       "value": "title",
                       "raw": "title"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 210,
+                        "end": 211,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -966,7 +990,15 @@
                       "value": "href",
                       "raw": "href"
                     },
-                    "matcher": "*=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 225,
+                        "end": 227,
+                        "ctxt": 0
+                      },
+                      "value": "*="
+                    },
                     "value": {
                       "type": "String",
                       "span": {

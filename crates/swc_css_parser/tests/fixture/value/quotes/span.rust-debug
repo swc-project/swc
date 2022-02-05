@@ -784,6 +784,20 @@ error: Ident
 31 | a[title="a not s\
    |   ^^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/value/quotes/input.css:31:8
+   |
+31 | a[title="a not s\
+   |        ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/value/quotes/input.css:31:9
+   |
+31 |   a[title="a not s\
+   |  _________^
+32 | | o very long title"] {
+   | |__________________^
+
 error: Str
   --> $DIR/tests/fixture/value/quotes/input.css:31:9
    |
@@ -900,6 +914,18 @@ error: Ident
    |
 35 | a[title="a not so very long title"] {
    |   ^^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/value/quotes/input.css:35:8
+   |
+35 | a[title="a not so very long title"] {
+   |        ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/value/quotes/input.css:35:9
+   |
+35 | a[title="a not so very long title"] {
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/value/quotes/input.css:35:9

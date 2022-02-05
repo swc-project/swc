@@ -293,6 +293,8 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(IdSelector, visit_id_selector);
     mtd!(ClassSelector, visit_class_selector);
     mtd!(AttributeSelector, visit_attribute_selector);
+    mtd!(AttributeSelectorMatcher, visit_attribute_selector_matcher);
+    mtd!(AttributeSelectorValue, visit_attribute_selector_value);
     mtd!(AttributeSelectorModifier, visit_attribute_selector_modifier);
     mtd!(SubclassSelector, visit_subclass_selector);
     mtd!(NestingSelector, visit_nesting_selector);

@@ -112,6 +112,18 @@ error: Ident
 2 | [title=foo] {}
   |  ^^^^^
 
+error: AttributeSelectorMatcher
+ --> $DIR/tests/fixture/selector/attribute/input.css:2:7
+  |
+2 | [title=foo] {}
+  |       ^
+
+error: AttributeSelectorValue
+ --> $DIR/tests/fixture/selector/attribute/input.css:2:8
+  |
+2 | [title=foo] {}
+  |        ^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/attribute/input.css:2:8
   |
@@ -171,6 +183,18 @@ error: Ident
   |
 3 | [title="foo"] {}
   |  ^^^^^
+
+error: AttributeSelectorMatcher
+ --> $DIR/tests/fixture/selector/attribute/input.css:3:7
+  |
+3 | [title="foo"] {}
+  |       ^
+
+error: AttributeSelectorValue
+ --> $DIR/tests/fixture/selector/attribute/input.css:3:8
+  |
+3 | [title="foo"] {}
+  |        ^^^^^
 
 error: Str
  --> $DIR/tests/fixture/selector/attribute/input.css:3:8
@@ -232,6 +256,18 @@ error: Ident
 4 | [ title = "foo" ] {}
   |   ^^^^^
 
+error: AttributeSelectorMatcher
+ --> $DIR/tests/fixture/selector/attribute/input.css:4:9
+  |
+4 | [ title = "foo" ] {}
+  |         ^
+
+error: AttributeSelectorValue
+ --> $DIR/tests/fixture/selector/attribute/input.css:4:11
+  |
+4 | [ title = "foo" ] {}
+  |           ^^^^^
+
 error: Str
  --> $DIR/tests/fixture/selector/attribute/input.css:4:11
   |
@@ -291,6 +327,18 @@ error: Ident
   |
 5 | [   title   =   "foo"   ] {}
   |     ^^^^^
+
+error: AttributeSelectorMatcher
+ --> $DIR/tests/fixture/selector/attribute/input.css:5:13
+  |
+5 | [   title   =   "foo"   ] {}
+  |             ^
+
+error: AttributeSelectorValue
+ --> $DIR/tests/fixture/selector/attribute/input.css:5:17
+  |
+5 | [   title   =   "foo"   ] {}
+  |                 ^^^^^
 
 error: Str
  --> $DIR/tests/fixture/selector/attribute/input.css:5:17
@@ -352,6 +400,18 @@ error: Ident
 6 | [lang~="en-us"] {}
   |  ^^^^
 
+error: AttributeSelectorMatcher
+ --> $DIR/tests/fixture/selector/attribute/input.css:6:6
+  |
+6 | [lang~="en-us"] {}
+  |      ^^
+
+error: AttributeSelectorValue
+ --> $DIR/tests/fixture/selector/attribute/input.css:6:8
+  |
+6 | [lang~="en-us"] {}
+  |        ^^^^^^^
+
 error: Str
  --> $DIR/tests/fixture/selector/attribute/input.css:6:8
   |
@@ -411,6 +471,18 @@ error: Ident
   |
 7 | [lang|="zh"] {}
   |  ^^^^
+
+error: AttributeSelectorMatcher
+ --> $DIR/tests/fixture/selector/attribute/input.css:7:6
+  |
+7 | [lang|="zh"] {}
+  |      ^^
+
+error: AttributeSelectorValue
+ --> $DIR/tests/fixture/selector/attribute/input.css:7:8
+  |
+7 | [lang|="zh"] {}
+  |        ^^^^
 
 error: Str
  --> $DIR/tests/fixture/selector/attribute/input.css:7:8
@@ -472,6 +544,18 @@ error: Ident
 8 | [href^="#"] {}
   |  ^^^^
 
+error: AttributeSelectorMatcher
+ --> $DIR/tests/fixture/selector/attribute/input.css:8:6
+  |
+8 | [href^="#"] {}
+  |      ^^
+
+error: AttributeSelectorValue
+ --> $DIR/tests/fixture/selector/attribute/input.css:8:8
+  |
+8 | [href^="#"] {}
+  |        ^^^
+
 error: Str
  --> $DIR/tests/fixture/selector/attribute/input.css:8:8
   |
@@ -531,6 +615,18 @@ error: Ident
   |
 9 | [href$=".org"] {}
   |  ^^^^
+
+error: AttributeSelectorMatcher
+ --> $DIR/tests/fixture/selector/attribute/input.css:9:6
+  |
+9 | [href$=".org"] {}
+  |      ^^
+
+error: AttributeSelectorValue
+ --> $DIR/tests/fixture/selector/attribute/input.css:9:8
+  |
+9 | [href$=".org"] {}
+  |        ^^^^^^
 
 error: Str
  --> $DIR/tests/fixture/selector/attribute/input.css:9:8
@@ -592,6 +688,18 @@ error: Ident
 10 | [href*="example"] {}
    |  ^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/attribute/input.css:10:6
+   |
+10 | [href*="example"] {}
+   |      ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/attribute/input.css:10:8
+   |
+10 | [href*="example"] {}
+   |        ^^^^^^^^^
+
 error: Str
   --> $DIR/tests/fixture/selector/attribute/input.css:10:8
    |
@@ -651,6 +759,18 @@ error: Ident
    |
 11 | [href*="insensitive" i] {}
    |  ^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/attribute/input.css:11:6
+   |
+11 | [href*="insensitive" i] {}
+   |      ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/attribute/input.css:11:8
+   |
+11 | [href*="insensitive" i] {}
+   |        ^^^^^^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/attribute/input.css:11:8
@@ -724,6 +844,18 @@ error: Ident
 12 | [href*="insensitive" I] {}
    |  ^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/attribute/input.css:12:6
+   |
+12 | [href*="insensitive" I] {}
+   |      ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/attribute/input.css:12:8
+   |
+12 | [href*="insensitive" I] {}
+   |        ^^^^^^^^^^^^^
+
 error: Str
   --> $DIR/tests/fixture/selector/attribute/input.css:12:8
    |
@@ -796,6 +928,18 @@ error: Ident
 13 | [href*="cAsE" s] {}
    |  ^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/attribute/input.css:13:6
+   |
+13 | [href*="cAsE" s] {}
+   |      ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/attribute/input.css:13:8
+   |
+13 | [href*="cAsE" s] {}
+   |        ^^^^^^
+
 error: Str
   --> $DIR/tests/fixture/selector/attribute/input.css:13:8
    |
@@ -867,6 +1011,18 @@ error: Ident
    |
 14 | [href*="cAsE" S] {}
    |  ^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/attribute/input.css:14:6
+   |
+14 | [href*="cAsE" S] {}
+   |      ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/attribute/input.css:14:8
+   |
+14 | [href*="cAsE" S] {}
+   |        ^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/attribute/input.css:14:8
@@ -951,6 +1107,18 @@ error: Ident
    |
 15 | [foo|att=val] {}
    |      ^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/attribute/input.css:15:9
+   |
+15 | [foo|att=val] {}
+   |         ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/attribute/input.css:15:10
+   |
+15 | [foo|att=val] {}
+   |          ^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:15:10
@@ -1504,6 +1672,18 @@ error: Ident
 24 | a[ class = "test" ] {}
    |    ^^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/attribute/input.css:24:10
+   |
+24 | a[ class = "test" ] {}
+   |          ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/attribute/input.css:24:12
+   |
+24 | a[ class = "test" ] {}
+   |            ^^^^^^
+
 error: Str
   --> $DIR/tests/fixture/selector/attribute/input.css:24:12
    |
@@ -1582,6 +1762,18 @@ error: Ident
 25 | a[   class   =   "test"   ] {}
    |      ^^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/attribute/input.css:25:14
+   |
+25 | a[   class   =   "test"   ] {}
+   |              ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/attribute/input.css:25:18
+   |
+25 | a[   class   =   "test"   ] {}
+   |                  ^^^^^^
+
 error: Str
   --> $DIR/tests/fixture/selector/attribute/input.css:25:18
    |
@@ -1641,6 +1833,18 @@ error: Ident
    |
 26 | [href*="insensitive"   i] {}
    |  ^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/attribute/input.css:26:6
+   |
+26 | [href*="insensitive"   i] {}
+   |      ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/attribute/input.css:26:8
+   |
+26 | [href*="insensitive"   i] {}
+   |        ^^^^^^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/attribute/input.css:26:8
@@ -1714,6 +1918,18 @@ error: Ident
 27 | [   href*="insensitive"   i   ] {}
    |     ^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/attribute/input.css:27:9
+   |
+27 | [   href*="insensitive"   i   ] {}
+   |         ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/attribute/input.css:27:11
+   |
+27 | [   href*="insensitive"   i   ] {}
+   |           ^^^^^^^^^^^^^
+
 error: Str
   --> $DIR/tests/fixture/selector/attribute/input.css:27:11
    |
@@ -1785,6 +2001,18 @@ error: Ident
    |
 28 | [   href   *=   "insensitive"   i   ] {}
    |     ^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/attribute/input.css:28:12
+   |
+28 | [   href   *=   "insensitive"   i   ] {}
+   |            ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/attribute/input.css:28:17
+   |
+28 | [   href   *=   "insensitive"   i   ] {}
+   |                 ^^^^^^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/attribute/input.css:28:17
@@ -1911,6 +2139,18 @@ error: Ident
    |
 30 | [frame=hsides i] {}
    |  ^^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/attribute/input.css:30:7
+   |
+30 | [frame=hsides i] {}
+   |       ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/attribute/input.css:30:8
+   |
+30 | [frame=hsides i] {}
+   |        ^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:30:8
@@ -2218,6 +2458,18 @@ error: Ident
 34 | [title='foo'] {}
    |  ^^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/attribute/input.css:34:7
+   |
+34 | [title='foo'] {}
+   |       ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/attribute/input.css:34:8
+   |
+34 | [title='foo'] {}
+   |        ^^^^^
+
 error: Str
   --> $DIR/tests/fixture/selector/attribute/input.css:34:8
    |
@@ -2277,6 +2529,18 @@ error: Ident
    |
 35 | [data-style='value'][data-loading] {}
    |  ^^^^^^^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/attribute/input.css:35:12
+   |
+35 | [data-style='value'][data-loading] {}
+   |            ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/attribute/input.css:35:13
+   |
+35 | [data-style='value'][data-loading] {}
+   |             ^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/attribute/input.css:35:13
@@ -2374,6 +2638,18 @@ error: Ident
 36 | a[href="te's't"] {}
    |   ^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/attribute/input.css:36:7
+   |
+36 | a[href="te's't"] {}
+   |       ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/attribute/input.css:36:8
+   |
+36 | a[href="te's't"] {}
+   |        ^^^^^^^^
+
 error: Str
   --> $DIR/tests/fixture/selector/attribute/input.css:36:8
    |
@@ -2451,6 +2727,18 @@ error: Ident
    |
 37 | a[href='te"s"t'] {}
    |   ^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/attribute/input.css:37:7
+   |
+37 | a[href='te"s"t'] {}
+   |       ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/attribute/input.css:37:8
+   |
+37 | a[href='te"s"t'] {}
+   |        ^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/attribute/input.css:37:8

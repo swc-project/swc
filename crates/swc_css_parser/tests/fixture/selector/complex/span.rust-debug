@@ -5174,6 +5174,18 @@ error: Ident
 70 | a + a[href='place'] {}
    |       ^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:70:11
+   |
+70 | a + a[href='place'] {}
+   |           ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:70:12
+   |
+70 | a + a[href='place'] {}
+   |            ^^^^^^^
+
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:70:12
    |
@@ -6236,6 +6248,18 @@ error: Ident
 82 | a [type='button'] {}
    |    ^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:82:8
+   |
+82 | a [type='button'] {}
+   |        ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:82:9
+   |
+82 | a [type='button'] {}
+   |         ^^^^^^^^
+
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:82:9
    |
@@ -6331,6 +6355,18 @@ error: Ident
    |
 84 | [type='button'] {}
    |  ^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:84:6
+   |
+84 | [type='button'] {}
+   |      ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:84:7
+   |
+84 | [type='button'] {}
+   |       ^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:84:7
@@ -7496,6 +7532,18 @@ error: Ident
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |  ^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:92:6
+   |
+92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+   |      ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:92:8
+   |
+92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+   |        ^^^^^^^^^^
+
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:92:8
    |
@@ -7519,6 +7567,18 @@ error: Ident
    |
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |                    ^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:92:23
+   |
+92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+   |                       ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:92:24
+   |
+92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+   |                        ^^^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:92:24
@@ -7561,6 +7621,18 @@ error: Ident
    |
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |                                        ^^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:92:45
+   |
+92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+   |                                             ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:92:47
+   |
+92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+   |                                               ^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:92:47
@@ -7652,6 +7724,18 @@ error: Ident
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |  ^^^^^^^^^^^^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:93:17
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                 ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:93:19
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                   ^^^^^^^^^^^^^^^^^
+
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:93:19
    |
@@ -7687,6 +7771,18 @@ error: Ident
    |
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |                                        ^^^^^^^^^^^^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:93:55
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                                                       ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:93:57
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                                                         ^^^^^^^^^^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:93:57
@@ -7724,6 +7820,18 @@ error: Ident
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |                                                                              ^^^^^^^^^^^^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:93:93
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                                                                                             ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:93:95
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                                                                                               ^^^^^^^^^^^^^^^^^
+
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:93:95
    |
@@ -7759,6 +7867,18 @@ error: Ident
    |
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |                                                                                                                    ^^^^^^^^^^^^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:93:131
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                                                                                                                                   ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:93:133
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                                                                                                                                     ^^^^^^^^^^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:93:133

@@ -52,6 +52,18 @@ error: Ident
 1 | [attr\7e=x] {}
   |  ^^^^^^^
 
+error: AttributeSelectorMatcher
+ --> $DIR/tests/fixture/esbuild/misc/62BQJI-uDjHXNJ7kyL8HiA/input.css:1:9
+  |
+1 | [attr\7e=x] {}
+  |         ^
+
+error: AttributeSelectorValue
+ --> $DIR/tests/fixture/esbuild/misc/62BQJI-uDjHXNJ7kyL8HiA/input.css:1:10
+  |
+1 | [attr\7e=x] {}
+  |          ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/62BQJI-uDjHXNJ7kyL8HiA/input.css:1:10
   |

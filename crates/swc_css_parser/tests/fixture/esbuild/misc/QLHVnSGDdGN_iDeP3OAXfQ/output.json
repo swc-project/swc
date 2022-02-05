@@ -57,7 +57,15 @@
                       "value": "attr",
                       "raw": "attr"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 5,
+                        "end": 6,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {

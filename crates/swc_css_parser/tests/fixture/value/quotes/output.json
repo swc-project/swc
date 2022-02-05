@@ -751,7 +751,15 @@
                       "value": "title",
                       "raw": "title"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 887,
+                        "end": 888,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -881,7 +889,15 @@
                       "value": "title",
                       "raw": "title"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 945,
+                        "end": 946,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {

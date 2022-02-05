@@ -6439,7 +6439,15 @@
                       "value": "href",
                       "raw": "href"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 923,
+                        "end": 924,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -7759,7 +7767,15 @@
                       "value": "type",
                       "raw": "type"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 1045,
+                        "end": 1046,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -7877,7 +7893,15 @@
                       "value": "type",
                       "raw": "type"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 1067,
+                        "end": 1068,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -9345,7 +9369,15 @@
                       "value": "href",
                       "raw": "href"
                     },
-                    "matcher": "*=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 1250,
+                        "end": 1252,
+                        "ctxt": 0
+                      },
+                      "value": "*="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -9376,7 +9408,15 @@
                       "value": "rel",
                       "raw": "rel"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 1267,
+                        "end": 1268,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -9429,7 +9469,15 @@
                       "value": "class",
                       "raw": "class"
                     },
-                    "matcher": "~=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 1289,
+                        "end": 1291,
+                        "ctxt": 0
+                      },
+                      "value": "~="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -9552,7 +9600,15 @@
                       "value": "data-weird-attr",
                       "raw": "data-weird-attr"
                     },
-                    "matcher": "*=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 1327,
+                        "end": 1329,
+                        "ctxt": 0
+                      },
+                      "value": "*="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -9605,7 +9661,15 @@
                       "value": "data-weird-attr",
                       "raw": "data-weird-attr"
                     },
-                    "matcher": "^=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 1365,
+                        "end": 1367,
+                        "ctxt": 0
+                      },
+                      "value": "^="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -9658,7 +9722,15 @@
                       "value": "data-weird-attr",
                       "raw": "data-weird-attr"
                     },
-                    "matcher": "$=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 1403,
+                        "end": 1405,
+                        "ctxt": 0
+                      },
+                      "value": "$="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -9711,7 +9783,15 @@
                       "value": "data-weird-attr",
                       "raw": "data-weird-attr"
                     },
-                    "matcher": "|=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 1441,
+                        "end": 1443,
+                        "ctxt": 0
+                      },
+                      "value": "|="
+                    },
                     "value": {
                       "type": "String",
                       "span": {

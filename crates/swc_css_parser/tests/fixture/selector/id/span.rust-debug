@@ -2464,6 +2464,18 @@ error: Ident
 42 | #foo[lang^=en] {}
    |      ^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/id/input.css:42:10
+   |
+42 | #foo[lang^=en] {}
+   |          ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/id/input.css:42:12
+   |
+42 | #foo[lang^=en] {}
+   |            ^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:42:12
    |

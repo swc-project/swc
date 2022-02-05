@@ -264,6 +264,11 @@ define!({
         pub modifier: Option<AttributeSelectorModifier>,
     }
 
+    pub struct AttributeSelectorMatcher {
+        pub span: Span,
+        pub value: AttributeSelectorMatcherValue,
+    }
+
     pub enum AttributeSelectorValue {
         Str(Str),
         Ident(Ident),

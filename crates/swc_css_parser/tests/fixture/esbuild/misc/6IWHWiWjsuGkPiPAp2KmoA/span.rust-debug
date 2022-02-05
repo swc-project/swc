@@ -52,6 +52,18 @@ error: Ident
 1 | [b $= "c"] {}
   |  ^
 
+error: AttributeSelectorMatcher
+ --> $DIR/tests/fixture/esbuild/misc/6IWHWiWjsuGkPiPAp2KmoA/input.css:1:4
+  |
+1 | [b $= "c"] {}
+  |    ^^
+
+error: AttributeSelectorValue
+ --> $DIR/tests/fixture/esbuild/misc/6IWHWiWjsuGkPiPAp2KmoA/input.css:1:7
+  |
+1 | [b $= "c"] {}
+  |       ^^^
+
 error: Str
  --> $DIR/tests/fixture/esbuild/misc/6IWHWiWjsuGkPiPAp2KmoA/input.css:1:7
   |

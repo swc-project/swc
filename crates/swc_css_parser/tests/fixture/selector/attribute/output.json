@@ -128,7 +128,15 @@
                       "value": "title",
                       "raw": "title"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 17,
+                        "end": 18,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "Identifier",
                       "span": {
@@ -208,7 +216,15 @@
                       "value": "title",
                       "raw": "title"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 32,
+                        "end": 33,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -288,7 +304,15 @@
                       "value": "title",
                       "raw": "title"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 51,
+                        "end": 52,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -368,7 +392,15 @@
                       "value": "title",
                       "raw": "title"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 76,
+                        "end": 77,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -448,7 +480,15 @@
                       "value": "lang",
                       "raw": "lang"
                     },
-                    "matcher": "~=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 98,
+                        "end": 100,
+                        "ctxt": 0
+                      },
+                      "value": "~="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -528,7 +568,15 @@
                       "value": "lang",
                       "raw": "lang"
                     },
-                    "matcher": "|=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 117,
+                        "end": 119,
+                        "ctxt": 0
+                      },
+                      "value": "|="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -608,7 +656,15 @@
                       "value": "href",
                       "raw": "href"
                     },
-                    "matcher": "^=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 133,
+                        "end": 135,
+                        "ctxt": 0
+                      },
+                      "value": "^="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -688,7 +744,15 @@
                       "value": "href",
                       "raw": "href"
                     },
-                    "matcher": "$=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 148,
+                        "end": 150,
+                        "ctxt": 0
+                      },
+                      "value": "$="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -768,7 +832,15 @@
                       "value": "href",
                       "raw": "href"
                     },
-                    "matcher": "*=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 166,
+                        "end": 168,
+                        "ctxt": 0
+                      },
+                      "value": "*="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -848,7 +920,15 @@
                       "value": "href",
                       "raw": "href"
                     },
-                    "matcher": "*=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 187,
+                        "end": 189,
+                        "ctxt": 0
+                      },
+                      "value": "*="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -945,7 +1025,15 @@
                       "value": "href",
                       "raw": "href"
                     },
-                    "matcher": "*=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 214,
+                        "end": 216,
+                        "ctxt": 0
+                      },
+                      "value": "*="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -1042,7 +1130,15 @@
                       "value": "href",
                       "raw": "href"
                     },
-                    "matcher": "*=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 241,
+                        "end": 243,
+                        "ctxt": 0
+                      },
+                      "value": "*="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -1139,7 +1235,15 @@
                       "value": "href",
                       "raw": "href"
                     },
-                    "matcher": "*=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 261,
+                        "end": 263,
+                        "ctxt": 0
+                      },
+                      "value": "*="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -1253,7 +1357,15 @@
                       "value": "att",
                       "raw": "att"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 284,
+                        "end": 285,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "Identifier",
                       "span": {
@@ -1977,7 +2089,15 @@
                       "value": "class",
                       "raw": "class"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 403,
+                        "end": 404,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -2075,7 +2195,15 @@
                       "value": "class",
                       "raw": "class"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 430,
+                        "end": 431,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -2155,7 +2283,15 @@
                       "value": "href",
                       "raw": "href"
                     },
-                    "matcher": "*=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 453,
+                        "end": 455,
+                        "ctxt": 0
+                      },
+                      "value": "*="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -2252,7 +2388,15 @@
                       "value": "href",
                       "raw": "href"
                     },
-                    "matcher": "*=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 485,
+                        "end": 487,
+                        "ctxt": 0
+                      },
+                      "value": "*="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -2349,7 +2493,15 @@
                       "value": "href",
                       "raw": "href"
                     },
-                    "matcher": "*=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 523,
+                        "end": 525,
+                        "ctxt": 0
+                      },
+                      "value": "*="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -2517,7 +2669,15 @@
                       "value": "frame",
                       "raw": "frame"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 575,
+                        "end": 576,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "Identifier",
                       "span": {
@@ -2899,7 +3059,15 @@
                       "value": "title",
                       "raw": "title"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 649,
+                        "end": 650,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -2979,7 +3147,15 @@
                       "value": "data-style",
                       "raw": "data-style"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 671,
+                        "end": 672,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -3099,7 +3275,15 @@
                       "value": "href",
                       "raw": "href"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 704,
+                        "end": 705,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {
@@ -3197,7 +3381,15 @@
                       "value": "href",
                       "raw": "href"
                     },
-                    "matcher": "=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 724,
+                        "end": 725,
+                        "ctxt": 0
+                      },
+                      "value": "="
+                    },
                     "value": {
                       "type": "String",
                       "span": {

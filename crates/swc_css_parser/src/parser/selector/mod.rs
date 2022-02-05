@@ -460,55 +460,11 @@ where
         self.input.skip_ws()?;
 
         if !is!(self, "]") {
-            let span = self.input.cur_span()?;
-
-            matcher = match cur!(self) {
-                tok!("~") | tok!("|") | tok!("^") | tok!("$") | tok!("*") => {
-                    let tok = bump!(self);
-
-                    expect!(self, "=");
-
-                    Some(match tok {
-                        tok!("~") => AttributeSelectorMatcher::Tilde,
-                        tok!("|") => AttributeSelectorMatcher::Bar,
-                        tok!("^") => AttributeSelectorMatcher::Caret,
-                        tok!("$") => AttributeSelectorMatcher::Dollar,
-                        tok!("*") => AttributeSelectorMatcher::Asterisk,
-                        _ => {
-                            unreachable!()
-                        }
-                    })
-                }
-                tok!("=") => {
-                    let tok = bump!(self);
-
-                    Some(match tok {
-                        tok!("=") => AttributeSelectorMatcher::Equals,
-                        _ => {
-                            unreachable!()
-                        }
-                    })
-                }
-                _ => Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcher))?,
-            };
+            matcher = Some(self.parse()?);
 
             self.input.skip_ws()?;
 
-            let span = self.input.cur_span()?;
-
-            value = match cur!(self) {
-                tok!("ident") => {
-                    let ident = self.parse()?;
-
-                    Some(AttributeSelectorValue::Ident(ident))
-                }
-                tok!("str") => {
-                    let string = self.parse()?;
-
-                    Some(AttributeSelectorValue::Str(string))
-                }
-                _ => return Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcherValue)),
-            };
+            value = Some(self.parse()?);
 
             self.input.skip_ws()?;
 
@@ -529,6 +485,97 @@ where
             value,
             modifier,
         })
+    }
+}
+
+impl<I> Parse<AttributeSelectorMatcher> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<AttributeSelectorMatcher> {
+        let span = self.input.cur_span()?;
+
+        match cur!(self) {
+            tok!("~") => {
+                bump!(self);
+                expect!(self, "=");
+
+                Ok(AttributeSelectorMatcher {
+                    span: span!(self, span.lo),
+                    value: AttributeSelectorMatcherValue::Tilde,
+                })
+            }
+            tok!("|") => {
+                bump!(self);
+                expect!(self, "=");
+
+                Ok(AttributeSelectorMatcher {
+                    span: span!(self, span.lo),
+                    value: AttributeSelectorMatcherValue::Bar,
+                })
+            }
+            tok!("^") => {
+                bump!(self);
+                expect!(self, "=");
+
+                Ok(AttributeSelectorMatcher {
+                    span: span!(self, span.lo),
+                    value: AttributeSelectorMatcherValue::Caret,
+                })
+            }
+            tok!("$") => {
+                bump!(self);
+                expect!(self, "=");
+
+                Ok(AttributeSelectorMatcher {
+                    span: span!(self, span.lo),
+                    value: AttributeSelectorMatcherValue::Dollar,
+                })
+            }
+            tok!("*") => {
+                bump!(self);
+                expect!(self, "=");
+
+                Ok(AttributeSelectorMatcher {
+                    span: span!(self, span.lo),
+                    value: AttributeSelectorMatcherValue::Asterisk,
+                })
+            }
+            tok!("=") => {
+                bump!(self);
+
+                Ok(AttributeSelectorMatcher {
+                    span: span!(self, span.lo),
+                    value: AttributeSelectorMatcherValue::Equals,
+                })
+            }
+            _ => Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcher))?,
+        }
+    }
+}
+
+impl<I> Parse<AttributeSelectorValue> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<AttributeSelectorValue> {
+        match cur!(self) {
+            tok!("ident") => {
+                let ident = self.parse()?;
+
+                Ok(AttributeSelectorValue::Ident(ident))
+            }
+            tok!("str") => {
+                let string = self.parse()?;
+
+                Ok(AttributeSelectorValue::Str(string))
+            }
+            _ => {
+                let span = self.input.cur_span()?;
+
+                return Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcherValue));
+            }
+        }
     }
 }
 

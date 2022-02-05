@@ -358,6 +358,18 @@ error: Ident
 4 | a, a[href='place'] {}
   |      ^^^^
 
+error: AttributeSelectorMatcher
+ --> $DIR/tests/fixture/selector/list/input.css:4:10
+  |
+4 | a, a[href='place'] {}
+  |          ^
+
+error: AttributeSelectorValue
+ --> $DIR/tests/fixture/selector/list/input.css:4:11
+  |
+4 | a, a[href='place'] {}
+  |           ^^^^^^^
+
 error: Str
  --> $DIR/tests/fixture/selector/list/input.css:4:11
   |
@@ -477,6 +489,18 @@ error: Ident
   |
 5 | a #foo > [foo='bar'], .FOO {}
   |           ^^^
+
+error: AttributeSelectorMatcher
+ --> $DIR/tests/fixture/selector/list/input.css:5:14
+  |
+5 | a #foo > [foo='bar'], .FOO {}
+  |              ^
+
+error: AttributeSelectorValue
+ --> $DIR/tests/fixture/selector/list/input.css:5:15
+  |
+5 | a #foo > [foo='bar'], .FOO {}
+  |               ^^^^^
 
 error: Str
  --> $DIR/tests/fixture/selector/list/input.css:5:15

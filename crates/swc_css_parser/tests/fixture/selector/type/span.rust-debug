@@ -1276,6 +1276,18 @@ error: Ident
 20 | *[lang^=en] {}
    |   ^^^^
 
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/type/input.css:20:7
+   |
+20 | *[lang^=en] {}
+   |       ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/type/input.css:20:9
+   |
+20 | *[lang^=en] {}
+   |         ^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/type/input.css:20:9
    |
