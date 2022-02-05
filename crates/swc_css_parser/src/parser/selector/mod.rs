@@ -305,34 +305,24 @@ where
 {
     fn parse(&mut self) -> PResult<NsPrefix> {
         let span = self.input.cur_span()?;
+        let mut prefix = None;
 
-        if is!(self, Ident) && peeked_is!(self, "|") {
-            let prefix = Some(self.parse()?);
-
-            bump!(self);
-
-            return Ok(NsPrefix {
-                span: span!(self, span.lo),
-                prefix,
-            });
-        } else if is!(self, "*") && peeked_is!(self, "|") {
-            bump!(self);
+        if is!(self, Ident) {
+            prefix = Some(self.parse()?);
+        } else if is!(self, "*") {
             bump!(self);
 
             let value: JsWord = "*".into();
             let raw = value.clone();
 
-            return Ok(NsPrefix {
-                span: span!(self, span.lo),
-                prefix: Some(Ident { span, value, raw }),
-            });
+            prefix = Some(Ident { span, value, raw });
         }
 
         expect!(self, "|");
 
         return Ok(NsPrefix {
             span: span!(self, span.lo),
-            prefix: None,
+            prefix,
         });
     }
 }
