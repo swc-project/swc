@@ -23,6 +23,9 @@
 - **(css/ast)** Improve types related to `url` tokens (#3444) ([49564d9](https://github.com/swc-project/swc/commit/49564d9b5d627b38b2faa63b55076cb55ba8d1a7))
 
 
+- **(css/codegen)** Implement minification of hex colors (#3453) ([eeedd71](https://github.com/swc-project/swc/commit/eeedd71705dc9b94363ec4e002ec647a3addba2d))
+
+
 - **(css/lexer)** Implement error recovery for functions (#3445) ([f1410fc](https://github.com/swc-project/swc/commit/f1410fc09b4838fa8113c9b2041f58d7d752c519))
 
 
