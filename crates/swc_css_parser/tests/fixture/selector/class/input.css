@@ -35,3 +35,23 @@
 .f\+o\+o {}
 .-a-b-c- {}
 .\#fake-id {}
+foo.class > .foo.class {}
+.foo#id {}
+.class[target] {}
+.class#id[target] {}
+ul.list {}
+ul.list::before {}
+.\31 a2b3c {}
+.\<\>\<\<\<\>\>\<\> {}
+.\31 23 {}
+.\# {}
+.\#\# {}
+.\#fake\-id {}
+.foo\.bar {}
+.\3A hover {}
+.\3A hover\3A focus\3A active {}
+.\[attr\=value\] {}
+.not-pseudo\:focus {}
+.not-pseudo\:\:focus {}
+.\\1D306 {}
+.\; {}

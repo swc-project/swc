@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 1265,
+    "end": 1222,
     "ctxt": 0
   },
   "body": [
@@ -1872,22 +1872,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 911,
-        "end": 937,
+        "start": 887,
+        "end": 913,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 911,
-          "end": 936,
+          "start": 887,
+          "end": 912,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 911,
-            "end": 915,
+            "start": 887,
+            "end": 891,
             "ctxt": 0
           },
           "value": "fs2_",
@@ -1896,15 +1896,15 @@
         "arguments": [
           {
             "spread": {
-              "start": 916,
-              "end": 919,
+              "start": 892,
+              "end": 895,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 919,
-                "end": 921,
+                "start": 895,
+                "end": 897,
                 "ctxt": 0
               },
               "value": "s_",
@@ -1913,15 +1913,15 @@
           },
           {
             "spread": {
-              "start": 923,
-              "end": 926,
+              "start": 899,
+              "end": 902,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 926,
-                "end": 928,
+                "start": 902,
+                "end": 904,
                 "ctxt": 0
               },
               "value": "s_",
@@ -1930,15 +1930,15 @@
           },
           {
             "spread": {
-              "start": 930,
-              "end": 933,
+              "start": 906,
+              "end": 909,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 933,
-                "end": 935,
+                "start": 909,
+                "end": 911,
                 "ctxt": 0
               },
               "value": "s_",
@@ -1952,22 +1952,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1042,
-        "end": 1056,
+        "start": 999,
+        "end": 1013,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 1042,
-          "end": 1055,
+          "start": 999,
+          "end": 1012,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 1042,
-            "end": 1047,
+            "start": 999,
+            "end": 1004,
             "ctxt": 0
           },
           "value": "fs2n_",
@@ -1976,15 +1976,15 @@
         "arguments": [
           {
             "spread": {
-              "start": 1048,
-              "end": 1051,
+              "start": 1005,
+              "end": 1008,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 1051,
-                "end": 1054,
+                "start": 1008,
+                "end": 1011,
                 "ctxt": 0
               },
               "value": "s2_",
@@ -1998,28 +1998,154 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1083,
-        "end": 1096,
+        "start": 1040,
+        "end": 1053,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 1083,
-          "end": 1095,
+          "start": 1040,
+          "end": 1052,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 1083,
-            "end": 1087,
+            "start": 1040,
+            "end": 1044,
             "ctxt": 0
           },
           "value": "fs2_",
           "optional": false
         },
         "arguments": [
+          {
+            "spread": {
+              "start": 1045,
+              "end": 1048,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 1048,
+                "end": 1051,
+                "ctxt": 0
+              },
+              "value": "s2_",
+              "optional": false
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1054,
+        "end": 1074,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 1054,
+          "end": 1073,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 1054,
+            "end": 1058,
+            "ctxt": 0
+          },
+          "value": "fs2_",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": {
+              "start": 1059,
+              "end": 1062,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 1062,
+                "end": 1065,
+                "ctxt": 0
+              },
+              "value": "s2_",
+              "optional": false
+            }
+          },
+          {
+            "spread": {
+              "start": 1067,
+              "end": 1070,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 1070,
+                "end": 1072,
+                "ctxt": 0
+              },
+              "value": "s_",
+              "optional": false
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1075,
+        "end": 1096,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 1075,
+          "end": 1095,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 1075,
+            "end": 1079,
+            "ctxt": 0
+          },
+          "value": "fs2_",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": {
+              "start": 1080,
+              "end": 1083,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 1083,
+                "end": 1086,
+                "ctxt": 0
+              },
+              "value": "s2_",
+              "optional": false
+            }
+          },
           {
             "spread": {
               "start": 1088,
@@ -2076,27 +2202,27 @@
               "type": "Identifier",
               "span": {
                 "start": 1105,
-                "end": 1108,
+                "end": 1107,
                 "ctxt": 0
               },
-              "value": "s2_",
+              "value": "s_",
               "optional": false
             }
           },
           {
             "spread": {
-              "start": 1110,
-              "end": 1113,
+              "start": 1109,
+              "end": 1112,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 1113,
+                "start": 1112,
                 "end": 1115,
                 "ctxt": 0
               },
-              "value": "s_",
+              "value": "s2_",
               "optional": false
             }
           }
@@ -2108,147 +2234,21 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1118,
-        "end": 1139,
+        "end": 1133,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1118,
-          "end": 1138,
+          "end": 1132,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 1118,
-            "end": 1122,
-            "ctxt": 0
-          },
-          "value": "fs2_",
-          "optional": false
-        },
-        "arguments": [
-          {
-            "spread": {
-              "start": 1123,
-              "end": 1126,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "Identifier",
-              "span": {
-                "start": 1126,
-                "end": 1129,
-                "ctxt": 0
-              },
-              "value": "s2_",
-              "optional": false
-            }
-          },
-          {
-            "spread": {
-              "start": 1131,
-              "end": 1134,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "Identifier",
-              "span": {
-                "start": 1134,
-                "end": 1137,
-                "ctxt": 0
-              },
-              "value": "s2_",
-              "optional": false
-            }
-          }
-        ],
-        "typeArguments": null
-      }
-    },
-    {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1140,
-        "end": 1160,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "CallExpression",
-        "span": {
-          "start": 1140,
-          "end": 1159,
-          "ctxt": 0
-        },
-        "callee": {
-          "type": "Identifier",
-          "span": {
-            "start": 1140,
-            "end": 1144,
-            "ctxt": 0
-          },
-          "value": "fs2_",
-          "optional": false
-        },
-        "arguments": [
-          {
-            "spread": {
-              "start": 1145,
-              "end": 1148,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "Identifier",
-              "span": {
-                "start": 1148,
-                "end": 1150,
-                "ctxt": 0
-              },
-              "value": "s_",
-              "optional": false
-            }
-          },
-          {
-            "spread": {
-              "start": 1152,
-              "end": 1155,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "Identifier",
-              "span": {
-                "start": 1155,
-                "end": 1158,
-                "ctxt": 0
-              },
-              "value": "s2_",
-              "optional": false
-            }
-          }
-        ],
-        "typeArguments": null
-      }
-    },
-    {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1161,
-        "end": 1176,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "CallExpression",
-        "span": {
-          "start": 1161,
-          "end": 1175,
-          "ctxt": 0
-        },
-        "callee": {
-          "type": "Identifier",
-          "span": {
-            "start": 1161,
-            "end": 1166,
+            "end": 1123,
             "ctxt": 0
           },
           "value": "fs2n_",
@@ -2257,15 +2257,15 @@
         "arguments": [
           {
             "spread": {
-              "start": 1167,
-              "end": 1170,
+              "start": 1124,
+              "end": 1127,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 1170,
-                "end": 1174,
+                "start": 1127,
+                "end": 1131,
                 "ctxt": 0
               },
               "value": "s2n_",
@@ -2279,22 +2279,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1177,
-        "end": 1190,
+        "start": 1134,
+        "end": 1147,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 1177,
-          "end": 1189,
+          "start": 1134,
+          "end": 1146,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 1177,
-            "end": 1182,
+            "start": 1134,
+            "end": 1139,
             "ctxt": 0
           },
           "value": "fs2n_",
@@ -2303,15 +2303,15 @@
         "arguments": [
           {
             "spread": {
-              "start": 1183,
-              "end": 1186,
+              "start": 1140,
+              "end": 1143,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 1186,
-                "end": 1188,
+                "start": 1143,
+                "end": 1145,
                 "ctxt": 0
               },
               "value": "s2",
@@ -2325,22 +2325,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1240,
-        "end": 1265,
+        "start": 1197,
+        "end": 1222,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 1240,
-          "end": 1264,
+          "start": 1197,
+          "end": 1221,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 1240,
-            "end": 1243,
+            "start": 1197,
+            "end": 1200,
             "ctxt": 0
           },
           "value": "fs5",
@@ -2349,15 +2349,15 @@
         "arguments": [
           {
             "spread": {
-              "start": 1244,
-              "end": 1247,
+              "start": 1201,
+              "end": 1204,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 1247,
-                "end": 1249,
+                "start": 1204,
+                "end": 1206,
                 "ctxt": 0
               },
               "value": "s2",
@@ -2369,8 +2369,8 @@
             "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 1251,
-                "end": 1256,
+                "start": 1208,
+                "end": 1213,
                 "ctxt": 0
               },
               "value": "foo",
@@ -2383,15 +2383,15 @@
           },
           {
             "spread": {
-              "start": 1258,
-              "end": 1261,
+              "start": 1215,
+              "end": 1218,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 1261,
-                "end": 1263,
+                "start": 1218,
+                "end": 1220,
                 "ctxt": 0
               },
               "value": "s2",

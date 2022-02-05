@@ -506,7 +506,7 @@ impl<'a, I: Tokens> Parser<I> {
                         kind: MetaPropKind::NewTarget,
                     }));
 
-                    return self.parse_subscripts(Callee::Expr(expr), true);
+                    return self.parse_subscripts(Callee::Expr(expr), true, false);
                 }
 
                 unexpected!(self, "target")
@@ -542,7 +542,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                 // We should parse subscripts for MemberExpression.
                 // Because it's left recursive.
-                return self.parse_subscripts(new_expr, true);
+                return self.parse_subscripts(new_expr, true, false);
             }
 
             // Parsed with 'NewExpression' production.
@@ -559,18 +559,18 @@ impl<'a, I: Tokens> Parser<I> {
             let base = Callee::Super(Super {
                 span: span!(self, start),
             });
-            return self.parse_subscripts(base, true);
+            return self.parse_subscripts(base, true, false);
         }
         if eat!(self, "import") {
             let base = Callee::Import(Import {
                 span: span!(self, start),
             });
-            return self.parse_subscripts(base, true);
+            return self.parse_subscripts(base, true, false);
         }
         let obj = self.parse_primary_expr()?;
         return_if_arrow!(self, obj);
 
-        self.parse_subscripts(Callee::Expr(obj), true)
+        self.parse_subscripts(Callee::Expr(obj), true, false)
     }
 
     /// Parse `NewExpression`.
@@ -973,10 +973,15 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_subscripts(&mut self, mut obj: Callee, no_call: bool) -> PResult<Box<Expr>> {
+    pub(super) fn parse_subscripts(
+        &mut self,
+        mut obj: Callee,
+        no_call: bool,
+        no_computed_member: bool,
+    ) -> PResult<Box<Expr>> {
         let start = obj.span().lo;
         loop {
-            obj = match self.parse_subscript(start, obj, no_call)? {
+            obj = match self.parse_subscript(start, obj, no_call, no_computed_member)? {
                 (expr, false) => return Ok(expr),
                 (expr, true) => Callee::Expr(expr),
             }
@@ -989,6 +994,7 @@ impl<'a, I: Tokens> Parser<I> {
         start: BytePos,
         mut obj: Callee,
         no_call: bool,
+        no_computed_member: bool,
     ) -> PResult<(Box<Expr>, bool)> {
         let _ = cur!(self, false);
 
@@ -1114,12 +1120,13 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         // $obj[name()]
-        if (question_dot_token.is_some()
-            && is!(self, '.')
-            && peeked_is!(self, '[')
-            && eat!(self, '.')
-            && eat!(self, '['))
-            || eat!(self, '[')
+        if !no_computed_member
+            && ((question_dot_token.is_some()
+                && is!(self, '.')
+                && peeked_is!(self, '[')
+                && eat!(self, '.')
+                && eat!(self, '['))
+                || eat!(self, '['))
         {
             let bracket_lo = self.input.prev_span().lo;
             let prop = self.include_in_expr(true).parse_expr()?;
@@ -1135,7 +1142,11 @@ impl<'a, I: Tokens> Parser<I> {
                 Box::new(match obj {
                     Callee::Import(..) => unreachable!(),
                     Callee::Super(obj) => {
-                        if question_dot_token.is_some() {
+                        if !self.ctx().allow_direct_super
+                            && !self.input.syntax().allow_super_outside_method()
+                        {
+                            syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuper);
+                        } else if question_dot_token.is_some() {
                             if no_call {
                                 syntax_error!(
                                     self,
@@ -1223,7 +1234,11 @@ impl<'a, I: Tokens> Parser<I> {
                         }
                     }
                     Callee::Super(obj) => {
-                        if question_dot_token.is_some() {
+                        if !self.ctx().allow_direct_super
+                            && !self.input.syntax().allow_super_outside_method()
+                        {
+                            syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuper);
+                        } else if question_dot_token.is_some() {
                             if no_call {
                                 syntax_error!(
                                     self,
@@ -1330,13 +1345,13 @@ impl<'a, I: Tokens> Parser<I> {
             let obj = Callee::Super(Super {
                 span: span!(self, start),
             });
-            return self.parse_subscripts(obj, false);
+            return self.parse_subscripts(obj, false, false);
         }
         if eat!(self, "import") {
             let obj = Callee::Import(Import {
                 span: span!(self, start),
             });
-            return self.parse_subscripts(obj, false);
+            return self.parse_subscripts(obj, false, false);
         }
 
         let callee = self.parse_new_expr()?;
@@ -1393,7 +1408,7 @@ impl<'a, I: Tokens> Parser<I> {
                 type_args,
             }));
 
-            return self.parse_subscripts(Callee::Expr(call_expr), false);
+            return self.parse_subscripts(Callee::Expr(call_expr), false, false);
         }
         if type_args.is_some() {
             // This fails
@@ -1789,7 +1804,7 @@ impl<'a, I: Tokens> Parser<I> {
             type_args: Default::default(),
         }));
 
-        self.parse_subscripts(Callee::Expr(import), true)
+        self.parse_subscripts(Callee::Expr(import), true, false)
     }
 
     pub(super) fn check_assign_target(&mut self, expr: &Expr, deny_call: bool) {

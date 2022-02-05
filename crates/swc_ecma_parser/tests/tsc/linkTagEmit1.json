@@ -1,0 +1,162 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 88,
+    "end": 529,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 88,
+        "end": 132,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 106,
+          "end": 108,
+          "ctxt": 0
+        },
+        "value": "NS",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 109,
+          "end": 132,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsTypeAliasDeclaration",
+            "span": {
+              "start": 115,
+              "end": 130,
+              "ctxt": 0
+            },
+            "declare": false,
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 120,
+                "end": 121,
+                "ctxt": 0
+              },
+              "value": "R",
+              "optional": false
+            },
+            "typeParams": null,
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 124,
+                "end": 130,
+                "ctxt": 0
+              },
+              "kind": "number"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 439,
+          "end": 478,
+          "ctxt": 0
+        },
+        "value": "computeCommonSourceDirectoryOfFilenames",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 479,
+            "end": 486,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 479,
+              "end": 486,
+              "ctxt": 0
+            },
+            "value": "integer",
+            "optional": false,
+            "typeAnnotation": null
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 430,
+        "end": 529,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 488,
+          "end": 529,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 494,
+              "end": 512,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 501,
+                "end": 512,
+                "ctxt": 0
+              },
+              "operator": "+",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 501,
+                  "end": 508,
+                  "ctxt": 0
+                },
+                "value": "integer",
+                "optional": false
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 511,
+                  "end": 512,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

@@ -15,7 +15,7 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
     descriptor.value = value;
     return value;
 }
-// @target: esnext, es2015
+// @target: esnext, es2022, es2015
 class Foo {
     getValue(x) {
         const obj = this;

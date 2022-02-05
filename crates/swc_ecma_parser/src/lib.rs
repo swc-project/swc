@@ -253,6 +253,15 @@ impl Syntax {
             Syntax::Typescript(_) => true,
         }
     }
+    pub fn allow_super_outside_method(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                allow_super_outside_method,
+                ..
+            }) => allow_super_outside_method,
+            Syntax::Typescript(_) => true,
+        }
+    }
 
     pub(crate) fn early_errors(self) -> bool {
         match self {
@@ -313,6 +322,9 @@ pub struct EsConfig {
 
     #[serde(default, rename = "privateInObject")]
     pub private_in_object: bool,
+
+    #[serde(default, rename = "allowSuperOutsideMethod")]
+    pub allow_super_outside_method: bool,
 }
 
 /// Syntactic context.
@@ -356,6 +368,9 @@ pub struct Context {
 
     /// If true, `:` should not be treated as a type annotation.
     dont_parse_colon_as_type_ann: bool,
+
+    // If true, allow super.x and super[x]
+    allow_direct_super: bool,
 }
 
 #[cfg(test)]

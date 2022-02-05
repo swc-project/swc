@@ -464,6 +464,7 @@ mod tests {
     use super::*;
     use crate::es2015::{function_name, shorthand_property::shorthand};
     use swc_common::{chain, Mark};
+    use swc_ecma_parser::{EsConfig, Syntax};
     use swc_ecma_transforms_base::resolver::resolver_with_mark;
     use swc_ecma_transforms_testing::test;
     test!(
@@ -575,7 +576,10 @@ mod tests {
     };"#
     );
     test!(
-        ::swc_ecma_parser::Syntax::default(),
+        Syntax::Es(EsConfig {
+            allow_super_outside_method: true,
+            ..Default::default()
+        }),
         |_| {
             let top_level_mark = Mark::fresh(Mark::root());
             chain!(

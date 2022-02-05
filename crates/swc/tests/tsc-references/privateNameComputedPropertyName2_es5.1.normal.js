@@ -17,7 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-// @target: esnext, es2015
+// @target: esnext, es2022, es2015
 var getX;
 var tmp = (getX = function(a) {
     return a.#x;

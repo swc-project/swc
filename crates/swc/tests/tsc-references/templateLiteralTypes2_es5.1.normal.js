@@ -60,6 +60,10 @@ function ft14(t) {
     var x4 = t;
     var x6 = t;
 }
+function ft20(s) {
+    var x1 = g1("xyz-".concat(s)); // string
+    var x2 = g2("xyz-".concat(s)); // `xyz-${string}`
+}
 var t1 = takesLiteral("foo.bar.baz"); // "baz"
 var id2 = "foo.bar.baz";
 var t2 = takesLiteral(id2); // "baz"
@@ -71,3 +75,15 @@ var t5 = takesLiteral("foo.bar.".concat(someUnion)); // "abc" | "def" | "ghi"
 var pixelValue = 22;
 var pixelString = "22px";
 var pixelStringWithTemplate = "".concat(pixelValue, "px");
+// Repro from #43143
+function getCardTitle(title) {
+    return "test-".concat(title);
+}
+// Repro from #43424
+var interpolatedStyle = {
+    rotate: 12
+};
+function C2(transform) {
+    return 12;
+}
+C2("rotate(".concat(interpolatedStyle.rotate, "dig)"));

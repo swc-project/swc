@@ -4,7 +4,7 @@ base.value = 12 // error, lhs can't be a readonly property
 let identical;
 identical.value = 12; // error, lhs can't be a readonly property
 let mutable;
-mutable.value = 12; // error, lhs can't be a readonly property
+mutable.value = 12;
 let differentType;
 differentType.value = 12; // error, lhs can't be a readonly property
 let differentName;

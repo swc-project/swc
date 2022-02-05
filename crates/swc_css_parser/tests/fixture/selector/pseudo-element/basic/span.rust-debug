@@ -6,9 +6,9 @@ error: Stylesheet
 3  | | dialog::backdrop {}
 4  | |
 ...  |
-29 | |
-30 | | .form-range::-webkit-slider-thumb:active {}
-   | |____________________________________________^
+36 | | a, b > .foo::before {}
+37 | | *:hover.class {}
+   | |_________________^
 
 error: Rule
  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1
@@ -1119,4 +1119,442 @@ error: Block
    |
 30 | .form-range::-webkit-slider-thumb:active {}
    |                                          ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1
+   |
+32 | a::bEfOrE {}
+   | ^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1
+   |
+32 | a::bEfOrE {}
+   | ^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1
+   |
+32 | a::bEfOrE {}
+   | ^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1
+   |
+32 | a::bEfOrE {}
+   | ^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1
+   |
+32 | a::bEfOrE {}
+   | ^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1
+   |
+32 | a::bEfOrE {}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1
+   |
+32 | a::bEfOrE {}
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:2
+   |
+32 | a::bEfOrE {}
+   |  ^^^^^^^^
+
+error: PseudoElementSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:2
+   |
+32 | a::bEfOrE {}
+   |  ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:4
+   |
+32 | a::bEfOrE {}
+   |    ^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:11
+   |
+32 | a::bEfOrE {}
+   |           ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1
+   |
+34 | a:hover::before {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1
+   |
+34 | a:hover::before {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1
+   |
+34 | a:hover::before {}
+   | ^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1
+   |
+34 | a:hover::before {}
+   | ^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1
+   |
+34 | a:hover::before {}
+   | ^^^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1
+   |
+34 | a:hover::before {}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1
+   |
+34 | a:hover::before {}
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:2
+   |
+34 | a:hover::before {}
+   |  ^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:2
+   |
+34 | a:hover::before {}
+   |  ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:3
+   |
+34 | a:hover::before {}
+   |   ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:8
+   |
+34 | a:hover::before {}
+   |        ^^^^^^^^
+
+error: PseudoElementSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:8
+   |
+34 | a:hover::before {}
+   |        ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:10
+   |
+34 | a:hover::before {}
+   |          ^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:17
+   |
+34 | a:hover::before {}
+   |                 ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1
+   |
+35 | a:hover::-moz-placeholder {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1
+   |
+35 | a:hover::-moz-placeholder {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1
+   |
+35 | a:hover::-moz-placeholder {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1
+   |
+35 | a:hover::-moz-placeholder {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1
+   |
+35 | a:hover::-moz-placeholder {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1
+   |
+35 | a:hover::-moz-placeholder {}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1
+   |
+35 | a:hover::-moz-placeholder {}
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:2
+   |
+35 | a:hover::-moz-placeholder {}
+   |  ^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:2
+   |
+35 | a:hover::-moz-placeholder {}
+   |  ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:3
+   |
+35 | a:hover::-moz-placeholder {}
+   |   ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:8
+   |
+35 | a:hover::-moz-placeholder {}
+   |        ^^^^^^^^^^^^^^^^^^
+
+error: PseudoElementSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:8
+   |
+35 | a:hover::-moz-placeholder {}
+   |        ^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:10
+   |
+35 | a:hover::-moz-placeholder {}
+   |          ^^^^^^^^^^^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:27
+   |
+35 | a:hover::-moz-placeholder {}
+   |                           ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1
+   |
+36 | a, b > .foo::before {}
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1
+   |
+36 | a, b > .foo::before {}
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1
+   |
+36 | a, b > .foo::before {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1
+   |
+36 | a, b > .foo::before {}
+   | ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1
+   |
+36 | a, b > .foo::before {}
+   | ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1
+   |
+36 | a, b > .foo::before {}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1
+   |
+36 | a, b > .foo::before {}
+   | ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:4
+   |
+36 | a, b > .foo::before {}
+   |    ^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:4
+   |
+36 | a, b > .foo::before {}
+   |    ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:4
+   |
+36 | a, b > .foo::before {}
+   |    ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:4
+   |
+36 | a, b > .foo::before {}
+   |    ^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:6
+   |
+36 | a, b > .foo::before {}
+   |      ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:8
+   |
+36 | a, b > .foo::before {}
+   |        ^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:8
+   |
+36 | a, b > .foo::before {}
+   |        ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:8
+   |
+36 | a, b > .foo::before {}
+   |        ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:9
+   |
+36 | a, b > .foo::before {}
+   |         ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:12
+   |
+36 | a, b > .foo::before {}
+   |            ^^^^^^^^
+
+error: PseudoElementSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:12
+   |
+36 | a, b > .foo::before {}
+   |            ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:14
+   |
+36 | a, b > .foo::before {}
+   |              ^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:21
+   |
+36 | a, b > .foo::before {}
+   |                     ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1
+   |
+37 | *:hover.class {}
+   | ^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1
+   |
+37 | *:hover.class {}
+   | ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1
+   |
+37 | *:hover.class {}
+   | ^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1
+   |
+37 | *:hover.class {}
+   | ^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1
+   |
+37 | *:hover.class {}
+   | ^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1
+   |
+37 | *:hover.class {}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1
+   |
+37 | *:hover.class {}
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:2
+   |
+37 | *:hover.class {}
+   |  ^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:2
+   |
+37 | *:hover.class {}
+   |  ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:3
+   |
+37 | *:hover.class {}
+   |   ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:8
+   |
+37 | *:hover.class {}
+   |        ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:8
+   |
+37 | *:hover.class {}
+   |        ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:9
+   |
+37 | *:hover.class {}
+   |         ^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:15
+   |
+37 | *:hover.class {}
+   |               ^^
 

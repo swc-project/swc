@@ -13,3 +13,6 @@ new A();
 var a = {
     a: ''
 };
+var b = {
+    A: A
+};

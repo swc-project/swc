@@ -9,6 +9,12 @@ function _classPrivateFieldGet(receiver, privateMap) {
     }
     return privateMap.get(receiver).value;
 }
+function _classPrivateMethodGet(receiver, privateSet, fn) {
+    if (!privateSet.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return fn;
+}
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
@@ -24,7 +30,8 @@ function _createClass(Constructor, protoProps, staticProps) {
     return Constructor;
 }
 var Foo = // @strict: true
-// @target: esnext
+// @target: esnext, es2022
+// @useDefineForClassFields: false
 /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
@@ -50,3 +57,26 @@ var Foo = // @strict: true
     return Foo;
 }();
 var _p1 = new WeakMap();
+var _p11 = new WeakSet();
+var Foo2 = /*#__PURE__*/ function() {
+    "use strict";
+    function Foo2() {
+        _classCallCheck(this, Foo2);
+        _p11.add(this);
+    }
+    _createClass(Foo2, [
+        {
+            key: "m1",
+            value: function m1(v) {
+                _classPrivateMethodGet(this, _p11, p1).call(this, v);
+                v;
+            }
+        }
+    ]);
+    return Foo2;
+}();
+function p1(v) {
+    if (typeof v !== "string") {
+        throw new Error();
+    }
+}

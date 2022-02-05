@@ -19,7 +19,7 @@ fn identity(entry: PathBuf) {
     let file_name = entry
         .to_string_lossy()
         .replace("\\\\", "/")
-        .replace("\\", "/");
+        .replace('\\', "/");
 
     let ignored = &[
         // Cannot run the test with current test suite
@@ -60,8 +60,8 @@ fn identity(entry: PathBuf) {
         "inlineJsxFactoryDeclarationsx",
         "tsxAttributeResolution5x",
         "jsxReactTestSuitex",
-        "tsxErrorRecovery2x",
-        "tsxErrorRecovery3x",
+        "tsxErrorRecovery2",
+        "tsxErrorRecovery3",
         "tsxReactEmitNestingx",
         "tsxTypeArgumentsJsxPreserveOutputx",
         "unicodeEscapesInJsxtagsx",
@@ -78,6 +78,22 @@ fn identity(entry: PathBuf) {
         "tsc/objectRestPropertyMustBeLast.ts",
         "tsc/propertyNamesOfReservedWords.ts",
         "tsc/callSignaturesWithParameterInitializers.ts",
+        "parserForOfStatement23",
+        "parserForOfStatement24",
+        "constEnum4",
+        "checkJsxNamespaceNamesQuestionableForms",
+        "classExtendingOptionalChain",
+        "inlineJsxFactoryDeclarations",
+        "interfaceExtendingOptionalChain",
+        "inlineJsxFactoryDeclarations",
+        "interfaceExtendingOptionalChain",
+        "interfacesWithPredefinedTypesAsNames",
+        "jsxReactTestSuite",
+        "namedTupleMembersErrors",
+        "tsxAttributeResolution5",
+        "tsxReactEmitNesting",
+        "tsxTypeArgumentsJsxPreserveOutput",
+        "unicodeEscapesInJsxtags",
     ];
 
     // TODO: Unignore const enum test
@@ -159,6 +175,8 @@ fn identity(entry: PathBuf) {
                 export_default_from: true,
                 private_in_object: true,
                 import_assertions: true,
+                allow_super_outside_method: true,
+                static_blocks: true,
                 ..Default::default()
             }),
             (&*js_fm).into(),

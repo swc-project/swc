@@ -3,5 +3,4 @@ class Base {
 }
 const BaseFactory = ()=>new Base()
 ;
-BaseFactory.Base = Base, module.exports = BaseFactory, (base)=>base
-;
+BaseFactory.Base = Base, module.exports = BaseFactory;

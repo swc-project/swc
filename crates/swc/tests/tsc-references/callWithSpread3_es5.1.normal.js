@@ -51,8 +51,8 @@ fs2.apply(void 0, _toConsumableArray(s2).concat([
 fs2.apply(void 0, _toConsumableArray(s3)); // error on ...s3
 fs2_.apply(void 0, _toConsumableArray(s_)); // error on ...s_
 fs2_.apply(void 0, _toConsumableArray(s2n_)); // error on ...s2n_
-fs2_.apply(void 0, _toConsumableArray(s_).concat(_toConsumableArray(s_))); // error         FIXME: bad error message
-fs2_.apply(void 0, _toConsumableArray(s_).concat(_toConsumableArray(s_), _toConsumableArray(s_))); // error  FIXME: worse error message
+fs2_.apply(void 0, _toConsumableArray(s_).concat(_toConsumableArray(s_))); // error on ...s_
+fs2_.apply(void 0, _toConsumableArray(s_).concat(_toConsumableArray(s_), _toConsumableArray(s_))); // error on ...s_
 // fs2n_(...s2, ...s_); //           FIXME: should be a type error
 fs2n_.apply(void 0, _toConsumableArray(s2_)); // error on ...s2_
 // ok

@@ -1,0 +1,223 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 103,
+    "end": 345,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 103,
+        "end": 133,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 119,
+            "end": 128,
+            "ctxt": 0
+          },
+          "value": "Component",
+          "optional": false
+        },
+        "declare": false,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 110,
+          "end": 133,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 131,
+            "end": 133,
+            "ctxt": 0
+          },
+          "stmts": []
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 134,
+        "end": 168,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsInterfaceDeclaration",
+        "span": {
+          "start": 141,
+          "end": 168,
+          "ctxt": 0
+        },
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 151,
+            "end": 165,
+            "ctxt": 0
+          },
+          "value": "ComponentProps",
+          "optional": false
+        },
+        "declare": false,
+        "typeParams": null,
+        "extends": [],
+        "body": {
+          "type": "TsInterfaceBody",
+          "span": {
+            "start": 166,
+            "end": 168,
+            "ctxt": 0
+          },
+          "body": []
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 194,
+        "end": 251,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 203,
+            "end": 212,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 203,
+              "end": 212,
+              "ctxt": 0
+            },
+            "value": "Component",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": false
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 214,
+            "end": 228,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 214,
+              "end": 228,
+              "ctxt": 0
+            },
+            "value": "ComponentProps",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": false
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 236,
+          "end": 250,
+          "ctxt": 0
+        },
+        "value": "./exports.js",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 283,
+        "end": 345,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 292,
+            "end": 301,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 292,
+              "end": 301,
+              "ctxt": 0
+            },
+            "value": "Component",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": false
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 303,
+            "end": 322,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 308,
+              "end": 322,
+              "ctxt": 0
+            },
+            "value": "ComponentProps",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": true
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 330,
+          "end": 344,
+          "ctxt": 0
+        },
+        "value": "./exports.js",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    }
+  ],
+  "interpreter": null
+}

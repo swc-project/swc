@@ -1,0 +1,2109 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 147,
+    "end": 1571,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 147,
+        "end": 170,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 153,
+            "end": 169,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 153,
+              "end": 158,
+              "ctxt": 0
+            },
+            "value": "count",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 161,
+              "end": 169,
+              "ctxt": 0
+            },
+            "value": 26254.39
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 171,
+        "end": 207,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 177,
+            "end": 206,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 177,
+              "end": 181,
+              "ctxt": 0
+            },
+            "value": "date",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NewExpression",
+            "span": {
+              "start": 184,
+              "end": 206,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 188,
+                "end": 192,
+                "ctxt": 0
+              },
+              "value": "Date",
+              "optional": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 193,
+                    "end": 205,
+                    "ctxt": 0
+                  },
+                  "value": "2012-05-24",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 218,
+          "end": 221,
+          "ctxt": 0
+        },
+        "value": "log",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 222,
+            "end": 236,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 222,
+              "end": 236,
+              "ctxt": 0
+            },
+            "value": "locale",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 228,
+                "end": 236,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 230,
+                  "end": 236,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 209,
+        "end": 362,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 238,
+          "end": 362,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 242,
+              "end": 360,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 242,
+                "end": 359,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 242,
+                  "end": 253,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 242,
+                    "end": 249,
+                    "ctxt": 0
+                  },
+                  "value": "console",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 250,
+                    "end": 253,
+                    "ctxt": 0
+                  },
+                  "value": "log",
+                  "optional": false
+                }
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "TemplateLiteral",
+                    "span": {
+                      "start": 259,
+                      "end": 355,
+                      "ctxt": 0
+                    },
+                    "expressions": [
+                      {
+                        "type": "CallExpression",
+                        "span": {
+                          "start": 262,
+                          "end": 306,
+                          "ctxt": 0
+                        },
+                        "callee": {
+                          "type": "MemberExpression",
+                          "span": {
+                            "start": 262,
+                            "end": 300,
+                            "ctxt": 0
+                          },
+                          "object": {
+                            "type": "NewExpression",
+                            "span": {
+                              "start": 262,
+                              "end": 293,
+                              "ctxt": 0
+                            },
+                            "callee": {
+                              "type": "MemberExpression",
+                              "span": {
+                                "start": 266,
+                                "end": 285,
+                                "ctxt": 0
+                              },
+                              "object": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 266,
+                                  "end": 270,
+                                  "ctxt": 0
+                                },
+                                "value": "Intl",
+                                "optional": false
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 271,
+                                  "end": 285,
+                                  "ctxt": 0
+                                },
+                                "value": "DateTimeFormat",
+                                "optional": false
+                              }
+                            },
+                            "arguments": [
+                              {
+                                "spread": null,
+                                "expression": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 286,
+                                    "end": 292,
+                                    "ctxt": 0
+                                  },
+                                  "value": "locale",
+                                  "optional": false
+                                }
+                              }
+                            ],
+                            "typeArguments": null
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 294,
+                              "end": 300,
+                              "ctxt": 0
+                            },
+                            "value": "format",
+                            "optional": false
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "spread": null,
+                            "expression": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 301,
+                                "end": 305,
+                                "ctxt": 0
+                              },
+                              "value": "date",
+                              "optional": false
+                            }
+                          }
+                        ],
+                        "typeArguments": null
+                      },
+                      {
+                        "type": "CallExpression",
+                        "span": {
+                          "start": 310,
+                          "end": 353,
+                          "ctxt": 0
+                        },
+                        "callee": {
+                          "type": "MemberExpression",
+                          "span": {
+                            "start": 310,
+                            "end": 346,
+                            "ctxt": 0
+                          },
+                          "object": {
+                            "type": "NewExpression",
+                            "span": {
+                              "start": 310,
+                              "end": 339,
+                              "ctxt": 0
+                            },
+                            "callee": {
+                              "type": "MemberExpression",
+                              "span": {
+                                "start": 314,
+                                "end": 331,
+                                "ctxt": 0
+                              },
+                              "object": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 314,
+                                  "end": 318,
+                                  "ctxt": 0
+                                },
+                                "value": "Intl",
+                                "optional": false
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 319,
+                                  "end": 331,
+                                  "ctxt": 0
+                                },
+                                "value": "NumberFormat",
+                                "optional": false
+                              }
+                            },
+                            "arguments": [
+                              {
+                                "spread": null,
+                                "expression": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 332,
+                                    "end": 338,
+                                    "ctxt": 0
+                                  },
+                                  "value": "locale",
+                                  "optional": false
+                                }
+                              }
+                            ],
+                            "typeArguments": null
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 340,
+                              "end": 346,
+                              "ctxt": 0
+                            },
+                            "value": "format",
+                            "optional": false
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "spread": null,
+                            "expression": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 347,
+                                "end": 352,
+                                "ctxt": 0
+                              },
+                              "value": "count",
+                              "optional": false
+                            }
+                          }
+                        ],
+                        "typeArguments": null
+                      }
+                    ],
+                    "quasis": [
+                      {
+                        "type": "TemplateElement",
+                        "span": {
+                          "start": 260,
+                          "end": 260,
+                          "ctxt": 0
+                        },
+                        "tail": false,
+                        "cooked": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 260,
+                            "end": 260,
+                            "ctxt": 0
+                          },
+                          "value": "",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": false
+                          }
+                        },
+                        "raw": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 260,
+                            "end": 260,
+                            "ctxt": 0
+                          },
+                          "value": "",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": false
+                          }
+                        }
+                      },
+                      {
+                        "type": "TemplateElement",
+                        "span": {
+                          "start": 307,
+                          "end": 308,
+                          "ctxt": 0
+                        },
+                        "tail": false,
+                        "cooked": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 307,
+                            "end": 308,
+                            "ctxt": 0
+                          },
+                          "value": " ",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": false
+                          }
+                        },
+                        "raw": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 307,
+                            "end": 308,
+                            "ctxt": 0
+                          },
+                          "value": " ",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": false
+                          }
+                        }
+                      },
+                      {
+                        "type": "TemplateElement",
+                        "span": {
+                          "start": 354,
+                          "end": 354,
+                          "ctxt": 0
+                        },
+                        "tail": true,
+                        "cooked": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 354,
+                            "end": 354,
+                            "ctxt": 0
+                          },
+                          "value": "",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": false
+                          }
+                        },
+                        "raw": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 354,
+                            "end": 354,
+                            "ctxt": 0
+                          },
+                          "value": "",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": false
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 364,
+        "end": 377,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 364,
+          "end": 376,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 364,
+            "end": 367,
+            "ctxt": 0
+          },
+          "value": "log",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 368,
+                "end": 375,
+                "ctxt": 0
+              },
+              "value": "en-US",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 419,
+        "end": 432,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 419,
+          "end": 431,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 419,
+            "end": 422,
+            "ctxt": 0
+          },
+          "value": "log",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 423,
+                "end": 430,
+                "ctxt": 0
+              },
+              "value": "de-DE",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 582,
+        "end": 650,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 588,
+            "end": 649,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 588,
+              "end": 592,
+              "ctxt": 0
+            },
+            "value": "rtf1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NewExpression",
+            "span": {
+              "start": 595,
+              "end": 649,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 599,
+                "end": 622,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 599,
+                  "end": 603,
+                  "ctxt": 0
+                },
+                "value": "Intl",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 604,
+                  "end": 622,
+                  "ctxt": 0
+                },
+                "value": "RelativeTimeFormat",
+                "optional": false
+              }
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 623,
+                    "end": 627,
+                    "ctxt": 0
+                  },
+                  "value": "en",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 629,
+                    "end": 648,
+                    "ctxt": 0
+                  },
+                  "properties": [
+                    {
+                      "type": "KeyValueProperty",
+                      "key": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 631,
+                          "end": 636,
+                          "ctxt": 0
+                        },
+                        "value": "style",
+                        "optional": false
+                      },
+                      "value": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 638,
+                          "end": 646,
+                          "ctxt": 0
+                        },
+                        "value": "narrow",
+                        "hasEscape": false,
+                        "kind": {
+                          "type": "normal",
+                          "containsQuote": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 652,
+        "end": 691,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 652,
+          "end": 690,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 652,
+            "end": 663,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 652,
+              "end": 659,
+              "ctxt": 0
+            },
+            "value": "console",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 660,
+              "end": 663,
+              "ctxt": 0
+            },
+            "value": "log",
+            "optional": false
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 664,
+                "end": 689,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 664,
+                  "end": 675,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 664,
+                    "end": 668,
+                    "ctxt": 0
+                  },
+                  "value": "rtf1",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 669,
+                    "end": 675,
+                    "ctxt": 0
+                  },
+                  "value": "format",
+                  "optional": false
+                }
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 676,
+                      "end": 677,
+                      "ctxt": 0
+                    },
+                    "value": 3.0
+                  }
+                },
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 679,
+                      "end": 688,
+                      "ctxt": 0
+                    },
+                    "value": "quarter",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 725,
+        "end": 761,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 725,
+          "end": 760,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 725,
+            "end": 736,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 725,
+              "end": 732,
+              "ctxt": 0
+            },
+            "value": "console",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 733,
+              "end": 736,
+              "ctxt": 0
+            },
+            "value": "log",
+            "optional": false
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 737,
+                "end": 759,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 737,
+                  "end": 748,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 737,
+                    "end": 741,
+                    "ctxt": 0
+                  },
+                  "value": "rtf1",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 742,
+                    "end": 748,
+                    "ctxt": 0
+                  },
+                  "value": "format",
+                  "optional": false
+                }
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "UnaryExpression",
+                    "span": {
+                      "start": 749,
+                      "end": 751,
+                      "ctxt": 0
+                    },
+                    "operator": "-",
+                    "argument": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 750,
+                        "end": 751,
+                        "ctxt": 0
+                      },
+                      "value": 1.0
+                    }
+                  }
+                },
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 753,
+                      "end": 758,
+                      "ctxt": 0
+                    },
+                    "value": "day",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 794,
+        "end": 862,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 800,
+            "end": 861,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 800,
+              "end": 804,
+              "ctxt": 0
+            },
+            "value": "rtf2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NewExpression",
+            "span": {
+              "start": 807,
+              "end": 861,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 811,
+                "end": 834,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 811,
+                  "end": 815,
+                  "ctxt": 0
+                },
+                "value": "Intl",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 816,
+                  "end": 834,
+                  "ctxt": 0
+                },
+                "value": "RelativeTimeFormat",
+                "optional": false
+              }
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 835,
+                    "end": 839,
+                    "ctxt": 0
+                  },
+                  "value": "es",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 841,
+                    "end": 860,
+                    "ctxt": 0
+                  },
+                  "properties": [
+                    {
+                      "type": "KeyValueProperty",
+                      "key": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 843,
+                          "end": 850,
+                          "ctxt": 0
+                        },
+                        "value": "numeric",
+                        "optional": false
+                      },
+                      "value": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 852,
+                          "end": 858,
+                          "ctxt": 0
+                        },
+                        "value": "auto",
+                        "hasEscape": false,
+                        "kind": {
+                          "type": "normal",
+                          "containsQuote": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 864,
+        "end": 899,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 864,
+          "end": 898,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 864,
+            "end": 875,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 864,
+              "end": 871,
+              "ctxt": 0
+            },
+            "value": "console",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 872,
+              "end": 875,
+              "ctxt": 0
+            },
+            "value": "log",
+            "optional": false
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 876,
+                "end": 897,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 876,
+                  "end": 887,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 876,
+                    "end": 880,
+                    "ctxt": 0
+                  },
+                  "value": "rtf2",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 881,
+                    "end": 887,
+                    "ctxt": 0
+                  },
+                  "value": "format",
+                  "optional": false
+                }
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 888,
+                      "end": 889,
+                      "ctxt": 0
+                    },
+                    "value": 2.0
+                  }
+                },
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 891,
+                      "end": 896,
+                      "ctxt": 0
+                    },
+                    "value": "day",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1039,
+        "end": 1118,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1045,
+            "end": 1117,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1045,
+              "end": 1065,
+              "ctxt": 0
+            },
+            "value": "regionNamesInEnglish",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NewExpression",
+            "span": {
+              "start": 1068,
+              "end": 1117,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1072,
+                "end": 1089,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1072,
+                  "end": 1076,
+                  "ctxt": 0
+                },
+                "value": "Intl",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1077,
+                  "end": 1089,
+                  "ctxt": 0
+                },
+                "value": "DisplayNames",
+                "optional": false
+              }
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ArrayExpression",
+                  "span": {
+                    "start": 1090,
+                    "end": 1096,
+                    "ctxt": 0
+                  },
+                  "elements": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 1091,
+                          "end": 1095,
+                          "ctxt": 0
+                        },
+                        "value": "en",
+                        "hasEscape": false,
+                        "kind": {
+                          "type": "normal",
+                          "containsQuote": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 1098,
+                    "end": 1116,
+                    "ctxt": 0
+                  },
+                  "properties": [
+                    {
+                      "type": "KeyValueProperty",
+                      "key": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1100,
+                          "end": 1104,
+                          "ctxt": 0
+                        },
+                        "value": "type",
+                        "optional": false
+                      },
+                      "value": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 1106,
+                          "end": 1114,
+                          "ctxt": 0
+                        },
+                        "value": "region",
+                        "hasEscape": false,
+                        "kind": {
+                          "type": "normal",
+                          "containsQuote": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1119,
+        "end": 1214,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1125,
+            "end": 1213,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1125,
+              "end": 1156,
+              "ctxt": 0
+            },
+            "value": "regionNamesInTraditionalChinese",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NewExpression",
+            "span": {
+              "start": 1159,
+              "end": 1213,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1163,
+                "end": 1180,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1163,
+                  "end": 1167,
+                  "ctxt": 0
+                },
+                "value": "Intl",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1168,
+                  "end": 1180,
+                  "ctxt": 0
+                },
+                "value": "DisplayNames",
+                "optional": false
+              }
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ArrayExpression",
+                  "span": {
+                    "start": 1181,
+                    "end": 1192,
+                    "ctxt": 0
+                  },
+                  "elements": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 1182,
+                          "end": 1191,
+                          "ctxt": 0
+                        },
+                        "value": "zh-Hant",
+                        "hasEscape": false,
+                        "kind": {
+                          "type": "normal",
+                          "containsQuote": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 1194,
+                    "end": 1212,
+                    "ctxt": 0
+                  },
+                  "properties": [
+                    {
+                      "type": "KeyValueProperty",
+                      "key": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1196,
+                          "end": 1200,
+                          "ctxt": 0
+                        },
+                        "value": "type",
+                        "optional": false
+                      },
+                      "value": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 1202,
+                          "end": 1210,
+                          "ctxt": 0
+                        },
+                        "value": "region",
+                        "hasEscape": false,
+                        "kind": {
+                          "type": "normal",
+                          "containsQuote": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1216,
+        "end": 1259,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 1216,
+          "end": 1258,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 1216,
+            "end": 1227,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 1216,
+              "end": 1223,
+              "ctxt": 0
+            },
+            "value": "console",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 1224,
+              "end": 1227,
+              "ctxt": 0
+            },
+            "value": "log",
+            "optional": false
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1228,
+                "end": 1257,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1228,
+                  "end": 1251,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1228,
+                    "end": 1248,
+                    "ctxt": 0
+                  },
+                  "value": "regionNamesInEnglish",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1249,
+                    "end": 1251,
+                    "ctxt": 0
+                  },
+                  "value": "of",
+                  "optional": false
+                }
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1252,
+                      "end": 1256,
+                      "ctxt": 0
+                    },
+                    "value": "US",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1297,
+        "end": 1351,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 1297,
+          "end": 1350,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 1297,
+            "end": 1308,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 1297,
+              "end": 1304,
+              "ctxt": 0
+            },
+            "value": "console",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 1305,
+              "end": 1308,
+              "ctxt": 0
+            },
+            "value": "log",
+            "optional": false
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1309,
+                "end": 1349,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1309,
+                  "end": 1343,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1309,
+                    "end": 1340,
+                    "ctxt": 0
+                  },
+                  "value": "regionNamesInTraditionalChinese",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1341,
+                    "end": 1343,
+                    "ctxt": 0
+                  },
+                  "value": "of",
+                  "optional": false
+                }
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1344,
+                      "end": 1348,
+                      "ctxt": 0
+                    },
+                    "value": "US",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1382,
+        "end": 1434,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1388,
+            "end": 1433,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1388,
+              "end": 1396,
+              "ctxt": 0
+            },
+            "value": "locales1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrayExpression",
+            "span": {
+              "start": 1399,
+              "end": 1433,
+              "ctxt": 0
+            },
+            "elements": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 1400,
+                    "end": 1405,
+                    "ctxt": 0
+                  },
+                  "value": "ban",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 1407,
+                    "end": 1423,
+                    "ctxt": 0
+                  },
+                  "value": "id-u-co-pinyin",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 1425,
+                    "end": 1432,
+                    "ctxt": 0
+                  },
+                  "value": "de-ID",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1435,
+        "end": 1489,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1441,
+            "end": 1488,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1441,
+              "end": 1449,
+              "ctxt": 0
+            },
+            "value": "options1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "TsConstAssertion",
+            "span": {
+              "start": 1452,
+              "end": 1488,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 1452,
+                "end": 1479,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1454,
+                      "end": 1467,
+                      "ctxt": 0
+                    },
+                    "value": "localeMatcher",
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1469,
+                      "end": 1477,
+                      "ctxt": 0
+                    },
+                    "value": "lookup",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1490,
+        "end": 1571,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 1490,
+          "end": 1570,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 1490,
+            "end": 1501,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 1490,
+              "end": 1497,
+              "ctxt": 0
+            },
+            "value": "console",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 1498,
+              "end": 1501,
+              "ctxt": 0
+            },
+            "value": "log",
+            "optional": false
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1502,
+                "end": 1569,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 1502,
+                  "end": 1563,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "CallExpression",
+                  "span": {
+                    "start": 1502,
+                    "end": 1558,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 1502,
+                      "end": 1538,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "MemberExpression",
+                      "span": {
+                        "start": 1502,
+                        "end": 1519,
+                        "ctxt": 0
+                      },
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1502,
+                          "end": 1506,
+                          "ctxt": 0
+                        },
+                        "value": "Intl",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1507,
+                          "end": 1519,
+                          "ctxt": 0
+                        },
+                        "value": "DisplayNames",
+                        "optional": false
+                      }
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1520,
+                        "end": 1538,
+                        "ctxt": 0
+                      },
+                      "value": "supportedLocalesOf",
+                      "optional": false
+                    }
+                  },
+                  "arguments": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1539,
+                          "end": 1547,
+                          "ctxt": 0
+                        },
+                        "value": "locales1",
+                        "optional": false
+                      }
+                    },
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1549,
+                          "end": 1557,
+                          "ctxt": 0
+                        },
+                        "value": "options1",
+                        "optional": false
+                      }
+                    }
+                  ],
+                  "typeArguments": null
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1559,
+                    "end": 1563,
+                    "ctxt": 0
+                  },
+                  "value": "join",
+                  "optional": false
+                }
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1564,
+                      "end": 1568,
+                      "ctxt": 0
+                    },
+                    "value": ", ",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

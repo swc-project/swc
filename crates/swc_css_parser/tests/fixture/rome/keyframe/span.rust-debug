@@ -72,15 +72,6 @@ error: Ident
 2 |     from {
   |     ^^^^
 
-error: KeyframeBlockRule
- --> $DIR/tests/fixture/rome/keyframe/input.css:2:10
-  |
-2 |       from {
-  |  __________^
-3 | |         margin-top: 50px !important;
-4 | |     }
-  | |_____^
-
 error: Block
  --> $DIR/tests/fixture/rome/keyframe/input.css:2:10
   |
@@ -151,15 +142,6 @@ error: Ident
   |
 5 |     to {
   |     ^^
-
-error: KeyframeBlockRule
- --> $DIR/tests/fixture/rome/keyframe/input.css:5:8
-  |
-5 |       to {
-  |  ________^
-6 | |         margin-top: 100px !important;
-7 | |     }
-  | |_____^
 
 error: Block
  --> $DIR/tests/fixture/rome/keyframe/input.css:5:8
@@ -273,14 +255,6 @@ error: Ident
 11 |     from {
    |     ^^^^
 
-error: KeyframeBlockRule
-  --> $DIR/tests/fixture/rome/keyframe/input.css:11:10
-   |
-11 |       from {
-   |  __________^
-12 | |     }
-   | |_____^
-
 error: Block
   --> $DIR/tests/fixture/rome/keyframe/input.css:11:10
    |
@@ -307,14 +281,6 @@ error: Ident
    |
 13 |     to {
    |     ^^
-
-error: KeyframeBlockRule
-  --> $DIR/tests/fixture/rome/keyframe/input.css:13:8
-   |
-13 |       to {
-   |  ________^
-14 | |     }
-   | |_____^
 
 error: Block
   --> $DIR/tests/fixture/rome/keyframe/input.css:13:8
@@ -349,14 +315,6 @@ error: Number
 15 |     15% {
    |     ^^
 
-error: KeyframeBlockRule
-  --> $DIR/tests/fixture/rome/keyframe/input.css:15:9
-   |
-15 |       15% {
-   |  _________^
-16 | |     }
-   | |_____^
-
 error: Block
   --> $DIR/tests/fixture/rome/keyframe/input.css:15:9
    |
@@ -390,14 +348,6 @@ error: Number
 17 |     0% {
    |     ^
 
-error: KeyframeBlockRule
-  --> $DIR/tests/fixture/rome/keyframe/input.css:17:8
-   |
-17 |       0% {
-   |  ________^
-18 | |     }
-   | |_____^
-
 error: Block
   --> $DIR/tests/fixture/rome/keyframe/input.css:17:8
    |
@@ -430,14 +380,6 @@ error: Number
    |
 19 |     100% {
    |     ^^^
-
-error: KeyframeBlockRule
-  --> $DIR/tests/fixture/rome/keyframe/input.css:19:10
-   |
-19 |       100% {
-   |  __________^
-20 | |     }
-   | |_____^
 
 error: Block
   --> $DIR/tests/fixture/rome/keyframe/input.css:19:10

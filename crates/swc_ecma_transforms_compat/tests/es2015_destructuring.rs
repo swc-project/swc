@@ -1992,3 +1992,114 @@ test!(
     ref = [], ref1 = ref[0], bar = ref1 === void 0 ? baz : ref1, ref;
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    statements_let_dstr_ary_ptrn_elem_id_init_hole,
+    "\
+    let [x = 23] = [,];
+
+    assert.sameValue(x, 23);
+    ",
+    "\
+    let x = 23;
+    assert.sameValue(x, 23);
+   "
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    statements_let_dstr_ary_ptrn_elem_id_init_hole_2,
+    "\
+    let y = [x = 23] = [,];
+    ",
+    "\
+    var ref, ref1;
+    let y = (ref = [,], ref1 = ref[0], x = ref1 === void 0 ? 23 : ref1, ref);
+   "
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    statements_const_dstr_ary_ptrn_elem_id_init_hole,
+    "\
+    const [x = 23] = [,];
+
+    assert.sameValue(x, 23);
+    ",
+    "\
+    const x = 23;
+    assert.sameValue(x, 23);
+   "
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    statements_const_dstr_ary_ptrn_elem_id_init_hole_2,
+    "const [x = 23, y = 42] = [,,];",
+    "const x = 23, y = 42;"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    statements_const_dstr_ary_ptrn_elem_id_init_hole_3,
+    "const [x = 23, y] = [, 42];",
+    "const x = 23, y = 42;"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    statements_const_dstr_ary_ptrn_elem_id_init_hole_4,
+    "\
+    function* foo() {
+        yield 1;
+        yield 2;
+      }
+      
+      let bar = foo();
+      
+      const [x = bar.next().value, y] = [, bar.next().value];
+      console.log(x, y);
+      ",
+    "\
+    function* foo() {
+        yield 1;
+        yield 2;
+    }
+    let bar = foo();
+    const ref = [,bar.next().value], tmp = ref[0],
+    x = tmp === void 0 ? bar.next().value : tmp, y = ref[1];
+    console.log(x, y);"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    for_const_dstr_ary_ptrn_elem_id_init_hole,
+    "\
+    var iterCount = 0;
+
+    for (const [x = 23] = [,]; iterCount < 1; ) {
+      assert.sameValue(x, 23);
+      // another statement
+    
+      iterCount += 1;
+    }
+    
+    assert.sameValue(iterCount, 1, 'Iteration occurred as expected');
+    ",
+    "\
+    var iterCount = 0;
+    for(const x = 23; iterCount < 1;){
+        assert.sameValue(x, 23);
+        iterCount += 1;
+    }
+    assert.sameValue(iterCount, 1, 'Iteration occurred as expected');
+   "
+);

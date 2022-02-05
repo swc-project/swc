@@ -178,14 +178,6 @@ where
     }
 
     #[emitter]
-    fn emit_keyframes_name(&mut self, n: &KeyframesName) -> Result {
-        match n {
-            KeyframesName::CustomIdent(n) => emit!(self, n),
-            KeyframesName::Str(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
     fn emit_keyframes_rule(&mut self, n: &KeyframesRule) -> Result {
         punct!(self, "@");
         keyword!(self, "keyframes");
@@ -200,7 +192,6 @@ where
         }
 
         emit!(self, n.name);
-
         formatting_space!(self);
         punct!(self, "{");
         formatting_newline!(self);
@@ -216,6 +207,31 @@ where
 
         formatting_newline!(self);
         punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_keyframes_name(&mut self, n: &KeyframesName) -> Result {
+        match n {
+            KeyframesName::CustomIdent(n) => emit!(self, n),
+            KeyframesName::Str(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_keyframe_block(&mut self, n: &KeyframeBlock) -> Result {
+        self.emit_list(&n.prelude, ListFormat::CommaDelimited)?;
+
+        formatting_space!(self);
+
+        emit!(self, n.block);
+    }
+
+    #[emitter]
+    fn emit_keyframe_selector(&mut self, n: &KeyframeSelector) -> Result {
+        match n {
+            KeyframeSelector::Ident(n) => emit!(self, n),
+            KeyframeSelector::Percent(n) => emit!(self, n),
+        }
     }
 
     #[emitter]
@@ -261,23 +277,6 @@ where
             punct!(self, "}");
         } else {
             punct!(self, ";");
-        }
-    }
-
-    #[emitter]
-    fn emit_keyframe_block(&mut self, n: &KeyframeBlock) -> Result {
-        self.emit_list(&n.selector, ListFormat::CommaDelimited)?;
-
-        formatting_space!(self);
-
-        emit!(self, n.rule);
-    }
-
-    #[emitter]
-    fn emit_keyframe_selector(&mut self, n: &KeyframeSelector) -> Result {
-        match n {
-            KeyframeSelector::Ident(n) => emit!(self, n),
-            KeyframeSelector::Percent(n) => emit!(self, n),
         }
     }
 
@@ -893,14 +892,6 @@ where
     }
 
     #[emitter]
-    fn emit_keyframe_block_rule(&mut self, n: &KeyframeBlockRule) -> Result {
-        match n {
-            KeyframeBlockRule::Block(n) => emit!(self, n),
-            KeyframeBlockRule::AtRule(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
     fn emit_percent(&mut self, n: &Percent) -> Result {
         emit!(self, n.value);
         punct!(self, "%");
@@ -1015,7 +1006,13 @@ where
     fn emit_hex_color(&mut self, n: &HexColor) -> Result {
         punct!(self, "#");
 
-        self.wr.write_raw(Some(n.span), &n.raw)?;
+        if self.config.minify {
+            let minified = minify_hex_color(&n.value);
+
+            self.wr.write_raw(Some(n.span), &minified)?;
+        } else {
+            self.wr.write_raw(Some(n.span), &n.raw)?;
+        }
     }
 
     #[emitter]
@@ -1101,11 +1098,15 @@ where
                 Token::Url {
                     raw_name,
                     raw_value,
+                    before,
+                    after,
                     ..
                 } => {
                     self.wr.write_raw(None, raw_name)?;
                     punct!(self, "(");
+                    self.wr.write_raw(None, before)?;
                     self.wr.write_raw(None, raw_value)?;
+                    self.wr.write_raw(None, after)?;
                     punct!(self, ")");
                 }
                 Token::BadUrl {
@@ -1179,7 +1180,19 @@ where
 
     #[emitter]
     fn emit_url_value_raw(&mut self, n: &UrlValueRaw) -> Result {
-        self.wr.write_raw(Some(n.span), &n.raw)?;
+        if !self.config.minify {
+            self.wr.write_raw(Some(n.span), &n.before)?;
+        }
+
+        if self.config.minify {
+            self.wr.write_raw(Some(n.span), &n.value)?;
+        } else {
+            self.wr.write_raw(Some(n.span), &n.raw)?;
+        }
+
+        if !self.config.minify {
+            self.wr.write_raw(Some(n.span), &n.after)?;
+        }
     }
 
     #[emitter]
@@ -1438,4 +1451,38 @@ where
 
         Ok(())
     }
+}
+
+fn minify_hex_color(value: &str) -> String {
+    let length = value.len();
+
+    if length == 6 || length == 8 {
+        let chars = value.as_bytes();
+
+        if chars[0] == chars[1] && chars[2] == chars[3] && chars[4] == chars[5] {
+            // 6 -> 3 or 8 -> 3
+            if length == 6 || chars[6] == b'f' && chars[7] == b'f' {
+                let mut minified = String::new();
+
+                minified.push((chars[0] as char).to_ascii_lowercase());
+                minified.push((chars[2] as char).to_ascii_lowercase());
+                minified.push((chars[4] as char).to_ascii_lowercase());
+
+                return minified;
+            }
+            // 8 -> 4
+            else if length == 8 && chars[6] == chars[7] {
+                let mut minified = String::new();
+
+                minified.push((chars[0] as char).to_ascii_lowercase());
+                minified.push((chars[2] as char).to_ascii_lowercase());
+                minified.push((chars[4] as char).to_ascii_lowercase());
+                minified.push((chars[6] as char).to_ascii_lowercase());
+
+                return minified;
+            }
+        }
+    }
+
+    value.to_ascii_lowercase()
 }

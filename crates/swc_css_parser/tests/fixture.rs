@@ -329,10 +329,9 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(ImportHref, visit_import_href);
     mtd!(ImportLayerName, visit_import_layer_name);
     mtd!(ImportSupportsType, visit_import_supports_type);
-    mtd!(KeyframeBlock, visit_keyframe_block);
-    mtd!(KeyframeBlockRule, visit_keyframe_block_rule);
-    mtd!(KeyframeSelector, visit_keyframe_selector);
     mtd!(KeyframesRule, visit_keyframes_rule);
+    mtd!(KeyframeBlock, visit_keyframe_block);
+    mtd!(KeyframeSelector, visit_keyframe_selector);
     mtd!(LayerName, visit_layer_name);
     mtd!(LayerNameList, visit_layer_name_list);
     mtd!(LayerPrelude, visit_layer_prelude);

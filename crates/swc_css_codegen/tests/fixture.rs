@@ -3,7 +3,7 @@ use std::{
     path::{Path, PathBuf},
 };
 use swc_common::{FileName, Span};
-use swc_css_ast::{Number, Str, Stylesheet};
+use swc_css_ast::{HexColor, Number, Str, Stylesheet, UrlValueRaw};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodeGenerator, CodegenConfig, Emit,
@@ -101,6 +101,14 @@ impl VisitMut for NormalizeTest {
         *n = Default::default()
     }
 
+    fn visit_mut_url_value_raw(&mut self, n: &mut UrlValueRaw) {
+        n.visit_mut_children_with(self);
+
+        n.before = "".into();
+        n.after = "".into();
+        n.raw = "".into();
+    }
+
     fn visit_mut_number(&mut self, n: &mut Number) {
         n.visit_mut_children_with(self);
 
@@ -111,6 +119,13 @@ impl VisitMut for NormalizeTest {
         n.visit_mut_children_with(self);
 
         n.raw = "".into();
+    }
+
+    fn visit_mut_hex_color(&mut self, n: &mut HexColor) {
+        n.visit_mut_children_with(self);
+
+        n.value = "fff".into();
+        n.raw = "fff".into();
     }
 }
 

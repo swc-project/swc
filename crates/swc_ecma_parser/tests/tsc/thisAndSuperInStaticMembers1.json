@@ -1,0 +1,2479 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 98,
+    "end": 1070,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 112,
+          "end": 113,
+          "ctxt": 0
+        },
+        "value": "B",
+        "optional": false
+      },
+      "declare": true,
+      "span": {
+        "start": 98,
+        "end": 192,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 120,
+            "end": 134,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 127,
+              "end": 128,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 128,
+              "end": 133,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 130,
+                "end": 133,
+                "ctxt": 0
+              },
+              "kind": "any"
+            }
+          },
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 139,
+            "end": 158,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 146,
+              "end": 147,
+              "ctxt": 0
+            },
+            "value": "f",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 139,
+              "end": 158,
+              "ctxt": 0
+            },
+            "body": null,
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 149,
+                "end": 157,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 151,
+                  "end": 157,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            }
+          },
+          "kind": "method",
+          "isStatic": true,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 163,
+            "end": 173,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 163,
+              "end": 164,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 164,
+              "end": 172,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 166,
+                "end": 172,
+                "ctxt": 0
+              },
+              "kind": "number"
+            }
+          },
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 178,
+            "end": 190,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 178,
+              "end": 179,
+              "ctxt": 0
+            },
+            "value": "f",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 178,
+              "end": 190,
+              "ctxt": 0
+            },
+            "body": null,
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 181,
+                "end": 189,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 183,
+                  "end": 189,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 200,
+          "end": 201,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 194,
+        "end": 1070,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 218,
+            "end": 245,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 225,
+              "end": 226,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "value": {
+            "type": "TsNonNullExpression",
+            "span": {
+              "start": 234,
+              "end": 244,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 234,
+                "end": 243,
+                "ctxt": 0
+              },
+              "value": "undefined",
+              "optional": false
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 226,
+              "end": 231,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 228,
+                "end": 231,
+                "ctxt": 0
+              },
+              "kind": "any"
+            }
+          },
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 250,
+            "end": 269,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 257,
+              "end": 259,
+              "ctxt": 0
+            },
+            "value": "y1",
+            "optional": false
+          },
+          "value": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 262,
+              "end": 268,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "ThisExpression",
+              "span": {
+                "start": 262,
+                "end": 266,
+                "ctxt": 0
+              }
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 267,
+                "end": 268,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 274,
+            "end": 295,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 281,
+              "end": 283,
+              "ctxt": 0
+            },
+            "value": "y2",
+            "optional": false
+          },
+          "value": {
+            "type": "CallExpression",
+            "span": {
+              "start": 286,
+              "end": 294,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 286,
+                "end": 292,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "ThisExpression",
+                "span": {
+                  "start": 286,
+                  "end": 290,
+                  "ctxt": 0
+                }
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 291,
+                  "end": 292,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              }
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 300,
+            "end": 322,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 307,
+              "end": 309,
+              "ctxt": 0
+            },
+            "value": "y3",
+            "optional": false
+          },
+          "value": {
+            "type": "CallExpression",
+            "span": {
+              "start": 312,
+              "end": 321,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "OptionalChainingExpression",
+              "span": {
+                "start": 312,
+                "end": 319,
+                "ctxt": 0
+              },
+              "questionDotToken": {
+                "start": 316,
+                "end": 317,
+                "ctxt": 0
+              },
+              "expr": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 312,
+                  "end": 319,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "ThisExpression",
+                  "span": {
+                    "start": 312,
+                    "end": 316,
+                    "ctxt": 0
+                  }
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 318,
+                    "end": 319,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false
+                }
+              }
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 327,
+            "end": 353,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 334,
+              "end": 336,
+              "ctxt": 0
+            },
+            "value": "y4",
+            "optional": false
+          },
+          "value": {
+            "type": "CallExpression",
+            "span": {
+              "start": 339,
+              "end": 352,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 339,
+                "end": 350,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "ThisExpression",
+                "span": {
+                  "start": 339,
+                  "end": 343,
+                  "ctxt": 0
+                }
+              },
+              "property": {
+                "type": "Computed",
+                "span": {
+                  "start": 343,
+                  "end": 350,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "ParenthesisExpression",
+                  "span": {
+                    "start": 344,
+                    "end": 349,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 345,
+                      "end": 348,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              }
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 358,
+            "end": 386,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 365,
+              "end": 367,
+              "ctxt": 0
+            },
+            "value": "y5",
+            "optional": false
+          },
+          "value": {
+            "type": "CallExpression",
+            "span": {
+              "start": 370,
+              "end": 385,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "OptionalChainingExpression",
+              "span": {
+                "start": 370,
+                "end": 383,
+                "ctxt": 0
+              },
+              "questionDotToken": {
+                "start": 374,
+                "end": 375,
+                "ctxt": 0
+              },
+              "expr": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 370,
+                  "end": 383,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "ThisExpression",
+                  "span": {
+                    "start": 370,
+                    "end": 374,
+                    "ctxt": 0
+                  }
+                },
+                "property": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 376,
+                    "end": 383,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "ParenthesisExpression",
+                    "span": {
+                      "start": 377,
+                      "end": 382,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 378,
+                        "end": 381,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 391,
+            "end": 411,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 398,
+              "end": 400,
+              "ctxt": 0
+            },
+            "value": "z1",
+            "optional": false
+          },
+          "value": {
+            "type": "SuperPropExpression",
+            "span": {
+              "start": 403,
+              "end": 410,
+              "ctxt": 0
+            },
+            "obj": {
+              "type": "Super",
+              "span": {
+                "start": 403,
+                "end": 408,
+                "ctxt": 0
+              }
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 409,
+                "end": 410,
+                "ctxt": 0
+              },
+              "value": "a",
+              "optional": false
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 416,
+            "end": 439,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 423,
+              "end": 425,
+              "ctxt": 0
+            },
+            "value": "z2",
+            "optional": false
+          },
+          "value": {
+            "type": "SuperPropExpression",
+            "span": {
+              "start": 428,
+              "end": 438,
+              "ctxt": 0
+            },
+            "obj": {
+              "type": "Super",
+              "span": {
+                "start": 428,
+                "end": 433,
+                "ctxt": 0
+              }
+            },
+            "property": {
+              "type": "Computed",
+              "span": {
+                "start": 433,
+                "end": 438,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 434,
+                  "end": 437,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
+              }
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 444,
+            "end": 466,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 451,
+              "end": 453,
+              "ctxt": 0
+            },
+            "value": "z3",
+            "optional": false
+          },
+          "value": {
+            "type": "CallExpression",
+            "span": {
+              "start": 456,
+              "end": 465,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "SuperPropExpression",
+              "span": {
+                "start": 456,
+                "end": 463,
+                "ctxt": 0
+              },
+              "obj": {
+                "type": "Super",
+                "span": {
+                  "start": 456,
+                  "end": 461,
+                  "ctxt": 0
+                }
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 462,
+                  "end": 463,
+                  "ctxt": 0
+                },
+                "value": "f",
+                "optional": false
+              }
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 471,
+            "end": 496,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 478,
+              "end": 480,
+              "ctxt": 0
+            },
+            "value": "z4",
+            "optional": false
+          },
+          "value": {
+            "type": "CallExpression",
+            "span": {
+              "start": 483,
+              "end": 495,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "SuperPropExpression",
+              "span": {
+                "start": 483,
+                "end": 493,
+                "ctxt": 0
+              },
+              "obj": {
+                "type": "Super",
+                "span": {
+                  "start": 483,
+                  "end": 488,
+                  "ctxt": 0
+                }
+              },
+              "property": {
+                "type": "Computed",
+                "span": {
+                  "start": 488,
+                  "end": 493,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 489,
+                    "end": 492,
+                    "ctxt": 0
+                  },
+                  "value": "f",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              }
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 501,
+            "end": 525,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 508,
+              "end": 510,
+              "ctxt": 0
+            },
+            "value": "z5",
+            "optional": false
+          },
+          "value": {
+            "type": "AssignmentExpression",
+            "span": {
+              "start": 513,
+              "end": 524,
+              "ctxt": 0
+            },
+            "operator": "=",
+            "left": {
+              "type": "SuperPropExpression",
+              "span": {
+                "start": 513,
+                "end": 520,
+                "ctxt": 0
+              },
+              "obj": {
+                "type": "Super",
+                "span": {
+                  "start": 513,
+                  "end": 518,
+                  "ctxt": 0
+                }
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 519,
+                  "end": 520,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false
+              }
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 523,
+                "end": 524,
+                "ctxt": 0
+              },
+              "value": 0.0
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 530,
+            "end": 555,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 537,
+              "end": 539,
+              "ctxt": 0
+            },
+            "value": "z6",
+            "optional": false
+          },
+          "value": {
+            "type": "AssignmentExpression",
+            "span": {
+              "start": 542,
+              "end": 554,
+              "ctxt": 0
+            },
+            "operator": "+=",
+            "left": {
+              "type": "SuperPropExpression",
+              "span": {
+                "start": 542,
+                "end": 549,
+                "ctxt": 0
+              },
+              "obj": {
+                "type": "Super",
+                "span": {
+                  "start": 542,
+                  "end": 547,
+                  "ctxt": 0
+                }
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 548,
+                  "end": 549,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false
+              }
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 553,
+                "end": 554,
+                "ctxt": 0
+              },
+              "value": 1.0
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 560,
+            "end": 599,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 567,
+              "end": 569,
+              "ctxt": 0
+            },
+            "value": "z7",
+            "optional": false
+          },
+          "value": {
+            "type": "CallExpression",
+            "span": {
+              "start": 572,
+              "end": 598,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "ParenthesisExpression",
+              "span": {
+                "start": 572,
+                "end": 596,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "ArrowFunctionExpression",
+                "span": {
+                  "start": 573,
+                  "end": 595,
+                  "ctxt": 0
+                },
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 579,
+                    "end": 595,
+                    "ctxt": 0
+                  },
+                  "stmts": [
+                    {
+                      "type": "ExpressionStatement",
+                      "span": {
+                        "start": 581,
+                        "end": 593,
+                        "ctxt": 0
+                      },
+                      "expression": {
+                        "type": "AssignmentExpression",
+                        "span": {
+                          "start": 581,
+                          "end": 592,
+                          "ctxt": 0
+                        },
+                        "operator": "=",
+                        "left": {
+                          "type": "SuperPropExpression",
+                          "span": {
+                            "start": 581,
+                            "end": 588,
+                            "ctxt": 0
+                          },
+                          "obj": {
+                            "type": "Super",
+                            "span": {
+                              "start": 581,
+                              "end": 586,
+                              "ctxt": 0
+                            }
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 587,
+                              "end": 588,
+                              "ctxt": 0
+                            },
+                            "value": "a",
+                            "optional": false
+                          }
+                        },
+                        "right": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 591,
+                            "end": 592,
+                            "ctxt": 0
+                          },
+                          "value": 0.0
+                        }
+                      }
+                    }
+                  ]
+                },
+                "async": false,
+                "generator": false,
+                "typeParameters": null,
+                "returnType": null
+              }
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 604,
+            "end": 632,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 611,
+              "end": 613,
+              "ctxt": 0
+            },
+            "value": "z8",
+            "optional": false
+          },
+          "value": {
+            "type": "AssignmentExpression",
+            "span": {
+              "start": 616,
+              "end": 631,
+              "ctxt": 0
+            },
+            "operator": "=",
+            "left": {
+              "type": "ArrayPattern",
+              "span": {
+                "start": 616,
+                "end": 625,
+                "ctxt": 0
+              },
+              "elements": [
+                {
+                  "type": "SuperPropExpression",
+                  "span": {
+                    "start": 617,
+                    "end": 624,
+                    "ctxt": 0
+                  },
+                  "obj": {
+                    "type": "Super",
+                    "span": {
+                      "start": 617,
+                      "end": 622,
+                      "ctxt": 0
+                    }
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 623,
+                      "end": 624,
+                      "ctxt": 0
+                    },
+                    "value": "a",
+                    "optional": false
+                  }
+                }
+              ],
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "right": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 628,
+                "end": 631,
+                "ctxt": 0
+              },
+              "elements": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 629,
+                      "end": 630,
+                      "ctxt": 0
+                    },
+                    "value": 0.0
+                  }
+                }
+              ]
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 637,
+            "end": 669,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 644,
+              "end": 646,
+              "ctxt": 0
+            },
+            "value": "z9",
+            "optional": false
+          },
+          "value": {
+            "type": "AssignmentExpression",
+            "span": {
+              "start": 649,
+              "end": 668,
+              "ctxt": 0
+            },
+            "operator": "=",
+            "left": {
+              "type": "ArrayPattern",
+              "span": {
+                "start": 649,
+                "end": 662,
+                "ctxt": 0
+              },
+              "elements": [
+                {
+                  "type": "AssignmentPattern",
+                  "span": {
+                    "start": 650,
+                    "end": 661,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "SuperPropExpression",
+                    "span": {
+                      "start": 650,
+                      "end": 657,
+                      "ctxt": 0
+                    },
+                    "obj": {
+                      "type": "Super",
+                      "span": {
+                        "start": 650,
+                        "end": 655,
+                        "ctxt": 0
+                      }
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 656,
+                        "end": 657,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "optional": false
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 660,
+                      "end": 661,
+                      "ctxt": 0
+                    },
+                    "value": 0.0
+                  },
+                  "typeAnnotation": null
+                }
+              ],
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "right": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 665,
+                "end": 668,
+                "ctxt": 0
+              },
+              "elements": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 666,
+                      "end": 667,
+                      "ctxt": 0
+                    },
+                    "value": 0.0
+                  }
+                }
+              ]
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 674,
+            "end": 706,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 681,
+              "end": 684,
+              "ctxt": 0
+            },
+            "value": "z10",
+            "optional": false
+          },
+          "value": {
+            "type": "AssignmentExpression",
+            "span": {
+              "start": 687,
+              "end": 705,
+              "ctxt": 0
+            },
+            "operator": "=",
+            "left": {
+              "type": "ArrayPattern",
+              "span": {
+                "start": 687,
+                "end": 699,
+                "ctxt": 0
+              },
+              "elements": [
+                {
+                  "type": "RestElement",
+                  "span": {
+                    "start": 691,
+                    "end": 698,
+                    "ctxt": 0
+                  },
+                  "rest": {
+                    "start": 688,
+                    "end": 691,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "SuperPropExpression",
+                    "span": {
+                      "start": 691,
+                      "end": 698,
+                      "ctxt": 0
+                    },
+                    "obj": {
+                      "type": "Super",
+                      "span": {
+                        "start": 691,
+                        "end": 696,
+                        "ctxt": 0
+                      }
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 697,
+                        "end": 698,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "optional": false
+                    }
+                  },
+                  "typeAnnotation": null
+                }
+              ],
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "right": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 702,
+                "end": 705,
+                "ctxt": 0
+              },
+              "elements": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 703,
+                      "end": 704,
+                      "ctxt": 0
+                    },
+                    "value": 0.0
+                  }
+                }
+              ]
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 711,
+            "end": 750,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 718,
+              "end": 721,
+              "ctxt": 0
+            },
+            "value": "z11",
+            "optional": false
+          },
+          "value": {
+            "type": "AssignmentExpression",
+            "span": {
+              "start": 724,
+              "end": 749,
+              "ctxt": 0
+            },
+            "operator": "=",
+            "left": {
+              "type": "ObjectPattern",
+              "span": {
+                "start": 724,
+                "end": 738,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValuePatternProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 726,
+                      "end": 727,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "SuperPropExpression",
+                    "span": {
+                      "start": 729,
+                      "end": 736,
+                      "ctxt": 0
+                    },
+                    "obj": {
+                      "type": "Super",
+                      "span": {
+                        "start": 729,
+                        "end": 734,
+                        "ctxt": 0
+                      }
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 735,
+                        "end": 736,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "optional": false
+                    }
+                  }
+                }
+              ],
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "right": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 741,
+                "end": 749,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 743,
+                      "end": 744,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 746,
+                      "end": 747,
+                      "ctxt": 0
+                    },
+                    "value": 0.0
+                  }
+                }
+              ]
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 755,
+            "end": 798,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 762,
+              "end": 765,
+              "ctxt": 0
+            },
+            "value": "z12",
+            "optional": false
+          },
+          "value": {
+            "type": "AssignmentExpression",
+            "span": {
+              "start": 768,
+              "end": 797,
+              "ctxt": 0
+            },
+            "operator": "=",
+            "left": {
+              "type": "ObjectPattern",
+              "span": {
+                "start": 768,
+                "end": 786,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValuePatternProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 770,
+                      "end": 771,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "AssignmentPattern",
+                    "span": {
+                      "start": 773,
+                      "end": 784,
+                      "ctxt": 0
+                    },
+                    "left": {
+                      "type": "SuperPropExpression",
+                      "span": {
+                        "start": 773,
+                        "end": 780,
+                        "ctxt": 0
+                      },
+                      "obj": {
+                        "type": "Super",
+                        "span": {
+                          "start": 773,
+                          "end": 778,
+                          "ctxt": 0
+                        }
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 779,
+                          "end": 780,
+                          "ctxt": 0
+                        },
+                        "value": "a",
+                        "optional": false
+                      }
+                    },
+                    "right": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 783,
+                        "end": 784,
+                        "ctxt": 0
+                      },
+                      "value": 0.0
+                    },
+                    "typeAnnotation": null
+                  }
+                }
+              ],
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "right": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 789,
+                "end": 797,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 791,
+                      "end": 792,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 794,
+                      "end": 795,
+                      "ctxt": 0
+                    },
+                    "value": 0.0
+                  }
+                }
+              ]
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 803,
+            "end": 842,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 810,
+              "end": 813,
+              "ctxt": 0
+            },
+            "value": "z13",
+            "optional": false
+          },
+          "value": {
+            "type": "AssignmentExpression",
+            "span": {
+              "start": 816,
+              "end": 841,
+              "ctxt": 0
+            },
+            "operator": "=",
+            "left": {
+              "type": "ObjectPattern",
+              "span": {
+                "start": 816,
+                "end": 830,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "RestElement",
+                  "span": {
+                    "start": 818,
+                    "end": 828,
+                    "ctxt": 0
+                  },
+                  "rest": {
+                    "start": 818,
+                    "end": 821,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "SuperPropExpression",
+                    "span": {
+                      "start": 821,
+                      "end": 828,
+                      "ctxt": 0
+                    },
+                    "obj": {
+                      "type": "Super",
+                      "span": {
+                        "start": 821,
+                        "end": 826,
+                        "ctxt": 0
+                      }
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 827,
+                        "end": 828,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "optional": false
+                    }
+                  },
+                  "typeAnnotation": null
+                }
+              ],
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "right": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 833,
+                "end": 841,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 835,
+                      "end": 836,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 838,
+                      "end": 839,
+                      "ctxt": 0
+                    },
+                    "value": 0.0
+                  }
+                }
+              ]
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 847,
+            "end": 870,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 854,
+              "end": 857,
+              "ctxt": 0
+            },
+            "value": "z14",
+            "optional": false
+          },
+          "value": {
+            "type": "UpdateExpression",
+            "span": {
+              "start": 860,
+              "end": 869,
+              "ctxt": 0
+            },
+            "operator": "++",
+            "prefix": true,
+            "argument": {
+              "type": "SuperPropExpression",
+              "span": {
+                "start": 862,
+                "end": 869,
+                "ctxt": 0
+              },
+              "obj": {
+                "type": "Super",
+                "span": {
+                  "start": 862,
+                  "end": 867,
+                  "ctxt": 0
+                }
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 868,
+                  "end": 869,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false
+              }
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 875,
+            "end": 898,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 882,
+              "end": 885,
+              "ctxt": 0
+            },
+            "value": "z15",
+            "optional": false
+          },
+          "value": {
+            "type": "UpdateExpression",
+            "span": {
+              "start": 888,
+              "end": 897,
+              "ctxt": 0
+            },
+            "operator": "--",
+            "prefix": true,
+            "argument": {
+              "type": "SuperPropExpression",
+              "span": {
+                "start": 890,
+                "end": 897,
+                "ctxt": 0
+              },
+              "obj": {
+                "type": "Super",
+                "span": {
+                  "start": 890,
+                  "end": 895,
+                  "ctxt": 0
+                }
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 896,
+                  "end": 897,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false
+              }
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 903,
+            "end": 931,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 910,
+              "end": 913,
+              "ctxt": 0
+            },
+            "value": "z16",
+            "optional": false
+          },
+          "value": {
+            "type": "UpdateExpression",
+            "span": {
+              "start": 916,
+              "end": 930,
+              "ctxt": 0
+            },
+            "operator": "++",
+            "prefix": true,
+            "argument": {
+              "type": "SuperPropExpression",
+              "span": {
+                "start": 918,
+                "end": 930,
+                "ctxt": 0
+              },
+              "obj": {
+                "type": "Super",
+                "span": {
+                  "start": 918,
+                  "end": 923,
+                  "ctxt": 0
+                }
+              },
+              "property": {
+                "type": "Computed",
+                "span": {
+                  "start": 923,
+                  "end": 930,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "ParenthesisExpression",
+                  "span": {
+                    "start": 924,
+                    "end": 929,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 925,
+                      "end": 928,
+                      "ctxt": 0
+                    },
+                    "value": "a",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 936,
+            "end": 959,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 943,
+              "end": 946,
+              "ctxt": 0
+            },
+            "value": "z17",
+            "optional": false
+          },
+          "value": {
+            "type": "UpdateExpression",
+            "span": {
+              "start": 949,
+              "end": 958,
+              "ctxt": 0
+            },
+            "operator": "++",
+            "prefix": false,
+            "argument": {
+              "type": "SuperPropExpression",
+              "span": {
+                "start": 949,
+                "end": 956,
+                "ctxt": 0
+              },
+              "obj": {
+                "type": "Super",
+                "span": {
+                  "start": 949,
+                  "end": 954,
+                  "ctxt": 0
+                }
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 955,
+                  "end": 956,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false
+              }
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 964,
+            "end": 987,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 971,
+              "end": 974,
+              "ctxt": 0
+            },
+            "value": "z18",
+            "optional": false
+          },
+          "value": {
+            "type": "TaggedTemplateExpression",
+            "span": {
+              "start": 977,
+              "end": 986,
+              "ctxt": 0
+            },
+            "tag": {
+              "type": "SuperPropExpression",
+              "span": {
+                "start": 977,
+                "end": 984,
+                "ctxt": 0
+              },
+              "obj": {
+                "type": "Super",
+                "span": {
+                  "start": 977,
+                  "end": 982,
+                  "ctxt": 0
+                }
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 983,
+                  "end": 984,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false
+              }
+            },
+            "typeParameters": null,
+            "template": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 984,
+                "end": 986,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 985,
+                    "end": 985,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 985,
+                      "end": 985,
+                      "ctxt": 0
+                    },
+                    "value": "",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": false
+                    }
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 985,
+                      "end": 985,
+                      "ctxt": 0
+                    },
+                    "value": "",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": false
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 1027,
+            "end": 1033,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 1027,
+              "end": 1028,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1031,
+              "end": 1032,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 1038,
+            "end": 1049,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 1038,
+              "end": 1039,
+              "ctxt": 0
+            },
+            "value": "y",
+            "optional": false
+          },
+          "value": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 1042,
+              "end": 1048,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "ThisExpression",
+              "span": {
+                "start": 1042,
+                "end": 1046,
+                "ctxt": 0
+              }
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 1047,
+                "end": 1048,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 1054,
+            "end": 1068,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 1054,
+              "end": 1055,
+              "ctxt": 0
+            },
+            "value": "z",
+            "optional": false
+          },
+          "value": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1058,
+              "end": 1067,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "SuperPropExpression",
+              "span": {
+                "start": 1058,
+                "end": 1065,
+                "ctxt": 0
+              },
+              "obj": {
+                "type": "Super",
+                "span": {
+                  "start": 1058,
+                  "end": 1063,
+                  "ctxt": 0
+                }
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1064,
+                  "end": 1065,
+                  "ctxt": 0
+                },
+                "value": "f",
+                "optional": false
+              }
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 210,
+          "end": 211,
+          "ctxt": 0
+        },
+        "value": "B",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

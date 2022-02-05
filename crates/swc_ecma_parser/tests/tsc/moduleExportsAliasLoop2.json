@@ -1,0 +1,194 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 72,
+    "end": 133,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 72,
+        "end": 95,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 78,
+            "end": 94,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 78,
+              "end": 81,
+              "ctxt": 0
+            },
+            "value": "Foo",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 84,
+              "end": 94,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 86,
+                    "end": 89,
+                    "ctxt": 0
+                  },
+                  "value": "min",
+                  "optional": false
+                },
+                "value": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 91,
+                    "end": 92,
+                    "ctxt": 0
+                  },
+                  "value": 3.0
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 96,
+        "end": 110,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 96,
+          "end": 109,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 96,
+            "end": 107,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 96,
+              "end": 103,
+              "ctxt": 0
+            },
+            "value": "exports",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 104,
+              "end": 107,
+              "ctxt": 0
+            },
+            "value": "fn1",
+            "optional": false
+          }
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 111,
+        "end": 133,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 111,
+          "end": 132,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 111,
+            "end": 122,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 111,
+              "end": 118,
+              "ctxt": 0
+            },
+            "value": "exports",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 119,
+              "end": 122,
+              "ctxt": 0
+            },
+            "value": "fn2",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 125,
+            "end": 132,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 125,
+              "end": 128,
+              "ctxt": 0
+            },
+            "value": "Foo",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 129,
+              "end": 132,
+              "ctxt": 0
+            },
+            "value": "min",
+            "optional": false
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

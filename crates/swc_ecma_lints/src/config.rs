@@ -2,6 +2,7 @@
 use crate::rules::non_critical_lints::no_console::NoConsoleConfig;
 #[cfg(feature = "non_critical_lints")]
 use crate::rules::non_critical_lints::quotes::QuotesConfig;
+use crate::rules::non_critical_lints::prefer_regex_literals::PreferRegexLiteralsConfig;
 use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
 
@@ -42,6 +43,10 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
     pub no_console: RuleConfig<NoConsoleConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default)]
+    pub prefer_regex_literals: RuleConfig<PreferRegexLiteralsConfig>,
 
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
