@@ -6,7 +6,6 @@ use swc_ecma_visit::{noop_fold_type, Fold};
 mod const_assign;
 mod duplicate_bindings;
 mod duplicate_exports;
-pub(crate) mod no_use_before_define;
 
 #[cfg(feature = "non_critical_lints")]
 #[path = ""]
@@ -14,6 +13,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_alert;
     pub mod no_console;
     pub mod no_debugger;
+    pub mod no_use_before_define;
     pub mod prefer_regex_literals;
 }
 
@@ -32,7 +32,6 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         const_assign::const_assign(),
         duplicate_bindings::duplicate_bindings(),
         duplicate_exports::duplicate_exports(),
-        no_use_before_define::no_use_before_define(&lint_params.lint_config.no_use_before_define),
     ];
 
     #[cfg(feature = "non_critical_lints")]
@@ -43,6 +42,10 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             top_level_ctxt,
             es_version,
         } = lint_params;
+
+        rules.extend(no_use_before_define::no_use_before_define(
+            &lint_params.lint_config.no_use_before_define,
+        ));
 
         rules.extend(no_console::no_console(
             &lint_config.no_console,

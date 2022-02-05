@@ -20,8 +20,11 @@ pub struct NoUseBeforeDefineConfig {
     classes: Option<bool>,
 }
 
-pub fn no_use_before_define(config: &RuleConfig<NoUseBeforeDefineConfig>) -> Box<dyn Rule> {
-    visitor_rule(NoUseBeforeDefine::new(config))
+pub fn no_use_before_define(config: &RuleConfig<NoUseBeforeDefineConfig>) -> Option<Box<dyn Rule>> {
+    match config.get_rule_reaction() {
+        LintRuleReaction::Off => None,
+        _ => Some(visitor_rule(NoUseBeforeDefine::new(config))),
+    }
 }
 
 #[derive(Debug, Hash, PartialEq, Eq)]
@@ -47,15 +50,6 @@ impl NoUseBeforeDefine {
     fn new(config: &RuleConfig<NoUseBeforeDefineConfig>) -> Self {
         let rule_config = config.get_rule_config();
 
-        let (check_vars, check_functions, check_classes) = match config.get_rule_reaction() {
-            LintRuleReaction::Off => (false, false, false),
-            _ => (
-                rule_config.variables.unwrap_or(false),
-                rule_config.functions.unwrap_or(false),
-                rule_config.classes.unwrap_or(false),
-            ),
-        };
-
         let root_scope = DUMMY_SP;
 
         let mut scoped_indents: AHashMap<Span, AHashSet<Id>> = Default::default();
@@ -67,9 +61,9 @@ impl NoUseBeforeDefine {
             scoped_indents,
             scope: vec![root_scope],
             scoped_spans: Default::default(),
-            check_vars,
-            check_functions,
-            check_classes,
+            check_vars: rule_config.variables.unwrap_or(false),
+            check_functions: rule_config.functions.unwrap_or(false),
+            check_classes: rule_config.classes.unwrap_or(false),
         }
     }
 
