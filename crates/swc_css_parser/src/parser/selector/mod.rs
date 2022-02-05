@@ -125,11 +125,6 @@ where
                 span,
                 value: CombinatorValue::LaterSibling,
             });
-        } else if eat!(self, "~") {
-            return Ok(Combinator {
-                span,
-                value: CombinatorValue::LaterSibling,
-            });
         } else if eat!(self, "|") {
             expect!(self, "|");
 

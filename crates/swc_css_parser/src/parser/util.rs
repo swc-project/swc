@@ -1,4 +1,4 @@
-use super::{input::ParserInput, Ctx, PResult, Parser, Parse};
+use super::{input::ParserInput, Ctx, PResult, Parse, Parser};
 use std::ops::{Deref, DerefMut};
 use swc_common::Span;
 
