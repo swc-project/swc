@@ -2,6 +2,10 @@ function _classPrivateFieldGet(receiver, privateMap) {
     if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
     return privateMap.get(receiver).value;
 }
+function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
+    if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
+    return descriptor.value;
+}
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
@@ -25,6 +29,17 @@ function _extends() {
         return target;
     }).apply(this, arguments);
 }
+function _objectSpread(target) {
+    for(var i = 1; i < arguments.length; i++){
+        var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
+        "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
+            return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+        }))), ownKeys.forEach(function(key) {
+            _defineProperty(target, key, source[key]);
+        });
+    }
+    return target;
+}
 var C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
@@ -40,18 +55,11 @@ var C = function() {
         {
             key: "method",
             value: function(other) {
-                _classPrivateFieldGet(function(target) {
-                    for(var i = 1; i < arguments.length; i++){
-                        var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
-                        "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
-                            return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-                        }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
-                        });
-                    }
-                    return target;
-                }({}, other), _prop), _classPrivateFieldGet(_extends({}, other), _prop);
+                _classPrivateFieldGet(_objectSpread({}, other), _prop), _classPrivateFieldGet(_extends({}, other), _prop), _classStaticPrivateFieldSpecGet(_objectSpread({}, C), C, _propStatic), _classStaticPrivateFieldSpecGet(_extends({}, C), C, _propStatic);
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
-}(), _prop = new WeakMap();
+}(), _prop = new WeakMap(), _propStatic = {
+    writable: !0,
+    value: 1
+};

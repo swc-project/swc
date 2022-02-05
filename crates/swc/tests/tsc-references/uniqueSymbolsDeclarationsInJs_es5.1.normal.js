@@ -15,6 +15,7 @@ var C = function C() {
     // @checkJs: true
     // @filename: uniqueSymbolsDeclarationsInJs.js
     // @out: uniqueSymbolsDeclarationsInJs-out.js
+    // @useDefineForClassFields: false
     // classes
     this.readonlyCall = Symbol();
     this.readwriteCall = Symbol();

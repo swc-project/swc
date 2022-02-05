@@ -50,7 +50,25 @@
               "optional": false
             },
             "arguments": [],
-            "typeArguments": null
+            "typeArguments": {
+              "type": "TsTypeParameterInstantiation",
+              "span": {
+                "start": 10,
+                "end": 18,
+                "ctxt": 0
+              },
+              "params": [
+                {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 11,
+                    "end": 17,
+                    "ctxt": 0
+                  },
+                  "kind": "string"
+                }
+              ]
+            }
           }
         }
       ],

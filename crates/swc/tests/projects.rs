@@ -286,7 +286,7 @@ fn issue_414() {
 fn issue_415() {
     let s = file("tests/projects/issue-415/input.js").unwrap();
 
-    assert!(s.replace(" ", "").contains("return(/*#__PURE__*/"));
+    assert!(s.replace(' ', "").contains("return(/*#__PURE__*/"));
 }
 
 #[test]
@@ -313,7 +313,7 @@ fn issue_468() {
 fn issue_528() {
     let f = file("tests/projects/issue-528/input.js")
         .unwrap()
-        .replace(" ", "");
+        .replace(' ', "");
     let f = f.trim();
 
     println!("{}", f);
@@ -335,7 +335,7 @@ b)
 fn env_entry_chrome_49() {
     let f = file("tests/env/entry/chrome-49/input.js")
         .unwrap()
-        .replace(" ", "");
+        .replace(' ', "");
     let f = f.trim();
 
     println!("{}", f);
@@ -347,7 +347,7 @@ fn env_entry_chrome_49() {
 fn env_entry_chrome_71() {
     let f = file("tests/env/entry/chrome-71/input.js")
         .unwrap()
-        .replace(" ", "");
+        .replace(' ', "");
     let f = f.trim();
 
     println!("{}", f);
@@ -359,7 +359,7 @@ fn env_entry_chrome_71() {
 fn env_query_chrome_71() {
     let f = file("tests/env/query/chrome-71/input.js")
         .unwrap()
-        .replace(" ", "");
+        .replace(' ', "");
     let f = f.trim();
 
     println!("{}", f);

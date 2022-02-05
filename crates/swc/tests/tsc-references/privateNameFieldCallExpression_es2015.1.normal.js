@@ -7,8 +7,10 @@ function _classPrivateFieldGet(receiver, privateMap) {
 // @target: es2015
 class A {
     test() {
+        var _obj, ref;
         var _ref;
         _classPrivateFieldGet(this, _fieldFunc).call(this);
+        (ref = (_obj = _classPrivateFieldGet(this, _fieldFunc)).call) === null || ref === void 0 ? void 0 : ref.call(_obj, this);
         const func = _classPrivateFieldGet(this, _fieldFunc);
         func();
         new (_classPrivateFieldGet(this, _fieldFunc))();

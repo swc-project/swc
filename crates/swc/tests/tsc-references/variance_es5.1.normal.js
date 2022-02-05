@@ -43,3 +43,4 @@ var Bar = // Repro from #30118
     ]);
     return Bar;
 }();
+Bar.instance = [];

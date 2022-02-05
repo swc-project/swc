@@ -1,3 +1,5 @@
+#![allow(clippy::needless_update)]
+
 use crate::common::Normalizer;
 use pretty_assertions::assert_eq;
 use std::{
@@ -119,7 +121,20 @@ fn run_spec(file: &Path, output_json: &Path) {
         || file_name.contains("tsc/objectLiteralGettersAndSetters")
         || file_name.contains("tsc/restElementMustBeLast")
         || file_name.contains("tsc/unicodeEscapesInJsxtagsx")
-        || file_name.contains("tsc/FunctionDeclaration6_es6");
+        || file_name.contains("tsc/FunctionDeclaration6_es6")
+        || file_name.contains("tsc/checkJsxNamespaceNamesQuestionableForms")
+        || file_name.contains("tsc/classExtendingOptionalChain")
+        || file_name.contains("tsc/inlineJsxFactoryDeclarations")
+        || file_name.contains("tsc/interfaceExtendingOptionalChain")
+        || file_name.contains("tsc/interfacesWithPredefinedTypesAsNames")
+        || file_name.contains("tsc/namedTupleMembersErrors")
+        || file_name.contains("tsc/parserForOfStatement23")
+        || file_name.contains("tsc/topLevelAwait.2")
+        || file_name.contains("tsc/tsxAttributeResolution5")
+        || file_name.contains("tsc/tsxErrorRecovery2")
+        || file_name.contains("tsc/tsxErrorRecovery3")
+        || file_name.contains("tsc/tsxTypeArgumentsJsxPreserveOutput")
+        || file_name.contains("tsc/unicodeEscapesInJsxtags");
 
     if ignore {
         return;

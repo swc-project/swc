@@ -60,6 +60,10 @@ function ft14(t) {
     let x4 = t;
     let x6 = t;
 }
+function ft20(s) {
+    let x1 = g1(`xyz-${s}`); // string
+    let x2 = g2(`xyz-${s}`); // `xyz-${string}`
+}
 const t1 = takesLiteral("foo.bar.baz"); // "baz"
 const id2 = "foo.bar.baz";
 const t2 = takesLiteral(id2); // "baz"
@@ -71,3 +75,15 @@ const t5 = takesLiteral(`foo.bar.${someUnion}`); // "abc" | "def" | "ghi"
 const pixelValue = 22;
 const pixelString = `22px`;
 const pixelStringWithTemplate = `${pixelValue}px`;
+// Repro from #43143
+function getCardTitle(title) {
+    return `test-${title}`;
+}
+// Repro from #43424
+const interpolatedStyle = {
+    rotate: 12
+};
+function C2(transform) {
+    return 12;
+}
+C2(`rotate(${interpolatedStyle.rotate}dig)`);

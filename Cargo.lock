@@ -2612,7 +2612,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.121.1"
+version = "0.121.4"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2920,7 +2920,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.13.0"
+version = "0.13.1"
 dependencies = [
  "auto_impl",
  "parking_lot",
@@ -2990,7 +2990,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.88.0"
+version = "0.88.2"
 dependencies = [
  "either",
  "enum_kind",
@@ -3311,7 +3311,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.112.1"
+version = "0.112.3"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",

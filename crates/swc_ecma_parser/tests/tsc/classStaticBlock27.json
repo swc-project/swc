@@ -1,0 +1,517 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 57,
+    "end": 305,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 57,
+        "end": 305,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 57,
+          "end": 305,
+          "ctxt": 0
+        },
+        "operator": "void",
+        "argument": {
+          "type": "ClassExpression",
+          "identifier": {
+            "type": "Identifier",
+            "span": {
+              "start": 68,
+              "end": 71,
+              "ctxt": 0
+            },
+            "value": "Foo",
+            "optional": false
+          },
+          "span": {
+            "start": 62,
+            "end": 305,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "body": [
+            {
+              "type": "ClassProperty",
+              "span": {
+                "start": 78,
+                "end": 93,
+                "ctxt": 0
+              },
+              "key": {
+                "type": "Identifier",
+                "span": {
+                  "start": 85,
+                  "end": 89,
+                  "ctxt": 0
+                },
+                "value": "prop",
+                "optional": false
+              },
+              "value": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 92,
+                  "end": 93,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              },
+              "typeAnnotation": null,
+              "isStatic": true,
+              "decorators": [],
+              "accessibility": null,
+              "isAbstract": false,
+              "isOptional": false,
+              "isOverride": false,
+              "readonly": false,
+              "declare": false,
+              "definite": false
+            },
+            {
+              "type": "StaticBlock",
+              "span": {
+                "start": 98,
+                "end": 163,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 105,
+                  "end": 163,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "ExpressionStatement",
+                    "span": {
+                      "start": 115,
+                      "end": 137,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 115,
+                        "end": 136,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 115,
+                          "end": 126,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 115,
+                            "end": 122,
+                            "ctxt": 0
+                          },
+                          "value": "console",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 123,
+                            "end": 126,
+                            "ctxt": 0
+                          },
+                          "value": "log",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [
+                        {
+                          "spread": null,
+                          "expression": {
+                            "type": "MemberExpression",
+                            "span": {
+                              "start": 127,
+                              "end": 135,
+                              "ctxt": 0
+                            },
+                            "object": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 127,
+                                "end": 130,
+                                "ctxt": 0
+                              },
+                              "value": "Foo",
+                              "optional": false
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 131,
+                                "end": 135,
+                                "ctxt": 0
+                              },
+                              "value": "prop",
+                              "optional": false
+                            }
+                          }
+                        }
+                      ],
+                      "typeArguments": null
+                    }
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "span": {
+                      "start": 146,
+                      "end": 157,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "UpdateExpression",
+                      "span": {
+                        "start": 146,
+                        "end": 156,
+                        "ctxt": 0
+                      },
+                      "operator": "++",
+                      "prefix": false,
+                      "argument": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 146,
+                          "end": 154,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 146,
+                            "end": 149,
+                            "ctxt": 0
+                          },
+                          "value": "Foo",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 150,
+                            "end": 154,
+                            "ctxt": 0
+                          },
+                          "value": "prop",
+                          "optional": false
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "StaticBlock",
+              "span": {
+                "start": 168,
+                "end": 233,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 175,
+                  "end": 233,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "ExpressionStatement",
+                    "span": {
+                      "start": 185,
+                      "end": 207,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 185,
+                        "end": 206,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 185,
+                          "end": 196,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 185,
+                            "end": 192,
+                            "ctxt": 0
+                          },
+                          "value": "console",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 193,
+                            "end": 196,
+                            "ctxt": 0
+                          },
+                          "value": "log",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [
+                        {
+                          "spread": null,
+                          "expression": {
+                            "type": "MemberExpression",
+                            "span": {
+                              "start": 197,
+                              "end": 205,
+                              "ctxt": 0
+                            },
+                            "object": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 197,
+                                "end": 200,
+                                "ctxt": 0
+                              },
+                              "value": "Foo",
+                              "optional": false
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 201,
+                                "end": 205,
+                                "ctxt": 0
+                              },
+                              "value": "prop",
+                              "optional": false
+                            }
+                          }
+                        }
+                      ],
+                      "typeArguments": null
+                    }
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "span": {
+                      "start": 216,
+                      "end": 227,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "UpdateExpression",
+                      "span": {
+                        "start": 216,
+                        "end": 226,
+                        "ctxt": 0
+                      },
+                      "operator": "++",
+                      "prefix": false,
+                      "argument": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 216,
+                          "end": 224,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 216,
+                            "end": 219,
+                            "ctxt": 0
+                          },
+                          "value": "Foo",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 220,
+                            "end": 224,
+                            "ctxt": 0
+                          },
+                          "value": "prop",
+                          "optional": false
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "StaticBlock",
+              "span": {
+                "start": 238,
+                "end": 303,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 245,
+                  "end": 303,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "ExpressionStatement",
+                    "span": {
+                      "start": 255,
+                      "end": 277,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 255,
+                        "end": 276,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 255,
+                          "end": 266,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 255,
+                            "end": 262,
+                            "ctxt": 0
+                          },
+                          "value": "console",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 263,
+                            "end": 266,
+                            "ctxt": 0
+                          },
+                          "value": "log",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [
+                        {
+                          "spread": null,
+                          "expression": {
+                            "type": "MemberExpression",
+                            "span": {
+                              "start": 267,
+                              "end": 275,
+                              "ctxt": 0
+                            },
+                            "object": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 267,
+                                "end": 270,
+                                "ctxt": 0
+                              },
+                              "value": "Foo",
+                              "optional": false
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 271,
+                                "end": 275,
+                                "ctxt": 0
+                              },
+                              "value": "prop",
+                              "optional": false
+                            }
+                          }
+                        }
+                      ],
+                      "typeArguments": null
+                    }
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "span": {
+                      "start": 286,
+                      "end": 297,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "UpdateExpression",
+                      "span": {
+                        "start": 286,
+                        "end": 296,
+                        "ctxt": 0
+                      },
+                      "operator": "++",
+                      "prefix": false,
+                      "argument": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 286,
+                          "end": 294,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 286,
+                            "end": 289,
+                            "ctxt": 0
+                          },
+                          "value": "Foo",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 290,
+                            "end": 294,
+                            "ctxt": 0
+                          },
+                          "value": "prop",
+                          "optional": false
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "superClass": null,
+          "isAbstract": false,
+          "typeParams": null,
+          "superTypeParams": null,
+          "implements": []
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}
