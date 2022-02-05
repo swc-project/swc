@@ -40,7 +40,7 @@ error: SubclassSelector
 1 | [b = "c" i] {}
   | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/esbuild/misc/Drl1Excz8WEwlfIfA2oRQg/input.css:1:1
   |
 1 | [b = "c" i] {}

@@ -84,7 +84,7 @@ pub enum SubclassSelector {
     Class(ClassSelector),
 
     #[tag("AttributeSelector")]
-    Attr(AttrSelector),
+    Attribute(AttributeSelector),
 
     #[tag("PseudoClassSelector")]
     PseudoClass(PseudoClassSelector),
@@ -97,7 +97,7 @@ pub enum SubclassSelector {
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
-pub enum AttrSelectorMatcher {
+pub enum AttributeSelectorMatcher {
     /// `=`
     Equals,
 
@@ -119,7 +119,7 @@ pub enum AttrSelectorMatcher {
 
 #[ast_node]
 #[derive(Is)]
-pub enum AttrSelectorValue {
+pub enum AttributeSelectorValue {
     #[tag("String")]
     Str(Str),
 
@@ -128,12 +128,12 @@ pub enum AttrSelectorValue {
 }
 
 #[ast_node("AttributeSelector")]
-pub struct AttrSelector {
+pub struct AttributeSelector {
     pub span: Span,
     pub prefix: Option<Ident>,
     pub name: Ident,
-    pub matcher: Option<AttrSelectorMatcher>,
-    pub value: Option<AttrSelectorValue>,
+    pub matcher: Option<AttributeSelectorMatcher>,
+    pub value: Option<AttributeSelectorValue>,
     pub modifier: Option<char>,
 }
 

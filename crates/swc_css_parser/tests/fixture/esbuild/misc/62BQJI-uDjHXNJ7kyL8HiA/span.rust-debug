@@ -40,7 +40,7 @@ error: SubclassSelector
 1 | [attr\7e=x] {}
   | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/esbuild/misc/62BQJI-uDjHXNJ7kyL8HiA/input.css:1:1
   |
 1 | [attr\7e=x] {}

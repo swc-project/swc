@@ -52,7 +52,7 @@ error: SubclassSelector
 1 | a/**/[b] {}
   |      ^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/esbuild/misc/aEF_NRb2u-g7UzHxaKpOfA/input.css:1:6
   |
 1 | a/**/[b] {}

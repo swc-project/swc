@@ -262,7 +262,7 @@ error: SubclassSelector
 4 | .class[target] {}
   |       ^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/selector/compound/input.css:4:7
   |
 4 | .class[target] {}
@@ -352,7 +352,7 @@ error: SubclassSelector
 5 | .class#id[target] {}
   |          ^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/selector/compound/input.css:5:10
   |
 5 | .class#id[target] {}
@@ -514,7 +514,7 @@ error: SubclassSelector
 7 | #id.class[target] {}
   |          ^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/selector/compound/input.css:7:10
   |
 7 | #id.class[target] {}
@@ -748,7 +748,7 @@ error: SubclassSelector
 10 | a[href='place']:hover {}
    |  ^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/compound/input.css:10:2
    |
 10 | a[href='place']:hover {}
@@ -838,7 +838,7 @@ error: SubclassSelector
 11 | a[href='place']::before {}
    |  ^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/compound/input.css:11:2
    |
 11 | a[href='place']::before {}

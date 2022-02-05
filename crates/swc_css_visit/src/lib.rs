@@ -233,29 +233,24 @@ define!({
 
     pub enum SubclassSelector {
         Id(IdSelector),
-
         Class(ClassSelector),
-
-        Attr(AttrSelector),
-
+        Attribute(AttributeSelector),
         PseudoClass(PseudoClassSelector),
-
         PseudoElement(PseudoElementSelector),
-
         At(AtSelector),
     }
 
-    pub enum AttrSelectorValue {
+    pub enum AttributeSelectorValue {
         Str(Str),
         Ident(Ident),
     }
 
-    pub struct AttrSelector {
+    pub struct AttributeSelector {
         pub span: Span,
         pub prefix: Option<Ident>,
         pub name: Ident,
-        pub matcher: Option<AttrSelectorMatcher>,
-        pub value: Option<AttrSelectorValue>,
+        pub matcher: Option<AttributeSelectorMatcher>,
+        pub value: Option<AttributeSelectorValue>,
         pub modifier: Option<char>,
     }
 

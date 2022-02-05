@@ -1267,7 +1267,7 @@ where
         match n {
             SubclassSelector::Id(n) => emit!(self, n),
             SubclassSelector::Class(n) => emit!(self, n),
-            SubclassSelector::Attr(n) => emit!(self, n),
+            SubclassSelector::Attribute(n) => emit!(self, n),
             SubclassSelector::PseudoClass(n) => emit!(self, n),
             SubclassSelector::PseudoElement(n) => emit!(self, n),
             SubclassSelector::At(n) => emit!(self, n),
@@ -1299,15 +1299,15 @@ where
     }
 
     #[emitter]
-    fn emit_attr_selector_value(&mut self, n: &AttrSelectorValue) -> Result {
+    fn emit_attribute_selector_value(&mut self, n: &AttributeSelectorValue) -> Result {
         match n {
-            AttrSelectorValue::Str(n) => emit!(self, n),
-            AttrSelectorValue::Ident(n) => emit!(self, n),
+            AttributeSelectorValue::Str(n) => emit!(self, n),
+            AttributeSelectorValue::Ident(n) => emit!(self, n),
         }
     }
 
     #[emitter]
-    fn emit_attr_selector(&mut self, n: &AttrSelector) -> Result {
+    fn emit_attribute_selector(&mut self, n: &AttributeSelector) -> Result {
         punct!(self, "[");
 
         if let Some(prefix) = &n.prefix {
@@ -1325,10 +1325,10 @@ where
 
         if let Some(m) = &n.modifier {
             match n.value {
-                Some(AttrSelectorValue::Str(_)) => {
+                Some(AttributeSelectorValue::Str(_)) => {
                     formatting_space!(self);
                 }
-                Some(AttrSelectorValue::Ident(_)) => {
+                Some(AttributeSelectorValue::Ident(_)) => {
                     space!(self);
                 }
                 _ => {}

@@ -758,7 +758,7 @@ error: SubclassSelector
 32 | | o very long title"] {
    | |___________________^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/value/quotes/input.css:31:2
    |
 31 |   a[title="a not s\
@@ -871,7 +871,7 @@ error: SubclassSelector
 35 | a[title="a not so very long title"] {
    |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/value/quotes/input.css:35:2
    |
 35 | a[title="a not so very long title"] {

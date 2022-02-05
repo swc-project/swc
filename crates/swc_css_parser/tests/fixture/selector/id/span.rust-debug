@@ -2098,7 +2098,7 @@ error: SubclassSelector
 38 | #id.class[target] {}
    |          ^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/id/input.css:38:10
    |
 38 | #id.class[target] {}
@@ -2434,7 +2434,7 @@ error: SubclassSelector
 42 | #foo[lang^=en] {}
    |     ^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/id/input.css:42:5
    |
 42 | #foo[lang^=en] {}

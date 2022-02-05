@@ -298,7 +298,7 @@ error: SubclassSelector
 4 | a, a[href='place'] {}
   |     ^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/selector/list/input.css:4:5
   |
 4 | a, a[href='place'] {}
@@ -412,7 +412,7 @@ error: SubclassSelector
 5 | a #foo > [foo='bar'], .FOO {}
   |          ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/selector/list/input.css:5:10
   |
 5 | a #foo > [foo='bar'], .FOO {}
@@ -1830,7 +1830,7 @@ error: SubclassSelector
 23 | [attr], [attrtoo] {}
    | ^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/list/input.css:23:1
    |
 23 | [attr], [attrtoo] {}
@@ -1860,7 +1860,7 @@ error: SubclassSelector
 23 | [attr], [attrtoo] {}
    |         ^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/list/input.css:23:9
    |
 23 | [attr], [attrtoo] {}

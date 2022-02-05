@@ -40,7 +40,7 @@ error: SubclassSelector
 1 | [\2a|attr] {}
   | ^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/esbuild/misc/9aSeJQPn4WHMexejaMQQoQ/input.css:1:1
   |
 1 | [\2a|attr] {}

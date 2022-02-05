@@ -281,7 +281,7 @@ macro_rules! mtd {
 impl Visit for SpanVisualizer<'_> {
     mtd!(AtRule, visit_at_rule);
     mtd!(AtSelector, visit_at_selector);
-    mtd!(AttrSelector, visit_attr_selector);
+    mtd!(AttributeSelector, visit_attribute_selector);
     mtd!(BinValue, visit_bin_value);
     mtd!(ClassSelector, visit_class_selector);
     mtd!(Delimiter, visit_delimiter);

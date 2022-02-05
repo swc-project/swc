@@ -1168,7 +1168,7 @@ error: SubclassSelector
 20 | *[lang^=en] {}
    |  ^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/type/input.css:20:2
    |
 20 | *[lang^=en] {}

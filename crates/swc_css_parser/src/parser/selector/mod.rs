@@ -334,7 +334,7 @@ where
         match cur!(self) {
             tok!("#") => Ok(SubclassSelector::Id(self.parse()?)),
             tok!(".") => Ok(SubclassSelector::Class(self.parse()?)),
-            tok!("[") => Ok(SubclassSelector::Attr(self.parse()?)),
+            tok!("[") => Ok(SubclassSelector::Attribute(self.parse()?)),
             tok!(":") => Ok(SubclassSelector::PseudoClass(self.parse()?)),
             // TODO remove me from here
             Token::AtKeyword { .. } if self.ctx.allow_at_selector => {
@@ -417,12 +417,11 @@ where
     }
 }
 
-// TODO rename
-impl<I> Parse<AttrSelector> for Parser<I>
+impl<I> Parse<AttributeSelector> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<AttrSelector> {
+    fn parse(&mut self) -> PResult<AttributeSelector> {
         let span = self.input.cur_span()?;
 
         expect!(self, "[");
@@ -431,9 +430,9 @@ where
 
         let prefix;
         let name;
-        let mut attr_matcher = None;
-        let mut matcher_value = None;
-        let mut matcher_modifier = None;
+        let mut matcher = None;
+        let mut value = None;
+        let mut modifier = None;
 
         if let Ok((p, Some(n))) = self.parse_wq_name() {
             prefix = p;
@@ -452,18 +451,18 @@ where
         if !is!(self, "]") {
             let span = self.input.cur_span()?;
 
-            attr_matcher = match cur!(self) {
+            matcher = match cur!(self) {
                 tok!("~") | tok!("|") | tok!("^") | tok!("$") | tok!("*") => {
                     let tok = bump!(self);
 
                     expect!(self, "=");
 
                     Some(match tok {
-                        tok!("~") => AttrSelectorMatcher::Tilde,
-                        tok!("|") => AttrSelectorMatcher::Bar,
-                        tok!("^") => AttrSelectorMatcher::Caret,
-                        tok!("$") => AttrSelectorMatcher::Dollar,
-                        tok!("*") => AttrSelectorMatcher::Asterisk,
+                        tok!("~") => AttributeSelectorMatcher::Tilde,
+                        tok!("|") => AttributeSelectorMatcher::Bar,
+                        tok!("^") => AttributeSelectorMatcher::Caret,
+                        tok!("$") => AttributeSelectorMatcher::Dollar,
+                        tok!("*") => AttributeSelectorMatcher::Asterisk,
                         _ => {
                             unreachable!()
                         }
@@ -473,7 +472,7 @@ where
                     let tok = bump!(self);
 
                     Some(match tok {
-                        tok!("=") => AttrSelectorMatcher::Equals,
+                        tok!("=") => AttributeSelectorMatcher::Equals,
                         _ => {
                             unreachable!()
                         }
@@ -486,11 +485,11 @@ where
 
             let span = self.input.cur_span()?;
 
-            matcher_value = match cur!(self) {
+            value = match cur!(self) {
                 Token::Ident { .. } => {
                     let ident = self.parse()?;
 
-                    Some(AttrSelectorValue::Ident(ident))
+                    Some(AttributeSelectorValue::Ident(ident))
                 }
                 Token::Str { .. } => {
                     let value = bump!(self);
@@ -499,7 +498,7 @@ where
                         _ => unreachable!(),
                     };
 
-                    Some(AttrSelectorValue::Str(Str {
+                    Some(AttributeSelectorValue::Str(Str {
                         span,
                         value: str.0,
                         raw: str.1,
@@ -515,7 +514,7 @@ where
 
                 match self.input.cur()? {
                     Some(Token::Ident { value, .. }) => {
-                        matcher_modifier = value.chars().next();
+                        modifier = value.chars().next();
 
                         bump!(self);
                     }
@@ -528,13 +527,13 @@ where
 
         expect!(self, "]");
 
-        Ok(AttrSelector {
+        Ok(AttributeSelector {
             span: span!(self, span.lo),
             prefix,
             name,
-            matcher: attr_matcher,
-            value: matcher_value,
-            modifier: matcher_modifier,
+            matcher,
+            value,
+            modifier,
         })
     }
 }

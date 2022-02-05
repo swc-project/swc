@@ -1132,7 +1132,7 @@ error: SubclassSelector
 35 |     [hidden] { display: none; }
    |     ^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/at-rule/layer/input.css:35:5
    |
 35 |     [hidden] { display: none; }

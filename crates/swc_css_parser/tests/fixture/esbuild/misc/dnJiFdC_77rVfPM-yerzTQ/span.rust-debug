@@ -40,7 +40,7 @@ error: SubclassSelector
 1 | [b] {}
   | ^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/esbuild/misc/dnJiFdC_77rVfPM-yerzTQ/input.css:1:1
   |
 1 | [b] {}

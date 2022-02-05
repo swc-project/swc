@@ -1700,7 +1700,7 @@ error: SubclassSelector
 33 | [attribute] p {}
    | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:33:1
    |
 33 | [attribute] p {}
@@ -1802,7 +1802,7 @@ error: SubclassSelector
 34 | div [attribute] {}
    |     ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:34:5
    |
 34 | div [attribute] {}
@@ -1856,7 +1856,7 @@ error: SubclassSelector
 35 | [attribute] [src] {}
    | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:35:1
    |
 35 | [attribute] [src] {}
@@ -1886,7 +1886,7 @@ error: SubclassSelector
 35 | [attribute] [src] {}
    |             ^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:35:13
    |
 35 | [attribute] [src] {}
@@ -2492,7 +2492,7 @@ error: SubclassSelector
 43 | [attribute] > p {}
    | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:43:1
    |
 43 | [attribute] > p {}
@@ -2594,7 +2594,7 @@ error: SubclassSelector
 44 | div > [attribute] {}
    |       ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:44:7
    |
 44 | div > [attribute] {}
@@ -2648,7 +2648,7 @@ error: SubclassSelector
 45 | [attribute] > [src] {}
    | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:45:1
    |
 45 | [attribute] > [src] {}
@@ -2678,7 +2678,7 @@ error: SubclassSelector
 45 | [attribute] > [src] {}
    |               ^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:45:15
    |
 45 | [attribute] > [src] {}
@@ -3284,7 +3284,7 @@ error: SubclassSelector
 53 | [attribute] + p {}
    | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:53:1
    |
 53 | [attribute] + p {}
@@ -3386,7 +3386,7 @@ error: SubclassSelector
 54 | div + [attribute] {}
    |       ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:54:7
    |
 54 | div + [attribute] {}
@@ -3440,7 +3440,7 @@ error: SubclassSelector
 55 | [attribute] + [src] {}
    | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:55:1
    |
 55 | [attribute] + [src] {}
@@ -3470,7 +3470,7 @@ error: SubclassSelector
 55 | [attribute] + [src] {}
    |               ^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:55:15
    |
 55 | [attribute] + [src] {}
@@ -4076,7 +4076,7 @@ error: SubclassSelector
 63 | [attribute] ~ p {}
    | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:63:1
    |
 63 | [attribute] ~ p {}
@@ -4178,7 +4178,7 @@ error: SubclassSelector
 64 | div ~ [attribute] {}
    |       ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:64:7
    |
 64 | div ~ [attribute] {}
@@ -4232,7 +4232,7 @@ error: SubclassSelector
 65 | [attribute] ~ [src] {}
    | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:65:1
    |
 65 | [attribute] ~ [src] {}
@@ -4262,7 +4262,7 @@ error: SubclassSelector
 65 | [attribute] ~ [src] {}
    |               ^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:65:15
    |
 65 | [attribute] ~ [src] {}
@@ -4358,7 +4358,7 @@ error: SubclassSelector
 66 | a:hover [attribute] {}
    |         ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:66:9
    |
 66 | a:hover [attribute] {}
@@ -4748,7 +4748,7 @@ error: SubclassSelector
 70 | a + a[href='place'] {}
    |      ^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:70:6
    |
 70 | a + a[href='place'] {}
@@ -5672,7 +5672,7 @@ error: SubclassSelector
 82 | a [type='button'] {}
    |   ^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:82:3
    |
 82 | a [type='button'] {}
@@ -5762,7 +5762,7 @@ error: SubclassSelector
 84 | [type='button'] {}
    | ^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:84:1
    |
 84 | [type='button'] {}
@@ -6638,7 +6638,7 @@ error: SubclassSelector
 91 | [href][class][name] h1 > h2 {}
    | ^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:91:1
    |
 91 | [href][class][name] h1 > h2 {}
@@ -6656,7 +6656,7 @@ error: SubclassSelector
 91 | [href][class][name] h1 > h2 {}
    |       ^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:91:7
    |
 91 | [href][class][name] h1 > h2 {}
@@ -6674,7 +6674,7 @@ error: SubclassSelector
 91 | [href][class][name] h1 > h2 {}
    |              ^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:91:14
    |
 91 | [href][class][name] h1 > h2 {}
@@ -6776,7 +6776,7 @@ error: SubclassSelector
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    | ^^^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:92:1
    |
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
@@ -6800,7 +6800,7 @@ error: SubclassSelector
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |                   ^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:92:19
    |
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
@@ -6824,7 +6824,7 @@ error: SubclassSelector
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |                                   ^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:92:35
    |
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
@@ -6842,7 +6842,7 @@ error: SubclassSelector
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |                                       ^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:92:39
    |
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
@@ -6878,7 +6878,7 @@ error: SubclassSelector
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |                                                         ^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:92:57
    |
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
@@ -6932,7 +6932,7 @@ error: SubclassSelector
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:93:1
    |
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
@@ -6968,7 +6968,7 @@ error: SubclassSelector
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:93:39
    |
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
@@ -7004,7 +7004,7 @@ error: SubclassSelector
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:93:77
    |
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
@@ -7040,7 +7040,7 @@ error: SubclassSelector
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |                                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:93:115
    |
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
@@ -7328,7 +7328,7 @@ error: SubclassSelector
 97 | *[href] *:not(*.green) {}
    |  ^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:97:2
    |
 97 | *[href] *:not(*.green) {}

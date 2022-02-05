@@ -425,7 +425,7 @@ error: SubclassSelector
 13 | a[title] {
    |  ^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:13:2
    |
 13 | a[title] {
@@ -528,7 +528,7 @@ error: SubclassSelector
 17 | a[title = "title"] {
    |  ^^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:17:2
    |
 17 | a[title = "title"] {
@@ -637,7 +637,7 @@ error: SubclassSelector
 21 | a[title~="title" i] {
    |  ^^^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:21:2
    |
 21 | a[title~="title" i] {
@@ -746,7 +746,7 @@ error: SubclassSelector
 25 | a[title = "title"][href*="image/*" S] {
    |  ^^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:25:2
    |
 25 | a[title = "title"][href*="image/*" S] {
@@ -770,7 +770,7 @@ error: SubclassSelector
 25 | a[title = "title"][href*="image/*" S] {
    |                   ^^^^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:25:19
    |
 25 | a[title = "title"][href*="image/*" S] {
