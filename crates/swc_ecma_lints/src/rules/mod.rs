@@ -14,8 +14,8 @@ pub(crate) mod non_critical_lints {
     pub mod no_alert;
     pub mod no_console;
     pub mod no_debugger;
-    pub mod quotes;
     pub mod prefer_regex_literals;
+    pub mod quotes;
 }
 
 #[cfg(feature = "non_critical_lints")]
@@ -61,6 +61,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         rules.extend(no_debugger::no_debugger(&lint_config.no_debugger));
 
         rules.extend(quotes::quotes(&source_map, &lint_config.quotes));
+
         rules.extend(prefer_regex_literals::prefer_regex_literals(
             program,
             &lint_config.prefer_regex_literals,
