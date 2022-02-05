@@ -11,10 +11,6 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    pub(super) fn parse_selectors(&mut self) -> PResult<SelectorList> {
-        self.parse()
-    }
-
     fn parse_wq_name(&mut self) -> PResult<(Option<NsPrefix>, Option<Ident>)> {
         let state = self.input.state();
 
@@ -954,7 +950,7 @@ where
         //                 self.input.skip_ws()?;
         //
         //                 // TODO: fix me
-        //                 selector_list = Some(self.parse_selectors()?);
+        //                 selector_list = Some(self.parse()?);
         //             }
         //             _ => {}
         //         }

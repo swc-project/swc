@@ -61,7 +61,7 @@ where
         let start_pos = self.input.cur_span()?.lo;
         let start_state = self.input.state();
 
-        let prelude = self.parse_selectors();
+        let prelude = self.parse();
         let prelude = match prelude {
             Ok(v) => v,
             Err(err) => {

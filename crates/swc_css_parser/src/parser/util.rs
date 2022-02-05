@@ -1,4 +1,4 @@
-use super::{input::ParserInput, Ctx, Parser};
+use super::{input::ParserInput, Ctx, PResult, Parser, Parse};
 use std::ops::{Deref, DerefMut};
 use swc_common::Span;
 
@@ -21,6 +21,14 @@ where
             orig_ctx,
             inner: self,
         }
+    }
+
+    #[inline]
+    pub(super) fn parse_as<T>(&mut self) -> PResult<T>
+    where
+        Self: Parse<T>,
+    {
+        self.parse()
     }
 }
 
