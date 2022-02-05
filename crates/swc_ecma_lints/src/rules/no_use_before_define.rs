@@ -36,7 +36,7 @@ struct SpansScopeId {
 #[derive(Debug, Default)]
 struct NoUseBeforeDefine {
     expected_reaction: LintRuleReaction,
-    // mean variables defined with "var" keyword
+    // means variables defined with "var" keyword
     check_vars: bool,
     check_functions: bool,
     check_classes: bool,
