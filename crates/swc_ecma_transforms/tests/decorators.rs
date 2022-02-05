@@ -4467,42 +4467,42 @@ export let Product = _class = _dec6(((_class = class Product extends Timestamped
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0,
+    initializer: null,
 }), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, 'price', [
     _dec1
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0,
+    initializer: null,
 }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, 'type', [
     _dec2
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0,
+    initializer: null,
 }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, 'productEntityId', [
     _dec3
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0,
+    initializer: null,
 }), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, 'orders', [
     _dec4
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0,
+    initializer: null,
 }), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, 'discounts', [
     _dec5
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0
+    initializer: null
 }), _class)) || _class;
 "
 );
@@ -4532,7 +4532,7 @@ export class Product extends TimestampedEntity {
         configurable: true,
         enumerable: true,
         writable: true,
-        initializer: void 0
+        initializer: null
     }), _class)) || _class;
     "
 );
@@ -4789,7 +4789,7 @@ export let AppController = _class = _dec14(_class = _dec13(_class = _dec12(((_cl
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0
+    initializer: null
 }), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, "appService2", [
     _dec2,
     _dec3
@@ -4797,7 +4797,7 @@ export let AppController = _class = _dec14(_class = _dec13(_class = _dec12(((_cl
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0
+    initializer: null
 }), _dec4 = Get(), _dec5 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec6 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", []), _applyDecoratedDescriptor(_class.prototype, "getHello", [
     _dec4,
     _dec5,
@@ -5124,7 +5124,7 @@ test!(
         configurable: true,
         enumerable: true,
         writable: true,
-        initializer: void 0
+        initializer: null
     }), _class);
     function Decorator() {
         return function(...args) {
@@ -5719,7 +5719,7 @@ test!(
         configurable: true,
         enumerable: true,
         writable: true,
-        initializer: void 0
+        initializer: null
     }), _class);
     "
 );
@@ -5858,7 +5858,7 @@ test!(
         configurable: true,
         enumerable: true,
         writable: true,
-        initializer: void 0
+        initializer: null
     }), _class);
     console.log(new MyClass());
     "
@@ -6029,7 +6029,7 @@ test!(
       configurable: true,
       enumerable: true,
       writable: true,
-      initializer: void 0
+      initializer: null
   }), _class);"
 );
 
