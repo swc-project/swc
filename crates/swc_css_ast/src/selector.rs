@@ -54,6 +54,9 @@ pub enum CombinatorValue {
 
     /// `~`
     LaterSibling,
+
+    /// `||`
+    Column,
 }
 
 #[ast_node("NestingSelector")]

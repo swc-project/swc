@@ -232,6 +232,18 @@ where
                 span,
                 value: CombinatorValue::LaterSibling,
             });
+        } else if eat!(self, "~") {
+            return Ok(Combinator {
+                span,
+                value: CombinatorValue::LaterSibling,
+            });
+        } else if eat!(self, "|") {
+            expect!(self, "|");
+
+            return Ok(Combinator {
+                span: span!(self, span.lo),
+                value: CombinatorValue::Column,
+            });
         }
 
         Ok(Combinator {

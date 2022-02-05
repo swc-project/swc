@@ -1,14 +1,14 @@
 error: Stylesheet
-  --> $DIR/tests/fixture/selector/complex/input.css:1:1
-   |
-1  | / article p {}
-2  | | article
-3  | | p {}
-4  | | article   p   {}
-...  |
-97 | | *[href] *:not(*.green) {}
-98 | | *::-webkit-media-controls-play-button {}
-   | |_________________________________________^
+   --> $DIR/tests/fixture/selector/complex/input.css:1:1
+    |
+1   | / article p {}
+2   | | article
+3   | | p {}
+4   | | article   p   {}
+...   |
+103 | | {}
+104 | | col.selected||td {}
+    | |____________________^
 
 error: Rule
  --> $DIR/tests/fixture/selector/complex/input.css:1:1
@@ -7477,4 +7477,284 @@ error: Block
    |
 98 | *::-webkit-media-controls-play-button {}
    |                                       ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/complex/input.css:99:1
+   |
+99 | col.selected || td {}
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/complex/input.css:99:1
+   |
+99 | col.selected || td {}
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/complex/input.css:99:1
+   |
+99 | col.selected || td {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:99:1
+   |
+99 | col.selected || td {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:99:1
+   |
+99 | col.selected || td {}
+   | ^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:99:1
+   |
+99 | col.selected || td {}
+   | ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/complex/input.css:99:1
+   |
+99 | col.selected || td {}
+   | ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:99:4
+   |
+99 | col.selected || td {}
+   |    ^^^^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:99:4
+   |
+99 | col.selected || td {}
+   |    ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/complex/input.css:99:5
+   |
+99 | col.selected || td {}
+   |     ^^^^^^^^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/complex/input.css:99:14
+   |
+99 | col.selected || td {}
+   |              ^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:99:17
+   |
+99 | col.selected || td {}
+   |                 ^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:99:17
+   |
+99 | col.selected || td {}
+   |                 ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/complex/input.css:99:17
+   |
+99 | col.selected || td {}
+   |                 ^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/complex/input.css:99:20
+   |
+99 | col.selected || td {}
+   |                    ^^
+
+error: Rule
+   --> $DIR/tests/fixture/selector/complex/input.css:100:1
+    |
+100 | / col.selected
+101 | | || 
+102 | | td
+103 | | {}
+    | |__^
+
+error: QualifiedRule
+   --> $DIR/tests/fixture/selector/complex/input.css:100:1
+    |
+100 | / col.selected
+101 | | || 
+102 | | td
+103 | | {}
+    | |__^
+
+error: SelectorList
+   --> $DIR/tests/fixture/selector/complex/input.css:100:1
+    |
+100 | / col.selected
+101 | | || 
+102 | | td
+    | |__^
+
+error: ComplexSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:100:1
+    |
+100 | / col.selected
+101 | | || 
+102 | | td
+    | |__^
+
+error: CompoundSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:100:1
+    |
+100 | col.selected
+    | ^^^^^^^^^^^^
+
+error: TypeSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:100:1
+    |
+100 | col.selected
+    | ^^^
+
+error: Ident
+   --> $DIR/tests/fixture/selector/complex/input.css:100:1
+    |
+100 | col.selected
+    | ^^^
+
+error: SubclassSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:100:4
+    |
+100 | col.selected
+    |    ^^^^^^^^^
+
+error: ClassSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:100:4
+    |
+100 | col.selected
+    |    ^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/selector/complex/input.css:100:5
+    |
+100 | col.selected
+    |     ^^^^^^^^
+
+error: Combinator
+   --> $DIR/tests/fixture/selector/complex/input.css:101:1
+    |
+101 | || 
+    | ^^
+
+error: CompoundSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:102:1
+    |
+102 | td
+    | ^^
+
+error: TypeSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:102:1
+    |
+102 | td
+    | ^^
+
+error: Ident
+   --> $DIR/tests/fixture/selector/complex/input.css:102:1
+    |
+102 | td
+    | ^^
+
+error: Block
+   --> $DIR/tests/fixture/selector/complex/input.css:103:1
+    |
+103 | {}
+    | ^^
+
+error: Rule
+   --> $DIR/tests/fixture/selector/complex/input.css:104:1
+    |
+104 | col.selected||td {}
+    | ^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+   --> $DIR/tests/fixture/selector/complex/input.css:104:1
+    |
+104 | col.selected||td {}
+    | ^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+   --> $DIR/tests/fixture/selector/complex/input.css:104:1
+    |
+104 | col.selected||td {}
+    | ^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:104:1
+    |
+104 | col.selected||td {}
+    | ^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:104:1
+    |
+104 | col.selected||td {}
+    | ^^^^^^^^^^^^
+
+error: TypeSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:104:1
+    |
+104 | col.selected||td {}
+    | ^^^
+
+error: Ident
+   --> $DIR/tests/fixture/selector/complex/input.css:104:1
+    |
+104 | col.selected||td {}
+    | ^^^
+
+error: SubclassSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:104:4
+    |
+104 | col.selected||td {}
+    |    ^^^^^^^^^
+
+error: ClassSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:104:4
+    |
+104 | col.selected||td {}
+    |    ^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/selector/complex/input.css:104:5
+    |
+104 | col.selected||td {}
+    |     ^^^^^^^^
+
+error: Combinator
+   --> $DIR/tests/fixture/selector/complex/input.css:104:13
+    |
+104 | col.selected||td {}
+    |             ^^
+
+error: CompoundSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:104:15
+    |
+104 | col.selected||td {}
+    |               ^^
+
+error: TypeSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:104:15
+    |
+104 | col.selected||td {}
+    |               ^^
+
+error: Ident
+   --> $DIR/tests/fixture/selector/complex/input.css:104:15
+    |
+104 | col.selected||td {}
+    |               ^^
+
+error: Block
+   --> $DIR/tests/fixture/selector/complex/input.css:104:18
+    |
+104 | col.selected||td {}
+    |                  ^^
 
