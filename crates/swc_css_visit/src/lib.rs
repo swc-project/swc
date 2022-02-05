@@ -61,12 +61,17 @@ define!({
         pub span: Span,
         pub name: DeclarationName,
         pub value: Vec<Value>,
-        pub important: Option<Span>,
+        pub important: Option<ImportantFlag>,
     }
 
     pub enum DeclarationName {
         Ident(Ident),
         DashedIdent(DashedIdent),
+    }
+
+    pub struct ImportantFlag {
+        pub span: Span,
+        pub value: Ident,
     }
 
     pub struct QualifiedRule {

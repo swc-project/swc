@@ -98,9 +98,22 @@
                   }
                 ],
                 "important": {
-                  "start": 60,
-                  "end": 70,
-                  "ctxt": 0
+                  "type": "ImportantFlag",
+                  "span": {
+                    "start": 60,
+                    "end": 70,
+                    "ctxt": 0
+                  },
+                  "value": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 61,
+                      "end": 70,
+                      "ctxt": 0
+                    },
+                    "value": "important",
+                    "raw": "important"
+                  }
                 }
               }
             ]
@@ -180,9 +193,22 @@
                   }
                 ],
                 "important": {
-                  "start": 113,
-                  "end": 123,
-                  "ctxt": 0
+                  "type": "ImportantFlag",
+                  "span": {
+                    "start": 113,
+                    "end": 123,
+                    "ctxt": 0
+                  },
+                  "value": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 114,
+                      "end": 123,
+                      "ctxt": 0
+                    },
+                    "value": "important",
+                    "raw": "important"
+                  }
                 }
               }
             ]
