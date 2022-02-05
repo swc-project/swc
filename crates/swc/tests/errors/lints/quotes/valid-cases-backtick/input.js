@@ -21,24 +21,6 @@ var foo = `bar 'foo' baz` + `bar`;
     var foo = `backtick`;
 };
 
-// TODO: "error: 'import', and 'export' cannot be used outside of module code"
-// () => {
-//     import "a";
-//     // prettier-ignore
-//     import 'b';
-// };
-
-// () => {
-//     import a from "a";
-//     // prettier-ignore
-//     import b from 'b';
-// };
-
-// () => {
-//     // prettier-ignore
-//     import { "a" as b, 'c' as d } from 'mod';
-// };
-
 // prettier-ignore
 var obj = {"key0": 0, 'key1': 1};
 
