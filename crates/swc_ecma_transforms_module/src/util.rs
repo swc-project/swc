@@ -513,7 +513,8 @@ impl Scope {
                 // TODO: import assertion
                 && args.len() == 1 =>
             {
-                let expr = match *(args.pop().unwrap().expr) {
+                let expr = args.pop().unwrap().expr.fold_with(folder);
+                let expr = match *expr {
                     Expr::Ident(ident) => match Self::fold_ident(folder, ident) {
                         Ok(expr) => expr,
                         Err(ident) => Expr::Ident(ident),
