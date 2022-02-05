@@ -53,6 +53,12 @@ error: TagNameSelector
 1 | /* { } */a b {}
   |          ^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/comments/input.css:1:10
+  |
+1 | /* { } */a b {}
+  |          ^
+
 error: Ident
  --> $DIR/tests/fixture/selector/comments/input.css:1:10
   |
@@ -78,6 +84,12 @@ error: TypeSelector
   |            ^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/comments/input.css:1:12
+  |
+1 | /* { } */a b {}
+  |            ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/comments/input.css:1:12
   |
 1 | /* { } */a b {}
@@ -137,6 +149,12 @@ error: TagNameSelector
 2 | /* test */a b {}
   |           ^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/comments/input.css:2:11
+  |
+2 | /* test */a b {}
+  |           ^
+
 error: Ident
  --> $DIR/tests/fixture/selector/comments/input.css:2:11
   |
@@ -162,6 +180,12 @@ error: TypeSelector
   |             ^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/comments/input.css:2:13
+  |
+2 | /* test */a b {}
+  |             ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/comments/input.css:2:13
   |
 2 | /* test */a b {}
@@ -221,6 +245,12 @@ error: TagNameSelector
 3 | /* { } */ a b {}
   |           ^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/comments/input.css:3:11
+  |
+3 | /* { } */ a b {}
+  |           ^
+
 error: Ident
  --> $DIR/tests/fixture/selector/comments/input.css:3:11
   |
@@ -246,6 +276,12 @@ error: TypeSelector
   |             ^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/comments/input.css:3:13
+  |
+3 | /* { } */ a b {}
+  |             ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/comments/input.css:3:13
   |
 3 | /* { } */ a b {}
@@ -305,6 +341,12 @@ error: TagNameSelector
 4 | /* test */ a b {}
   |            ^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/comments/input.css:4:12
+  |
+4 | /* test */ a b {}
+  |            ^
+
 error: Ident
  --> $DIR/tests/fixture/selector/comments/input.css:4:12
   |
@@ -330,6 +372,12 @@ error: TypeSelector
   |              ^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/comments/input.css:4:14
+  |
+4 | /* test */ a b {}
+  |              ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/comments/input.css:4:14
   |
 4 | /* test */ a b {}
@@ -389,6 +437,12 @@ error: TagNameSelector
 5 | a/* { } */b {}
   | ^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/comments/input.css:5:1
+  |
+5 | a/* { } */b {}
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/selector/comments/input.css:5:1
   |
@@ -414,6 +468,12 @@ error: TypeSelector
   |           ^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/comments/input.css:5:11
+  |
+5 | a/* { } */b {}
+  |           ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/comments/input.css:5:11
   |
 5 | a/* { } */b {}
@@ -473,6 +533,12 @@ error: TagNameSelector
 6 | a/* test */b {}
   | ^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/comments/input.css:6:1
+  |
+6 | a/* test */b {}
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/selector/comments/input.css:6:1
   |
@@ -498,6 +564,12 @@ error: TypeSelector
   |            ^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/comments/input.css:6:12
+  |
+6 | a/* test */b {}
+  |            ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/comments/input.css:6:12
   |
 6 | a/* test */b {}
@@ -557,6 +629,12 @@ error: TagNameSelector
 7 | a /* { } */ b {}
   | ^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/comments/input.css:7:1
+  |
+7 | a /* { } */ b {}
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/selector/comments/input.css:7:1
   |
@@ -582,6 +660,12 @@ error: TypeSelector
   |             ^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/comments/input.css:7:13
+  |
+7 | a /* { } */ b {}
+  |             ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/comments/input.css:7:13
   |
 7 | a /* { } */ b {}
@@ -641,6 +725,12 @@ error: TagNameSelector
 8 | a /* test */ b {}
   | ^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/comments/input.css:8:1
+  |
+8 | a /* test */ b {}
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/selector/comments/input.css:8:1
   |
@@ -666,6 +756,12 @@ error: TypeSelector
   |              ^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/comments/input.css:8:14
+  |
+8 | a /* test */ b {}
+  |              ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/comments/input.css:8:14
   |
 8 | a /* test */ b {}
@@ -725,6 +821,12 @@ error: TagNameSelector
 9 | a b/* { } */ {}
   | ^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/comments/input.css:9:1
+  |
+9 | a b/* { } */ {}
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/selector/comments/input.css:9:1
   |
@@ -750,6 +852,12 @@ error: TypeSelector
   |   ^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/comments/input.css:9:3
+  |
+9 | a b/* { } */ {}
+  |   ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/comments/input.css:9:3
   |
 9 | a b/* { } */ {}
@@ -809,6 +917,12 @@ error: TagNameSelector
 10 | a b/* test */ {}
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/comments/input.css:10:1
+   |
+10 | a b/* test */ {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/comments/input.css:10:1
    |
@@ -834,6 +948,12 @@ error: TypeSelector
    |   ^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/comments/input.css:10:3
+   |
+10 | a b/* test */ {}
+   |   ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/comments/input.css:10:3
    |
 10 | a b/* test */ {}
@@ -893,6 +1013,12 @@ error: TagNameSelector
 11 | a b /* { } */ {}
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/comments/input.css:11:1
+   |
+11 | a b /* { } */ {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/comments/input.css:11:1
    |
@@ -918,6 +1044,12 @@ error: TypeSelector
    |   ^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/comments/input.css:11:3
+   |
+11 | a b /* { } */ {}
+   |   ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/comments/input.css:11:3
    |
 11 | a b /* { } */ {}
@@ -977,6 +1109,12 @@ error: TagNameSelector
 12 | a b /* test */ {}
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/comments/input.css:12:1
+   |
+12 | a b /* test */ {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/comments/input.css:12:1
    |
@@ -1002,6 +1140,12 @@ error: TypeSelector
    |   ^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/comments/input.css:12:3
+   |
+12 | a b /* test */ {}
+   |   ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/comments/input.css:12:3
    |
 12 | a b /* test */ {}
@@ -1061,6 +1205,12 @@ error: TagNameSelector
 13 | a b/* { } */{}
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/comments/input.css:13:1
+   |
+13 | a b/* { } */{}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/comments/input.css:13:1
    |
@@ -1086,6 +1236,12 @@ error: TypeSelector
    |   ^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/comments/input.css:13:3
+   |
+13 | a b/* { } */{}
+   |   ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/comments/input.css:13:3
    |
 13 | a b/* { } */{}
@@ -1145,6 +1301,12 @@ error: TagNameSelector
 14 | a b/* test */{}
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/comments/input.css:14:1
+   |
+14 | a b/* test */{}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/comments/input.css:14:1
    |
@@ -1170,6 +1332,12 @@ error: TypeSelector
    |   ^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/comments/input.css:14:3
+   |
+14 | a b/* test */{}
+   |   ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/comments/input.css:14:3
    |
 14 | a b/* test */{}
@@ -1229,6 +1397,12 @@ error: TagNameSelector
 15 | a/* test */,/* test */b{}
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/comments/input.css:15:1
+   |
+15 | a/* test */,/* test */b{}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/comments/input.css:15:1
    |
@@ -1254,6 +1428,12 @@ error: TypeSelector
    |                       ^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/comments/input.css:15:23
+   |
+15 | a/* test */,/* test */b{}
+   |                       ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/comments/input.css:15:23
    |
 15 | a/* test */,/* test */b{}
@@ -1313,6 +1493,12 @@ error: TagNameSelector
 16 | a /* test */ , /* test */ b {}
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/comments/input.css:16:1
+   |
+16 | a /* test */ , /* test */ b {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/comments/input.css:16:1
    |
@@ -1338,6 +1524,12 @@ error: TypeSelector
    |                           ^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/comments/input.css:16:27
+   |
+16 | a /* test */ , /* test */ b {}
+   |                           ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/comments/input.css:16:27
    |
 16 | a /* test */ , /* test */ b {}

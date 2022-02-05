@@ -56,6 +56,12 @@ error: TagNameSelector
 1 | div, div + #id, div ~ #id, div > #id {
   | ^^^
 
+error: WqName
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:1
+  |
+1 | div, div + #id, div ~ #id, div > #id {
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/selectors/input.css:1:1
   |
@@ -81,6 +87,12 @@ error: TypeSelector
   |      ^^^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:6
+  |
+1 | div, div + #id, div ~ #id, div > #id {
+  |      ^^^
+
+error: WqName
  --> $DIR/tests/fixture/rome/selectors/input.css:1:6
   |
 1 | div, div + #id, div ~ #id, div > #id {
@@ -146,6 +158,12 @@ error: TagNameSelector
 1 | div, div + #id, div ~ #id, div > #id {
   |                 ^^^
 
+error: WqName
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:17
+  |
+1 | div, div + #id, div ~ #id, div > #id {
+  |                 ^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/selectors/input.css:1:17
   |
@@ -201,6 +219,12 @@ error: TypeSelector
   |                            ^^^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:28
+  |
+1 | div, div + #id, div ~ #id, div > #id {
+  |                            ^^^
+
+error: WqName
  --> $DIR/tests/fixture/rome/selectors/input.css:1:28
   |
 1 | div, div + #id, div ~ #id, div > #id {
@@ -443,6 +467,12 @@ error: TagNameSelector
 13 | a[title] {
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/rome/selectors/input.css:13:1
+   |
+13 | a[title] {
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/rome/selectors/input.css:13:1
    |
@@ -460,6 +490,12 @@ error: AttributeSelector
    |
 13 | a[title] {
    |  ^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/rome/selectors/input.css:13:3
+   |
+13 | a[title] {
+   |   ^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/rome/selectors/input.css:13:3
@@ -552,6 +588,12 @@ error: TagNameSelector
 17 | a[title = "title"] {
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/rome/selectors/input.css:17:1
+   |
+17 | a[title = "title"] {
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/rome/selectors/input.css:17:1
    |
@@ -569,6 +611,12 @@ error: AttributeSelector
    |
 17 | a[title = "title"] {
    |  ^^^^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/rome/selectors/input.css:17:3
+   |
+17 | a[title = "title"] {
+   |   ^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/rome/selectors/input.css:17:3
@@ -679,6 +727,12 @@ error: TagNameSelector
 21 | a[title~="title" i] {
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/rome/selectors/input.css:21:1
+   |
+21 | a[title~="title" i] {
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/rome/selectors/input.css:21:1
    |
@@ -696,6 +750,12 @@ error: AttributeSelector
    |
 21 | a[title~="title" i] {
    |  ^^^^^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/rome/selectors/input.css:21:3
+   |
+21 | a[title~="title" i] {
+   |   ^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/rome/selectors/input.css:21:3
@@ -818,6 +878,12 @@ error: TagNameSelector
 25 | a[title = "title"][href*="image/*" S] {
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/rome/selectors/input.css:25:1
+   |
+25 | a[title = "title"][href*="image/*" S] {
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/rome/selectors/input.css:25:1
    |
@@ -835,6 +901,12 @@ error: AttributeSelector
    |
 25 | a[title = "title"][href*="image/*" S] {
    |  ^^^^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/rome/selectors/input.css:25:3
+   |
+25 | a[title = "title"][href*="image/*" S] {
+   |   ^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/rome/selectors/input.css:25:3
@@ -871,6 +943,12 @@ error: AttributeSelector
    |
 25 | a[title = "title"][href*="image/*" S] {
    |                   ^^^^^^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/rome/selectors/input.css:25:20
+   |
+25 | a[title = "title"][href*="image/*" S] {
+   |                    ^^^^
 
 error: Ident
   --> $DIR/tests/fixture/rome/selectors/input.css:25:20
@@ -986,6 +1064,12 @@ error: TypeSelector
    | ^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/rome/selectors/input.css:29:1
+   |
+29 | p:nth-last-of-type(2) {
+   | ^
+
+error: WqName
   --> $DIR/tests/fixture/rome/selectors/input.css:29:1
    |
 29 | p:nth-last-of-type(2) {

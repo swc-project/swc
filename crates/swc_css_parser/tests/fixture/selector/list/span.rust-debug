@@ -52,6 +52,12 @@ error: TagNameSelector
 1 | div, p {}
   | ^^^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/list/input.css:1:1
+  |
+1 | div, p {}
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/list/input.css:1:1
   |
@@ -77,6 +83,12 @@ error: TypeSelector
   |      ^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/list/input.css:1:6
+  |
+1 | div, p {}
+  |      ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/list/input.css:1:6
   |
 1 | div, p {}
@@ -136,6 +148,12 @@ error: TagNameSelector
 2 | div , p {}
   | ^^^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/list/input.css:2:1
+  |
+2 | div , p {}
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/list/input.css:2:1
   |
@@ -161,6 +179,12 @@ error: TypeSelector
   |       ^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/list/input.css:2:7
+  |
+2 | div , p {}
+  |       ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/list/input.css:2:7
   |
 2 | div , p {}
@@ -220,6 +244,12 @@ error: TagNameSelector
 3 | div   ,   p   {}
   | ^^^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/list/input.css:3:1
+  |
+3 | div   ,   p   {}
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/list/input.css:3:1
   |
@@ -245,6 +275,12 @@ error: TypeSelector
   |           ^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/list/input.css:3:11
+  |
+3 | div   ,   p   {}
+  |           ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/list/input.css:3:11
   |
 3 | div   ,   p   {}
@@ -304,6 +340,12 @@ error: TagNameSelector
 4 | a, a[href='place'] {}
   | ^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/list/input.css:4:1
+  |
+4 | a, a[href='place'] {}
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/selector/list/input.css:4:1
   |
@@ -334,6 +376,12 @@ error: TagNameSelector
 4 | a, a[href='place'] {}
   |    ^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/list/input.css:4:4
+  |
+4 | a, a[href='place'] {}
+  |    ^
+
 error: Ident
  --> $DIR/tests/fixture/selector/list/input.css:4:4
   |
@@ -351,6 +399,12 @@ error: AttributeSelector
   |
 4 | a, a[href='place'] {}
   |     ^^^^^^^^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/list/input.css:4:6
+  |
+4 | a, a[href='place'] {}
+  |      ^^^^
 
 error: Ident
  --> $DIR/tests/fixture/selector/list/input.css:4:6
@@ -424,6 +478,12 @@ error: TagNameSelector
 5 | a #foo > [foo='bar'], .FOO {}
   | ^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/list/input.css:5:1
+  |
+5 | a #foo > [foo='bar'], .FOO {}
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/selector/list/input.css:5:1
   |
@@ -483,6 +543,12 @@ error: AttributeSelector
   |
 5 | a #foo > [foo='bar'], .FOO {}
   |          ^^^^^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/list/input.css:5:11
+  |
+5 | a #foo > [foo='bar'], .FOO {}
+  |           ^^^
 
 error: Ident
  --> $DIR/tests/fixture/selector/list/input.css:5:11
@@ -586,6 +652,12 @@ error: TagNameSelector
 6 | div, p, a {}
   | ^^^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/list/input.css:6:1
+  |
+6 | div, p, a {}
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/list/input.css:6:1
   |
@@ -616,6 +688,12 @@ error: TagNameSelector
 6 | div, p, a {}
   |      ^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/list/input.css:6:6
+  |
+6 | div, p, a {}
+  |      ^
+
 error: Ident
  --> $DIR/tests/fixture/selector/list/input.css:6:6
   |
@@ -641,6 +719,12 @@ error: TypeSelector
   |         ^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/list/input.css:6:9
+  |
+6 | div, p, a {}
+  |         ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/list/input.css:6:9
   |
 6 | div, p, a {}
@@ -700,6 +784,12 @@ error: TagNameSelector
 7 | div,p,a{}
   | ^^^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/list/input.css:7:1
+  |
+7 | div,p,a{}
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/list/input.css:7:1
   |
@@ -730,6 +820,12 @@ error: TagNameSelector
 7 | div,p,a{}
   |     ^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/list/input.css:7:5
+  |
+7 | div,p,a{}
+  |     ^
+
 error: Ident
  --> $DIR/tests/fixture/selector/list/input.css:7:5
   |
@@ -755,6 +851,12 @@ error: TypeSelector
   |       ^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/list/input.css:7:7
+  |
+7 | div,p,a{}
+  |       ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/list/input.css:7:7
   |
 7 | div,p,a{}
@@ -814,6 +916,12 @@ error: TagNameSelector
 8 | div   ,   p   ,   a   {}
   | ^^^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/list/input.css:8:1
+  |
+8 | div   ,   p   ,   a   {}
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/list/input.css:8:1
   |
@@ -844,6 +952,12 @@ error: TagNameSelector
 8 | div   ,   p   ,   a   {}
   |           ^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/list/input.css:8:11
+  |
+8 | div   ,   p   ,   a   {}
+  |           ^
+
 error: Ident
  --> $DIR/tests/fixture/selector/list/input.css:8:11
   |
@@ -869,6 +983,12 @@ error: TypeSelector
   |                   ^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/list/input.css:8:19
+  |
+8 | div   ,   p   ,   a   {}
+  |                   ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/list/input.css:8:19
   |
 8 | div   ,   p   ,   a   {}
@@ -942,6 +1062,12 @@ error: TagNameSelector
 9 | div
   | ^^^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/list/input.css:9:1
+  |
+9 | div
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/list/input.css:9:1
   |
@@ -972,6 +1098,12 @@ error: TagNameSelector
 11 | p
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:11:1
+   |
+11 | p
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/list/input.css:11:1
    |
@@ -997,6 +1129,12 @@ error: TypeSelector
    | ^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/list/input.css:13:1
+   |
+13 | a 
+   | ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/list/input.css:13:1
    |
 13 | a 
@@ -1182,6 +1320,12 @@ error: TagNameSelector
 16 | input::-moz-placeholder, input::placeholder {}
    | ^^^^^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:16:1
+   |
+16 | input::-moz-placeholder, input::placeholder {}
+   | ^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/list/input.css:16:1
    |
@@ -1225,6 +1369,12 @@ error: TypeSelector
    |                          ^^^^^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/list/input.css:16:26
+   |
+16 | input::-moz-placeholder, input::placeholder {}
+   |                          ^^^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/list/input.css:16:26
    |
 16 | input::-moz-placeholder, input::placeholder {}
@@ -1302,6 +1452,12 @@ error: TagNameSelector
 17 | a,b,c,d,e,f,g {}
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:17:1
+   |
+17 | a,b,c,d,e,f,g {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/list/input.css:17:1
    |
@@ -1332,6 +1488,12 @@ error: TagNameSelector
 17 | a,b,c,d,e,f,g {}
    |   ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:17:3
+   |
+17 | a,b,c,d,e,f,g {}
+   |   ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/list/input.css:17:3
    |
@@ -1362,6 +1524,12 @@ error: TagNameSelector
 17 | a,b,c,d,e,f,g {}
    |     ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:17:5
+   |
+17 | a,b,c,d,e,f,g {}
+   |     ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/list/input.css:17:5
    |
@@ -1392,6 +1560,12 @@ error: TagNameSelector
 17 | a,b,c,d,e,f,g {}
    |       ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:17:7
+   |
+17 | a,b,c,d,e,f,g {}
+   |       ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/list/input.css:17:7
    |
@@ -1422,6 +1596,12 @@ error: TagNameSelector
 17 | a,b,c,d,e,f,g {}
    |         ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:17:9
+   |
+17 | a,b,c,d,e,f,g {}
+   |         ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/list/input.css:17:9
    |
@@ -1452,6 +1632,12 @@ error: TagNameSelector
 17 | a,b,c,d,e,f,g {}
    |           ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:17:11
+   |
+17 | a,b,c,d,e,f,g {}
+   |           ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/list/input.css:17:11
    |
@@ -1477,6 +1663,12 @@ error: TypeSelector
    |             ^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/list/input.css:17:13
+   |
+17 | a,b,c,d,e,f,g {}
+   |             ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/list/input.css:17:13
    |
 17 | a,b,c,d,e,f,g {}
@@ -1536,6 +1728,12 @@ error: TagNameSelector
 18 | a, b, c, d, e, f, g {}
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:18:1
+   |
+18 | a, b, c, d, e, f, g {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/list/input.css:18:1
    |
@@ -1566,6 +1764,12 @@ error: TagNameSelector
 18 | a, b, c, d, e, f, g {}
    |    ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:18:4
+   |
+18 | a, b, c, d, e, f, g {}
+   |    ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/list/input.css:18:4
    |
@@ -1596,6 +1800,12 @@ error: TagNameSelector
 18 | a, b, c, d, e, f, g {}
    |       ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:18:7
+   |
+18 | a, b, c, d, e, f, g {}
+   |       ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/list/input.css:18:7
    |
@@ -1626,6 +1836,12 @@ error: TagNameSelector
 18 | a, b, c, d, e, f, g {}
    |          ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:18:10
+   |
+18 | a, b, c, d, e, f, g {}
+   |          ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/list/input.css:18:10
    |
@@ -1656,6 +1872,12 @@ error: TagNameSelector
 18 | a, b, c, d, e, f, g {}
    |             ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:18:13
+   |
+18 | a, b, c, d, e, f, g {}
+   |             ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/list/input.css:18:13
    |
@@ -1686,6 +1908,12 @@ error: TagNameSelector
 18 | a, b, c, d, e, f, g {}
    |                ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:18:16
+   |
+18 | a, b, c, d, e, f, g {}
+   |                ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/list/input.css:18:16
    |
@@ -1711,6 +1939,12 @@ error: TypeSelector
    |                   ^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/list/input.css:18:19
+   |
+18 | a, b, c, d, e, f, g {}
+   |                   ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/list/input.css:18:19
    |
 18 | a, b, c, d, e, f, g {}
@@ -1926,6 +2160,12 @@ error: TagNameSelector
 21 | h1, h2 {}
    | ^^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:21:1
+   |
+21 | h1, h2 {}
+   | ^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/list/input.css:21:1
    |
@@ -1951,6 +2191,12 @@ error: TypeSelector
    |     ^^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/list/input.css:21:5
+   |
+21 | h1, h2 {}
+   |     ^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/list/input.css:21:5
    |
 21 | h1, h2 {}
@@ -2094,6 +2340,12 @@ error: AttributeSelector
 23 | [attr], [attrtoo] {}
    | ^^^^^^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:23:2
+   |
+23 | [attr], [attrtoo] {}
+   |  ^^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/list/input.css:23:2
    |
@@ -2123,6 +2375,12 @@ error: AttributeSelector
    |
 23 | [attr], [attrtoo] {}
    |         ^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:23:10
+   |
+23 | [attr], [attrtoo] {}
+   |          ^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/list/input.css:23:10

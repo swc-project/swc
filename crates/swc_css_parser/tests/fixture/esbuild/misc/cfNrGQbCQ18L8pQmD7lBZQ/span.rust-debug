@@ -46,6 +46,12 @@ error: TagNameSelector
 1 | a { color: red; color: green; color: red }
   | ^
 
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:1
+  |
+1 | a { color: red; color: green; color: red }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:1
   |

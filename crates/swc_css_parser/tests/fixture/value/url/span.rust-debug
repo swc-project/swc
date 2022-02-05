@@ -64,6 +64,12 @@ error: TagNameSelector
 1 | div {
   | ^^^
 
+error: WqName
+ --> $DIR/tests/fixture/value/url/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/value/url/input.css:1:1
   |

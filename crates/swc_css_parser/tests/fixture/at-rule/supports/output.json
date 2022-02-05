@@ -93,16 +93,24 @@
                         "end": 35,
                         "ctxt": 0
                       },
-                      "prefix": null,
                       "name": {
-                        "type": "Identifier",
+                        "type": "WqName",
                         "span": {
                           "start": 32,
                           "end": 35,
                           "ctxt": 0
                         },
-                        "value": "div",
-                        "raw": "div"
+                        "prefix": null,
+                        "value": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 32,
+                            "end": 35,
+                            "ctxt": 0
+                          },
+                          "value": "div",
+                          "raw": "div"
+                        }
                       }
                     },
                     "subclassSelectors": []
@@ -242,16 +250,24 @@
                         "end": 106,
                         "ctxt": 0
                       },
-                      "prefix": null,
                       "name": {
-                        "type": "Identifier",
+                        "type": "WqName",
                         "span": {
                           "start": 102,
                           "end": 106,
                           "ctxt": 0
                         },
-                        "value": "body",
-                        "raw": "body"
+                        "prefix": null,
+                        "value": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 102,
+                            "end": 106,
+                            "ctxt": 0
+                          },
+                          "value": "body",
+                          "raw": "body"
+                        }
                       }
                     },
                     "subclassSelectors": []
@@ -433,16 +449,24 @@
                             "end": 195,
                             "ctxt": 0
                           },
-                          "prefix": null,
                           "name": {
-                            "type": "Identifier",
+                            "type": "WqName",
                             "span": {
                               "start": 188,
                               "end": 195,
                               "ctxt": 0
                             },
-                            "value": "article",
-                            "raw": "article"
+                            "prefix": null,
+                            "value": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 188,
+                                "end": 195,
+                                "ctxt": 0
+                              },
+                              "value": "article",
+                              "raw": "article"
+                            }
                           }
                         },
                         "subclassSelectors": []

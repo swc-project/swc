@@ -160,6 +160,12 @@ error: TagNameSelector
 3 | button:hover {}
   | ^^^^^^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1
+  |
+3 | button:hover {}
+  | ^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1
   |
@@ -232,6 +238,12 @@ error: TagNameSelector
 4 | div\:before {}
   | ^^^^^^^^^^^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1
+  |
+4 | div\:before {}
+  | ^^^^^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1
   |
@@ -281,6 +293,12 @@ error: TypeSelector
   | ^^^^^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1
+  |
+5 | div\::before {}
+  | ^^^^^
+
+error: WqName
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1
   |
 5 | div\::before {}
@@ -353,6 +371,12 @@ error: TypeSelector
   | ^^^^^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1
+  |
+6 | iNpUt {}
+  | ^^^^^
+
+error: WqName
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1
   |
 6 | iNpUt {}
@@ -508,6 +532,12 @@ error: TagNameSelector
 7 | :matches(section, article, aside, nav) h1 {}
   |                                        ^^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:40
+  |
+7 | :matches(section, article, aside, nav) h1 {}
+  |                                        ^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:40
   |
@@ -557,6 +587,12 @@ error: TypeSelector
   | ^^^^^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1
+  |
+8 | input:not([type='submit']) {}
+  | ^^^^^
+
+error: WqName
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1
   |
 8 | input:not([type='submit']) {}
@@ -665,6 +701,12 @@ error: TypeSelector
   | ^^^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1
+  |
+9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
+  | ^^^
+
+error: WqName
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1
   |
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
@@ -1270,6 +1312,12 @@ error: TagNameSelector
 15 | a:-moz-placeholder {}
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1
+   |
+15 | a:-moz-placeholder {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1
    |
@@ -1337,6 +1385,12 @@ error: TypeSelector
    | ^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1
+   |
+16 | a:hover::before {}
+   | ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1
    |
 16 | a:hover::before {}
@@ -1427,6 +1481,12 @@ error: TypeSelector
    | ^^^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1
+   |
+17 | div :nth-child(2) {}
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1
    |
 17 | div :nth-child(2) {}
@@ -1523,6 +1583,12 @@ error: TypeSelector
    | ^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1
+   |
+18 | a:hOvEr {}
+   | ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1
    |
 18 | a:hOvEr {}
@@ -1625,6 +1691,12 @@ error: TypeSelector
    |                      ^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:22
+   |
+19 | :-webkit-full-screen a {}
+   |                      ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:22
    |
 19 | :-webkit-full-screen a {}

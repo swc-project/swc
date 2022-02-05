@@ -46,6 +46,12 @@ error: AttributeSelector
 1 | [ns|\61ttr] {}
   | ^^^^^^^^^^^
 
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:2
+  |
+1 | [ns|\61ttr] {}
+  |  ^^^^^^^^^
+
 error: NsPrefix
  --> $DIR/tests/fixture/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:2
   |

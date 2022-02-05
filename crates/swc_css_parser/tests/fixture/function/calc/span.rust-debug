@@ -209,6 +209,12 @@ error: TagNameSelector
 5 | div {
   | ^^^
 
+error: WqName
+ --> $DIR/tests/fixture/function/calc/input.css:5:1
+  |
+5 | div {
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/function/calc/input.css:5:1
   |
@@ -2954,6 +2960,12 @@ error: TagNameSelector
 45 | div {
    | ^^^
 
+error: WqName
+  --> $DIR/tests/fixture/function/calc/input.css:45:1
+   |
+45 | div {
+   | ^^^
+
 error: Ident
   --> $DIR/tests/fixture/function/calc/input.css:45:1
    |
@@ -3007,6 +3019,12 @@ error: TypeSelector
    | ^^^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/function/calc/input.css:49:1
+   |
+49 | div { width: calc(100% / 4); }
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/function/calc/input.css:49:1
    |
 49 | div { width: calc(100% / 4); }
@@ -3139,6 +3157,12 @@ error: TypeSelector
    | ^^^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/function/calc/input.css:50:1
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/function/calc/input.css:50:1
    |
 50 | div { margin-top: calc(-120% - 4px); }

@@ -2104,6 +2104,12 @@ error: AttributeSelector
 38 | #id.class[target] {}
    |          ^^^^^^^^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/id/input.css:38:11
+   |
+38 | #id.class[target] {}
+   |           ^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:38:11
    |
@@ -2153,6 +2159,12 @@ error: TypeSelector
    | ^^^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/id/input.css:39:1
+   |
+39 | div#thing:hover {}
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/id/input.css:39:1
    |
 39 | div#thing:hover {}
@@ -2243,6 +2255,12 @@ error: TypeSelector
    | ^^^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/id/input.css:40:1
+   |
+40 | div#thing:nth-child(2n+1) {}
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/id/input.css:40:1
    |
 40 | div#thing:nth-child(2n+1) {}
@@ -2345,6 +2363,12 @@ error: TypeSelector
    | ^^^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/id/input.css:41:1
+   |
+41 | div#thing::before {}
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/id/input.css:41:1
    |
 41 | div#thing::before {}
@@ -2457,6 +2481,12 @@ error: AttributeSelector
    |
 42 | #foo[lang^=en] {}
    |     ^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/id/input.css:42:6
+   |
+42 | #foo[lang^=en] {}
+   |      ^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:42:6

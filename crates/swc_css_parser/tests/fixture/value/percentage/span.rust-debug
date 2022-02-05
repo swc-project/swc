@@ -64,6 +64,12 @@ error: TagNameSelector
 1 | div {
   | ^^^
 
+error: WqName
+ --> $DIR/tests/fixture/value/percentage/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/value/percentage/input.css:1:1
   |
@@ -522,6 +528,12 @@ error: TypeSelector
    | ^^^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/value/percentage/input.css:15:1
+   |
+15 | div {
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/value/percentage/input.css:15:1
    |
 15 | div {

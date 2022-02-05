@@ -46,33 +46,41 @@
                       "end": 10,
                       "ctxt": 0
                     },
-                    "prefix": {
-                      "type": "NsPrefix",
+                    "name": {
+                      "type": "WqName",
                       "span": {
                         "start": 1,
-                        "end": 3,
-                        "ctxt": 0
-                      },
-                      "prefix": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 1,
-                          "end": 2,
-                          "ctxt": 0
-                        },
-                        "value": "a",
-                        "raw": "a"
-                      }
-                    },
-                    "name": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 3,
                         "end": 4,
                         "ctxt": 0
                       },
-                      "value": "b",
-                      "raw": "b"
+                      "prefix": {
+                        "type": "NsPrefix",
+                        "span": {
+                          "start": 1,
+                          "end": 3,
+                          "ctxt": 0
+                        },
+                        "prefix": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 1,
+                            "end": 2,
+                            "ctxt": 0
+                          },
+                          "value": "a",
+                          "raw": "a"
+                        }
+                      },
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 3,
+                          "end": 4,
+                          "ctxt": 0
+                        },
+                        "value": "b",
+                        "raw": "b"
+                      }
                     },
                     "matcher": {
                       "type": "AttributeSelectorMatcher",

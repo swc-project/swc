@@ -1270,16 +1270,24 @@
                         "end": 464,
                         "ctxt": 0
                       },
-                      "prefix": null,
                       "name": {
-                        "type": "Identifier",
+                        "type": "WqName",
                         "span": {
                           "start": 463,
                           "end": 464,
                           "ctxt": 0
                         },
-                        "value": "a",
-                        "raw": "a"
+                        "prefix": null,
+                        "value": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 463,
+                            "end": 464,
+                            "ctxt": 0
+                          },
+                          "value": "a",
+                          "raw": "a"
+                        }
                       }
                     },
                     "subclassSelectors": []
@@ -1607,16 +1615,24 @@
                         "end": 564,
                         "ctxt": 0
                       },
-                      "prefix": null,
                       "name": {
-                        "type": "Identifier",
+                        "type": "WqName",
                         "span": {
                           "start": 563,
                           "end": 564,
                           "ctxt": 0
                         },
-                        "value": "a",
-                        "raw": "a"
+                        "prefix": null,
+                        "value": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 563,
+                            "end": 564,
+                            "ctxt": 0
+                          },
+                          "value": "a",
+                          "raw": "a"
+                        }
                       }
                     },
                     "subclassSelectors": []

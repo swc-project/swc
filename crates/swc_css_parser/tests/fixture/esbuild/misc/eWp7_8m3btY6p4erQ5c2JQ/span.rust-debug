@@ -46,6 +46,12 @@ error: TagNameSelector
 1 | a { value: '\61bc' }
   | ^
 
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/eWp7_8m3btY6p4erQ5c2JQ/input.css:1:1
+  |
+1 | a { value: '\61bc' }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/eWp7_8m3btY6p4erQ5c2JQ/input.css:1:1
   |

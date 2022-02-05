@@ -55,6 +55,12 @@ error: TagNameSelector
 1 | a {
   | ^
 
+error: WqName
+ --> $DIR/tests/fixture/declaration-list/input.css:1:1
+  |
+1 | a {
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/declaration-list/input.css:1:1
   |

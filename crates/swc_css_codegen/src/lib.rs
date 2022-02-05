@@ -1284,10 +1284,6 @@ where
 
     #[emitter]
     fn emit_tag_name_selector(&mut self, n: &TagNameSelector) -> Result {
-        if let Some(prefix) = &n.prefix {
-            emit!(self, prefix);
-        }
-
         emit!(self, n.name);
     }
 
@@ -1307,6 +1303,15 @@ where
     }
 
     #[emitter]
+    fn emit_wq_name(&mut self, n: &WqName) -> Result {
+        if n.prefix.is_some() {
+            emit!(self, n.prefix);
+        }
+
+        emit!(self, n.value);
+    }
+
+    #[emitter]
     fn emit_id_selector(&mut self, n: &IdSelector) -> Result {
         punct!(self, "#");
         emit!(self, n.text);
@@ -1321,11 +1326,6 @@ where
     #[emitter]
     fn emit_attribute_selector(&mut self, n: &AttributeSelector) -> Result {
         punct!(self, "[");
-
-        if let Some(prefix) = &n.prefix {
-            emit!(self, prefix);
-        }
-
         emit!(self, n.name);
 
         if n.matcher.is_some() {

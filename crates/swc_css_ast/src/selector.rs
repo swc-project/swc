@@ -75,8 +75,7 @@ pub enum TypeSelector {
 #[ast_node("TagNameSelector")]
 pub struct TagNameSelector {
     pub span: Span,
-    pub prefix: Option<NsPrefix>,
-    pub name: Ident,
+    pub name: WqName,
 }
 
 #[ast_node("UniversalSelector")]
@@ -89,6 +88,13 @@ pub struct UniversalSelector {
 pub struct NsPrefix {
     pub span: Span,
     pub prefix: Option<Ident>,
+}
+
+#[ast_node("WqName")]
+pub struct WqName {
+    pub span: Span,
+    pub prefix: Option<NsPrefix>,
+    pub value: Ident,
 }
 
 #[ast_node]
@@ -129,8 +135,7 @@ pub struct ClassSelector {
 #[ast_node("AttributeSelector")]
 pub struct AttributeSelector {
     pub span: Span,
-    pub prefix: Option<NsPrefix>,
-    pub name: Ident,
+    pub name: WqName,
     pub matcher: Option<AttributeSelectorMatcher>,
     pub value: Option<AttributeSelectorValue>,
     pub modifier: Option<AttributeSelectorModifier>,

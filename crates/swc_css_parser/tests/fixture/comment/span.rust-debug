@@ -61,6 +61,12 @@ error: TagNameSelector
 1 | /* comment */a/* comment */
   |              ^
 
+error: WqName
+ --> $DIR/tests/fixture/comment/input.css:1:14
+  |
+1 | /* comment */a/* comment */
+  |              ^
+
 error: Ident
  --> $DIR/tests/fixture/comment/input.css:1:14
   |
@@ -154,6 +160,12 @@ error: TypeSelector
   | ^^^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/comment/input.css:9:1
+  |
+9 | div {
+  | ^^^
+
+error: WqName
  --> $DIR/tests/fixture/comment/input.css:9:1
   |
 9 | div {
@@ -281,6 +293,12 @@ error: TypeSelector
    | ^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/comment/input.css:18:1
+   |
+18 | a {
+   | ^
+
+error: WqName
   --> $DIR/tests/fixture/comment/input.css:18:1
    |
 18 | a {

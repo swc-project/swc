@@ -46,6 +46,12 @@ error: TagNameSelector
 1 | a { color: tUrQuOiSe }
   | ^
 
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/vCiwe_ipn8ReAa4wyU52Ng/input.css:1:1
+  |
+1 | a { color: tUrQuOiSe }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/vCiwe_ipn8ReAa4wyU52Ng/input.css:1:1
   |

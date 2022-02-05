@@ -2579,16 +2579,24 @@
                       "end": 687,
                       "ctxt": 0
                     },
-                    "prefix": null,
                     "name": {
-                      "type": "Identifier",
+                      "type": "WqName",
                       "span": {
                         "start": 680,
                         "end": 686,
                         "ctxt": 0
                       },
-                      "value": "target",
-                      "raw": "target"
+                      "prefix": null,
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 680,
+                          "end": 686,
+                          "ctxt": 0
+                        },
+                        "value": "target",
+                        "raw": "target"
+                      }
                     },
                     "matcher": null,
                     "value": null,
@@ -2648,16 +2656,24 @@
                     "end": 694,
                     "ctxt": 0
                   },
-                  "prefix": null,
                   "name": {
-                    "type": "Identifier",
+                    "type": "WqName",
                     "span": {
                       "start": 691,
                       "end": 694,
                       "ctxt": 0
                     },
-                    "value": "div",
-                    "raw": "div"
+                    "prefix": null,
+                    "value": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 691,
+                        "end": 694,
+                        "ctxt": 0
+                      },
+                      "value": "div",
+                      "raw": "div"
+                    }
                   }
                 },
                 "subclassSelectors": [
@@ -2752,16 +2768,24 @@
                     "end": 713,
                     "ctxt": 0
                   },
-                  "prefix": null,
                   "name": {
-                    "type": "Identifier",
+                    "type": "WqName",
                     "span": {
                       "start": 710,
                       "end": 713,
                       "ctxt": 0
                     },
-                    "value": "div",
-                    "raw": "div"
+                    "prefix": null,
+                    "value": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 710,
+                        "end": 713,
+                        "ctxt": 0
+                      },
+                      "value": "div",
+                      "raw": "div"
+                    }
                   }
                 },
                 "subclassSelectors": [
@@ -2876,16 +2900,24 @@
                     "end": 742,
                     "ctxt": 0
                   },
-                  "prefix": null,
                   "name": {
-                    "type": "Identifier",
+                    "type": "WqName",
                     "span": {
                       "start": 739,
                       "end": 742,
                       "ctxt": 0
                     },
-                    "value": "div",
-                    "raw": "div"
+                    "prefix": null,
+                    "value": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 739,
+                        "end": 742,
+                        "ctxt": 0
+                      },
+                      "value": "div",
+                      "raw": "div"
+                    }
                   }
                 },
                 "subclassSelectors": [
@@ -3000,16 +3032,24 @@
                       "end": 774,
                       "ctxt": 0
                     },
-                    "prefix": null,
                     "name": {
-                      "type": "Identifier",
+                      "type": "WqName",
                       "span": {
                         "start": 765,
                         "end": 769,
                         "ctxt": 0
                       },
-                      "value": "lang",
-                      "raw": "lang"
+                      "prefix": null,
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 765,
+                          "end": 769,
+                          "ctxt": 0
+                        },
+                        "value": "lang",
+                        "raw": "lang"
+                      }
                     },
                     "matcher": {
                       "type": "AttributeSelectorMatcher",

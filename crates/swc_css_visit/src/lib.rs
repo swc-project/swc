@@ -228,8 +228,7 @@ define!({
 
     pub struct TagNameSelector {
         pub span: Span,
-        pub prefix: Option<NsPrefix>,
-        pub name: Ident,
+        pub name: WqName,
     }
 
     pub struct UniversalSelector {
@@ -240,6 +239,12 @@ define!({
     pub struct NsPrefix {
         pub span: Span,
         pub prefix: Option<Ident>,
+    }
+
+    pub struct WqName {
+        pub span: Span,
+        pub prefix: Option<NsPrefix>,
+        pub value: Ident,
     }
 
     pub struct NestingSelector {
@@ -257,8 +262,7 @@ define!({
 
     pub struct AttributeSelector {
         pub span: Span,
-        pub prefix: Option<NsPrefix>,
-        pub name: Ident,
+        pub name: WqName,
         pub matcher: Option<AttributeSelectorMatcher>,
         pub value: Option<AttributeSelectorValue>,
         pub modifier: Option<AttributeSelectorModifier>,

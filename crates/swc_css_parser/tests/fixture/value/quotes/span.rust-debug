@@ -64,6 +64,12 @@ error: TagNameSelector
 1 | a::before {
   | ^
 
+error: WqName
+ --> $DIR/tests/fixture/value/quotes/input.css:1:1
+  |
+1 | a::before {
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/value/quotes/input.css:1:1
   |
@@ -756,6 +762,12 @@ error: TagNameSelector
 31 | a[title="a not s\
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/value/quotes/input.css:31:1
+   |
+31 | a[title="a not s\
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:31:1
    |
@@ -777,6 +789,12 @@ error: AttributeSelector
    |  __^
 32 | | o very long title"] {
    | |___________________^
+
+error: WqName
+  --> $DIR/tests/fixture/value/quotes/input.css:31:3
+   |
+31 | a[title="a not s\
+   |   ^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:31:3
@@ -891,6 +909,12 @@ error: TagNameSelector
 35 | a[title="a not so very long title"] {
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/value/quotes/input.css:35:1
+   |
+35 | a[title="a not so very long title"] {
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:35:1
    |
@@ -908,6 +932,12 @@ error: AttributeSelector
    |
 35 | a[title="a not so very long title"] {
    |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/value/quotes/input.css:35:3
+   |
+35 | a[title="a not so very long title"] {
+   |   ^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:35:3

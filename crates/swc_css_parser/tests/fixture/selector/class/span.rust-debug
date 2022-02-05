@@ -2050,6 +2050,12 @@ error: TagNameSelector
 38 | foo.class > .foo.class {}
    | ^^^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/class/input.css:38:1
+   |
+38 | foo.class > .foo.class {}
+   | ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/class/input.css:38:1
    |
@@ -2260,6 +2266,12 @@ error: AttributeSelector
 40 | .class[target] {}
    |       ^^^^^^^^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/class/input.css:40:8
+   |
+40 | .class[target] {}
+   |        ^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/class/input.css:40:8
    |
@@ -2350,6 +2362,12 @@ error: AttributeSelector
 41 | .class#id[target] {}
    |          ^^^^^^^^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/class/input.css:41:11
+   |
+41 | .class#id[target] {}
+   |           ^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/class/input.css:41:11
    |
@@ -2399,6 +2417,12 @@ error: TypeSelector
    | ^^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/class/input.css:42:1
+   |
+42 | ul.list {}
+   | ^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/class/input.css:42:1
    |
 42 | ul.list {}
@@ -2471,6 +2495,12 @@ error: TypeSelector
    | ^^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/class/input.css:43:1
+   |
+43 | ul.list::before {}
+   | ^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/class/input.css:43:1
    |
 43 | ul.list::before {}

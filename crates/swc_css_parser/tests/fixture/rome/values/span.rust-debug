@@ -56,6 +56,12 @@ error: TagNameSelector
 1 | p::before {
   | ^
 
+error: WqName
+ --> $DIR/tests/fixture/rome/values/input.css:1:1
+  |
+1 | p::before {
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/rome/values/input.css:1:1
   |
@@ -367,6 +373,12 @@ error: TagNameSelector
 12 | foo {
    | ^^^
 
+error: WqName
+  --> $DIR/tests/fixture/rome/values/input.css:12:1
+   |
+12 | foo {
+   | ^^^
+
 error: Ident
   --> $DIR/tests/fixture/rome/values/input.css:12:1
    |
@@ -455,6 +467,12 @@ error: TypeSelector
    | ^^^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/rome/values/input.css:16:1
+   |
+16 | bar {
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/rome/values/input.css:16:1
    |
 16 | bar {

@@ -46,6 +46,12 @@ error: TagNameSelector
 1 | a { color: red } a { color: green } a { color: red }
   | ^
 
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1
+  |
+1 | a { color: red } a { color: green } a { color: red }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1
   |
@@ -130,6 +136,12 @@ error: TagNameSelector
 1 | a { color: red } a { color: green } a { color: red }
   |                  ^
 
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:18
+  |
+1 | a { color: red } a { color: green } a { color: red }
+  |                  ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:18
   |
@@ -209,6 +221,12 @@ error: TypeSelector
   |                                     ^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:37
+  |
+1 | a { color: red } a { color: green } a { color: red }
+  |                                     ^
+
+error: WqName
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:37
   |
 1 | a { color: red } a { color: green } a { color: red }

@@ -44,16 +44,24 @@
                     "end": 19,
                     "ctxt": 0
                   },
-                  "prefix": null,
                   "name": {
-                    "type": "Identifier",
+                    "type": "WqName",
                     "span": {
                       "start": 16,
                       "end": 19,
                       "ctxt": 0
                     },
-                    "value": "foo",
-                    "raw": "foo"
+                    "prefix": null,
+                    "value": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 16,
+                        "end": 19,
+                        "ctxt": 0
+                      },
+                      "value": "foo",
+                      "raw": "foo"
+                    }
                   }
                 },
                 "subclassSelectors": []

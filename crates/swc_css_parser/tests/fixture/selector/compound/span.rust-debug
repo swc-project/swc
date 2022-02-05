@@ -268,6 +268,12 @@ error: AttributeSelector
 4 | .class[target] {}
   |       ^^^^^^^^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/compound/input.css:4:8
+  |
+4 | .class[target] {}
+  |        ^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/compound/input.css:4:8
   |
@@ -357,6 +363,12 @@ error: AttributeSelector
   |
 5 | .class#id[target] {}
   |          ^^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/compound/input.css:5:11
+  |
+5 | .class#id[target] {}
+  |           ^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/selector/compound/input.css:5:11
@@ -520,6 +532,12 @@ error: AttributeSelector
 7 | #id.class[target] {}
   |          ^^^^^^^^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/compound/input.css:7:11
+  |
+7 | #id.class[target] {}
+  |           ^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/compound/input.css:7:11
   |
@@ -569,6 +587,12 @@ error: TypeSelector
   | ^^^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/compound/input.css:8:1
+  |
+8 | div#thing:hover {}
+  | ^^^
+
+error: WqName
  --> $DIR/tests/fixture/selector/compound/input.css:8:1
   |
 8 | div#thing:hover {}
@@ -664,6 +688,12 @@ error: TagNameSelector
 9 | div#thing::before {}
   | ^^^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/compound/input.css:9:1
+  |
+9 | div#thing::before {}
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/compound/input.css:9:1
   |
@@ -754,6 +784,12 @@ error: TagNameSelector
 10 | a[href='place']:hover {}
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/compound/input.css:10:1
+   |
+10 | a[href='place']:hover {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/compound/input.css:10:1
    |
@@ -771,6 +807,12 @@ error: AttributeSelector
    |
 10 | a[href='place']:hover {}
    |  ^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/compound/input.css:10:3
+   |
+10 | a[href='place']:hover {}
+   |   ^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/compound/input.css:10:3
@@ -862,6 +904,12 @@ error: TagNameSelector
 11 | a[href='place']::before {}
    | ^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/compound/input.css:11:1
+   |
+11 | a[href='place']::before {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/compound/input.css:11:1
    |
@@ -879,6 +927,12 @@ error: AttributeSelector
    |
 11 | a[href='place']::before {}
    |  ^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/compound/input.css:11:3
+   |
+11 | a[href='place']::before {}
+   |   ^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/compound/input.css:11:3
@@ -1055,6 +1109,12 @@ error: TypeSelector
    | ^^^^^^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/compound/input.css:13:1
+   |
+13 | button.btn-primary {}
+   | ^^^^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/compound/input.css:13:1
    |
 13 | button.btn-primary {}

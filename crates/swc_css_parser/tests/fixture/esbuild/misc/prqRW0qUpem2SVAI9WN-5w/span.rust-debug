@@ -46,6 +46,12 @@ error: TagNameSelector
 1 | |b {}
   | ^^
 
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/prqRW0qUpem2SVAI9WN-5w/input.css:1:1
+  |
+1 | |b {}
+  | ^^
+
 error: NsPrefix
  --> $DIR/tests/fixture/esbuild/misc/prqRW0qUpem2SVAI9WN-5w/input.css:1:1
   |

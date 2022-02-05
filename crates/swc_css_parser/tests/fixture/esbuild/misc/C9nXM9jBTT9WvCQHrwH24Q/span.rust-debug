@@ -52,6 +52,12 @@ error: AttributeSelector
 1 | &[a] {}
   |  ^^^
 
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/C9nXM9jBTT9WvCQHrwH24Q/input.css:1:3
+  |
+1 | &[a] {}
+  |   ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/C9nXM9jBTT9WvCQHrwH24Q/input.css:1:3
   |

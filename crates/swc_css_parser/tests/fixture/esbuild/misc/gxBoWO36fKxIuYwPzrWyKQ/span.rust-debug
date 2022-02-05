@@ -46,6 +46,12 @@ error: TagNameSelector
 1 | a { value: #x\2c }
   | ^
 
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/gxBoWO36fKxIuYwPzrWyKQ/input.css:1:1
+  |
+1 | a { value: #x\2c }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/gxBoWO36fKxIuYwPzrWyKQ/input.css:1:1
   |

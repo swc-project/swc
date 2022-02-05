@@ -319,6 +319,12 @@ error: TagNameSelector
 10 | #foo h1 {
    |      ^^
 
+error: WqName
+  --> $DIR/tests/fixture/dashed-ident/input.css:10:6
+   |
+10 | #foo h1 {
+   |      ^^
+
 error: Ident
   --> $DIR/tests/fixture/dashed-ident/input.css:10:6
    |

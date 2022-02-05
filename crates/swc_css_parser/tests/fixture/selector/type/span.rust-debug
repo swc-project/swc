@@ -112,6 +112,12 @@ error: TagNameSelector
 2 | foo|h1 {}
   | ^^^^^^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/type/input.css:2:1
+  |
+2 | foo|h1 {}
+  | ^^^^^^
+
 error: NsPrefix
  --> $DIR/tests/fixture/selector/type/input.css:2:1
   |
@@ -238,6 +244,12 @@ error: TagNameSelector
 4 | |h1 {}
   | ^^^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/type/input.css:4:1
+  |
+4 | |h1 {}
+  | ^^^
+
 error: NsPrefix
  --> $DIR/tests/fixture/selector/type/input.css:4:1
   |
@@ -293,6 +305,12 @@ error: TypeSelector
   | ^^^^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/type/input.css:5:1
+  |
+5 | *|h1 {}
+  | ^^^^
+
+error: WqName
  --> $DIR/tests/fixture/selector/type/input.css:5:1
   |
 5 | *|h1 {}
@@ -364,6 +382,12 @@ error: TagNameSelector
 6 | h1 {}
   | ^^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/type/input.css:6:1
+  |
+6 | h1 {}
+  | ^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/type/input.css:6:1
   |
@@ -413,6 +437,12 @@ error: TypeSelector
   | ^^^^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/type/input.css:7:1
+  |
+7 | \2d {}
+  | ^^^^
+
+error: WqName
  --> $DIR/tests/fixture/selector/type/input.css:7:1
   |
 7 | \2d {}
@@ -472,6 +502,12 @@ error: TagNameSelector
 8 | \2d a {}
   | ^^^^^
 
+error: WqName
+ --> $DIR/tests/fixture/selector/type/input.css:8:1
+  |
+8 | \2d a {}
+  | ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/type/input.css:8:1
   |
@@ -521,6 +557,12 @@ error: TypeSelector
   | ^^^^^^^^^^^
 
 error: TagNameSelector
+ --> $DIR/tests/fixture/selector/type/input.css:9:1
+  |
+9 | div\:before {}
+  | ^^^^^^^^^^^
+
+error: WqName
  --> $DIR/tests/fixture/selector/type/input.css:9:1
   |
 9 | div\:before {}
@@ -580,6 +622,12 @@ error: TagNameSelector
 10 | d\iv {}
    | ^^^^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/type/input.css:10:1
+   |
+10 | d\iv {}
+   | ^^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/type/input.css:10:1
    |
@@ -629,6 +677,12 @@ error: TypeSelector
    | ^^^^^^^^^^^^^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/type/input.css:11:1
+   |
+11 | foreignObject {}
+   | ^^^^^^^^^^^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/type/input.css:11:1
    |
 11 | foreignObject {}
@@ -688,6 +742,12 @@ error: TagNameSelector
 12 | html textPath {}
    | ^^^^
 
+error: WqName
+  --> $DIR/tests/fixture/selector/type/input.css:12:1
+   |
+12 | html textPath {}
+   | ^^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/type/input.css:12:1
    |
@@ -713,6 +773,12 @@ error: TypeSelector
    |      ^^^^^^^^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/type/input.css:12:6
+   |
+12 | html textPath {}
+   |      ^^^^^^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/type/input.css:12:6
    |
 12 | html textPath {}
@@ -767,6 +833,12 @@ error: TypeSelector
    | ^^^
 
 error: TagNameSelector
+  --> $DIR/tests/fixture/selector/type/input.css:13:1
+   |
+13 | div#thing {}
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/type/input.css:13:1
    |
 13 | div#thing {}
@@ -1269,6 +1341,12 @@ error: AttributeSelector
    |
 20 | *[lang^=en] {}
    |  ^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/type/input.css:20:3
+   |
+20 | *[lang^=en] {}
+   |   ^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/type/input.css:20:3

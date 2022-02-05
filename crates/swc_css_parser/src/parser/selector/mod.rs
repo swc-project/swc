@@ -7,39 +7,6 @@ use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
-impl<I> Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse_wq_name(&mut self) -> PResult<(Option<NsPrefix>, Option<Ident>)> {
-        let state = self.input.state();
-
-        if is!(self, Ident) && peeked_is!(self, "|")
-            || is!(self, "*") && peeked_is!(self, "|")
-            || is!(self, "|")
-        {
-            let prefix = self.parse()?;
-
-            if is!(self, Ident) {
-                let name = self.parse()?;
-
-                return Ok((Some(prefix), Some(name)));
-            } else {
-                // TODO: implement `peeked_ahead_is` for perf
-                self.input.reset(&state);
-            }
-        }
-
-        if is!(self, Ident) {
-            let name = self.parse()?;
-
-            return Ok((None, Some(name)));
-        }
-
-        Ok((None, None))
-    }
-}
-
 impl<I> Parse<SelectorList> for Parser<I>
 where
     I: ParserInput,
@@ -272,12 +239,15 @@ where
         };
 
         if is!(self, Ident) {
-            let name = self.parse()?;
+            let value = self.parse()?;
 
             return Ok(TypeSelector::TagName(TagNameSelector {
                 span: span!(self, span.lo),
-                prefix,
-                name,
+                name: WqName {
+                    span: span!(self, span.lo),
+                    prefix,
+                    value,
+                },
             }));
         } else if is!(self, "*") {
             bump!(self);
@@ -320,6 +290,48 @@ where
             span: span!(self, span.lo),
             prefix,
         });
+    }
+}
+
+impl<I> Parse<Option<WqName>> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Option<WqName>> {
+        let span = self.input.cur_span()?;
+        let state = self.input.state();
+
+        if is!(self, Ident) && peeked_is!(self, "|")
+            || is!(self, "*") && peeked_is!(self, "|")
+            || is!(self, "|")
+        {
+            let prefix = Some(self.parse()?);
+
+            if is!(self, Ident) {
+                let value = self.parse()?;
+
+                return Ok(Some(WqName {
+                    span: span!(self, span.lo),
+                    prefix,
+                    value,
+                }));
+            } else {
+                // TODO: implement `peeked_ahead_is` for perf
+                self.input.reset(&state);
+            }
+        }
+
+        if is!(self, Ident) {
+            let value = self.parse()?;
+
+            return Ok(Some(WqName {
+                span: span!(self, span.lo),
+                prefix: None,
+                value,
+            }));
+        }
+
+        Ok(None)
     }
 }
 
@@ -425,15 +437,13 @@ where
 
         self.input.skip_ws()?;
 
-        let prefix;
         let name;
         let mut matcher = None;
         let mut value = None;
         let mut modifier = None;
 
-        if let Ok((p, Some(n))) = self.parse_wq_name() {
-            prefix = p;
-            name = n;
+        if let Ok(Some(wq_name)) = self.parse() {
+            name = wq_name;
         } else {
             let span = self.input.cur_span()?;
 
@@ -465,7 +475,6 @@ where
 
         Ok(AttributeSelector {
             span: span!(self, span.lo),
-            prefix,
             name,
             matcher,
             value,

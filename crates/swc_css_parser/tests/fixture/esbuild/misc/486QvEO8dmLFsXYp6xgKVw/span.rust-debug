@@ -46,6 +46,12 @@ error: TagNameSelector
 1 | a { value: #\30hash }
   | ^
 
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/486QvEO8dmLFsXYp6xgKVw/input.css:1:1
+  |
+1 | a { value: #\30hash }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/486QvEO8dmLFsXYp6xgKVw/input.css:1:1
   |

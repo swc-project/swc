@@ -46,6 +46,12 @@ error: TagNameSelector
 1 | a:after { content: 'a\b' }
   | ^
 
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/d6iTYxGk5HHi4hIZcn73Bw/input.css:1:1
+  |
+1 | a:after { content: 'a\b' }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/d6iTYxGk5HHi4hIZcn73Bw/input.css:1:1
   |

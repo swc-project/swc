@@ -289,6 +289,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(TypeSelector, visit_type_selector);
     mtd!(TagNameSelector, visit_tag_name_selector);
     mtd!(NsPrefix, visit_ns_prefix);
+    mtd!(WqName, visit_wq_name);
     mtd!(UniversalSelector, visit_universal_selector);
     mtd!(IdSelector, visit_id_selector);
     mtd!(ClassSelector, visit_class_selector);
