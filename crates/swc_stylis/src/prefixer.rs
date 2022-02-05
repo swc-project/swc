@@ -34,15 +34,11 @@ impl VisitMut for Prefixer {
                     value: $name.into(),
                     raw: $name.into(),
                 });
-                let important = match &n.important {
-                    Some(i) => Some(i.clone()),
-                    None => None,
-                };
                 self.added.push(Declaration {
                     span: n.span,
                     name,
                     value: vec![val],
-                    important,
+                    important: n.important.clone(),
                 });
             }};
         }
@@ -54,15 +50,11 @@ impl VisitMut for Prefixer {
                     value: $name.into(),
                     raw: $name.into(),
                 });
-                let important = match &n.important {
-                    Some(i) => Some(i.clone()),
-                    None => None,
-                };
                 self.added.push(Declaration {
                     span: n.span,
                     name,
                     value: n.value.clone(),
-                    important,
+                    important: n.important.clone(),
                 });
             }};
         }
@@ -74,15 +66,11 @@ impl VisitMut for Prefixer {
                     value: $name.into(),
                     raw: $name.into(),
                 };
-                let important = match &n.important {
-                    Some(i) => Some(i.clone()),
-                    None => None,
-                };
                 self.added.push(Declaration {
                     span: n.span,
                     name: n.name.clone(),
                     value: vec![Value::Ident(val)],
-                    important,
+                    important: n.important.clone(),
                 });
             }};
         }
@@ -195,15 +183,11 @@ impl VisitMut for Prefixer {
                                 },
                                 value: f.value.clone(),
                             });
-                            let important = match &n.important {
-                                Some(i) => Some(i.clone()),
-                                None => None,
-                            };
                             self.added.push(Declaration {
                                 span: n.span,
                                 name: n.name.clone(),
                                 value: vec![val],
-                                important,
+                                important: n.important.clone(),
                             });
                         }
                     }
@@ -223,15 +207,11 @@ impl VisitMut for Prefixer {
                                 },
                                 value: f.value.clone(),
                             });
-                            let important = match &n.important {
-                                Some(i) => Some(i.clone()),
-                                None => None,
-                            };
                             self.added.push(Declaration {
                                 span: n.span,
                                 name: n.name.clone(),
                                 value: vec![val],
-                                important,
+                                important: n.important.clone(),
                             });
                         }
                     }
@@ -275,15 +255,11 @@ impl VisitMut for Prefixer {
                         .collect();
 
                     if n.value != new_value {
-                        let important = match &n.important {
-                            Some(i) => Some(i.clone()),
-                            None => None,
-                        };
                         self.added.push(Declaration {
                             span: n.span,
                             name: n.name.clone(),
                             value: new_value,
-                            important,
+                            important: n.important.clone(),
                         });
                     }
                 }
@@ -499,15 +475,11 @@ impl VisitMut for Prefixer {
                     value: "-webkit-transition".into(),
                     raw: "-webkit-transition".into(),
                 });
-                let important = match &n.important {
-                    Some(i) => Some(i.clone()),
-                    None => None,
-                };
                 self.added.push(Declaration {
                     span: n.span,
                     name,
                     value,
-                    important,
+                    important: n.important.clone(),
                 });
             }
 
