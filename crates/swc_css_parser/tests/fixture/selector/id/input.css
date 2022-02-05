@@ -33,3 +33,40 @@
 #f\'o\'o {}
 #f\~o\~o {}
 #f\+o\+o {}
+#id {}
+#id.class {}
+#id.class[target] {}
+div#thing:hover {}
+div#thing:nth-child(2n+1) {}
+div#thing::before {}
+#foo[lang^=en] {}
+#\; {}
+#u-m\00002b {}
+#♥ {}
+#“‘’” {}
+#☺☃ {}
+#\@ {}
+#\. {}
+#\3A \) {}
+#\3A \`\( {}
+#\31 23 {}
+#\31 a2b3c {}
+#\<p\> {}
+#\<\>\<\<\<\>\>\<\> {}
+#\# {}
+#\#\# {}
+#\#\.\#\.\# {}
+#\_ {}
+#\{\} {}
+#\.fake\-class {}
+#foo\.bar {}
+#\3A hover {}
+#\3A hover\3A focus\3A active {}
+#\[attr\=value\] {}
+#f\/o\/o {}
+#f\\o\\o {}
+#f\*o\*o {}
+#f\!o\!o {}
+#f\\\'o\\\'o {}
+#f\~o\~o {}
+#f\+o\+o {}

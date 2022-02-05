@@ -6,9 +6,9 @@ error: Stylesheet
 3  | | .© {}
 4  | | .“‘’” {}
 ...  |
-36 | | .-a-b-c- {}
-37 | | .\#fake-id {}
-   | |______________^
+56 | | .\\1D306 {}
+57 | | .\; {}
+   | |______^
 
 error: Rule
  --> $DIR/tests/fixture/selector/class/input.css:1:1
@@ -2007,4 +2007,1258 @@ error: Block
    |
 37 | .\#fake-id {}
    |            ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:38:1
+   |
+38 | foo.class > .foo.class {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:38:1
+   |
+38 | foo.class > .foo.class {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:38:1
+   |
+38 | foo.class > .foo.class {}
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:38:1
+   |
+38 | foo.class > .foo.class {}
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:38:1
+   |
+38 | foo.class > .foo.class {}
+   | ^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/class/input.css:38:1
+   |
+38 | foo.class > .foo.class {}
+   | ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:38:1
+   |
+38 | foo.class > .foo.class {}
+   | ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:38:4
+   |
+38 | foo.class > .foo.class {}
+   |    ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:38:4
+   |
+38 | foo.class > .foo.class {}
+   |    ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:38:5
+   |
+38 | foo.class > .foo.class {}
+   |     ^^^^^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/class/input.css:38:11
+   |
+38 | foo.class > .foo.class {}
+   |           ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:38:13
+   |
+38 | foo.class > .foo.class {}
+   |             ^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:38:13
+   |
+38 | foo.class > .foo.class {}
+   |             ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:38:13
+   |
+38 | foo.class > .foo.class {}
+   |             ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:38:14
+   |
+38 | foo.class > .foo.class {}
+   |              ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:38:17
+   |
+38 | foo.class > .foo.class {}
+   |                 ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:38:17
+   |
+38 | foo.class > .foo.class {}
+   |                 ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:38:18
+   |
+38 | foo.class > .foo.class {}
+   |                  ^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:38:24
+   |
+38 | foo.class > .foo.class {}
+   |                        ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:39:1
+   |
+39 | .foo#id {}
+   | ^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:39:1
+   |
+39 | .foo#id {}
+   | ^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:39:1
+   |
+39 | .foo#id {}
+   | ^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:39:1
+   |
+39 | .foo#id {}
+   | ^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:39:1
+   |
+39 | .foo#id {}
+   | ^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:39:1
+   |
+39 | .foo#id {}
+   | ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:39:1
+   |
+39 | .foo#id {}
+   | ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:39:2
+   |
+39 | .foo#id {}
+   |  ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:39:5
+   |
+39 | .foo#id {}
+   |     ^^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/class/input.css:39:5
+   |
+39 | .foo#id {}
+   |     ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:39:5
+   |
+39 | .foo#id {}
+   |     ^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:39:9
+   |
+39 | .foo#id {}
+   |         ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:40:1
+   |
+40 | .class[target] {}
+   | ^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:40:1
+   |
+40 | .class[target] {}
+   | ^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:40:1
+   |
+40 | .class[target] {}
+   | ^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:40:1
+   |
+40 | .class[target] {}
+   | ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:40:1
+   |
+40 | .class[target] {}
+   | ^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:40:1
+   |
+40 | .class[target] {}
+   | ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:40:1
+   |
+40 | .class[target] {}
+   | ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:40:2
+   |
+40 | .class[target] {}
+   |  ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:40:7
+   |
+40 | .class[target] {}
+   |       ^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/class/input.css:40:7
+   |
+40 | .class[target] {}
+   |       ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:40:8
+   |
+40 | .class[target] {}
+   |        ^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:40:16
+   |
+40 | .class[target] {}
+   |                ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:41:1
+   |
+41 | .class#id[target] {}
+   | ^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:41:1
+   |
+41 | .class#id[target] {}
+   | ^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:41:1
+   |
+41 | .class#id[target] {}
+   | ^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:41:1
+   |
+41 | .class#id[target] {}
+   | ^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:41:1
+   |
+41 | .class#id[target] {}
+   | ^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:41:1
+   |
+41 | .class#id[target] {}
+   | ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:41:1
+   |
+41 | .class#id[target] {}
+   | ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:41:2
+   |
+41 | .class#id[target] {}
+   |  ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:41:7
+   |
+41 | .class#id[target] {}
+   |       ^^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/class/input.css:41:7
+   |
+41 | .class#id[target] {}
+   |       ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:41:7
+   |
+41 | .class#id[target] {}
+   |       ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:41:10
+   |
+41 | .class#id[target] {}
+   |          ^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/class/input.css:41:10
+   |
+41 | .class#id[target] {}
+   |          ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:41:11
+   |
+41 | .class#id[target] {}
+   |           ^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:41:19
+   |
+41 | .class#id[target] {}
+   |                   ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:42:1
+   |
+42 | ul.list {}
+   | ^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:42:1
+   |
+42 | ul.list {}
+   | ^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:42:1
+   |
+42 | ul.list {}
+   | ^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:42:1
+   |
+42 | ul.list {}
+   | ^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:42:1
+   |
+42 | ul.list {}
+   | ^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/class/input.css:42:1
+   |
+42 | ul.list {}
+   | ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:42:1
+   |
+42 | ul.list {}
+   | ^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:42:3
+   |
+42 | ul.list {}
+   |   ^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:42:3
+   |
+42 | ul.list {}
+   |   ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:42:4
+   |
+42 | ul.list {}
+   |    ^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:42:9
+   |
+42 | ul.list {}
+   |         ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:43:1
+   |
+43 | ul.list::before {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:43:1
+   |
+43 | ul.list::before {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:43:1
+   |
+43 | ul.list::before {}
+   | ^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:43:1
+   |
+43 | ul.list::before {}
+   | ^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:43:1
+   |
+43 | ul.list::before {}
+   | ^^^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/class/input.css:43:1
+   |
+43 | ul.list::before {}
+   | ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:43:1
+   |
+43 | ul.list::before {}
+   | ^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:43:3
+   |
+43 | ul.list::before {}
+   |   ^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:43:3
+   |
+43 | ul.list::before {}
+   |   ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:43:4
+   |
+43 | ul.list::before {}
+   |    ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:43:8
+   |
+43 | ul.list::before {}
+   |        ^^^^^^^^
+
+error: PseudoElementSelector
+  --> $DIR/tests/fixture/selector/class/input.css:43:8
+   |
+43 | ul.list::before {}
+   |        ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:43:10
+   |
+43 | ul.list::before {}
+   |          ^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:43:17
+   |
+43 | ul.list::before {}
+   |                 ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:44:1
+   |
+44 | .\31 a2b3c {}
+   | ^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:44:1
+   |
+44 | .\31 a2b3c {}
+   | ^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:44:1
+   |
+44 | .\31 a2b3c {}
+   | ^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:44:1
+   |
+44 | .\31 a2b3c {}
+   | ^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:44:1
+   |
+44 | .\31 a2b3c {}
+   | ^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:44:1
+   |
+44 | .\31 a2b3c {}
+   | ^^^^^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:44:1
+   |
+44 | .\31 a2b3c {}
+   | ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:44:2
+   |
+44 | .\31 a2b3c {}
+   |  ^^^^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:44:12
+   |
+44 | .\31 a2b3c {}
+   |            ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:45:1
+   |
+45 | .\<\>\<\<\<\>\>\<\> {}
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:45:1
+   |
+45 | .\<\>\<\<\<\>\>\<\> {}
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:45:1
+   |
+45 | .\<\>\<\<\<\>\>\<\> {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:45:1
+   |
+45 | .\<\>\<\<\<\>\>\<\> {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:45:1
+   |
+45 | .\<\>\<\<\<\>\>\<\> {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:45:1
+   |
+45 | .\<\>\<\<\<\>\>\<\> {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:45:1
+   |
+45 | .\<\>\<\<\<\>\>\<\> {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:45:2
+   |
+45 | .\<\>\<\<\<\>\>\<\> {}
+   |  ^^^^^^^^^^^^^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:45:21
+   |
+45 | .\<\>\<\<\<\>\>\<\> {}
+   |                     ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:46:1
+   |
+46 | .\31 23 {}
+   | ^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:46:1
+   |
+46 | .\31 23 {}
+   | ^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:46:1
+   |
+46 | .\31 23 {}
+   | ^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:46:1
+   |
+46 | .\31 23 {}
+   | ^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:46:1
+   |
+46 | .\31 23 {}
+   | ^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:46:1
+   |
+46 | .\31 23 {}
+   | ^^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:46:1
+   |
+46 | .\31 23 {}
+   | ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:46:2
+   |
+46 | .\31 23 {}
+   |  ^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:46:9
+   |
+46 | .\31 23 {}
+   |         ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:47:1
+   |
+47 | .\# {}
+   | ^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:47:1
+   |
+47 | .\# {}
+   | ^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:47:1
+   |
+47 | .\# {}
+   | ^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:47:1
+   |
+47 | .\# {}
+   | ^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:47:1
+   |
+47 | .\# {}
+   | ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:47:1
+   |
+47 | .\# {}
+   | ^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:47:1
+   |
+47 | .\# {}
+   | ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:47:2
+   |
+47 | .\# {}
+   |  ^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:47:5
+   |
+47 | .\# {}
+   |     ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:48:1
+   |
+48 | .\#\# {}
+   | ^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:48:1
+   |
+48 | .\#\# {}
+   | ^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:48:1
+   |
+48 | .\#\# {}
+   | ^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:48:1
+   |
+48 | .\#\# {}
+   | ^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:48:1
+   |
+48 | .\#\# {}
+   | ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:48:1
+   |
+48 | .\#\# {}
+   | ^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:48:1
+   |
+48 | .\#\# {}
+   | ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:48:2
+   |
+48 | .\#\# {}
+   |  ^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:48:7
+   |
+48 | .\#\# {}
+   |       ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:49:1
+   |
+49 | .\#fake\-id {}
+   | ^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:49:1
+   |
+49 | .\#fake\-id {}
+   | ^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:49:1
+   |
+49 | .\#fake\-id {}
+   | ^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:49:1
+   |
+49 | .\#fake\-id {}
+   | ^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:49:1
+   |
+49 | .\#fake\-id {}
+   | ^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:49:1
+   |
+49 | .\#fake\-id {}
+   | ^^^^^^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:49:1
+   |
+49 | .\#fake\-id {}
+   | ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:49:2
+   |
+49 | .\#fake\-id {}
+   |  ^^^^^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:49:13
+   |
+49 | .\#fake\-id {}
+   |             ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:50:1
+   |
+50 | .foo\.bar {}
+   | ^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:50:1
+   |
+50 | .foo\.bar {}
+   | ^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:50:1
+   |
+50 | .foo\.bar {}
+   | ^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:50:1
+   |
+50 | .foo\.bar {}
+   | ^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:50:1
+   |
+50 | .foo\.bar {}
+   | ^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:50:1
+   |
+50 | .foo\.bar {}
+   | ^^^^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:50:1
+   |
+50 | .foo\.bar {}
+   | ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:50:2
+   |
+50 | .foo\.bar {}
+   |  ^^^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:50:11
+   |
+50 | .foo\.bar {}
+   |           ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:51:1
+   |
+51 | .\3A hover {}
+   | ^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:51:1
+   |
+51 | .\3A hover {}
+   | ^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:51:1
+   |
+51 | .\3A hover {}
+   | ^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:51:1
+   |
+51 | .\3A hover {}
+   | ^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:51:1
+   |
+51 | .\3A hover {}
+   | ^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:51:1
+   |
+51 | .\3A hover {}
+   | ^^^^^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:51:1
+   |
+51 | .\3A hover {}
+   | ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:51:2
+   |
+51 | .\3A hover {}
+   |  ^^^^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:51:12
+   |
+51 | .\3A hover {}
+   |            ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:52:1
+   |
+52 | .\3A hover\3A focus\3A active {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:52:1
+   |
+52 | .\3A hover\3A focus\3A active {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:52:1
+   |
+52 | .\3A hover\3A focus\3A active {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:52:1
+   |
+52 | .\3A hover\3A focus\3A active {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:52:1
+   |
+52 | .\3A hover\3A focus\3A active {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:52:1
+   |
+52 | .\3A hover\3A focus\3A active {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:52:1
+   |
+52 | .\3A hover\3A focus\3A active {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:52:2
+   |
+52 | .\3A hover\3A focus\3A active {}
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:52:31
+   |
+52 | .\3A hover\3A focus\3A active {}
+   |                               ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:53:1
+   |
+53 | .\[attr\=value\] {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:53:1
+   |
+53 | .\[attr\=value\] {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:53:1
+   |
+53 | .\[attr\=value\] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:53:1
+   |
+53 | .\[attr\=value\] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:53:1
+   |
+53 | .\[attr\=value\] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:53:1
+   |
+53 | .\[attr\=value\] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:53:1
+   |
+53 | .\[attr\=value\] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:53:2
+   |
+53 | .\[attr\=value\] {}
+   |  ^^^^^^^^^^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:53:18
+   |
+53 | .\[attr\=value\] {}
+   |                  ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:54:1
+   |
+54 | .not-pseudo\:focus {}
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:54:1
+   |
+54 | .not-pseudo\:focus {}
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:54:1
+   |
+54 | .not-pseudo\:focus {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:54:1
+   |
+54 | .not-pseudo\:focus {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:54:1
+   |
+54 | .not-pseudo\:focus {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:54:1
+   |
+54 | .not-pseudo\:focus {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:54:1
+   |
+54 | .not-pseudo\:focus {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:54:2
+   |
+54 | .not-pseudo\:focus {}
+   |  ^^^^^^^^^^^^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:54:20
+   |
+54 | .not-pseudo\:focus {}
+   |                    ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:55:1
+   |
+55 | .not-pseudo\:\:focus {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:55:1
+   |
+55 | .not-pseudo\:\:focus {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:55:1
+   |
+55 | .not-pseudo\:\:focus {}
+   | ^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:55:1
+   |
+55 | .not-pseudo\:\:focus {}
+   | ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:55:1
+   |
+55 | .not-pseudo\:\:focus {}
+   | ^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:55:1
+   |
+55 | .not-pseudo\:\:focus {}
+   | ^^^^^^^^^^^^^^^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:55:1
+   |
+55 | .not-pseudo\:\:focus {}
+   | ^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:55:2
+   |
+55 | .not-pseudo\:\:focus {}
+   |  ^^^^^^^^^^^^^^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:55:22
+   |
+55 | .not-pseudo\:\:focus {}
+   |                      ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:56:1
+   |
+56 | .\\1D306 {}
+   | ^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:56:1
+   |
+56 | .\\1D306 {}
+   | ^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:56:1
+   |
+56 | .\\1D306 {}
+   | ^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:56:1
+   |
+56 | .\\1D306 {}
+   | ^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:56:1
+   |
+56 | .\\1D306 {}
+   | ^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:56:1
+   |
+56 | .\\1D306 {}
+   | ^^^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:56:1
+   |
+56 | .\\1D306 {}
+   | ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:56:2
+   |
+56 | .\\1D306 {}
+   |  ^^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:56:10
+   |
+56 | .\\1D306 {}
+   |          ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/class/input.css:57:1
+   |
+57 | .\; {}
+   | ^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/class/input.css:57:1
+   |
+57 | .\; {}
+   | ^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:57:1
+   |
+57 | .\; {}
+   | ^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/class/input.css:57:1
+   |
+57 | .\; {}
+   | ^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/class/input.css:57:1
+   |
+57 | .\; {}
+   | ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:57:1
+   |
+57 | .\; {}
+   | ^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/class/input.css:57:1
+   |
+57 | .\; {}
+   | ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/class/input.css:57:2
+   |
+57 | .\; {}
+   |  ^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/class/input.css:57:5
+   |
+57 | .\; {}
+   |     ^^
 
