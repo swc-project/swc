@@ -49,6 +49,9 @@
 
 - **(css/ast)** Change AST for `!important` (#3440) ([38879de](https://github.com/swc-project/swc/commit/38879de8deec6a45882252104fdcbb33cc3116a9))
 
+
+- **(css/ast)** Refactor types related to selectors (#3460) ([cd87d96](https://github.com/swc-project/swc/commit/cd87d965f35155748ec0e3b22deae3d8a5ebdb5b))
+
 ### Testing
 
 
