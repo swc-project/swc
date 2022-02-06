@@ -32,30 +32,34 @@ where
             "charset" => {
                 self.input.skip_ws()?;
 
-                let at_rule_charset = self.parse();
+                let at_rule_charset: PResult<CharsetRule> = self.parse();
 
-                if at_rule_charset.is_ok() {
-                    return at_rule_charset
-                        .map(|mut r: CharsetRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Charset);
+                match at_rule_charset {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Charset(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "import" => {
                 self.input.skip_ws()?;
 
-                let at_rule_import = self.parse();
+                let at_rule_import: PResult<ImportRule> = self.parse();
 
-                if at_rule_import.is_ok() {
-                    return at_rule_import
-                        .map(|mut r: ImportRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Import);
+                match at_rule_import {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Import(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
@@ -63,150 +67,170 @@ where
             | "-ms-keyframes" => {
                 self.input.skip_ws()?;
 
-                let at_rule_keyframe = self.parse();
+                let at_rule_keyframe: PResult<KeyframesRule> = self.parse();
 
-                if at_rule_keyframe.is_ok() {
-                    return at_rule_keyframe
-                        .map(|mut r: KeyframesRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Keyframes);
+                match at_rule_keyframe {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Keyframes(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "font-face" => {
                 self.input.skip_ws()?;
 
-                let at_rule_font_face = self.parse();
+                let at_rule_font_face: PResult<FontFaceRule> = self.parse();
 
-                if at_rule_font_face.is_ok() {
-                    return at_rule_font_face
-                        .map(|mut r: FontFaceRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::FontFace);
+                match at_rule_font_face {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::FontFace(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "supports" => {
                 self.input.skip_ws()?;
 
-                let at_rule_supports = self.parse();
+                let at_rule_supports: PResult<SupportsRule> = self.parse();
 
-                if at_rule_supports.is_ok() {
-                    return at_rule_supports
-                        .map(|mut r: SupportsRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Supports);
+                match at_rule_supports {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Supports(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "media" => {
                 self.input.skip_ws()?;
 
-                let at_rule_media = self.parse();
+                let at_rule_media: PResult<MediaRule> = self.parse();
 
-                if at_rule_media.is_ok() {
-                    return at_rule_media
-                        .map(|mut r: MediaRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Media);
+                match at_rule_media {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Media(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "page" => {
                 self.input.skip_ws()?;
 
-                let at_rule_page = self.parse();
+                let at_rule_page: PResult<PageRule> = self.parse();
 
-                if at_rule_page.is_ok() {
-                    return at_rule_page
-                        .map(|mut r: PageRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Page);
+                match at_rule_page {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Page(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "document" | "-moz-document" => {
                 self.input.skip_ws()?;
 
-                let at_rule_document = self.parse();
+                let at_rule_document: PResult<DocumentRule> = self.parse();
 
-                if at_rule_document.is_ok() {
-                    return at_rule_document
-                        .map(|mut r: DocumentRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Document);
+                match at_rule_document {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Document(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "namespace" => {
                 self.input.skip_ws()?;
 
-                let at_rule_namespace = self.parse();
+                let at_rule_namespace: PResult<NamespaceRule> = self.parse();
 
-                if at_rule_namespace.is_ok() {
-                    return at_rule_namespace
-                        .map(|mut r: NamespaceRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Namespace);
+                match at_rule_namespace {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Namespace(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "viewport" | "-ms-viewport" => {
                 self.input.skip_ws()?;
 
-                let at_rule_viewport = self.parse();
+                let at_rule_viewport: PResult<ViewportRule> = self.parse();
 
-                if at_rule_viewport.is_ok() {
-                    return at_rule_viewport
-                        .map(|mut r: ViewportRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Viewport);
+                match at_rule_viewport {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Viewport(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "layer" => {
                 self.input.skip_ws()?;
 
-                let at_rule_layer = self.parse();
+                let at_rule_layer: PResult<LayerRule> = self.parse();
 
-                if at_rule_layer.is_ok() {
-                    return at_rule_layer
-                        .map(|mut r: LayerRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Layer);
+                match at_rule_layer {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Layer(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "color-profile" => {
                 self.input.skip_ws()?;
 
-                let at_rule_color_profile = self.parse();
+                let at_rule_color_profile: PResult<ColorProfileRule> = self.parse();
 
-                if at_rule_color_profile.is_ok() {
-                    return at_rule_color_profile
-                        .map(|mut r: ColorProfileRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::ColorProfile);
+                match at_rule_color_profile {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::ColorProfile(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
