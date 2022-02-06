@@ -1,0 +1,6 @@
+error: Expected number, dimension, identifier or ration value
+ --> $DIR/tests/recovery/at-rule/media/feature-name-2/input.css:1:9
+  |
+1 | @media ("string") {}
+  |         ^^^^^^^^
+
