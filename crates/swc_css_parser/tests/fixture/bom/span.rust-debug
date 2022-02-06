@@ -46,6 +46,18 @@ error: TypeSelector
 1 | a {
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/bom/input.css:1:1
+  |
+1 | a {
+  | ^
+
+error: WqName
+ --> $DIR/tests/fixture/bom/input.css:1:1
+  |
+1 | a {
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/bom/input.css:1:1
   |

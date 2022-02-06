@@ -1483,7 +1483,7 @@ where
             allow_at_selector: true,
             ..self.ctx
         };
-        let prelude = self.with_ctx(ctx).parse_selectors()?;
+        let prelude = self.with_ctx(ctx).parse_as::<SelectorList>()?;
         let block = self.parse()?;
 
         Ok(NestedPageRule {

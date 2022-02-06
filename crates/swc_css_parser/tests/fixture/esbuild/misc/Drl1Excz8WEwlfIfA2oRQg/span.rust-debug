@@ -40,11 +40,17 @@ error: SubclassSelector
 1 | [b = "c" i] {}
   | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/esbuild/misc/Drl1Excz8WEwlfIfA2oRQg/input.css:1:1
   |
 1 | [b = "c" i] {}
   | ^^^^^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/Drl1Excz8WEwlfIfA2oRQg/input.css:1:2
+  |
+1 | [b = "c" i] {}
+  |  ^
 
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Drl1Excz8WEwlfIfA2oRQg/input.css:1:2
@@ -52,11 +58,35 @@ error: Ident
 1 | [b = "c" i] {}
   |  ^
 
+error: AttributeSelectorMatcher
+ --> $DIR/tests/fixture/esbuild/misc/Drl1Excz8WEwlfIfA2oRQg/input.css:1:4
+  |
+1 | [b = "c" i] {}
+  |    ^
+
+error: AttributeSelectorValue
+ --> $DIR/tests/fixture/esbuild/misc/Drl1Excz8WEwlfIfA2oRQg/input.css:1:6
+  |
+1 | [b = "c" i] {}
+  |      ^^^
+
 error: Str
  --> $DIR/tests/fixture/esbuild/misc/Drl1Excz8WEwlfIfA2oRQg/input.css:1:6
   |
 1 | [b = "c" i] {}
   |      ^^^
+
+error: AttributeSelectorModifier
+ --> $DIR/tests/fixture/esbuild/misc/Drl1Excz8WEwlfIfA2oRQg/input.css:1:10
+  |
+1 | [b = "c" i] {}
+  |          ^
+
+error: Ident
+ --> $DIR/tests/fixture/esbuild/misc/Drl1Excz8WEwlfIfA2oRQg/input.css:1:10
+  |
+1 | [b = "c" i] {}
+  |          ^
 
 error: Block
  --> $DIR/tests/fixture/esbuild/misc/Drl1Excz8WEwlfIfA2oRQg/input.css:1:13

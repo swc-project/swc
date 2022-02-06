@@ -1,14 +1,14 @@
 error: Stylesheet
-  --> $DIR/tests/fixture/selector/complex/input.css:1:1
-   |
-1  | / article p {}
-2  | | article
-3  | | p {}
-4  | | article   p   {}
-...  |
-97 | | *[href] *:not(*.green) {}
-98 | | *::-webkit-media-controls-play-button {}
-   | |_________________________________________^
+   --> $DIR/tests/fixture/selector/complex/input.css:1:1
+    |
+1   | / article p {}
+2   | | article
+3   | | p {}
+4   | | article   p   {}
+...   |
+103 | | {}
+104 | | col.selected||td {}
+    | |____________________^
 
 error: Rule
  --> $DIR/tests/fixture/selector/complex/input.css:1:1
@@ -46,6 +46,18 @@ error: TypeSelector
 1 | article p {}
   | ^^^^^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:1:1
+  |
+1 | article p {}
+  | ^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/complex/input.css:1:1
+  |
+1 | article p {}
+  | ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/complex/input.css:1:1
   |
@@ -65,6 +77,18 @@ error: CompoundSelector
   |         ^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:1:9
+  |
+1 | article p {}
+  |         ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:1:9
+  |
+1 | article p {}
+  |         ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/complex/input.css:1:9
   |
 1 | article p {}
@@ -122,6 +146,18 @@ error: TypeSelector
 2 | article
   | ^^^^^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:2:1
+  |
+2 | article
+  | ^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/complex/input.css:2:1
+  |
+2 | article
+  | ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/complex/input.css:2:1
   |
@@ -143,6 +179,18 @@ error: CompoundSelector
   | ^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:3:1
+  |
+3 | p {}
+  | ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:3:1
+  |
+3 | p {}
+  | ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/complex/input.css:3:1
   |
 3 | p {}
@@ -196,6 +244,18 @@ error: TypeSelector
 4 | article   p   {}
   | ^^^^^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:4:1
+  |
+4 | article   p   {}
+  | ^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/complex/input.css:4:1
+  |
+4 | article   p   {}
+  | ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/complex/input.css:4:1
   |
@@ -215,6 +275,18 @@ error: CompoundSelector
   |           ^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:4:11
+  |
+4 | article   p   {}
+  |           ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:4:11
+  |
+4 | article   p   {}
+  |           ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/complex/input.css:4:11
   |
 4 | article   p   {}
@@ -268,6 +340,18 @@ error: TypeSelector
 5 | article > p {}
   | ^^^^^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:5:1
+  |
+5 | article > p {}
+  | ^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/complex/input.css:5:1
+  |
+5 | article > p {}
+  | ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/complex/input.css:5:1
   |
@@ -287,6 +371,18 @@ error: CompoundSelector
   |           ^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:5:11
+  |
+5 | article > p {}
+  |           ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:5:11
+  |
+5 | article > p {}
+  |           ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/complex/input.css:5:11
   |
 5 | article > p {}
@@ -348,6 +444,18 @@ error: TypeSelector
 6 | article
   | ^^^^^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:6:1
+  |
+6 | article
+  | ^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/complex/input.css:6:1
+  |
+6 | article
+  | ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/complex/input.css:6:1
   |
@@ -367,6 +475,18 @@ error: CompoundSelector
   | ^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:8:1
+  |
+8 | p {}
+  | ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:8:1
+  |
+8 | p {}
+  | ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/complex/input.css:8:1
   |
 8 | p {}
@@ -420,6 +540,18 @@ error: TypeSelector
 9 | article    >    p    {}
   | ^^^^^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:9:1
+  |
+9 | article    >    p    {}
+  | ^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/complex/input.css:9:1
+  |
+9 | article    >    p    {}
+  | ^^^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/complex/input.css:9:1
   |
@@ -439,6 +571,18 @@ error: CompoundSelector
   |                 ^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:9:17
+  |
+9 | article    >    p    {}
+  |                 ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/complex/input.css:9:17
+  |
+9 | article    >    p    {}
+  |                 ^
+
+error: WqName
  --> $DIR/tests/fixture/selector/complex/input.css:9:17
   |
 9 | article    >    p    {}
@@ -492,6 +636,18 @@ error: TypeSelector
 10 | p + img {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:10:1
+   |
+10 | p + img {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:10:1
+   |
+10 | p + img {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:10:1
    |
@@ -511,6 +667,18 @@ error: CompoundSelector
    |     ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:10:5
+   |
+10 | p + img {}
+   |     ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:10:5
+   |
+10 | p + img {}
+   |     ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:10:5
    |
 10 | p + img {}
@@ -572,6 +740,18 @@ error: TypeSelector
 11 | p 
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:11:1
+   |
+11 | p 
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:11:1
+   |
+11 | p 
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:11:1
    |
@@ -591,6 +771,18 @@ error: CompoundSelector
    | ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:13:1
+   |
+13 | img {}
+   | ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:13:1
+   |
+13 | img {}
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:13:1
    |
 13 | img {}
@@ -644,6 +836,18 @@ error: TypeSelector
 14 | p   +   img {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:14:1
+   |
+14 | p   +   img {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:14:1
+   |
+14 | p   +   img {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:14:1
    |
@@ -663,6 +867,18 @@ error: CompoundSelector
    |         ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:14:9
+   |
+14 | p   +   img {}
+   |         ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:14:9
+   |
+14 | p   +   img {}
+   |         ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:14:9
    |
 14 | p   +   img {}
@@ -716,6 +932,18 @@ error: TypeSelector
 15 | p ~ img {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:15:1
+   |
+15 | p ~ img {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:15:1
+   |
+15 | p ~ img {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:15:1
    |
@@ -735,6 +963,18 @@ error: CompoundSelector
    |     ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:15:5
+   |
+15 | p ~ img {}
+   |     ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:15:5
+   |
+15 | p ~ img {}
+   |     ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:15:5
    |
 15 | p ~ img {}
@@ -796,6 +1036,18 @@ error: TypeSelector
 16 | p 
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:16:1
+   |
+16 | p 
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:16:1
+   |
+16 | p 
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:16:1
    |
@@ -815,6 +1067,18 @@ error: CompoundSelector
    | ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:18:1
+   |
+18 | img {}
+   | ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:18:1
+   |
+18 | img {}
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:18:1
    |
 18 | img {}
@@ -868,6 +1132,18 @@ error: TypeSelector
 19 | p    ~    img {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:19:1
+   |
+19 | p    ~    img {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:19:1
+   |
+19 | p    ~    img {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:19:1
    |
@@ -887,6 +1163,18 @@ error: CompoundSelector
    |           ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:19:11
+   |
+19 | p    ~    img {}
+   |           ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:19:11
+   |
+19 | p    ~    img {}
+   |           ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:19:11
    |
 19 | p    ~    img {}
@@ -940,6 +1228,18 @@ error: TypeSelector
 20 | article > p > a {}
    | ^^^^^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:20:1
+   |
+20 | article > p > a {}
+   | ^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:20:1
+   |
+20 | article > p > a {}
+   | ^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:20:1
    |
@@ -964,6 +1264,18 @@ error: TypeSelector
 20 | article > p > a {}
    |           ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:20:11
+   |
+20 | article > p > a {}
+   |           ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:20:11
+   |
+20 | article > p > a {}
+   |           ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:20:11
    |
@@ -983,6 +1295,18 @@ error: CompoundSelector
    |               ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:20:15
+   |
+20 | article > p > a {}
+   |               ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:20:15
+   |
+20 | article > p > a {}
+   |               ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:20:15
    |
 20 | article > p > a {}
@@ -1052,6 +1376,18 @@ error: TypeSelector
 21 | article
    | ^^^^^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:21:1
+   |
+21 | article
+   | ^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:21:1
+   |
+21 | article
+   | ^^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:21:1
    |
@@ -1076,6 +1412,18 @@ error: TypeSelector
 23 | p
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:23:1
+   |
+23 | p
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:23:1
+   |
+23 | p
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:23:1
    |
@@ -1095,6 +1443,18 @@ error: CompoundSelector
    | ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:25:1
+   |
+25 | a {}
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:25:1
+   |
+25 | a {}
+   | ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:25:1
    |
 25 | a {}
@@ -1148,6 +1508,18 @@ error: TypeSelector
 26 | div p {}
    | ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:26:1
+   |
+26 | div p {}
+   | ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:26:1
+   |
+26 | div p {}
+   | ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:26:1
    |
@@ -1167,6 +1539,18 @@ error: CompoundSelector
    |     ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:26:5
+   |
+26 | div p {}
+   |     ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:26:5
+   |
+26 | div p {}
+   |     ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:26:5
    |
 26 | div p {}
@@ -1250,6 +1634,18 @@ error: TypeSelector
 27 | .class p {}
    |        ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:27:8
+   |
+27 | .class p {}
+   |        ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:27:8
+   |
+27 | .class p {}
+   |        ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:27:8
    |
@@ -1293,6 +1689,18 @@ error: CompoundSelector
    | ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:28:1
+   |
+28 | div .class {}
+   | ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:28:1
+   |
+28 | div .class {}
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:28:1
    |
 28 | div .class {}
@@ -1490,6 +1898,18 @@ error: TypeSelector
 30 | #id p {}
    |     ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:30:5
+   |
+30 | #id p {}
+   |     ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:30:5
+   |
+30 | #id p {}
+   |     ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:30:5
    |
@@ -1533,6 +1953,18 @@ error: CompoundSelector
    | ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:31:1
+   |
+31 | div #id {}
+   | ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:31:1
+   |
+31 | div #id {}
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:31:1
    |
 31 | div #id {}
@@ -1700,11 +2132,17 @@ error: SubclassSelector
 33 | [attribute] p {}
    | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:33:1
    |
 33 | [attribute] p {}
    | ^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:33:2
+   |
+33 | [attribute] p {}
+   |  ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:33:2
@@ -1725,6 +2163,18 @@ error: CompoundSelector
    |             ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:33:13
+   |
+33 | [attribute] p {}
+   |             ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:33:13
+   |
+33 | [attribute] p {}
+   |             ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:33:13
    |
 33 | [attribute] p {}
@@ -1778,6 +2228,18 @@ error: TypeSelector
 34 | div [attribute] {}
    | ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:34:1
+   |
+34 | div [attribute] {}
+   | ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:34:1
+   |
+34 | div [attribute] {}
+   | ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:34:1
    |
@@ -1802,11 +2264,17 @@ error: SubclassSelector
 34 | div [attribute] {}
    |     ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:34:5
    |
 34 | div [attribute] {}
    |     ^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:34:6
+   |
+34 | div [attribute] {}
+   |      ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:34:6
@@ -1856,11 +2324,17 @@ error: SubclassSelector
 35 | [attribute] [src] {}
    | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:35:1
    |
 35 | [attribute] [src] {}
    | ^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:35:2
+   |
+35 | [attribute] [src] {}
+   |  ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:35:2
@@ -1886,11 +2360,17 @@ error: SubclassSelector
 35 | [attribute] [src] {}
    |             ^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:35:13
    |
 35 | [attribute] [src] {}
    |             ^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:35:14
+   |
+35 | [attribute] [src] {}
+   |              ^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:35:14
@@ -1940,6 +2420,18 @@ error: TypeSelector
 36 | div > p {}
    | ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:36:1
+   |
+36 | div > p {}
+   | ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:36:1
+   |
+36 | div > p {}
+   | ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:36:1
    |
@@ -1959,6 +2451,18 @@ error: CompoundSelector
    |       ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:36:7
+   |
+36 | div > p {}
+   |       ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:36:7
+   |
+36 | div > p {}
+   |       ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:36:7
    |
 36 | div > p {}
@@ -2042,6 +2546,18 @@ error: TypeSelector
 37 | .class > p {}
    |          ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:37:10
+   |
+37 | .class > p {}
+   |          ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:37:10
+   |
+37 | .class > p {}
+   |          ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:37:10
    |
@@ -2085,6 +2601,18 @@ error: CompoundSelector
    | ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:38:1
+   |
+38 | div > .class {}
+   | ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:38:1
+   |
+38 | div > .class {}
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:38:1
    |
 38 | div > .class {}
@@ -2282,6 +2810,18 @@ error: TypeSelector
 40 | #id > p {}
    |       ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:40:7
+   |
+40 | #id > p {}
+   |       ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:40:7
+   |
+40 | #id > p {}
+   |       ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:40:7
    |
@@ -2325,6 +2865,18 @@ error: CompoundSelector
    | ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:41:1
+   |
+41 | div > #id {}
+   | ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:41:1
+   |
+41 | div > #id {}
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:41:1
    |
 41 | div > #id {}
@@ -2492,11 +3044,17 @@ error: SubclassSelector
 43 | [attribute] > p {}
    | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:43:1
    |
 43 | [attribute] > p {}
    | ^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:43:2
+   |
+43 | [attribute] > p {}
+   |  ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:43:2
@@ -2517,6 +3075,18 @@ error: CompoundSelector
    |               ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:43:15
+   |
+43 | [attribute] > p {}
+   |               ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:43:15
+   |
+43 | [attribute] > p {}
+   |               ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:43:15
    |
 43 | [attribute] > p {}
@@ -2570,6 +3140,18 @@ error: TypeSelector
 44 | div > [attribute] {}
    | ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:44:1
+   |
+44 | div > [attribute] {}
+   | ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:44:1
+   |
+44 | div > [attribute] {}
+   | ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:44:1
    |
@@ -2594,11 +3176,17 @@ error: SubclassSelector
 44 | div > [attribute] {}
    |       ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:44:7
    |
 44 | div > [attribute] {}
    |       ^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:44:8
+   |
+44 | div > [attribute] {}
+   |        ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:44:8
@@ -2648,11 +3236,17 @@ error: SubclassSelector
 45 | [attribute] > [src] {}
    | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:45:1
    |
 45 | [attribute] > [src] {}
    | ^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:45:2
+   |
+45 | [attribute] > [src] {}
+   |  ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:45:2
@@ -2678,11 +3272,17 @@ error: SubclassSelector
 45 | [attribute] > [src] {}
    |               ^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:45:15
    |
 45 | [attribute] > [src] {}
    |               ^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:45:16
+   |
+45 | [attribute] > [src] {}
+   |                ^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:45:16
@@ -2732,6 +3332,18 @@ error: TypeSelector
 46 | div + p {}
    | ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:46:1
+   |
+46 | div + p {}
+   | ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:46:1
+   |
+46 | div + p {}
+   | ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:46:1
    |
@@ -2751,6 +3363,18 @@ error: CompoundSelector
    |       ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:46:7
+   |
+46 | div + p {}
+   |       ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:46:7
+   |
+46 | div + p {}
+   |       ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:46:7
    |
 46 | div + p {}
@@ -2834,6 +3458,18 @@ error: TypeSelector
 47 | .class + p {}
    |          ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:47:10
+   |
+47 | .class + p {}
+   |          ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:47:10
+   |
+47 | .class + p {}
+   |          ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:47:10
    |
@@ -2877,6 +3513,18 @@ error: CompoundSelector
    | ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:48:1
+   |
+48 | div + .class {}
+   | ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:48:1
+   |
+48 | div + .class {}
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:48:1
    |
 48 | div + .class {}
@@ -3074,6 +3722,18 @@ error: TypeSelector
 50 | #id + p {}
    |       ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:50:7
+   |
+50 | #id + p {}
+   |       ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:50:7
+   |
+50 | #id + p {}
+   |       ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:50:7
    |
@@ -3117,6 +3777,18 @@ error: CompoundSelector
    | ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:51:1
+   |
+51 | div + #id {}
+   | ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:51:1
+   |
+51 | div + #id {}
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:51:1
    |
 51 | div + #id {}
@@ -3284,11 +3956,17 @@ error: SubclassSelector
 53 | [attribute] + p {}
    | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:53:1
    |
 53 | [attribute] + p {}
    | ^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:53:2
+   |
+53 | [attribute] + p {}
+   |  ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:53:2
@@ -3309,6 +3987,18 @@ error: CompoundSelector
    |               ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:53:15
+   |
+53 | [attribute] + p {}
+   |               ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:53:15
+   |
+53 | [attribute] + p {}
+   |               ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:53:15
    |
 53 | [attribute] + p {}
@@ -3362,6 +4052,18 @@ error: TypeSelector
 54 | div + [attribute] {}
    | ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:54:1
+   |
+54 | div + [attribute] {}
+   | ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:54:1
+   |
+54 | div + [attribute] {}
+   | ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:54:1
    |
@@ -3386,11 +4088,17 @@ error: SubclassSelector
 54 | div + [attribute] {}
    |       ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:54:7
    |
 54 | div + [attribute] {}
    |       ^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:54:8
+   |
+54 | div + [attribute] {}
+   |        ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:54:8
@@ -3440,11 +4148,17 @@ error: SubclassSelector
 55 | [attribute] + [src] {}
    | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:55:1
    |
 55 | [attribute] + [src] {}
    | ^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:55:2
+   |
+55 | [attribute] + [src] {}
+   |  ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:55:2
@@ -3470,11 +4184,17 @@ error: SubclassSelector
 55 | [attribute] + [src] {}
    |               ^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:55:15
    |
 55 | [attribute] + [src] {}
    |               ^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:55:16
+   |
+55 | [attribute] + [src] {}
+   |                ^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:55:16
@@ -3524,6 +4244,18 @@ error: TypeSelector
 56 | div ~ p {}
    | ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:56:1
+   |
+56 | div ~ p {}
+   | ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:56:1
+   |
+56 | div ~ p {}
+   | ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:56:1
    |
@@ -3543,6 +4275,18 @@ error: CompoundSelector
    |       ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:56:7
+   |
+56 | div ~ p {}
+   |       ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:56:7
+   |
+56 | div ~ p {}
+   |       ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:56:7
    |
 56 | div ~ p {}
@@ -3626,6 +4370,18 @@ error: TypeSelector
 57 | .class ~ p {}
    |          ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:57:10
+   |
+57 | .class ~ p {}
+   |          ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:57:10
+   |
+57 | .class ~ p {}
+   |          ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:57:10
    |
@@ -3669,6 +4425,18 @@ error: CompoundSelector
    | ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:58:1
+   |
+58 | div ~ .class {}
+   | ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:58:1
+   |
+58 | div ~ .class {}
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:58:1
    |
 58 | div ~ .class {}
@@ -3866,6 +4634,18 @@ error: TypeSelector
 60 | #id ~ p {}
    |       ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:60:7
+   |
+60 | #id ~ p {}
+   |       ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:60:7
+   |
+60 | #id ~ p {}
+   |       ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:60:7
    |
@@ -3909,6 +4689,18 @@ error: CompoundSelector
    | ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:61:1
+   |
+61 | div ~ #id {}
+   | ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:61:1
+   |
+61 | div ~ #id {}
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:61:1
    |
 61 | div ~ #id {}
@@ -4076,11 +4868,17 @@ error: SubclassSelector
 63 | [attribute] ~ p {}
    | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:63:1
    |
 63 | [attribute] ~ p {}
    | ^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:63:2
+   |
+63 | [attribute] ~ p {}
+   |  ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:63:2
@@ -4101,6 +4899,18 @@ error: CompoundSelector
    |               ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:63:15
+   |
+63 | [attribute] ~ p {}
+   |               ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:63:15
+   |
+63 | [attribute] ~ p {}
+   |               ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:63:15
    |
 63 | [attribute] ~ p {}
@@ -4154,6 +4964,18 @@ error: TypeSelector
 64 | div ~ [attribute] {}
    | ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:64:1
+   |
+64 | div ~ [attribute] {}
+   | ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:64:1
+   |
+64 | div ~ [attribute] {}
+   | ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:64:1
    |
@@ -4178,11 +5000,17 @@ error: SubclassSelector
 64 | div ~ [attribute] {}
    |       ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:64:7
    |
 64 | div ~ [attribute] {}
    |       ^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:64:8
+   |
+64 | div ~ [attribute] {}
+   |        ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:64:8
@@ -4232,11 +5060,17 @@ error: SubclassSelector
 65 | [attribute] ~ [src] {}
    | ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:65:1
    |
 65 | [attribute] ~ [src] {}
    | ^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:65:2
+   |
+65 | [attribute] ~ [src] {}
+   |  ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:65:2
@@ -4262,11 +5096,17 @@ error: SubclassSelector
 65 | [attribute] ~ [src] {}
    |               ^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:65:15
    |
 65 | [attribute] ~ [src] {}
    |               ^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:65:16
+   |
+65 | [attribute] ~ [src] {}
+   |                ^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:65:16
@@ -4316,6 +5156,18 @@ error: TypeSelector
 66 | a:hover [attribute] {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:66:1
+   |
+66 | a:hover [attribute] {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:66:1
+   |
+66 | a:hover [attribute] {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:66:1
    |
@@ -4358,11 +5210,17 @@ error: SubclassSelector
 66 | a:hover [attribute] {}
    |         ^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:66:9
    |
 66 | a:hover [attribute] {}
    |         ^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:66:10
+   |
+66 | a:hover [attribute] {}
+   |          ^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:66:10
@@ -4407,6 +5265,18 @@ error: CompoundSelector
    | ^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:67:1
+   |
+67 | a:hover #id {}
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:67:1
+   |
+67 | a:hover #id {}
+   | ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:67:1
    |
 67 | a:hover #id {}
@@ -4508,6 +5378,18 @@ error: TypeSelector
 68 | a:hover .class {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:68:1
+   |
+68 | a:hover .class {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:68:1
+   |
+68 | a:hover .class {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:68:1
    |
@@ -4604,6 +5486,18 @@ error: TypeSelector
 69 | a:hover div#thing {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:69:1
+   |
+69 | a:hover div#thing {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:69:1
+   |
+69 | a:hover div#thing {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:69:1
    |
@@ -4641,6 +5535,18 @@ error: CompoundSelector
    |         ^^^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:69:9
+   |
+69 | a:hover div#thing {}
+   |         ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:69:9
+   |
+69 | a:hover div#thing {}
+   |         ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:69:9
    |
 69 | a:hover div#thing {}
@@ -4712,6 +5618,18 @@ error: TypeSelector
 70 | a + a[href='place'] {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:70:1
+   |
+70 | a + a[href='place'] {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:70:1
+   |
+70 | a + a[href='place'] {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:70:1
    |
@@ -4736,6 +5654,18 @@ error: TypeSelector
 70 | a + a[href='place'] {}
    |     ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:70:5
+   |
+70 | a + a[href='place'] {}
+   |     ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:70:5
+   |
+70 | a + a[href='place'] {}
+   |     ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:70:5
    |
@@ -4748,17 +5678,35 @@ error: SubclassSelector
 70 | a + a[href='place'] {}
    |      ^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:70:6
    |
 70 | a + a[href='place'] {}
    |      ^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:70:7
+   |
+70 | a + a[href='place'] {}
+   |       ^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:70:7
    |
 70 | a + a[href='place'] {}
    |       ^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:70:11
+   |
+70 | a + a[href='place'] {}
+   |           ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:70:12
+   |
+70 | a + a[href='place'] {}
+   |            ^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:70:12
@@ -4808,6 +5756,18 @@ error: TypeSelector
 71 | ul.list + a {}
    | ^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:71:1
+   |
+71 | ul.list + a {}
+   | ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:71:1
+   |
+71 | ul.list + a {}
+   | ^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:71:1
    |
@@ -4845,6 +5805,18 @@ error: CompoundSelector
    |           ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:71:11
+   |
+71 | ul.list + a {}
+   |           ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:71:11
+   |
+71 | ul.list + a {}
+   |           ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:71:11
    |
 71 | ul.list + a {}
@@ -4928,6 +5900,18 @@ error: TypeSelector
 72 | .foo ~ a + bar {}
    |        ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:72:8
+   |
+72 | .foo ~ a + bar {}
+   |        ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:72:8
+   |
+72 | .foo ~ a + bar {}
+   |        ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:72:8
    |
@@ -4947,6 +5931,18 @@ error: CompoundSelector
    |            ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:72:12
+   |
+72 | .foo ~ a + bar {}
+   |            ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:72:12
+   |
+72 | .foo ~ a + bar {}
+   |            ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:72:12
    |
 72 | .foo ~ a + bar {}
@@ -5000,6 +5996,18 @@ error: TypeSelector
 73 | a+ a {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:73:1
+   |
+73 | a+ a {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:73:1
+   |
+73 | a+ a {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:73:1
    |
@@ -5019,6 +6027,18 @@ error: CompoundSelector
    |    ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:73:4
+   |
+73 | a+ a {}
+   |    ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:73:4
+   |
+73 | a+ a {}
+   |    ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:73:4
    |
 73 | a+ a {}
@@ -5072,6 +6092,18 @@ error: TypeSelector
 74 | a> a {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:74:1
+   |
+74 | a> a {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:74:1
+   |
+74 | a> a {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:74:1
    |
@@ -5091,6 +6123,18 @@ error: CompoundSelector
    |    ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:74:4
+   |
+74 | a> a {}
+   |    ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:74:4
+   |
+74 | a> a {}
+   |    ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:74:4
    |
 74 | a> a {}
@@ -5144,6 +6188,18 @@ error: TypeSelector
 75 | a~ a {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:75:1
+   |
+75 | a~ a {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:75:1
+   |
+75 | a~ a {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:75:1
    |
@@ -5163,6 +6219,18 @@ error: CompoundSelector
    |    ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:75:4
+   |
+75 | a~ a {}
+   |    ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:75:4
+   |
+75 | a~ a {}
+   |    ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:75:4
    |
 75 | a~ a {}
@@ -5216,6 +6284,18 @@ error: TypeSelector
 76 | a +a {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:76:1
+   |
+76 | a +a {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:76:1
+   |
+76 | a +a {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:76:1
    |
@@ -5235,6 +6315,18 @@ error: CompoundSelector
    |    ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:76:4
+   |
+76 | a +a {}
+   |    ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:76:4
+   |
+76 | a +a {}
+   |    ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:76:4
    |
 76 | a +a {}
@@ -5288,6 +6380,18 @@ error: TypeSelector
 77 | a >a {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:77:1
+   |
+77 | a >a {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:77:1
+   |
+77 | a >a {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:77:1
    |
@@ -5307,6 +6411,18 @@ error: CompoundSelector
    |    ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:77:4
+   |
+77 | a >a {}
+   |    ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:77:4
+   |
+77 | a >a {}
+   |    ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:77:4
    |
 77 | a >a {}
@@ -5360,6 +6476,18 @@ error: TypeSelector
 78 | a ~a {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:78:1
+   |
+78 | a ~a {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:78:1
+   |
+78 | a ~a {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:78:1
    |
@@ -5379,6 +6507,18 @@ error: CompoundSelector
    |    ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:78:4
+   |
+78 | a ~a {}
+   |    ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:78:4
+   |
+78 | a ~a {}
+   |    ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:78:4
    |
 78 | a ~a {}
@@ -5432,6 +6572,18 @@ error: TypeSelector
 79 | a+a {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:79:1
+   |
+79 | a+a {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:79:1
+   |
+79 | a+a {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:79:1
    |
@@ -5451,6 +6603,18 @@ error: CompoundSelector
    |   ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:79:3
+   |
+79 | a+a {}
+   |   ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:79:3
+   |
+79 | a+a {}
+   |   ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:79:3
    |
 79 | a+a {}
@@ -5504,6 +6668,18 @@ error: TypeSelector
 80 | a>a {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:80:1
+   |
+80 | a>a {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:80:1
+   |
+80 | a>a {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:80:1
    |
@@ -5523,6 +6699,18 @@ error: CompoundSelector
    |   ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:80:3
+   |
+80 | a>a {}
+   |   ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:80:3
+   |
+80 | a>a {}
+   |   ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:80:3
    |
 80 | a>a {}
@@ -5576,6 +6764,18 @@ error: TypeSelector
 81 | a~a {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:81:1
+   |
+81 | a~a {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:81:1
+   |
+81 | a~a {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:81:1
    |
@@ -5595,6 +6795,18 @@ error: CompoundSelector
    |   ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:81:3
+   |
+81 | a~a {}
+   |   ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:81:3
+   |
+81 | a~a {}
+   |   ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:81:3
    |
 81 | a~a {}
@@ -5648,6 +6860,18 @@ error: TypeSelector
 82 | a [type='button'] {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:82:1
+   |
+82 | a [type='button'] {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:82:1
+   |
+82 | a [type='button'] {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:82:1
    |
@@ -5672,17 +6896,35 @@ error: SubclassSelector
 82 | a [type='button'] {}
    |   ^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:82:3
    |
 82 | a [type='button'] {}
    |   ^^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:82:4
+   |
+82 | a [type='button'] {}
+   |    ^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:82:4
    |
 82 | a [type='button'] {}
    |    ^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:82:8
+   |
+82 | a [type='button'] {}
+   |        ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:82:9
+   |
+82 | a [type='button'] {}
+   |         ^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:82:9
@@ -5736,6 +6978,18 @@ error: TypeSelector
 83 | a 
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:83:1
+   |
+83 | a 
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:83:1
+   |
+83 | a 
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:83:1
    |
@@ -5762,17 +7016,35 @@ error: SubclassSelector
 84 | [type='button'] {}
    | ^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:84:1
    |
 84 | [type='button'] {}
    | ^^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:84:2
+   |
+84 | [type='button'] {}
+   |  ^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:84:2
    |
 84 | [type='button'] {}
    |  ^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:84:6
+   |
+84 | [type='button'] {}
+   |      ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:84:7
+   |
+84 | [type='button'] {}
+   |       ^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:84:7
@@ -5822,6 +7094,18 @@ error: TypeSelector
 85 | a   a {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:85:1
+   |
+85 | a   a {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:85:1
+   |
+85 | a   a {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:85:1
    |
@@ -5841,6 +7125,18 @@ error: CompoundSelector
    |     ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:85:5
+   |
+85 | a   a {}
+   |     ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:85:5
+   |
+85 | a   a {}
+   |     ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:85:5
    |
 85 | a   a {}
@@ -5893,6 +7189,24 @@ error: TypeSelector
    |
 86 | namespace|type#id > .foo {}
    | ^^^^^^^^^^^^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:86:1
+   |
+86 | namespace|type#id > .foo {}
+   | ^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:86:1
+   |
+86 | namespace|type#id > .foo {}
+   | ^^^^^^^^^^^^^^
+
+error: NsPrefix
+  --> $DIR/tests/fixture/selector/complex/input.css:86:1
+   |
+86 | namespace|type#id > .foo {}
+   | ^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:86:1
@@ -6110,6 +7424,18 @@ error: TypeSelector
 88 | a c, d + e h {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:88:1
+   |
+88 | a c, d + e h {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:88:1
+   |
+88 | a c, d + e h {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:88:1
    |
@@ -6129,6 +7455,18 @@ error: CompoundSelector
    |   ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:88:3
+   |
+88 | a c, d + e h {}
+   |   ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:88:3
+   |
+88 | a c, d + e h {}
+   |   ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:88:3
    |
 88 | a c, d + e h {}
@@ -6158,6 +7496,18 @@ error: TypeSelector
 88 | a c, d + e h {}
    |      ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:88:6
+   |
+88 | a c, d + e h {}
+   |      ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:88:6
+   |
+88 | a c, d + e h {}
+   |      ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:88:6
    |
@@ -6182,6 +7532,18 @@ error: TypeSelector
 88 | a c, d + e h {}
    |          ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:88:10
+   |
+88 | a c, d + e h {}
+   |          ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:88:10
+   |
+88 | a c, d + e h {}
+   |          ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:88:10
    |
@@ -6201,6 +7563,18 @@ error: CompoundSelector
    |            ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:88:12
+   |
+88 | a c, d + e h {}
+   |            ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:88:12
+   |
+88 | a c, d + e h {}
+   |            ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:88:12
    |
 88 | a c, d + e h {}
@@ -6254,6 +7628,18 @@ error: TypeSelector
 89 | a ~ h + d {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:89:1
+   |
+89 | a ~ h + d {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:89:1
+   |
+89 | a ~ h + d {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:89:1
    |
@@ -6278,6 +7664,18 @@ error: TypeSelector
 89 | a ~ h + d {}
    |     ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:89:5
+   |
+89 | a ~ h + d {}
+   |     ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:89:5
+   |
+89 | a ~ h + d {}
+   |     ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:89:5
    |
@@ -6297,6 +7695,18 @@ error: CompoundSelector
    |         ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:89:9
+   |
+89 | a ~ h + d {}
+   |         ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:89:9
+   |
+89 | a ~ h + d {}
+   |         ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:89:9
    |
 89 | a ~ h + d {}
@@ -6350,6 +7760,18 @@ error: TypeSelector
 90 | div div div div div div div div div div div {}
    | ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:90:1
+   |
+90 | div div div div div div div div div div div {}
+   | ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:90:1
+   |
+90 | div div div div div div div div div div div {}
+   | ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:90:1
    |
@@ -6369,6 +7791,18 @@ error: CompoundSelector
    |     ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:90:5
+   |
+90 | div div div div div div div div div div div {}
+   |     ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:90:5
+   |
+90 | div div div div div div div div div div div {}
+   |     ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:90:5
    |
 90 | div div div div div div div div div div div {}
@@ -6398,6 +7832,18 @@ error: TypeSelector
 90 | div div div div div div div div div div div {}
    |         ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:90:9
+   |
+90 | div div div div div div div div div div div {}
+   |         ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:90:9
+   |
+90 | div div div div div div div div div div div {}
+   |         ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:90:9
    |
@@ -6417,6 +7863,18 @@ error: CompoundSelector
    |             ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:90:13
+   |
+90 | div div div div div div div div div div div {}
+   |             ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:90:13
+   |
+90 | div div div div div div div div div div div {}
+   |             ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:90:13
    |
 90 | div div div div div div div div div div div {}
@@ -6446,6 +7904,18 @@ error: TypeSelector
 90 | div div div div div div div div div div div {}
    |                 ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:90:17
+   |
+90 | div div div div div div div div div div div {}
+   |                 ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:90:17
+   |
+90 | div div div div div div div div div div div {}
+   |                 ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:90:17
    |
@@ -6465,6 +7935,18 @@ error: CompoundSelector
    |                     ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:90:21
+   |
+90 | div div div div div div div div div div div {}
+   |                     ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:90:21
+   |
+90 | div div div div div div div div div div div {}
+   |                     ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:90:21
    |
 90 | div div div div div div div div div div div {}
@@ -6494,6 +7976,18 @@ error: TypeSelector
 90 | div div div div div div div div div div div {}
    |                         ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:90:25
+   |
+90 | div div div div div div div div div div div {}
+   |                         ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:90:25
+   |
+90 | div div div div div div div div div div div {}
+   |                         ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:90:25
    |
@@ -6513,6 +8007,18 @@ error: CompoundSelector
    |                             ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:90:29
+   |
+90 | div div div div div div div div div div div {}
+   |                             ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:90:29
+   |
+90 | div div div div div div div div div div div {}
+   |                             ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:90:29
    |
 90 | div div div div div div div div div div div {}
@@ -6542,6 +8048,18 @@ error: TypeSelector
 90 | div div div div div div div div div div div {}
    |                                 ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:90:33
+   |
+90 | div div div div div div div div div div div {}
+   |                                 ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:90:33
+   |
+90 | div div div div div div div div div div div {}
+   |                                 ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:90:33
    |
@@ -6566,6 +8084,18 @@ error: TypeSelector
 90 | div div div div div div div div div div div {}
    |                                     ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:90:37
+   |
+90 | div div div div div div div div div div div {}
+   |                                     ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:90:37
+   |
+90 | div div div div div div div div div div div {}
+   |                                     ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:90:37
    |
@@ -6585,6 +8115,18 @@ error: CompoundSelector
    |                                         ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:90:41
+   |
+90 | div div div div div div div div div div div {}
+   |                                         ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:90:41
+   |
+90 | div div div div div div div div div div div {}
+   |                                         ^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:90:41
    |
 90 | div div div div div div div div div div div {}
@@ -6638,11 +8180,17 @@ error: SubclassSelector
 91 | [href][class][name] h1 > h2 {}
    | ^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:91:1
    |
 91 | [href][class][name] h1 > h2 {}
    | ^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:91:2
+   |
+91 | [href][class][name] h1 > h2 {}
+   |  ^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:91:2
@@ -6656,11 +8204,17 @@ error: SubclassSelector
 91 | [href][class][name] h1 > h2 {}
    |       ^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:91:7
    |
 91 | [href][class][name] h1 > h2 {}
    |       ^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:91:8
+   |
+91 | [href][class][name] h1 > h2 {}
+   |        ^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:91:8
@@ -6674,11 +8228,17 @@ error: SubclassSelector
 91 | [href][class][name] h1 > h2 {}
    |              ^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:91:14
    |
 91 | [href][class][name] h1 > h2 {}
    |              ^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:91:15
+   |
+91 | [href][class][name] h1 > h2 {}
+   |               ^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:91:15
@@ -6704,6 +8264,18 @@ error: TypeSelector
 91 | [href][class][name] h1 > h2 {}
    |                     ^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:91:21
+   |
+91 | [href][class][name] h1 > h2 {}
+   |                     ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:91:21
+   |
+91 | [href][class][name] h1 > h2 {}
+   |                     ^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:91:21
    |
@@ -6723,6 +8295,18 @@ error: CompoundSelector
    |                          ^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:91:26
+   |
+91 | [href][class][name] h1 > h2 {}
+   |                          ^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:91:26
+   |
+91 | [href][class][name] h1 > h2 {}
+   |                          ^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/complex/input.css:91:26
    |
 91 | [href][class][name] h1 > h2 {}
@@ -6776,17 +8360,35 @@ error: SubclassSelector
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    | ^^^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:92:1
    |
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    | ^^^^^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:92:2
+   |
+92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+   |  ^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:92:2
    |
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |  ^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:92:6
+   |
+92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+   |      ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:92:8
+   |
+92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+   |        ^^^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:92:8
@@ -6800,17 +8402,35 @@ error: SubclassSelector
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |                   ^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:92:19
    |
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |                   ^^^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:92:20
+   |
+92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+   |                    ^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:92:20
    |
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |                    ^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:92:23
+   |
+92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+   |                       ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:92:24
+   |
+92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+   |                        ^^^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:92:24
@@ -6824,11 +8444,17 @@ error: SubclassSelector
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |                                   ^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:92:35
    |
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |                                   ^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:92:36
+   |
+92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+   |                                    ^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:92:36
@@ -6842,17 +8468,35 @@ error: SubclassSelector
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |                                       ^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:92:39
    |
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |                                       ^^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:92:40
+   |
+92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+   |                                        ^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:92:40
    |
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |                                        ^^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:92:45
+   |
+92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+   |                                             ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:92:47
+   |
+92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+   |                                               ^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:92:47
@@ -6878,11 +8522,17 @@ error: SubclassSelector
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |                                                         ^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:92:57
    |
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |                                                         ^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:92:58
+   |
+92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+   |                                                          ^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:92:58
@@ -6932,17 +8582,35 @@ error: SubclassSelector
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:93:1
    |
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:93:2
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |  ^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:93:2
    |
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |  ^^^^^^^^^^^^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:93:17
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                 ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:93:19
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                   ^^^^^^^^^^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:93:19
@@ -6968,17 +8636,35 @@ error: SubclassSelector
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:93:39
    |
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:93:40
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                                        ^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:93:40
    |
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |                                        ^^^^^^^^^^^^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:93:55
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                                                       ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:93:57
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                                                         ^^^^^^^^^^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:93:57
@@ -7004,17 +8690,35 @@ error: SubclassSelector
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:93:77
    |
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:93:78
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                                                                              ^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:93:78
    |
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |                                                                              ^^^^^^^^^^^^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:93:93
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                                                                                             ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:93:95
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                                                                                               ^^^^^^^^^^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:93:95
@@ -7040,17 +8744,35 @@ error: SubclassSelector
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |                                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:93:115
    |
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |                                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:93:116
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                                                                                                                    ^^^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:93:116
    |
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |                                                                                                                    ^^^^^^^^^^^^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/complex/input.css:93:131
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                                                                                                                                   ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/complex/input.css:93:133
+   |
+93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+   |                                                                                                                                     ^^^^^^^^^^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/complex/input.css:93:133
@@ -7100,7 +8822,7 @@ error: TypeSelector
 94 | * + * {}
    | ^
 
-error: Ident
+error: UniversalSelector
   --> $DIR/tests/fixture/selector/complex/input.css:94:1
    |
 94 | * + * {}
@@ -7124,7 +8846,7 @@ error: TypeSelector
 94 | * + * {}
    |     ^
 
-error: Ident
+error: UniversalSelector
   --> $DIR/tests/fixture/selector/complex/input.css:94:5
    |
 94 | * + * {}
@@ -7172,7 +8894,7 @@ error: TypeSelector
 95 | * * {}
    | ^
 
-error: Ident
+error: UniversalSelector
   --> $DIR/tests/fixture/selector/complex/input.css:95:1
    |
 95 | * * {}
@@ -7196,7 +8918,7 @@ error: TypeSelector
 95 | * * {}
    |   ^
 
-error: Ident
+error: UniversalSelector
   --> $DIR/tests/fixture/selector/complex/input.css:95:3
    |
 95 | * * {}
@@ -7244,7 +8966,7 @@ error: TypeSelector
 96 | *         * {}
    | ^
 
-error: Ident
+error: UniversalSelector
   --> $DIR/tests/fixture/selector/complex/input.css:96:1
    |
 96 | *         * {}
@@ -7268,7 +8990,7 @@ error: TypeSelector
 96 | *         * {}
    |           ^
 
-error: Ident
+error: UniversalSelector
   --> $DIR/tests/fixture/selector/complex/input.css:96:11
    |
 96 | *         * {}
@@ -7316,7 +9038,7 @@ error: TypeSelector
 97 | *[href] *:not(*.green) {}
    | ^
 
-error: Ident
+error: UniversalSelector
   --> $DIR/tests/fixture/selector/complex/input.css:97:1
    |
 97 | *[href] *:not(*.green) {}
@@ -7328,11 +9050,17 @@ error: SubclassSelector
 97 | *[href] *:not(*.green) {}
    |  ^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:97:2
    |
 97 | *[href] *:not(*.green) {}
    |  ^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:97:3
+   |
+97 | *[href] *:not(*.green) {}
+   |   ^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:97:3
@@ -7358,7 +9086,7 @@ error: TypeSelector
 97 | *[href] *:not(*.green) {}
    |         ^
 
-error: Ident
+error: UniversalSelector
   --> $DIR/tests/fixture/selector/complex/input.css:97:9
    |
 97 | *[href] *:not(*.green) {}
@@ -7448,7 +9176,7 @@ error: TypeSelector
 98 | *::-webkit-media-controls-play-button {}
    | ^
 
-error: Ident
+error: UniversalSelector
   --> $DIR/tests/fixture/selector/complex/input.css:98:1
    |
 98 | *::-webkit-media-controls-play-button {}
@@ -7477,4 +9205,356 @@ error: Block
    |
 98 | *::-webkit-media-controls-play-button {}
    |                                       ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/complex/input.css:99:1
+   |
+99 | col.selected || td {}
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/complex/input.css:99:1
+   |
+99 | col.selected || td {}
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/complex/input.css:99:1
+   |
+99 | col.selected || td {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:99:1
+   |
+99 | col.selected || td {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:99:1
+   |
+99 | col.selected || td {}
+   | ^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:99:1
+   |
+99 | col.selected || td {}
+   | ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:99:1
+   |
+99 | col.selected || td {}
+   | ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:99:1
+   |
+99 | col.selected || td {}
+   | ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/complex/input.css:99:1
+   |
+99 | col.selected || td {}
+   | ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:99:4
+   |
+99 | col.selected || td {}
+   |    ^^^^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:99:4
+   |
+99 | col.selected || td {}
+   |    ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/complex/input.css:99:5
+   |
+99 | col.selected || td {}
+   |     ^^^^^^^^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/complex/input.css:99:14
+   |
+99 | col.selected || td {}
+   |              ^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:99:17
+   |
+99 | col.selected || td {}
+   |                 ^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:99:17
+   |
+99 | col.selected || td {}
+   |                 ^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:99:17
+   |
+99 | col.selected || td {}
+   |                 ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/complex/input.css:99:17
+   |
+99 | col.selected || td {}
+   |                 ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/complex/input.css:99:17
+   |
+99 | col.selected || td {}
+   |                 ^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/complex/input.css:99:20
+   |
+99 | col.selected || td {}
+   |                    ^^
+
+error: Rule
+   --> $DIR/tests/fixture/selector/complex/input.css:100:1
+    |
+100 | / col.selected
+101 | | || 
+102 | | td
+103 | | {}
+    | |__^
+
+error: QualifiedRule
+   --> $DIR/tests/fixture/selector/complex/input.css:100:1
+    |
+100 | / col.selected
+101 | | || 
+102 | | td
+103 | | {}
+    | |__^
+
+error: SelectorList
+   --> $DIR/tests/fixture/selector/complex/input.css:100:1
+    |
+100 | / col.selected
+101 | | || 
+102 | | td
+    | |__^
+
+error: ComplexSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:100:1
+    |
+100 | / col.selected
+101 | | || 
+102 | | td
+    | |__^
+
+error: CompoundSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:100:1
+    |
+100 | col.selected
+    | ^^^^^^^^^^^^
+
+error: TypeSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:100:1
+    |
+100 | col.selected
+    | ^^^
+
+error: TagNameSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:100:1
+    |
+100 | col.selected
+    | ^^^
+
+error: WqName
+   --> $DIR/tests/fixture/selector/complex/input.css:100:1
+    |
+100 | col.selected
+    | ^^^
+
+error: Ident
+   --> $DIR/tests/fixture/selector/complex/input.css:100:1
+    |
+100 | col.selected
+    | ^^^
+
+error: SubclassSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:100:4
+    |
+100 | col.selected
+    |    ^^^^^^^^^
+
+error: ClassSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:100:4
+    |
+100 | col.selected
+    |    ^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/selector/complex/input.css:100:5
+    |
+100 | col.selected
+    |     ^^^^^^^^
+
+error: Combinator
+   --> $DIR/tests/fixture/selector/complex/input.css:101:1
+    |
+101 | || 
+    | ^^
+
+error: CompoundSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:102:1
+    |
+102 | td
+    | ^^
+
+error: TypeSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:102:1
+    |
+102 | td
+    | ^^
+
+error: TagNameSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:102:1
+    |
+102 | td
+    | ^^
+
+error: WqName
+   --> $DIR/tests/fixture/selector/complex/input.css:102:1
+    |
+102 | td
+    | ^^
+
+error: Ident
+   --> $DIR/tests/fixture/selector/complex/input.css:102:1
+    |
+102 | td
+    | ^^
+
+error: Block
+   --> $DIR/tests/fixture/selector/complex/input.css:103:1
+    |
+103 | {}
+    | ^^
+
+error: Rule
+   --> $DIR/tests/fixture/selector/complex/input.css:104:1
+    |
+104 | col.selected||td {}
+    | ^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+   --> $DIR/tests/fixture/selector/complex/input.css:104:1
+    |
+104 | col.selected||td {}
+    | ^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+   --> $DIR/tests/fixture/selector/complex/input.css:104:1
+    |
+104 | col.selected||td {}
+    | ^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:104:1
+    |
+104 | col.selected||td {}
+    | ^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:104:1
+    |
+104 | col.selected||td {}
+    | ^^^^^^^^^^^^
+
+error: TypeSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:104:1
+    |
+104 | col.selected||td {}
+    | ^^^
+
+error: TagNameSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:104:1
+    |
+104 | col.selected||td {}
+    | ^^^
+
+error: WqName
+   --> $DIR/tests/fixture/selector/complex/input.css:104:1
+    |
+104 | col.selected||td {}
+    | ^^^
+
+error: Ident
+   --> $DIR/tests/fixture/selector/complex/input.css:104:1
+    |
+104 | col.selected||td {}
+    | ^^^
+
+error: SubclassSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:104:4
+    |
+104 | col.selected||td {}
+    |    ^^^^^^^^^
+
+error: ClassSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:104:4
+    |
+104 | col.selected||td {}
+    |    ^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/selector/complex/input.css:104:5
+    |
+104 | col.selected||td {}
+    |     ^^^^^^^^
+
+error: Combinator
+   --> $DIR/tests/fixture/selector/complex/input.css:104:13
+    |
+104 | col.selected||td {}
+    |             ^^
+
+error: CompoundSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:104:15
+    |
+104 | col.selected||td {}
+    |               ^^
+
+error: TypeSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:104:15
+    |
+104 | col.selected||td {}
+    |               ^^
+
+error: TagNameSelector
+   --> $DIR/tests/fixture/selector/complex/input.css:104:15
+    |
+104 | col.selected||td {}
+    |               ^^
+
+error: WqName
+   --> $DIR/tests/fixture/selector/complex/input.css:104:15
+    |
+104 | col.selected||td {}
+    |               ^^
+
+error: Ident
+   --> $DIR/tests/fixture/selector/complex/input.css:104:15
+    |
+104 | col.selected||td {}
+    |               ^^
+
+error: Block
+   --> $DIR/tests/fixture/selector/complex/input.css:104:18
+    |
+104 | col.selected||td {}
+    |                  ^^
 

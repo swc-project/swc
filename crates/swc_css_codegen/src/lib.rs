@@ -1276,7 +1276,7 @@ where
         match n {
             SubclassSelector::Id(n) => emit!(self, n),
             SubclassSelector::Class(n) => emit!(self, n),
-            SubclassSelector::Attr(n) => emit!(self, n),
+            SubclassSelector::Attribute(n) => emit!(self, n),
             SubclassSelector::PseudoClass(n) => emit!(self, n),
             SubclassSelector::PseudoElement(n) => emit!(self, n),
             SubclassSelector::At(n) => emit!(self, n),
@@ -1285,68 +1285,96 @@ where
 
     #[emitter]
     fn emit_type_selector(&mut self, n: &TypeSelector) -> Result {
+        match n {
+            TypeSelector::TagName(n) => emit!(self, n),
+            TypeSelector::Universal(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_tag_name_selector(&mut self, n: &TagNameSelector) -> Result {
+        emit!(self, n.name);
+    }
+
+    #[emitter]
+    fn emit_universal_selector(&mut self, n: &UniversalSelector) -> Result {
         if let Some(prefix) = &n.prefix {
             emit!(self, prefix);
-            punct!(self, "|");
         }
 
-        emit!(self, n.name);
+        punct!(self, "*");
+    }
+
+    #[emitter]
+    fn emit_ns_prefix(&mut self, n: &NsPrefix) -> Result {
+        emit!(self, n.prefix);
+        punct!(self, "|");
+    }
+
+    #[emitter]
+    fn emit_wq_name(&mut self, n: &WqName) -> Result {
+        if n.prefix.is_some() {
+            emit!(self, n.prefix);
+        }
+
+        emit!(self, n.value);
     }
 
     #[emitter]
     fn emit_id_selector(&mut self, n: &IdSelector) -> Result {
         punct!(self, "#");
-        let ctx = Ctx { ..self.ctx };
-        emit!(&mut *self.with_ctx(ctx), n.text);
+        emit!(self, n.text);
     }
 
     #[emitter]
     fn emit_class_selector(&mut self, n: &ClassSelector) -> Result {
         punct!(self, ".");
-        let ctx = Ctx { ..self.ctx };
-        emit!(&mut *self.with_ctx(ctx), n.text);
+        emit!(self, n.text);
     }
 
     #[emitter]
-    fn emit_attr_selector_value(&mut self, n: &AttrSelectorValue) -> Result {
-        match n {
-            AttrSelectorValue::Str(n) => emit!(self, n),
-            AttrSelectorValue::Ident(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
-    fn emit_attr_selector(&mut self, n: &AttrSelector) -> Result {
+    fn emit_attribute_selector(&mut self, n: &AttributeSelector) -> Result {
         punct!(self, "[");
-
-        if let Some(prefix) = &n.prefix {
-            emit!(self, prefix);
-            punct!(self, "|");
-        }
-
         emit!(self, n.name);
 
-        if let Some(matcher) = n.matcher {
-            self.wr.write_punct(None, matcher.as_str())?;
-        }
+        if n.matcher.is_some() {
+            emit!(self, n.matcher);
+            emit!(self, n.value);
 
-        emit!(self, n.value);
+            if n.modifier.is_some() {
+                match n.value {
+                    Some(AttributeSelectorValue::Str(_)) => {
+                        formatting_space!(self);
+                    }
+                    Some(AttributeSelectorValue::Ident(_)) => {
+                        space!(self);
+                    }
+                    _ => {}
+                }
 
-        if let Some(m) = &n.modifier {
-            match n.value {
-                Some(AttrSelectorValue::Str(_)) => {
-                    formatting_space!(self);
-                }
-                Some(AttrSelectorValue::Ident(_)) => {
-                    space!(self);
-                }
-                _ => {}
+                emit!(self, n.modifier);
             }
-
-            self.wr.write_raw_char(None, *m)?;
         }
 
         punct!(self, "]");
+    }
+
+    #[emitter]
+    fn emit_attribute_selector_matcher(&mut self, n: &AttributeSelectorMatcher) -> Result {
+        self.wr.write_punct(None, n.value.as_str())?;
+    }
+
+    #[emitter]
+    fn emit_attribute_selector_value(&mut self, n: &AttributeSelectorValue) -> Result {
+        match n {
+            AttributeSelectorValue::Str(n) => emit!(self, n),
+            AttributeSelectorValue::Ident(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_attribute_selector_modifier(&mut self, n: &AttributeSelectorModifier) -> Result {
+        emit!(self, n.value);
     }
 
     #[emitter]

@@ -226,10 +226,30 @@ define!({
         pub value: CombinatorValue,
     }
 
-    pub struct TypeSelector {
+    pub enum TypeSelector {
+        TagName(TagNameSelector),
+        Universal(UniversalSelector),
+    }
+
+    pub struct TagNameSelector {
+        pub span: Span,
+        pub name: WqName,
+    }
+
+    pub struct UniversalSelector {
+        pub span: Span,
+        pub prefix: Option<NsPrefix>,
+    }
+
+    pub struct NsPrefix {
         pub span: Span,
         pub prefix: Option<Ident>,
-        pub name: Ident,
+    }
+
+    pub struct WqName {
+        pub span: Span,
+        pub prefix: Option<NsPrefix>,
+        pub value: Ident,
     }
 
     pub struct NestingSelector {
@@ -238,30 +258,34 @@ define!({
 
     pub enum SubclassSelector {
         Id(IdSelector),
-
         Class(ClassSelector),
-
-        Attr(AttrSelector),
-
+        Attribute(AttributeSelector),
         PseudoClass(PseudoClassSelector),
-
         PseudoElement(PseudoElementSelector),
-
         At(AtSelector),
     }
 
-    pub enum AttrSelectorValue {
+    pub struct AttributeSelector {
+        pub span: Span,
+        pub name: WqName,
+        pub matcher: Option<AttributeSelectorMatcher>,
+        pub value: Option<AttributeSelectorValue>,
+        pub modifier: Option<AttributeSelectorModifier>,
+    }
+
+    pub struct AttributeSelectorMatcher {
+        pub span: Span,
+        pub value: AttributeSelectorMatcherValue,
+    }
+
+    pub enum AttributeSelectorValue {
         Str(Str),
         Ident(Ident),
     }
 
-    pub struct AttrSelector {
+    pub struct AttributeSelectorModifier {
         pub span: Span,
-        pub prefix: Option<Ident>,
-        pub name: Ident,
-        pub matcher: Option<AttrSelectorMatcher>,
-        pub value: Option<AttrSelectorValue>,
-        pub modifier: Option<char>,
+        pub value: Ident,
     }
 
     pub enum PseudoSelectorChildren {
@@ -308,11 +332,6 @@ define!({
     }
 
     pub struct ClassSelector {
-        pub span: Span,
-        pub text: Ident,
-    }
-
-    pub struct TagSelector {
         pub span: Span,
         pub text: Ident,
     }

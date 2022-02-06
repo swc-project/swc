@@ -58,6 +58,18 @@ error: TypeSelector
 1 | a::before {
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/value/quotes/input.css:1:1
+  |
+1 | a::before {
+  | ^
+
+error: WqName
+ --> $DIR/tests/fixture/value/quotes/input.css:1:1
+  |
+1 | a::before {
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/value/quotes/input.css:1:1
   |
@@ -744,6 +756,18 @@ error: TypeSelector
 31 | a[title="a not s\
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:31:1
+   |
+31 | a[title="a not s\
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/value/quotes/input.css:31:1
+   |
+31 | a[title="a not s\
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:31:1
    |
@@ -758,7 +782,7 @@ error: SubclassSelector
 32 | | o very long title"] {
    | |___________________^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/value/quotes/input.css:31:2
    |
 31 |   a[title="a not s\
@@ -766,11 +790,31 @@ error: AttrSelector
 32 | | o very long title"] {
    | |___________________^
 
+error: WqName
+  --> $DIR/tests/fixture/value/quotes/input.css:31:3
+   |
+31 | a[title="a not s\
+   |   ^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:31:3
    |
 31 | a[title="a not s\
    |   ^^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/value/quotes/input.css:31:8
+   |
+31 | a[title="a not s\
+   |        ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/value/quotes/input.css:31:9
+   |
+31 |   a[title="a not s\
+   |  _________^
+32 | | o very long title"] {
+   | |__________________^
 
 error: Str
   --> $DIR/tests/fixture/value/quotes/input.css:31:9
@@ -859,6 +903,18 @@ error: TypeSelector
 35 | a[title="a not so very long title"] {
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:35:1
+   |
+35 | a[title="a not so very long title"] {
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/value/quotes/input.css:35:1
+   |
+35 | a[title="a not so very long title"] {
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:35:1
    |
@@ -871,17 +927,35 @@ error: SubclassSelector
 35 | a[title="a not so very long title"] {
    |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/value/quotes/input.css:35:2
    |
 35 | a[title="a not so very long title"] {
    |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/value/quotes/input.css:35:3
+   |
+35 | a[title="a not so very long title"] {
+   |   ^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:35:3
    |
 35 | a[title="a not so very long title"] {
    |   ^^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/value/quotes/input.css:35:8
+   |
+35 | a[title="a not so very long title"] {
+   |        ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/value/quotes/input.css:35:9
+   |
+35 | a[title="a not so very long title"] {
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/value/quotes/input.css:35:9

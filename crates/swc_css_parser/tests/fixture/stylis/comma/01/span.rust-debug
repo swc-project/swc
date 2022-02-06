@@ -46,6 +46,18 @@ error: TypeSelector
 1 | a {
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/stylis/comma/01/input.css:1:1
+  |
+1 | a {
+  | ^
+
+error: WqName
+ --> $DIR/tests/fixture/stylis/comma/01/input.css:1:1
+  |
+1 | a {
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/stylis/comma/01/input.css:1:1
   |

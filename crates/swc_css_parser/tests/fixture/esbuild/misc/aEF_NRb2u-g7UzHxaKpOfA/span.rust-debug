@@ -40,6 +40,18 @@ error: TypeSelector
 1 | a/**/[b] {}
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/aEF_NRb2u-g7UzHxaKpOfA/input.css:1:1
+  |
+1 | a/**/[b] {}
+  | ^
+
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/aEF_NRb2u-g7UzHxaKpOfA/input.css:1:1
+  |
+1 | a/**/[b] {}
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/aEF_NRb2u-g7UzHxaKpOfA/input.css:1:1
   |
@@ -52,11 +64,17 @@ error: SubclassSelector
 1 | a/**/[b] {}
   |      ^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/esbuild/misc/aEF_NRb2u-g7UzHxaKpOfA/input.css:1:6
   |
 1 | a/**/[b] {}
   |      ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/aEF_NRb2u-g7UzHxaKpOfA/input.css:1:7
+  |
+1 | a/**/[b] {}
+  |       ^
 
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/aEF_NRb2u-g7UzHxaKpOfA/input.css:1:7
