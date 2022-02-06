@@ -966,7 +966,7 @@ test!(
         configurable: true,
         enumerable: true,
         writable: true,
-        initializer: void 0
+        initializer: null
     }), _class);
     "#,
     ok_if_code_eq

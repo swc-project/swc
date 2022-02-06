@@ -1,16 +1,13 @@
 function _initializerDefineProperty(target, property, descriptor, context) {
   if (!descriptor) return;
-
   var own =
     Object.getOwnPropertyDescriptor(target, property) ||
     Object.getOwnPropertyDescriptor(
       Object.getPrototypeOf(target),
       property
     );
-
   // prevent overriding obj accessors
   if (own && (own.get || own.set)) return;
-
   Object.defineProperty(target, property, {
     enumerable: descriptor.enumerable,
     configurable: descriptor.configurable,

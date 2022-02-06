@@ -15,11 +15,6 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
         desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
         desc.initializer = undefined;
     }
-    var own = Object.getOwnPropertyDescriptor(target, property);
-    if (own && (own.get || own.set)) {
-        delete desc.writable;
-        delete desc.initializer;
-    }
     if (desc.initializer === void 0) {
         Object.defineProperty(target, property, desc);
         desc = null;
@@ -33,11 +28,13 @@ function _classCallCheck(instance, Constructor) {
 }
 function _initializerDefineProperty(target, property, descriptor, context) {
     if (!descriptor) return;
+    var own = Object.getOwnPropertyDescriptor(target, property) || Object.getOwnPropertyDescriptor(Object.getPrototypeOf(target), property);
+    if (own && (own.get || own.set)) return;
     Object.defineProperty(target, property, {
         enumerable: descriptor.enumerable,
         configurable: descriptor.configurable,
         writable: descriptor.writable,
-        value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+        value: descriptor.initializer ? descriptor.initializer.call(context) : own && own.value !== void 0 ? own.value : void 0
     });
 }
 var _class, _descriptor, _dec, _dec1, _descriptor1, _dec2, _dec3, _descriptor2, _dec4, _dec5, _descriptor3, _dec6, _dec7, _descriptor4, _dec8, _dec9, _descriptor5, _dec10, _dec11, _descriptor6, _dec12, _dec13, _descriptor7, _dec14, _dec15;
@@ -75,7 +72,7 @@ export var AccountMemberView = _class = _dec16((_class = function AccountMemberV
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0
+    initializer: null
 }), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, "mallId", [
     _dec2,
     _dec3
@@ -83,7 +80,7 @@ export var AccountMemberView = _class = _dec16((_class = function AccountMemberV
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0
+    initializer: null
 }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "allowAccountCnt", [
     _dec4,
     _dec5
@@ -91,7 +88,7 @@ export var AccountMemberView = _class = _dec16((_class = function AccountMemberV
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0
+    initializer: null
 }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, "allowQuickAccountCnt", [
     _dec6,
     _dec7
@@ -99,7 +96,7 @@ export var AccountMemberView = _class = _dec16((_class = function AccountMemberV
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0
+    initializer: null
 }), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, "accountEnddedAt", [
     _dec8,
     _dec9
@@ -107,7 +104,7 @@ export var AccountMemberView = _class = _dec16((_class = function AccountMemberV
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0
+    initializer: null
 }), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, "accountQuickEnddedAt", [
     _dec10,
     _dec11
@@ -115,7 +112,7 @@ export var AccountMemberView = _class = _dec16((_class = function AccountMemberV
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0
+    initializer: null
 }), _descriptor6 = _applyDecoratedDescriptor(_class.prototype, "accountCnt", [
     _dec12,
     _dec13
@@ -123,7 +120,7 @@ export var AccountMemberView = _class = _dec16((_class = function AccountMemberV
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0
+    initializer: null
 }), _descriptor7 = _applyDecoratedDescriptor(_class.prototype, "accountQuickCnt", [
     _dec14,
     _dec15
@@ -131,5 +128,5 @@ export var AccountMemberView = _class = _dec16((_class = function AccountMemberV
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0
+    initializer: null
 }), _class)) || _class;
