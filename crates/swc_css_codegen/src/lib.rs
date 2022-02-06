@@ -582,7 +582,28 @@ where
         }
 
         punct!(self, "{");
-        self.emit_list(&n.block, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
+
+        let len = n.block.len();
+
+        for (idx, node) in n.block.iter().enumerate() {
+            emit!(self, node);
+
+            match node {
+                DeclarationBlockItem::AtRule(_) => {}
+                _ => {
+                    let need_delim = !(idx == len - 1 && self.config.minify);
+
+                    if need_delim {
+                        self.write_delim(ListFormat::SemiDelimited)?;
+                    }
+                }
+            }
+
+            if !self.config.minify {
+                formatting_newline!(self);
+            }
+        }
+
         punct!(self, "}");
     }
 
