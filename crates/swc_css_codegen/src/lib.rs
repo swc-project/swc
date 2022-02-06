@@ -573,15 +573,16 @@ where
     fn emit_page_rule(&mut self, n: &PageRule) -> Result {
         punct!(self, "@");
         keyword!(self, "page");
-        space!(self);
 
         if n.prelude.is_some() {
-            emit!(self, n.prelude);
             space!(self);
+            emit!(self, n.prelude);
+        } else {
+            formatting_space!(self);
         }
 
         punct!(self, "{");
-        self.emit_list(&n.block, ListFormat::MultiLine)?;
+        self.emit_list(&n.block, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
         punct!(self, "}");
     }
 
@@ -618,7 +619,7 @@ where
         emit!(self, n.name);
         space!(self);
         punct!(self, "{");
-        self.emit_list(&n.block, ListFormat::MultiLine)?;
+        self.emit_list(&n.block, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
         punct!(self, "}");
     }
 
@@ -840,7 +841,6 @@ where
                 ListFormat::SemiDelimited | ListFormat::MultiLine
             },
         )?;
-        self.emit_list(&n.value, ListFormat::MultiLine)?;
 
         punct!(self, "}");
     }
@@ -848,12 +848,7 @@ where
     #[emitter]
     fn emit_declaration_block_item(&mut self, n: &DeclarationBlockItem) -> Result {
         match n {
-            DeclarationBlockItem::Declaration(n) => {
-                emit!(self, n);
-
-                // TODO implement ListFormat::DotAtEnd to avoid writting `;` in minify mode
-                semi!(self);
-            }
+            DeclarationBlockItem::Declaration(n) => emit!(self, n),
             DeclarationBlockItem::AtRule(n) => emit!(self, n),
             DeclarationBlockItem::Invalid(n) => emit!(self, n),
         }
@@ -901,6 +896,10 @@ where
 
             emit!(self, n.important);
         }
+
+        if self.ctx.semi_after_property {
+            punct!(self, ";");
+        }
     }
 
     #[emitter]
@@ -944,36 +943,7 @@ where
     }
 
     #[emitter]
-    fn emit_page_rule_block(&mut self, n: &PageRuleBlock) -> Result {
-        punct!(self, "{");
-        formatting_newline!(self);
-
-        self.wr.increase_indent();
-
-        let ctx = Ctx {
-            semi_after_property: true,
-            ..self.ctx
-        };
-        self.with_ctx(ctx)
-            .emit_list(&n.items, ListFormat::MultiLine | ListFormat::NotDelimited)?;
-        formatting_newline!(self);
-
-        self.wr.decrease_indent();
-
-        punct!(self, "}");
-    }
-
-    #[emitter]
-    fn emit_page_rule_block_item(&mut self, n: &PageRuleBlockItem) -> Result {
-        match n {
-            PageRuleBlockItem::Declaration(n) => emit!(self, n),
-            PageRuleBlockItem::Nested(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
     fn emit_dimension(&mut self, n: &Dimension) -> Result {
-    fn emit_unit_value(&mut self, n: &UnitValue) -> Result {
         emit!(self, n.value);
         emit!(self, n.unit);
     }
@@ -1508,6 +1478,9 @@ where
             }
             ListFormat::SpaceDelimited => {
                 space!(self)
+            }
+            ListFormat::SemiDelimited => {
+                punct!(self, ";")
             }
             ListFormat::DotDelimited => {
                 punct!(self, ".");
