@@ -659,7 +659,7 @@ where
         }
 
         emit!(self, n.uri);
-        punct!(self, ";");
+        semi!(self);
     }
 
     #[emitter]
