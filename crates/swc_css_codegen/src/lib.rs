@@ -896,10 +896,6 @@ where
 
             emit!(self, n.important);
         }
-
-        if self.ctx.semi_after_property {
-            punct!(self, ";");
-        }
     }
 
     #[emitter]
