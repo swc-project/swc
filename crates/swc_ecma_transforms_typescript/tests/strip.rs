@@ -994,7 +994,7 @@ test_exec!(
     }
 
     class Child extends Base {
-      @DefineAction() action: number
+      @DefineAction() declare action: number
 
       callApi() {
         console.log(this.action) // undefined

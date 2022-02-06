@@ -6048,11 +6048,11 @@ fn fixture(input: PathBuf) {
 
             chain!(
                 resolver_with_mark(top_level_mark),
-                strip(top_level_mark),
                 decorators(Config {
                     legacy: true,
                     emit_metadata: true,
-                })
+                }),
+                strip(top_level_mark),
             )
         },
         &code,

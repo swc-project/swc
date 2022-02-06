@@ -673,7 +673,7 @@ impl Legacy {
                     extra_exprs.push(call_expr);
                 }
 
-                if !p.is_static {
+                if !p.is_static && !p.declare {
                     constructor_stmts.push(
                         CallExpr {
                             span: DUMMY_SP,
