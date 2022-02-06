@@ -6,8 +6,8 @@ error: Stylesheet
 3  | |     color: red important;
 4  | |     width: 1px!important;
 ...  |
-16 | |     padding: 1px/* sep */!important;
-17 | | }
+18 | |     color: red !imp\ortant;
+19 | | }
    | |__^
 
 error: Rule
@@ -18,8 +18,8 @@ error: Rule
 3  | |     color: red important;
 4  | |     width: 1px!important;
 ...  |
-16 | |     padding: 1px/* sep */!important;
-17 | | }
+18 | |     color: red !imp\ortant;
+19 | | }
    | |_^
 
 error: QualifiedRule
@@ -30,8 +30,8 @@ error: QualifiedRule
 3  | |     color: red important;
 4  | |     width: 1px!important;
 ...  |
-16 | |     padding: 1px/* sep */!important;
-17 | | }
+18 | |     color: red !imp\ortant;
+19 | | }
    | |_^
 
 error: SelectorList
@@ -79,8 +79,8 @@ error: Block
 3  | |     color: red important;
 4  | |     width: 1px!important;
 ...  |
-16 | |     padding: 1px/* sep */!important;
-17 | | }
+18 | |     color: red !imp\ortant;
+19 | | }
    | |_^
 
 error: Declaration
@@ -197,6 +197,18 @@ error: Ident
 4 |     width: 1px!important;
   |             ^^
 
+error: ImportantFlag
+ --> $DIR/tests/fixture/important/basic/input.css:4:15
+  |
+4 |     width: 1px!important;
+  |               ^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/important/basic/input.css:4:16
+  |
+4 |     width: 1px!important;
+  |                ^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/important/basic/input.css:5:5
   |
@@ -226,6 +238,18 @@ error: Ident
   |
 5 |     color: red!important;
   |            ^^^
+
+error: ImportantFlag
+ --> $DIR/tests/fixture/important/basic/input.css:5:15
+  |
+5 |     color: red!important;
+  |               ^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/important/basic/input.css:5:16
+  |
+5 |     color: red!important;
+  |                ^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/important/basic/input.css:6:5
@@ -257,6 +281,18 @@ error: Ident
 6 |     color: red !important;
   |            ^^^
 
+error: ImportantFlag
+ --> $DIR/tests/fixture/important/basic/input.css:6:16
+  |
+6 |     color: red !important;
+  |                ^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/important/basic/input.css:6:17
+  |
+6 |     color: red !important;
+  |                 ^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/important/basic/input.css:7:5
   |
@@ -287,11 +323,23 @@ error: Ident
 7 |     color: red  !important;
   |            ^^^
 
+error: ImportantFlag
+ --> $DIR/tests/fixture/important/basic/input.css:7:17
+  |
+7 |     color: red  !important;
+  |                 ^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/important/basic/input.css:7:18
+  |
+7 |     color: red  !important;
+  |                  ^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/important/basic/input.css:8:5
   |
 8 |     color: red !   important   ;
-  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
  --> $DIR/tests/fixture/important/basic/input.css:8:5
@@ -316,6 +364,18 @@ error: Ident
   |
 8 |     color: red !   important   ;
   |            ^^^
+
+error: ImportantFlag
+ --> $DIR/tests/fixture/important/basic/input.css:8:16
+  |
+8 |     color: red !   important   ;
+  |                ^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/important/basic/input.css:8:20
+  |
+8 |     color: red !   important   ;
+  |                    ^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/important/basic/input.css:9:5
@@ -347,11 +407,23 @@ error: Ident
 9 |     color: blue !IMPORTANT;
   |            ^^^^
 
+error: ImportantFlag
+ --> $DIR/tests/fixture/important/basic/input.css:9:17
+  |
+9 |     color: blue !IMPORTANT;
+  |                 ^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/important/basic/input.css:9:18
+  |
+9 |     color: blue !IMPORTANT;
+  |                  ^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/important/basic/input.css:10:5
    |
 10 |     color: white !   IMPORTANT   ;
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/important/basic/input.css:10:5
@@ -376,6 +448,18 @@ error: Ident
    |
 10 |     color: white !   IMPORTANT   ;
    |            ^^^^^
+
+error: ImportantFlag
+  --> $DIR/tests/fixture/important/basic/input.css:10:18
+   |
+10 |     color: white !   IMPORTANT   ;
+   |                  ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/important/basic/input.css:10:22
+   |
+10 |     color: white !   IMPORTANT   ;
+   |                      ^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/important/basic/input.css:11:5
@@ -419,6 +503,18 @@ error: Ident
 11 |     margin: 10px      !      important;
    |               ^^
 
+error: ImportantFlag
+  --> $DIR/tests/fixture/important/basic/input.css:11:23
+   |
+11 |     margin: 10px      !      important;
+   |                       ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/important/basic/input.css:11:30
+   |
+11 |     margin: 10px      !      important;
+   |                              ^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/important/basic/input.css:12:5
    |
@@ -461,6 +557,18 @@ error: Ident
 12 |     padding: 20px     !  /* test */   important;
    |                ^^
 
+error: ImportantFlag
+  --> $DIR/tests/fixture/important/basic/input.css:12:23
+   |
+12 |     padding: 20px     !  /* test */   important;
+   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/important/basic/input.css:12:39
+   |
+12 |     padding: 20px     !  /* test */   important;
+   |                                       ^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/important/basic/input.css:13:5
    |
@@ -502,6 +610,18 @@ error: Ident
    |
 13 |     width: 100px ! /*! test */ important;
    |               ^^
+
+error: ImportantFlag
+  --> $DIR/tests/fixture/important/basic/input.css:13:18
+   |
+13 |     width: 100px ! /*! test */ important;
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/important/basic/input.css:13:32
+   |
+13 |     width: 100px ! /*! test */ important;
+   |                                ^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/important/basic/input.css:14:5
@@ -599,6 +719,18 @@ error: Str
 15 |     z-index: 1 ""! important;
    |                ^^
 
+error: ImportantFlag
+  --> $DIR/tests/fixture/important/basic/input.css:15:18
+   |
+15 |     z-index: 1 ""! important;
+   |                  ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/important/basic/input.css:15:20
+   |
+15 |     z-index: 1 ""! important;
+   |                    ^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/important/basic/input.css:16:5
    |
@@ -640,4 +772,100 @@ error: Ident
    |
 16 |     padding: 1px/* sep */!important;
    |               ^^
+
+error: ImportantFlag
+  --> $DIR/tests/fixture/important/basic/input.css:16:26
+   |
+16 |     padding: 1px/* sep */!important;
+   |                          ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/important/basic/input.css:16:27
+   |
+16 |     padding: 1px/* sep */!important;
+   |                           ^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/important/basic/input.css:17:5
+   |
+17 |     prop: red !iMpOrTaNt;
+   |     ^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/important/basic/input.css:17:5
+   |
+17 |     prop: red !iMpOrTaNt;
+   |     ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/important/basic/input.css:17:5
+   |
+17 |     prop: red !iMpOrTaNt;
+   |     ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/important/basic/input.css:17:11
+   |
+17 |     prop: red !iMpOrTaNt;
+   |           ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/important/basic/input.css:17:11
+   |
+17 |     prop: red !iMpOrTaNt;
+   |           ^^^
+
+error: ImportantFlag
+  --> $DIR/tests/fixture/important/basic/input.css:17:15
+   |
+17 |     prop: red !iMpOrTaNt;
+   |               ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/important/basic/input.css:17:16
+   |
+17 |     prop: red !iMpOrTaNt;
+   |                ^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/important/basic/input.css:18:5
+   |
+18 |     color: red !imp\ortant;
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/important/basic/input.css:18:5
+   |
+18 |     color: red !imp\ortant;
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/important/basic/input.css:18:5
+   |
+18 |     color: red !imp\ortant;
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/important/basic/input.css:18:12
+   |
+18 |     color: red !imp\ortant;
+   |            ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/important/basic/input.css:18:12
+   |
+18 |     color: red !imp\ortant;
+   |            ^^^
+
+error: ImportantFlag
+  --> $DIR/tests/fixture/important/basic/input.css:18:16
+   |
+18 |     color: red !imp\ortant;
+   |                ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/important/basic/input.css:18:17
+   |
+18 |     color: red !imp\ortant;
+   |                 ^^^^^^^^^^
 

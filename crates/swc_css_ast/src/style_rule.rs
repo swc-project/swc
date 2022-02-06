@@ -59,7 +59,7 @@ pub struct Declaration {
     pub name: DeclarationName,
     pub value: Vec<Value>,
     /// The span includes `!`
-    pub important: Option<Span>,
+    pub important: Option<ImportantFlag>,
 }
 
 #[ast_node]
@@ -68,4 +68,10 @@ pub enum DeclarationName {
     Ident(Ident),
     #[tag("DashedIdent")]
     DashedIdent(DashedIdent),
+}
+
+#[ast_node("ImportantFlag")]
+pub struct ImportantFlag {
+    pub span: Span,
+    pub value: Ident,
 }

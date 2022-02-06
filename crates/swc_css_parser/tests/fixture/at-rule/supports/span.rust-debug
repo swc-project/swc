@@ -2870,6 +2870,18 @@ error: Ident
 33 | @supports (display: flex !important) {}
    |                     ^^^^
 
+error: ImportantFlag
+  --> $DIR/tests/fixture/at-rule/supports/input.css:33:26
+   |
+33 | @supports (display: flex !important) {}
+   |                          ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:33:27
+   |
+33 | @supports (display: flex !important) {}
+   |                           ^^^^^^^^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:34:1
    |

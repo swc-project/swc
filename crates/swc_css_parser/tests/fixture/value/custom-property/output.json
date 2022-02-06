@@ -159,9 +159,22 @@
               }
             ],
             "important": {
-              "start": 44,
-              "end": 54,
-              "ctxt": 0
+              "type": "ImportantFlag",
+              "span": {
+                "start": 44,
+                "end": 54,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Identifier",
+                "span": {
+                  "start": 45,
+                  "end": 54,
+                  "ctxt": 0
+                },
+                "value": "important",
+                "raw": "important"
+              }
             }
           },
           {
@@ -207,9 +220,22 @@
               }
             ],
             "important": {
-              "start": 79,
-              "end": 89,
-              "ctxt": 0
+              "type": "ImportantFlag",
+              "span": {
+                "start": 79,
+                "end": 89,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Identifier",
+                "span": {
+                  "start": 80,
+                  "end": 89,
+                  "ctxt": 0
+                },
+                "value": "important",
+                "raw": "important"
+              }
             }
           },
           {
@@ -267,9 +293,22 @@
               }
             ],
             "important": {
-              "start": 115,
-              "end": 125,
-              "ctxt": 0
+              "type": "ImportantFlag",
+              "span": {
+                "start": 115,
+                "end": 125,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Identifier",
+                "span": {
+                  "start": 116,
+                  "end": 125,
+                  "ctxt": 0
+                },
+                "value": "important",
+                "raw": "important"
+              }
             }
           },
           {
@@ -327,9 +366,22 @@
               }
             ],
             "important": {
-              "start": 150,
-              "end": 160,
-              "ctxt": 0
+              "type": "ImportantFlag",
+              "span": {
+                "start": 150,
+                "end": 160,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Identifier",
+                "span": {
+                  "start": 151,
+                  "end": 160,
+                  "ctxt": 0
+                },
+                "value": "important",
+                "raw": "important"
+              }
             }
           },
           {
@@ -397,9 +449,22 @@
               }
             ],
             "important": {
-              "start": 187,
-              "end": 197,
-              "ctxt": 0
+              "type": "ImportantFlag",
+              "span": {
+                "start": 187,
+                "end": 197,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Identifier",
+                "span": {
+                  "start": 188,
+                  "end": 197,
+                  "ctxt": 0
+                },
+                "value": "important",
+                "raw": "important"
+              }
             }
           },
           {
@@ -491,9 +556,22 @@
               }
             ],
             "important": {
-              "start": 249,
-              "end": 259,
-              "ctxt": 0
+              "type": "ImportantFlag",
+              "span": {
+                "start": 249,
+                "end": 259,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Identifier",
+                "span": {
+                  "start": 250,
+                  "end": 259,
+                  "ctxt": 0
+                },
+                "value": "important",
+                "raw": "important"
+              }
             }
           },
           {
@@ -525,9 +603,22 @@
               }
             ],
             "important": {
-              "start": 279,
-              "end": 289,
-              "ctxt": 0
+              "type": "ImportantFlag",
+              "span": {
+                "start": 279,
+                "end": 289,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Identifier",
+                "span": {
+                  "start": 280,
+                  "end": 289,
+                  "ctxt": 0
+                },
+                "value": "important",
+                "raw": "important"
+              }
             }
           },
           {

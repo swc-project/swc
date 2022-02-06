@@ -2294,9 +2294,22 @@
               }
             ],
             "important": {
-              "start": 1226,
-              "end": 1236,
-              "ctxt": 0
+              "type": "ImportantFlag",
+              "span": {
+                "start": 1226,
+                "end": 1236,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1227,
+                  "end": 1236,
+                  "ctxt": 0
+                },
+                "value": "important",
+                "raw": "important"
+              }
             }
           }
         ]

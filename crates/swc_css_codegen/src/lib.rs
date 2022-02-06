@@ -819,14 +819,6 @@ where
     }
 
     #[emitter]
-    fn emit_declaration_name(&mut self, n: &DeclarationName) -> Result {
-        match n {
-            DeclarationName::Ident(n) => emit!(self, n),
-            DeclarationName::DashedIdent(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
     fn emit_declaration(&mut self, n: &Declaration) -> Result {
         emit!(self, n.name);
         punct!(self, ":");
@@ -861,18 +853,35 @@ where
             )?;
         }
 
-        if let Some(tok) = n.important {
+        if n.important.is_some() {
             if !is_custom_property {
                 formatting_space!(self);
             }
 
-            punct!(self, tok, "!");
-
-            self.wr.write_raw(Some(tok), "important")?;
+            emit!(self, n.important);
         }
 
         if self.ctx.semi_after_property {
             punct!(self, ";");
+        }
+    }
+
+    #[emitter]
+    fn emit_declaration_name(&mut self, n: &DeclarationName) -> Result {
+        match n {
+            DeclarationName::Ident(n) => emit!(self, n),
+            DeclarationName::DashedIdent(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_important_flag(&mut self, n: &ImportantFlag) -> Result {
+        punct!(self, "!");
+
+        if self.config.minify {
+            self.wr.write_raw(None, "important")?;
+        } else {
+            emit!(self, n.value);
         }
     }
 
