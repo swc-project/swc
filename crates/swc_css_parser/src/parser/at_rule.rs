@@ -1,10 +1,9 @@
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
-    parser::RuleContext,
+    parser::{Ctx, RuleContext},
     Parse,
 };
-use swc_atoms::js_word;
 use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
@@ -166,7 +165,7 @@ where
             | "right-top"
             | "right-middle"
             | "right-bottom"
-                if self.ctx.in_page_at_rule == true =>
+                if self.ctx.in_page_at_rule =>
             {
                 let margin_rule_name = Ident {
                     span: Span::new(
@@ -1437,11 +1436,12 @@ where
 
         expect!(self, "{");
 
-        self.ctx.in_page_at_rule = true;
+        let ctx = Ctx {
+            in_page_at_rule: true,
+            ..self.ctx
+        };
 
-        let block = self.parse()?;
-
-        self.ctx.in_page_at_rule = false;
+        let block = self.with_ctx(ctx).parse_as::<Vec<DeclarationBlockItem>>()?;
 
         expect!(self, "}");
 
@@ -1562,10 +1562,10 @@ where
 
         let value = match cur!(self) {
             Token::Ident { value, .. }
-                if &*value.to_ascii_lowercase() == "left"
-                    || &*value.to_ascii_lowercase() == "right"
-                    || &*value.to_ascii_lowercase() == "first"
-                    || &*value.to_ascii_lowercase() == "blank" =>
+                if matches!(
+                    &*value.to_ascii_lowercase(),
+                    "left" | "right" | "first" | "blank"
+                ) =>
             {
                 self.parse()?
             }
@@ -1593,11 +1593,11 @@ where
 
         expect!(self, "{");
 
-        self.ctx.in_page_at_rule = false;
-
-        let block = self.parse()?;
-
-        self.ctx.in_page_at_rule = true;
+        let ctx = Ctx {
+            in_page_at_rule: false,
+            ..self.ctx
+        };
+        let block = self.with_ctx(ctx).parse_as::<Vec<DeclarationBlockItem>>()?;
 
         expect!(self, "}");
 
@@ -1608,47 +1608,6 @@ where
                 raw: Default::default(),
             },
             span: span!(self, span.lo),
-            items,
-        })
-    }
-}
-
-impl<I> Parse<PageRuleBlockItem> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<PageRuleBlockItem> {
-        match cur!(self) {
-            Token::AtKeyword { .. } => Ok(PageRuleBlockItem::Nested(self.parse()?)),
-            _ => {
-                let p = self
-                    .parse()
-                    .map(Box::new)
-                    .map(PageRuleBlockItem::Declaration)?;
-                eat!(self, ";");
-
-                Ok(p)
-            }
-        }
-    }
-}
-
-impl<I> Parse<NestedPageRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<NestedPageRule> {
-        let start = self.input.cur_span()?.lo;
-        let ctx = Ctx {
-            allow_at_selector: true,
-            ..self.ctx
-        };
-        let prelude = self.with_ctx(ctx).parse_as::<SelectorList>()?;
-        let block = self.parse()?;
-
-        Ok(NestedPageRule {
-            span: span!(self, start),
-            prelude,
             block,
         })
     }

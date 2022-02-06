@@ -22,14 +22,13 @@
             "end": 18,
             "ctxt": 0
           },
-          "property": {
+          "name": {
             "type": "Identifier",
             "span": {
               "start": 8,
               "end": 13,
               "ctxt": 0
             },
-            "name": {
             "value": "color",
             "raw": "color"
           },

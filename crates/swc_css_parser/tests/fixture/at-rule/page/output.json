@@ -42,32 +42,24 @@
             "end": 34,
             "ctxt": 0
           },
-          "property": {
+          "name": {
             "type": "Identifier",
             "span": {
               "start": 23,
               "end": 29,
               "ctxt": 0
             },
-            "name": {
-              "type": "Identifier",
             "value": "margin",
             "raw": "margin"
           },
           "value": [
             {
-              "type": "UnitValue",
+              "type": "Dimension",
               "span": {
                 "start": 31,
                 "end": 34,
                 "ctxt": 0
               },
-              "value": "margin",
-              "raw": "margin"
-            },
-            "value": [
-              {
-                "type": "Dimension",
               "value": {
                 "type": "Number",
                 "span": {
@@ -79,21 +71,12 @@
                 "raw": "1"
               },
               "unit": {
+                "type": "Identifier",
                 "span": {
                   "start": 32,
                   "end": 34,
                   "ctxt": 0
                 },
-                "unit": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 32,
-                    "end": 34,
-                    "ctxt": 0
-                  },
-                  "value": "cm",
-                  "raw": "cm"
-                }
                 "value": "cm",
                 "raw": "cm"
               }
@@ -119,32 +102,24 @@
             "end": 54,
             "ctxt": 0
           },
-          "property": {
+          "name": {
             "type": "Identifier",
             "span": {
               "start": 43,
               "end": 49,
               "ctxt": 0
             },
-            "name": {
-              "type": "Identifier",
             "value": "margin",
             "raw": "margin"
           },
           "value": [
             {
-              "type": "UnitValue",
+              "type": "Dimension",
               "span": {
                 "start": 51,
                 "end": 54,
                 "ctxt": 0
               },
-              "value": "margin",
-              "raw": "margin"
-            },
-            "value": [
-              {
-                "type": "Dimension",
               "value": {
                 "type": "Number",
                 "span": {
@@ -156,21 +131,12 @@
                 "raw": "1"
               },
               "unit": {
+                "type": "Identifier",
                 "span": {
                   "start": 52,
                   "end": 54,
                   "ctxt": 0
                 },
-                "unit": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 52,
-                    "end": 54,
-                    "ctxt": 0
-                  },
-                  "value": "cm",
-                  "raw": "cm"
-                }
                 "value": "cm",
                 "raw": "cm"
               }
@@ -196,32 +162,24 @@
             "end": 74,
             "ctxt": 0
           },
-          "property": {
+          "name": {
             "type": "Identifier",
             "span": {
               "start": 63,
               "end": 69,
               "ctxt": 0
             },
-            "name": {
-              "type": "Identifier",
             "value": "margin",
             "raw": "margin"
           },
           "value": [
             {
-              "type": "UnitValue",
+              "type": "Dimension",
               "span": {
                 "start": 71,
                 "end": 74,
                 "ctxt": 0
               },
-              "value": "margin",
-              "raw": "margin"
-            },
-            "value": [
-              {
-                "type": "Dimension",
               "value": {
                 "type": "Number",
                 "span": {
@@ -233,21 +191,12 @@
                 "raw": "1"
               },
               "unit": {
+                "type": "Identifier",
                 "span": {
                   "start": 72,
                   "end": 74,
                   "ctxt": 0
                 },
-                "unit": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 72,
-                    "end": 74,
-                    "ctxt": 0
-                  },
-                  "value": "cm",
-                  "raw": "cm"
-                }
                 "value": "cm",
                 "raw": "cm"
               }
@@ -311,32 +260,24 @@
             "end": 102,
             "ctxt": 0
           },
-          "property": {
+          "name": {
             "type": "Identifier",
             "span": {
               "start": 91,
               "end": 97,
               "ctxt": 0
             },
-            "name": {
-              "type": "Identifier",
             "value": "margin",
             "raw": "margin"
           },
           "value": [
             {
-              "type": "UnitValue",
+              "type": "Dimension",
               "span": {
                 "start": 99,
                 "end": 102,
                 "ctxt": 0
               },
-              "value": "margin",
-              "raw": "margin"
-            },
-            "value": [
-              {
-                "type": "Dimension",
               "value": {
                 "type": "Number",
                 "span": {
@@ -348,21 +289,12 @@
                 "raw": "2"
               },
               "unit": {
+                "type": "Identifier",
                 "span": {
                   "start": 100,
                   "end": 102,
                   "ctxt": 0
                 },
-                "unit": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 100,
-                    "end": 102,
-                    "ctxt": 0
-                  },
-                  "value": "cm",
-                  "raw": "cm"
-                }
                 "value": "cm",
                 "raw": "cm"
               }
@@ -426,32 +358,24 @@
             "end": 129,
             "ctxt": 0
           },
-          "property": {
+          "name": {
             "type": "Identifier",
             "span": {
               "start": 118,
               "end": 124,
               "ctxt": 0
             },
-            "name": {
-              "type": "Identifier",
             "value": "margin",
             "raw": "margin"
           },
           "value": [
             {
-              "type": "UnitValue",
+              "type": "Dimension",
               "span": {
                 "start": 126,
                 "end": 129,
                 "ctxt": 0
               },
-              "value": "margin",
-              "raw": "margin"
-            },
-            "value": [
-              {
-                "type": "Dimension",
               "value": {
                 "type": "Number",
                 "span": {
@@ -463,21 +387,12 @@
                 "raw": "2"
               },
               "unit": {
+                "type": "Identifier",
                 "span": {
                   "start": 127,
                   "end": 129,
                   "ctxt": 0
                 },
-                "unit": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 127,
-                    "end": 129,
-                    "ctxt": 0
-                  },
-                  "value": "cm",
-                  "raw": "cm"
-                }
                 "value": "cm",
                 "raw": "cm"
               }
@@ -541,32 +456,24 @@
             "end": 156,
             "ctxt": 0
           },
-          "property": {
+          "name": {
             "type": "Identifier",
             "span": {
               "start": 145,
               "end": 151,
               "ctxt": 0
             },
-            "name": {
-              "type": "Identifier",
             "value": "margin",
             "raw": "margin"
           },
           "value": [
             {
-              "type": "UnitValue",
+              "type": "Dimension",
               "span": {
                 "start": 153,
                 "end": 156,
                 "ctxt": 0
               },
-              "value": "margin",
-              "raw": "margin"
-            },
-            "value": [
-              {
-                "type": "Dimension",
               "value": {
                 "type": "Number",
                 "span": {
@@ -578,21 +485,12 @@
                 "raw": "2"
               },
               "unit": {
+                "type": "Identifier",
                 "span": {
                   "start": 154,
                   "end": 156,
                   "ctxt": 0
                 },
-                "unit": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 154,
-                    "end": 156,
-                    "ctxt": 0
-                  },
-                  "value": "cm",
-                  "raw": "cm"
-                }
                 "value": "cm",
                 "raw": "cm"
               }
@@ -1816,7 +1714,7 @@
             "end": 760,
             "ctxt": 0
           },
-          "property": {
+          "name": {
             "type": "Identifier",
             "span": {
               "start": 748,
@@ -1865,7 +1763,7 @@
                 "end": 801,
                 "ctxt": 0
               },
-              "property": {
+              "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 787,
@@ -1896,7 +1794,7 @@
                 "end": 822,
                 "ctxt": 0
               },
-              "property": {
+              "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 811,
@@ -1947,7 +1845,7 @@
                 "end": 869,
                 "ctxt": 0
               },
-              "property": {
+              "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 855,
@@ -2029,7 +1927,7 @@
             "end": 910,
             "ctxt": 0
           },
-          "property": {
+          "name": {
             "type": "Identifier",
             "span": {
               "start": 898,
@@ -2078,7 +1976,7 @@
                 "end": 951,
                 "ctxt": 0
               },
-              "property": {
+              "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 937,
@@ -2109,7 +2007,7 @@
                 "end": 972,
                 "ctxt": 0
               },
-              "property": {
+              "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 961,
@@ -2160,7 +2058,7 @@
                 "end": 1019,
                 "ctxt": 0
               },
-              "property": {
+              "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 1005,
@@ -2193,7 +2091,7 @@
             "end": 1048,
             "ctxt": 0
           },
-          "property": {
+          "name": {
             "type": "Identifier",
             "span": {
               "start": 1036,
@@ -2205,7 +2103,7 @@
           },
           "value": [
             {
-              "type": "UnitValue",
+              "type": "Dimension",
               "span": {
                 "start": 1044,
                 "end": 1048,
@@ -2222,6 +2120,7 @@
                 "raw": "20"
               },
               "unit": {
+                "type": "Identifier",
                 "span": {
                   "start": 1046,
                   "end": 1048,
