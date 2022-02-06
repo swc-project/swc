@@ -4,3 +4,9 @@ error: Invalid selector
 3 |     margin-left: 4cm;
   |                 ^
 
+error: Expected Ident
+ --> $DIR/tests/errors/rome/invalid/page/space/input.css:1:12
+  |
+1 | @page Page: blank {
+  |            ^
+

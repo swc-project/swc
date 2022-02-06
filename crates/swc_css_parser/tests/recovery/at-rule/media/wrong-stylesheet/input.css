@@ -1,0 +1,6 @@
+@media print {
+    color: teal;
+    main {
+        color: orange;
+    }
+}
