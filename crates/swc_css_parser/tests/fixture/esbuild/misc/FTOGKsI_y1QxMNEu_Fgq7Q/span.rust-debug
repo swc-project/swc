@@ -22,18 +22,6 @@ error: PageRule
 1 | @page { color: red; @top-left {} }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: PageRuleBlock
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:7
-  |
-1 | @page { color: red; @top-left {} }
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:9
-  |
-1 | @page { color: red; @top-left {} }
-  |         ^^^^^^^^^^
-
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:9
   |
@@ -64,57 +52,21 @@ error: Ident
 1 | @page { color: red; @top-left {} }
   |                ^^^
 
-error: PageRuleBlockItem
+error: AtRule
  --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:21
   |
 1 | @page { color: red; @top-left {} }
   |                     ^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
  --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:21
   |
 1 | @page { color: red; @top-left {} }
   |                     ^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:21
-  |
-1 | @page { color: red; @top-left {} }
-  |                     ^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:21
-  |
-1 | @page { color: red; @top-left {} }
-  |                     ^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:21
-  |
-1 | @page { color: red; @top-left {} }
-  |                     ^^^^^^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:21
-  |
-1 | @page { color: red; @top-left {} }
-  |                     ^^^^^^^^^
-
-error: AtSelector
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:21
-  |
-1 | @page { color: red; @top-left {} }
-  |                     ^^^^^^^^^
 
 error: Ident
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:21
+ --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:22
   |
 1 | @page { color: red; @top-left {} }
-  |                     ^^^^^^^^^
-
-error: PageRuleBlock
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:31
-  |
-1 | @page { color: red; @top-left {} }
-  |                               ^^
+  |                      ^^^^^^^^
 

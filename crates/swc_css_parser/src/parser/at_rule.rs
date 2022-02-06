@@ -149,6 +149,49 @@ where
                 }
             }
 
+            "top-left-corner"
+            | "top-left"
+            | "top-center"
+            | "top-right"
+            | "top-right-corner"
+            | "bottom-left-corner"
+            | "bottom-left"
+            | "bottom-center"
+            | "bottom-right"
+            | "bottom-right-corner"
+            | "left-top"
+            | "left-middle"
+            | "left-bottom"
+            | "right-top"
+            | "right-middle"
+            | "right-bottom"
+                if self.ctx.in_page_at_rule =>
+            {
+                let margin_rule_name = Ident {
+                    span: Span::new(
+                        at_rule_span.lo + BytePos(1),
+                        at_rule_span.hi,
+                        Default::default(),
+                    ),
+                    value: name.0.clone(),
+                    raw: name.1.clone(),
+                };
+
+                self.input.skip_ws()?;
+
+                let margin_rule = self.parse();
+
+                if margin_rule.is_ok() {
+                    return margin_rule
+                        .map(|mut r: PageMarginRule| {
+                            r.name = margin_rule_name;
+                            r.span.lo = at_rule_span.lo;
+                            r
+                        })
+                        .map(AtRule::PageMargin);
+                }
+            }
+
             "document" | "-moz-document" => {
                 self.input.skip_ws()?;
 
@@ -1385,31 +1428,69 @@ where
     fn parse(&mut self) -> PResult<PageRule> {
         let start = self.input.cur_span()?.lo;
 
-        let prelude = {
-            let mut items = vec![];
-            loop {
-                self.input.skip_ws()?;
-
-                if is!(self, "{") {
-                    break;
-                }
-
-                items.push(self.parse()?);
-
-                self.input.skip_ws()?;
-                if !eat!(self, ",") {
-                    break;
-                }
-            }
-            items
+        let prelude = if !is!(self, "{") {
+            Some(self.parse()?)
+        } else {
+            None
         };
 
-        let block = self.parse()?;
+        expect!(self, "{");
+
+        let ctx = Ctx {
+            in_page_at_rule: true,
+            ..self.ctx
+        };
+
+        let block = self.with_ctx(ctx).parse_as::<Vec<DeclarationBlockItem>>()?;
+
+        expect!(self, "}");
 
         Ok(PageRule {
             span: span!(self, start),
             prelude,
             block,
+        })
+    }
+}
+
+impl<I> Parse<PageSelectorList> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PageSelectorList> {
+        let selector = self.parse()?;
+        let mut selectors = vec![selector];
+
+        loop {
+            self.input.skip_ws()?;
+
+            if !eat!(self, ",") {
+                break;
+            }
+
+            self.input.skip_ws()?;
+
+            let selector = self.parse()?;
+
+            selectors.push(selector);
+        }
+
+        let start_pos = match selectors.first() {
+            Some(PageSelector { span, .. }) => span.lo,
+            _ => {
+                unreachable!();
+            }
+        };
+        let last_pos = match selectors.last() {
+            Some(PageSelector { span, .. }) => span.hi,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        Ok(PageSelectorList {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            selectors,
         })
     }
 }
@@ -1421,98 +1502,112 @@ where
     fn parse(&mut self) -> PResult<PageSelector> {
         self.input.skip_ws()?;
 
-        let start = self.input.cur_span()?.lo;
+        let span = self.input.cur_span()?;
 
-        let ident = if is!(self, Ident) {
+        let page_type = if is!(self, Ident) {
             Some(self.parse()?)
         } else {
             None
         };
 
-        let pseudo = if eat!(self, ":") {
-            Some(self.parse()?)
+        let pseudos = if is!(self, ":") {
+            let mut pseudos = vec![];
+
+            loop {
+                if !is!(self, ":") {
+                    break;
+                }
+
+                let pseudo = self.parse()?;
+
+                pseudos.push(pseudo);
+            }
+
+            Some(pseudos)
         } else {
             None
         };
 
         Ok(PageSelector {
-            span: span!(self, start),
-            ident,
-            pseudo,
+            span: span!(self, span.lo),
+            page_type,
+            pseudos,
         })
     }
 }
 
-impl<I> Parse<PageRuleBlock> for Parser<I>
+impl<I> Parse<PageSelectorType> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<PageRuleBlock> {
+    fn parse(&mut self) -> PResult<PageSelectorType> {
         let span = self.input.cur_span()?;
-        expect!(self, "{");
-        self.input.skip_ws()?;
-        let mut items = vec![];
+        let value = self.parse()?;
 
-        if !is!(self, "}") {
-            loop {
-                self.input.skip_ws()?;
+        Ok(PageSelectorType {
+            span: span!(self, span.lo),
+            value,
+        })
+    }
+}
 
-                let q = self.parse()?;
-                items.push(q);
+impl<I> Parse<PageSelectorPseudo> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PageSelectorPseudo> {
+        let span = self.input.cur_span()?;
 
-                self.input.skip_ws()?;
+        expect!(self, ":");
 
-                if is_one_of!(self, EOF, "}") {
-                    break;
-                }
+        let value = match cur!(self) {
+            Token::Ident { value, .. }
+                if matches!(
+                    &*value.to_ascii_lowercase(),
+                    "left" | "right" | "first" | "blank"
+                ) =>
+            {
+                self.parse()?
             }
-        }
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("'left', 'right', 'first' or 'blank' ident"),
+                ))
+            }
+        };
+
+        Ok(PageSelectorPseudo {
+            span: span!(self, span.lo),
+            value,
+        })
+    }
+}
+
+impl<I> Parse<PageMarginRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PageMarginRule> {
+        let span = self.input.cur_span()?;
+
+        expect!(self, "{");
+
+        let ctx = Ctx {
+            in_page_at_rule: false,
+            ..self.ctx
+        };
+        let block = self.with_ctx(ctx).parse_as::<Vec<DeclarationBlockItem>>()?;
 
         expect!(self, "}");
 
-        Ok(PageRuleBlock {
+        Ok(PageMarginRule {
+            name: Ident {
+                span: Default::default(),
+                value: Default::default(),
+                raw: Default::default(),
+            },
             span: span!(self, span.lo),
-            items,
-        })
-    }
-}
-
-impl<I> Parse<PageRuleBlockItem> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<PageRuleBlockItem> {
-        match cur!(self) {
-            Token::AtKeyword { .. } => Ok(PageRuleBlockItem::Nested(self.parse()?)),
-            _ => {
-                let p = self
-                    .parse()
-                    .map(Box::new)
-                    .map(PageRuleBlockItem::Declaration)?;
-                eat!(self, ";");
-
-                Ok(p)
-            }
-        }
-    }
-}
-
-impl<I> Parse<NestedPageRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<NestedPageRule> {
-        let start = self.input.cur_span()?.lo;
-        let ctx = Ctx {
-            allow_at_selector: true,
-            ..self.ctx
-        };
-        let prelude = self.with_ctx(ctx).parse_as::<SelectorList>()?;
-        let block = self.parse()?;
-
-        Ok(NestedPageRule {
-            span: span!(self, start),
-            prelude,
             block,
         })
     }

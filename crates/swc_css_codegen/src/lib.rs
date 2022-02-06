@@ -81,6 +81,7 @@ where
             AtRule::Media(n) => emit!(self, n),
             AtRule::Supports(n) => emit!(self, n),
             AtRule::Page(n) => emit!(self, n),
+            AtRule::PageMargin(n) => emit!(self, n),
             AtRule::Namespace(n) => emit!(self, n),
             AtRule::Viewport(n) => emit!(self, n),
             AtRule::Document(n) => emit!(self, n),
@@ -276,7 +277,7 @@ where
             )?;
             punct!(self, "}");
         } else {
-            punct!(self, ";");
+            semi!(self);
         }
     }
 
@@ -572,21 +573,77 @@ where
     fn emit_page_rule(&mut self, n: &PageRule) -> Result {
         punct!(self, "@");
         keyword!(self, "page");
-        space!(self);
 
-        self.emit_list(&n.prelude, ListFormat::CommaDelimited)?;
+        if n.prelude.is_some() {
+            space!(self);
+            emit!(self, n.prelude);
+        } else {
+            formatting_space!(self);
+        }
 
-        emit!(self, n.block);
+        punct!(self, "{");
+
+        let len = n.block.len();
+
+        for (idx, node) in n.block.iter().enumerate() {
+            emit!(self, node);
+
+            match node {
+                DeclarationBlockItem::AtRule(_) => {}
+                _ => {
+                    let need_delim = !(idx == len - 1 && self.config.minify);
+
+                    if need_delim {
+                        self.write_delim(ListFormat::SemiDelimited)?;
+                    }
+                }
+            }
+
+            if !self.config.minify {
+                formatting_newline!(self);
+            }
+        }
+
+        punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_page_selector_list(&mut self, n: &PageSelectorList) -> Result {
+        self.emit_list(&n.selectors, ListFormat::CommaDelimited)?;
     }
 
     #[emitter]
     fn emit_page_selector(&mut self, n: &PageSelector) -> Result {
-        emit!(self, n.ident);
-        if let Some(pseudo) = &n.pseudo {
-            punct!(self, ":");
-            emit!(self, pseudo);
+        if let Some(page_type) = &n.page_type {
+            emit!(self, page_type);
+        }
+
+        if let Some(pseudos) = &n.pseudos {
+            self.emit_list(pseudos, ListFormat::NotDelimited)?;
         }
     }
+
+    #[emitter]
+    fn emit_page_selector_type(&mut self, n: &PageSelectorType) -> Result {
+        emit!(self, n.value);
+    }
+
+    #[emitter]
+    fn emit_page_selector_pseudo(&mut self, n: &PageSelectorPseudo) -> Result {
+        punct!(self, ":");
+        emit!(self, n.value);
+    }
+
+    #[emitter]
+    fn emit_page_margin_rule(&mut self, n: &PageMarginRule) -> Result {
+        punct!(self, "@");
+        emit!(self, n.name);
+        space!(self);
+        punct!(self, "{");
+        self.emit_list(&n.block, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
+        punct!(self, "}");
+    }
+
     #[emitter]
     fn emit_namespace_uri(&mut self, n: &NamespaceUri) -> Result {
         match n {
@@ -623,7 +680,7 @@ where
         }
 
         emit!(self, n.uri);
-        punct!(self, ";");
+        semi!(self);
     }
 
     #[emitter]
@@ -757,7 +814,7 @@ where
         if n.block.is_some() {
             emit!(self, n.block)
         } else {
-            punct!(self, ";");
+            semi!(self);
         }
     }
 
@@ -860,10 +917,6 @@ where
 
             emit!(self, n.important);
         }
-
-        if self.ctx.semi_after_property {
-            punct!(self, ";");
-        }
     }
 
     #[emitter]
@@ -904,34 +957,6 @@ where
     fn emit_percent(&mut self, n: &Percent) -> Result {
         emit!(self, n.value);
         punct!(self, "%");
-    }
-
-    #[emitter]
-    fn emit_page_rule_block(&mut self, n: &PageRuleBlock) -> Result {
-        punct!(self, "{");
-        formatting_newline!(self);
-
-        self.wr.increase_indent();
-
-        let ctx = Ctx {
-            semi_after_property: true,
-            ..self.ctx
-        };
-        self.with_ctx(ctx)
-            .emit_list(&n.items, ListFormat::MultiLine | ListFormat::NotDelimited)?;
-        formatting_newline!(self);
-
-        self.wr.decrease_indent();
-
-        punct!(self, "}");
-    }
-
-    #[emitter]
-    fn emit_page_rule_block_item(&mut self, n: &PageRuleBlockItem) -> Result {
-        match n {
-            PageRuleBlockItem::Declaration(n) => emit!(self, n),
-            PageRuleBlockItem::Nested(n) => emit!(self, n),
-        }
     }
 
     #[emitter]
@@ -1210,12 +1235,6 @@ where
             UrlModifier::Ident(n) => emit!(self, n),
             UrlModifier::Function(n) => emit!(self, n),
         }
-    }
-
-    #[emitter]
-    fn emit_nested_page_rule(&mut self, n: &NestedPageRule) -> Result {
-        emit!(self, n.prelude);
-        emit!(self, n.block);
     }
 
     #[emitter]
