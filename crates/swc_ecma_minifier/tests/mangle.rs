@@ -81,6 +81,7 @@ fn compressed(compressed_file: PathBuf) {
                     keep_private_props: false,
                     ie8: false,
                     safari10: false,
+                    reserved: Default::default(),
                 }),
                 compress: None,
                 ..Default::default()
@@ -129,6 +130,65 @@ fn fixture(input: PathBuf) {
         NormalizedOutput::from(mangled)
             .compare_to_file(input.parent().unwrap().join("output.js"))
             .unwrap();
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[test]
+fn reserved_identifiers() {
+    // classnames too
+    let src = "let var1 = 1;
+let var2 = 2;
+function func1() {
+    console.log(var1);
+}
+function func2() {
+    console.log(var2);
+}";
+
+    let expected = "let var1 = 1;
+let a = 2;
+function func1() {
+    console.log(var1);
+}
+function b() {
+    console.log(a);
+}";
+
+    testing::run_test2(false, |cm, _handler| {
+        let fm = cm.new_source_file(FileName::Anon, src.into());
+
+        let mut m = parse_fm(fm);
+
+        let top_level_mark = Mark::fresh(Mark::root());
+
+        m.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+
+        let m = optimize(
+            m,
+            cm.clone(),
+            None,
+            None,
+            &MinifyOptions {
+                mangle: Some(MangleOptions {
+                    top_level: true,
+                    reserved: vec!["var1".into(), "func1".into()],
+                    ..Default::default()
+                }),
+                compress: None,
+                ..Default::default()
+            },
+            &ExtraOptions { top_level_mark },
+        );
+
+        let mangled = print(cm, &m, false);
+
+        assert_eq!(
+            NormalizedOutput::from(mangled),
+            NormalizedOutput::from(expected.to_owned())
+        );
 
         Ok(())
     })

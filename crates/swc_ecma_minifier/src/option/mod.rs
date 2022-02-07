@@ -60,6 +60,9 @@ pub struct MangleOptions {
 
     #[serde(default, alias = "safari10")]
     pub safari10: bool,
+
+    #[serde(default, alias = "reserved")]
+    pub reserved: Vec<String>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
