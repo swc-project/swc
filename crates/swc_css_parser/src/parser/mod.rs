@@ -36,8 +36,6 @@ struct Ctx {
 
     allow_operation_in_value: bool,
 
-    allow_at_selector: bool,
-
     recover_from_property_value: bool,
 }
 

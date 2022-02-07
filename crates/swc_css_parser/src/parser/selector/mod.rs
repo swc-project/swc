@@ -170,9 +170,7 @@ where
             if !(is!(self, "#")
                 || is!(self, ".")
                 || is!(self, "[")
-                || (is!(self, ":") && !peeked_is!(self, ":"))
-                // TODO remove `@`
-                || is!(self, "@"))
+                || (is!(self, ":") && !peeked_is!(self, ":")))
             {
                 break;
             }
@@ -340,26 +338,6 @@ where
             tok!(".") => Ok(SubclassSelector::Class(self.parse()?)),
             tok!("[") => Ok(SubclassSelector::Attribute(self.parse()?)),
             tok!(":") => Ok(SubclassSelector::PseudoClass(self.parse()?)),
-            // TODO remove me from here
-            Token::AtKeyword { .. } if self.ctx.allow_at_selector => {
-                let span = self.input.cur_span()?;
-
-                let values = match bump!(self) {
-                    Token::AtKeyword { value, raw } => (value, raw),
-                    _ => {
-                        unreachable!()
-                    }
-                };
-
-                Ok(SubclassSelector::At(AtSelector {
-                    span,
-                    text: Ident {
-                        span,
-                        value: values.0,
-                        raw: values.1,
-                    },
-                }))
-            }
             _ => {
                 let span = self.input.cur_span()?;
 
