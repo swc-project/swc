@@ -262,7 +262,6 @@ define!({
         Attribute(AttributeSelector),
         PseudoClass(PseudoClassSelector),
         PseudoElement(PseudoElementSelector),
-        At(AtSelector),
     }
 
     pub struct AttributeSelector {
@@ -332,11 +331,6 @@ define!({
     }
 
     pub struct ClassSelector {
-        pub span: Span,
-        pub text: Ident,
-    }
-
-    pub struct AtSelector {
         pub span: Span,
         pub text: Ident,
     }
