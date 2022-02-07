@@ -141,21 +141,45 @@ fn reserved_identifiers() {
     // classnames too
     let src = "let var1 = 1;
 let var2 = 2;
-function func1() {
-    console.log(var1);
+function func1(param1) {
+    console.log(var1 + param1);
 }
-function func2() {
-    console.log(var2);
-}";
+function func2(param2) {
+    console.log(var2 + param2);
+}
+class Class1 {
+    constructor(consParam1) {
+        func1(consParam1);
+    }
+}
+class Class2 {
+    constructor(consParam2) {
+        func2(consParam2);
+    }
+}
+let class1 = new Class1(1);
+let class2 = new Class2(2);";
 
     let expected = "let var1 = 1;
 let a = 2;
-function func1() {
-    console.log(var1);
+function func1(param1) {
+    console.log(var1 + param1);
 }
-function b() {
-    console.log(a);
-}";
+function b(b) {
+    console.log(a + b);
+}
+class Class1 {
+    constructor(consParam1){
+        func1(consParam1);
+    }
+}
+class c {
+    constructor(d){
+        b(d);
+    }
+}
+let class1 = new Class1(1);
+let e = new c(2);";
 
     testing::run_test2(false, |cm, _handler| {
         let fm = cm.new_source_file(FileName::Anon, src.into());
@@ -174,7 +198,10 @@ function b() {
             &MinifyOptions {
                 mangle: Some(MangleOptions {
                     top_level: true,
-                    reserved: vec!["var1".into(), "func1".into()],
+                    reserved: vec!["var1", "func1", "param1", "Class1", "consParam1", "class1"]
+                        .into_iter()
+                        .map(String::from)
+                        .collect(),
                     ..Default::default()
                 }),
                 compress: None,
