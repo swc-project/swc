@@ -1537,7 +1537,7 @@ fn minify_numeric(value: f64) -> String {
         minified.push_str(&cnt.to_string());
     }
 
-    return minified;
+    minified
 }
 
 fn minify_hex_color(value: &str) -> String {
