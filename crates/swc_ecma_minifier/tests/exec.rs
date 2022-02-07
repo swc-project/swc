@@ -2425,7 +2425,7 @@ console.log(o.p.name, o.p === o.p, new o.p(o.x).value, new o.p(o.y).value);"###;
     "unused": true
 }"###;
 
-    run_exec_test(src, config, false);
+    run_exec_test(src, config, true);
 }
 
 #[test]
@@ -2525,7 +2525,7 @@ console.log(o.p.name, o.p === o.p, run(o.p, o.x), run(o.p, o.y));"###;
     "unused": true
 }"###;
 
-    run_exec_test(src, config, false);
+    run_exec_test(src, config, true);
 }
 
 #[test]
