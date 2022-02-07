@@ -46,6 +46,18 @@ error: TypeSelector
 1 | a::after {}
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1
+  |
+1 | a::after {}
+  | ^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1
+  |
+1 | a::after {}
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1
   |
@@ -107,6 +119,18 @@ error: CompoundSelector
   | ^^^^^^^^^^^^^^^^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1
+  |
+3 | dialog::backdrop {}
+  | ^^^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1
+  |
+3 | dialog::backdrop {}
+  | ^^^^^^
+
+error: WqName
  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1
   |
 3 | dialog::backdrop {}
@@ -178,6 +202,18 @@ error: TypeSelector
 5 | a::before {}
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1
+  |
+5 | a::before {}
+  | ^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1
+  |
+5 | a::before {}
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1
   |
@@ -244,6 +280,18 @@ error: TypeSelector
 7 | video::cue {}
   | ^^^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1
+  |
+7 | video::cue {}
+  | ^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1
+  |
+7 | video::cue {}
+  | ^^^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1
   |
@@ -305,6 +353,18 @@ error: CompoundSelector
   | ^^^^^^^^^^^^^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1
+  |
+8 | video::cue(b) {}
+  | ^^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1
+  |
+8 | video::cue(b) {}
+  | ^^^^^
+
+error: WqName
  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1
   |
 8 | video::cue(b) {}
@@ -388,6 +448,18 @@ error: TypeSelector
 10 | video::cue-region {}
    | ^^^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1
+   |
+10 | video::cue-region {}
+   | ^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1
+   |
+10 | video::cue-region {}
+   | ^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1
    |
@@ -449,6 +521,18 @@ error: CompoundSelector
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1
+   |
+11 | video::cue-region(#scroll) {}
+   | ^^^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1
+   |
+11 | video::cue-region(#scroll) {}
+   | ^^^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1
    |
 11 | video::cue-region(#scroll) {}
@@ -635,6 +719,18 @@ error: CompoundSelector
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1
+   |
+17 | tabbed-custom-element::part(tab) {}
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1
+   |
+17 | tabbed-custom-element::part(tab) {}
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1
    |
 17 | tabbed-custom-element::part(tab) {}
@@ -1156,6 +1252,18 @@ error: TypeSelector
 32 | a::bEfOrE {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1
+   |
+32 | a::bEfOrE {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1
+   |
+32 | a::bEfOrE {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1
    |
@@ -1217,6 +1325,18 @@ error: CompoundSelector
    | ^^^^^^^^^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1
+   |
+34 | a:hover::before {}
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1
+   |
+34 | a:hover::before {}
+   | ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1
    |
 34 | a:hover::before {}
@@ -1306,6 +1426,18 @@ error: TypeSelector
 35 | a:hover::-moz-placeholder {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1
+   |
+35 | a:hover::-moz-placeholder {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1
+   |
+35 | a:hover::-moz-placeholder {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1
    |
@@ -1390,6 +1522,18 @@ error: TypeSelector
 36 | a, b > .foo::before {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1
+   |
+36 | a, b > .foo::before {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1
+   |
+36 | a, b > .foo::before {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1
    |
@@ -1409,6 +1553,18 @@ error: CompoundSelector
    |    ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:4
+   |
+36 | a, b > .foo::before {}
+   |    ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:4
+   |
+36 | a, b > .foo::before {}
+   |    ^
+
+error: WqName
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:4
    |
 36 | a, b > .foo::before {}
@@ -1510,7 +1666,7 @@ error: TypeSelector
 37 | *:hover.class {}
    | ^
 
-error: Ident
+error: UniversalSelector
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1
    |
 37 | *:hover.class {}

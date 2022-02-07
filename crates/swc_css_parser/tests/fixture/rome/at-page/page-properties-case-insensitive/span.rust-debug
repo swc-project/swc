@@ -30,21 +30,6 @@ error: PageRule
 3 | | }
   | |_^
 
-error: PageRuleBlock
- --> $DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:1:7
-  |
-1 |   @page {
-  |  _______^
-2 | |     DISPLAY: none;
-3 | | }
-  | |_^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:2
-  |
-2 |     DISPLAY: none;
-  |     ^^^^^^^^^^^^^
-
 error: Declaration
  --> $DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:2
   |

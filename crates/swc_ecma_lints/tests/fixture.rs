@@ -56,12 +56,13 @@ fn pass(input: PathBuf) {
             lint_config: &config,
             top_level_ctxt,
             es_version,
+            source_map: cm,
         });
 
         HANDLER.set(handler, || {
             if let Program::Module(m) = &program {
                 for mut rule in rules {
-                    rule.lint_module(&m);
+                    rule.lint_module(m);
                 }
             }
         });

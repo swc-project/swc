@@ -38,22 +38,30 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 0,
                     "end": 7,
                     "ctxt": 0
                   },
-                  "prefix": null,
                   "name": {
-                    "type": "Identifier",
+                    "type": "WqName",
                     "span": {
                       "start": 0,
                       "end": 7,
                       "ctxt": 0
                     },
-                    "value": "-123",
-                    "raw": "\\2d 123"
+                    "prefix": null,
+                    "value": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 0,
+                        "end": 7,
+                        "ctxt": 0
+                      },
+                      "value": "-123",
+                      "raw": "\\2d 123"
+                    }
                   }
                 },
                 "subclassSelectors": []

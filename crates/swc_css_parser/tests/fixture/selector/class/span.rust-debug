@@ -2044,6 +2044,18 @@ error: TypeSelector
 38 | foo.class > .foo.class {}
    | ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/class/input.css:38:1
+   |
+38 | foo.class > .foo.class {}
+   | ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/class/input.css:38:1
+   |
+38 | foo.class > .foo.class {}
+   | ^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/class/input.css:38:1
    |
@@ -2248,11 +2260,17 @@ error: SubclassSelector
 40 | .class[target] {}
    |       ^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/class/input.css:40:7
    |
 40 | .class[target] {}
    |       ^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/class/input.css:40:8
+   |
+40 | .class[target] {}
+   |        ^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/class/input.css:40:8
@@ -2338,11 +2356,17 @@ error: SubclassSelector
 41 | .class#id[target] {}
    |          ^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/class/input.css:41:10
    |
 41 | .class#id[target] {}
    |          ^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/class/input.css:41:11
+   |
+41 | .class#id[target] {}
+   |           ^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/class/input.css:41:11
@@ -2387,6 +2411,18 @@ error: CompoundSelector
    | ^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/class/input.css:42:1
+   |
+42 | ul.list {}
+   | ^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/class/input.css:42:1
+   |
+42 | ul.list {}
+   | ^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/class/input.css:42:1
    |
 42 | ul.list {}
@@ -2453,6 +2489,18 @@ error: CompoundSelector
    | ^^^^^^^^^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/selector/class/input.css:43:1
+   |
+43 | ul.list::before {}
+   | ^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/class/input.css:43:1
+   |
+43 | ul.list::before {}
+   | ^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/class/input.css:43:1
    |
 43 | ul.list::before {}

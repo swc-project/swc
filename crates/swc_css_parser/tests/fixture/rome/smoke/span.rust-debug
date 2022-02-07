@@ -53,6 +53,18 @@ error: TypeSelector
 2 | body {
   | ^^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/rome/smoke/input.css:2:1
+  |
+2 | body {
+  | ^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/rome/smoke/input.css:2:1
+  |
+2 | body {
+  | ^^^^
+
 error: Ident
  --> $DIR/tests/fixture/rome/smoke/input.css:2:1
   |

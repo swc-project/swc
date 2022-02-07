@@ -1,0 +1,11 @@
+{
+    "jsc": {
+        "lints": {
+            "quotes": ["error", {
+                "prefer": "double",
+                "avoidEscape": false,
+                "allowTemplateLiterals": false
+            }]
+        }
+    }
+}

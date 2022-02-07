@@ -2325,7 +2325,7 @@
             };
             var EditorView = function(place, props) {
                 this._props = props, this.state = props.state, this.directPlugins = props.plugins || [], this.directPlugins.forEach(checkStateComponent), this.dispatch = this.dispatch.bind(this), this._root = null, this.focused = !1, this.trackWrites = null, this.dom = place && place.mount || document.createElement("div"), place && (place.appendChild ? place.appendChild(this.dom) : place.apply ? place(this.dom) : place.mount && (this.mounted = !0)), this.editable = getEditable(this), this.markCursor = null, this.cursorWrapper = null, updateCursorWrapper(this), this.nodeViews = buildNodeViews(this), this.docView = docViewDesc(this.state.doc, computeDocDeco(this), viewDecorations(this), this.dom, this), this.lastSelectedViewDesc = null, this.dragging = null, (function(view7) {
-                    for(var event6 in view7.shiftKey = !1, view7.mouseDown = null, view7.lastKeyCode = null, view7.lastKeyCodeTime = 0, view7.lastClick = {
+                    for(var event5 in view7.shiftKey = !1, view7.mouseDown = null, view7.lastKeyCode = null, view7.lastKeyCodeTime = 0, view7.lastClick = {
                         time: 0,
                         x: 0,
                         y: 0,
@@ -2456,12 +2456,12 @@
                             }
                             storedMarks && tr.ensureMarks(storedMarks), view8.dispatch(tr.scrollIntoView());
                         })(view7, from1, to1, typeOver1, added);
-                    }), view7.domObserver.start(), view7.domChangeCount = 0, view7.eventHandlers = Object.create(null), handlers1){
-                        var event5, handler;
-                        handler = handlers1[event5 = event6], view7.dom.addEventListener(event5, view7.eventHandlers[event5] = function(event) {
+                    }), view7.domObserver.start(), view7.domChangeCount = 0, view7.eventHandlers = Object.create(null), handlers1)!function(event6) {
+                        var handler = handlers1[event6];
+                        view7.dom.addEventListener(event6, view7.eventHandlers[event6] = function(event) {
                             !eventBelongsToView(view7, event) || runCustomHandler(view7, event) || !view7.editable && event.type in editHandlers || handler(view7, event);
                         });
-                    }
+                    }(event5);
                     result1.safari && view7.dom.addEventListener("input", function() {
                         return null;
                     }), ensureListeners(view7);

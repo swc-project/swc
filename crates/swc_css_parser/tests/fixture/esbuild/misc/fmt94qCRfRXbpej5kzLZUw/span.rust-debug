@@ -40,6 +40,18 @@ error: TypeSelector
 1 | a { value: url(\2c) }
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/fmt94qCRfRXbpej5kzLZUw/input.css:1:1
+  |
+1 | a { value: url(\2c) }
+  | ^
+
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/fmt94qCRfRXbpej5kzLZUw/input.css:1:1
+  |
+1 | a { value: url(\2c) }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/fmt94qCRfRXbpej5kzLZUw/input.css:1:1
   |

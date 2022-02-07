@@ -46,18 +46,34 @@
                       "end": 8,
                       "ctxt": 0
                     },
-                    "prefix": null,
                     "name": {
-                      "type": "Identifier",
+                      "type": "WqName",
                       "span": {
                         "start": 1,
                         "end": 2,
                         "ctxt": 0
                       },
-                      "value": "b",
-                      "raw": "b"
+                      "prefix": null,
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1,
+                          "end": 2,
+                          "ctxt": 0
+                        },
+                        "value": "b",
+                        "raw": "b"
+                      }
                     },
-                    "matcher": "~=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 2,
+                        "end": 4,
+                        "ctxt": 0
+                      },
+                      "value": "~="
+                    },
                     "value": {
                       "type": "String",
                       "span": {

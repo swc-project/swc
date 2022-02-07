@@ -1972,25 +1972,41 @@ where
     fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
         n.right.visit_mut_with(self);
 
-        let ctx = Ctx {
-            in_var_decl_of_for_in_or_of_loop: true,
-            ..self.ctx
-        };
-        n.left.visit_mut_with(&mut *self.with_ctx(ctx));
+        {
+            let ctx = Ctx {
+                in_var_decl_of_for_in_or_of_loop: true,
+                ..self.ctx
+            };
+            n.left.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
 
-        n.body.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                executed_multiple_time: true,
+                ..self.ctx
+            };
+            n.body.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
     }
 
     fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
         n.right.visit_mut_with(self);
 
-        let ctx = Ctx {
-            in_var_decl_of_for_in_or_of_loop: true,
-            ..self.ctx
-        };
-        n.left.visit_mut_with(&mut *self.with_ctx(ctx));
+        {
+            let ctx = Ctx {
+                in_var_decl_of_for_in_or_of_loop: true,
+                ..self.ctx
+            };
+            n.left.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
 
-        n.body.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                executed_multiple_time: true,
+                ..self.ctx
+            };
+            n.body.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
     }
 
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {

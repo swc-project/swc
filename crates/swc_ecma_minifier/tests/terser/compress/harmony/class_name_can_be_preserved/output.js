@@ -1,4 +1,6 @@
 function x() {
-    (class Baz {});
-    class Foo {}
+    (class a {
+    });
+    class Foo {
+    }
 }

@@ -40,6 +40,18 @@ error: TypeSelector
 1 | a { width: .00%; }
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/eHdhrm6W2iHKQegxH7uEgw/input.css:1:1
+  |
+1 | a { width: .00%; }
+  | ^
+
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/eHdhrm6W2iHKQegxH7uEgw/input.css:1:1
+  |
+1 | a { width: .00%; }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/eHdhrm6W2iHKQegxH7uEgw/input.css:1:1
   |
