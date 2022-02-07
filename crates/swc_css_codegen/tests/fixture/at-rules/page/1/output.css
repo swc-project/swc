@@ -23,3 +23,8 @@ color: blue}
 @top-right {content: "bar"}
 margin: 20px;
 }
+@page :right{}
+@page CompanyLetterHead:first{}
+@page :blank:first{}
+@page :first{}
+@page toc, index{}

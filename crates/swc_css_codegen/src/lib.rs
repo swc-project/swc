@@ -574,9 +574,17 @@ where
         punct!(self, "@");
         keyword!(self, "page");
 
-        if n.prelude.is_some() {
-            space!(self);
-            emit!(self, n.prelude);
+        if let Some(prelude) = &n.prelude {
+            match prelude.selectors.get(0) {
+                Some(page_selector) if page_selector.page_type.is_none() => {
+                    formatting_space!(self);
+                }
+                _ => {
+                    space!(self);
+                }
+            }
+
+            emit!(self, prelude);
         } else {
             formatting_space!(self);
         }
@@ -638,7 +646,7 @@ where
     fn emit_page_margin_rule(&mut self, n: &PageMarginRule) -> Result {
         punct!(self, "@");
         emit!(self, n.name);
-        space!(self);
+        formatting_space!(self);
         punct!(self, "{");
         self.emit_list(&n.block, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
         punct!(self, "}");
