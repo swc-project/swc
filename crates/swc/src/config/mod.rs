@@ -447,6 +447,7 @@ impl Options {
                 lint_config: &lints,
                 top_level_ctxt,
                 es_version,
+                source_map: cm.clone(),
             })),
             crate::plugin::plugins(experimental),
             custom_before_pass(&program),
