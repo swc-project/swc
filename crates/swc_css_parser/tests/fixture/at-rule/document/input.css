@@ -10,3 +10,6 @@
         background: yellow;
     }
 }
+
+@document url(https://www.example.com/) {}
+@-moz-document url("https://www.example.com/") {}
