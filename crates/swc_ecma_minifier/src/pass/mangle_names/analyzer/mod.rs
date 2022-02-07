@@ -100,6 +100,16 @@ impl Visit for Analyzer {
         c.class.visit_with(self);
     }
 
+    fn visit_class_expr(&mut self, c: &ClassExpr) {
+        self.with_scope(|v| {
+            if let Some(id) = &c.ident {
+                v.add_decl(id.to_id());
+            }
+
+            c.class.visit_with(v);
+        })
+    }
+
     fn visit_default_decl(&mut self, d: &DefaultDecl) {
         match d {
             DefaultDecl::Class(c) => {
