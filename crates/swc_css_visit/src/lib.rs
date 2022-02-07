@@ -428,8 +428,13 @@ define!({
 
     pub struct DocumentRule {
         pub span: Span,
-        pub selectors: Vec<Function>,
+        pub matching_functions: Vec<DocumentRuleMatchingFunction>,
         pub block: Vec<Rule>,
+    }
+
+    pub enum DocumentRuleMatchingFunction {
+        Url(Url),
+        Function(Function),
     }
 
     pub enum KeyframesName {

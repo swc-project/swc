@@ -330,6 +330,10 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(CharsetRule, visit_charset_rule);
     mtd!(DocumentRule, visit_document_rule);
+    mtd!(
+        DocumentRuleMatchingFunction,
+        visit_document_rule_matching_function
+    );
     mtd!(FontFaceRule, visit_font_face_rule);
     mtd!(ImportRule, visit_import_rule);
     mtd!(ImportHref, visit_import_href);

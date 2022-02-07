@@ -848,22 +848,20 @@ where
 {
     fn parse(&mut self) -> PResult<DocumentRule> {
         let span = self.input.cur_span()?;
+        let url_match_fn = self.parse()?;
+        let mut matching_functions = vec![url_match_fn];
 
-        let selectors = {
-            let mut items = vec![];
+        loop {
+            self.input.skip_ws()?;
 
-            loop {
-                let res: Function = self.parse()?;
-                items.push(res);
-
-                self.input.skip_ws()?;
-                if !is!(self, ",") {
-                    break;
-                }
+            if !eat!(self, ",") {
+                break;
             }
 
-            items
-        };
+            self.input.skip_ws()?;
+
+            matching_functions.push(self.parse()?);
+        }
 
         expect!(self, "{");
 
@@ -875,9 +873,37 @@ where
 
         Ok(DocumentRule {
             span: span!(self, span.lo),
-            selectors,
+            matching_functions,
             block,
         })
+    }
+}
+
+impl<I> Parse<DocumentRuleMatchingFunction> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<DocumentRuleMatchingFunction> {
+        match cur!(self) {
+            tok!("url") => Ok(DocumentRuleMatchingFunction::Url(self.parse()?)),
+            Token::Function {
+                value: function_name,
+                ..
+            } => {
+                if &*function_name.to_ascii_lowercase() == "url"
+                    || &*function_name.to_ascii_lowercase() == "src"
+                {
+                    Ok(DocumentRuleMatchingFunction::Url(self.parse()?))
+                } else {
+                    Ok(DocumentRuleMatchingFunction::Function(self.parse()?))
+                }
+            }
+            _ => {
+                let span = self.input.cur_span()?;
+
+                Err(Error::new(span, ErrorKind::Expected("url or function")))
+            }
+        }
     }
 }
 
