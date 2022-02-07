@@ -1306,7 +1306,6 @@ where
             SubclassSelector::Attribute(n) => emit!(self, n),
             SubclassSelector::PseudoClass(n) => emit!(self, n),
             SubclassSelector::PseudoElement(n) => emit!(self, n),
-            SubclassSelector::At(n) => emit!(self, n),
         }
     }
 
@@ -1466,12 +1465,6 @@ where
             emit!(self, n.children);
             punct!(self, ")");
         }
-    }
-
-    #[emitter]
-    fn emit_at_selector(&mut self, n: &AtSelector) -> Result {
-        punct!(self, "@");
-        emit!(self, n.text);
     }
 
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result
