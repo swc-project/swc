@@ -709,11 +709,12 @@ where
 
     fn emit_list_values(&mut self, nodes: &[Value], format: ListFormat) -> Result {
         let iter = nodes.iter();
+        let len = nodes.len();
 
         for (idx, node) in iter.enumerate() {
             emit!(self, node);
 
-            if idx != nodes.len() - 1 {
+            if idx != len - 1 {
                 let need_delim = match node {
                     Value::SimpleBlock(_)
                     | Value::Function(_)
@@ -726,6 +727,31 @@ where
                             ..
                         })) => false,
                         _ => !self.config.minify,
+                    },
+                    Value::Ident(_) => match nodes.get(idx + 1) {
+                        Some(Value::SimpleBlock(_))
+                        | Some(Value::Color(Color::HexColor(_)))
+                        | Some(Value::Str(_)) => !self.config.minify,
+                        Some(Value::Delimiter(_)) => false,
+                        Some(Value::Number(n)) => {
+                            if self.config.minify {
+                                let minified = minify_numeric(n.value);
+
+                                !minified.starts_with('.')
+                            } else {
+                                true
+                            }
+                        }
+                        Some(Value::Dimension(n)) => {
+                            if self.config.minify {
+                                let minified = minify_numeric(n.value.value);
+
+                                !minified.starts_with('.')
+                            } else {
+                                true
+                            }
+                        }
+                        _ => true,
                     },
                     _ => match nodes.get(idx + 1) {
                         Some(Value::SimpleBlock(_)) | Some(Value::Color(Color::HexColor(_))) => {
@@ -968,52 +994,9 @@ where
     #[emitter]
     fn emit_number(&mut self, n: &Number) -> Result {
         if self.config.minify {
-            if n.value.is_sign_negative() && n.value == 0.0 {
-                self.wr.write_raw(Some(n.span), "-0")?;
-            } else {
-                let mut minified = n.value.to_string();
+            let minified = minify_numeric(n.value);
 
-                if minified.starts_with("0.") {
-                    minified.replace_range(0..1, "");
-                } else if minified.starts_with("-0.") {
-                    minified.replace_range(1..2, "");
-                }
-
-                if minified.starts_with(".000") {
-                    let mut cnt = 3;
-
-                    for &v in minified.as_bytes().iter().skip(4) {
-                        if v == b'0' {
-                            cnt += 1;
-                        } else {
-                            break;
-                        }
-                    }
-
-                    minified.replace_range(0..cnt + 1, "");
-
-                    let remain_len = minified.len();
-
-                    minified.push_str("e-");
-                    minified.push_str(&(remain_len + cnt).to_string());
-                } else if minified.ends_with("000") {
-                    let mut cnt = 3;
-
-                    for &v in minified.as_bytes().iter().rev().skip(3) {
-                        if v == b'0' {
-                            cnt += 1;
-                        } else {
-                            break;
-                        }
-                    }
-
-                    minified.truncate(minified.len() - cnt);
-                    minified.push('e');
-                    minified.push_str(&cnt.to_string());
-                }
-
-                self.wr.write_raw(Some(n.span), &minified)?;
-            }
+            self.wr.write_raw(Some(n.span), &minified)?;
         } else {
             self.wr.write_raw(Some(n.span), &n.raw)?;
         }
@@ -1500,6 +1483,54 @@ where
 
         Ok(())
     }
+}
+
+fn minify_numeric(value: f64) -> String {
+    if value.is_sign_negative() && value == 0.0 {
+        return "-0".to_owned();
+    }
+    let mut minified = value.to_string();
+
+    if minified.starts_with("0.") {
+        minified.replace_range(0..1, "");
+    } else if minified.starts_with("-0.") {
+        minified.replace_range(1..2, "");
+    }
+
+    if minified.starts_with(".000") {
+        let mut cnt = 3;
+
+        for &v in minified.as_bytes().iter().skip(4) {
+            if v == b'0' {
+                cnt += 1;
+            } else {
+                break;
+            }
+        }
+
+        minified.replace_range(0..cnt + 1, "");
+
+        let remain_len = minified.len();
+
+        minified.push_str("e-");
+        minified.push_str(&(remain_len + cnt).to_string());
+    } else if minified.ends_with("000") {
+        let mut cnt = 3;
+
+        for &v in minified.as_bytes().iter().rev().skip(3) {
+            if v == b'0' {
+                cnt += 1;
+            } else {
+                break;
+            }
+        }
+
+        minified.truncate(minified.len() - cnt);
+        minified.push('e');
+        minified.push_str(&cnt.to_string());
+    }
+
+    minified
 }
 
 fn minify_hex_color(value: &str) -> String {
