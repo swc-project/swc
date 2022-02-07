@@ -96,3 +96,9 @@ div div div div div div div div div div div {}
 *         * {}
 *[href] *:not(*.green) {}
 *::-webkit-media-controls-play-button {}
+col.selected || td {}
+col.selected
+|| 
+td
+{}
+col.selected||td {}

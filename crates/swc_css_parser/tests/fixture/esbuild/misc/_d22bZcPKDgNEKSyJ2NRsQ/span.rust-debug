@@ -40,7 +40,7 @@ error: TypeSelector
 1 | *::b(c) {}
   | ^
 
-error: Ident
+error: UniversalSelector
  --> $DIR/tests/fixture/esbuild/misc/_d22bZcPKDgNEKSyJ2NRsQ/input.css:1:1
   |
 1 | *::b(c) {}

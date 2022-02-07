@@ -81,6 +81,7 @@ where
             AtRule::Media(n) => emit!(self, n),
             AtRule::Supports(n) => emit!(self, n),
             AtRule::Page(n) => emit!(self, n),
+            AtRule::PageMargin(n) => emit!(self, n),
             AtRule::Namespace(n) => emit!(self, n),
             AtRule::Viewport(n) => emit!(self, n),
             AtRule::Document(n) => emit!(self, n),
@@ -276,7 +277,7 @@ where
             )?;
             punct!(self, "}");
         } else {
-            punct!(self, ";");
+            semi!(self);
         }
     }
 
@@ -572,21 +573,77 @@ where
     fn emit_page_rule(&mut self, n: &PageRule) -> Result {
         punct!(self, "@");
         keyword!(self, "page");
-        space!(self);
 
-        self.emit_list(&n.prelude, ListFormat::CommaDelimited)?;
+        if n.prelude.is_some() {
+            space!(self);
+            emit!(self, n.prelude);
+        } else {
+            formatting_space!(self);
+        }
 
-        emit!(self, n.block);
+        punct!(self, "{");
+
+        let len = n.block.len();
+
+        for (idx, node) in n.block.iter().enumerate() {
+            emit!(self, node);
+
+            match node {
+                DeclarationBlockItem::AtRule(_) => {}
+                _ => {
+                    let need_delim = !(idx == len - 1 && self.config.minify);
+
+                    if need_delim {
+                        self.write_delim(ListFormat::SemiDelimited)?;
+                    }
+                }
+            }
+
+            if !self.config.minify {
+                formatting_newline!(self);
+            }
+        }
+
+        punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_page_selector_list(&mut self, n: &PageSelectorList) -> Result {
+        self.emit_list(&n.selectors, ListFormat::CommaDelimited)?;
     }
 
     #[emitter]
     fn emit_page_selector(&mut self, n: &PageSelector) -> Result {
-        emit!(self, n.ident);
-        if let Some(pseudo) = &n.pseudo {
-            punct!(self, ":");
-            emit!(self, pseudo);
+        if let Some(page_type) = &n.page_type {
+            emit!(self, page_type);
+        }
+
+        if let Some(pseudos) = &n.pseudos {
+            self.emit_list(pseudos, ListFormat::NotDelimited)?;
         }
     }
+
+    #[emitter]
+    fn emit_page_selector_type(&mut self, n: &PageSelectorType) -> Result {
+        emit!(self, n.value);
+    }
+
+    #[emitter]
+    fn emit_page_selector_pseudo(&mut self, n: &PageSelectorPseudo) -> Result {
+        punct!(self, ":");
+        emit!(self, n.value);
+    }
+
+    #[emitter]
+    fn emit_page_margin_rule(&mut self, n: &PageMarginRule) -> Result {
+        punct!(self, "@");
+        emit!(self, n.name);
+        space!(self);
+        punct!(self, "{");
+        self.emit_list(&n.block, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
+        punct!(self, "}");
+    }
+
     #[emitter]
     fn emit_namespace_uri(&mut self, n: &NamespaceUri) -> Result {
         match n {
@@ -623,7 +680,7 @@ where
         }
 
         emit!(self, n.uri);
-        punct!(self, ";");
+        semi!(self);
     }
 
     #[emitter]
@@ -757,7 +814,7 @@ where
         if n.block.is_some() {
             emit!(self, n.block)
         } else {
-            punct!(self, ";");
+            semi!(self);
         }
     }
 
@@ -819,14 +876,6 @@ where
     }
 
     #[emitter]
-    fn emit_declaration_name(&mut self, n: &DeclarationName) -> Result {
-        match n {
-            DeclarationName::Ident(n) => emit!(self, n),
-            DeclarationName::DashedIdent(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
     fn emit_declaration(&mut self, n: &Declaration) -> Result {
         emit!(self, n.name);
         punct!(self, ":");
@@ -861,18 +910,31 @@ where
             )?;
         }
 
-        if let Some(tok) = n.important {
+        if n.important.is_some() {
             if !is_custom_property {
                 formatting_space!(self);
             }
 
-            punct!(self, tok, "!");
-
-            self.wr.write_raw(Some(tok), "important")?;
+            emit!(self, n.important);
         }
+    }
 
-        if self.ctx.semi_after_property {
-            punct!(self, ";");
+    #[emitter]
+    fn emit_declaration_name(&mut self, n: &DeclarationName) -> Result {
+        match n {
+            DeclarationName::Ident(n) => emit!(self, n),
+            DeclarationName::DashedIdent(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_important_flag(&mut self, n: &ImportantFlag) -> Result {
+        punct!(self, "!");
+
+        if self.config.minify {
+            self.wr.write_raw(None, "important")?;
+        } else {
+            emit!(self, n.value);
         }
     }
 
@@ -895,34 +957,6 @@ where
     fn emit_percent(&mut self, n: &Percent) -> Result {
         emit!(self, n.value);
         punct!(self, "%");
-    }
-
-    #[emitter]
-    fn emit_page_rule_block(&mut self, n: &PageRuleBlock) -> Result {
-        punct!(self, "{");
-        formatting_newline!(self);
-
-        self.wr.increase_indent();
-
-        let ctx = Ctx {
-            semi_after_property: true,
-            ..self.ctx
-        };
-        self.with_ctx(ctx)
-            .emit_list(&n.items, ListFormat::MultiLine | ListFormat::NotDelimited)?;
-        formatting_newline!(self);
-
-        self.wr.decrease_indent();
-
-        punct!(self, "}");
-    }
-
-    #[emitter]
-    fn emit_page_rule_block_item(&mut self, n: &PageRuleBlockItem) -> Result {
-        match n {
-            PageRuleBlockItem::Declaration(n) => emit!(self, n),
-            PageRuleBlockItem::Nested(n) => emit!(self, n),
-        }
     }
 
     #[emitter]
@@ -1204,12 +1238,6 @@ where
     }
 
     #[emitter]
-    fn emit_nested_page_rule(&mut self, n: &NestedPageRule) -> Result {
-        emit!(self, n.prelude);
-        emit!(self, n.block);
-    }
-
-    #[emitter]
     fn emit_selector_list(&mut self, n: &SelectorList) -> Result {
         self.emit_list(&n.children, ListFormat::CommaDelimited)?;
     }
@@ -1267,7 +1295,7 @@ where
         match n {
             SubclassSelector::Id(n) => emit!(self, n),
             SubclassSelector::Class(n) => emit!(self, n),
-            SubclassSelector::Attr(n) => emit!(self, n),
+            SubclassSelector::Attribute(n) => emit!(self, n),
             SubclassSelector::PseudoClass(n) => emit!(self, n),
             SubclassSelector::PseudoElement(n) => emit!(self, n),
             SubclassSelector::At(n) => emit!(self, n),
@@ -1276,68 +1304,96 @@ where
 
     #[emitter]
     fn emit_type_selector(&mut self, n: &TypeSelector) -> Result {
+        match n {
+            TypeSelector::TagName(n) => emit!(self, n),
+            TypeSelector::Universal(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_tag_name_selector(&mut self, n: &TagNameSelector) -> Result {
+        emit!(self, n.name);
+    }
+
+    #[emitter]
+    fn emit_universal_selector(&mut self, n: &UniversalSelector) -> Result {
         if let Some(prefix) = &n.prefix {
             emit!(self, prefix);
-            punct!(self, "|");
         }
 
-        emit!(self, n.name);
+        punct!(self, "*");
+    }
+
+    #[emitter]
+    fn emit_ns_prefix(&mut self, n: &NsPrefix) -> Result {
+        emit!(self, n.prefix);
+        punct!(self, "|");
+    }
+
+    #[emitter]
+    fn emit_wq_name(&mut self, n: &WqName) -> Result {
+        if n.prefix.is_some() {
+            emit!(self, n.prefix);
+        }
+
+        emit!(self, n.value);
     }
 
     #[emitter]
     fn emit_id_selector(&mut self, n: &IdSelector) -> Result {
         punct!(self, "#");
-        let ctx = Ctx { ..self.ctx };
-        emit!(&mut *self.with_ctx(ctx), n.text);
+        emit!(self, n.text);
     }
 
     #[emitter]
     fn emit_class_selector(&mut self, n: &ClassSelector) -> Result {
         punct!(self, ".");
-        let ctx = Ctx { ..self.ctx };
-        emit!(&mut *self.with_ctx(ctx), n.text);
+        emit!(self, n.text);
     }
 
     #[emitter]
-    fn emit_attr_selector_value(&mut self, n: &AttrSelectorValue) -> Result {
-        match n {
-            AttrSelectorValue::Str(n) => emit!(self, n),
-            AttrSelectorValue::Ident(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
-    fn emit_attr_selector(&mut self, n: &AttrSelector) -> Result {
+    fn emit_attribute_selector(&mut self, n: &AttributeSelector) -> Result {
         punct!(self, "[");
-
-        if let Some(prefix) = &n.prefix {
-            emit!(self, prefix);
-            punct!(self, "|");
-        }
-
         emit!(self, n.name);
 
-        if let Some(matcher) = n.matcher {
-            self.wr.write_punct(None, matcher.as_str())?;
-        }
+        if n.matcher.is_some() {
+            emit!(self, n.matcher);
+            emit!(self, n.value);
 
-        emit!(self, n.value);
+            if n.modifier.is_some() {
+                match n.value {
+                    Some(AttributeSelectorValue::Str(_)) => {
+                        formatting_space!(self);
+                    }
+                    Some(AttributeSelectorValue::Ident(_)) => {
+                        space!(self);
+                    }
+                    _ => {}
+                }
 
-        if let Some(m) = &n.modifier {
-            match n.value {
-                Some(AttrSelectorValue::Str(_)) => {
-                    formatting_space!(self);
-                }
-                Some(AttrSelectorValue::Ident(_)) => {
-                    space!(self);
-                }
-                _ => {}
+                emit!(self, n.modifier);
             }
-
-            self.wr.write_raw_char(None, *m)?;
         }
 
         punct!(self, "]");
+    }
+
+    #[emitter]
+    fn emit_attribute_selector_matcher(&mut self, n: &AttributeSelectorMatcher) -> Result {
+        self.wr.write_punct(None, n.value.as_str())?;
+    }
+
+    #[emitter]
+    fn emit_attribute_selector_value(&mut self, n: &AttributeSelectorValue) -> Result {
+        match n {
+            AttributeSelectorValue::Str(n) => emit!(self, n),
+            AttributeSelectorValue::Ident(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_attribute_selector_modifier(&mut self, n: &AttributeSelectorModifier) -> Result {
+        emit!(self, n.value);
     }
 
     #[emitter]

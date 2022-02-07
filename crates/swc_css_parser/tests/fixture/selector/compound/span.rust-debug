@@ -262,11 +262,17 @@ error: SubclassSelector
 4 | .class[target] {}
   |       ^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/selector/compound/input.css:4:7
   |
 4 | .class[target] {}
   |       ^^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/compound/input.css:4:8
+  |
+4 | .class[target] {}
+  |        ^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/selector/compound/input.css:4:8
@@ -352,11 +358,17 @@ error: SubclassSelector
 5 | .class#id[target] {}
   |          ^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/selector/compound/input.css:5:10
   |
 5 | .class#id[target] {}
   |          ^^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/compound/input.css:5:11
+  |
+5 | .class#id[target] {}
+  |           ^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/selector/compound/input.css:5:11
@@ -514,11 +526,17 @@ error: SubclassSelector
 7 | #id.class[target] {}
   |          ^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/selector/compound/input.css:7:10
   |
 7 | #id.class[target] {}
   |          ^^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/compound/input.css:7:11
+  |
+7 | #id.class[target] {}
+  |           ^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/selector/compound/input.css:7:11
@@ -563,6 +581,18 @@ error: CompoundSelector
   | ^^^^^^^^^^^^^^^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/selector/compound/input.css:8:1
+  |
+8 | div#thing:hover {}
+  | ^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/compound/input.css:8:1
+  |
+8 | div#thing:hover {}
+  | ^^^
+
+error: WqName
  --> $DIR/tests/fixture/selector/compound/input.css:8:1
   |
 8 | div#thing:hover {}
@@ -652,6 +682,18 @@ error: TypeSelector
 9 | div#thing::before {}
   | ^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/compound/input.css:9:1
+  |
+9 | div#thing::before {}
+  | ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/compound/input.css:9:1
+  |
+9 | div#thing::before {}
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/compound/input.css:9:1
   |
@@ -736,6 +778,18 @@ error: TypeSelector
 10 | a[href='place']:hover {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/compound/input.css:10:1
+   |
+10 | a[href='place']:hover {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/compound/input.css:10:1
+   |
+10 | a[href='place']:hover {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/compound/input.css:10:1
    |
@@ -748,17 +802,35 @@ error: SubclassSelector
 10 | a[href='place']:hover {}
    |  ^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/compound/input.css:10:2
    |
 10 | a[href='place']:hover {}
    |  ^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/compound/input.css:10:3
+   |
+10 | a[href='place']:hover {}
+   |   ^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/compound/input.css:10:3
    |
 10 | a[href='place']:hover {}
    |   ^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/compound/input.css:10:7
+   |
+10 | a[href='place']:hover {}
+   |       ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/compound/input.css:10:8
+   |
+10 | a[href='place']:hover {}
+   |        ^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/compound/input.css:10:8
@@ -826,6 +898,18 @@ error: TypeSelector
 11 | a[href='place']::before {}
    | ^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/compound/input.css:11:1
+   |
+11 | a[href='place']::before {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/compound/input.css:11:1
+   |
+11 | a[href='place']::before {}
+   | ^
+
 error: Ident
   --> $DIR/tests/fixture/selector/compound/input.css:11:1
    |
@@ -838,17 +922,35 @@ error: SubclassSelector
 11 | a[href='place']::before {}
    |  ^^^^^^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
   --> $DIR/tests/fixture/selector/compound/input.css:11:2
    |
 11 | a[href='place']::before {}
    |  ^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/compound/input.css:11:3
+   |
+11 | a[href='place']::before {}
+   |   ^^^^
 
 error: Ident
   --> $DIR/tests/fixture/selector/compound/input.css:11:3
    |
 11 | a[href='place']::before {}
    |   ^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/selector/compound/input.css:11:7
+   |
+11 | a[href='place']::before {}
+   |       ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/selector/compound/input.css:11:8
+   |
+11 | a[href='place']::before {}
+   |        ^^^^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/compound/input.css:11:8
@@ -1006,6 +1108,18 @@ error: TypeSelector
 13 | button.btn-primary {}
    | ^^^^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/compound/input.css:13:1
+   |
+13 | button.btn-primary {}
+   | ^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/compound/input.css:13:1
+   |
+13 | button.btn-primary {}
+   | ^^^^^^
+
 error: Ident
   --> $DIR/tests/fixture/selector/compound/input.css:13:1
    |
@@ -1072,7 +1186,7 @@ error: TypeSelector
 14 | *#z98y {}
    | ^
 
-error: Ident
+error: UniversalSelector
   --> $DIR/tests/fixture/selector/compound/input.css:14:1
    |
 14 | *#z98y {}

@@ -22,63 +22,21 @@ error: PageRule
 1 | @page { @top-left {} }
   | ^^^^^^^^^^^^^^^^^^^^^^
 
-error: PageRuleBlock
- --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:7
-  |
-1 | @page { @top-left {} }
-  |       ^^^^^^^^^^^^^^^^
-
-error: PageRuleBlockItem
+error: AtRule
  --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
   |
 1 | @page { @top-left {} }
   |         ^^^^^^^^^^^^
 
-error: NestedPageRule
+error: PageMarginRule
  --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
   |
 1 | @page { @top-left {} }
   |         ^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
-  |
-1 | @page { @top-left {} }
-  |         ^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
-  |
-1 | @page { @top-left {} }
-  |         ^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
-  |
-1 | @page { @top-left {} }
-  |         ^^^^^^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
-  |
-1 | @page { @top-left {} }
-  |         ^^^^^^^^^
-
-error: AtSelector
- --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
-  |
-1 | @page { @top-left {} }
-  |         ^^^^^^^^^
 
 error: Ident
- --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:10
   |
 1 | @page { @top-left {} }
-  |         ^^^^^^^^^
-
-error: PageRuleBlock
- --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:19
-  |
-1 | @page { @top-left {} }
-  |                   ^^
+  |          ^^^^^^^^
 

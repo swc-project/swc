@@ -54,6 +54,9 @@ pub enum CombinatorValue {
 
     /// `~`
     LaterSibling,
+
+    /// `||`
+    Column,
 }
 
 #[ast_node("NestingSelector")]
@@ -61,18 +64,40 @@ pub struct NestingSelector {
     pub span: Span,
 }
 
-#[ast_node("TypeSelector")]
-pub struct TypeSelector {
+#[ast_node]
+pub enum TypeSelector {
+    #[tag("TagNameSelector")]
+    TagName(TagNameSelector),
+    #[tag("UniversalSelector")]
+    Universal(UniversalSelector),
+}
+
+#[ast_node("TagNameSelector")]
+pub struct TagNameSelector {
     pub span: Span,
-    ///	If present, this is an identifier or "*" and is followed by a "|"
-    /// character
+    pub name: WqName,
+}
+
+#[ast_node("UniversalSelector")]
+pub struct UniversalSelector {
+    pub span: Span,
+    pub prefix: Option<NsPrefix>,
+}
+
+#[ast_node("NsPrefix")]
+pub struct NsPrefix {
+    pub span: Span,
     pub prefix: Option<Ident>,
-    ///	This is an identifier or "*".
-    pub name: Ident,
+}
+
+#[ast_node("WqName")]
+pub struct WqName {
+    pub span: Span,
+    pub prefix: Option<NsPrefix>,
+    pub value: Ident,
 }
 
 #[ast_node]
-#[derive(Is)]
 pub enum SubclassSelector {
     #[tag("IdSelector")]
     Id(IdSelector),
@@ -81,7 +106,7 @@ pub enum SubclassSelector {
     Class(ClassSelector),
 
     #[tag("AttributeSelector")]
-    Attr(AttrSelector),
+    Attribute(AttributeSelector),
 
     #[tag("PseudoClassSelector")]
     PseudoClass(PseudoClassSelector),
@@ -93,8 +118,31 @@ pub enum SubclassSelector {
     At(AtSelector),
 }
 
+#[ast_node("IdSelector")]
+pub struct IdSelector {
+    pub span: Span,
+    /// Does not include `#`
+    pub text: Ident,
+}
+
+#[ast_node("ClassSelector")]
+pub struct ClassSelector {
+    pub span: Span,
+    /// Does not include `.`
+    pub text: Ident,
+}
+
+#[ast_node("AttributeSelector")]
+pub struct AttributeSelector {
+    pub span: Span,
+    pub name: WqName,
+    pub matcher: Option<AttributeSelectorMatcher>,
+    pub value: Option<AttributeSelectorValue>,
+    pub modifier: Option<AttributeSelectorModifier>,
+}
+
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
-pub enum AttrSelectorMatcher {
+pub enum AttributeSelectorMatcherValue {
     /// `=`
     Equals,
 
@@ -114,9 +162,14 @@ pub enum AttrSelectorMatcher {
     Asterisk,
 }
 
+#[ast_node("AttributeSelectorMatcher")]
+pub struct AttributeSelectorMatcher {
+    pub span: Span,
+    pub value: AttributeSelectorMatcherValue,
+}
+
 #[ast_node]
-#[derive(Is)]
-pub enum AttrSelectorValue {
+pub enum AttributeSelectorValue {
     #[tag("String")]
     Str(Str),
 
@@ -124,18 +177,34 @@ pub enum AttrSelectorValue {
     Ident(Ident),
 }
 
-#[ast_node("AttributeSelector")]
-pub struct AttrSelector {
+#[ast_node("AttributeSelectorModifier")]
+pub struct AttributeSelectorModifier {
     pub span: Span,
-    pub prefix: Option<Ident>,
+    pub value: Ident,
+}
+
+#[ast_node("PseudoClassSelector")]
+pub struct PseudoClassSelector {
+    pub span: Span,
     pub name: Ident,
-    pub matcher: Option<AttrSelectorMatcher>,
-    pub value: Option<AttrSelectorValue>,
-    pub modifier: Option<char>,
+    pub children: Option<PseudoSelectorChildren>,
+}
+
+#[ast_node("PseudoElementSelector")]
+pub struct PseudoElementSelector {
+    pub span: Span,
+    pub name: Ident,
+    pub children: Option<Tokens>,
+}
+
+/// Type for `@top-center`. Allowwed in only some contexts.
+#[ast_node("AtSelector")]
+pub struct AtSelector {
+    pub span: Span,
+    pub text: Ident,
 }
 
 #[ast_node]
-#[derive(Is)]
 pub enum PseudoSelectorChildren {
     #[tag("Nth")]
     Nth(Nth),
@@ -161,52 +230,10 @@ pub struct AnPlusB {
 }
 
 #[ast_node]
-#[derive(Is)]
 pub enum NthValue {
     #[tag("AnPlusB")]
     AnPlusB(AnPlusB),
 
     #[tag("Ident")]
     Ident(Ident),
-}
-
-#[ast_node("PseudoClassSelector")]
-pub struct PseudoClassSelector {
-    pub span: Span,
-    pub name: Ident,
-    pub children: Option<PseudoSelectorChildren>,
-}
-
-#[ast_node("PseudoElementSelector")]
-pub struct PseudoElementSelector {
-    pub span: Span,
-    pub name: Ident,
-    pub children: Option<Tokens>,
-}
-
-#[ast_node("IdSelector")]
-pub struct IdSelector {
-    pub span: Span,
-    /// Does not include `#`
-    pub text: Ident,
-}
-
-#[ast_node("ClassSelector")]
-pub struct ClassSelector {
-    pub span: Span,
-    /// Does not include `.`
-    pub text: Ident,
-}
-
-#[ast_node("TagSelector")]
-pub struct TagSelector {
-    pub span: Span,
-    pub text: Ident,
-}
-
-/// Type for `@top-center`. Allowwed in only some contexts.
-#[ast_node("AtSelector")]
-pub struct AtSelector {
-    pub span: Span,
-    pub text: Ident,
 }

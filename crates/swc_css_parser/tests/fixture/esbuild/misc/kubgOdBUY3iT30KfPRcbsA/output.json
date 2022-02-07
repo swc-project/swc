@@ -46,27 +46,51 @@
                       "end": 12,
                       "ctxt": 0
                     },
-                    "prefix": {
-                      "type": "Identifier",
+                    "name": {
+                      "type": "WqName",
                       "span": {
                         "start": 1,
-                        "end": 2,
-                        "ctxt": 0
-                      },
-                      "value": "a",
-                      "raw": "a"
-                    },
-                    "name": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 3,
                         "end": 4,
                         "ctxt": 0
                       },
-                      "value": "b",
-                      "raw": "b"
+                      "prefix": {
+                        "type": "NsPrefix",
+                        "span": {
+                          "start": 1,
+                          "end": 3,
+                          "ctxt": 0
+                        },
+                        "prefix": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 1,
+                            "end": 2,
+                            "ctxt": 0
+                          },
+                          "value": "a",
+                          "raw": "a"
+                        }
+                      },
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 3,
+                          "end": 4,
+                          "ctxt": 0
+                        },
+                        "value": "b",
+                        "raw": "b"
+                      }
                     },
-                    "matcher": "|=",
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 5,
+                        "end": 7,
+                        "ctxt": 0
+                      },
+                      "value": "|="
+                    },
                     "value": {
                       "type": "String",
                       "span": {

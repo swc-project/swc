@@ -18,9 +18,7 @@ where
 }
 
 #[derive(Debug, Default, Clone, Copy)]
-pub(crate) struct Ctx {
-    pub semi_after_property: bool,
-}
+pub(crate) struct Ctx {}
 
 pub(super) struct WithCtx<'w, I: 'w + CssWriter> {
     inner: &'w mut CodeGenerator<I>,

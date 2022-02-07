@@ -14,4 +14,6 @@
     height: 100px /*! test */ important;
     z-index: 1 ""! important;
     padding: 1px/* sep */!important;
+    prop: red !iMpOrTaNt;
+    color: red !imp\ortant;
 }

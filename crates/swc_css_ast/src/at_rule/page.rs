@@ -1,42 +1,41 @@
-use crate::{Declaration, Ident, SelectorList};
+use crate::{DeclarationBlockItem, Ident};
 use swc_common::{ast_node, Span};
 
 #[ast_node("PageRule")]
 pub struct PageRule {
     pub span: Span,
-
-    pub prelude: Vec<PageSelector>,
-
-    pub block: PageRuleBlock,
+    pub prelude: Option<PageSelectorList>,
+    pub block: Vec<DeclarationBlockItem>,
 }
 
-#[ast_node]
+#[ast_node("PageSelectorList")]
+pub struct PageSelectorList {
+    pub span: Span,
+    pub selectors: Vec<PageSelector>,
+}
+
+#[ast_node("PageSelector")]
 pub struct PageSelector {
     pub span: Span,
-
-    pub ident: Option<Ident>,
-
-    pub pseudo: Option<Ident>,
+    pub page_type: Option<PageSelectorType>,
+    pub pseudos: Option<Vec<PageSelectorPseudo>>,
 }
 
-#[ast_node]
-pub struct PageRuleBlock {
+#[ast_node("PageSelectorType")]
+pub struct PageSelectorType {
     pub span: Span,
-    pub items: Vec<PageRuleBlockItem>,
+    pub value: Ident,
 }
 
-#[ast_node]
-pub enum PageRuleBlockItem {
-    #[tag("DeclBlock")]
-    Declaration(Box<Declaration>),
-
-    #[tag("NestedPageRule")]
-    Nested(Box<NestedPageRule>),
-}
-
-#[ast_node("NestedPageRule")]
-pub struct NestedPageRule {
+#[ast_node("PageSelectorPseudo")]
+pub struct PageSelectorPseudo {
     pub span: Span,
-    pub prelude: SelectorList,
-    pub block: PageRuleBlock,
+    pub value: Ident,
+}
+
+#[ast_node("PageMarginRule")]
+pub struct PageMarginRule {
+    pub span: Span,
+    pub name: Ident,
+    pub block: Vec<DeclarationBlockItem>,
 }

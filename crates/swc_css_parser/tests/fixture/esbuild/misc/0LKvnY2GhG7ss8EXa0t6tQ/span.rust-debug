@@ -40,6 +40,18 @@ error: TypeSelector
 1 | a { value: 10p\32x }
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/0LKvnY2GhG7ss8EXa0t6tQ/input.css:1:1
+  |
+1 | a { value: 10p\32x }
+  | ^
+
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/0LKvnY2GhG7ss8EXa0t6tQ/input.css:1:1
+  |
+1 | a { value: 10p\32x }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/0LKvnY2GhG7ss8EXa0t6tQ/input.css:1:1
   |

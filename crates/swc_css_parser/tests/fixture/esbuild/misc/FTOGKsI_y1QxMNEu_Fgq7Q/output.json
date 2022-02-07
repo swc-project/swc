@@ -13,113 +13,59 @@
         "end": 34,
         "ctxt": 0
       },
-      "prelude": [],
-      "block": {
-        "span": {
-          "start": 6,
-          "end": 34,
-          "ctxt": 0
-        },
-        "items": [
-          {
-            "type": "Declaration",
+      "prelude": null,
+      "block": [
+        {
+          "type": "Declaration",
+          "span": {
+            "start": 8,
+            "end": 18,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Identifier",
             "span": {
               "start": 8,
-              "end": 18,
+              "end": 13,
               "ctxt": 0
             },
-            "name": {
+            "value": "color",
+            "raw": "color"
+          },
+          "value": [
+            {
               "type": "Identifier",
               "span": {
-                "start": 8,
-                "end": 13,
+                "start": 15,
+                "end": 18,
                 "ctxt": 0
               },
-              "value": "color",
-              "raw": "color"
-            },
-            "value": [
-              {
-                "type": "Identifier",
-                "span": {
-                  "start": 15,
-                  "end": 18,
-                  "ctxt": 0
-                },
-                "value": "red",
-                "raw": "red"
-              }
-            ],
-            "important": null
+              "value": "red",
+              "raw": "red"
+            }
+          ],
+          "important": null
+        },
+        {
+          "type": "PageMarginRule",
+          "span": {
+            "start": 20,
+            "end": 32,
+            "ctxt": 0
           },
-          {
-            "type": "NestedPageRule",
+          "name": {
+            "type": "Identifier",
             "span": {
-              "start": 20,
-              "end": 32,
+              "start": 21,
+              "end": 29,
               "ctxt": 0
             },
-            "prelude": {
-              "type": "SelectorList",
-              "span": {
-                "start": 20,
-                "end": 29,
-                "ctxt": 0
-              },
-              "children": [
-                {
-                  "type": "ComplexSelector",
-                  "span": {
-                    "start": 20,
-                    "end": 29,
-                    "ctxt": 0
-                  },
-                  "children": [
-                    {
-                      "type": "CompoundSelector",
-                      "span": {
-                        "start": 20,
-                        "end": 29,
-                        "ctxt": 0
-                      },
-                      "nestingSelector": null,
-                      "typeSelector": null,
-                      "subclassSelectors": [
-                        {
-                          "type": "AtSelector",
-                          "span": {
-                            "start": 20,
-                            "end": 29,
-                            "ctxt": 0
-                          },
-                          "text": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 20,
-                              "end": 29,
-                              "ctxt": 0
-                            },
-                            "value": "top-left",
-                            "raw": "top-left"
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "block": {
-              "span": {
-                "start": 30,
-                "end": 32,
-                "ctxt": 0
-              },
-              "items": []
-            }
-          }
-        ]
-      }
+            "value": "top-left",
+            "raw": "top-left"
+          },
+          "block": []
+        }
+      ]
     }
   ]
 }

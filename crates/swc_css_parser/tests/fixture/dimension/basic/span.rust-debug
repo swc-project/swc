@@ -58,6 +58,18 @@ error: TypeSelector
 1 | a {
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/dimension/basic/input.css:1:1
+  |
+1 | a {
+  | ^
+
+error: WqName
+ --> $DIR/tests/fixture/dimension/basic/input.css:1:1
+  |
+1 | a {
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/dimension/basic/input.css:1:1
   |

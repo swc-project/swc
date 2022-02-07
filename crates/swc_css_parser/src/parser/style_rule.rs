@@ -61,7 +61,7 @@ where
         let start_pos = self.input.cur_span()?.lo;
         let start_state = self.input.state();
 
-        let prelude = self.parse_selectors();
+        let prelude = self.parse();
         let prelude = match prelude {
             Ok(v) => v,
             Err(err) => {
@@ -253,32 +253,12 @@ where
 
         self.input.skip_ws()?;
 
-        let span_import = self.input.cur_span()?;
-
-        let important = if !is!(self, EOF) && eat!(self, "!") {
-            self.input.skip_ws()?;
-
-            let is_important = match bump!(self) {
-                Token::Ident { value, .. } => &*value.to_ascii_lowercase() == "important",
-                _ => false,
-            };
-
-            if !is_important {
-                return Err(Error::new(
-                    Span::new(
-                        span_import.lo,
-                        self.input.cur_span()?.hi,
-                        Default::default(),
-                    ),
-                    ErrorKind::ExpectedButGot("!important"),
-                ));
-            }
-
-            self.input.skip_ws()?;
+        let important = if is!(self, "!") {
+            let important_flag = self.parse()?;
 
             end = self.input.last_pos()?;
 
-            Some(span!(self, span_import.lo))
+            Some(important_flag)
         } else {
             None
         };
@@ -290,6 +270,30 @@ where
             name,
             value,
             important,
+        })
+    }
+}
+
+impl<I> Parse<ImportantFlag> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ImportantFlag> {
+        let span = self.input.cur_span()?;
+
+        expect!(self, "!");
+
+        self.input.skip_ws()?;
+
+        let ident: Ident = self.parse()?;
+
+        if &*ident.value.to_ascii_lowercase() != "important" {
+            return Err(Error::new(span, ErrorKind::Expected("important")));
+        }
+
+        Ok(ImportantFlag {
+            span: span!(self, span.lo),
+            value: ident,
         })
     }
 }

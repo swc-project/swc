@@ -134,6 +134,18 @@ error: TypeSelector
 2 |     div {
   |     ^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/at-rule/supports/input.css:2:5
+  |
+2 |     div {
+  |     ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/at-rule/supports/input.css:2:5
+  |
+2 |     div {
+  |     ^^^
+
 error: Ident
  --> $DIR/tests/fixture/at-rule/supports/input.css:2:5
   |
@@ -304,6 +316,18 @@ error: CompoundSelector
   |     ^^^^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/at-rule/supports/input.css:8:5
+  |
+8 |     body {
+  |     ^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/at-rule/supports/input.css:8:5
+  |
+8 |     body {
+  |     ^^^^
+
+error: WqName
  --> $DIR/tests/fixture/at-rule/supports/input.css:8:5
   |
 8 |     body {
@@ -503,6 +527,18 @@ error: CompoundSelector
    |         ^^^^^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/at-rule/supports/input.css:13:9
+   |
+13 |         article {
+   |         ^^^^^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/at-rule/supports/input.css:13:9
+   |
+13 |         article {
+   |         ^^^^^^^
+
+error: WqName
   --> $DIR/tests/fixture/at-rule/supports/input.css:13:9
    |
 13 |         article {
@@ -2833,6 +2869,18 @@ error: Ident
    |
 33 | @supports (display: flex !important) {}
    |                     ^^^^
+
+error: ImportantFlag
+  --> $DIR/tests/fixture/at-rule/supports/input.css:33:26
+   |
+33 | @supports (display: flex !important) {}
+   |                          ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:33:27
+   |
+33 | @supports (display: flex !important) {}
+   |                           ^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:34:1

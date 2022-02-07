@@ -155,6 +155,18 @@ error: Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) 
 4 |     --important:value!important;
   |                 ^^^^^
 
+error: ImportantFlag
+ --> $DIR/tests/fixture/value/custom-property/input.css:4:22
+  |
+4 |     --important:value!important;
+  |                      ^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/custom-property/input.css:4:23
+  |
+4 |     --important:value!important;
+  |                       ^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/custom-property/input.css:5:5
   |
@@ -190,6 +202,18 @@ error: Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) 
   |
 5 |     --important1: value!important;
   |                   ^^^^^
+
+error: ImportantFlag
+ --> $DIR/tests/fixture/value/custom-property/input.css:5:24
+  |
+5 |     --important1: value!important;
+  |                        ^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/custom-property/input.css:5:25
+  |
+5 |     --important1: value!important;
+  |                         ^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/custom-property/input.css:6:5
@@ -233,6 +257,18 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
 6 |     --important2: value !important;
   |                        ^
 
+error: ImportantFlag
+ --> $DIR/tests/fixture/value/custom-property/input.css:6:25
+  |
+6 |     --important2: value !important;
+  |                         ^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/custom-property/input.css:6:26
+  |
+6 |     --important2: value !important;
+  |                          ^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/custom-property/input.css:7:5
   |
@@ -274,6 +310,18 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
   |
 7 |     --important3:value !important;
   |                       ^
+
+error: ImportantFlag
+ --> $DIR/tests/fixture/value/custom-property/input.css:7:24
+  |
+7 |     --important3:value !important;
+  |                        ^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/custom-property/input.css:7:25
+  |
+7 |     --important3:value !important;
+  |                         ^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/custom-property/input.css:8:5
@@ -322,6 +370,18 @@ error: RParen
   |
 8 |     --important4: calc(1)!important;
   |                         ^
+
+error: ImportantFlag
+ --> $DIR/tests/fixture/value/custom-property/input.css:8:26
+  |
+8 |     --important4: calc(1)!important;
+  |                          ^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/custom-property/input.css:8:27
+  |
+8 |     --important4: calc(1)!important;
+  |                           ^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:10:5
@@ -413,6 +473,18 @@ error: Tokens
 12 |     --empty3: !important;
    |               ^
 
+error: ImportantFlag
+  --> $DIR/tests/fixture/value/custom-property/input.css:12:15
+   |
+12 |     --empty3: !important;
+   |               ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/custom-property/input.css:12:16
+   |
+12 |     --empty3: !important;
+   |                ^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:13:5
    |
@@ -442,6 +514,18 @@ error: Tokens
    |
 13 |     --empty4:/**/ !important;
    |                   ^
+
+error: ImportantFlag
+  --> $DIR/tests/fixture/value/custom-property/input.css:13:19
+   |
+13 |     --empty4:/**/ !important;
+   |                   ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/custom-property/input.css:13:20
+   |
+13 |     --empty4:/**/ !important;
+   |                    ^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/custom-property/input.css:14:5

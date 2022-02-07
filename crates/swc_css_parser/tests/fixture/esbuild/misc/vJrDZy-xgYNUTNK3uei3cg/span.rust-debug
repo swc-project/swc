@@ -40,11 +40,17 @@ error: SubclassSelector
 1 | [b]{}
   | ^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:1:1
   |
 1 | [b]{}
   | ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:1:2
+  |
+1 | [b]{}
+  |  ^
 
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:1:2
