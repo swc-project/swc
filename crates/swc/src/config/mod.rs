@@ -265,8 +265,13 @@ impl Options {
     where
         P: 'a + swc_ecma_visit::Fold,
     {
-        let mut config = config.unwrap_or_default();
-        config.merge(&self.config);
+        let config = match config {
+            Some(mut config) => {
+                config.merge(&self.config);
+                config
+            }
+            None => self.config.clone(),
+        };
 
         let mut source_maps = self.source_maps.clone();
         source_maps.merge(&config.source_maps);
@@ -1568,6 +1573,8 @@ impl Merge for swc_ecma_parser::TsConfig {
     fn merge(&mut self, from: &Self) {
         self.tsx |= from.tsx;
         self.decorators |= from.decorators;
+        self.dts |= from.dts;
+        self.no_early_errors |= from.no_early_errors;
     }
 }
 

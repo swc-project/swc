@@ -795,12 +795,6 @@ impl Compiler {
         P: 'a + swc_ecma_visit::Fold,
     {
         self.run(|| {
-            let config = self.read_config(opts, name)?;
-            let config = match config {
-                Some(v) => v,
-                None => return Ok(None),
-            };
-
             let built = opts.build_as_input(
                 &self.cm,
                 name,
@@ -812,7 +806,16 @@ impl Compiler {
                 opts.source_file_name.clone(),
                 handler,
                 opts.is_module,
-                Some(config),
+                if opts.swcrc {
+                    let config = self.read_config(opts, name)?;
+                    let config = match config {
+                        Some(v) => v,
+                        None => return Ok(None),
+                    };
+                    Some(config)
+                } else {
+                    None
+                },
                 Some(&self.comments),
                 before_pass,
             )?;
