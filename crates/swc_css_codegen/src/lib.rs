@@ -87,6 +87,7 @@ where
             AtRule::Document(n) => emit!(self, n),
             AtRule::ColorProfile(n) => emit!(self, n),
             AtRule::CounterStyle(n) => emit!(self, n),
+            AtRule::Property(n) => emit!(self, n),
             AtRule::Unknown(n) => emit!(self, n),
         }
     }
@@ -858,6 +859,25 @@ where
     fn emit_counter_style_rule(&mut self, n: &CounterStyleRule) -> Result {
         punct!(self, "@");
         keyword!(self, "counter-style");
+        space!(self);
+        emit!(self, n.name);
+        formatting_space!(self);
+        punct!(self, "{");
+        self.emit_list(
+            &n.block,
+            if self.config.minify {
+                ListFormat::SemiDelimited
+            } else {
+                ListFormat::SemiDelimited | ListFormat::MultiLine
+            },
+        )?;
+        punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_property_rule(&mut self, n: &PropertyRule) -> Result {
+        punct!(self, "@");
+        keyword!(self, "property");
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);

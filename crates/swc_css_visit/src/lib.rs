@@ -363,6 +363,7 @@ define!({
         Document(DocumentRule),
         ColorProfile(ColorProfileRule),
         CounterStyle(CounterStyleRule),
+        Property(PropertyRule),
         Unknown(UnknownAtRule),
     }
 
@@ -681,6 +682,9 @@ define!({
     pub struct CounterStyleRule {
         pub span: Span,
         pub name: CustomIdent,
+    pub struct PropertyRule {
+        pub span: Span,
+        pub name: DashedIdent,
         pub block: Vec<DeclarationBlockItem>,
     }
 });
