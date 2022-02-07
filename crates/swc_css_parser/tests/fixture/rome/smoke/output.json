@@ -154,7 +154,7 @@
                     },
                     "op": "+",
                     "left": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 66,
                         "end": 69,

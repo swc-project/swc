@@ -127,7 +127,7 @@
                     "value": ","
                   },
                   {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 53,
                       "end": 58,
@@ -175,7 +175,7 @@
                 },
                 "value": [
                   {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 67,
                       "end": 72,
@@ -212,7 +212,7 @@
                     "value": ","
                   },
                   {
-                    "type": "Dimension",
+                    "type": "Flex",
                     "span": {
                       "start": 74,
                       "end": 77,

@@ -118,6 +118,12 @@ error: Dimension
 1 | a { margin: 0 1 0px 1px }
   |                 ^^^
 
+error: Length
+ --> $DIR/tests/fixture/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:17
+  |
+1 | a { margin: 0 1 0px 1px }
+  |                 ^^^
+
 error: Number
  --> $DIR/tests/fixture/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:17
   |
@@ -137,6 +143,12 @@ error: Value
   |                     ^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:21
+  |
+1 | a { margin: 0 1 0px 1px }
+  |                     ^^^
+
+error: Length
  --> $DIR/tests/fixture/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:21
   |
 1 | a { margin: 0 1 0px 1px }

@@ -93,31 +93,18 @@ define!({
 
     pub enum Value {
         SimpleBlock(SimpleBlock),
-
         Dimension(Dimension),
-
         Number(Number),
-
         Percent(Percent),
-
         Ratio(Ratio),
-
         Color(Color),
-
         Ident(Ident),
-
         DashedIdent(DashedIdent),
-
         Str(Str),
-
         Function(Function),
-
         Bin(BinValue),
-
         Delimiter(Delimiter),
-
         Tokens(Tokens),
-
         Url(Url),
     }
 
@@ -157,7 +144,53 @@ define!({
         pub raw: JsWord,
     }
 
-    pub struct Dimension {
+    pub enum Dimension {
+        Length(Length),
+        Angle(Angle),
+        Time(Time),
+        Frequency(Frequency),
+        Resolution(Resolution),
+        Flex(Flex),
+        UnknownDimension(UnknownDimension),
+    }
+
+    pub struct Length {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct Angle {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct Time {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct Frequency {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct Resolution {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct Flex {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct UnknownDimension {
         pub span: Span,
         pub value: Number,
         pub unit: Ident,

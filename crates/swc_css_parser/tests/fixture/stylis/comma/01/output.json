@@ -146,7 +146,7 @@
                     "modifiers": null
                   },
                   {
-                    "type": "Dimension",
+                    "type": "Resolution",
                     "span": {
                       "start": 39,
                       "end": 41,

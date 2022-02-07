@@ -637,7 +637,371 @@ where
         let span = self.input.cur_span()?;
 
         if !is!(self, Dimension) {
-            return Err(Error::new(span, ErrorKind::Expected("Dimension")));
+            return Err(Error::new(span, ErrorKind::Expected("dimension token")));
+        }
+
+        match cur!(self) {
+            Token::Dimension { unit, .. } => {
+                match &*unit.to_ascii_lowercase() {
+                    // <length>
+                    _ if is_length_unit(unit) => Ok(Dimension::Length(self.parse()?)),
+                    // <angle>
+                    _ if is_angle_unit(unit) => Ok(Dimension::Angle(self.parse()?)),
+                    // <time>
+                    _ if is_time_unit(unit) => Ok(Dimension::Time(self.parse()?)),
+                    // <frequency>
+                    _ if is_frequency_unit(unit) => Ok(Dimension::Frequency(self.parse()?)),
+                    // <resolution>
+                    _ if is_resolution_unit(unit) => Ok(Dimension::Resolution(self.parse()?)),
+                    // <flex>
+                    _ if is_flex_unit(unit) => Ok(Dimension::Flex(self.parse()?)),
+                    _ => Ok(Dimension::UnknownDimension(self.parse()?)),
+                }
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+impl<I> Parse<Length> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Length> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Dimension) {
+            return Err(Error::new(span, ErrorKind::Expected("dimension token")));
+        }
+
+        match bump!(self) {
+            Token::Dimension {
+                value,
+                raw_value,
+                unit,
+                raw_unit,
+                ..
+            } => {
+                // TODO validate
+
+                let unit_len = raw_unit.len() as u32;
+
+                Ok(Length {
+                    span,
+                    value: Number {
+                        value,
+                        raw: raw_value,
+                        span: swc_common::Span::new(
+                            span.lo,
+                            span.hi - BytePos(unit_len),
+                            Default::default(),
+                        ),
+                    },
+                    unit: Ident {
+                        span: swc_common::Span::new(
+                            span.hi - BytePos(unit_len),
+                            span.hi,
+                            Default::default(),
+                        ),
+                        value: unit,
+                        raw: raw_unit,
+                    },
+                })
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+impl<I> Parse<Angle> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Angle> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Dimension) {
+            return Err(Error::new(span, ErrorKind::Expected("dimension token")));
+        }
+
+        match bump!(self) {
+            Token::Dimension {
+                value,
+                raw_value,
+                unit,
+                raw_unit,
+                ..
+            } => {
+                if !is_angle_unit(&unit) {
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected("'deg', 'grad', 'rad' or 'turn' units"),
+                    ));
+                }
+
+                let unit_len = raw_unit.len() as u32;
+
+                Ok(Angle {
+                    span,
+                    value: Number {
+                        value,
+                        raw: raw_value,
+                        span: swc_common::Span::new(
+                            span.lo,
+                            span.hi - BytePos(unit_len),
+                            Default::default(),
+                        ),
+                    },
+                    unit: Ident {
+                        span: swc_common::Span::new(
+                            span.hi - BytePos(unit_len),
+                            span.hi,
+                            Default::default(),
+                        ),
+                        value: unit,
+                        raw: raw_unit,
+                    },
+                })
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+impl<I> Parse<Time> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Time> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Dimension) {
+            return Err(Error::new(span, ErrorKind::Expected("dimension token")));
+        }
+
+        match bump!(self) {
+            Token::Dimension {
+                value,
+                raw_value,
+                unit,
+                raw_unit,
+                ..
+            } => {
+                if !is_time_unit(&unit) {
+                    return Err(Error::new(span, ErrorKind::Expected("'s' or 'ms' units")));
+                }
+
+                let unit_len = raw_unit.len() as u32;
+
+                Ok(Time {
+                    span,
+                    value: Number {
+                        value,
+                        raw: raw_value,
+                        span: swc_common::Span::new(
+                            span.lo,
+                            span.hi - BytePos(unit_len),
+                            Default::default(),
+                        ),
+                    },
+                    unit: Ident {
+                        span: swc_common::Span::new(
+                            span.hi - BytePos(unit_len),
+                            span.hi,
+                            Default::default(),
+                        ),
+                        value: unit,
+                        raw: raw_unit,
+                    },
+                })
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+impl<I> Parse<Frequency> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Frequency> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Dimension) {
+            return Err(Error::new(span, ErrorKind::Expected("dimension token")));
+        }
+
+        match bump!(self) {
+            Token::Dimension {
+                value,
+                raw_value,
+                unit,
+                raw_unit,
+                ..
+            } => {
+                if !is_frequency_unit(&unit) {
+                    return Err(Error::new(span, ErrorKind::Expected("'Hz' or 'kHz' units")));
+                }
+
+                let unit_len = raw_unit.len() as u32;
+
+                Ok(Frequency {
+                    span,
+                    value: Number {
+                        value,
+                        raw: raw_value,
+                        span: swc_common::Span::new(
+                            span.lo,
+                            span.hi - BytePos(unit_len),
+                            Default::default(),
+                        ),
+                    },
+                    unit: Ident {
+                        span: swc_common::Span::new(
+                            span.hi - BytePos(unit_len),
+                            span.hi,
+                            Default::default(),
+                        ),
+                        value: unit,
+                        raw: raw_unit,
+                    },
+                })
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+impl<I> Parse<Resolution> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Resolution> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Dimension) {
+            return Err(Error::new(span, ErrorKind::Expected("dimension token")));
+        }
+
+        match bump!(self) {
+            Token::Dimension {
+                value,
+                raw_value,
+                unit,
+                raw_unit,
+                ..
+            } => {
+                if !is_resolution_unit(&unit) {
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected("'dpi', 'dpcm', 'dppx' or 'x' units"),
+                    ));
+                }
+
+                let unit_len = raw_unit.len() as u32;
+
+                Ok(Resolution {
+                    span,
+                    value: Number {
+                        value,
+                        raw: raw_value,
+                        span: swc_common::Span::new(
+                            span.lo,
+                            span.hi - BytePos(unit_len),
+                            Default::default(),
+                        ),
+                    },
+                    unit: Ident {
+                        span: swc_common::Span::new(
+                            span.hi - BytePos(unit_len),
+                            span.hi,
+                            Default::default(),
+                        ),
+                        value: unit,
+                        raw: raw_unit,
+                    },
+                })
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+impl<I> Parse<Flex> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Flex> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Dimension) {
+            return Err(Error::new(span, ErrorKind::Expected("dimension token")));
+        }
+
+        match bump!(self) {
+            Token::Dimension {
+                value,
+                raw_value,
+                unit,
+                raw_unit,
+                ..
+            } => {
+                if !is_flex_unit(&unit) {
+                    return Err(Error::new(span, ErrorKind::Expected("'fr' unit")));
+                }
+
+                let unit_len = raw_unit.len() as u32;
+
+                Ok(Flex {
+                    span,
+                    value: Number {
+                        value,
+                        raw: raw_value,
+                        span: swc_common::Span::new(
+                            span.lo,
+                            span.hi - BytePos(unit_len),
+                            Default::default(),
+                        ),
+                    },
+                    unit: Ident {
+                        span: swc_common::Span::new(
+                            span.hi - BytePos(unit_len),
+                            span.hi,
+                            Default::default(),
+                        ),
+                        value: unit,
+                        raw: raw_unit,
+                    },
+                })
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+impl<I> Parse<UnknownDimension> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<UnknownDimension> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Dimension) {
+            return Err(Error::new(span, ErrorKind::Expected("dimension token")));
         }
 
         match bump!(self) {
@@ -650,7 +1014,7 @@ where
             } => {
                 let unit_len = raw_unit.len() as u32;
 
-                Ok(Dimension {
+                Ok(UnknownDimension {
                     span,
                     value: Number {
                         value,
@@ -959,5 +1323,63 @@ where
         function.span = span!(self, span.lo);
 
         return Ok(function);
+    }
+}
+
+fn is_length_unit(unit: &str) -> bool {
+    match &*unit.to_ascii_lowercase() {
+        // Relative Lengths
+        // Font-relative Lengths
+        "em" | "rem"  | 
+        "ex" | "rex" | 
+        "cap" | "rcap" | 
+        "ch" | "rch" | 
+        "ic" | "ric" | 
+        "lh" | "rlh" | 
+        //  Viewport-percentage Lengths
+        "vw" | "svw" | "lvw" | "dvw" |
+        "vh" | "svh" | "lvh" | "dvh" |
+        "vi" | "svi" | "lvi" | "dvi" |
+        "vb" | "svb" | "lvb" | "dvb" |
+        "vmin" | "svmin" | "lvmin" | "dvmin" |
+        "vmax" | "svmax" | "lvmax" | "dvmax" |
+        // Absolute lengths
+        "cm" | "mm" | "q" | "in" | "pc" | "pt" | "px" | "mozmm" => true,
+        _ => false,
+    }
+}
+
+fn is_angle_unit(unit: &str) -> bool {
+    match &*unit.to_ascii_lowercase() {
+        "deg" | "grad" | "rad" | "turn" => true,
+        _ => false,
+    }
+}
+
+fn is_time_unit(unit: &str) -> bool {
+    match &*unit.to_ascii_lowercase() {
+        "s" | "ms" => true,
+        _ => false,
+    }
+}
+
+fn is_frequency_unit(unit: &str) -> bool {
+    match &*unit.to_ascii_lowercase() {
+        "hz" | "khz" => true,
+        _ => false,
+    }
+}
+
+fn is_resolution_unit(unit: &str) -> bool {
+    match &*unit.to_ascii_lowercase() {
+        "dpi" | "dpcm" | "dppx" | "x" => true,
+        _ => false,
+    }
+}
+
+fn is_flex_unit(unit: &str) -> bool {
+    match &*unit.to_ascii_lowercase() {
+        "fr" => true,
+        _ => false,
     }
 }

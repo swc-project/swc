@@ -575,7 +575,7 @@
                 "raw": "slide-left"
               },
               {
-                "type": "Dimension",
+                "type": "Time",
                 "span": {
                   "start": 332,
                   "end": 337,
@@ -1374,7 +1374,7 @@
                     },
                     "value": [
                       {
-                        "type": "Dimension",
+                        "type": "Length",
                         "span": {
                           "start": 681,
                           "end": 687,
