@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 45,
+    "end": 99,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 0,
-        "end": 44,
+        "end": 98,
         "ctxt": 0
       },
       "prelude": {
@@ -74,7 +74,7 @@
         "type": "Block",
         "span": {
           "start": 4,
-          "end": 44,
+          "end": 98,
           "ctxt": 0
         },
         "value": [
@@ -171,6 +171,153 @@
                   },
                   "value": "ex",
                   "raw": "ex"
+                }
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 47,
+              "end": 59,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 47,
+                "end": 52,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Length",
+                "span": {
+                  "start": 54,
+                  "end": 59,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 54,
+                    "end": 57,
+                    "ctxt": 0
+                  },
+                  "value": 100.0,
+                  "raw": "100"
+                },
+                "unit": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 57,
+                    "end": 59,
+                    "ctxt": 0
+                  },
+                  "value": "px",
+                  "raw": "px"
+                }
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 65,
+              "end": 77,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 65,
+                "end": 70,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Length",
+                "span": {
+                  "start": 72,
+                  "end": 77,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 72,
+                    "end": 75,
+                    "ctxt": 0
+                  },
+                  "value": 100.0,
+                  "raw": "100"
+                },
+                "unit": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 75,
+                    "end": 77,
+                    "ctxt": 0
+                  },
+                  "value": "PX",
+                  "raw": "PX"
+                }
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 83,
+              "end": 95,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 83,
+                "end": 88,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Length",
+                "span": {
+                  "start": 90,
+                  "end": 95,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 90,
+                    "end": 93,
+                    "ctxt": 0
+                  },
+                  "value": 100.0,
+                  "raw": "100"
+                },
+                "unit": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 93,
+                    "end": 95,
+                    "ctxt": 0
+                  },
+                  "value": "pX",
+                  "raw": "pX"
                 }
               }
             ],
