@@ -362,6 +362,7 @@ define!({
         Viewport(ViewportRule),
         Document(DocumentRule),
         ColorProfile(ColorProfileRule),
+        CounterStyle(CounterStyleRule),
         Unknown(UnknownAtRule),
     }
 
@@ -669,6 +670,12 @@ define!({
     pub struct ColorProfileRule {
         pub span: Span,
         pub name: ColorProfileName,
+        pub block: Vec<DeclarationBlockItem>,
+    }
+
+    pub struct CounterStyleRule {
+        pub span: Span,
+        pub name: CustomIdent,
         pub block: Vec<DeclarationBlockItem>,
     }
 });

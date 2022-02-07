@@ -1,6 +1,6 @@
 pub use self::{
-    charset::*, color_profile::*, document::*, import::*, keyframe::*, layer::*, media::*, page::*,
-    support::*,
+    charset::*, color_profile::*, counter_style::*, document::*, import::*, keyframe::*, layer::*,
+    media::*, page::*, support::*,
 };
 use crate::{Block, DashedIdent, Ident, SimpleBlock, Str, Url, Value};
 use is_macro::Is;
@@ -8,6 +8,7 @@ use swc_common::{ast_node, Span};
 
 mod charset;
 mod color_profile;
+mod counter_style;
 mod document;
 mod import;
 mod keyframe;
@@ -57,6 +58,9 @@ pub enum AtRule {
 
     #[tag("ColorProfileRule")]
     ColorProfile(ColorProfileRule),
+
+    #[tag("CounterStyleRule")]
+    CounterStyle(CounterStyleRule),
 
     #[tag("UnknownAtRule")]
     Unknown(UnknownAtRule),

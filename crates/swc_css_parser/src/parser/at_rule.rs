@@ -277,6 +277,23 @@ where
                 }
             }
 
+            "counter-style" => {
+                self.input.skip_ws()?;
+
+                let at_rule_counter_style: PResult<CounterStyleRule> = self.parse();
+
+                match at_rule_counter_style {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::CounterStyle(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
+                }
+            }
+
             _ => {}
         }
 
@@ -1742,6 +1759,28 @@ where
         expect!(self, "}");
 
         Ok(ColorProfileRule {
+            span: span!(self, span.lo),
+            name,
+            block,
+        })
+    }
+}
+
+impl<I> Parse<CounterStyleRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CounterStyleRule> {
+        let span = self.input.cur_span()?;
+        let name = self.parse()?;
+
+        expect!(self, "{");
+
+        let block = self.parse()?;
+
+        expect!(self, "}");
+
+        Ok(CounterStyleRule {
             span: span!(self, span.lo),
             name,
             block,
