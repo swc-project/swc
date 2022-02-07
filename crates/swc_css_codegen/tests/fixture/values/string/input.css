@@ -61,3 +61,7 @@ div {
                  [footer-left] "nav  foot" 30px [footer-right]
                  / 120px 1fr;
 }
+
+.prop {
+    prop: name "test";
+}

@@ -715,51 +715,52 @@ where
             emit!(self, node);
 
             if idx != len - 1 {
-                let need_delim =
-                    match node {
-                        Value::SimpleBlock(_)
-                        | Value::Function(_)
-                        | Value::Delimiter(_)
-                        | Value::Str(_)
-                        | Value::Url(_)
-                        | Value::Percent(_) => match nodes.get(idx + 1) {
-                            Some(Value::Delimiter(Delimiter {
-                                value: DelimiterValue::Comma,
-                                ..
-                            })) => false,
-                            _ => !self.config.minify,
-                        },
-                        Value::Ident(_) => match nodes.get(idx + 1) {
-                            Some(Value::SimpleBlock(_))
-                            | Some(Value::Color(Color::HexColor(_))) => !self.config.minify,
-                            Some(Value::Delimiter(_)) => false,
-                            Some(Value::Number(n)) => {
-                                if self.config.minify {
-                                    let minified = minify_numeric(n.value);
+                let need_delim = match node {
+                    Value::SimpleBlock(_)
+                    | Value::Function(_)
+                    | Value::Delimiter(_)
+                    | Value::Str(_)
+                    | Value::Url(_)
+                    | Value::Percent(_) => match nodes.get(idx + 1) {
+                        Some(Value::Delimiter(Delimiter {
+                            value: DelimiterValue::Comma,
+                            ..
+                        })) => false,
+                        _ => !self.config.minify,
+                    },
+                    Value::Ident(_) => match nodes.get(idx + 1) {
+                        Some(Value::SimpleBlock(_))
+                        | Some(Value::Color(Color::HexColor(_)))
+                        | Some(Value::Str(_)) => !self.config.minify,
+                        Some(Value::Delimiter(_)) => false,
+                        Some(Value::Number(n)) => {
+                            if self.config.minify {
+                                let minified = minify_numeric(n.value);
 
-                                    !minified.starts_with('.')
-                                } else {
-                                    true
-                                }
+                                !minified.starts_with('.')
+                            } else {
+                                true
                             }
-                            Some(Value::Dimension(n)) => {
-                                if self.config.minify {
-                                    let minified = minify_numeric(n.value.value);
+                        }
+                        Some(Value::Dimension(n)) => {
+                            if self.config.minify {
+                                let minified = minify_numeric(n.value.value);
 
-                                    !minified.starts_with('.')
-                                } else {
-                                    true
-                                }
+                                !minified.starts_with('.')
+                            } else {
+                                true
                             }
-                            _ => true,
-                        },
-                        _ => match nodes.get(idx + 1) {
-                            Some(Value::SimpleBlock(_))
-                            | Some(Value::Color(Color::HexColor(_))) => !self.config.minify,
-                            Some(Value::Delimiter(_)) => false,
-                            _ => true,
-                        },
-                    };
+                        }
+                        _ => true,
+                    },
+                    _ => match nodes.get(idx + 1) {
+                        Some(Value::SimpleBlock(_)) | Some(Value::Color(Color::HexColor(_))) => {
+                            !self.config.minify
+                        }
+                        Some(Value::Delimiter(_)) => false,
+                        _ => true,
+                    },
+                };
 
                 if need_delim {
                     self.write_delim(format)?;
