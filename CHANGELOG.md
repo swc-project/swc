@@ -8,6 +8,9 @@
 - **(css)** Fix parsing of `@page` at-rule (#3356) ([4853821](https://github.com/swc-project/swc/commit/4853821d004f366c89c1b9122786e26ff923df05))
 
 
+- **(css/ast)** Fix type definitions for `@document` at-rule (#3468) ([df08e4c](https://github.com/swc-project/swc/commit/df08e4cfd7ed76fcfd00cc8245b13cc328513938))
+
+
 - **(css/parser)** Report errors of at-rules (#3461) ([e732250](https://github.com/swc-project/swc/commit/e732250cdf74c47faf5321b650a9cea6bd1ab4d4))
 
 
