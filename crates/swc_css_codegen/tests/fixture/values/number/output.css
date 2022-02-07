@@ -94,3 +94,4 @@ property: -000000;
 property: 100.1e-5;
 property: 100.1e-6;
 property: 10001000000}
+div {transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}
