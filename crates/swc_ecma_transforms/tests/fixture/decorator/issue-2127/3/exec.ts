@@ -1,6 +1,6 @@
 const returnValue = "asdasd"
 class TestClass2 {
-    @deco public testProperty: Date;
+    @deco public declare testProperty: Date;
 }
 function deco(target: any, key: string) {
     console.log(target, key);

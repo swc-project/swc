@@ -17,11 +17,6 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
         desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
         desc.initializer = undefined;
     }
-    var own = Object.getOwnPropertyDescriptor(target, property);
-    if (own && (own.get || own.set)) {
-        delete desc.writable;
-        delete desc.initializer;
-    }
     if (desc.initializer === void 0) {
         Object.defineProperty(target, property, desc);
         desc = null;
@@ -60,5 +55,5 @@ var User = ((_class = function User() {
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0
+    initializer: null
 }), _class);
