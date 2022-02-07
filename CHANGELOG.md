@@ -50,6 +50,9 @@
 - **(es/lints)** Implement `prefer-regex-literals` (#3399) ([8166275](https://github.com/swc-project/swc/commit/81662751666b5d49458ab8dad15f3c73e89ef2f6))
 
 
+- **(es/lints)** Implement linter for quotes of string literals (#3443) ([5d6143a](https://github.com/swc-project/swc/commit/5d6143a53c03d0caefc76ea54d6975126984d84d))
+
+
 - **(es/parser)** Add an option to allow `super` outside of class methods (#3427) ([cc185f0](https://github.com/swc-project/swc/commit/cc185f01cb249634d144830db702a281674f48da))
 
 ### Refactor
