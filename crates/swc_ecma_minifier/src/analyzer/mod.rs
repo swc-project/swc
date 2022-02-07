@@ -468,12 +468,12 @@ where
 
         if let Expr::Ident(i) = e {
             if cfg!(feature = "debug") {
-                tracing::debug!(
-                    "Usage: `{}``; update = {:?}, assign_lhs = {:?} ",
-                    i,
-                    self.ctx.in_update_arg,
-                    self.ctx.in_assign_lhs
-                );
+                // tracing::debug!(
+                //     "Usage: `{}``; update = {:?}, assign_lhs = {:?} ",
+                //     i,
+                //     self.ctx.in_update_arg,
+                //     self.ctx.in_assign_lhs
+                // );
             }
 
             if self.ctx.in_update_arg {
