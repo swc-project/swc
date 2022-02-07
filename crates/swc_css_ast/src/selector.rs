@@ -113,9 +113,6 @@ pub enum SubclassSelector {
 
     #[tag("PseudoElementSelector")]
     PseudoElement(PseudoElementSelector),
-
-    #[tag("AtSelector")]
-    At(AtSelector),
 }
 
 #[ast_node("IdSelector")]
@@ -195,13 +192,6 @@ pub struct PseudoElementSelector {
     pub span: Span,
     pub name: Ident,
     pub children: Option<Tokens>,
-}
-
-/// Type for `@top-center`. Allowwed in only some contexts.
-#[ast_node("AtSelector")]
-pub struct AtSelector {
-    pub span: Span,
-    pub text: Ident,
 }
 
 #[ast_node]
