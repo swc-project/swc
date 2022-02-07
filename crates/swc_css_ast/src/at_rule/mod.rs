@@ -43,6 +43,9 @@ pub enum AtRule {
     #[tag("PageRule")]
     Page(PageRule),
 
+    #[tag("PageMarginRule")]
+    PageMargin(PageMarginRule),
+
     #[tag("NamespaceRule")]
     Namespace(NamespaceRule),
 

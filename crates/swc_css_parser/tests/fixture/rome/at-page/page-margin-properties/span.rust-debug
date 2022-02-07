@@ -39,18 +39,7 @@ error: PageRule
 5 | | }
   | |_^
 
-error: PageRuleBlock
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:1:7
-  |
-1 |   @page {
-  |  _______^
-2 | |     @top-center {
-3 | |         display: none;
-4 | |     }
-5 | | }
-  | |_^
-
-error: PageRuleBlockItem
+error: AtRule
  --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:2
   |
 2 |       @top-center {
@@ -59,7 +48,7 @@ error: PageRuleBlockItem
 4 | |     }
   | |_____^
 
-error: NestedPageRule
+error: PageMarginRule
  --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:2
   |
 2 |       @top-center {
@@ -67,57 +56,12 @@ error: NestedPageRule
 3 | |         display: none;
 4 | |     }
   | |_____^
-
-error: SelectorList
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:2
-  |
-2 |     @top-center {
-  |     ^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:2
-  |
-2 |     @top-center {
-  |     ^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:2
-  |
-2 |     @top-center {
-  |     ^^^^^^^^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:2
-  |
-2 |     @top-center {
-  |     ^^^^^^^^^^^
-
-error: AtSelector
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:2
-  |
-2 |     @top-center {
-  |     ^^^^^^^^^^^
 
 error: Ident
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:2
+ --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:3
   |
 2 |     @top-center {
-  |     ^^^^^^^^^^^
-
-error: PageRuleBlock
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:14
-  |
-2 |       @top-center {
-  |  _________________^
-3 | |         display: none;
-4 | |     }
-  | |_____^
-
-error: PageRuleBlockItem
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:3
-  |
-3 |         display: none;
-  |         ^^^^^^^^^^^^^
+  |      ^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:3
