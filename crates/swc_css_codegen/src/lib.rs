@@ -706,13 +706,21 @@ where
         keyword!(self, "document");
         space!(self);
 
-        self.emit_list(&n.selectors, ListFormat::CommaDelimited)?;
+        self.emit_list(&n.matching_functions, ListFormat::CommaDelimited)?;
 
         formatting_space!(self);
 
         punct!(self, "{");
         self.emit_list(&n.block, ListFormat::NotDelimited)?;
         punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_document_rule_matching_function(&mut self, n: &DocumentRuleMatchingFunction) -> Result {
+        match n {
+            DocumentRuleMatchingFunction::Url(n) => emit!(self, n),
+            DocumentRuleMatchingFunction::Function(n) => emit!(self, n),
+        }
     }
 
     fn emit_list_values(&mut self, nodes: &[Value], format: ListFormat) -> Result {

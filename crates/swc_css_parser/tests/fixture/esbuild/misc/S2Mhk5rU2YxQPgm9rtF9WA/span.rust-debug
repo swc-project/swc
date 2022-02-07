@@ -22,7 +22,13 @@ error: DocumentRule
 1 | @document url("https://www.example.com/") { h1 { color: green } }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function
+error: DocumentRuleMatchingFunction
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:11
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Url
  --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:11
   |
 1 | @document url("https://www.example.com/") { h1 { color: green } }
@@ -34,7 +40,7 @@ error: Ident
 1 | @document url("https://www.example.com/") { h1 { color: green } }
   |           ^^^
 
-error: Value
+error: UrlValue
  --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:15
   |
 1 | @document url("https://www.example.com/") { h1 { color: green } }

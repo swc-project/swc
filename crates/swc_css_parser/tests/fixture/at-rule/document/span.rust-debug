@@ -1,0 +1,578 @@
+error: Stylesheet
+  --> $DIR/tests/fixture/at-rule/document/input.css:1:1
+   |
+1  | / @document url("https://www.example.com/") {
+2  | |     h1 {
+3  | |         color: green;
+4  | |     }
+...  |
+14 | | @document url(https://www.example.com/) {}
+15 | | @-moz-document url("https://www.example.com/") {}
+   | |__________________________________________________^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/document/input.css:1:1
+  |
+1 | / @document url("https://www.example.com/") {
+2 | |     h1 {
+3 | |         color: green;
+4 | |     }
+5 | | }
+  | |_^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/document/input.css:1:1
+  |
+1 | / @document url("https://www.example.com/") {
+2 | |     h1 {
+3 | |         color: green;
+4 | |     }
+5 | | }
+  | |_^
+
+error: DocumentRule
+ --> $DIR/tests/fixture/at-rule/document/input.css:1:1
+  |
+1 | / @document url("https://www.example.com/") {
+2 | |     h1 {
+3 | |         color: green;
+4 | |     }
+5 | | }
+  | |_^
+
+error: DocumentRuleMatchingFunction
+ --> $DIR/tests/fixture/at-rule/document/input.css:1:11
+  |
+1 | @document url("https://www.example.com/") {
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Url
+ --> $DIR/tests/fixture/at-rule/document/input.css:1:11
+  |
+1 | @document url("https://www.example.com/") {
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/document/input.css:1:11
+  |
+1 | @document url("https://www.example.com/") {
+  |           ^^^
+
+error: UrlValue
+ --> $DIR/tests/fixture/at-rule/document/input.css:1:15
+  |
+1 | @document url("https://www.example.com/") {
+  |               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/document/input.css:1:15
+  |
+1 | @document url("https://www.example.com/") {
+  |               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/document/input.css:2:5
+  |
+2 | /     h1 {
+3 | |         color: green;
+4 | |     }
+  | |_____^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/at-rule/document/input.css:2:5
+  |
+2 | /     h1 {
+3 | |         color: green;
+4 | |     }
+  | |_____^
+
+error: SelectorList
+ --> $DIR/tests/fixture/at-rule/document/input.css:2:5
+  |
+2 |     h1 {
+  |     ^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/at-rule/document/input.css:2:5
+  |
+2 |     h1 {
+  |     ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/at-rule/document/input.css:2:5
+  |
+2 |     h1 {
+  |     ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/at-rule/document/input.css:2:5
+  |
+2 |     h1 {
+  |     ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/at-rule/document/input.css:2:5
+  |
+2 |     h1 {
+  |     ^^
+
+error: WqName
+ --> $DIR/tests/fixture/at-rule/document/input.css:2:5
+  |
+2 |     h1 {
+  |     ^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/document/input.css:2:5
+  |
+2 |     h1 {
+  |     ^^
+
+error: Block
+ --> $DIR/tests/fixture/at-rule/document/input.css:2:8
+  |
+2 |       h1 {
+  |  ________^
+3 | |         color: green;
+4 | |     }
+  | |_____^
+
+error: Declaration
+ --> $DIR/tests/fixture/at-rule/document/input.css:3:9
+  |
+3 |         color: green;
+  |         ^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/at-rule/document/input.css:3:9
+  |
+3 |         color: green;
+  |         ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/document/input.css:3:9
+  |
+3 |         color: green;
+  |         ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/document/input.css:3:16
+  |
+3 |         color: green;
+  |                ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/document/input.css:3:16
+  |
+3 |         color: green;
+  |                ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/document/input.css:7:1
+   |
+7  | / @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+8  | |     body {
+9  | |         color: purple;
+10 | |         background: yellow;
+11 | |     }
+12 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/document/input.css:7:1
+   |
+7  | / @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+8  | |     body {
+9  | |         color: purple;
+10 | |         background: yellow;
+11 | |     }
+12 | | }
+   | |_^
+
+error: DocumentRule
+  --> $DIR/tests/fixture/at-rule/document/input.css:7:1
+   |
+7  | / @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+8  | |     body {
+9  | |         color: purple;
+10 | |         background: yellow;
+11 | |     }
+12 | | }
+   | |_^
+
+error: DocumentRuleMatchingFunction
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:11
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Url
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:11
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:11
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |           ^^^
+
+error: UrlValue
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:15
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |               ^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:15
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |               ^^^^^^^^^^^^^^^^^^^^
+
+error: DocumentRuleMatchingFunction
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:38
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:38
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:38
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                      ^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:49
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:49
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DocumentRuleMatchingFunction
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:78
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                                                              ^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:78
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                                                              ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:78
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                                                              ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:85
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                                                                     ^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:85
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                                                                     ^^^^^^^^^^^^^
+
+error: DocumentRuleMatchingFunction
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:101
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:101
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:101
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                                                                                     ^^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:116
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                                                                                                    ^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:116
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                                                                                                    ^^^^^^^
+
+error: DocumentRuleMatchingFunction
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:126
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                                                                                                              ^^^^^^^^^^^^^^^^^^
+
+error: Function
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:126
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                                                                                                              ^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:126
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                                                                                                              ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:133
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                                                                                                                     ^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/document/input.css:7:133
+  |
+7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  |                                                                                                                                     ^^^^^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/document/input.css:8:5
+   |
+8  | /     body {
+9  | |         color: purple;
+10 | |         background: yellow;
+11 | |     }
+   | |_____^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/at-rule/document/input.css:8:5
+   |
+8  | /     body {
+9  | |         color: purple;
+10 | |         background: yellow;
+11 | |     }
+   | |_____^
+
+error: SelectorList
+ --> $DIR/tests/fixture/at-rule/document/input.css:8:5
+  |
+8 |     body {
+  |     ^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/at-rule/document/input.css:8:5
+  |
+8 |     body {
+  |     ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/at-rule/document/input.css:8:5
+  |
+8 |     body {
+  |     ^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/at-rule/document/input.css:8:5
+  |
+8 |     body {
+  |     ^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/at-rule/document/input.css:8:5
+  |
+8 |     body {
+  |     ^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/at-rule/document/input.css:8:5
+  |
+8 |     body {
+  |     ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/document/input.css:8:5
+  |
+8 |     body {
+  |     ^^^^
+
+error: Block
+  --> $DIR/tests/fixture/at-rule/document/input.css:8:10
+   |
+8  |       body {
+   |  __________^
+9  | |         color: purple;
+10 | |         background: yellow;
+11 | |     }
+   | |_____^
+
+error: Declaration
+ --> $DIR/tests/fixture/at-rule/document/input.css:9:9
+  |
+9 |         color: purple;
+  |         ^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/at-rule/document/input.css:9:9
+  |
+9 |         color: purple;
+  |         ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/document/input.css:9:9
+  |
+9 |         color: purple;
+  |         ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/document/input.css:9:16
+  |
+9 |         color: purple;
+  |                ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/document/input.css:9:16
+  |
+9 |         color: purple;
+  |                ^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/document/input.css:10:9
+   |
+10 |         background: yellow;
+   |         ^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/at-rule/document/input.css:10:9
+   |
+10 |         background: yellow;
+   |         ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/document/input.css:10:9
+   |
+10 |         background: yellow;
+   |         ^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/document/input.css:10:21
+   |
+10 |         background: yellow;
+   |                     ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/document/input.css:10:21
+   |
+10 |         background: yellow;
+   |                     ^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/document/input.css:14:1
+   |
+14 | @document url(https://www.example.com/) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/document/input.css:14:1
+   |
+14 | @document url(https://www.example.com/) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DocumentRule
+  --> $DIR/tests/fixture/at-rule/document/input.css:14:1
+   |
+14 | @document url(https://www.example.com/) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DocumentRuleMatchingFunction
+  --> $DIR/tests/fixture/at-rule/document/input.css:14:11
+   |
+14 | @document url(https://www.example.com/) {}
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/at-rule/document/input.css:14:11
+   |
+14 | @document url(https://www.example.com/) {}
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/document/input.css:14:11
+   |
+14 | @document url(https://www.example.com/) {}
+   |           ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/document/input.css:14:15
+   |
+14 | @document url(https://www.example.com/) {}
+   |               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/at-rule/document/input.css:14:15
+   |
+14 | @document url(https://www.example.com/) {}
+   |               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/document/input.css:15:1
+   |
+15 | @-moz-document url("https://www.example.com/") {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/document/input.css:15:1
+   |
+15 | @-moz-document url("https://www.example.com/") {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DocumentRule
+  --> $DIR/tests/fixture/at-rule/document/input.css:15:1
+   |
+15 | @-moz-document url("https://www.example.com/") {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DocumentRuleMatchingFunction
+  --> $DIR/tests/fixture/at-rule/document/input.css:15:16
+   |
+15 | @-moz-document url("https://www.example.com/") {}
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/at-rule/document/input.css:15:16
+   |
+15 | @-moz-document url("https://www.example.com/") {}
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/document/input.css:15:16
+   |
+15 | @-moz-document url("https://www.example.com/") {}
+   |                ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/document/input.css:15:20
+   |
+15 | @-moz-document url("https://www.example.com/") {}
+   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/document/input.css:15:20
+   |
+15 | @-moz-document url("https://www.example.com/") {}
+   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
