@@ -1,17 +1,21 @@
-use swc_common::{errors::Diagnostic, plugin::Serialized};
+use swc_common::plugin::Serialized;
 
 extern "C" {
     fn __emit_diagnostics(bytes_ptr: i32, bytes_ptr_len: i32);
     fn __free(bytes_ptr: i32, size: i32) -> i32;
 }
 
-/// Emitter for the Diagnostic in plugin's context by borrowing host's
+/// An emitter for the Diagnostic in plugin's context by borrowing host's
 /// environment context.
-pub struct Diagnostics {}
+///
+/// It is not expected to call this directly inside of plugin transform.
+/// Instead, it is encouraged to use global HANDLER.
+pub struct PluginDiagnosticsEmitter {}
 
-impl Diagnostics {
-    pub fn emit(&self, diagnostic: Diagnostic) {
-        let diag = Serialized::serialize(&diagnostic).expect("Should able to serialize Diagnostic");
+impl swc_common::errors::Emitter for PluginDiagnosticsEmitter {
+    fn emit(&mut self, db: &swc_common::errors::DiagnosticBuilder<'_>) {
+        let diag =
+            Serialized::serialize(&*db.diagnostic).expect("Should able to serialize Diagnostic");
         let diag_ref = diag.as_ref();
 
         let ptr = diag_ref.as_ptr() as _;
@@ -19,28 +23,6 @@ impl Diagnostics {
 
         unsafe {
             __emit_diagnostics(ptr, len);
-            __free(ptr, len);
         }
-    }
-}
-
-/// A struct contains set of utility fn to access host environment inside
-/// of plugin. This is being used for certain operations such as sending
-/// diagnostics back to the host.
-pub struct HostContext {
-    pub diagnostics: Diagnostics,
-}
-
-impl HostContext {
-    pub fn new() -> HostContext {
-        HostContext {
-            diagnostics: Diagnostics {},
-        }
-    }
-}
-
-impl Default for HostContext {
-    fn default() -> Self {
-        Self::new()
     }
 }
