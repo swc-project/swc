@@ -410,12 +410,11 @@ where
 
         self.input.skip_ws()?;
 
-        
         let mut matcher = None;
         let mut value = None;
         let mut modifier = None;
 
-        let name=if let Ok(Some(wq_name)) = self.parse() {
+        let name = if let Ok(Some(wq_name)) = self.parse() {
             wq_name
         } else {
             let span = self.input.cur_span()?;
@@ -739,7 +738,6 @@ where
                         has_plus_sign = true;
                     }
                 }
-                
                 let a;
                 let a_raw;
 
