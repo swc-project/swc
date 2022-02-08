@@ -39,3 +39,9 @@ a[title="a not so very long title"] {
 div {
     family-name: "A;' /**/";
 }
+
+
+.foo {
+    content: ";'@ /**/\"";
+    content: '\'"\\';
+}

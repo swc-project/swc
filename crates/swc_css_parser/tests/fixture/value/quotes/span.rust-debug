@@ -6,8 +6,8 @@ error: Stylesheet
 3  | |     content: 'This string is demarcated by single quotes.';
 4  | |     content: "This is a string with \" an escaped double quote.";
 ...  |
-40 | |     family-name: "A;' /**/";
-41 | | }
+46 | |     content: '\'"\\';
+47 | | }
    | |__^
 
 error: Rule
@@ -1098,4 +1098,128 @@ error: Str
    |
 40 |     family-name: "A;' /**/";
    |                  ^^^^^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/value/quotes/input.css:44:1
+   |
+44 | / .foo {
+45 | |     content: ";'@ /**/\"";
+46 | |     content: '\'"\\';
+47 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/value/quotes/input.css:44:1
+   |
+44 | / .foo {
+45 | |     content: ";'@ /**/\"";
+46 | |     content: '\'"\\';
+47 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/value/quotes/input.css:44:1
+   |
+44 | .foo {
+   | ^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:44:1
+   |
+44 | .foo {
+   | ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:44:1
+   |
+44 | .foo {
+   | ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:44:1
+   |
+44 | .foo {
+   | ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:44:1
+   |
+44 | .foo {
+   | ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/quotes/input.css:44:2
+   |
+44 | .foo {
+   |  ^^^
+
+error: Block
+  --> $DIR/tests/fixture/value/quotes/input.css:44:6
+   |
+44 |   .foo {
+   |  ______^
+45 | |     content: ";'@ /**/\"";
+46 | |     content: '\'"\\';
+47 | | }
+   | |_^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/quotes/input.css:45:5
+   |
+45 |     content: ";'@ /**/\"";
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/quotes/input.css:45:5
+   |
+45 |     content: ";'@ /**/\"";
+   |     ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/quotes/input.css:45:5
+   |
+45 |     content: ";'@ /**/\"";
+   |     ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/quotes/input.css:45:14
+   |
+45 |     content: ";'@ /**/\"";
+   |              ^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/value/quotes/input.css:45:14
+   |
+45 |     content: ";'@ /**/\"";
+   |              ^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/quotes/input.css:46:5
+   |
+46 |     content: '\'"\\';
+   |     ^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/quotes/input.css:46:5
+   |
+46 |     content: '\'"\\';
+   |     ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/quotes/input.css:46:5
+   |
+46 |     content: '\'"\\';
+   |     ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/quotes/input.css:46:14
+   |
+46 |     content: '\'"\\';
+   |              ^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/value/quotes/input.css:46:14
+   |
+46 |     content: '\'"\\';
+   |              ^^^^^^^
 
