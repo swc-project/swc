@@ -278,7 +278,11 @@ where
             Token::Ident { value, .. } => {
                 if value.starts_with("--") {
                     return Ok(Value::DashedIdent(self.parse()?));
-                };
+                } else if &*value.to_ascii_lowercase() == "u"
+                    && peeked_is_one_of!(self, "+", Num, Dimension)
+                {
+                    return Ok(Value::Urange(self.parse()?));
+                }
 
                 return Ok(Value::Ident(self.parse()?));
             }
@@ -1324,6 +1328,214 @@ where
         function.span = span!(self, span.lo);
 
         return Ok(function);
+    }
+}
+
+// <urange> =
+//   u '+' <ident-token> '?'* |
+//   u <dimension-token> '?'* |
+//   u <number-token> '?'* |
+//   u <number-token> <dimension-token> |
+//   u <number-token> <number-token> |
+//   u '+' '?'+
+impl<I> Parse<Urange> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Urange> {
+        let span = self.input.cur_span()?;
+        let mut urange = String::new();
+
+        // should start with `u` or `U`
+        match cur!(self) {
+            Token::Ident { value, .. } if &*value.to_ascii_lowercase() == "u" => {
+                let ident = match bump!(self) {
+                    Token::Ident { value, .. } => value,
+                    _ => {
+                        unreachable!();
+                    }
+                };
+
+                urange.push_str(&ident);
+            }
+            _ => {
+                return Err(Error::new(span, ErrorKind::Expected("'u' ident token")));
+            }
+        };
+
+        match cur!(self) {
+            // u '+' <ident-token> '?'*
+            // u '+' '?'+
+            Token::Delim { value } if *value == '+' => {
+                let plus = match bump!(self) {
+                    Token::Delim { value } => value,
+                    _ => {
+                        unreachable!();
+                    }
+                };
+
+                urange.push(plus);
+
+                if is!(self, Ident) {
+                    let ident = match bump!(self) {
+                        Token::Ident { value, .. } => value,
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    urange.push_str(&ident);
+
+                    loop {
+                        if !is!(self, "?") {
+                            break;
+                        }
+
+                        let question = match bump!(self) {
+                            Token::Delim { value } => value,
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        urange.push(question);
+                    }
+                } else {
+                    let question = match bump!(self) {
+                        Token::Delim { value } => value,
+                        _ => {
+                            return Err(Error::new(span, ErrorKind::Expected("'?' delim token")));
+                        }
+                    };
+
+                    urange.push(question);
+
+                    loop {
+                        if !is!(self, "?") {
+                            break;
+                        }
+
+                        let question = match bump!(self) {
+                            Token::Delim { value } => value,
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        urange.push(question);
+                    }
+                }
+            }
+            // u <number-token> '?'*
+            // u <number-token> <dimension-token>
+            // u <number-token> <number-token>
+            tok!("num") => {
+                let number = match bump!(self) {
+                    Token::Num { raw, .. } => raw,
+                    _ => {
+                        unreachable!();
+                    }
+                };
+
+                urange.push_str(&number);
+
+                match cur!(self) {
+                    tok!("?") => {
+                        let question = match bump!(self) {
+                            Token::Delim { value } => value,
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        urange.push(question);
+
+                        loop {
+                            if !is!(self, "?") {
+                                break;
+                            }
+
+                            let question = match bump!(self) {
+                                Token::Delim { value } => value,
+                                _ => {
+                                    unreachable!();
+                                }
+                            };
+
+                            urange.push(question);
+                        }
+                    }
+                    tok!("dimension") => {
+                        let dimension = match bump!(self) {
+                            Token::Dimension {
+                                raw_value,
+                                raw_unit,
+                                ..
+                            } => (raw_value, raw_unit),
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        urange.push_str(&dimension.0);
+                        urange.push_str(&dimension.1);
+                    }
+                    tok!("num") => {
+                        let number = match bump!(self) {
+                            Token::Num { raw, .. } => raw,
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        urange.push_str(&number);
+                    }
+                    _ => {}
+                }
+            }
+            // u <dimension-token> '?'*
+            tok!("dimension") => {
+                let dimension = match bump!(self) {
+                    Token::Dimension {
+                        raw_value,
+                        raw_unit,
+                        ..
+                    } => (raw_value, raw_unit),
+                    _ => {
+                        unreachable!();
+                    }
+                };
+
+                urange.push_str(&dimension.0);
+                urange.push_str(&dimension.1);
+
+                loop {
+                    if !is!(self, "?") {
+                        break;
+                    }
+
+                    let question = match bump!(self) {
+                        Token::Delim { value } => value,
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    urange.push(question);
+                }
+            }
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("dimension, number or '?' delim token"),
+                ));
+            }
+        }
+
+        return Ok(Urange {
+            span: span!(self, span.lo),
+            value: urange.into(),
+        });
     }
 }
 
