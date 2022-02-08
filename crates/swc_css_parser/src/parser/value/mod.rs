@@ -642,19 +642,19 @@ where
 
         match cur!(self) {
             Token::Dimension { unit, .. } => {
-                match &*unit.to_ascii_lowercase() {
+                match unit {
                     // <length>
-                    _ if is_length_unit(unit) => Ok(Dimension::Length(self.parse()?)),
+                    unit if is_length_unit(unit) => Ok(Dimension::Length(self.parse()?)),
                     // <angle>
-                    _ if is_angle_unit(unit) => Ok(Dimension::Angle(self.parse()?)),
+                    unit if is_angle_unit(unit) => Ok(Dimension::Angle(self.parse()?)),
                     // <time>
-                    _ if is_time_unit(unit) => Ok(Dimension::Time(self.parse()?)),
+                    unit if is_time_unit(unit) => Ok(Dimension::Time(self.parse()?)),
                     // <frequency>
-                    _ if is_frequency_unit(unit) => Ok(Dimension::Frequency(self.parse()?)),
+                    unit if is_frequency_unit(unit) => Ok(Dimension::Frequency(self.parse()?)),
                     // <resolution>
-                    _ if is_resolution_unit(unit) => Ok(Dimension::Resolution(self.parse()?)),
+                    unit if is_resolution_unit(unit) => Ok(Dimension::Resolution(self.parse()?)),
                     // <flex>
-                    _ if is_flex_unit(unit) => Ok(Dimension::Flex(self.parse()?)),
+                    unit if is_flex_unit(unit) => Ok(Dimension::Flex(self.parse()?)),
                     _ => Ok(Dimension::UnknownDimension(self.parse()?)),
                 }
             }
