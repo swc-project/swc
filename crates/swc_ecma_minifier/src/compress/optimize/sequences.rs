@@ -946,13 +946,15 @@ where
         if let Some(a_id) = a.id() {
             match a {
                 Mergable::Expr(Expr::Assign(AssignExpr { op: op!("="), .. })) => {}
-                Mergable::Expr(Expr::Assign(..)) => {
-                    // If b assigns to `a_id` with op-assignment, we should not merge.
-
-                    if assigns_to_id_with_op(a_id, b) {
-                        return Ok(false);
+                Mergable::Expr(Expr::Assign(..)) => match b {
+                    Expr::Assign(AssignExpr { right, .. }) => {
+                        let used_by_b = idents_used_by(&**right);
+                        if used_by_b.contains(&a_id) {
+                            return Ok(false);
+                        }
                     }
-                }
+                    _ => {}
+                },
                 _ => {}
             }
         }
@@ -1533,32 +1535,4 @@ impl Mergable<'_> {
             },
         }
     }
-}
-
-fn assigns_to_id_with_op(id: Id, e: &Expr) -> bool {
-    struct Visitor {
-        id: Id,
-        found: bool,
-    }
-
-    impl Visit for Visitor {
-        fn visit_assign_expr(&mut self, e: &AssignExpr) {
-            if self.found {
-                return;
-            }
-            e.visit_children_with(self);
-
-            if e.op != op!("=") {
-                if let Some(id) = e.left.as_ident() {
-                    if self.id == id.to_id() {
-                        self.found = true;
-                    }
-                }
-            }
-        }
-    }
-
-    let mut v = Visitor { found: false, id };
-    e.visit_with(&mut v);
-    v.found
 }
