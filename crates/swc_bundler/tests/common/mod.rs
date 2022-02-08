@@ -299,8 +299,8 @@ impl Resolve for NodeResolver {
         if target.starts_with("./") || target.starts_with("../") {
             let win_target;
             let target = if cfg!(target_os = "windows") {
-                let t = if target.starts_with("./") {
-                    &target[2..]
+                let t = if let Some(s) = target.strip_prefix("./") {
+                    s
                 } else {
                     base_dir = base_dir.parent().unwrap();
                     &target[3..]

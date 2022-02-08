@@ -1767,7 +1767,7 @@ export default function waitUntil(callback, options = {}) {
                     }]
                 })
             ),
-            _ => assert!(false),
+            _ => unreachable!(),
         }
     }
     #[test]

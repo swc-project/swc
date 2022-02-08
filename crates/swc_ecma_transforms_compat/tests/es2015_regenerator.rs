@@ -1,3 +1,5 @@
+#![allow(clippy::unit_arg)]
+
 use swc_common::{chain, comments::SingleThreadedComments, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver::resolver;

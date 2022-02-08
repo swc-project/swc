@@ -768,7 +768,7 @@ where
                         name: name.0,
                         raw_name: name.1,
                         value: (before.to_owned() + &raw.to_owned()).into(),
-                        raw_value: (before.to_owned() + &&raw.to_owned()).into(),
+                        raw_value: (before.to_owned() + &raw.to_owned()).into(),
                     });
                 }
 
