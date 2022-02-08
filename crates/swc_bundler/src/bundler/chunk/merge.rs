@@ -1356,6 +1356,7 @@ impl Fold for Unexporter {
 
 struct ImportMetaHandler<'a, 'b> {
     file: &'a FileName,
+    #[allow(clippy::borrowed_box)]
     hook: &'a Box<dyn 'b + Hook>,
     is_entry: bool,
     inline_ident: Ident,

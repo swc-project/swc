@@ -974,16 +974,7 @@ impl<'a, I: Tokens> Parser<I> {
         assert_and_bump!(self, "function");
         let is_async = start_of_async.is_some();
 
-        let is_generator = {
-            if eat!(self, '*') {
-                // if is_async {
-                //     syntax_error!(self, span!(self, start), SyntaxError::AsyncGenerator {});
-                // }
-                true
-            } else {
-                false
-            }
-        };
+        let is_generator = eat!(self, '*');
 
         let ident = if T::is_fn_expr() {
             //

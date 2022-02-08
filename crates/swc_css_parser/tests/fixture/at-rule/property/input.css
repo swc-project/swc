@@ -1,0 +1,5 @@
+@property --my-color {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #c0ffee;
+}

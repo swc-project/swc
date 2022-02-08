@@ -345,7 +345,7 @@ impl AssignFolder {
                 let ref_decls = if self.exporting {
                     &mut self.vars
                 } else {
-                    decls.as_mut()
+                    &mut *decls
                 };
 
                 let ref_ident = make_ref_ident(self.c, ref_decls, decl.init);

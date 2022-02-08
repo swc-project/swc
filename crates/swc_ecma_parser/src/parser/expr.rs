@@ -754,21 +754,18 @@ impl<'a, I: Tokens> Parser<I> {
                 type_params: None,
             };
             if let BlockStmtOrExpr::BlockStmt(..) = arrow_expr.body {
-                match cur!(self, false) {
-                    Ok(&Token::BinOp(..)) => {
-                        // ) is required
+                if let Ok(&Token::BinOp(..)) = cur!(self, false) {
+                    // ) is required
+                    self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
+                    let errorred_expr =
+                        self.parse_bin_op_recursively(Box::new(arrow_expr.into()), 0)?;
+
+                    if !is!(self, ';') {
+                        // ; is required
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
-                        let errorred_expr =
-                            self.parse_bin_op_recursively(Box::new(arrow_expr.into()), 0)?;
-
-                        if !is!(self, ';') {
-                            // ; is required
-                            self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
-                        }
-
-                        return Ok(errorred_expr);
                     }
-                    _ => {}
+
+                    return Ok(errorred_expr);
                 }
             }
             return Ok(Box::new(Expr::Arrow(arrow_expr)));

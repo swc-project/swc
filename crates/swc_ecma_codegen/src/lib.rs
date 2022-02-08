@@ -1,4 +1,6 @@
 #![recursion_limit = "1024"]
+#![allow(clippy::match_like_matches_macro)]
+#![allow(clippy::nonminimal_bool)]
 #![allow(unused_variables)]
 
 pub use self::config::Config;
@@ -3122,11 +3124,11 @@ fn escape_without_source(v: &str, target: EsVersion, single_quote: bool) -> Stri
     buf
 }
 
-fn escape_with_source<'s>(
+fn escape_with_source(
     cm: &SourceMap,
     target: EsVersion,
     span: Span,
-    s: &'s str,
+    s: &str,
     single_quote: Option<bool>,
 ) -> String {
     if target <= EsVersion::Es5 {

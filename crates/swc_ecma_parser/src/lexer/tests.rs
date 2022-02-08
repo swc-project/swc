@@ -1178,6 +1178,7 @@ fn lex_large_number(b: &mut Bencher) {
 }
 
 #[bench]
+#[allow(clippy::octal_escapes)]
 fn lex_escaped_char(b: &mut Bencher) {
     bench_simple(
         b,

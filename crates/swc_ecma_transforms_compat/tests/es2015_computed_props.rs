@@ -1,3 +1,5 @@
+#![allow(clippy::unit_arg)]
+
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_compat::es2015::computed_props::{computed_properties, Config};
 use swc_ecma_transforms_testing::{test, test_exec};

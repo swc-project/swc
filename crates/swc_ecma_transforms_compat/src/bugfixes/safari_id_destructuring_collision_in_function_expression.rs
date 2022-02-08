@@ -49,7 +49,7 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
                     let mut id_value: JsWord = format!("_{}", self.fn_expr_name).into();
                     let mut count = 0;
                     while self.other_ident_syms.contains(&id_value) {
-                        count = count + 1;
+                        count += 1;
                         id_value = format!("_{}{}", self.fn_expr_name, count).into();
                     }
                     id_value
