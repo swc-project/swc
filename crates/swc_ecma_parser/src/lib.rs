@@ -117,6 +117,7 @@
 #![cfg_attr(test, feature(bench_black_box))]
 #![cfg_attr(test, feature(test))]
 #![deny(unused)]
+#![allow(clippy::nonminimal_bool)]
 
 pub use self::{
     lexer::input::{Input, StringInput},
