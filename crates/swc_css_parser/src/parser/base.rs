@@ -7,6 +7,23 @@ use crate::{
 use swc_common::Span;
 use swc_css_ast::*;
 
+impl<I> Parse<Stylesheet> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Stylesheet> {
+        let start = self.input.cur_span()?;
+        let rules = self.parse_rule_list(RuleContext { is_top_level: true })?;
+
+        let last = self.input.last_pos()?;
+
+        Ok(Stylesheet {
+            span: Span::new(start.lo, last, Default::default()),
+            rules,
+        })
+    }
+}
+
 impl<I> Parser<I>
 where
     I: ParserInput,
