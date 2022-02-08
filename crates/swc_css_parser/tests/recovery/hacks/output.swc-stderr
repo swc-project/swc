@@ -1,0 +1,114 @@
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+ --> $DIR/tests/recovery/hacks/input.css:2:5
+  |
+2 |     !property: value;
+  |     ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+ --> $DIR/tests/recovery/hacks/input.css:6:5
+  |
+6 |     $property: value;
+  |     ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/hacks/input.css:10:5
+   |
+10 |     &property: value;
+   |     ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/hacks/input.css:14:5
+   |
+14 |     *property: value;
+   |     ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/hacks/input.css:18:5
+   |
+18 |     )property: value;
+   |     ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/hacks/input.css:22:5
+   |
+22 |     =property: value;
+   |     ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/hacks/input.css:26:5
+   |
+26 |     %property: value;
+   |     ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/hacks/input.css:30:5
+   |
+30 |     +property: value;
+   |     ^
+
+error: Expected Ident
+  --> $DIR/tests/recovery/hacks/input.css:34:14
+   |
+34 |     @property: value;
+   |              ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/hacks/input.css:38:5
+   |
+38 |     ,property: value;
+   |     ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/hacks/input.css:42:5
+   |
+42 |     .property: value;
+   |     ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/hacks/input.css:46:5
+   |
+46 |     /property: value;
+   |     ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/hacks/input.css:50:5
+   |
+50 |     `property: value;
+   |     ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/hacks/input.css:54:5
+   |
+54 |     ]property: value;
+   |     ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/hacks/input.css:58:5
+   |
+58 |     #property: value;
+   |     ^^^^^^^^^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/hacks/input.css:62:5
+   |
+62 |     ~property: value;
+   |     ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/hacks/input.css:66:5
+   |
+66 |     ?property: value;
+   |     ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/hacks/input.css:70:5
+   |
+70 |     :property: value;
+   |     ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/hacks/input.css:74:5
+   |
+74 |     |property: value;
+   |     ^
+

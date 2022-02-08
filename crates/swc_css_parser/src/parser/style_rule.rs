@@ -174,8 +174,32 @@ where
                     declarations.push(prop);
                 }
 
-                _ => {
+                // TODO refactor me
+                tok!("}") => {
                     break;
+                }
+
+                // anything else
+                _ => {
+                    let span = self.input.cur_span()?;
+
+                    self.errors.push(Error::new(
+                        span,
+                        ErrorKind::Expected(
+                            "whitespace, semicolon, EOF, at-keyword or ident token",
+                        ),
+                    ));
+
+                    let mut tokens = vec![];
+
+                    while !is_one_of!(self, EOF, ";", "}") {
+                        tokens.extend(self.input.bump()?);
+                    }
+
+                    declarations.push(DeclarationBlockItem::Invalid(Tokens {
+                        span: span!(self, span.lo),
+                        tokens,
+                    }));
                 }
             }
         }

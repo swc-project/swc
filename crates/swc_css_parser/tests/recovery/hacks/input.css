@@ -1,0 +1,76 @@
+.selector {
+    !property: value;
+    color: red;
+}
+.selector { 
+    $property: value;
+    color: red;
+}
+.selector { 
+    &property: value;
+    color: red;
+}
+.selector { 
+    *property: value;
+    color: red;
+}
+.selector { 
+    )property: value;
+    color: red;
+}
+.selector { 
+    =property: value;
+    color: red;
+}
+.selector { 
+    %property: value;
+    color: red;
+}
+.selector { 
+    +property: value;
+    color: red;
+}
+.selector { 
+    @property: value;
+    color: red;
+}
+.selector { 
+    ,property: value;
+    color: red;
+}
+.selector { 
+    .property: value;
+    color: red;
+}
+.selector { 
+    /property: value;
+    color: red;
+}
+.selector { 
+    `property: value;
+    color: red;
+}
+.selector { 
+    ]property: value;
+    color: red;
+}
+.selector { 
+    #property: value;
+    color: red;
+}
+.selector { 
+    ~property: value;
+    color: red;
+}
+.selector { 
+    ?property: value;
+    color: red;
+}
+.selector { 
+    :property: value;
+    color: red;
+}
+.selector { 
+    |property: value;
+    color: red;
+}

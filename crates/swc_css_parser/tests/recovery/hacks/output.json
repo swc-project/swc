@@ -1,0 +1,3172 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 1006,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 0,
+        "end": 51,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 9,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 9,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 9,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 0,
+                      "end": 9,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1,
+                        "end": 9,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 10,
+          "end": 51,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 16,
+              "end": 32,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 16,
+                  "end": 17,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "!"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 17,
+                  "end": 25,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 25,
+                  "end": 26,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 26,
+                  "end": 27,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 27,
+                  "end": 32,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 38,
+              "end": 48,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 38,
+                "end": 43,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 45,
+                  "end": 48,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 52,
+        "end": 104,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 52,
+          "end": 61,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 52,
+              "end": 61,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 52,
+                  "end": 61,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 52,
+                      "end": 61,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 53,
+                        "end": 61,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 62,
+          "end": 104,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 69,
+              "end": 85,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 69,
+                  "end": 70,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "$"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 70,
+                  "end": 78,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 78,
+                  "end": 79,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 79,
+                  "end": 80,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 80,
+                  "end": 85,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 91,
+              "end": 101,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 91,
+                "end": 96,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 98,
+                  "end": 101,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 105,
+        "end": 157,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 105,
+          "end": 114,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 105,
+              "end": 114,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 105,
+                  "end": 114,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 105,
+                      "end": 114,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 106,
+                        "end": 114,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 115,
+          "end": 157,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 122,
+              "end": 138,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 122,
+                  "end": 123,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "&"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 123,
+                  "end": 131,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 131,
+                  "end": 132,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 132,
+                  "end": 133,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 133,
+                  "end": 138,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 144,
+              "end": 154,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 144,
+                "end": 149,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 151,
+                  "end": 154,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 158,
+        "end": 210,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 158,
+          "end": 167,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 158,
+              "end": 167,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 158,
+                  "end": 167,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 158,
+                      "end": 167,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 159,
+                        "end": 167,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 168,
+          "end": 210,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 175,
+              "end": 191,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 175,
+                  "end": 176,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "*"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 176,
+                  "end": 184,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 184,
+                  "end": 185,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 185,
+                  "end": 186,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 186,
+                  "end": 191,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 197,
+              "end": 207,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 197,
+                "end": 202,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 204,
+                  "end": 207,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 211,
+        "end": 263,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 211,
+          "end": 220,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 211,
+              "end": 220,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 211,
+                  "end": 220,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 211,
+                      "end": 220,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 212,
+                        "end": 220,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 221,
+          "end": 263,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 228,
+              "end": 244,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 228,
+                  "end": 229,
+                  "ctxt": 0
+                },
+                "token": "RParen"
+              },
+              {
+                "span": {
+                  "start": 229,
+                  "end": 237,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 237,
+                  "end": 238,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 238,
+                  "end": 239,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 239,
+                  "end": 244,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 250,
+              "end": 260,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 250,
+                "end": 255,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 257,
+                  "end": 260,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 264,
+        "end": 316,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 264,
+          "end": 273,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 264,
+              "end": 273,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 264,
+                  "end": 273,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 264,
+                      "end": 273,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 265,
+                        "end": 273,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 274,
+          "end": 316,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 281,
+              "end": 297,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 281,
+                  "end": 282,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "="
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 282,
+                  "end": 290,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 290,
+                  "end": 291,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 291,
+                  "end": 292,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 292,
+                  "end": 297,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 303,
+              "end": 313,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 303,
+                "end": 308,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 310,
+                  "end": 313,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 317,
+        "end": 369,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 317,
+          "end": 326,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 317,
+              "end": 326,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 317,
+                  "end": 326,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 317,
+                      "end": 326,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 318,
+                        "end": 326,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 327,
+          "end": 369,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 334,
+              "end": 350,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 334,
+                  "end": 335,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "%"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 335,
+                  "end": 343,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 343,
+                  "end": 344,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 344,
+                  "end": 345,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 345,
+                  "end": 350,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 356,
+              "end": 366,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 356,
+                "end": 361,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 363,
+                  "end": 366,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 370,
+        "end": 422,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 370,
+          "end": 379,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 370,
+              "end": 379,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 370,
+                  "end": 379,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 370,
+                      "end": 379,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 371,
+                        "end": 379,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 380,
+          "end": 422,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 387,
+              "end": 403,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 387,
+                  "end": 388,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "+"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 388,
+                  "end": 396,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 396,
+                  "end": 397,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 397,
+                  "end": 398,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 398,
+                  "end": 403,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 409,
+              "end": 419,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 409,
+                "end": 414,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 416,
+                  "end": 419,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 423,
+        "end": 475,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 423,
+          "end": 432,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 423,
+              "end": 432,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 423,
+                  "end": 432,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 423,
+                      "end": 432,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 424,
+                        "end": 432,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 433,
+          "end": 475,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "UnknownAtRule",
+            "span": {
+              "start": 440,
+              "end": 457,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 441,
+                "end": 449,
+                "ctxt": 0
+              },
+              "value": "property",
+              "raw": "property"
+            },
+            "prelude": [
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 449,
+                  "end": 450,
+                  "ctxt": 0
+                },
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 449,
+                      "end": 450,
+                      "ctxt": 0
+                    },
+                    "token": "Colon"
+                  }
+                ]
+              },
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 450,
+                  "end": 451,
+                  "ctxt": 0
+                },
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 450,
+                      "end": 451,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 451,
+                  "end": 456,
+                  "ctxt": 0
+                },
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 451,
+                      "end": 456,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Ident": {
+                        "value": "value",
+                        "raw": "value"
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "block": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 462,
+              "end": 472,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 462,
+                "end": 467,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 469,
+                  "end": 472,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 476,
+        "end": 528,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 476,
+          "end": 485,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 476,
+              "end": 485,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 476,
+                  "end": 485,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 476,
+                      "end": 485,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 477,
+                        "end": 485,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 486,
+          "end": 528,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 493,
+              "end": 509,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 493,
+                  "end": 494,
+                  "ctxt": 0
+                },
+                "token": "Comma"
+              },
+              {
+                "span": {
+                  "start": 494,
+                  "end": 502,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 502,
+                  "end": 503,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 503,
+                  "end": 504,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 504,
+                  "end": 509,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 515,
+              "end": 525,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 515,
+                "end": 520,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 522,
+                  "end": 525,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 529,
+        "end": 581,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 529,
+          "end": 538,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 529,
+              "end": 538,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 529,
+                  "end": 538,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 529,
+                      "end": 538,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 530,
+                        "end": 538,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 539,
+          "end": 581,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 546,
+              "end": 562,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 546,
+                  "end": 547,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "."
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 547,
+                  "end": 555,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 555,
+                  "end": 556,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 556,
+                  "end": 557,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 557,
+                  "end": 562,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 568,
+              "end": 578,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 568,
+                "end": 573,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 575,
+                  "end": 578,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 582,
+        "end": 634,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 582,
+          "end": 591,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 582,
+              "end": 591,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 582,
+                  "end": 591,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 582,
+                      "end": 591,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 583,
+                        "end": 591,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 592,
+          "end": 634,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 599,
+              "end": 615,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 599,
+                  "end": 600,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "/"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 600,
+                  "end": 608,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 608,
+                  "end": 609,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 609,
+                  "end": 610,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 610,
+                  "end": 615,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 621,
+              "end": 631,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 621,
+                "end": 626,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 628,
+                  "end": 631,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 635,
+        "end": 687,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 635,
+          "end": 644,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 635,
+              "end": 644,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 635,
+                  "end": 644,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 635,
+                      "end": 644,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 636,
+                        "end": 644,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 645,
+          "end": 687,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 652,
+              "end": 668,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 652,
+                  "end": 653,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "`"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 653,
+                  "end": 661,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 661,
+                  "end": 662,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 662,
+                  "end": 663,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 663,
+                  "end": 668,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 674,
+              "end": 684,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 674,
+                "end": 679,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 681,
+                  "end": 684,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 688,
+        "end": 740,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 688,
+          "end": 697,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 688,
+              "end": 697,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 688,
+                  "end": 697,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 688,
+                      "end": 697,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 689,
+                        "end": 697,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 698,
+          "end": 740,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 705,
+              "end": 721,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 705,
+                  "end": 706,
+                  "ctxt": 0
+                },
+                "token": "RBracket"
+              },
+              {
+                "span": {
+                  "start": 706,
+                  "end": 714,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 714,
+                  "end": 715,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 715,
+                  "end": 716,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 716,
+                  "end": 721,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 727,
+              "end": 737,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 727,
+                "end": 732,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 734,
+                  "end": 737,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 741,
+        "end": 793,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 741,
+          "end": 750,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 741,
+              "end": 750,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 741,
+                  "end": 750,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 741,
+                      "end": 750,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 742,
+                        "end": 750,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 751,
+          "end": 793,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 758,
+              "end": 774,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 758,
+                  "end": 767,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Hash": {
+                    "is_id": true,
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 767,
+                  "end": 768,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 768,
+                  "end": 769,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 769,
+                  "end": 774,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 780,
+              "end": 790,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 780,
+                "end": 785,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 787,
+                  "end": 790,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 794,
+        "end": 846,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 794,
+          "end": 803,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 794,
+              "end": 803,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 794,
+                  "end": 803,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 794,
+                      "end": 803,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 795,
+                        "end": 803,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 804,
+          "end": 846,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 811,
+              "end": 827,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 811,
+                  "end": 812,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "~"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 812,
+                  "end": 820,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 820,
+                  "end": 821,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 821,
+                  "end": 822,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 822,
+                  "end": 827,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 833,
+              "end": 843,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 833,
+                "end": 838,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 840,
+                  "end": 843,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 847,
+        "end": 899,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 847,
+          "end": 856,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 847,
+              "end": 856,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 847,
+                  "end": 856,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 847,
+                      "end": 856,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 848,
+                        "end": 856,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 857,
+          "end": 899,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 864,
+              "end": 880,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 864,
+                  "end": 865,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "?"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 865,
+                  "end": 873,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 873,
+                  "end": 874,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 874,
+                  "end": 875,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 875,
+                  "end": 880,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 886,
+              "end": 896,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 886,
+                "end": 891,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 893,
+                  "end": 896,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 900,
+        "end": 952,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 900,
+          "end": 909,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 900,
+              "end": 909,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 900,
+                  "end": 909,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 900,
+                      "end": 909,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 901,
+                        "end": 909,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 910,
+          "end": 952,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 917,
+              "end": 933,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 917,
+                  "end": 918,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 918,
+                  "end": 926,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 926,
+                  "end": 927,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 927,
+                  "end": 928,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 928,
+                  "end": 933,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 939,
+              "end": 949,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 939,
+                "end": 944,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 946,
+                  "end": 949,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 953,
+        "end": 1005,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 953,
+          "end": 962,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 953,
+              "end": 962,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 953,
+                  "end": 962,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 953,
+                      "end": 962,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 954,
+                        "end": 962,
+                        "ctxt": 0
+                      },
+                      "value": "selector",
+                      "raw": "selector"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 963,
+          "end": 1005,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 970,
+              "end": 986,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 970,
+                  "end": 971,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "|"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 971,
+                  "end": 979,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 979,
+                  "end": 980,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 980,
+                  "end": 981,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 981,
+                  "end": 986,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 992,
+              "end": 1002,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 992,
+                "end": 997,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 999,
+                  "end": 1002,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    }
+  ]
+}
