@@ -136,65 +136,13 @@ fn fixture(input: PathBuf) {
     .unwrap();
 }
 
-#[test]
-fn reserved_identifiers() {
-    // classnames too
-    let src = "let var1 = 1;
-let var2 = 2;
-function func1(param1) {
-    console.log(var1 + param1);
-}
-function func2(param2) {
-    console.log(var2 + param2);
-}
-class Class1 {
-    #privateProp1;
-
-    constructor(consParam1) {
-        func1(consParam1);
-    }
-}
-class Class2 {
-    #privateProp2;
-
-    constructor(consParam2) {
-        func2(consParam2);
-    }
-}
-let class1 = new Class1(1);
-let class2 = new Class2(2);";
-
-    let expected = "let var1 = 1;
-let a = 2;
-function func1(param1) {
-    console.log(var1 + param1);
-}
-function b(b) {
-    console.log(a + b);
-}
-class Class1 {
-    #a;
-    constructor(consParam1){
-        func1(consParam1);        
-    }
-}
-class c {
-    #b;
-    constructor(d){
-        b(d);
-    }
-}
-let class1 = new Class1(1);
-let e = new c(2);";
-
+fn assert_mangled(src: &str, expected: &str, opts: MangleOptions) {
     testing::run_test2(false, |cm, _handler| {
         let fm = cm.new_source_file(FileName::Anon, src.into());
 
-        let mut m = parse_fm(fm);
+        let m = parse_fm(fm);
 
         let top_level_mark = Mark::fresh(Mark::root());
-
-        m.visit_mut_with(&mut resolver_with_mark(top_level_mark));
 
         let m = optimize(
             m,
@@ -202,23 +150,7 @@ let e = new c(2);";
             None,
             None,
             &MinifyOptions {
-                mangle: Some(MangleOptions {
-                    top_level: true,
-                    keep_private_props: false,
-                    reserved: vec![
-                        "var1",
-                        "func1",
-                        "param1",
-                        "Class1",
-                        "consParam1",
-                        "class1",
-                        "privateProp1",
-                    ]
-                    .into_iter()
-                    .map(String::from)
-                    .collect(),
-                    ..Default::default()
-                }),
+                mangle: Some(opts),
                 compress: None,
                 ..Default::default()
             },
@@ -234,5 +166,113 @@ let e = new c(2);";
 
         Ok(())
     })
-    .unwrap();
+    .unwrap()
+}
+
+#[test]
+fn reserved_func_names() {
+    let src = "function func1() {
+    console.log(1);
+}
+function func2() {
+    console.log(2);
+}";
+
+    let expected = "function func1() {
+    console.log(1);
+}
+function a() {
+    console.log(2);
+}";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: true,
+            reserved: vec!["func1".to_owned()],
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn reserved_class_names() {
+    let src = "class Class1 {
+    hello1 = 1;
+}
+class Class2 {
+    hello2 = 2;
+}";
+
+    let expected = "class Class1 {
+    hello1 = 1;
+}
+class a {
+    hello2 = 2;
+}";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: true,
+            reserved: vec!["Class1".to_owned()],
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn reserved_private_props() {
+    let src = "class Class1 {
+    #hello1 = 1;
+}
+class Class2 {
+    #hello2 = 2;
+}";
+
+    let expected = "class a {
+    #hello1 = 1;
+}
+class b {
+    #a = 2;
+}";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: true,
+            reserved: vec!["hello1".to_owned()],
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn reserved_all_private_props() {
+    let src = "class Class1 {
+    #hello1 = 1;
+}
+class Class2 {
+    #hello2 = 2;
+}";
+
+    let expected = "class a {
+    #hello1 = 1;
+}
+class b {
+    #hello2 = 2;
+}";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: true,
+            keep_private_props: true,
+            ..Default::default()
+        },
+    )
 }
