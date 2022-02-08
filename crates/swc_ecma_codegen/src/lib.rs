@@ -3124,11 +3124,11 @@ fn escape_without_source(v: &str, target: EsVersion, single_quote: bool) -> Stri
     buf
 }
 
-fn escape_with_source<'s>(
+fn escape_with_source(
     cm: &SourceMap,
     target: EsVersion,
     span: Span,
-    s: &'s str,
+    s: &str,
     single_quote: Option<bool>,
 ) -> String {
     if target <= EsVersion::Es5 {

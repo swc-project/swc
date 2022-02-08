@@ -1088,6 +1088,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 }
 
+#[allow(clippy::enum_variant_names)]
 enum ForHead {
     For {
         init: Option<VarDeclOrExpr>,
