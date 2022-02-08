@@ -287,6 +287,13 @@ where
                         r.span.lo = at_rule_span.lo;
 
                         return Ok(AtRule::CounterStyle(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
+                }
+            }
+
             "property" => {
                 self.input.skip_ws()?;
 
@@ -1807,6 +1814,23 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<CounterStyleRule> {
+        let span = self.input.cur_span()?;
+        let name = self.parse()?;
+
+        expect!(self, "{");
+
+        let block = self.parse()?;
+
+        expect!(self, "}");
+
+        Ok(CounterStyleRule {
+            span: span!(self, span.lo),
+            name,
+            block,
+        })
+    }
+}
+
 impl<I> Parse<PropertyRule> for Parser<I>
 where
     I: ParserInput,
@@ -1821,7 +1845,6 @@ where
 
         expect!(self, "}");
 
-        Ok(CounterStyleRule {
         Ok(PropertyRule {
             span: span!(self, span.lo),
             name,
