@@ -1,4 +1,4 @@
-error: Invalid left-hand side in 'for...in' statement
+error: The left-hand side of an assignment expression must be a variable or a property access.
  --> $DIR/tests/test262-parser/fail/581bedbbce2541be.js:1:6
   |
 1 | for (i + 1 in {});
