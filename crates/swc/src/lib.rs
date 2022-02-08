@@ -464,6 +464,7 @@ impl Compiler {
     ///
     /// This method receives target file path, but does not write file to the
     /// path. See: https://github.com/swc-project/swc/issues/1255
+    #[allow(clippy::too_many_arguments)]
     pub fn print<T>(
         &self,
         node: &T,

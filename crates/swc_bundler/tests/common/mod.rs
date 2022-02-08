@@ -35,7 +35,7 @@ fn calc_hash(s: &str) -> String {
 }
 
 fn calc_cache_path(cache_dir: &Path, url: &Url) -> PathBuf {
-    let hash = calc_hash(&url.to_string());
+    let hash = calc_hash(url.as_ref());
     let s = url.to_string();
     if s.starts_with("https://deno.land/") {
         return cache_dir.join("deno").join(&hash);

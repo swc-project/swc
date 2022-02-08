@@ -1,3 +1,5 @@
+#![deny(clippy::all)]
+
 pub use self::{
     bundler::{Bundle, BundleKind, Bundler, Config, ModuleType},
     hook::{Hook, ModuleRecord},

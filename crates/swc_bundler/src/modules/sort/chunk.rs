@@ -15,6 +15,7 @@ pub(super) struct Chunk {
 
 impl Modules {
     /// Modules with circular import relations will be in same chunk.
+    #[allow(clippy::ptr_arg)]
     pub(super) fn take_chunks(
         &mut self,
         entry_id: ModuleId,
