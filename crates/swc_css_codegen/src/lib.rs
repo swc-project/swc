@@ -86,6 +86,7 @@ where
             AtRule::Viewport(n) => emit!(self, n),
             AtRule::Document(n) => emit!(self, n),
             AtRule::ColorProfile(n) => emit!(self, n),
+            AtRule::CounterStyle(n) => emit!(self, n),
             AtRule::Unknown(n) => emit!(self, n),
         }
     }
@@ -842,7 +843,33 @@ where
         emit!(self, n.name);
         formatting_space!(self);
         punct!(self, "{");
-        self.emit_list(&n.block, ListFormat::NotDelimited)?;
+        self.emit_list(
+            &n.block,
+            if self.config.minify {
+                ListFormat::SemiDelimited
+            } else {
+                ListFormat::SemiDelimited | ListFormat::MultiLine
+            },
+        )?;
+        punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_counter_style_rule(&mut self, n: &CounterStyleRule) -> Result {
+        punct!(self, "@");
+        keyword!(self, "counter-style");
+        space!(self);
+        emit!(self, n.name);
+        formatting_space!(self);
+        punct!(self, "{");
+        self.emit_list(
+            &n.block,
+            if self.config.minify {
+                ListFormat::SemiDelimited
+            } else {
+                ListFormat::SemiDelimited | ListFormat::MultiLine
+            },
+        )?;
         punct!(self, "}");
     }
 

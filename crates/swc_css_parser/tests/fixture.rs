@@ -391,6 +391,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(ViewportRule, visit_viewport_rule);
     mtd!(ColorProfileName, visit_color_profile_name);
     mtd!(ColorProfileRule, visit_color_profile_rule);
+    mtd!(CounterStyleRule, visit_counter_style_rule);
 
     fn visit_token_and_span(&mut self, n: &TokenAndSpan) {
         self.handler
