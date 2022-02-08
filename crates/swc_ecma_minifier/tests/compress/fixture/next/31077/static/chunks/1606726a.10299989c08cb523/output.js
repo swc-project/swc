@@ -1353,7 +1353,7 @@
                     var adjust = Math.max(0, start - Math.min(endA, endB));
                     preferredPos -= endA + adjust - start;
                 }
-                return endA < start && a.size < b.size ? (endB = (start -= preferredPos <= start && preferredPos >= endA ? start - preferredPos : 0) + (endB - endA), endA = start) : endB < start && (endA = (start -= preferredPos <= start && preferredPos >= endB ? start - preferredPos : 0) + (endA - endB), endB = start), {
+                return endA < start && a.size < b.size ? (start -= preferredPos <= start && preferredPos >= endA ? start - preferredPos : 0, endB = start + (endB - endA), endA = start) : endB < start && (start -= preferredPos <= start && preferredPos >= endB ? start - preferredPos : 0, endA = start + (endA - endB), endB = start), {
                     start: start,
                     endA: endA,
                     endB: endB
