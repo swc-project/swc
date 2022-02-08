@@ -946,15 +946,14 @@ where
         if let Some(a_id) = a.id() {
             match a {
                 Mergable::Expr(Expr::Assign(AssignExpr { op: op!("="), .. })) => {}
-                Mergable::Expr(Expr::Assign(..)) => match b {
-                    Expr::Assign(AssignExpr { right, .. }) => {
+                Mergable::Expr(Expr::Assign(..)) => {
+                    if let Expr::Assign(AssignExpr { right, .. }) = b {
                         let used_by_b = idents_used_by(&**right);
                         if used_by_b.contains(&a_id) {
                             return Ok(false);
                         }
                     }
-                    _ => {}
-                },
+                }
                 _ => {}
             }
         }
