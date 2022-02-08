@@ -1,5 +1,6 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![deny(unused_must_use)]
+#![allow(clippy::wrong_self_convention)]
 
 use crate::{
     error::Error,
