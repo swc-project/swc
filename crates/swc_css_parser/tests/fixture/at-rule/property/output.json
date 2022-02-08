@@ -14,7 +14,7 @@
         "ctxt": 0
       },
       "name": {
-        "type": "DashedIdentifier",
+        "type": "DashedIdent",
         "span": {
           "start": 10,
           "end": 20,
@@ -32,7 +32,7 @@
             "ctxt": 0
           },
           "name": {
-            "type": "Identifier",
+            "type": "Ident",
             "span": {
               "start": 27,
               "end": 33,
@@ -63,7 +63,7 @@
             "ctxt": 0
           },
           "name": {
-            "type": "Identifier",
+            "type": "Ident",
             "span": {
               "start": 50,
               "end": 58,
@@ -74,7 +74,7 @@
           },
           "value": [
             {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 60,
                 "end": 65,
@@ -94,7 +94,7 @@
             "ctxt": 0
           },
           "name": {
-            "type": "Identifier",
+            "type": "Ident",
             "span": {
               "start": 71,
               "end": 84,

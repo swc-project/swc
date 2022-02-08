@@ -2,10 +2,8 @@ use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 pub use self::{
-    charset::*, color_profile::*, counter_style::*, document::*, import::*, keyframe::*, layer::*,
-    media::*, page::*, property::*, support::*,
     charset::*, color_profile::*, counter_style::*, document::*, font_face::*, import::*,
-    keyframe::*, layer::*, media::*, namespace::*, page::*, support::*, viewport::*,
+    keyframe::*, layer::*, media::*, namespace::*, page::*, property::*, support::*, viewport::*,
 };
 use crate::{Block, DashedIdent, Ident, SimpleBlock, Str, Url, Value};
 use crate::{DashedIdent, Ident, SimpleBlock, Value};
