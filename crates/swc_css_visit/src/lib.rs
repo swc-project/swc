@@ -95,10 +95,7 @@ define!({
         SimpleBlock(SimpleBlock),
         Dimension(Dimension),
         Number(Number),
-        Percent(Percent),
-
         Percentage(Percentage),
-
         Ratio(Ratio),
         Color(Color),
         Ident(Ident),
