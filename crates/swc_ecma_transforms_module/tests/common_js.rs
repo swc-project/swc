@@ -16,7 +16,7 @@ use swc_ecma_transforms_compat::{
 };
 use swc_ecma_transforms_module::{
     common_js::common_js,
-    hoist::{export_hoister, import_hoister},
+    hoist::module_hoister,
     import_analysis::import_analyzer,
     util::{Config, Lazy, Scope},
 };
@@ -40,8 +40,7 @@ fn tr(config: Config) -> impl Fold {
 
     chain!(
         resolver_with_mark(mark),
-        import_hoister(),
-        export_hoister(),
+        module_hoister(),
         common_js(mark, config, None)
     )
 }

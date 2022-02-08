@@ -3,7 +3,7 @@ use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_base::resolver::{resolver, resolver_with_mark};
 use swc_ecma_transforms_compat::es2015::{arrow, function_name, shorthand};
 use swc_ecma_transforms_module::{
-    hoist::{export_hoister, import_hoister},
+    hoist::module_hoister,
     umd::{umd, Config},
     util,
 };
@@ -20,8 +20,7 @@ fn tr(tester: &mut Tester<'_>, config: Config) -> impl Fold {
     let mark = Mark::fresh(Mark::root());
     chain!(
         resolver_with_mark(mark),
-        import_hoister(),
-        export_hoister(),
+        module_hoister(),
         umd(tester.cm.clone(), mark, config)
     )
 }

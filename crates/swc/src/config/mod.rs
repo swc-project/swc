@@ -46,10 +46,7 @@ use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{
     hygiene, modules,
     modules::{
-        hoist::{export_hoister, import_hoister},
-        path::NodeImportResolver,
-        rewriter::import_rewriter,
-        util::Scope,
+        hoist::module_hoister, path::NodeImportResolver, rewriter::import_rewriter, util::Scope,
     },
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
@@ -1060,17 +1057,16 @@ impl ModuleConfig {
 
         match config {
             None | Some(ModuleConfig::Es6) => {
-                let base_pass = import_hoister();
                 if paths.is_empty() {
-                    Box::new(base_pass)
+                    Box::new(noop())
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
-                    Box::new(chain!(import_rewriter(base, resolver), base_pass))
+                    Box::new(import_rewriter(base, resolver))
                 }
             }
             Some(ModuleConfig::CommonJs(config)) => {
-                let base_pass = chain!(import_hoister(), export_hoister());
+                let base_pass = module_hoister();
                 if paths.is_empty() {
                     Box::new(chain!(
                         base_pass,
@@ -1091,7 +1087,7 @@ impl ModuleConfig {
                 }
             }
             Some(ModuleConfig::Umd(config)) => {
-                let base_pass = chain!(import_hoister(), export_hoister());
+                let base_pass = module_hoister();
 
                 if paths.is_empty() {
                     Box::new(modules::umd::umd(cm, root_mark, config))
@@ -1105,7 +1101,7 @@ impl ModuleConfig {
                 }
             }
             Some(ModuleConfig::Amd(config)) => {
-                let base_pass = chain!(import_hoister(), export_hoister());
+                let base_pass = module_hoister();
 
                 if paths.is_empty() {
                     Box::new(chain!(base_pass, modules::amd::amd(config)))
