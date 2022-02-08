@@ -1,6 +1,6 @@
 pub use self::{
     charset::*, color_profile::*, counter_style::*, document::*, import::*, keyframe::*, layer::*,
-    media::*, page::*, support::*,
+    media::*, page::*, property::*, support::*,
 };
 use crate::{Block, DashedIdent, Ident, SimpleBlock, Str, Url, Value};
 use is_macro::Is;
@@ -15,6 +15,7 @@ mod keyframe;
 mod layer;
 mod media;
 mod page;
+mod property;
 mod support;
 
 #[ast_node]
@@ -61,6 +62,9 @@ pub enum AtRule {
 
     #[tag("CounterStyleRule")]
     CounterStyle(CounterStyleRule),
+
+    #[tag("PropertyRule")]
+    Property(PropertyRule),
 
     #[tag("UnknownAtRule")]
     Unknown(UnknownAtRule),

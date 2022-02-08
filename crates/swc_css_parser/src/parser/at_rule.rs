@@ -294,6 +294,23 @@ where
                 }
             }
 
+            "property" => {
+                self.input.skip_ws()?;
+
+                let at_rule_color_profile: PResult<PropertyRule> = self.parse();
+
+                match at_rule_color_profile {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Property(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
+                }
+            }
+
             _ => {}
         }
 
@@ -1804,6 +1821,28 @@ where
         expect!(self, "}");
 
         Ok(CounterStyleRule {
+            span: span!(self, span.lo),
+            name,
+            block,
+        })
+    }
+}
+
+impl<I> Parse<PropertyRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PropertyRule> {
+        let span = self.input.cur_span()?;
+        let name = self.parse()?;
+
+        expect!(self, "{");
+
+        let block = self.parse()?;
+
+        expect!(self, "}");
+
+        Ok(PropertyRule {
             span: span!(self, span.lo),
             name,
             block,
