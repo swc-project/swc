@@ -2,7 +2,7 @@ use std::{borrow::Cow, mem::take};
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, pass::CompilerPass, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::find_ids;
+use swc_ecma_utils::{find_ids, IsDirective};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
 
 pub fn import_hoister() -> impl Fold + VisitMut + CompilerPass {
@@ -42,13 +42,16 @@ impl VisitMut for ImportHoister {
             return;
         }
 
-        let mut imports = Vec::with_capacity(module.body.len());
+        let mut stmts = Vec::with_capacity(module.body.len());
         let mut extra = vec![];
 
         for body in take(&mut module.body) {
             match body {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(..)) => {
-                    imports.push(body);
+                    stmts.push(body);
+                }
+                ModuleItem::Stmt(ref stmt) if stmt.is_use_strict() => {
+                    stmts.push(body);
                 }
                 _ => {
                     extra.push(body);
@@ -56,8 +59,8 @@ impl VisitMut for ImportHoister {
             }
         }
 
-        imports.extend(extra);
-        module.body = imports;
+        stmts.extend(extra);
+        module.body = stmts;
     }
 }
 
@@ -92,11 +95,10 @@ impl VisitMut for ExportHoister {
 
     fn visit_mut_module(&mut self, module: &mut Module) {
         let mut named_exports = AHashMap::<JsWord, Vec<ExportSpecifier>>::default();
-        let mut default_export = None;
 
         let mut stmts = Vec::with_capacity(module.body.len());
 
-        // collect all export stmts which bind local idents
+        // collect all named export stmts which bind local idents
         for item in take(&mut module.body) {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
@@ -144,14 +146,7 @@ impl VisitMut for ExportHoister {
                         ))
                     }
                 }
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                    ref expr,
-                    ..
-                })) if expr.is_ident() => {
-                    let key = expr.as_ident().unwrap().sym.clone();
 
-                    default_export = Some((key, item));
-                }
                 _ => {
                     stmts.push(item);
                 }
@@ -224,17 +219,21 @@ impl VisitMut for ExportHoister {
                     },
                 )));
             }
-
-            if let Some((export_key, item)) = default_export.take() {
-                if key_list.contains(&export_key) {
-                    stmts_sorted.push(item)
-                } else {
-                    default_export = Some((export_key, item));
-                }
-            }
         }
 
-        debug_assert!(named_exports.is_empty());
+        // debug_assert!(named_exports.is_empty());
+        if !named_exports.is_empty() {
+            let specifiers = named_exports.into_values().flatten().collect();
+            stmts_sorted.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                NamedExport {
+                    span: DUMMY_SP,
+                    specifiers,
+                    src: None,
+                    type_only: false,
+                    asserts: None,
+                },
+            )));
+        }
 
         module.body = stmts_sorted;
     }
