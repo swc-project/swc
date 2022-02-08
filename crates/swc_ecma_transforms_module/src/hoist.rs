@@ -27,10 +27,21 @@ impl VisitMut for ModuleHoister {
 
         for stmt in &module.body {
             match stmt {
-                ModuleItem::ModuleDecl(ModuleDecl::Import(..)) => {
-                    if found_other {
-                        need_hoist_up = true;
-                    }
+                ModuleItem::ModuleDecl(ModuleDecl::Import(..)) if found_other => {
+                    need_hoist_up = true;
+                }
+
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                    decl:
+                        DefaultDecl::Class(ClassExpr {
+                            ident: Some(..), ..
+                        })
+                        | DefaultDecl::Fn(FnExpr {
+                            ident: Some(..), ..
+                        }),
+                    ..
+                })) if found_other => {
+                    need_hoist_up = true;
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
@@ -70,6 +81,18 @@ impl VisitMut for ModuleHoister {
             for item in body.into_iter() {
                 match item {
                     ModuleItem::ModuleDecl(ModuleDecl::Import(..)) => {
+                        stmts.push(item);
+                    }
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                        decl:
+                            DefaultDecl::Class(ClassExpr {
+                                ident: Some(..), ..
+                            })
+                            | DefaultDecl::Fn(FnExpr {
+                                ident: Some(..), ..
+                            }),
+                        ..
+                    })) => {
                         stmts.push(item);
                     }
                     ModuleItem::Stmt(ref stmt) if stmt.is_use_strict() => {
@@ -205,6 +228,21 @@ impl VisitMut for ModuleHoister {
                             _ => None,
                         })
                         .collect(),
+
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                        decl:
+                            DefaultDecl::Class(ClassExpr {
+                                ident: Some(ref ident),
+                                ..
+                            })
+                            | DefaultDecl::Fn(FnExpr {
+                                ident: Some(ref ident),
+                                ..
+                            }),
+                        ..
+                    })) => {
+                        vec![ident.sym.clone()]
+                    }
 
                     _ => {
                         vec![]

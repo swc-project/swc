@@ -442,7 +442,8 @@ where
                                             ident: ident.clone(),
                                             class,
                                             declare: false,
-                                        },
+                                        }
+                                        .fold_with(self),
                                     ))));
 
                                     extra_stmts.push(
@@ -862,6 +863,15 @@ where
     }
 
     fn fold_fn_decl(&mut self, node: FnDecl) -> FnDecl {
+        self.scope
+            .borrow_mut()
+            .declared_vars
+            .push((node.ident.sym.clone(), node.ident.span.ctxt()));
+
+        node.fold_children_with(self)
+    }
+
+    fn fold_class_decl(&mut self, node: ClassDecl) -> ClassDecl {
         self.scope
             .borrow_mut()
             .declared_vars

@@ -4757,17 +4757,18 @@ test!(
 
     var _foo = _interopRequireDefault(require('foo'));
 
-    class OK {
-        constructor() {
-            console.log(_foo.default);
-        }
-    }
     class NotOK {
         constructor() {
             console.log(_foo.default);
         }
     }
     exports.default = NotOK;
+
+    class OK {
+        constructor() {
+            console.log(_foo.default);
+        }
+    }
     "
 );
 
