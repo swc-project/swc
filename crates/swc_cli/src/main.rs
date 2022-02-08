@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 mod cli;
 use cli::SwcCommand;
 

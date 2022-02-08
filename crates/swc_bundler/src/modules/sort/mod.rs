@@ -16,6 +16,7 @@ impl Modules {
     /// dependency between statements.
     ///
     /// TODO: Change this to return [Module].
+    #[allow(clippy::ptr_arg)]
     pub fn sort(
         &mut self,
         entry_id: ModuleId,

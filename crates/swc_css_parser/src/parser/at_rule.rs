@@ -532,16 +532,13 @@ where
             tok!("ident") => {
                 let custom_ident: CustomIdent = self.parse()?;
 
-                match &*custom_ident.value.to_ascii_lowercase() {
-                    "none" => {
-                        let span = self.input.cur_span()?;
+                if &*custom_ident.value.to_ascii_lowercase() == "none" {
+                    let span = self.input.cur_span()?;
 
-                        return Err(Error::new(
-                            span,
-                            ErrorKind::InvalidCustomIdent(stringify!(value)),
-                        ));
-                    }
-                    _ => {}
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::InvalidCustomIdent(stringify!(value)),
+                    ));
                 }
 
                 Ok(KeyframesName::CustomIdent(custom_ident))
@@ -550,7 +547,7 @@ where
             _ => {
                 let span = self.input.cur_span()?;
 
-                return Err(Error::new(span, ErrorKind::Expected("ident or string")));
+                Err(Error::new(span, ErrorKind::Expected("ident or string")))
             }
         }
     }
@@ -615,7 +612,7 @@ where
             _ => {
                 let span = self.input.cur_span()?;
 
-                return Err(Error::new(span, ErrorKind::Expected("ident or percentage")));
+                Err(Error::new(span, ErrorKind::Expected("ident or percentage")))
             }
         }
     }

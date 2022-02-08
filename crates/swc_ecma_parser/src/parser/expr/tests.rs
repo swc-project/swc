@@ -176,7 +176,7 @@ fn new_expr_should_not_eat_too_much() {
         Box::new(Expr::Member(MemberExpr {
             span,
             obj: member_expr("new Date()"),
-            prop: MemberProp::Ident(Ident::new("toString".into(), span).into()),
+            prop: MemberProp::Ident(Ident::new("toString".into(), span)),
         }))
     );
 }

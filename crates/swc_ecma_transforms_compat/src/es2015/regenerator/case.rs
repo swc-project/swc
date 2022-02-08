@@ -21,6 +21,7 @@ pub(super) struct Loc {
 }
 
 impl Loc {
+    #[allow(clippy::wrong_self_convention)]
     pub fn to_stmt_index(&self) -> Expr {
         Expr::Lit(Lit::Num(Number {
             span: DUMMY_SP,
