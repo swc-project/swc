@@ -390,12 +390,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     pub(super) fn parse_jsx_text(&mut self) -> PResult<JSXText> {
         debug_assert!(self.input.syntax().jsx());
-        debug_assert!({
-            match cur!(self, false) {
-                Ok(&Token::JSXText { .. }) => true,
-                _ => false,
-            }
-        });
+        debug_assert!(matches!(cur!(self, false), Ok(&Token::JSXText { .. })));
         let token = bump!(self);
         let span = self.input.prev_span();
         match token {

@@ -768,7 +768,7 @@ where
                         name: name.0,
                         raw_name: name.1,
                         value: (before.to_owned() + &raw.to_owned()).into(),
-                        raw_value: (before.to_owned() + &&raw.to_owned()).into(),
+                        raw_value: (before.to_owned() + &raw.to_owned()).into(),
                     });
                 }
 
@@ -790,7 +790,7 @@ where
                         name: name.0,
                         raw_name: name.1,
                         value: (before.to_owned() + &raw.to_owned()).into(),
-                        raw_value: (before.to_owned() + &&raw.to_owned()).into(),
+                        raw_value: (before.to_owned() + &raw.to_owned()).into(),
                     });
                 }
 
@@ -819,7 +819,7 @@ where
                             name: name.0,
                             raw_name: name.1,
                             value: (before.to_owned() + &raw.to_owned()).into(),
-                            raw_value: (before.to_owned() + &&raw.to_owned()).into(),
+                            raw_value: (before.to_owned() + &raw.to_owned()).into(),
                         });
                     }
                 }
@@ -870,10 +870,12 @@ where
                 // If the next input code point is whitespace, consume it as well.
                 let next = self.next();
 
-                if next.is_some() && is_whitespace(next.unwrap()) {
-                    self.consume();
+                if let Some(next) = next {
+                    if is_whitespace(next) {
+                        self.consume();
 
-                    raw.push(next.unwrap());
+                        raw.push(next);
+                    }
                 }
 
                 // Interpret the hex digits as a hexadecimal number. If this number is zero, or
@@ -886,7 +888,7 @@ where
                     55296..=57343 => REPLACEMENT_CHARACTER,
                     // or is greater than the maximum allowed code point
                     1114112.. => REPLACEMENT_CHARACTER,
-                    _ => char::from_u32(hex).unwrap_or_else(|| REPLACEMENT_CHARACTER),
+                    _ => char::from_u32(hex).unwrap_or(REPLACEMENT_CHARACTER),
                 };
 
                 // Otherwise, return the code point with that value.
@@ -994,6 +996,7 @@ where
     // points, or can be called with the input stream itself. In the latter case,
     // the three code points in question are the current input code point and the
     // next two input code points, in that order.
+    #[allow(clippy::needless_return)]
     fn would_start_number(
         &mut self,
         maybe_first: Option<char>,

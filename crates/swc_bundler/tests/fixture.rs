@@ -34,7 +34,7 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
             Config {
                 require: true,
                 disable_inliner: !inline,
-                external_modules: NODE_BUILTINS.to_vec().into_iter().map(From::from).collect(),
+                external_modules: NODE_BUILTINS.iter().copied().map(From::from).collect(),
                 module: Default::default(),
                 ..Default::default()
             },

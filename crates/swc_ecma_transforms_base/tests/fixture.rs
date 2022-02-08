@@ -111,7 +111,7 @@ impl VisitMut for TsHygiene {
             return;
         }
 
-        let ctxt = format!("{:?}", i.span.ctxt).replace("#", "");
+        let ctxt = format!("{:?}", i.span.ctxt).replace('#', "");
         i.sym = format!("{}__{}", i.sym, ctxt).into();
         i.span = i.span.with_ctxt(SyntaxContext::empty());
     }

@@ -200,7 +200,7 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
                 Value::String(s) => {
                     // TODO(kdy1): Remove this
                     // This is wrong, but we are not babel ast at the moment
-                    *s = s.replace("\n", "");
+                    *s = s.replace('\n', "");
                 }
 
                 _ => {}

@@ -16,6 +16,7 @@
 #![allow(clippy::collapsible_else_if)]
 #![allow(clippy::collapsible_if)]
 #![allow(clippy::vec_box)]
+#![allow(unstable_name_collisions)]
 
 pub use crate::pass::unique_scope::unique_scope;
 use crate::{
