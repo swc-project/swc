@@ -14,7 +14,10 @@ pub(crate) fn name_mangler(
     marks: Marks,
 ) -> impl VisitMut {
     chain!(
-        self::private_name::private_name_mangler(options.keep_private_props),
+        self::private_name::private_name_mangler(
+            options.keep_private_props,
+            options.reserved.clone()
+        ),
         self::real_impl::name_mangler(options, char_freq_info, marks)
     )
 }

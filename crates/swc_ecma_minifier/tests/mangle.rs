@@ -148,11 +148,15 @@ function func2(param2) {
     console.log(var2 + param2);
 }
 class Class1 {
+    #privateProp1;
+
     constructor(consParam1) {
         func1(consParam1);
     }
 }
 class Class2 {
+    #privateProp2;
+
     constructor(consParam2) {
         func2(consParam2);
     }
@@ -169,11 +173,13 @@ function b(b) {
     console.log(a + b);
 }
 class Class1 {
+    #a;
     constructor(consParam1){
-        func1(consParam1);
+        func1(consParam1);        
     }
 }
 class c {
+    #b;
     constructor(d){
         b(d);
     }
@@ -198,10 +204,19 @@ let e = new c(2);";
             &MinifyOptions {
                 mangle: Some(MangleOptions {
                     top_level: true,
-                    reserved: vec!["var1", "func1", "param1", "Class1", "consParam1", "class1"]
-                        .into_iter()
-                        .map(String::from)
-                        .collect(),
+                    keep_private_props: false,
+                    reserved: vec![
+                        "var1",
+                        "func1",
+                        "param1",
+                        "Class1",
+                        "consParam1",
+                        "class1",
+                        "privateProp1",
+                    ]
+                    .into_iter()
+                    .map(String::from)
+                    .collect(),
                     ..Default::default()
                 }),
                 compress: None,
