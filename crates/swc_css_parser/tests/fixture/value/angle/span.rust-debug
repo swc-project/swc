@@ -1,0 +1,351 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/value/angle/input.css:1:1
+  |
+1 | / div {
+2 | |     transform: rotate(45deg);
+3 | |     transform: rotate(-50grad);
+4 | |     transform: rotate(3.1416rad);
+5 | |     transform: rotate(1.75turn);
+6 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/value/angle/input.css:1:1
+  |
+1 | / div {
+2 | |     transform: rotate(45deg);
+3 | |     transform: rotate(-50grad);
+4 | |     transform: rotate(3.1416rad);
+5 | |     transform: rotate(1.75turn);
+6 | | }
+  | |_^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/value/angle/input.css:1:1
+  |
+1 | / div {
+2 | |     transform: rotate(45deg);
+3 | |     transform: rotate(-50grad);
+4 | |     transform: rotate(3.1416rad);
+5 | |     transform: rotate(1.75turn);
+6 | | }
+  | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/value/angle/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/value/angle/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/value/angle/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/value/angle/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/value/angle/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/value/angle/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/angle/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: Block
+ --> $DIR/tests/fixture/value/angle/input.css:1:5
+  |
+1 |   div {
+  |  _____^
+2 | |     transform: rotate(45deg);
+3 | |     transform: rotate(-50grad);
+4 | |     transform: rotate(3.1416rad);
+5 | |     transform: rotate(1.75turn);
+6 | | }
+  | |_^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/angle/input.css:2:5
+  |
+2 |     transform: rotate(45deg);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/angle/input.css:2:5
+  |
+2 |     transform: rotate(45deg);
+  |     ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/angle/input.css:2:5
+  |
+2 |     transform: rotate(45deg);
+  |     ^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/angle/input.css:2:16
+  |
+2 |     transform: rotate(45deg);
+  |                ^^^^^^^^^^^^^
+
+error: Function
+ --> $DIR/tests/fixture/value/angle/input.css:2:16
+  |
+2 |     transform: rotate(45deg);
+  |                ^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/angle/input.css:2:16
+  |
+2 |     transform: rotate(45deg);
+  |                ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/angle/input.css:2:23
+  |
+2 |     transform: rotate(45deg);
+  |                       ^^^^^
+
+error: Dimension
+ --> $DIR/tests/fixture/value/angle/input.css:2:23
+  |
+2 |     transform: rotate(45deg);
+  |                       ^^^^^
+
+error: Angle
+ --> $DIR/tests/fixture/value/angle/input.css:2:23
+  |
+2 |     transform: rotate(45deg);
+  |                       ^^^^^
+
+error: Number
+ --> $DIR/tests/fixture/value/angle/input.css:2:23
+  |
+2 |     transform: rotate(45deg);
+  |                       ^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/angle/input.css:2:25
+  |
+2 |     transform: rotate(45deg);
+  |                         ^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/angle/input.css:3:5
+  |
+3 |     transform: rotate(-50grad);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/angle/input.css:3:5
+  |
+3 |     transform: rotate(-50grad);
+  |     ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/angle/input.css:3:5
+  |
+3 |     transform: rotate(-50grad);
+  |     ^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/angle/input.css:3:16
+  |
+3 |     transform: rotate(-50grad);
+  |                ^^^^^^^^^^^^^^^
+
+error: Function
+ --> $DIR/tests/fixture/value/angle/input.css:3:16
+  |
+3 |     transform: rotate(-50grad);
+  |                ^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/angle/input.css:3:16
+  |
+3 |     transform: rotate(-50grad);
+  |                ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/angle/input.css:3:23
+  |
+3 |     transform: rotate(-50grad);
+  |                       ^^^^^^^
+
+error: Dimension
+ --> $DIR/tests/fixture/value/angle/input.css:3:23
+  |
+3 |     transform: rotate(-50grad);
+  |                       ^^^^^^^
+
+error: Angle
+ --> $DIR/tests/fixture/value/angle/input.css:3:23
+  |
+3 |     transform: rotate(-50grad);
+  |                       ^^^^^^^
+
+error: Number
+ --> $DIR/tests/fixture/value/angle/input.css:3:23
+  |
+3 |     transform: rotate(-50grad);
+  |                       ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/angle/input.css:3:26
+  |
+3 |     transform: rotate(-50grad);
+  |                          ^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/angle/input.css:4:5
+  |
+4 |     transform: rotate(3.1416rad);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/angle/input.css:4:5
+  |
+4 |     transform: rotate(3.1416rad);
+  |     ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/angle/input.css:4:5
+  |
+4 |     transform: rotate(3.1416rad);
+  |     ^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/angle/input.css:4:16
+  |
+4 |     transform: rotate(3.1416rad);
+  |                ^^^^^^^^^^^^^^^^^
+
+error: Function
+ --> $DIR/tests/fixture/value/angle/input.css:4:16
+  |
+4 |     transform: rotate(3.1416rad);
+  |                ^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/angle/input.css:4:16
+  |
+4 |     transform: rotate(3.1416rad);
+  |                ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/angle/input.css:4:23
+  |
+4 |     transform: rotate(3.1416rad);
+  |                       ^^^^^^^^^
+
+error: Dimension
+ --> $DIR/tests/fixture/value/angle/input.css:4:23
+  |
+4 |     transform: rotate(3.1416rad);
+  |                       ^^^^^^^^^
+
+error: Angle
+ --> $DIR/tests/fixture/value/angle/input.css:4:23
+  |
+4 |     transform: rotate(3.1416rad);
+  |                       ^^^^^^^^^
+
+error: Number
+ --> $DIR/tests/fixture/value/angle/input.css:4:23
+  |
+4 |     transform: rotate(3.1416rad);
+  |                       ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/angle/input.css:4:29
+  |
+4 |     transform: rotate(3.1416rad);
+  |                             ^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/angle/input.css:5:5
+  |
+5 |     transform: rotate(1.75turn);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/angle/input.css:5:5
+  |
+5 |     transform: rotate(1.75turn);
+  |     ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/angle/input.css:5:5
+  |
+5 |     transform: rotate(1.75turn);
+  |     ^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/angle/input.css:5:16
+  |
+5 |     transform: rotate(1.75turn);
+  |                ^^^^^^^^^^^^^^^^
+
+error: Function
+ --> $DIR/tests/fixture/value/angle/input.css:5:16
+  |
+5 |     transform: rotate(1.75turn);
+  |                ^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/angle/input.css:5:16
+  |
+5 |     transform: rotate(1.75turn);
+  |                ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/angle/input.css:5:23
+  |
+5 |     transform: rotate(1.75turn);
+  |                       ^^^^^^^^
+
+error: Dimension
+ --> $DIR/tests/fixture/value/angle/input.css:5:23
+  |
+5 |     transform: rotate(1.75turn);
+  |                       ^^^^^^^^
+
+error: Angle
+ --> $DIR/tests/fixture/value/angle/input.css:5:23
+  |
+5 |     transform: rotate(1.75turn);
+  |                       ^^^^^^^^
+
+error: Number
+ --> $DIR/tests/fixture/value/angle/input.css:5:23
+  |
+5 |     transform: rotate(1.75turn);
+  |                       ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/angle/input.css:5:27
+  |
+5 |     transform: rotate(1.75turn);
+  |                           ^^^^
+

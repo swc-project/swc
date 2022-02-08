@@ -1,0 +1,15 @@
+#delay {
+    font-size: 14px;
+    transition-property: font-size;
+    transition-duration: 4s;
+    transition-delay: 2s;
+}
+
+.box {
+    transition: width 2s, height 2s, background-color 2s, transform 2s;
+}
+
+.time {
+    transition-duration: 4s;
+    transition-duration: 4000ms;
+}

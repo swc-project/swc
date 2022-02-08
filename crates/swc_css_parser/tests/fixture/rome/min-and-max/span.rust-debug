@@ -131,6 +131,12 @@ error: Dimension
 2 |     width: max(500px);
   |                ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:2:13
+  |
+2 |     width: max(500px);
+  |                ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:2:13
   |
@@ -186,6 +192,12 @@ error: Value
   |                ^^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:3:13
+  |
+3 |     width: max(500px, 6 / 4);
+  |                ^^^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/min-and-max/input.css:3:13
   |
 3 |     width: max(500px, 6 / 4);
@@ -299,6 +311,12 @@ error: Dimension
 4 |     width: max(500px, 40px + 5%);
   |                ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:4:13
+  |
+4 |     width: max(500px, 40px + 5%);
+  |                ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:4:13
   |
@@ -342,6 +360,12 @@ error: Value
   |                       ^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:4:20
+  |
+4 |     width: max(500px, 40px + 5%);
+  |                       ^^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/min-and-max/input.css:4:20
   |
 4 |     width: max(500px, 40px + 5%);
@@ -425,6 +449,12 @@ error: Dimension
 5 |     width: max(500px, 5% * 400px + 2px);
   |                ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:5:13
+  |
+5 |     width: max(500px, 5% * 400px + 2px);
+  |                ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:5:13
   |
@@ -503,6 +533,12 @@ error: Dimension
 5 |     width: max(500px, 5% * 400px + 2px);
   |                            ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:5:25
+  |
+5 |     width: max(500px, 5% * 400px + 2px);
+  |                            ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:5:25
   |
@@ -522,6 +558,12 @@ error: Value
   |                                    ^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:5:33
+  |
+5 |     width: max(500px, 5% * 400px + 2px);
+  |                                    ^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/min-and-max/input.css:5:33
   |
 5 |     width: max(500px, 5% * 400px + 2px);
@@ -582,6 +624,12 @@ error: Value
   |                ^^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:6:13
+  |
+6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+  |                ^^^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:13
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -665,6 +713,12 @@ error: Dimension
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                            ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:6:25
+  |
+6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+  |                            ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:25
   |
@@ -684,6 +738,12 @@ error: Value
   |                                    ^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:6:33
+  |
+6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+  |                                    ^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:33
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -767,6 +827,12 @@ error: Dimension
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                                              ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:6:43
+  |
+6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+  |                                              ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:43
   |
@@ -786,6 +852,12 @@ error: Value
   |                                                      ^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:6:51
+  |
+6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+  |                                                      ^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:51
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -869,6 +941,12 @@ error: Dimension
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                                                                ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:6:61
+  |
+6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+  |                                                                ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:61
   |
@@ -888,6 +966,12 @@ error: Value
   |                                                                        ^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:6:69
+  |
+6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+  |                                                                        ^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:69
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -953,6 +1037,12 @@ error: Dimension
 7 |     width: min(500px);
   |                ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:7:13
+  |
+7 |     width: min(500px);
+  |                ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:7:13
   |
@@ -1008,6 +1098,12 @@ error: Value
   |                ^^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:8:13
+  |
+8 |     width: min(500px, 6 / 4);
+  |                ^^^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/min-and-max/input.css:8:13
   |
 8 |     width: min(500px, 6 / 4);
@@ -1121,6 +1217,12 @@ error: Dimension
 9 |     width: min(500px, 40px + 5%);
   |                ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:9:13
+  |
+9 |     width: min(500px, 40px + 5%);
+  |                ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/min-and-max/input.css:9:13
   |
@@ -1164,6 +1266,12 @@ error: Value
   |                       ^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:9:20
+  |
+9 |     width: min(500px, 40px + 5%);
+  |                       ^^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/min-and-max/input.css:9:20
   |
 9 |     width: min(500px, 40px + 5%);
@@ -1247,6 +1355,12 @@ error: Dimension
 10 |     width: min(500px, 5% * 400px + 2px);
    |                ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:10:13
+   |
+10 |     width: min(500px, 5% * 400px + 2px);
+   |                ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:10:13
    |
@@ -1325,6 +1439,12 @@ error: Dimension
 10 |     width: min(500px, 5% * 400px + 2px);
    |                            ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:10:25
+   |
+10 |     width: min(500px, 5% * 400px + 2px);
+   |                            ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:10:25
    |
@@ -1344,6 +1464,12 @@ error: Value
    |                                    ^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:10:33
+   |
+10 |     width: min(500px, 5% * 400px + 2px);
+   |                                    ^^^
+
+error: Length
   --> $DIR/tests/fixture/rome/min-and-max/input.css:10:33
    |
 10 |     width: min(500px, 5% * 400px + 2px);
@@ -1404,6 +1530,12 @@ error: Value
    |                ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:11:13
+   |
+11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   |                ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:13
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1487,6 +1619,12 @@ error: Dimension
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                            ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:11:25
+   |
+11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   |                            ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:25
    |
@@ -1506,6 +1644,12 @@ error: Value
    |                                    ^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:11:33
+   |
+11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   |                                    ^^^
+
+error: Length
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:33
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1589,6 +1733,12 @@ error: Dimension
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                                              ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:11:43
+   |
+11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   |                                              ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:43
    |
@@ -1608,6 +1758,12 @@ error: Value
    |                                                      ^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:11:51
+   |
+11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   |                                                      ^^^
+
+error: Length
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:51
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1691,6 +1847,12 @@ error: Dimension
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                                                                ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:11:61
+   |
+11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   |                                                                ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:61
    |
@@ -1710,6 +1872,12 @@ error: Value
    |                                                                        ^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:11:69
+   |
+11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   |                                                                        ^^^
+
+error: Length
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:69
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);

@@ -171,6 +171,12 @@ error: Dimension
 4 |     width: calc(1px + 2%);
   |                 ^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:17
+  |
+4 |     width: calc(1px + 2%);
+  |                 ^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/smoke/input.css:4:17
   |

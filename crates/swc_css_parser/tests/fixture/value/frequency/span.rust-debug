@@ -1,0 +1,175 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/value/frequency/input.css:1:1
+  |
+1 | / div {
+2 | |     prop: 1Hz;
+3 | |     prop: 1kHz;
+4 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/value/frequency/input.css:1:1
+  |
+1 | / div {
+2 | |     prop: 1Hz;
+3 | |     prop: 1kHz;
+4 | | }
+  | |_^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/value/frequency/input.css:1:1
+  |
+1 | / div {
+2 | |     prop: 1Hz;
+3 | |     prop: 1kHz;
+4 | | }
+  | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/value/frequency/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/value/frequency/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/value/frequency/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/value/frequency/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/value/frequency/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/value/frequency/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/frequency/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: Block
+ --> $DIR/tests/fixture/value/frequency/input.css:1:5
+  |
+1 |   div {
+  |  _____^
+2 | |     prop: 1Hz;
+3 | |     prop: 1kHz;
+4 | | }
+  | |_^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/frequency/input.css:2:5
+  |
+2 |     prop: 1Hz;
+  |     ^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/frequency/input.css:2:5
+  |
+2 |     prop: 1Hz;
+  |     ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/frequency/input.css:2:5
+  |
+2 |     prop: 1Hz;
+  |     ^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/frequency/input.css:2:11
+  |
+2 |     prop: 1Hz;
+  |           ^^^
+
+error: Dimension
+ --> $DIR/tests/fixture/value/frequency/input.css:2:11
+  |
+2 |     prop: 1Hz;
+  |           ^^^
+
+error: Frequency
+ --> $DIR/tests/fixture/value/frequency/input.css:2:11
+  |
+2 |     prop: 1Hz;
+  |           ^^^
+
+error: Number
+ --> $DIR/tests/fixture/value/frequency/input.css:2:11
+  |
+2 |     prop: 1Hz;
+  |           ^
+
+error: Ident
+ --> $DIR/tests/fixture/value/frequency/input.css:2:12
+  |
+2 |     prop: 1Hz;
+  |            ^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/frequency/input.css:3:5
+  |
+3 |     prop: 1kHz;
+  |     ^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/frequency/input.css:3:5
+  |
+3 |     prop: 1kHz;
+  |     ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/frequency/input.css:3:5
+  |
+3 |     prop: 1kHz;
+  |     ^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/frequency/input.css:3:11
+  |
+3 |     prop: 1kHz;
+  |           ^^^^
+
+error: Dimension
+ --> $DIR/tests/fixture/value/frequency/input.css:3:11
+  |
+3 |     prop: 1kHz;
+  |           ^^^^
+
+error: Frequency
+ --> $DIR/tests/fixture/value/frequency/input.css:3:11
+  |
+3 |     prop: 1kHz;
+  |           ^^^^
+
+error: Number
+ --> $DIR/tests/fixture/value/frequency/input.css:3:11
+  |
+3 |     prop: 1kHz;
+  |           ^
+
+error: Ident
+ --> $DIR/tests/fixture/value/frequency/input.css:3:12
+  |
+3 |     prop: 1kHz;
+  |            ^^^
+

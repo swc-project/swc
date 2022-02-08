@@ -1,0 +1,690 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 278,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 0,
+        "end": 122,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 6,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 6,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 6,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "IdSelector",
+                    "span": {
+                      "start": 0,
+                      "end": 6,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 0,
+                        "end": 6,
+                        "ctxt": 0
+                      },
+                      "value": "delay",
+                      "raw": "delay"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 7,
+          "end": 122,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 13,
+              "end": 28,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 13,
+                "end": 22,
+                "ctxt": 0
+              },
+              "value": "font-size",
+              "raw": "font-size"
+            },
+            "value": [
+              {
+                "type": "Length",
+                "span": {
+                  "start": 24,
+                  "end": 28,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 24,
+                    "end": 26,
+                    "ctxt": 0
+                  },
+                  "value": 14.0,
+                  "raw": "14"
+                },
+                "unit": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 26,
+                    "end": 28,
+                    "ctxt": 0
+                  },
+                  "value": "px",
+                  "raw": "px"
+                }
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 34,
+              "end": 64,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 34,
+                "end": 53,
+                "ctxt": 0
+              },
+              "value": "transition-property",
+              "raw": "transition-property"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 55,
+                  "end": 64,
+                  "ctxt": 0
+                },
+                "value": "font-size",
+                "raw": "font-size"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 70,
+              "end": 93,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 70,
+                "end": 89,
+                "ctxt": 0
+              },
+              "value": "transition-duration",
+              "raw": "transition-duration"
+            },
+            "value": [
+              {
+                "type": "Time",
+                "span": {
+                  "start": 91,
+                  "end": 93,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 91,
+                    "end": 92,
+                    "ctxt": 0
+                  },
+                  "value": 4.0,
+                  "raw": "4"
+                },
+                "unit": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 92,
+                    "end": 93,
+                    "ctxt": 0
+                  },
+                  "value": "s",
+                  "raw": "s"
+                }
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 99,
+              "end": 119,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 99,
+                "end": 115,
+                "ctxt": 0
+              },
+              "value": "transition-delay",
+              "raw": "transition-delay"
+            },
+            "value": [
+              {
+                "type": "Time",
+                "span": {
+                  "start": 117,
+                  "end": 119,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 117,
+                    "end": 118,
+                    "ctxt": 0
+                  },
+                  "value": 2.0,
+                  "raw": "2"
+                },
+                "unit": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 118,
+                    "end": 119,
+                    "ctxt": 0
+                  },
+                  "value": "s",
+                  "raw": "s"
+                }
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 124,
+        "end": 204,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 124,
+          "end": 128,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 124,
+              "end": 128,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 124,
+                  "end": 128,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 124,
+                      "end": 128,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 125,
+                        "end": 128,
+                        "ctxt": 0
+                      },
+                      "value": "box",
+                      "raw": "box"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 129,
+          "end": 204,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 135,
+              "end": 201,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 135,
+                "end": 145,
+                "ctxt": 0
+              },
+              "value": "transition",
+              "raw": "transition"
+            },
+            "value": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 147,
+                  "end": 152,
+                  "ctxt": 0
+                },
+                "value": "width",
+                "raw": "width"
+              },
+              {
+                "type": "Time",
+                "span": {
+                  "start": 153,
+                  "end": 155,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 153,
+                    "end": 154,
+                    "ctxt": 0
+                  },
+                  "value": 2.0,
+                  "raw": "2"
+                },
+                "unit": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 154,
+                    "end": 155,
+                    "ctxt": 0
+                  },
+                  "value": "s",
+                  "raw": "s"
+                }
+              },
+              {
+                "type": "Delimiter",
+                "span": {
+                  "start": 155,
+                  "end": 156,
+                  "ctxt": 0
+                },
+                "value": ","
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 157,
+                  "end": 163,
+                  "ctxt": 0
+                },
+                "value": "height",
+                "raw": "height"
+              },
+              {
+                "type": "Time",
+                "span": {
+                  "start": 164,
+                  "end": 166,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 164,
+                    "end": 165,
+                    "ctxt": 0
+                  },
+                  "value": 2.0,
+                  "raw": "2"
+                },
+                "unit": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 165,
+                    "end": 166,
+                    "ctxt": 0
+                  },
+                  "value": "s",
+                  "raw": "s"
+                }
+              },
+              {
+                "type": "Delimiter",
+                "span": {
+                  "start": 166,
+                  "end": 167,
+                  "ctxt": 0
+                },
+                "value": ","
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 168,
+                  "end": 184,
+                  "ctxt": 0
+                },
+                "value": "background-color",
+                "raw": "background-color"
+              },
+              {
+                "type": "Time",
+                "span": {
+                  "start": 185,
+                  "end": 187,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 185,
+                    "end": 186,
+                    "ctxt": 0
+                  },
+                  "value": 2.0,
+                  "raw": "2"
+                },
+                "unit": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 186,
+                    "end": 187,
+                    "ctxt": 0
+                  },
+                  "value": "s",
+                  "raw": "s"
+                }
+              },
+              {
+                "type": "Delimiter",
+                "span": {
+                  "start": 187,
+                  "end": 188,
+                  "ctxt": 0
+                },
+                "value": ","
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 189,
+                  "end": 198,
+                  "ctxt": 0
+                },
+                "value": "transform",
+                "raw": "transform"
+              },
+              {
+                "type": "Time",
+                "span": {
+                  "start": 199,
+                  "end": 201,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 199,
+                    "end": 200,
+                    "ctxt": 0
+                  },
+                  "value": 2.0,
+                  "raw": "2"
+                },
+                "unit": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 200,
+                    "end": 201,
+                    "ctxt": 0
+                  },
+                  "value": "s",
+                  "raw": "s"
+                }
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 206,
+        "end": 277,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 206,
+          "end": 211,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 206,
+              "end": 211,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 206,
+                  "end": 211,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 206,
+                      "end": 211,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 207,
+                        "end": 211,
+                        "ctxt": 0
+                      },
+                      "value": "time",
+                      "raw": "time"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 212,
+          "end": 277,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 218,
+              "end": 241,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 218,
+                "end": 237,
+                "ctxt": 0
+              },
+              "value": "transition-duration",
+              "raw": "transition-duration"
+            },
+            "value": [
+              {
+                "type": "Time",
+                "span": {
+                  "start": 239,
+                  "end": 241,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 239,
+                    "end": 240,
+                    "ctxt": 0
+                  },
+                  "value": 4.0,
+                  "raw": "4"
+                },
+                "unit": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 240,
+                    "end": 241,
+                    "ctxt": 0
+                  },
+                  "value": "s",
+                  "raw": "s"
+                }
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 247,
+              "end": 274,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 247,
+                "end": 266,
+                "ctxt": 0
+              },
+              "value": "transition-duration",
+              "raw": "transition-duration"
+            },
+            "value": [
+              {
+                "type": "Time",
+                "span": {
+                  "start": 268,
+                  "end": 274,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 268,
+                    "end": 272,
+                    "ctxt": 0
+                  },
+                  "value": 4000.0,
+                  "raw": "4000"
+                },
+                "unit": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 272,
+                    "end": 274,
+                    "ctxt": 0
+                  },
+                  "value": "ms",
+                  "raw": "ms"
+                }
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    }
+  ]
+}

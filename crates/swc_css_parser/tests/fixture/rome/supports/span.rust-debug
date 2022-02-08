@@ -200,6 +200,12 @@ error: Dimension
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
   |                             ^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/supports/input.css:4:29
+  |
+4 | @supports ( box-shadow: 0 0 2px black inset ) or
+  |                             ^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/supports/input.css:4:29
   |
@@ -313,6 +319,12 @@ error: Value
   |                                  ^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/supports/input.css:5:34
+  |
+5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+  |                                  ^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/supports/input.css:5:34
   |
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -436,6 +448,12 @@ error: Dimension
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
   |                                     ^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/supports/input.css:6:37
+  |
+6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+  |                                     ^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/supports/input.css:6:37
   |
@@ -549,6 +567,12 @@ error: Value
   |                                ^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/supports/input.css:7:32
+  |
+7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+  |                                ^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/supports/input.css:7:32
   |
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
@@ -824,6 +848,12 @@ error: Value
    |                              ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/rome/supports/input.css:12:30
+   |
+12 |           (transform: rotate(10deg)) {}
+   |                              ^^^^^
+
+error: Angle
   --> $DIR/tests/fixture/rome/supports/input.css:12:30
    |
 12 |           (transform: rotate(10deg)) {}

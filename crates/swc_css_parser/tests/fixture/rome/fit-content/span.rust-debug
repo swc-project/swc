@@ -115,6 +115,12 @@ error: Dimension
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
   |                                        ^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:37
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                        ^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:37
   |
@@ -157,6 +163,12 @@ error: Dimension
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
   |                                                         ^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:54
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                                         ^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:54
   |
@@ -176,6 +188,12 @@ error: Value
   |                                                              ^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:59
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                                              ^^^
+
+error: Flex
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:59
   |
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
