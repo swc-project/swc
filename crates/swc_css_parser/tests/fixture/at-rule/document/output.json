@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 394,
+    "end": 464,
     "ctxt": 0
   },
   "rules": [
@@ -527,6 +527,46 @@
             },
             "value": "https://www.example.com/",
             "raw": "\"https://www.example.com/\""
+          },
+          "modifiers": []
+        }
+      ],
+      "block": []
+    },
+    {
+      "type": "DocumentRule",
+      "span": {
+        "start": 394,
+        "end": 463,
+        "ctxt": 0
+      },
+      "matchingFunctions": [
+        {
+          "type": "Url",
+          "span": {
+            "start": 432,
+            "end": 452,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 432,
+              "end": 435,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
+          },
+          "value": {
+            "type": "String",
+            "span": {
+              "start": 436,
+              "end": 451,
+              "ctxt": 0
+            },
+            "value": "example.com/{",
+            "raw": "\"example.com/{\""
           },
           "modifiers": []
         }

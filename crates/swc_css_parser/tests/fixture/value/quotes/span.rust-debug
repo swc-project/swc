@@ -6,9 +6,9 @@ error: Stylesheet
 3  | |     content: 'This string is demarcated by single quotes.';
 4  | |     content: "This is a string with \" an escaped double quote.";
 ...  |
-36 | |     color: red;
-37 | | }
-   | |_^
+40 | |     family-name: "A;' /**/";
+41 | | }
+   | |__^
 
 error: Rule
   --> $DIR/tests/fixture/value/quotes/input.css:1:1
@@ -1001,4 +1001,101 @@ error: Ident
    |
 36 |     color: red;
    |            ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/value/quotes/input.css:39:1
+   |
+39 | / div {
+40 | |     family-name: "A;' /**/";
+41 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/value/quotes/input.css:39:1
+   |
+39 | / div {
+40 | |     family-name: "A;' /**/";
+41 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/value/quotes/input.css:39:1
+   |
+39 | div {
+   | ^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:39:1
+   |
+39 | div {
+   | ^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:39:1
+   |
+39 | div {
+   | ^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:39:1
+   |
+39 | div {
+   | ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:39:1
+   |
+39 | div {
+   | ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/value/quotes/input.css:39:1
+   |
+39 | div {
+   | ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/quotes/input.css:39:1
+   |
+39 | div {
+   | ^^^
+
+error: Block
+  --> $DIR/tests/fixture/value/quotes/input.css:39:5
+   |
+39 |   div {
+   |  _____^
+40 | |     family-name: "A;' /**/";
+41 | | }
+   | |_^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/quotes/input.css:40:5
+   |
+40 |     family-name: "A;' /**/";
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/quotes/input.css:40:5
+   |
+40 |     family-name: "A;' /**/";
+   |     ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/quotes/input.css:40:5
+   |
+40 |     family-name: "A;' /**/";
+   |     ^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/quotes/input.css:40:18
+   |
+40 |     family-name: "A;' /**/";
+   |                  ^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/value/quotes/input.css:40:18
+   |
+40 |     family-name: "A;' /**/";
+   |                  ^^^^^^^^^^
 

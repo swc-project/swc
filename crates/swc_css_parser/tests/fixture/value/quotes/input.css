@@ -35,3 +35,7 @@ o very long title"] {
 a[title="a not so very long title"] {
     color: red;
 }
+
+div {
+    family-name: "A;' /**/";
+}

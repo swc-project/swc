@@ -6,9 +6,9 @@ error: Stylesheet
 3  | |         color: green;
 4  | |     }
 ...  |
-14 | | @document url(https://www.example.com/) {}
 15 | | @-moz-document url("https://www.example.com/") {}
-   | |__________________________________________________^
+16 | | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+   | |______________________________________________________________________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/document/input.css:1:1
@@ -575,4 +575,52 @@ error: Str
    |
 15 | @-moz-document url("https://www.example.com/") {}
    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/document/input.css:16:1
+   |
+16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/document/input.css:16:1
+   |
+16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DocumentRule
+  --> $DIR/tests/fixture/at-rule/document/input.css:16:1
+   |
+16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DocumentRuleMatchingFunction
+  --> $DIR/tests/fixture/at-rule/document/input.css:16:39
+   |
+16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+   |                                       ^^^^^^^^^^^^^^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/at-rule/document/input.css:16:39
+   |
+16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+   |                                       ^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/document/input.css:16:39
+   |
+16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+   |                                       ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/document/input.css:16:43
+   |
+16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+   |                                           ^^^^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/document/input.css:16:43
+   |
+16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+   |                                           ^^^^^^^^^^^^^^^
 

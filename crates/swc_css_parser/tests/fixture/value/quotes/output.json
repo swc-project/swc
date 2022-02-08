@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 993,
+    "end": 1032,
     "ctxt": 0
   },
   "rules": [
@@ -991,6 +991,112 @@
                 },
                 "value": "red",
                 "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 995,
+        "end": 1031,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 995,
+          "end": 998,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 995,
+              "end": 998,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 995,
+                  "end": 998,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TagNameSelector",
+                  "span": {
+                    "start": 995,
+                    "end": 998,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "WqName",
+                    "span": {
+                      "start": 995,
+                      "end": 998,
+                      "ctxt": 0
+                    },
+                    "prefix": null,
+                    "value": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 995,
+                        "end": 998,
+                        "ctxt": 0
+                      },
+                      "value": "div",
+                      "raw": "div"
+                    }
+                  }
+                },
+                "subclassSelectors": []
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 999,
+          "end": 1031,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1005,
+              "end": 1028,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 1005,
+                "end": 1016,
+                "ctxt": 0
+              },
+              "value": "family-name",
+              "raw": "family-name"
+            },
+            "value": [
+              {
+                "type": "String",
+                "span": {
+                  "start": 1018,
+                  "end": 1028,
+                  "ctxt": 0
+                },
+                "value": "A;' /**/",
+                "raw": "\"A;' /**/\""
               }
             ],
             "important": null
