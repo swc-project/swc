@@ -78,7 +78,7 @@ impl Visit for Preserver {
         n.visit_children_with(self);
 
         if let Expr::Ident(i) = n {
-            if self.should_preserve || self.is_reserved(&i) {
+            if self.should_preserve || self.is_reserved(i) {
                 self.preserved.insert(i.to_id());
             }
         }
