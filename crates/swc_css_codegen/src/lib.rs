@@ -235,7 +235,7 @@ where
     fn emit_keyframe_selector(&mut self, n: &KeyframeSelector) -> Result {
         match n {
             KeyframeSelector::Ident(n) => emit!(self, n),
-            KeyframeSelector::Percent(n) => emit!(self, n),
+            KeyframeSelector::Percentage(n) => emit!(self, n),
         }
     }
 
@@ -741,7 +741,7 @@ where
                     | Value::Delimiter(_)
                     | Value::Str(_)
                     | Value::Url(_)
-                    | Value::Percent(_) => match nodes.get(idx + 1) {
+                    | Value::Percentage(_) => match nodes.get(idx + 1) {
                         Some(Value::Delimiter(Delimiter {
                             value: DelimiterValue::Comma,
                             ..
@@ -819,7 +819,7 @@ where
             Value::SimpleBlock(n) => emit!(self, n),
             Value::Dimension(n) => emit!(self, n),
             Value::Number(n) => emit!(self, n),
-            Value::Percent(n) => emit!(self, n),
+            Value::Percentage(n) => emit!(self, n),
             Value::Ratio(n) => emit!(self, n),
             Value::Color(n) => emit!(self, n),
             Value::Ident(n) => emit!(self, n),
@@ -1055,7 +1055,7 @@ where
     }
 
     #[emitter]
-    fn emit_percent(&mut self, n: &Percent) -> Result {
+    fn emit_percentage(&mut self, n: &Percentage) -> Result {
         emit!(self, n.value);
         punct!(self, "%");
     }
@@ -1211,7 +1211,7 @@ where
                 Token::Num { raw, .. } => {
                     self.wr.write_raw(Some(span), raw)?;
                 }
-                Token::Percent { raw, .. } => {
+                Token::Percentage { raw, .. } => {
                     self.wr.write_raw(Some(span), raw)?;
                     punct!(self, "%");
                 }

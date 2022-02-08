@@ -357,7 +357,7 @@
                       }
                     },
                     "right": {
-                      "type": "Percent",
+                      "type": "Percentage",
                       "span": {
                         "start": 82,
                         "end": 84,
@@ -470,7 +470,7 @@
                       },
                       "op": "*",
                       "left": {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 106,
                           "end": 108,
@@ -640,7 +640,7 @@
                       },
                       "op": "*",
                       "left": {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 144,
                           "end": 146,
@@ -741,7 +741,7 @@
                       },
                       "op": "*",
                       "left": {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 162,
                           "end": 164,
@@ -842,7 +842,7 @@
                       },
                       "op": "*",
                       "left": {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 180,
                           "end": 182,
@@ -1208,7 +1208,7 @@
                       }
                     },
                     "right": {
-                      "type": "Percent",
+                      "type": "Percentage",
                       "span": {
                         "start": 272,
                         "end": 274,
@@ -1321,7 +1321,7 @@
                       },
                       "op": "*",
                       "left": {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 296,
                           "end": 298,
@@ -1491,7 +1491,7 @@
                       },
                       "op": "*",
                       "left": {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 334,
                           "end": 336,
@@ -1592,7 +1592,7 @@
                       },
                       "op": "*",
                       "left": {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 352,
                           "end": 354,
@@ -1693,7 +1693,7 @@
                       },
                       "op": "*",
                       "left": {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 370,
                           "end": 372,

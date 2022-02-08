@@ -609,11 +609,12 @@ where
 
                 Ok(KeyframeSelector::Ident(ident))
             }
-            tok!("percent") => Ok(KeyframeSelector::Percent(self.parse()?)),
+            tok!("percentage") => Ok(KeyframeSelector::Percentage(self.parse()?)),
             _ => {
                 let span = self.input.cur_span()?;
 
                 Err(Error::new(span, ErrorKind::Expected("ident or percentage")))
+                return Err(Error::new(span, ErrorKind::Expected("ident or percentage token")));
             }
         }
     }

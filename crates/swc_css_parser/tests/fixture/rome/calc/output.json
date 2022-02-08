@@ -319,7 +319,7 @@
                       }
                     },
                     "right": {
-                      "type": "Percent",
+                      "type": "Percentage",
                       "span": {
                         "start": 72,
                         "end": 74,
@@ -423,7 +423,7 @@
                         }
                       },
                       "right": {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 96,
                           "end": 98,

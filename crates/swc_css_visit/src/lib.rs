@@ -96,6 +96,9 @@ define!({
         Dimension(Dimension),
         Number(Number),
         Percent(Percent),
+
+        Percentage(Percentage),
+
         Ratio(Ratio),
         Color(Color),
         Ident(Ident),
@@ -196,7 +199,7 @@ define!({
         pub unit: Ident,
     }
 
-    pub struct Percent {
+    pub struct Percentage {
         pub span: Span,
         pub value: Number,
     }
@@ -491,7 +494,7 @@ define!({
 
     pub enum KeyframeSelector {
         Ident(Ident),
-        Percent(Percent),
+        Percentage(Percentage),
     }
 
     pub struct LayerName {

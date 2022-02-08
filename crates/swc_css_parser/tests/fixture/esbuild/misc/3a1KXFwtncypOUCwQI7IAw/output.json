@@ -32,7 +32,7 @@
           },
           "prelude": [
             {
-              "type": "Percent",
+              "type": "Percentage",
               "span": {
                 "start": 18,
                 "end": 22,

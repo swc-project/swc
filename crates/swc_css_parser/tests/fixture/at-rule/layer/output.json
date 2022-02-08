@@ -266,7 +266,7 @@
                     },
                     "value": [
                       {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 155,
                           "end": 160,
@@ -454,7 +454,7 @@
                     },
                     "value": [
                       {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 281,
                           "end": 286,

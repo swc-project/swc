@@ -298,7 +298,7 @@
           },
           "prelude": [
             {
-              "type": "Percent",
+              "type": "Percentage",
               "span": {
                 "start": 187,
                 "end": 190,
@@ -334,7 +334,7 @@
           },
           "prelude": [
             {
-              "type": "Percent",
+              "type": "Percentage",
               "span": {
                 "start": 203,
                 "end": 205,
@@ -370,7 +370,7 @@
           },
           "prelude": [
             {
-              "type": "Percent",
+              "type": "Percentage",
               "span": {
                 "start": 218,
                 "end": 222,

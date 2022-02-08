@@ -340,6 +340,7 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(Percent, visit_percent);
 
+    mtd!(Percentage, visit_percentage);
     mtd!(Declaration, visit_declaration);
 
     mtd!(DeclarationName, visit_declaration_name);

@@ -281,7 +281,7 @@
                       "ctxt": 0
                     },
                     "token": {
-                      "Percent": {
+                      "Percentage": {
                         "value": 25.0,
                         "raw": "25"
                       }

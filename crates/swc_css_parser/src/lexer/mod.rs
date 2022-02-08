@@ -480,7 +480,7 @@ where
         else if next_first == Some('%') {
             self.consume();
 
-            return Ok(Token::Percent {
+            return Ok(Token::Percentage {
                 value: number.0,
                 raw: number.1.into(),
             });

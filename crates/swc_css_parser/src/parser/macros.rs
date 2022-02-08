@@ -10,8 +10,8 @@ macro_rules! tok_pat {
         swc_css_ast::Token::Ident { .. }
     };
 
-    (Percent) => {
-        swc_css_ast::Token::Percent { .. }
+    (Percentage) => {
+        swc_css_ast::Token::Percentage { .. }
     };
 
     (Dimension) => {
