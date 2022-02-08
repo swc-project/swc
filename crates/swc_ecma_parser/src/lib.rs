@@ -118,6 +118,7 @@
 #![cfg_attr(test, feature(test))]
 #![deny(unused)]
 #![allow(clippy::nonminimal_bool)]
+#![allow(clippy::vec_box)]
 
 pub use self::{
     lexer::input::{Input, StringInput},
