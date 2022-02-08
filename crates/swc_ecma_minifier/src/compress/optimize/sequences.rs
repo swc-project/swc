@@ -15,7 +15,8 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike, UsageFinder,
+    contains_arguments, contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike,
+    UsageFinder,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use tracing::{span, Level};
@@ -1368,10 +1369,7 @@ where
         if right.is_this() || right.is_ident_ref_to(js_word!("arguments")) {
             return Ok(false);
         }
-        if idents_used_by_ignoring_nested(&**right)
-            .iter()
-            .any(|v| v.0 == js_word!("arguments"))
-        {
+        if contains_arguments(&**right) {
             return Ok(false);
         }
 
