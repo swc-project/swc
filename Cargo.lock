@@ -2925,6 +2925,7 @@ dependencies = [
  "auto_impl",
  "parking_lot",
  "rayon",
+ "regex",
  "serde",
  "swc_atoms",
  "swc_common",

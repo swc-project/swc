@@ -10,6 +10,7 @@ mod duplicate_exports;
 #[cfg(feature = "non_critical_lints")]
 #[path = ""]
 pub(crate) mod non_critical_lints {
+    pub mod dot_notation;
     pub mod no_alert;
     pub mod no_console;
     pub mod no_debugger;
@@ -62,6 +63,8 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             top_level_ctxt,
             es_version,
         ));
+
+        rules.extend(dot_notation::dot_notation(&lint_config.dot_notation));
     }
 
     rules
