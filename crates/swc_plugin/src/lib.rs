@@ -10,8 +10,10 @@ pub mod ast {
     pub use swc_ecma_visit::*;
 }
 
+mod handler;
 pub mod errors {
-    pub use swc_common::errors::{Diagnostic, Level};
+    pub use crate::handler::HANDLER;
+    pub use swc_common::errors::{Diagnostic, Handler, Level};
 }
 
 mod context;

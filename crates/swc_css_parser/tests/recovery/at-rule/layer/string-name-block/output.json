@@ -602,22 +602,30 @@
                     },
                     "nestingSelector": null,
                     "typeSelector": {
-                      "type": "TypeSelector",
+                      "type": "TagNameSelector",
                       "span": {
                         "start": 120,
                         "end": 122,
                         "ctxt": 0
                       },
-                      "prefix": null,
                       "name": {
-                        "type": "Identifier",
+                        "type": "WqName",
                         "span": {
                           "start": 120,
                           "end": 122,
                           "ctxt": 0
                         },
-                        "value": "h1",
-                        "raw": "h1"
+                        "prefix": null,
+                        "value": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 120,
+                            "end": 122,
+                            "ctxt": 0
+                          },
+                          "value": "h1",
+                          "raw": "h1"
+                        }
                       }
                     },
                     "subclassSelectors": []
@@ -641,22 +649,30 @@
                     },
                     "nestingSelector": null,
                     "typeSelector": {
-                      "type": "TypeSelector",
+                      "type": "TagNameSelector",
                       "span": {
                         "start": 124,
                         "end": 126,
                         "ctxt": 0
                       },
-                      "prefix": null,
                       "name": {
-                        "type": "Identifier",
+                        "type": "WqName",
                         "span": {
                           "start": 124,
                           "end": 126,
                           "ctxt": 0
                         },
-                        "value": "h2",
-                        "raw": "h2"
+                        "prefix": null,
+                        "value": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 124,
+                            "end": 126,
+                            "ctxt": 0
+                          },
+                          "value": "h2",
+                          "raw": "h2"
+                        }
                       }
                     },
                     "subclassSelectors": []

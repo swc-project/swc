@@ -27,7 +27,10 @@ use tracing::debug;
 #[derive(Clone)]
 pub struct DiagnosticBuilder<'a> {
     pub handler: &'a Handler,
+    #[cfg(not(feature = "plugin-mode"))]
     pub(crate) diagnostic: Box<Diagnostic>,
+    #[cfg(feature = "plugin-mode")]
+    pub diagnostic: Box<Diagnostic>,
     allow_suggestions: bool,
 }
 

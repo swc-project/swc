@@ -1,6 +1,6 @@
-error: Expected !important
- --> $DIR/tests/errors/important/basic/input.css:2:18
+error: Expected Ident
+ --> $DIR/tests/errors/important/basic/input.css:2:19
   |
 2 |     color: white !!important;
-  |                  ^^^^^^^^^^^
+  |                   ^
 

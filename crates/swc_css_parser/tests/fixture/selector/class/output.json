@@ -2517,22 +2517,30 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 679,
                     "end": 682,
                     "ctxt": 0
                   },
-                  "prefix": null,
                   "name": {
-                    "type": "Identifier",
+                    "type": "WqName",
                     "span": {
                       "start": 679,
                       "end": 682,
                       "ctxt": 0
                     },
-                    "value": "foo",
-                    "raw": "foo"
+                    "prefix": null,
+                    "value": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 679,
+                        "end": 682,
+                        "ctxt": 0
+                      },
+                      "value": "foo",
+                      "raw": "foo"
+                    }
                   }
                 },
                 "subclassSelectors": [
@@ -2770,16 +2778,24 @@
                       "end": 730,
                       "ctxt": 0
                     },
-                    "prefix": null,
                     "name": {
-                      "type": "Identifier",
+                      "type": "WqName",
                       "span": {
                         "start": 723,
                         "end": 729,
                         "ctxt": 0
                       },
-                      "value": "target",
-                      "raw": "target"
+                      "prefix": null,
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 723,
+                          "end": 729,
+                          "ctxt": 0
+                        },
+                        "value": "target",
+                        "raw": "target"
+                      }
                     },
                     "matcher": null,
                     "value": null,
@@ -2877,16 +2893,24 @@
                       "end": 751,
                       "ctxt": 0
                     },
-                    "prefix": null,
                     "name": {
-                      "type": "Identifier",
+                      "type": "WqName",
                       "span": {
                         "start": 744,
                         "end": 750,
                         "ctxt": 0
                       },
-                      "value": "target",
-                      "raw": "target"
+                      "prefix": null,
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 744,
+                          "end": 750,
+                          "ctxt": 0
+                        },
+                        "value": "target",
+                        "raw": "target"
+                      }
                     },
                     "matcher": null,
                     "value": null,
@@ -2940,22 +2964,30 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 755,
                     "end": 757,
                     "ctxt": 0
                   },
-                  "prefix": null,
                   "name": {
-                    "type": "Identifier",
+                    "type": "WqName",
                     "span": {
                       "start": 755,
                       "end": 757,
                       "ctxt": 0
                     },
-                    "value": "ul",
-                    "raw": "ul"
+                    "prefix": null,
+                    "value": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 755,
+                        "end": 757,
+                        "ctxt": 0
+                      },
+                      "value": "ul",
+                      "raw": "ul"
+                    }
                   }
                 },
                 "subclassSelectors": [
@@ -3025,22 +3057,30 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 766,
                     "end": 768,
                     "ctxt": 0
                   },
-                  "prefix": null,
                   "name": {
-                    "type": "Identifier",
+                    "type": "WqName",
                     "span": {
                       "start": 766,
                       "end": 768,
                       "ctxt": 0
                     },
-                    "value": "ul",
-                    "raw": "ul"
+                    "prefix": null,
+                    "value": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 766,
+                        "end": 768,
+                        "ctxt": 0
+                      },
+                      "value": "ul",
+                      "raw": "ul"
+                    }
                   }
                 },
                 "subclassSelectors": [

@@ -94,3 +94,24 @@ property: -000000;
 property: 100.1e-5;
 property: 100.1e-6;
 property: 10001000000}
+div {transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}
+.wrapper {display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 10px;
+grid-auto-rows: minmax(100px, auto)}
+.one {grid-column: 1/ 3;
+grid-row: 1}
+.two {grid-column: 2/ 4;
+grid-row: 1/ 3}
+.three {grid-column: 1;
+grid-row: 2/ 5}
+.four {grid-column: 3;
+grid-row: 3}
+.five {grid-column: 2;
+grid-row: 4}
+.six {grid-column: 3;
+grid-row: 4}
+#grid {display: grid;
+height: 100px;
+grid-template: repeat(4, 1fr) / 50px 100px}
+.foo {grid-area: 2 span/ another-grid-area span}

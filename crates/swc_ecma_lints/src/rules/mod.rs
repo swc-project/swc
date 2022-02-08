@@ -1,5 +1,6 @@
 use crate::{config::LintConfig, rule::Rule};
-use swc_common::SyntaxContext;
+use std::sync::Arc;
+use swc_common::{SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold};
 
@@ -15,6 +16,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_console;
     pub mod no_debugger;
     pub mod prefer_regex_literals;
+    pub mod quotes;
 }
 
 #[cfg(feature = "non_critical_lints")]
@@ -25,6 +27,7 @@ pub struct LintParams<'a> {
     pub lint_config: &'a LintConfig,
     pub top_level_ctxt: SyntaxContext,
     pub es_version: EsVersion,
+    pub source_map: Arc<SourceMap>,
 }
 
 pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
@@ -41,6 +44,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             lint_config,
             top_level_ctxt,
             es_version,
+            source_map,
         } = lint_params;
 
         rules.extend(no_console::no_console(
@@ -56,6 +60,8 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(no_debugger::no_debugger(&lint_config.no_debugger));
+
+        rules.extend(quotes::quotes(&source_map, &lint_config.quotes));
 
         rules.extend(prefer_regex_literals::prefer_regex_literals(
             program,

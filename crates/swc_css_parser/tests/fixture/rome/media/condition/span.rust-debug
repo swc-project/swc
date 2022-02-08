@@ -1528,6 +1528,18 @@ error: TypeSelector
 8 |     a {
   |     ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/rome/media/condition/input.css:8:2
+  |
+8 |     a {
+  |     ^
+
+error: WqName
+ --> $DIR/tests/fixture/rome/media/condition/input.css:8:2
+  |
+8 |     a {
+  |     ^
+
 error: Ident
  --> $DIR/tests/fixture/rome/media/condition/input.css:8:2
   |
@@ -1907,6 +1919,18 @@ error: CompoundSelector
    |     ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/rome/media/condition/input.css:16:2
+   |
+16 |     a {
+   |     ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/rome/media/condition/input.css:16:2
+   |
+16 |     a {
+   |     ^
+
+error: WqName
   --> $DIR/tests/fixture/rome/media/condition/input.css:16:2
    |
 16 |     a {

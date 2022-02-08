@@ -51,6 +51,18 @@ error: TypeSelector
 5 | a {
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/rome/comment/input.css:5:1
+  |
+5 | a {
+  | ^
+
+error: WqName
+ --> $DIR/tests/fixture/rome/comment/input.css:5:1
+  |
+5 | a {
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/rome/comment/input.css:5:1
   |
@@ -136,6 +148,18 @@ error: TypeSelector
 9 | a {
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/rome/comment/input.css:9:1
+  |
+9 | a {
+  | ^
+
+error: WqName
+ --> $DIR/tests/fixture/rome/comment/input.css:9:1
+  |
+9 | a {
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/rome/comment/input.css:9:1
   |
@@ -216,6 +240,18 @@ error: CompoundSelector
    | ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/rome/comment/input.css:13:1
+   |
+13 | a /* comment */ {
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/rome/comment/input.css:13:1
+   |
+13 | a /* comment */ {
+   | ^
+
+error: WqName
   --> $DIR/tests/fixture/rome/comment/input.css:13:1
    |
 13 | a /* comment */ {

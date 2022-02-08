@@ -280,37 +280,43 @@ macro_rules! mtd {
 
 impl Visit for SpanVisualizer<'_> {
     mtd!(AtRule, visit_at_rule);
-    mtd!(AtSelector, visit_at_selector);
-    mtd!(AttrSelector, visit_attr_selector);
     mtd!(BinValue, visit_bin_value);
-    mtd!(ClassSelector, visit_class_selector);
-    mtd!(Delimiter, visit_delimiter);
+    mtd!(SelectorList, visit_selector_list);
     mtd!(ComplexSelector, visit_complex_selector);
     mtd!(Combinator, visit_combinator);
     mtd!(CompoundSelector, visit_compound_selector);
+    mtd!(TypeSelector, visit_type_selector);
+    mtd!(TagNameSelector, visit_tag_name_selector);
+    mtd!(NsPrefix, visit_ns_prefix);
+    mtd!(WqName, visit_wq_name);
+    mtd!(UniversalSelector, visit_universal_selector);
+    mtd!(IdSelector, visit_id_selector);
+    mtd!(ClassSelector, visit_class_selector);
+    mtd!(AttributeSelector, visit_attribute_selector);
+    mtd!(AttributeSelectorMatcher, visit_attribute_selector_matcher);
+    mtd!(AttributeSelectorValue, visit_attribute_selector_value);
+    mtd!(AttributeSelectorModifier, visit_attribute_selector_modifier);
+    mtd!(SubclassSelector, visit_subclass_selector);
+    mtd!(NestingSelector, visit_nesting_selector);
+    mtd!(PseudoClassSelector, visit_pseudo_class_selector);
+    mtd!(PseudoElementSelector, visit_pseudo_element_selector);
+    mtd!(AnPlusB, visit_an_plus_b);
+    mtd!(Delimiter, visit_delimiter);
     mtd!(Block, visit_block);
     mtd!(SimpleBlock, visit_simple_block);
     mtd!(Function, visit_function);
     mtd!(HexColor, visit_hex_color);
-    mtd!(NestingSelector, visit_nesting_selector);
-    mtd!(IdSelector, visit_id_selector);
-    mtd!(TypeSelector, visit_type_selector);
     mtd!(Number, visit_number);
     mtd!(Ratio, visit_ratio);
     mtd!(Percent, visit_percent);
-    mtd!(DeclarationName, visit_declaration_name);
     mtd!(Declaration, visit_declaration);
+    mtd!(DeclarationName, visit_declaration_name);
+    mtd!(ImportantFlag, visit_important_flag);
     mtd!(Nth, visit_nth);
-    mtd!(AnPlusB, visit_an_plus_b);
-    mtd!(PseudoClassSelector, visit_pseudo_class_selector);
-    mtd!(PseudoElementSelector, visit_pseudo_element_selector);
     mtd!(Rule, visit_rule);
     mtd!(Str, visit_str);
     mtd!(QualifiedRule, visit_qualified_rule);
     mtd!(Stylesheet, visit_stylesheet);
-    mtd!(SelectorList, visit_selector_list);
-    mtd!(SubclassSelector, visit_subclass_selector);
-    mtd!(TagSelector, visit_tag_selector);
     mtd!(Ident, visit_ident);
     mtd!(CustomIdent, visit_custom_ident);
     mtd!(DashedIdent, visit_dashed_ident);
@@ -324,6 +330,10 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(CharsetRule, visit_charset_rule);
     mtd!(DocumentRule, visit_document_rule);
+    mtd!(
+        DocumentRuleMatchingFunction,
+        visit_document_rule_matching_function
+    );
     mtd!(FontFaceRule, visit_font_face_rule);
     mtd!(ImportRule, visit_import_rule);
     mtd!(ImportHref, visit_import_href);
@@ -370,16 +380,18 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(SupportsFeature, visit_supports_feature);
     mtd!(NamespaceUri, visit_namespace_uri);
     mtd!(NamespaceRule, visit_namespace_rule);
-    mtd!(NestedPageRule, visit_nested_page_rule);
     mtd!(PageRule, visit_page_rule);
-    mtd!(PageRuleBlock, visit_page_rule_block);
-    mtd!(PageRuleBlockItem, visit_page_rule_block_item);
+    mtd!(PageSelectorList, visit_page_selector_list);
     mtd!(PageSelector, visit_page_selector);
+    mtd!(PageSelectorType, visit_page_selector_type);
+    mtd!(PageSelectorPseudo, visit_page_selector_pseudo);
     mtd!(AtRuleName, visit_at_rule_name);
+    mtd!(PageMarginRule, visit_page_margin_rule);
     mtd!(UnknownAtRule, visit_unknown_at_rule);
     mtd!(ViewportRule, visit_viewport_rule);
     mtd!(ColorProfileName, visit_color_profile_name);
     mtd!(ColorProfileRule, visit_color_profile_rule);
+    mtd!(CounterStyleRule, visit_counter_style_rule);
 
     fn visit_token_and_span(&mut self, n: &TokenAndSpan) {
         self.handler

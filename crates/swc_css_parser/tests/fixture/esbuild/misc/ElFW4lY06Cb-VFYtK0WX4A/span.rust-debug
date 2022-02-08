@@ -22,6 +22,12 @@ error: DocumentRule
 1 | @-moz-document url-prefix() { h1 { color: green } }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: DocumentRuleMatchingFunction
+ --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:16
+  |
+1 | @-moz-document url-prefix() { h1 { color: green } }
+  |                ^^^^^^^^^^^^
+
 error: Function
  --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:16
   |
@@ -65,6 +71,18 @@ error: CompoundSelector
   |                               ^^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:31
+  |
+1 | @-moz-document url-prefix() { h1 { color: green } }
+  |                               ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:31
+  |
+1 | @-moz-document url-prefix() { h1 { color: green } }
+  |                               ^^
+
+error: WqName
  --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:31
   |
 1 | @-moz-document url-prefix() { h1 { color: green } }

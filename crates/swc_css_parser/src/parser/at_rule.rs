@@ -32,30 +32,34 @@ where
             "charset" => {
                 self.input.skip_ws()?;
 
-                let at_rule_charset = self.parse();
+                let at_rule_charset: PResult<CharsetRule> = self.parse();
 
-                if at_rule_charset.is_ok() {
-                    return at_rule_charset
-                        .map(|mut r: CharsetRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Charset);
+                match at_rule_charset {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Charset(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "import" => {
                 self.input.skip_ws()?;
 
-                let at_rule_import = self.parse();
+                let at_rule_import: PResult<ImportRule> = self.parse();
 
-                if at_rule_import.is_ok() {
-                    return at_rule_import
-                        .map(|mut r: ImportRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Import);
+                match at_rule_import {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Import(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
@@ -63,150 +67,230 @@ where
             | "-ms-keyframes" => {
                 self.input.skip_ws()?;
 
-                let at_rule_keyframe = self.parse();
+                let at_rule_keyframe: PResult<KeyframesRule> = self.parse();
 
-                if at_rule_keyframe.is_ok() {
-                    return at_rule_keyframe
-                        .map(|mut r: KeyframesRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Keyframes);
+                match at_rule_keyframe {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Keyframes(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "font-face" => {
                 self.input.skip_ws()?;
 
-                let at_rule_font_face = self.parse();
+                let at_rule_font_face: PResult<FontFaceRule> = self.parse();
 
-                if at_rule_font_face.is_ok() {
-                    return at_rule_font_face
-                        .map(|mut r: FontFaceRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::FontFace);
+                match at_rule_font_face {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::FontFace(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "supports" => {
                 self.input.skip_ws()?;
 
-                let at_rule_supports = self.parse();
+                let at_rule_supports: PResult<SupportsRule> = self.parse();
 
-                if at_rule_supports.is_ok() {
-                    return at_rule_supports
-                        .map(|mut r: SupportsRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Supports);
+                match at_rule_supports {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Supports(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "media" => {
                 self.input.skip_ws()?;
 
-                let at_rule_media = self.parse();
+                let at_rule_media: PResult<MediaRule> = self.parse();
 
-                if at_rule_media.is_ok() {
-                    return at_rule_media
-                        .map(|mut r: MediaRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Media);
+                match at_rule_media {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Media(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "page" => {
                 self.input.skip_ws()?;
 
-                let at_rule_page = self.parse();
+                let at_rule_page: PResult<PageRule> = self.parse();
 
-                if at_rule_page.is_ok() {
-                    return at_rule_page
-                        .map(|mut r: PageRule| {
+                match at_rule_page {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Page(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
+                }
+            }
+
+            "top-left-corner"
+            | "top-left"
+            | "top-center"
+            | "top-right"
+            | "top-right-corner"
+            | "bottom-left-corner"
+            | "bottom-left"
+            | "bottom-center"
+            | "bottom-right"
+            | "bottom-right-corner"
+            | "left-top"
+            | "left-middle"
+            | "left-bottom"
+            | "right-top"
+            | "right-middle"
+            | "right-bottom"
+                if self.ctx.in_page_at_rule =>
+            {
+                let margin_rule_name = Ident {
+                    span: Span::new(
+                        at_rule_span.lo + BytePos(1),
+                        at_rule_span.hi,
+                        Default::default(),
+                    ),
+                    value: name.0.clone(),
+                    raw: name.1.clone(),
+                };
+
+                self.input.skip_ws()?;
+
+                let margin_rule = self.parse();
+
+                if margin_rule.is_ok() {
+                    return margin_rule
+                        .map(|mut r: PageMarginRule| {
+                            r.name = margin_rule_name;
                             r.span.lo = at_rule_span.lo;
                             r
                         })
-                        .map(AtRule::Page);
+                        .map(AtRule::PageMargin);
                 }
             }
 
             "document" | "-moz-document" => {
                 self.input.skip_ws()?;
 
-                let at_rule_document = self.parse();
+                let at_rule_document: PResult<DocumentRule> = self.parse();
 
-                if at_rule_document.is_ok() {
-                    return at_rule_document
-                        .map(|mut r: DocumentRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Document);
+                match at_rule_document {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Document(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "namespace" => {
                 self.input.skip_ws()?;
 
-                let at_rule_namespace = self.parse();
+                let at_rule_namespace: PResult<NamespaceRule> = self.parse();
 
-                if at_rule_namespace.is_ok() {
-                    return at_rule_namespace
-                        .map(|mut r: NamespaceRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Namespace);
+                match at_rule_namespace {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Namespace(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "viewport" | "-ms-viewport" => {
                 self.input.skip_ws()?;
 
-                let at_rule_viewport = self.parse();
+                let at_rule_viewport: PResult<ViewportRule> = self.parse();
 
-                if at_rule_viewport.is_ok() {
-                    return at_rule_viewport
-                        .map(|mut r: ViewportRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Viewport);
+                match at_rule_viewport {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Viewport(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "layer" => {
                 self.input.skip_ws()?;
 
-                let at_rule_layer = self.parse();
+                let at_rule_layer: PResult<LayerRule> = self.parse();
 
-                if at_rule_layer.is_ok() {
-                    return at_rule_layer
-                        .map(|mut r: LayerRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::Layer);
+                match at_rule_layer {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Layer(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
             "color-profile" => {
                 self.input.skip_ws()?;
 
-                let at_rule_color_profile = self.parse();
+                let at_rule_color_profile: PResult<ColorProfileRule> = self.parse();
 
-                if at_rule_color_profile.is_ok() {
-                    return at_rule_color_profile
-                        .map(|mut r: ColorProfileRule| {
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::ColorProfile);
+                match at_rule_color_profile {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::ColorProfile(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
+                }
+            }
+
+            "counter-style" => {
+                self.input.skip_ws()?;
+
+                let at_rule_counter_style: PResult<CounterStyleRule> = self.parse();
+
+                match at_rule_counter_style {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::CounterStyle(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
                 }
             }
 
@@ -781,22 +865,20 @@ where
 {
     fn parse(&mut self) -> PResult<DocumentRule> {
         let span = self.input.cur_span()?;
+        let url_match_fn = self.parse()?;
+        let mut matching_functions = vec![url_match_fn];
 
-        let selectors = {
-            let mut items = vec![];
+        loop {
+            self.input.skip_ws()?;
 
-            loop {
-                let res: Function = self.parse()?;
-                items.push(res);
-
-                self.input.skip_ws()?;
-                if !is!(self, ",") {
-                    break;
-                }
+            if !eat!(self, ",") {
+                break;
             }
 
-            items
-        };
+            self.input.skip_ws()?;
+
+            matching_functions.push(self.parse()?);
+        }
 
         expect!(self, "{");
 
@@ -808,9 +890,37 @@ where
 
         Ok(DocumentRule {
             span: span!(self, span.lo),
-            selectors,
+            matching_functions,
             block,
         })
+    }
+}
+
+impl<I> Parse<DocumentRuleMatchingFunction> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<DocumentRuleMatchingFunction> {
+        match cur!(self) {
+            tok!("url") => Ok(DocumentRuleMatchingFunction::Url(self.parse()?)),
+            Token::Function {
+                value: function_name,
+                ..
+            } => {
+                if &*function_name.to_ascii_lowercase() == "url"
+                    || &*function_name.to_ascii_lowercase() == "src"
+                {
+                    Ok(DocumentRuleMatchingFunction::Url(self.parse()?))
+                } else {
+                    Ok(DocumentRuleMatchingFunction::Function(self.parse()?))
+                }
+            }
+            _ => {
+                let span = self.input.cur_span()?;
+
+                Err(Error::new(span, ErrorKind::Expected("url or function")))
+            }
+        }
     }
 }
 
@@ -1361,31 +1471,69 @@ where
     fn parse(&mut self) -> PResult<PageRule> {
         let start = self.input.cur_span()?.lo;
 
-        let prelude = {
-            let mut items = vec![];
-            loop {
-                self.input.skip_ws()?;
-
-                if is!(self, "{") {
-                    break;
-                }
-
-                items.push(self.parse()?);
-
-                self.input.skip_ws()?;
-                if !eat!(self, ",") {
-                    break;
-                }
-            }
-            items
+        let prelude = if !is!(self, "{") {
+            Some(self.parse()?)
+        } else {
+            None
         };
 
-        let block = self.parse()?;
+        expect!(self, "{");
+
+        let ctx = Ctx {
+            in_page_at_rule: true,
+            ..self.ctx
+        };
+
+        let block = self.with_ctx(ctx).parse_as::<Vec<DeclarationBlockItem>>()?;
+
+        expect!(self, "}");
 
         Ok(PageRule {
             span: span!(self, start),
             prelude,
             block,
+        })
+    }
+}
+
+impl<I> Parse<PageSelectorList> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PageSelectorList> {
+        let selector = self.parse()?;
+        let mut selectors = vec![selector];
+
+        loop {
+            self.input.skip_ws()?;
+
+            if !eat!(self, ",") {
+                break;
+            }
+
+            self.input.skip_ws()?;
+
+            let selector = self.parse()?;
+
+            selectors.push(selector);
+        }
+
+        let start_pos = match selectors.first() {
+            Some(PageSelector { span, .. }) => span.lo,
+            _ => {
+                unreachable!();
+            }
+        };
+        let last_pos = match selectors.last() {
+            Some(PageSelector { span, .. }) => span.hi,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        Ok(PageSelectorList {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            selectors,
         })
     }
 }
@@ -1397,98 +1545,112 @@ where
     fn parse(&mut self) -> PResult<PageSelector> {
         self.input.skip_ws()?;
 
-        let start = self.input.cur_span()?.lo;
+        let span = self.input.cur_span()?;
 
-        let ident = if is!(self, Ident) {
+        let page_type = if is!(self, Ident) {
             Some(self.parse()?)
         } else {
             None
         };
 
-        let pseudo = if eat!(self, ":") {
-            Some(self.parse()?)
+        let pseudos = if is!(self, ":") {
+            let mut pseudos = vec![];
+
+            loop {
+                if !is!(self, ":") {
+                    break;
+                }
+
+                let pseudo = self.parse()?;
+
+                pseudos.push(pseudo);
+            }
+
+            Some(pseudos)
         } else {
             None
         };
 
         Ok(PageSelector {
-            span: span!(self, start),
-            ident,
-            pseudo,
+            span: span!(self, span.lo),
+            page_type,
+            pseudos,
         })
     }
 }
 
-impl<I> Parse<PageRuleBlock> for Parser<I>
+impl<I> Parse<PageSelectorType> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<PageRuleBlock> {
+    fn parse(&mut self) -> PResult<PageSelectorType> {
         let span = self.input.cur_span()?;
-        expect!(self, "{");
-        self.input.skip_ws()?;
-        let mut items = vec![];
+        let value = self.parse()?;
 
-        if !is!(self, "}") {
-            loop {
-                self.input.skip_ws()?;
+        Ok(PageSelectorType {
+            span: span!(self, span.lo),
+            value,
+        })
+    }
+}
 
-                let q = self.parse()?;
-                items.push(q);
+impl<I> Parse<PageSelectorPseudo> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PageSelectorPseudo> {
+        let span = self.input.cur_span()?;
 
-                self.input.skip_ws()?;
+        expect!(self, ":");
 
-                if is_one_of!(self, EOF, "}") {
-                    break;
-                }
+        let value = match cur!(self) {
+            Token::Ident { value, .. }
+                if matches!(
+                    &*value.to_ascii_lowercase(),
+                    "left" | "right" | "first" | "blank"
+                ) =>
+            {
+                self.parse()?
             }
-        }
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("'left', 'right', 'first' or 'blank' ident"),
+                ))
+            }
+        };
+
+        Ok(PageSelectorPseudo {
+            span: span!(self, span.lo),
+            value,
+        })
+    }
+}
+
+impl<I> Parse<PageMarginRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PageMarginRule> {
+        let span = self.input.cur_span()?;
+
+        expect!(self, "{");
+
+        let ctx = Ctx {
+            in_page_at_rule: false,
+            ..self.ctx
+        };
+        let block = self.with_ctx(ctx).parse_as::<Vec<DeclarationBlockItem>>()?;
 
         expect!(self, "}");
 
-        Ok(PageRuleBlock {
+        Ok(PageMarginRule {
+            name: Ident {
+                span: Default::default(),
+                value: Default::default(),
+                raw: Default::default(),
+            },
             span: span!(self, span.lo),
-            items,
-        })
-    }
-}
-
-impl<I> Parse<PageRuleBlockItem> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<PageRuleBlockItem> {
-        match cur!(self) {
-            Token::AtKeyword { .. } => Ok(PageRuleBlockItem::Nested(self.parse()?)),
-            _ => {
-                let p = self
-                    .parse()
-                    .map(Box::new)
-                    .map(PageRuleBlockItem::Declaration)?;
-                eat!(self, ";");
-
-                Ok(p)
-            }
-        }
-    }
-}
-
-impl<I> Parse<NestedPageRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<NestedPageRule> {
-        let start = self.input.cur_span()?.lo;
-        let ctx = Ctx {
-            allow_at_selector: true,
-            ..self.ctx
-        };
-        let prelude = self.with_ctx(ctx).parse_selectors()?;
-        let block = self.parse()?;
-
-        Ok(NestedPageRule {
-            span: span!(self, start),
-            prelude,
             block,
         })
     }
@@ -1623,6 +1785,28 @@ where
         expect!(self, "}");
 
         Ok(ColorProfileRule {
+            span: span!(self, span.lo),
+            name,
+            block,
+        })
+    }
+}
+
+impl<I> Parse<CounterStyleRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CounterStyleRule> {
+        let span = self.input.cur_span()?;
+        let name = self.parse()?;
+
+        expect!(self, "{");
+
+        let block = self.parse()?;
+
+        expect!(self, "}");
+
+        Ok(CounterStyleRule {
             span: span!(self, span.lo),
             name,
             block,

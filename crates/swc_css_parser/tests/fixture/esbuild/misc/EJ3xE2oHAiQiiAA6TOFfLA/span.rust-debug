@@ -40,11 +40,17 @@ error: SubclassSelector
 1 | [\,attr] {}
   | ^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/esbuild/misc/EJ3xE2oHAiQiiAA6TOFfLA/input.css:1:1
   |
 1 | [\,attr] {}
   | ^^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/EJ3xE2oHAiQiiAA6TOFfLA/input.css:1:2
+  |
+1 | [\,attr] {}
+  |  ^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/EJ3xE2oHAiQiiAA6TOFfLA/input.css:1:2

@@ -4,3 +4,9 @@ error: Invalid selector
 3 |     margin-left: 4cm;
   |                 ^
 
+error: Expected 'left', 'right', 'first' or 'blank' ident
+ --> $DIR/tests/errors/rome/invalid/page/space/input.css:1:11
+  |
+1 | @page Page: blank {
+  |           ^
+

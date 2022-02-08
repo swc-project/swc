@@ -25,6 +25,8 @@ fn handle_func(func: ItemFn) -> TokenStream {
     let ret = quote! {
         #func
 
+        // Declaration for imported function from swc host.
+        // Refer swc_plugin_runner for the actual implementation.
         extern "C" {
             fn __set_transform_result(bytes_ptr: i32, bytes_ptr_len: i32);
             fn __free(bytes_ptr: i32, size: i32) -> i32;
@@ -102,9 +104,16 @@ fn handle_func(func: ItemFn) -> TokenStream {
             }
             let config = config.expect("Should be a string");
 
-            let host_context = swc_plugin::environment::HostContext::new();
+            // Create a handler wired with plugin's diagnostic emitter, set it for global context.
+            let handler = swc_plugin::errors::Handler::with_emitter(
+                true,
+                false,
+                Box::new(swc_plugin::environment::PluginDiagnosticsEmitter {})
+            );
+            swc_plugin::errors::HANDLER.inner.set(handler);
+
             // Take original plugin fn ident, then call it with interop'ed args
-            let transformed_program = #ident(program, config, &host_context);
+            let transformed_program = #ident(program, config);
 
             // Serialize transformed result, return back to the host.
             let serialized_result = swc_plugin::Serialized::serialize(&transformed_program);
