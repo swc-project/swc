@@ -305,7 +305,7 @@ impl Resolve for NodeResolver {
                     base_dir = base_dir.parent().unwrap();
                     &target[3..]
                 };
-                win_target = t.replace("/", "\\");
+                win_target = t.replace('/', "\\");
                 &*win_target
             } else {
                 target
