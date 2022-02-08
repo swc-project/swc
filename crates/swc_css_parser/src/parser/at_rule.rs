@@ -615,6 +615,10 @@ where
 
                 Err(Error::new(span, ErrorKind::Expected("ident or percentage")))
                 return Err(Error::new(span, ErrorKind::Expected("ident or percentage token")));
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("ident or percentage token"),
+                ));
             }
         }
     }
