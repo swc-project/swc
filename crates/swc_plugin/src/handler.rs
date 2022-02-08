@@ -24,9 +24,9 @@ impl PseudoScopedKey {
 // This is to conform some of swc_common::errors::Handler's thread-safety
 // required properties.
 //
-// NOTE: This only works we know each plugin transform doesn't need any thread
-// safety. However, if wasm gets thread support and if we're going to support it
-// this should be revisited.
+// NOTE: This only works cause we know each plugin transform doesn't need any
+// thread safety. However, if wasm gets thread support and if we're going to
+// support it this should be revisited.
 unsafe impl std::marker::Sync for PseudoScopedKey {}
 
 /// global context HANDLER in plugin's transform function.

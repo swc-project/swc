@@ -11,6 +11,7 @@ use swc_common::{
     collections::AHashMap,
     errors::{Diagnostic, HANDLER},
     plugin::{PluginError, Serialized},
+    Mark,
 };
 use wasmer::{
     imports, Array, Exports, Function, Instance, LazyInit, Memory, Module, Store, WasmPtr,
@@ -61,6 +62,20 @@ fn emit_diagnostics(env: &HostEnvironment, bytes_ptr: i32, bytes_ptr_len: i32) {
             })
         }
     }
+}
+
+/// A proxy to Mark::fresh() that can be used in plugin.
+/// This it not direcly called by plugin, instead `impl Mark` will selectively
+/// call this depends on the running context.
+fn mark_fresh_proxy(parent: i32) -> i32 {
+    Mark::fresh(Mark::from_u32(
+        parent
+            .try_into()
+            .expect("Should able to convert i32 into mark"),
+    ))
+    .as_u32()
+    .try_into()
+    .expect("Should able to convert mark into i32")
 }
 
 #[derive(wasmer::WasmerEnv, Clone)]
@@ -178,6 +193,8 @@ fn load_plugin(
                 emit_diagnostics,
             );
 
+            let mark_fresh_fn_decl = Function::new_native(&wasmer_store, mark_fresh_proxy);
+
             // Plugin binary can be either wasm32-wasi or wasm32-unknown-unknown
             let import_object = if is_wasi_module(&module) {
                 // Create the `WasiEnv`.
@@ -197,6 +214,7 @@ fn load_plugin(
                 let mut env = Exports::new();
                 env.insert("__set_transform_result", set_transform_result_fn_decl);
                 env.insert("__emit_diagnostics", emit_diagnostics_fn_decl);
+                env.insert("__mark_fresh_proxy", mark_fresh_fn_decl);
                 import_object.register("env", env);
                 import_object
             }
@@ -206,7 +224,8 @@ fn load_plugin(
                 imports! {
                     "env" => {
                         "__set_transform_result" => set_transform_result_fn_decl,
-                        "__emit_diagnostics" => emit_diagnostics_fn_decl
+                        "__emit_diagnostics" => emit_diagnostics_fn_decl,
+                        "__mark_fresh_proxy" => mark_fresh_fn_decl,
                     }
                 }
             };
