@@ -1,0 +1,30 @@
+error: ["a"] is better written in dot notation
+ 
+  |
+1 | obj["a"];
+  |    ^^^^^
+
+error: ["b"] is better written in dot notation
+ 
+  |
+3 | obj[obj2["b"]];
+  |         ^^^^^
+
+error: ['c'] is better written in dot notation
+ 
+  |
+9 | obj['c'];
+  |    ^^^^^
+
+error: ['d'] is better written in dot notation
+  
+   |
+11 | obj?.['d'];
+   |      ^^^^^
+
+error: ['e'] is better written in dot notation
+  
+   |
+13 | (obj)['e'];
+   |      ^^^^^
+

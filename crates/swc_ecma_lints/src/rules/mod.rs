@@ -7,6 +7,7 @@ use swc_ecma_visit::{noop_fold_type, Fold};
 mod const_assign;
 mod duplicate_bindings;
 mod duplicate_exports;
+mod utils;
 
 #[cfg(feature = "non_critical_lints")]
 #[path = ""]
@@ -70,7 +71,10 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             es_version,
         ));
 
-        rules.extend(dot_notation::dot_notation(&lint_config.dot_notation));
+        rules.extend(dot_notation::dot_notation(
+            &source_map,
+            &lint_config.dot_notation,
+        ));
     }
 
     rules

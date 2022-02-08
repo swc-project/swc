@@ -4,4 +4,10 @@ obj[obj2["b"]];
 
 obj.key;
 
-obj[prop]
+obj[prop];
+
+obj['c'];
+
+obj?.['d'];
+
+(obj)['e'];

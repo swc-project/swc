@@ -62,5 +62,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
     pub dot_notation: RuleConfig<DotNotationConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default)]
     pub quotes: RuleConfig<QuotesConfig>,
 }

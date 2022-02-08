@@ -1,17 +1,22 @@
 use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
+    rules::utils::{resolve_string_quote_type, QuotesType},
 };
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use swc_common::{collections::AHashSet, errors::HANDLER, sync::Lazy, Span};
+use std::{
+    fmt::{self, Debug},
+    sync::Arc,
+};
+use swc_common::{collections::AHashSet, errors::HANDLER, sync::Lazy, SourceMap, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 static KEYWORDS: Lazy<AHashSet<&'static str>> = Lazy::new(|| {
     let mut keywords: AHashSet<&'static str> = AHashSet::default();
 
-    ([
+    [
         "abstract",
         "boolean",
         "break",
@@ -71,7 +76,7 @@ static KEYWORDS: Lazy<AHashSet<&'static str>> = Lazy::new(|| {
         "volatile",
         "while",
         "with",
-    ])
+    ]
     .iter()
     .for_each(|keyword| {
         keywords.insert(*keyword);
@@ -87,27 +92,42 @@ pub struct DotNotationConfig {
     allow_pattern: Option<String>,
 }
 
-pub fn dot_notation(config: &RuleConfig<DotNotationConfig>) -> Option<Box<dyn Rule>> {
+pub fn dot_notation(
+    source_map: &Arc<SourceMap>,
+    config: &RuleConfig<DotNotationConfig>,
+) -> Option<Box<dyn Rule>> {
     match config.get_rule_reaction() {
         LintRuleReaction::Off => None,
-        _ => Some(visitor_rule(DotNotation::new(config))),
+        _ => Some(visitor_rule(DotNotation::new(source_map.clone(), config))),
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Default)]
 struct DotNotation {
     expected_reaction: LintRuleReaction,
     allow_keywords: bool,
     pattern: Option<Regex>,
+    source_map: Arc<SourceMap>,
+}
+
+impl Debug for DotNotation {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("DotNotation")
+            .field("expected_reaction", &self.expected_reaction)
+            .field("allow_keywords", &self.allow_keywords)
+            .field("pattern", &self.pattern)
+            .finish()
+    }
 }
 
 impl DotNotation {
-    fn new(config: &RuleConfig<DotNotationConfig>) -> Self {
+    fn new(source_map: Arc<SourceMap>, config: &RuleConfig<DotNotationConfig>) -> Self {
         let dot_notation_config = config.get_rule_config();
 
         Self {
             expected_reaction: *config.get_rule_reaction(),
             allow_keywords: dot_notation_config.allow_keywords.unwrap_or(true),
+            source_map,
             pattern: dot_notation_config
                 .allow_pattern
                 .as_ref()
@@ -115,8 +135,12 @@ impl DotNotation {
         }
     }
 
-    fn emit_report(&self, span: Span, prop: &str) {
-        let message = format!("[{}] is better written in dot notation", prop);
+    fn emit_report(&self, span: Span, quote_type: QuotesType, prop: &str) {
+        let message = format!(
+            "[{quote}{prop}{quote}] is better written in dot notation",
+            prop = prop,
+            quote = quote_type.get_char()
+        );
 
         HANDLER.with(|handler| match self.expected_reaction {
             LintRuleReaction::Error => {
@@ -129,7 +153,7 @@ impl DotNotation {
         });
     }
 
-    fn check(&self, span: Span, prop_name: &str) {
+    fn check(&self, span: Span, quote_type: QuotesType, prop_name: &str) {
         if self.allow_keywords && KEYWORDS.contains(&prop_name) {
             return;
         }
@@ -140,7 +164,7 @@ impl DotNotation {
             }
         }
 
-        self.emit_report(span, prop_name);
+        self.emit_report(span, quote_type, prop_name);
     }
 }
 
@@ -150,8 +174,10 @@ impl Visit for DotNotation {
     fn visit_member_prop(&mut self, member: &MemberProp) {
         if let Some(prop) = member.as_computed() {
             match prop.expr.as_ref() {
-                Expr::Lit(Lit::Str(Str { value, .. })) => {
-                    self.check(prop.span, &*value);
+                Expr::Lit(Lit::Str(Str { value, span, .. })) => {
+                    let quote_type = resolve_string_quote_type(&self.source_map, span).unwrap();
+
+                    self.check(prop.span, quote_type, &*value);
                 }
                 Expr::Member(member) => {
                     member.visit_children_with(self);
