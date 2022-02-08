@@ -53,6 +53,7 @@ where
             .with_context(|| format!("failed to resolve import `{}`", i.src.value))
             .unwrap();
 
+        i.src.kind = Default::default();
         i.src.value = src;
     }
 
@@ -64,6 +65,7 @@ where
                 .with_context(|| format!("failed to resolve import `{}`", src.value))
                 .unwrap();
 
+            src.kind = Default::default();
             src.value = new;
         }
     }
