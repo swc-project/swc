@@ -942,7 +942,14 @@ where
             }
         }
 
+        // TODO(kdy1): Optimize this
+        //
         // See https://github.com/swc-project/swc/pull/3480
+        //
+        // This works, but it should be optimized.
+        //
+        // This check blocks optimization of clearly valid optimizations like `i += 1,
+        // arr[i]`
         if let Some(a_id) = a.id() {
             match a {
                 Mergable::Expr(Expr::Assign(AssignExpr { op: op!("="), .. })) => {}
