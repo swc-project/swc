@@ -942,29 +942,6 @@ where
             }
         }
 
-        // TODO(kdy1): Optimize this
-        //
-        // See https://github.com/swc-project/swc/pull/3480
-        //
-        // This works, but it should be optimized.
-        //
-        // This check blocks optimization of clearly valid optimizations like `i += 1,
-        // arr[i]`
-        if let Some(a_id) = a.id() {
-            match a {
-                Mergable::Expr(Expr::Assign(AssignExpr { op: op!("="), .. })) => {}
-                Mergable::Expr(Expr::Assign(..)) => {
-                    if let Expr::Assign(AssignExpr { right, .. }) = b {
-                        let used_by_b = idents_used_by(&**right);
-                        if used_by_b.contains(&a_id) {
-                            return Ok(false);
-                        }
-                    }
-                }
-                _ => {}
-            }
-        }
-
         match b {
             Expr::Update(..) | Expr::Arrow(..) | Expr::Fn(..) => return Ok(false),
 
@@ -1032,13 +1009,13 @@ where
 
             Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
                 match &mut b.left {
-                    PatOrExpr::Expr(b) => {
+                    PatOrExpr::Expr(b_left) => {
                         tracing::trace!("seq: Try lhs of assign");
-                        if self.merge_sequential_expr(a, &mut **b)? {
+                        if self.merge_sequential_expr(a, &mut **b_left)? {
                             return Ok(true);
                         }
 
-                        match &**b {
+                        match &**b_left {
                             Expr::Ident(..) => {}
 
                             _ => {
@@ -1046,14 +1023,14 @@ where
                             }
                         }
                     }
-                    PatOrExpr::Pat(b) => match &mut **b {
-                        Pat::Expr(b) => {
+                    PatOrExpr::Pat(b_left) => match &mut **b_left {
+                        Pat::Expr(b_left) => {
                             tracing::trace!("seq: Try lhs of assign");
-                            if self.merge_sequential_expr(a, &mut **b)? {
+                            if self.merge_sequential_expr(a, &mut **b_left)? {
                                 return Ok(true);
                             }
 
-                            match &**b {
+                            match &**b_left {
                                 Expr::Ident(..) => {}
                                 _ => {
                                     return Ok(false);
@@ -1065,11 +1042,19 @@ where
                     },
                 }
 
+                if should_not_check_rhs_of_assign(a, b) {
+                    return Ok(false);
+                }
+
                 tracing::trace!("seq: Try rhs of assign");
                 return self.merge_sequential_expr(a, &mut b.right);
             }
 
             Expr::Assign(b) => {
+                if should_not_check_rhs_of_assign(a, b) {
+                    return Ok(false);
+                }
+
                 let b_left = b.left.as_ident();
                 let b_left = match b_left {
                     Some(v) => v.clone(),
@@ -1465,6 +1450,31 @@ where
 
         Ok(true)
     }
+}
+
+/// TODO(kdy1): Optimize this
+///
+/// See https://github.com/swc-project/swc/pull/3480
+///
+/// This works, but it should be optimized.
+///
+/// This check blocks optimization of clearly valid optimizations like `i += 1,
+/// arr[i]`
+fn should_not_check_rhs_of_assign(a: &Mergable, b: &mut AssignExpr) -> bool {
+    if let Some(a_id) = a.id() {
+        match a {
+            Mergable::Expr(Expr::Assign(AssignExpr { op: op!("="), .. })) => {}
+            Mergable::Expr(Expr::Assign(..)) => {
+                let used_by_b = idents_used_by(&*b.right);
+                if used_by_b.contains(&a_id) {
+                    return true;
+                }
+            }
+            _ => {}
+        }
+    }
+
+    false
 }
 
 struct UsageCounter<'a> {
