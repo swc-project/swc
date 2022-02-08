@@ -524,6 +524,7 @@ fn default_cwd() -> PathBuf {
 /// `.swcrc` file
 #[derive(Debug, Clone, Deserialize)]
 #[serde(untagged, rename = "swcrc")]
+#[allow(clippy::large_enum_variant)]
 pub enum Rc {
     Single(Config),
     Multi(Vec<Config>),
