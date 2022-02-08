@@ -17,6 +17,9 @@
 - **(css/ast)** Add types for `@counter-style` at-rule (#3469) ([e6f4fbf](https://github.com/swc-project/swc/commit/e6f4fbf056767344776afbb6bd3b2f5dfe83dcf3))
 
 
+- **(css/ast)** Add types for all dimensions (#3477) ([dc939c6](https://github.com/swc-project/swc/commit/dc939c65afa3b3b09101128f5801f532170bdea2))
+
+
 - **(plugin)** Support global `HANDLER` in the plugin context (#3478) ([d473a65](https://github.com/swc-project/swc/commit/d473a6597653e59fc485ffb9cb116d23b4b55e70))
 
 ### Miscellaneous Tasks
@@ -24,6 +27,9 @@
 
 
 - **(es)** Fix clippy warnings (#3482) ([8bf5cf4](https://github.com/swc-project/swc/commit/8bf5cf4d030ec5ab615924b938c8c027c600e3e1))
+
+
+- **(repo)** Configure kodiak (#3485) ([cf8aa05](https://github.com/swc-project/swc/commit/cf8aa05d9ce5b60936c53c42d70ca934a09c373e))
 
 ## [1.2.137] - 2022-02-07
 
