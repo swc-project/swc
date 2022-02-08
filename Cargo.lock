@@ -2612,7 +2612,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.122.2"
+version = "0.122.3"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2957,7 +2957,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.72.2"
+version = "0.72.3"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3311,7 +3311,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.112.7"
+version = "0.112.8"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
