@@ -410,13 +410,13 @@ where
 
         self.input.skip_ws()?;
 
-        let name;
+        
         let mut matcher = None;
         let mut value = None;
         let mut modifier = None;
 
-        if let Ok(Some(wq_name)) = self.parse() {
-            name = wq_name;
+        let name=if let Ok(Some(wq_name)) = self.parse() {
+            wq_name
         } else {
             let span = self.input.cur_span()?;
 
@@ -424,7 +424,7 @@ where
                 span!(self, span.lo),
                 ErrorKind::InvalidAttrSelectorName,
             ));
-        }
+        };
 
         self.input.skip_ws()?;
 
@@ -731,21 +731,15 @@ where
                 let mut has_plus_sign = false;
 
                 // '+' n
-                match cur!(self) {
-                    Token::Delim { value: '+' } => {
-                        let peeked = self.input.peek()?;
+                if let  Token::Delim { value: '+' } = cur!(self){
+                    let peeked = self.input.peek()?;
 
-                        match peeked {
-                            Some(Token::Ident { .. }) => {
-                                bump!(self);
-                                has_plus_sign = true;
-                            }
-                            _ => {}
-                        }
+                    if let Some(Token::Ident { .. }) = peeked {
+                        bump!(self);
+                        has_plus_sign = true;
                     }
-                    _ => {}
                 }
-
+                
                 let a;
                 let a_raw;
 
