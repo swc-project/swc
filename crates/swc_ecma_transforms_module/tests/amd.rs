@@ -4,6 +4,7 @@ use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::es2015::{arrow, for_of, function_name, shorthand};
 use swc_ecma_transforms_module::{
     amd::{amd, Config},
+    hoist::{export_hoister, import_hoister},
     util,
 };
 use swc_ecma_transforms_testing::test;
@@ -16,7 +17,7 @@ fn syntax() -> Syntax {
 }
 
 fn tr(config: Config) -> impl Fold {
-    chain!(resolver(), amd(config))
+    chain!(resolver(), import_hoister(), export_hoister(), amd(config))
 }
 
 test!(

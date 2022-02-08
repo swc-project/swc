@@ -46,7 +46,10 @@ use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{
     hygiene, modules,
     modules::{
-        hoist::import_hoister, path::NodeImportResolver, rewriter::import_rewriter, util::Scope,
+        hoist::{export_hoister, import_hoister},
+        path::NodeImportResolver,
+        rewriter::import_rewriter,
+        util::Scope,
     },
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
@@ -1067,42 +1070,52 @@ impl ModuleConfig {
                 }
             }
             Some(ModuleConfig::CommonJs(config)) => {
+                let base_pass = chain!(import_hoister(), export_hoister());
                 if paths.is_empty() {
-                    Box::new(modules::common_js::common_js(
-                        root_mark,
-                        config,
-                        Some(scope),
+                    Box::new(chain!(
+                        base_pass,
+                        modules::common_js::common_js(root_mark, config, Some(scope),)
                     ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
-
-                    Box::new(modules::common_js::common_js_with_resolver(
-                        resolver,
-                        base,
-                        root_mark,
-                        config,
-                        Some(scope),
+                    Box::new(chain!(
+                        base_pass,
+                        modules::common_js::common_js_with_resolver(
+                            resolver,
+                            base,
+                            root_mark,
+                            config,
+                            Some(scope),
+                        )
                     ))
                 }
             }
             Some(ModuleConfig::Umd(config)) => {
+                let base_pass = chain!(import_hoister(), export_hoister());
+
                 if paths.is_empty() {
                     Box::new(modules::umd::umd(cm, root_mark, config))
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
-                    Box::new(modules::umd::umd_with_resolver(
-                        resolver, base, cm, root_mark, config,
+                    Box::new(chain!(
+                        base_pass,
+                        modules::umd::umd_with_resolver(resolver, base, cm, root_mark, config,)
                     ))
                 }
             }
             Some(ModuleConfig::Amd(config)) => {
+                let base_pass = chain!(import_hoister(), export_hoister());
+
                 if paths.is_empty() {
-                    Box::new(modules::amd::amd(config))
+                    Box::new(chain!(base_pass, modules::amd::amd(config)))
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
-                    Box::new(modules::amd::amd_with_resolver(resolver, base, config))
+                    Box::new(chain!(
+                        base_pass,
+                        modules::amd::amd_with_resolver(resolver, base, config)
+                    ))
                 }
             }
         }
