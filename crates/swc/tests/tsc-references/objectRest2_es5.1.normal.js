@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg);
@@ -56,6 +55,7 @@ function _objectSpread(target) {
     }
     return target;
 }
+import regeneratorRuntime from "regenerator-runtime";
 function rootConnection(name) {
     return {
         resolve: (function() {

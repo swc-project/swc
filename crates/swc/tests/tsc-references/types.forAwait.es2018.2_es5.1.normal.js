@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function _asyncIterator(iterable) {
     var method;
     if (typeof Symbol === "function") {
@@ -42,6 +41,7 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+import regeneratorRuntime from "regenerator-runtime";
 function f() {
     return _f.apply(this, arguments);
 }

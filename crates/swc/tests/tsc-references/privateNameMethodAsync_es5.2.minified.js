@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function AsyncGenerator(gen) {
     var front, back;
     function resume(key, arg) {
@@ -98,7 +97,9 @@ function _defineProperties(target, props) {
     return this._invoke("throw", arg);
 }, AsyncGenerator.prototype.return = function(arg) {
     return this._invoke("return", arg);
-}, new (function() {
+};
+import regeneratorRuntime from "regenerator-runtime";
+new (function() {
     var baz = regeneratorRuntime.mark(function() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
@@ -113,9 +114,9 @@ function _defineProperties(target, props) {
         "use strict";
         var Constructor, protoProps, staticProps;
         function _class() {
-            (function(instance, Constructor) {
+            !function(instance, Constructor) {
                 if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-            })(this, _class), _bar.add(this), _baz.add(this), _qux.add(this);
+            }(this, _class), _bar.add(this), _baz.add(this), _qux.add(this);
         }
         return Constructor = _class, protoProps = [
             {

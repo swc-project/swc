@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function _assertThisInitialized(self) {
     if (self === void 0) {
         throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -170,6 +169,7 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
+import regeneratorRuntime from "regenerator-runtime";
 // @target: es5
 // @lib: es5,es2015.promise
 // @module: commonjs

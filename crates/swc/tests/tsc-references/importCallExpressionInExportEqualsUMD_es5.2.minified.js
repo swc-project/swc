@@ -1,5 +1,4 @@
 var fn;
-import regeneratorRuntime from "regenerator-runtime";
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg), value = info.value;
@@ -9,6 +8,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     }
     info.done ? resolve(value) : Promise.resolve(value).then(_next, _throw);
 }
+import regeneratorRuntime from "regenerator-runtime";
 module.exports = 42, fn = regeneratorRuntime.mark(function _callee() {
     var something;
     return regeneratorRuntime.wrap(function(_ctx) {

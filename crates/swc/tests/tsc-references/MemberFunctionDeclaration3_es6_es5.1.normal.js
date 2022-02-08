@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -18,6 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
+import regeneratorRuntime from "regenerator-runtime";
 var tmp = foo;
 var C = // @target: es6
 /*#__PURE__*/ function() {

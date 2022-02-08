@@ -1,8 +1,3 @@
-import { jsx as _jsx } from "preact/jsx-runtime";
-import { createElement as _createElement } from "react";
-// @filename: react.tsx
-/// <reference path="/.lib/react16.d.ts" />
-/* @jsxImportSource react */ import "./preact";
 function _defineProperty(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -31,6 +26,11 @@ function _objectSpread(target) {
     }
     return target;
 }
+import { jsx as _jsx } from "preact/jsx-runtime";
+import { createElement as _createElement } from "react";
+// @filename: react.tsx
+/// <reference path="/.lib/react16.d.ts" />
+/* @jsxImportSource react */ import "./preact";
 // @jsx: react-jsx,react-jsxdev
 // @strict: true
 // @module: commonjs

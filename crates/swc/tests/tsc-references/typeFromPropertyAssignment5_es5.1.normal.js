@@ -1,10 +1,10 @@
-// @Filename: b.js
-import MC from './a';
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+// @Filename: b.js
+import MC from './a';
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true

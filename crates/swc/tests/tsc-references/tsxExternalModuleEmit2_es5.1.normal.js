@@ -1,5 +1,3 @@
-//@filename: app.tsx
-import Main from 'mod';
 function _extends() {
     _extends = Object.assign || function(target) {
         for(var i = 1; i < arguments.length; i++){
@@ -14,6 +12,8 @@ function _extends() {
     };
     return _extends.apply(this, arguments);
 }
+//@filename: app.tsx
+import Main from 'mod';
 // Should see mod_1['default'] in emit here
 /*#__PURE__*/ React.createElement(Foo, {
     handler: Main

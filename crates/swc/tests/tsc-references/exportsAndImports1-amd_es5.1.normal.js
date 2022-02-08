@@ -1,10 +1,10 @@
-// @filename: t3.ts
-import { I, N, T } from "./t1";
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+// @filename: t3.ts
+import { I, N, T } from "./t1";
 // @module: amd
 // @target: ES5
 // @filename: t1.ts

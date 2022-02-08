@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function AsyncGenerator(gen) {
     var front, back;
     function send(key, arg) {
@@ -88,6 +87,7 @@ function _wrapAsyncGenerator(fn) {
         return new AsyncGenerator(fn.apply(this, arguments));
     };
 }
+import regeneratorRuntime from "regenerator-runtime";
 f1(regeneratorRuntime.mark(function _callee() {
     var a;
     return regeneratorRuntime.wrap(function _callee$(_ctx) {
