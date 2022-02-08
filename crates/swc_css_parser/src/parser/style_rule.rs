@@ -12,8 +12,10 @@ where
     I: ParserInput,
 {
     pub(crate) fn parse_rule_list(&mut self, ctx: RuleContext) -> PResult<Vec<Rule>> {
+        // Create an initially empty list of rules.
         let mut rules = vec![];
 
+        // Repeatedly consume the next input token:
         loop {
             // TODO: remove `}`
             // <EOF-token>
@@ -42,9 +44,15 @@ where
                     // anything is returned, append it to the list of rules.
                     rules.push(self.parse()?);
                 }
+                // <at-keyword-token>
+                // Reconsume the current input token. Consume an at-rule, and append the returned
+                // value to the list of rules.
                 Token::AtKeyword { .. } => {
-                    rules.push(self.parse_at_rule(Default::default())?.into());
+                    rules.push(Rule::AtRule(self.parse_at_rule(Default::default())?));
                 }
+                // anything else
+                // Reconsume the current input token. Consume a qualified rule. If anything is
+                // returned, append it to the list of rules.
                 _ => {
                     rules.push(self.parse()?);
                 }
@@ -137,7 +145,9 @@ where
                     bump!(self);
                 }
                 Token::AtKeyword { .. } => {
-                    declarations.push(DeclarationBlockItem::AtRule(self.parse_at_rule(Default::default())?));
+                    declarations.push(DeclarationBlockItem::AtRule(
+                        self.parse_at_rule(Default::default())?,
+                    ));
                 }
                 Token::Ident { .. } => {
                     let state = self.input.state();
