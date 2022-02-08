@@ -227,6 +227,12 @@ error: Dimension
 4 |     font-size: calc(10px + 5rem);
   |                     ^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/functions/input.css:4:18
+  |
+4 |     font-size: calc(10px + 5rem);
+  |                     ^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/functions/input.css:4:18
   |
@@ -246,6 +252,12 @@ error: Value
   |                            ^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/functions/input.css:4:25
+  |
+4 |     font-size: calc(10px + 5rem);
+  |                            ^^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/functions/input.css:4:25
   |
 4 |     font-size: calc(10px + 5rem);

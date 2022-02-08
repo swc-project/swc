@@ -1073,6 +1073,12 @@ error: Dimension
 19 |     prop: center/1em;
    |                  ^^^
 
+error: Length
+  --> $DIR/tests/fixture/declaration/input.css:19:18
+   |
+19 |     prop: center/1em;
+   |                  ^^^
+
 error: Number
   --> $DIR/tests/fixture/declaration/input.css:19:18
    |
@@ -1134,6 +1140,12 @@ error: Value
    |                   ^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/declaration/input.css:20:19
+   |
+20 |     prop: center/ 1em;
+   |                   ^^^
+
+error: Length
   --> $DIR/tests/fixture/declaration/input.css:20:19
    |
 20 |     prop: center/ 1em;
@@ -1205,6 +1217,12 @@ error: Dimension
 21 |     prop: center /1em;
    |                   ^^^
 
+error: Length
+  --> $DIR/tests/fixture/declaration/input.css:21:19
+   |
+21 |     prop: center /1em;
+   |                   ^^^
+
 error: Number
   --> $DIR/tests/fixture/declaration/input.css:21:19
    |
@@ -1266,6 +1284,12 @@ error: Value
    |                    ^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/declaration/input.css:22:20
+   |
+22 |     prop: center / 1em;
+   |                    ^^^
+
+error: Length
   --> $DIR/tests/fixture/declaration/input.css:22:20
    |
 22 |     prop: center / 1em;

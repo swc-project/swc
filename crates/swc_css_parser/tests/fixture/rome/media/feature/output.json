@@ -215,7 +215,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 98,
                       "end": 103,
@@ -309,7 +309,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 154,
                       "end": 159,
@@ -403,7 +403,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 202,
                       "end": 207,
@@ -456,7 +456,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 225,
                         "end": 230,
@@ -510,7 +510,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 248,
                         "end": 253,
@@ -605,7 +605,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 288,
                       "end": 293,
@@ -658,7 +658,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 311,
                         "end": 316,
@@ -712,7 +712,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 334,
                         "end": 339,
@@ -766,7 +766,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 357,
                         "end": 362,

@@ -111,6 +111,12 @@ error: Dimension
 3 |         margin-top: 50px !important;
   |                     ^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/keyframe/input.css:3:21
+  |
+3 |         margin-top: 50px !important;
+  |                     ^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/keyframe/input.css:3:21
   |
@@ -189,6 +195,12 @@ error: Value
   |                     ^^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/keyframe/input.css:6:21
+  |
+6 |         margin-top: 100px !important;
+  |                     ^^^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/keyframe/input.css:6:21
   |
 6 |         margin-top: 100px !important;

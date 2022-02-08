@@ -1,0 +1,13 @@
+@media print and (min-resolution: 300dpi) {}
+@media print and (min-resolution: 300dpcm) {}
+@media print and (min-resolution: 300dppx) {}
+@media print and (min-resolution: 300x) {}
+
+.box {
+    background-image: -webkit-image-set(
+            url("small-balloons.jpg") 1x,
+            url("large-balloons.jpg") 2x);
+    background-image: image-set(
+            url("small-balloons.jpg") 1x,
+            url("large-balloons.jpg") 2x);
+}

@@ -322,6 +322,13 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(DashedIdent, visit_dashed_ident);
     mtd!(Tokens, visit_tokens);
     mtd!(Dimension, visit_dimension);
+    mtd!(Length, visit_length);
+    mtd!(Angle, visit_angle);
+    mtd!(Time, visit_time);
+    mtd!(Frequency, visit_frequency);
+    mtd!(Resolution, visit_resolution);
+    mtd!(Flex, visit_flex);
+    mtd!(UnknownDimension, visit_unknown_dimension);
     mtd!(Url, visit_url);
     mtd!(UrlValue, visit_url_value);
     mtd!(UrlValueRaw, visit_url_value_raw);

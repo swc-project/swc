@@ -1055,7 +1055,7 @@
                 "value": "/"
               },
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 422,
                   "end": 425,
@@ -1123,7 +1123,7 @@
                 "value": "/"
               },
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 445,
                   "end": 448,
@@ -1191,7 +1191,7 @@
                 "value": "/"
               },
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 468,
                   "end": 471,
@@ -1259,7 +1259,7 @@
                 "value": "/"
               },
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 492,
                   "end": 495,

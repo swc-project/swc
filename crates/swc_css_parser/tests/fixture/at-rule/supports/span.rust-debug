@@ -480,6 +480,12 @@ error: Dimension
 12 |     @media screen and (min-width: 900px) {
    |                                   ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:35
+   |
+12 |     @media screen and (min-width: 900px) {
+   |                                   ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:35
    |
@@ -913,6 +919,12 @@ error: Dimension
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                            ^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:28
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                            ^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:28
    |
@@ -1022,6 +1034,12 @@ error: Value
    |                                                                       ^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:71
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                       ^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:71
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1141,6 +1159,12 @@ error: Dimension
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                     ^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:117
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                     ^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:117
    |
@@ -1250,6 +1274,12 @@ error: Value
    |                                                                                                                                                              ^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:158
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                                              ^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:158
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1406,6 +1436,12 @@ error: Dimension
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
    |                             ^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:29
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |                             ^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:22:29
    |
@@ -1519,6 +1555,12 @@ error: Value
    |                          ^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:26
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |                          ^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/supports/input.css:23:26
    |
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -1642,6 +1684,12 @@ error: Dimension
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
    |                             ^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:29
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |                             ^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:24:29
    |
@@ -1755,6 +1803,12 @@ error: Value
    |                        ^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:24
+   |
+25 |   ( -o-box-shadow: 0 0 2px black inset ) {
+   |                        ^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/supports/input.css:25:24
    |
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
@@ -2012,6 +2066,12 @@ error: Dimension
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
    |                                                                                          ^^^^^
 
+error: Angle
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:90
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                                                          ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:28:90
    |
@@ -2235,6 +2295,12 @@ error: Value
    |                                                                                         ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:89
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                                                         ^^^^^
+
+error: Angle
   --> $DIR/tests/fixture/at-rule/supports/input.css:29:89
    |
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
@@ -2468,6 +2534,12 @@ error: Dimension
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
    |                                                                                                                                     ^^^^^
 
+error: Angle
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:133
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                                                                     ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:30:133
    |
@@ -2691,6 +2763,12 @@ error: Value
    |                                                                                   ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:83
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                                                   ^^^^^
+
+error: Angle
   --> $DIR/tests/fixture/at-rule/supports/input.css:31:83
    |
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
@@ -3176,6 +3254,12 @@ error: Dimension
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
    |                                                                                          ^^^^^
 
+error: Angle
+  --> $DIR/tests/fixture/at-rule/supports/input.css:35:90
+   |
+35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
+   |                                                                                          ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/supports/input.css:35:90
    |
@@ -3399,6 +3483,12 @@ error: Value
    |                                                                                         ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/supports/input.css:36:89
+   |
+36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
+   |                                                                                         ^^^^^
+
+error: Angle
   --> $DIR/tests/fixture/at-rule/supports/input.css:36:89
    |
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}

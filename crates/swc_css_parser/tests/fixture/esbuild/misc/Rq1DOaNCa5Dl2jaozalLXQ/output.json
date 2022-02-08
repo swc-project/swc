@@ -107,7 +107,7 @@
                 "raw": "inset"
               },
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 22,
                   "end": 25,
@@ -135,7 +135,7 @@
                 }
               },
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 26,
                   "end": 29,
@@ -163,7 +163,7 @@
                 }
               },
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 30,
                   "end": 33,
@@ -191,7 +191,7 @@
                 }
               },
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 34,
                   "end": 37,

@@ -299,6 +299,12 @@ error: Dimension
 6 |     prop:  [red #fff 12px];
   |                      ^^^^
 
+error: Length
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:22
+  |
+6 |     prop:  [red #fff 12px];
+  |                      ^^^^
+
 error: Number
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:22
   |

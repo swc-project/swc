@@ -377,7 +377,7 @@
                         "raw": "min-width"
                       },
                       "value": {
-                        "type": "Dimension",
+                        "type": "Length",
                         "span": {
                           "start": 171,
                           "end": 176,
@@ -741,7 +741,7 @@
                 "raw": "0"
               },
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 380,
                   "end": 383,
@@ -837,7 +837,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "Dimension",
+                  "type": "Length",
                   "span": {
                     "start": 423,
                     "end": 426,
@@ -934,7 +934,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "Dimension",
+                  "type": "Length",
                   "span": {
                     "start": 469,
                     "end": 472,
@@ -1031,7 +1031,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "Dimension",
+                  "type": "Length",
                   "span": {
                     "start": 510,
                     "end": 513,
@@ -1140,7 +1140,7 @@
                 "raw": "0"
               },
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 559,
                   "end": 562,
@@ -1236,7 +1236,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "Dimension",
+                  "type": "Length",
                   "span": {
                     "start": 605,
                     "end": 608,
@@ -1333,7 +1333,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "Dimension",
+                  "type": "Length",
                   "span": {
                     "start": 654,
                     "end": 657,
@@ -1430,7 +1430,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "Dimension",
+                  "type": "Length",
                   "span": {
                     "start": 698,
                     "end": 701,
@@ -1624,7 +1624,7 @@
                   },
                   "value": [
                     {
-                      "type": "Dimension",
+                      "type": "Angle",
                       "span": {
                         "start": 814,
                         "end": 819,
@@ -1797,7 +1797,7 @@
                         },
                         "value": [
                           {
-                            "type": "Dimension",
+                            "type": "Angle",
                             "span": {
                               "start": 913,
                               "end": 918,
@@ -1973,7 +1973,7 @@
                         },
                         "value": [
                           {
-                            "type": "Dimension",
+                            "type": "Angle",
                             "span": {
                               "start": 1057,
                               "end": 1062,
@@ -2149,7 +2149,7 @@
                         },
                         "value": [
                           {
-                            "type": "Dimension",
+                            "type": "Angle",
                             "span": {
                               "start": 1159,
                               "end": 1164,
@@ -2513,7 +2513,7 @@
                   },
                   "value": [
                     {
-                      "type": "Dimension",
+                      "type": "Angle",
                       "span": {
                         "start": 1363,
                         "end": 1368,
@@ -2686,7 +2686,7 @@
                         },
                         "value": [
                           {
-                            "type": "Dimension",
+                            "type": "Angle",
                             "span": {
                               "start": 1462,
                               "end": 1467,
