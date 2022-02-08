@@ -1,4 +1,5 @@
 #![recursion_limit = "1024"]
+#![allow(clippy::match_like_matches_macro)]
 #![allow(unused_variables)]
 
 pub use self::config::Config;

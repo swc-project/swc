@@ -517,7 +517,7 @@ where
                     value: AttributeSelectorMatcherValue::Equals,
                 })
             }
-            _ => Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcher))?,
+            _ => return Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcher)),
         }
     }
 }
