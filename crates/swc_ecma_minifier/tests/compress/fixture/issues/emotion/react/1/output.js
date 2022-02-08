@@ -474,9 +474,9 @@
                     case 2:
                         h ^= (255 & str.charCodeAt(i + 1)) << 8;
                     case 1:
-                        h = (65535 & (h ^= 255 & str.charCodeAt(i))) * 1540483477 + ((h >>> 16) * 59797 << 16);
+                        h ^= 255 & str.charCodeAt(i), h = (65535 & h) * 1540483477 + ((h >>> 16) * 59797 << 16);
                 }
-                return (((h = (65535 & (h ^= h >>> 13)) * 1540483477 + ((h >>> 16) * 59797 << 16)) ^ h >>> 15) >>> 0).toString(36);
+                return h ^= h >>> 13, (((h = (65535 & h) * 1540483477 + ((h >>> 16) * 59797 << 16)) ^ h >>> 15) >>> 0).toString(36);
             }, unitless_browser_esm = {
                 animationIterationCount: 1,
                 borderImageOutset: 1,
