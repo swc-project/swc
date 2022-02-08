@@ -209,30 +209,32 @@ impl VisitMut for ExportHoister {
                 .collect();
 
             if !export_list.is_empty() {
-                stmts_sorted.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                stmts_sorted.push(ModuleItem::ModuleDecl(
                     NamedExport {
                         span: DUMMY_SP,
                         specifiers: export_list,
                         src: None,
                         type_only: false,
                         asserts: None,
-                    },
-                )));
+                    }
+                    .into(),
+                ));
             }
         }
 
         // debug_assert!(named_exports.is_empty());
         if !named_exports.is_empty() {
             let specifiers = named_exports.into_values().flatten().collect();
-            stmts_sorted.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+            stmts_sorted.push(ModuleItem::ModuleDecl(
                 NamedExport {
                     span: DUMMY_SP,
                     specifiers,
                     src: None,
                     type_only: false,
                     asserts: None,
-                },
-            )));
+                }
+                .into(),
+            ));
         }
 
         module.body = stmts_sorted;
