@@ -137,31 +137,7 @@ where
                     bump!(self);
                 }
                 Token::AtKeyword { .. } => {
-                    let state = self.input.state();
-                    let span = self.input.cur_span()?;
-                    let prop = match self
-                        .parse_at_rule(Default::default())
-                        .map(DeclarationBlockItem::AtRule)
-                    {
-                        Ok(v) => v,
-                        Err(err) => {
-                            self.errors.push(err);
-                            self.input.reset(&state);
-
-                            let mut tokens = vec![];
-
-                            while !is_one_of!(self, EOF, ";", "}") {
-                                tokens.extend(self.input.bump()?);
-                            }
-
-                            DeclarationBlockItem::Invalid(Tokens {
-                                span: span!(self, span.lo),
-                                tokens,
-                            })
-                        }
-                    };
-
-                    declarations.push(prop);
+                    declarations.push(DeclarationBlockItem::AtRule(self.parse_at_rule(Default::default())?));
                 }
                 Token::Ident { .. } => {
                     let state = self.input.state();
