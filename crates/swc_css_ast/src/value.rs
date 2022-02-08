@@ -1,4 +1,4 @@
-use crate::{DashedIdent, Ident, SimpleBlock, Tokens};
+use crate::{SimpleBlock, Tokens};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
@@ -48,6 +48,27 @@ pub enum Value {
 
     #[tag("Url")]
     Url(Url),
+}
+
+#[ast_node("Ident")]
+pub struct Ident {
+    pub span: Span,
+    pub value: JsWord,
+    pub raw: JsWord,
+}
+
+#[ast_node("CustomIdent")]
+pub struct CustomIdent {
+    pub span: Span,
+    pub value: JsWord,
+    pub raw: JsWord,
+}
+
+#[ast_node("DashedIdent")]
+pub struct DashedIdent {
+    pub span: Span,
+    pub value: JsWord,
+    pub raw: JsWord,
 }
 
 /// Quoted string.

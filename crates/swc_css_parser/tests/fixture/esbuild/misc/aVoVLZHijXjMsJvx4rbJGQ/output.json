@@ -29,7 +29,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 12,
                 "end": 17,
@@ -57,7 +57,7 @@
                   "raw": "100"
                 },
                 "unit": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 22,
                     "end": 24,

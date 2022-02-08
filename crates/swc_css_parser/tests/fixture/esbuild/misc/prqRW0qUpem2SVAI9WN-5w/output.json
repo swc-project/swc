@@ -61,7 +61,7 @@
                       "prefix": null
                     },
                     "value": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1,
                         "end": 2,

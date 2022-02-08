@@ -30,7 +30,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 7,
                 "end": 13,
@@ -68,7 +68,7 @@
               "ctxt": 0
             },
             "modifier": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 24,
                 "end": 27,
@@ -78,7 +78,7 @@
               "raw": "not"
             },
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 28,
                 "end": 34,
@@ -116,7 +116,7 @@
               "ctxt": 0
             },
             "modifier": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 45,
                 "end": 49,
@@ -126,7 +126,7 @@
               "raw": "only"
             },
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 50,
                 "end": 56,
@@ -165,7 +165,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 67,
                 "end": 72,
@@ -185,7 +185,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 74,
                 "end": 80,
@@ -224,7 +224,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 91,
                 "end": 97,
@@ -244,7 +244,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 99,
                 "end": 102,
@@ -264,7 +264,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 104,
                 "end": 109,
@@ -302,7 +302,7 @@
               "ctxt": 0
             },
             "modifier": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 120,
                 "end": 124,
@@ -312,7 +312,7 @@
               "raw": "only"
             },
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 125,
                 "end": 131,
@@ -331,7 +331,7 @@
               "ctxt": 0
             },
             "modifier": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 133,
                 "end": 136,
@@ -341,7 +341,7 @@
               "raw": "not"
             },
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 137,
                 "end": 140,
@@ -360,7 +360,7 @@
               "ctxt": 0
             },
             "modifier": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 142,
                 "end": 146,
@@ -370,7 +370,7 @@
               "raw": "only"
             },
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 147,
                 "end": 152,
