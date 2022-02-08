@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.foo = void 0;
 var _foo = _interopRequireWildcard(require("./foo"));
+exports.foo = _foo;
 function _interopRequireWildcard(obj) {
     if (obj && obj.__esModule) {
         return obj;
@@ -25,4 +26,3 @@ function _interopRequireWildcard(obj) {
         return newObj;
     }
 }
-exports.foo = _foo;
