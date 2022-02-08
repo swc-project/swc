@@ -760,7 +760,7 @@ where
                             }
                         };
 
-                        let has_minus_sign = ident_value.chars().next() == Some('-');
+                        let has_minus_sign = ident_value.starts_with('-');
                         let n_char = if has_minus_sign { ident_value.chars().nth(1) } else { ident_value.chars().next() };
 
                         if n_char != Some('n') && n_char != Some('N') {
