@@ -898,3 +898,81 @@ fn opt_source_file_name_1() {
 
     assert!(map.contains("entry-foo"));
 }
+
+#[test]
+fn auto_detect_jsx() {
+    testing::run_test2(false, |cm, handler| {
+        let c = swc::Compiler::new(cm.clone());
+
+        let fm = cm
+            .load_file(Path::new("tests/projects/jsx/input.jsx"))
+            .expect("failed to load file");
+
+        c.process_js_file(
+            fm,
+            &handler,
+            &Options {
+                swcrc: true,
+                ..Default::default()
+            },
+        )
+        .expect("failed to process file");
+        Ok(())
+    })
+    .unwrap()
+}
+
+#[test]
+fn should_not_merge() {
+    testing::run_test2(false, |cm, handler| {
+        let c = swc::Compiler::new(cm.clone());
+
+        let fm = cm
+            .load_file(Path::new("tests/projects/merge/1/input.tsx"))
+            .expect("failed to load file");
+
+        c.process_js_file(
+            fm,
+            &handler,
+            &Options {
+                swcrc: false,
+                ..Default::default()
+            },
+        )
+        .unwrap_err();
+        Ok(())
+    })
+    .unwrap();
+}
+#[test]
+fn merge() {
+    testing::run_test2(false, |cm, handler| {
+        let c = swc::Compiler::new(cm.clone());
+
+        let fm = cm
+            .load_file(Path::new("tests/projects/merge/2/input.tsx"))
+            .expect("failed to load file");
+
+        c.process_js_file(
+            fm,
+            &handler,
+            &Options {
+                swcrc: true,
+                config: Config {
+                    jsc: JscConfig {
+                        syntax: Some(Syntax::Typescript(TsConfig {
+                            tsx: false,
+                            ..Default::default()
+                        })),
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+        .expect("failed to process file");
+        Ok(())
+    })
+    .unwrap();
+}

@@ -42,7 +42,7 @@ use swc_ecma_minifier::option::{
 };
 #[allow(deprecated)]
 pub use swc_ecma_parser::JscTarget;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig, EsConfig};
 use swc_ecma_transforms::{
     hygiene, modules,
     modules::{
@@ -540,9 +540,31 @@ impl Default for Rc {
             Config {
                 env: None,
                 test: None,
-                exclude: Some(FileMatcher::Regex("\\.tsx?$".into())),
+                exclude: Some(FileMatcher::Regex("(\\.jsx|\\.ts|\\.tsx)$".into())),
                 jsc: JscConfig {
                     syntax: Some(Default::default()),
+                    transform: None,
+                    external_helpers: false,
+                    target: Default::default(),
+                    loose: false,
+                    keep_class_names: false,
+                    ..Default::default()
+                },
+                module: None,
+                minify: false,
+                source_maps: None,
+                input_source_map: InputSourceMap::default(),
+                ..Default::default()
+            },
+            Config {
+                env: None,
+                test: Some(FileMatcher::Regex("\\.jsx$".into())),
+                exclude: None,
+                jsc: JscConfig {
+                    syntax: Some(Syntax::Es(EsConfig {
+                        jsx: true,
+                        ..Default::default()
+                    })),
                     transform: None,
                     external_helpers: false,
                     target: Default::default(),
@@ -1569,7 +1591,7 @@ impl Merge for swc_ecma_parser::EsConfig {
     }
 }
 
-impl Merge for swc_ecma_parser::TsConfig {
+impl Merge for TsConfig {
     fn merge(&mut self, from: &Self) {
         self.tsx |= from.tsx;
         self.decorators |= from.decorators;
