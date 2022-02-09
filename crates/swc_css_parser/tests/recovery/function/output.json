@@ -125,27 +125,17 @@
                     "raw": "1"
                   },
                   {
-                    "type": "Tokens",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 23,
                       "end": 24,
                       "ctxt": 0
                     },
-                    "tokens": [
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 23,
-                          "end": 24,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "+"
-                          }
-                        }
+                    "token": {
+                      "Delim": {
+                        "value": "+"
                       }
-                    ]
+                    }
                   },
                   {
                     "type": "Number",
@@ -209,27 +199,17 @@
                     "raw": "ident"
                   },
                   {
-                    "type": "Tokens",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 49,
                       "end": 50,
                       "ctxt": 0
                     },
-                    "tokens": [
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 49,
-                          "end": 50,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "."
-                          }
-                        }
+                    "token": {
+                      "Delim": {
+                        "value": "."
                       }
-                    ]
+                    }
                   },
                   {
                     "type": "Ident",
@@ -293,27 +273,17 @@
                     "raw": "ident"
                   },
                   {
-                    "type": "Tokens",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 82,
                       "end": 83,
                       "ctxt": 0
                     },
-                    "tokens": [
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 82,
-                          "end": 83,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "."
-                          }
-                        }
+                    "token": {
+                      "Delim": {
+                        "value": "."
                       }
-                    ]
+                    }
                   },
                   {
                     "type": "Ident",

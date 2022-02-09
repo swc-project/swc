@@ -464,27 +464,17 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 145,
             "end": 146,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "PreservedToken",
-              "span": {
-                "start": 145,
-                "end": 146,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {
@@ -517,27 +507,17 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 167,
             "end": 168,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "PreservedToken",
-              "span": {
-                "start": 167,
-                "end": 168,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {

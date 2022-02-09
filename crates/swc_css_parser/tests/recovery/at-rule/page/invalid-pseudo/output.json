@@ -25,93 +25,53 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 5,
             "end": 6,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "PreservedToken",
-              "span": {
-                "start": 5,
-                "end": 6,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 6,
             "end": 7,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "PreservedToken",
-              "span": {
-                "start": 6,
-                "end": 7,
-                "ctxt": 0
-              },
-              "token": "Colon"
-            }
-          ]
+          "token": "Colon"
         },
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 7,
             "end": 14,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "PreservedToken",
-              "span": {
-                "start": 7,
-                "end": 14,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "unknown",
-                  "raw": "unknown"
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "unknown",
+              "raw": "unknown"
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 14,
             "end": 15,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "PreservedToken",
-              "span": {
-                "start": 14,
-                "end": 15,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {

@@ -40,12 +40,6 @@ error: Value
 1 | @unknown x;
   |         ^
 
-error: Tokens
- --> $DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:9
-  |
-1 | @unknown x;
-  |         ^
-
 error: WhiteSpace { value: Atom(' ' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:9
   |
@@ -53,12 +47,6 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
   |         ^
 
 error: Value
- --> $DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:10
-  |
-1 | @unknown x;
-  |          ^
-
-error: Tokens
  --> $DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:10
   |
 1 | @unknown x;

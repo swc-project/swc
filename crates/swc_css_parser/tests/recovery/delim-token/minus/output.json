@@ -299,27 +299,17 @@
                     "raw": "1"
                   },
                   {
-                    "type": "Tokens",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 53,
                       "end": 54,
                       "ctxt": 0
                     },
-                    "tokens": [
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 53,
-                          "end": 54,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "-"
-                          }
-                        }
+                    "token": {
+                      "Delim": {
+                        "value": "-"
                       }
-                    ]
+                    }
                   },
                   {
                     "type": "Number",

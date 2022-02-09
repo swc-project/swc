@@ -25,74 +25,44 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 6,
             "end": 7,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "PreservedToken",
-              "span": {
-                "start": 6,
-                "end": 7,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 7,
             "end": 18,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "PreservedToken",
-              "span": {
-                "start": 7,
-                "end": 18,
-                "ctxt": 0
-              },
-              "token": {
-                "Str": {
-                  "value": "framework",
-                  "raw": "\"framework\""
-                }
-              }
+          "token": {
+            "Str": {
+              "value": "framework",
+              "raw": "\"framework\""
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 18,
             "end": 19,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "PreservedToken",
-              "span": {
-                "start": 18,
-                "end": 19,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {
