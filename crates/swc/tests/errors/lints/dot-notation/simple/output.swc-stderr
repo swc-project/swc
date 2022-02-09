@@ -28,3 +28,9 @@ error: ['e'] is better written in dot notation
 13 | (obj)['e'];
    |      ^^^^^
 
+error: ["x"] is better written in dot notation
+  
+   |
+15 | foo[call(my["x"])]
+   |            ^^^^^
+

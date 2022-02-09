@@ -11,3 +11,5 @@ obj['c'];
 obj?.['d'];
 
 (obj)['e'];
+
+foo[call(my["x"])]

@@ -136,7 +136,9 @@ impl Visit for DotNotation {
                 Expr::Member(member) => {
                     member.visit_children_with(self);
                 }
-                _ => {}
+                _ => {
+                    prop.visit_with(self);
+                }
             }
         }
     }
