@@ -1,5 +1,6 @@
-use crate::{Ident, Str, Url};
 use swc_common::{ast_node, Span};
+
+use crate::{Ident, Str, Url};
 
 #[ast_node]
 pub enum NamespaceUri {

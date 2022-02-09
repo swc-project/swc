@@ -5,10 +5,7 @@ pub use self::{
     charset::*, color_profile::*, counter_style::*, document::*, font_face::*, import::*,
     keyframe::*, layer::*, media::*, namespace::*, page::*, property::*, support::*, viewport::*,
 };
-use crate::{Block, DashedIdent, Ident, SimpleBlock, Str, Url, Value};
 use crate::{DashedIdent, Ident, SimpleBlock, Value};
-use is_macro::Is;
-use swc_common::{ast_node, Span};
 
 mod charset;
 mod color_profile;

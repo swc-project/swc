@@ -1,7 +1,6 @@
-use crate::{Block, CustomIdent, Ident, Percentage, Str};
 use swc_common::{ast_node, Span};
 
-use crate::{Block, CustomIdent, Ident, Percent, Str};
+use crate::{Block, CustomIdent, Ident, Percentage, Str};
 
 #[ast_node("KeyframesRule")]
 pub struct KeyframesRule {
